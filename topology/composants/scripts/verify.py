@@ -4,7 +4,7 @@ Use --lake-build to retrieve the pinned cache and perform an ordinary Lake build
 This verifies with Lean; it does not claim a hosted Comparator or NanoDa run.
 """
 from __future__ import annotations
-import argparse, ctypes, hashlib, json, os, re, shutil, subprocess, tempfile, uuid
+import argparse, ctypes, hashlib, json, os, re, shutil, subprocess, tempfile, tomllib, uuid
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parent.parent
@@ -23,6 +23,16 @@ args=parser.parse_args()
 report={'status':'fail','scope':'Fresh local Lean verification, not hosted Comparator or NanoDa',
         'stages':[],'source_sha256':{}}
 def sha(data):return hashlib.sha256(data).hexdigest()
+def check_lake_targets(package):
+    libraries=package.get('lean_lib',[])
+    assert isinstance(libraries,list) and all(isinstance(lib,dict) and
+        isinstance(lib.get('name'),str) for lib in libraries),'Lake lean_lib records'
+    names=[lib['name'] for lib in libraries]
+    assert len(names)==len(set(names)),'duplicate Lake lean_lib target'
+    assert set(names)=={'Solution','Challenge','Interior','Boundary','Foundations','Alexandroff'},\
+        'Lake lean_lib target inventory'
+check_lake_targets(tomllib.loads((ROOT/'lakefile.toml').read_text(encoding='utf-8')))
+print('LAKE TARGET INVENTORY PASS; six unique libraries',flush=True)
 manifest=json.loads((ROOT/'lake-manifest.json').read_text())
 for name in ['Solution.lean','Challenge.lean','Boundary.lean','Interior.lean','Foundations.lean','Alexandroff.lean','lake-manifest.json','lakefile.toml','lean-toolchain','comparator.json']:
     report['source_sha256'][name]=sha((ROOT/name).read_bytes())
