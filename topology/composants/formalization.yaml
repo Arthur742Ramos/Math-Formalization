@@ -81,6 +81,11 @@
       "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
       "relationship": "builds-on",
       "note": "Connected components, countable topological bases, compactness, and the Baire property. Local source search is supporting evidence, not an absence or priority claim."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/blob/50addf6b95fcc755aa6b30017cb34416a740aef2/topology/composants/Solution.lean",
+      "relationship": "builds-on",
+      "note": "The published baseline Solution.lean is reused byte for byte as Foundations.lean and supplies eight of the nine selected results."
     }
   ],
   "status": {
@@ -111,7 +116,7 @@
     "divergences": "Theorem 3.3 is stated for an actual ambient open cover and inverse-image refinement of an open target cover. Maps are continuous surjections from the induced partition subtype. The auxiliary metric bound is proved and converted into a cover obstruction. The paper's compact-limit route is retained; its bridge is supplied by a different dense composant avoiding the single proper limit subcontinuum. No exact-cardinality or mathematical priority claim is made. The eight composant foundations retain their previously documented singleton and second-countability behavior."
   },
   "review": {
-    "status": "Author verification and its limits are recorded in VERIFICATION.md. Independent review, hosted ordinary Lake build, Comparator, NanoDa and con-ron replay, and human mathematical review belong to the coordinating publication lane. Registry review is not requested here."
+    "status": "Author and independent pre-submission checks of source, exact types and predicate values, transitive axioms, and provenance are complete. Hosted ordinary Lake and Comparator/Lean/NanoDa/con-ron checks passed at commit 5d29fba44259bff3dc79e786161423ebfe06ca0c. Author verification combines the stages documented in VERIFICATION.md and uses a qualified copied dependency cache; it does not certify a clean dependency rebuild. These checks do not establish source-author endorsement or completed human expert mathematical review."
   },
   "alignment": {
     "namespace": "Composants",
