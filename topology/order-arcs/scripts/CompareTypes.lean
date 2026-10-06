@@ -1,0 +1,15 @@
+module
+public import Lean.Environment
+@[expose] public section
+open Lean
+def main (args : List String) : IO Unit := do
+  let [moduleName] := args | throw <| IO.userError "Expected one module name"
+  initSearchPath (← findSysroot)
+  let env ← importModules #[{ module := moduleName.toName }] {} (level := .exported)
+  for name in #[`OrderArcs.exists_order_arc, `OrderArcs.height, `OrderArcs.ContinuumInterval] do
+    let some info := env.find? name | throw <| IO.userError s!"Missing declaration: {name}"
+    IO.println s!"RAW TYPE {name}"
+    IO.println (reprStr info.levelParams)
+    IO.println (reprStr info.type)
+    if name != `OrderArcs.exists_order_arc then
+      IO.println (reprStr info.value?)

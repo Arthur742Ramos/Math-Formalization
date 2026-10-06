@@ -1,0 +1,94 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Order Arcs Between Subcontinua",
+    "description": "Properly nested nonempty compact connected subsets A and B of a compact metric space are the endpoints of a continuous embedded interval of nonempty compact connected subsets, strictly increasing under inclusion. The ambient space need not be connected.",
+    "authors": [
+      "Arthur Freitas Ramos"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "repository": {
+    "role": "substantive-development"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54F15",
+      "54B20"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Hyperspaces of a continuum",
+      "authors": [
+        "J. L. Kelley"
+      ],
+      "type": "paper",
+      "id": "https://doi.org/10.1090/S0002-9947-1942-0006505-8",
+      "location": "Lemmas 2.3 and 2.6, Transactions of the American Mathematical Society 52 (1942), 22–36",
+      "relationship": "adapts",
+      "author_endorsement": "not-contacted",
+      "note": "Connected-endpoint consequence of the segment criterion and preservation of connected values. The proof uses boundary bumping, a uniformly convergent distance-coordinate scalar, and a compact maximal inclusion chain."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/boundary-bumping-lean/tree/58831416a12f73312ac01cdaec19c060a6d4b142",
+      "relationship": "builds-on",
+      "note": "Attributed standalone Boundary.lean supplies strict interpolation; reuse.json records the exact source and newline changes. No composants theorem is imported."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Vietoris hyperspace compactness, Hausdorff metric, distance coordinates, continuous series, maximal chains, and compact real extrema."
+    }
+  ],
+  "status": {
+    "scope": "Compact metric ambient space; connected, nonempty, compact endpoints with strict inclusion. No connectedness hypothesis on the ambient space. Singleton ambient spaces admit no strict pair. Equal endpoints cannot satisfy the strictly increasing embedding conclusion.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "models": [
+          "OpenAI Codex (runtime identifier not independently attested)"
+        ],
+        "framework": "Lean 4 and Mathlib",
+        "tool_setup": "One owned serial compiler, one CPU, 3 GiB aggregate memory, and at most 30 minutes per stage, with a 90-minute initial phase bound. Fresh proof compilation, isolated Challenge, exact raw type/universe/value comparison, semantic checks, and standard transitive-axiom checks."
+      }
+    ],
+    "spend_usd": "not tracked",
+    "notes": "The human selected the target and resource limits and requested GPT-6.1 sol High at Standard speed; runtime and service tier are not independently attested. Challenge contains one intentional theorem hole. Solution and all support proofs contain none. Humanizer was applied to reader-facing prose."
+  },
+  "fidelity": {
+    "divergences": "The target is the connected-endpoint order-arc consequence of Kelley’s broader segment criterion. The scalar is not a normalized Whitney map. The formal conclusion explicitly includes continuity, embedding, endpoint equalities, connected values, and strict increase under actual subset inclusion."
+  },
+  "review": {
+    "status": "Author verification and its limits are recorded in VERIFICATION.md. Independent review, hosted Lake build, Comparator, NanoDa and con-ron replay, human mathematical review, and publication belong to the coordinating lane. Registry submission is not requested here."
+  },
+  "alignment": {
+    "namespace": "OrderArcs",
+    "statements": [
+      {
+        "source": "Kelley, Lemmas 2.3 and 2.6, connected-endpoint consequence",
+        "lean": "OrderArcs.exists_order_arc",
+        "module": "Solution",
+        "status": "proved"
+      }
+    ]
+  },
+  "acknowledgements": "Credits J. L. Kelley, the credited authors of the standalone boundary-bumping formalization, and Lean and Mathlib contributors. Limited prior-art searches found no matching result; no mathematical novelty, first formalization, author endorsement, completed human expert review, or registry acceptance is claimed."
+}

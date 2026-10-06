@@ -1,0 +1,16 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "OrderArcs.exists_order_arc"
+  ],
+  "definition_names": [
+    "OrderArcs.height",
+    "OrderArcs.ContinuumInterval"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
