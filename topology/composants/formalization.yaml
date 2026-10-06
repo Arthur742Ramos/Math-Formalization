@@ -1,0 +1,157 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Composants of Continua",
+    "description": "Every composant of a nondegenerate compact connected Hausdorff space is dense and connected. In the indecomposable case, composants are equal or disjoint and cover the continuum. Second countability gives a countable union representation by proper subcontinua; indecomposability then makes each composant meagre. A nondegenerate second-countable indecomposable continuum has uncountably many distinct composants.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "repository": {
+    "role": "substantive-development"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54F15",
+      "54D05",
+      "54D30"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Indecomposable and Chainable Continua",
+      "authors": [
+        "Frank Sturm"
+      ],
+      "type": "masters-thesis",
+      "id": "https://etd.auburn.edu/bitstream/handle/10415/1827/Sturm-ThesisComplete.pdf?isAllowed=y&sequence=1",
+      "location": "Definition 1.7 and Theorems 1.8, 1.10, 1.11 and 1.13, printed pages 14 to 16",
+      "relationship": "adapts",
+      "author_endorsement": "not-contacted",
+      "note": "The literal proper-subcontinuum definition is retained. The density theorem includes explicit nondegeneracy. The metric countable-family argument is replaced by a countable open basis, proving the second-countable compact Hausdorff formulation. Corollary 1.12 is not used."
+    },
+    {
+      "title": "Metric Topology: A First Course",
+      "authors": [
+        "Paul Bankston"
+      ],
+      "type": "lecture-notes",
+      "id": "https://www.mscsnet.mu.edu/~paul/Paper/4450102text.pdf#page=91",
+      "location": "Propositions 29.1 and 29.2",
+      "relationship": "background",
+      "note": "Classical source for the reused indecomposability characterization."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/boundary-bumping-lean/tree/58831416a12f73312ac01cdaec19c060a6d4b142",
+      "relationship": "builds-on",
+      "note": "Exact Solution source retained as Boundary.lean, with normalized LF line endings. The boundary bumping theorem supplies density witnesses."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/indecomposable-continuum-lean/tree/a5a85f8b7e2be3cff582b5cff7c35895cd7c4d1e",
+      "relationship": "builds-on",
+      "note": "Exact Solution source retained as Interior.lean, with normalized LF line endings. The nowhere-density characterization supplies meagreness."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Connected components, countable topological bases, compactness, and the Baire property. Local source search is supporting evidence, not an absence or priority claim."
+    }
+  ],
+  "status": {
+    "scope": "The ambient type is the continuum. Nontriviality is used for point membership, density, connectedness, coverage and uncountability. Countable representation and meagreness include singleton continua, whose literal composant is empty. Second countability is used only for countable representation, meagreness and uncountability.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "models": [
+          "OpenAI Codex (runtime identifier not independently attested)"
+        ],
+        "framework": "Lean 4 and Mathlib",
+        "tool_setup": "One serial compiler in a Windows Job Object limited to one CPU, 3 GiB aggregate memory and 30-minute stages. Fresh support and Solution compilation, independently renamed dependency-only Challenge, exact raw types/universes and literal predicate values, transitive standard-axiom and semantic audits."
+      }
+    ],
+    "spend_usd": "not tracked",
+    "notes": "Human direction selected the target and resource limits. The user requested GPT-6.1 sol High at Standard speed; runtime and service tier are not independently attested. Challenge has eight intentional theorem holes; Solution and support modules have none. Failed attempts remain in private evidence."
+  },
+  "fidelity": {
+    "divergences": "The literal composant is an existential union of proper compact nonempty connected sets through a point. It is empty on a singleton; no point is adjoined. Density and connectedness hold without indecomposability. The second-countable compact Hausdorff countable-family proof uses components of complements of basic opens instead of metric balls. Uncountability is stated as non-countability of the range of the set-valued composant function, without any exact cardinality assertion. Relative claims use the induced topology of the continuum subtype."
+  },
+  "review": {
+    "status": "Author verification and its limits are recorded in VERIFICATION.md. Independent review, hosted ordinary Lake build, Comparator, NanoDa and con-ron replay, and human mathematical review belong to the coordinating publication lane. Registry review is not requested here."
+  },
+  "alignment": {
+    "namespace": "Composants",
+    "statements": [
+      {
+        "source": "Definition 1.7, nondegenerate singleton witness",
+        "lean": "Composants.mem_composant_self",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Theorem 1.13, density with explicit nondegeneracy",
+        "lean": "Composants.dense_composant",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Definition 1.7, connected union through a common point",
+        "lean": "Composants.isConnected_composant",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Theorem 1.8, equal or disjoint",
+        "lean": "Composants.composants_eq_or_disjoint",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Definition 1.7, coverage",
+        "lean": "Composants.iUnion_composant",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Theorem 1.11, countable open basis in place of metric balls",
+        "lean": "Composants.composant_countable_union",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Theorem 1.10, countable union of nowhere dense subcontinua",
+        "lean": "Composants.isMeagre_composant",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Theorem 1.10, Baire uncountability",
+        "lean": "Composants.uncountably_many_composants",
+        "module": "Solution",
+        "status": "proved"
+      }
+    ]
+  },
+  "acknowledgements": "Credits Frank Sturm, Paul Bankston, the credited authors of the reused formalizations, and the Lean and Mathlib contributors. No mathematical novelty, first formalization, author endorsement, completed human expert review or registry acceptance is claimed."
+}

@@ -1,0 +1,20 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Composants.mem_composant_self",
+    "Composants.dense_composant",
+    "Composants.isConnected_composant",
+    "Composants.composants_eq_or_disjoint",
+    "Composants.iUnion_composant",
+    "Composants.composant_countable_union",
+    "Composants.isMeagre_composant",
+    "Composants.uncountably_many_composants"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "repository": "Arthur742Ramos/boundary-bumping-lean",
+    "commit": "58831416a12f73312ac01cdaec19c060a6d4b142",
+    "path": "Solution.lean",
+    "git_blob": "6ece552b0140585130e2b9cf68d7bb4c7da97ad5",
+    "module": "Boundary",
+    "upstream_source_sha256": "c2853827c8e3cce52af39af7fe6d5f66b7df417c8502f9e28846f7f5f40b445f",
+    "retained_source_sha256": "f6e4c278eba97de595ef9b9eabc3c0f2153308389ffe51329ad086346498166d",
+    "adaptation": "Filename, LF newline normalization and one added terminal blank line; no declaration or import edits"
+  },
+  {
+    "repository": "Arthur742Ramos/indecomposable-continuum-lean",
+    "commit": "a5a85f8b7e2be3cff582b5cff7c35895cd7c4d1e",
+    "path": "Solution.lean",
+    "git_blob": "f474e45865ef807138424be2d32e314d81c59680",
+    "module": "Interior",
+    "upstream_source_sha256": "e4aea1333e2ba5368703432232167aeb4e7cf9c05885414b8e69000708c86a7d",
+    "retained_source_sha256": "03f28085134c973b9ace7a0486c675d5a3fd3136a1ea51f4f439391fdecdec6b",
+    "adaptation": "Filename, LF newline normalization and one added terminal blank line; no declaration or import edits"
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "status": "pass",
+  "source_sha256": {
+    "Solution.lean": "34f45c48b5da8ecad8e7503753a67eb819ac56bba683ed909e1003720adc7ab3",
+    "Challenge.lean": "0c34cde5218dbe893a96ee713f4701703c91d75b71b7f153664f4ed908874ec0",
+    "Boundary.lean": "f6e4c278eba97de595ef9b9eabc3c0f2153308389ffe51329ad086346498166d",
+    "Interior.lean": "03f28085134c973b9ace7a0486c675d5a3fd3136a1ea51f4f439391fdecdec6b",
+    "lake-manifest.json": "12cad50098294eb1a7f80a0cd48b56fa8871843e4551bf953a595af2022dfa42",
+    "lakefile.toml": "2275d618c486da616fab8e82b7f1967f1144198be1125a444a29e300616bca2d",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "comparator.json": "6cafa025a8fec2fc52c6cf9e4cc10805934d968f3f06284b4e552049444329c8"
+  },
+  "lean_version": "Lean (version 4.35.0-rc2, x86_64-w64-windows-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+  "lean_binary_sha256": "16e2c9c597d71fbbadd2b909c3fad5ea7830a4b7aa0123b93e0f3b19de7b959e",
+  "exact_comparison": {
+    "theorems": 8,
+    "literal_definitions": 3,
+    "raw_expression_sha256": "aecd1d43864a51922cedfd6a6b6e85ed0555edd88477f4b4d0bcf91ed44f446a",
+    "method": "Byte equality of raw Lean.Expr, universe parameter lists, and definition values in separate imports"
+  },
+  "transitive_axioms": {
+    "Composants.mem_composant_self": "propext, Classical.choice, Quot.sound",
+    "Composants.dense_composant": "propext, Classical.choice, Quot.sound",
+    "Composants.isConnected_composant": "propext, Classical.choice, Quot.sound",
+    "Composants.composants_eq_or_disjoint": "propext, Classical.choice, Quot.sound",
+    "Composants.iUnion_composant": "propext, Classical.choice, Quot.sound",
+    "Composants.composant_countable_union": "propext, Classical.choice, Quot.sound",
+    "Composants.isMeagre_composant": "propext, Classical.choice, Quot.sound",
+    "Composants.uncountably_many_composants": "propext, Classical.choice, Quot.sound",
+    "Composants.IsSubcontinuum": "propext, Quot.sound",
+    "Composants.IsIndecomposable": "propext, Quot.sound",
+    "Composants.composant": "propext, Quot.sound"
+  },
+  "format": 1,
+  "scope": "Summary of the completed fresh local Lean gate; hosted verification remains required",
+  "stages": [
+    {
+      "stage": "fresh strict Boundary",
+      "exit_code": 0
+    },
+    {
+      "stage": "fresh strict Interior",
+      "exit_code": 0
+    },
+    {
+      "stage": "fresh strict Solution",
+      "exit_code": 0
+    },
+    {
+      "stage": "isolated dependency-only Challenge",
+      "exit_code": 0
+    },
+    {
+      "stage": "raw Challenge declarations",
+      "exit_code": 0
+    },
+    {
+      "stage": "raw Solution declarations",
+      "exit_code": 0
+    },
+    {
+      "stage": "literal definitions, singleton, subtype and transitive axiom audit",
+      "exit_code": 0
+    },
+    {
+      "stage": "literal pinned topology predicates",
+      "exit_code": 0
+    }
+  ],
+  "evidence": {
+    "full_gate_sha256": "cf8827250a083285f231be356a81a7f48f2d267680681506e32057edd57251e0",
+    "resource_receipt_sha256": "1f2ddb8d3bfb74541ec87282c52b3b9a6e65e172641891bc077199badebbf3ce",
+    "availability": "Full command, path, output and resource receipts are retained privately"
+  },
+  "resources": {
+    "cpu_count": 1,
+    "memory_limit_bytes": 3221225472,
+    "stage_limit_seconds": 1800,
+    "elapsed_seconds": 74.06,
+    "peak_job_commit_bytes": 2423775232,
+    "source_unchanged": true,
+    "owned_process_cleanup_complete": true
+  },
+  "limitations": [
+    "Dependencies were copied from a byte-qualified local cache; no clean dependency rebuild is claimed",
+    "The inherited ordinary Lake build failed at the GitHub port 443 connection; that route was not retried",
+    "Hosted ordinary Lake build, Comparator, NanoDa and con-ron replay remain required",
+    "The gate predates the documentation and definition-checker remediation; proof and Lean audit sources are unchanged"
+  ]
+}

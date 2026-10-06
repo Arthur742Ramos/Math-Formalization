@@ -1,0 +1,19 @@
+name: Palomar composants preflight
+on:
+  push:
+    paths: ['topology/composants/**', '.github/workflows/palomar-composants.yml', 'LICENSE']
+  pull_request:
+    paths: ['topology/composants/**', '.github/workflows/palomar-composants.yml', 'LICENSE']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  composants:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ github.sha }}
+      pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+      request_id: composants-preflight
+      mode: full
+      options: '{"project_path":"topology/composants","comparator_config_path":"topology/composants/comparator.json","authorization_relationship":"I am a responsible author or maintainer"}'
