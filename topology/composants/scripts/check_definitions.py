@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MATHLIB = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 LEAN = "11acb17ec6b07a8f9e9173e6845197929540936b"
-MATERIAL = {'Composants.IsSubcontinuum', 'Composants.composant', 'Set.Countable', 'interior', 'Composants.IsIndecomposable', 'TopologicalSpace', 'IsNowhereDense', 'IsCompact', 'TopologicalSpace.induced', 'CompactSpace', 'Dense', 'IsOpen', 'IsConnected', 'IsMeagre', 'closure', 'subtype topology', 'SecondCountableTopology', 'IsPreconnected', 'IsClosed', 'ConnectedSpace', 'Set.range', 'Nontrivial', 'T2Space', 'Set.sUnion', 'PreconnectedSpace'}
+MATERIAL = {'subtype topology', 'PreconnectedSpace', 'Composants.IsPartitionBetween', 'IsNowhereDense', 'Set.preimage', 'interior', 'closure', 'IsClosed', 'T2Space', 'Set.Countable', 'Set.range', 'Composants.IsIndecomposable', 'Composants.IsOmegaMap', 'TopologicalSpace.induced', 'UniformSpace', 'IsOpen', 'Set.instCompleteAtomicBooleanAlgebra', 'Dist', 'MetricSpace', 'Nontrivial', 'Composants.IsContinuum', 'ConnectedSpace', 'PseudoMetricSpace', 'Set.sUnion', 'Composants.composant', 'CompactSpace', 'Composants.IsOpenCover', 'IsPreconnected', 'IsCompact', 'TopologicalSpace', 'IsMeagre', 'SecondCountableTopology', 'Disjoint', 'Continuous', 'Function.Surjective', 'Composants.IsSubcontinuum', 'IsConnected', 'Dense', 'Nonempty'}
 
 
 def digest(data: bytes) -> str:
@@ -43,6 +43,7 @@ def validate(manifest: dict, data: dict[str, bytes]) -> None:
     lock = json.loads(data["lake-manifest.json"])
     assert next(p for p in lock["packages"] if p["name"] == "mathlib")["rev"] == MATHLIB
     assert set(manifest["material_statement_predicates"]) == MATERIAL, "predicate inventory"
+    assert set(manifest["frozen_sources"]) == {'Challenge.lean', 'Foundations.lean', 'Boundary.lean', 'Alexandroff.lean', 'Interior.lean', 'Solution.lean'}, "frozen source inventory"
     for name, sha in manifest["frozen_sources"].items():
         assert digest(data[name]) == sha, "frozen source " + name
 
@@ -122,6 +123,10 @@ def main() -> None:
             declaration["excerpt_sha256"] = digest(shortened.encode())
             payload["DEFINITIONS.md"] = data["DEFINITIONS.md"].replace(complete.encode(), shortened.encode())
             return candidate, payload
+        omitted_set, set_data = omit_tail("Set.instCompleteAtomicBooleanAlgebra")
+        omitted_metric, metric_data = omit_tail("MetricSpace")
+        omitted_pseudo, pseudo_data = omit_tail("PseudoMetricSpace")
+        omitted_refinement, refinement_data = omit_tail("Composants.IsOmegaMap")
         omitted_deriving, deriving_data = omit_tail("Filter.countableGenerate")
         omitted_where, where_data = omit_tail("TopologicalSpace")
         # These bounded layout fixtures exercise unindented attached blocks.
@@ -133,7 +138,11 @@ def main() -> None:
                 ("missing definition", bad_index, data),
                 ("header-only IsConnected with matching hash and prose", bad_excerpt, truncated_data),
                 ("omitted deriving tail with matching hash and prose", omitted_deriving, deriving_data),
-                ("omitted where-block field with matching hash and prose", omitted_where, where_data)]:
+                ("omitted where-block field with matching hash and prose", omitted_where, where_data),
+                ("omitted metric separation field", omitted_metric, metric_data),
+                ("omitted compatible metric structure field", omitted_pseudo, pseudo_data),
+                ("omitted inverse-image refinement body", omitted_refinement, refinement_data),
+                ("omitted native set-order instance field", omitted_set, set_data)]:
             try:
                 validate(candidate, payload)
             except AssertionError as error:
@@ -144,7 +153,7 @@ def main() -> None:
                       "indexed_definitions": len(manifest["definitions"]),
                       "installed_mathlib_files_compared": compared,
                       "complete_declaration_ranges": len(manifest["definitions"]),
-                      "negative_controls_rejected": 6 if args.self_test else 0,
+                      "negative_controls_rejected": 10 if args.self_test else 0,
                       "negative_control_results": failures if args.self_test else []}))
 
 

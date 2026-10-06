@@ -1,11 +1,10 @@
 # Projects
 
-| Target | Directory | Lean | Comparator |
+| Project | Directory | Result | Comparator |
 | --- | --- | --- | --- |
-| [Composants of continua](topology/composants/README.md) | `topology/composants` | `v4.35.0-rc2` | `topology/composants/comparator.json` |
+| Alexandroff property and composant foundations | [topology/composants](topology/composants) | Todorov–Valov Theorem 3.3 and eight classical composant results | [Configuration](topology/composants/comparator.json) |
+| Order arcs between subcontinua | [topology/order-arcs](topology/order-arcs) | Order arcs between strict pairs of subcontinua in compact metric spaces | [Configuration](topology/order-arcs/comparator.json) |
 
-For a Palomar check of this target, set `project_path` to
-`topology/composants` and `comparator_config_path` to
-`topology/composants/comparator.json`. The config path is relative to the
-repository, while its module names are relative to the selected project.
-The repository root contains the sole project `LICENSE` file.
+Each directory has its own pinned toolchain, Lake project, independent Challenge,
+Comparator configuration, metadata, definition evidence, and verification scripts.
+Run its commands from that directory. Existing repositories remain separate.

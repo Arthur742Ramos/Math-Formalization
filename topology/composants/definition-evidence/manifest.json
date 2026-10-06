@@ -28,11 +28,27 @@
     "IsMeagre",
     "Set.Countable",
     "Set.range",
-    "Set.sUnion"
+    "Set.sUnion",
+    "MetricSpace",
+    "PseudoMetricSpace",
+    "UniformSpace",
+    "Dist",
+    "Continuous",
+    "Function.Surjective",
+    "Nonempty",
+    "Set.preimage",
+    "Composants.IsOpenCover",
+    "Composants.IsPartitionBetween",
+    "Composants.IsOmegaMap",
+    "Composants.IsContinuum",
+    "Disjoint",
+    "Set.instCompleteAtomicBooleanAlgebra"
   ],
   "frozen_sources": {
-    "Solution.lean": "34f45c48b5da8ecad8e7503753a67eb819ac56bba683ed909e1003720adc7ab3",
-    "Challenge.lean": "0c34cde5218dbe893a96ee713f4701703c91d75b71b7f153664f4ed908874ec0",
+    "Solution.lean": "591bddf9160e9d465381fce7d5c12585b17ea5fe5eb25891eee407243f4a03b0",
+    "Foundations.lean": "34f45c48b5da8ecad8e7503753a67eb819ac56bba683ed909e1003720adc7ab3",
+    "Alexandroff.lean": "2e7e200ce8eafd86deb934c05a4252594d36f21f63653f376f6895aed374f3f8",
+    "Challenge.lean": "5f3dba79b2ef353d1c26e15dfa06b78d29db1e26696ee515e1ffb83a00b6a117",
     "Boundary.lean": "f6e4c278eba97de595ef9b9eabc3c0f2153308389ffe51329ad086346498166d",
     "Interior.lean": "03f28085134c973b9ace7a0486c675d5a3fd3136a1ea51f4f439391fdecdec6b"
   },
@@ -244,6 +260,94 @@
       "sha256": "047d0f370cc830214b8dba702ec49434af0072523561404e40a314d2a5f24b98",
       "bytes": 14159,
       "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Countable.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Defs.lean.txt",
+      "upstream_path": "Mathlib/Topology/MetricSpace/Defs.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "git_blob": "10910c95e518dfacb8d4fcb88d7e689315791952",
+      "sha256": "cc1f7ad1c82dc79235c23718b6915211d4707a9e6e5bc68ee78ec85f024c45d9",
+      "bytes": 10009,
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Defs.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean.txt",
+      "upstream_path": "Mathlib/Topology/MetricSpace/Pseudo/Defs.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "git_blob": "912bc464320d8ea70f002255c59e9f79d41f6ac2",
+      "sha256": "13cd9bc80e44bf7b61a55b5b1c2993058ac995f8803a6fb58c230c23a1d0fa35",
+      "bytes": 59699,
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/UniformSpace/Defs.lean.txt",
+      "upstream_path": "Mathlib/Topology/UniformSpace/Defs.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "git_blob": "3f068a41cafe8605be201dd24b3843bcbba45a6e",
+      "sha256": "0678d9754b2f7c95f4ca1c62ff0fe923bfff83092e890b26d524040be1f1a47c",
+      "bytes": 34747,
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Sets/Compacts.lean.txt",
+      "upstream_path": "Mathlib/Topology/Sets/Compacts.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "git_blob": "76e5a262cb3b16845ecc95c68b8955b4cd24526d",
+      "sha256": "9f897430e92d1bb496298d6c4daefecb76232f79c4e9cdee7d137eecaf77b5fc",
+      "bytes": 34202,
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Sets/Compacts.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Sets/VietorisTopology.lean.txt",
+      "upstream_path": "Mathlib/Topology/Sets/VietorisTopology.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "git_blob": "6a352000e46704eb45f00f6f5be8f64ef96932c7",
+      "sha256": "10908ebba530e73d2ac3033801554a1373b32026541d3c8fd03bd3f08976ff3d",
+      "bytes": 57975,
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Sets/VietorisTopology.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/lean/src/Init/Data/Function.lean.txt",
+      "upstream_path": "src/Init/Data/Function.lean",
+      "repository": "leanprover/lean4",
+      "commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "git_blob": "d3526ccde628989d0d4658dbec3c3f334bcb7a7f",
+      "sha256": "88217ed8ec91da1ec655c8a10f737b659a4570b4c05dbd6b084162a3157cf030",
+      "bytes": 5902,
+      "source_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Function.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/lean/src/Init/Prelude.lean.txt",
+      "upstream_path": "src/Init/Prelude.lean",
+      "repository": "leanprover/lean4",
+      "commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "git_blob": "f87ee970af5149d74434f09a89aedff1a8fdb2d2",
+      "sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+      "bytes": 241539,
+      "source_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Data/Set/BooleanAlgebra.lean.txt",
+      "upstream_path": "Mathlib/Data/Set/BooleanAlgebra.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "git_blob": "73b84e937ac6b25f9a1b0679835f556d7280e96c",
+      "sha256": "ab9d96c8337253a49b8ebdee93c2dddaccb9485193cad108f83d3b7d036712bb",
+      "bytes": 1325,
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/BooleanAlgebra.lean",
       "license": "Apache-2.0"
     }
   ],
@@ -803,6 +907,264 @@
       "depends_on": [
         "Set"
       ]
+    },
+    {
+      "name": "Continuous",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Defs/Basic.lean.txt",
+      "start_line": 155,
+      "end_line": 158,
+      "excerpt_sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+      "depends_on": [
+        "IsOpen",
+        "Set.preimage"
+      ]
+    },
+    {
+      "name": "MetricSpace",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Defs.lean.txt",
+      "start_line": 70,
+      "end_line": 71,
+      "excerpt_sha256": "003999484de8c9cabf7a10248f7c8bf94ee2e4ab80068d025c26b1c4d6c1951d",
+      "depends_on": [
+        "PseudoMetricSpace"
+      ]
+    },
+    {
+      "name": "PseudoMetricSpace",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean.txt",
+      "start_line": 141,
+      "end_line": 153,
+      "excerpt_sha256": "cc4c648427fc932bc8bc270e82d248f27e30038390480cb12f6c1de9dab13caf",
+      "depends_on": [
+        "Dist",
+        "UniformSpace"
+      ]
+    },
+    {
+      "name": "Dist",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean.txt",
+      "start_line": 104,
+      "end_line": 106,
+      "excerpt_sha256": "fe1a0aca283c42b9dbbbb352ba52c678b0ebc59485b43c9b0bd41ef553eb4adf",
+      "depends_on": []
+    },
+    {
+      "name": "Metric.ball",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean.txt",
+      "start_line": 370,
+      "end_line": 371,
+      "excerpt_sha256": "98ae0cdabf16a5b01fdae55c71786d6666c2cd17c0afd581e232a4cfe04b7c18",
+      "depends_on": [
+        "Dist",
+        "Set"
+      ]
+    },
+    {
+      "name": "UniformSpace",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/UniformSpace/Defs.lean.txt",
+      "start_line": 195,
+      "end_line": 204,
+      "excerpt_sha256": "a60fc802a7a4aec0b8bf40c090cad82a32f33a7dcff123b173a29f8573b63249",
+      "depends_on": [
+        "TopologicalSpace",
+        "Filter",
+        "nhds"
+      ]
+    },
+    {
+      "name": "UniformSpace.Core",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/UniformSpace/Defs.lean.txt",
+      "start_line": 131,
+      "end_line": 140,
+      "excerpt_sha256": "75c4ec522573d210994a404798b114564956ac64c7c8ccba26775564692c11f0",
+      "depends_on": [
+        "Filter"
+      ]
+    },
+    {
+      "name": "UniformSpace.Core.toTopologicalSpace",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/UniformSpace/Defs.lean.txt",
+      "start_line": 167,
+      "end_line": 169,
+      "excerpt_sha256": "f12dd7e4c754fbf20e1bc856363b6b685bd5fd83a34a9a889168a234f6e0b820",
+      "depends_on": [
+        "UniformSpace.Core",
+        "TopologicalSpace"
+      ]
+    },
+    {
+      "name": "UniformSpace.ofDist",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean.txt",
+      "start_line": 76,
+      "end_line": 79,
+      "excerpt_sha256": "92e76f70eeb4f4704e75993a2b6c235a6b7854487a533564a23a3bb0fcbc7791",
+      "depends_on": [
+        "UniformSpace",
+        "Dist"
+      ]
+    },
+    {
+      "name": "Nonempty",
+      "file": "definition-evidence/lean/src/Init/Prelude.lean.txt",
+      "start_line": 839,
+      "end_line": 841,
+      "excerpt_sha256": "409b9d791b14a599f13bb14741bdfbfc112bc04bd4fc41d9924083fa47df7598",
+      "depends_on": []
+    },
+    {
+      "name": "Function.Surjective",
+      "file": "definition-evidence/lean/src/Init/Data/Function.lean.txt",
+      "start_line": 62,
+      "end_line": 63,
+      "excerpt_sha256": "17623335cc7433553f84064e76a183bcf00b3da834866b4fa356f3f28d15307c",
+      "depends_on": []
+    },
+    {
+      "name": "Compacts",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Sets/Compacts.lean.txt",
+      "start_line": 38,
+      "end_line": 41,
+      "excerpt_sha256": "a563d879170efddfa91022ffc68ba8ef967d0e0d43a519446837593ba11261dc",
+      "depends_on": [
+        "Set",
+        "IsCompact"
+      ]
+    },
+    {
+      "name": "NonemptyCompacts",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Sets/Compacts.lean.txt",
+      "start_line": 399,
+      "end_line": 400,
+      "excerpt_sha256": "67f979a479e72725b81056143127954eda6fb79fcbd7eea6a24cd9e3c7f2aefa",
+      "depends_on": [
+        "Compacts",
+        "Set.Nonempty"
+      ]
+    },
+    {
+      "name": "TopologicalSpace.vietoris",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Sets/VietorisTopology.lean.txt",
+      "start_line": 49,
+      "end_line": 50,
+      "excerpt_sha256": "27cd0362bda66eb4c21788aefe5d1286f9f578b4ae63095031d0f176064a085f",
+      "depends_on": [
+        "TopologicalSpace",
+        "IsOpen",
+        "Set.Nonempty"
+      ]
+    },
+    {
+      "name": "NonemptyCompacts.topology",
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Sets/VietorisTopology.lean.txt",
+      "start_line": 825,
+      "end_line": 826,
+      "excerpt_sha256": "2aab8b7e66aa6429719c216f8b0f24ade93e414050d378e57414891e075d7b89",
+      "depends_on": [
+        "TopologicalSpace.induced",
+        "TopologicalSpace.vietoris",
+        "NonemptyCompacts"
+      ]
+    },
+    {
+      "name": "Composants.IsSubcontinuum",
+      "file": "Foundations.lean",
+      "start_line": 24,
+      "end_line": 24,
+      "excerpt_sha256": "1fa12c5747771c80b1e3bdfebeb90961edd50011f9f927b299ad9eb51ac9e1e6",
+      "depends_on": [
+        "IsCompact",
+        "IsConnected"
+      ]
+    },
+    {
+      "name": "Composants.IsIndecomposable",
+      "file": "Foundations.lean",
+      "start_line": 27,
+      "end_line": 29,
+      "excerpt_sha256": "b34fe6c628998c46a4550f5a46338103c1b24fbc4af9b08f7924638d36da31f4",
+      "depends_on": [
+        "Composants.IsSubcontinuum",
+        "Set.union",
+        "Set.univ"
+      ]
+    },
+    {
+      "name": "Composants.composant",
+      "file": "Foundations.lean",
+      "start_line": 32,
+      "end_line": 33,
+      "excerpt_sha256": "6792eac2159f4779b64fbd910f3ac53142be74ec2b9161490c700ac7f758ccc5",
+      "depends_on": [
+        "Composants.IsSubcontinuum",
+        "Set.univ"
+      ]
+    },
+    {
+      "name": "Composants.IsOpenCover",
+      "file": "Alexandroff.lean",
+      "start_line": 27,
+      "end_line": 28,
+      "excerpt_sha256": "04a244fe19022608ce5da5389bc5d39d3e997d4490d5de7a52428625cd66401c",
+      "depends_on": [
+        "IsOpen",
+        "Set.sUnion",
+        "Set.univ"
+      ]
+    },
+    {
+      "name": "Composants.IsPartitionBetween",
+      "file": "Alexandroff.lean",
+      "start_line": 31,
+      "end_line": 33,
+      "excerpt_sha256": "556730d480d3ea4243fbbe80e51643abac5f41a81ed10058afbada1ee2df890f",
+      "depends_on": [
+        "IsClosed",
+        "IsOpen",
+        "Disjoint",
+        "Set.union",
+        "Set.compl",
+        "Set.Subset"
+      ]
+    },
+    {
+      "name": "Composants.IsOmegaMap",
+      "file": "Alexandroff.lean",
+      "start_line": 36,
+      "end_line": 39,
+      "excerpt_sha256": "b063a10fe4f03703832d2013038927e835b5f9104011ae7582ec38cc876a4e70",
+      "depends_on": [
+        "Continuous",
+        "Composants.IsOpenCover",
+        "Set.preimage",
+        "Set.Subset",
+        "subtype topology"
+      ]
+    },
+    {
+      "name": "Composants.IsContinuum",
+      "file": "Alexandroff.lean",
+      "start_line": 42,
+      "end_line": 43,
+      "excerpt_sha256": "1cebb60d1ef6fbba565b87427a57b3e12388e09f392f7249edfd43e609e252ff",
+      "depends_on": [
+        "Nonempty",
+        "CompactSpace",
+        "ConnectedSpace",
+        "T2Space"
+      ]
+    },
+    {
+      "name": "Set.instCompleteAtomicBooleanAlgebra",
+      "file": "definition-evidence/mathlib/Mathlib/Data/Set/BooleanAlgebra.lean.txt",
+      "start_line": 32,
+      "end_line": 35,
+      "excerpt_sha256": "3df2ef4ac71d489effecb04c873dc24d17380df5cb503eb9c1e13a4ac0a59d7e",
+      "depends_on": [
+        "Set",
+        "Set.Subset",
+        "Set.sUnion",
+        "Set.sInter"
+      ]
     }
   ],
   "literal_excerpts": [
@@ -836,7 +1198,31 @@
     "Filter.CountableGenerateSets",
     "Countable",
     "Set.Countable",
-    "Set.range"
+    "Set.range",
+    "Continuous",
+    "MetricSpace",
+    "PseudoMetricSpace",
+    "Dist",
+    "Metric.ball",
+    "UniformSpace",
+    "UniformSpace.Core",
+    "UniformSpace.Core.toTopologicalSpace",
+    "UniformSpace.ofDist",
+    "Nonempty",
+    "Function.Surjective",
+    "Compacts",
+    "NonemptyCompacts",
+    "TopologicalSpace.vietoris",
+    "NonemptyCompacts.topology",
+    "Composants.IsSubcontinuum",
+    "Composants.IsIndecomposable",
+    "Composants.composant",
+    "Composants.IsOpenCover",
+    "Composants.IsPartitionBetween",
+    "Composants.IsOmegaMap",
+    "Composants.IsContinuum",
+    "Disjoint",
+    "Set.instCompleteAtomicBooleanAlgebra"
   ],
-  "provenance": "Full source bodies from the pinned local cache, byte-qualified against the earlier complete source inventory. Previously checked remote source blobs retain inherited evidence; newly added files have fresh authenticated remote blob checks in private evidence. No shared Git metadata queried."
+  "provenance": "Complete pinned upstream files retain attribution and license headers. New source bodies were compared byte-for-byte with authenticated GitHub reads at the recorded commits; mathlib files also match the prior complete source inventory. Complete project predicate bodies are indexed in the frozen proof files and independently repeated in Challenge. Evidence text files are not imported modules."
 }

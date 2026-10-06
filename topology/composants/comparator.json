@@ -9,7 +9,8 @@
     "Composants.iUnion_composant",
     "Composants.composant_countable_union",
     "Composants.isMeagre_composant",
-    "Composants.uncountably_many_composants"
+    "Composants.uncountably_many_composants",
+    "Composants.alexandroff_continua"
   ],
   "definition_names": [],
   "permitted_axioms": [

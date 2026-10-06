@@ -16,14 +16,23 @@ def main (args : List String) : IO Unit := do
       `Composants.composant_countable_union,
       `Composants.isMeagre_composant,
       `Composants.uncountably_many_composants,
+      `Composants.alexandroff_continua,
       `Composants.IsSubcontinuum,
       `Composants.IsIndecomposable,
-      `Composants.composant] do
+      `Composants.composant,
+      `Composants.IsOpenCover,
+      `Composants.IsPartitionBetween,
+      `Composants.IsOmegaMap,
+      `Composants.IsContinuum] do
     let some info := env.find? name | throw <| IO.userError s!"Missing declaration: {name}"
     IO.println s!"RAW TYPE {name}"
     IO.println (reprStr info.levelParams)
     IO.println (reprStr info.type)
     if name == `Composants.IsSubcontinuum ||
         name == `Composants.IsIndecomposable ||
-        name == `Composants.composant then
+        name == `Composants.composant ||
+        name == `Composants.IsOpenCover ||
+        name == `Composants.IsPartitionBetween ||
+        name == `Composants.IsOmegaMap ||
+        name == `Composants.IsContinuum then
       IO.println (reprStr info.value?)

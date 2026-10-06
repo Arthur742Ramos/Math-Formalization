@@ -19,3 +19,12 @@ name = "Interior"
 
 [[lean_lib]]
 name = "Boundary"
+
+[[lean_lib]]
+name = "Boundary"
+
+[[lean_lib]]
+name = "Foundations"
+
+[[lean_lib]]
+name = "Alexandroff"

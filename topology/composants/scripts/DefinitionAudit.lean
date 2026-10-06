@@ -3,6 +3,8 @@ import Mathlib.Topology.Separation.Hausdorff
 import Mathlib.Topology.Connected.Clopen
 import Mathlib.Topology.GDelta.Basic
 import Mathlib.Topology.Baire.LocallyCompactRegular
+import Mathlib.Topology.MetricSpace.ProperSpace
+import Mathlib.Topology.MetricSpace.Defs
 
 /-! Literal and semantic checks against the actual pinned dependencies. -/
 open Set
@@ -46,3 +48,23 @@ example : SecondCountableTopology X ↔ ∃ b : Set (Set X),
 example : BaireSpace X ↔ ∀ f : ℕ → Set X,
     (∀ n, IsOpen (f n)) → (∀ n, Dense (f n)) → Dense (⋂ n, f n) :=
   ⟨fun h => h.baire_property, fun h => ⟨h⟩⟩
+
+universe v
+example {Y : Type v} [TopologicalSpace Y] (f : X → Y) : Continuous f ↔
+    ∀ s : Set Y, IsOpen s → IsOpen (f ⁻¹' s) :=
+  ⟨fun h => h.isOpen_preimage, fun h => ⟨h⟩⟩
+example {Y : Type v} (f : X → Y) : Function.Surjective f ↔
+    ∀ y : Y, ∃ x : X, f x = y := Iff.rfl
+example {Y : Type v} : Nonempty Y ↔ ∃ _y : Y, True :=
+  ⟨fun ⟨y⟩ => ⟨y, trivial⟩, fun ⟨y, _⟩ => ⟨y⟩⟩
+section Metric
+variable {Z : Type u} [MetricSpace Z]
+example (z x : Z) (r : ℝ) : x ∈ Metric.ball z r ↔ dist x z < r := Iff.rfl
+example (U : Set Z) : IsOpen U ↔
+    ∀ x ∈ U, ∃ ε > 0, Metric.ball x ε ⊆ U := Metric.isOpen_iff
+end Metric
+
+-- The native set-order instance gives ordinary set disjointness.
+example (U V : Set X) : Disjoint U V ↔ ∀ x : X, x ∈ U → x ∉ V :=
+  ⟨fun h _ hx => Set.disjoint_left.mp h hx,
+    fun h => Set.disjoint_left.mpr fun _ hx => h _ hx⟩

@@ -1,8 +1,8 @@
 {
   "version": "v0.4",
   "project": {
-    "name": "Composants of Continua",
-    "description": "Every composant of a nondegenerate compact connected Hausdorff space is dense and connected. In the indecomposable case, composants are equal or disjoint and cover the continuum. Second countability gives a countable union representation by proper subcontinua; indecomposability then makes each composant meagre. A nondegenerate second-countable indecomposable continuum has uncountably many distinct composants.",
+    "name": "Alexandroff Property of Metric Indecomposable Continua",
+    "description": "Todorov–Valov Theorem 3.3: for two disjoint closed sets with nonempty interiors in a metric indecomposable continuum, one open cover obstructs every separator map onto every nonempty compact connected Hausdorff target. The classical composant properties remain as foundations.",
     "authors": [
       "Arthur Freitas Ramos",
       "David Barros Hulak",
@@ -29,6 +29,19 @@
     ]
   },
   "sources": [
+    {
+      "title": "Generalized Cantor manifolds and indecomposable continua",
+      "authors": [
+        "V. Todorov",
+        "V. Valov"
+      ],
+      "type": "paper",
+      "id": "https://www.jstage.jst.go.jp/article/qagt/30/2/30_93/_pdf/-char/en",
+      "location": "Definition 1.1, printed page 94; Theorem 3.3 and proof, printed pages 98–99",
+      "relationship": "adapts",
+      "author_endorsement": "not-contacted",
+      "note": "2012, Questions and Answers in General Topology 30, 93–102. The formalization proves the open-cover formulation directly from a uniform small-fiber obstruction. A dense composant avoiding one proper subcontinuum supplies the bridge used in the compact-limit argument."
+    },
     {
       "title": "Indecomposable and Chainable Continua",
       "authors": [
@@ -71,7 +84,7 @@
     }
   ],
   "status": {
-    "scope": "The ambient type is the continuum. Nontriviality is used for point membership, density, connectedness, coverage and uncountability. Countable representation and meagreness include singleton continua, whose literal composant is empty. Second countability is used only for countable representation, meagreness and uncountability.",
+    "scope": "The ambient type is a compact connected metric space. The headline quantifies one open cover before all partitions and all continuum targets in an independent universe. Target continua need no metric or countability assumptions. Disjoint closed sets with nonempty interiors supply nondegeneracy. The eight prior composant results retain their original assumptions.",
     "sorry_count": 0,
     "sorry_in_definitions": 0,
     "axioms": [
@@ -92,10 +105,10 @@
       }
     ],
     "spend_usd": "not tracked",
-    "notes": "Human direction selected the target and resource limits. The user requested GPT-6.1 sol High at Standard speed; runtime and service tier are not independently attested. Challenge has eight intentional theorem holes; Solution and support modules have none. Failed attempts remain in private evidence."
+    "notes": "Human direction selected the target and resource limits. The user requested GPT-6.1 sol High at Standard speed; runtime and service tier are not independently attested. Challenge has nine intentional theorem holes; Solution and support modules have none. Failed attempts remain in private evidence."
   },
   "fidelity": {
-    "divergences": "The literal composant is an existential union of proper compact nonempty connected sets through a point. It is empty on a singleton; no point is adjoined. Density and connectedness hold without indecomposability. The second-countable compact Hausdorff countable-family proof uses components of complements of basic opens instead of metric balls. Uncountability is stated as non-countability of the range of the set-valued composant function, without any exact cardinality assertion. Relative claims use the induced topology of the continuum subtype."
+    "divergences": "Theorem 3.3 is stated for an actual ambient open cover and inverse-image refinement of an open target cover. Maps are continuous surjections from the induced partition subtype. The auxiliary metric bound is proved and converted into a cover obstruction. The paper's compact-limit route is retained; its bridge is supplied by a different dense composant avoiding the single proper limit subcontinuum. No exact-cardinality or mathematical priority claim is made. The eight composant foundations retain their previously documented singleton and second-countability behavior."
   },
   "review": {
     "status": "Author verification and its limits are recorded in VERIFICATION.md. Independent review, hosted ordinary Lake build, Comparator, NanoDa and con-ron replay, and human mathematical review belong to the coordinating publication lane. Registry review is not requested here."
@@ -150,8 +163,14 @@
         "lean": "Composants.uncountably_many_composants",
         "module": "Solution",
         "status": "proved"
+      },
+      {
+        "source": "Todorov–Valov Definition 1.1 and Theorem 3.3",
+        "lean": "Composants.alexandroff_continua",
+        "module": "Solution",
+        "status": "proved"
       }
     ]
   },
-  "acknowledgements": "Credits Frank Sturm, Paul Bankston, the credited authors of the reused formalizations, and the Lean and Mathlib contributors. No mathematical novelty, first formalization, author endorsement, completed human expert review or registry acceptance is claimed."
+  "acknowledgements": "Credits V. Todorov, V. Valov, Frank Sturm, Paul Bankston, the credited authors of the reused formalizations, and the Lean and Mathlib contributors. No mathematical novelty, first formalization, author endorsement, completed human expert review or registry acceptance is claimed."
 }

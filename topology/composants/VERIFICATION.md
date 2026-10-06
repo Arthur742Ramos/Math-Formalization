@@ -1,75 +1,60 @@
 # Verification
 
-Author verification passed with Lean `4.35.0-rc2`, compiler commit
+Author checks pass with Lean `4.35.0-rc2`, compiler commit
 `11acb17ec6b07a8f9e9173e6845197929540936b`, and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`.
 
-The complete final gate compiled Boundary, Interior and Solution freshly
-from source with warnings treated as errors. It compiled a randomly renamed
-Challenge against dependency paths alone, with no local proof module on
-that path. Exactly eight deliberate Challenge holes were observed. Separate
-imports produced byte-identical raw `Lean.Expr` types and universe lists for
-all eight selected theorems, and complete identical types and values for
-`IsSubcontinuum`, `IsIndecomposable` and `composant`. No expression or binder
-normalization was used. The raw comparison digest is recorded in
-`verification.json`, a path-free summary. Full command, path, output and resource
-receipts are retained privately.
+The verification sequence freshly compiles Boundary, Interior, Foundations, Alexandroff
+and Solution with warnings treated as errors. A randomly renamed Challenge
+is compiled using dependency paths alone, with no proof module available.
+Exactly nine intended Challenge holes are observed. Separate imports yield
+byte-identical raw Lean expression types and universe lists for all nine
+selected results, and complete identical types and values for all seven
+project predicates. No expression or binder normalization is applied. Only
+the final dependency audit was repeated after correcting an unused-binder
+warning; the proof and Challenge source hashes remained unchanged.
 
-Transitive axiom audits for all selected theorems found only `propext`,
-`Classical.choice` and `Quot.sound`. The three predicate values use `propext`
-and `Quot.sound`. Solution and both support modules contain no proof holes,
-new axioms, unsafe declarations or native-decision shortcuts. Semantic checks
-confirm the literal project definitions, the empty singleton composant,
-failure of density and connectedness for the empty set in a singleton, and
-relative density on an actual compact connected subtype. Dependency checks
-verify literal compactness, connectedness, topology, density, meagreness,
-countability, second countability and the Baire property.
+The transitive axiom audit permits only `propext`, `Classical.choice` and
+`Quot.sound`. Proof modules have no holes, new axioms, unsafe declarations
+or native-decision shortcuts. Semantic checks cover the literal project
+predicates, the empty singleton composant, relative density on an induced
+continuum subtype, failure of an empty open cover, vacuity of the massive
+disjoint-set hypotheses on a singleton, and the impossibility of an empty
+partition mapping onto a continuum. Dependency checks include continuity,
+surjectivity, nonemptiness, metric balls and the compatible metric topology.
 
-The definition dossier has 19 complete pinned source files and 53 indexed
-declaration bodies. Its checker compares 18 supplied Mathlib source files
-with the consumed dependency source. Six negative controls are rejected:
-changed bytes, changed revision, a missing predicate, a header-only declaration,
-an omitted `deriving` tail, and an omitted field at the end of a `where` block.
-Each truncation control adjusts its excerpt hash and displayed prose. All 53
-ranges include attached declaration blocks. `Filter.countableGenerate` includes
-its `deriving CountableInterFilter` line. Fresh authenticated source reads matched
-all four newly included upstream Git blobs and bytes. The earlier 15-file remote
-check is retained as inherited evidence. The full source files, upstream
-identities and licenses remain available in `definition-evidence`.
+The dossier supplies 27 complete pinned upstream files and 76 complete
+indexed declaration bodies. Its checker compares 24 Mathlib files with the
+consumed source and rejects ten integrity controls. These include header-only
+definitions, omitted attached declaration tails, a missing metric separation
+field, a missing compatible metric structure field, and a missing inverse-image
+refinement body, with adjusted hashes and prose. Eight new upstream files match
+authenticated source reads byte for byte at the recorded commits.
 
-The current official v0.4 schema and pinned Palomar metadata contract accept
-the metadata. The schema rejected an invalid relationship, a thin wrapper
-without a substantive source, and a negative proof-admission count. The
-contract check used a duplicate-rejecting JSON decoder at the PyYAML boundary
-for JSON-form YAML; it does not claim to parse arbitrary YAML. The folder
-policy and exact config paths were checked against PalomarSubmission commit
-`d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44`. The Lean setup action's explicit
-package-directory input was checked at its pinned source revision.
+The official v0.4 metadata schema and pinned Palomar contract accept the
+metadata. The schema rejects three negative controls; the source-type policy
+guard rejects three forbidden spellings. The contract check uses a
+duplicate-rejecting JSON decoder at the PyYAML boundary for JSON-form YAML
+and makes no general YAML-parser claim. Folder and configuration policy
+remain pinned to PalomarSubmission
+`d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44`.
 
-Local proof stages used one serial compiler in an owned Windows Job Object
-limited to one CPU, 3 GiB aggregate committed memory and 30 minutes per stage.
-Private receipts contain exact argv, compiler and source hashes before and
-after each stage, resource observations, exit codes and owned-process cleanup.
-All owned processes terminated. Failed attempts remain in private evidence.
-The support sources are checked against their authenticated upstream blobs
-and built from source; their previous compiled project artifacts are not used.
+Compiler stages use one owned serial compiler in a Windows Job Object capped
+at one CPU, 3 GiB aggregate committed memory and 30 minutes per stage. Private
+receipts record exact argv, source and compiler hashes, exit codes, observed
+resources and cleanup. The final stage leaves no owned process and its source
+hashes remain unchanged within each stage. Failed and cancelled attempts remain private.
 
-Dependencies came from a read-only local cache. Fresh source and complete
-artifact-family byte comparisons qualify this copied cache against the prior
-complete source inventory. Revision observations are inherited; no shared
-Git metadata was read and no clean dependency rebuild is claimed. A search
-of all 9,084 pinned Mathlib sources for `composant` and `compossant` found no
-hits. This is supporting evidence, not a proof of absence or a priority claim.
+Dependencies are copied from a read-only cache. All 23,590 copied source and
+artifact files pass fresh byte comparison with that cache; Mathlib sources
+also match the prior complete 9,084-file source inventory. Revision evidence
+is inherited. No shared Git metadata is read, and no clean dependency rebuild
+is claimed. The earlier GitHub port-443 and Library-helper failures are
+retained as environment limits; those failed network routes are not retried.
 
-The prior workspace's ordinary Lake build failed when Git could not connect
-to GitHub port 443. Its receipt is retained as inherited environment evidence.
-The same route was not retried here, and no global Git, security or network
-setting was changed. The previous Library helper also failed at its hosted
-apps network request; that route was not retried. This target still requires
-a successful hosted ordinary Lake build. CI supplies that check from the
-exact target directory, followed by fresh local checks. A separately pinned
-Palomar full preflight workflow supplies Comparator, NanoDa and con-ron replay.
-
-Hosted CI, hosted Comparator and independent-kernel replay, independent review,
-human mathematical review and registry acceptance are not established by these
-author checks. The coordinating publication lane owns those next steps.
+`verification.json` is a summary without local paths. The extension still
+requires a clean ordinary Lake build on a host with permitted dependency
+access, followed by hosted Comparator and independent-kernel replay and
+independent review. The existing target workflows run from
+`topology/composants` and provide those mechanical checks. Successful checks
+on the published baseline do not establish checks on this extension.

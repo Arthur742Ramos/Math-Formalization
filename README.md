@@ -1,16 +1,14 @@
 # Math-Formalization
 
-Lean formalizations organized by subject and target. Each target is a separate
-Lake project with its own toolchain, dependency lock, Challenge, Solution,
-Comparator configuration, metadata and checks.
+Independent Lean formalizations, organized by subject and target. Each target
+owns its toolchain, Lake configuration and lock, Challenge, Comparator metadata,
+definition evidence, and verification scripts. Run build commands from the
+target directory. Targets can evolve their versions independently.
 
-See [the project index](PROJECTS.md). Build a target from its own directory.
-There is no root Lake project or shared toolchain. Existing standalone
-repositories remain available at their original locations.
+Current topology targets are [the Alexandroff property of metric indecomposable continua](topology/composants)
+and [order arcs between subcontinua](topology/order-arcs). The Alexandroff project
+includes eight classical composant results as foundations. See [PROJECTS.md](PROJECTS.md)
+for the project index. Existing standalone repositories remain available.
 
-New targets belong under `<subject>/<descriptive-target>/`. Commit their
-source, pins, definition evidence and verification scripts. Give each target
-a workflow with exact path filters and working directory. Keep dependencies
-within the target or pinned public dependencies; another target folder must
-not supply ambient imports. The root Apache-2.0 license covers project code;
-retained source evidence keeps its original attribution and license.
+Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources
+preserve their attribution and license headers.

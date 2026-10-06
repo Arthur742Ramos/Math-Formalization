@@ -10,10 +10,10 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent.parent
 PIN='065356127b1dc0016f66b7283ce0ce2c4055aa55'
 TOOLCHAIN='leanprover/lean4:v4.35.0-rc2'
-NAMES=['mem_composant_self', 'dense_composant', 'isConnected_composant', 'composants_eq_or_disjoint', 'iUnion_composant', 'composant_countable_union', 'isMeagre_composant', 'uncountably_many_composants']
-PREDICATES=['IsSubcontinuum', 'IsIndecomposable', 'composant']
+NAMES=['mem_composant_self', 'dense_composant', 'isConnected_composant', 'composants_eq_or_disjoint', 'iUnion_composant', 'composant_countable_union', 'isMeagre_composant', 'uncountably_many_composants', 'alexandroff_continua']
+PREDICATES=['IsSubcontinuum', 'IsIndecomposable', 'composant', 'IsOpenCover', 'IsPartitionBetween', 'IsOmegaMap', 'IsContinuum']
 PREFIX="Composants."
-IMPORTS=['Mathlib.Topology.Separation.Regular', 'Mathlib.Topology.Baire.LocallyCompactRegular', 'Mathlib.Topology.GDelta.Basic']
+IMPORTS=['Mathlib.Topology.Separation.Regular', 'Mathlib.Topology.Baire.LocallyCompactRegular', 'Mathlib.Topology.GDelta.Basic', 'Mathlib.Topology.Sets.VietorisTopology', 'Mathlib.Topology.Sequences', 'Mathlib.Topology.MetricSpace.ProperSpace', 'Mathlib.Topology.MetricSpace.Thickening']
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--lean-bin',default=shutil.which('lean'))
 parser.add_argument('--lake-build',action='store_true')
@@ -24,14 +24,14 @@ report={'status':'fail','scope':'Fresh local Lean verification, not hosted Compa
         'stages':[],'source_sha256':{}}
 def sha(data):return hashlib.sha256(data).hexdigest()
 manifest=json.loads((ROOT/'lake-manifest.json').read_text())
-for name in ['Solution.lean','Challenge.lean','Boundary.lean','Interior.lean','lake-manifest.json','lakefile.toml','lean-toolchain','comparator.json']:
+for name in ['Solution.lean','Challenge.lean','Boundary.lean','Interior.lean','Foundations.lean','Alexandroff.lean','lake-manifest.json','lakefile.toml','lean-toolchain','comparator.json']:
     report['source_sha256'][name]=sha((ROOT/name).read_bytes())
 for path in ROOT.rglob('*.lean'):
     if '.lake' in path.parts:continue
     text=path.read_text(encoding='utf-8')
     header=re.sub(r'\A\s*/-.*?-/\s*','',text,count=1,flags=re.S)
     assert header.startswith('module\n') and len(text.splitlines())<=10000,path
-solution='\n'.join((ROOT/n).read_text(encoding='utf-8') for n in ['Boundary.lean','Interior.lean','Solution.lean'])
+solution='\n'.join((ROOT/n).read_text(encoding='utf-8') for n in ['Boundary.lean','Interior.lean','Foundations.lean','Alexandroff.lean','Solution.lean'])
 assert not re.search(r'\b(sorry|admit|axiom|unsafe|native_decide)\b',solution)
 challenge=(ROOT/'Challenge.lean').read_text(encoding='utf-8')
 assert len(challenge.encode())<16384 and len(challenge.splitlines())<=100
@@ -95,13 +95,13 @@ try:
     deps=[p.resolve() for p in deps if p.is_dir()]
     assert deps,'No local dependencies; use --lake-build'
     for p in deps:
-        for name in ['Solution','Challenge','Composants','Boundary','Interior']:
+        for name in ['Solution','Challenge','Composants','Boundary','Interior','Foundations','Alexandroff']:
             assert not (p/(name+'.olean')).exists() and not (p/name).exists(),'contaminated dependency path'
     env['LEAN_PATH']=os.pathsep.join(map(str,deps));report['dependency_paths']=list(map(str,deps))
     with tempfile.TemporaryDirectory(prefix='indecomposable-check-') as temp:
         folder=Path(temp)
         proof_env=dict(env);proof_env['LEAN_PATH']=str(folder)+os.pathsep+env['LEAN_PATH']
-        for module in ['Boundary','Interior','Solution']:
+        for module in ['Boundary','Interior','Foundations','Alexandroff','Solution']:
             run('fresh strict '+module,['-DwarningAsError=true','-o',folder/(module+'.olean'),ROOT/(module+'.lean')],ROOT,proof_env)
         canonical='CanonicalChallenge_'+uuid.uuid4().hex
         (folder/(canonical+'.lean')).write_bytes((ROOT/'Challenge.lean').read_bytes())
