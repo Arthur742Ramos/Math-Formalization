@@ -42,6 +42,24 @@ assert config['theorem_names']==[PREFIX+n for n in NAMES] and config['definition
 assert set(config['permitted_axioms'])=={'propext','Quot.sound','Classical.choice'}
 assert (ROOT/'lean-toolchain').read_text().strip()==TOOLCHAIN
 assert next(p for p in manifest['packages'] if p['name']=='mathlib')['rev']==PIN
+# PalomarPolicy 96b034cc31a72a63d4f4041911dce337a85c9a04, CONTRIBUTING.md 530-532.
+# The generic v0.4 schema and pinned metadata parser allow broader source types.
+POLICY_SOURCE_TYPES={'paper','book','web discussion','folklore','original-proof','other'}
+def check_source_types(metadata):
+    assert isinstance(metadata.get('sources'),list) and metadata['sources'],'metadata sources'
+    for source in metadata['sources']:
+        assert isinstance(source,dict),'metadata source record'
+        assert 'type' not in source or (isinstance(source['type'],str) and
+            source['type'] in POLICY_SOURCE_TYPES),'PalomarPolicy source.type enum'
+check_source_types(json.loads((ROOT/'formalization.yaml').read_text(encoding='utf-8')))
+for rejected_type in ['masters-thesis','lecture-notes','web-discussion']:
+    try:
+        check_source_types({'sources':[{'type':rejected_type}]})
+    except AssertionError as error:
+        assert str(error)=='PalomarPolicy source.type enum'
+    else:
+        raise AssertionError('source.type negative control accepted')
+print('SOURCE TYPE POLICY PASS; three negative controls rejected',flush=True)
 print('PACKAGE CHECKS PASS',flush=True)
 if args.check_package_only:raise SystemExit(0)
 if not args.lean_bin:parser.error('Supply --lean-bin or install the pinned toolchain')

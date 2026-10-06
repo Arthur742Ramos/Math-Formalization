@@ -34,23 +34,23 @@
       "authors": [
         "Frank Sturm"
       ],
-      "type": "masters-thesis",
+      "type": "other",
       "id": "https://etd.auburn.edu/bitstream/handle/10415/1827/Sturm-ThesisComplete.pdf?isAllowed=y&sequence=1",
       "location": "Definition 1.7 and Theorems 1.8, 1.10, 1.11 and 1.13, printed pages 14 to 16",
       "relationship": "adapts",
       "author_endorsement": "not-contacted",
-      "note": "The literal proper-subcontinuum definition is retained. The density theorem includes explicit nondegeneracy. The metric countable-family argument is replaced by a countable open basis, proving the second-countable compact Hausdorff formulation. Corollary 1.12 is not used."
+      "note": "Master's thesis. The literal proper-subcontinuum definition is retained. The density theorem includes explicit nondegeneracy. The metric countable-family argument is replaced by a countable open basis, proving the second-countable compact Hausdorff formulation. Corollary 1.12 is not used."
     },
     {
       "title": "Metric Topology: A First Course",
       "authors": [
         "Paul Bankston"
       ],
-      "type": "lecture-notes",
+      "type": "other",
       "id": "https://www.mscsnet.mu.edu/~paul/Paper/4450102text.pdf#page=91",
       "location": "Propositions 29.1 and 29.2",
       "relationship": "background",
-      "note": "Classical source for the reused indecomposability characterization."
+      "note": "Lecture notes. Classical source for the reused indecomposability characterization."
     }
   ],
   "related_formalizations": [
