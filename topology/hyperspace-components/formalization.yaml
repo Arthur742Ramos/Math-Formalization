@@ -1,0 +1,123 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Path Components of Punctured Continuum Hyperspaces",
+    "description": "In a compact metric indecomposable continuum with at least two points, two proper nonempty compact connected subsets are joined by a path in the punctured continuum hyperspace exactly when they lie in the same composant. The hyperspace has uncountably many path components.",
+    "authors": [
+      "Arthur Freitas Ramos"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "repository": {
+    "role": "substantive-development"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54F15",
+      "54B20"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Hyperspaces with exactly two orbits",
+      "authors": [
+        "Sam B. Nadler Jr.",
+        "Patricia Pellicer-Covarrubias"
+      ],
+      "type": "paper",
+      "id": "https://hrcak.srce.hr/en/file/5558",
+      "location": "Section 2.7, Glasnik Matematicki 41(61) (2006), 141-157",
+      "relationship": "adapts",
+      "author_endorsement": "not-contacted",
+      "note": "Specialization Y = X of the stated arc-component result. This development proves the literal path-component classification directly. It uses order arcs for comparable continua and a finite interval-cover argument for the union of a hyperspace path."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6225330b17f15735eb6e2b90fdd0a0f1dc712e1e/topology/order-arcs",
+      "relationship": "builds-on",
+      "note": "Seven proof modules are retained byte for byte, with Solution.lean renamed OrderArc.lean. They construct order arcs between comparable subcontinua."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/53be25d26551d18b006d3a625fc5b145cc73cebd/topology/composants",
+      "relationship": "builds-on",
+      "note": "Foundations.lean and Interior.lean are retained byte for byte. They supply the literal composant predicate, composant disjointness, and uncountably many composants. The shared Boundary.lean is retained once."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/boundary-bumping-lean/tree/58831416a12f73312ac01cdaec19c060a6d4b142",
+      "relationship": "builds-on",
+      "note": "The retained Boundary.lean preserves the standalone source authorship header. The order-arcs provenance records its newline normalization."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Literal Vietoris topology, NonemptyCompacts, Path, Joined and pathComponent; compact and connected indexed unions; finite interval subdivisions subordinate to open covers."
+    }
+  ],
+  "status": {
+    "scope": "The classification assumes MetricSpace, CompactSpace and the literal indecomposability predicate. ConnectedSpace and Nontrivial are required for uncountably many path components. The accumulating-union checkpoint needs only a Hausdorff ambient space. Subsingleton ambient spaces have an empty punctured hyperspace.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "models": [
+          "OpenAI Codex (runtime identifier not independently attested)"
+        ],
+        "framework": "Lean 4 and Mathlib",
+        "tool_setup": "One owned serial compiler, one CPU, 3 GiB aggregate memory, and at most 30 minutes per stage, with a 90-minute initial phase bound. Fresh proof compilation, isolated Challenge, exact raw type/universe/value comparison, semantic checks, and standard transitive-axiom checks."
+      }
+    ],
+    "spend_usd": "not tracked",
+    "notes": "The human selected the target, resource limits, and reuse and requested GPT-6.1 sol High at Standard speed; runtime and service tier are not independently attested. Challenge contains six intentional theorem holes. All Solution and support proofs contain none. Humanizer was applied to reader-facing prose."
+  },
+  "fidelity": {
+    "divergences": "Section 2.7 of the cited paper states an arc-component result. The formalization proves the path-component formulation directly and does not extract simple arcs from arbitrary paths. Running unions may have plateaus; no strict-increase assertion about them is used. The classification holds under the weaker exact assumptions in Solution.lean."
+  },
+  "review": {
+    "status": "Author verification and independent pre-submission checks of the mathematics, source, literal statements and definitions, transitive axioms, reuse provenance and packaging have passed. Local intake validation uses a JSON-only decoder at the PyYAML boundary; native YAML validation and hosted ordinary Lake and full Palomar checks for this folder remain pending. Author proof verification used qualified copied dependencies and does not certify a clean dependency rebuild. The earlier order-arcs runs verify only that earlier package. These checks do not establish source-author endorsement, completed human expert review or registry acceptance."
+  },
+  "alignment": {
+    "namespace": "HyperspaceComponents",
+    "statements": [
+      {
+        "source": "Nadler and Pellicer-Covarrubias, section 2.7 specialized to Y = X; direct path formulation",
+        "lean": "HyperspaceComponents.joined_iff_common_continuum",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Nadler and Pellicer-Covarrubias, section 2.7 specialized to Y = X; direct path formulation",
+        "lean": "HyperspaceComponents.joined_iff_same_composant",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Nadler and Pellicer-Covarrubias, section 2.7 specialized to Y = X; direct path formulation",
+        "lean": "HyperspaceComponents.pathComponent_eq_composant",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Nadler and Pellicer-Covarrubias, section 2.7 specialized to Y = X; direct path formulation",
+        "lean": "HyperspaceComponents.uncountably_many_path_components",
+        "module": "Solution",
+        "status": "proved"
+      }
+    ]
+  },
+  "acknowledgements": "Credits Sam B. Nadler Jr., Patricia Pellicer-Covarrubias, the retained order-arcs and composants developments, the authors credited in Boundary.lean and Interior.lean, and Lean and Mathlib contributors. Independent mathematical and Lean source review passed. No mathematical novelty, first formalization, author endorsement or registry acceptance is claimed."
+}

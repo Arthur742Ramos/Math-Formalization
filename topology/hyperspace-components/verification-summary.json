@@ -1,0 +1,181 @@
+{
+  "status": "pass",
+  "scope": "Author-side local verification and independent mathematical and Lean source review passed; native YAML validation and hosted verification for this application remain with the coordinating lane",
+  "lean_version": "Lean (version 4.35.0-rc2, x86_64-w64-windows-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "fresh_strict_modules": [
+    "Boundary",
+    "Interior",
+    "Foundations",
+    "Checkpoint",
+    "Scalar",
+    "Hyperspace",
+    "Chain",
+    "Parameter",
+    "OrderArc",
+    "PathUnion",
+    "Solution"
+  ],
+  "isolated_challenge": {
+    "dependency_only": true,
+    "random_renamed_module": true,
+    "intentional_theorem_holes": 6
+  },
+  "exact_comparison": {
+    "theorems": 6,
+    "literal_definitions": 5,
+    "raw_expression_sha256": "847cd09d6879a3cc7e72b8eaae3439e21fba4b2acdb6c9a73b1eec33b5a0f0d9",
+    "method": "Byte equality of raw Lean.Expr, universe parameter lists, and definition values in separate imports"
+  },
+  "transitive_axioms": {
+    "HyperspaceComponents.proper_familyUnion": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.joined_iff_common_continuum": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.joined_iff_same_composant": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.pathComponent_eq_composant": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.uncountably_many_path_components": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.no_proper_continuum_of_subsingleton": "propext, Quot.sound",
+    "Composants.IsSubcontinuum": "propext, Quot.sound",
+    "Composants.IsIndecomposable": "propext, Quot.sound",
+    "Composants.composant": "propext, Quot.sound",
+    "HyperspaceComponents.familyUnion": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.ProperContinuum": "propext, Quot.sound",
+    "HyperspaceComponents.proper_union": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.exists_common_continuum_of_composant": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.joined_of_le": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.singletonContinuum": "propext, Classical.choice, Quot.sound",
+    "HyperspaceComponents.composant_eq_of_singleton_components_eq": "propext, Classical.choice, Quot.sound",
+    "OrderArcs.exists_order_arc": "propext, Classical.choice, Quot.sound",
+    "Composants.uncountably_many_composants": "propext, Classical.choice, Quot.sound",
+    "BoundaryBumping.closed_component_meets_frontier": "propext, Classical.choice, Quot.sound"
+  },
+  "semantic_checks": [
+    "Literal composant, subcontinuum and indecomposability predicates",
+    "Literal ProperContinuum subtype and familyUnion value",
+    "Literal Mathlib Joined and pathComponent",
+    "Induced Vietoris topology on NonemptyCompacts",
+    "Subsingleton ambient space has empty punctured hyperspace"
+  ],
+  "definition_evidence": {
+    "status": "pass",
+    "source_files": 32,
+    "indexed_definitions": 82,
+    "installed_mathlib_files_compared": 30,
+    "complete_declaration_ranges": 82,
+    "negative_controls_rejected": 6,
+    "negative_control_results": [
+      {
+        "control": "corrupt source",
+        "rejection": "definition-evidence/mathlib/Mathlib/Topology/Defs/Filter.lean.txt"
+      },
+      {
+        "control": "changed pin",
+        "rejection": "Mathlib revision"
+      },
+      {
+        "control": "missing definition",
+        "rejection": "missing predicate definition"
+      },
+      {
+        "control": "header-only IsConnected with matching hash and prose",
+        "rejection": "incomplete or overextended declaration IsConnected"
+      },
+      {
+        "control": "omitted metric structure tail with matching hash and prose",
+        "rejection": "incomplete or overextended declaration PseudoMetricSpace"
+      },
+      {
+        "control": "omitted where-block field with matching hash and prose",
+        "rejection": "incomplete or overextended declaration TopologicalSpace"
+      }
+    ]
+  },
+  "metadata_checks": {
+    "scope": "Historical author checks of original metadata SHA-256 ca40ab3e160d0a27a813d1bd85b424e2a1d0084260a5b5e039ef45ff3c6666a1. Task18 also checked the r2 proposal through a JSON-only decoder and the full official schema. The coordinating lane must validate the latest prose-corrected metadata with native YAML and the full schema; the unchanged workflow input/profile checks remain valid.",
+    "official_schema": "v0.4",
+    "schema_sha256": "25ff6b25ca4511635aff4443cf20480c15e59dddf19591c730950b442ea54fce",
+    "schema_negative_controls": [
+      "invalid relationship rejected",
+      "thin wrapper missing substantive source rejected",
+      "negative admission count rejected"
+    ],
+    "pinned_contract": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "decoder_scope": "JSON input is checked through a duplicate-rejecting decoder adapter; no general YAML parser claim.",
+    "dispatch_contract": {
+      "status": "pass",
+      "request_id": "hyperspace01",
+      "execution_profile": "palomar-standard-v1",
+      "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+      "mode": "full",
+      "negative_controls_rejected": [
+        "malformed request id",
+        "unknown option",
+        "missing comparator path",
+        "unsupported execution profile"
+      ],
+      "commit_placeholder": "zero SHA used only for local intake validation; hosted workflow substitutes github.sha"
+    }
+  },
+  "resources": {
+    "one_serial_compiler": true,
+    "cpus": 1,
+    "job_memory_limit_bytes": 3221225472,
+    "stage_limit_seconds": 1800,
+    "initial_phase_limit_seconds": 5400,
+    "all_stages_elapsed_seconds": 1220.91,
+    "completed_stages_including_failed_attempts": 11,
+    "final_stage_elapsed_seconds": 178.12,
+    "final_peak_job_commit_bytes": 3011657728,
+    "final_peak_sampled_aggregate_rss_bytes": 1030627328,
+    "all_owned_processes_cleaned_up": true,
+    "final_inputs_unchanged": true,
+    "prior_input_change_receipt": "An earlier successful Lean audit recorded addition of formalization.yaml while running; the final frozen replay supersedes that receipt."
+  },
+  "source_sha256": {
+    "Boundary.lean": "f6e4c278eba97de595ef9b9eabc3c0f2153308389ffe51329ad086346498166d",
+    "Interior.lean": "03f28085134c973b9ace7a0486c675d5a3fd3136a1ea51f4f439391fdecdec6b",
+    "Foundations.lean": "34f45c48b5da8ecad8e7503753a67eb819ac56bba683ed909e1003720adc7ab3",
+    "Checkpoint.lean": "cbf55fb5feed783d72236e3a92b1b92852c018004310f1a0b59e5e4acaf60b45",
+    "Scalar.lean": "6c3c8902b68f3d3437101150fac518d6cd36af679b3e3bbb9120017947f3d7f5",
+    "Hyperspace.lean": "12ab504f219c24fd586be78e48fb9df3d6078e573320f5f2aa0dab5159fcfecb",
+    "Chain.lean": "21b68c256bdbef8a75aa5757b15852e1cbf9812c12600f0c4cccd5f6fcb2bbb7",
+    "Parameter.lean": "65a76ca149efda880d486826570e9986eb0124c00b7c71695a88679308680129",
+    "OrderArc.lean": "c1837180b194c2c25b7534533b375bd9199547dfab80db49db0ff68f2c08623e",
+    "PathUnion.lean": "3866c1648ab393ff0d252213f7c94f5b1220894098bbb095594673a9bcb30e98",
+    "Solution.lean": "c05794d5283752a5d97760d040042338328a4cfe4e74de96b49d5bd28a8e36d7",
+    "Challenge.lean": "ebde1f62efeef81809e03dcb7e8516a4feca9f676c4418c034346ceee56b4eeb",
+    "lake-manifest.json": "65e8f3b58ee54cfb1587b536c3395e1b9b086b5f6bb4ca785d4a6239acbe842b",
+    "lakefile.toml": "11e2cb14b6c911ede9b8cd2b36b0b84103347e82a41acfeccd772e439e1ddd19",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "comparator.json": "3dde14b937ee62d5df41c3a2ae389b833f89c3ee3ded3a973c35437aff6aea89"
+  },
+  "dependency_qualification": "Owned copies of previously qualified pinned sources and complete artifact families; no clean dependency rebuild claimed",
+  "dependency_byte_checks": {
+    "status": "pass",
+    "copied_files": 24010,
+    "exact_pin_mathlib_sources": 1458,
+    "inventory_sha256": "be5bf3ffbc2fd9a1dfa7aadb0dc3e1b6d9b0743aa04746337ff6b5866ece150d",
+    "prior_qualified_receipt_sha256": "0c2afee72a9571ef3a441151e3d0bce9bf178688a640e081536e966fb92392a6",
+    "clean_dependency_rebuild_claimed": false
+  },
+  "lean_core_public_byte_check": {
+    "status": "pass",
+    "repository": "leanprover/lean4",
+    "commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+    "path": "src/Init/Core.lean",
+    "git_blob": "23e784c3806badcabd1e8f19c50946d66bc3c87a",
+    "sha256": "264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99",
+    "bytes": 96402,
+    "method": "Exact byte equality between immutable public GitHub content and installed toolchain snapshot"
+  },
+  "reused_proof_byte_checks": {
+    "status": "pass",
+    "public_baseline": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+    "files": 9
+  },
+  "reader_facing_prose": "Humanizer applied",
+  "hosted_verification": {
+    "this_application": "pending",
+    "prior_order_arcs_head": "6225330b17f15735eb6e2b90fdd0a0f1dc712e1e",
+    "prior_order_arcs_runs": "successful; separate old-doc correction packet, not evidence for this application"
+  }
+}

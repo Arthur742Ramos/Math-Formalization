@@ -1,0 +1,24 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "HyperspaceComponents.proper_familyUnion",
+    "HyperspaceComponents.joined_iff_common_continuum",
+    "HyperspaceComponents.joined_iff_same_composant",
+    "HyperspaceComponents.pathComponent_eq_composant",
+    "HyperspaceComponents.uncountably_many_path_components",
+    "HyperspaceComponents.no_proper_continuum_of_subsingleton"
+  ],
+  "definition_names": [
+    "Composants.IsSubcontinuum",
+    "Composants.IsIndecomposable",
+    "Composants.composant",
+    "HyperspaceComponents.familyUnion",
+    "HyperspaceComponents.ProperContinuum"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

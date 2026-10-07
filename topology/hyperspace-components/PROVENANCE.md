@@ -1,0 +1,11 @@
+# Sources and retained proofs
+
+The application follows [Sam B. Nadler Jr. and Patricia Pellicer-Covarrubias, *Hyperspaces with exactly two orbits*, section 2.7](https://hrcak.srce.hr/en/file/5558). Specializing its arc-component statement to Y = X gives the motivating classification. This proof treats paths directly. The new mathematical files are `PathUnion.lean` and `Solution.lean`; the independent Challenge is newly authored.
+
+Seven order-arc proof modules are retained byte for byte from [commit 6225330b17f15735eb6e2b90fdd0a0f1dc712e1e](https://github.com/Arthur742Ramos/Math-Formalization/tree/6225330b17f15735eb6e2b90fdd0a0f1dc712e1e/topology/order-arcs). Only the filename `Solution.lean` becomes `OrderArc.lean`. `Foundations.lean` and `Interior.lean` are retained byte for byte from [commit 53be25d26551d18b006d3a625fc5b145cc73cebd](https://github.com/Arthur742Ramos/Math-Formalization/tree/53be25d26551d18b006d3a625fc5b145cc73cebd/topology/composants). The common `Boundary.lean` is stored once. [reuse.json](reuse.json) records each original path, retained path and byte hash.
+
+The retained source headers credit their original authors. Boundary bumping originates in the standalone [boundary-bumping development](https://github.com/Arthur742Ramos/boundary-bumping-lean/tree/58831416a12f73312ac01cdaec19c060a6d4b142); the order-arcs package records its newline normalization. Interior retains its attributed source. The package imports these proofs openly; they are not hidden certificates for the new conclusion.
+
+The verification infrastructure adapts the existing owned order-arcs scripts. Its raw comparisons now cover six theorem statements and five literal definitions. The dossier retains complete pinned Mathlib and Lean source snapshots with headers, source URLs, Git blob identities, declaration ranges and upstream licenses. All retained code uses Apache-2.0. No repository migration or shared toolchain change is part of this package.
+
+The paper supplies mathematical attribution, not a claim of novelty or priority. Its authors have not been contacted. Independent mathematical and Lean source review passed. Native YAML validation and hosted checks for this application remain with the coordinating lane.

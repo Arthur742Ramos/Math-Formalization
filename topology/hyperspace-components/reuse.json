@@ -1,0 +1,60 @@
+{
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+  "files": [
+    {
+      "original": "topology/order-arcs/Boundary.lean",
+      "retained": "Boundary.lean",
+      "sha256": "f6e4c278eba97de595ef9b9eabc3c0f2153308389ffe51329ad086346498166d",
+      "blob": "ccaf64cb9e6b88d1cc41e7a7881c71b0d5fcb6b5"
+    },
+    {
+      "original": "topology/order-arcs/Checkpoint.lean",
+      "retained": "Checkpoint.lean",
+      "sha256": "cbf55fb5feed783d72236e3a92b1b92852c018004310f1a0b59e5e4acaf60b45",
+      "blob": "b48c6fe77cfc1df48d45029ed8a7c391c06953ff"
+    },
+    {
+      "original": "topology/order-arcs/Scalar.lean",
+      "retained": "Scalar.lean",
+      "sha256": "6c3c8902b68f3d3437101150fac518d6cd36af679b3e3bbb9120017947f3d7f5",
+      "blob": "44410e5502dfff8215249bc6ec4db8712ec8f48c"
+    },
+    {
+      "original": "topology/order-arcs/Hyperspace.lean",
+      "retained": "Hyperspace.lean",
+      "sha256": "12ab504f219c24fd586be78e48fb9df3d6078e573320f5f2aa0dab5159fcfecb",
+      "blob": "a9f6407fa9c131b81925f43b5133b5f331c74794"
+    },
+    {
+      "original": "topology/order-arcs/Chain.lean",
+      "retained": "Chain.lean",
+      "sha256": "21b68c256bdbef8a75aa5757b15852e1cbf9812c12600f0c4cccd5f6fcb2bbb7",
+      "blob": "c53e46a72db15b75bd591e49f7737861d4939005"
+    },
+    {
+      "original": "topology/order-arcs/Parameter.lean",
+      "retained": "Parameter.lean",
+      "sha256": "65a76ca149efda880d486826570e9986eb0124c00b7c71695a88679308680129",
+      "blob": "3a33dd05d4736c520cd386f6c8189e166d489a19"
+    },
+    {
+      "original": "topology/order-arcs/Solution.lean",
+      "retained": "OrderArc.lean",
+      "sha256": "c1837180b194c2c25b7534533b375bd9199547dfab80db49db0ff68f2c08623e",
+      "blob": "15d4d45d0186d303b4a07ddd1154078f47a5b1d5"
+    },
+    {
+      "original": "topology/composants/Foundations.lean",
+      "retained": "Foundations.lean",
+      "sha256": "34f45c48b5da8ecad8e7503753a67eb819ac56bba683ed909e1003720adc7ab3",
+      "blob": "f45058a201a4d5d2f74c2060f83bb9ab00db5691"
+    },
+    {
+      "original": "topology/composants/Interior.lean",
+      "retained": "Interior.lean",
+      "sha256": "03f28085134c973b9ace7a0486c675d5a3fd3136a1ea51f4f439391fdecdec6b",
+      "blob": "2c00b2c13166c7e87b6e7e1a8da3635200d8f604"
+    }
+  ]
+}
