@@ -4,10 +4,14 @@
     "name": "Order Arcs Between Subcontinua",
     "description": "Properly nested nonempty compact connected subsets A and B of a compact metric space are the endpoints of a continuous embedded interval of nonempty compact connected subsets, strictly increasing under inclusion. The ambient space need not be connected.",
     "authors": [
-      "Arthur Freitas Ramos"
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
     ],
     "responsible_maintainers": [
-      "Arthur Freitas Ramos"
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
     ],
     "license": "Apache-2.0"
   },
