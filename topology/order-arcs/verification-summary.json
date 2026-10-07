@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "scope": "Author-side local Lean and packaging verification; hosted Lake, Comparator, NanoDa, con-ron, independent review and publication remain pending",
+  "scope": "Author-side local verification and successful hosted ordinary-build and Palomar full preflight runs at order-arcs commit 6225330b17f15735eb6e2b90fdd0a0f1dc712e1e; independent human review and registry acceptance are not established",
   "lean_version": "Lean (version 4.35.0-rc2, x86_64-w64-windows-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
   "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
   "fresh_strict_modules": [
@@ -83,6 +83,7 @@
     ]
   },
   "metadata_checks": {
+    "scope": "Historical author-checkpoint metadata and unchanged workflow-input checks. The coordinating lane must validate the exact updated review/status metadata before publication.",
     "official_schema": "v0.4",
     "schema_sha256": "25ff6b25ca4511635aff4443cf20480c15e59dddf19591c730950b442ea54fce",
     "schema_negative_controls": [
@@ -143,5 +144,21 @@
     "inventory_sha256": "be5bf3ffbc2fd9a1dfa7aadb0dc3e1b6d9b0743aa04746337ff6b5866ece150d",
     "prior_qualified_receipt_sha256": "0c2afee72a9571ef3a441151e3d0bce9bf178688a640e081536e966fb92392a6",
     "clean_dependency_rebuild_claimed": false
+  },
+  "hosted_verification": {
+    "verified_head": "6225330b17f15735eb6e2b90fdd0a0f1dc712e1e",
+    "ordinary_build": {
+      "name": "Order arcs",
+      "head_sha": "6225330b17f15735eb6e2b90fdd0a0f1dc712e1e",
+      "conclusion": "success",
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37519884539"
+    },
+    "palomar_full_preflight": {
+      "name": "Palomar order-arcs preflight",
+      "head_sha": "6225330b17f15735eb6e2b90fdd0a0f1dc712e1e",
+      "conclusion": "success",
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37519885829"
+    },
+    "new_hyperspace_components": "not verified by these runs; they verify only order-arcs@6225330b17f15735eb6e2b90fdd0a0f1dc712e1e"
   }
 }

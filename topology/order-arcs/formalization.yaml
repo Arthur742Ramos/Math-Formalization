@@ -77,7 +77,7 @@
     "divergences": "The target is the connected-endpoint order-arc consequence of Kelley’s broader segment criterion. The scalar is not a normalized Whitney map. The formal conclusion explicitly includes continuity, embedding, endpoint equalities, connected values, and strict increase under actual subset inclusion."
   },
   "review": {
-    "status": "Author verification and its limits are recorded in VERIFICATION.md. Independent review, hosted Lake build, Comparator, NanoDa and con-ron replay, human mathematical review, and publication belong to the coordinating lane. Registry submission is not requested here."
+    "status": "Author verification is recorded in VERIFICATION.md. The public order-arcs commit 6225330b17f15735eb6e2b90fdd0a0f1dc712e1e has successful ordinary-build and Palomar full preflight runs. Independent human mathematical review and registry acceptance are not established by those runs. Those runs verify only order-arcs at that commit and do not verify the new hyperspace-components application."
   },
   "alignment": {
     "namespace": "OrderArcs",
