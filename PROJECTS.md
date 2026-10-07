@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | Alexandroff property and composant foundations | [topology/composants](topology/composants) | Todorov–Valov Theorem 3.3 and eight classical composant results; Passed Palomar review (author-confirmed 2026-10-06) | [Configuration](topology/composants/comparator.json) |
 | Order arcs between subcontinua | [topology/order-arcs](topology/order-arcs) | Order arcs between strict pairs of subcontinua in compact metric spaces; Passed Palomar (author-confirmed 2026-10-07) | [Configuration](topology/order-arcs/comparator.json) |
-| Path components of punctured continuum hyperspaces | [topology/hyperspace-components](topology/hyperspace-components) | Paths between proper subcontinua exactly within a composant; uncountably many path components | [Configuration](topology/hyperspace-components/comparator.json) |
+| Path components of punctured continuum hyperspaces | [topology/hyperspace-components](topology/hyperspace-components) | Paths between proper subcontinua exactly within a composant; uncountably many path components; Passed Palomar (author-confirmed 2026-10-07) | [Configuration](topology/hyperspace-components/comparator.json) |
 
 Each directory has its own pinned toolchain, Lake project, independent Challenge,
 Comparator configuration, metadata, definition evidence, and verification scripts.
