@@ -1,0 +1,69 @@
+{
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "commit": "eb3bac386e34b97d443cfcf0bd603e34ccdac6d0",
+  "files": [
+    {
+      "original": "topology/hyperspace-components/Boundary.lean",
+      "retained": "Boundary.lean",
+      "sha256": "3bff93f5fc5d16780f450f94db3f24ff3b223ea351014e029cf9de3c82685a53",
+      "original_git_blob": "ccaf64cb9e6b88d1cc41e7a7881c71b0d5fcb6b5",
+      "original_sha256": "f6e4c278eba97de595ef9b9eabc3c0f2153308389ffe51329ad086346498166d",
+      "retained_sha256": "3bff93f5fc5d16780f450f94db3f24ff3b223ea351014e029cf9de3c82685a53",
+      "newline_transformation": "LF to CRLF from Windows checkout; normalized bytes match exact retained-source manifest"
+    },
+    {
+      "original": "topology/hyperspace-components/Checkpoint.lean",
+      "retained": "Checkpoint.lean",
+      "sha256": "a4c6efc93624ecdcd3729b7085d32fb6cfffde25b7a6191b83ea8198330f90ec",
+      "original_git_blob": "b48c6fe77cfc1df48d45029ed8a7c391c06953ff",
+      "original_sha256": "cbf55fb5feed783d72236e3a92b1b92852c018004310f1a0b59e5e4acaf60b45",
+      "retained_sha256": "a4c6efc93624ecdcd3729b7085d32fb6cfffde25b7a6191b83ea8198330f90ec",
+      "newline_transformation": "LF to CRLF from Windows checkout; normalized bytes match exact retained-source manifest"
+    },
+    {
+      "original": "topology/hyperspace-components/Scalar.lean",
+      "retained": "Scalar.lean",
+      "sha256": "6c3c8902b68f3d3437101150fac518d6cd36af679b3e3bbb9120017947f3d7f5",
+      "original_git_blob": "44410e5502dfff8215249bc6ec4db8712ec8f48c",
+      "original_sha256": "6c3c8902b68f3d3437101150fac518d6cd36af679b3e3bbb9120017947f3d7f5",
+      "retained_sha256": "6c3c8902b68f3d3437101150fac518d6cd36af679b3e3bbb9120017947f3d7f5",
+      "newline_transformation": "none; complete original bytes retained"
+    },
+    {
+      "original": "topology/hyperspace-components/Hyperspace.lean",
+      "retained": "Hyperspace.lean",
+      "sha256": "3da995f625f26ab7ec83ed18c660fe36b2c3f02ce097b5119693f6e624c168b6",
+      "original_git_blob": "a9f6407fa9c131b81925f43b5133b5f331c74794",
+      "original_sha256": "12ab504f219c24fd586be78e48fb9df3d6078e573320f5f2aa0dab5159fcfecb",
+      "retained_sha256": "3da995f625f26ab7ec83ed18c660fe36b2c3f02ce097b5119693f6e624c168b6",
+      "newline_transformation": "LF to CRLF from Windows checkout; normalized bytes match exact retained-source manifest"
+    },
+    {
+      "original": "topology/hyperspace-components/Chain.lean",
+      "retained": "Chain.lean",
+      "sha256": "fa08cf351d79c095d02f82348322c6504c87d65f26ab2c2a301b3d452f775ef6",
+      "original_git_blob": "c53e46a72db15b75bd591e49f7737861d4939005",
+      "original_sha256": "21b68c256bdbef8a75aa5757b15852e1cbf9812c12600f0c4cccd5f6fcb2bbb7",
+      "retained_sha256": "fa08cf351d79c095d02f82348322c6504c87d65f26ab2c2a301b3d452f775ef6",
+      "newline_transformation": "LF to CRLF from Windows checkout; normalized bytes match exact retained-source manifest"
+    },
+    {
+      "original": "topology/hyperspace-components/Parameter.lean",
+      "retained": "Parameter.lean",
+      "sha256": "65a76ca149efda880d486826570e9986eb0124c00b7c71695a88679308680129",
+      "original_git_blob": "3a33dd05d4736c520cd386f6c8189e166d489a19",
+      "original_sha256": "65a76ca149efda880d486826570e9986eb0124c00b7c71695a88679308680129",
+      "retained_sha256": "65a76ca149efda880d486826570e9986eb0124c00b7c71695a88679308680129",
+      "newline_transformation": "none; complete original bytes retained"
+    },
+    {
+      "original": "topology/hyperspace-components/OrderArc.lean",
+      "retained": "OrderArc.lean",
+      "sha256": "c1837180b194c2c25b7534533b375bd9199547dfab80db49db0ff68f2c08623e",
+      "original_git_blob": "15d4d45d0186d303b4a07ddd1154078f47a5b1d5",
+      "original_sha256": "c1837180b194c2c25b7534533b375bd9199547dfab80db49db0ff68f2c08623e",
+      "retained_sha256": "c1837180b194c2c25b7534533b375bd9199547dfab80db49db0ff68f2c08623e",
+      "newline_transformation": "none; complete original bytes retained"
+    }
+  ]
+}

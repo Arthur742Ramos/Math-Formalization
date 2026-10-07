@@ -1,0 +1,134 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Sequential Strong Whitney Reversibility of Hereditary Decomposability",
+    "description": "For a compact metric continuum with a genuine Whitney map, positive interior levels tending to zero that are all hereditarily decomposable force the continuum to be hereditarily decomposable. A relative indecomposable covering-family theorem supplies the obstruction.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "repository": {
+    "role": "substantive-development"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54F15",
+      "54B20"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Some properties of Whitney continua",
+      "authors": [
+        "E. Abo-Zeid"
+      ],
+      "type": "paper",
+      "id": "https://topology.nipissingu.ca/tp/reprints/v03/tp03201.pdf",
+      "location": "Topology Proceedings 3 (1978), 301-312, Theorems 2.1 and 2.2, pp. 303-304",
+      "relationship": "adapts",
+      "author_endorsement": "not-contacted",
+      "note": "Relative indecomposable covering-family theorem and sequential strong Whitney reversibility of hereditary decomposability."
+    },
+    {
+      "title": "Size levels of hyperspaces",
+      "authors": [
+        "Alejandro Illanes"
+      ],
+      "type": "paper",
+      "id": "https://topology.nipissingu.ca/tp/reprints/v26/tp26115.pdf",
+      "location": "Topology Proceedings 26 (2001-2002), 213-233, p. 214",
+      "relationship": "adapts",
+      "author_endorsement": "not-contacted",
+      "note": "Classical size levels are subcontinua; the supporting formal proof permits weak inclusion monotonicity and plateaus."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/eb3bac386e34b97d443cfcf0bd603e34ccdac6d0/topology/hyperspace-components",
+      "relationship": "builds-on",
+      "note": "Seven retained attributed proof modules; complete original and retained byte identities and newline transformation in reuse.json."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Literal compact sets, Vietoris and Hausdorff topology, connected compact unions, closed connected-fiber quotient preimages and continuous minima."
+    }
+  ],
+  "status": {
+    "scope": "The main theorem assumes MetricSpace, CompactSpace, ConnectedSpace, a literal genuine Whitney map, positive interior levels tending to zero, and hereditary decomposability of each literal level. The relative covering-family theorem assumes a nondegenerate indecomposable subcontinuum and a strict interior value.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "models": [
+          "OpenAI Codex (runtime identifier not independently attested)"
+        ],
+        "framework": "Lean 4 and Mathlib",
+        "tool_setup": "One owned serial compiler, one CPU, 3 GiB aggregate job memory, 600 seconds per stage and a 90-minute cumulative compiler phase. Independent Challenge, raw type/universe/value comparison and transitive axiom audit."
+      }
+    ],
+    "spend_usd": "not tracked",
+    "notes": "The human selected the target, exact statement, limits and reuse. Runtime/service tier are not independently attested. Five intentional Challenge theorem holes; no holes in Solution or support proofs. Humanizer was applied to prose."
+  },
+  "fidelity": {
+    "divergences": "Theorem 2.1 is stated internally for an arbitrary subcontinuum Y, so Theorem 2.2 can use it without an auxiliary hyperspace homeomorphism. Compact covering families are minimized using the retained strictly increasing height scalar instead of a separate Brouwer reduction theorem. The conclusion is existence of an indecomposable subcontinuum within a level, with nondegeneracy stated literally; the whole level is not asserted indecomposable."
+  },
+  "review": {
+    "status": "Author fresh strict compilation of all ten proof modules, exact raw comparison of five statements and nine literal definitions against an isolated Challenge, nineteen transitive-axiom audits and semantic controls passed. The complete upstream dossier (36 files, 88 declaration ranges, 34 direct installed-Mathlib comparisons and six rejection controls) and retained-source byte identities passed. Independent mathematical and Lean source review, native YAML validation, hosted ordinary Lake build and full Palomar preflight remain parent-coordinated. Local author checks use qualified copied artifacts and do not claim a clean dependency rebuild, source-author endorsement or registry acceptance."
+  },
+  "alignment": {
+    "namespace": "WhitneyReversibility",
+    "statements": [
+      {
+        "source": "Illanes, Size levels of hyperspaces, p. 214; relative form",
+        "lean": "WhitneyReversibility.isCompact_relativeLevel",
+        "module": "Levels",
+        "status": "proved"
+      },
+      {
+        "source": "Illanes, Size levels of hyperspaces, p. 214; relative form",
+        "lean": "WhitneyReversibility.isConnected_relativeLevel",
+        "module": "Levels",
+        "status": "proved"
+      },
+      {
+        "source": "Level coverage from singleton-to-Y order paths",
+        "lean": "WhitneyReversibility.familyUnion_relativeLevel",
+        "module": "Levels",
+        "status": "proved"
+      },
+      {
+        "source": "Abo-Zeid, Theorem 2.1; relative form",
+        "lean": "WhitneyReversibility.exists_indecomposable_covering_family",
+        "module": "Solution",
+        "status": "proved"
+      },
+      {
+        "source": "Abo-Zeid, Theorem 2.2",
+        "lean": "WhitneyReversibility.sequential_strong_whitney_reversibility",
+        "module": "Solution",
+        "status": "proved"
+      }
+    ]
+  },
+  "acknowledgements": "Credits E. Abo-Zeid, Alejandro Illanes, the retained order-arcs development, the source authors credited in Boundary.lean, and Lean and Mathlib contributors. No mathematical novelty, universal absence from prior formal libraries, author endorsement or registry acceptance is claimed."
+}

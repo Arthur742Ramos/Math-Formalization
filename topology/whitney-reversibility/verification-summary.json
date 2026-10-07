@@ -1,0 +1,99 @@
+{
+  "status": "pass",
+  "scope": "Completed author Lean checks using qualified copied exact-pin artifacts; independent review, native schema validation and hosted clean build/preflight remain pending.",
+  "lean_version": "Lean (version 4.35.0-rc2, x86_64-w64-windows-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+  "exact_comparison": {
+    "theorems": 5,
+    "literal_definitions": 9,
+    "raw_expression_sha256": "bb73bf322301c05959775da8d6763ac2a175509be9464ffa73537f72c557ec38",
+    "method": "Byte equality of raw Lean.Expr, universe parameter lists, and definition values in separate imports"
+  },
+  "transitive_axioms": {
+    "WhitneyReversibility.isCompact_relativeLevel": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.isConnected_relativeLevel": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.familyUnion_relativeLevel": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.exists_indecomposable_covering_family": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.sequential_strong_whitney_reversibility": "propext,\n Classical.choice,\n Quot.sound",
+    "WhitneyReversibility.Continuum": "propext, Quot.sound",
+    "WhitneyReversibility.singleton": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.whole": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.IsWhitneyMap": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.IsSizeMap": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.relativeLevel": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.familyUnion": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.IsDecomposable": "propext, Quot.sound",
+    "WhitneyReversibility.IsHereditarilyDecomposable": "propext, Quot.sound",
+    "WhitneyReversibility.connected_square_level": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.connected_relativeLevel_pair": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.isConnected_anchored_relativeLevel": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.exists_minimal_covering_family": "propext, Classical.choice, Quot.sound",
+    "WhitneyReversibility.minimal_covering_family_indecomposable": "propext, Classical.choice, Quot.sound"
+  },
+  "source_sha256": {
+    "Boundary.lean": "3bff93f5fc5d16780f450f94db3f24ff3b223ea351014e029cf9de3c82685a53",
+    "Checkpoint.lean": "a4c6efc93624ecdcd3729b7085d32fb6cfffde25b7a6191b83ea8198330f90ec",
+    "Scalar.lean": "6c3c8902b68f3d3437101150fac518d6cd36af679b3e3bbb9120017947f3d7f5",
+    "Hyperspace.lean": "3da995f625f26ab7ec83ed18c660fe36b2c3f02ce097b5119693f6e624c168b6",
+    "Chain.lean": "fa08cf351d79c095d02f82348322c6504c87d65f26ab2c2a301b3d452f775ef6",
+    "Parameter.lean": "65a76ca149efda880d486826570e9986eb0124c00b7c71695a88679308680129",
+    "OrderArc.lean": "c1837180b194c2c25b7534533b375bd9199547dfab80db49db0ff68f2c08623e",
+    "Levels.lean": "e6d0ceea3b17134964aea59eb37f7ff26ff60264d364cef90526a70a05e5d645",
+    "Reduction.lean": "ae68af4f90a998119dd0217ee32029231182b53001074b73402ebb3efac9d02e",
+    "Solution.lean": "f729ece49786cc3b259c1e2cfc7dd98bef253b2d260d0f04a717f2b10468536b",
+    "Challenge.lean": "b938007de8d2ed75c47f568db6041c8fc6785cf898b98ea01ff7276715f6c7d7",
+    "lake-manifest.json": "e5cce032dfa078c2ef859ae79ab271d1abb935d815fd6ff39747df675dd3169d",
+    "lakefile.toml": "cc7b3019f59776238ced1fa511e8f00084b1c214f57e30530459c53a5dfb5d4c",
+    "lean-toolchain": "f4085f5f49cb07b752ed5b171651770205bbbb73ea5445f0e14db04264e8506c",
+    "comparator.json": "b62aab3c0dbf0d0da71d7574a76a12a7921f04aae08549611d3c963cd712db5e"
+  },
+  "fresh_strict_proof_modules": 10,
+  "standalone_challenge_imports": 3,
+  "semantic_controls": "Singletons do not decompose but are hereditarily decomposable; literal continuous/singleton/strict and weak monotonicity predicates are checked by Lean.",
+  "owned_job": {
+    "cpus": 1,
+    "aggregate_memory_bytes": 3221225472,
+    "stage_seconds": 600,
+    "source_unchanged": true,
+    "remaining_owned_processes": 0
+  },
+  "definition_evidence": {
+    "status": "pass",
+    "source_files": 36,
+    "indexed_definitions": 88,
+    "installed_mathlib_files_compared": 34,
+    "complete_declaration_ranges": 88,
+    "negative_controls_rejected": 6,
+    "negative_control_results": [
+      {
+        "control": "corrupt source",
+        "rejection": "definition-evidence/mathlib/Mathlib/Topology/Defs/Filter.lean.txt"
+      },
+      {
+        "control": "changed pin",
+        "rejection": "Mathlib revision"
+      },
+      {
+        "control": "missing definition",
+        "rejection": "missing predicate definition"
+      },
+      {
+        "control": "header-only IsConnected with matching hash and prose",
+        "rejection": "incomplete or overextended declaration IsConnected"
+      },
+      {
+        "control": "omitted metric structure tail with matching hash and prose",
+        "rejection": "incomplete or overextended declaration PseudoMetricSpace"
+      },
+      {
+        "control": "omitted where-block field with matching hash and prose",
+        "rejection": "incomplete or overextended declaration TopologicalSpace"
+      }
+    ]
+  },
+  "retained_proofs": 7,
+  "new_proof_modules": [
+    "Levels",
+    "Reduction",
+    "Solution"
+  ]
+}

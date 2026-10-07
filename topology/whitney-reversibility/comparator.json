@@ -1,0 +1,27 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "WhitneyReversibility.isCompact_relativeLevel",
+    "WhitneyReversibility.isConnected_relativeLevel",
+    "WhitneyReversibility.familyUnion_relativeLevel",
+    "WhitneyReversibility.exists_indecomposable_covering_family",
+    "WhitneyReversibility.sequential_strong_whitney_reversibility"
+  ],
+  "definition_names": [
+    "WhitneyReversibility.Continuum",
+    "WhitneyReversibility.singleton",
+    "WhitneyReversibility.whole",
+    "WhitneyReversibility.IsWhitneyMap",
+    "WhitneyReversibility.IsSizeMap",
+    "WhitneyReversibility.relativeLevel",
+    "WhitneyReversibility.familyUnion",
+    "WhitneyReversibility.IsDecomposable",
+    "WhitneyReversibility.IsHereditarilyDecomposable"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
