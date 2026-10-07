@@ -4,10 +4,14 @@
     "name": "Path Components of Punctured Continuum Hyperspaces",
     "description": "In a compact metric indecomposable continuum with at least two points, two proper nonempty compact connected subsets are joined by a path in the punctured continuum hyperspace exactly when they lie in the same composant. The hyperspace has uncountably many path components.",
     "authors": [
-      "Arthur Freitas Ramos"
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
     ],
     "responsible_maintainers": [
-      "Arthur Freitas Ramos"
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
     ],
     "license": "Apache-2.0"
   },
