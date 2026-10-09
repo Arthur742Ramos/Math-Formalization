@@ -1,12 +1,12 @@
 name = "sorgenfreyCovering"
 version = "0.1.0"
-defaultTargets = ["Solution", "Challenge", "AxiomAudit"]
+defaultTargets = ["Solution", "Challenge", "AxiomAudit", "StatementSpecifications"]
 moreLeanArgs = ["-j2", "-M3072"]
 
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "8f9d9cff6bd728b17a24e163c9402775d9e6a365"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 
 [[lean_lib]]
 name = "SorgenfreyCovering"
@@ -19,3 +19,6 @@ name = "Solution"
 
 [[lean_lib]]
 name = "Challenge"
+
+[[lean_lib]]
+name = "StatementSpecifications"

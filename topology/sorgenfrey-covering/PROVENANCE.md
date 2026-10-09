@@ -1,11 +1,13 @@
 # Source and mathematical provenance
 
-The proof module and axiom audit are retained from
+The proof module and axiom audit are ported from
 [sorgenfrey-covering-lean, commit b60f28592f22a142949e48e50597bcacb05aebfe](https://github.com/Arthur742Ramos/sorgenfrey-covering-lean/tree/b60f28592f22a142949e48e50597bcacb05aebfe).
-`reuse.json` records the original Git blob, source hash, retained byte hash, and
-any newline transformation. The proof declarations have no changes. The
-standalone repository remains available. This nested package retains Lean
-4.28.0 and the exact Mathlib pin.
+`reuse.json` records the original Git blob and source hash, plus the ported
+file hash. The port adds module headers, public imports/declarations and three
+explicit theorem certificates. It updates Lean to 4.35.0-rc2 and Mathlib to
+`065356127b1dc0016f66b7283ce0ce2c4055aa55`; the original standalone
+repository and monorepo commit `95a3ceee2ad1ea240f89c6ece9343b1fd3fbb220`
+remain available. Mathematical statements and proof arguments are preserved.
 
 The topology, clopen basis, separation properties and antidiagonal facts come
 from Yury Kudryashov's attributed Mathlib file. The covering arguments are
@@ -22,4 +24,9 @@ standalone publication. These are bounded overlap checks, not novelty claims.
 
 The integration adds independent specifications, local contract checks,
 metadata, definition evidence, verification scripts and path-specific CI.
-It makes no registry submission. Source attribution and licensing are retained.
+The port adds the actual pinned Palomar mechanical preflight. Its Challenge
+contains the complete proof-bearing source and imports only canonical Mathlib,
+so it can be compiled outside the candidate Lake plan. This duplication is
+disclosed rather than presented as independent proof discovery. The separate
+proposition specifications check the original statements independently.
+Source attribution and licensing are retained; no registry acceptance is claimed.

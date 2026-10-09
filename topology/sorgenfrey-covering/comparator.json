@@ -1,27 +1,19 @@
 {
   "challenge_module": "Challenge",
   "solution_module": "Solution",
-  "challenge_format": "independent-proposition-specifications",
-  "verification_script": "scripts/CompareTypes.lean",
   "theorem_names": [
     "Counterexample.SorgenfreyLine.isLindelof_set",
-    "Counterexample.SorgenfreyLine.instHereditarilyLindelofSpace",
+    "Counterexample.SorgenfreyLine.hereditarilyLindelofSpace",
     "Counterexample.SorgenfreyLine.clopen_refinement",
-    "Counterexample.SorgenfreyLine.instParacompactSpace_subspace",
-    "Counterexample.SorgenfreyLine.instParacompactSpace",
+    "Counterexample.SorgenfreyLine.paracompactSpace_subspace",
+    "Counterexample.SorgenfreyLine.paracompactSpace",
     "Counterexample.SorgenfreyLine.not_lindelofSpace_prod",
     "Counterexample.SorgenfreyLine.not_paracompactSpace_prod"
   ],
-  "expected_propositions": [
-    "SorgenfreyChallenge.isLindelof_set",
-    "SorgenfreyChallenge.hereditary_lindelof",
-    "SorgenfreyChallenge.clopen_refinement",
-    "SorgenfreyChallenge.paracompact_subspaces",
-    "SorgenfreyChallenge.paracompact_line",
-    "SorgenfreyChallenge.plane_not_lindelof",
-    "SorgenfreyChallenge.plane_not_paracompact"
-  ],
   "definition_names": [],
-  "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"],
-  "scope": "Local Lean contract checking; not submitted to or validated by an external registry comparator. All statement predicates are imported Mathlib definitions."
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ]
 }

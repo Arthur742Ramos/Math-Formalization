@@ -16,7 +16,9 @@ pinned Mathlib commit, with Git blob, SHA-256, byte length, source URL and relev
 declarations. The checker compares them directly with installed pinned Git
 sources and rejects corrupted bytes.
 
-`Challenge.lean` independently spells out seven target propositions using only
-upstream definitions. `scripts/CompareTypes.lean` assigns the corresponding
-proofs to them through ordinary Lean type checking. This local contract format
-has no theorem holes and makes no external registry comparator claim.
+`StatementSpecifications.lean` independently spells out seven target propositions
+using only upstream definitions. `scripts/CompareTypes.lean` assigns the corresponding
+proofs to them through ordinary Lean type checking. The Palomar `Challenge.lean` is separately compiled from complete proof-bearing
+declarations, with only canonical Mathlib imports. It duplicates the Solution
+proof module and exposes seven theorem certificates listed in `comparator.json`.
+No definition holes or replacement topology predicates are configured.

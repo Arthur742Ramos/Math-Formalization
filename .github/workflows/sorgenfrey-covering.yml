@@ -23,7 +23,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
           set-safe-directory: false
-      - name: Check nested package and retained source
+      - name: Check nested package and ported source
         run: python3 scripts/verify.py --check-package-only
       - name: Identify exact commit
         run: |
@@ -42,7 +42,7 @@ jobs:
         run: lake exe cache get Counterexamples.SorgenfreyLine Mathlib.Topology.Compactness.Lindelof
       - name: Reject unfinished source
         run: |
-          if grep -nE '\b(sorry|admit|axiom)\b' SorgenfreyCovering.lean AxiomAudit.lean Challenge.lean Solution.lean scripts/CompareTypes.lean; then
+          if grep -nE '\b(sorry|admit|axiom)\b' SorgenfreyCovering.lean AxiomAudit.lean Challenge.lean Solution.lean StatementSpecifications.lean scripts/CompareTypes.lean; then
             exit 1
           fi
       - name: Build proofs and instance checks

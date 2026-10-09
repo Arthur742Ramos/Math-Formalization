@@ -1,5 +1,7 @@
-import Challenge
-import Solution
+module
+
+public import StatementSpecifications
+public import Solution
 
 -- Each independent proposition is checked against the complete exported proof.
 -- No assumptions, coercions of predicates, or theorem holes are introduced.
