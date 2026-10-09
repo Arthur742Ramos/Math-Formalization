@@ -3,8 +3,12 @@ Copyright (c) 2026 Arthur Ramos. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Arthur Ramos
 -/
-import Counterexamples.SorgenfreyLine
-import Mathlib.Topology.Compactness.Lindelof
+module
+
+public import SorgenfreyDefinitions
+public import Mathlib.Topology.Compactness.Lindelof
+
+@[expose] public section
 
 open Set Filter TopologicalSpace
 open scoped Topology Cardinal SorgenfreyLine
@@ -170,5 +174,15 @@ theorem not_paracompactSpace_prod : ¬ ParacompactSpace (ℝₗ × ℝₗ) := by
   intro h
   letI := h
   exact not_normalSpace_prod inferInstance
+
+
+/-- Explicit certificate of hereditary Lindelofness for the comparator. -/
+theorem hereditarilyLindelofSpace : HereditarilyLindelofSpace ℝₗ := inferInstance
+
+/-- Explicit certificate of paracompactness for every induced subspace. -/
+theorem paracompactSpace_subspace (A : Set ℝₗ) : ParacompactSpace A := inferInstance
+
+/-- Explicit certificate of paracompactness of the line. -/
+theorem paracompactSpace : ParacompactSpace ℝₗ := inferInstance
 
 end Counterexample.SorgenfreyLine

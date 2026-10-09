@@ -1,4 +1,6 @@
-import SorgenfreyCovering
+module
+
+public import SorgenfreyCovering
 
 #print axioms Counterexample.SorgenfreyLine.countable_Ico_cover
 #print axioms Counterexample.SorgenfreyLine.isLindelof_set
@@ -9,6 +11,9 @@ import SorgenfreyCovering
 #print axioms Counterexample.SorgenfreyLine.instParacompactSpace
 #print axioms Counterexample.SorgenfreyLine.not_lindelofSpace_prod
 #print axioms Counterexample.SorgenfreyLine.not_paracompactSpace_prod
+#print axioms Counterexample.SorgenfreyLine.hereditarilyLindelofSpace
+#print axioms Counterexample.SorgenfreyLine.paracompactSpace_subspace
+#print axioms Counterexample.SorgenfreyLine.paracompactSpace
 
 -- Concrete instance checks, in addition to auditing the declarations above.
 example (A : Set Counterexample.SorgenfreyLine) : LindelofSpace A :=

@@ -13,8 +13,8 @@ already formalizes line Lindelöfness and plane non-Lindelöfness and non-normal
 
 ## Reproduce
 
-- Lean: `leanprover/lean4:v4.28.0`.
-- Mathlib: `8f9d9cff6bd728b17a24e163c9402775d9e6a365` (the v4.28.0 release).
+- Lean: `leanprover/lean4:v4.35.0-rc2`.
+- Mathlib: `065356127b1dc0016f66b7283ce0ce2c4055aa55`.
 - Dependency revisions are fixed in `lake-manifest.json`.
 
 Run from `topology/sorgenfrey-covering` with
@@ -37,9 +37,16 @@ pinned to commits. The logs identify the exact repository commit being checked.
 The path-specific workflow is `.github/workflows/sorgenfrey-covering.yml`. See
 [VERIFICATION.md](VERIFICATION.md) for the single-command driver,
 [PROVENANCE.md](PROVENANCE.md) for source lineage, and
-[DEFINITIONS.md](DEFINITIONS.md) for definition evidence. The independent
-Challenge has no theorem holes; its local checks make no external registry
-comparator claim.
+[DEFINITIONS.md](DEFINITIONS.md) for definition evidence. The Palomar comparator checks seven explicit theorem certificates.
+`Challenge.lean` compiles complete proofs independently against canonical Mathlib;
+its proof declarations duplicate the Solution module to avoid unproved holes.
+The upstream Sorgenfrey file is vendored unchanged and attributed because the
+canonical Palomar cache does not supply the `Counterexamples` library.
+`StatementSpecifications.lean` retains the independently written propositions,
+checked by `scripts/CompareTypes.lean`. The pinned reusable workflow
+`.github/workflows/palomar-sorgenfrey-covering.yml` runs the actual Palomar
+mechanical verifier, including Comparator, NanoDa and con-ron. A passing preflight
+is predictive evidence; registry intake and acceptance are separate actions.
 
 ## Statements and proof
 
@@ -84,12 +91,15 @@ normality, contradicting Mathlib's existing non-normality theorem.
 The definition of the Sorgenfrey line, its neighborhood basis, the clopen basic
 intervals, separation properties, and the antidiagonal facts come from Yury
 Kudryashov's Mathlib `Counterexamples/SorgenfreyLine.lean`. This project imports
-that definition directly; it does not introduce a substitute topology.
+the exact complete upstream definition file as `SorgenfreyDefinitions.lean`;
+its bytes are checked against the pinned Mathlib Git blob. Palomar canonical
+caches omit the `Counterexamples` library, so the Challenge inlines the same
+source instead of importing that uncached module. No topology is substituted.
 
 The pinned Mathlib file leaves line paracompactness as a TODO and contains no
 line Lindelöf theorem. The same gap was checked at upstream commit
 `a37dcbd570ffe4283df24efc20b144a09cc3661e`, whose toolchain is Lean 4.35.0-rc4.
-This project uses the installed stable 4.28.0 toolchain for its reproducible
+This project uses the installed Palomar-supported 4.35.0-rc2 toolchain for its reproducible
 build. Compatibility with other Mathlib revisions is not asserted.
 
 Targeted GitHub code searches for `Sorgenfrey` under Arthur742Ramos and
@@ -97,8 +107,17 @@ PalomarArchive returned no results on 2026-10-09. This is a scoped overlap check
 not an exhaustive novelty claim.
 
 The new proof uses no `sorry`, `admit`, or declared axioms. `AxiomAudit.lean`
-prints the transitive axiom dependencies of all nine exported declarations.
+prints the transitive axiom dependencies of all twelve exported declarations.
 The checker accepts only Lean's standard `propext`, `Classical.choice`, and
-`Quot.sound` foundations. No registry submission is part of this project.
+`Quot.sound` foundations. Palomar submission is authorized; this source does not claim that intake or acceptance has occurred.
 
 Licensed under Apache 2.0; upstream Mathlib retains its own attribution.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.

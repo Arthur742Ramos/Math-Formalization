@@ -8,8 +8,8 @@ lake exe cache get Counterexamples.SorgenfreyLine Mathlib.Topology.Compactness.L
 python3 scripts/verify.py --lake-build --output .lake/verification.json
 ```
 
-The verifier checks pins, retained proof bytes, independent Challenge imports,
-unfinished source and complete definition evidence. It runs a Lake build, nine
+The verifier checks pins, ported proof hashes, canonical Challenge imports,
+unfinished source and complete definition evidence. It runs a Lake build, twelve
 transitive axiom audits, seven independent statement assignments, direct pinned
 source comparisons, rejection controls and the bundled `leanchecker`.
 
@@ -24,3 +24,19 @@ kernel-check logs.
 Only `propext`, `Classical.choice` and `Quot.sound` are permitted. There are no
 theorem holes or new axioms, including in the independent Challenge. No registry
 submission or acceptance is asserted.
+
+The port's Palomar workflow calls `PalomarRegistry/PalomarSubmission` at
+`d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44`, mode `full`, execution profile
+`palomar-standard-v1`. It checks the exact PR head SHA. It runs the canonical
+Challenge provenance audit and real Comparator with bundled NanoDa and con-ron,
+as well as Lean's kernel. Ordinary leanchecker evidence is not a substitute for
+that report. A preflight does not create a Palomar registry submission.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.

@@ -31,7 +31,7 @@ The following checks were made separately from writing the proofs.
    antidiagonal and its continuum cardinality. The paracompactness contradiction
    uses the plane's Hausdorff property and Mathlib's existing non-normality.
 
-`AxiomAudit.lean` checks the transitive axiom dependencies of all nine
+`AxiomAudit.lean` checks the transitive axiom dependencies of all twelve
 declarations and verifies concrete space instances. The executable audit checker
 rejects any dependency beyond `propext`, `Classical.choice`, and `Quot.sound`.
 The hosted workflow rebuilds the sources at its recorded exact Git commit.
@@ -40,3 +40,22 @@ elaboration; the local check completed with exit code 0.
 
 This is an internal statement review and machine verification record; it is not
 an external mathematical referee report or a claim of historical priority.
+
+The Lean 4.35.0-rc2 port retains these statements and arguments. Three explicit
+theorem certificates expose the existing typeclass results to Palomar's
+theorem comparator. There are seven configured theorem targets and no
+definition holes. The Challenge inlines the exact complete upstream Sorgenfrey module and compiles complete proof-bearing declarations
+against canonical Mathlib independently of the candidate Lake plan; it
+duplicates the Solution source. Separate proposition specifications preserve
+the earlier independent statement check. Source and metadata scans by the
+pinned Palomar pipeline accept the port; hosted mechanical results are recorded
+separately and must be distinguished from ordinary Lean checks.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.
