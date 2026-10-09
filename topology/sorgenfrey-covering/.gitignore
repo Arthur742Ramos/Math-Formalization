@@ -1,0 +1,15 @@
+.lake/
+/mathlib/
+*.olean
+*.ilean
+*.ir
+*.trace
+build-local.ps1
+Probe.lean
+*-local.log
+scripts/__pycache__/
+/build.log
+/axiom-audit.log
+/kernel-check.log
+/statement-check.log
+/verification-commit.log

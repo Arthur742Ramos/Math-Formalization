@@ -1,0 +1,21 @@
+name = "sorgenfreyCovering"
+version = "0.1.0"
+defaultTargets = ["Solution", "Challenge", "AxiomAudit"]
+moreLeanArgs = ["-j2", "-M3072"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "8f9d9cff6bd728b17a24e163c9402775d9e6a365"
+
+[[lean_lib]]
+name = "SorgenfreyCovering"
+
+[[lean_lib]]
+name = "AxiomAudit"
+
+[[lean_lib]]
+name = "Solution"
+
+[[lean_lib]]
+name = "Challenge"

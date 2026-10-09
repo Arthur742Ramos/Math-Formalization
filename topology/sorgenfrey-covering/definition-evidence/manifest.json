@@ -1,0 +1,193 @@
+{
+  "format": 1,
+  "mathlib_commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+  "lean_toolchain": "leanprover/lean4:v4.28.0",
+  "sources": [
+    {
+      "file": "definition-evidence/mathlib/Counterexamples/SorgenfreyLine.lean.txt",
+      "upstream_path": "Counterexamples/SorgenfreyLine.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "d1f48c50af919ac168762090f0fddd4999497100",
+      "sha256": "88ed7ec41cbe9741fdb5273ad45cdf1673f5ad8be01a56b60e298393dd6c38cd",
+      "bytes": 15945,
+      "declarations": [
+        "SorgenfreyLine",
+        "toReal",
+        "TopologicalSpace instance",
+        "isClopen_Ico",
+        "isClosed_antidiagonal",
+        "cardinal_antidiagonal",
+        "not_normalSpace_prod"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Counterexamples/SorgenfreyLine.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Compactness/Lindelof.lean.txt",
+      "upstream_path": "Mathlib/Topology/Compactness/Lindelof.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "9e7051dd14845cf3e20e9966fc7c42a14093d63b",
+      "sha256": "c2e64eae00090e00a108dc663659e30c88fa3fdc2083dc2e78abacb6f337b016",
+      "bytes": 39255,
+      "declarations": [
+        "IsLindelof",
+        "LindelofSpace",
+        "HereditarilyLindelofSpace",
+        "isLindelof_iff_lindelofSpace",
+        "IsLindelof.countable"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Topology/Compactness/Lindelof.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Compactness/Paracompact.lean.txt",
+      "upstream_path": "Mathlib/Topology/Compactness/Paracompact.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "95e34238479617db627673c04470e94a7890ff53",
+      "sha256": "daab7c3efa03c84283ad87fe82344bb9d5165023ebf3b6c0e77db0d05a0ea90c",
+      "bytes": 19384,
+      "declarations": [
+        "ParacompactSpace",
+        "T4Space.of_paracompactSpace_t2Space"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Topology/Compactness/Paracompact.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/LocallyFinite.lean.txt",
+      "upstream_path": "Mathlib/Topology/LocallyFinite.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "21ae2a80a11d42b6a129f5dcbd9695ac7c33b126",
+      "sha256": "de8589b851e5109da980dacd0ca48d3e2d2f566f43547209358443abd2a93503",
+      "bytes": 11335,
+      "declarations": [
+        "LocallyFinite"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Topology/LocallyFinite.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Clopen.lean.txt",
+      "upstream_path": "Mathlib/Topology/Clopen.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "cc2a36be54c88e13bfeb0b43dc2af753649edb27",
+      "sha256": "8dad40911f0107f05a32c0da082afd536742eeef8f6c7ad5b3b511b444a0b6bf",
+      "bytes": 6014,
+      "declarations": [
+        "IsClopen",
+        "IsClopen.diff",
+        "isClopen_biUnion_finset"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Topology/Clopen.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Defs/Basic.lean.txt",
+      "upstream_path": "Mathlib/Topology/Defs/Basic.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "5f0cfc99d7f5ef9f192cc8b19783b1c60b7db5d8",
+      "sha256": "db2c0b80e2976b2de31bd62b1aca210d591b2960361357c11ce3105d4a30bfc5",
+      "bytes": 8338,
+      "declarations": [
+        "TopologicalSpace",
+        "IsOpen",
+        "IsClosed"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Topology/Defs/Induced.lean.txt",
+      "upstream_path": "Mathlib/Topology/Defs/Induced.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "f00e888cec7beb87936ed2b8815f3680cf2302ec",
+      "sha256": "80a8274e45faf1fb28a641aea935ee273af4093d74290a41667f736a1ec1721c",
+      "bytes": 5516,
+      "declarations": [
+        "TopologicalSpace.induced",
+        "subtype topology"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Topology/Defs/Induced.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Data/Set/Countable.lean.txt",
+      "upstream_path": "Mathlib/Data/Set/Countable.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "e469971767251ebed1fb3ccc7f472e7180f135d0",
+      "sha256": "ccecd044640a6b1051413322419f4a831206fab0121cbbe7b54bc1736731c526",
+      "bytes": 13273,
+      "declarations": [
+        "Set.Countable"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Data/Set/Countable.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Data/Countable/Defs.lean.txt",
+      "upstream_path": "Mathlib/Data/Countable/Defs.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "4504df812317709cd6f680d43942755d246114d5",
+      "sha256": "6c5960140eaded8d061f177b180dbb0a728e47e56ce410c3dfd3e556053a861f",
+      "bytes": 6026,
+      "declarations": [
+        "Countable"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Data/Countable/Defs.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Logic/Pairwise.lean.txt",
+      "upstream_path": "Mathlib/Logic/Pairwise.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "0c3c4343e4f46fddd405e94e57568c419c448044",
+      "sha256": "b4fdeaca6af505cfd1558a4d187c391b68877ed60d673d439143a7757b746c31",
+      "bytes": 4202,
+      "declarations": [
+        "Pairwise"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Logic/Pairwise.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Order/Disjoint.lean.txt",
+      "upstream_path": "Mathlib/Order/Disjoint.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "e885d22a73a716dedf5f5fc386835ae957a58722",
+      "sha256": "2d54bf8e7357ace9b630d179d635ccfb759be1fc6c64b6c4a76af1408d71c6fd",
+      "bytes": 21242,
+      "declarations": [
+        "Disjoint"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Order/Disjoint.lean",
+      "license": "Apache-2.0"
+    },
+    {
+      "file": "definition-evidence/mathlib/Mathlib/Order/Interval/Set/Defs.lean.txt",
+      "upstream_path": "Mathlib/Order/Interval/Set/Defs.lean",
+      "repository": "leanprover-community/mathlib4",
+      "commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+      "git_blob": "54579dc272f635668da8ade43cc308e90bec3e59",
+      "sha256": "75a008b9e96a0fbaac5eb804a58e391e2f376a46f0f285ee570b449b01cc5051",
+      "bytes": 3714,
+      "declarations": [
+        "Set.Ico",
+        "Set.Ioo"
+      ],
+      "source_url": "https://github.com/leanprover-community/mathlib4/blob/8f9d9cff6bd728b17a24e163c9402775d9e6a365/Mathlib/Order/Interval/Set/Defs.lean",
+      "license": "Apache-2.0"
+    }
+  ],
+  "scope": "Complete attributed sources for the material imported statement predicates; not an exhaustive transitive import dossier."
+}
