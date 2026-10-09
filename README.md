@@ -9,7 +9,9 @@ Current topology targets are [the Alexandroff property of metric indecomposable 
 [order arcs between subcontinua](topology/order-arcs),
 [path components of punctured continuum hyperspaces](topology/hyperspace-components), and
 [Sorgenfrey covering theorems](topology/sorgenfrey-covering). The Alexandroff project
-includes eight classical composant results as foundations. See [PROJECTS.md](PROJECTS.md)
+includes eight classical composant results as foundations. A separate package covers
+[Michael's biquotient-map product and characterization theorems](topology/michael-biquotient).
+See [PROJECTS.md](PROJECTS.md)
 for the project index. Existing standalone repositories remain available.
 
 Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources

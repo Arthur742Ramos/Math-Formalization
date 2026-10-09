@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-09",
+  "lean": "4.35.0-rc2",
+  "mathlib": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "proof_sha256": "a0fd7cb2154d7ca56ef1f7f6541f620f48b8a96a484c753d255479e6543ef80c",
+  "challenge_sha256": "a0fd7cb2154d7ca56ef1f7f6541f620f48b8a96a484c753d255479e6543ef80c",
+  "local_elaboration": "pass: MichaelBiquotient, Challenge, Solution, AxiomAudit",
+  "selected_axiom_audit": "pass",
+  "independent_internal_ai_source_review": "pass",
+  "hosted": "See exact published-commit Actions run linked in draft PR"
+}

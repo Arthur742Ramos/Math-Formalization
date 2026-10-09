@@ -1,0 +1,27 @@
+'Michael.IsBiquotientMap.piMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.IsBiquotientMap.prod_id_isQuotientMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.isBiquotientMap_iff_all_tests' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.isBiquotientMap_iff_paracompact_tests' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.isBiquotientMap_iff_liftsClusterPoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.isBiquotientMap_iff_liftsUltrafilters' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.exists_t2_paracompact_counterexample' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.witness_t2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Michael.witness_paracompact' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Michael.IsBiquotientMap.piMap : ∀ {ι : Type u_3} {A : ι → Type u_1} {B : ι → Type u_2}
+  [inst : (i : ι) → TopologicalSpace (A i)] [inst_1 : (i : ι) → TopologicalSpace (B i)] {f : (i : ι) → A i → B i},
+  (∀ (i : ι), Michael.IsBiquotientMap (f i)) → Michael.IsBiquotientMap (Pi.map f)
+@Michael.IsBiquotientMap.prod_id_isQuotientMap : ∀ {X : Type u_1} {Y : Type u_2} [inst : TopologicalSpace X]
+  [inst_1 : TopologicalSpace Y] {f : X → Y},
+  Michael.IsBiquotientMap f → ∀ (Z : Type u_3) [inst_2 : TopologicalSpace Z], Topology.IsQuotientMap (Prod.map f id)
+@Michael.isBiquotientMap_iff_all_tests : ∀ {X : Type u_1} {Y : Type u_2} [inst : TopologicalSpace X]
+  [inst_1 : TopologicalSpace Y] [T2Space Y] {f : X → Y},
+  Continuous f →
+    Function.Surjective f →
+      (Michael.IsBiquotientMap f ↔
+        ∀ (Z : Type u_2) [inst_3 : TopologicalSpace Z], Topology.IsQuotientMap (Prod.map f id))
+@Michael.isBiquotientMap_iff_paracompact_tests : ∀ {X : Type u_1} {Y : Type u_2} [inst : TopologicalSpace X]
+  [inst_1 : TopologicalSpace Y] [T2Space Y] {f : X → Y},
+  Continuous f →
+    Function.Surjective f →
+      (Michael.IsBiquotientMap f ↔
+        ∀ (Z : Type u_2) [inst_3 : TopologicalSpace Z] [ParacompactSpace Z], Topology.IsQuotientMap (Prod.map f id))

@@ -1,0 +1,19 @@
+name: Palomar Michael biquotient mechanical preflight
+on:
+  push:
+    branches: ['codex/michael-biquotient']
+    paths: ['topology/michael-biquotient/**', '.github/workflows/palomar-michael-biquotient.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  michael:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ github.sha }}
+      pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+      request_id: michael00001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/michael-biquotient","comparator_config_path":"topology/michael-biquotient/comparator.json","formalization_metadata_path":"topology/michael-biquotient/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
