@@ -1,0 +1,12 @@
+Γ£ö [1938/1941] Built SorgenfreyCovering (102s)
+Γä╣ [1940/1941] Built AxiomAudit (16s)
+info: AxiomAudit.lean:3:0: 'Counterexample.SorgenfreyLine.countable_Ico_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:4:0: 'Counterexample.SorgenfreyLine.isLindelof_set' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:5:0: 'Counterexample.SorgenfreyLine.instHereditarilyLindelofSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:6:0: 'Counterexample.SorgenfreyLine.disjointify_clopen_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:7:0: 'Counterexample.SorgenfreyLine.clopen_refinement' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:8:0: 'Counterexample.SorgenfreyLine.instParacompactSpace_subspace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:9:0: 'Counterexample.SorgenfreyLine.instParacompactSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:10:0: 'Counterexample.SorgenfreyLine.not_lindelofSpace_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:11:0: 'Counterexample.SorgenfreyLine.not_paracompactSpace_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (1941 jobs).

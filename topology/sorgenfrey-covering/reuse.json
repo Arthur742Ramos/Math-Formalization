@@ -1,0 +1,42 @@
+[
+  {
+    "repository": "Arthur742Ramos/sorgenfrey-covering-lean",
+    "commit": "b60f28592f22a142949e48e50597bcacb05aebfe",
+    "path": "SorgenfreyCovering.lean",
+    "git_blob": "e5e75f4d025b22dcc46fd00517bb3ef47c04f5a5",
+    "upstream_source_sha256": "5ed2a9bbde1be46e26d19297b87d9f9c8966b30e4d7b848be41a8e36d8514aff",
+    "retained_source_sha256": "5ed2a9bbde1be46e26d19297b87d9f9c8966b30e4d7b848be41a8e36d8514aff",
+    "adaptation": "None",
+    "reason": "Retain the verified proof, audit and exact toolchain/dependency pin"
+  },
+  {
+    "repository": "Arthur742Ramos/sorgenfrey-covering-lean",
+    "commit": "b60f28592f22a142949e48e50597bcacb05aebfe",
+    "path": "AxiomAudit.lean",
+    "git_blob": "3e527601aab2b94de30a7ed2c10209d90a74d438",
+    "upstream_source_sha256": "1cf5aec8b70464fbf37844c9099c99b6ce2c25f7bf366d45bff76ae80caa734f",
+    "retained_source_sha256": "1cf5aec8b70464fbf37844c9099c99b6ce2c25f7bf366d45bff76ae80caa734f",
+    "adaptation": "None",
+    "reason": "Retain the verified proof, audit and exact toolchain/dependency pin"
+  },
+  {
+    "repository": "Arthur742Ramos/sorgenfrey-covering-lean",
+    "commit": "b60f28592f22a142949e48e50597bcacb05aebfe",
+    "path": "lean-toolchain",
+    "git_blob": "4c685fa085fa1c66103533e992fc82c014a12142",
+    "upstream_source_sha256": "db7bb24b756d745bbde83fe92718b51bd3625dae3701ba0f598d0eedcd3f3028",
+    "retained_source_sha256": "db7bb24b756d745bbde83fe92718b51bd3625dae3701ba0f598d0eedcd3f3028",
+    "adaptation": "None",
+    "reason": "Retain the verified proof, audit and exact toolchain/dependency pin"
+  },
+  {
+    "repository": "Arthur742Ramos/sorgenfrey-covering-lean",
+    "commit": "b60f28592f22a142949e48e50597bcacb05aebfe",
+    "path": "lake-manifest.json",
+    "git_blob": "2bc62f6c9bcbd092a2b7c24525cf29498a19f0a2",
+    "upstream_source_sha256": "8cafda4723355ad6b5004aaa8b9e458377393685c7993bd28c645ae7e997753c",
+    "retained_source_sha256": "8cafda4723355ad6b5004aaa8b9e458377393685c7993bd28c645ae7e997753c",
+    "adaptation": "None",
+    "reason": "Retain the verified proof, audit and exact toolchain/dependency pin"
+  }
+]
