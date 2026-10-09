@@ -1,0 +1,21 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Michael.IsBiquotientMap.piMap",
+    "Michael.IsBiquotientMap.prod_id_isQuotientMap",
+    "Michael.isBiquotientMap_iff_all_tests",
+    "Michael.isBiquotientMap_iff_paracompact_tests",
+    "Michael.isBiquotientMap_iff_liftsClusterPoints",
+    "Michael.isBiquotientMap_iff_liftsUltrafilters",
+    "Michael.exists_t2_paracompact_counterexample"
+  ],
+  "definition_names": [
+    "Michael.IsBiquotientMap",
+    "Michael.LiftsClusterPoints",
+    "Michael.LiftsUltrafilters",
+    "Michael.onePointTopology",
+    "Michael.Witness"
+  ],
+  "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"]
+}
