@@ -30,3 +30,12 @@ so it can be compiled outside the candidate Lake plan. This duplication is
 disclosed rather than presented as independent proof discovery. The separate
 proposition specifications check the original statements independently.
 Source attribution and licensing are retained; no registry acceptance is claimed.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.

@@ -5,7 +5,7 @@ Authors: Arthur Ramos
 -/
 module
 
-public import Counterexamples.SorgenfreyLine
+public import SorgenfreyDefinitions
 public import Mathlib.Topology.Compactness.Lindelof
 
 @[expose] public section

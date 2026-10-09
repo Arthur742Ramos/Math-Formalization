@@ -5,7 +5,7 @@ Copyright (c) 2026 Arthur Freitas Ramos. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Arthur Freitas Ramos
 -/
-public import Counterexamples.SorgenfreyLine
+public import SorgenfreyDefinitions
 public import Mathlib.Topology.Compactness.Lindelof
 
 /-! Independent proposition specifications for the covering theorem package.

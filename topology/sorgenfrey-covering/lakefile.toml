@@ -22,3 +22,6 @@ name = "Challenge"
 
 [[lean_lib]]
 name = "StatementSpecifications"
+
+[[lean_lib]]
+name = "SorgenfreyDefinitions"

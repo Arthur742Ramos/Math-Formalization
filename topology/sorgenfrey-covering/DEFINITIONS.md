@@ -22,3 +22,12 @@ proofs to them through ordinary Lean type checking. The Palomar `Challenge.lean`
 declarations, with only canonical Mathlib imports. It duplicates the Solution
 proof module and exposes seven theorem certificates listed in `comparator.json`.
 No definition holes or replacement topology predicates are configured.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.

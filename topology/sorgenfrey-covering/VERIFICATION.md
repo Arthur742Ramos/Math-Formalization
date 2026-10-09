@@ -31,3 +31,12 @@ The port's Palomar workflow calls `PalomarRegistry/PalomarSubmission` at
 Challenge provenance audit and real Comparator with bundled NanoDa and con-ron,
 as well as Lean's kernel. Ordinary leanchecker evidence is not a substitute for
 that report. A preflight does not create a Palomar registry submission.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.

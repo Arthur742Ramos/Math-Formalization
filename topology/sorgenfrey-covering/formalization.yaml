@@ -66,7 +66,7 @@
     "spend_usd": "not tracked"
   },
   "fidelity": {
-    "divergences": "Seven Palomar theorem certificates use canonical Mathlib definitions. Challenge independently compiles the same complete proof-bearing declarations against Mathlib only; its proofs duplicate the Solution source to avoid unproved holes. Separate proposition specifications retain the original independent statement check."
+    "divergences": "Palomar canonical Mathlib caches omit Counterexamples. SorgenfreyDefinitions.lean is the exact complete upstream Counterexamples/SorgenfreyLine.lean at the pinned Mathlib commit, checked byte-for-byte. Challenge inlines that same source and the complete covering proofs, with canonical Mathlib imports only. Solution imports the exact vendored module. Separate proposition specifications preserve independent statement checks. No replacement topology, definition holes or unproved theorem holes are introduced."
   },
   "review": {
     "status": "Lean 4.35.0-rc2 port prepared for exact-commit local and hosted verification. See VERIFICATION.md and the Palomar mechanical preflight."

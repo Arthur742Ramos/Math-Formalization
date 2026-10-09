@@ -29,8 +29,11 @@ def check_package():
             raise ValueError(f"Ported source changed: {item['path']}")
     challenge = (ROOT / "Challenge.lean").read_text(encoding="utf-8")
     imports = re.findall(r"^public import\s+(\S+)", challenge, re.MULTILINE)
-    if imports != ["Counterexamples.SorgenfreyLine", "Mathlib.Topology.Compactness.Lindelof"]:
+    if imports != ['Mathlib.Topology.Compactness.Lindelof', 'Mathlib.Analysis.Real.Cardinality', 'Mathlib.Order.Interval.Set.Monotone', 'Mathlib.Topology.Baire.Lemmas', 'Mathlib.Topology.Baire.LocallyCompactRegular', 'Mathlib.Topology.EMetricSpace.Paracompact', 'Mathlib.Topology.Instances.Irrational', 'Mathlib.Topology.Metrizable.Urysohn', 'Mathlib.Topology.Separation.NotNormal']:
         raise ValueError("Challenge must import only the pinned upstream definitions")
+    upstream = (ROOT / "definition-evidence/mathlib/Counterexamples/SorgenfreyLine.lean.txt").read_bytes()
+    if (ROOT / "SorgenfreyDefinitions.lean").read_bytes() != upstream:
+        raise ValueError("Vendored Sorgenfrey definition differs from the complete pinned source")
     for path in [*ROOT.glob("*.lean"), ROOT / "scripts/CompareTypes.lean"]:
         if re.search(r"\b(sorry|admit|axiom)\b", path.read_text(encoding="utf-8")):
             raise ValueError(f"Unfinished or axiom-bearing source: {path.name}")

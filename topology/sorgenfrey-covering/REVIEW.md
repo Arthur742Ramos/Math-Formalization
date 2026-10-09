@@ -44,9 +44,18 @@ an external mathematical referee report or a claim of historical priority.
 The Lean 4.35.0-rc2 port retains these statements and arguments. Three explicit
 theorem certificates expose the existing typeclass results to Palomar's
 theorem comparator. There are seven configured theorem targets and no
-definition holes. The Challenge compiles complete proof-bearing declarations
+definition holes. The Challenge inlines the exact complete upstream Sorgenfrey module and compiles complete proof-bearing declarations
 against canonical Mathlib independently of the candidate Lake plan; it
 duplicates the Solution source. Separate proposition specifications preserve
 the earlier independent statement check. Source and metadata scans by the
 pinned Palomar pipeline accept the port; hosted mechanical results are recorded
 separately and must be distinguished from ordinary Lean checks.
+
+Palomar cache compatibility: `SorgenfreyDefinitions.lean` is an exact copy of
+`Counterexamples/SorgenfreyLine.lean` at the pinned Mathlib commit, including
+Yury Kudryashov's attribution and complete declarations. The package checker
+compares it byte-for-byte with the complete pinned definition evidence. The
+Challenge inlines this source and imports its eight canonical Mathlib modules
+plus Lindelof, avoiding an unavailable `Counterexamples` artifact. Solution
+uses the same source as a local module. The lower-limit topology and all
+mathematical statements are preserved.
