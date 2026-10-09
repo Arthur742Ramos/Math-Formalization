@@ -4,10 +4,14 @@
     "name": "Sorgenfrey covering theorems",
     "description": "Hereditary Lindelofness, countable pairwise disjoint clopen refinements, hereditary paracompactness, and both Sorgenfrey plane failures.",
     "authors": [
-      "Arthur Freitas Ramos"
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
     ],
     "responsible_maintainers": [
-      "Arthur Freitas Ramos"
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
     ],
     "license": "Apache-2.0"
   },
