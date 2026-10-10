@@ -9,6 +9,20 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 PIN = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 AXIOMS = {"propext", "Classical.choice", "Quot.sound"}
 
+def check_roles(project, readme):
+    """Check each declared project role independently against its README block."""
+    assert "Authorship and maintenance remain with" not in readme, \
+        "Stale combined authorship/maintenance claim in README"
+    for field, label in (("authors", "Project authors"),
+                         ("responsible_maintainers", "Responsible maintainers")):
+        names = project[field]
+        assert names and all(isinstance(name, str) and name.strip() for name in names), label
+        assert len(names) == len(set(names)), f"Duplicate {label} in metadata"
+        blocks = re.findall(rf"(?m)^{re.escape(label)}:\s*\n((?:- [^\n]+\n?)+)", readme)
+        assert len(blocks) == 1, f"Expected one {label} block in README"
+        declared = [line[2:].strip() for line in blocks[0].splitlines()]
+        assert declared == names, f"{label} in README differ from project.{field}"
+
 def check(axiom_log=None):
     assert (ROOT / "lean-toolchain").read_text().strip() == "leanprover/lean4:v4.35.0-rc2"
     assert f'rev = "{PIN}"' in (ROOT / "lakefile.toml").read_text()
@@ -30,8 +44,7 @@ def check(axiom_log=None):
     imports = re.findall(r"^public import (\S+)$", challenge, re.MULTILINE)
     assert imports and all(name.startswith("Mathlib.") for name in imports)
     metadata = json.loads((ROOT / "formalization.yaml").read_text(encoding="utf-8"))
-    assert metadata["project"]["authors"] == ["Arthur Freitas Ramos"]
-    assert metadata["project"]["responsible_maintainers"] == ["Arthur Freitas Ramos"]
+    check_roles(metadata["project"], (ROOT / "README.md").read_text(encoding="utf-8"))
     assert metadata["registry_submission"] == "not-submitted"
     if axiom_log:
         source = pathlib.Path(axiom_log).read_text(encoding="utf-8")

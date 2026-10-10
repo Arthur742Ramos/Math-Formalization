@@ -33,3 +33,33 @@ definitions already occur transparently in both reviewed files.
 Local compiler and axiom verification were performed separately by the primary
 agent. Hosted verification is a separate requirement, evidenced by the Actions
 run on the exact published commit and linked in the draft PR.
+
+
+## Project-role consistency review, 2026-10-10
+
+A distinct OpenAI Codex sub-agent independently reviewed the role correction
+against main commit `5dbc1ee5636d83abfa76f742a721baad3c0cbc26`. That
+metadata-only commit already listed Arthur Freitas Ramos, David Barros Hulak and
+Ruy Jose Guerra Barretto de Queiroz as both project authors and responsible
+maintainers, while the README and package checker still named only Arthur.
+The user's explicit 2026-10-01 standing instruction authorizes the trio in both
+project fields. File-level Lean author headers are separate attribution and
+remain unchanged.
+
+The correction lists authors and responsible maintainers separately in the
+README and checks each list against its own metadata field. Six focused
+regression tests cover the reported stale prose, author drift, maintainer
+drift, independently differing role lists and stale prose beside correct lists.
+The reviewer independently ran all six tests and the package checker with the
+recorded local axiom log; both passed. It confirmed unchanged workflow triggers,
+permissions, full-verifier pin and inputs, with the new role check gating the
+full verifier, and recommended proceeding.
+
+This was a read-only internal AI review of the candidate files and pinned-base
+counterparts. The reviewer made no edits, ran no Lean compiler or hosted
+verification, and did not claim a whole-repository Git diff audit. Both Lean
+sources retain SHA-256
+`A0FD7CB2154D7CA56EF1F7F6541F620F48B8A96A484C753D255479E6543EF80C`.
+No human review or additional human proof contributions are asserted here.
+Exact published-commit hosted verification is recorded separately in the PR.
+
