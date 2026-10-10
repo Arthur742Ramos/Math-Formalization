@@ -51,7 +51,19 @@ its local paths are specific to this execution environment. Hosted preflight
 must reconstruct the canonical dependencies and run Comparator, NanoDa and
 Lean/con-ron before submission readiness can be claimed.
 
-Authorship and maintenance remain with Arthur Freitas Ramos. Implementation,
+Project authors:
+
+- Arthur Freitas Ramos
+- David Barros Hulak
+- Ruy Jose Guerra Barretto de Queiroz
+
+Responsible maintainers:
+
+- Arthur Freitas Ramos
+- David Barros Hulak
+- Ruy Jose Guerra Barretto de Queiroz
+
+Implementation,
 source audit, and independent internal review contributions from AI agents are
 disclosed in `formalization.yaml` and `REVIEW.md`; no human peer review is claimed.
 The repository-root Apache-2.0 license applies to this package. Registry

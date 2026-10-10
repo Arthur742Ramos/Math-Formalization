@@ -7,7 +7,20 @@ on:
 permissions:
   contents: read
 jobs:
+  roles:
+    name: Project role consistency
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check metadata and README roles
+        working-directory: topology/michael-biquotient
+        run: |
+          python3 -m unittest discover -s scripts -p test_role_consistency.py -v
+          python3 scripts/check_package.py --axiom-log verification/local-axioms.txt
   michael:
+    needs: roles
     uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
     with:
       repository: ${{ github.repository }}
