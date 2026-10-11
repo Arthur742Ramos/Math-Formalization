@@ -11,3 +11,5 @@
 Each directory has its own pinned toolchain, Lake project, independent Challenge,
 Comparator configuration, metadata, definition evidence, and verification scripts.
 Run its commands from that directory. Existing repositories remain separate.
+
+- [Dowker's characterization](topology/dowker-characterization): ordinary countable paracompactness, interval-product normality, strict semicontinuous insertion, and compact metrizable products.

@@ -1,0 +1,32 @@
+'Dowker.normal_countablyParacompact_iff_normal_interval_product' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Dowker.normal_countablyParacompact_iff_strict_insertion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.normal_interval_product_iff_strict_insertion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.CountablyParacompact.normal_compact_metrizable_product' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Dowker.countablyParacompact_iff_nat_precise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.countablyParacompact_iff_closed_sequence_property' depends on axioms: [propext, Classical.choice, Quot.sound]
+def Dowker.CountablyParacompact.{u} : (X : Type u) → [TopologicalSpace X] → Prop :=
+fun X [TopologicalSpace X] =>
+  ∀ (U : Set (Set X)),
+    U.Countable →
+      (∀ s ∈ U, IsOpen s) →
+        ⋃₀ U = Set.univ →
+          ∃ V, (∀ s ∈ V, IsOpen s) ∧ ⋃₀ V = Set.univ ∧ (LocallyFinite fun s => ↑s) ∧ ∀ s ∈ V, ∃ t ∈ U, s ⊆ t
+def Dowker.StrictInsertion.{u} : (X : Type u) → [TopologicalSpace X] → Prop :=
+fun X [TopologicalSpace X] =>
+  ∀ (h g : X → ℝ),
+    UpperSemicontinuous h →
+      LowerSemicontinuous g → (∀ (x : X), h x < g x) → ∃ f, Continuous f ∧ ∀ (x : X), h x < f x ∧ f x < g x
+theorem Dowker.normal_countablyParacompact_iff_normal_interval_product.{u_1} : ∀ {X : Type u_1}
+  [inst : TopologicalSpace X], NormalSpace X ∧ Dowker.CountablyParacompact X ↔ NormalSpace (X × ↑unitInterval) :=
+<not imported>
+theorem Dowker.normal_countablyParacompact_iff_strict_insertion.{u_1} : ∀ {X : Type u_1} [inst : TopologicalSpace X],
+  NormalSpace X ∧ Dowker.CountablyParacompact X ↔ Dowker.StrictInsertion X :=
+<not imported>
+theorem Dowker.CountablyParacompact.normal_compact_metrizable_product.{u_1, u_2} : ∀ {X : Type u_1} {K : Type u_2}
+  [inst : TopologicalSpace X] [inst_1 : TopologicalSpace K] [NormalSpace X] [CompactSpace K]
+  [TopologicalSpace.MetrizableSpace K], Dowker.CountablyParacompact X → NormalSpace (X × K) :=
+<not imported>

@@ -1,0 +1,94 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Dowker's countable paracompactness, product normality and strict insertion characterization",
+    "description": "Formalization of Dowker (1951), Theorem 4: normality plus ordinary countable paracompactness of an arbitrary topological space X is equivalent to normality of X times the closed unit interval, and to strict continuous insertion between arbitrary real upper and lower semicontinuous functions h<g. No T1 or Hausdorff assumption on X, boundedness or uniform gap is added. Companion compact metrizable product theorem (Lemma 3) and countable-cover/decreasing-closed-sequence equivalences (Theorem 2) are included.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54D15",
+      "54D20",
+      "54B10",
+      "54C30"
+    ]
+  },
+  "sources": [
+    {
+      "title": "On countably paracompact spaces",
+      "authors": [
+        "C. H. Dowker"
+      ],
+      "type": "paper",
+      "id": "https://doi.org/10.4153/CJM-1951-026-2",
+      "relationship": "formalizes",
+      "note": "Canadian Journal of Mathematics 3 (1951), 219–224. Theorems 2 and 4 and Lemma 3. Normality is closed-set separation, without T1. Primary PDF: https://www.cambridge.org/core/services/aop-cambridge-core/content/view/4B31284DE045B64497001E3A20903C0C/S0008414X00030960a.pdf/div-class-title-on-countably-paracompact-spaces-div.pdf"
+    },
+    {
+      "title": "Dowker spaces",
+      "authors": [
+        "K. P. Hart"
+      ],
+      "type": "other",
+      "id": "https://fa.ewi.tudelft.nl/~hart/onderwijs/old-courses/settop/dowker.pdf",
+      "relationship": "background",
+      "note": "Set-theoretic topology course notes, Chapter 4, sections 2–3: countable paracompactness, normal products and relation to homotopy extension."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses pinned Mathlib normal separation, shrinking, locally finite partitions of unity, compact projections and countable bases. No first-ever formalization claim."
+    }
+  ],
+  "status": {
+    "scope": "Exact three-way characterization and compact metrizable product companion, from ordinary open-cover and semicontinuous-function definitions.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gaps in the selected target. All modular implications, the assembled Challenge, final theorem module, Solution and axiom audit passed local Lean 4.35.0-rc2 elaboration against pinned canonical Mathlib. All selected declarations use only propext, Classical.choice and Quot.sound. Exact-commit hosted Comparator/NanoDa/renderer verification is still required and its actual result will be recorded in the draft PR."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored and repaired the Lean implementation, proof organization, packaging and metadata under Arthur's authorization. Recovery reused an earlier Codex draft. Exact backend model identity and costs are not independently attested."
+      },
+      {
+        "method": "agent",
+        "tool_setup": "A separate OpenAI Codex agent performed independent read-only review of the primary literature, complete mathematical implementation, research interest, six selected theorems, three definitions and metadata. It did not build or edit sources. Final source hashes and limitations are recorded in REVIEW.md."
+      }
+    ],
+    "notes": "Lean checks are machine verification. Agent reviews are internal AI reviews, not human review or external refereeing. No human review is claimed."
+  },
+  "fidelity": {
+    "divergences": "The interval-product converse uses locally finite singleton slices at positive reciprocal levels, rather than the source's vertical intervals. Forward strict insertion uses a subordinate locally finite partition of unity on rational intermediate levels. All stated hypotheses and conclusions are retained."
+  },
+  "review": {
+    "status": "independent internal AI mathematical and metadata source review passed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical source reviewer"
+    ],
+    "notes": "See REVIEW.md and verification/source-hashes.json for reviewed scope and exact source hashes. No human peer review, external refereeing or Palomar acceptance is claimed."
+  },
+  "registry_submission": "not-submitted",
+  "acknowledgements": "Classical mathematics due to C. H. Dowker. Lean and Mathlib provide the foundational libraries. Material AI work is disclosed; no mathematical novelty or guaranteed registry acceptance is claimed."
+}
