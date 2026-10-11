@@ -2,7 +2,7 @@ name: Palomar Dowker characterization mechanical preflight
 on:
   push:
     branches: ['topology/dowker-characterization']
-    paths: ['topology/dowker-characterization/**', '.github/workflows/palomar-dowker-characterization.yml']
+    paths: ['topology/dowker-characterization/**', '.github/workflows/palomar-dowker-characterization.yml', 'PROJECTS.md', 'README.md']
   workflow_dispatch:
 permissions:
   contents: read
