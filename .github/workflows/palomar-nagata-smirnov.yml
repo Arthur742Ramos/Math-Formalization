@@ -25,7 +25,7 @@ jobs:
       repository: ${{ github.repository }}
       commit: ${{ github.sha }}
       pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
-      request_id: nagata00001
+      request_id: nagata000001
       mode: full
       execution_profile: palomar-standard-v1
       options: '{"project_path":"topology/nagata-smirnov","comparator_config_path":"topology/nagata-smirnov/comparator.json","formalization_metadata_path":"topology/nagata-smirnov/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
