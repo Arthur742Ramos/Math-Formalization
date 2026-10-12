@@ -118,4 +118,3 @@ jobs:
         if: always()
         run: |
           python -c 'import json, os, pathlib, sys; p = pathlib.Path(os.environ["RUNNER_TEMP"]) / "palomar-render" / "report.json"; sys.exit(0 if json.loads(p.read_text())["status"] == "pass" else 1)'
-
