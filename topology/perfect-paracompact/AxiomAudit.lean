@@ -1,0 +1,9 @@
+module
+import Solution
+
+#print axioms PerfectParacompact.paracompact_iff
+#print axioms PerfectParacompact.paracompact_t2_image
+#print axioms PerfectParacompact.paracompact_preimage
+#print axioms PerfectParacompact.paracompact_image
+#print axioms PerfectParacompact.locallyFinite_image
+#print axioms PerfectParacompact.paracompact_iff_refinements
