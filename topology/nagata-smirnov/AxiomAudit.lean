@@ -1,0 +1,18 @@
+module
+import Metrization
+
+#print axioms NagataSmirnov.exists_sigmaLocallyFiniteBasis
+#print axioms NagataSmirnov.continuous_boundedCoordinates
+#print axioms NagataSmirnov.basisShrinkLayer_isOpen
+#print axioms NagataSmirnov.closure_basisShrinkLayer_subset
+#print axioms NagataSmirnov.iUnion_basisShrinkLayer_eq
+#print axioms NagataSmirnov.HasSigmaLocallyFiniteBasis.exists_open_exhaustion
+#print axioms NagataSmirnov.HasSigmaLocallyFiniteBasis.normalSpace
+#print axioms NagataSmirnov.HasSigmaLocallyFiniteBasis.perfectlyNormalSpace
+#print axioms NagataSmirnov.pseudoMetrizable_of_cozero_basis
+#print axioms NagataSmirnov.HasSigmaLocallyFiniteBasis.metrizableSpace
+#print axioms NagataSmirnov.nagata_smirnov
+#print axioms NagataSmirnov.compatibleMetric
+#print axioms NagataSmirnov.compatibleMetric_topology
+#print axioms NagataSmirnov.metrizable_iff_sigmaLocallyFiniteBasis
+#print axioms NagataSmirnov.compatible_metric_iff

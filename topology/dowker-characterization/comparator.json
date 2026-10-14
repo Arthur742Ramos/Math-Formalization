@@ -1,0 +1,18 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Dowker.normal_countablyParacompact_iff_normal_interval_product",
+    "Dowker.normal_countablyParacompact_iff_strict_insertion",
+    "Dowker.normal_interval_product_iff_strict_insertion",
+    "Dowker.CountablyParacompact.normal_compact_metrizable_product",
+    "Dowker.countablyParacompact_iff_nat_precise",
+    "Dowker.countablyParacompact_iff_closed_sequence_property"
+  ],
+  "definition_names": [
+    "Dowker.CountablyParacompact",
+    "Dowker.StrictInsertion",
+    "Dowker.ClosedSequenceProperty"
+  ],
+  "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"]
+}

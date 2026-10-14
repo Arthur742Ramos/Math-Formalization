@@ -1,0 +1,13 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "PerfectParacompact.paracompact_iff",
+    "PerfectParacompact.paracompact_t2_image",
+    "PerfectParacompact.paracompact_preimage",
+    "PerfectParacompact.paracompact_image",
+    "PerfectParacompact.locallyFinite_image",
+    "PerfectParacompact.paracompact_iff_refinements"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}
