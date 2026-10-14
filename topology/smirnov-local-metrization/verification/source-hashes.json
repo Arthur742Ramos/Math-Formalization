@@ -22,6 +22,6 @@
   "scripts/check_package.py": "20236e1bc617ec3cfa18e16d1ec7f08813ba7c49e6ec7b5b08537e6348228a81",
   "scripts/check-local.ps1": "8e40c5d018c0638cb17829518d0f63987d45f31e99f37783c72782a66e080887",
   "verification/registered-support-provenance.json": "6f65391ec0e30698a2d0ff671e8ede7081251545e3941a6ebbb4e0fdf1122708",
-  "verification/vendored-support-layout-review.json": "2ec8dad08386f291864127e892ee837779a84e720e4385289c94348683c54834",
-  "verification/vendored-support-implementation-review.json": "f56002f4194e555d096a3e573090488347028fe2dd7d42c67b9887784e7c8f29"
+  "verification/vendored-support-layout-review.json": "4e0100a078cdbfec91824b89dc3b492ec7e5c0501bb10c91f749ddfb87c154b7",
+  "verification/vendored-support-implementation-review.json": "b861e1a43711b58a4801b9c5105f3817208509fbee4ac8e5bef4aa1c43be141f"
 }
