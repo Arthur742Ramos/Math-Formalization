@@ -16,3 +16,5 @@ for the project index. Existing standalone repositories remain available.
 
 Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources
 preserve their attribution and license headers.
+
+[Dowker's characterization and compact metrizable product theorem](topology/dowker-characterization) is an independently pinned topology target.
