@@ -15,16 +15,19 @@ the previously registered Nagata–Smirnov theorem after deriving regularity.
 
 Build from this directory with `lake build`. Exact toolchain:
 `leanprover/lean4:v4.35.0-rc2`; Mathlib:
-`065356127b1dc0016f66b7283ce0ce2c4055aa55`. The registered Nagata–Smirnov
-package is a Git dependency at commit
-`6aa68b2cb67719a187e64de29567443575eb560e`, subdirectory
-`topology/nagata-smirnov`. `SmirnovChallenge.lean` includes that attributed source and
+`065356127b1dc0016f66b7283ce0ce2c4055aa55`. The four registered Nagata–Smirnov
+support modules from commit `6aa68b2cb67719a187e64de29567443575eb560e`,
+`topology/nagata-smirnov`, are vendored in `NagataSmirnovSupport/` with credited,
+unchanged declarations and adapted module import paths. Provenance hashes are
+in `verification/registered-support-provenance.json`. This layout builds within
+the fixed sandbox, which cannot write a nested Git dependency's build directory.
+`SmirnovChallenge.lean` includes that attributed source and
 the new construction with canonical Mathlib imports; `SmirnovSolution.lean` exports
 the reusable modules. The Comparator selects six new results only.
 
-These module identities are unique within the dependency workspace. Verso's
-source lookup must not select the prerequisite's generic `Challenge.lean`;
-the unique names also prevent its generic `Solution.lean` from shadowing exports.
+The verification module identities are unique. The original Git dependency
+exposed generic `Challenge.lean` and `Solution.lean` names that could shadow this
+project during source lookup; the unique names remain after the portable layout repair.
 
 Sources: Munkres, *Topology*, second edition, Theorem 42.1, pp.261–262; Sakai,
 *Geometric Aspects of General Topology*, second-edition author manuscript dated

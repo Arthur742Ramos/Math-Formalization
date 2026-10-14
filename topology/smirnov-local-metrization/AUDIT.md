@@ -36,3 +36,12 @@ Verso resolved the prerequisite's generic `Challenge.lean` via `LEAN_SRC_PATH`.
 The unique `SmirnovChallenge` and `SmirnovSolution` module identities remove that
 collision. These repairs preserve all six Lean source payloads and all selected
 declaration names. Exact-commit verification gates remain unchanged.
+
+The next mechanical run compiled the high-trust canonical Challenge but stopped
+at Solution building: the fixed sandbox makes a Git dependency's nested
+`topology/nagata-smirnov/.lake` directory read-only. The four exact registered
+support modules are therefore vendored under a distinct module prefix in this
+project. Only import paths and explicit attribution are adapted; substantive
+definitions and proofs are preserved. The sandbox and all verification gates
+remain unchanged. This reuses the registered result without selecting it as
+a new claim.

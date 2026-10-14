@@ -50,7 +50,7 @@
     {
       "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1",
       "relationship": "builds-on",
-      "note": "Registered full Nagata–Smirnov, public source commit6aa68b2cb67719a187e64de29567443575eb560e, topology/nagata-smirnov. Exact Git dependency; source included with attribution in canonical-only Challenge. This entry does not claim that theorem again."
+      "note": "Registered full Nagata–Smirnov, public source commit 6aa68b2cb67719a187e64de29567443575eb560e, topology/nagata-smirnov. Four support modules are vendored with explicit attribution and adapted module import paths, preserving all substantive declarations. This avoids unsupported nested Git-subdirectory build paths in the fixed verification sandbox. The canonical-only Challenge includes the credited source; this entry does not claim that theorem again."
     },
     {
       "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",

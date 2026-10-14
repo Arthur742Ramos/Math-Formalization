@@ -10,7 +10,7 @@ The reused `NagataSmirnov.HasSigmaLocallyFiniteBasis X` means
 `∃ B : ℕ → Set (Set X), (∀ n, LocallyFinite (fun U : B n => (U : Set X))) ∧
 IsTopologicalBasis (⋃ n, B n)`.
 Only the layer index is countable; individual layers may be uncountable.
-It is defined in the pinned registered dependency and explicitly included in
+It is defined in the credited vendored registered support and explicitly included in
 the independently checkable Challenge. Its reuse is credited, not claimed anew.
 
 `Smirnov.compatibleMetric h` extracts a metric after the proof establishes

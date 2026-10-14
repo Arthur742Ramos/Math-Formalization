@@ -6,7 +6,7 @@ Developed with AI assistance (OpenAI Codex); no human review is claimed.
 -/
 module
 
-public import Metrization
+public import NagataSmirnovSupport.Metrization
 public import Mathlib.Topology.Compactness.Paracompact
 
 /-!

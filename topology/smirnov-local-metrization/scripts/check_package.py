@@ -7,7 +7,8 @@ def check(log,write):
     assert (ROOT/'lean-toolchain').read_text().strip()=='leanprover/lean4:v4.35.0-rc2'
     lock=json.loads((ROOT/'lake-manifest.json').read_text())
     assert lock['name']=='smirnovLocalMetrization'
-    for name,rev in [('mathlib','065356127b1dc0016f66b7283ce0ce2c4055aa55'),('nagataSmirnov','6aa68b2cb67719a187e64de29567443575eb560e')]:
+    assert not any(p['name']=='nagataSmirnov' for p in lock['packages'])
+    for name,rev in [('mathlib','065356127b1dc0016f66b7283ce0ce2c4055aa55')]:
         assert next(p for p in lock['packages'] if p['name']==name)['rev']==rev
     config=json.loads((ROOT/'comparator.json').read_text());assert set(config['permitted_axioms'])==AXIOMS
     workflows=ROOT.parents[1]/'.github/workflows'
@@ -28,18 +29,24 @@ def check(log,write):
     assert '@[expose] public section' in challenge
     assert 'SecondCountableTopology' not in challenge and 'SeparableSpace' not in challenge
     hashes={}
-    for path in ROOT.glob('*.lean'):
+    for path in ROOT.rglob('*.lean'):
+        if '.lake' in path.relative_to(ROOT).parts:continue
         text=path.read_text(encoding='utf-8')
         assert re.search(r'^module\s*$',text,re.M),str(path)
         assert not re.search(r'\b(sorry|admit|axiom)\b',text),str(path)
         assert len(text.splitlines())<=10000
-        hashes[path.name]=hashlib.sha256(path.read_bytes()).hexdigest()
+        hashes[path.relative_to(ROOT).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
+    support=json.loads((ROOT/'verification/registered-support-provenance.json').read_text())
+    assert len(support)==4
+    for name,record in support.items():
+        assert record['source_commit']=='6aa68b2cb67719a187e64de29567443575eb560e'
+        assert hashes[name]==record['adapted_sha256']
     if log:
         reports=dict(re.findall(r"'([^']+)' depends on axioms: \[([^\]]*)\]",pathlib.Path(log).read_text(encoding='utf-8-sig')))
         assert len(reports)==10,len(reports)
         for name in config['theorem_names']:assert name in reports,name
         assert all({s.strip() for s in a.split(',') if s.strip()}<=AXIOMS for a in reports.values())
-    for name in ['lakefile.toml','lake-manifest.json','lean-toolchain','comparator.json','formalization.yaml','README.md','AUDIT.md','DEFINITIONS.md','REVIEW.md','scripts/check_package.py','scripts/check-local.ps1']:
+    for name in ['lakefile.toml','lake-manifest.json','lean-toolchain','comparator.json','formalization.yaml','README.md','AUDIT.md','DEFINITIONS.md','REVIEW.md','scripts/check_package.py','scripts/check-local.ps1','verification/registered-support-provenance.json','verification/vendored-support-layout-review.json','verification/vendored-support-implementation-review.json']:
         hashes[name]=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
     if write:
         (ROOT/'verification').mkdir(exist_ok=True)

@@ -1,0 +1,52 @@
+{
+  "review_date": "2026-10-14",
+  "review_type": "Independent read-only implementation and packaging review of local registered support vendoring",
+  "registered_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+  "comparison_source_commit": "95c37b51b0654babd9c53f6ddbf93791273bc62b",
+  "verdict": "pass",
+  "findings": [],
+  "support_files": {
+    "NagataSmirnovSupport/SigmaBasis.lean": {
+      "registered_sha256": "42871f54aec2e0f0545c77baa18e44830cc483e10fa2460315d1a183564e20b7",
+      "adapted_sha256": "3c5a0a2980498206e7db8768fec248e02988d932a0844f05dc8728a6b4a1f173",
+      "lines": 114,
+      "exact_original_after_only_credit_and_import_reversal": true
+    },
+    "NagataSmirnovSupport/CompatibleMetric.lean": {
+      "registered_sha256": "ead36939c5dfa80a073f583ef0950ca5fe6dc328b2c92b5bf4e8405ca51204d3",
+      "adapted_sha256": "c201a17bb7c460f637810005ff4f41c9ef7edb1ff21f18c118b7506e66ab09ed",
+      "lines": 69,
+      "exact_original_after_only_credit_and_import_reversal": true
+    },
+    "NagataSmirnovSupport/MetricBasis.lean": {
+      "registered_sha256": "76ed80dffaa1f84294c56fd4c9f0e00549fcf17499a044b229957da4284f3455",
+      "adapted_sha256": "dd29e08b7ef315127bcd20cae9dc0356b1ba9ebd74691e02694e715d50998373",
+      "lines": 70,
+      "exact_original_after_only_credit_and_import_reversal": true
+    },
+    "NagataSmirnovSupport/Metrization.lean": {
+      "registered_sha256": "e9cf125058b483a31edfa3f91ce0ccc186b6652734bb9d7bfcf2757a9787bc14",
+      "adapted_sha256": "1fef9bfd314d3b4c2b5b70a4be89f77a89d4d7afdb843d9e6006ff73abf71ed3",
+      "lines": 147,
+      "exact_original_after_only_credit_and_import_reversal": true
+    }
+  },
+  "preservation": [
+    "Every support source equals the exact registered source after reversing only its new explicit credit comment and prefixed public import paths, allowing newline normalization. Global namespace/declaration names, proof bodies, exposed definition bodies, assumptions, and licence/copyright are preserved.",
+    "PointFiniteBasis changes only its support import. Smirnov, canonical SmirnovChallenge, SmirnovSolution, semantic tests, axiom audit, Comparator configuration and selected theorem names retain exactly identical bytes to failed commit95c37b.",
+    "Lake registers the local NagataSmirnovSupport library and an aggregate root imports its Metrization module. The nested Git dependency alone is removed from direct requirements and the manifest; all canonical pins, default verification targets and resource arguments are unchanged.",
+    "Both verification workflows are byte-identical to failed commit95c37b, preserving pinned pipeline, canonical Challenge provenance, protected source hashes, sandbox restrictions, independent kernels and failure gates.",
+    "The package checker now hashes and checks recursively all local Lean sources excluding .lake, and matches four adapted hashes to exact source-commit provenance records. No previous mathematical integrity check is removed.",
+    "Metadata and README explicitly describe vendored registered-source reuse and the read-only nested build-path cause; they do not describe a remaining Git dependency or select old Nagata-Smirnov statements as new claims."
+  ],
+  "source_layout_assessment": "Local support imports now build under the selected project writable .lake/build/config leaves. No additional write permission, protected-source modification, pipeline patch or sandbox bypass is proposed.",
+  "mathematical_review_boundary": "Exact substantive-body preservation reuses previous proof/axiom reviews; this read-only review does not claim a fresh Lean or hosted-kernel build.",
+  "release_requirements": [
+    "Refresh final source-hash manifest and record the review before committing",
+    "Fresh exact repaired-commit mechanical proof/kernel and renderer receipts"
+  ],
+  "new_builds_performed": false,
+  "source_edits_performed": false,
+  "registered_project_modified": false,
+  "registry_or_outreach_actions_performed": false
+}
