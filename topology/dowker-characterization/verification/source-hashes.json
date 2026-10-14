@@ -1,0 +1,50 @@
+[
+  {
+    "sha256": "ebab765a27fd90ec0c781516054e0413cd7400a0d2a01136354e49a48758b16a",
+    "file": "AxiomAudit.lean"
+  },
+  {
+    "sha256": "b5631a57cf3814d230bf2c2357f93a506d73fd1edf68631353c77e887d42ae92",
+    "file": "Challenge.lean"
+  },
+  {
+    "sha256": "f19f9fea7d65ced465132c577b959c629822cf122ec9366aee76b094fc19867c",
+    "file": "Covers.lean"
+  },
+  {
+    "sha256": "1fe2b1f2a5e6b0b7b5ce9b68feb56fd640c01820cd1eb73a9f9740f6e3f6f4ba",
+    "file": "Defs.lean"
+  },
+  {
+    "sha256": "ae1a795191b07fd65f98d77c82af7c8f03b60abb4eec65dfefa73ee0b19647f6",
+    "file": "DowkerCharacterization.lean"
+  },
+  {
+    "sha256": "79b73d86d2b0994fe564a7157bc19d721a6c27e6f1bdc82d7dc0d907070954f5",
+    "file": "Insertion.lean"
+  },
+  {
+    "sha256": "59b7b7fd1213c6fd3efde54d849c78626f1860cb13b67f39197c533d1502510e",
+    "file": "InsertionReverse.lean"
+  },
+  {
+    "sha256": "a87b090733af7bed8c2d1c637da5158461368a52ee58990b9399ce4f07290b65",
+    "file": "Product.lean"
+  },
+  {
+    "sha256": "87e8f3184707a7239fde87aba9a82888085473e5b9da43d72b571fcc20e14672",
+    "file": "ProductReverse.lean"
+  },
+  {
+    "sha256": "cf414f44a25ed5f3eab1ce63ac68aa490ffa8d4200ef2f27c72f3dfe9459b56d",
+    "file": "Sequences.lean"
+  },
+  {
+    "sha256": "cece35e0fc3ef483bd3118b31d139b652ca138cc907a03b277dba8fd8f598db4",
+    "file": "Solution.lean"
+  },
+  {
+    "sha256": "20145677c30878bb6e55d617eaf79779903da0dbb685e16963f6760431166f2b",
+    "file": "Thresholds.lean"
+  }
+]
