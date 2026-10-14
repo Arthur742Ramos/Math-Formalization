@@ -7,7 +7,6 @@
 | Path components of punctured continuum hyperspaces | [topology/hyperspace-components](topology/hyperspace-components) | Paths between proper subcontinua exactly within a composant; uncountably many path components; Passed Palomar (author-confirmed 2026-10-07) | [Configuration](topology/hyperspace-components/comparator.json) |
 | Sorgenfrey covering theorems | [topology/sorgenfrey-covering](topology/sorgenfrey-covering) | Hereditary Lindelöfness; countable disjoint clopen refinements; hereditary paracompactness; plane non-Lindelöfness and non-paracompactness; Palomar preflight prepared | [Comparator configuration](topology/sorgenfrey-covering/comparator.json) |
 | Michael's biquotient-map theorems | [topology/michael-biquotient](topology/michael-biquotient) | Arbitrary biquotient products and the full Hausdorff-target identity-product characterization, with an explicit Hausdorff paracompact reverse witness; registry not submitted | [Comparator configuration](topology/michael-biquotient/comparator.json) |
-
 | Smirnov's local-to-global metrization | [topology/smirnov-local-metrization](topology/smirnov-local-metrization) | Full Hausdorff-paracompact-local criterion and arbitrary point-finite cover basis construction; verified source prepared, registry submission owned by parent | [Configuration](topology/smirnov-local-metrization/comparator.json) |
 
 Each directory has its own pinned toolchain, Lake project, independent Challenge,
