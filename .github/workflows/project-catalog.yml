@@ -1,0 +1,22 @@
+name: Project catalog
+on:
+  push:
+    branches: [main]
+    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'scripts/check_catalog.py', '.github/workflows/project-catalog.yml']
+  pull_request:
+    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'scripts/check_catalog.py', '.github/workflows/project-catalog.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  catalog:
+    name: Project catalog and preserved source checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check public records and unchanged project packages
+        run: python3 scripts/check_catalog.py --online --package-checks
