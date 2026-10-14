@@ -1,0 +1,17 @@
+{
+  "challenge_module": "SmirnovChallenge",
+  "solution_module": "SmirnovSolution",
+  "theorem_names": [
+    "Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover",
+    "Smirnov.metrizable_of_open_cover",
+    "Smirnov.LocallyMetrizable.metrizableSpace",
+    "Smirnov.metrizable_iff_explicit",
+    "Smirnov.metrizable_iff_paracompact",
+    "Smirnov.compatible_metric_iff"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

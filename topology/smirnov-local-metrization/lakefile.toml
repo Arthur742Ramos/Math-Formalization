@@ -1,0 +1,24 @@
+name = "smirnovLocalMetrization"
+version = "0.1.0"
+defaultTargets = ["Smirnov", "SmirnovChallenge", "SmirnovSolution", "AxiomAudit", "SemanticTests"]
+moreLeanArgs = ["-j2", "-M3072"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+
+[[lean_lib]]
+name = "NagataSmirnovSupport"
+[[lean_lib]]
+name = "PointFiniteBasis"
+[[lean_lib]]
+name = "Smirnov"
+[[lean_lib]]
+name = "SmirnovChallenge"
+[[lean_lib]]
+name = "SmirnovSolution"
+[[lean_lib]]
+name = "AxiomAudit"
+[[lean_lib]]
+name = "SemanticTests"

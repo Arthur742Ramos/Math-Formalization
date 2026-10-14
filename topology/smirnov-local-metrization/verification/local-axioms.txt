@@ -1,0 +1,12 @@
+'Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Smirnov.metrizable_of_open_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.LocallyMetrizable.metrizableSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.metrizable_iff_explicit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.metrizable_iff_paracompact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.compatible_metric_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.locallyMetrizable_of_metrizable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.metrizable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.compatibleMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Smirnov.compatibleMetric_topology' depends on axioms: [propext, Classical.choice, Quot.sound]

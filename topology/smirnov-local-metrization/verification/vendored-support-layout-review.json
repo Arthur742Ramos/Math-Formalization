@@ -1,0 +1,124 @@
+{
+  "review_type": "Independent read-only support vendoring, proof preservation, import binding and scope review",
+  "outcome": "pass",
+  "registered_source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+  "registered_entry": "PALOMAR-2026-10-14-000001",
+  "checks": {
+    "four_support_proofs_exact_except_attribution_and_import_paths": true,
+    "all_registered_and_adapted_hashes_verified": true,
+    "PointFinite_only_prerequisite_import_changed": true,
+    "other_five_Lean_payloads_unchanged": true,
+    "support_namespace_global_NagataSmirnov": true,
+    "all_prefixed_imports_bind_existing_sources": true,
+    "support_library_registered": true,
+    "umbrella_header_import_precedes_module_doc": true,
+    "nested_git_subdir_dependency_removed": true,
+    "six_selected_theorem_names_unchanged": true,
+    "permitted_axioms_unchanged": true,
+    "reuse_metadata_builds_on_registered_entry": true,
+    "no_NS_names_selected_as_new_results": true
+  },
+  "support_modules": [
+    {
+      "file": "SigmaBasis.lean",
+      "attribution_blocks": 1,
+      "proof_and_other_source_identical_after_allowed_edits": true,
+      "original_sha256": "42871f54aec2e0f0545c77baa18e44830cc483e10fa2460315d1a183564e20b7",
+      "adapted_sha256": "3c5a0a2980498206e7db8768fec248e02988d932a0844f05dc8728a6b4a1f173",
+      "provenance_original_hash_matches": true,
+      "provenance_adapted_hash_matches": true,
+      "namespaces": [
+        "namespace NagataSmirnov"
+      ],
+      "imports": [
+        "public import Mathlib.Topology.Separation.GDelta",
+        "public import Mathlib.Topology.LocallyFinite"
+      ]
+    },
+    {
+      "file": "CompatibleMetric.lean",
+      "attribution_blocks": 1,
+      "proof_and_other_source_identical_after_allowed_edits": true,
+      "original_sha256": "ead36939c5dfa80a073f583ef0950ca5fe6dc328b2c92b5bf4e8405ca51204d3",
+      "adapted_sha256": "c201a17bb7c460f637810005ff4f41c9ef7edb1ff21f18c118b7506e66ab09ed",
+      "provenance_original_hash_matches": true,
+      "provenance_adapted_hash_matches": true,
+      "namespaces": [
+        "namespace NagataSmirnov"
+      ],
+      "imports": [
+        "public import Mathlib.Topology.ContinuousMap.Bounded.Basic",
+        "public import Mathlib.Topology.LocallyFinite",
+        "public import Mathlib.Topology.Metrizable.Uniformity"
+      ]
+    },
+    {
+      "file": "MetricBasis.lean",
+      "attribution_blocks": 1,
+      "proof_and_other_source_identical_after_allowed_edits": true,
+      "original_sha256": "76ed80dffaa1f84294c56fd4c9f0e00549fcf17499a044b229957da4284f3455",
+      "adapted_sha256": "dd29e08b7ef315127bcd20cae9dc0356b1ba9ebd74691e02694e715d50998373",
+      "provenance_original_hash_matches": true,
+      "provenance_adapted_hash_matches": true,
+      "namespaces": [
+        "namespace NagataSmirnov"
+      ],
+      "imports": [
+        "public import Mathlib.Topology.EMetricSpace.Paracompact",
+        "public import Mathlib.Topology.Metrizable.Uniformity",
+        "public import Mathlib.Topology.Bases"
+      ]
+    },
+    {
+      "file": "Metrization.lean",
+      "attribution_blocks": 1,
+      "proof_and_other_source_identical_after_allowed_edits": true,
+      "original_sha256": "e9cf125058b483a31edfa3f91ce0ccc186b6652734bb9d7bfcf2757a9787bc14",
+      "adapted_sha256": "1fef9bfd314d3b4c2b5b70a4be89f77a89d4d7afdb843d9e6006ff73abf71ed3",
+      "provenance_original_hash_matches": true,
+      "provenance_adapted_hash_matches": true,
+      "namespaces": [
+        "namespace NagataSmirnov"
+      ],
+      "imports": [
+        "public import NagataSmirnovSupport.SigmaBasis",
+        "public import NagataSmirnovSupport.CompatibleMetric",
+        "public import NagataSmirnovSupport.MetricBasis",
+        "public import Mathlib.Topology.Separation.PerfectlyNormal"
+      ]
+    }
+  ],
+  "unchanged_Lean_payloads": [
+    {
+      "path": "Smirnov.lean",
+      "byte_identical": true,
+      "sha256": "e10ce717436b7c9a07fb76f07b3350248354ef367c8a8c5a39af144c4ecc2f81"
+    },
+    {
+      "path": "SmirnovChallenge.lean",
+      "byte_identical": true,
+      "sha256": "fb733160abf5cfd1e9af1aa97aa2890c47a4d3a080a6478aa94de69b08b53e5a"
+    },
+    {
+      "path": "SmirnovSolution.lean",
+      "byte_identical": true,
+      "sha256": "6f9df2d9f05ff7b42e66dec5191d38c1ac2f6962847c2b0f56fd2786c3ae2a58"
+    },
+    {
+      "path": "AxiomAudit.lean",
+      "byte_identical": true,
+      "sha256": "9a5cf0535336669aeb5266aa7bbeb1e30b1ec8d7e07f5129896defda631fc14a"
+    },
+    {
+      "path": "SemanticTests.lean",
+      "byte_identical": true,
+      "sha256": "6da03b2eb59c06d241a0874e3f6982e7ccf0e25b5c36131cb8feb0e0265b5382"
+    }
+  ],
+  "metadata_scope": "Ordinary full Smirnov local-to-global criterion and point-finite-cover basis construction only. Registered Nagata-Smirnov support is explicitly attributed and is not selected or claimed again. Original copyright, Apache-2.0 license and material AI attribution are retained.",
+  "build_layout": "Support sources belong to the root package under NagataSmirnovSupport; all substantive global names remain NagataSmirnov. Removing the Git/subDir dependency removes its unsupported nested .lake build path. The fixed sandbox and verification gates are unchanged.",
+  "canonical_challenge_sha256": "fb733160abf5cfd1e9af1aa97aa2890c47a4d3a080a6478aa94de69b08b53e5a",
+  "verification_limit": "No duplicate builds, hosted checks or registry actions were started. This read-only source review does not claim the repaired exact-commit build or kernel run passed; the parent owns those checks.",
+  "reviewer_source_changes": "None; only evidence outside the repository was written.",
+  "human_review_claimed": false
+}
