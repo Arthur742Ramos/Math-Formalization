@@ -1,0 +1,93 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Smirnov's local-to-global metrization theorem",
+    "description": "A space is metrizable if and only if it is Hausdorff, paracompact and locally metrizable. A reusable construction gives a sigma locally finite basis from any point-finite open cover of metrizable patches in a paracompact space, without a separation hypothesis. Local neighborhoods, the cover index and each basis layer may have arbitrary cardinality. The proof assumes no second countability, separability, local compactness or nonemptiness. Classical mathematics; no novelty or priority claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E35",
+      "54D20"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topology, second edition (2000), Section 42",
+      "authors": [
+        "James R. Munkres"
+      ],
+      "type": "book",
+      "id": "ISBN:9780131816299",
+      "relationship": "formalizes",
+      "note": "Theorem 42.1, printed pp.261–262. Actual statement and ball-cover proof independently checked. The arbitrary local metric ball cover is refined globally at each reciprocal radius; finite patch membership selects a common scale."
+    },
+    {
+      "title": "Geometric Aspects of General Topology, second-edition author manuscript (November 2, 2023)",
+      "authors": [
+        "Katsuro Sakai"
+      ],
+      "type": "book",
+      "id": "https://www.researchgate.net/publication/299698540_Metrization_and_Paracompact_Spaces",
+      "relationship": "formalizes",
+      "note": "Proposition 2.6.8(4), printed p.63; Section 2.6 footnote10 on p.56 explicitly assumes Hausdorff spaces. The actual uploaded manuscript was checked. Only ordinary metrizability is formalized; complete metrizability is outside scope."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1",
+      "relationship": "builds-on",
+      "note": "Registered full Nagata–Smirnov, public source commit6aa68b2cb67719a187e64de29567443575eb560e, topology/nagata-smirnov. Exact Git dependency; source included with attribution in canonical-only Challenge. This entry does not claim that theorem again."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Reuses precise paracompact open refinements, point finiteness, metric-space paracompactness, normality and inherited metric topologies. Current upstream a63713524b66f0b5681eaa2bfa83e7218c5cdbe5 and Palomar registry revision262 were independently audited for overlap."
+    }
+  ],
+  "status": {
+    "scope": "Full unrestricted Smirnov equivalence with explicit Hausdorffness, reusable arbitrary point-finite open-cover basis construction and an actual compatible metric.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gap in selected statements. Ordinary metrizability only; complete metrizability is outside scope. Parent campaign owns submission and registration; no registration is claimed without receipts."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proofs, tests and packaging under Arthur’s authorization. An independent agent authored PointFiniteBasis; separate read-only mathematical and implementation agents audited the assembled proof. AI review and machine verification are distinct from human review. Backend model identity and costs were not independently attested."
+      }
+    ],
+    "notes": "AI authorship is material and disclosed. Internal AI review and machine verification are distinguished from human or external peer review."
+  },
+  "fidelity": {
+    "divergences": "Mathlib ParacompactSpace omits Hausdorffness, so T2Space is explicit in the full conjunction. The local predicate uses open subsets with inherited topology, with no second countability. Munkres’s direct all-local-balls refinement proof is used; Sakai’s shrinking/gluing proof is not duplicated. A point-finite-cover lemma generalizes the locally finite cover argument. Canonical precise_refinement preserves the original index by grouping refinements, without cardinality restrictions. Registered Nagata–Smirnov supplies the final metric."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical reviewer",
+      "Independent internal OpenAI Codex implementation and overlap reviewer"
+    ],
+    "notes": "Read-only independent source and final-proof reviews; exact assumptions, universes, empty cases and arbitrary discrete cases audited. REVIEW.md records final hashes. No human review is claimed."
+  },
+  "acknowledgements": "Classical sources, Lean and Mathlib are credited above. Authors and responsible maintainers follow established repository conventions; material AI assistance is disclosed."
+}

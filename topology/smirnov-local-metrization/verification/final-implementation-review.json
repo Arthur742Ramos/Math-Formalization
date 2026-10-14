@@ -1,0 +1,83 @@
+{
+  "review_date": "2026-10-14",
+  "reviewer": "Independent implementation review by a separate OpenAI Codex agent; no human review claimed",
+  "scope": "Read-only review of final PointFiniteBasis.lean and Smirnov.lean; independent semantic and axiom probe outside repository",
+  "verdict": "No blocking proof-level correctness, scope, topology, universe, empty-space or public-interface issue found",
+  "files": {
+    "PointFiniteBasis.lean": {
+      "sha256": "6ed1264a71009cc55504d3fbdd30cbf16eb7223e0ccae3fcb0c2ff26e7276f15",
+      "physical_lines": 95,
+      "compiled_artifact_newer_than_source": true
+    },
+    "Smirnov.lean": {
+      "sha256": "e10ce717436b7c9a07fb76f07b3350248354ef367c8a8c5a39af144c4ecc2f81",
+      "physical_lines": 118,
+      "compiled_artifact_newer_than_source": true
+    }
+  },
+  "logical_review": [
+    "PointFiniteBasis selects a compatible metric separately on every open subtype. Mathlib metrizableSpaceMetric preserves the inherited subtype topology, so images of local metric balls are ambient-open.",
+    "The sigma cover index is arbitrary and may have a universe independent of the ambient space. precise_refinement acts on the cover of all local balls, and on_range gives locally finite set-valued layers without requiring a countable patch family.",
+    "At x, only the cover indices of patches containing x form a finite set. A common reciprocal radius is bounded by the radius chosen in every such patch. Any refining member containing x belongs to one of those patches, so the triangle inequality shows it lies inside the prescribed neighborhood. Finiteness is local; no global Fintype or Countable hypothesis occurs.",
+    "Smirnov first refines an arbitrary metrizable open cover locally finitely, inherits metrizability through subtype inclusion embeddings, and applies the reusable point-finite basis theorem.",
+    "The final sufficiency direction adds exactly explicit T2Space and ordinary Mathlib ParacompactSpace. Existing Mathlib paracompact-Hausdorff normality supplies regularity/T3 before the registered Nagata-Smirnov theorem is used.",
+    "LocallyMetrizable says every point has an ambient-open neighborhood with metrizable inherited topology. It includes membership of the point, and adds neither local separability nor local second countability.",
+    "The forward equivalence chooses a compatible global metric to reuse Mathlib metric paracompactness. The metric and actual-metric equivalence preserve the original topology; compatibleMetric_topology proves this with reducible metric extraction, and compatible_metric_iff replaces the supplied equal topology explicitly."
+  ],
+  "public_interface": [
+    "Both files have module headers, public imports and public sections. Smirnov exposes LocallyMetrizable and compatibleMetric definitions; compatibleMetric is instance-reducible.",
+    "No sorry, admit, custom axiom, unsafe declaration, implemented_by declaration or kernel/trust override appears in either proof module.",
+    "Empty spaces, empty local patches and arbitrary cardinality are allowed. Universes were verified by compilation with explicit independent u and v."
+  ],
+  "independent_verification": {
+    "probe": "smirnov-evidence/ReviewProbe.lean",
+    "exit_code": 0,
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+    "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "registered_nagata_smirnov_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+    "semantic_examples": [
+      "Arbitrary discrete X without countability or separability",
+      "IsEmpty X with any supplied topology",
+      "Real numbers with the discrete topology, a concrete uncountable case",
+      "Open-cover theorem with X : Type u and I : Type v independently",
+      "Point-finite basis theorem with independent universes and no extra T2 assumption"
+    ],
+    "axiom_closures": 10,
+    "allowed_axioms_only": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "warnings": "Two harmless letI style warnings in the independent real-number example; no proof errors or axiom warnings",
+    "audited_declarations": [
+      "Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover",
+      "Smirnov.locallyMetrizable_of_metrizable",
+      "Smirnov.metrizable_of_open_cover",
+      "Smirnov.LocallyMetrizable.metrizableSpace",
+      "Smirnov.metrizable_iff",
+      "Smirnov.metrizable_iff_explicit",
+      "Smirnov.metrizable_iff_paracompact",
+      "Smirnov.compatibleMetric",
+      "Smirnov.compatibleMetric_topology",
+      "Smirnov.compatible_metric_iff"
+    ]
+  },
+  "reuse_and_attribution": [
+    "Registered Nagata-Smirnov is an exact pinned dependency and is reused as the final basis-to-metric step; this is disclosed in imports and Lake manifest.",
+    "Existing Mathlib metric paracompactness, precise refinement, inclusion embeddings, normality of paracompact Hausdorff spaces and generic compatible-metric extraction are reused.",
+    "The source records Munkres Section 42 Theorem 42.1 and the actual Sakai 2023 manuscript title Geometric Aspects of General Topology, Proposition 2.6.8(4), with explicit Hausdorff convention.",
+    "AI contribution is disclosed, and no unsupported human-review or first-formalization claim appears in these source modules."
+  ],
+  "packaging": {
+    "PointFiniteBasis_registered_in_lakefile": true,
+    "note": null
+  },
+  "release_gates_not_certified": [
+    "Exact-commit Comparator, NanoDa and con-ron",
+    "Renderer and Challenge provenance",
+    "Final metadata/Challenge/Solution alignment",
+    "Publication and registry submission"
+  ],
+  "registry_actions_performed": false,
+  "registered_project_modified": false
+}
