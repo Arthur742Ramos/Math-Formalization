@@ -1,0 +1,59 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Perfect surjections and paracompactness",
+    "description": "A continuous closed surjection from a Hausdorff space, with compact fibres, preserves and reflects ordinary open-cover paracompactness. The paracompact image is proved Hausdorff without assuming target separation. Supporting selected results give inverse transfer without separation or surjectivity, forward transfer to a regular target, local finiteness of images of arbitrary indexed families, and the regular-space criterion using arbitrary locally finite refinements. No metrizability, countability, local compactness or uniform fibre-size assumption is imposed. The source is based on Munkres section 41 exercise 8 and Sakai Theorem 2.6.3(a),(e); it does not claim new mathematics.",
+    "authors": ["Arthur Freitas Ramos", "David Barros Hulak", "Ruy Jose Guerra Barretto de Queiroz"],
+    "responsible_maintainers": ["Arthur Freitas Ramos", "David Barros Hulak", "Ruy Jose Guerra Barretto de Queiroz"],
+    "license": "Apache-2.0"
+  },
+  "classification": {"arxiv": ["math.GN"], "msc2020": ["54D20", "54C10"]},
+  "sources": [
+    {
+      "title": "Topology, second edition (2000), section 41 exercise 8(a),(b)",
+      "authors": ["James R. Munkres"], "type": "book",
+      "id": "ISBN 978-0-13-181629-9", "relationship": "formalizes",
+      "note": "Printed p.260: perfect preimages preserve paracompactness and perfect images of paracompact Hausdorff spaces are paracompact Hausdorff. Section 31 exercise 7, p.199, defines perfect maps by continuity, closedness, surjectivity and compact fibres; exercise 6 supplies the normality-image lemma. Primary pages were visually checked independently."
+    },
+    {
+      "title": "Geometric Aspects of General Topology, second-edition manuscript, chapter 2 (November 2, 2023)",
+      "authors": ["Katsuro Sakai"], "type": "book",
+      "id": "https://www.researchgate.net/publication/299698540_Metrization_and_Paracompact_Spaces",
+      "relationship": "formalizes",
+      "note": "Theorem 2.6.3(a),(e), pp.58-60: the regular-space arbitrary locally finite refinement criterion. Only these two conditions are formalized. This refers to the author-uploaded second-edition text dated 2023, not the webpage's 2013 edition metadata."
+    },
+    {
+      "title": "Perfect maps between submetrizable spaces", "authors": ["Vlad Smolin"],
+      "type": "paper", "id": "https://arxiv.org/abs/2605.01509", "relationship": "background",
+      "note": "Contemporary general-topology research context involving perfect maps and paracompact spaces. Its additional submetrizability results are not part of this formalization."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on", "note": "Reuses the canonical topology, proper-map and locally finite family APIs. AUDIT.md records the pinned-source overlap check. No first-ever formalization claim."
+    }
+  ],
+  "status": {
+    "scope": "Full perfect-surjection paracompactness invariant and image separation, with the four explicitly selected supporting generalizations and criterion.",
+    "sorry_count": 0, "sorry_in_definitions": 0,
+    "axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "known_gaps": "No mathematical gaps in the selected statements are intended. Local Lean elaboration, semantic edge-case tests and declaration axiom checks are recorded separately. Exact-commit hosted mechanical and renderer evidence is required before intake and is reported in the submission packet. Other paracompactness characterizations in Sakai are outside the scope."
+  },
+  "automation": {
+    "methods": [
+      {"method": "agent", "tool_setup": "OpenAI Codex authored the substantive Lean proof, packaging, tests and metadata under Arthur's authorization. Exact backend model identity and costs were not independently attested."},
+      {"method": "agent", "tool_setup": "A separate OpenAI Codex agent performed read-only independent mathematical source-fidelity, scope, overlap and implementation review. It did not edit or compile sources. Reviewed hashes and limitations are in REVIEW.md."}
+    ],
+    "notes": "Machine verification and internal AI review are distinguished. No human mathematical review or external peer review is claimed."
+  },
+  "fidelity": {
+    "divergences": "The forward proof constructs open refinements from arbitrary locally finite image refinements using two cover refinements. The inverse theorem removes separation and surjectivity; forward transfer is separately stated for a regular target. These stronger statements are proved, not assumed. The main theorem requires only a Hausdorff domain and the standard perfect-surjection map conditions."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": ["Independent internal OpenAI Codex mathematical source reviewer"],
+    "notes": "Independent primary-source and mathematical construction review; frozen implementation and metadata scope are recorded in REVIEW.md. Machine checks are not represented as human review or registry acceptance."
+  },
+  "acknowledgements": "Classical topology sources are credited above. Lean and Mathlib supply foundational libraries; material Codex authorship is disclosed."
+}
