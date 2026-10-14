@@ -1,0 +1,79 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "The full Nagata–Smirnov metrization theorem",
+    "description": "A regular Hausdorff space is metrizable if and only if it has an open basis expressed as a countable union of locally finite families. Every layer can have arbitrary cardinality. The development proves the necessity using metric paracompactness, perfect normality from the basis, continuity of arbitrary locally finite bounded coordinates, and a compatible metric via a countable product of metric function spaces. It assumes neither second countability nor separability and includes empty spaces. This formalizes classical mathematics, without claiming new mathematics or first formalization priority.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E35",
+      "54D20",
+      "54D15"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Geometric Aspects of General Topology, second-edition author manuscript (November 2, 2023), chapter 2: Metrizability, Paracompactness, and Related Properties",
+      "authors": [
+        "Katsuro Sakai"
+      ],
+      "type": "book",
+      "id": "https://www.researchgate.net/publication/299698540_Metrization_and_Paracompact_Spaces",
+      "relationship": "formalizes",
+      "note": "Theorem 2.3.4(a),(c), printed p.44, and Lemma 2.3.3, pp.43–44. The actual author-uploaded second-edition text, including full scope and arbitrary layers, was independently checked. The webpage metadata names a 2013 chapter; this project references its uploaded 2023 manuscript. The sigma-discrete Bing equivalence (b) is outside scope."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Reuses metric-space paracompactness, precise refinements, Urysohn functions, perfect normal cozero characterization, bounded continuous functions and countably generated uniformity metrization. Existing second-countable Urysohn metrization is credited and not claimed as a new result. Current upstream overlap checked separately."
+    }
+  ],
+  "status": {
+    "scope": "Full Nagata–Smirnov equivalence for Lean T3Space, with arbitrary locally finite layers and explicit compatible metric existence. Reusable basis, perfect-normality and metric-coordinate infrastructure.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gap in the selected statements. Internal AI reviews, local tests and exact-commit hosted mechanical and renderer checks are recorded separately. Palomar submission and registration require receipt evidence and are owned by the parent campaign task. No Bing sigma-discrete equivalence is claimed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored the substantive proof, metadata, packaging and tests under Arthur’s authorization. Two independent internal agents authored basis and necessity modules; separate read-only mathematical and implementation reviews checked the other modules. Exact backend model identity and costs were not independently attested."
+      }
+    ],
+    "notes": "AI authorship is material and disclosed. Internal AI review and machine verification are distinguished from human or external peer review."
+  },
+  "fidelity": {
+    "divergences": "Lean T3Space means regular plus T0, and entails Hausdorff separation; it expresses the requested regular Hausdorff convention. The basis is an actual union of ℕ-indexed sets of open sets, each layer locally finite via its subtype index. The source’s ℓ¹(B_n) embedding is replaced by bounded functions with the uniform metric, followed by a countable-product uniformity and compatible metric extraction. Local finiteness proves continuity for this metric. No countability assumption on B_n is introduced."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical reviewer",
+      "Independent internal OpenAI Codex implementation and overlap reviewer"
+    ],
+    "notes": "Read-only reviews of the assembled proof, assumptions, source fidelity, empty cases, unbounded cardinalities and reusable definitions. REVIEW.md records hashes and limitations; no human review is claimed."
+  },
+  "acknowledgements": "Classical sources, Lean and Mathlib are credited above. Authors and responsible maintainers follow established repository conventions; material AI assistance is disclosed."
+}

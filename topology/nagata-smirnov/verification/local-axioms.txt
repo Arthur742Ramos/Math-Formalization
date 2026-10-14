@@ -1,0 +1,19 @@
+'NagataSmirnov.exists_sigmaLocallyFiniteBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.continuous_boundedCoordinates' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.basisShrinkLayer_isOpen' depends on axioms: [propext, Quot.sound]
+'NagataSmirnov.closure_basisShrinkLayer_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.iUnion_basisShrinkLayer_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.HasSigmaLocallyFiniteBasis.exists_open_exhaustion' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'NagataSmirnov.HasSigmaLocallyFiniteBasis.normalSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.HasSigmaLocallyFiniteBasis.perfectlyNormalSpace' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'NagataSmirnov.pseudoMetrizable_of_cozero_basis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.HasSigmaLocallyFiniteBasis.metrizableSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.nagata_smirnov' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.compatibleMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.compatibleMetric_topology' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.metrizable_iff_sigmaLocallyFiniteBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NagataSmirnov.compatible_metric_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
