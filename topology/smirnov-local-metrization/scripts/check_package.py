@@ -10,8 +10,17 @@ def check(log,write):
     for name,rev in [('mathlib','065356127b1dc0016f66b7283ce0ce2c4055aa55'),('nagataSmirnov','6aa68b2cb67719a187e64de29567443575eb560e')]:
         assert next(p for p in lock['packages'] if p['name']==name)['rev']==rev
     config=json.loads((ROOT/'comparator.json').read_text());assert set(config['permitted_axioms'])==AXIOMS
+    workflows=ROOT.parents[1]/'.github/workflows'
+    for name in ['palomar-smirnov.yml','palomar-smirnov-renderer.yml']:
+        text=(workflows/name).read_text()
+        assert '.github/workflows/'+name in text
+        assert "branches: ['topology/smirnov-local-metrization']" in text
+    request=re.search(r'^\s+request_id: (\S+)\s*$',(workflows/'palomar-smirnov.yml').read_text(),re.M)
+    assert request and re.fullmatch(r'[0-9a-z]{12}',request.group(1))
     assert len(config['theorem_names'])==6
-    challenge=(ROOT/'Challenge.lean').read_text(encoding='utf-8')
+    assert config['challenge_module']=='SmirnovChallenge'
+    assert config['solution_module']=='SmirnovSolution'
+    challenge=(ROOT/'SmirnovChallenge.lean').read_text(encoding='utf-8')
     assert len(challenge.splitlines())<=1000 and len(challenge.encode())<=100*1024
     assert all(x.startswith('Mathlib.') for x in re.findall(r'^public import (\S+)$',challenge,re.M))
     metadata=json.loads((ROOT/'formalization.yaml').read_text(encoding='utf-8'))
@@ -30,7 +39,7 @@ def check(log,write):
         assert len(reports)==10,len(reports)
         for name in config['theorem_names']:assert name in reports,name
         assert all({s.strip() for s in a.split(',') if s.strip()}<=AXIOMS for a in reports.values())
-    for name in ['lakefile.toml','lake-manifest.json','lean-toolchain','comparator.json','formalization.yaml','README.md','AUDIT.md','DEFINITIONS.md','REVIEW.md']:
+    for name in ['lakefile.toml','lake-manifest.json','lean-toolchain','comparator.json','formalization.yaml','README.md','AUDIT.md','DEFINITIONS.md','REVIEW.md','scripts/check_package.py','scripts/check-local.ps1']:
         hashes[name]=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
     if write:
         (ROOT/'verification').mkdir(exist_ok=True)

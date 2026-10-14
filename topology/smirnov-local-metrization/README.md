@@ -18,9 +18,13 @@ Build from this directory with `lake build`. Exact toolchain:
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`. The registered Nagata–Smirnov
 package is a Git dependency at commit
 `6aa68b2cb67719a187e64de29567443575eb560e`, subdirectory
-`topology/nagata-smirnov`. `Challenge.lean` includes that attributed source and
-the new construction with canonical Mathlib imports; `Solution.lean` exports
+`topology/nagata-smirnov`. `SmirnovChallenge.lean` includes that attributed source and
+the new construction with canonical Mathlib imports; `SmirnovSolution.lean` exports
 the reusable modules. The Comparator selects six new results only.
+
+These module identities are unique within the dependency workspace. Verso's
+source lookup must not select the prerequisite's generic `Challenge.lean`;
+the unique names also prevent its generic `Solution.lean` from shadowing exports.
 
 Sources: Munkres, *Topology*, second edition, Theorem 42.1, pp.261–262; Sakai,
 *Geometric Aspects of General Topology*, second-edition author manuscript dated

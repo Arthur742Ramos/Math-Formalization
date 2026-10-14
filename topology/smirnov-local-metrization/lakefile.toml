@@ -1,6 +1,6 @@
 name = "smirnovLocalMetrization"
 version = "0.1.0"
-defaultTargets = ["Smirnov", "Challenge", "Solution", "AxiomAudit", "SemanticTests"]
+defaultTargets = ["Smirnov", "SmirnovChallenge", "SmirnovSolution", "AxiomAudit", "SemanticTests"]
 moreLeanArgs = ["-j2", "-M3072"]
 
 [[require]]
@@ -19,9 +19,9 @@ name = "PointFiniteBasis"
 [[lean_lib]]
 name = "Smirnov"
 [[lean_lib]]
-name = "Challenge"
+name = "SmirnovChallenge"
 [[lean_lib]]
-name = "Solution"
+name = "SmirnovSolution"
 [[lean_lib]]
 name = "AxiomAudit"
 [[lean_lib]]

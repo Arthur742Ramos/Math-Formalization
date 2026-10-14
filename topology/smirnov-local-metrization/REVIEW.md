@@ -24,3 +24,11 @@ The canonical Challenge deterministically includes the previously registered
 Nagata–Smirnov proof with explicit attribution and appends these two modules.
 Only the six new selected results enter this target's Comparator configuration.
 The complete source and package hashes are in `verification/source-hashes.json`.
+
+Independent repair review also passed on 2026-10-14. It verified the exact
+12-character intake boundary, Verso's actual source-search collision with the
+registered prerequisite, and the corrected unique Challenge/Solution module
+identities and file bindings. All six Lean payloads remain byte-identical to
+the initial reviewed proof. The uniquely named modules were recompiled with
+the exact toolchain. Full kernel, provenance, renderer and failure gates remain
+unchanged; hosted exact-commit reports are required separately.

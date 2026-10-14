@@ -1,6 +1,6 @@
 {
-  "challenge_module": "Challenge",
-  "solution_module": "Solution",
+  "challenge_module": "SmirnovChallenge",
+  "solution_module": "SmirnovSolution",
   "theorem_names": [
     "Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover",
     "Smirnov.metrizable_of_open_cover",

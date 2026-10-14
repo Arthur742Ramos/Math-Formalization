@@ -27,3 +27,12 @@ because it includes the credited prerequisite. It remains below the hard
 1,000-line and 100 KiB bounds. Exact-commit Comparator, NanoDa, con-ron and
 renderer results must accompany the final packet; local verification alone is
 not presented as those hosted checks. No Palomar receipt is claimed here.
+
+An initial preparation run stopped before Lean because its internal request ID
+had 13 characters instead of the required 12. It is corrected to `smirnov00001`;
+the package check now checks that boundary and the workflow self-path filters.
+An initial renderer built successfully but found no selected declaration anchors:
+Verso resolved the prerequisite's generic `Challenge.lean` via `LEAN_SRC_PATH`.
+The unique `SmirnovChallenge` and `SmirnovSolution` module identities remove that
+collision. These repairs preserve all six Lean source payloads and all selected
+declaration names. Exact-commit verification gates remain unchanged.

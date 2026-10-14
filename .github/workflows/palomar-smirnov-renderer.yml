@@ -2,7 +2,7 @@ name: Smirnov local metrization Challenge renderer preflight
 on:
   push:
     branches: ['topology/smirnov-local-metrization']
-    paths: ['topology/smirnov-local-metrization/**', '.github/workflows/palomar-smirnov-local-metrization-renderer.yml']
+    paths: ['topology/smirnov-local-metrization/**', '.github/workflows/palomar-smirnov-renderer.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -62,10 +62,10 @@ jobs:
           python -m scripts.render_challenge prepare \
             --repository Arthur742Ramos/Math-Formalization \
             --commit ${{ github.sha }} \
-            --challenge-sha256 "$(sha256sum "$GITHUB_WORKSPACE/source/topology/smirnov-local-metrization/Challenge.lean" | cut -d' ' -f1)" \
+            --challenge-sha256 "$(sha256sum "$GITHUB_WORKSPACE/source/topology/smirnov-local-metrization/SmirnovChallenge.lean" | cut -d' ' -f1)" \
             --project-path topology/smirnov-local-metrization \
-            --challenge-path topology/smirnov-local-metrization/Challenge.lean \
-            --solution-path topology/smirnov-local-metrization/Solution.lean \
+            --challenge-path topology/smirnov-local-metrization/SmirnovChallenge.lean \
+            --solution-path topology/smirnov-local-metrization/SmirnovSolution.lean \
             --comparator-config-path topology/smirnov-local-metrization/comparator.json \
             --lakefile-path topology/smirnov-local-metrization/lakefile.toml \
             --lean-toolchain-path topology/smirnov-local-metrization/lean-toolchain \

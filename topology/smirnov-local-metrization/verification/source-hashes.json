@@ -1,17 +1,19 @@
 {
   "AxiomAudit.lean": "9a5cf0535336669aeb5266aa7bbeb1e30b1ec8d7e07f5129896defda631fc14a",
-  "Challenge.lean": "fb733160abf5cfd1e9af1aa97aa2890c47a4d3a080a6478aa94de69b08b53e5a",
   "PointFiniteBasis.lean": "6ed1264a71009cc55504d3fbdd30cbf16eb7223e0ccae3fcb0c2ff26e7276f15",
   "SemanticTests.lean": "6da03b2eb59c06d241a0874e3f6982e7ccf0e25b5c36131cb8feb0e0265b5382",
   "Smirnov.lean": "e10ce717436b7c9a07fb76f07b3350248354ef367c8a8c5a39af144c4ecc2f81",
-  "Solution.lean": "6f9df2d9f05ff7b42e66dec5191d38c1ac2f6962847c2b0f56fd2786c3ae2a58",
-  "lakefile.toml": "44d0813488217dfce193f58b1e51658b9bfec7c463563659baba76aa07315048",
+  "SmirnovChallenge.lean": "fb733160abf5cfd1e9af1aa97aa2890c47a4d3a080a6478aa94de69b08b53e5a",
+  "SmirnovSolution.lean": "6f9df2d9f05ff7b42e66dec5191d38c1ac2f6962847c2b0f56fd2786c3ae2a58",
+  "lakefile.toml": "bf8c1199719ff9d447162226c5319f7a9ae29954897097f66636078739091243",
   "lake-manifest.json": "4b894dbbc893c11d512006638ef0ad5a5ff45e4d94b4111f0390024165e75571",
   "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
-  "comparator.json": "3f78ba9213888c251ef857ba77aa230ee75ebc617cf58063155dce708fc2fbc6",
+  "comparator.json": "23aec854db1364b539bf4e6394344ccd22279d687dc3ae4f0c63bfc7d0ca7776",
   "formalization.yaml": "11ac33daaadbde247d9559375fad6af47accba186e918e586883a358eeddba1c",
-  "README.md": "6d5d09433ac3c620702db08cf563804a7b22f1b333f9dc6599996077313aa0b8",
-  "AUDIT.md": "fc8a9bcb28377f686db44cbe42e1ef16746afd0938196a3599558367dfdc37ac",
+  "README.md": "0afe92a47ad1b1aca1ba8346a45c17a97da95a51ff1afdec3606a95450b3b149",
+  "AUDIT.md": "3952468e21cf9048cce96b2e0e48929a4b0693412a9171528fcb27d61c78eb3c",
   "DEFINITIONS.md": "f1b0cb98f7a5fcf2ad54515d34fbf0d816341f707fdbca5b4abee43287ba02ad",
-  "REVIEW.md": "0cd5db589204d638e4c2f7a298bac232ab8c21dd1ea946fba8514fba0284db59"
+  "REVIEW.md": "3c3071da70aefb3e27e13c6eb410fe27246d78c46f3b4af7fc33bdf4d550d29d",
+  "scripts/check_package.py": "736f4c60a6b1327f5477ecad2ed9d8b671861bf34c9395fe85a5b54f155630d8",
+  "scripts/check-local.ps1": "8e40c5d018c0638cb17829518d0f63987d45f31e99f37783c72782a66e080887"
 }
