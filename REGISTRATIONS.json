@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "checked_date": "2026-10-14",
+  "registry_revision": 268,
+  "registry_release": "747f7c5f6c7e0a4c246f7a3c9aa9e0b290242234330eca5f5dd876a5377b56f5",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "projects": [
+    {
+      "name": "Alexandroff property and composant foundations",
+      "path": "topology/composants",
+      "scope": "Alexandroff property of metric indecomposable continua and eight classical composant results.",
+      "source_snapshot": {
+        "commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+        "tree": "1cfb5f0255154585ce0846eb4bfc82ca301e3426"
+      },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-07-000003",
+        "version": 1,
+        "source_commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-07-000003&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-07-000003-v1.json",
+        "theorem_names": [
+          "Composants.mem_composant_self",
+          "Composants.dense_composant",
+          "Composants.isConnected_composant",
+          "Composants.composants_eq_or_disjoint",
+          "Composants.iUnion_composant",
+          "Composants.composant_countable_union",
+          "Composants.isMeagre_composant",
+          "Composants.uncountably_many_composants",
+          "Composants.alexandroff_continua"
+        ]
+      }
+    },
+    {
+      "name": "Order arcs between subcontinua",
+      "path": "topology/order-arcs",
+      "scope": "Embedded increasing interval between strictly nested subcontinua of compact metric spaces.",
+      "source_snapshot": {
+        "commit": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+        "tree": "4848af2a036554e7868748d8b065d19ac842ccda"
+      },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-07-000008",
+        "version": 1,
+        "source_commit": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-07-000008&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-07-000008-v1.json",
+        "theorem_names": [
+          "OrderArcs.exists_order_arc"
+        ]
+      }
+    },
+    {
+      "name": "Path components of punctured continuum hyperspaces",
+      "path": "topology/hyperspace-components",
+      "scope": "Path classification by composants and uncountably many path components.",
+      "source_snapshot": {
+        "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "tree": "c67c5fa5ccfd015bd1cf59d23cc988e3468d735b"
+      },
+      "status": "no-public-registration-found"
+    },
+    {
+      "name": "Sorgenfrey covering theorems",
+      "path": "topology/sorgenfrey-covering",
+      "scope": "Hereditary Lindelofness and paracompactness, disjoint clopen refinements, and plane non-Lindelofness and non-paracompactness.",
+      "source_snapshot": {
+        "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508"
+      },
+      "status": "no-public-registration-found"
+    },
+    {
+      "name": "Whitney reversibility of hereditary decomposability",
+      "path": "topology/whitney-reversibility",
+      "scope": "Sequential strong Whitney reversibility, assuming a Whitney map, and relative indecomposable level families.",
+      "source_snapshot": {
+        "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "tree": "f2842822fbe0cf114d2275e6eb862c2aa097cfd4"
+      },
+      "status": "no-public-registration-found"
+    },
+    {
+      "name": "Michael's biquotient-map theorems",
+      "path": "topology/michael-biquotient",
+      "scope": "Arbitrary biquotient products and the full Hausdorff-target identity-product characterization.",
+      "source_snapshot": {
+        "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "tree": "810c570566c6931845fcebe77f236fdee2308183"
+      },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-11-000013",
+        "version": 1,
+        "source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-11-000013&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-11-000013-v1.json",
+        "theorem_names": [
+          "Michael.IsBiquotientMap.piMap",
+          "Michael.IsBiquotientMap.prod_id_isQuotientMap",
+          "Michael.isBiquotientMap_iff_all_tests",
+          "Michael.isBiquotientMap_iff_paracompact_tests",
+          "Michael.isBiquotientMap_iff_liftsClusterPoints",
+          "Michael.isBiquotientMap_iff_liftsUltrafilters",
+          "Michael.exists_t2_paracompact_counterexample"
+        ]
+      }
+    },
+    {
+      "name": "Dowker's characterization",
+      "path": "topology/dowker-characterization",
+      "scope": "Normality and countable paracompactness, interval-product normality, strict insertion, and compact metrizable products.",
+      "source_snapshot": {
+        "commit": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+        "tree": "be811d6a18a24a87d6273dfec63c7ff66e2ad3f3"
+      },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-12-000003",
+        "version": 1,
+        "source_commit": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-12-000003&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-12-000003-v1.json",
+        "theorem_names": [
+          "Dowker.normal_countablyParacompact_iff_normal_interval_product",
+          "Dowker.normal_countablyParacompact_iff_strict_insertion",
+          "Dowker.normal_interval_product_iff_strict_insertion",
+          "Dowker.CountablyParacompact.normal_compact_metrizable_product",
+          "Dowker.countablyParacompact_iff_nat_precise",
+          "Dowker.countablyParacompact_iff_closed_sequence_property"
+        ]
+      }
+    },
+    {
+      "name": "Perfect surjections and paracompactness",
+      "path": "topology/perfect-paracompact",
+      "scope": "Preservation and reflection of paracompactness, image separation, and locally finite refinements.",
+      "source_snapshot": {
+        "commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+        "tree": "baca6f44ce058696932713450c53d4afdc90f1f3"
+      },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-13-000004",
+        "version": 1,
+        "source_commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-13-000004&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-13-000004-v1.json",
+        "theorem_names": [
+          "PerfectParacompact.paracompact_iff",
+          "PerfectParacompact.paracompact_t2_image",
+          "PerfectParacompact.paracompact_preimage",
+          "PerfectParacompact.paracompact_image",
+          "PerfectParacompact.locallyFinite_image",
+          "PerfectParacompact.paracompact_iff_refinements"
+        ]
+      }
+    },
+    {
+      "name": "Full Nagata-Smirnov metrization",
+      "path": "topology/nagata-smirnov",
+      "scope": "Regular Hausdorff metrization iff a sigma locally finite open basis exists, with arbitrary layer cardinality.",
+      "source_snapshot": {
+        "commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+        "tree": "2cc9cfa6424db0ddd04071a614ab652f89d4d888"
+      },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-14-000001",
+        "version": 1,
+        "source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-14-000001-v1.json",
+        "theorem_names": [
+          "NagataSmirnov.nagata_smirnov",
+          "NagataSmirnov.metrizable_iff_sigmaLocallyFiniteBasis",
+          "NagataSmirnov.compatible_metric_iff",
+          "NagataSmirnov.HasSigmaLocallyFiniteBasis.perfectlyNormalSpace",
+          "NagataSmirnov.pseudoMetrizable_of_cozero_basis",
+          "NagataSmirnov.continuous_boundedCoordinates"
+        ]
+      }
+    },
+    {
+      "name": "Smirnov local-to-global metrization",
+      "path": "topology/smirnov-local-metrization",
+      "scope": "Metrizability iff Hausdorff, paracompact and locally metrizable; point-finite-cover basis construction.",
+      "source_snapshot": {
+        "commit": "20375446decf52134cb2788640fe19b580002c05",
+        "tree": "0a9e8364638d263b6f6ff6965ffa8794b9dc27b7"
+      },
+      "status": "registration-pending"
+    }
+  ]
+}

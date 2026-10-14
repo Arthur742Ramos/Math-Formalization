@@ -1,18 +1,29 @@
 # Projects
 
-| Project | Directory | Result | Comparator |
+Public registration status checked on 2026-10-14 against official Palomar registry
+revision 268. Registration applies to each linked source commit and version.
+Package notes retain their original development and verification history.
+
+| Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| Nagata–Smirnov metrization | [topology/nagata-smirnov](topology/nagata-smirnov) | Full regular Hausdorff metrization criterion with arbitrary sigma locally finite basis layers and compatible metric infrastructure; draft verification | [Configuration](topology/nagata-smirnov/comparator.json) |
-| Alexandroff property and composant foundations | [topology/composants](topology/composants) | Todorov–Valov Theorem 3.3 and eight classical composant results; Passed Palomar review (author-confirmed 2026-10-06) | [Configuration](topology/composants/comparator.json) |
-| Order arcs between subcontinua | [topology/order-arcs](topology/order-arcs) | Order arcs between strict pairs of subcontinua in compact metric spaces; Passed Palomar (author-confirmed 2026-10-07) | [Configuration](topology/order-arcs/comparator.json) |
-| Path components of punctured continuum hyperspaces | [topology/hyperspace-components](topology/hyperspace-components) | Paths between proper subcontinua exactly within a composant; uncountably many path components; Passed Palomar (author-confirmed 2026-10-07) | [Configuration](topology/hyperspace-components/comparator.json) |
-| Sorgenfrey covering theorems | [topology/sorgenfrey-covering](topology/sorgenfrey-covering) | Hereditary Lindelöfness; countable disjoint clopen refinements; hereditary paracompactness; plane non-Lindelöfness and non-paracompactness; Palomar preflight prepared | [Comparator configuration](topology/sorgenfrey-covering/comparator.json) |
-| Michael's biquotient-map theorems | [topology/michael-biquotient](topology/michael-biquotient) | Completed and registered as PALOMAR-2026-10-11-000013 v1; arbitrary biquotient products and the full Hausdorff-target identity-product characterization, with an explicit Hausdorff paracompact reverse witness | [Comparator configuration](topology/michael-biquotient/comparator.json) |
-| Perfect surjections and paracompactness | [topology/perfect-paracompact](topology/perfect-paracompact) | Full perfect-surjection invariant, image separation and locally finite refinement criterion; verification prepared | [Configuration](topology/perfect-paracompact/comparator.json) |
-| Smirnov's local-to-global metrization | [topology/smirnov-local-metrization](topology/smirnov-local-metrization) | Full Hausdorff-paracompact-local criterion and arbitrary point-finite cover basis construction; verified source prepared, registry submission owned by parent | [Configuration](topology/smirnov-local-metrization/comparator.json) |
+| [Alexandroff property and composant foundations](topology/composants) | Alexandroff property of metric indecomposable continua and eight classical composant results. | Registered: [PALOMAR-2026-10-07-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-07-000003&version=1) | [`53be25d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/53be25d26551d18b006d3a625fc5b145cc73cebd/topology/composants) |
+| [Order arcs between subcontinua](topology/order-arcs) | Embedded increasing interval between strictly nested subcontinua of compact metric spaces. | Registered: [PALOMAR-2026-10-07-000008 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-07-000008&version=1) | [`8b802e2`](https://github.com/Arthur742Ramos/Math-Formalization/tree/8b802e2f62a31b08276a67021cd40f6941c5c256/topology/order-arcs) |
+| [Path components of punctured continuum hyperspaces](topology/hyperspace-components) | Path classification by composants and uncountably many path components. | No public registration found | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/hyperspace-components) |
+| [Sorgenfrey covering theorems](topology/sorgenfrey-covering) | Hereditary Lindelofness and paracompactness, disjoint clopen refinements, and plane non-Lindelofness and non-paracompactness. | No public registration found | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/sorgenfrey-covering) |
+| [Whitney reversibility of hereditary decomposability](topology/whitney-reversibility) | Sequential strong Whitney reversibility, assuming a Whitney map, and relative indecomposable level families. | No public registration found | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/whitney-reversibility) |
+| [Michael's biquotient-map theorems](topology/michael-biquotient) | Arbitrary biquotient products and the full Hausdorff-target identity-product characterization. | Registered: [PALOMAR-2026-10-11-000013 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-11-000013&version=1) | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/michael-biquotient) |
+| [Dowker's characterization](topology/dowker-characterization) | Normality and countable paracompactness, interval-product normality, strict insertion, and compact metrizable products. | Registered: [PALOMAR-2026-10-12-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-12-000003&version=1) | [`ccc3ca4`](https://github.com/Arthur742Ramos/Math-Formalization/tree/ccc3ca43dc26c6774f2afd7f2b2223066451c362/topology/dowker-characterization) |
+| [Perfect surjections and paracompactness](topology/perfect-paracompact) | Preservation and reflection of paracompactness, image separation, and locally finite refinements. | Registered: [PALOMAR-2026-10-13-000004 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-13-000004&version=1) | [`984a610`](https://github.com/Arthur742Ramos/Math-Formalization/tree/984a610395e195b8d3ca0cd88282ef343e74d33d/topology/perfect-paracompact) |
+| [Full Nagata-Smirnov metrization](topology/nagata-smirnov) | Regular Hausdorff metrization iff a sigma locally finite open basis exists, with arbitrary layer cardinality. | Registered: [PALOMAR-2026-10-14-000001 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1) | [`6aa68b2`](https://github.com/Arthur742Ramos/Math-Formalization/tree/6aa68b2cb67719a187e64de29567443575eb560e/topology/nagata-smirnov) |
+| [Smirnov local-to-global metrization](topology/smirnov-local-metrization) | Metrizability iff Hausdorff, paracompact and locally metrizable; point-finite-cover basis construction. | Registration pending | [`2037544`](https://github.com/Arthur742Ramos/Math-Formalization/tree/20375446decf52134cb2788640fe19b580002c05/topology/smirnov-local-metrization) |
 
-Each directory has its own pinned toolchain, Lake project, independent Challenge,
-Comparator configuration, metadata, definition evidence, and verification scripts.
-Run its commands from that directory. Existing repositories remain separate.
+[REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
+tree hashes and versioned public records. A registered supporting theorem does
+not confer registration on a project that reuses it. In particular, Boundary
+Bumping is reused by the hyperspace and Whitney developments; their results
+have no public registration found in this snapshot.
 
-- [Dowker's characterization](topology/dowker-characterization): ordinary countable paracompactness, interval-product normality, strict semicontinuous insertion, and compact metrizable products.
+Each directory owns its toolchain, Lake configuration, lockfile, Challenge,
+Comparator metadata and verification scripts. Run build commands from that
+directory. The catalog check verifies preserved project trees and public record
+bindings; it does not rerun Lean or claim a new Palomar verification of main.
