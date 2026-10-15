@@ -1,0 +1,20 @@
+{
+  "challenge_module": "PerfectImageChallenge",
+  "solution_module": "PerfectImageSolution",
+  "theorem_names": [
+    "PerfectImage.exists_radius_star_subset",
+    "PerfectImage.sigmaLocallyFiniteBasis_image",
+    "PerfectImage.metrizable_image",
+    "PerfectImage.metrizable_image_of_proper",
+    "PerfectImage.exists_compatibleMetric"
+  ],
+  "definition_names": [
+    "PerfectImage.upperImage",
+    "PerfectImage.fiberNeighborhood"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

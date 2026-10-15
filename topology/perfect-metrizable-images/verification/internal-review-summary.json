@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-15",
+  "review_kind": "Independent internal AI review; no human review claimed",
+  "mathematical_review": "pass: source fidelity, definitions, unrestricted proof and actual compatible topology",
+  "implementation_review": "pass: proof contract, canonical Challenge, exact registered support, configuration, semantic and transitive axiom probes",
+  "selected_theorems": 5,
+  "selected_definitions": 2,
+  "reviewed_source_sha256": {
+    "FiberNeighborhoods.lean": "71f5863ba730be11b14d095c47960174046a23e8a9343f8afd21fae7dfb04aa7",
+    "PerfectImage.lean": "bce4d83fb7ee1cc01757b49d1248657fe930e6011eafb1644dfd6a2ab201afb8",
+    "PerfectImageChallenge.lean": "cdb3c9a9490d0d481a64232d228d0990e1ec35d4d15af97a76e2edeec72f01ed",
+    "PerfectImageSolution.lean": "be73fdd88ab1b390b800799f3b37215567e685a49fe40a499004929ffbaf0f00",
+    "SemanticTests.lean": "58993e36579459ead66593f0d0e48b5f1538d2ad120798b5f375831a3c372fc1",
+    "AxiomAudit.lean": "6a384e6d1d0df6e58efed906feae39831bfa95b7af769ac507aaafce89680143"
+  },
+  "local_build": "pass: new modules, canonical Challenge, modular Solution, semantic tests and 15-declaration axiom audit",
+  "axiom_allowlist": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "hosted_verification": "Recorded separately at the exact public source commit; local results do not substitute for hosted receipts.",
+  "human_review_claimed": false
+}
