@@ -1,0 +1,34 @@
+{
+  "id": "PALOMAR-2026-10-15-000016",
+  "version": 1,
+  "status": "registered",
+  "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-15-000016-v1.json",
+  "record_sha256": "581fc8d705677e88c4018aef90eb0d9ab6866f33b153505cc19372df2f18d8a0",
+  "source": {
+    "commit": "0d447f17a30963a050f80ceff6283db782921448",
+    "license": {
+      "declared_identifier": "Apache-2.0",
+      "detected_identifier": "Apache-2.0",
+      "path": "LICENSE",
+      "sha256": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6"
+    },
+    "project_path": "topology/perfect-metrizable-images",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "tree_url": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0d447f17a30963a050f80ceff6283db782921448/topology/perfect-metrizable-images"
+  },
+  "package_tree": "9bff09fdb53edfe1253d769a42aeab1eefbfc6dc",
+  "verification": {
+    "workflow_url": "https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/38700067791",
+    "workflow_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "mechanical_report_sha256": "74d32b680c86fcb3fe5cd6a8643e023b551a8e1623233652dd1c2d00a1dd5da5",
+    "challenge_sha256": "cdb3c9a9490d0d481a64232d228d0990e1ec35d4d15af97a76e2edeec72f01ed",
+    "solution_sha256": "be73fdd88ab1b390b800799f3b37215567e685a49fe40a499004929ffbaf0f00"
+  },
+  "evidence_check": {
+    "immutable_mechanical_report_retrieved": true,
+    "report_digest_matches_record": true,
+    "report_status": "pass",
+    "scope": "Previously registered perfect-image package only. No new verification or registry operation."
+  }
+}

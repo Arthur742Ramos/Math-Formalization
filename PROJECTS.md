@@ -1,7 +1,7 @@
 # Projects
 
 Public registration status checked on 2026-10-15 against official Palomar registry
-revision 276. Registration applies to each linked source commit and version.
+revision 290. Registration applies to each linked source commit and version.
 Package notes retain their original development and verification history.
 
 | Project | Scope | Public Palomar status | Source snapshot |
@@ -16,7 +16,9 @@ Package notes retain their original development and verification history.
 | [Perfect surjections and paracompactness](topology/perfect-paracompact) | Preservation and reflection of paracompactness, image separation, and locally finite refinements. | Registered: [PALOMAR-2026-10-13-000004 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-13-000004&version=1) | [`984a610`](https://github.com/Arthur742Ramos/Math-Formalization/tree/984a610395e195b8d3ca0cd88282ef343e74d33d/topology/perfect-paracompact) |
 | [Full Nagata-Smirnov metrization](topology/nagata-smirnov) | Regular Hausdorff metrization iff a sigma locally finite open basis exists, with arbitrary layer cardinality. | Registered: [PALOMAR-2026-10-14-000001 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1) | [`6aa68b2`](https://github.com/Arthur742Ramos/Math-Formalization/tree/6aa68b2cb67719a187e64de29567443575eb560e/topology/nagata-smirnov) |
 | [Smirnov local-to-global metrization](topology/smirnov-local-metrization) | Metrizability iff Hausdorff, paracompact and locally metrizable; point-finite-cover basis construction. | Registered: [PALOMAR-2026-10-15-000002 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000002&version=1) | [`2037544`](https://github.com/Arthur742Ramos/Math-Formalization/tree/20375446decf52134cb2788640fe19b580002c05/topology/smirnov-local-metrization) |
-| [Perfect images of metrizable spaces](topology/perfect-metrizable-images) | Perfect continuous images of arbitrary metrizable spaces, uniform compact-fiber neighborhoods, image basis and compatible metric. | No public registration found | [`840529c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/840529c8b66a9d202bde8db5cdb239c382b04def/topology/perfect-metrizable-images) |
+| [Perfect images of metrizable spaces](topology/perfect-metrizable-images) | Perfect continuous images of arbitrary metrizable spaces, uniform compact-fiber neighborhoods, image basis and compatible metric. | Registered: [PALOMAR-2026-10-15-000016 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000016&version=1) | [`0d447f1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0d447f17a30963a050f80ceff6283db782921448/topology/perfect-metrizable-images) |
+
+| [Alexandroff–Urysohn cover metrization](topology/alexandroff-urysohn) | Intersecting-pair open-cover criterion, separation-free pseudometric form, co-membership uniformity and compatible metric. | No public registration found | [`a4b65f6`](https://github.com/Arthur742Ramos/Math-Formalization/tree/a4b65f63cb5f4f40d733683f5bce963ad1ccf32b/topology/alexandroff-urysohn) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does
