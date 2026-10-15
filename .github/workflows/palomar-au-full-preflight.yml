@@ -1,0 +1,18 @@
+name: Palomar Alexandroff-Urysohn full mechanical preflight
+on:
+  push:
+    branches: ['topology/alexandroff-urysohn']
+    paths: ['.github/workflows/palomar-au-full-preflight.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 8ff5eedba962cb74050fe6d5f0acd934ba830fc5
+      pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+      request_id: aupreflight1
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/alexandroff-urysohn","comparator_config_path":"topology/alexandroff-urysohn/comparator.json","formalization_metadata_path":"topology/alexandroff-urysohn/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
