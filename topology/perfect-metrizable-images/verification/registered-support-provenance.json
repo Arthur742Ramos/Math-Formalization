@@ -1,0 +1,37 @@
+{
+  "NagataSmirnovSupport/SigmaBasis.lean": {
+    "source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+    "source_path": "topology/nagata-smirnov/SigmaBasis.lean",
+    "original_sha256": "42871f54aec2e0f0545c77baa18e44830cc483e10fa2460315d1a183564e20b7",
+    "adapted_sha256": "3c5a0a2980498206e7db8768fec248e02988d932a0844f05dc8728a6b4a1f173",
+    "changes": "Import paths prefixed with NagataSmirnovSupport; reuse attribution comment. Substantive declarations unchanged."
+  },
+  "NagataSmirnovSupport/CompatibleMetric.lean": {
+    "source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+    "source_path": "topology/nagata-smirnov/CompatibleMetric.lean",
+    "original_sha256": "ead36939c5dfa80a073f583ef0950ca5fe6dc328b2c92b5bf4e8405ca51204d3",
+    "adapted_sha256": "c201a17bb7c460f637810005ff4f41c9ef7edb1ff21f18c118b7506e66ab09ed",
+    "changes": "Import paths prefixed with NagataSmirnovSupport; reuse attribution comment. Substantive declarations unchanged."
+  },
+  "NagataSmirnovSupport/MetricBasis.lean": {
+    "source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+    "source_path": "topology/nagata-smirnov/MetricBasis.lean",
+    "original_sha256": "76ed80dffaa1f84294c56fd4c9f0e00549fcf17499a044b229957da4284f3455",
+    "adapted_sha256": "dd29e08b7ef315127bcd20cae9dc0356b1ba9ebd74691e02694e715d50998373",
+    "changes": "Import paths prefixed with NagataSmirnovSupport; reuse attribution comment. Substantive declarations unchanged."
+  },
+  "NagataSmirnovSupport/Metrization.lean": {
+    "source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+    "source_path": "topology/nagata-smirnov/Metrization.lean",
+    "original_sha256": "e9cf125058b483a31edfa3f91ce0ccc186b6652734bb9d7bfcf2757a9787bc14",
+    "adapted_sha256": "1fef9bfd314d3b4c2b5b70a4be89f77a89d4d7afdb843d9e6006ff73abf71ed3",
+    "changes": "Import paths prefixed with NagataSmirnovSupport; reuse attribution comment. Substantive declarations unchanged."
+  },
+  "PerfectParacompactSupport.lean": {
+    "source_commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+    "source_path": "topology/perfect-paracompact/Transfer.lean",
+    "original_sha256": "d3b4e5a6cf60237632105aacc23e01789bdf5aec87a108dc1cb5ead057e67dc0",
+    "adapted_sha256": "49719ebc159b7287b97ff7f19cc13f724e471c1b53f96f1401bf31638053524b",
+    "changes": "Reuse attribution comment. Substantive declarations unchanged."
+  }
+}

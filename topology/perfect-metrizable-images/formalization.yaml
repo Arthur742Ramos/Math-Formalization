@@ -1,0 +1,88 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Perfect images of metrizable spaces",
+    "description": "Every continuous closed surjection with compact fibers from an arbitrary metrizable space has a metrizable codomain. A new uniform shrinking-star estimate for compact-fiber metric neighborhoods constructs a sigma locally finite open basis on the image. A proper-map formulation and an actual compatible metric are included. No second countability, separability, compact domain, local compactness, completeness, finite-fiber or nonemptiness assumption is made. Target separation is derived. Classical mathematics; no novelty or priority claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E35",
+      "54C10"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Geometric Aspects of General Topology, second-edition author manuscript (November 2, 2023)",
+      "authors": [
+        "Katsuro Sakai"
+      ],
+      "type": "book",
+      "id": "https://www.researchgate.net/publication/299698540_Metrization_and_Paracompact_Spaces",
+      "relationship": "formalizes",
+      "note": "Proposition 2.4.5(1), printed pp.50-51, actual author-uploaded manuscript checked independently. Perfect means closed with compact fibers (p.33); continuity is explicit in Lean. The source uses fiber thickenings and the Alexandroff-Urysohn criterion. This proof instead uses registered paracompact-image and Nagata-Smirnov infrastructure with the same uniform fiber-tube argument. Part(2), locally finite closed gluing, is a downstream application and is not claimed here."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1",
+      "relationship": "builds-on",
+      "note": "Registered Nagata-Smirnov, exact source6aa68b2cb67719a187e64de29567443575eb560e. Four credited support modules retain all declarations and proofs; import paths adapted. Included with attribution in the canonical-only Challenge; not a new result of this project."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-13-000004&version=1",
+      "relationship": "builds-on",
+      "note": "Registered perfect paracompactness, exact source984a610395e195b8d3ca0cd88282ef343e74d33d, Transfer.lean reused with an attribution comment only. Supplies image separation and paracompactness; these are not new claims."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses compact-set thickening neighborhoods, precise locally finite open refinements, metric-space paracompactness, proper maps and compatible metric choice. Current upstreamf0b4c8150aa0dbc758aff1291410c5ae335aff3a and public registryrevision276 were independently audited for equivalent statements."
+    }
+  ],
+  "status": {
+    "scope": "Full perfect-image metrizability theorem for independent source and target universes; uniform fiber-neighborhood estimate, sigma locally finite image basis, proper-map API and actual compatible metric.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Ordinary metrizability only; complete metrizability and locally finite closed gluing are outside scope. Publication alone does not establish registration; no registration is claimed without a public receipt."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proofs and packaging under Arthur authorization. One implementation agent developed FiberNeighborhoods; separate read-only mathematical and implementation agents review the assembled proof. AI review and machine verification are distinct from human review; no human review is claimed. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "AI authorship is material and disclosed. Internal AI review and machine verification are distinguished from human or external peer review."
+  },
+  "fidelity": {
+    "divergences": "Continuity, closedness, compact fibers and surjectivity are explicit. The source treats Hausdorff spaces; existing registered perfect-map results derive codomain separation, allowing a stronger separation-free codomain statement. The shrinking fiber-neighborhood argument is followed by locally finite refinements and registered Nagata-Smirnov instead of introducing the Alexandroff-Urysohn cover criterion. Compatible metrics induce the exact supplied topology."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical reviewer",
+      "Independent internal OpenAI Codex implementation and overlap reviewer"
+    ],
+    "notes": "Independent internal AI mathematical and implementation reviews passed on October15,2026. Exact proof hashes and review scope are recorded in REVIEW.md. The implementation reviewer independently compiled semantic and standard-axiom probes. No human review or external peer review is claimed. Exact public-commit hosted checks are separate evidence."
+  },
+  "acknowledgements": "Classical sources, Lean and Mathlib are credited above. Authors and responsible maintainers follow established repository conventions; material AI assistance is disclosed."
+}
