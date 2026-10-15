@@ -208,6 +208,16 @@
           "Smirnov.compatible_metric_iff"
         ]
       }
+    },
+    {
+      "name": "Perfect images of metrizable spaces",
+      "path": "topology/perfect-metrizable-images",
+      "scope": "Perfect continuous images of arbitrary metrizable spaces, uniform compact-fiber neighborhoods, image basis and compatible metric.",
+      "source_snapshot": {
+        "commit": "840529c8b66a9d202bde8db5cdb239c382b04def",
+        "tree": "9bff09fdb53edfe1253d769a42aeab1eefbfc6dc"
+      },
+      "status": "no-public-registration-found"
     }
   ]
 }
