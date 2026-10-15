@@ -1,0 +1,83 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Alexandroff–Urysohn cover metrization",
+    "description": "A T0 space is metrizable if and only if it admits a sequence of open covers such that every intersecting pair of members at the next level has union contained in one member at the current level, and the point-stars form a neighborhood basis. Without separation the same criterion characterizes pseudometrizability. The proof constructs a countably generated co-membership uniformity with exactly the supplied topology. Covers have unrestricted cardinality; empty spaces are included. Classical mathematics, with no novelty or priority claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E35",
+      "54E15"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Geometric Aspects of General Topology, second-edition author manuscript (November 2, 2023)",
+      "authors": [
+        "Katsuro Sakai"
+      ],
+      "type": "book",
+      "id": "https://www.researchgate.net/profile/Katsuro-Sakai/publication/299698540_Metrization_and_Paracompact_Spaces/links/6589f0136f6e450f19a3d3b8/Metrization-and-Paracompact-Spaces.pdf",
+      "relationship": "formalizes",
+      "note": "Theorem 2.4.1(a) iff (b), printed pp.46–49, statement p.47. Actual author-uploaded manuscript downloaded and independently visually checked; SHA256 d9a05e311296b68f59f761862eccba3d317ad8ce5555f11d18dad82b24657cfd. The source assumes Hausdorff spaces; we explicitly use T0 for the metric conclusion and prove the separation-free pseudometric form. Frink part(c) and the barycentric/star-refining corollaries are not claimed. Proposition 2.4.5 uses the equivalent Frink neighborhood criterion; section2.6 uses barycentric/star-refining corollaries with quantitative metric bounds. Their applications to perfect images, closed gluing and metric adjustment give context for this classical theorem family, not additional formalized results of this package."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Imports canonical Mathlib filter bases, uniform-space core construction, compatible countably generated uniformity metrization and compatible metric choice. The new proof supplies the open-cover to uniformity bridge and exact topology equality. Existing Urysohn second-countable metrization is a different criterion."
+    },
+    {
+      "id": "https://palomar-registry.org/entry?id=PALOMAR-2026-10-15-000016&version=1",
+      "relationship": "other",
+      "note": "Registered perfect images uses a different proof via Nagata–Smirnov and mentions the source cover criterion in prose. Its source 0d447f17a30963a050f80ceff6283db782921448 is preserved. No proof modules from that project are copied or selected here."
+    }
+  ],
+  "status": {
+    "scope": "Full intersecting-pair cover criterion, Theorem2.4.1(a) iff (b), with separation-free pseudometric equivalence, explicit co-membership uniformity and actual compatible metric.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gap in the selected criterion. Frink pointwise condition(c), barycentric/star-refining equivalents and quantitative chain-metric bounds are outside scope. Protected full Comparator/multi-kernel preflight and Challenge rendering are outstanding; local Lean checks and internal AI reviews are separate evidence."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proofs and packaging under Arthur authorization. Separate internal AI reviewers examined mathematical source fidelity and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "AI contributions are material and disclosed. Internal AI review and machine verification are distinct from human review; no human review is claimed."
+  },
+  "fidelity": {
+    "divergences": "The pair-absorption statement and point-star neighborhood basis match Sakai Theorem2.4.1(b). Metric sufficiency explicitly assumes T0 rather than source Hausdorffness. We prove the separation-free pseudometric equivalence as well. The proof constructs a countably generated uniformity and invokes Mathlib metrization instead of reproducing the source chain metric; quantitative chain bounds and Frink(c) are not asserted."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical reviewer",
+      "Independent internal OpenAI Codex implementation reviewer"
+    ],
+    "notes": "Internal AI mathematical/source review passed on the exact proof hash recorded in REVIEW.md. Separate Challenge/Solution contract and literal-definition probes and transitive axiom checks passed with pinned Lean. Final package/document checks are recorded separately. No human or external peer review is claimed."
+  },
+  "acknowledgements": "Classical mathematical source and imported Lean/Mathlib infrastructure retain their attribution. Authors and responsible maintainers follow the authorized campaign attribution. Material AI proof authorship is disclosed."
+}

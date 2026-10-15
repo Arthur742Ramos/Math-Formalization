@@ -1,0 +1,46 @@
+{
+  "review_date": "2026-10-15",
+  "review_kind": "Independent internal AI mathematical and implementation reviews; no human or external peer review",
+  "proof_sha256": "53abff18089ed12da1ce0087b992cfb81a475ca9149eabb8dc0b3e506dc6bd2b",
+  "canonical_challenge_identical": true,
+  "source_fidelity": "Sakai Theorem 2.4.1(a) iff (b); explicit T0 metric and separation-free pseudometric formulations",
+  "mathematical_result": "pass",
+  "implementation_result": "pass",
+  "selected_theorems": [
+    "AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity",
+    "AlexandroffUrysohn.pseudoMetrizable_iff",
+    "AlexandroffUrysohn.metrizable_iff",
+    "AlexandroffUrysohn.exists_compatibleMetric"
+  ],
+  "selected_definitions": [
+    "AlexandroffUrysohn.pointStar",
+    "AlexandroffUrysohn.IsOpenCover",
+    "AlexandroffUrysohn.IsMetrizingSequence",
+    "AlexandroffUrysohn.coverRelation"
+  ],
+  "separate_module_probe_exits": {
+    "AUChallenge": 0,
+    "AUSolution": 0
+  },
+  "identical_probe_output_sha256": "3a9df1df241134047823f8ebd5af298394f7e95336ce9070a84fe5af8b611d2c",
+  "probe_source_sha256": {
+    "AUChallenge": "33cc0bf5e939ba6021835d179e3af90f08e148c805dba44755727180509c2a23",
+    "AUSolution": "55387264d739244269264268cae0dbce346fed14c33ec2e25fed1cc814fa79fe"
+  },
+  "checked_semantics": [
+    "literal definition values",
+    "explicit original topology equality",
+    "empty cover on empty space",
+    "non-T0 indiscrete Bool criterion with pseudometrizability and failure of metrizability",
+    "unrestricted cover cardinality"
+  ],
+  "axioms": {
+    "theorems": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "definitions": []
+  },
+  "verification_limit": "Separate exact-toolchain contract probes passed. Protected Comparator and multi-kernel preflight, renderer and registry editorial review have not run for this package."
+}

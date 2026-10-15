@@ -1,0 +1,19 @@
+'AlexandroffUrysohn.pointStar' does not depend on any axioms
+'AlexandroffUrysohn.IsOpenCover' does not depend on any axioms
+'AlexandroffUrysohn.IsMetrizingSequence' does not depend on any axioms
+'AlexandroffUrysohn.isOpen_pointStar' depends on axioms: [propext, Quot.sound]
+'AlexandroffUrysohn.mem_pointStar' does not depend on any axioms
+'AlexandroffUrysohn.IsMetrizingSequence.nhds_basis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.coverRelation' does not depend on any axioms
+'AlexandroffUrysohn.IsMetrizingSequence.comp_subset' does not depend on any axioms
+'AlexandroffUrysohn.IsMetrizingSequence.relation_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.IsMetrizingSequence.pseudoMetrizableSpace' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'AlexandroffUrysohn.IsMetrizingSequence.metrizableSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.metric_ball_covers' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.exists_metrizingSequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.pseudoMetrizable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.metrizable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlexandroffUrysohn.exists_compatibleMetric' depends on axioms: [propext, Classical.choice, Quot.sound]

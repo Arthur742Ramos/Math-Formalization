@@ -5,13 +5,14 @@ owns its toolchain, Lake configuration and lockfile, Challenge, Comparator
 metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
-The [project catalog](PROJECTS.md) lists all 11 topology projects, their scope,
+The [project catalog](PROJECTS.md) lists all 12 topology projects, their scope,
 public Palomar status and original source snapshots. At registry revision
-276 on 2026-10-15, 7 projects have confirmed public registrations:
+290 on 2026-10-15, 8 projects have confirmed public registrations:
 Alexandroff/composant foundations, order arcs, Michael's biquotient theorems,
 Dowker's characterization, perfect surjections, Nagata-Smirnov metrization and
-Smirnov local-to-global metrization. No public registration was found for the
-hyperspace, Sorgenfrey, Whitney or perfect-image developments in that snapshot.
+Smirnov local-to-global metrization, and perfect images of metrizable spaces.
+No public registration was found for the hyperspace, Sorgenfrey, Whitney or
+Alexandroff–Urysohn developments in that snapshot.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records

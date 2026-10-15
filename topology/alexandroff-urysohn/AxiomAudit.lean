@@ -1,0 +1,21 @@
+module
+
+import AUSolution
+
+#print axioms AlexandroffUrysohn.pointStar
+#print axioms AlexandroffUrysohn.IsOpenCover
+#print axioms AlexandroffUrysohn.IsMetrizingSequence
+#print axioms AlexandroffUrysohn.isOpen_pointStar
+#print axioms AlexandroffUrysohn.mem_pointStar
+#print axioms AlexandroffUrysohn.IsMetrizingSequence.nhds_basis
+#print axioms AlexandroffUrysohn.coverRelation
+#print axioms AlexandroffUrysohn.IsMetrizingSequence.comp_subset
+#print axioms AlexandroffUrysohn.IsMetrizingSequence.relation_antitone
+#print axioms AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity
+#print axioms AlexandroffUrysohn.IsMetrizingSequence.pseudoMetrizableSpace
+#print axioms AlexandroffUrysohn.IsMetrizingSequence.metrizableSpace
+#print axioms AlexandroffUrysohn.metric_ball_covers
+#print axioms AlexandroffUrysohn.exists_metrizingSequence
+#print axioms AlexandroffUrysohn.pseudoMetrizable_iff
+#print axioms AlexandroffUrysohn.metrizable_iff
+#print axioms AlexandroffUrysohn.exists_compatibleMetric
