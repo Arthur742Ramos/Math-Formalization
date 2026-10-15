@@ -1,7 +1,7 @@
 # Projects
 
-Public registration status checked on 2026-10-14 against official Palomar registry
-revision 268. Registration applies to each linked source commit and version.
+Public registration status checked on 2026-10-15 against official Palomar registry
+revision 276. Registration applies to each linked source commit and version.
 Package notes retain their original development and verification history.
 
 | Project | Scope | Public Palomar status | Source snapshot |
@@ -15,7 +15,7 @@ Package notes retain their original development and verification history.
 | [Dowker's characterization](topology/dowker-characterization) | Normality and countable paracompactness, interval-product normality, strict insertion, and compact metrizable products. | Registered: [PALOMAR-2026-10-12-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-12-000003&version=1) | [`ccc3ca4`](https://github.com/Arthur742Ramos/Math-Formalization/tree/ccc3ca43dc26c6774f2afd7f2b2223066451c362/topology/dowker-characterization) |
 | [Perfect surjections and paracompactness](topology/perfect-paracompact) | Preservation and reflection of paracompactness, image separation, and locally finite refinements. | Registered: [PALOMAR-2026-10-13-000004 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-13-000004&version=1) | [`984a610`](https://github.com/Arthur742Ramos/Math-Formalization/tree/984a610395e195b8d3ca0cd88282ef343e74d33d/topology/perfect-paracompact) |
 | [Full Nagata-Smirnov metrization](topology/nagata-smirnov) | Regular Hausdorff metrization iff a sigma locally finite open basis exists, with arbitrary layer cardinality. | Registered: [PALOMAR-2026-10-14-000001 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1) | [`6aa68b2`](https://github.com/Arthur742Ramos/Math-Formalization/tree/6aa68b2cb67719a187e64de29567443575eb560e/topology/nagata-smirnov) |
-| [Smirnov local-to-global metrization](topology/smirnov-local-metrization) | Metrizability iff Hausdorff, paracompact and locally metrizable; point-finite-cover basis construction. | Registration pending | [`2037544`](https://github.com/Arthur742Ramos/Math-Formalization/tree/20375446decf52134cb2788640fe19b580002c05/topology/smirnov-local-metrization) |
+| [Smirnov local-to-global metrization](topology/smirnov-local-metrization) | Metrizability iff Hausdorff, paracompact and locally metrizable; point-finite-cover basis construction. | Registered: [PALOMAR-2026-10-15-000002 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000002&version=1) | [`2037544`](https://github.com/Arthur742Ramos/Math-Formalization/tree/20375446decf52134cb2788640fe19b580002c05/topology/smirnov-local-metrization) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does

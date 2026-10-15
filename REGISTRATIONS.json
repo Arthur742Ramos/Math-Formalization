@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "checked_date": "2026-10-14",
-  "registry_revision": 268,
-  "registry_release": "747f7c5f6c7e0a4c246f7a3c9aa9e0b290242234330eca5f5dd876a5377b56f5",
+  "checked_date": "2026-10-15",
+  "registry_revision": 276,
+  "registry_release": "89ed6f22b7cf64492bea5373ede9db86600089602206be5121d436cb1c93a42d",
   "repository": "Arthur742Ramos/Math-Formalization",
   "projects": [
     {
@@ -192,7 +192,22 @@
         "commit": "20375446decf52134cb2788640fe19b580002c05",
         "tree": "0a9e8364638d263b6f6ff6965ffa8794b9dc27b7"
       },
-      "status": "registration-pending"
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-15-000002",
+        "version": 1,
+        "source_commit": "20375446decf52134cb2788640fe19b580002c05",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000002&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-15-000002-v1.json",
+        "theorem_names": [
+          "Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover",
+          "Smirnov.metrizable_of_open_cover",
+          "Smirnov.LocallyMetrizable.metrizableSpace",
+          "Smirnov.metrizable_iff_explicit",
+          "Smirnov.metrizable_iff_paracompact",
+          "Smirnov.compatible_metric_iff"
+        ]
+      }
     }
   ]
 }

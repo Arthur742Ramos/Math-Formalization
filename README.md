@@ -7,10 +7,10 @@ the target directory. Targets can evolve their versions independently.
 
 The [project catalog](PROJECTS.md) lists all 10 topology projects, their scope,
 public Palomar status and original source snapshots. At registry revision
-268 on 2026-10-14, 6 projects have confirmed public registrations:
+276 on 2026-10-15, 7 projects have confirmed public registrations:
 Alexandroff/composant foundations, order arcs, Michael's biquotient theorems,
-Dowker's characterization, perfect surjections and Nagata-Smirnov metrization.
-Smirnov registration is pending. No public registration was found for the
+Dowker's characterization, perfect surjections, Nagata-Smirnov metrization and
+Smirnov local-to-global metrization. No public registration was found for the
 hyperspace, Sorgenfrey or Whitney developments in that snapshot.
 
 The catalog links each registration to its verified ID, version and immutable
