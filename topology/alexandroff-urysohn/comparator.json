@@ -1,0 +1,21 @@
+{
+  "challenge_module": "AUChallenge",
+  "solution_module": "AUSolution",
+  "theorem_names": [
+    "AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity",
+    "AlexandroffUrysohn.pseudoMetrizable_iff",
+    "AlexandroffUrysohn.metrizable_iff",
+    "AlexandroffUrysohn.exists_compatibleMetric"
+  ],
+  "definition_names": [
+    "AlexandroffUrysohn.pointStar",
+    "AlexandroffUrysohn.IsOpenCover",
+    "AlexandroffUrysohn.IsMetrizingSequence",
+    "AlexandroffUrysohn.coverRelation"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

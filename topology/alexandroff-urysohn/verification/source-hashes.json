@@ -1,0 +1,19 @@
+{
+  "AUChallenge.lean": "53abff18089ed12da1ce0087b992cfb81a475ca9149eabb8dc0b3e506dc6bd2b",
+  "AUDIT.md": "85c0bd25f913e1841a8736fca7024899a041a222fb3bb9630ea0ea0784c72c07",
+  "AUSolution.lean": "1b275f9cbfd2f650761dee67b6fd981e6d54666bb192e43d7339ac8ab283b843",
+  "AlexandroffUrysohn.lean": "53abff18089ed12da1ce0087b992cfb81a475ca9149eabb8dc0b3e506dc6bd2b",
+  "AxiomAudit.lean": "f539cf7849bd966c482e5d2d7fc035e87f774629a489c03222cbbf021b2c9746",
+  "DEFINITIONS.md": "ad02f7323d6daa18661a74b0ada64c3271698bb55988acfa8e3ad403fb433b9e",
+  "README.md": "0e07e20df164e4682b8eb4ab174ba9ddbcadf03862a39ec9f77dcf12dbdea1fb",
+  "REVIEW.md": "ac6fed76e9373d4855dd6efd80fb213b20fe319d9e1d1ba03bbf0fa652025e54",
+  "SemanticTests.lean": "f74f68e2443576b3551f62ef5bc89d0c2a6cbd60868cc7d5da9c466746600d56",
+  "comparator.json": "157231dfea322bfac4c418f12d81febb4a133878a88df3936845eba8322a33e4",
+  "formalization.yaml": "9b0e7695006175f1ecaeab0f7993af0c7ea7d02ed22269827f3e7414a0f15f01",
+  "lake-manifest.json": "fb487e5e86e0bb6478276f0fca59f60522912565dbf7c10a7f3f2ce1bc88435f",
+  "lakefile.toml": "730aedb943700ebf939bbb3aad21c0d34948e6ff999ca3bbeff4cd0ee4efb46f",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_package.py": "84155c9d1a75a7aa27f0399ea67c5c40f1cb235b690663e504a9d191f7ca79b5",
+  "verification/internal-review-summary.json": "f4dc1088a0915bdd56a9583985dbf32dc7fd63afd9efca200317dacb066cd8b0",
+  "verification/local-axioms.txt": "a21518e02eba4867277fc97e96a985ba35a2ec7d7ffaf385b1207e8866c898b0"
+}
