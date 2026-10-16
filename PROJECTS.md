@@ -1,7 +1,7 @@
 # Projects
 
-Public registration status checked on 2026-10-15 against official Palomar registry
-revision 290. Registration applies to each linked source commit and version.
+Public registration status checked on 2026-10-16 against official Palomar registry
+revision 315. Registration applies to each linked source commit and version.
 Package notes retain their original development and verification history.
 
 | Project | Scope | Public Palomar status | Source snapshot |
@@ -19,6 +19,8 @@ Package notes retain their original development and verification history.
 | [Perfect images of metrizable spaces](topology/perfect-metrizable-images) | Perfect continuous images of arbitrary metrizable spaces, uniform compact-fiber neighborhoods, image basis and compatible metric. | Registered: [PALOMAR-2026-10-15-000016 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000016&version=1) | [`0d447f1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0d447f17a30963a050f80ceff6283db782921448/topology/perfect-metrizable-images) |
 
 | [Alexandroff–Urysohn cover metrization](topology/alexandroff-urysohn) | Intersecting-pair open-cover criterion, separation-free pseudometric form, co-membership uniformity and compatible metric. | No public registration found | [`a4b65f6`](https://github.com/Arthur742Ramos/Math-Formalization/tree/a4b65f63cb5f4f40d733683f5bce963ad1ccf32b/topology/alexandroff-urysohn) |
+
+| [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification pending. | No public registration found | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does

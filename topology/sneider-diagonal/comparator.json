@@ -1,0 +1,18 @@
+{
+  "challenge_module": "SDChallenge",
+  "solution_module": "SDSolution",
+  "theorem_names": [
+    "Sneider.exists_closed_countable_nhds_basis_of_isGδ",
+    "Sneider.nhdsSet_isCountablyGenerated_of_isGδ",
+    "Sneider.isGdelta_diagonal",
+    "Sneider.exists_closed_diagonal_basis",
+    "Sneider.metrizableSpace_of_isGdelta_diagonal",
+    "Sneider.metrizable_iff_isGdelta_diagonal",
+    "Sneider.exists_compatibleMetric"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

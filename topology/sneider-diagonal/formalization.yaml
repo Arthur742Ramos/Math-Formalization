@@ -1,0 +1,79 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Sneider's Gδ-diagonal metrization theorem",
+    "description": "A compact Hausdorff space is metrizable if and only if its diagonal is a Gδ subset of its square with the product topology. The proof supplies a cofinal countable family of finite intersections of closed diagonal neighborhoods and an actual metric inducing exactly the given topology. The underlying type is arbitrary and may be empty. A general supporting theorem proves countable neighborhood character of every closed Gδ set in a compact normal space. This is classical mathematics; no novelty or priority is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E35",
+      "54D30"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Spaces having a small diagonal, arXiv:math/9910153v1",
+      "authors": [
+        "Gary Gruenhage"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/math/9910153v1",
+      "relationship": "formalizes",
+      "note": "The classical compact-space Gδ-diagonal metrization equivalence is recalled in the introduction, printed p.1. This package formalizes that recalled criterion, not the paper’s new small-diagonal results. Printed pp.1–3 provide the research setting in compact metrizability, diagonal properties and countable networks. The author manuscript was directly consulted; PDF SHA256 28af90fe4bcce66fb34d812679baa968842ec423da6cc5cbef4057a4bfd4426c. The original 1945 Sneider paper was not consulted; no original theorem number or proof correspondence is asserted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses canonical Mathlib Gδ sets, normal shrinking, compact finite closed-subfamily elimination, compact Hausdorff uniformity, countably generated uniformity metrization and compatible metric choice. Mathlib already proves metrization from countably many separating continuous maps; this package instead supplies the missing Gδ-to-cofinal-neighborhood-basis argument. No project-specific imports occur in Challenge."
+    }
+  ],
+  "status": {
+    "scope": "Full compact Hausdorff Gδ-diagonal metrization equivalence, general closed-Gδ countable neighborhood basis, explicit cofinal diagonal basis and compatible metric.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof hole or extra mathematical assumption in the selected statements. The countably compact extension, small-diagonal conditions and any claimed resolution of related research problems are outside scope. Canonical full Comparator/multi-kernel preflight and Challenge rendering remain separate outstanding verification gates; no Palomar submission or registration is claimed. Human authors and responsible maintainers are explicitly confirmed for this project. Canonical exact-source reports will be supplied separately after verification.",
+    "attribution_status": "confirmed: user approved all three listed authors and responsible maintainers for Sneider PR14 on 2026-10-16; substantive AI proof contributions separately disclosed"
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proofs, tests and packaging under Arthur authorization. Separate internal AI reviewers examined source fidelity and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "AI proof contributions are material and disclosed. Human authors and responsible maintainers are explicitly project-authorized. No human review is claimed."
+  },
+  "fidelity": {
+    "divergences": "The compact Hausdorff equivalence matches the classical criterion recalled by Gruenhage on printed p.1. The proof uses normal shrinking, compactness and Mathlib’s compact uniformity construction rather than claiming to reproduce Sneider’s unconsulted original proof. The general compact-normal closed-Gδ lemma and exact metric witness expose supporting conclusions. No countably compact or small-diagonal theorem is asserted."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer",
+      "Independent internal OpenAI Codex implementation/contract reviewer"
+    ],
+    "notes": "See REVIEW.md for scopes and immutable proof hashes. Reviews are internal AI reviews; no human or external peer review is claimed. Compilation, axiom checks and canonical protected preflight are distinct evidence."
+  },
+  "acknowledgements": "Classical mathematical attribution and imported Lean/Mathlib infrastructure retain their provenance. Substantive AI contributions are disclosed. The user explicitly approved the separate human author and responsible-maintainer lists for this project."
+}
