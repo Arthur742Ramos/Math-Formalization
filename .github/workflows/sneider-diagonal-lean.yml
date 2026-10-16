@@ -2,7 +2,7 @@ name: Sneider diagonal Lean verification
 on:
   push:
     branches: ['topology/sneider-diagonal']
-    paths: ['topology/sneider-diagonal/**', '.github/workflows/sneider-diagonal-lean.yml']
+    paths: ['topology/sneider-diagonal/**', '.github/workflows/sneider-diagonal-lean.yml', '.github/workflows/palomar-sneider-full-preflight.yml', '.github/workflows/palomar-sneider-renderer.yml']
   workflow_dispatch:
 permissions:
   contents: read
