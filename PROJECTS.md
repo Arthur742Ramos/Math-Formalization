@@ -20,7 +20,7 @@ Package notes retain their original development and verification history.
 
 | [Alexandroff–Urysohn cover metrization](topology/alexandroff-urysohn) | Intersecting-pair open-cover criterion, separation-free pseudometric form, co-membership uniformity and compatible metric. | No public registration found | [`a4b65f6`](https://github.com/Arthur742Ramos/Math-Formalization/tree/a4b65f63cb5f4f40d733683f5bce963ad1ccf32b/topology/alexandroff-urysohn) |
 
-| [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; draft attribution and protected verification pending. | No public registration found | [`9440dbf`](https://github.com/Arthur742Ramos/Math-Formalization/tree/9440dbf51b4b39fa4eb7e50501a029b440cefbb3/topology/sneider-diagonal) |
+| [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification pending. | No public registration found | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does

@@ -13,8 +13,8 @@ Dowker's characterization, perfect surjections, Nagata-Smirnov metrization and
 Smirnov local-to-global metrization, and perfect images of metrizable spaces.
 No public registration was found for the hyperspace, Sorgenfrey, Whitney or
 Alexandroff–Urysohn developments in that snapshot. The new Sneider diagonal
-development is a proof-verified draft with attribution and canonical protected
-verification gates outstanding; no public registration is claimed.
+development has confirmed authorship and maintenance, with canonical mechanical
+verification and rendering tracked separately; no public registration is claimed.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records

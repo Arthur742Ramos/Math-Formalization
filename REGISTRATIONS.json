@@ -246,10 +246,10 @@
     {
       "name": "Sneider's Gδ-diagonal metrization theorem",
       "path": "topology/sneider-diagonal",
-      "scope": "Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; draft attribution and protected verification pending.",
+      "scope": "Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification pending.",
       "source_snapshot": {
-        "commit": "9440dbf51b4b39fa4eb7e50501a029b440cefbb3",
-        "tree": "ec207b88a58fbcadde64dbc148952d85e24f2120"
+        "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+        "tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7"
       },
       "status": "no-public-registration-found"
     }
