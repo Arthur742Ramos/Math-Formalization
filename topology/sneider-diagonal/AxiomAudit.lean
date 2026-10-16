@@ -1,0 +1,11 @@
+module
+
+import SDSolution
+
+#print axioms Sneider.exists_closed_countable_nhds_basis_of_isGδ
+#print axioms Sneider.nhdsSet_isCountablyGenerated_of_isGδ
+#print axioms Sneider.isGdelta_diagonal
+#print axioms Sneider.exists_closed_diagonal_basis
+#print axioms Sneider.metrizableSpace_of_isGdelta_diagonal
+#print axioms Sneider.metrizable_iff_isGdelta_diagonal
+#print axioms Sneider.exists_compatibleMetric

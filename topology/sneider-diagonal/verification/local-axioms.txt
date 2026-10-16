@@ -1,0 +1,7 @@
+'Sneider.exists_closed_countable_nhds_basis_of_isGδ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Sneider.nhdsSet_isCountablyGenerated_of_isGδ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Sneider.isGdelta_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Sneider.exists_closed_diagonal_basis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Sneider.metrizableSpace_of_isGdelta_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Sneider.metrizable_iff_isGdelta_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Sneider.exists_compatibleMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
