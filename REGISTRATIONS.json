@@ -238,20 +238,42 @@
       "path": "topology/alexandroff-urysohn",
       "scope": "Intersecting-pair open-cover criterion, separation-free pseudometric form, co-membership uniformity and compatible metric.",
       "source_snapshot": {
-        "commit": "a4b65f63cb5f4f40d733683f5bce963ad1ccf32b",
+        "commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
         "tree": "71d68d8fc865dcb0322033bf5f8530b08feb82dc"
       },
-      "status": "no-public-registration-found"
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-16-000021",
+        "version": 1,
+        "source_commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-16-000021-v1.json",
+        "theorem_names": [
+          "AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity",
+          "AlexandroffUrysohn.pseudoMetrizable_iff",
+          "AlexandroffUrysohn.metrizable_iff",
+          "AlexandroffUrysohn.exists_compatibleMetric"
+        ]
+      }
     },
     {
       "name": "Sneider's Gδ-diagonal metrization theorem",
       "path": "topology/sneider-diagonal",
-      "scope": "Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification pending.",
+      "scope": "Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification and rendering passed.",
       "source_snapshot": {
         "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
         "tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7"
       },
       "status": "no-public-registration-found"
     }
-  ]
+  ],
+  "registration_refresh": {
+    "checked_at_utc": "2026-10-16T22:40:41.285638+00:00",
+    "repository_index_url": "https://data.palomar-registry.org/repositories/arthur742ramos/math-formalization.json",
+    "registrations_total": 9,
+    "truncated": false,
+    "au_record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-16-000021-v1.json",
+    "au_record_sha256": "db35da191baa1e9c2c8281b7f40dd6e2600c7d8f1c373fff5e49d0700dbdb825",
+    "global_snapshot_note": "registry_revision and registry_release retain the prior complete global search snapshot. Current registration statuses were refreshed from the complete repository index and versioned AU record; no newer global-search revision is claimed."
+  }
 }
