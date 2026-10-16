@@ -16,6 +16,10 @@ NAMES = ['Sneider.' + n for n in [
     'exists_closed_diagonal_basis', 'metrizableSpace_of_isGdelta_diagonal',
     'metrizable_iff_isGdelta_diagonal', 'exists_compatibleMetric']]
 AXIOMS = {'propext', 'Classical.choice', 'Quot.sound'}
+AUTHORS = ['Arthur Freitas Ramos', 'David Barros Hulak',
+    'Ruy Jose Guerra Barretto de Queiroz']
+MAINTAINERS = ['Arthur Freitas Ramos', 'David Barros Hulak',
+    'Ruy Jose Guerra Barretto de Queiroz']
 
 
 def check(log, write):
@@ -46,15 +50,17 @@ def check(log, write):
     assert 'import SDSolution' in (ROOT / 'SemanticTests.lean').read_text()
     meta = json.loads((ROOT / 'formalization.yaml').read_text())
     assert meta['project']['name'] == "Sneider's Gδ-diagonal metrization theorem"
-    assert meta['project']['authors'] == meta['project']['responsible_maintainers'] == []
-    assert meta['status']['attribution_status'].startswith('draft:')
+    assert meta['project']['authors'] == AUTHORS
+    assert meta['project']['responsible_maintainers'] == MAINTAINERS
+    assert meta['status']['attribution_status'].startswith('confirmed:')
     assert meta['project']['license'] == 'Apache-2.0'
     assert meta['classification'] == {'arxiv': ['math.GN'], 'msc2020': ['54E35', '54D30']}
     assert meta['status']['sorry_count'] == meta['status']['sorry_in_definitions'] == 0
     assert set(meta['status']['axioms']) == AXIOMS
     assert meta['sources'][0]['id'] == 'https://arxiv.org/pdf/math/9910153v1'
     readme = (ROOT / 'README.md').read_text()
-    assert 'Human authors and responsible maintainers await explicit confirmation' in readme
+    assert all(name in readme for name in AUTHORS + MAINTAINERS)
+    assert 'separately confirmed roles' in readme
     assert 'no human review is' in readme
     lean_files = []
     for path in ROOT.rglob('*.lean'):
@@ -90,7 +96,7 @@ def check(log, write):
         assert json.loads(record.read_text()) == hashes, 'Frozen source hash mismatch'
     print(json.dumps({'status': 'pass', 'selected_theorems': len(NAMES),
         'selected_definitions': 0, 'axiom_declarations': len(reports),
-        'submission_ready': False, 'pending': ['human role confirmation',
+        'submission_ready': False, 'pending': [
             'canonical full mechanical preflight', 'canonical Challenge rendering'],
         'challenge_lines': len(challenge.splitlines()), 'challenge_bytes': len(challenge),
         'lean_sources': sorted(lean_files), 'source_files_hashed': len(hashes),

@@ -20,5 +20,8 @@ Proof/Challenge SHA256 at this package version:
 These reviews do not claim full Comparator or rendering success, Palomar
 editorial acceptance, novelty or a resolution of a small-diagonal problem.
 
-Project-specific human author/maintainer authorization remains unconfirmed.
-The draft metadata leaves those lists empty and is not eligible for intake.
+The user explicitly approved Arthur Freitas Ramos, David Barros Hulak and
+Ruy Jose Guerra Barretto de Queiroz as authors and responsible maintainers of
+Sneider PR14 on 2026-10-16. AI proof contributions remain separately disclosed.
+Exact-source canonical reports and final review are recorded in the evidence
+packet after verification; this source snapshot does not preclaim their result.

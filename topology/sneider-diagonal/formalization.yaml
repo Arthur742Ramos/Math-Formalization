@@ -3,8 +3,16 @@
   "project": {
     "name": "Sneider's Gδ-diagonal metrization theorem",
     "description": "A compact Hausdorff space is metrizable if and only if its diagonal is a Gδ subset of its square with the product topology. The proof supplies a cofinal countable family of finite intersections of closed diagonal neighborhoods and an actual metric inducing exactly the given topology. The underlying type is arbitrary and may be empty. A general supporting theorem proves countable neighborhood character of every closed Gδ set in a compact normal space. This is classical mathematics; no novelty or priority is claimed.",
-    "authors": [],
-    "responsible_maintainers": [],
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
     "license": "Apache-2.0"
   },
   "classification": {
@@ -44,8 +52,8 @@
       "Classical.choice",
       "Quot.sound"
     ],
-    "known_gaps": "No proof hole or extra mathematical assumption in the selected statements. The countably compact extension, small-diagonal conditions and any claimed resolution of related research problems are outside scope. Canonical full Comparator/multi-kernel preflight and Challenge rendering remain separate outstanding verification gates; no Palomar submission or registration is claimed. Human author and responsible-maintainer lists remain draft pending project-specific confirmation; the current metadata is not eligible for intake.",
-    "attribution_status": "draft: new-project human author and responsible-maintainer roles await explicit confirmation; empty lists are intentional and not registry-ready"
+    "known_gaps": "No proof hole or extra mathematical assumption in the selected statements. The countably compact extension, small-diagonal conditions and any claimed resolution of related research problems are outside scope. Canonical full Comparator/multi-kernel preflight and Challenge rendering remain separate outstanding verification gates; no Palomar submission or registration is claimed. Human authors and responsible maintainers are explicitly confirmed for this project. Canonical exact-source reports will be supplied separately after verification.",
+    "attribution_status": "confirmed: user approved all three listed authors and responsible maintainers for Sneider PR14 on 2026-10-16; substantive AI proof contributions separately disclosed"
   },
   "automation": {
     "methods": [
@@ -54,7 +62,7 @@
         "tool_setup": "OpenAI Codex authored substantive proofs, tests and packaging under Arthur authorization. Separate internal AI reviewers examined source fidelity and implementation contracts. Backend identity and costs are not independently attested."
       }
     ],
-    "notes": "AI proof contributions are material and disclosed. Human author and responsible-maintainer roles await project-specific confirmation. No human review is claimed."
+    "notes": "AI proof contributions are material and disclosed. Human authors and responsible maintainers are explicitly project-authorized. No human review is claimed."
   },
   "fidelity": {
     "divergences": "The compact Hausdorff equivalence matches the classical criterion recalled by Gruenhage on printed p.1. The proof uses normal shrinking, compactness and Mathlib’s compact uniformity construction rather than claiming to reproduce Sneider’s unconsulted original proof. The general compact-normal closed-Gδ lemma and exact metric witness expose supporting conclusions. No countably compact or small-diagonal theorem is asserted."
@@ -67,5 +75,5 @@
     ],
     "notes": "See REVIEW.md for scopes and immutable proof hashes. Reviews are internal AI reviews; no human or external peer review is claimed. Compilation, axiom checks and canonical protected preflight are distinct evidence."
   },
-  "acknowledgements": "Classical mathematical attribution and imported Lean/Mathlib infrastructure retain their provenance. Substantive AI contributions are disclosed. Human project roles will be recorded after explicit project-specific confirmation."
+  "acknowledgements": "Classical mathematical attribution and imported Lean/Mathlib infrastructure retain their provenance. Substantive AI contributions are disclosed. The user explicitly approved the separate human author and responsible-maintainer lists for this project."
 }

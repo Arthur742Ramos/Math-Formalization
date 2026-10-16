@@ -32,6 +32,8 @@ A local Lean build and ordinary hosted Lean CI establish only the checks they
 actually execute. Full canonical Comparator/NanoDa/con-ron verification and
 Challenge rendering are outstanding until their immutable reports pass.
 The host UID-map restriction is preserved; no local Comparator bypass is
-attempted. The pinned hosted installer conditionally changes AppArmor, which
-is excluded by the current no-security-change instruction. Any future full
-preflight must use one exact source and pipeline pin and reconcile runs first.
+attempted. The pinned hosted installer conditionally loads a path-specific AppArmor
+profile granting user namespaces to its temporary bubblewrap executable. The
+user approved exactly that operation on the disposable verification runner.
+Other security changes remain excluded. Full preflight uses one exact source
+and pipeline pin, with existing runs reconciled before launch.

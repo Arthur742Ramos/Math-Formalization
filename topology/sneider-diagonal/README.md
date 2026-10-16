@@ -69,16 +69,18 @@ empty/full closed sets, and an indiscrete compact space.
 
 Full canonical Comparator/multi-kernel preflight and Challenge rendering are
 outstanding gates. Local Lean verification and ordinary Lean CI do not replace
-them. This cloud's user-namespace restriction is preserved. The pinned hosted
-installer may load an AppArmor policy, so those jobs are not launched under the
-current instruction prohibiting security changes. No registry operation is
-part of preparing this package.
+them. This cloud's user-namespace restriction is preserved. The user approved the pinned installer’s disclosed path-specific AppArmor
+user-namespace operation only on the disposable verification runner. The cloud
+host restriction remains unchanged. Exact-source canonical results are recorded
+separately after those jobs complete. No registry operation is authorized here.
 
-## Attribution awaiting confirmation
+## Authorship and responsible maintenance
 
-Human authors and responsible maintainers await explicit confirmation for this
-new project. The empty lists in the draft `formalization.yaml` intentionally
-prevent treating it as intake-ready. Existing projects' attribution is preserved.
+The user explicitly approved Arthur Freitas Ramos, David Barros Hulak and
+Ruy Jose Guerra Barretto de Queiroz as both the authors and the responsible
+maintainers of this project. These are separately confirmed roles; they do not
+assert that the named humans wrote the Lean proofs. Existing projects’
+attribution is preserved.
 
 OpenAI Codex authored the substantive proofs and packaging under Arthur's
 campaign authorization. Independent internal AI mathematical/source and
