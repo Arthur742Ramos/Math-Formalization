@@ -6,15 +6,28 @@ metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
 The [project catalog](PROJECTS.md) lists all 13 topology projects, their scope,
-public Palomar status and original source snapshots. At registry revision
-315 on 2026-10-16, 8 projects have confirmed public registrations:
-Alexandroff/composant foundations, order arcs, Michael's biquotient theorems,
-Dowker's characterization, perfect surjections, Nagata-Smirnov metrization and
-Smirnov local-to-global metrization, and perfect images of metrizable spaces.
-No public registration was found for the hyperspace, Sorgenfrey, Whitney or
-Alexandroff–Urysohn developments in that snapshot. The new Sneider diagonal
-development has confirmed authorship and maintenance, with canonical mechanical
-verification and rendering tracked separately; no public registration is claimed.
+public Palomar status and source snapshots. The complete official repository
+index checked on 2026-10-16 contains 9 registrations, including Alexandroff–Urysohn
+as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1).
+Its [official record](https://data.palomar-registry.org/entries/PALOMAR-2026-10-16-000021-v1.json)
+confirms registration at 2026-10-16T21:58:30Z for exact source
+`8ff5eedba962cb74050fe6d5f0acd934ba830fc5`. No public registration was found for
+hyperspace components, Sorgenfrey, Whitney or Sneider in that complete index.
+
+Status statements inside immutable source snapshots describe the development
+stage when those snapshots were created. In particular, AU's statements that
+protected verification was outstanding and no submission had occurred predate
+its later passing verification, submission and registration. The registered
+snapshot remains unchanged; the dated official record establishes its current
+registration status. The catalog's earlier global-search revision is preserved
+as historical provenance, separately from this per-repository refresh.
+
+Sneider's confirmed authorship and maintenance, [passing canonical preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975517426)
+and [passing Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975253426)
+bind exact source `497432e5e02244f242cdfc8c0a43316de3aa5bdc`; [PR14](https://github.com/Arthur742Ramos/Math-Formalization/pull/14)
+merged the identical package tree. Its source-bound notes predate those passing
+reports. These checks establish mechanical evidence, not registry submission,
+editorial acceptance or registration. No Sneider submission is claimed here.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records
