@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "checked_date": "2026-10-15",
-  "registry_revision": 290,
-  "registry_release": "5deeddb2d24d8f78bbc18068eadb7befcc238b17662fcfc7135da4c65da0d7dc",
+  "checked_date": "2026-10-16",
+  "registry_revision": 315,
+  "registry_release": "5f56619b644b436f7e9e4fdde0a4e65acd0f6131a722b666dc31f87ca49d1c63",
   "repository": "Arthur742Ramos/Math-Formalization",
   "projects": [
     {
@@ -240,6 +240,16 @@
       "source_snapshot": {
         "commit": "a4b65f63cb5f4f40d733683f5bce963ad1ccf32b",
         "tree": "71d68d8fc865dcb0322033bf5f8530b08feb82dc"
+      },
+      "status": "no-public-registration-found"
+    },
+    {
+      "name": "Sneider's Gδ-diagonal metrization theorem",
+      "path": "topology/sneider-diagonal",
+      "scope": "Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; draft attribution and protected verification pending.",
+      "source_snapshot": {
+        "commit": "9440dbf51b4b39fa4eb7e50501a029b440cefbb3",
+        "tree": "ec207b88a58fbcadde64dbc148952d85e24f2120"
       },
       "status": "no-public-registration-found"
     }

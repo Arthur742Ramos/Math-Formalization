@@ -5,14 +5,16 @@ owns its toolchain, Lake configuration and lockfile, Challenge, Comparator
 metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
-The [project catalog](PROJECTS.md) lists all 12 topology projects, their scope,
+The [project catalog](PROJECTS.md) lists all 13 topology projects, their scope,
 public Palomar status and original source snapshots. At registry revision
-290 on 2026-10-15, 8 projects have confirmed public registrations:
+315 on 2026-10-16, 8 projects have confirmed public registrations:
 Alexandroff/composant foundations, order arcs, Michael's biquotient theorems,
 Dowker's characterization, perfect surjections, Nagata-Smirnov metrization and
 Smirnov local-to-global metrization, and perfect images of metrizable spaces.
 No public registration was found for the hyperspace, Sorgenfrey, Whitney or
-Alexandroff–Urysohn developments in that snapshot.
+Alexandroff–Urysohn developments in that snapshot. The new Sneider diagonal
+development is a proof-verified draft with attribution and canonical protected
+verification gates outstanding; no public registration is claimed.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records
