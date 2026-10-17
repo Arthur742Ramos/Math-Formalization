@@ -1,0 +1,20 @@
+'CountableCoordinates.finite_coordinates_of_entourage' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.countable_coordinates_of_uniformContinuous' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CountableCoordinates.countable_coordinates_of_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.restrict_refill' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.uniformContinuous_refill' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.exists_countable_uniform_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.exists_countable_continuous_factorization' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CountableCoordinates.factor_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.exists_common_countable_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.nontrivial_subset_of_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.countable_nontrivial_of_continuous_injective' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CountableCoordinates.continuous_refill' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.compact_product_metrizable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableCoordinates.refill' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,27 @@
+{
+  "challenge_module": "CCChallenge",
+  "solution_module": "CCSolution",
+  "theorem_names": [
+    "CountableCoordinates.finite_coordinates_of_entourage",
+    "CountableCoordinates.countable_coordinates_of_uniformContinuous",
+    "CountableCoordinates.countable_coordinates_of_continuous",
+    "CountableCoordinates.restrict_refill",
+    "CountableCoordinates.uniformContinuous_refill",
+    "CountableCoordinates.exists_countable_uniform_factorization",
+    "CountableCoordinates.exists_countable_continuous_factorization",
+    "CountableCoordinates.factor_unique",
+    "CountableCoordinates.exists_common_countable_factorization",
+    "CountableCoordinates.nontrivial_subset_of_injective",
+    "CountableCoordinates.countable_nontrivial_of_continuous_injective",
+    "CountableCoordinates.continuous_refill",
+    "CountableCoordinates.compact_product_metrizable_iff"
+  ],
+  "definition_names": [
+    "CountableCoordinates.refill"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
