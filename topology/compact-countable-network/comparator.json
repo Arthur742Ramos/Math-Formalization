@@ -1,0 +1,26 @@
+{
+  "challenge_module": "CNChallenge",
+  "solution_module": "CNSolution",
+  "theorem_names": [
+    "CountableNetwork.IsNetwork.exists_bounded_separating_family",
+    "CountableNetwork.metrizableSpace_of_countable_network",
+    "CountableNetwork.hasCountableNetwork_of_secondCountable",
+    "CountableNetwork.metrizable_iff_hasCountableNetwork",
+    "CountableNetwork.secondCountable_iff_hasCountableNetwork",
+    "CountableNetwork.exists_compatibleMetric",
+    "CountableNetwork.IsNetwork.exists_closedEmbedding",
+    "CountableNetwork.IsNetwork.image",
+    "CountableNetwork.HasCountableNetwork.of_continuous_surjective",
+    "CountableNetwork.HasCountableNetwork.subtype",
+    "CountableNetwork.metrizable_compact_subspace"
+  ],
+  "definition_names": [
+    "CountableNetwork.IsNetwork",
+    "CountableNetwork.HasCountableNetwork"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

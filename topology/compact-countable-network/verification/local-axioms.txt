@@ -1,0 +1,15 @@
+'CountableNetwork.IsNetwork' does not depend on any axioms
+'CountableNetwork.HasCountableNetwork' does not depend on any axioms
+'CountableNetwork.IsNetwork.exists_bounded_separating_family' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.metrizableSpace_of_countable_network' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.hasCountableNetwork_of_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.metrizable_iff_hasCountableNetwork' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.secondCountable_iff_hasCountableNetwork' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.exists_compatibleMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.IsNetwork.exists_closedEmbedding' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.IsNetwork.image' does not depend on any axioms
+'CountableNetwork.HasCountableNetwork.of_continuous_surjective' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CountableNetwork.HasCountableNetwork.subtype' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CountableNetwork.metrizable_compact_subspace' depends on axioms: [propext, Classical.choice, Quot.sound]

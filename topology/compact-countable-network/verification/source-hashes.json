@@ -1,0 +1,21 @@
+{
+  "AUDIT.md": "febe9d124bc4dc6d911b3c07300c361a444fdb4e1e561b235f1f120f663fc3f5",
+  "AxiomAudit.lean": "29a4e8c1310bdab3297dfefa8fcc3440e123132c99ce87a2a2ff0e9ab91f6d71",
+  "CNChallenge.lean": "ee1b7661132d5bf938087eae251d628e3cc6656ab7b1cf79b6ea0cce8ed3cbd6",
+  "CNSolution.lean": "ac20c53e41c0ab81f07502c5b73c95cebd1f517cb5e045612936fe6128d649c6",
+  "ChallengeTests.lean": "8828741f6a681672f672bd24c04786ac8f56b90b122c830f6b3455bb5c792e8e",
+  "CompactCountableNetwork.lean": "ee1b7661132d5bf938087eae251d628e3cc6656ab7b1cf79b6ea0cce8ed3cbd6",
+  "DEFINITIONS.md": "5f1250b4cfe73bf71e95757770a1901cf23c84dd7f331b6d1016931726ef95e4",
+  "README.md": "d5092e5cb416b9888b8051c9177bf202d3ad85ae681c22e5758fff7444a34c9c",
+  "REVIEW.md": "3ab8cfe8916e891bba1e8803e237397d5d19b965e0204cf9b2a8879cdda7bf1c",
+  "SOURCES.md": "67ab97b3c8667cbab025d942ae096342a6af826306ffdbb76eb2cf15dedf5567",
+  "SemanticTests.lean": "44c48a947f55ee7bb131ad22be8a5572239aac762c615292abc001eff0d39c73",
+  "comparator.json": "b7a0d91d7f2355c8179cf99eb1f38198ae32a24d2bc73f39ac019f378de6553f",
+  "formalization.yaml": "3bb1991d979b6112ae476b01e3661669cec25db08f5ac1bebce71ab4d34bf78d",
+  "lake-manifest.json": "0d314a92865b202b8a8b9d323ca501ccd6e4dd5b68f8b75f4dfe0ccbe77b9653",
+  "lakefile.toml": "375c36f2ffbf1a540d994e39103c900e0d700bfa9e0e1f83ee6c393b3979fd37",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_package.py": "5e5b58b71ba3eb66c96a78a6979308ed1f0c95d283b87359e69022e2793bd6d8",
+  "verification/definitions.json": "83029f86f73ea7888b5a96211e13d241f22c74937c38a943d994cf5f4ef3456f",
+  "verification/local-axioms.txt": "d26385354577593fa4f1350c0eebeaf87383bcfc9c9323acb9dedb077876d0d0"
+}

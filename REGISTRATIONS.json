@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "checked_date": "2026-10-16",
-  "registry_revision": 315,
-  "registry_release": "5f56619b644b436f7e9e4fdde0a4e65acd0f6131a722b666dc31f87ca49d1c63",
+  "checked_date": "2026-10-17",
+  "registry_revision": 329,
+  "registry_release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
   "repository": "Arthur742Ramos/Math-Formalization",
   "projects": [
     {
@@ -264,6 +264,32 @@
         "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
         "tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7"
       },
+      "status": "registered",
+      "registration": {
+        "id": "PALOMAR-2026-10-17-000003",
+        "version": 1,
+        "source_commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+        "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-17-000003-v1.json",
+        "theorem_names": [
+          "Sneider.exists_closed_countable_nhds_basis_of_isGδ",
+          "Sneider.nhdsSet_isCountablyGenerated_of_isGδ",
+          "Sneider.isGdelta_diagonal",
+          "Sneider.exists_closed_diagonal_basis",
+          "Sneider.metrizableSpace_of_isGdelta_diagonal",
+          "Sneider.metrizable_iff_isGdelta_diagonal",
+          "Sneider.exists_compatibleMetric"
+        ]
+      }
+    },
+    {
+      "name": "Compact Hausdorff countable-network metrization",
+      "path": "topology/compact-countable-network",
+      "scope": "Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport.",
+      "source_snapshot": {
+        "commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+        "tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b"
+      },
       "status": "no-public-registration-found"
     }
   ],
@@ -275,5 +301,32 @@
     "au_record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-16-000021-v1.json",
     "au_record_sha256": "db35da191baa1e9c2c8281b7f40dd6e2600c7d8f1c373fff5e49d0700dbdb825",
     "global_snapshot_note": "registry_revision and registry_release retain the prior complete global search snapshot. Current registration statuses were refreshed from the complete repository index and versioned AU record; no newer global-search revision is claimed."
+  },
+  "registration_updates": [
+    {
+      "checked_date": "2026-10-17",
+      "id": "PALOMAR-2026-10-17-000003",
+      "version": 1,
+      "registered_at": "2026-10-17T05:08:01Z",
+      "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-17-000003-v1.json",
+      "source_commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+      "project_path": "topology/sneider-diagonal",
+      "review_warnings": [],
+      "index_note": "The complete repository-index refresh remains the dated 2026-10-16 snapshot; this later update comes from the versioned public Sneider record. No newer complete index or global search is claimed."
+    }
+  ],
+  "registry_clearance": {
+    "checked_at_utc": "2026-10-17T12:31:51.577974+00:00",
+    "revision": 329,
+    "release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
+    "active_entries": 596,
+    "pages": 24,
+    "complete": true,
+    "public_api_url": "https://data.palomar-registry.org/api/v1/results",
+    "repository_index_url": "https://data.palomar-registry.org/repositories/arthur742ramos/math-formalization.json",
+    "repository_registrations_total": 10,
+    "repository_truncated": false,
+    "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
+    "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
   }
 }

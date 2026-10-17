@@ -1,11 +1,12 @@
 # Projects
 
-Public registration status refreshed on 2026-10-16 from the complete official
-repository index (9 registrations) and versioned AU record. Revision 315 remains
-the earlier complete global search snapshot, not a claim about this refresh.
-Registration applies to the linked source commit and version. Package status
-notes describe their historical development snapshots; later verification and
-registration receipts below establish the current status.
+Public registration status was refreshed on 2026-10-17 from the complete official
+repository index (10 registrations) and versioned public records. The public
+registry-wide audit covers 596 active entries at revision 329. No newer private
+or unregistered work is inferred from that public coverage. Registration applies
+to the linked source commit and version; package status notes describe their
+historical preparation stages, while later public reports and records establish
+completed verification and registration.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
@@ -23,7 +24,9 @@ registration receipts below establish the current status.
 
 | [Alexandroff–Urysohn cover metrization](topology/alexandroff-urysohn) | Intersecting-pair open-cover criterion, separation-free pseudometric form, co-membership uniformity and compatible metric. | Registered: [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1) | [`8ff5eed`](https://github.com/Arthur742Ramos/Math-Formalization/tree/8ff5eedba962cb74050fe6d5f0acd934ba830fc5/topology/alexandroff-urysohn) |
 
-| [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification and rendering passed. | No public registration found | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
+| [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification and rendering passed. | Registered: [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1) | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
+
+| [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | No public registration found | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does
@@ -35,3 +38,12 @@ Each directory owns its toolchain, Lake configuration, lockfile, Challenge,
 Comparator metadata and verification scripts. Run build commands from that
 directory. The catalog check verifies preserved project trees and public record
 bindings; it does not rerun Lean or claim a new Palomar verification of main.
+
+The countable-network development's full canonical preflight and Challenge
+rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
+independent review and the dated public registry audit found no equivalent
+criterion in the inspected public coverage. Its package remains unchanged and
+has not been submitted or registered. Sneider is registered as
+PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
+its exact registered source remains unchanged. Earlier pending-status notes
+inside immutable snapshots predate those later reports and records.

@@ -1,0 +1,8 @@
+{
+  "namespace": "CountableNetwork",
+  "definition_names": [
+    "CountableNetwork.IsNetwork",
+    "CountableNetwork.HasCountableNetwork"
+  ],
+  "literal_contracts": "ChallengeTests.lean uses Iff.rfl for both definitions; SemanticTests.lean checks arbitrary network subsets and a non-open singleton network."
+}
