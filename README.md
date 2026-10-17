@@ -87,10 +87,26 @@ audit at revision 332 found no equivalent target. This does not establish
 absence of private attempts or unregistered work. Public-data access worked
 through the ordinary route at16:04–16:05UTC; submission-protocol access returned
 HTTP403 at16:05UTC and the later19:08UTC public-results read returned403.
-No intake, editorial acceptance or registration is claimed for this package.
+No intake was performed by this task; editorial outcomes and registration
+were not independently verified. The later22:21UTC user report is qualified below.
 
 The [countable-density Hewitt–Marczewski–Pondiczery development](topology/hewitt-marczewski-pondiczery)
 proves continuum-index separability and the sharp Boolean-cube criterion.
 Its source snapshot and verification limits are recorded in [PROJECTS.md](PROJECTS.md).
-PR17 remains a separate pending manual submission; this new development does
-not imply an intake outcome or rejection for that source.
+At19:01UTC, PR17 was a separate pending manual submission. This development
+does not itself establish an intake outcome or rejection; the later22:21UTC
+registration report is recorded below without inventing an official ID.
+
+The HMP package’s [full canonical verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893) and
+[Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730) passed for exact source
+`cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e`; protected comparison and independent
+kernels accepted all seven theorems and the literal row definition. The source
+package, prior fifteen package trees and dependency pins remain unchanged.
+The immutable preparation notes predate these results. Existing-record catalog
+checks and the dated complete duplicate audit are separate evidence; current
+global clearance is unresolved before any intake.
+
+Arthur reported at22:21UTC that the previous countable-coordinate result
+(PR17) registered. Its official ID remains unconfirmed and no intake is
+repeated. See the dated report history in REGISTRATIONS.json; this report
+does not establish an independently verified public registration.

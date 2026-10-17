@@ -300,7 +300,7 @@
         "commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
         "tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6"
       },
-      "status": "no-public-registration-found"
+      "status": "registration-pending"
     },
     {
       "name": "Countable-density Hewitt–Marczewski–Pondiczery theorem",
@@ -370,6 +370,13 @@
       "reported_at_utc": "2026-10-17T19:01:37Z",
       "reported_status": "pending manual submission; successful intake unknown without receipt",
       "provenance": "Separate HMP development was explicitly authorized while waiting. PR17 exact source and prepared packet remain unchanged; no rejection or completed intake is inferred."
+    },
+    {
+      "project_path": "topology/countable-coordinate-factorization",
+      "source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "reported_at_utc": "2026-10-17T22:21:00Z",
+      "reported_status": "registered, user-reported; official ID unconfirmed",
+      "provenance": "Arthur reports the previous countable-coordinate entry registered. No official ID or independently verified public record is supplied; no intake is repeated."
     }
   ],
   "next_project_duplicate_check": {
@@ -393,6 +400,20 @@
       "selected_theorems": 13,
       "selected_definitions": 1,
       "scope": "Exact-source mechanical and rendering evidence. Dated duplicate audit only; no intake, editorial acceptance or registration claim."
+    },
+    {
+      "checked_at_utc": "2026-10-17T22:31:08.835303+00:00",
+      "project_path": "topology/hewitt-marczewski-pondiczery",
+      "source_commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+      "package_tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e",
+      "canonical_full_run": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893",
+      "canonical_render_run": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730",
+      "canonical_status": "pass",
+      "errors": 0,
+      "warnings": 0,
+      "selected_theorems": 7,
+      "selected_definitions": 1,
+      "scope": "Exact-source protected comparison, independent kernels and canonical rendering passed. Dated overlap/current repository activity support scoped repository publication; fresh registry clearance remains unresolved before intake. No registry action or registration claim."
     }
   ],
   "registry_clearance_history": [
@@ -429,5 +450,13 @@
       "saved_snapshot_checked_at_utc": "2026-10-17T16:05:30.876054+00:00",
       "result": "Independent pinned-library/repository and dated complete public metadata audit found no equivalent continuum-index separable-product theorem. Current API returned403 at19:08UTC; current registry freshness and private attempts are unconfirmed."
     }
-  ]
+  ],
+  "publication_overlap_scope": {
+    "project_path": "topology/hewitt-marczewski-pondiczery",
+    "assessment": "Independent review supports repository publication within dated public coverage after verification and final review.",
+    "dated_snapshot": "2026-10-17T16:05:30UTC, revision332/598activeentries",
+    "current_repository": "One HMP branch and sole open PR18 inspected; no competing target seen.",
+    "limitation": "Current global registry access returned403; no denied route retried. Fresh duplicate, private-attempt, protocol and proof-capability reconciliation remain before intake.",
+    "clarification": "Repository publication uses the dated complete overlap coverage and current repository activity. This does not discharge the separate fresh duplicate, capability and receipt checks before registry intake."
+  }
 }
