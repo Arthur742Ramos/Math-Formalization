@@ -311,6 +311,16 @@
         "tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e"
       },
       "status": "no-public-registration-found"
+    },
+    {
+      "name": "Fréchet–Urysohn Σ-products of first-countable spaces",
+      "path": "topology/sigma-product-frechet",
+      "scope": "Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast.",
+      "source_snapshot": {
+        "commit": "10f8b9075144c51468729b9b620c46b739c0a680",
+        "tree": "aede58cee0cd5ae8d8daa02bdda796b102f2ca93"
+      },
+      "status": "no-public-registration-found"
     }
   ],
   "registration_refresh": {
@@ -458,5 +468,20 @@
     "current_repository": "One HMP branch and sole open PR18 inspected; no competing target seen.",
     "limitation": "Current global registry access returned403; no denied route retried. Fresh duplicate, private-attempt, protocol and proof-capability reconciliation remain before intake.",
     "clarification": "Repository publication uses the dated complete overlap coverage and current repository activity. This does not discharge the separate fresh duplicate, capability and receipt checks before registry intake."
+  },
+  "sigma_preparation": {
+    "project_path": "topology/sigma-product-frechet",
+    "source_commit": "10f8b9075144c51468729b9b620c46b739c0a680",
+    "stage": "Preparation; canonical checks and fresh registry/intake gates unresolved.",
+    "overlap": "No equivalent found in pinned Mathlib, current16-project catalog/branch audit and dated publicrevision332/598entry snapshot captured2026-10-17T16:05UTC. No fresh registry clearance claimed.",
+    "prior_HMP": "Merged with canonical verification and delivered packet; no intake or registration inferred or repeated.",
+    "scope_limit": "First-countable factors with explicit basepoint, ordinary product/subtype topology. Source mapping distinguishes consulted finite-support recall from countable-support independent formulation.",
+    "ordinary_CI": {
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39077617369",
+      "source_commit": "10f8b9075144c51468729b9b620c46b739c0a680",
+      "attempt": 1,
+      "status": "pass",
+      "scope": "Ordinary Lean, six modules and ten transitive axiom audits; canonical comparison/rendering and current intake gates remain unresolved."
+    }
   }
 }

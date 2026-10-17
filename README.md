@@ -5,7 +5,7 @@ owns its toolchain, Lake configuration and lockfile, Challenge, Comparator
 metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
-The [project catalog](PROJECTS.md) lists all 16 topology projects, their scope,
+The [project catalog](PROJECTS.md) lists all 17 topology projects, their scope,
 public Palomar status and source snapshots. The complete official repository
 index checked at16:04UTC on2026-10-17 contained10 registrations, including Alexandroff–Urysohn
 as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1)
@@ -110,3 +110,12 @@ Arthur reported at22:21UTC that the previous countable-coordinate result
 (PR17) registered. Its official ID remains unconfirmed and no intake is
 repeated. See the dated report history in REGISTRATIONS.json; this report
 does not establish an independently verified public registration.
+
+The separate [Sigma-product sequential-closure development](topology/sigma-product-frechet)
+proves that countable-support products of first-countable pointed spaces are
+Frechet–Urysohn, using an adaptive finite-coordinate sequence construction.
+Its T1 closure companions explain the failure of sequentiality in uncountable
+ordinary Boolean cubes. See PROJECTS.md for the exact source, attribution and
+verification limits. Canonical verification/rendering and current registry
+clearance remain pending for this new target; earlier security approvals are
+not reused. HMP intake/registration is not inferred or repeated.
