@@ -5,7 +5,7 @@ owns its toolchain, Lake configuration and lockfile, Challenge, Comparator
 metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
-The [project catalog](PROJECTS.md) lists all 13 topology projects, their scope,
+The [project catalog](PROJECTS.md) lists all 14 topology projects, their scope,
 public Palomar status and source snapshots. The complete official repository
 index checked on 2026-10-16 contains 9 registrations, including Alexandroff–Urysohn
 as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1).
@@ -27,7 +27,15 @@ and [passing Challenge rendering](https://github.com/Arthur742Ramos/Math-Formali
 bind exact source `497432e5e02244f242cdfc8c0a43316de3aa5bdc`; [PR14](https://github.com/Arthur742Ramos/Math-Formalization/pull/14)
 merged the identical package tree. Its source-bound notes predate those passing
 reports. These checks establish mechanical evidence, not registry submission,
-editorial acceptance or registration. No Sneider submission is claimed here.
+editorial acceptance or registration. The maintainer now reports that Sneider
+passed Palomar and is awaiting registration; no new public registration record
+is claimed.
+
+The [countable-network package](topology/compact-countable-network) proves the
+compact Hausdorff countable-network metrization criterion and reusable network
+transport and subspace results. Its ordinary Lean verification is separate from
+canonical preflight and rendering, which remain outstanding. Current registry
+clearance is incomplete; this development has not been submitted.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records

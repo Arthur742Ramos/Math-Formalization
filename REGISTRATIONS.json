@@ -264,6 +264,16 @@
         "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
         "tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7"
       },
+      "status": "registration-pending"
+    },
+    {
+      "name": "Compact Hausdorff countable-network metrization",
+      "path": "topology/compact-countable-network",
+      "scope": "Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport.",
+      "source_snapshot": {
+        "commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+        "tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b"
+      },
       "status": "no-public-registration-found"
     }
   ],
