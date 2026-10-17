@@ -5,14 +5,17 @@ owns its toolchain, Lake configuration and lockfile, Challenge, Comparator
 metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
-The [project catalog](PROJECTS.md) lists all 14 topology projects, their scope,
+The [project catalog](PROJECTS.md) lists all 15 topology projects, their scope,
 public Palomar status and source snapshots. The complete official repository
 index checked on 2026-10-17 contains 10 registrations, including Alexandroff–Urysohn
 as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1)
 and Sneider as [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1).
 The dated public registry-wide audit covers 596 active entries at revision 329.
 No public registration was found for hyperspace components, Sorgenfrey,
-Whitney or the countable-network project in that snapshot. This does not
+Whitney or the countable-network project in that snapshot. The user later
+reported countable-network registration underway at 2026-10-17T13:11:26Z.
+A current public index request returned HTTP403, so that status is recorded
+as registration pending without inferring a public ID. This does not
 establish absence of private attempts or unregistered work.
 
 Status statements inside immutable source snapshots describe the development
@@ -41,8 +44,8 @@ passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`.
 Independent source and implementation review and the dated public duplicate
 audit found no blocking issue. The immutable source's earlier pending-gate
 notes describe its preparation snapshot. These results establish mechanical
-and review evidence; no submission, editorial acceptance or registration is
-claimed for this project.
+and review evidence. Its registration is now user-reported as underway; public
+confirmation remains unavailable, so no registration or public ID is claimed.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records
@@ -60,3 +63,13 @@ registration records. Proof verification remains documented in each package.
 
 Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources
 preserve their attribution and license headers.
+
+The [countable-coordinate factorization package](topology/countable-coordinate-factorization)
+proves exact continuous factorization through countable subproducts of arbitrary
+nonempty compact Hausdorff products, with a uniform-space bridge and product
+metrizability consequences. Ordinary Lean verification and internal independent
+AI review cover exact source `fc3f403c4d07356d2232e809f326f63a9ce9da45`.
+Canonical multi-kernel verification and rendering remain pending new specific
+disposable-runner AppArmor approval. The public duplicate check is dated to the
+saved revision329 audit; current complete clearance is unavailable after HTTP403.
+No intake or registration has occurred for this package.

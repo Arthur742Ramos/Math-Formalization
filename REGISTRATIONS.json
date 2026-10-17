@@ -290,6 +290,16 @@
         "commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
         "tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b"
       },
+      "status": "registration-pending"
+    },
+    {
+      "name": "Countable-coordinate factorization for compact products",
+      "path": "topology/countable-coordinate-factorization",
+      "scope": "Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability.",
+      "source_snapshot": {
+        "commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+        "tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6"
+      },
       "status": "no-public-registration-found"
     }
   ],
@@ -328,5 +338,20 @@
     "repository_truncated": false,
     "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
     "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
+  },
+  "registration_status_reports": [
+    {
+      "project_path": "topology/compact-countable-network",
+      "source_commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+      "reported_at_utc": "2026-10-17T13:11:26.137106Z",
+      "reported_status": "registering",
+      "provenance": "User report; public confirmation unavailable because current repository index request returned HTTP403. No public ID or registration is inferred."
+    }
+  ],
+  "next_project_duplicate_check": {
+    "project_path": "topology/countable-coordinate-factorization",
+    "dated_revision": 329,
+    "dated_active_entries": 596,
+    "result": "No equivalent found in independent semantic review of saved dated public coverage; pinned Mathlib and current branches/open PRs also checked. Current public registry refresh returned HTTP403; no current complete clearance or private-attempt visibility is claimed."
   }
 }

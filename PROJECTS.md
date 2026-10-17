@@ -26,7 +26,7 @@ completed verification and registration.
 
 | [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification and rendering passed. | Registered: [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1) | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
 
-| [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | No public registration found | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
+| [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | Registration pending | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does
@@ -43,7 +43,14 @@ The countable-network development's full canonical preflight and Challenge
 rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
 independent review and the dated public registry audit found no equivalent
 criterion in the inspected public coverage. Its package remains unchanged and
-has not been submitted or registered. Sneider is registered as
+has user-reported registration underway, without public confirmation. Sneider is registered as
 PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
 its exact registered source remains unchanged. Earlier pending-status notes
 inside immutable snapshots predate those later reports and records.
+
+| [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | No public registration found | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
+
+The factorization package has ordinary exact-toolchain Lean and internal AI review
+evidence; canonical verification and rendering remain pending fresh specific
+disposable-runner security approval. Its duplicate check uses the dated saved
+public coverage above. No registry intake has run for this package.
