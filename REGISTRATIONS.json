@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "checked_date": "2026-10-17",
-  "registry_revision": 315,
-  "registry_release": "5f56619b644b436f7e9e4fdde0a4e65acd0f6131a722b666dc31f87ca49d1c63",
+  "registry_revision": 329,
+  "registry_release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
   "repository": "Arthur742Ramos/Math-Formalization",
   "projects": [
     {
@@ -314,5 +314,19 @@
       "review_warnings": [],
       "index_note": "The complete repository-index refresh remains the dated 2026-10-16 snapshot; this later update comes from the versioned public Sneider record. No newer complete index or global search is claimed."
     }
-  ]
+  ],
+  "registry_clearance": {
+    "checked_at_utc": "2026-10-17T12:31:51.577974+00:00",
+    "revision": 329,
+    "release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
+    "active_entries": 596,
+    "pages": 24,
+    "complete": true,
+    "public_api_url": "https://data.palomar-registry.org/api/v1/results",
+    "repository_index_url": "https://data.palomar-registry.org/repositories/arthur742ramos/math-formalization.json",
+    "repository_registrations_total": 10,
+    "repository_truncated": false,
+    "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
+    "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
+  }
 }

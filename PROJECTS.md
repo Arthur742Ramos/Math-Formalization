@@ -1,11 +1,12 @@
 # Projects
 
-Public registration status combines the complete official repository index
-checked on 2026-10-16 (9 registrations) with Sneider's versioned public record
-registered on 2026-10-17. No newer complete index refresh is claimed. Revision 315
-remains the earlier global-search snapshot. Registration applies to the linked
-source commit and version; package status notes describe historical preparation
-stages, while later public records establish completed registrations.
+Public registration status was refreshed on 2026-10-17 from the complete official
+repository index (10 registrations) and versioned public records. The public
+registry-wide audit covers 596 active entries at revision 329. No newer private
+or unregistered work is inferred from that public coverage. Registration applies
+to the linked source commit and version; package status notes describe their
+historical preparation stages, while later public reports and records establish
+completed verification and registration.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
@@ -38,9 +39,11 @@ Comparator metadata and verification scripts. Run build commands from that
 directory. The catalog check verifies preserved project trees and public record
 bindings; it does not rerun Lean or claim a new Palomar verification of main.
 
-The countable-network development was added on 2026-10-17 and is not covered by
-the older repository-index refresh. Its current registry-wide duplicate
-clearance, canonical full preflight and rendering remain outstanding. Sneider
-is registered as PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z,
-with no review warnings; its exact source remains unchanged. Existing dated
-public records remain the evidence for completed registrations.
+The countable-network development's full canonical preflight and Challenge
+rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
+independent review and the dated public registry audit found no equivalent
+criterion in the inspected public coverage. Its package remains unchanged and
+has not been submitted or registered. Sneider is registered as
+PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
+its exact registered source remains unchanged. Earlier pending-status notes
+inside immutable snapshots predate those later reports and records.
