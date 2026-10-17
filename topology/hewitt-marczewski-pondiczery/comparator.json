@@ -1,0 +1,21 @@
+{
+  "challenge_module": "HMPChallenge",
+  "solution_module": "HMPSolution",
+  "theorem_names": [
+    "HMP.finite_interpolation",
+    "HMP.denseRange_rows",
+    "HMP.continuum_bound_iff",
+    "HMP.separable_product_of_embedding",
+    "HMP.separable_product",
+    "HMP.coordinate_patterns_injective",
+    "HMP.boolean_cube_separable_iff"
+  ],
+  "definition_names": [
+    "HMP.row"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

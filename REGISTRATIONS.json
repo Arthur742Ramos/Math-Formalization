@@ -300,6 +300,16 @@
         "commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
         "tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6"
       },
+      "status": "registration-pending"
+    },
+    {
+      "name": "Countable-density Hewitt–Marczewski–Pondiczery theorem",
+      "path": "topology/hewitt-marczewski-pondiczery",
+      "scope": "Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness.",
+      "source_snapshot": {
+        "commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+        "tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e"
+      },
       "status": "no-public-registration-found"
     }
   ],
@@ -346,6 +356,27 @@
       "reported_at_utc": "2026-10-17T13:11:26.137106Z",
       "reported_status": "registering",
       "provenance": "User report. Fresh complete official repository index checked at 2026-10-17T16:05:30.876054+00:00 still contains10 registrations without the countable-network project; no public registration or ID is inferred. Earlier HTTP403 prevented the initial refresh; ordinary public-data access now works, while submission-protocol access remainsHTTP403."
+    },
+    {
+      "project_path": "topology/compact-countable-network",
+      "source_commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+      "reported_at_utc": "2026-10-17T18:31:00Z",
+      "reported_status": "registered, user-reported; official ID unconfirmed",
+      "provenance": "Arthur clarified that the reported registered result was countable network. No official receipt or ID was supplied; no independently verified public registration is inferred."
+    },
+    {
+      "project_path": "topology/countable-coordinate-factorization",
+      "source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "reported_at_utc": "2026-10-17T19:01:37Z",
+      "reported_status": "pending manual submission; successful intake unknown without receipt",
+      "provenance": "Separate HMP development was explicitly authorized while waiting. PR17 exact source and prepared packet remain unchanged; no rejection or completed intake is inferred."
+    },
+    {
+      "project_path": "topology/countable-coordinate-factorization",
+      "source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "reported_at_utc": "2026-10-17T22:21:00Z",
+      "reported_status": "registered, user-reported; official ID unconfirmed",
+      "provenance": "Arthur reports the previous countable-coordinate entry registered. No official ID or independently verified public record is supplied; no intake is repeated."
     }
   ],
   "next_project_duplicate_check": {
@@ -369,6 +400,20 @@
       "selected_theorems": 13,
       "selected_definitions": 1,
       "scope": "Exact-source mechanical and rendering evidence. Dated duplicate audit only; no intake, editorial acceptance or registration claim."
+    },
+    {
+      "checked_at_utc": "2026-10-17T22:31:08.835303+00:00",
+      "project_path": "topology/hewitt-marczewski-pondiczery",
+      "source_commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+      "package_tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e",
+      "canonical_full_run": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893",
+      "canonical_render_run": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730",
+      "canonical_status": "pass",
+      "errors": 0,
+      "warnings": 0,
+      "selected_theorems": 7,
+      "selected_definitions": 1,
+      "scope": "Exact-source protected comparison, independent kernels and canonical rendering passed. Dated overlap/current repository activity support scoped repository publication; fresh registry clearance remains unresolved before intake. No registry action or registration claim."
     }
   ],
   "registry_clearance_history": [
@@ -386,5 +431,32 @@
       "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
       "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
     }
-  ]
+  ],
+  "status_report_reading_note": "Each report and clearance object is dated historical evidence. Present-tense wording within older provenance describes that object’s checked time, not current access or status. Later user reports and access observations below qualify it; registered project rows require verified public IDs.",
+  "registry_access_updates": [
+    {
+      "checked_at_utc": "2026-10-17T19:08:24.573748+00:00",
+      "url": "https://data.palomar-registry.org/api/v1/results",
+      "status": 403,
+      "scope": "Ordinary documented public-results API. No authentication/proxy change, denied-route retry or alternate-route bypass. Fresh clearance unavailable; no private-attempt claim."
+    }
+  ],
+  "additional_project_duplicate_checks": [
+    {
+      "project_path": "topology/hewitt-marczewski-pondiczery",
+      "checked_date": "2026-10-17",
+      "saved_revision": 332,
+      "saved_active_entries": 598,
+      "saved_snapshot_checked_at_utc": "2026-10-17T16:05:30.876054+00:00",
+      "result": "Independent pinned-library/repository and dated complete public metadata audit found no equivalent continuum-index separable-product theorem. Current API returned403 at19:08UTC; current registry freshness and private attempts are unconfirmed."
+    }
+  ],
+  "publication_overlap_scope": {
+    "project_path": "topology/hewitt-marczewski-pondiczery",
+    "assessment": "Independent review supports repository publication within dated public coverage after verification and final review.",
+    "dated_snapshot": "2026-10-17T16:05:30UTC, revision332/598activeentries",
+    "current_repository": "One HMP branch and sole open PR18 inspected; no competing target seen.",
+    "limitation": "Current global registry access returned403; no denied route retried. Fresh duplicate, private-attempt, protocol and proof-capability reconciliation remain before intake.",
+    "clarification": "Repository publication uses the dated complete overlap coverage and current repository activity. This does not discharge the separate fresh duplicate, capability and receipt checks before registry intake."
+  }
 }

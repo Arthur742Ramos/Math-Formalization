@@ -43,13 +43,14 @@ The countable-network development's full canonical preflight and Challenge
 rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
 independent review and the dated public registry audit found no equivalent
 criterion in the inspected public coverage. Its package remains unchanged and
-has user-reported registration underway. The fresh public index still has no
-entry for it, so no public registration is inferred. Sneider is registered as
+has user-reported registration, clarified at18:31UTC. The last independently
+checked16:04UTC public index had no entry; a later19:08UTC results read was
+denied. Its official ID is unconfirmed, so no public registration is inferred. Sneider is registered as
 PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
 its exact registered source remains unchanged. Earlier pending-status notes
 inside immutable snapshots predate those later reports and records.
 
-| [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | No public registration found | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
+| [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | Registration pending | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
 
 The factorization package's [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697) and
 [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497) passed for exact source `fc3f403c4d07356d2232e809f326f63a9ce9da45`
@@ -59,8 +60,40 @@ comparison and the independent kernels; the package tree remains unchanged.
 Earlier pending-gate notes in its immutable preparation snapshot predate these
 reports. Independent semantic review of the fresh complete 598-entry public
 audit at revision 332 found no equivalent countable-coordinate factorization
-or compact-product criterion. The complete repository index has10 registrations
-and no entry for this package. Public-data access worked through the ordinary
-route; submission-protocol access still returnedHTTP403 at 16:05 UTC. Private
-attempts are not enumerated. No registry intake, editorial acceptance or
-registration is claimed for this package.
+or compact-product criterion. The16:04UTC complete repository index had10 registrations
+and no entry for this package. That dated public-data read worked through the
+ordinary route; submission-protocol access returnedHTTP403 at16:05UTC and a
+later19:08UTC public-results read also returned403. Private
+attempts are not enumerated. No registry intake was performed by this task, and editorial outcomes or
+registration were not independently verified; the later user report is qualified below.
+
+| [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness. | No public registration found | [`cd7ae6b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery) |
+
+The HMP package is a separate development explicitly authorized on2026-10-17
+while PR17 was reported pending at19:01UTC. Its countable-density theorem and discrete-cube
+converse have local Lean and internal independent AI review evidence. Canonical
+verification/rendering subsequently passed as recorded below. Fresh public
+duplicate clearance remains unresolved before intake.
+The public results API returnedHTTP403 at19:08UTC; overlap uses the dated
+revision332/598-entry snapshot. This is no assertion about private attempts.
+
+Arthur clarified at18:31UTC that the reported registration was the
+countable-network result (PR16). Its official ID remains unconfirmed. PR17
+was then the next prepared manual submission; no successful intake was
+inferred without a receipt. The later22:21UTC user report is qualified below.
+The dated source/registry rows above remain snapshot records.
+
+HMP’s [canonical full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893) and
+[canonical Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730) passed for exact source
+`cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e`, with seven theorems and the literal row definition.
+Its immutable preparation metadata predates these results; the package remains
+unchanged. Independent review supports scoped repository publication using the
+dated complete overlap audit and current repository activity. Fresh global
+registry clearance remains unresolved before intake; this is not a fresh
+clearance or registration claim. Registry submission remains subject to its
+separate current duplicate, capability and receipt checks.
+
+At22:21UTC Arthur reported PR17’s countable-coordinate entry registered. This
+is user-reported; official ID and independent public confirmation remain
+pending. No intake or registration is repeated. PR16’s official ID likewise
+remains unconfirmed despite its user-reported registration.
