@@ -83,3 +83,9 @@ absence of private attempts or unregistered work. Public-data access worked
 through the ordinary route; the submission-protocol endpoint still returned
 HTTP403 at 16:05 UTC.
 No intake, editorial acceptance or registration is claimed for this package.
+
+The [countable-density Hewitt–Marczewski–Pondiczery development](topology/hewitt-marczewski-pondiczery)
+proves continuum-index separability and the sharp Boolean-cube criterion.
+Its source snapshot and verification limits are recorded in [PROJECTS.md](PROJECTS.md).
+PR17 remains a separate pending manual submission; this new development does
+not imply an intake outcome or rejection for that source.

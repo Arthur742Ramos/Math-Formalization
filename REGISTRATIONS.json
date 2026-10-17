@@ -301,6 +301,16 @@
         "tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6"
       },
       "status": "no-public-registration-found"
+    },
+    {
+      "name": "Countable-density Hewitt–Marczewski–Pondiczery theorem",
+      "path": "topology/hewitt-marczewski-pondiczery",
+      "scope": "Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness.",
+      "source_snapshot": {
+        "commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+        "tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e"
+      },
+      "status": "no-public-registration-found"
     }
   ],
   "registration_refresh": {
