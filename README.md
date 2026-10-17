@@ -13,7 +13,7 @@ and Sneider as [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry
 The public registry-wide audit refreshed at 16:05 UTC on 2026-10-17 covers
 598 active entries at revision 332, across 24 consistent bounded pages.
 No public registration was found for hyperspace components, Sorgenfrey,
-Whitney or the countable-network project in that snapshot. The user later
+Whitney or the countable-network project in that snapshot. The user
 reported countable-network registration underway at 2026-10-17T13:11:26Z.
 The fresh complete public index still has no entry for that project, so its
 status remains registration pending without inferring a public ID. This does not
