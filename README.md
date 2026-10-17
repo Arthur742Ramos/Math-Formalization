@@ -7,12 +7,14 @@ the target directory. Targets can evolve their versions independently.
 
 The [project catalog](PROJECTS.md) lists all 14 topology projects, their scope,
 public Palomar status and source snapshots. The complete official repository
-index checked on 2026-10-16 contains 9 registrations, including Alexandroff–Urysohn
+index checked on 2026-10-16 contained 9 registrations, including Alexandroff–Urysohn
 as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1).
 Its [official record](https://data.palomar-registry.org/entries/PALOMAR-2026-10-16-000021-v1.json)
 confirms registration at 2026-10-16T21:58:30Z for exact source
 `8ff5eedba962cb74050fe6d5f0acd934ba830fc5`. No public registration was found for
-hyperspace components, Sorgenfrey, Whitney or Sneider in that complete index.
+hyperspace components, Sorgenfrey, Whitney or Sneider in that dated index.
+Sneider’s later registration is recorded below; no newer complete index refresh
+is claimed.
 
 Status statements inside immutable source snapshots describe the development
 stage when those snapshots were created. In particular, AU's statements that
@@ -22,14 +24,15 @@ snapshot remains unchanged; the dated official record establishes its current
 registration status. The catalog's earlier global-search revision is preserved
 as historical provenance, separately from this per-repository refresh.
 
-Sneider's confirmed authorship and maintenance, [passing canonical preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975517426)
+Sneider is registered as [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1).
+Its [official record](https://data.palomar-registry.org/entries/PALOMAR-2026-10-17-000003-v1.json)
+confirms registration at 2026-10-17T05:08:01Z for exact source
+`497432e5e02244f242cdfc8c0a43316de3aa5bdc`, with no review warnings. [PR14](https://github.com/Arthur742Ramos/Math-Formalization/pull/14)
+merged the identical package tree. Its [passing canonical preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975517426)
 and [passing Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975253426)
-bind exact source `497432e5e02244f242cdfc8c0a43316de3aa5bdc`; [PR14](https://github.com/Arthur742Ramos/Math-Formalization/pull/14)
-merged the identical package tree. Its source-bound notes predate those passing
-reports. These checks establish mechanical evidence, not registry submission,
-editorial acceptance or registration. The maintainer now reports that Sneider
-passed Palomar and is awaiting registration; no new public registration record
-is claimed.
+remain exact-source mechanical evidence; the later public record establishes
+registration. Historical pending-status notes in the immutable source predate
+those reports and registration. The registered package remains unchanged.
 
 The [countable-network package](topology/compact-countable-network) proves the
 compact Hausdorff countable-network metrization criterion and reusable network
