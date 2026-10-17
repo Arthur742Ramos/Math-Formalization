@@ -1,0 +1,17 @@
+module
+
+import CNSolution
+
+#print axioms CountableNetwork.IsNetwork
+#print axioms CountableNetwork.HasCountableNetwork
+#print axioms CountableNetwork.IsNetwork.exists_bounded_separating_family
+#print axioms CountableNetwork.metrizableSpace_of_countable_network
+#print axioms CountableNetwork.hasCountableNetwork_of_secondCountable
+#print axioms CountableNetwork.metrizable_iff_hasCountableNetwork
+#print axioms CountableNetwork.secondCountable_iff_hasCountableNetwork
+#print axioms CountableNetwork.exists_compatibleMetric
+#print axioms CountableNetwork.IsNetwork.exists_closedEmbedding
+#print axioms CountableNetwork.IsNetwork.image
+#print axioms CountableNetwork.HasCountableNetwork.of_continuous_surjective
+#print axioms CountableNetwork.HasCountableNetwork.subtype
+#print axioms CountableNetwork.metrizable_compact_subspace

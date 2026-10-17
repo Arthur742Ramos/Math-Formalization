@@ -1,0 +1,11 @@
+# Verification audit and remaining gates
+
+The proof module and self-contained Challenge use only canonical Mathlib imports and are byte-identical. Solution publicly imports the proof module. `ChallengeTests` imports Challenge alone and checks all eleven exact signatures plus both literal definition bodies. `SemanticTests` imports Solution alone and checks arbitrary universes, empty networks/spaces, exact metric-topology equality, arbitrary nonclosed subspaces and continuous-surjection transport without separation assumptions.
+
+A finite indiscrete Bool space is machine-checked compact, has a countable singleton network whose singleton members need not be open, and is not metrizable. This verifies both the arbitrary-subset definition and the necessity of Hausdorff separation in the compact criterion. Empty networks cause no invalid nonempty enumeration.
+
+All six modules pass ordinary Lean compilation under the package pins. `AxiomAudit` prints transitive dependencies for eleven theorems and two definitions. Only `propext`, `Classical.choice`, `Quot.sound` are permitted; both definitions and `IsNetwork.image` have no axiom dependencies. `scripts/check_package.py` checks the selected names, exact pins, separate contracts, roles, source hashes and supplied axiom output without invoking Lean. Its result deliberately sets `submission_ready: false`.
+
+The root catalog's dated prior registration records are preserved; current registry-wide duplicate clearance is unavailable. There is no new registry intake. Canonical full Comparator/multi-kernel preflight and canonical Challenge rendering have not run for this package. Ordinary Lean CI does not replace those gates. No host security configuration is changed by the ordinary CI workflow. A separate approved execution environment is required for any canonical step that would alter host security configuration.
+
+Independent internal AI mathematical/source-fidelity review passed for the proof and definitions. Final immutable-source reviews and CI evidence are recorded separately in the development packet. No human or external peer review is claimed. A source snapshot's status describes its preparation time; later reports must bind that same source or prove package-tree equality.

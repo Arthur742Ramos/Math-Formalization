@@ -1,0 +1,98 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Compact Hausdorff countable-network metrization",
+    "description": "For an arbitrary compact Hausdorff space, metrizability and second countability are each equivalent to the existence of a countable network of arbitrary subsets. A genuine Urysohn-function construction from pairs of network elements supplies continuous separation, and a compatible metric induces exactly the original topology. Supporting results give bounded-real-coordinate closed embeddings, preservation under continuous surjections, arbitrary-subspace heredity and compact-subspace metrization. Empty spaces and arbitrary universes are allowed. This is classical mathematics; no novelty or priority is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E35",
+      "54D30"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Countable Tightness and the Grothendieck Property in Cp-Theory, arXiv:2007.08579v1",
+      "authors": [
+        "Franklin D. Tall"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/2007.08579v1",
+      "relationship": "formalizes",
+      "note": "Printed p.8 Section 3 invokes compact countable-network metrization in analyzing counterexamples to Propositions 18-19. This package formalizes that classical criterion, not the paper’s Grothendieck or set-theoretic results. Printed pp.1,4-5 give its function-space research context. Author manuscript consulted; PDF SHA256 f980265e22d20321cbdb0bbbdef5489ee53b4d74dce4b1148cb1ef44341f8f71. Original historical proof/priority source not consulted."
+    },
+    {
+      "title": "P₀-spaces, arXiv:1311.1468v5",
+      "authors": [
+        "Taras Banakh"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1311.1468v5",
+      "relationship": "background",
+      "note": "Printed p.1 Definition 1.1 gives the arbitrary-subset network definition; printed p.2 Definition 1.2 and Remark 1.3 discuss countable networks, cosmic spaces and generalized metric spaces. PDF SHA256 9930393b366c2daf91f5ea4e6ecaaa90a01101f2f13582c68bc02c38fc9f2e3a. No Pytkeev-space theorem is formalized."
+    },
+    {
+      "title": "Spaces having a small diagonal, arXiv:math/9910153v1",
+      "authors": [
+        "Gary Gruenhage"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/math/9910153v1",
+      "relationship": "background",
+      "note": "Printed p.5 proof of Corollary 2.5 invokes compact countable-network metrization; printed p.3 supplies countable-network and continuous-image research context. PDF SHA256 28af90fe4bcce66fb34d812679baa968842ec423da6cc5cbef4057a4bfd4426c. No small-diagonal research theorem is claimed."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses canonical Urysohn separation, regular shrinking, compact Hausdorff embeddings and Metric.PiNatEmbed.TopologicalSpace.MetrizableSpace.of_countable_separating. The new bridge derives a continuous separating family from an arbitrary-subset network; upstream metrization is credited rather than reproved or claimed as new."
+    }
+  ],
+  "status": {
+    "scope": "Compact Hausdorff countable-network metrization and second-countability equivalences; exact compatible metric; bounded-coordinate closed embedding; network image/subspace and compact-subspace consequences.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof hole or extra mathematical assumption in selected statements. Canonical full Comparator/multi-kernel preflight, canonical Challenge rendering and current registry-wide duplicate clearance remain outstanding. Ordinary Lean checks are distinct from canonical preflight and editorial review. No submission, acceptance or registration is claimed.",
+    "attribution_status": "confirmed: standing campaign explicitly carries forward the separately authorized author and responsible-maintainer lists; material AI proof authorship disclosed"
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs, tests and packaging under Arthur authorization. Separate internal AI reviewers assess mathematical/source fidelity and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Human author and responsible-maintainer roles are separately campaign-authorized. No human proof contribution or human/external peer review is invented."
+  },
+  "fidelity": {
+    "divergences": "Formalizes the classical criterion used by Tall and Gruenhage, with network subsets matching Banakh’s definition. Does not claim to reproduce an unconsulted historical proof. The closed embedding uses real coordinates indexed by N × N and bounded in [0,1], not a literal interval-subtype or Nat-indexed Hilbert cube. Supporting image and subspace results have their own weaker hypotheses, documented in DEFINITIONS.md. No cited paper’s new research theorem is claimed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer"
+    ],
+    "notes": "Initial mathematical/source review passed for all eleven theorems and two definitions. Final immutable-source implementation and documentation review are separate gates. No human or external peer review claimed. See REVIEW.md for scope and limitations."
+  },
+  "acknowledgements": "Classical mathematical sources and imported Lean/Mathlib infrastructure retain attribution. Material AI proof and packaging contributions are disclosed; named human roles do not imply invented proof contributions."
+}
