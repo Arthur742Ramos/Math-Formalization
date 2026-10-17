@@ -1,0 +1,18 @@
+module
+
+import CCSolution
+
+#print axioms CountableCoordinates.finite_coordinates_of_entourage
+#print axioms CountableCoordinates.countable_coordinates_of_uniformContinuous
+#print axioms CountableCoordinates.countable_coordinates_of_continuous
+#print axioms CountableCoordinates.restrict_refill
+#print axioms CountableCoordinates.uniformContinuous_refill
+#print axioms CountableCoordinates.exists_countable_uniform_factorization
+#print axioms CountableCoordinates.exists_countable_continuous_factorization
+#print axioms CountableCoordinates.factor_unique
+#print axioms CountableCoordinates.exists_common_countable_factorization
+#print axioms CountableCoordinates.nontrivial_subset_of_injective
+#print axioms CountableCoordinates.countable_nontrivial_of_continuous_injective
+#print axioms CountableCoordinates.continuous_refill
+#print axioms CountableCoordinates.compact_product_metrizable_iff
+#print axioms CountableCoordinates.refill

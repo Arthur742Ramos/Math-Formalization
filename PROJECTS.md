@@ -2,7 +2,7 @@
 
 Public registration status was refreshed on 2026-10-17 from the complete official
 repository index (10 registrations) and versioned public records. The public
-registry-wide audit covers 596 active entries at revision 329. No newer private
+registry-wide audit refreshed at 16:05 UTC covers 598 active entries at revision 332. No newer private
 or unregistered work is inferred from that public coverage. Registration applies
 to the linked source commit and version; package status notes describe their
 historical preparation stages, while later public reports and records establish
@@ -26,7 +26,7 @@ completed verification and registration.
 
 | [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification and rendering passed. | Registered: [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1) | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
 
-| [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | No public registration found | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
+| [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | Registration pending | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
 
 [REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
 tree hashes and versioned public records. A registered supporting theorem does
@@ -43,7 +43,24 @@ The countable-network development's full canonical preflight and Challenge
 rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
 independent review and the dated public registry audit found no equivalent
 criterion in the inspected public coverage. Its package remains unchanged and
-has not been submitted or registered. Sneider is registered as
+has user-reported registration underway. The fresh public index still has no
+entry for it, so no public registration is inferred. Sneider is registered as
 PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
 its exact registered source remains unchanged. Earlier pending-status notes
 inside immutable snapshots predate those later reports and records.
+
+| [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | No public registration found | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
+
+The factorization package's [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697) and
+[Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497) passed for exact source `fc3f403c4d07356d2232e809f326f63a9ce9da45`
+on 2026-10-17. Its ordinary exact-toolchain Lean checks and internal independent
+AI reviews remain separate evidence. All selected declarations passed protected
+comparison and the independent kernels; the package tree remains unchanged.
+Earlier pending-gate notes in its immutable preparation snapshot predate these
+reports. Independent semantic review of the fresh complete 598-entry public
+audit at revision 332 found no equivalent countable-coordinate factorization
+or compact-product criterion. The complete repository index has10 registrations
+and no entry for this package. Public-data access worked through the ordinary
+route; submission-protocol access still returnedHTTP403 at 16:05 UTC. Private
+attempts are not enumerated. No registry intake, editorial acceptance or
+registration is claimed for this package.

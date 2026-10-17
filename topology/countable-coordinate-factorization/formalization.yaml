@@ -1,0 +1,92 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Countable-coordinate factorization for compact products",
+    "description": "Every continuous map from an arbitrary product of nonempty compact Hausdorff spaces into a metrizable space factors continuously through a countable subproduct. A uniform-space proof establishes countable coordinate dependence for uniformly continuous maps into separated countably generated uniform spaces. The factor for a fixed coordinate set is unique. Countably many maps share a countable coordinate set. Continuous injections into metrizable targets force only countably many nontrivial factors, giving the exact metrizability criterion for nonempty compact Hausdorff products. Empty index and empty selected-coordinate sets are allowed. These are classical results and no novelty or priority is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54B10",
+      "54C05",
+      "54E35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "On α-embedded subsets of products, arXiv:1411.3173v1",
+      "authors": [
+        "Olena Karlova",
+        "Volodymyr Mykhaylyuk"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1411.3173v1",
+      "relationship": "formalizes",
+      "note": "Printed p.5 Definition 3.1 and Theorem 3.1 give countable-coordinate dependence and continuous factorization under broader invariant-subspace and pseudo-aleph1-compact hypotheses, with a regular-Gδ-diagonal target. This package formalizes the full compact-Hausdorff-product/metric-target specialization using an independent uniform-space proof. No formalization of their broader theorem is claimed. PDF SHA256 2b087ae942508d04cc0384fa7571134ed5d0a8cda5acc0acf162cc20e49d3ace."
+    },
+    {
+      "title": "Separately continuous functions of many variables on product of spaces which are products of metrizable multipliers, arXiv:1512.08606v1",
+      "authors": [
+        "V. K. Maslyuchenko",
+        "V. V. Mykhaylyuk"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1512.08606v1",
+      "relationship": "background",
+      "note": "Printed p.1 explicitly invokes continuous real-valued compact-product dependence on countably many coordinates in the research setting of separately continuous maps and discontinuity sets. Their new theorems and separately continuous generality are not formalized here. PDF SHA256 c914de5c14c163327ac3df95e55052e27c0ea636d62af2ac2fa3fa8ae6befe55."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Builds on canonical product uniformities, finite-support filter membership, countably generated filter bases, uniform separation, Heine–Cantor, compatible uniformities on compact Hausdorff spaces and countably generated compatible uniformities for metrizable targets. These imported facts are credited. No matching arbitrary-product factorization result was located in the pinned Mathlib audit."
+    }
+  ],
+  "status": {
+    "scope": "Exact continuous countable-subproduct factorization for nonempty compact Hausdorff products; uniform-space bridge, section and fixed-support uniqueness; common factorization; injection obstruction and compact product metrizability criterion.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical hole in the selected proofs. Canonical Comparator/multi-kernel preflight and canonical Challenge rendering have not run for this project; a fresh disposable-runner AppArmor approval is required before their installer executes. Current public registry and submission-protocol endpoints returned HTTP403; duplicate clearance uses the saved 2026-10-17 revision329 public audit only. No intake, editorial acceptance or registration is claimed. Current PalomarPolicy CONTRIBUTING/specification and minimum toolchain were separately checked through official public GitHub resources.",
+    "attribution_status": "confirmed: standing campaign explicitly carries forward the separately authorized author and responsible-maintainer lists; material AI proof authorship disclosed"
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs, tests and packaging under Arthur authorization. Separate internal AI reviewers assess mathematical/source fidelity and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Human author and responsible-maintainer roles are separately campaign-authorized. No human proof contribution or human/external peer review is invented."
+  },
+  "fidelity": {
+    "divergences": "Formalizes the compact Hausdorff full-product and metric-target specialization of Karlova–Mykhaylyuk Theorem3.1, not its invariant-subspace, pseudo-aleph1-compact or regular-Gδ-target generality. The uniform bridge is stated for T0 uniform targets with countably generated uniformity. Dependence permits empty factors, but the full-subproduct factorization and metrizability criterion require nonempty factors; uniform factorization and uniqueness carry an explicit basepoint. Supports need not be finite, minimal, canonical or unique. No Noble–Ulmer historical proof was consulted; no new research theorem of either cited paper is claimed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer",
+      "Independent internal OpenAI Codex implementation reviewer"
+    ],
+    "notes": "Independent internal mathematical/source and implementation reviews found no blocking defect in all13 selected theorem contracts, literal refill value, proof bodies, source correspondence, attribution, module contracts, tests and toolchain pins. Six-module exact-toolchain Lean build passed1763 jobs; the final strengthened separation semantic test separately passed its affected1755-job dependency build. All14 selected transitive axiom audits use only the three standard permitted axioms. Final immutable commit binding and publication are separate evidence records. Canonical preflight/rendering and current public duplicate clearance remain pending. No human or external peer review claimed. See REVIEW.md."
+  },
+  "acknowledgements": "Classical mathematical sources and imported Lean/Mathlib infrastructure retain attribution. Material AI proof and packaging contributions are disclosed; named human roles do not imply invented proof contributions."
+}
