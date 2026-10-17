@@ -356,6 +356,20 @@
       "reported_at_utc": "2026-10-17T13:11:26.137106Z",
       "reported_status": "registering",
       "provenance": "User report. Fresh complete official repository index checked at 2026-10-17T16:05:30.876054+00:00 still contains10 registrations without the countable-network project; no public registration or ID is inferred. Earlier HTTP403 prevented the initial refresh; ordinary public-data access now works, while submission-protocol access remainsHTTP403."
+    },
+    {
+      "project_path": "topology/compact-countable-network",
+      "source_commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+      "reported_at_utc": "2026-10-17T18:31:00Z",
+      "reported_status": "registered, user-reported; official ID unconfirmed",
+      "provenance": "Arthur clarified that the reported registered result was countable network. No official receipt or ID was supplied; no independently verified public registration is inferred."
+    },
+    {
+      "project_path": "topology/countable-coordinate-factorization",
+      "source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "reported_at_utc": "2026-10-17T19:01:37Z",
+      "reported_status": "pending manual submission; successful intake unknown without receipt",
+      "provenance": "Separate HMP development was explicitly authorized while waiting. PR17 exact source and prepared packet remain unchanged; no rejection or completed intake is inferred."
     }
   ],
   "next_project_duplicate_check": {
@@ -395,6 +409,25 @@
       "repository_truncated": false,
       "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
       "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
+    }
+  ],
+  "status_report_reading_note": "Each report and clearance object is dated historical evidence. Present-tense wording within older provenance describes that object’s checked time, not current access or status. Later user reports and access observations below qualify it; registered project rows require verified public IDs.",
+  "registry_access_updates": [
+    {
+      "checked_at_utc": "2026-10-17T19:08:24.573748+00:00",
+      "url": "https://data.palomar-registry.org/api/v1/results",
+      "status": 403,
+      "scope": "Ordinary documented public-results API. No authentication/proxy change, denied-route retry or alternate-route bypass. Fresh clearance unavailable; no private-attempt claim."
+    }
+  ],
+  "additional_project_duplicate_checks": [
+    {
+      "project_path": "topology/hewitt-marczewski-pondiczery",
+      "checked_date": "2026-10-17",
+      "saved_revision": 332,
+      "saved_active_entries": 598,
+      "saved_snapshot_checked_at_utc": "2026-10-17T16:05:30.876054+00:00",
+      "result": "Independent pinned-library/repository and dated complete public metadata audit found no equivalent continuum-index separable-product theorem. Current API returned403 at19:08UTC; current registry freshness and private attempts are unconfirmed."
     }
   ]
 }
