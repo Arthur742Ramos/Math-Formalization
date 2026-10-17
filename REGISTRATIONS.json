@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "checked_date": "2026-10-17",
-  "registry_revision": 329,
-  "registry_release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
+  "registry_revision": 332,
+  "registry_release": "02c6eb996c074589f30b1b18f01fae928cae7b2402267e652daa74b4f03cc7d2",
   "repository": "Arthur742Ramos/Math-Formalization",
   "projects": [
     {
@@ -326,10 +326,10 @@
     }
   ],
   "registry_clearance": {
-    "checked_at_utc": "2026-10-17T12:31:51.577974+00:00",
-    "revision": 329,
-    "release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
-    "active_entries": 596,
+    "checked_at_utc": "2026-10-17T16:05:30.876054+00:00",
+    "revision": 332,
+    "release": "02c6eb996c074589f30b1b18f01fae928cae7b2402267e652daa74b4f03cc7d2",
+    "active_entries": 598,
     "pages": 24,
     "complete": true,
     "public_api_url": "https://data.palomar-registry.org/api/v1/results",
@@ -337,7 +337,7 @@
     "repository_registrations_total": 10,
     "repository_truncated": false,
     "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
-    "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
+    "scope": "Fresh complete active public summaries and selected declarations; independent semantic review found no equivalent countable-coordinate dependence/factorization or compact-product metrizability criterion. No private-attempt visibility, absolute novelty or acceptance claim."
   },
   "registration_status_reports": [
     {
@@ -345,14 +345,15 @@
       "source_commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
       "reported_at_utc": "2026-10-17T13:11:26.137106Z",
       "reported_status": "registering",
-      "provenance": "User report; public confirmation unavailable because current repository index request returned HTTP403. No public ID or registration is inferred."
+      "provenance": "User report. Fresh complete official repository index checked at 2026-10-17T16:05:30.876054+00:00 still contains10 registrations without the countable-network project; no public registration or ID is inferred. Earlier HTTP403 prevented the initial refresh; ordinary public-data access now works, while submission-protocol access remainsHTTP403."
     }
   ],
   "next_project_duplicate_check": {
     "project_path": "topology/countable-coordinate-factorization",
-    "dated_revision": 329,
-    "dated_active_entries": 596,
-    "result": "No equivalent found in independent semantic review of saved dated public coverage; pinned Mathlib and current branches/open PRs also checked. Current public registry refresh returned HTTP403; no current complete clearance or private-attempt visibility is claimed."
+    "checked_at_utc": "2026-10-17T16:05:30.876054+00:00",
+    "dated_revision": 332,
+    "dated_active_entries": 598,
+    "result": "Fresh 24-page audit at stable revision/release; independent semantic review found no equivalent in active public descriptions and selected declarations. Source-repository index complete with10 registrations and no target entry. Pinned Mathlib/current repository work audit remains separate. No private-attempt or absolute-novelty claim."
   },
   "verification_updates": [
     {
@@ -368,6 +369,22 @@
       "selected_theorems": 13,
       "selected_definitions": 1,
       "scope": "Exact-source mechanical and rendering evidence. Dated duplicate audit only; no intake, editorial acceptance or registration claim."
+    }
+  ],
+  "registry_clearance_history": [
+    {
+      "checked_at_utc": "2026-10-17T12:31:51.577974+00:00",
+      "revision": 329,
+      "release": "74036e3cd4eb2a239acae8e48eac58dfd83206a17cdc89ed2ae8c717ccea40d3",
+      "active_entries": 596,
+      "pages": 24,
+      "complete": true,
+      "public_api_url": "https://data.palomar-registry.org/api/v1/results",
+      "repository_index_url": "https://data.palomar-registry.org/repositories/arthur742ramos/math-formalization.json",
+      "repository_registrations_total": 10,
+      "repository_truncated": false,
+      "repository_index_sha256": "70c8ce67d5ce44fcef24b6c65a289f1024b954c59b482e42a643656bdb32bd84",
+      "scope": "Dated complete active public summaries and selected declarations; no equivalent countable-network criterion found in independent semantic review. Private attempts and unregistered work are not enumerated, and no absolute novelty or acceptance is claimed. The separate registration_refresh object retains the earlier dated refresh."
     }
   ]
 }

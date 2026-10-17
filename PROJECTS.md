@@ -2,7 +2,7 @@
 
 Public registration status was refreshed on 2026-10-17 from the complete official
 repository index (10 registrations) and versioned public records. The public
-registry-wide audit covers 596 active entries at revision 329. No newer private
+registry-wide audit refreshed at 16:05 UTC covers 598 active entries at revision 332. No newer private
 or unregistered work is inferred from that public coverage. Registration applies
 to the linked source commit and version; package status notes describe their
 historical preparation stages, while later public reports and records establish
@@ -43,7 +43,8 @@ The countable-network development's full canonical preflight and Challenge
 rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
 independent review and the dated public registry audit found no equivalent
 criterion in the inspected public coverage. Its package remains unchanged and
-has user-reported registration underway, without public confirmation. Sneider is registered as
+has user-reported registration underway. The fresh public index still has no
+entry for it, so no public registration is inferred. Sneider is registered as
 PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
 its exact registered source remains unchanged. Earlier pending-status notes
 inside immutable snapshots predate those later reports and records.
@@ -56,6 +57,10 @@ on 2026-10-17. Its ordinary exact-toolchain Lean checks and internal independent
 AI reviews remain separate evidence. All selected declarations passed protected
 comparison and the independent kernels; the package tree remains unchanged.
 Earlier pending-gate notes in its immutable preparation snapshot predate these
-reports. Its duplicate check uses the dated saved public coverage above;
-fresh registry/protocol access remains unavailable after HTTP403. No registry
-intake, editorial acceptance or registration is claimed for this package.
+reports. Independent semantic review of the fresh complete 598-entry public
+audit at revision 332 found no equivalent countable-coordinate factorization
+or compact-product criterion. The complete repository index has10 registrations
+and no entry for this package. Public-data access worked through the ordinary
+route; submission-protocol access still returnedHTTP403 at 16:05 UTC. Private
+attempts are not enumerated. No registry intake, editorial acceptance or
+registration is claimed for this package.

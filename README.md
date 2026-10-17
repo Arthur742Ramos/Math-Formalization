@@ -10,12 +10,13 @@ public Palomar status and source snapshots. The complete official repository
 index checked on 2026-10-17 contains 10 registrations, including Alexandroff–Urysohn
 as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1)
 and Sneider as [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1).
-The dated public registry-wide audit covers 596 active entries at revision 329.
+The public registry-wide audit refreshed at 16:05 UTC on 2026-10-17 covers
+598 active entries at revision 332, across 24 consistent bounded pages.
 No public registration was found for hyperspace components, Sorgenfrey,
 Whitney or the countable-network project in that snapshot. The user later
 reported countable-network registration underway at 2026-10-17T13:11:26Z.
-A current public index request returned HTTP403, so that status is recorded
-as registration pending without inferring a public ID. This does not
+The fresh complete public index still has no entry for that project, so its
+status remains registration pending without inferring a public ID. This does not
 establish absence of private attempts or unregistered work.
 
 Status statements inside immutable source snapshots describe the development
@@ -44,8 +45,8 @@ passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`.
 Independent source and implementation review and the dated public duplicate
 audit found no blocking issue. The immutable source's earlier pending-gate
 notes describe its preparation snapshot. These results establish mechanical
-and review evidence. Its registration is now user-reported as underway; public
-confirmation remains unavailable, so no registration or public ID is claimed.
+and review evidence. Its registration is user-reported as underway; the fresh
+public index still lacks an entry, so no registration or public ID is claimed.
 
 The catalog links each registration to its verified ID, version and immutable
 source commit. [REGISTRATIONS.json](REGISTRATIONS.json) provides the same records
@@ -76,6 +77,9 @@ Comparator, NanoDa and con-ron accepted the protected Challenge/Solution pair;
 the canonical renderer built and sanitized the selected declaration surfaces.
 The source package is unchanged. Earlier preparation-status notes in its
 immutable snapshot predate these completed checks; they describe that snapshot's
-development stage. The public duplicate check remains dated to the saved
-revision329 audit; current complete clearance is unavailable after HTTP403.
+development stage. Independent semantic review of the fresh 598-entry public
+audit at revision 332 found no equivalent target. This does not establish
+absence of private attempts or unregistered work. Public-data access worked
+through the ordinary route; the submission-protocol endpoint still returned
+HTTP403 at 16:05 UTC.
 No intake, editorial acceptance or registration is claimed for this package.
