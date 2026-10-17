@@ -50,7 +50,12 @@ inside immutable snapshots predate those later reports and records.
 
 | [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | No public registration found | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
 
-The factorization package has ordinary exact-toolchain Lean and internal AI review
-evidence; canonical verification and rendering remain pending fresh specific
-disposable-runner security approval. Its duplicate check uses the dated saved
-public coverage above. No registry intake has run for this package.
+The factorization package's [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697) and
+[Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497) passed for exact source `fc3f403c4d07356d2232e809f326f63a9ce9da45`
+on 2026-10-17. Its ordinary exact-toolchain Lean checks and internal independent
+AI reviews remain separate evidence. All selected declarations passed protected
+comparison and the independent kernels; the package tree remains unchanged.
+Earlier pending-gate notes in its immutable preparation snapshot predate these
+reports. Its duplicate check uses the dated saved public coverage above;
+fresh registry/protocol access remains unavailable after HTTP403. No registry
+intake, editorial acceptance or registration is claimed for this package.

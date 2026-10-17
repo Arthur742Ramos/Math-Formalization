@@ -353,5 +353,21 @@
     "dated_revision": 329,
     "dated_active_entries": 596,
     "result": "No equivalent found in independent semantic review of saved dated public coverage; pinned Mathlib and current branches/open PRs also checked. Current public registry refresh returned HTTP403; no current complete clearance or private-attempt visibility is claimed."
-  }
+  },
+  "verification_updates": [
+    {
+      "checked_at_utc": "2026-10-17T16:02:59.075828+00:00",
+      "project_path": "topology/countable-coordinate-factorization",
+      "source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "package_tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6",
+      "canonical_full_run": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697",
+      "canonical_render_run": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497",
+      "canonical_status": "pass",
+      "errors": 0,
+      "warnings": 0,
+      "selected_theorems": 13,
+      "selected_definitions": 1,
+      "scope": "Exact-source mechanical and rendering evidence. Dated duplicate audit only; no intake, editorial acceptance or registration claim."
+    }
+  ]
 }

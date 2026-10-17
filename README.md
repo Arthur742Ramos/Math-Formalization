@@ -69,7 +69,13 @@ proves exact continuous factorization through countable subproducts of arbitrary
 nonempty compact Hausdorff products, with a uniform-space bridge and product
 metrizability consequences. Ordinary Lean verification and internal independent
 AI review cover exact source `fc3f403c4d07356d2232e809f326f63a9ce9da45`.
-Canonical multi-kernel verification and rendering remain pending new specific
-disposable-runner AppArmor approval. The public duplicate check is dated to the
-saved revision329 audit; current complete clearance is unavailable after HTTP403.
-No intake or registration has occurred for this package.
+Its [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697) and
+[Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497) passed on 2026-10-17 for that exact
+source, with 13 selected theorems and the literal refill definition checked.
+Comparator, NanoDa and con-ron accepted the protected Challenge/Solution pair;
+the canonical renderer built and sanitized the selected declaration surfaces.
+The source package is unchanged. Earlier preparation-status notes in its
+immutable snapshot predate these completed checks; they describe that snapshot's
+development stage. The public duplicate check remains dated to the saved
+revision329 audit; current complete clearance is unavailable after HTTP403.
+No intake, editorial acceptance or registration is claimed for this package.
