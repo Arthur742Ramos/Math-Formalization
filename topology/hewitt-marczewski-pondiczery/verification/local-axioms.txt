@@ -1,0 +1,8 @@
+'HMP.finite_interpolation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.denseRange_rows' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.continuum_bound_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.separable_product_of_embedding' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.separable_product' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.coordinate_patterns_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.boolean_cube_separable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HMP.row' does not depend on any axioms

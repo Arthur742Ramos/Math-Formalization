@@ -43,8 +43,9 @@ The countable-network development's full canonical preflight and Challenge
 rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
 independent review and the dated public registry audit found no equivalent
 criterion in the inspected public coverage. Its package remains unchanged and
-has user-reported registration underway. The fresh public index still has no
-entry for it, so no public registration is inferred. Sneider is registered as
+has user-reported registration, clarified at18:31UTC. The last independently
+checked16:04UTC public index had no entry; a later19:08UTC results read was
+denied. Its official ID is unconfirmed, so no public registration is inferred. Sneider is registered as
 PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
 its exact registered source remains unchanged. Earlier pending-status notes
 inside immutable snapshots predate those later reports and records.
@@ -59,8 +60,23 @@ comparison and the independent kernels; the package tree remains unchanged.
 Earlier pending-gate notes in its immutable preparation snapshot predate these
 reports. Independent semantic review of the fresh complete 598-entry public
 audit at revision 332 found no equivalent countable-coordinate factorization
-or compact-product criterion. The complete repository index has10 registrations
-and no entry for this package. Public-data access worked through the ordinary
-route; submission-protocol access still returnedHTTP403 at 16:05 UTC. Private
+or compact-product criterion. The16:04UTC complete repository index had10 registrations
+and no entry for this package. That dated public-data read worked through the
+ordinary route; submission-protocol access returnedHTTP403 at16:05UTC and a
+later19:08UTC public-results read also returned403. Private
 attempts are not enumerated. No registry intake, editorial acceptance or
 registration is claimed for this package.
+
+| [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness. | No public registration found | [`cd7ae6b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery) |
+
+The HMP package is a separate development explicitly authorized on2026-10-17
+while PR17 remains pending. Its countable-density theorem and discrete-cube
+converse have local Lean and internal independent AI review evidence. Canonical
+verification/rendering and fresh public duplicate clearance remain pending.
+The public results API returnedHTTP403 at19:08UTC; overlap uses the dated
+revision332/598-entry snapshot. This is no assertion about private attempts.
+
+Arthur clarified at18:31UTC that the reported registration was the
+countable-network result (PR16). Its official ID remains unconfirmed. PR17
+is the next prepared manual submission; no successful intake is inferred
+without a receipt. The dated source/registry rows above remain snapshot records.

@@ -1,0 +1,81 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Countable-density Hewitt–Marczewski–Pondiczery theorem",
+    "description": "A product of at most continuum many separable topological spaces is separable. The proof constructs a countable family of finite binary tables that realizes every finite assignment of natural-number labels, then applies dense sequences in the factors. No separation, metrizability, compactness or countable-base assumption on the factors is needed. Empty factors and empty index sets are allowed. A companion theorem proves the sharp criterion for discrete Boolean cubes: Bool^I is separable exactly when the index cardinality is at most continuum. This is the classical countable-density case; no arbitrary-cardinal or algebraic generalization, novelty or priority is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54B10",
+      "54D65",
+      "54A25"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Hewitt-Marczewski-Pondiczery type theorem for abelian groups and Markov’s potential density, arXiv:0912.0497v1",
+      "authors": [
+        "Dikran Dikranjan",
+        "Dmitri Shakhmatov"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/0912.0497v1",
+      "relationship": "formalizes",
+      "note": "Introduction, printed pp.1–2, recalls classical HMP for every infinite density cardinal. This package formalizes its countable-density specialization by an independent finite-pattern proof, not the paper’s new algebraic theorems or the full arbitrary-cardinal result. Boolean-cube sharpness is a proved companion, not attributed as a new theorem of this paper. The introduction supplies research context in dense subsets of torus powers and Markov potential density. PDF SHA256 7cdaa430caa5f02c2cfd945870567eba861f54515a640b8d7486b934b29fa6dc. Classical original papers were identified bibliographically, not directly consulted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Builds on Mathlib product topology and finite open cylinders, dense sequences, countability of dependent sums and functions with finite domains, finite suprema, function extension, discrete Bool topology and cardinal arithmetic/universe lifts. Pinned Bases.lean has countable-index separable products; no equivalent continuum-index theorem was located. Prior compact-product coordinate factorization concerns metrizability and dependence, not this separability bound."
+    }
+  ],
+  "status": {
+    "scope": "Countable-density HMP for arbitrary topological factors, finite-label interpolation and dense rows; exact discrete Boolean-cube separability criterion.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Preparation snapshot 2026-10-17: all selected proofs are complete. Local six-module exact-toolchain Lean verification passed1030jobs; affected strengthened semantic and Challenge visibility checks passed1022 and1021jobs. All eight transitive axiom audits and independent final mathematical/source and implementation reviews passed. Immutable commit and hosted CI binding are tracked separately. Canonical Comparator/multi-kernel verification and canonical rendering have not run for this target and require fresh specific disposable-runner AppArmor approval. The current documented public results API returned HTTP403 at19:08UTC; overlap review uses saved public revision332,598entries checked16:05UTC. No current private-attempt clearance, intake, editorial outcome or registration is claimed.",
+    "attribution_status": "confirmed: standing campaign explicitly carries forward the separately authorized author and responsible-maintainer lists; material AI proof authorship disclosed"
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs, tests and packaging under Arthur campaign authorization. Separate internal AI reviewers assess source fidelity, research scope and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Human author and responsible-maintainer roles are separately campaign-authorized. No human proof contribution or human/external peer review is invented."
+  },
+  "fidelity": {
+    "divergences": "Only the tau=aleph0 specialization of classical HMP recalled in the cited introduction is formalized. Arbitrary infinite density cardinals and the paper’s homomorphism/Markov potential-density results are outside scope. All index and factor universes are polymorphic; the cardinal-to-binary-sequence injection bridge handles lifts. The main theorem allows empty factors and empty index sets; the dense-sequence helper assumes nonempty factors. Dense means topologically dense, not sequentially dense. No general-factor necessity is claimed: the sharp converse uses canonical discrete Bool. Countable tables and dense sequences are noncanonical classical choices; no computable dense enumeration is promised."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer",
+      "Independent internal OpenAI Codex implementation reviewer"
+    ],
+    "notes": "Independent internal mathematical/source and implementation reviewers found no blocking defect in every selected proof/statement, literal row value, prose/source correspondence, attribution, module contracts, tests, exact toolchain/dependency pins, static package checks and ordinary CI design. Final review-status prose and immutable source binding are separate addenda. Local six-module build passed1030jobs; strengthened semantic and all-selected-name Challenge checks passed their affected1022/1021job builds. All eight selected transitive axiom reports were inspected. No human or external peer review is claimed. Canonical protected comparison, independent kernels, rendering and fresh public duplicate clearance remain pending. See REVIEW.md."
+  },
+  "acknowledgements": "Classical mathematical sources and imported Lean/Mathlib infrastructure retain attribution. Material AI proof and packaging contributions are disclosed; named human roles do not imply invented proof contributions."
+}
