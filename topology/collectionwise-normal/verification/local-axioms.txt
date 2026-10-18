@@ -1,0 +1,7 @@
+'Collectionwise.exists_open_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collectionwise.exists_subordinate_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collectionwise.discrete_closed_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collectionwise.exists_discrete_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collectionwise.paracompact_hausdorff_collectionwise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collectionwise.IsDiscreteFamily' depends on axioms: [propext, Quot.sound]
+'Collectionwise.HasOpenExpansion' depends on axioms: [propext, Quot.sound]

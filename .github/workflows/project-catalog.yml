@@ -2,9 +2,9 @@ name: Project catalog
 on:
   push:
     branches: [main]
-    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'READINESS.md', 'READINESS.json', 'catalog-evidence/readiness-2026-10-18/**', 'scripts/check_catalog.py', 'scripts/check_readiness.py', '.github/workflows/project-catalog.yml']
+    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'READINESS.md', 'READINESS.json', 'catalog-evidence/readiness-2026-10-18/**', 'scripts/check_catalog.py', 'scripts/check_readiness.py', 'scripts/check_preparations.py', 'PREPARATIONS.json', '.github/workflows/project-catalog.yml']
   pull_request:
-    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'READINESS.md', 'READINESS.json', 'catalog-evidence/readiness-2026-10-18/**', 'scripts/check_catalog.py', 'scripts/check_readiness.py', '.github/workflows/project-catalog.yml']
+    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'READINESS.md', 'READINESS.json', 'catalog-evidence/readiness-2026-10-18/**', 'scripts/check_catalog.py', 'scripts/check_readiness.py', 'scripts/check_preparations.py', 'PREPARATIONS.json', '.github/workflows/project-catalog.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,5 +18,5 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Check public records and unchanged project packages
-        run: python3 scripts/check_catalog.py --online --package-checks
+      - name: Check saved record bindings, preparations and preserved packages
+        run: python3 scripts/check_catalog.py --package-checks

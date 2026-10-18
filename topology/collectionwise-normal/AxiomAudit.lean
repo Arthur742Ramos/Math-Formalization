@@ -1,0 +1,11 @@
+module
+
+import CollectionwiseSolution
+
+#print axioms Collectionwise.exists_open_expansion
+#print axioms Collectionwise.exists_subordinate_expansion
+#print axioms Collectionwise.discrete_closed_iff
+#print axioms Collectionwise.exists_discrete_expansion
+#print axioms Collectionwise.paracompact_hausdorff_collectionwise
+#print axioms Collectionwise.IsDiscreteFamily
+#print axioms Collectionwise.HasOpenExpansion

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "checked_date": "2026-10-18",
+  "scope": "Seventeen previously audited packages retain their existing ledger. This separate preparation has completed source-bound full canonical verification and rendering, with no submission or registration implied.",
+  "projects": [
+    {
+      "name": "Paracompact expansion and collectionwise separation",
+      "path": "topology/collectionwise-normal",
+      "state": "verified-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+        "tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2"
+      },
+      "source_files_sha256": {
+        "comparator.json": "f09476f92ddd8f1ec05c93592cc23d78763f49323ae05ac30ec88f484510fefc",
+        "formalization.yaml": "39d7bc8b6ed87e994650fc89cb92e04d46a925c68f9ee1e21bd6a294ee804414",
+        "lake-manifest.json": "cf6afa54703525030ace9d7f3fba7f6406f18afe5c5b0616ead655ccf0991c24",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "CollectionwiseChallenge.lean": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
+        "CollectionwiseNormal.lean": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
+        "CollectionwiseSolution.lean": "48206057ca34a5035d0a211f688d51b8623771ff44398801b7537478a31029c6"
+      },
+      "theorem_names": [
+        "Collectionwise.exists_open_expansion",
+        "Collectionwise.exists_subordinate_expansion",
+        "Collectionwise.discrete_closed_iff",
+        "Collectionwise.exists_discrete_expansion",
+        "Collectionwise.paracompact_hausdorff_collectionwise"
+      ],
+      "definition_names": [
+        "Collectionwise.IsDiscreteFamily",
+        "Collectionwise.HasOpenExpansion"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "immutable-package-mathematical-review.json": "2d4569477dbe91b573682503b4948c832f1d5705dd747a595e24d213b2e12a73",
+          "immutable-package-implementation-review.json": "e6c4be571daef71f790480b240fc1ee68c4ba1e91589fb94eef880a1f2317a0c",
+          "immutable-source-binding-addendum.json": "a8a349405a5db1f025435bd462e1c28da548b9a8e218f2e22d01414823a1e49a",
+          "source-immutable-mathematical-review.json": "94b5b415ee6e106d0cfdf6c66cfefbbda58b1d54a9e020e488ceeed6c604f0a5",
+          "classification-correction-mathematical-review.json": "d70e5d5d95b547cbba93c6be14c99f5ba39b4279ed1525b3bed8f5ce16e909bf",
+          "classification-correction-implementation-review.json": "6b138ab5b8ba296cae29ba3cff674e1ad1a9df2d8b0ec413e8cb9c68cf601ef0"
+        }
+      },
+      "ordinary_local": "pass; fresh six-module exact replacement-source Lean checks, unchanged package-owned toolchain and all7 selected transitive axiom reports; pinned native metadata parser accepts54D15/54D20",
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "run_id": 39133762319,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762319",
+        "workflow": ".github/workflows/palomar-collectionwise-full-preflight.yml",
+        "workflow_head": "257f38992e42d7265515855ace2efcfe7a0a75f8",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/collectionwise-2026-10-18/full-report.json",
+        "original_report_sha256": "34113568e3f852213f6dfb925c5a8af6cdf206cb616f3c6d7a28ff473fc1b0d0",
+        "request_id": "cwpreflight1"
+      },
+      "rendering_run": {
+        "run_id": 39133762212,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762212",
+        "workflow": ".github/workflows/palomar-collectionwise-renderer.yml",
+        "workflow_head": "257f38992e42d7265515855ace2efcfe7a0a75f8",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/collectionwise-2026-10-18/render-report.json",
+        "original_report_sha256": "1e467102fccd30437fca446973523e04d128be4ce3e47d47e35a2e4597d0cfc4",
+        "artifact_tree_sha256": "af81a0236218556943d648d31f9bcc9ff5a6309849dae1091979a086a80cfe8c"
+      },
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": true,
+      "duplicate_check": "At target selection, no equivalent was found in the then-current17-package catalog, inventory of26 remote branches with no open PRs, pinned Mathlib, or dated598-entry public snapshot captured2026-10-17. PR25 is the resulting project. Fresh global/private clearance remains blocked and is required before intake.",
+      "ordinary_hosted": {
+        "run_id": 39129476008,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39129476008",
+        "workflow_head": "88f3ecaaf2e3e17f2cf9be5c6b14a0b5e6d4c066",
+        "conclusion": "success",
+        "package_tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2",
+        "source_package_tree_equal": true
+      },
+      "remaining_obligations": [
+        "Current supported protocol, identity/proof capability, actual public ID and current private-attempt/duplicate reconciliation before parent-owned intake.",
+        "Mechanical and rendering success do not establish editorial acceptance or registration.",
+        "Internal AI reviews are not human or external peer review."
+      ],
+      "source_snapshot_status_notes": "Unperformed-gate language in the frozen package describes its dated source-preparation checkpoint. Later completed reports above bind the exact same source, metadata, Comparator and package tree; those immutable receipts establish completed verification.",
+      "existing_public_id_state": "Not independently confirmed; no current registry/private-attempt query or intake performed."
+    }
+  ]
+}

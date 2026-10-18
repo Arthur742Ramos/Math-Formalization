@@ -1,0 +1,95 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Paracompact expansion and collectionwise separation",
+    "description": "Every locally finite indexed family of arbitrary subsets of a paracompact topological space admits a locally finite open expansion with the same index type, without separation assumptions. In a paracompact normal space, a discrete closed family admits a discrete locally finite open expansion whose closures are pairwise disjoint and lie in prescribed open neighborhoods. Consequently every paracompact Hausdorff space is collectionwise normal. Index and ambient types may be empty and have independent universes; the family has unrestricted cardinality. These are classical results; no novelty is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54D15",
+      "54D20"
+    ]
+  },
+  "sources": [
+    {
+      "title": "On expanding locally finite collections, Canadian Journal of Mathematics 23(1) (1971), 58–68",
+      "authors": [
+        "Lawrence L. Krajewski"
+      ],
+      "type": "paper",
+      "id": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/778ABD4D951A8DAA9B1F88F887604533/S0008414X00052974a.pdf/div-class-title-on-expanding-locally-finite-collections-div.pdf",
+      "relationship": "formalizes",
+      "note": "Official publisher PDF text directly consulted. Theorem 2.4, printed p.59, and Corollary 2.4.1, printed p.60, give paracompactness implies expandability; the finite-star proof is followed without a cardinal bound. Definitions and the normal-expandable implication in Theorem 1.1 on printed p.58 support the collectionwise-normal application. Prescribed-open containment and pairwise disjoint closures are explicitly derived strengthenings using normal shrinking, rather than a claim that the source states exactly these outputs. No formalization of the converse, cardinal-restricted theory, metrization applications, or later theorems in that paper is claimed."
+    },
+    {
+      "title": "Selections, extensions and collectionwise normality, arXiv:0811.3945v2",
+      "authors": [
+        "Valentin Gutev",
+        "Narcisse Roland Loufouma Makala"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/0811.3945v2",
+      "relationship": "background",
+      "note": "Printed p.1 supplies the collectionwise-normality definition and the selection/extension-theory research audience. This package does not formalize this paper’s selection or extension results. PDF directly consulted by the independent internal AI source reviewer; SHA256 0688c36a311ad9bfad997d79aa4617b8e281fd182213e234406c701f19af2a83."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses canonical LocallyFinite, precise_refinement, locally finite closed unions, normal_exists_closure_subset and Mathlib’s paracompact R1 normality instance. Those are upstream infrastructure, not contributions of this package."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/89dfef0fa8d09b557008b1861edab7ed9b79eb7a/topology/perfect-paracompact",
+      "relationship": "related",
+      "note": "The earlier regular-space refinement criterion constructs an open expansion of a specific cover inside its proof. This package exports arbitrary-family finite-star expansion and discrete-closed-family closure separation, with canonical Mathlib imports only. No imports from earlier project packages and no novelty claim."
+    }
+  ],
+  "status": {
+    "scope": "Five selected theorems: arbitrary locally finite expansion, closure-controlled expansion, equivalence of closed-family discreteness with local finiteness and pairwise disjointness, prescribed discrete expansion, and the paracompact Hausdorff collectionwise-normal application. Two exposed definitions specify indexed discreteness and open expansion.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof hole in the selected statements. Local package-owned Lean compilation, separate Challenge/Solution contracts and selected transitive axiom checks are recorded in the accompanying verification evidence. Canonical protected Comparator, NanoDa, con-ron and Challenge rendering are separate unperformed gates for this new package; their results are not inferred from ordinary Lean compilation. Exact published source and any later run receipts are supplied separately. No submission, editorial approval or registration is claimed. The full cardinal-restricted expansion theory, reverse implications, selection theorems and metrization applications remain outside scope.",
+    "attribution_status": "Campaign-authorized: the user instructed preservation of the established author and responsible-maintainer attribution for this next target. These named roles do not attest human proof authorship or human review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proofs, contract tests and packaging under the user’s campaign. Separate internal AI reviewers examined mathematics/source fidelity and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Material AI proof contributions are disclosed. No human or external peer review is claimed."
+  },
+  "fidelity": {
+    "divergences": "The unrestricted paracompact expansion theorem is the classical finite-star construction in Krajewski. A closed-family indexed discreteness criterion is proved explicitly; repeated nonempty indices fail discreteness but repeated empty indices are allowed. In addition to paracompactness, normality without T1 suffices for closure-controlled helpers. The T2 specialization uses Mathlib’s existing normality instance. Pairwise disjoint closures subordinate to arbitrary prescribed opens are derived strengthenings, not attributed verbatim to the source."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer",
+      "Independent internal OpenAI Codex implementation/contract reviewer"
+    ],
+    "notes": "Independent reviews are limited to their recorded immutable scope; final receipts are supplied separately. They are internal AI reviews, not human or external peer review. Canonical protected comparison and external kernels remain separate gates."
+  },
+  "acknowledgements": "Krajewski and the cited research sources retain classical mathematical credit. Canonical Lean/Mathlib authors retain infrastructure and imported source attribution. Established campaign human roles are preserved; substantive AI proof authorship is disclosed."
+}

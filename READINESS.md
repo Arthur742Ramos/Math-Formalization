@@ -1,5 +1,12 @@
 # Repository readiness audit — 2026-10-18
 
+This ledger covers the seventeen previously audited packages. The separately
+listed collectionwise expansion preparation is tracked in
+[PREPARATIONS.json](PREPARATIONS.json); it has now passed canonical verification
+and rendering on its exact frozen source, each on the first attempt. It remains
+separate from the original audit totals below. Its addition changes none of these
+seventeen audited package trees or registered snapshots.
+
 Sigma’s verification-status correction at `359ec3c4a3fff77a68c29d89714bf8a03acc9829` passed
 [full canonical verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39093674340) on its first attempt.
 The caller is `3e25c57a4043ffd8b09cdc20563ba1de13443ab1` and the unchanged Comparator is
@@ -8,7 +15,7 @@ contract, metadata/source hashes and approved execution profile are checked by
 the root validator. All proof files, pins, attribution and all ten registered
 snapshots are preserved. No registry action or new rendering job occurred.
 
-All 17 current package trees have successful full canonical evidence. Thirteen
+All 17 audited package trees have successful full canonical evidence. Thirteen
 have named renderer successes and three have registered preview summaries.
 Sigma’s old source has successful rendering, but that receipt does not render
 the corrected metadata snapshot: its current rendering remains unestablished.
@@ -46,7 +53,8 @@ Registration remains a separate question: ten official registrations are
 evidenced, two more are user-reported with unconfirmed IDs, and five have no
 verified public registration/editorial/intake outcome. Fresh global registry,
 private-attempt, identity, supported-protocol and proof-capability gates remain
-separate before any future intake. No registry action or new target occurred.
+separate before any future intake. The earlier audit performed no registry action
+and did not start a target; the new preparation is tracked separately above.
 
 | Project | Exact catalog source | Registration evidence | Full canonical check | Rendering evidence |
 | --- | --- | --- | --- | --- |
