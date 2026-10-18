@@ -108,9 +108,9 @@ closure in the countable-support subtype of an arbitrary ordinary product.
 The source explicitly supplies a basepoint and does not assume T1 for the
 main theorem; T1 is required only for the ambient closure companions.
 Independent internal AI mathematical/source and implementation reviews and
-local Lean checks are recorded separately from canonical verification, which
-remains pending fresh target-specific disposable-runner approval. Original
-Noble full text was not consulted; the metadata transparently maps an extension
+local Lean checks are separate evidence from the subsequently passing
+canonical verification and rendering linked below. Original Noble full text
+was not consulted; the metadata transparently maps an extension
 of a directly consulted finite-support recall and independent proof.
 The status row uses dated overlap coverage, not fresh registry clearance.
 No registry intake or registration is claimed; all sixteen prior packages,
@@ -121,3 +121,15 @@ passed on its first attempt for source10f8b9075144c51468729b9b620c46b739c0a680:
 six modules,1757jobs, all ten transitive axiom audits and independent
 Challenge/Solution value contracts. This is not a canonical multi-kernel or
 rendering result, nor a registry clearance.
+
+The Sigma-product [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938)
+and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499)
+passed on their first attempts for the same exact source
+`10f8b9075144c51468729b9b620c46b739c0a680`. Comparator, Lean default, NanoDa
+and con-ron accepted the protected Challenge/Solution contract. Rendering
+checked all eight theorems and both literal definitions. Original report
+digests and published render-file hashes are preserved separately; individual
+HTML bytes were not independently downloaded or visually reviewed.
+Earlier pending-canonical notes describe the immutable preparation snapshot;
+no package files or dependency pins were changed. These are mechanical checks,
+not fresh global registry clearance or a Palomar editorial decision.

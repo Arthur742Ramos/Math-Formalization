@@ -116,6 +116,13 @@ proves that countable-support products of first-countable pointed spaces are
 Frechet–Urysohn, using an adaptive finite-coordinate sequence construction.
 Its T1 closure companions explain the failure of sequentiality in uncountable
 ordinary Boolean cubes. See PROJECTS.md for the exact source, attribution and
-verification limits. Canonical verification/rendering and current registry
-clearance remain pending for this new target; earlier security approvals are
-not reused. HMP intake/registration is not inferred or repeated.
+verification limits. Its [canonical full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938)
+and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499)
+passed on their first attempts for exact source
+`10f8b9075144c51468729b9b620c46b739c0a680`. Protected comparison and independent
+kernels accepted all eight theorems and both literal definitions; the renderer
+built and sanitized all ten selected declaration surfaces. The package and all
+sixteen prior package trees are unchanged. Pending-canonical notes inside the
+immutable preparation snapshot predate these results and are qualified here.
+Current registry/attempt/protocol/proof-capability gates remain unresolved;
+no intake, editorial outcome or registration is claimed. HMP is not resubmitted.
