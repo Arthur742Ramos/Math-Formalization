@@ -1,0 +1,22 @@
+{
+  "challenge_module": "SigmaCompactChallenge",
+  "solution_module": "SigmaCompactSolution",
+  "theorem_names": [
+    "SigmaCompact.exists_compact_trap",
+    "SigmaCompact.omegaBounded_sigmaProduct",
+    "SigmaCompact.countablyCompactSpace_sigmaProduct",
+    "SigmaCompact.omegaBounded_sigmaProduct_of_compact",
+    "SigmaCompact.compactSpace_sigmaProduct_iff",
+    "SigmaCompact.boolean_sigma_countablyCompact_not_compact"
+  ],
+  "definition_names": [
+    "SigmaCompact.OmegaBounded",
+    "SigmaCompact.deviationSupport",
+    "SigmaCompact.activeCoordinates"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
