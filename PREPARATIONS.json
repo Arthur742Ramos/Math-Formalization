@@ -62,7 +62,7 @@
       "registry_intakes_by_this_task": 0,
       "existing_public_id": null,
       "fresh_runner_security_approval": false,
-      "duplicate_check": "No equivalent target found in current17-package catalog, available active-agent ownership, all27 remote branches, no openPRs, pinnedMathlib or dated598-entry public snapshot. Fresh global/private clearance remains blocked and is required before intake."
+      "duplicate_check": "No equivalent target found in current17-package catalog, all26 remote branches, no openPRs, pinnedMathlib or dated598-entry public snapshot. Fresh global/private clearance remains blocked and is required before intake."
     }
   ]
 }
