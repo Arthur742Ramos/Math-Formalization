@@ -5,11 +5,67 @@ import pathlib
 import re
 import subprocess
 
+from check_readiness import check_full_report
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
 def git(*args):
     return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
+
+
+def check_verified(p, package, source, tree):
+    """Require completed source-bound canonical and rendered evidence for this preparation."""
+    evidence = ROOT / 'catalog-evidence/collectionwise-2026-10-18'
+    ledger = json.loads((ROOT / 'READINESS.json').read_text())
+    assert p['path'] == 'topology/collectionwise-normal'
+    assert p['canonical_full'] == p['rendering'] == 'pass'
+    assert p['fresh_runner_security_approval'] is True
+    assert p['source_snapshot']['commit'] == source
+    canonical = p['canonical_run']
+    rendered = p['rendering_run']
+    for run in [canonical, rendered]:
+        assert run['status'] == 'completed' and run['conclusion'] == 'success'
+        assert run['attempt'] == 1
+        assert run['tested_package_tree'] == tree and run['current_package_tree_equal'] is True
+        assert run['verified_source_commit'] == source
+        assert run['url'] == f'https://github.com/{ledger["repository"]}/actions/runs/{run["run_id"]}'
+        assert git('rev-parse', run['workflow_head'] + ':' + p['path']) == tree
+    bound = {
+        'comparator_sha256': p['source_files_sha256']['comparator.json'],
+        'metadata_sha256': p['source_files_sha256']['formalization.yaml'],
+        'lockfile_sha256': p['source_files_sha256']['lake-manifest.json'],
+        'toolchain': (package / 'lean-toolchain').read_text().strip(),
+    }
+    check_full_report(canonical, ledger, p['path'], bound, tree, evidence)
+    report_file = ROOT / rendered['report_file']
+    assert report_file.resolve().is_relative_to(evidence.resolve())
+    assert hashlib.sha256(report_file.read_bytes()).hexdigest() == rendered['original_report_sha256']
+    report = json.loads(report_file.read_text())
+    assert report['status'] == 'pass' and report['stage'] == 'complete' and report['errors'] == []
+    assert report['source']['repository'] == ledger['repository']
+    assert report['source']['commit'] == source and report['source']['project_path'] == p['path']
+    config = json.loads((package / 'comparator.json').read_text())
+    assert report['surface']['declarations'] == config['theorem_names'] + config['definition_names']
+    assert [d['name'] for d in report['surface']['audit_declarations']] == config['theorem_names'] + config['definition_names']
+    challenge = p['path'] + '/' + config['challenge_module'].replace('.', '/') + '.lean'
+    assert report['source']['challenge_path'] == challenge
+    assert report['source']['challenge_sha256'] == hashlib.sha256((ROOT / challenge).read_bytes()).hexdigest()
+    assert report['source']['solution_path'] == p['path'] + '/' + config['solution_module'].replace('.', '/') + '.lean'
+    assert report['source']['comparator_config_path'] == p['path'] + '/comparator.json'
+    assert report['lean_toolchain'] == bound['toolchain']
+    assert report['workflow_url'] == rendered['url']
+    assert report['renderer_commit'] == ledger['completion']['pipeline_commit']
+    assert re.fullmatch(r'[0-9a-f]{64}', report['artifact_tree_sha256'])
+    assert report['artifact_tree_sha256'] == rendered['artifact_tree_sha256']
+    assert report['source']['lakefile_path'] == p['path'] + '/lakefile.toml'
+    assert report['source']['lean_toolchain_path'] == p['path'] + '/lean-toolchain'
+    assert report['entrypoint'] == 'Challenge/index.html'
+    caller = git('show', rendered['workflow_head'] + ':' + rendered['workflow'])
+    assert '--commit ' + source in caller and 'ref: ' + source in caller
+    assert 'PALOMAR_EXECUTION_PROFILE: palomar-standard-v1' in caller
+    assert 'ref: ' + report['renderer_commit'] in caller
+    assert '--renderer-commit ' + report['renderer_commit'] in caller
 
 
 def check_preparations(rows, verified_paths):
@@ -22,7 +78,7 @@ def check_preparations(rows, verified_paths):
         assert re.fullmatch(r'topology/[a-z0-9-]+', path)
         assert path not in seen | verified_paths
         seen.add(path)
-        assert p['state'] == 'reviewed-preparation-not-submitted'
+        assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         for ref in [source, 'HEAD']:
@@ -38,11 +94,14 @@ def check_preparations(rows, verified_paths):
         assert p['definition_names'] == config['definition_names']
         assert p['authors'] == meta['project']['authors']
         assert p['responsible_maintainers'] == meta['project']['responsible_maintainers']
-        assert p['canonical_full'] == p['rendering'] == 'unperformed'
-        assert p['canonical_run'] is None and p['rendering_run'] is None
+        if p['state'] == 'reviewed-preparation-not-submitted':
+            assert p['canonical_full'] == p['rendering'] == 'unperformed'
+            assert p['canonical_run'] is None and p['rendering_run'] is None
+            assert p['fresh_runner_security_approval'] is False
+        else:
+            check_verified(p, package, source, tree)
         assert p['registry_submission_ready'] is False and p['registry_intakes_by_this_task'] == 0
         assert p['existing_public_id'] is None
-        assert p['fresh_runner_security_approval'] is False
         assert p['reviews']['kind'] == 'independent-internal-AI'
         assert p['reviews']['mathematical_source'] == p['reviews']['implementation'] == 'pass'
         for digest in p['reviews']['receipts_sha256'].values():

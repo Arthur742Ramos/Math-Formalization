@@ -1,0 +1,94 @@
+{
+  "artifact_tree_sha256": "af81a0236218556943d648d31f9bcc9ff5a6309849dae1091979a086a80cfe8c",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-18T13:59:54Z",
+  "rendered_at": "2026-10-18T14:04:44Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/collectionwise-normal/CollectionwiseChallenge.lean",
+    "challenge_sha256": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
+    "commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+    "comparator_config_path": "topology/collectionwise-normal/comparator.json",
+    "lakefile_path": "topology/collectionwise-normal/lakefile.toml",
+    "lean_toolchain_path": "topology/collectionwise-normal/lean-toolchain",
+    "project_path": "topology/collectionwise-normal",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/collectionwise-normal/CollectionwiseSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem Collectionwise.exists_open_expansion.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X] [ParacompactSpace X]\n  {F : \u03b9 \u2192 Set X} (hF : LocallyFinite F) : Collectionwise.HasOpenExpansion F",
+        "name": "Collectionwise.exists_open_expansion"
+      },
+      {
+        "declaration": "theorem Collectionwise.exists_subordinate_expansion.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X] [ParacompactSpace X]\n  [NormalSpace X] {F O : \u03b9 \u2192 Set X} (hF : LocallyFinite F) (hFc : \u2200 (i : \u03b9), IsClosed (F i))\n  (hOo : \u2200 (i : \u03b9), IsOpen (O i)) (hFO : \u2200 (i : \u03b9), LE.le (F i) (O i)) :\n  Exists fun U =>\n    And (\u2200 (i : \u03b9), IsOpen (U i))\n      (And (LocallyFinite U) (And (\u2200 (i : \u03b9), LE.le (F i) (U i)) (\u2200 (i : \u03b9), LE.le (closure (U i)) (O i))))",
+        "name": "Collectionwise.exists_subordinate_expansion"
+      },
+      {
+        "declaration": "theorem Collectionwise.discrete_closed_iff.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X] {F : \u03b9 \u2192 Set X}\n  (hFc : \u2200 (i : \u03b9), IsClosed (F i)) :\n  Iff (Collectionwise.IsDiscreteFamily F) (And (LocallyFinite F) (Pairwise (Function.onFun Disjoint F)))",
+        "name": "Collectionwise.discrete_closed_iff"
+      },
+      {
+        "declaration": "theorem Collectionwise.exists_discrete_expansion.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X] [ParacompactSpace X]\n  [NormalSpace X] {F O : \u03b9 \u2192 Set X} (hF : Collectionwise.IsDiscreteFamily F) (hFc : \u2200 (i : \u03b9), IsClosed (F i))\n  (hOo : \u2200 (i : \u03b9), IsOpen (O i)) (hFO : \u2200 (i : \u03b9), LE.le (F i) (O i)) :\n  Exists fun U =>\n    And (\u2200 (i : \u03b9), IsOpen (U i))\n      (And (LocallyFinite U)\n        (And (\u2200 (i : \u03b9), LE.le (F i) (U i))\n          (And (\u2200 (i : \u03b9), LE.le (closure (U i)) (O i))\n            (And (Pairwise fun i j => Disjoint (closure (U i)) (closure (U j))) (Collectionwise.IsDiscreteFamily U)))))",
+        "name": "Collectionwise.exists_discrete_expansion"
+      },
+      {
+        "declaration": "theorem Collectionwise.paracompact_hausdorff_collectionwise.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X]\n  [ParacompactSpace X] [T2Space X] {F : \u03b9 \u2192 Set X} (hF : Collectionwise.IsDiscreteFamily F)\n  (hFc : \u2200 (i : \u03b9), IsClosed (F i)) :\n  Exists fun U =>\n    And (\u2200 (i : \u03b9), IsOpen (U i))\n      (And (\u2200 (i : \u03b9), LE.le (F i) (U i))\n        (And (Collectionwise.IsDiscreteFamily U) (Pairwise fun i j => Disjoint (closure (U i)) (closure (U j)))))",
+        "name": "Collectionwise.paracompact_hausdorff_collectionwise"
+      },
+      {
+        "declaration": "def Collectionwise.IsDiscreteFamily.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X] (F : \u03b9 \u2192 Set X) : Prop",
+        "name": "Collectionwise.IsDiscreteFamily"
+      },
+      {
+        "declaration": "def Collectionwise.HasOpenExpansion.{u, v} {\u03b9 : Type u} {X : Type v} [TopologicalSpace X] (F : \u03b9 \u2192 Set X) : Prop",
+        "name": "Collectionwise.HasOpenExpansion"
+      }
+    ],
+    "declarations": [
+      "Collectionwise.exists_open_expansion",
+      "Collectionwise.exists_subordinate_expansion",
+      "Collectionwise.discrete_closed_iff",
+      "Collectionwise.exists_discrete_expansion",
+      "Collectionwise.paracompact_hausdorff_collectionwise",
+      "Collectionwise.IsDiscreteFamily",
+      "Collectionwise.HasOpenExpansion"
+    ],
+    "imports": [
+      "Mathlib.Topology.Compactness.Paracompact"
+    ],
+    "module_doc": "# Paracompact expansion and collectionwise separation\n\nThe finite-star construction proves Krajewski's paracompact expansion theorem\n(1971, Corollary 2.4.1). Closed discrete families are subsequently separated\nwith pairwise disjoint closures. No cardinal bound on the family is imposed.",
+    "schema_version": 3,
+    "solution_imports": [
+      "CollectionwiseNormal"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762212"
+}

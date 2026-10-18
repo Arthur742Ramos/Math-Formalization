@@ -2,8 +2,9 @@
 
 This ledger covers the seventeen previously audited packages. The separately
 listed collectionwise expansion preparation is tracked in
-[PREPARATIONS.json](PREPARATIONS.json); it has no canonical or rendering pass
-and is excluded from the totals below. Its addition changes none of these
+[PREPARATIONS.json](PREPARATIONS.json); it has now passed canonical verification
+and rendering on its exact frozen source, each on the first attempt. It remains
+separate from the original audit totals below. Its addition changes none of these
 seventeen audited package trees or registered snapshots.
 
 Sigma’s verification-status correction at `359ec3c4a3fff77a68c29d89714bf8a03acc9829` passed

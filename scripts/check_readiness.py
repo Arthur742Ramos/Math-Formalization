@@ -58,12 +58,12 @@ def check_status_correction(change, ledger, path, tree, baseline_tree, project):
     assert after['project']['responsible_maintainers'] == project['responsible_maintainers']
 
 
-def check_full_report(run, ledger, path, project, tree):
+def check_full_report(run, ledger, path, project, tree, evidence_root=EVIDENCE):
     """Bind new full evidence to source, metadata, protected contract and caller."""
     source = run['verified_source_commit']
     assert git('rev-parse', source + ':' + path) == tree
     report_file = ROOT / run['report_file']
-    assert report_file.resolve().is_relative_to(EVIDENCE.resolve())
+    assert report_file.resolve().is_relative_to(evidence_root.resolve())
     assert sha(report_file) == run['original_report_sha256']
     report = read(report_file)
     assert report['status'] == 'pass' and report['stage'] == 'complete' and report['errors'] == []
