@@ -96,7 +96,7 @@
       "registry_intakes_by_this_task": 0,
       "existing_public_id": null,
       "fresh_runner_security_approval": true,
-      "duplicate_check": "No equivalent target found in current17-package catalog, all26 remote branches, no openPRs, pinnedMathlib or dated598-entry public snapshot. Fresh global/private clearance remains blocked and is required before intake.",
+      "duplicate_check": "At target selection, no equivalent was found in the then-current17-package catalog, inventory of26 remote branches with no open PRs, pinned Mathlib, or dated598-entry public snapshot captured2026-10-17. PR25 is the resulting project. Fresh global/private clearance remains blocked and is required before intake.",
       "ordinary_hosted": {
         "run_id": 39129476008,
         "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39129476008",
