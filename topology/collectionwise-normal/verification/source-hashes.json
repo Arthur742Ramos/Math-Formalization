@@ -9,10 +9,10 @@
   "REVIEW.md": "cfe8ebd63afb5e6ddfae8e760cfe81ef1bee7dd1bab5f20cd3ad3120164a8aaa",
   "SemanticTests.lean": "151d237f27be4676ffd5635a86ec2b38484bd12f683ff76db89fd498c1c8fde4",
   "comparator.json": "f09476f92ddd8f1ec05c93592cc23d78763f49323ae05ac30ec88f484510fefc",
-  "formalization.yaml": "383d6e37e865e84c060611b8d89073cbd8892125a60e8cdc851358111b9d3299",
+  "formalization.yaml": "39d7bc8b6ed87e994650fc89cb92e04d46a925c68f9ee1e21bd6a294ee804414",
   "lake-manifest.json": "cf6afa54703525030ace9d7f3fba7f6406f18afe5c5b0616ead655ccf0991c24",
   "lakefile.toml": "bfb722676bfa6035959975930f9d54ce6bcc6dbc6a21d487a39cc310197b11d1",
   "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
-  "scripts/check_package.py": "12e767253436498ecc15624722a13ad36570ac097a6a21ba697e9f02b94bbed7",
+  "scripts/check_package.py": "bb2acfecf7a072d466a8f8e80b0b5ce37ed31830e369c81b3b7c62e6b0f751dc",
   "verification/local-axioms.txt": "c9f9f077f5e58edc47612a7ac49d2015ac501baeb1cbef8be4d3b43482d2c3bf"
 }

@@ -52,7 +52,7 @@ def check(log, write):
     assert meta['project']['name'] == 'Paracompact expansion and collectionwise separation'
     assert meta['project']['authors'] == meta['project']['responsible_maintainers'] == ROLES
     assert meta['project']['license'] == 'Apache-2.0'
-    assert meta['classification'] == {'arxiv': ['math.GN'], 'msc2020': ['54D18', '54D20']}
+    assert meta['classification'] == {'arxiv': ['math.GN'], 'msc2020': ['54D15', '54D20']}
     assert meta['status']['sorry_count'] == meta['status']['sorry_in_definitions'] == 0
     assert set(meta['status']['axioms']) == ALLOWED
     assert 'unperformed' in meta['status']['known_gaps']
