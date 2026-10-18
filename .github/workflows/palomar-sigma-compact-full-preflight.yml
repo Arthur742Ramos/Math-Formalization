@@ -1,0 +1,40 @@
+name: Palomar sigma-compact full mechanical preflight
+on:
+  push:
+    branches: ['verify/sigma-compact-preflight-2026-10-18']
+    paths: ['.github/workflows/palomar-sigma-compact-full-preflight.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 0bdc86b6daf37e26dae68c451ed9d811247f075d
+      pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+      request_id: scpreflight1
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/sigma-product-compactness","comparator_config_path":"topology/sigma-product-compactness/comparator.json","formalization_metadata_path":"topology/sigma-product-compactness/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
+  report:
+    needs: verify
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: mechanical-report-scpreflight1
+          path: mechanical-evidence
+      - name: Publish bounded canonical report and digest
+        run: |
+          sha256sum mechanical-evidence/mechanical-report.json
+          python3 - <<'PYTHON'
+          import json, pathlib
+          p = pathlib.Path('mechanical-evidence/mechanical-report.json')
+          assert p.stat().st_size < 2 * 1024 * 1024
+          report = json.loads(p.read_text())
+          print('PALOMAR_MECHANICAL_REPORT_BEGIN')
+          print(json.dumps(report, sort_keys=True))
+          print('PALOMAR_MECHANICAL_REPORT_END')
+          assert report['status'] == 'pass', report.get('errors')
+          PYTHON
