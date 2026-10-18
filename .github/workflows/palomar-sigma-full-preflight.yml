@@ -1,7 +1,7 @@
 name: Palomar sigma full mechanical preflight
 on:
   push:
-    branches: ['topology/sigma-product-frechet']
+    branches: ['verify/sigma-status-repair-2026-10-18']
     paths: ['.github/workflows/palomar-sigma-full-preflight.yml']
 permissions:
   contents: read
@@ -10,9 +10,9 @@ jobs:
     uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
     with:
       repository: Arthur742Ramos/Math-Formalization
-      commit: 10f8b9075144c51468729b9b620c46b739c0a680
+      commit: 359ec3c4a3fff77a68c29d89714bf8a03acc9829
       pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
-      request_id: sigmapreflt1
+      request_id: sigmafix0001
       mode: full
       execution_profile: palomar-standard-v1
       options: '{"project_path":"topology/sigma-product-frechet","comparator_config_path":"topology/sigma-product-frechet/comparator.json","formalization_metadata_path":"topology/sigma-product-frechet/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: mechanical-report-sigmapreflt1
+          name: mechanical-report-sigmafix0001
           path: mechanical-evidence
       - name: Publish bounded canonical report and digest
         run: |
