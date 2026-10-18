@@ -83,6 +83,11 @@ def check():
             assert metadata['responsible_maintainers'] == p['responsible_maintainers'] == change['responsible_maintainers']
         else:
             assert baseline_tree == tree, (path, 'baseline preservation')
+        if p.get('previous_full_verification'):
+            previous = p['previous_full_verification']
+            assert previous['current_package_tree_equal'] == (previous['tested_package_tree'] == tree)
+            assert previous['tested_package_tree'] == baseline_tree
+            assert previous['baseline_package_tree_equal_at_initial_audit'] is True
         for key, filename in [('comparator_sha256', 'comparator.json'),
                               ('metadata_sha256', 'formalization.yaml'),
                               ('lockfile_sha256', 'lake-manifest.json')]:

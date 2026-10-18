@@ -353,7 +353,9 @@
         "conclusion": "success",
         "attempt": 1,
         "tested_package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
-        "current_package_tree_equal": true
+        "current_package_tree_equal": false,
+        "baseline_package_tree_equal_at_initial_audit": true,
+        "evidence_scope": "Historical baseline package only; does not verify the later author-metadata tree."
       },
       "previous_catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d"
     },
@@ -1757,7 +1759,7 @@
     "sorgenfrey_source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
     "sorgenfrey_merge_commit": "3c2fcdeadb43b03a8e13e9d457a85f476ee14c52",
     "source_preservation": "All17proof sources and packagepins preserved; only the explicitly authorized Sorgenfrey metadata blob changes one package tree. Other16complete package trees unchanged.",
-    "original_full_report_limit": "Successful pinned full execution, finalization and report gate on exact changed metadata source. Original report bytes were not downloaded; no reconstructed kernel counts or warning fields are claimed. Prior artifact-write/read denial was not bypassed or retried.",
+    "original_full_report_limit": "Successful pinned full execution, finalization and report gate on exact changed metadata source. Original report bytes were not downloaded; no reconstructed kernel counts or warning fields are claimed. Prior artifact-download denial was not bypassed or retried.",
     "render_report_limit": "All3original renderer reports hash-verified from public completed logs; individual HTML bytes not downloaded or visually inspected."
   }
 }
