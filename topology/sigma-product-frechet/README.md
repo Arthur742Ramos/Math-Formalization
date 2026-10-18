@@ -105,18 +105,32 @@ lifted index universe, non-T₁ first-countable factors, arbitrary nonzero
 basepoint, literal definition values and a genuinely uncountable Boolean cube.
 See [REVIEW.md](REVIEW.md) for the dated review scope and limits.
 
-Canonical Comparator with independent kernels and canonical Challenge
-rendering remain separate gates. They have not run for this target. The pinned
-installer may conditionally load a temporary AppArmor user-namespace exception
-on each disposable GitHub runner; fresh specific approval is required.
-Earlier target approvals are not reused, and the cloud-host restriction is
-not bypassed. Ordinary Lean checks do not execute that installer.
+Canonical full mechanical verification **passed** for exact source
+`10f8b9075144c51468729b9b620c46b739c0a680` and
+`topology/sigma-product-frechet/comparator.json`, SHA-256
+`a88221925c316500fd5706a6bfc0144b30e70321ccfa05ae509fb37b8c177a5e`.
+[Palomar run 39085577215](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39085577215)
+records successful protected comparison and con-ron, NanoDa and Lean default
+kernel checks; con-ron verified 7,125 declarations. The report covers all eight
+selected theorems and both definitions. Canonical Challenge rendering
+[separately passed in run 39083465499](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499)
+for that same source. Browser visual review is not claimed.
+
+These receipts certify the explicitly named snapshot, not arbitrary later
+commits. Before intake of a later commit, its own exact-source full report
+must pass. The provenance account can remain fixed while that report records
+the new commit, avoiding a status-edit/verification cycle. See
+[VERIFICATION.md](VERIFICATION.md) for the receipt hashes and scope.
+Editorial review and registration are separate; neither is inferred from a
+passing mechanical or rendering report. A new canonical runner job still
+requires specific approval if its pinned installer would load the temporary
+AppArmor exception. The cloud-host restriction is not bypassed.
 
 No equivalent was found in the pinned Mathlib checkout, sixteen-project
 repository catalog or complete dated revision332/598-entry public snapshot
 captured2026-10-17 at16:05UTC. This is bounded overlap evidence; fresh global
 registry clearance, private-attempt reconciliation and current protocol/proof
-capability remain unresolved. No registry intake or registration is claimed.
+capability remain unresolved. No current private intake, editorial acceptance or registration status is inferred from these public checks.
 
 ## Attribution
 

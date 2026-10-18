@@ -24,10 +24,14 @@ the exact countable-support definition and research context, not its FU proof.
 Original Noble/Corson/Gruenhage full proofs were not consulted. No original
 theorem-number match, novelty or first-formalization claim is made.
 
-Canonical protected comparison, NanoDa/con-ron checks and canonical Challenge
-rendering have not run. They require fresh specific approval for the pinned
-conditional AppArmor installer on their two disposable runners. No earlier
-target approval is reused. No cloud-host restriction is bypassed.
+At this 2026-10-17 preparation stage, canonical protected comparison,
+NanoDa/con-ron checks and canonical Challenge rendering had not yet run.
+That historical stage is superseded by the completed exact-source full and
+rendering receipts in [VERIFICATION.md](VERIFICATION.md), recorded on
+2026-10-18. Those receipts bind their named source and Comparator; this
+preparation record does not certify a later commit. New jobs require their
+own specific security approval when applicable; no cloud-host restriction
+is bypassed.
 Fresh registry-wide duplicates, private attempts and current protocol/proof
 capability remain unresolved before intake. The dated complete public
 revision332/598-entry audit found no equivalent within its coverage.
