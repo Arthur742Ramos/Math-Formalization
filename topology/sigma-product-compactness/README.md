@@ -82,8 +82,8 @@ coordinate trap, compactness transport and sharp criterion are additional
 proofs; no earlier campaign package is imported. Canonical compactness,
 product topology and countable compactness machinery remain Mathlib's work.
 
-No equivalent was found in the eighteen preexisting project scopes, current
-branches/open PRs, pinned Mathlib, or complete dated revision-332 public
+No equivalent was found in the eighteen preexisting project scopes, the dated
+target-selection branch/open-PR inventory, pinned Mathlib, or complete revision-332 public
 snapshot of 598 entries captured 2026-10-17 at 16:05 UTC. Fresh global registry
 access and private-attempt clearance are not established by this dated audit.
 Unknown or pending entries remain occupied work, not available targets.

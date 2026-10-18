@@ -46,6 +46,13 @@ example : ∃ (J : Set Empty) (K : Set (Empty → Bool)), J.Countable ∧ IsClos
   SigmaCompact.exists_compact_trap _ (fun _ _ _ => isClosed_closure.isCompact)
     countable_empty (by simp)
 
+-- A nonempty coordinate index separately exercises empty coordinate images.
+example : ∃ (J : Set Unit) (K : Set (Unit → Bool)), J.Countable ∧ IsClosed K ∧
+    IsCompact K ∧ closure (∅ : Set (Unit → Bool)) ⊆ K ∧
+    ∀ x ∈ K, deviationSupport (fun _ => false) x ⊆ J :=
+  SigmaCompact.exists_compact_trap _ (fun _ _ _ => isClosed_closure.isCompact)
+    countable_empty (by simp)
+
 -- Solution exposes the selected literal definitions separately from Challenge.
 example {Y : Type*} [TopologicalSpace Y] :
     SigmaCompact.OmegaBounded Y ↔ ∀ s : Set Y, s.Countable → IsCompact (closure s) := Iff.rfl
