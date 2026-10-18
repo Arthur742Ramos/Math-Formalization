@@ -1,0 +1,23 @@
+{
+  "challenge_module": "SigmaChallenge",
+  "solution_module": "SigmaSolution",
+  "theorem_names": [
+    "SigmaFrechet.exists_sequence",
+    "SigmaFrechet.frechetUrysohnSpace",
+    "SigmaFrechet.countable_closure_support",
+    "SigmaFrechet.isSeqClosed_countableSupport",
+    "SigmaFrechet.countable_tightness",
+    "SigmaFrechet.subspace_frechetUrysohnSpace",
+    "SigmaFrechet.dense_countableSupport",
+    "SigmaFrechet.boolean_cube_not_sequential"
+  ],
+  "definition_names": [
+    "SigmaFrechet.deviationSupport",
+    "SigmaFrechet.SigmaProduct"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,10 @@
+'SigmaFrechet.exists_sequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.frechetUrysohnSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.countable_closure_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.isSeqClosed_countableSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.countable_tightness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.subspace_frechetUrysohnSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.dense_countableSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.boolean_cube_not_sequential' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SigmaFrechet.deviationSupport' does not depend on any axioms
+'SigmaFrechet.SigmaProduct' does not depend on any axioms

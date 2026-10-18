@@ -1,0 +1,117 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Fréchet–Urysohn Σ-products of first-countable spaces",
+    "description": "The countable-support Sigma-product of arbitrary first-countable topological factors, relative to an explicit basepoint and with the ordinary product-induced topology, is Frechet-Urysohn. An adaptive finite-coordinate schedule constructs a sequence from each set converging to any of its closure points. The index set may be arbitrary, including empty, and no separation assumption is used for this theorem. Companions give countable tightness and subspace inheritance, density in the full product, T1 countable-closure support control and sequential closedness, and nonsequentiality of an uncountable discrete Boolean cube. No normality, W-space, arbitrary Frechet-factor, compactness or novel-mathematics result is asserted.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54B10",
+      "54A20",
+      "54D55"
+    ]
+  },
+  "sources": [
+    {
+      "title": "On k_R-spaces and s_R-spaces, arXiv:2506.15206v1",
+      "authors": [
+        "Saak Gabriyelyan",
+        "Evgenii Reznichenko"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/2506.15206v1",
+      "relationship": "adapts",
+      "location": "Section4, printed pp6-7; immediately before Proposition4.4; reference38",
+      "note": "Directly consulted primary research recall of the classical first-countable finite-support sigma-product Frechet-Urysohn result, credited there to Noble1970. Page6 explicitly defines lowercase sigma by FINITE support. Our independent adaptive-support proof establishes the standard COUNTABLE-support Sigma formulation and also removes the cited paper global Tychonoff assumption. This is a precise extension of the consulted restricted recall, not a claim that the paper states this exact generality or that its k_R/s_R main theorems are formalized. No novelty/priority claim. Noble original identified bibliographically; full original text was not accessible or consulted."
+    },
+    {
+      "title": "Every Lindelof scattered subspace of a Sigma-product of real lines is sigma-compact, arXiv:2411.10035v3",
+      "authors": [
+        "Antonio Aviles",
+        "Mikolaj Krupski"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/2411.10035v3",
+      "relationship": "background",
+      "location": "Printed pp1-2: countable-support Sigma-product definition and Corson/Eberlein research setting",
+      "note": "Directly consulted exact countable-support definition and contemporary research audience. Its Lindelof scattered sigma-compactness theorem is NOT formalized; no statement-level FU correspondence with this paper is claimed."
+    },
+    {
+      "title": "Digging into the classes of kappa-Corson compact spaces, arXiv:2107.02513v5",
+      "authors": [
+        "Witold Marciszewski",
+        "Grzegorz Plebanek",
+        "Krzysztof Zakrzewski"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/2107.02513v5",
+      "relationship": "background",
+      "location": "Printed pp1-4 and p12 Proposition4.7 proof",
+      "note": "Directly consulted Corson and Banach/function-space/Boolean-algebra context, including a use of Eberlein Frechet-Urysohnness. Its new kappa-Corson classification and compactness theorems are not formalized."
+    },
+    {
+      "title": "The continuity of functions on Cartesian products, Trans. Amer. Math. Soc.149(1970),187-198",
+      "authors": [
+        "N. Noble"
+      ],
+      "type": "paper",
+      "id": "https://doi.org/10.1090/S0002-9947-1970-0257987-5",
+      "relationship": "background",
+      "note": "Historical credit traced through the directly consulted Gabriyelyan-Reznichenko recall. Bibliographic metadata identified; official PDF GET returned403 once and was not retried. Full text, precise original theorem and original proof were not consulted; no original-proof correspondence claimed."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses canonical Mathlib product/subtype topology, FrechetUrysohnSpace, seqClosure, countable support enumerations, antitone neighbourhood bases, finite intersections and coordinatewise convergence. Generic first-countable-to-FU and subspace inheritance are upstream. No equivalent arbitrary-index countable-support Sigma theorem was found at the pin. Prior HMP proves separability of bounded-size products, not this sequential closure statement."
+    }
+  ],
+  "status": {
+    "scope": "Arbitrary-index countable-support Sigma-products of first-countable spaces, explicit convergent sequence, countable tightness and subspaces; density, T1 sequential closure and Boolean-cube contrast.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "All selected proofs complete; no proof holes or custom axioms. Preparation status: local six-module build and ten transitive axiom audits passed; final immutable commit/CI/reviews recorded separately after freeze. Canonical full Comparator/multi-kernel verification and Challenge rendering have not run and require fresh specific approval for their conditional disposable-runner AppArmor installer. Original exact generic primary theorem full text was not consulted: source mapping expressly distinguishes finite-support recalled theorem from independently proved countable-support formulation and separation-free generality. No normality or new cited-paper main result is claimed. Fresh registry-wide clearance, private attempts, current protocol/proof capability and intake remain unresolved.",
+    "attribution_status": "confirmed: standing campaign separately carries forward the authorized author and responsible-maintainer lists; material AI proof authorship disclosed"
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs, tests and packaging under Arthur campaign authorization. Separate internal AI reviewers assess source fidelity, research scope and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Human author and responsible-maintainer roles are separately campaign-authorized. No human proof contribution or human/external peer review is invented."
+  },
+  "fidelity": {
+    "divergences": "Consulted Gabriyelyan-Reznichenko recall is finite-support and within Tychonoff spaces. The formalization proves the classical countable-support formulation by a direct independent adaptive-support argument without separation assumptions for the main theorem. The explicit basepoint supplies a point in every factor; empty index is allowed, but existence of a basepoint is not claimed for an empty factor. T1 is added only for closure/sequential-closed companions. Bool has canonical discrete topology in the nonsequentiality theorem. Countable support is never replaced by finite support. Full Noble/Corson/Gruenhage original proofs were not consulted; no source theorem-number or exact original-proof correspondence claimed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer",
+      "Independent internal OpenAI Codex implementation reviewer"
+    ],
+    "notes": "Independent internal AI source/scope and initial implementation/mathematical reviews inspected the adaptive support schedule and exact statement contracts. Final package/CI/freeze reviews are separate receipts. No human/external peer review or editorial acceptance is claimed; see REVIEW.md."
+  },
+  "acknowledgements": "Classical mathematical sources and imported Lean/Mathlib infrastructure retain attribution. Material AI proof and packaging contributions are disclosed; named human roles do not imply invented proof contributions."
+}

@@ -5,7 +5,7 @@ owns its toolchain, Lake configuration and lockfile, Challenge, Comparator
 metadata, definition evidence and verification scripts. Run build commands from
 the target directory. Targets can evolve their versions independently.
 
-The [project catalog](PROJECTS.md) lists all 16 topology projects, their scope,
+The [project catalog](PROJECTS.md) lists all 17 topology projects, their scope,
 public Palomar status and source snapshots. The complete official repository
 index checked at16:04UTC on2026-10-17 contained10 registrations, including Alexandroff–Urysohn
 as [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1)
@@ -110,3 +110,19 @@ Arthur reported at22:21UTC that the previous countable-coordinate result
 (PR17) registered. Its official ID remains unconfirmed and no intake is
 repeated. See the dated report history in REGISTRATIONS.json; this report
 does not establish an independently verified public registration.
+
+The separate [Sigma-product sequential-closure development](topology/sigma-product-frechet)
+proves that countable-support products of first-countable pointed spaces are
+Frechet–Urysohn, using an adaptive finite-coordinate sequence construction.
+Its T1 closure companions explain the failure of sequentiality in uncountable
+ordinary Boolean cubes. See PROJECTS.md for the exact source, attribution and
+verification limits. Its [canonical full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938)
+and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499)
+passed on their first attempts for exact source
+`10f8b9075144c51468729b9b620c46b739c0a680`. Protected comparison and independent
+kernels accepted all eight theorems and both literal definitions; the renderer
+built and sanitized all ten selected declaration surfaces. The package and all
+sixteen prior package trees are unchanged. Pending-canonical notes inside the
+immutable preparation snapshot predate these results and are qualified here.
+Current registry/attempt/protocol/proof-capability gates remain unresolved;
+no intake, editorial outcome or registration is claimed. HMP is not resubmitted.
