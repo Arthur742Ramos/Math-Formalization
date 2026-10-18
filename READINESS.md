@@ -1,12 +1,19 @@
 # Repository readiness audit — 2026-10-18
 
-The four specifically approved canonical checks all passed on their first
-attempts. All 17 current package trees now have successful full canonical
-verification; 14 have named monorepo renderer successes and the other three
-have registered preview summaries. No rendering-evidence gap remains in the
-previously identified three older projects. Individual HTML bytes were not
-downloaded or visually reviewed; exact renderer report hashes, selected
-declaration surfaces and published file hashes were checked.
+Sigma’s verification-status correction at `359ec3c4a3fff77a68c29d89714bf8a03acc9829` passed
+[full canonical verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39093674340) on its first attempt.
+The caller is `3e25c57a4043ffd8b09cdc20563ba1de13443ab1` and the unchanged Comparator is
+`topology/sigma-product-frechet/comparator.json`. The exact report, protected
+contract, metadata/source hashes and approved execution profile are checked by
+the root validator. All proof files, pins, attribution and all ten registered
+snapshots are preserved. No registry action or new rendering job occurred.
+
+All 17 current package trees have successful full canonical evidence. Thirteen
+have named renderer successes and three have registered preview summaries.
+Sigma’s old source has successful rendering, but that receipt does not render
+the corrected metadata snapshot: its current rendering remains unestablished.
+The earlier four specifically approved readiness jobs all passed on their first
+attempts; their scope and the original branch/PR inventory remain historical.
 
 The exact Sorgenfrey role correction at `bdae8391754077f11c0f200ec80a9ab56d64deae`
 passed [full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293654),
@@ -14,8 +21,9 @@ passed [full verification](https://github.com/Arthur742Ramos/Math-Formalization/
 and [ordinary Lean CI](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293491),
 then merged through [PR21](https://github.com/Arthur742Ramos/Math-Formalization/pull/21).
 Its metadata is byte-identical to the user's original correction. Proof files,
-all package pins, upstream attribution, all ten registered snapshots and the
-other sixteen complete package trees are unchanged.
+all package pins, upstream attribution and all ten registered snapshots were
+preserved at that earlier checkpoint. Sigma’s later authorized status-only
+package change is recorded separately above.
 
 The new [hyperspace rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323920)
 and [Whitney rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323941)
@@ -26,9 +34,10 @@ recorded separately in READINESS.json. No canonical retry was scheduled.
 The user-approved conditional AppArmor exception was restricted to the fresh
 disposable GitHub runners; no shared-host security setting changed.
 
-The Sorgenfrey full workflow's execution and report gate passed. Its original
+At the earlier `8a51cb85d0f5c3089b5222da94c0d04edeb2e222` checkpoint,
+the Sorgenfrey full workflow's execution and report gate passed. Its original
 mechanical report bytes were not downloaded, and this audit does not invent
-kernel declaration counts or warning details. The three original renderer
+kernel declaration counts or warning details. At that checkpoint the three original renderer
 reports were recovered from bounded published job logs and independently
 matched their exact SHA256 values. Existing artifact-download denial was not
 retried or bypassed.
@@ -57,7 +66,7 @@ separate before any future intake. No registry action or new target occurred.
 | [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | [`47aaba11`](https://github.com/Arthur742Ramos/Math-Formalization/commit/47aaba112beb17b7c0ca68f56356c5c829ee154d) | User reports registered; ID unconfirmed | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39032757199) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39032757099) |
 | [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | [`fc3f403c`](https://github.com/Arthur742Ramos/Math-Formalization/commit/fc3f403c4d07356d2232e809f326f63a9ce9da45) | User reports registered; ID unconfirmed | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497) |
 | [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | [`cd7ae6bc`](https://github.com/Arthur742Ramos/Math-Formalization/commit/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730) |
-| [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | [`10f8b907`](https://github.com/Arthur742Ramos/Math-Formalization/commit/10f8b9075144c51468729b9b620c46b739c0a680) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499) |
+| [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | [`359ec3c4`](https://github.com/Arthur742Ramos/Math-Formalization/commit/359ec3c4a3fff77a68c29d89714bf8a03acc9829) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39093674340) | [Historical original-source PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499); corrected snapshot not rendered |
 
 The [initial audit](https://github.com/Arthur742Ramos/Math-Formalization/blob/036b01bbe4382a938a751df88a68dde876bd844a/READINESS.md)
 is preserved as dated history. Its missing-render, unpublished-candidate and

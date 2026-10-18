@@ -12,8 +12,11 @@ All 17 current package trees match successful full canonical runs. Ten official
 registrations are evidenced by the saved 2026-10-17 revision 332 public snapshot;
 two more are user-reported with unconfirmed IDs. All three previously missing
 rendering checks passed, and the separately authorized Sorgenfrey metadata
-correction passed affected verification and merged. All proof files and pins,
-all registered snapshots and the other sixteen complete packages are unchanged.
+correction passed affected verification and merged. Sigma’s verification-status
+correction now has a new exact-source full pass; rendering for that corrected
+metadata snapshot remains unestablished. All proof files, Comparator contracts,
+package pins and registered snapshots are preserved. The other sixteen package
+trees are unchanged from the Sigma correction’s base.
 See the audit for exact sources and run links.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence

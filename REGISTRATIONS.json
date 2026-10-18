@@ -317,8 +317,8 @@
       "path": "topology/sigma-product-frechet",
       "scope": "Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast.",
       "source_snapshot": {
-        "commit": "10f8b9075144c51468729b9b620c46b739c0a680",
-        "tree": "aede58cee0cd5ae8d8daa02bdda796b102f2ca93"
+        "commit": "359ec3c4a3fff77a68c29d89714bf8a03acc9829",
+        "tree": "d69976ce14b8f2ad13650f8e63036d05c384420e"
       },
       "status": "no-public-registration-found"
     }
