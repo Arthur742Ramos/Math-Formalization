@@ -41,15 +41,17 @@ def status_errors(files):
     denial = (r'(?:remain(?:s)?\s+(?:separate\s+)?(?:outstanding|unperformed|pending)|'
               r'have\s+not\s+run|has\s+not\s+run|(?:are|is)\s+(?:still\s+)?unperformed|'
               r'unperformed\s+(?:gates|at))')
-    pattern = re.compile(stages + r'.{0,350}?' + denial, re.I | re.S)
+    pattern = re.compile(stages + r'(?:(?![.!?;]|\n\s*\n).){0,350}?' + denial, re.I | re.S)
     errors = []
     for name in ['formalization.yaml', 'README.md', 'REVIEW.md', 'VERIFICATION.md', 'AUDIT.md']:
         if name not in files:
             continue
         text = files[name].decode()
         for match in pattern.finditer(text):
-            # A later source and an actual browser inspection are distinct gates.
-            if re.search(r'\b(?:later|another|new)\s+(?:source|commit)\b|\bbrowser visual\b', match[0], re.I):
+            # Only an explicitly future-qualified subject is exempt. A mixed
+            # full-verification/browser clause must not hide a stale full claim.
+            future = re.search(r'\b(?:of|for)\s+(?:a\s+)?(?:later|another|new)\s+(?:source|commit)\b', match[0], re.I)
+            if future and not re.search(r'\band\b', match[0][:future.start()], re.I):
                 continue
             errors.append(name + ': stale blanket pending/completion account')
     return sorted(set(errors))

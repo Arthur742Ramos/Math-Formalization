@@ -76,6 +76,12 @@ class ReleasePacketTests(unittest.TestCase):
         files['README.md'] += b'\nCanonical rendering of a later source remains unperformed. Browser visual review remains pending.\n'
         self.assertFalse(guard.status_errors(files))
 
+    def test_browser_word_does_not_exempt_false_mixed_stage_claim(self):
+        text = b'Canonical full verification and browser visual review remain unperformed for this source.'
+        self.assertTrue(guard.status_errors({'README.md': text}))
+        separate = b'Canonical full verification passed. Browser visual review remains unperformed.'
+        self.assertFalse(guard.status_errors({'README.md': separate}))
+
     def test_report_semantic_tampering_rejected_even_with_recomputed_fixture_digest(self):
         changes = {
             'metadata': lambda r: r['formalization'].update(sha256='0'*64),
