@@ -9,7 +9,8 @@ Other missing public entries do not establish absence of private attempts.
 
 The [readiness audit](READINESS.md) separately records every project's existing
 full canonical verification, rendering evidence, review scope and remaining
-obligations. All 17 package trees match successful full runs; this is not blanket
+obligations. All 17 package trees match successful full runs. Sigma’s status correction has
+new exact-source full evidence; its original rendering remains historical. This is not blanket
 editorial approval or submission readiness. Status notes inside frozen packages
 describe their preparation snapshots and can predate completed checks.
 
@@ -31,4 +32,4 @@ describe their preparation snapshots and can predate completed checks.
 | [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | Registration pending | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
 | [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | Registration pending | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
 | [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness. | No public registration found | [`cd7ae6b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery) |
-| [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast. | No public registration found | [`10f8b90`](https://github.com/Arthur742Ramos/Math-Formalization/tree/10f8b9075144c51468729b9b620c46b739c0a680/topology/sigma-product-frechet) |
+| [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast. | No public registration found | [`359ec3c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/359ec3c4a3fff77a68c29d89714bf8a03acc9829/topology/sigma-product-frechet) |

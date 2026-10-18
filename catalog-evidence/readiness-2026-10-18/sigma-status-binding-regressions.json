@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "positive_checks": [
+    "actual seven-file status correction",
+    "actual exact-source full mechanical report"
+  ],
+  "negative_fixtures": [
+    {
+      "case": "wrong exact source",
+      "rejected": true
+    },
+    {
+      "case": "wrong Comparator hash",
+      "rejected": true
+    },
+    {
+      "case": "wrong metadata hash",
+      "rejected": true
+    },
+    {
+      "case": "wrong Challenge entrypoint",
+      "rejected": true
+    },
+    {
+      "case": "wrong Solution path",
+      "rejected": true
+    },
+    {
+      "case": "wrong executed proof hash",
+      "rejected": true
+    },
+    {
+      "case": "wrong execution profile",
+      "rejected": true
+    },
+    {
+      "case": "wrong request ID",
+      "rejected": true
+    },
+    {
+      "case": "missing kernel acceptance",
+      "rejected": true
+    },
+    {
+      "case": "nonempty verification error list",
+      "rejected": true
+    },
+    {
+      "case": "protected declaration mismatch",
+      "rejected": true
+    },
+    {
+      "case": "missing protected external kernel",
+      "rejected": true
+    },
+    {
+      "case": "wrong canonical Challenge entrypoint",
+      "rejected": true
+    },
+    {
+      "case": "proof path in allowed status list",
+      "rejected": true
+    },
+    {
+      "case": "pin change in actual diff",
+      "rejected": true
+    },
+    {
+      "case": "out-of-scope metadata authors",
+      "rejected": true
+    },
+    {
+      "case": "out-of-scope metadata source attribution",
+      "rejected": true
+    }
+  ],
+  "validator_sha256": "7ec6145edad5231f6ede006a3b3cf6c319c296dc1bd7505471a7f8400bf65957",
+  "full_report_sha256": "ba9c6502508ecd685c3c0caae190b82f72ffb462d882f8244f28197b726bce3c",
+  "scope": "Local source-bound assertions with in-memory invalid fixtures only; no source edits/build/network/CI."
+}

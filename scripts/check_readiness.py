@@ -35,6 +35,80 @@ def check_axiom_log(text, selected, allowed):
     return result
 
 
+def check_status_correction(change, ledger, path, tree, baseline_tree, project):
+    """Permit the reviewed status account while preserving all proof/pin bytes."""
+    assert path == 'topology/sigma-product-frechet'
+    assert change['before_tree'] == baseline_tree and change['after_tree'] == tree
+    source = change['source_commit']
+    assert source == project['catalog_source_commit']
+    assert git('rev-parse', source + ':' + path) == tree
+    allowed = {path + '/' + name for name in [
+        'README.md', 'REVIEW.md', 'VERIFICATION.md', 'formalization.yaml',
+        'scripts/check_package.py', 'verification/canonical-history.json',
+        'verification/source-hashes.json']}
+    changed = set(git('diff', '--name-only', ledger['baseline_commit'], 'HEAD', '--', path).splitlines())
+    assert changed == set(change['changed_paths']) == allowed, (path, 'status-only change scope')
+    for filename in allowed:
+        assert git('rev-parse', 'HEAD:' + filename) == git('rev-parse', source + ':' + filename)
+    before = json.loads(git('show', ledger['baseline_commit'] + ':' + path + '/formalization.yaml'))
+    after = read(ROOT / path / 'formalization.yaml')
+    before['status']['known_gaps'] = after['status']['known_gaps']
+    assert before == after, (path, 'only the verification-status account may change')
+    assert after['project']['authors'] == project['authors']
+    assert after['project']['responsible_maintainers'] == project['responsible_maintainers']
+
+
+def check_full_report(run, ledger, path, project, tree):
+    """Bind new full evidence to source, metadata, protected contract and caller."""
+    source = run['verified_source_commit']
+    assert git('rev-parse', source + ':' + path) == tree
+    report_file = ROOT / run['report_file']
+    assert report_file.resolve().is_relative_to(EVIDENCE.resolve())
+    assert sha(report_file) == run['original_report_sha256']
+    report = read(report_file)
+    assert report['status'] == 'pass' and report['stage'] == 'complete' and report['errors'] == []
+    assert report['source']['commit'] == source and report['source']['project_path'] == path
+    assert report['source']['repository'] == ledger['repository']
+    config = read(ROOT / path / 'comparator.json')
+    assert report['comparator']['path'] == path + '/comparator.json'
+    assert report['comparator']['sha256'] == project['comparator_sha256']
+    assert report['formalization']['path'] == path + '/formalization.yaml'
+    assert report['formalization']['sha256'] == project['metadata_sha256']
+    for kind in ['challenge', 'solution']:
+        module = config[kind + '_module']
+        assert report[kind]['module'] == module
+        assert report[kind]['path'] == path + '/' + module.replace('.', '/') + '.lean'
+    for key in ['challenge', 'solution', 'lakefile', 'lake_manifest']:
+        source_file = ROOT / report[key]['path']
+        assert source_file.resolve().is_relative_to((ROOT / path).resolve())
+        assert sha(source_file) == report[key]['sha256'], (path, key, 'executed source hash')
+    assert report['lake_manifest']['sha256'] == project['lockfile_sha256']
+    protected = json.loads(report['protected_config'])
+    assert hashlib.sha256(report['protected_config'].encode()).hexdigest() == report['protected_config_sha256']
+    for key in ['theorem_names', 'definition_names', 'permitted_axioms']:
+        assert report['comparator'][key] == config[key] == protected[key]
+    assert protected['solution_module'] == config['solution_module']
+    assert protected['challenge_module'].startswith('PalomarCanonical')
+    assert protected['challenge_module'].endswith('.Challenge')
+    assert set(protected['external_kernels']) == {'nanoda', 'con-ron'}
+    assert {k['name'] for k in report['kernels']} == {'nanoda', 'con-ron'}
+    for message in ['con-ron kernel accepts the solution', 'nanoda kernel accepts the solution',
+                    'Lean default kernel accepts the solution', 'Your solution is okay!']:
+        assert message in report['comparator_log_tail']
+    assert report['challenge']['trust_level'] == 'high' and report['challenge']['untrusted_sources'] == []
+    assert report['lean_toolchain'] == project['toolchain']
+    assert report['execution_profile'] == run['execution_profile'] == 'palomar-standard-v1'
+    assert report['workflow_url'] == run['url']
+    caller = git('show', run['workflow_head'] + ':' + run['workflow'])
+    pipeline = run['pipeline_commit']
+    assert pipeline == ledger['completion']['pipeline_commit']
+    assert 'submission.yml@' + pipeline in caller and 'pipeline_commit: ' + pipeline in caller
+    assert 'commit: ' + source in caller and 'mode: full' in caller
+    assert 'execution_profile: palomar-standard-v1' in caller
+    assert 'request_id: ' + run['request_id'] in caller
+    assert report['submission']['submission_id'] == run['request_id']
+
+
 def check():
     ledger = read(ROOT / 'READINESS.json')
     catalog = read(ROOT / 'REGISTRATIONS.json')
@@ -75,18 +149,25 @@ def check():
         baseline_tree = git('rev-parse', ledger['baseline_commit'] + ':' + path)
         if path in authorized_changes:
             change = authorized_changes[path]
-            assert baseline_tree == change['before_tree'] and tree == change['after_tree']
-            assert git('diff', '--name-only', ledger['baseline_commit'], 'HEAD', '--', path).splitlines() == [change['only_changed_path']]
-            assert git('rev-parse', 'HEAD:' + change['only_changed_path']) == git('rev-parse', change['original_user_commit'] + ':' + change['only_changed_path'])
-            metadata = read(package / 'formalization.yaml')['project']
-            assert metadata['authors'] == p['authors'] == change['authors']
-            assert metadata['responsible_maintainers'] == p['responsible_maintainers'] == change['responsible_maintainers']
+            if change.get('kind') == 'verification-status-account':
+                check_status_correction(change, ledger, path, tree, baseline_tree, p)
+            else:
+                assert 'kind' not in change
+                assert baseline_tree == change['before_tree'] and tree == change['after_tree']
+                assert git('diff', '--name-only', ledger['baseline_commit'], 'HEAD', '--', path).splitlines() == [change['only_changed_path']]
+                assert git('rev-parse', 'HEAD:' + change['only_changed_path']) == git('rev-parse', change['original_user_commit'] + ':' + change['only_changed_path'])
+                metadata = read(package / 'formalization.yaml')['project']
+                assert metadata['authors'] == p['authors'] == change['authors']
+                assert metadata['responsible_maintainers'] == p['responsible_maintainers'] == change['responsible_maintainers']
         else:
             assert baseline_tree == tree, (path, 'baseline preservation')
-        if p.get('previous_full_verification'):
-            previous = p['previous_full_verification']
-            assert previous['current_package_tree_equal'] == (previous['tested_package_tree'] == tree)
+        for previous_key in ['previous_full_verification', 'previous_rendering',
+                             'previous_ordinary_verification']:
+            if not p.get(previous_key):
+                continue
+            previous = p[previous_key]
             assert previous['tested_package_tree'] == baseline_tree
+            assert previous['current_package_tree_equal'] == (previous['tested_package_tree'] == tree)
             assert previous['baseline_package_tree_equal_at_initial_audit'] is True
         for key, filename in [('comparator_sha256', 'comparator.json'),
                               ('metadata_sha256', 'formalization.yaml'),
@@ -110,7 +191,10 @@ def check():
             assert run['status'] == 'completed' and run['conclusion'] == 'success'
             assert run['url'] == f'https://github.com/{ledger["repository"]}/actions/runs/{run["run_id"]}'
             assert run['tested_package_tree'] == tree and run['current_package_tree_equal'] is True
-            if key == 'rendering' and run.get('verified_source_commit'):
+            if key == 'full_verification' and run.get('report_file'):
+                check_full_report(run, ledger, path, p, tree)
+                assert git('rev-parse', run['workflow_head'] + ':' + path) == tree
+            elif key == 'rendering' and run.get('verified_source_commit'):
                 source = run['verified_source_commit']
                 assert git('rev-parse', source + ':' + path) == tree, (path, key, 'tested source')
                 report_file = ROOT / run['report_file']

@@ -93,9 +93,12 @@ def check(log, write):
         assert json.loads(record.read_text()) == hashes, 'Frozen source hash mismatch'
     print(json.dumps({'status': 'pass', 'selected_theorems': len(NAMES),
         'selected_definitions': len(DEFINITIONS), 'axiom_declarations': len(reports),
-        'submission_ready': False, 'pending': [
-            'canonical full mechanical preflight', 'canonical Challenge rendering',
-            'current registry-wide duplicate clearance'],
+        'submission_ready': False,
+        'historical_canonical_verification': json.loads(
+            (ROOT / 'verification/canonical-history.json').read_text()),
+        'pending': ['exact-source verification of any later submission commit',
+            'current registry duplicates and private-attempt reconciliation',
+            'editorial decision and public registration'],
         'challenge_lines': len(challenge.splitlines()), 'challenge_bytes': len(challenge),
         'lean_sources': sorted(lean_files), 'source_files_hashed': len(hashes),
         'scope': 'Static package consistency and supplied axiom log; no build or Comparator.'}, indent=2))
