@@ -2,12 +2,12 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-18",
-  "scope": "Seventeen previously audited packages retain their immutable ledger. Collectionwise historical full/render passes are preserved separately from the corrected source, whose own exact-source verification is a distinct gate.",
+  "scope": "Seventeen audited packages retain their immutable ledger. Collectionwise corrected-source full verification passed; user reports Palomar passed without a public ID. New Sigma-product compactness preparation is separately dated and source-bound.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
       "path": "topology/collectionwise-normal",
-      "state": "status-correction-awaiting-exact-source-verification",
+      "state": "status-correction-full-verified",
       "source_snapshot": {
         "commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
         "tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2"
@@ -106,11 +106,11 @@
         "source_package_tree_equal": true
       },
       "remaining_obligations": [
-        "Corrected source needs its own source-bound full report; earlier full and rendering receipts are historical only.",
-        "Current service attempt/duplicate/public-ID/protocol and effective identity/proof capability reconciliation before any parent-owned intake.",
-        "Rendering and editorial/registration states are distinct; no result for the corrected source is inferred from matching proof bytes."
+        "Corrected-source rendering not independently established by the one-full verification task.",
+        "User reports Palomar passed at2026-10-18 18:13UTC; public registration ID not independently confirmed. Do not duplicate the entry.",
+        "Any later service action requires actual-attempt/protocol/public-ID reconciliation by its authorized owner."
       ],
-      "source_snapshot_status_notes": "Historical source metadata/README status account was corrected inside the new source, not merely overlaid by an external packet. Completed old-source reports remain bound to their original metadata and tree. A new exact-source report is required before handing off the corrected source as verified.",
+      "source_snapshot_status_notes": "Original-source receipts remain historical. Corrected5ad14f00source passed its own full run39142937826. No package bytes or immutable verification receipts were overwritten.",
       "existing_public_id_state": "No public ID independently confirmed for the corrected source. Prior no-intake packet statements were time/actor-scoped and do not enumerate actual user submissions.",
       "current_source_snapshot": {
         "commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
@@ -135,9 +135,97 @@
         ],
         "scope": "Only verification-status prose, immutable provenance and their checker/hash manifest change. All proof/config/pin/role/fidelity bytes remain identical."
       },
-      "current_source_full": "not-established",
+      "current_source_full": "pass",
       "current_source_rendering": "not-established",
-      "historical_runner_approval_scope": "Consumed by the two completed historical-source checks. No approval for a fresh corrected-source runner."
+      "historical_runner_approval_scope": "Original two jobs and the later specifically approved corrected-source full run consumed their own approvals. No approval transfers to another fresh runner or target.",
+      "current_source_full_run": {
+        "repository": "Arthur742Ramos/Math-Formalization",
+        "run_id": 39142937826,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39142937826",
+        "source_commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
+        "attempt": 1,
+        "report_file": "catalog-evidence/collectionwise-corrected-2026-10-18/mechanical-report.json",
+        "report_sha256": "cb87eea43c33e19780ab7c18070a327cea9bb3336e22a2e18710f5a6f7df69bb"
+      },
+      "latest_user_report": {
+        "observed_at_utc": "2026-10-18T18:13:00Z",
+        "time_precision": "minute as supplied",
+        "text": "Also Palomar passed start the next target",
+        "public_registration_id": null,
+        "classification": "user-reported pass; not independently confirmed public registration"
+      }
+    },
+    {
+      "name": "Omega-bounded Sigma-products and a sharp compactness criterion",
+      "path": "topology/sigma-product-compactness",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "0bdc86b6daf37e26dae68c451ed9d811247f075d",
+        "tree": "b9c64db17029d521b9be3e7e19e93d94aa5ede39"
+      },
+      "source_files_sha256": {
+        "formalization.yaml": "8746ed526ce7b3e670c9ac16da17d194b6963e6fc2a7c25656675d21ff3bd66e",
+        "comparator.json": "5acd2d666a449d1b848962c31b2f9b56847bb07dedb1af633646ece6a03c969a",
+        "lake-manifest.json": "b276179bd337659588031686760bfb22eae94b2267f86fa6c9b8833bf34b5e63",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "SigmaCompact.lean": "b67f6500849e83748fc5ac19c90a35d650a8dba6b00f0e5978dc648a79e3826e",
+        "SigmaCompactChallenge.lean": "b67f6500849e83748fc5ac19c90a35d650a8dba6b00f0e5978dc648a79e3826e",
+        "SigmaCompactSolution.lean": "d4d998814ed020fe6764dcdfce6c56712eebbab6cec217af9fbacc3b23e2c673"
+      },
+      "theorem_names": [
+        "SigmaCompact.exists_compact_trap",
+        "SigmaCompact.omegaBounded_sigmaProduct",
+        "SigmaCompact.countablyCompactSpace_sigmaProduct",
+        "SigmaCompact.omegaBounded_sigmaProduct_of_compact",
+        "SigmaCompact.compactSpace_sigmaProduct_iff",
+        "SigmaCompact.boolean_sigma_countablyCompact_not_compact"
+      ],
+      "definition_names": [
+        "SigmaCompact.OmegaBounded",
+        "SigmaCompact.deviationSupport",
+        "SigmaCompact.activeCoordinates"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source-scope-review.json": "66af1e1b47d5902dc22ac8ac5c9e4c890b005181805c4b3ca9684625a5625381",
+          "immutable-mathematical-source-review.json": "56957cc86f21bbf78f168b31dcb78e5b95a7acff59adafd7dbb0ba2f2b889ffe",
+          "immutable-package-implementation-review.json": "288a0d0671e78b9b7c8787496d9c0e5b1f526bc028eb92ccd1fabcf32d3146f3",
+          "final-source-S2-mathematical-review-addendum.json": "bcb3ea979b208674c054868a414eb1598c890467c4efe3d82ae17225a0ad370f",
+          "final-source-S2-implementation-review-addendum.json": "c8e312521d7e15066b20de85233fe9de263fc1e5d88f799af53a8bba0fb4e372"
+        }
+      },
+      "ordinary_local": "pass; six-module package build1759jobs and nine actual transitive axiom closures; postfreeze direct audit matches frozen evidence",
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-18",
+      "checkpoint_scope": "Dated development preparation before hosted canonical checks. Later exact-source receipts must be separately bound; no permanent unperformed phrase is required inside the frozen source.",
+      "duplicate_check": "No equivalent in18preexistingpackages,30remote branches/0openPRs at targetselection, pinnedMathlib, or rehashed24page/598entry revision332 public snapshotcaptured2026-10-17 16:05UTC. Freshglobal/privateclearance not established; unknown/pendingwork treated asoccupied.",
+      "remaining_obligations": [
+        "Ordinary hosted Lean/catalog checks and independent finalroot/workflow review.",
+        "Exact-source full protected comparison and independentkernels, plus rendering; preparedcallers are notdispatched and fresh runner security approval is required.",
+        "Originalreport/artifact provenance and exactsource/archive releaseguard before verifiedhandoff.",
+        "Any eventual registry action remains separate and requirescurrentprotocol,actualattempt,duplicate/publicIDandproofcapability reconciliation. No newregistry action authorized by this record."
+      ],
+      "scope": "Omega-bounded T1 Sigma-products, countable compactness and compact-Hausdorff compactness iff countably many factors can differ from the basepoint."
     }
   ]
 }

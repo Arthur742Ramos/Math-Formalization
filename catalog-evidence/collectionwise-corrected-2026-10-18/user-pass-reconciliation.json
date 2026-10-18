@@ -1,0 +1,9 @@
+{
+  "observed_at_utc": "2026-10-18T18:13:00Z",
+  "time_precision": "minute as supplied",
+  "source_commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
+  "state": "User-reported Palomar pass",
+  "public_registration_id": null,
+  "public_registration_independently_confirmed": false,
+  "duplicate_intake_permitted": false
+}

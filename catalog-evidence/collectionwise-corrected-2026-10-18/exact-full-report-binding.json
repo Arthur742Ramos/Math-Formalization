@@ -1,0 +1,50 @@
+{
+  "run_id": 39142937826,
+  "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39142937826",
+  "attempt": 1,
+  "status": "pass",
+  "stage": "complete",
+  "checked_at": "2026-10-18T16:05:31Z",
+  "source_commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
+  "package_tree": "a4c468e7f08d8dd4aee14a40b5d5e2c810217afd",
+  "caller_commit": "afda5d5c89a022c249eec7f83fb852c6de942faa",
+  "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "request_id": "cwstatus0001",
+  "execution_profile": "palomar-standard-v1",
+  "job_max_minutes": 350,
+  "artifact_id": 12142308487,
+  "zip_sha256": "84330820dc812e958f124a551c06f06e880d1569c3a3b6ddd13650079f9ae70d",
+  "report_sha256": "cb87eea43c33e19780ab7c18070a327cea9bb3336e22a2e18710f5a6f7df69bb",
+  "metadata_sha256": "b2b37743d15493bbbeefde3f3834303e7a280b3269d41e41247e190197844cca",
+  "Comparator_sha256": "f09476f92ddd8f1ec05c93592cc23d78763f49323ae05ac30ec88f484510fefc",
+  "Challenge_sha256": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
+  "lockfile_sha256": "cf6afa54703525030ace9d7f3fba7f6406f18afe5c5b0616ead655ccf0991c24",
+  "protected_config_sha256": "4d2a02bfac75b092d0e38f52c4c9ef8a4a1772672a58ca6bd3c836fec726c38a",
+  "selected_theorems": [
+    "Collectionwise.exists_open_expansion",
+    "Collectionwise.exists_subordinate_expansion",
+    "Collectionwise.discrete_closed_iff",
+    "Collectionwise.exists_discrete_expansion",
+    "Collectionwise.paracompact_hausdorff_collectionwise"
+  ],
+  "selected_definitions": [
+    "Collectionwise.IsDiscreteFamily",
+    "Collectionwise.HasOpenExpansion"
+  ],
+  "con_ron_verified_declarations": 5470,
+  "accepted_kernels": [
+    "Lean default",
+    "NanoDa",
+    "con-ron"
+  ],
+  "Challenge_trust": "high",
+  "untrusted_sources": [],
+  "errors": [],
+  "warnings": [],
+  "original_report_object_equals_official_logged_object": true,
+  "original_report_digest_in_official_log": true,
+  "all9dependency_revisions_equal_lockfile": true,
+  "worktree_clean": true,
+  "registry_actions": 0,
+  "new_source_edits": 0
+}

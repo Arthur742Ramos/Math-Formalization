@@ -6,6 +6,7 @@ import re
 import subprocess
 
 from check_readiness import check_full_report
+from check_release_packet import bind_full, snapshot
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -18,7 +19,8 @@ def check_status_correction(p, source, tree):
     """Preserve the historical source while allowing only the reviewed status repair."""
     change = p['status_correction']
     assert change['kind'] == 'verification-status-account'
-    assert p['state'] == 'status-correction-awaiting-exact-source-verification'
+    assert p['state'] in {'status-correction-awaiting-exact-source-verification',
+                          'status-correction-full-verified'}
     assert change['historical_source'] == source
     corrected = p['current_source_snapshot']
     assert change['corrected_source'] == corrected['commit']
@@ -38,7 +40,27 @@ def check_status_correction(p, source, tree):
     after = json.loads((ROOT / p['path'] / 'formalization.yaml').read_text())
     before['status']['known_gaps'] = after['status']['known_gaps']
     assert before == after, 'Only metadata known_gaps may change'
-    assert p['current_source_full'] == p['current_source_rendering'] == 'not-established'
+    assert p['current_source_rendering'] == 'not-established'
+    if p['current_source_full'] == 'pass':
+        assert p['state'] == 'status-correction-full-verified'
+        full = p['current_source_full_run']
+        assert full['repository'] == 'Arthur742Ramos/Math-Formalization'
+        assert full['attempt'] == 1
+        report = ROOT / full['report_file']
+        assert report.resolve().is_relative_to((ROOT / 'catalog-evidence').resolve())
+        assert hashlib.sha256(report.read_bytes()).hexdigest() == full['report_sha256']
+        assert full['source_commit'] == corrected['commit']
+        assert full['url'] == f'https://github.com/{full["repository"]}/actions/runs/{full["run_id"]}'
+        original = json.loads(report.read_bytes())
+        assert original['workflow_url'] == full['url']
+        bind_full(original, dict(repository='Arthur742Ramos/Math-Formalization',
+            commit=corrected['commit'], project_path=p['path'],
+            comparator_config_path=p['path'] + '/comparator.json',
+            formalization_metadata_path=p['path'] + '/formalization.yaml'),
+            snapshot(ROOT, corrected['commit'], p['path']))
+    else:
+        assert p['current_source_full'] == 'not-established'
+        assert p['state'] == 'status-correction-awaiting-exact-source-verification'
 
 
 def check_verified(p, package, source, tree):
@@ -106,7 +128,8 @@ def check_preparations(rows, verified_paths):
         assert re.fullmatch(r'topology/[a-z0-9-]+', path)
         assert path not in seen | verified_paths
         seen.add(path)
-        assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted', 'status-correction-awaiting-exact-source-verification'}
+        assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted',
+            'status-correction-awaiting-exact-source-verification', 'status-correction-full-verified'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
@@ -126,7 +149,9 @@ def check_preparations(rows, verified_paths):
         assert p['authors'] == meta['project']['authors']
         assert p['responsible_maintainers'] == meta['project']['responsible_maintainers']
         if p['state'] == 'reviewed-preparation-not-submitted':
-            assert p['canonical_full'] == p['rendering'] == 'unperformed'
+            # Evidence at this dated preparation checkpoint, not a permanent
+            # claim that later exact-source external checks have never run.
+            assert p['canonical_full'] == p['rendering'] == 'not-established'
             assert p['canonical_run'] is None and p['rendering_run'] is None
             assert p['fresh_runner_security_approval'] is False
         else:
