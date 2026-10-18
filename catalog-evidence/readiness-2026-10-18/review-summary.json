@@ -42,5 +42,10 @@
       "url": "https://mizar.uwb.edu.pl/fm/2013-21/pdf21-2/topgen_6.pdf",
       "status": "Tool unavailable; fulltext not consulted in this audit; no bypass/retry."
     }
-  ]
+  ],
+  "completion_evidence_reviews": {
+    "final-three-render-mathematical-review.json": "aed9aaf612570bbfe1ca9b06eaedeb90e7f0da2a94842daa9bdd9bd37b226d37",
+    "final-combined-premerge-implementation-review.json": "3b87c3be84f686e97245fe6a7a9aef9b46ffe3c4c205460b2a4fc10fdd61e55d"
+  },
+  "completion_review_scope": "Approved exact-source reports, rendered declaration surfaces, role metadata, source preservation and normal merge gates. No human/external peer or unavailable full-report JSON review claimed."
 }

@@ -1,27 +1,51 @@
 # Repository readiness audit — 2026-10-18
 
-All 17 current package trees match successful historical full canonical runs.
-There are 10 official registrations evidenced by the saved public snapshot,
-two additional user-reported registrations with unconfirmed IDs, and five
-projects whose registration/editorial/intake outcomes are not evidenced.
-This audit does not certify blanket submission readiness.
+The four specifically approved canonical checks all passed on their first
+attempts. All 17 current package trees now have successful full canonical
+verification; 14 have named monorepo renderer successes and the other three
+have registered preview summaries. No rendering-evidence gap remains in the
+previously identified three older projects. Individual HTML bytes were not
+downloaded or visually reviewed; exact renderer report hashes, selected
+declaration surfaces and published file hashes were checked.
 
-The complete public snapshot was captured on 2026-10-17 at 16:05 UTC,
-revision 332 (598 active entries); all 24 saved page hashes were verified.
-Ordinary repository-index and public-results reads returned HTTP403 on
-2026-10-18 at 01:16 UTC. There is no newer global confirmation. Private attempts
-were not enumerated; absence from this snapshot does not establish no intake.
-The two user reports identify countable-network at 18:31 UTC and countable-coordinate
-factorization at 22:21 UTC on October 17. “Registration pending” in the catalog
-means pending official confirmation, not an observed service queue.
+The exact Sorgenfrey role correction at `bdae8391754077f11c0f200ec80a9ab56d64deae`
+passed [full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293654),
+[rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087324460)
+and [ordinary Lean CI](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293491),
+then merged through [PR21](https://github.com/Arthur742Ramos/Math-Formalization/pull/21).
+Its metadata is byte-identical to the user's original correction. Proof files,
+all package pins, upstream attribution, all ten registered snapshots and the
+other sixteen complete package trees are unchanged.
+
+The new [hyperspace rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323920)
+and [Whitney rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323941)
+use their earlier exact verified sources. All three renderer callers are pinned
+to pipeline `d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44` and explicitly use
+`palomar-standard-v1`; source SHA, workflow head and tested package tree are
+recorded separately in READINESS.json. No canonical retry was scheduled.
+The user-approved conditional AppArmor exception was restricted to the fresh
+disposable GitHub runners; no shared-host security setting changed.
+
+The Sorgenfrey full workflow's execution and report gate passed. Its original
+mechanical report bytes were not downloaded, and this audit does not invent
+kernel declaration counts or warning details. The three original renderer
+reports were recovered from bounded published job logs and independently
+matched their exact SHA256 values. Existing artifact-download denial was not
+retried or bypassed.
+
+Registration remains a separate question: ten official registrations are
+evidenced, two more are user-reported with unconfirmed IDs, and five have no
+verified public registration/editorial/intake outcome. Fresh global registry,
+private-attempt, identity, supported-protocol and proof-capability gates remain
+separate before any future intake. No registry action or new target occurred.
 
 | Project | Exact catalog source | Registration evidence | Full canonical check | Rendering evidence |
 | --- | --- | --- | --- | --- |
 | [Alexandroff property and composant foundations](topology/composants) | [`53be25d2`](https://github.com/Arthur742Ramos/Math-Formalization/commit/53be25d26551d18b006d3a625fc5b145cc73cebd) | [PALOMAR-2026-10-07-000003 v1](https://data.palomar-registry.org/entries/PALOMAR-2026-10-07-000003-v1.json) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37543892252) | Registered preview summary |
 | [Order arcs between subcontinua](topology/order-arcs) | [`8b802e2f`](https://github.com/Arthur742Ramos/Math-Formalization/commit/8b802e2f62a31b08276a67021cd40f6941c5c256) | [PALOMAR-2026-10-07-000008 v1](https://data.palomar-registry.org/entries/PALOMAR-2026-10-07-000008-v1.json) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37566205377) | Registered preview summary |
-| [Path components of punctured continuum hyperspaces](topology/hyperspace-components) | [`dac5d2d1`](https://github.com/Arthur742Ramos/Math-Formalization/commit/dac5d2d127d25d61e972fc5d9fc442146c67440d) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37623444050) | **Evidence missing** |
-| [Sorgenfrey covering theorems](topology/sorgenfrey-covering) | [`dac5d2d1`](https://github.com/Arthur742Ramos/Math-Formalization/commit/dac5d2d127d25d61e972fc5d9fc442146c67440d) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37995150644) | **Evidence missing** |
-| [Whitney reversibility of hereditary decomposability](topology/whitney-reversibility) | [`dac5d2d1`](https://github.com/Arthur742Ramos/Math-Formalization/commit/dac5d2d127d25d61e972fc5d9fc442146c67440d) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37662179969) | **Evidence missing** |
+| [Path components of punctured continuum hyperspaces](topology/hyperspace-components) | [`dac5d2d1`](https://github.com/Arthur742Ramos/Math-Formalization/commit/dac5d2d127d25d61e972fc5d9fc442146c67440d) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37623444050) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323920) |
+| [Sorgenfrey covering theorems](topology/sorgenfrey-covering) | [`bdae8391`](https://github.com/Arthur742Ramos/Math-Formalization/commit/bdae8391754077f11c0f200ec80a9ab56d64deae) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293654) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087324460) |
+| [Whitney reversibility of hereditary decomposability](topology/whitney-reversibility) | [`dac5d2d1`](https://github.com/Arthur742Ramos/Math-Formalization/commit/dac5d2d127d25d61e972fc5d9fc442146c67440d) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37662179969) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323941) |
 | [Michael's biquotient-map theorems](topology/michael-biquotient) | [`dac5d2d1`](https://github.com/Arthur742Ramos/Math-Formalization/commit/dac5d2d127d25d61e972fc5d9fc442146c67440d) | [PALOMAR-2026-10-11-000013 v1](https://data.palomar-registry.org/entries/PALOMAR-2026-10-11-000013-v1.json) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38011314479) | Registered preview summary |
 | [Dowker's characterization](topology/dowker-characterization) | [`ccc3ca43`](https://github.com/Arthur742Ramos/Math-Formalization/commit/ccc3ca43dc26c6774f2afd7f2b2223066451c362) | [PALOMAR-2026-10-12-000003 v1](https://data.palomar-registry.org/entries/PALOMAR-2026-10-12-000003-v1.json) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38150135895) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38150621624) |
 | [Perfect surjections and paracompactness](topology/perfect-paracompact) | [`984a6103`](https://github.com/Arthur742Ramos/Math-Formalization/commit/984a610395e195b8d3ca0cd88282ef343e74d33d) | [PALOMAR-2026-10-13-000004 v1](https://data.palomar-registry.org/entries/PALOMAR-2026-10-13-000004-v1.json) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38259387757) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38259387277) |
@@ -35,73 +59,25 @@ means pending official confirmation, not an observed service queue.
 | [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | [`cd7ae6bc`](https://github.com/Arthur742Ramos/Math-Formalization/commit/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730) |
 | [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | [`10f8b907`](https://github.com/Arthur742Ramos/Math-Formalization/commit/10f8b9075144c51468729b9b620c46b739c0a680) | Editorial/intake outcome not evidenced | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938) | [PASS](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499) |
 
-The table's full checks verify the identical **package tree**, not a fresh build
-of main. The actual workflow heads, selected names, all source commits, pins,
-package hashes and public run links are in [READINESS.json](READINESS.json).
-For the three older projects without confirmed registration, actual full-check source heads are
-`eb3bac386e34b97d443cfcf0bd603e34ccdac6d0` (hyperspaces),
-`de1a104e9b36154b145cf08ba15b1f595b4c503e` (Whitney), and
-`5ae64cec0e18013c1a4499ac51628b2459a643fa` (Sorgenfrey). Their trees equal the
-later catalog snapshots. No duplicate full verification was scheduled.
+The [initial audit](https://github.com/Arthur742Ramos/Math-Formalization/blob/036b01bbe4382a938a751df88a68dde876bd844a/READINESS.md)
+is preserved as dated history. Its missing-render, unpublished-candidate and
+pending-security-approval statements predate these completed checks and PR21.
+The current ledger retains its original source/branch/PR inventory while
+recording the authorized metadata change and new evidence separately.
 
-Eleven packages have successful named monorepo renderer runs. Composants,
-order-arcs and Michael have registered preview hashes in the saved official
-summaries, with no named monorepo renderer receipt established by this audit.
-Hyperspaces, Whitney and Sorgenfrey have no established rendering evidence here;
-this is missing evidence, not a known rendering failure.
+Across the seventeen packages, 114 selected theorems and 36 selected definitions
+retain their original package-owned toolchains and lockfiles. Static source and
+contract review found no implementation proof holes or custom axioms. The
+Michael and Dowker supplemental axiom queries cover the definitions omitted
+from their historical local logs; the new Sorgenfrey hosted log covers all
+seven selected theorems plus five supporting declarations. Root validation
+checks those saved outputs and their hashes without rerunning Lean.
 
-The audit checks 114 selected theorems and 36 selected definitions, native pinned
-v0.4 metadata parsing, source manifests, package-owned lockfiles and current
-Solution proof closures. Static scans found no implementation proof holes or
-custom axioms. Four older Challenge templates deliberately contain theorem
-holes; complete Solution proofs and canonical comparison are separate checks.
-Historical pending-status notes inside immutable snapshots predate the later
-successful runs and registrations. Those package snapshots remain unchanged.
-
-Michael and Dowker's committed local axiom logs omitted selected definitions.
-Supplemental builds and all-selected-name axiom queries passed on their own
-unchanged exact package pins (925 and 1783 build jobs respectively), including
-the five Michael and three Dowker definitions. Sorgenfrey's existing successful
-hosted ordinary log covers all seven selected theorems, including its three
-public wrappers, plus five supporting declarations; its shorter historical
-local log is not used as full coverage.
-The source-bound query inputs, axiom output and hash manifest are in
-[the audit evidence](catalog-evidence/readiness-2026-10-18/manifest.json).
-The root checker guards both theorem and definition coverage without rewriting
-any registered package. It verifies saved evidence, not a new Lean execution.
-
-Independent internal AI mathematical/source and implementation/contract reviews
-passed within their recorded scopes. The all-project audit is static and
-evidence-based; detailed new source review focused on the three older
-projects without confirmed registration and reused unchanged recent reviews. It is not a new
-exhaustive primary-source/line-by-line review of all seventeen, human review,
-external peer review or Palomar editorial approval. Original report fields and
-kernel counts are not invented when only successful workflow evidence is
-available. Rendered HTML bytes were not individually downloaded or visually
-reviewed.
-
-At baseline `33af8bfea5b6c18a16190a30a107952c77cecf45`, all 19 existing PRs were
-merged and none were open. Nineteen of 20 remote branch tips were already
-ancestors of main. The sole exception is `sorgenfrey-palomar`, with the one
-user-authored commit `38c4fee1955d9181ae76432289f52ac3bea7c4c7`. It adds David
-Barros Hulak and Ruy Jose Guerra Barretto de Queiroz separately to authors and
-responsible maintainers alongside Arthur Freitas Ramos. All branch tips and
-all 19 PRs are enumerated in READINESS.json; none were deleted.
-
-That exact user metadata blob is prepared on baseline as local candidate
-`bdae8391754077f11c0f200ec80a9ab56d64deae`, package tree
-`689959f07f3a521b6b1623645494c39a90bc9699`. Native parsing, static package checks
-and independent role/byte-preservation review passed. Proof files, pins,
-upstream attribution and the other sixteen packages are identical. The candidate
-is unpublished and unmerged. Its changed metadata tree is not covered by the
-baseline's old canonical run. Opening its PR triggers an existing full workflow
-whose pinned installer may load an AppArmor policy on the disposable runner;
-fresh specific approval is required before that trigger. No security step was
-run or altered. The same gate applies to new canonical rendering jobs for the
-three missing cases. Those verification obligations prevent a “100% ready” claim.
-
-No new research target, registry intake, proof gist/tag, login, scope change,
-private receipt retry, contact, payment or security change was performed.
-Current account, supported protocol, proof-write capability, duplicate and
-private-attempt reconciliation remain separate gates before any future intake.
-The earlier actual gist-write denial remains unresolved and was not retried.
+Independent internal AI mathematical/source and implementation reviews checked
+the original audit and the completed results within their recorded scopes.
+This is not a new exhaustive primary-source or line-by-line review of all
+seventeen, human mathematical review, external peer review, or Palomar
+editorial approval. Deliberately incomplete older Challenge templates remain
+separate from complete Solution proofs and successful canonical comparison.
+All ten registered source versions are preserved. Historical preparation
+status inside frozen package snapshots is qualified by the later evidence here.

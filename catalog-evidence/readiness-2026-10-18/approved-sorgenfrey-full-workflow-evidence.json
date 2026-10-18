@@ -1,0 +1,139 @@
+{
+  "source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+  "package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+  "run": {
+    "run_id": 39087293654,
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293654",
+    "workflow": ".github/workflows/palomar-sorgenfrey-covering.yml",
+    "workflow_head": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+    "status": "completed",
+    "conclusion": "success",
+    "attempt": 1,
+    "tested_package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+    "current_package_tree_equal": true
+  },
+  "verify_job_id": 117556448028,
+  "steps": [
+    {
+      "name": "Set up job",
+      "conclusion": "success"
+    },
+    {
+      "name": "Record verification deadline origin",
+      "conclusion": "success"
+    },
+    {
+      "name": "Validate pinned pipeline revision",
+      "conclusion": "success"
+    },
+    {
+      "name": "Checkout submission pipeline",
+      "conclusion": "success"
+    },
+    {
+      "name": "Set up Python",
+      "conclusion": "success"
+    },
+    {
+      "name": "Set up Ruby",
+      "conclusion": "success"
+    },
+    {
+      "name": "Install verifier dependencies",
+      "conclusion": "success"
+    },
+    {
+      "name": "Parse and fetch immutable source",
+      "conclusion": "success"
+    },
+    {
+      "name": "Free disk space",
+      "conclusion": "success"
+    },
+    {
+      "name": "Check palomar-standard-v1 runner capacity",
+      "conclusion": "success"
+    },
+    {
+      "name": "Install pinned elan",
+      "conclusion": "success"
+    },
+    {
+      "name": "Install the submitted Lean toolchain",
+      "conclusion": "success"
+    },
+    {
+      "name": "Build pinned bubblewrap",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run lake comparator and challenge provenance audit",
+      "conclusion": "success"
+    },
+    {
+      "name": "Finalize interrupted mechanical report",
+      "conclusion": "success"
+    },
+    {
+      "name": "Upload bounded mechanical report",
+      "conclusion": "success"
+    },
+    {
+      "name": "Wait before report upload retry 2",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Retry bounded mechanical report upload 2",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Wait before report upload retry 3",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Retry bounded mechanical report upload 3",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Fail the run when verification did not pass",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Set up Python",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Checkout submission pipeline",
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "conclusion": "success"
+    }
+  ],
+  "official_job_log_sha256": "a163f2d351ecf33dc6d0b4c49df68821dd5eb38a13a36285cf76a81817353000",
+  "artifacts": {
+    "artifacts": [
+      {
+        "id": 12121720735,
+        "name": "mechanical-report-sorgenfrey01",
+        "size_in_bytes": 6862,
+        "url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12121720735",
+        "archive_download_url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12121720735/zip",
+        "expired": false,
+        "created_at": "2026-10-18T01:44:30Z",
+        "expires_at": "2027-01-16T01:39:42Z",
+        "updated_at": "2026-10-18T01:44:30Z",
+        "digest": "sha256:138306be06816a06e732d7927085f00f4044affe0ac3d8b357faa4297318226a",
+        "workflow_run": {
+          "id": 39087293654,
+          "repository_id": 1407508278,
+          "head_repository_id": 1407508278,
+          "head_branch": "fix/sorgenfrey-author-roles",
+          "head_sha": "bdae8391754077f11c0f200ec80a9ab56d64deae"
+        }
+      }
+    ]
+  },
+  "scope": "Successful pinned full execution, finalization and report gate on exact changed metadata source. Original report bytes were not downloaded; no reconstructed kernel counts or warning fields are claimed. Prior artifact-download denial was not bypassed or retried."
+}

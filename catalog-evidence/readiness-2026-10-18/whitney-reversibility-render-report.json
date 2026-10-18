@@ -1,0 +1,131 @@
+{
+  "artifact_tree_sha256": "e3d239f86c93abee5bf7e09df80dfe29a6e0423d188e3c7d71ff7baf172189ae",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-18T01:42:40Z",
+  "rendered_at": "2026-10-18T01:47:29Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/whitney-reversibility/Challenge.lean",
+    "challenge_sha256": "b938007de8d2ed75c47f568db6041c8fc6785cf898b98ea01ff7276715f6c7d7",
+    "commit": "de1a104e9b36154b145cf08ba15b1f595b4c503e",
+    "comparator_config_path": "topology/whitney-reversibility/comparator.json",
+    "lakefile_path": "topology/whitney-reversibility/lakefile.toml",
+    "lean_toolchain_path": "topology/whitney-reversibility/lean-toolchain",
+    "project_path": "topology/whitney-reversibility",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/whitney-reversibility/Solution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem WhitneyReversibility.isCompact_relativeLevel.{u} {X : Type u} [mX : MetricSpace X] [cX : CompactSpace X]\n  {\u03c3 : WhitneyReversibility.Continuum X \u2192 Real} (h\u03c3 : WhitneyReversibility.IsSizeMap \u03c3)\n  (Y : WhitneyReversibility.Continuum X) (t : Real) : IsCompact (WhitneyReversibility.relativeLevel \u03c3 Y t)",
+        "name": "WhitneyReversibility.isCompact_relativeLevel"
+      },
+      {
+        "declaration": "theorem WhitneyReversibility.isConnected_relativeLevel.{u} {X : Type u} [mX : MetricSpace X] [cX : CompactSpace X]\n  {\u03c3 : WhitneyReversibility.Continuum X \u2192 Real} (h\u03c3 : WhitneyReversibility.IsSizeMap \u03c3)\n  (Y : WhitneyReversibility.Continuum X) {t : Real} (ht : LE.le 0 t) (htY : LE.le t (\u03c3 Y)) :\n  IsConnected (WhitneyReversibility.relativeLevel \u03c3 Y t)",
+        "name": "WhitneyReversibility.isConnected_relativeLevel"
+      },
+      {
+        "declaration": "theorem WhitneyReversibility.familyUnion_relativeLevel.{u} {X : Type u} [mX : MetricSpace X] [cX : CompactSpace X]\n  {\u03c3 : WhitneyReversibility.Continuum X \u2192 Real} (h\u03c3 : WhitneyReversibility.IsSizeMap \u03c3)\n  (Y : WhitneyReversibility.Continuum X) {t : Real} (ht : LE.le 0 t) (htY : LE.le t (\u03c3 Y)) :\n  Eq (WhitneyReversibility.familyUnion (WhitneyReversibility.relativeLevel \u03c3 Y t)) (SetLike.coe (Subtype.val Y))",
+        "name": "WhitneyReversibility.familyUnion_relativeLevel"
+      },
+      {
+        "declaration": "theorem WhitneyReversibility.exists_indecomposable_covering_family.{u} {X : Type u} [mX : MetricSpace X] [cX : CompactSpace X]\n  {\u03bc : WhitneyReversibility.Continuum X \u2192 Real} (h\u03bc : WhitneyReversibility.IsWhitneyMap \u03bc)\n  (Y : WhitneyReversibility.Continuum X) (_hYnt : Set.Nontrivial (SetLike.coe (Subtype.val Y)))\n  (hi : Not (WhitneyReversibility.IsDecomposable (SetLike.coe (Subtype.val Y)))) {t : Real} (ht : LT.lt 0 t)\n  (htY : LT.lt t (\u03bc Y)) :\n  Exists fun S =>\n    And (LE.le S (WhitneyReversibility.relativeLevel \u03bc Y t))\n      (And (IsCompact S)\n        (And (IsConnected S)\n          (And (Set.Nontrivial S)\n            (And (Not (WhitneyReversibility.IsDecomposable S))\n              (Eq (WhitneyReversibility.familyUnion S) (SetLike.coe (Subtype.val Y)))))))",
+        "name": "WhitneyReversibility.exists_indecomposable_covering_family"
+      },
+      {
+        "declaration": "theorem WhitneyReversibility.sequential_strong_whitney_reversibility.{u} {X : Type u} [mX : MetricSpace X] [cX : CompactSpace X]\n  [cnX : ConnectedSpace X] {\u03bc : WhitneyReversibility.Continuum X \u2192 Real} (h\u03bc : WhitneyReversibility.IsWhitneyMap \u03bc)\n  (t : Nat \u2192 Real) (ht : \u2200 (n : Nat), And (LT.lt 0 (t n)) (LT.lt (t n) (\u03bc WhitneyReversibility.whole)))\n  (htend : Filter.Tendsto t Filter.atTop (nhds 0))\n  (hlevels : \u2200 (n : Nat), WhitneyReversibility.IsHereditarilyDecomposable (Set.ofPred fun K => Eq (\u03bc K) (t n))) :\n  WhitneyReversibility.IsHereditarilyDecomposable Set.univ",
+        "name": "WhitneyReversibility.sequential_strong_whitney_reversibility"
+      },
+      {
+        "declaration": "def WhitneyReversibility.Continuum.{u} (X : Type u) [tX : TopologicalSpace X] : Type u",
+        "name": "WhitneyReversibility.Continuum"
+      },
+      {
+        "declaration": "def WhitneyReversibility.singleton.{u} {X : Type u} [mX : MetricSpace X] (x : X) : WhitneyReversibility.Continuum X",
+        "name": "WhitneyReversibility.singleton"
+      },
+      {
+        "declaration": "def WhitneyReversibility.whole.{u} {X : Type u} [mX : MetricSpace X] [cX : CompactSpace X] [cnX : ConnectedSpace X] :\n  WhitneyReversibility.Continuum X",
+        "name": "WhitneyReversibility.whole"
+      },
+      {
+        "declaration": "def WhitneyReversibility.IsWhitneyMap.{u} {X : Type u} [mX : MetricSpace X] (\u03bc : WhitneyReversibility.Continuum X \u2192 Real) :\n  Prop",
+        "name": "WhitneyReversibility.IsWhitneyMap"
+      },
+      {
+        "declaration": "def WhitneyReversibility.IsSizeMap.{u} {X : Type u} [mX : MetricSpace X] (\u03c3 : WhitneyReversibility.Continuum X \u2192 Real) :\n  Prop",
+        "name": "WhitneyReversibility.IsSizeMap"
+      },
+      {
+        "declaration": "def WhitneyReversibility.relativeLevel.{u} {X : Type u} [mX : MetricSpace X] (\u03c3 : WhitneyReversibility.Continuum X \u2192 Real)\n  (Y : WhitneyReversibility.Continuum X) (t : Real) : Set (WhitneyReversibility.Continuum X)",
+        "name": "WhitneyReversibility.relativeLevel"
+      },
+      {
+        "declaration": "def WhitneyReversibility.familyUnion.{u} {X : Type u} [mX : MetricSpace X] (S : Set (WhitneyReversibility.Continuum X)) :\n  Set X",
+        "name": "WhitneyReversibility.familyUnion"
+      },
+      {
+        "declaration": "def WhitneyReversibility.IsDecomposable.{v} {A : Type v} [tA : TopologicalSpace A] (K : Set A) : Prop",
+        "name": "WhitneyReversibility.IsDecomposable"
+      },
+      {
+        "declaration": "def WhitneyReversibility.IsHereditarilyDecomposable.{v} {A : Type v} [tA : TopologicalSpace A] (S : Set A) : Prop",
+        "name": "WhitneyReversibility.IsHereditarilyDecomposable"
+      }
+    ],
+    "declarations": [
+      "WhitneyReversibility.isCompact_relativeLevel",
+      "WhitneyReversibility.isConnected_relativeLevel",
+      "WhitneyReversibility.familyUnion_relativeLevel",
+      "WhitneyReversibility.exists_indecomposable_covering_family",
+      "WhitneyReversibility.sequential_strong_whitney_reversibility",
+      "WhitneyReversibility.Continuum",
+      "WhitneyReversibility.singleton",
+      "WhitneyReversibility.whole",
+      "WhitneyReversibility.IsWhitneyMap",
+      "WhitneyReversibility.IsSizeMap",
+      "WhitneyReversibility.relativeLevel",
+      "WhitneyReversibility.familyUnion",
+      "WhitneyReversibility.IsDecomposable",
+      "WhitneyReversibility.IsHereditarilyDecomposable"
+    ],
+    "imports": [
+      "Mathlib.Topology.Connected.Clopen",
+      "Mathlib.Topology.MetricSpace.Closeds",
+      "Mathlib.Topology.UnitInterval"
+    ],
+    "module_doc": null,
+    "schema_version": 3,
+    "solution_imports": [
+      "Reduction"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323941"
+}

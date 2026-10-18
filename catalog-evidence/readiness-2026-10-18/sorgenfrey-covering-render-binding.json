@@ -1,0 +1,18 @@
+{
+  "run_id": 39087324460,
+  "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087324460",
+  "workflow_head": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+  "source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+  "project_path": "topology/sorgenfrey-covering",
+  "status": "pass",
+  "attempt": 1,
+  "original_report_sha256": "b050579f9f62a049d3560bb0a9ce2acb7bf9fb167f016d11db6e2eecdc9a5f0c",
+  "original_report_bytes_reconstructed_and_hash_verified": true,
+  "official_job_log_sha256": "81adbf6ce36db6ab91055c3a636f9eadd408ed06ea56e1f721035157aee62b07",
+  "selected_theorems": 7,
+  "selected_definitions": 0,
+  "published_file_count": 21,
+  "artifact_tree_sha256": "205a51fbef83b2ed477cb9f10414d3463a1382ca2fd5c0411769098cad4245b6",
+  "method": "Complete bounded report and published hashes recovered from completed official public job log. No artifact-download denial retry or alternate route.",
+  "limit": "Individual rendered HTML bytes were not downloaded, independently rehashed or visually reviewed."
+}

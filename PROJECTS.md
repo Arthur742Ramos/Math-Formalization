@@ -3,13 +3,13 @@
 The 17 projects below retain their exact source snapshots and package-owned pins.
 Registration rows reflect the dated official evidence in
 [REGISTRATIONS.json](REGISTRATIONS.json). The complete saved public snapshot is
-revision 332, captured at 16:05 UTC on 2026-10-17; later global reads returned403.
+revision 332, captured at 16:05 UTC on 2026-10-17; later global reads returned HTTP403.
 User-reported registrations without confirmed IDs remain “Registration pending”.
 Other missing public entries do not establish absence of private attempts.
 
 The [readiness audit](READINESS.md) separately records every project's existing
 full canonical verification, rendering evidence, review scope and remaining
-obligations. All17 package trees match successful full runs; this is not blanket
+obligations. All 17 package trees match successful full runs; this is not blanket
 editorial approval or submission readiness. Status notes inside frozen packages
 describe their preparation snapshots and can predate completed checks.
 
@@ -18,7 +18,7 @@ describe their preparation snapshots and can predate completed checks.
 | [Alexandroff property and composant foundations](topology/composants) | Alexandroff property of metric indecomposable continua and eight classical composant results. | Registered: [PALOMAR-2026-10-07-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-07-000003&version=1) | [`53be25d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/53be25d26551d18b006d3a625fc5b145cc73cebd/topology/composants) |
 | [Order arcs between subcontinua](topology/order-arcs) | Embedded increasing interval between strictly nested subcontinua of compact metric spaces. | Registered: [PALOMAR-2026-10-07-000008 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-07-000008&version=1) | [`8b802e2`](https://github.com/Arthur742Ramos/Math-Formalization/tree/8b802e2f62a31b08276a67021cd40f6941c5c256/topology/order-arcs) |
 | [Path components of punctured continuum hyperspaces](topology/hyperspace-components) | Path classification by composants and uncountably many path components. | No public registration found | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/hyperspace-components) |
-| [Sorgenfrey covering theorems](topology/sorgenfrey-covering) | Hereditary Lindelofness and paracompactness, disjoint clopen refinements, and plane non-Lindelofness and non-paracompactness. | No public registration found | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/sorgenfrey-covering) |
+| [Sorgenfrey covering theorems](topology/sorgenfrey-covering) | Hereditary Lindelofness and paracompactness, disjoint clopen refinements, and plane non-Lindelofness and non-paracompactness. | No public registration found | [`bdae839`](https://github.com/Arthur742Ramos/Math-Formalization/tree/bdae8391754077f11c0f200ec80a9ab56d64deae/topology/sorgenfrey-covering) |
 | [Whitney reversibility of hereditary decomposability](topology/whitney-reversibility) | Sequential strong Whitney reversibility, assuming a Whitney map, and relative indecomposable level families. | No public registration found | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/whitney-reversibility) |
 | [Michael's biquotient-map theorems](topology/michael-biquotient) | Arbitrary biquotient products and the full Hausdorff-target identity-product characterization. | Registered: [PALOMAR-2026-10-11-000013 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-11-000013&version=1) | [`dac5d2d`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dac5d2d127d25d61e972fc5d9fc442146c67440d/topology/michael-biquotient) |
 | [Dowker's characterization](topology/dowker-characterization) | Normality and countable paracompactness, interval-product normality, strict insertion, and compact metrizable products. | Registered: [PALOMAR-2026-10-12-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-12-000003&version=1) | [`ccc3ca4`](https://github.com/Arthur742Ramos/Math-Formalization/tree/ccc3ca43dc26c6774f2afd7f2b2223066451c362/topology/dowker-characterization) |

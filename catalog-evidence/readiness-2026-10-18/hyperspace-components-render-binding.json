@@ -1,0 +1,18 @@
+{
+  "run_id": 39087323920,
+  "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323920",
+  "workflow_head": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+  "source_commit": "eb3bac386e34b97d443cfcf0bd603e34ccdac6d0",
+  "project_path": "topology/hyperspace-components",
+  "status": "pass",
+  "attempt": 1,
+  "original_report_sha256": "1951691d0fc21e2af8b3bf741a42e4fabf002aad8171c77f6db4551419ffa6c2",
+  "original_report_bytes_reconstructed_and_hash_verified": true,
+  "official_job_log_sha256": "51091745ee853e867e5568a5309a436b6d0858ec90750984542dd2b981a9eb0d",
+  "selected_theorems": 6,
+  "selected_definitions": 5,
+  "published_file_count": 21,
+  "artifact_tree_sha256": "d83c0f582ee3b1063bb13cd047df0e8d3c5b06d8528dccf3d81e62387d6554d6",
+  "method": "Complete bounded report and published hashes recovered from completed official public job log. No artifact-download denial retry or alternate route.",
+  "limit": "Individual rendered HTML bytes were not downloaded, independently rehashed or visually reviewed."
+}

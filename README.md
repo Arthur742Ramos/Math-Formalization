@@ -5,16 +5,18 @@ owns its toolchain, Lake configuration, lockfile, Challenge, Comparator metadata
 definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
-The [project catalog](PROJECTS.md) lists all17 topology developments and exact
+The [project catalog](PROJECTS.md) lists all 17 topology developments and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
-All17 current package trees match successful full canonical runs. Ten official
-registrations are evidenced by the saved 2026-10-17 revision332 public snapshot;
-two more are user-reported with unconfirmed IDs. Three older packages without confirmed registration
- lack established rendering evidence. See the audit for exact sources,
-run links and the separately pending Sorgenfrey author/maintainer correction.
+All 17 current package trees match successful full canonical runs. Ten official
+registrations are evidenced by the saved 2026-10-17 revision 332 public snapshot;
+two more are user-reported with unconfirmed IDs. All three previously missing
+rendering checks passed, and the separately authorized Sorgenfrey metadata
+correction passed affected verification and merged. All proof files and pins,
+all registered snapshots and the other sixteen complete packages are unchanged.
+See the audit for exact sources and run links.
 
-Fresh global registry reads returned403 on 2026-10-18. Public snapshot absence
+Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and
 internal AI review do not establish Palomar editorial approval. Existing
 registrations are bound to their exact versions and source commits in
