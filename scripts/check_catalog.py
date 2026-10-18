@@ -81,6 +81,7 @@ def check(online,packages):
         body=subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+name]).decode('utf-8')
         assert re.search(r'^module\s*$',body,re.M),name
         assert len(body.splitlines())<=10000,name
+    subprocess.run([sys.executable,str(ROOT/'scripts/check_readiness.py')],check=True)
     print(json.dumps({'status':'pass','commit':git('rev-parse','HEAD'),'projects':len(seen),'registered':sum(p['status']=='registered' for p in data['projects']),'preserved_package_trees':len(seen),'lean_source_headers_checked':len(lean),'package_consistency_checks':package_checks,'public_records_checked':records,'scope':'Catalog, preserved source trees and existing package consistency checks. No Lean build or new Palomar review.'},indent=2))
 
 if __name__=='__main__':

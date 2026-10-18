@@ -1,0 +1,24 @@
+{
+  "run": 37995150075,
+  "job": 114039171895,
+  "workflow_commit": "5ae64cec0e18013c1a4499ac51628b2459a643fa",
+  "log_sha256": "6871f19b6856dc8509ad76261fe87bd3945113762459c3fdae4df4f1aeeb12bd",
+  "axiom_reports": {
+    "Counterexample.SorgenfreyLine.countable_Ico_cover": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.isLindelof_set": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.instHereditarilyLindelofSpace": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.disjointify_clopen_cover": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.clopen_refinement": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.instParacompactSpace_subspace": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.instParacompactSpace": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.not_lindelofSpace_prod": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.not_paracompactSpace_prod": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.hereditarilyLindelofSpace": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.paracompactSpace_subspace": "propext, Classical.choice, Quot.sound",
+    "Counterexample.SorgenfreyLine.paracompactSpace": "propext, Classical.choice, Quot.sound"
+  },
+  "report_count": 12,
+  "toolchain_435rc2_present": true,
+  "scope": "Reused completed hosted ordinary verification log; no fresh build/CI for Sorgenfrey.",
+  "axiom_gate_step_conclusion": "success"
+}

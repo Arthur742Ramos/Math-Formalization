@@ -1,0 +1,1675 @@
+{
+  "schema_version": 1,
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "audit_date": "2026-10-18",
+  "baseline_commit": "33af8bfea5b6c18a16190a30a107952c77cecf45",
+  "baseline_root_tree": "f4f36aa2a2404b7ac9272ff8c597303bc28ac4ce",
+  "scope": "Existing 17 packages only. Mechanical verification, public registration, user reports and unknown private outcomes are separate.",
+  "registry_snapshot": {
+    "capture_checked_at": "2026-10-17T16:05:30.876054+00:00",
+    "revision": 332,
+    "release": "02c6eb996c074589f30b1b18f01fae928cae7b2402267e652daa74b4f03cc7d2",
+    "page_hashes_verified": 24,
+    "total_entries": 598
+  },
+  "fresh_registry_access": {
+    "checked_at_utc": "2026-10-18T01:16:29Z",
+    "repository_index_http": 403,
+    "public_results_http": 403,
+    "consequence": "No fresh global confirmation; no retry or alternate route. No private attempts enumerated."
+  },
+  "totals": {
+    "projects": 17,
+    "selected_theorems": 114,
+    "selected_definitions": 36,
+    "full_success_equal_package_trees": 17,
+    "named_renderer_success": 11,
+    "registered_preview_only": 3,
+    "rendering_not_established": 3,
+    "official_registrations_evidenced": 10,
+    "user_reported_ids_unconfirmed": 2,
+    "other_registration_outcomes_unknown": 5
+  },
+  "projects": [
+    {
+      "name": "Alexandroff property and composant foundations",
+      "path": "topology/composants",
+      "catalog_source_commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+      "package_tree": "1cfb5f0255154585ce0846eb4bfc82ca301e3426",
+      "comparator_sha256": "8e097917a1a63822cd4839c59110efa2c02b64471c63cb42633bafe371c7242c",
+      "metadata_sha256": "869526bad9293ffe181034c5a24af07d4aabb1015e60a88b4142f1bc7b5119c2",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "12cad50098294eb1a7f80a0cd48b56fa8871843e4551bf953a595af2022dfa42",
+      "theorem_names": [
+        "Composants.mem_composant_self",
+        "Composants.dense_composant",
+        "Composants.isConnected_composant",
+        "Composants.composants_eq_or_disjoint",
+        "Composants.iUnion_composant",
+        "Composants.composant_countable_union",
+        "Composants.isMeagre_composant",
+        "Composants.uncountably_many_composants",
+        "Composants.alexandroff_continua"
+      ],
+      "definition_names": [],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-07-000003",
+        "version": 1,
+        "source_commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+        "published_at": "2026-10-07T02:31:35Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-07-000003-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "2abf3e820963fb24f56501956ae0cb1e967a3f227cd84d96ac94c6364a282925",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 37543892252,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37543892252",
+        "workflow": ".github/workflows/palomar-composants.yml",
+        "workflow_head": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "1cfb5f0255154585ce0846eb4bfc82ca301e3426",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 37543891377,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37543891377",
+        "workflow": ".github/workflows/composants.yml",
+        "workflow_head": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "1cfb5f0255154585ce0846eb4bfc82ca301e3426",
+        "current_package_tree_equal": true
+      },
+      "rendering": null,
+      "rendering_evidence": "registered-preview-summary",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Order arcs between subcontinua",
+      "path": "topology/order-arcs",
+      "catalog_source_commit": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+      "package_tree": "4848af2a036554e7868748d8b065d19ac842ccda",
+      "comparator_sha256": "9ac4816e3a1111f186202541bb64f507a59e81dd9cbb5501db9c40c52ce06cc8",
+      "metadata_sha256": "dde2a3591b6cdfbe4f5c29071b70f5f6878ef0d4b53fa01bd5ed5de54fdb83a4",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "fe605476e094f0bd0472c4dc3b4fbaf05cb601c79c025c19b9080f7f3ce78d9a",
+      "theorem_names": [
+        "OrderArcs.exists_order_arc"
+      ],
+      "definition_names": [
+        "OrderArcs.height",
+        "OrderArcs.ContinuumInterval"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-07-000008",
+        "version": 1,
+        "source_commit": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+        "published_at": "2026-10-07T13:39:49Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-07-000008-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "aac1671afcaf84f37502f4981365b65351a3d9f2451ffe2587f068288e9f8039",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 37566205377,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37566205377",
+        "workflow": ".github/workflows/palomar-order-arcs.yml",
+        "workflow_head": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "4848af2a036554e7868748d8b065d19ac842ccda",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 37566204675,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37566204675",
+        "workflow": ".github/workflows/order-arcs.yml",
+        "workflow_head": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "4848af2a036554e7868748d8b065d19ac842ccda",
+        "current_package_tree_equal": true
+      },
+      "rendering": null,
+      "rendering_evidence": "registered-preview-summary",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Path components of punctured continuum hyperspaces",
+      "path": "topology/hyperspace-components",
+      "catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+      "package_tree": "c67c5fa5ccfd015bd1cf59d23cc988e3468d735b",
+      "comparator_sha256": "3dde14b937ee62d5df41c3a2ae389b833f89c3ee3ded3a973c35437aff6aea89",
+      "metadata_sha256": "5d53b6a58aab39fbd7ee2538a0bfad96b46fd392bd0c9110a90107af66d6c6a9",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "65e8f3b58ee54cfb1587b536c3395e1b9b086b5f6bb4ca785d4a6239acbe842b",
+      "theorem_names": [
+        "HyperspaceComponents.proper_familyUnion",
+        "HyperspaceComponents.joined_iff_common_continuum",
+        "HyperspaceComponents.joined_iff_same_composant",
+        "HyperspaceComponents.pathComponent_eq_composant",
+        "HyperspaceComponents.uncountably_many_path_components",
+        "HyperspaceComponents.no_proper_continuum_of_subsingleton"
+      ],
+      "definition_names": [
+        "Composants.IsSubcontinuum",
+        "Composants.IsIndecomposable",
+        "Composants.composant",
+        "HyperspaceComponents.familyUnion",
+        "HyperspaceComponents.ProperContinuum"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "editorial-and-intake-outcome-not-evidenced",
+      "registration": null,
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 37623444050,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37623444050",
+        "workflow": ".github/workflows/palomar-hyperspace-components.yml",
+        "workflow_head": "eb3bac386e34b97d443cfcf0bd603e34ccdac6d0",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "c67c5fa5ccfd015bd1cf59d23cc988e3468d735b",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 37623443153,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37623443153",
+        "workflow": ".github/workflows/hyperspace-components.yml",
+        "workflow_head": "eb3bac386e34b97d443cfcf0bd603e34ccdac6d0",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "c67c5fa5ccfd015bd1cf59d23cc988e3468d735b",
+        "current_package_tree_equal": true
+      },
+      "rendering": null,
+      "rendering_evidence": "not-established",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown.",
+        "Canonical rendering evidence not established in the inspected run inventory."
+      ]
+    },
+    {
+      "name": "Sorgenfrey covering theorems",
+      "path": "topology/sorgenfrey-covering",
+      "catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+      "package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
+      "comparator_sha256": "2289c8730692bf8f1428414e45bee6b4294195c65142bc0e04f574a8f1ea0bb7",
+      "metadata_sha256": "637e4151db00b5f1242d1c39cebf2643169c7206ed260663c90d9301ce69b972",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "725b52d5ad62fab4f30beb478f53f2f8f2295fabfaa2b78fc3cf7a5175e502f3",
+      "theorem_names": [
+        "Counterexample.SorgenfreyLine.isLindelof_set",
+        "Counterexample.SorgenfreyLine.hereditarilyLindelofSpace",
+        "Counterexample.SorgenfreyLine.clopen_refinement",
+        "Counterexample.SorgenfreyLine.paracompactSpace_subspace",
+        "Counterexample.SorgenfreyLine.paracompactSpace",
+        "Counterexample.SorgenfreyLine.not_lindelofSpace_prod",
+        "Counterexample.SorgenfreyLine.not_paracompactSpace_prod"
+      ],
+      "definition_names": [],
+      "permitted_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos"
+      ],
+      "registration_state": "editorial-and-intake-outcome-not-evidenced",
+      "registration": null,
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 37995150644,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37995150644",
+        "workflow": ".github/workflows/palomar-sorgenfrey-covering.yml",
+        "workflow_head": "5ae64cec0e18013c1a4499ac51628b2459a643fa",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 37996018852,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37996018852",
+        "workflow": ".github/workflows/sorgenfrey-covering.yml",
+        "workflow_head": "375929156f88029fe6b6088bb61c409d98bfe9cb",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
+        "current_package_tree_equal": true
+      },
+      "rendering": null,
+      "rendering_evidence": "not-established",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown.",
+        "Canonical rendering evidence not established in the inspected run inventory.",
+        "Separately authorized role correction is prepared but not merged or canonically verified on its changed metadata tree."
+      ]
+    },
+    {
+      "name": "Whitney reversibility of hereditary decomposability",
+      "path": "topology/whitney-reversibility",
+      "catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+      "package_tree": "f2842822fbe0cf114d2275e6eb862c2aa097cfd4",
+      "comparator_sha256": "b62aab3c0dbf0d0da71d7574a76a12a7921f04aae08549611d3c963cd712db5e",
+      "metadata_sha256": "9c6cb61eb45d42c227eb67f52981f106a7530faaf36614fc60e905bbf0efa5e9",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "e5cce032dfa078c2ef859ae79ab271d1abb935d815fd6ff39747df675dd3169d",
+      "theorem_names": [
+        "WhitneyReversibility.isCompact_relativeLevel",
+        "WhitneyReversibility.isConnected_relativeLevel",
+        "WhitneyReversibility.familyUnion_relativeLevel",
+        "WhitneyReversibility.exists_indecomposable_covering_family",
+        "WhitneyReversibility.sequential_strong_whitney_reversibility"
+      ],
+      "definition_names": [
+        "WhitneyReversibility.Continuum",
+        "WhitneyReversibility.singleton",
+        "WhitneyReversibility.whole",
+        "WhitneyReversibility.IsWhitneyMap",
+        "WhitneyReversibility.IsSizeMap",
+        "WhitneyReversibility.relativeLevel",
+        "WhitneyReversibility.familyUnion",
+        "WhitneyReversibility.IsDecomposable",
+        "WhitneyReversibility.IsHereditarilyDecomposable"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "editorial-and-intake-outcome-not-evidenced",
+      "registration": null,
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 37662179969,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37662179969",
+        "workflow": ".github/workflows/palomar-whitney-reversibility.yml",
+        "workflow_head": "de1a104e9b36154b145cf08ba15b1f595b4c503e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "f2842822fbe0cf114d2275e6eb862c2aa097cfd4",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 37662178901,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37662178901",
+        "workflow": ".github/workflows/whitney-reversibility.yml",
+        "workflow_head": "de1a104e9b36154b145cf08ba15b1f595b4c503e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "f2842822fbe0cf114d2275e6eb862c2aa097cfd4",
+        "current_package_tree_equal": true
+      },
+      "rendering": null,
+      "rendering_evidence": "not-established",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown.",
+        "Canonical rendering evidence not established in the inspected run inventory."
+      ]
+    },
+    {
+      "name": "Michael's biquotient-map theorems",
+      "path": "topology/michael-biquotient",
+      "catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+      "package_tree": "810c570566c6931845fcebe77f236fdee2308183",
+      "comparator_sha256": "95ddcaf72de4c156f0dc3253ef36441801b1a2378f6825b948103b156cb045b5",
+      "metadata_sha256": "a6d24ed43dfc67fad1280e73f04f600771e415c87e2756e967db6fc36f59a8b0",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "ab5ad3902e8891c9348d80724c53778974b5e7da8918bbe1c6a48d9759f7c590",
+      "theorem_names": [
+        "Michael.IsBiquotientMap.piMap",
+        "Michael.IsBiquotientMap.prod_id_isQuotientMap",
+        "Michael.isBiquotientMap_iff_all_tests",
+        "Michael.isBiquotientMap_iff_paracompact_tests",
+        "Michael.isBiquotientMap_iff_liftsClusterPoints",
+        "Michael.isBiquotientMap_iff_liftsUltrafilters",
+        "Michael.exists_t2_paracompact_counterexample"
+      ],
+      "definition_names": [
+        "Michael.IsBiquotientMap",
+        "Michael.LiftsClusterPoints",
+        "Michael.LiftsUltrafilters",
+        "Michael.onePointTopology",
+        "Michael.Witness"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-11-000013",
+        "version": 1,
+        "source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "published_at": "2026-10-11T10:09:05Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-11-000013-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "67c4f24295eadc4ca02fd1cee588ab4a502bdb50032eb95a7fbb5af5f41bbf7a",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38011314479,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38011314479",
+        "workflow": ".github/workflows/palomar-michael-biquotient.yml",
+        "workflow_head": "726b39596db5e6b551469e80c5753602bef95092",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "810c570566c6931845fcebe77f236fdee2308183",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": null,
+      "rendering": null,
+      "rendering_evidence": "registered-preview-summary",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Dowker's characterization",
+      "path": "topology/dowker-characterization",
+      "catalog_source_commit": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+      "package_tree": "be811d6a18a24a87d6273dfec63c7ff66e2ad3f3",
+      "comparator_sha256": "97521ab338c15f79dc5d8dbd93db33f32f5b2e4393cabe534c8b49d23300a8b6",
+      "metadata_sha256": "846ef83f490e5011c000e82b7c876c03a2bdf8df60d45110db6dcda46c426e2b",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "01c6b4db06d51ea5922d13b379d485a6a1d2080e42536777bec0358c32650f83",
+      "theorem_names": [
+        "Dowker.normal_countablyParacompact_iff_normal_interval_product",
+        "Dowker.normal_countablyParacompact_iff_strict_insertion",
+        "Dowker.normal_interval_product_iff_strict_insertion",
+        "Dowker.CountablyParacompact.normal_compact_metrizable_product",
+        "Dowker.countablyParacompact_iff_nat_precise",
+        "Dowker.countablyParacompact_iff_closed_sequence_property"
+      ],
+      "definition_names": [
+        "Dowker.CountablyParacompact",
+        "Dowker.StrictInsertion",
+        "Dowker.ClosedSequenceProperty"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-12-000003",
+        "version": 1,
+        "source_commit": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+        "published_at": "2026-10-12T07:43:22Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-12-000003-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "0924b4643eb142f0963a26b40db53485a263e94c8eaab086121202b0390fc678",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38150135895,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38150135895",
+        "workflow": ".github/workflows/palomar-dowker-characterization.yml",
+        "workflow_head": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "be811d6a18a24a87d6273dfec63c7ff66e2ad3f3",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": null,
+      "rendering": {
+        "run_id": 38150621624,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38150621624",
+        "workflow": ".github/workflows/palomar-dowker-renderer.yml",
+        "workflow_head": "3882756f36a774825c021d8e735e2ff2cf18c80a",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "be811d6a18a24a87d6273dfec63c7ff66e2ad3f3",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Perfect surjections and paracompactness",
+      "path": "topology/perfect-paracompact",
+      "catalog_source_commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+      "package_tree": "baca6f44ce058696932713450c53d4afdc90f1f3",
+      "comparator_sha256": "8ee55c023ce12d093e3973afbe07252c1b199fe3763e9b79c22ff7666a7ef91c",
+      "metadata_sha256": "b3117a18bc4a2d8701267ca185b8e10e483d92860506761fd7d6c7e31dc8ba88",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "f4f04229f4d32370b31d71513d48631c9b5df79d0429dffa14b47901571e400b",
+      "theorem_names": [
+        "PerfectParacompact.paracompact_iff",
+        "PerfectParacompact.paracompact_t2_image",
+        "PerfectParacompact.paracompact_preimage",
+        "PerfectParacompact.paracompact_image",
+        "PerfectParacompact.locallyFinite_image",
+        "PerfectParacompact.paracompact_iff_refinements"
+      ],
+      "definition_names": [],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-13-000004",
+        "version": 1,
+        "source_commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+        "published_at": "2026-10-13T01:55:22Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-13-000004-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "cbc16743eea892544180f25c6adecb3802ba171f833a6bbab611ca624676d4d5",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38259387757,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38259387757",
+        "workflow": ".github/workflows/palomar-perfect-paracompact.yml",
+        "workflow_head": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "baca6f44ce058696932713450c53d4afdc90f1f3",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": null,
+      "rendering": {
+        "run_id": 38259387277,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38259387277",
+        "workflow": ".github/workflows/palomar-perfect-paracompact-renderer.yml",
+        "workflow_head": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "baca6f44ce058696932713450c53d4afdc90f1f3",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Full Nagata-Smirnov metrization",
+      "path": "topology/nagata-smirnov",
+      "catalog_source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+      "package_tree": "2cc9cfa6424db0ddd04071a614ab652f89d4d888",
+      "comparator_sha256": "3f15bdbe980a08b9063c689a655b226f180d41cc3d17cdf46bc2d81a412cbab5",
+      "metadata_sha256": "66db0c65a38f2f4edb2415a3ab90241eacd20a1f4e903108b613da9e624e0d8d",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "fbb51d03bdc87eef4cd46a1296c2ad7d5b0addf9635c1f1870fe13fd44a932c8",
+      "theorem_names": [
+        "NagataSmirnov.nagata_smirnov",
+        "NagataSmirnov.metrizable_iff_sigmaLocallyFiniteBasis",
+        "NagataSmirnov.compatible_metric_iff",
+        "NagataSmirnov.HasSigmaLocallyFiniteBasis.perfectlyNormalSpace",
+        "NagataSmirnov.pseudoMetrizable_of_cozero_basis",
+        "NagataSmirnov.continuous_boundedCoordinates"
+      ],
+      "definition_names": [],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-14-000001",
+        "version": 1,
+        "source_commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+        "published_at": "2026-10-14T06:49:24Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-14-000001-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "01ac5eb48c7bf23029f49f3dced433fb6b69ebfe8183a045d1af66b648bf83b0",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38292516703,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38292516703",
+        "workflow": ".github/workflows/palomar-nagata-smirnov.yml",
+        "workflow_head": "6aa68b2cb67719a187e64de29567443575eb560e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "2cc9cfa6424db0ddd04071a614ab652f89d4d888",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": null,
+      "rendering": {
+        "run_id": 38292565056,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38292565056",
+        "workflow": ".github/workflows/palomar-nagata-smirnov-renderer.yml",
+        "workflow_head": "6aa68b2cb67719a187e64de29567443575eb560e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "2cc9cfa6424db0ddd04071a614ab652f89d4d888",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Smirnov local-to-global metrization",
+      "path": "topology/smirnov-local-metrization",
+      "catalog_source_commit": "20375446decf52134cb2788640fe19b580002c05",
+      "package_tree": "0a9e8364638d263b6f6ff6965ffa8794b9dc27b7",
+      "comparator_sha256": "23aec854db1364b539bf4e6394344ccd22279d687dc3ae4f0c63bfc7d0ca7776",
+      "metadata_sha256": "530667cb8100f1e873ad765050047fddf2da9254415d45ec4f5d9405161a1e57",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "e8cc2ff9a8169661bdd42e58e8a01691f32143fa5cdfed1d6cde1956fbee9446",
+      "theorem_names": [
+        "Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover",
+        "Smirnov.metrizable_of_open_cover",
+        "Smirnov.LocallyMetrizable.metrizableSpace",
+        "Smirnov.metrizable_iff_explicit",
+        "Smirnov.metrizable_iff_paracompact",
+        "Smirnov.compatible_metric_iff"
+      ],
+      "definition_names": [],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-15-000002",
+        "version": 1,
+        "source_commit": "20375446decf52134cb2788640fe19b580002c05",
+        "published_at": "2026-10-15T06:18:01Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-15-000002-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "1f0c66adc79128f4eb9a8cb6ea77f296fd6e2f7c1821f06409a5064b5e4ed52f",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38555234790,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38555234790",
+        "workflow": ".github/workflows/palomar-smirnov.yml",
+        "workflow_head": "20375446decf52134cb2788640fe19b580002c05",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "0a9e8364638d263b6f6ff6965ffa8794b9dc27b7",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": null,
+      "rendering": {
+        "run_id": 38555233881,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38555233881",
+        "workflow": ".github/workflows/palomar-smirnov-renderer.yml",
+        "workflow_head": "20375446decf52134cb2788640fe19b580002c05",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "0a9e8364638d263b6f6ff6965ffa8794b9dc27b7",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Perfect images of metrizable spaces",
+      "path": "topology/perfect-metrizable-images",
+      "catalog_source_commit": "0d447f17a30963a050f80ceff6283db782921448",
+      "package_tree": "9bff09fdb53edfe1253d769a42aeab1eefbfc6dc",
+      "comparator_sha256": "8597fc81a8cd2ca34918020c50a5a4368abf640b4f2872e4652dcb4d0a908d09",
+      "metadata_sha256": "f8d05cd09801a53dc0789d5756cbf8c34c570f370a2d8534a907e2e3d97efec8",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "0c4aa3d01aa3edc2dd2be2e4278cdf6a3a9875d71306da5231d22799a838fdc8",
+      "theorem_names": [
+        "PerfectImage.exists_radius_star_subset",
+        "PerfectImage.sigmaLocallyFiniteBasis_image",
+        "PerfectImage.metrizable_image",
+        "PerfectImage.metrizable_image_of_proper",
+        "PerfectImage.exists_compatibleMetric"
+      ],
+      "definition_names": [
+        "PerfectImage.upperImage",
+        "PerfectImage.fiberNeighborhood"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-15-000016",
+        "version": 1,
+        "source_commit": "0d447f17a30963a050f80ceff6283db782921448",
+        "published_at": "2026-10-15T21:09:48Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-15-000016-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "26f9c2a13217f6d99a3c26f1ab8ca434ef1debc26082f74a2dcae851c87bafb7",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38697397915,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38697397915",
+        "workflow": ".github/workflows/palomar-perfect-image.yml",
+        "workflow_head": "0d447f17a30963a050f80ceff6283db782921448",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "9bff09fdb53edfe1253d769a42aeab1eefbfc6dc",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": null,
+      "rendering": {
+        "run_id": 38697397627,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38697397627",
+        "workflow": ".github/workflows/palomar-perfect-image-renderer.yml",
+        "workflow_head": "0d447f17a30963a050f80ceff6283db782921448",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "9bff09fdb53edfe1253d769a42aeab1eefbfc6dc",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Alexandroff–Urysohn cover metrization",
+      "path": "topology/alexandroff-urysohn",
+      "catalog_source_commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+      "package_tree": "71d68d8fc865dcb0322033bf5f8530b08feb82dc",
+      "comparator_sha256": "157231dfea322bfac4c418f12d81febb4a133878a88df3936845eba8322a33e4",
+      "metadata_sha256": "9b0e7695006175f1ecaeab0f7993af0c7ea7d02ed22269827f3e7414a0f15f01",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "fb487e5e86e0bb6478276f0fca59f60522912565dbf7c10a7f3f2ce1bc88435f",
+      "theorem_names": [
+        "AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity",
+        "AlexandroffUrysohn.pseudoMetrizable_iff",
+        "AlexandroffUrysohn.metrizable_iff",
+        "AlexandroffUrysohn.exists_compatibleMetric"
+      ],
+      "definition_names": [
+        "AlexandroffUrysohn.pointStar",
+        "AlexandroffUrysohn.IsOpenCover",
+        "AlexandroffUrysohn.IsMetrizingSequence",
+        "AlexandroffUrysohn.coverRelation"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-16-000021",
+        "version": 1,
+        "source_commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+        "published_at": "2026-10-16T21:58:30Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-16-000021-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "b4b3a20cfc23f7a0c1cca3edd9e06da4cc14dbb549f6b87647d4114763ffde7f",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38820831184,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38820831184",
+        "workflow": ".github/workflows/palomar-au-full-preflight.yml",
+        "workflow_head": "c43db97aa269f1e79180359fe13f8e9788cb16e1",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "71d68d8fc865dcb0322033bf5f8530b08feb82dc",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 38819557648,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38819557648",
+        "workflow": ".github/workflows/alexandroff-urysohn-lean.yml",
+        "workflow_head": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "71d68d8fc865dcb0322033bf5f8530b08feb82dc",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 38820830495,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38820830495",
+        "workflow": ".github/workflows/palomar-au-renderer.yml",
+        "workflow_head": "c43db97aa269f1e79180359fe13f8e9788cb16e1",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "71d68d8fc865dcb0322033bf5f8530b08feb82dc",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Sneider's Gδ-diagonal metrization theorem",
+      "path": "topology/sneider-diagonal",
+      "catalog_source_commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+      "package_tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7",
+      "comparator_sha256": "a8a36f0a9c902a8cf769f2090a25eac62573aa729a18a9b01b56486bc378f806",
+      "metadata_sha256": "bef1427b1121cb80f821ddff89ae37288de8b2458d95fba04f11a4588bf0d16c",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "1cb40d585c1880a2574db8ae7134eb65c014460ee1b69ff2666650185e7ecfb6",
+      "theorem_names": [
+        "Sneider.exists_closed_countable_nhds_basis_of_isGδ",
+        "Sneider.nhdsSet_isCountablyGenerated_of_isGδ",
+        "Sneider.isGdelta_diagonal",
+        "Sneider.exists_closed_diagonal_basis",
+        "Sneider.metrizableSpace_of_isGdelta_diagonal",
+        "Sneider.metrizable_iff_isGdelta_diagonal",
+        "Sneider.exists_compatibleMetric"
+      ],
+      "definition_names": [],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "official-registration-evidenced",
+      "registration": {
+        "id": "PALOMAR-2026-10-17-000003",
+        "version": 1,
+        "source_commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+        "published_at": "2026-10-17T05:08:01Z",
+        "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-17-000003-v1.json",
+        "preview": {
+          "artifact_tree_sha256": "1d3d2e163acc5967d855b67d159d43bebc8460886754e1d29e60b4c53e4fa803",
+          "version": 1
+        }
+      },
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 38975517426,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975517426",
+        "workflow": ".github/workflows/palomar-sneider-full-preflight.yml",
+        "workflow_head": "1561f2cac1fe12efaadfff2403aa275ca8e1ec5e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 38975516931,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975516931",
+        "workflow": ".github/workflows/sneider-diagonal-lean.yml",
+        "workflow_head": "1561f2cac1fe12efaadfff2403aa275ca8e1ec5e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 38975253426,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/38975253426",
+        "workflow": ".github/workflows/palomar-sneider-renderer.yml",
+        "workflow_head": "67274855c4b8a78109de54c8555335fe40872d4f",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "f0b01411c894519ffacaa44ae3aaa732a22f4de7",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": []
+    },
+    {
+      "name": "Compact Hausdorff countable-network metrization",
+      "path": "topology/compact-countable-network",
+      "catalog_source_commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+      "package_tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b",
+      "comparator_sha256": "b7a0d91d7f2355c8179cf99eb1f38198ae32a24d2bc73f39ac019f378de6553f",
+      "metadata_sha256": "3bb1991d979b6112ae476b01e3661669cec25db08f5ac1bebce71ab4d34bf78d",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "0d314a92865b202b8a8b9d323ca501ccd6e4dd5b68f8b75f4dfe0ccbe77b9653",
+      "theorem_names": [
+        "CountableNetwork.IsNetwork.exists_bounded_separating_family",
+        "CountableNetwork.metrizableSpace_of_countable_network",
+        "CountableNetwork.hasCountableNetwork_of_secondCountable",
+        "CountableNetwork.metrizable_iff_hasCountableNetwork",
+        "CountableNetwork.secondCountable_iff_hasCountableNetwork",
+        "CountableNetwork.exists_compatibleMetric",
+        "CountableNetwork.IsNetwork.exists_closedEmbedding",
+        "CountableNetwork.IsNetwork.image",
+        "CountableNetwork.HasCountableNetwork.of_continuous_surjective",
+        "CountableNetwork.HasCountableNetwork.subtype",
+        "CountableNetwork.metrizable_compact_subspace"
+      ],
+      "definition_names": [
+        "CountableNetwork.IsNetwork",
+        "CountableNetwork.HasCountableNetwork"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "user-reported-registration-id-unconfirmed",
+      "registration": null,
+      "user_reported_at_utc": "2026-10-17T18:31:00Z",
+      "full_verification": {
+        "run_id": 39032757199,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39032757199",
+        "workflow": ".github/workflows/palomar-countable-network-full-preflight.yml",
+        "workflow_head": "0ff13c8454666602ba2598acdf5a206796b63494",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 39002765516,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39002765516",
+        "workflow": ".github/workflows/compact-countable-network-lean.yml",
+        "workflow_head": "21b6e1cf79ab9e467f38007346dd24e1d3773286",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 39032757099,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39032757099",
+        "workflow": ".github/workflows/palomar-countable-network-renderer.yml",
+        "workflow_head": "0ff13c8454666602ba2598acdf5a206796b63494",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "9c060fa63e5e3abd8a3b268cba610980db87f88b",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
+      ]
+    },
+    {
+      "name": "Countable-coordinate factorization for compact products",
+      "path": "topology/countable-coordinate-factorization",
+      "catalog_source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "package_tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6",
+      "comparator_sha256": "34fd23a2e9bf3de4d37b39ce0bc93a60794065d3783a9e6ab5a53ce9ab902905",
+      "metadata_sha256": "75cf04a6ee4d104e9f634cfafbd7ee94fdea5f2177e928595d996784dc9a75b9",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "2730976991267fd22d5ddf4f795aa3a7e7fd64ec187eb148f6204548c0b20646",
+      "theorem_names": [
+        "CountableCoordinates.finite_coordinates_of_entourage",
+        "CountableCoordinates.countable_coordinates_of_uniformContinuous",
+        "CountableCoordinates.countable_coordinates_of_continuous",
+        "CountableCoordinates.restrict_refill",
+        "CountableCoordinates.uniformContinuous_refill",
+        "CountableCoordinates.exists_countable_uniform_factorization",
+        "CountableCoordinates.exists_countable_continuous_factorization",
+        "CountableCoordinates.factor_unique",
+        "CountableCoordinates.exists_common_countable_factorization",
+        "CountableCoordinates.nontrivial_subset_of_injective",
+        "CountableCoordinates.countable_nontrivial_of_continuous_injective",
+        "CountableCoordinates.continuous_refill",
+        "CountableCoordinates.compact_product_metrizable_iff"
+      ],
+      "definition_names": [
+        "CountableCoordinates.refill"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "user-reported-registration-id-unconfirmed",
+      "registration": null,
+      "user_reported_at_utc": "2026-10-17T22:21:00Z",
+      "full_verification": {
+        "run_id": 39047061697,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697",
+        "workflow": ".github/workflows/palomar-coordinate-factorization-full-preflight.yml",
+        "workflow_head": "5ab730a44de2434d512cb28888dcfe8f957d8233",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 39036666073,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39036666073",
+        "workflow": ".github/workflows/countable-coordinate-factorization-lean.yml",
+        "workflow_head": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 39047061497,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497",
+        "workflow": ".github/workflows/palomar-coordinate-factorization-renderer.yml",
+        "workflow_head": "5ab730a44de2434d512cb28888dcfe8f957d8233",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "dc54180347855bc606dbbedacb7ccc1bbd7ed5b6",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
+      ]
+    },
+    {
+      "name": "Countable-density Hewitt–Marczewski–Pondiczery theorem",
+      "path": "topology/hewitt-marczewski-pondiczery",
+      "catalog_source_commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+      "package_tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e",
+      "comparator_sha256": "dd781138854146d4960270c771883f3a9032c5d8238bf3e0603d4a8ef019cf4e",
+      "metadata_sha256": "83d78658094a0a0f9d6bc12e3539960f3ef8008d9c7f6872fe2faa2da8944a7e",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "e892398f42939c1a51648bb9a9ff50845fe05ad3b61a825206ae5bfb12d8e728",
+      "theorem_names": [
+        "HMP.finite_interpolation",
+        "HMP.denseRange_rows",
+        "HMP.continuum_bound_iff",
+        "HMP.separable_product_of_embedding",
+        "HMP.separable_product",
+        "HMP.coordinate_patterns_injective",
+        "HMP.boolean_cube_separable_iff"
+      ],
+      "definition_names": [
+        "HMP.row"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "editorial-and-intake-outcome-not-evidenced",
+      "registration": null,
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 39074862893,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893",
+        "workflow": ".github/workflows/palomar-hmp-full-preflight.yml",
+        "workflow_head": "e2f1d02a9b9bd71a226547bac33c6167b4de0fd0",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 39061559458,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39061559458",
+        "workflow": ".github/workflows/hewitt-marczewski-pondiczery-lean.yml",
+        "workflow_head": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 39074862730,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730",
+        "workflow": ".github/workflows/palomar-hmp-renderer.yml",
+        "workflow_head": "e2f1d02a9b9bd71a226547bac33c6167b4de0fd0",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "0b4883e36bed12edc6f10b83c6ddd618b5af4b2e",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
+      ]
+    },
+    {
+      "name": "Fréchet–Urysohn Σ-products of first-countable spaces",
+      "path": "topology/sigma-product-frechet",
+      "catalog_source_commit": "10f8b9075144c51468729b9b620c46b739c0a680",
+      "package_tree": "aede58cee0cd5ae8d8daa02bdda796b102f2ca93",
+      "comparator_sha256": "a88221925c316500fd5706a6bfc0144b30e70321ccfa05ae509fb37b8c177a5e",
+      "metadata_sha256": "1a3a69478da0c0212d9a30c3f0081124d7978ac6e4057fefc6e807a8615c32ec",
+      "toolchain": "leanprover/lean4:v4.35.0-rc2",
+      "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "lockfile_sha256": "5cd6448b4118b63ed1790e462fc910b84b18f90bb59383bead7cdfbd936f39d7",
+      "theorem_names": [
+        "SigmaFrechet.exists_sequence",
+        "SigmaFrechet.frechetUrysohnSpace",
+        "SigmaFrechet.countable_closure_support",
+        "SigmaFrechet.isSeqClosed_countableSupport",
+        "SigmaFrechet.countable_tightness",
+        "SigmaFrechet.subspace_frechetUrysohnSpace",
+        "SigmaFrechet.dense_countableSupport",
+        "SigmaFrechet.boolean_cube_not_sequential"
+      ],
+      "definition_names": [
+        "SigmaFrechet.deviationSupport",
+        "SigmaFrechet.SigmaProduct"
+      ],
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "registration_state": "editorial-and-intake-outcome-not-evidenced",
+      "registration": null,
+      "user_reported_at_utc": null,
+      "full_verification": {
+        "run_id": 39083465938,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938",
+        "workflow": ".github/workflows/palomar-sigma-full-preflight.yml",
+        "workflow_head": "a99ec30c6c3833c44533a66728b3ca9bfc358804",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "aede58cee0cd5ae8d8daa02bdda796b102f2ca93",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 39077617369,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39077617369",
+        "workflow": ".github/workflows/sigma-product-frechet-lean.yml",
+        "workflow_head": "10f8b9075144c51468729b9b620c46b739c0a680",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "aede58cee0cd5ae8d8daa02bdda796b102f2ca93",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 39083465499,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499",
+        "workflow": ".github/workflows/palomar-sigma-renderer.yml",
+        "workflow_head": "a99ec30c6c3833c44533a66728b3ca9bfc358804",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "aede58cee0cd5ae8d8daa02bdda796b102f2ca93",
+        "current_package_tree_equal": true
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
+      ]
+    }
+  ],
+  "branches_at_baseline": [
+    {
+      "name": "codex/michael-biquotient",
+      "tip": "445b900d8d34672f39a379ebd583c6adce127835",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "codex/michael-role-consistency",
+      "tip": "726b39596db5e6b551469e80c5753602bef95092",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "codex/palomar-submission-lessons",
+      "tip": "a4e7690b04295aebd3acc4ba80c0d1062eed98c7",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "docs/au-registration-and-sneider-status",
+      "tip": "5de53f246428a8d4d2eb89b7da769f1f66814e8d",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "docs/palomar-registration-catalog",
+      "tip": "8a1a8a868c7fe402c22c1af5e2be5398c66236e8",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "docs/smirnov-registered",
+      "tip": "df6044576b51cbf8f88d289444718d0f52095e6c",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "main",
+      "tip": "33af8bfea5b6c18a16190a30a107952c77cecf45",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "sorgenfrey-covering",
+      "tip": "7b9692fcbb8d11ec0221f966e75b41bcb58fa381",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "sorgenfrey-palomar",
+      "tip": "38c4fee1955d9181ae76432289f52ac3bea7c4c7",
+      "object_available": true,
+      "fully_merged_by_ancestry": false,
+      "commits_not_in_main": [
+        "38c4fee1955d9181ae76432289f52ac3bea7c4c7 Add author trio to sorgenfrey-covering formalization.yaml"
+      ]
+    },
+    {
+      "name": "topology/alexandroff-urysohn",
+      "tip": "c43db97aa269f1e79180359fe13f8e9788cb16e1",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/compact-countable-network",
+      "tip": "4f9c748c800f809ddc2bfcfc2382651ed9eadaac",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/countable-coordinate-factorization",
+      "tip": "87ba0231976e52b599f3f57258ddf2ff88e4009e",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/dowker-characterization",
+      "tip": "3882756f36a774825c021d8e735e2ff2cf18c80a",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/hewitt-marczewski-pondiczery",
+      "tip": "f13469dd7d0b8d1a28ec6aec6a26c14a07b227ab",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/nagata-smirnov",
+      "tip": "6aa68b2cb67719a187e64de29567443575eb560e",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/perfect-metrizable-images",
+      "tip": "0d447f17a30963a050f80ceff6283db782921448",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/perfect-paracompact",
+      "tip": "1d2da6cd777ff7d9b7318d64e0a023dd60e580e3",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/sigma-product-frechet",
+      "tip": "bd96b4a2f67c8081d7f29d957dd33bb6a701e4ef",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/smirnov-local-metrization",
+      "tip": "f93b6fd20af7962caf2c31bc966b5b797eaa041a",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    },
+    {
+      "name": "topology/sneider-diagonal",
+      "tip": "1561f2cac1fe12efaadfff2403aa275ca8e1ec5e",
+      "object_available": true,
+      "fully_merged_by_ancestry": true,
+      "commits_not_in_main": []
+    }
+  ],
+  "pull_requests_at_baseline": [
+    {
+      "number": 19,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/19",
+      "title": "Prove Frechet-Urysohn sequential closure in countable-support Sigma products",
+      "state": "closed",
+      "merged_at": "2026-10-18T00:52:59Z",
+      "head": "bd96b4a2f67c8081d7f29d957dd33bb6a701e4ef"
+    },
+    {
+      "number": 18,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/18",
+      "title": "Prove countable-density Hewitt–Marczewski–Pondiczery theorem",
+      "state": "closed",
+      "merged_at": "2026-10-17T22:43:21Z",
+      "head": "f13469dd7d0b8d1a28ec6aec6a26c14a07b227ab"
+    },
+    {
+      "number": 17,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/17",
+      "title": "Prove countable-coordinate factorization for compact products",
+      "state": "closed",
+      "merged_at": "2026-10-17T16:11:10Z",
+      "head": "87ba0231976e52b599f3f57258ddf2ff88e4009e"
+    },
+    {
+      "number": 16,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/16",
+      "title": "Compact Hausdorff countable-network metrization",
+      "state": "closed",
+      "merged_at": "2026-10-17T12:46:52Z",
+      "head": "4f9c748c800f809ddc2bfcfc2382651ed9eadaac"
+    },
+    {
+      "number": 15,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/15",
+      "title": "Record AU registration and date historical snapshot status",
+      "state": "closed",
+      "merged_at": "2026-10-16T22:44:26Z",
+      "head": "5de53f246428a8d4d2eb89b7da769f1f66814e8d"
+    },
+    {
+      "number": 14,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/14",
+      "title": "Prove Sneider's compact Gδ-diagonal metrization theorem",
+      "state": "closed",
+      "merged_at": "2026-10-16T22:31:55Z",
+      "head": "1561f2cac1fe12efaadfff2403aa275ca8e1ec5e"
+    },
+    {
+      "number": 13,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/13",
+      "title": "Formalize Alexandroff–Urysohn cover metrization",
+      "state": "closed",
+      "merged_at": "2026-10-15T23:17:17Z",
+      "head": "c43db97aa269f1e79180359fe13f8e9788cb16e1"
+    },
+    {
+      "number": 12,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/12",
+      "title": "Perfect images of arbitrary metrizable spaces",
+      "state": "closed",
+      "merged_at": "2026-10-15T07:28:03Z",
+      "head": "0d447f17a30963a050f80ceff6283db782921448"
+    },
+    {
+      "number": 11,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/11",
+      "title": "Record Smirnov public registration",
+      "state": "closed",
+      "merged_at": "2026-10-15T06:56:36Z",
+      "head": "df6044576b51cbf8f88d289444718d0f52095e6c"
+    },
+    {
+      "number": 10,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/10",
+      "title": "Document verified Palomar registrations for merged projects",
+      "state": "closed",
+      "merged_at": "2026-10-14T15:22:41Z",
+      "head": "8a1a8a868c7fe402c22c1af5e2be5398c66236e8"
+    },
+    {
+      "number": 9,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/9",
+      "title": "Formalize Smirnov local-to-global metrization",
+      "state": "closed",
+      "merged_at": "2026-10-14T15:05:08Z",
+      "head": "f93b6fd20af7962caf2c31bc966b5b797eaa041a"
+    },
+    {
+      "number": 8,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/8",
+      "title": "Formalize the full Nagata–Smirnov metrization theorem",
+      "state": "closed",
+      "merged_at": "2026-10-14T15:00:02Z",
+      "head": "6aa68b2cb67719a187e64de29567443575eb560e"
+    },
+    {
+      "number": 7,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/7",
+      "title": "Formalize perfect-surjection paracompactness invariance",
+      "state": "closed",
+      "merged_at": "2026-10-14T14:59:08Z",
+      "head": "1d2da6cd777ff7d9b7318d64e0a023dd60e580e3"
+    },
+    {
+      "number": 6,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/6",
+      "title": "Formalize Dowker's characterization and compact metrizable products",
+      "state": "closed",
+      "merged_at": "2026-10-14T14:51:42Z",
+      "head": "3882756f36a774825c021d8e735e2ff2cf18c80a"
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/5",
+      "title": "Document Palomar submission lessons in AGENTS.md",
+      "state": "closed",
+      "merged_at": "2026-10-14T14:50:35Z",
+      "head": "a4e7690b04295aebd3acc4ba80c0d1062eed98c7"
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/4",
+      "title": "Align Michael project authors and maintainers",
+      "state": "closed",
+      "merged_at": "2026-10-10T01:13:48Z",
+      "head": "726b39596db5e6b551469e80c5753602bef95092"
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/3",
+      "title": "Formalize Michael's biquotient product and characterization theorems",
+      "state": "closed",
+      "merged_at": "2026-10-09T23:51:17Z",
+      "head": "445b900d8d34672f39a379ebd583c6adce127835"
+    },
+    {
+      "number": 2,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/2",
+      "title": "Prepare Sorgenfrey covering proofs for Palomar",
+      "state": "closed",
+      "merged_at": "2026-10-09T21:52:22Z",
+      "head": "5ae64cec0e18013c1a4499ac51628b2459a643fa"
+    },
+    {
+      "number": 1,
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/1",
+      "title": "Add Sorgenfrey covering theorems as a pinned topology package",
+      "state": "closed",
+      "merged_at": "2026-10-09T21:06:06Z",
+      "head": "7b9692fcbb8d11ec0221f966e75b41bcb58fa381"
+    }
+  ],
+  "sorgenfrey_candidate": {
+    "source_candidate": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+    "base": "33af8bfea5b6c18a16190a30a107952c77cecf45",
+    "original_user_commit": "38c4fee1955d9181ae76432289f52ac3bea7c4c7",
+    "only_changed_path": "topology/sorgenfrey-covering/formalization.yaml",
+    "exact_user_authored_metadata_blob": true,
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "candidate_package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+    "proof_files_and_pins_unchanged": true,
+    "static_package_check": "pass",
+    "published": false
+  },
+  "candidate_obligation": "Candidate bdae839 changes the package metadata tree. Prior full success covers baseline only. Opening its PR would invoke a conditional AppArmor installer, so fresh specific disposable-runner security approval is needed before that trigger; no affected full or rendering job launched.",
+  "review_scope": "Independent internal AI static/contract review covers all17; detailed source/math review focuses older three targets without confirmed registration and reuses unchanged recent reviews. Not a new exhaustive primary-source/line-by-line review of all17; no human or external peer review asserted.",
+  "evidence_limits": [
+    "Historical full-success workflow metadata and exact package-tree equality are recorded. Detailed kernel counts/errors/warnings are not reconstructed when original reports are unavailable.",
+    "Registered preview summaries for composants, order-arcs and Michael are not monorepo renderer receipts or a new visual review.",
+    "Individual rendered HTML bytes were not downloaded or visually inspected.",
+    "Intentionally incomplete Challenge templates in four older packages are separate from complete Solution proof closures.",
+    "No current private intake/review queue, editorial approval for the seven unconfirmed projects, or blanket 100% intake readiness is established."
+  ],
+  "supplemental_evidence_directory": "catalog-evidence/readiness-2026-10-18"
+}

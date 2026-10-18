@@ -1,12 +1,17 @@
 # Projects
 
-Public registration status was refreshed on 2026-10-17 from the complete official
-repository index (10 registrations) and versioned public records. The public
-registry-wide audit refreshed at 16:05 UTC covers 598 active entries at revision 332. No newer private
-or unregistered work is inferred from that public coverage. Registration applies
-to the linked source commit and version; package status notes describe their
-historical preparation stages, while later public reports and records establish
-completed verification and registration.
+The 17 projects below retain their exact source snapshots and package-owned pins.
+Registration rows reflect the dated official evidence in
+[REGISTRATIONS.json](REGISTRATIONS.json). The complete saved public snapshot is
+revision 332, captured at 16:05 UTC on 2026-10-17; later global reads returned403.
+User-reported registrations without confirmed IDs remain “Registration pending”.
+Other missing public entries do not establish absence of private attempts.
+
+The [readiness audit](READINESS.md) separately records every project's existing
+full canonical verification, rendering evidence, review scope and remaining
+obligations. All17 package trees match successful full runs; this is not blanket
+editorial approval or submission readiness. Status notes inside frozen packages
+describe their preparation snapshots and can predate completed checks.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
@@ -21,115 +26,9 @@ completed verification and registration.
 | [Full Nagata-Smirnov metrization](topology/nagata-smirnov) | Regular Hausdorff metrization iff a sigma locally finite open basis exists, with arbitrary layer cardinality. | Registered: [PALOMAR-2026-10-14-000001 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-14-000001&version=1) | [`6aa68b2`](https://github.com/Arthur742Ramos/Math-Formalization/tree/6aa68b2cb67719a187e64de29567443575eb560e/topology/nagata-smirnov) |
 | [Smirnov local-to-global metrization](topology/smirnov-local-metrization) | Metrizability iff Hausdorff, paracompact and locally metrizable; point-finite-cover basis construction. | Registered: [PALOMAR-2026-10-15-000002 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000002&version=1) | [`2037544`](https://github.com/Arthur742Ramos/Math-Formalization/tree/20375446decf52134cb2788640fe19b580002c05/topology/smirnov-local-metrization) |
 | [Perfect images of metrizable spaces](topology/perfect-metrizable-images) | Perfect continuous images of arbitrary metrizable spaces, uniform compact-fiber neighborhoods, image basis and compatible metric. | Registered: [PALOMAR-2026-10-15-000016 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-15-000016&version=1) | [`0d447f1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0d447f17a30963a050f80ceff6283db782921448/topology/perfect-metrizable-images) |
-
 | [Alexandroff–Urysohn cover metrization](topology/alexandroff-urysohn) | Intersecting-pair open-cover criterion, separation-free pseudometric form, co-membership uniformity and compatible metric. | Registered: [PALOMAR-2026-10-16-000021 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-16-000021&version=1) | [`8ff5eed`](https://github.com/Arthur742Ramos/Math-Formalization/tree/8ff5eedba962cb74050fe6d5f0acd934ba830fc5/topology/alexandroff-urysohn) |
-
 | [Sneider's Gδ-diagonal metrization theorem](topology/sneider-diagonal) | Compact Hausdorff metrizability iff a Gδ diagonal, cofinal closed-neighborhood basis and exact compatible metric; canonical verification and rendering passed. | Registered: [PALOMAR-2026-10-17-000003 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-17-000003&version=1) | [`497432e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/497432e5e02244f242cdfc8c0a43316de3aa5bdc/topology/sneider-diagonal) |
-
 | [Compact Hausdorff countable-network metrization](topology/compact-countable-network) | Compact Hausdorff metrizability and second countability iff a countable network exists; bounded separating functions, exact metric and network transport. | Registration pending | [`47aaba1`](https://github.com/Arthur742Ramos/Math-Formalization/tree/47aaba112beb17b7c0ca68f56356c5c829ee154d/topology/compact-countable-network) |
-
-[REGISTRATIONS.json](REGISTRATIONS.json) records the full source commits, project
-tree hashes and versioned public records. A registered supporting theorem does
-not confer registration on a project that reuses it. In particular, Boundary
-Bumping is reused by the hyperspace and Whitney developments; their results
-have no public registration found in this snapshot.
-
-Each directory owns its toolchain, Lake configuration, lockfile, Challenge,
-Comparator metadata and verification scripts. Run build commands from that
-directory. The catalog check verifies preserved project trees and public record
-bindings; it does not rerun Lean or claim a new Palomar verification of main.
-
-The countable-network development's full canonical preflight and Challenge
-rendering passed for exact source `47aaba112beb17b7c0ca68f56356c5c829ee154d`;
-independent review and the dated public registry audit found no equivalent
-criterion in the inspected public coverage. Its package remains unchanged and
-has user-reported registration, clarified at18:31UTC. The last independently
-checked16:04UTC public index had no entry; a later19:08UTC results read was
-denied. Its official ID is unconfirmed, so no public registration is inferred. Sneider is registered as
-PALOMAR-2026-10-17-000003 v1 at 2026-10-17T05:08:01Z, with no review warnings;
-its exact registered source remains unchanged. Earlier pending-status notes
-inside immutable snapshots predate those later reports and records.
-
 | [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | Registration pending | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
-
-The factorization package's [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061697) and
-[Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39047061497) passed for exact source `fc3f403c4d07356d2232e809f326f63a9ce9da45`
-on 2026-10-17. Its ordinary exact-toolchain Lean checks and internal independent
-AI reviews remain separate evidence. All selected declarations passed protected
-comparison and the independent kernels; the package tree remains unchanged.
-Earlier pending-gate notes in its immutable preparation snapshot predate these
-reports. Independent semantic review of the fresh complete 598-entry public
-audit at revision 332 found no equivalent countable-coordinate factorization
-or compact-product criterion. The16:04UTC complete repository index had10 registrations
-and no entry for this package. That dated public-data read worked through the
-ordinary route; submission-protocol access returnedHTTP403 at16:05UTC and a
-later19:08UTC public-results read also returned403. Private
-attempts are not enumerated. No registry intake was performed by this task, and editorial outcomes or
-registration were not independently verified; the later user report is qualified below.
-
 | [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness. | No public registration found | [`cd7ae6b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery) |
-
-The HMP package is a separate development explicitly authorized on2026-10-17
-while PR17 was reported pending at19:01UTC. Its countable-density theorem and discrete-cube
-converse have local Lean and internal independent AI review evidence. Canonical
-verification/rendering subsequently passed as recorded below. Fresh public
-duplicate clearance remains unresolved before intake.
-The public results API returnedHTTP403 at19:08UTC; overlap uses the dated
-revision332/598-entry snapshot. This is no assertion about private attempts.
-
-Arthur clarified at18:31UTC that the reported registration was the
-countable-network result (PR16). Its official ID remains unconfirmed. PR17
-was then the next prepared manual submission; no successful intake was
-inferred without a receipt. The later22:21UTC user report is qualified below.
-The dated source/registry rows above remain snapshot records.
-
-HMP’s [canonical full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862893) and
-[canonical Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39074862730) passed for exact source
-`cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e`, with seven theorems and the literal row definition.
-Its immutable preparation metadata predates these results; the package remains
-unchanged. Independent review supports scoped repository publication using the
-dated complete overlap audit and current repository activity. Fresh global
-registry clearance remains unresolved before intake; this is not a fresh
-clearance or registration claim. Registry submission remains subject to its
-separate current duplicate, capability and receipt checks.
-
-At22:21UTC Arthur reported PR17’s countable-coordinate entry registered. This
-is user-reported; official ID and independent public confirmation remain
-pending. No intake or registration is repeated. PR16’s official ID likewise
-remains unconfirmed despite its user-reported registration.
-
-| Project | Scope | Public Palomar status | Source snapshot |
-| --- | --- | --- | --- |
 | [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast. | No public registration found | [`10f8b90`](https://github.com/Arthur742Ramos/Math-Formalization/tree/10f8b9075144c51468729b9b620c46b739c0a680/topology/sigma-product-frechet) |
-
-The Sigma-product development is the sole next project authorized while HMP
-awaits intake. Its first-countable-factor theorem proves actual sequential
-closure in the countable-support subtype of an arbitrary ordinary product.
-The source explicitly supplies a basepoint and does not assume T1 for the
-main theorem; T1 is required only for the ambient closure companions.
-Independent internal AI mathematical/source and implementation reviews and
-local Lean checks are separate evidence from the subsequently passing
-canonical verification and rendering linked below. Original Noble full text
-was not consulted; the metadata transparently maps an extension
-of a directly consulted finite-support recall and independent proof.
-The status row uses dated overlap coverage, not fresh registry clearance.
-No registry intake or registration is claimed; all sixteen prior packages,
-pins and saved packets remain unchanged.
-
-The [exact-source ordinary Lean CI](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39077617369)
-passed on its first attempt for source10f8b9075144c51468729b9b620c46b739c0a680:
-six modules,1757jobs, all ten transitive axiom audits and independent
-Challenge/Solution value contracts. This is not a canonical multi-kernel or
-rendering result, nor a registry clearance.
-
-The Sigma-product [canonical full preflight](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465938)
-and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39083465499)
-passed on their first attempts for the same exact source
-`10f8b9075144c51468729b9b620c46b739c0a680`. Comparator, Lean default, NanoDa
-and con-ron accepted the protected Challenge/Solution contract. Rendering
-checked all eight theorems and both literal definitions. Original report
-digests and published render-file hashes are preserved separately; individual
-HTML bytes were not independently downloaded or visually reviewed.
-Earlier pending-canonical notes describe the immutable preparation snapshot;
-no package files or dependency pins were changed. These are mechanical checks,
-not fresh global registry clearance or a Palomar editorial decision.

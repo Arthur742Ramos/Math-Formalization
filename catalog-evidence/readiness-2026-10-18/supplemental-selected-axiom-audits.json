@@ -1,0 +1,170 @@
+[
+  {
+    "path": "topology/michael-biquotient",
+    "source_commit": "33af8bfea5b6c18a16190a30a107952c77cecf45",
+    "package_tree": "810c570566c6931845fcebe77f236fdee2308183",
+    "all9_dependency_checkout_pins_match": true,
+    "selected_names": [
+      "Michael.IsBiquotientMap.piMap",
+      "Michael.IsBiquotientMap.prod_id_isQuotientMap",
+      "Michael.isBiquotientMap_iff_all_tests",
+      "Michael.isBiquotientMap_iff_paracompact_tests",
+      "Michael.isBiquotientMap_iff_liftsClusterPoints",
+      "Michael.isBiquotientMap_iff_liftsUltrafilters",
+      "Michael.exists_t2_paracompact_counterexample",
+      "Michael.IsBiquotientMap",
+      "Michael.LiftsClusterPoints",
+      "Michael.LiftsUltrafilters",
+      "Michael.onePointTopology",
+      "Michael.Witness"
+    ],
+    "original_lockfile_sha256": "ab5ad3902e8891c9348d80724c53778974b5e7da8918bbe1c6a48d9759f7c590",
+    "status": "pass",
+    "lean_version": "Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+    "axiom_closures": {
+      "Michael.IsBiquotientMap.piMap": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.IsBiquotientMap.prod_id_isQuotientMap": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.isBiquotientMap_iff_all_tests": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.isBiquotientMap_iff_paracompact_tests": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.isBiquotientMap_iff_liftsClusterPoints": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.isBiquotientMap_iff_liftsUltrafilters": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.exists_t2_paracompact_counterexample": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.IsBiquotientMap": [
+        "propext",
+        "Quot.sound"
+      ],
+      "Michael.LiftsClusterPoints": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.LiftsUltrafilters": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.onePointTopology": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Michael.Witness": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    "build_final_line": "Build completed successfully (925 jobs).",
+    "build_log_sha256": "ee97f2f37639d01e90f1b67427ee5d77925494b849d9bad1bd315532253f9035",
+    "axiom_log_sha256": "edd40632690c124ed401fa0a7ef6c1de8e516891c73d28aad8e046b508eb8fe5",
+    "supplemental_input_sha256": "a6bebb0432a75faa8da07f4b005b89673525c0b9f465a0380ba41a56edba37ad",
+    "registered_source_files_edited": false,
+    "security_steps": 0,
+    "comparator_executed_locally": false,
+    "axiom_log": "michael-biquotient-axioms.log",
+    "query_input": "michael-biquotient-query.txt"
+  },
+  {
+    "path": "topology/dowker-characterization",
+    "source_commit": "33af8bfea5b6c18a16190a30a107952c77cecf45",
+    "package_tree": "be811d6a18a24a87d6273dfec63c7ff66e2ad3f3",
+    "all9_dependency_checkout_pins_match": true,
+    "selected_names": [
+      "Dowker.normal_countablyParacompact_iff_normal_interval_product",
+      "Dowker.normal_countablyParacompact_iff_strict_insertion",
+      "Dowker.normal_interval_product_iff_strict_insertion",
+      "Dowker.CountablyParacompact.normal_compact_metrizable_product",
+      "Dowker.countablyParacompact_iff_nat_precise",
+      "Dowker.countablyParacompact_iff_closed_sequence_property",
+      "Dowker.CountablyParacompact",
+      "Dowker.StrictInsertion",
+      "Dowker.ClosedSequenceProperty"
+    ],
+    "original_lockfile_sha256": "01c6b4db06d51ea5922d13b379d485a6a1d2080e42536777bec0358c32650f83",
+    "status": "pass",
+    "lean_version": "Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+    "axiom_closures": {
+      "Dowker.normal_countablyParacompact_iff_normal_interval_product": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.normal_countablyParacompact_iff_strict_insertion": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.normal_interval_product_iff_strict_insertion": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.CountablyParacompact.normal_compact_metrizable_product": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.countablyParacompact_iff_nat_precise": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.countablyParacompact_iff_closed_sequence_property": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.CountablyParacompact": [
+        "propext",
+        "Quot.sound"
+      ],
+      "Dowker.StrictInsertion": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "Dowker.ClosedSequenceProperty": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    "build_final_line": "Build completed successfully (1783 jobs).",
+    "build_log_sha256": "3aa3c4a331b6b514d919fa4abb2cd623b94bdcbd86bdb961733b144f6c63f347",
+    "axiom_log_sha256": "80d52fd76bc3349e72b458c85e20602efded3bfeb230507e4fbc8584f1b04c62",
+    "supplemental_input_sha256": "cd26d8e80c899e3350445beed057f7f633362c6f77227d8ae8630271be49724d",
+    "registered_source_files_edited": false,
+    "security_steps": 0,
+    "comparator_executed_locally": false,
+    "axiom_log": "dowker-characterization-axioms.log",
+    "query_input": "dowker-characterization-query.txt"
+  }
+]
