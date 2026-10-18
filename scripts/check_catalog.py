@@ -1,5 +1,6 @@
 """Check catalog truth, immutable package trees and public registration records."""
 import argparse,hashlib,json,pathlib,re,subprocess,sys,urllib.request
+from check_preparations import check_preparations
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 HEX=re.compile(r'[0-9a-f]{40}')
 STATUSES={'registered','registration-pending','no-public-registration-found'}
@@ -66,8 +67,9 @@ def check(online,packages):
             result=subprocess.run(command,cwd=directory,capture_output=True,text=True)
             assert result.returncode==0,(path,result.stdout[-1500:],result.stderr[-1500:])
             package_checks.append(path)
-    assert {p.removeprefix('topology/') for p in seen}==expected_paths
-    assert len(rows)==len(seen)
+    preparations=check_preparations(rows,seen)
+    assert {p.removeprefix('topology/') for p in seen|preparations}==expected_paths
+    assert len(rows)==len(seen)+len(preparations)
     for file in ['README.md','PROJECTS.md']:
         text=(ROOT/file).read_text(encoding='utf-8')
         assert not re.search(r'<<<<<<<|>>>>>>>|\bsubmission_id\b|\bauthorization_challenge\b',text)
@@ -82,7 +84,7 @@ def check(online,packages):
         assert re.search(r'^module\s*$',body,re.M),name
         assert len(body.splitlines())<=10000,name
     subprocess.run([sys.executable,str(ROOT/'scripts/check_readiness.py')],check=True)
-    print(json.dumps({'status':'pass','commit':git('rev-parse','HEAD'),'projects':len(seen),'registered':sum(p['status']=='registered' for p in data['projects']),'preserved_package_trees':len(seen),'lean_source_headers_checked':len(lean),'package_consistency_checks':package_checks,'public_records_checked':records,'scope':'Catalog, preserved source trees and existing package consistency checks. No Lean build or new Palomar review.'},indent=2))
+    print(json.dumps({'status':'pass','commit':git('rev-parse','HEAD'),'audited_projects':len(seen),'separate_preparations':len(preparations),'registered':sum(p['status']=='registered' for p in data['projects']),'preserved_package_trees':len(seen),'lean_source_headers_checked':len(lean),'package_consistency_checks':package_checks,'public_records_checked':records,'scope':'Catalog, separate frozen preparations, preserved source trees and existing package consistency checks. No Lean build or new Palomar review.'},indent=2))
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--online',action='store_true');parser.add_argument('--package-checks',action='store_true');args=parser.parse_args();check(args.online,args.package_checks)

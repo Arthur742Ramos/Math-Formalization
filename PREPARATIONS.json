@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "checked_date": "2026-10-18",
+  "scope": "New preparations are separate from the existing17-package successful-full readiness ledger. No submission or registration implied.",
+  "projects": [
+    {
+      "name": "Paracompact expansion and collectionwise separation",
+      "path": "topology/collectionwise-normal",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "d226c156850259c7a3c8230572218112ceb8b116",
+        "tree": "e9a2a929139f2c33a42c31ac5256687f3c0e9d4a"
+      },
+      "source_files_sha256": {
+        "comparator.json": "f09476f92ddd8f1ec05c93592cc23d78763f49323ae05ac30ec88f484510fefc",
+        "formalization.yaml": "383d6e37e865e84c060611b8d89073cbd8892125a60e8cdc851358111b9d3299",
+        "lake-manifest.json": "cf6afa54703525030ace9d7f3fba7f6406f18afe5c5b0616ead655ccf0991c24",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "CollectionwiseChallenge.lean": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
+        "CollectionwiseNormal.lean": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
+        "CollectionwiseSolution.lean": "48206057ca34a5035d0a211f688d51b8623771ff44398801b7537478a31029c6"
+      },
+      "theorem_names": [
+        "Collectionwise.exists_open_expansion",
+        "Collectionwise.exists_subordinate_expansion",
+        "Collectionwise.discrete_closed_iff",
+        "Collectionwise.exists_discrete_expansion",
+        "Collectionwise.paracompact_hausdorff_collectionwise"
+      ],
+      "definition_names": [
+        "Collectionwise.IsDiscreteFamily",
+        "Collectionwise.HasOpenExpansion"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "immutable-package-mathematical-review.json": "2d4569477dbe91b573682503b4948c832f1d5705dd747a595e24d213b2e12a73",
+          "immutable-package-implementation-review.json": "e6c4be571daef71f790480b240fc1ee68c4ba1e91589fb94eef880a1f2317a0c",
+          "immutable-source-binding-addendum.json": "a8a349405a5db1f025435bd462e1c28da548b9a8e218f2e22d01414823a1e49a",
+          "source-immutable-mathematical-review.json": "94b5b415ee6e106d0cfdf6c66cfefbbda58b1d54a9e020e488ceeed6c604f0a5"
+        }
+      },
+      "ordinary_local": "pass; package-owned toolchain, separate module contracts and all7 selected transitive axiom reports",
+      "canonical_full": "unperformed",
+      "rendering": "unperformed",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "duplicate_check": "No equivalent target found in current17-package catalog, available active-agent ownership, all27 remote branches, no openPRs, pinnedMathlib or dated598-entry public snapshot. Fresh global/private clearance remains blocked and is required before intake."
+    }
+  ]
+}

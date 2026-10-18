@@ -1,6 +1,8 @@
 # Projects
 
-The 17 projects below retain their exact source snapshots and package-owned pins.
+The 17 audited projects below retain their exact source snapshots and package-owned pins.
+A separate reviewed preparation is listed after their table and is not counted
+as a successful canonical run.
 Registration rows reflect the dated official evidence in
 [REGISTRATIONS.json](REGISTRATIONS.json). The complete saved public snapshot is
 revision 332, captured at 16:05 UTC on 2026-10-17; later global reads returned HTTP403.
@@ -33,3 +35,16 @@ describe their preparation snapshots and can predate completed checks.
 | [Countable-coordinate factorization for compact products](topology/countable-coordinate-factorization) | Continuous countable-subproduct factorization, uniform-space bridge, common factors and compact-product metrizability. | Registration pending | [`fc3f403`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fc3f403c4d07356d2232e809f326f63a9ce9da45/topology/countable-coordinate-factorization) |
 | [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness. | No public registration found | [`cd7ae6b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery) |
 | [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast. | No public registration found | [`359ec3c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/359ec3c4a3fff77a68c29d89714bf8a03acc9829/topology/sigma-product-frechet) |
+
+## Reviewed preparation — separate verification gates
+
+The new package below has local Lean, contract and transitive-axiom checks and
+independent internal AI reviews. Canonical protected Comparator/multi-kernel and
+rendering checks are unperformed. It is not submitted, registered or included in
+the seventeen-package full-pass count. Source bindings and open gates are in
+[PREPARATIONS.json](PREPARATIONS.json). Fresh registry/private-attempt clearance
+remains required before any intake; the saved index is dated evidence only.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Preparation; not submitted | [`d226c15`](https://github.com/Arthur742Ramos/Math-Formalization/tree/d226c156850259c7a3c8230572218112ceb8b116/topology/collectionwise-normal) |

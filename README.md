@@ -5,10 +5,10 @@ owns its toolchain, Lake configuration, lockfile, Challenge, Comparator metadata
 definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
-The [project catalog](PROJECTS.md) lists all 17 topology developments and exact
+The [project catalog](PROJECTS.md) lists 17 audited developments, one separate preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
-All 17 current package trees match successful full canonical runs. Ten official
+All 17 audited package trees match successful full canonical runs. Ten official
 registrations are evidenced by the saved 2026-10-17 revision 332 public snapshot;
 two more are user-reported with unconfirmed IDs. All three previously missing
 rendering checks passed, and the separately authorized Sorgenfrey metadata
@@ -18,6 +18,11 @@ metadata snapshot remains unestablished. All proof files, Comparator contracts,
 package pins and registered snapshots are preserved. The other sixteen package
 trees are unchanged from the Sigma correction’s base.
 See the audit for exact sources and run links.
+The separately listed [collectionwise expansion preparation](topology/collectionwise-normal)
+has local Lean/axiom checks and independent internal AI review; its canonical
+full and rendering gates are unperformed. It is not included in the full-pass
+count and has not been submitted. [PREPARATIONS.json](PREPARATIONS.json) binds
+its frozen source and remaining gates.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and
