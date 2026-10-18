@@ -32,12 +32,12 @@
     {
       "path": "topology/hewitt-marczewski-pondiczery",
       "source_commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
-      "reason": "One metadata block is expressly dated preparation snapshot; review.notes/README still describe completed canonical gates as pending. Historical truth qualification is insufficient assurance for an active source handoff after the observed collectionwise editorial objection."
+      "reason": "Dated preparation and current review/README prose disagree with completed canonical receipts. An external packet overlay does not resolve status contradictions inside the proposed source."
     },
     {
       "path": "topology/collectionwise-normal",
       "source_commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
-      "reason": "Superseded status account; historical source was submitted according to user evidence. Do not repeat that source."
+      "reason": "Superseded source verification-status account. Reconcile the actual attempt before any replacement; do not repeat this source."
     },
     {
       "path": "topology/sigma-product-frechet",
