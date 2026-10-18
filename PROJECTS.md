@@ -40,8 +40,11 @@ describe their preparation snapshots and can predate completed checks.
 
 Historical full verification and rendering passed for source `8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814`.
 The corrected source below records those completed stages inside its own metadata,
-README and linked status documents. It still needs its own exact-source full report
-before a verified handoff. Prior no-intake statements are historical observations,
+README and linked status documents. Its own exact-source full report passed in
+[run39142937826](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39142937826).
+The user reported Palomar passed on 2026-10-18 at 18:13 UTC; a public registration ID
+is not independently confirmed. Do not duplicate the entry.
+Prior no-intake statements are historical observations,
 not an assertion about subsequent user submissions. Source bindings are in
 [PREPARATIONS.json](PREPARATIONS.json); prospective handoff blockers are in
 [RELEASE-HANDOFFS.json](RELEASE-HANDOFFS.json). No new editorial or registration
@@ -49,4 +52,13 @@ result is inferred.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Source-account correction; new exact-source verification required | [`5ad14f0`](https://github.com/Arthur742Ramos/Math-Formalization/tree/5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf/topology/collectionwise-normal) |
+| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Source-account correction; corrected-source full passed; user-reported Palomar pass, public ID unconfirmed | [`5ad14f0`](https://github.com/Arthur742Ramos/Math-Formalization/tree/5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf/topology/collectionwise-normal) |
+
+## New independent preparation
+
+The following development has a separate dated preparation record. Its source
+does not inherit canonical verification or registration from an earlier project.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Omega-bounded Sigma-products and a sharp compactness criterion](topology/sigma-product-compactness) | Omega-bounded T1 Sigma-products, countable compactness and compact-Hausdorff compactness iff countably many factors can differ from the basepoint. | Preparation; not submitted | [`0bdc86b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0bdc86b6daf37e26dae68c451ed9d811247f075d/topology/sigma-product-compactness) |

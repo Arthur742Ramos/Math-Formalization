@@ -5,7 +5,8 @@ owns its toolchain, Lake configuration, lockfile, Challenge, Comparator metadata
 definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
-The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction, and exact
+The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction,
+one new preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
 All 17 audited package trees match successful full canonical runs. Ten official
@@ -21,11 +22,20 @@ See the audit for exact sources and run links.
 The separately listed [collectionwise expansion package](topology/collectionwise-normal)
 has completed full and rendering receipts for its original source. Its metadata,
 README and linked status records now describe those passes explicitly. The
-corrected source requires its own exact-source report before verified intake
-handoff; proof equality alone does not transfer that result. [PREPARATIONS.json](PREPARATIONS.json)
+corrected source passed its own exact-source full report in
+[run39142937826](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39142937826).
+The user reported Palomar passed on 2026-10-18 at 18:13 UTC; a public registration ID
+is not independently confirmed. Do not duplicate that entry. [PREPARATIONS.json](PREPARATIONS.json)
 binds both snapshots. [RELEASE-HANDOFFS.json](RELEASE-HANDOFFS.json) records the
 prospective-packet audit and blocks stale sources from a new handoff. Earlier
 no-intake notes describe their observation time and actor, not all later user actions.
+
+One new [Sigma-product compactness preparation](topology/sigma-product-compactness)
+proves omega-boundedness for T1 omega-bounded factors and a sharp compactness
+criterion for compact Hausdorff factors. Its local checks and independent
+reviews have their own scope; no canonical or service outcome transfers from
+another package. Its dated preparation record remains separate from the
+seventeen-project canonical-pass audit.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

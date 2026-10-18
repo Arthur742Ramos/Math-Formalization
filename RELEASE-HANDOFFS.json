@@ -49,9 +49,12 @@
     "source_commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
     "package_tree": "a4c468e7f08d8dd4aee14a40b5d5e2c810217afd",
     "historical_source": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
-    "current_source_full": "not-established",
+    "current_source_full": "pass",
     "current_source_rendering": "not-established",
-    "intake_ready": false
+    "intake_ready": false,
+    "full_run": 39142937826,
+    "full_report_sha256": "cb87eea43c33e19780ab7c18070a327cea9bb3336e22a2e18710f5a6f7df69bb",
+    "service_state": "User-reported Palomar pass at2026-10-18 18:13UTC; public registration ID unknown. No duplicate intake."
   },
   "sigma_current": {
     "source_commit": "359ec3c4a3fff77a68c29d89714bf8a03acc9829",

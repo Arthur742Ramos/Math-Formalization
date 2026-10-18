@@ -1,0 +1,13 @@
+module
+
+import SigmaCompactSolution
+
+#print axioms SigmaCompact.exists_compact_trap
+#print axioms SigmaCompact.omegaBounded_sigmaProduct
+#print axioms SigmaCompact.countablyCompactSpace_sigmaProduct
+#print axioms SigmaCompact.omegaBounded_sigmaProduct_of_compact
+#print axioms SigmaCompact.compactSpace_sigmaProduct_iff
+#print axioms SigmaCompact.boolean_sigma_countablyCompact_not_compact
+#print axioms SigmaCompact.OmegaBounded
+#print axioms SigmaCompact.deviationSupport
+#print axioms SigmaCompact.activeCoordinates

@@ -1,0 +1,18 @@
+{
+  "AxiomAudit.lean": "00892db495c3e4c8aeb4cb2fdfb9b09111135b070eb5d5833797c1e9f3126549",
+  "ChallengeTests.lean": "d38e89bf53648bc88acbcada0d4c577d0e2328b0a362830b230c0a51ff35fd95",
+  "DEFINITIONS.md": "8bfa77bcd752ee3a24d2626b6963a625e34a6ac447b55f33253d335f97d7e31f",
+  "README.md": "a6c0d711bb9807442c03d7c86b483696022fde307b36b4b1f792ae24b0e49e1f",
+  "REVIEW.md": "749f7544518aa9a3726306c855e14751672b6cec2fc1b9fd96bc276896c893fb",
+  "SemanticTests.lean": "86803e93a48d2267009604c89433463ee312be90bc536172c7b99b5548c5fb56",
+  "SigmaCompact.lean": "b67f6500849e83748fc5ac19c90a35d650a8dba6b00f0e5978dc648a79e3826e",
+  "SigmaCompactChallenge.lean": "b67f6500849e83748fc5ac19c90a35d650a8dba6b00f0e5978dc648a79e3826e",
+  "SigmaCompactSolution.lean": "d4d998814ed020fe6764dcdfce6c56712eebbab6cec217af9fbacc3b23e2c673",
+  "comparator.json": "5acd2d666a449d1b848962c31b2f9b56847bb07dedb1af633646ece6a03c969a",
+  "formalization.yaml": "8746ed526ce7b3e670c9ac16da17d194b6963e6fc2a7c25656675d21ff3bd66e",
+  "lake-manifest.json": "b276179bd337659588031686760bfb22eae94b2267f86fa6c9b8833bf34b5e63",
+  "lakefile.toml": "94698d20a3ce74398b9f4bf8384c190e5d09ff2ff0a402e5df8fa2d13b6443b6",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_package.py": "43060b518f7f10f67705be09d5da5017fdcf10355db8fa54405bf4b89fdca3da",
+  "verification/local-axioms.txt": "95640d75c0718de84946f82821306064a42061c531eae2979006d081ef7ea712"
+}
