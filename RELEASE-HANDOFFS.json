@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "checked_date": "2026-10-18",
+  "audit_baseline": "593743569c24dca2025d978b6fc363810a30d923",
+  "scope": "Prospective source-status handoff audit; ten officially evidenced registered snapshots remain immutable. No registry or account action. Current private/editorial states are not enumerated.",
+  "blocked_sources": [
+    {
+      "path": "topology/hyperspace-components",
+      "source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+      "reason": "Metadata and package prose still defer native metadata/ordinary/full or publication/review to a coordinator despite source-identical successful records. This is status inconsistency, not evidence of invalid mathematics or failed CI."
+    },
+    {
+      "path": "topology/sorgenfrey-covering",
+      "source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+      "reason": "Metadata port-prepared language lacks current completion provenance but is less explicit than a false unperformed assertion. README documents workflow behavior conditionally. Refresh before a new active handoff is recommended; no proof or mechanical failure inferred."
+    },
+    {
+      "path": "topology/whitney-reversibility",
+      "source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+      "reason": "Metadata and package prose still defer native metadata/ordinary/full or publication/review to a coordinator despite source-identical successful records. This is status inconsistency, not evidence of invalid mathematics or failed CI."
+    },
+    {
+      "path": "topology/compact-countable-network",
+      "source_commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+      "reason": "Metadata and package prose explicitly say canonical full/render have not run or remain outstanding, despite source-identical successful records. Registration is only user-reported without independently confirmed ID; no rewrite of a potentially registered historical entry is authorized by this audit."
+    },
+    {
+      "path": "topology/countable-coordinate-factorization",
+      "source_commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+      "reason": "Metadata and package prose explicitly say canonical full/render have not run or remain outstanding, despite source-identical successful records. Registration is only user-reported without independently confirmed ID; no rewrite of a potentially registered historical entry is authorized by this audit."
+    },
+    {
+      "path": "topology/hewitt-marczewski-pondiczery",
+      "source_commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+      "reason": "Dated preparation and current review/README prose disagree with completed canonical receipts. An external packet overlay does not resolve status contradictions inside the proposed source."
+    },
+    {
+      "path": "topology/collectionwise-normal",
+      "source_commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+      "reason": "Superseded source verification-status account. Reconcile the actual attempt before any replacement; do not repeat this source."
+    },
+    {
+      "path": "topology/sigma-product-frechet",
+      "source_commit": "10f8b9075144c51468729b9b620c46b739c0a680",
+      "reason": "Superseded by status-corrected source359ec3c4a3fff77a68c29d89714bf8a03acc9829; historical packet/latest pointer is not a current handoff."
+    }
+  ],
+  "corrected_collectionwise": {
+    "source_commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
+    "package_tree": "a4c468e7f08d8dd4aee14a40b5d5e2c810217afd",
+    "historical_source": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+    "current_source_full": "not-established",
+    "current_source_rendering": "not-established",
+    "intake_ready": false
+  },
+  "sigma_current": {
+    "source_commit": "359ec3c4a3fff77a68c29d89714bf8a03acc9829",
+    "status_account": "honest historical provenance",
+    "full_run": 39093674340,
+    "corrected_source_rendering": "not-established"
+  },
+  "audit_findings": "Five clear stale-source blockers (hyperspace, Whitney, network, coordinates, HMP), one prepared-status ambiguity (Sorgenfrey), and a superseded Sigma latest-packet pointer. Other packages are not changed by this correction.",
+  "handoff_command": "python3 scripts/check_release_packet.py --packet PACKET.json --report ORIGINAL_FULL_REPORT.json --report-sha256 ORIGINAL_DIGEST --archive EXACT_SOURCE.tar.gz",
+  "authority": "A passing static guard grants no registry, credential, security-setting or other action authority."
+}

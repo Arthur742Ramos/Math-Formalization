@@ -69,6 +69,43 @@ dependencies and concurrent work. Read more specific instructions and relevant
   completed work, failed checks and pending authorization. Do not present partial
   work under a title promising the full result.
 
+## Mandatory release-packet review
+
+- Review the exact proposed submission commit's own metadata, README and linked
+  verification/review documents after the latest verification results are known.
+  A root catalog note or an external packet does not repair contradictory claims
+  inside the submitted source. Never hand off a source that says completed
+  protected Comparator, independent-kernel or rendering checks have not run.
+- Record completed evidence as immutable history: exact tested source, metadata
+  and Comparator digests, toolchain/lockfile, report hash, run URL, selected
+  theorems and definitions, and actual outcomes. Distinguish full mechanical
+  verification, rendering, browser visual inspection, internal/external review,
+  editorial decisions and public registration. Unknown is not failed or absent.
+- Keep historical provenance stable. Do not embed a file's own future commit or
+  claim an edited commit passed a predecessor's run. A later status-only source
+  still needs its own exact-source report before verified intake handoff; place
+  that report outside the frozen source to avoid a status-edit/verification loop.
+- Before handing off verified fields run `scripts/check_release_packet.py` with
+  the exact packet and its exact-source full report. Review and preserve its
+  receipt independently. Use its status-only mode during correction, but never
+  present that mode as a verified handoff. Check source archive bytes, copyable
+  fields and metadata digest, not just a root ledger or a matching Challenge.
+- Update stale validators too: no check may require an obsolete pending phrase
+  or print a completed historical gate as globally unperformed. Add semantic
+  negative tests for stale source claims and wrong-source/metadata evidence.
+- Audit other active prospective packets for the same defect; label stale
+  sources and latest-packet pointers blocked or superseded. Preserve registered
+  versions and historical archives. Do not silently repair another package's
+  source, attribution, pins or registration as part of a status correction.
+- Reconcile intake state by actor and observation time. A previous no-intake
+  packet does not negate a later user submission, and an empty public ID does
+  not prove no private attempt. Resume or explicitly replace the actual attempt
+  under the supported protocol; never duplicate an uncertain old-source intake.
+- Reconcile existing immutable runs before scheduling verification. Security
+  approval for one disposable runner/run is not permission for a fresh run.
+  These release rules grant no registry, credential, account, security-setting,
+  human-contact or merge authority beyond the user's explicit instructions.
+
 ## Manual pre-submission checklist
 
 - [ ] Source mapping, overlap, research audience and independent fidelity/scope
@@ -83,5 +120,7 @@ dependencies and concurrent work. Read more specific instructions and relevant
   later edits and tree comparisons are accounted for.
 - [ ] Account, duplicates, public ID and action authorization are verified;
   private information is excluded and cooldowns respected.
+- [ ] Exact-source README/metadata/linked status prose and release-packet guard
+  agree with completed receipts; independent packet review covers the final bytes.
 - [ ] Exact final fields, evidence and blockers are ready for the user; claimed
   submission/registration status matches observed state.

@@ -14,20 +14,48 @@ def git(*args):
     return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
 
 
+def check_status_correction(p, source, tree):
+    """Preserve the historical source while allowing only the reviewed status repair."""
+    change = p['status_correction']
+    assert change['kind'] == 'verification-status-account'
+    assert p['state'] == 'status-correction-awaiting-exact-source-verification'
+    assert change['historical_source'] == source
+    corrected = p['current_source_snapshot']
+    assert change['corrected_source'] == corrected['commit']
+    assert change['corrected_tree'] == corrected['tree']
+    assert git('rev-parse', source + ':' + p['path']) == tree
+    assert git('rev-parse', corrected['commit'] + ':' + p['path']) == corrected['tree']
+    assert git('rev-parse', 'HEAD:' + p['path']) == corrected['tree']
+    allowed = {'README.md', 'REVIEW.md', 'VERIFICATION.md', 'formalization.yaml',
+               'scripts/check_package.py', 'verification/canonical-history.json',
+               'verification/source-hashes.json'}
+    assert set(change['allowed_changed_files']) == allowed
+    actual = set(git('diff', '--name-only', source, 'HEAD', '--', p['path']).splitlines())
+    assert actual == {p['path'] + '/' + name for name in allowed}
+    for name in allowed:
+        assert git('rev-parse', 'HEAD:' + p['path'] + '/' + name) == git('rev-parse', corrected['commit'] + ':' + p['path'] + '/' + name)
+    before = json.loads(git('show', source + ':' + p['path'] + '/formalization.yaml'))
+    after = json.loads((ROOT / p['path'] / 'formalization.yaml').read_text())
+    before['status']['known_gaps'] = after['status']['known_gaps']
+    assert before == after, 'Only metadata known_gaps may change'
+    assert p['current_source_full'] == p['current_source_rendering'] == 'not-established'
+
+
 def check_verified(p, package, source, tree):
     """Require completed source-bound canonical and rendered evidence for this preparation."""
     evidence = ROOT / 'catalog-evidence/collectionwise-2026-10-18'
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     assert p['path'] == 'topology/collectionwise-normal'
-    assert p['canonical_full'] == p['rendering'] == 'pass'
-    assert p['fresh_runner_security_approval'] is True
+    corrected = 'status_correction' in p
+    assert p['canonical_full'] == p['rendering'] == ('historical-pass' if corrected else 'pass')
+    assert p['fresh_runner_security_approval'] is (not corrected)
     assert p['source_snapshot']['commit'] == source
     canonical = p['canonical_run']
     rendered = p['rendering_run']
     for run in [canonical, rendered]:
         assert run['status'] == 'completed' and run['conclusion'] == 'success'
         assert run['attempt'] == 1
-        assert run['tested_package_tree'] == tree and run['current_package_tree_equal'] is True
+        assert run['tested_package_tree'] == tree and run['current_package_tree_equal'] is (not corrected)
         assert run['verified_source_commit'] == source
         assert run['url'] == f'https://github.com/{ledger["repository"]}/actions/runs/{run["run_id"]}'
         assert git('rev-parse', run['workflow_head'] + ':' + p['path']) == tree
@@ -78,16 +106,19 @@ def check_preparations(rows, verified_paths):
         assert re.fullmatch(r'topology/[a-z0-9-]+', path)
         assert path not in seen | verified_paths
         seen.add(path)
-        assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted'}
+        assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted', 'status-correction-awaiting-exact-source-verification'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
-        for ref in [source, 'HEAD']:
-            assert git('rev-parse', ref + ':' + path) == tree
+        assert git('rev-parse', source + ':' + path) == tree
+        if 'status_correction' in p:
+            check_status_correction(p, source, tree)
+        else:
+            assert git('rev-parse', 'HEAD:' + path) == tree
         subprocess.run(['git', '-C', str(ROOT), 'merge-base', '--is-ancestor', source, 'HEAD'], check=True)
         package = ROOT / path
         for name, expected in p['source_files_sha256'].items():
             assert pathlib.Path(name).name == name
-            assert hashlib.sha256((package / name).read_bytes()).hexdigest() == expected
+            assert hashlib.sha256(subprocess.check_output(['git', '-C', str(ROOT), 'show', source + ':' + path + '/' + name])).hexdigest() == expected
         config = json.loads((package / 'comparator.json').read_text())
         meta = json.loads((package / 'formalization.yaml').read_text())
         assert p['theorem_names'] == config['theorem_names']
@@ -107,9 +138,12 @@ def check_preparations(rows, verified_paths):
         for digest in p['reviews']['receipts_sha256'].values():
             assert re.fullmatch(r'[0-9a-f]{64}', digest)
         matching = [row for row in rows if '](' + path + ')' in row]
-        assert len(matching) == 1 and 'Preparation; not submitted' in matching[0]
+        assert len(matching) == 1
+        label = 'Source-account correction' if 'status_correction' in p else 'Preparation; not submitted'
+        assert label in matching[0]
         assert p['name'] in matching[0]
-        assert f'https://github.com/{data["repository"]}/tree/{source}/{path}' in matching[0]
+        catalog_source = p.get('current_source_snapshot', p['source_snapshot'])['commit']
+        assert f'https://github.com/{data["repository"]}/tree/{catalog_source}/{path}' in matching[0]
         result = subprocess.run(['python3', 'scripts/check_package.py'], cwd=package,
                                 capture_output=True, text=True)
         assert result.returncode == 0, (path, result.stdout, result.stderr)

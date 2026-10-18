@@ -2,12 +2,12 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-18",
-  "scope": "Seventeen previously audited packages retain their existing ledger. This separate preparation has completed source-bound full canonical verification and rendering, with no submission or registration implied.",
+  "scope": "Seventeen previously audited packages retain their immutable ledger. Collectionwise historical full/render passes are preserved separately from the corrected source, whose own exact-source verification is a distinct gate.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
       "path": "topology/collectionwise-normal",
-      "state": "verified-preparation-not-submitted",
+      "state": "status-correction-awaiting-exact-source-verification",
       "source_snapshot": {
         "commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
         "tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2"
@@ -56,8 +56,8 @@
         }
       },
       "ordinary_local": "pass; fresh six-module exact replacement-source Lean checks, unchanged package-owned toolchain and all7 selected transitive axiom reports; pinned native metadata parser accepts54D15/54D20",
-      "canonical_full": "pass",
-      "rendering": "pass",
+      "canonical_full": "historical-pass",
+      "rendering": "historical-pass",
       "canonical_run": {
         "run_id": 39133762319,
         "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762319",
@@ -67,7 +67,7 @@
         "conclusion": "success",
         "attempt": 1,
         "tested_package_tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2",
-        "current_package_tree_equal": true,
+        "current_package_tree_equal": false,
         "verified_source_commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
         "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
         "execution_profile": "palomar-standard-v1",
@@ -84,7 +84,7 @@
         "conclusion": "success",
         "attempt": 1,
         "tested_package_tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2",
-        "current_package_tree_equal": true,
+        "current_package_tree_equal": false,
         "verified_source_commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
         "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
         "execution_profile": "palomar-standard-v1",
@@ -95,7 +95,7 @@
       "registry_submission_ready": false,
       "registry_intakes_by_this_task": 0,
       "existing_public_id": null,
-      "fresh_runner_security_approval": true,
+      "fresh_runner_security_approval": false,
       "duplicate_check": "At target selection, no equivalent was found in the then-current17-package catalog, inventory of26 remote branches with no open PRs, pinned Mathlib, or dated598-entry public snapshot captured2026-10-17. PR25 is the resulting project. Fresh global/private clearance remains blocked and is required before intake.",
       "ordinary_hosted": {
         "run_id": 39129476008,
@@ -106,12 +106,38 @@
         "source_package_tree_equal": true
       },
       "remaining_obligations": [
-        "Current supported protocol, identity/proof capability, actual public ID and current private-attempt/duplicate reconciliation before parent-owned intake.",
-        "Mechanical and rendering success do not establish editorial acceptance or registration.",
-        "Internal AI reviews are not human or external peer review."
+        "Corrected source needs its own source-bound full report; earlier full and rendering receipts are historical only.",
+        "Current service attempt/duplicate/public-ID/protocol and effective identity/proof capability reconciliation before any parent-owned intake.",
+        "Rendering and editorial/registration states are distinct; no result for the corrected source is inferred from matching proof bytes."
       ],
-      "source_snapshot_status_notes": "Unperformed-gate language in the frozen package describes its dated source-preparation checkpoint. Later completed reports above bind the exact same source, metadata, Comparator and package tree; those immutable receipts establish completed verification.",
-      "existing_public_id_state": "Not independently confirmed; no current registry/private-attempt query or intake performed."
+      "source_snapshot_status_notes": "Historical source metadata/README status account was corrected inside the new source, not merely overlaid by an external packet. Completed old-source reports remain bound to their original metadata and tree. A new exact-source report is required before handing off the corrected source as verified.",
+      "existing_public_id_state": "No public ID independently confirmed for the corrected source. Prior no-intake packet statements were time/actor-scoped and do not enumerate actual user submissions.",
+      "current_source_snapshot": {
+        "commit": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
+        "tree": "a4c468e7f08d8dd4aee14a40b5d5e2c810217afd"
+      },
+      "status_correction": {
+        "kind": "verification-status-account",
+        "historical_source": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+        "corrected_source": "5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf",
+        "corrected_tree": "a4c468e7f08d8dd4aee14a40b5d5e2c810217afd",
+        "allowed_changed_files": [
+          "README.md",
+          "REVIEW.md",
+          "VERIFICATION.md",
+          "formalization.yaml",
+          "scripts/check_package.py",
+          "verification/canonical-history.json",
+          "verification/source-hashes.json"
+        ],
+        "metadata_changed_fields": [
+          "status.known_gaps"
+        ],
+        "scope": "Only verification-status prose, immutable provenance and their checker/hash manifest change. All proof/config/pin/role/fidelity bytes remain identical."
+      },
+      "current_source_full": "not-established",
+      "current_source_rendering": "not-established",
+      "historical_runner_approval_scope": "Consumed by the two completed historical-source checks. No approval for a fresh corrected-source runner."
     }
   ]
 }
