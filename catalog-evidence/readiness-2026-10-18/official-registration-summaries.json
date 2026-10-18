@@ -1,0 +1,641 @@
+{
+  "source": "Hash-verified saved official public results API snapshot; summaries extracted, not reconstructed full entry records.",
+  "captured_at": "2026-10-17T16:05:30.876054+00:00",
+  "revision": 332,
+  "release": "02c6eb996c074589f30b1b18f01fae928cae7b2402267e652daa74b4f03cc7d2",
+  "entries": [
+    {
+      "abbreviated": false,
+      "abstract": "A compact Hausdorff space is metrizable if and only if its diagonal is a Gδ subset of its square with the product topology. The proof supplies a cofinal countable family of finite intersections of closed diagonal neighborhoods and an actual metric inducing exactly the given topology. The underlying type is arbitrary and may be empty. A general supporting theorem proves countable neighborhood character of every closed Gδ set in a compact normal space. This is classical mathematics; no novelty or priority is claimed.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54E35",
+          "54D30"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "Sneider.exists_closed_countable_nhds_basis_of_isGδ",
+          "Sneider.nhdsSet_isCountablyGenerated_of_isGδ",
+          "Sneider.isGdelta_diagonal",
+          "Sneider.exists_closed_diagonal_basis",
+          "Sneider.metrizableSpace_of_isGdelta_diagonal",
+          "Sneider.metrizable_iff_isGdelta_diagonal",
+          "Sneider.exists_compatibleMetric"
+        ]
+      },
+      "id": "PALOMAR-2026-10-17-000003",
+      "path": "entries/PALOMAR-2026-10-17-000003-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "1d3d2e163acc5967d855b67d159d43bebc8460886754e1d29e60b4c53e4fa803",
+        "version": 1
+      },
+      "published_at": "2026-10-17T05:08:01Z",
+      "source": {
+        "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+        "project_path": "topology/sneider-diagonal",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Sneider's Gδ-diagonal metrization theorem",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "A T0 space is metrizable if and only if it admits a sequence of open covers such that every intersecting pair of members at the next level has union contained in one member at the current level, and the point-stars form a neighborhood basis. Without separation the same criterion characterizes pseudometrizability. The proof constructs a countably generated co-membership uniformity with exactly the supplied topology. Covers have unrestricted cardinality; empty spaces are included. Classical mathematics, with no novelty or priority claim.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54E35",
+          "54E15"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "AlexandroffUrysohn.IsMetrizingSequence.exists_uniformity",
+          "AlexandroffUrysohn.pseudoMetrizable_iff",
+          "AlexandroffUrysohn.metrizable_iff",
+          "AlexandroffUrysohn.exists_compatibleMetric"
+        ]
+      },
+      "id": "PALOMAR-2026-10-16-000021",
+      "path": "entries/PALOMAR-2026-10-16-000021-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "b4b3a20cfc23f7a0c1cca3edd9e06da4cc14dbb549f6b87647d4114763ffde7f",
+        "version": 1
+      },
+      "published_at": "2026-10-16T21:58:30Z",
+      "source": {
+        "commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+        "project_path": "topology/alexandroff-urysohn",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Alexandroff–Urysohn cover metrization",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "Every continuous closed surjection with compact fibers from an arbitrary metrizable space has a metrizable codomain. A new uniform shrinking-star estimate for compact-fiber metric neighborhoods constructs a sigma locally finite open basis on the image. A proper-map formulation and an actual compatible metric are included. No second countability, separability, compact domain, local compactness, completeness, finite-fiber or nonemptiness assumption is made. Target separation is derived. Classical mathematics; no novelty or priority claim.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54E35",
+          "54C10"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "PerfectImage.exists_radius_star_subset",
+          "PerfectImage.sigmaLocallyFiniteBasis_image",
+          "PerfectImage.metrizable_image",
+          "PerfectImage.metrizable_image_of_proper",
+          "PerfectImage.exists_compatibleMetric"
+        ]
+      },
+      "id": "PALOMAR-2026-10-15-000016",
+      "path": "entries/PALOMAR-2026-10-15-000016-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "0d447f17a30963a050f80ceff6283db782921448",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "26f9c2a13217f6d99a3c26f1ab8ca434ef1debc26082f74a2dcae851c87bafb7",
+        "version": 1
+      },
+      "published_at": "2026-10-15T21:09:48Z",
+      "source": {
+        "commit": "0d447f17a30963a050f80ceff6283db782921448",
+        "project_path": "topology/perfect-metrizable-images",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Perfect images of metrizable spaces",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "A space is metrizable if and only if it is Hausdorff, paracompact and locally metrizable. A reusable construction gives a sigma locally finite basis from any point-finite open cover of metrizable patches in a paracompact space, without a separation hypothesis. Local neighborhoods, the cover index and each basis layer may have arbitrary cardinality. The proof assumes no second countability, separability, local compactness or nonemptiness. Classical mathematics; no novelty or priority claim.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54E35",
+          "54D20"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "Smirnov.exists_sigmaLocallyFiniteBasis_of_pointFinite_open_cover",
+          "Smirnov.metrizable_of_open_cover",
+          "Smirnov.LocallyMetrizable.metrizableSpace",
+          "Smirnov.metrizable_iff_explicit",
+          "Smirnov.metrizable_iff_paracompact",
+          "Smirnov.compatible_metric_iff"
+        ]
+      },
+      "id": "PALOMAR-2026-10-15-000002",
+      "path": "entries/PALOMAR-2026-10-15-000002-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "20375446decf52134cb2788640fe19b580002c05",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "1f0c66adc79128f4eb9a8cb6ea77f296fd6e2f7c1821f06409a5064b5e4ed52f",
+        "version": 1
+      },
+      "published_at": "2026-10-15T06:18:01Z",
+      "source": {
+        "commit": "20375446decf52134cb2788640fe19b580002c05",
+        "project_path": "topology/smirnov-local-metrization",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Smirnov's local-to-global metrization theorem",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "A regular Hausdorff space is metrizable if and only if it has an open basis expressed as a countable union of locally finite families. Every layer can have arbitrary cardinality. The development proves the necessity using metric paracompactness, perfect normality from the basis, continuity of arbitrary locally finite bounded coordinates, and a compatible metric via a countable product of metric function spaces. It assumes neither second countability nor separability and includes empty spaces. This formalizes classical mathematics, without claiming new mathematics or first formalization priority.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54E35",
+          "54D20",
+          "54D15"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "NagataSmirnov.nagata_smirnov",
+          "NagataSmirnov.metrizable_iff_sigmaLocallyFiniteBasis",
+          "NagataSmirnov.compatible_metric_iff",
+          "NagataSmirnov.HasSigmaLocallyFiniteBasis.perfectlyNormalSpace",
+          "NagataSmirnov.pseudoMetrizable_of_cozero_basis",
+          "NagataSmirnov.continuous_boundedCoordinates"
+        ]
+      },
+      "id": "PALOMAR-2026-10-14-000001",
+      "path": "entries/PALOMAR-2026-10-14-000001-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "01ac5eb48c7bf23029f49f3dced433fb6b69ebfe8183a045d1af66b648bf83b0",
+        "version": 1
+      },
+      "published_at": "2026-10-14T06:49:24Z",
+      "source": {
+        "commit": "6aa68b2cb67719a187e64de29567443575eb560e",
+        "project_path": "topology/nagata-smirnov",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "The full Nagata–Smirnov metrization theorem",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "A continuous closed surjection from a Hausdorff space, with compact fibres, preserves and reflects ordinary open-cover paracompactness. The paracompact image is proved Hausdorff without assuming target separation. Supporting selected results give inverse transfer without separation or surjectivity, forward transfer to a regular target, local finiteness of images of arbitrary indexed families, and the regular-space criterion using arbitrary locally finite refinements. No metrizability, countability, local compactness or uniform fibre-size assumption is imposed. The source is based on Munkres section 41 exercise 8 and Sakai Theorem 2.6.3(a),(e); it does not claim new mathematics.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54D20",
+          "54C10"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "PerfectParacompact.paracompact_iff",
+          "PerfectParacompact.paracompact_t2_image",
+          "PerfectParacompact.paracompact_preimage",
+          "PerfectParacompact.paracompact_image",
+          "PerfectParacompact.locallyFinite_image",
+          "PerfectParacompact.paracompact_iff_refinements"
+        ]
+      },
+      "id": "PALOMAR-2026-10-13-000004",
+      "path": "entries/PALOMAR-2026-10-13-000004-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "cbc16743eea892544180f25c6adecb3802ba171f833a6bbab611ca624676d4d5",
+        "version": 1
+      },
+      "published_at": "2026-10-13T01:55:22Z",
+      "source": {
+        "commit": "984a610395e195b8d3ca0cd88282ef343e74d33d",
+        "project_path": "topology/perfect-paracompact",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Perfect surjections and paracompactness",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "Formalization of Dowker (1951), Theorem 4: normality plus ordinary countable paracompactness of an arbitrary topological space X is equivalent to normality of X times the closed unit interval, and to strict continuous insertion between arbitrary real upper and lower semicontinuous functions h<g. No T1 or Hausdorff assumption on X, boundedness or uniform gap is added. Companion compact metrizable product theorem (Lemma 3) and countable-cover/decreasing-closed-sequence equivalences (Theorem 2) are included.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54D15",
+          "54D20",
+          "54B10",
+          "54C30"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "Dowker.normal_countablyParacompact_iff_normal_interval_product",
+          "Dowker.normal_countablyParacompact_iff_strict_insertion",
+          "Dowker.normal_interval_product_iff_strict_insertion",
+          "Dowker.CountablyParacompact.normal_compact_metrizable_product",
+          "Dowker.countablyParacompact_iff_nat_precise",
+          "Dowker.countablyParacompact_iff_closed_sequence_property"
+        ]
+      },
+      "id": "PALOMAR-2026-10-12-000003",
+      "path": "entries/PALOMAR-2026-10-12-000003-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "0924b4643eb142f0963a26b40db53485a263e94c8eaab086121202b0390fc678",
+        "version": 1
+      },
+      "published_at": "2026-10-12T07:43:22Z",
+      "source": {
+        "commit": "ccc3ca43dc26c6774f2afd7f2b2223066451c362",
+        "project_path": "topology/dowker-characterization",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Dowker's countable paracompactness, product normality and strict insertion characterization",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "Formalization of Michael (1968), Theorems 1.2 and 1.3: arbitrary indexed products of biquotient continuous surjections are biquotient, without separation assumptions; for a Hausdorff target, biquotience is equivalent to quotientness of the product with every identity map and to the same property for paracompact test spaces. The cover definition, filter and ultrafilter bridges, and an actual Hausdorff paracompact counterexample topology on the underlying target set are proved. Reverse tests use the target universe; the forward implication is separately universe-polymorphic.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54C10",
+          "54B10",
+          "54A20",
+          "54D20"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "Michael.IsBiquotientMap.piMap",
+          "Michael.IsBiquotientMap.prod_id_isQuotientMap",
+          "Michael.isBiquotientMap_iff_all_tests",
+          "Michael.isBiquotientMap_iff_paracompact_tests",
+          "Michael.isBiquotientMap_iff_liftsClusterPoints",
+          "Michael.isBiquotientMap_iff_liftsUltrafilters",
+          "Michael.exists_t2_paracompact_counterexample"
+        ]
+      },
+      "id": "PALOMAR-2026-10-11-000013",
+      "path": "entries/PALOMAR-2026-10-11-000013-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "67c4f24295eadc4ca02fd1cee588ab4a502bdb50032eb95a7fbb5af5f41bbf7a",
+        "version": 1
+      },
+      "published_at": "2026-10-11T10:09:05Z",
+      "source": {
+        "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
+        "project_path": "topology/michael-biquotient",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Michael's biquotient-map product and characterization theorems",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "Properly nested nonempty compact connected subsets A and B of a compact metric space are the endpoints of a continuous embedded interval of nonempty compact connected subsets, strictly increasing under inclusion. The ambient space need not be connected.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54F15",
+          "54B20"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "OrderArcs.exists_order_arc"
+        ]
+      },
+      "id": "PALOMAR-2026-10-07-000008",
+      "path": "entries/PALOMAR-2026-10-07-000008-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "aac1671afcaf84f37502f4981365b65351a3d9f2451ffe2587f068288e9f8039",
+        "version": 1
+      },
+      "published_at": "2026-10-07T13:39:49Z",
+      "source": {
+        "commit": "8b802e2f62a31b08276a67021cd40f6941c5c256",
+        "project_path": "topology/order-arcs",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Order Arcs Between Subcontinua",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    },
+    {
+      "abbreviated": false,
+      "abstract": "Todorov–Valov Theorem 3.3: for two disjoint closed sets with nonempty interiors in a metric indecomposable continuum, one open cover obstructs every separator map onto every nonempty compact connected Hausdorff target. The classical composant properties remain as foundations.",
+      "authors": [
+        {
+          "name": "Arthur Freitas Ramos"
+        },
+        {
+          "name": "David Barros Hulak"
+        },
+        {
+          "name": "Ruy Jose Guerra Barretto de Queiroz"
+        }
+      ],
+      "classification": {
+        "arxiv": [
+          "math.GN"
+        ],
+        "msc2020": [
+          "54F15",
+          "54D05",
+          "54D30"
+        ]
+      },
+      "formalization": {
+        "theorem_names": [
+          "Composants.mem_composant_self",
+          "Composants.dense_composant",
+          "Composants.isConnected_composant",
+          "Composants.composants_eq_or_disjoint",
+          "Composants.iUnion_composant",
+          "Composants.composant_countable_union",
+          "Composants.isMeagre_composant",
+          "Composants.uncountably_many_composants",
+          "Composants.alexandroff_continua"
+        ]
+      },
+      "id": "PALOMAR-2026-10-07-000003",
+      "path": "entries/PALOMAR-2026-10-07-000003-v1.json",
+      "preservation": {
+        "repositories": [
+          {
+            "commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+            "fork_repository": "PalomarArchive/Arthur742Ramos--Math-Formalization--4c88ddbef95a",
+            "source_repository": "Arthur742Ramos/Math-Formalization"
+          }
+        ]
+      },
+      "preview": {
+        "artifact_tree_sha256": "2abf3e820963fb24f56501956ae0cb1e967a3f227cd84d96ac94c6364a282925",
+        "version": 1
+      },
+      "published_at": "2026-10-07T02:31:35Z",
+      "source": {
+        "commit": "53be25d26551d18b006d3a625fc5b145cc73cebd",
+        "project_path": "topology/composants",
+        "repository": "Arthur742Ramos/Math-Formalization"
+      },
+      "source_omitted": false,
+      "status": "registered",
+      "title": "Alexandroff Property of Metric Indecomposable Continua",
+      "trust": {
+        "level": "high"
+      },
+      "version": 1,
+      "versions": 1
+    }
+  ]
+}

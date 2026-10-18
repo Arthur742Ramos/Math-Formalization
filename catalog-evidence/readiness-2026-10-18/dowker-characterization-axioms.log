@@ -1,0 +1,13 @@
+'Dowker.normal_countablyParacompact_iff_normal_interval_product' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Dowker.normal_countablyParacompact_iff_strict_insertion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.normal_interval_product_iff_strict_insertion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.CountablyParacompact.normal_compact_metrizable_product' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Dowker.countablyParacompact_iff_nat_precise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.countablyParacompact_iff_closed_sequence_property' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.CountablyParacompact' depends on axioms: [propext, Quot.sound]
+'Dowker.StrictInsertion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Dowker.ClosedSequenceProperty' depends on axioms: [propext, Classical.choice, Quot.sound]

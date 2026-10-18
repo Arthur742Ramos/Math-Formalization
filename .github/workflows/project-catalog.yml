@@ -2,9 +2,9 @@ name: Project catalog
 on:
   push:
     branches: [main]
-    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'scripts/check_catalog.py', '.github/workflows/project-catalog.yml']
+    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'READINESS.md', 'READINESS.json', 'catalog-evidence/readiness-2026-10-18/**', 'scripts/check_catalog.py', 'scripts/check_readiness.py', '.github/workflows/project-catalog.yml']
   pull_request:
-    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'scripts/check_catalog.py', '.github/workflows/project-catalog.yml']
+    paths: ['README.md', 'PROJECTS.md', 'REGISTRATIONS.json', 'READINESS.md', 'READINESS.json', 'catalog-evidence/readiness-2026-10-18/**', 'scripts/check_catalog.py', 'scripts/check_readiness.py', '.github/workflows/project-catalog.yml']
   workflow_dispatch:
 permissions:
   contents: read

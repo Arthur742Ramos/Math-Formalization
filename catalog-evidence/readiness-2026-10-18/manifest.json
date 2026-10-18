@@ -1,0 +1,13 @@
+{
+  "files": {
+    "dowker-characterization-axioms.log": "80d52fd76bc3349e72b458c85e20602efded3bfeb230507e4fbc8584f1b04c62",
+    "dowker-characterization-query.txt": "cd26d8e80c899e3350445beed057f7f633362c6f77227d8ae8630271be49724d",
+    "michael-biquotient-axioms.log": "edd40632690c124ed401fa0a7ef6c1de8e516891c73d28aad8e046b508eb8fe5",
+    "michael-biquotient-query.txt": "a6bebb0432a75faa8da07f4b005b89673525c0b9f465a0380ba41a56edba37ad",
+    "official-registration-summaries.json": "7095ba9ef8d15b030f8648ad701f5637f2e0f06a51876b73eaf5cfdf066a8bc8",
+    "review-summary.json": "b85ea8c143babdebf07125eae511508624226668915fbd35ebe8daf09d732937",
+    "sorgenfrey-hosted-axiom-binding.json": "ddd4f7152900cedcf00d303d757330e988a800034c4a29df2d8b9a2af0d5c37f",
+    "sorgenfrey-selected-axioms.log": "9f517b4cd0d99e2a593045a24bfc69ca5edf58136a032059cb0b51b385b64847",
+    "supplemental-selected-axiom-audits.json": "d53efaed26b92b6d31e67db3f40958e182be39dac614e267a28f8f121d63c581"
+  }
+}
