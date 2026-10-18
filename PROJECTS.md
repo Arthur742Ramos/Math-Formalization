@@ -1,8 +1,8 @@
 # Projects
 
 The 17 audited projects below retain their exact source snapshots and package-owned pins.
-A separate verified preparation is listed after their table; its successful
-canonical and rendering receipts are bound separately from the original audit.
+A separate source-account correction is listed after their table. Completed
+historical receipts and corrected-source obligations are tracked separately.
 Registration rows reflect the dated official evidence in
 [REGISTRATIONS.json](REGISTRATIONS.json). The complete saved public snapshot is
 revision 332, captured at 16:05 UTC on 2026-10-17; later global reads returned HTTP403.
@@ -36,17 +36,17 @@ describe their preparation snapshots and can predate completed checks.
 | [Countable-density Hewitt–Marczewski–Pondiczery theorem](topology/hewitt-marczewski-pondiczery) | Continuum-index separable products by finite-pattern rows, with exact discrete Boolean-cube sharpness. | No public registration found | [`cd7ae6b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery) |
 | [Fréchet–Urysohn Σ-products of first-countable spaces](topology/sigma-product-frechet) | Adaptive sequential closure for countable-support products, T1 support control and the nonsequential Boolean-cube contrast. | No public registration found | [`359ec3c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/359ec3c4a3fff77a68c29d89714bf8a03acc9829/topology/sigma-product-frechet) |
 
-## Verified preparation — intake remains separate
+## Collectionwise source-account correction
 
-The new package below passed [full canonical verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762319)
-and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762212)
-on the exact frozen source, each on its first attempt. It remains a preparation:
-no intake or registration is claimed. [PREPARATIONS.json](PREPARATIONS.json)
-binds the original reports, source and package tree. The original seventeen-package
-audit totals remain unchanged. Notes in the frozen package record the earlier
-preparation stage; these later immutable receipts establish the completed checks.
-Current registry/private-attempt clearance is still required before intake.
+Historical full verification and rendering passed for source `8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814`.
+The corrected source below records those completed stages inside its own metadata,
+README and linked status documents. It still needs its own exact-source full report
+before a verified handoff. Prior no-intake statements are historical observations,
+not an assertion about subsequent user submissions. Source bindings are in
+[PREPARATIONS.json](PREPARATIONS.json); prospective handoff blockers are in
+[RELEASE-HANDOFFS.json](RELEASE-HANDOFFS.json). No new editorial or registration
+result is inferred.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Preparation; not submitted | [`8ba7d50`](https://github.com/Arthur742Ramos/Math-Formalization/tree/8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814/topology/collectionwise-normal) |
+| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Source-account correction; new exact-source verification required | [`5ad14f0`](https://github.com/Arthur742Ramos/Math-Formalization/tree/5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf/topology/collectionwise-normal) |
