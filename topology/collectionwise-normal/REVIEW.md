@@ -24,7 +24,11 @@ Separate semantic contracts cover all five selected theorems and both literal
 definitions on Challenge and Solution sides, empty index/ambient/members, repeated
 nonempty-member obstruction, and a finite indiscrete overlapping-family model.
 
-Local Lean and transitive axiom checks are separate from canonical Comparator,
-NanoDa, con-ron, Challenge rendering and registry decisions. The latter gates are
-unperformed at this preparation stage; no permission or verification result from
-another project is reused.
+Protected canonical comparison and con-ron, NanoDa and Lean default kernel
+verification passed for exact historical source
+`8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814` in official run 39137267489.
+Separate canonical rendering passed for that source in run 39133762212.
+[VERIFICATION.md](VERIFICATION.md) records source/configuration/toolchain bindings.
+These completed machine checks are distinct from this internal AI review and
+from editorial or registration decisions. A later corrected source requires its
+own exact-source mechanical report; prior proof equality alone is insufficient.

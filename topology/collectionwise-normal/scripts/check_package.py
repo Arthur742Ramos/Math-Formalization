@@ -55,7 +55,17 @@ def check(log, write):
     assert meta['classification'] == {'arxiv': ['math.GN'], 'msc2020': ['54D15', '54D20']}
     assert meta['status']['sorry_count'] == meta['status']['sorry_in_definitions'] == 0
     assert set(meta['status']['axioms']) == ALLOWED
-    assert 'unperformed' in meta['status']['known_gaps']
+    history = json.loads((ROOT / 'verification/canonical-history.json').read_text())
+    assert history['source_commit'] == '8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814'
+    assert history['comparator_sha256'] == hashlib.sha256((ROOT / 'comparator.json').read_bytes()).hexdigest()
+    assert history['lean_toolchain'] == (ROOT / 'lean-toolchain').read_text().strip()
+    assert history['lockfile_sha256'] == hashlib.sha256((ROOT / 'lake-manifest.json').read_bytes()).hexdigest()
+    assert history['full']['status'] == history['rendering']['status'] == 'pass'
+    for account in [meta['status']['known_gaps'], (ROOT / 'README.md').read_text()]:
+        assert history['source_commit'] in account and history['comparator_sha256'] in account
+        assert str(history['full']['run_id']) in account and str(history['rendering']['run_id']) in account
+        assert not re.search(r'canonical.{0,250}(?:remain unperformed|have not run|remain outstanding)', account, re.I | re.S)
+    assert 'later' in meta['status']['known_gaps'] and 'exact-source' in meta['status']['known_gaps']
     assert meta['status']['attribution_status'].startswith('Campaign-authorized:')
     readme = (ROOT / 'README.md').read_text()
     assert all(name in readme for name in ROLES) and 'no human' in readme
@@ -84,7 +94,8 @@ def check(log, write):
     print(json.dumps({'status': 'pass', 'theorems': len(THEOREMS),
         'definitions': len(DEFINITIONS), 'selected_axiom_reports': len(reports),
         'source_files_hashed': len(hashes), 'challenge_lines': len(proof.splitlines()),
-        'canonical_full': 'unperformed', 'rendering': 'unperformed',
+        'historical_canonical_verification': history,
+        'current_source_full': 'Not established by this static check; require a source-bound external report',
         'registry_submission_ready': False,
         'scope': 'Static consistency and supplied axiom report only; no build or Comparator.'}, indent=2))
 

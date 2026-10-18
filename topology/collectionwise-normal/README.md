@@ -70,8 +70,33 @@ then `/workspace/palomar-tools/run lake env lean AxiomAudit.lean` and
 `python3 scripts/check_package.py --axiom-log <fresh-log>`.
 The scoped cache imports are `Mathlib.Topology.Compactness.Paracompact` only.
 
-Ordinary Lean compilation and internal review do not establish protected
-Comparator equivalence or independent-kernel acceptance. Canonical full and
-Challenge-rendering checks remain unperformed for this new package. No submission
-or registration is claimed. Later exact-source receipts belong in the separate
-submission packet; dated evidence must not be read as a result for an edited tree.
+Canonical full protected verification **passed** for exact historical source
+`8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814` and Comparator
+`topology/collectionwise-normal/comparator.json`, SHA-256
+`f09476f92ddd8f1ec05c93592cc23d78763f49323ae05ac30ec88f484510fefc`.
+[Palomar run 39137267489](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39137267489)
+records successful protected comparison of all five theorems and both definitions,
+high-trust Challenge provenance, and con-ron, NanoDa and Lean default kernel
+acceptance. Con-ron verified 5,470 exported declarations; the report has no errors
+or warnings. This is canonical verification evidence, beyond ordinary compilation.
+
+[Separate canonical rendering run 39133762212](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39133762212)
+passed for the same historical source. All seven declaration surfaces and all
+21 artifact file hashes were independently checked. HTML inspection was static;
+no browser visual review is claimed.
+
+Those receipts certify their exact named source, metadata and configuration.
+They do not certify a later status-correction commit, even when every proof,
+Comparator and dependency byte is unchanged. Before intake of another source,
+its own exact-source full report must pass. The historical account can remain
+fixed while that report records the later source, avoiding a status-edit cycle.
+Rendering of a later source likewise requires its own receipt; identical Challenge
+bytes alone do not establish a new rendering run. See [VERIFICATION.md](VERIFICATION.md)
+and [verification/canonical-history.json](verification/canonical-history.json).
+
+Mechanical verification, rendering, internal AI review, editorial decisions and
+public registration are separate stages. Current private-attempt and editorial
+state are not inferred from these public mechanical receipts; consult the actual
+service record before another intake. No registration is claimed. Fresh runner
+verification needs specific approval if the installer would load the disclosed
+temporary AppArmor exception; no earlier runner approval is reused.
