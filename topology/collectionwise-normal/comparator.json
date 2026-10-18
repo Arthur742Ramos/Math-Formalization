@@ -1,0 +1,20 @@
+{
+  "challenge_module": "CollectionwiseChallenge",
+  "solution_module": "CollectionwiseSolution",
+  "theorem_names": [
+    "Collectionwise.exists_open_expansion",
+    "Collectionwise.exists_subordinate_expansion",
+    "Collectionwise.discrete_closed_iff",
+    "Collectionwise.exists_discrete_expansion",
+    "Collectionwise.paracompact_hausdorff_collectionwise"
+  ],
+  "definition_names": [
+    "Collectionwise.IsDiscreteFamily",
+    "Collectionwise.HasOpenExpansion"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
