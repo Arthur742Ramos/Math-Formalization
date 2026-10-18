@@ -47,4 +47,4 @@ remains required before any intake; the saved index is dated evidence only.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Preparation; not submitted | [`d226c15`](https://github.com/Arthur742Ramos/Math-Formalization/tree/d226c156850259c7a3c8230572218112ceb8b116/topology/collectionwise-normal) |
+| [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Preparation; not submitted | [`8ba7d50`](https://github.com/Arthur742Ramos/Math-Formalization/tree/8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814/topology/collectionwise-normal) |

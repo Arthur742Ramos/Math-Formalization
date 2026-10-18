@@ -9,12 +9,12 @@
       "path": "topology/collectionwise-normal",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "d226c156850259c7a3c8230572218112ceb8b116",
-        "tree": "e9a2a929139f2c33a42c31ac5256687f3c0e9d4a"
+        "commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+        "tree": "bf0a0136b96adf590dcb34d2392153246f7dc3b2"
       },
       "source_files_sha256": {
         "comparator.json": "f09476f92ddd8f1ec05c93592cc23d78763f49323ae05ac30ec88f484510fefc",
-        "formalization.yaml": "383d6e37e865e84c060611b8d89073cbd8892125a60e8cdc851358111b9d3299",
+        "formalization.yaml": "39d7bc8b6ed87e994650fc89cb92e04d46a925c68f9ee1e21bd6a294ee804414",
         "lake-manifest.json": "cf6afa54703525030ace9d7f3fba7f6406f18afe5c5b0616ead655ccf0991c24",
         "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
         "CollectionwiseChallenge.lean": "815bc7d3e62615a6f96836c23ffec955e5e4a44847a41d7d427b08e816fe65ca",
@@ -50,10 +50,12 @@
           "immutable-package-mathematical-review.json": "2d4569477dbe91b573682503b4948c832f1d5705dd747a595e24d213b2e12a73",
           "immutable-package-implementation-review.json": "e6c4be571daef71f790480b240fc1ee68c4ba1e91589fb94eef880a1f2317a0c",
           "immutable-source-binding-addendum.json": "a8a349405a5db1f025435bd462e1c28da548b9a8e218f2e22d01414823a1e49a",
-          "source-immutable-mathematical-review.json": "94b5b415ee6e106d0cfdf6c66cfefbbda58b1d54a9e020e488ceeed6c604f0a5"
+          "source-immutable-mathematical-review.json": "94b5b415ee6e106d0cfdf6c66cfefbbda58b1d54a9e020e488ceeed6c604f0a5",
+          "classification-correction-mathematical-review.json": "d70e5d5d95b547cbba93c6be14c99f5ba39b4279ed1525b3bed8f5ce16e909bf",
+          "classification-correction-implementation-review.json": "6b138ab5b8ba296cae29ba3cff674e1ad1a9df2d8b0ec413e8cb9c68cf601ef0"
         }
       },
-      "ordinary_local": "pass; package-owned toolchain, separate module contracts and all7 selected transitive axiom reports",
+      "ordinary_local": "pass; fresh six-module exact replacement-source Lean checks, unchanged package-owned toolchain and all7 selected transitive axiom reports; pinned native metadata parser accepts54D15/54D20",
       "canonical_full": "unperformed",
       "rendering": "unperformed",
       "canonical_run": null,
