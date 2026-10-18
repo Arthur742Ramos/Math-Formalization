@@ -1,8 +1,8 @@
 {
-  "run": 37995150075,
-  "job": 114039171895,
-  "workflow_commit": "5ae64cec0e18013c1a4499ac51628b2459a643fa",
-  "log_sha256": "6871f19b6856dc8509ad76261fe87bd3945113762459c3fdae4df4f1aeeb12bd",
+  "run": 39087293491,
+  "job": 117556428424,
+  "workflow_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+  "log_sha256": "7cb39c389904c753e89bea5156a66fd9b841d28b99387eb0830f92fcdeb9f889",
   "axiom_reports": {
     "Counterexample.SorgenfreyLine.countable_Ico_cover": "propext, Classical.choice, Quot.sound",
     "Counterexample.SorgenfreyLine.isLindelof_set": "propext, Classical.choice, Quot.sound",
@@ -19,6 +19,6 @@
   },
   "report_count": 12,
   "toolchain_435rc2_present": true,
-  "scope": "Reused completed hosted ordinary verification log; no fresh build/CI for Sorgenfrey.",
+  "scope": "Newly completed exact candidate hosted ordinary verification;7selected theorems plus5supporting declarations,12axiom reports.",
   "axiom_gate_step_conclusion": "success"
 }

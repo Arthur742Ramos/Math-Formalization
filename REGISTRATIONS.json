@@ -68,8 +68,8 @@
       "path": "topology/sorgenfrey-covering",
       "scope": "Hereditary Lindelofness and paracompactness, disjoint clopen refinements, and plane non-Lindelofness and non-paracompactness.",
       "source_snapshot": {
-        "commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
-        "tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508"
+        "commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+        "tree": "689959f07f3a521b6b1623645494c39a90bc9699"
       },
       "status": "no-public-registration-found"
     },
@@ -514,6 +514,7 @@
     "report": "READINESS.md",
     "ledger": "READINESS.json",
     "baseline_commit": "33af8bfea5b6c18a16190a30a107952c77cecf45",
-    "scope": "Evidence reconciliation; does not alter registered package snapshots or certify blanket intake readiness."
+    "scope": "Evidence reconciliation; does not alter registered package snapshots or certify blanket intake readiness.",
+    "completion": "READINESS.md records the four specifically approved successful checks and merged Sorgenfrey role correction; initial registry snapshot remains dated."
   }
 }

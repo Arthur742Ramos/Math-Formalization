@@ -64,13 +64,30 @@ def check():
                   registered_preview_only=0, rendering_not_established=0,
                   official_registrations_evidenced=0, user_reported_ids_unconfirmed=0,
                   other_registration_outcomes_unknown=0)
+    authorized_changes = {p['path']: p for p in ledger.get('authorized_package_changes', [])}
     for path, p in projects.items():
         package = ROOT / path
         config = read(package / 'comparator.json')
         assert p['catalog_source_commit'] == records[path]['source_snapshot']['commit']
         tree = p['package_tree']
-        for commit in ['HEAD', ledger['baseline_commit'], p['catalog_source_commit']]:
+        for commit in ['HEAD', p['catalog_source_commit']]:
             assert git('rev-parse', commit + ':' + path) == tree, (path, commit, 'tree')
+        baseline_tree = git('rev-parse', ledger['baseline_commit'] + ':' + path)
+        if path in authorized_changes:
+            change = authorized_changes[path]
+            assert baseline_tree == change['before_tree'] and tree == change['after_tree']
+            assert git('diff', '--name-only', ledger['baseline_commit'], 'HEAD', '--', path).splitlines() == [change['only_changed_path']]
+            assert git('rev-parse', 'HEAD:' + change['only_changed_path']) == git('rev-parse', change['original_user_commit'] + ':' + change['only_changed_path'])
+            metadata = read(package / 'formalization.yaml')['project']
+            assert metadata['authors'] == p['authors'] == change['authors']
+            assert metadata['responsible_maintainers'] == p['responsible_maintainers'] == change['responsible_maintainers']
+        else:
+            assert baseline_tree == tree, (path, 'baseline preservation')
+        if p.get('previous_full_verification'):
+            previous = p['previous_full_verification']
+            assert previous['current_package_tree_equal'] == (previous['tested_package_tree'] == tree)
+            assert previous['tested_package_tree'] == baseline_tree
+            assert previous['baseline_package_tree_equal_at_initial_audit'] is True
         for key, filename in [('comparator_sha256', 'comparator.json'),
                               ('metadata_sha256', 'formalization.yaml'),
                               ('lockfile_sha256', 'lake-manifest.json')]:
@@ -93,7 +110,23 @@ def check():
             assert run['status'] == 'completed' and run['conclusion'] == 'success'
             assert run['url'] == f'https://github.com/{ledger["repository"]}/actions/runs/{run["run_id"]}'
             assert run['tested_package_tree'] == tree and run['current_package_tree_equal'] is True
-            assert git('rev-parse', run['workflow_head'] + ':' + path) == tree, (path, key)
+            if key == 'rendering' and run.get('verified_source_commit'):
+                source = run['verified_source_commit']
+                assert git('rev-parse', source + ':' + path) == tree, (path, key, 'tested source')
+                report_file = ROOT / run['report_file']
+                assert report_file.resolve().is_relative_to(EVIDENCE.resolve())
+                assert sha(report_file) == run['original_report_sha256']
+                report = read(report_file)
+                assert report['status'] == 'pass' and report['errors'] == []
+                assert report['source']['commit'] == source and report['source']['project_path'] == path
+                assert report['source']['repository'] == ledger['repository']
+                assert report['surface']['declarations'] == p['theorem_names'] + p['definition_names']
+                caller = git('show', run['workflow_head'] + ':' + run['workflow'])
+                assert '--commit ' + source in caller and 'ref: ' + source in caller
+                assert report['renderer_commit'] == ledger['completion']['pipeline_commit']
+                assert 'ref: ' + report['renderer_commit'] in caller
+            else:
+                assert git('rev-parse', run['workflow_head'] + ':' + path) == tree, (path, key)
         totals['full_success_equal_package_trees'] += 1
         if p['rendering']:
             assert p['rendering_evidence'] == 'named-monorepo-renderer-success'
@@ -162,7 +195,10 @@ def check():
     assert len(prs) == 19 and all(p['state'] == 'closed' and p['merged_at'] for p in prs)
     # Do not require the unpublished candidate object in CI's remote checkout.
     candidate = ledger['sorgenfrey_candidate']
-    assert candidate['published'] is False
+    assert candidate['published'] is True and candidate['state'] == 'merged'
+    assert candidate['source_candidate'] == projects['topology/sorgenfrey-covering']['catalog_source_commit']
+    subprocess.run(['git', '-C', str(ROOT), 'merge-base', '--is-ancestor',
+                    candidate['source_candidate'], 'HEAD'], check=True)
     assert candidate['original_user_commit'] == next(b['tip'] for b in branches if not b['fully_merged_by_ancestry'])
     print(json.dumps({'status': 'pass', 'scope': 'Saved evidence and source bindings; no new Lean/Comparator execution or registry certification',
                       **totals, 'supplemental_selected_axiom_reports': supplemental_count,

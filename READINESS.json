@@ -23,9 +23,9 @@
     "selected_theorems": 114,
     "selected_definitions": 36,
     "full_success_equal_package_trees": 17,
-    "named_renderer_success": 11,
+    "named_renderer_success": 14,
     "registered_preview_only": 3,
-    "rendering_not_established": 3,
+    "rendering_not_established": 0,
     "official_registrations_evidenced": 10,
     "user_reported_ids_unconfirmed": 2,
     "other_registration_outcomes_unknown": 5
@@ -245,21 +245,33 @@
         "tested_package_tree": "c67c5fa5ccfd015bd1cf59d23cc988e3468d735b",
         "current_package_tree_equal": true
       },
-      "rendering": null,
-      "rendering_evidence": "not-established",
+      "rendering": {
+        "run_id": 39087323920,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323920",
+        "workflow": ".github/workflows/palomar-readiness-hyperspace-components-renderer.yml",
+        "workflow_head": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "c67c5fa5ccfd015bd1cf59d23cc988e3468d735b",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "eb3bac386e34b97d443cfcf0bd603e34ccdac6d0",
+        "report_file": "catalog-evidence/readiness-2026-10-18/hyperspace-components-render-report.json",
+        "original_report_sha256": "1951691d0fc21e2af8b3bf741a42e4fabf002aad8171c77f6db4551419ffa6c2"
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
       "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
       "remaining_obligations": [
-        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown.",
-        "Canonical rendering evidence not established in the inspected run inventory."
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
       ]
     },
     {
       "name": "Sorgenfrey covering theorems",
       "path": "topology/sorgenfrey-covering",
-      "catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d",
-      "package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
+      "catalog_source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+      "package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
       "comparator_sha256": "2289c8730692bf8f1428414e45bee6b4294195c65142bc0e04f574a8f1ea0bb7",
-      "metadata_sha256": "637e4151db00b5f1242d1c39cebf2643169c7206ed260663c90d9301ce69b972",
+      "metadata_sha256": "35112e58a33fd9c77de45dfa0e1ddfc4fdfb15a048ca15fe3864b0ddfcdba79c",
       "toolchain": "leanprover/lean4:v4.35.0-rc2",
       "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
       "lockfile_sha256": "725b52d5ad62fab4f30beb478f53f2f8f2295fabfaa2b78fc3cf7a5175e502f3",
@@ -279,15 +291,60 @@
         "Quot.sound"
       ],
       "authors": [
-        "Arthur Freitas Ramos"
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
       ],
       "responsible_maintainers": [
-        "Arthur Freitas Ramos"
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
       ],
       "registration_state": "editorial-and-intake-outcome-not-evidenced",
       "registration": null,
       "user_reported_at_utc": null,
       "full_verification": {
+        "run_id": 39087293654,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293654",
+        "workflow": ".github/workflows/palomar-sorgenfrey-covering.yml",
+        "workflow_head": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+        "current_package_tree_equal": true
+      },
+      "ordinary_verification": {
+        "run_id": 39087293491,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087293491",
+        "workflow": ".github/workflows/sorgenfrey-covering.yml",
+        "workflow_head": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+        "current_package_tree_equal": true
+      },
+      "rendering": {
+        "run_id": 39087324460,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087324460",
+        "workflow": ".github/workflows/palomar-readiness-sorgenfrey-covering-renderer.yml",
+        "workflow_head": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+        "report_file": "catalog-evidence/readiness-2026-10-18/sorgenfrey-covering-render-report.json",
+        "original_report_sha256": "b050579f9f62a049d3560bb0a9ce2acb7bf9fb167f016d11db6e2eecdc9a5f0c"
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
+      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
+      "remaining_obligations": [
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
+      ],
+      "previous_full_verification": {
         "run_id": 37995150644,
         "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37995150644",
         "workflow": ".github/workflows/palomar-sorgenfrey-covering.yml",
@@ -296,27 +353,11 @@
         "conclusion": "success",
         "attempt": 1,
         "tested_package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
-        "current_package_tree_equal": true
+        "current_package_tree_equal": false,
+        "baseline_package_tree_equal_at_initial_audit": true,
+        "evidence_scope": "Historical baseline package only; does not verify the later author-metadata tree."
       },
-      "ordinary_verification": {
-        "run_id": 37996018852,
-        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/37996018852",
-        "workflow": ".github/workflows/sorgenfrey-covering.yml",
-        "workflow_head": "375929156f88029fe6b6088bb61c409d98bfe9cb",
-        "status": "completed",
-        "conclusion": "success",
-        "attempt": 1,
-        "tested_package_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
-        "current_package_tree_equal": true
-      },
-      "rendering": null,
-      "rendering_evidence": "not-established",
-      "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
-      "remaining_obligations": [
-        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown.",
-        "Canonical rendering evidence not established in the inspected run inventory.",
-        "Separately authorized role correction is prepared but not merged or canonically verified on its changed metadata tree."
-      ]
+      "previous_catalog_source_commit": "dac5d2d127d25d61e972fc5d9fc442146c67440d"
     },
     {
       "name": "Whitney reversibility of hereditary decomposability",
@@ -386,12 +427,24 @@
         "tested_package_tree": "f2842822fbe0cf114d2275e6eb862c2aa097cfd4",
         "current_package_tree_equal": true
       },
-      "rendering": null,
-      "rendering_evidence": "not-established",
+      "rendering": {
+        "run_id": 39087323941,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323941",
+        "workflow": ".github/workflows/palomar-readiness-whitney-reversibility-renderer.yml",
+        "workflow_head": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "f2842822fbe0cf114d2275e6eb862c2aa097cfd4",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "de1a104e9b36154b145cf08ba15b1f595b4c503e",
+        "report_file": "catalog-evidence/readiness-2026-10-18/whitney-reversibility-render-report.json",
+        "original_report_sha256": "1359ab805dfe98dfa7894f9844ce98dbdd695b813522f401e0a1a9456eb4bb81"
+      },
+      "rendering_evidence": "named-monorepo-renderer-success",
       "metadata_parser": "passed pinned v0.4 native minimum parser; not current intake certification",
       "remaining_obligations": [
-        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown.",
-        "Canonical rendering evidence not established in the inspected run inventory."
+        "No independently verified public registration or Palomar editorial outcome; private attempt state unknown."
       ]
     },
     {
@@ -1660,9 +1713,13 @@
     "candidate_package_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
     "proof_files_and_pins_unchanged": true,
     "static_package_check": "pass",
-    "published": false
+    "published": true,
+    "state": "merged",
+    "merge_commit": "3c2fcdeadb43b03a8e13e9d457a85f476ee14c52",
+    "full_run_id": 39087293654,
+    "render_run_id": 39087324460
   },
-  "candidate_obligation": "Candidate bdae839 changes the package metadata tree. Prior full success covers baseline only. Opening its PR would invoke a conditional AppArmor installer, so fresh specific disposable-runner security approval is needed before that trigger; no affected full or rendering job launched.",
+  "candidate_obligation": "Resolved: exact user metadata correction passed its specifically approved full and rendering checks plus ordinary Lean CI and independent review, then merged. Previous baseline evidence remains historical.",
   "review_scope": "Independent internal AI static/contract review covers all17; detailed source/math review focuses older three targets without confirmed registration and reuses unchanged recent reviews. Not a new exhaustive primary-source/line-by-line review of all17; no human or external peer review asserted.",
   "evidence_limits": [
     "Historical full-success workflow metadata and exact package-tree equality are recorded. Detailed kernel counts/errors/warnings are not reconstructed when original reports are unavailable.",
@@ -1671,5 +1728,38 @@
     "Intentionally incomplete Challenge templates in four older packages are separate from complete Solution proof closures.",
     "No current private intake/review queue, editorial approval for the seven unconfirmed projects, or blanket 100% intake readiness is established."
   ],
-  "supplemental_evidence_directory": "catalog-evidence/readiness-2026-10-18"
+  "supplemental_evidence_directory": "catalog-evidence/readiness-2026-10-18",
+  "authorized_package_changes": [
+    {
+      "path": "topology/sorgenfrey-covering",
+      "before_tree": "dc04a1cfc365c4eaee68362f8a7ed2e392a76508",
+      "after_tree": "689959f07f3a521b6b1623645494c39a90bc9699",
+      "source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+      "original_user_commit": "38c4fee1955d9181ae76432289f52ac3bea7c4c7",
+      "only_changed_path": "topology/sorgenfrey-covering/formalization.yaml",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reason": "Exact user-authored project-role correction; proof files, all pins and other16packages unchanged."
+    }
+  ],
+  "completion": {
+    "date": "2026-10-18",
+    "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "caller_commit": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+    "approved_canonical_jobs": 4,
+    "canonical_retries": 0,
+    "sorgenfrey_source_commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+    "sorgenfrey_merge_commit": "3c2fcdeadb43b03a8e13e9d457a85f476ee14c52",
+    "source_preservation": "All17proof sources and packagepins preserved; only the explicitly authorized Sorgenfrey metadata blob changes one package tree. Other16complete package trees unchanged.",
+    "original_full_report_limit": "Successful pinned full execution, finalization and report gate on exact changed metadata source. Original report bytes were not downloaded; no reconstructed kernel counts or warning fields are claimed. Prior artifact-download denial was not bypassed or retried.",
+    "render_report_limit": "All3original renderer reports hash-verified from public completed logs; individual HTML bytes not downloaded or visually inspected."
+  }
 }

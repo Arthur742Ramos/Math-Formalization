@@ -1,0 +1,102 @@
+{
+  "artifact_tree_sha256": "205a51fbef83b2ed477cb9f10414d3463a1382ca2fd5c0411769098cad4245b6",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-18T01:41:49Z",
+  "rendered_at": "2026-10-18T01:47:25Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/sorgenfrey-covering/Challenge.lean",
+    "challenge_sha256": "c33c5ddfddc42a4e2b08bc0b61d181b0db2a6c6cbb8cccce22e793b3c698e1c9",
+    "commit": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+    "comparator_config_path": "topology/sorgenfrey-covering/comparator.json",
+    "lakefile_path": "topology/sorgenfrey-covering/lakefile.toml",
+    "lean_toolchain_path": "topology/sorgenfrey-covering/lean-toolchain",
+    "project_path": "topology/sorgenfrey-covering",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/sorgenfrey-covering/Solution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.isLindelof_set (A : Set Counterexample.SorgenfreyLine) : IsLindelof A",
+        "name": "Counterexample.SorgenfreyLine.isLindelof_set"
+      },
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.hereditarilyLindelofSpace : HereditarilyLindelofSpace Counterexample.SorgenfreyLine",
+        "name": "Counterexample.SorgenfreyLine.hereditarilyLindelofSpace"
+      },
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.clopen_refinement.{u_1} (A : Set Counterexample.SorgenfreyLine) {\u03b9 : Type u_1}\n  (U : \u03b9 \u2192 Set (Set.Elem A)) (hU : \u2200 (i : \u03b9), IsOpen (U i)) (hcover : Eq (Set.iUnion fun i => U i) Set.univ) :\n  Exists fun \u03b2 =>\n    Exists fun x =>\n      Exists fun D =>\n        And (\u2200 (j : \u03b2), IsClopen (D j))\n          (And (Eq (Set.iUnion fun j => D j) Set.univ)\n            (And (Pairwise fun j k => Disjoint (D j) (D k))\n              (And (LocallyFinite D) (\u2200 (j : \u03b2), Exists fun i => LE.le (D j) (U i)))))",
+        "name": "Counterexample.SorgenfreyLine.clopen_refinement"
+      },
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.paracompactSpace_subspace (A : Set Counterexample.SorgenfreyLine) :\n  ParacompactSpace (Set.Elem A)",
+        "name": "Counterexample.SorgenfreyLine.paracompactSpace_subspace"
+      },
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.paracompactSpace : ParacompactSpace Counterexample.SorgenfreyLine",
+        "name": "Counterexample.SorgenfreyLine.paracompactSpace"
+      },
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.not_lindelofSpace_prod :\n  Not (LindelofSpace (Prod Counterexample.SorgenfreyLine Counterexample.SorgenfreyLine))",
+        "name": "Counterexample.SorgenfreyLine.not_lindelofSpace_prod"
+      },
+      {
+        "declaration": "theorem Counterexample.SorgenfreyLine.not_paracompactSpace_prod :\n  Not (ParacompactSpace (Prod Counterexample.SorgenfreyLine Counterexample.SorgenfreyLine))",
+        "name": "Counterexample.SorgenfreyLine.not_paracompactSpace_prod"
+      }
+    ],
+    "declarations": [
+      "Counterexample.SorgenfreyLine.isLindelof_set",
+      "Counterexample.SorgenfreyLine.hereditarilyLindelofSpace",
+      "Counterexample.SorgenfreyLine.clopen_refinement",
+      "Counterexample.SorgenfreyLine.paracompactSpace_subspace",
+      "Counterexample.SorgenfreyLine.paracompactSpace",
+      "Counterexample.SorgenfreyLine.not_lindelofSpace_prod",
+      "Counterexample.SorgenfreyLine.not_paracompactSpace_prod"
+    ],
+    "imports": [
+      "Mathlib.Analysis.Real.Cardinality",
+      "Mathlib.Order.Interval.Set.Monotone",
+      "Mathlib.Topology.Baire.Lemmas",
+      "Mathlib.Topology.Baire.LocallyCompactRegular",
+      "Mathlib.Topology.Compactness.Lindelof",
+      "Mathlib.Topology.EMetricSpace.Paracompact",
+      "Mathlib.Topology.Instances.Irrational",
+      "Mathlib.Topology.Metrizable.Urysohn",
+      "Mathlib.Topology.Separation.NotNormal"
+    ],
+    "module_doc": "# Sorgenfrey line\n\nIn this file we define `SorgenfreyLine` (notation: `\u211d\u2097`) to be the Sorgenfrey line. It is the real\nline with the topology space structure generated by half-open intervals `Set.Ico a b`.\n\nWe prove that this line is a completely normal Hausdorff space but its product with itself is not a\nnormal space. In particular, this implies that the topology on `\u211d\u2097` is neither metrizable, nor\nsecond countable.\n\n## Notation\n\n- `\u211d\u2097`: Sorgenfrey line.\n\n## TODO\n\nProve that the Sorgenfrey line is a paracompact space.",
+    "schema_version": 3,
+    "solution_imports": [
+      "SorgenfreyCovering"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087324460"
+}

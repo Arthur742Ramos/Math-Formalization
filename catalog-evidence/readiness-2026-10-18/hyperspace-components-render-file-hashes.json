@@ -1,0 +1,23 @@
+{
+  "bundle/-verso-docs.json": "0fbda4be85f66446f0ed23537f68ba0d031b6b3a101970bf7e550da2463b495f",
+  "bundle/-verso-search/README.txt": "c2592e93a155651c869ea357d9b4c8bbd28920eb841b6a7c984841fd5fe9993a",
+  "bundle/-verso-search/domain-display.css": "70a88a17f590dc105d7505a27b031e70addf1cc9cc71b846c6c4c672a03a1f09",
+  "bundle/-verso-search/domain-mappers.d.ts": "b347aa85cd1497191ce7e7166ef113e7c4c83f79345a6a4f7816a2155a5f7665",
+  "bundle/-verso-search/fuzzysort.d.ts": "7c3f3de27ad6eb8ab420f1aade753483e1a597820ff7b5d80fa210e1c6f7c4e5",
+  "bundle/-verso-search/jsconfig.json": "6ae5ab90515f1ad5d923aca1616366dc67a1961b78c0285d02e4182791df7796",
+  "bundle/-verso-search/licenses.md": "437e3dad49ac48ebfeabcaaf4c020b6580b13690b24ca0c5b31e4f3c797b0e43",
+  "bundle/-verso-search/search-box.css": "f7c742f4b6439d1f4b027a4da1f22994939d7b34f5af6e2a260fc03497003a5e",
+  "bundle/-verso-search/search-highlight.css": "b99e8b97d255b99dd1b56320227d0ce44a947e87696d424200082911df8fc8fc",
+  "bundle/-verso-search/search-page.css": "6a1bd3425d469a7149ecef343ca9b339a765efcefca694787f7d57899ca40912",
+  "bundle/Challenge/index.html": "ce0447c387950ca29a339ad9ad41da55055a5ab776e0b63b2c91e35d2f2e92cf",
+  "bundle/artifact-manifest.json": "61bb54762c59e7f7fdd1d17b78744133e60ee075d0a0d99b62d89a5b821cf16f",
+  "bundle/challenge-metadata.json": "2455f761ef064fd633dfa250dedb97023a95f920e40b0e8bc876daa09e5d8c16",
+  "bundle/code.css": "791b203b77e466c48504f32e5c794ecfbfa21d262bcabcd4a080f97194cfe529",
+  "bundle/palomar-sanitize.js": "c39c4bc61544b0c0b9b6f0605859aceb11a2bf9cbb5c9f22c492d938243dbea7",
+  "bundle/palomar-verso.js": "332773edafa3ac712ec3fba31d4c6ece2339693958873a9020a9be1bddb22538",
+  "bundle/search/index.html": "26a616176a539b9fc5a3136d70a97b01175c1d111bd3c3edbfe967d318511876",
+  "bundle/tippy-border.css": "bd2dc7de7b0177047251280a8331b7d97ed750ea00004e69981fc7de517da995",
+  "bundle/verso-vars.css": "9f8a7da9c4c1997e4b6d9696b4a9da867c537b01a0e10188f5cfd63fe8e77572",
+  "bundle/xref.json": "5403f2646b5664b88025a287e9e0e793abd1eebbd821fc138e7f4f2ca0170566",
+  "challenge-render.json": "1951691d0fc21e2af8b3bf741a42e4fabf002aad8171c77f6db4551419ffa6c2"
+}

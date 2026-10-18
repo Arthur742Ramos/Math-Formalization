@@ -1,13 +1,23 @@
 {
   "files": {
+    "approved-sorgenfrey-full-workflow-evidence.json": "41783197019aee2d2d74990b5550695f35abee66692d42aa7a9ef1df8dc0a490",
     "dowker-characterization-axioms.log": "80d52fd76bc3349e72b458c85e20602efded3bfeb230507e4fbc8584f1b04c62",
     "dowker-characterization-query.txt": "cd26d8e80c899e3350445beed057f7f633362c6f77227d8ae8630271be49724d",
+    "hyperspace-components-render-binding.json": "b4ac010c906d56e4dede92c942cc0632cfcf250ff93231d1c30f953583350047",
+    "hyperspace-components-render-file-hashes.json": "f39e8cb47d9d070a19cd0b8685a7f8993fb3dd2d67f952173ccc3246435bd358",
+    "hyperspace-components-render-report.json": "1951691d0fc21e2af8b3bf741a42e4fabf002aad8171c77f6db4551419ffa6c2",
     "michael-biquotient-axioms.log": "edd40632690c124ed401fa0a7ef6c1de8e516891c73d28aad8e046b508eb8fe5",
     "michael-biquotient-query.txt": "a6bebb0432a75faa8da07f4b005b89673525c0b9f465a0380ba41a56edba37ad",
     "official-registration-summaries.json": "7095ba9ef8d15b030f8648ad701f5637f2e0f06a51876b73eaf5cfdf066a8bc8",
-    "review-summary.json": "b85ea8c143babdebf07125eae511508624226668915fbd35ebe8daf09d732937",
-    "sorgenfrey-hosted-axiom-binding.json": "ddd4f7152900cedcf00d303d757330e988a800034c4a29df2d8b9a2af0d5c37f",
-    "sorgenfrey-selected-axioms.log": "9f517b4cd0d99e2a593045a24bfc69ca5edf58136a032059cb0b51b385b64847",
-    "supplemental-selected-axiom-audits.json": "d53efaed26b92b6d31e67db3f40958e182be39dac614e267a28f8f121d63c581"
+    "review-summary.json": "9890a407c606338a2e03eea7244a849d5350d130e77a99f695fbf63958da8627",
+    "sorgenfrey-covering-render-binding.json": "0cb80148401d88e3bee9417ffbdddf9099adaf36eeaf5f4fef9cdf7c336a9df0",
+    "sorgenfrey-covering-render-file-hashes.json": "51356c20a3497d174d97ac34f62b09edc5df0b93fae0d4e416e8c0bb3572d6c4",
+    "sorgenfrey-covering-render-report.json": "b050579f9f62a049d3560bb0a9ce2acb7bf9fb167f016d11db6e2eecdc9a5f0c",
+    "sorgenfrey-hosted-axiom-binding.json": "94ed87ace20b00b41ef3c4f63754b5af633c127e827d2fd1309194289a476a78",
+    "sorgenfrey-selected-axioms.log": "ab343d9efe8a50f376a7a3c4ab3d0fcfa4e7dee6b8e78c2f00782bede24448c8",
+    "supplemental-selected-axiom-audits.json": "d53efaed26b92b6d31e67db3f40958e182be39dac614e267a28f8f121d63c581",
+    "whitney-reversibility-render-binding.json": "4ffba64e0abea7456a8898174ec131174dfad9b6f3c72040eab92f8c1ad62e36",
+    "whitney-reversibility-render-file-hashes.json": "6c8229487b20e501925120367d82e1ef13fac4f62ba8da0f05daa1feac1a009b",
+    "whitney-reversibility-render-report.json": "1359ab805dfe98dfa7894f9844ce98dbdd695b813522f401e0a1a9456eb4bb81"
   }
 }

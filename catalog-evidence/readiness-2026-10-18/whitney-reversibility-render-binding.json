@@ -1,0 +1,18 @@
+{
+  "run_id": 39087323941,
+  "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39087323941",
+  "workflow_head": "ff4d4bb9c844e0f37ae9a2992ad21417f182d912",
+  "source_commit": "de1a104e9b36154b145cf08ba15b1f595b4c503e",
+  "project_path": "topology/whitney-reversibility",
+  "status": "pass",
+  "attempt": 1,
+  "original_report_sha256": "1359ab805dfe98dfa7894f9844ce98dbdd695b813522f401e0a1a9456eb4bb81",
+  "original_report_bytes_reconstructed_and_hash_verified": true,
+  "official_job_log_sha256": "cc28af2619ba6b9b2630f69eaab87f519c8d9c3beac5ca16ee231b5106cf1206",
+  "selected_theorems": 5,
+  "selected_definitions": 9,
+  "published_file_count": 21,
+  "artifact_tree_sha256": "e3d239f86c93abee5bf7e09df80dfe29a6e0423d188e3c7d71ff7baf172189ae",
+  "method": "Complete bounded report and published hashes recovered from completed official public job log. No artifact-download denial retry or alternate route.",
+  "limit": "Individual rendered HTML bytes were not downloaded, independently rehashed or visually reviewed."
+}
