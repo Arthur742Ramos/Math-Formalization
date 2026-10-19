@@ -300,5 +300,36 @@ class LocallyCompactDefinitionBindings(unittest.TestCase):
         with self.assertRaises(AssertionError): self.check()
 
 
+class VerifiedGameFullBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-baire'))
+
+    def check(self):
+        source = self.row['source_snapshot']
+        check_material_audit_binding(self.row, source['commit'])
+        check_verified(self.row, ROOT / self.row['path'], source['commit'], source['tree'])
+
+    def test_actual_original_full_and_renderer_bind(self):
+        self.check()
+
+    def test_ordinary_run_cannot_replace_protected_full(self):
+        self.row['canonical_run']['run_id'] = 39326670168
+        self.row['canonical_run']['url'] = 'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39326670168'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_equal_package_tree_does_not_change_tested_commit(self):
+        self.row['canonical_run']['verified_source_commit'] = 'e5da90e7f29da2ce1270a1ada54ff39e782dba74'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_unobserved_request_cannot_borrow_report(self):
+        self.row['canonical_run']['request_id'] = 'bmfull000002'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_original_render_digest_cannot_be_relabelled(self):
+        self.row['rendering_run']['original_report_sha256'] = '0' * 64
+        with self.assertRaises(AssertionError): self.check()
+
+
 if __name__ == '__main__':
     unittest.main()

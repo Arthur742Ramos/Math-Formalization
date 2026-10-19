@@ -611,7 +611,7 @@
     {
       "path": "topology/banach-mazur-baire",
       "name": "Oxtoby's Banach–Mazur characterization of Baire spaces",
-      "state": "reviewed-preparation-not-submitted",
+      "state": "verified-preparation-intake-unconfirmed",
       "source_snapshot": {
         "commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
         "tree": "fb8b665974589ef6bb90abd176f4ddd63b8635ef"
@@ -660,22 +660,54 @@
         }
       },
       "ordinary_local": "pass; six-module853-job package-owned build, seven theorem contracts and four fixed model literals through separate Challenge/Solution entrypoints, eleven actual transitive axiom reports, eight exact clean pinned Mathlib sources/twelve excerpts and exact Lean-core List/length source retained",
-      "canonical_full": "not-established",
-      "rendering": "not-established",
-      "canonical_run": null,
-      "rendering_run": null,
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "run_id": 39328434296,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39328434296",
+        "workflow": ".github/workflows/palomar-bm-full-preflight.yml",
+        "workflow_head": "47d79ed29addd0755b8776e977278b201e893713",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "fb8b665974589ef6bb90abd176f4ddd63b8635ef",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/banach-mazur-baire-2026-10-19/full-report.json",
+        "original_report_sha256": "6f1bd888c8020efd6e10a95035cc6add118cd8ab5079938f1a7346f554cdf6e0",
+        "request_id": "bmfull000001"
+      },
+      "rendering_run": {
+        "run_id": 39328433897,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39328433897",
+        "workflow": ".github/workflows/palomar-bm-renderer.yml",
+        "workflow_head": "47d79ed29addd0755b8776e977278b201e893713",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "fb8b665974589ef6bb90abd176f4ddd63b8635ef",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/banach-mazur-baire-2026-10-19/render-report.json",
+        "original_report_sha256": "722205401ea7af793c03c25ed9325bbc1aaaaf5857b29be7f6afdafb2a97802d",
+        "artifact_tree_sha256": "50dcdbaf4e9b7d557c10dec1788ee94c6434b1abca0600ea1bbd9ef7c5dc6609"
+      },
       "registry_submission_ready": false,
       "registry_intakes_by_this_task": 0,
       "existing_public_id": null,
       "fresh_runner_security_approval": false,
       "evidence_observed_date": "2026-10-19",
-      "checkpoint_scope": "Dated preparation evidence only. Each later completed stage requires its own exact-source immutable receipt; proof compilation and independent source review do not establish protected export comparison, independent kernel acceptance, rendering, intake or editorial approval. No new security exception is authorized.",
+      "checkpoint_scope": "Original exact-source full and renderer attempt1 passes supersede the dated ordinary-preparation checkpoint without changing source, metadata or package bytes. Protected export comparison with zero definition holes, three kernel acceptances and actual original render artifact provenance require their authenticated receipts. This task initiates no registry intake; private intake/editorial/registration state remains unconfirmed. The two specific runner approvals were consumed and do not transfer.",
       "duplicate_check": "No equivalent found among22prior packages,40remote branches/0openPRs at selection, exact pinned Mathlib065356 and independently rehashed24page598entry revision332 public snapshot captured2026-10-17. Current global/public and private-attempt clearance is unestablished. No novelty or intake-clearance claim.",
       "remaining_obligations": [
-        "Final packet/root status review and catalog check; the completed ordinary hosted proof check retains its own exact head and unchanged package-tree binding.",
-        "Exact-source protected Comparator, Lean/NanoDa/con-ron and canonical rendering reports; reconcile runs first. Fresh runner approval or an already authorized compatible host is required before any conditional AppArmor policy change. Prior approvals do not transfer.",
-        "Strict verified release-packet guard and independently reviewed original report/artifact provenance before a verified manual handoff.",
-        "Arthur owns manual intake. Reconcile current official protocol, actual attempts, duplicates, public ID and effective capabilities before any service action. This task initiates no registry intake."
+        "Final root completion catalog/ordinary hosted checks, independent exact-head/source/packet reviews, normal merge and resulting remote tree verification.",
+        "Current official protocol, actual existing attempts, duplicates/public ID and effective capabilities before Arthur personally performs any service action. This task performs no registry submission.",
+        "Browser-runtime visual inspection remains unestablished; actual original canonical HTML/contracts/manifest hashes are authenticated separately. Editorial acceptance and public registration remain separate.",
+        "The specific full350/render360 disposable-runner approval was consumed; no blanket future security-setting authority is inferred."
       ],
       "scope": "For arbitrary topological spaces, Baireness iff no first-player full-history winning strategy in nested nonempty-open Banach-Mazur play; legal-play existence, common-point defeat, payoff equality, explicit non-Baire strategy and empty-space boundary. No separation/countability/metric/determinacy assumption.",
       "material_definition_audit": {

@@ -1,0 +1,96 @@
+{
+  "artifact_tree_sha256": "50dcdbaf4e9b7d557c10dec1788ee94c6434b1abca0600ea1bbd9ef7c5dc6609",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-19T21:36:33Z",
+  "rendered_at": "2026-10-19T21:42:31Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/banach-mazur-baire/BMChallenge.lean",
+    "challenge_sha256": "8ed2ae8f9f5f321b46fb68ae78fc9002a396b8f9de3cfc933e63d8ff13736cdc",
+    "commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
+    "comparator_config_path": "topology/banach-mazur-baire/comparator.json",
+    "lakefile_path": "topology/banach-mazur-baire/lakefile.toml",
+    "lean_toolchain_path": "topology/banach-mazur-baire/lean-toolchain",
+    "project_path": "topology/banach-mazur-baire",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/banach-mazur-baire/BMSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem BanachMazur.exists_compatiblePlay.{u} {X : Type u} [TopologicalSpace X] (\u03c3 : BanachMazur.FirstStrategy X) :\n  Exists fun a => BanachMazur.Follows X \u03c3 a",
+        "name": "BanachMazur.exists_compatiblePlay"
+      },
+      {
+        "declaration": "theorem BanachMazur.follows_intersection_eq.{u} {X : Type u} [TopologicalSpace X] (\u03c3 : BanachMazur.FirstStrategy X)\n  (a : Nat \u2192 BanachMazur.OpenMove X) (ha : BanachMazur.Follows X \u03c3 a) :\n  Eq (Set.iInter fun n => Subtype.val (BanachMazur.FirstStrategy.move \u03c3 (BanachMazur.history X a n)))\n    (Set.iInter fun n => Subtype.val (a n))",
+        "name": "BanachMazur.follows_intersection_eq"
+      },
+      {
+        "declaration": "theorem BanachMazur.exists_commonPoint_play.{u} {X : Type u} [TopologicalSpace X] [BaireSpace X]\n  (\u03c3 : BanachMazur.FirstStrategy X) :\n  Exists fun a => And (BanachMazur.Follows X \u03c3 a) (Set.Nonempty (Set.iInter fun n => Subtype.val (a n)))",
+        "name": "BanachMazur.exists_commonPoint_play"
+      },
+      {
+        "declaration": "theorem BanachMazur.not_firstWins_of_baireSpace.{u} {X : Type u} [TopologicalSpace X] [BaireSpace X]\n  (\u03c3 : BanachMazur.FirstStrategy X) : Not (BanachMazur.FirstWins X \u03c3)",
+        "name": "BanachMazur.not_firstWins_of_baireSpace"
+      },
+      {
+        "declaration": "theorem BanachMazur.exists_firstWins_of_not_baireSpace.{u} {X : Type u} [TopologicalSpace X] (hX : Not (BaireSpace X)) :\n  Exists fun \u03c3 => BanachMazur.FirstWins X \u03c3",
+        "name": "BanachMazur.exists_firstWins_of_not_baireSpace"
+      },
+      {
+        "declaration": "theorem BanachMazur.baireSpace_iff_no_firstWins.{u} {X : Type u} [TopologicalSpace X] :\n  Iff (BaireSpace X) (\u2200 (\u03c3 : BanachMazur.FirstStrategy X), Not (BanachMazur.FirstWins X \u03c3))",
+        "name": "BanachMazur.baireSpace_iff_no_firstWins"
+      },
+      {
+        "declaration": "theorem BanachMazur.isEmpty_firstStrategy.{u} {X : Type u} [TopologicalSpace X] [IsEmpty X] :\n  IsEmpty (BanachMazur.FirstStrategy X)",
+        "name": "BanachMazur.isEmpty_firstStrategy"
+      }
+    ],
+    "declarations": [
+      "BanachMazur.exists_compatiblePlay",
+      "BanachMazur.follows_intersection_eq",
+      "BanachMazur.exists_commonPoint_play",
+      "BanachMazur.not_firstWins_of_baireSpace",
+      "BanachMazur.exists_firstWins_of_not_baireSpace",
+      "BanachMazur.baireSpace_iff_no_firstWins",
+      "BanachMazur.isEmpty_firstStrategy"
+    ],
+    "imports": [
+      "Mathlib.Data.Set.Pairwise.Basic",
+      "Mathlib.Order.Zorn",
+      "Mathlib.Topology.Baire.Lemmas"
+    ],
+    "module_doc": null,
+    "schema_version": 3,
+    "solution_imports": [
+      "BanachMazur"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39328433897"
+}

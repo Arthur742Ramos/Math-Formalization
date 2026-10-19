@@ -80,9 +80,14 @@ Baire-space criterion for arbitrary topological spaces using full-history strate
 Seven theorem targets, four fixed model definitions, eight imported Mathlib meanings
 and Lean list infrastructure have independent internal review and compiled semantic
 bridges. Source `59d4a50df466480e88ab71bc1f3527bfe0bf1811` is frozen with package-owned pins.
-Protected full verification and canonical rendering require their own exact-source
-receipts before a verified handoff; this task has initiated no registry intake.
-Other private attempts remain unconfirmed.
+Its exact-source [full canonical check](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39328434296)
+and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39328433897)
+passed on attempt1 under the pinned pipeline. Original reports and source/configuration
+hashes are bound in PREPARATIONS.json; the seven theorem targets use zero definition
+holes so the game model remains fixed. The package bytes are unchanged. This task has
+initiated no registry intake; other private attempts and editorial/registration state
+remain unconfirmed. The two specific disposable-runner approvals were consumed;
+no future security-setting exception is authorized.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

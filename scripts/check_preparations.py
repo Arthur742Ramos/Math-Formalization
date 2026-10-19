@@ -71,6 +71,7 @@ def check_verified(p, package, source, tree):
         'topology/product-countable-chain-condition': 'catalog-evidence/product-ccc-2026-10-19',
         'topology/kuratowski-ulam': 'catalog-evidence/kuratowski-ulam-2026-10-19',
         'topology/locally-compact-baire': 'catalog-evidence/locally-compact-baire-2026-10-19',
+        'topology/banach-mazur-baire': 'catalog-evidence/banach-mazur-baire-2026-10-19',
     }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     corrected = 'status_correction' in p
