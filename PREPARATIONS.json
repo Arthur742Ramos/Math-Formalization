@@ -607,6 +607,96 @@
         "status": "pass",
         "scope": "Six modules960jobs/sixactualstandard-threeaxiomclosures/15exactsourcefiles35excerpts and93regressions. Later root-only completion changes preserve the exact package tree."
       }
+    },
+    {
+      "path": "topology/banach-mazur-baire",
+      "name": "Oxtoby's Banach–Mazur characterization of Baire spaces",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
+        "tree": "fb8b665974589ef6bb90abd176f4ddd63b8635ef"
+      },
+      "source_files_sha256": {
+        "BanachMazur.lean": "8ed2ae8f9f5f321b46fb68ae78fc9002a396b8f9de3cfc933e63d8ff13736cdc",
+        "BMChallenge.lean": "8ed2ae8f9f5f321b46fb68ae78fc9002a396b8f9de3cfc933e63d8ff13736cdc",
+        "BMSolution.lean": "4ec76a0db4a8b3e95254ded6b5f1101546c57fdd786b6ed2a39cf45f62d421e3",
+        "ChallengeTests.lean": "a9322db3887d074416cfb94779bdba7346294aae320c4e2e673092dd6482966a",
+        "SemanticTests.lean": "021ff1eeb698f3bdc17d9dd216ba692d4e76ff508c6b893f75dec4ebad357fbb",
+        "comparator.json": "9ccab5d05e4ed739c0c8450236b54348f04537a3e67908b172c07ac9cad1b38b",
+        "formalization.yaml": "cb4b6a6a4ef4de7bb428dbf0774cf3707f872fe275e4a4986fd214315886c42b",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "lake-manifest.json": "56aa7f09ce2dc2d0c5f501ead49e6ab073e2b5a38320a750dba46049ebd8810f",
+        "lakefile.toml": "92c474ff0ec9aee35fd40eaf80ea0d9e849b37886ccfd678c4ace661046e8a1a"
+      },
+      "theorem_names": [
+        "BanachMazur.exists_compatiblePlay",
+        "BanachMazur.follows_intersection_eq",
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins",
+        "BanachMazur.isEmpty_firstStrategy"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source-scope-review.json": "697cb0c019318b7034613c80d56fb899463361a05752e44140cd8b6dd2bd2810",
+          "corrected-fixed-model-candidate-source-review.json": "7b6bf24321e7a8ae057fb8567369d3b58b70b4ba02a8200611e1c986f3245f19",
+          "candidate-implementation-review.json": "064a5a10559d75c2aef2e1b9f086c806f6d1bfb1416de5b6a520b7c084a80368",
+          "native-model-contract-resolution-review.json": "a2c30e855569f8c0c6f61ea1689248d03b5a5b0a2cec4471deec163acf9b5e3a"
+        }
+      },
+      "ordinary_local": "pass; six-module853-job package-owned build, seven theorem contracts and four fixed model literals through separate Challenge/Solution entrypoints, eleven actual transitive axiom reports, eight exact clean pinned Mathlib sources/twelve excerpts and exact Lean-core List/length source retained",
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-19",
+      "checkpoint_scope": "Dated preparation evidence only. Each later completed stage requires its own exact-source immutable receipt; proof compilation and independent source review do not establish protected export comparison, independent kernel acceptance, rendering, intake or editorial approval. No new security exception is authorized.",
+      "duplicate_check": "No equivalent found among22prior packages,40remote branches/0openPRs at selection, exact pinned Mathlib065356 and independently rehashed24page598entry revision332 public snapshot captured2026-10-17. Current global/public and private-attempt clearance is unestablished. No novelty or intake-clearance claim.",
+      "remaining_obligations": [
+        "Ordinary hosted exact-package verification and final immutable source/archive/root review.",
+        "Exact-source protected Comparator, Lean/NanoDa/con-ron and canonical rendering reports; reconcile runs first. Fresh runner approval or an already authorized compatible host is required before any conditional AppArmor policy change. Prior approvals do not transfer.",
+        "Strict verified release-packet guard and independently reviewed original report/artifact provenance before a verified manual handoff.",
+        "Arthur owns manual intake. Reconcile current official protocol, actual attempts, duplicates, public ID and effective capabilities before any service action. This task initiates no registry intake."
+      ],
+      "scope": "For arbitrary topological spaces, Baireness iff no first-player full-history winning strategy in nested nonempty-open Banach-Mazur play; legal-play existence, common-point defeat, payoff equality, explicit non-Baire strategy and empty-space boundary. No separation/countability/metric/determinacy assumption.",
+      "material_definition_audit": {
+        "source_commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
+        "material_declarations": 8,
+        "upstream_files": 8,
+        "literal_excerpts": 12,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "fixed_model_definitions": [
+        "BanachMazur.OpenMove",
+        "BanachMazur.history",
+        "BanachMazur.Follows",
+        "BanachMazur.FirstWins"
+      ],
+      "definition_contract": "Zero definition holes; all four model definitions and FirstStrategy remain complete non-target dependencies. Literal body tests and eleven axiom audits are separate evidence."
     }
   ]
 }

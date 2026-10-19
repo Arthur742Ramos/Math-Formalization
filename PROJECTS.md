@@ -101,3 +101,14 @@ internal AI reviews have separate scopes from canonical and service outcomes.
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Baire products with locally compact R1 factors](topology/locally-compact-baire) | Dense-Gdelta fixed-region projection and Baire product theorem by maximal disjoint refinements and nested compact fibers. | Full/render passed; intake and registration unconfirmed | [`d972b3c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/d972b3cb0637c0e962c04384f16ec2b3e033d768/topology/locally-compact-baire) |
+
+## Oxtoby Banach–Mazur preparation
+
+The following package has independent internal source/implementation reviews,
+a package-owned proof build and separately compiled game-definition bridges.
+Protected full verification and rendering need their own exact-source receipts;
+ordinary checks do not establish editorial acceptance. No registry intake is initiated.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Oxtoby's Banach–Mazur characterization of Baire spaces](topology/banach-mazur-baire) | Arbitrary-space Baire criterion via full-history first-player strategies; coherent common-point play, explicit non-Baire strategy and empty-space boundary. | Preparation; not submitted | [`59d4a50`](https://github.com/Arthur742Ramos/Math-Formalization/tree/59d4a50df466480e88ab71bc1f3527bfe0bf1811/topology/banach-mazur-baire) |

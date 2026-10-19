@@ -75,6 +75,14 @@ and definition/source checks passed at the same package tree. Current intake,
 editorial review and registration remain unconfirmed. The two specific runner
 approvals were consumed; they do not authorize a future security exception.
 
+The [Oxtoby Banach–Mazur preparation](topology/banach-mazur-baire) proves the classical
+Baire-space criterion for arbitrary topological spaces using full-history strategies.
+Seven theorem targets, four fixed model definitions, eight imported Mathlib meanings
+and Lean list infrastructure have independent internal review and compiled semantic
+bridges. Source `59d4a50df466480e88ab71bc1f3527bfe0bf1811` is frozen with package-owned pins.
+Protected full verification and canonical rendering require their own exact-source
+receipts before a verified handoff; no registry intake is initiated.
+
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and
 internal AI review do not establish Palomar editorial approval. Existing

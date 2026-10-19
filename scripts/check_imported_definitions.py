@@ -134,7 +134,7 @@ def check(project, dependency_root=None):
         else:
             kind = declaration['declaration_kind']
             require(kind in {'def', 'class', 'structure'}, 'Unknown declaration kind')
-            require(re.search(r'(?m)^' + kind + ' ' + re.escape(name.split('.')[-1]) + r'\b', body),
+            require(re.search(r'(?m)^(?:protected )?' + kind + ' ' + re.escape(name.split('.')[-1]) + r'\b', body),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
             allowed = {'class-fields'} if kind in {'class', 'structure'} else {
