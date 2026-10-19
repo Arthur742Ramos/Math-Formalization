@@ -24,3 +24,12 @@ status-edit/verification loop. Local compilation alone does not certify protecte
 full comparison, independent kernels, rendering, editorial decisions or service
 outcomes. Current authorization and actual intake state are separate prerequisites
 before any service action; no registry outcome is inferred from this package.
+
+The material imported-definition manifest uses schema2 to distinguish literal
+definitions from class-field and proved-equivalence bridges. Run the repository's
+scripts/check_imported_definitions.py for static consistency, then its
+--dependency-root mode against the already available exact clean Mathlib checkout
+for source provenance. Both entrypoint test modules compile the documented
+hypothesis and conclusion meanings plus the proof-critical compactness chain.
+Neither checker establishes inventory completeness, editorial significance or
+service clearance; independent exact-source review remains required.

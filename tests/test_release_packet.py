@@ -20,8 +20,10 @@ PROJECT = 'topology/collectionwise-normal'
 
 
 class MaterialDefinitionHandoff(unittest.TestCase):
+    PROJECT = 'topology/kuratowski-ulam'
+
     def setUp(self):
-        package = ROOT / 'topology/kuratowski-ulam'
+        package = ROOT / self.PROJECT
         self.files = {p.relative_to(package).as_posix(): p.read_bytes()
                       for p in package.rglob('*') if p.is_file() and
                       '.lake' not in p.relative_to(package).parts and
@@ -29,7 +31,7 @@ class MaterialDefinitionHandoff(unittest.TestCase):
 
     def check(self):
         with mock.patch.object(guard, 'snapshot', return_value=self.files):
-            return guard.check_status(ROOT, '0' * 40, 'topology/kuratowski-ulam')
+            return guard.check_status(ROOT, '0' * 40, self.PROJECT)
 
     def test_complete_frozen_material_evidence_passes(self):
         self.check()
@@ -43,6 +45,10 @@ class MaterialDefinitionHandoff(unittest.TestCase):
         self.files['ChallengeTests.lean'] = b'module\n'
         with self.assertRaises(ValueError):
             self.check()
+
+
+class LocallyCompactMaterialHandoff(MaterialDefinitionHandoff):
+    PROJECT = 'topology/locally-compact-baire'
 
 
 def archive(files):

@@ -37,3 +37,16 @@ Development source/proof receipt SHA256:
 `a2c7ff3e52d524bf592417095cf3c790f8cd9c9d35c1489e429db1f9183919ed`.
 Independent implementation completion receipt SHA256:
 `ddd15ce8ce13755fac5e3ef4db63a066d20276f99a508ba1ea71bc424ebcc94d`.
+
+The retained imported-definition and six-contract hypothesis inventory is audited
+separately for each proposed source. It distinguishes R1 from Hausdorffness,
+strong compact-neighborhood bases from weak local compactness, and distinct labels
+from possibly equal image sets. Class wrappers are compared with their literal
+fields by constructor/projection proofs, while the inseparable R1 formulation,
+open-set density, sequential Gdelta representation and finite-open-subcover
+compactness formulations use their actual pinned equivalence theorems. Both
+entrypoints also check the R1 closure, shrinking and closed-intersection APIs.
+The previous frozen-source and ordinary CI receipts bind source
+56c93c5ab4cdc1291d87c0b17104cb31f7c243dc and integration head
+13eaead07f5ee94cbae0636c877bea5bb08d6c39; they do not automatically verify later
+source edits. External immutable receipts identify the newly tested source.

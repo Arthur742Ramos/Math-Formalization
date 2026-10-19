@@ -37,6 +37,8 @@ jobs:
           lean --version | tee "$RUNNER_TEMP/locally-compact-baire-lean-version.txt"
           lake --version | tee "$RUNNER_TEMP/locally-compact-baire-lake-version.txt"
           lake exe cache get Mathlib.Order.Zorn Mathlib.Data.Set.Pairwise.Basic Mathlib.Topology.Baire.LocallyCompactRegular
+      - name: Authenticate material imported definitions at the exact dependency pin
+        run: python3 ../../scripts/check_imported_definitions.py --project-path topology/locally-compact-baire --dependency-root .lake/packages/mathlib
       - name: Build proofs and both independent module contracts
         run: |
           set -o pipefail

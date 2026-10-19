@@ -36,6 +36,24 @@ infrastructure in Mathlib. `LocallyCompactSpace` is the actual Lean compact-neig
 every neighborhood of a point contains a compact neighborhood of that point.
 No unproved identification with a differently named compactness convention is used.
 
+## Pinned hypotheses and dependency meanings
+
+[MATERIAL-DEFINITIONS.md](MATERIAL-DEFINITIONS.md) retains the exact pinned definitions
+and dependency chain for BaireSpace, R1Space, LocallyCompactSpace, CompactSpace,
+IsCompact, Dense, IsGδ, IsOpen, closure and indexed Set.PairwiseDisjoint, with literal excerpts,
+source and excerpt hashes, immutable line links and upstream Apache attribution.
+It also records the compact-to-weak-local-to-R1-local instance chain, compact
+closures under R1, positive compact shrinking and closed nested intersections.
+The six-contract audit keeps quantifiers, independent universes, empty factors
+and the fixed nonempty fiber region explicit. Distinct labels with equal
+inhabited images are still constrained by indexed pairwise disjointness.
+
+Class-to-field equivalences are constructor/projection proofs; they are not
+claimed to be definitional equalities. Challenge and Solution compile the literal
+predicate expansions and proved classical characterizations independently.
+Static inventory consistency, exact pinned-source authentication, actual Lean
+compilation and independent mathematical interpretation have distinct scopes.
+
 ## Source and research scope
 
 [Aarts–Lutzer, *Pseudo-completeness and the product of Baire spaces*](https://msp.org/pjm/1973/48-1/pjm-v48-n1-p01-p.pdf),
