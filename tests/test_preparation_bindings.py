@@ -7,7 +7,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction
+from check_preparations import check_status_correction, check_verified, check_user_submission_report
 
 
 class CorrectedFullBindings(unittest.TestCase):
@@ -38,6 +38,41 @@ class CorrectedFullBindings(unittest.TestCase):
 
     def test_unobserved_attempt_rejected(self):
         self.row['current_source_full_run']['attempt'] = 2
+        with self.assertRaises(AssertionError):
+            self.check()
+
+
+class ReportedSubmissionBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/sigma-product-compactness'))
+
+    def check(self):
+        source = self.row['source_snapshot']
+        check_verified(self.row, ROOT / self.row['path'], source['commit'], source['tree'])
+
+    def test_completed_evidence_and_reported_submission_pass(self):
+        self.check()
+
+    def test_unverified_registration_cannot_be_promoted(self):
+        self.row['latest_user_report']['registration'] = 'registered'
+        with self.assertRaises(AssertionError):
+            check_user_submission_report(self.row)
+
+    def test_old_runner_approval_cannot_transfer(self):
+        self.row['fresh_runner_security_approval'] = True
+        with self.assertRaises(AssertionError):
+            check_user_submission_report(self.row)
+
+    def test_wrong_completed_run_rejected(self):
+        full = self.row['canonical_run']
+        full['run_id'] = 1
+        full['url'] = 'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/1'
+        with self.assertRaises(AssertionError):
+            self.check()
+
+    def test_second_attempt_not_invented(self):
+        self.row['canonical_run']['attempt'] = 2
         with self.assertRaises(AssertionError):
             self.check()
 
