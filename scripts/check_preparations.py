@@ -178,6 +178,9 @@ def check_material_definition_correction(p, source, tree):
     assert before == after, 'Only metadata imported-definition explanation may change'
     for kind in ['full', 'rendering']:
         historical = old[kind]
+        assert historical['status'] == 'pass' and historical['attempt'] == 1
+        assert type(historical['run_id']) is int and historical['run_id'] > 0
+        assert historical['url'] == f'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/{historical["run_id"]}'
         report_path = (ROOT / historical['report_file']).resolve()
         assert report_path.is_relative_to((ROOT / 'catalog-evidence').resolve())
         body = report_path.read_bytes()

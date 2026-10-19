@@ -85,4 +85,10 @@ independent internal AI reviews do not certify canonical or service outcomes.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Preparation; not submitted | [`dd46751`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dd4675197cac51f2de3fc0ab66195cb0807023dc/topology/kuratowski-ulam) |
+| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Preparation; not submitted | [`0e36767`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0e3676798fe19b23d17defe9d732977d9f913f11/topology/kuratowski-ulam) |
+
+The current Kuratowski–Ulam preparation adds retained imported-definition
+evidence and independently compiled semantic bridges. Its selected proof files,
+Comparator and dependency pins are unchanged. Original full/render receipts
+remain historical evidence for the original commit; no old pass transfers to
+the corrected source. Registry state requires separate attempt reconciliation.

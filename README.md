@@ -48,12 +48,19 @@ passed for source `92f1a925329465c86a96b2f612fcd0d5345eed3b`.
 Intake and public registration are unconfirmed; no service action is inferred.
 Its package bytes remain unchanged. No consumed runner approval transfers.
 
-The sole new [Kuratowski–Ulam preparation](topology/kuratowski-ulam) proves
-generic nowhere-dense, meagre and residual section results at countable
-pi-weight, with Baire-property converses and a product Baire companion.
-Its local checks and independent reviews have their own scope. Canonical checks
-require fresh specific runner approval. PR27’s reported submission and the
-pending registry authentication handoff remain unchanged.
+The [Kuratowski–Ulam package](topology/kuratowski-ulam) now retains an
+[exact pinned property-of-Baire definition audit](topology/kuratowski-ulam/MATERIAL-DEFINITIONS.md).
+Literal source excerpts, the Borel/residual dependency chain and independent
+Challenge/Solution bridges make both converse hypotheses auditable without
+changing the selected theorems or package pins. The original source
+`dd4675197cac51f2de3fc0ab66195cb0807023dc` passed
+[full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375861)
+and [rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182).
+Those reports certify the original bytes. Corrected source `0e3676798fe19b23d17defe9d732977d9f913f11`
+requires its own exact-source canonical receipts; ordinary builds and internal
+review have separate scopes. PREPARATIONS.json binds both snapshots. Private
+attempts and public registration must be reconciled before any corrected intake.
+Consumed runner approvals do not transfer.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

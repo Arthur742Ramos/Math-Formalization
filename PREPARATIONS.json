@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-19",
-  "scope": "Seventeen audited packages retain immutable ledgers. Separately verified collectionwise, Sigma compactness and product-CCC preserve exact-source outcomes; private intake and registration states are separately scoped. Kuratowski–Ulam is the sole next preparation.",
+  "scope": "Prior registered and verified source ledgers remain immutable. Kuratowski–Ulam now has a separate material imported-definition evidence correction with original source mechanical receipts retained as history; current canonical and service gates remain separate.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -376,12 +376,12 @@
       "path": "topology/kuratowski-ulam",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
-        "tree": "a53ccf7f92776429b66b15e4604673b6d7ffc7e8"
+        "commit": "0e3676798fe19b23d17defe9d732977d9f913f11",
+        "tree": "cfe04498ffb0be6b5baa60cff793521d69ff6196"
       },
       "source_files_sha256": {
         "comparator.json": "8fe819ee35b6fecaac9567d362c7813d108373ee618b1629b84420b9c672a39b",
-        "formalization.yaml": "a43daa0b734ff126d30d71c649d104e15458cb23cabeb34bb431cbc6dc76c73c",
+        "formalization.yaml": "e2ff8b270695e1aea14d0fd43f0cd28450901f6e7b1c1254a8ef3dcc7b23bf39",
         "lake-manifest.json": "e9fa364f1122e46aee5c19ce769d6e413423c21aee6cefef02d1aaf2f02a8d8d",
         "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
         "KuratowskiUlam.lean": "3d5aa92b97958ebe32fc1c036748c2e94b1ca638dc833887834d3acf9484834e",
@@ -416,12 +416,12 @@
         "mathematical_source": "pass",
         "implementation": "pass",
         "receipts_sha256": {
-          "source-scope-review.json": "c6e20ae5fb5f400193e4f47f5f819c2d90544f6da681166c884e02bdec9f3e5b",
-          "immutable-package-mathematical-source-review.json": "d65f2cbbae9d66a3e4fe76fe802d746c6623dda38f9104a64bc8cc0e3930fff1",
-          "immutable-package-implementation-review.json": "36b793dea2f9d96a9b03b63eed24c065ace4c98f8b5b84adf47347daba4716d8"
+          "source-definition-research-review.json": "fa3dd8cbeb79bf19ef68cc98e6a94576004932996f517f65c0b983baae8e5945",
+          "candidate-mathematical-source-review.json": "4be122b89b69c241693cebe0466f96501ff1f514e3180f962c5cb736ae66d2cc",
+          "candidate-implementation-review.json": "670cebf60937a8479015421376178c88a49f3d9f219bece3cba0340cd170b10c"
         }
       },
-      "ordinary_local": "pass; exact package-owned six-module1744job build; seven selected theorem contracts and two literal definition bodies independently checked through Challenge/Solution; Sierpinski non-cover/empty-space/universe/separation boundaries; seven actual standard-three axiom closures and two empty definition closures",
+      "ordinary_local": "pass; six-module1744-job build, separate Challenge/Solution literal-definition and open/symmetric-difference/meagre equivalence bridges, both original converse contracts and complement stability;7actual standard-three axiom closures and2empty definition closures;16retained excerpts/5exact pinned clean Git files authenticated; native metadata parser pass",
       "canonical_full": "not-established",
       "rendering": "not-established",
       "canonical_run": null,
@@ -431,15 +431,50 @@
       "existing_public_id": null,
       "fresh_runner_security_approval": false,
       "evidence_observed_date": "2026-10-19",
-      "checkpoint_scope": "Dated preparation evidence, not a permanent claim that later source-bound external verification has never run. Frozen source status is future-stable.",
+      "checkpoint_scope": "Current imported-definition evidence correction. Original source full/render passes retained below as immutable history; no old report verifies this edited source. A private attempt is not inferred absent from public records.",
       "duplicate_check": "No equivalent located in20baselinepackages,34remote branches/0openPRs atselection, pinnedMathlib065356, or independently rehashed24page/598entryrevision332datedsnapshot. Fresh public KU searches unavailable; currentglobal/privateclearance unestablished.",
       "remaining_obligations": [
-        "Ordinary hosted checks and independent final root/workflow/packet review.",
-        "Canonical full protected comparison, independent kernels and rendering require source-bound reports and new specific per-run security approval. Prepared callers remain outside Git and undispatched.",
-        "Actual original full/render provenance and rendered surface inspection plus strict verified packet guard before any verified handoff.",
-        "No registry action until separately authorized current protocol/identity/proof capability/actual attempt and duplicate/publicID reconciliation. Preserve PR27 occupied user-reported intake and PR28 unconfirmed service status."
+        "Ordinary hosted checks and final immutable source/root/packet review.",
+        "Corrected exact-source canonical full and rendering need their own immutable receipts and specific fresh approval for each possible disposable-runner conditional AppArmor exception; no prior approval transfers.",
+        "Before one corrected new submission, reconcile actual existing attempt, current official protocol, authorized effective identity, proof capability and duplicates/publicID. No blind retry or withdrawal. No current service stage inferred."
       ],
-      "scope": "Countable-pi-base nowhere-dense/meagre/residual section theorems, Baire-property converse companions under Baire factors, and product Baire theorem."
+      "scope": "Countable-pi-base nowhere-dense/meagre/residual section theorems, Baire-property converse companions under Baire factors, and product Baire theorem.",
+      "definition_evidence_correction": {
+        "kind": "material-imported-definition-evidence",
+        "prior_verified_snapshot": {
+          "commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+          "tree": "a53ccf7f92776429b66b15e4604673b6d7ffc7e8",
+          "full": {
+            "run_id": 39258375861,
+            "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375861",
+            "report_file": "catalog-evidence/kuratowski-ulam-2026-10-19/full-report.json",
+            "report_sha256": "bf6c0dbf64e537dfb758c19dcdbf5390cedec767a57bb2dffce33ce1e73e9ff5",
+            "status": "pass",
+            "attempt": 1
+          },
+          "rendering": {
+            "run_id": 39258375182,
+            "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182",
+            "report_file": "catalog-evidence/kuratowski-ulam-2026-10-19/render-report.json",
+            "report_sha256": "547739cb24abe12dc2ff2d4db24194d39234d287ebcab284de7147b4501e03d1",
+            "status": "pass",
+            "attempt": 1
+          }
+        },
+        "allowed_changed_files": [
+          "ChallengeTests.lean",
+          "MATERIAL-DEFINITIONS.md",
+          "README.md",
+          "REVIEW.md",
+          "SemanticTests.lean",
+          "VERIFICATION.md",
+          "formalization.yaml",
+          "scripts/check_package.py",
+          "verification/material-imported-definitions.json",
+          "verification/source-hashes.json"
+        ],
+        "preservation": "Selected proof files, Comparator, AxiomAudit and all package dependency pins are byte-identical. New retained definition evidence, semantic test bridges and related explanation require their own source-bound checks."
+      }
     }
   ]
 }
