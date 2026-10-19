@@ -227,11 +227,24 @@ class LocallyCompactDefinitionBindings(unittest.TestCase):
         with self.assertRaises(AssertionError): self.check()
 
     def test_old_ordinary_pass_cannot_establish_new_canonical_pass(self):
+        self.row['state'] = 'reviewed-preparation-not-submitted'
         self.row['canonical_full'] = 'pass'
         with self.assertRaises(AssertionError): self.check()
 
     def test_prior_security_approval_cannot_transfer(self):
         self.row['fresh_runner_security_approval'] = True
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_completed_full_cannot_use_old_ordinary_source(self):
+        self.row['canonical_run']['verified_source_commit'] = self.row['prior_ordinary_source']['source_commit']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_completed_full_cannot_use_ordinary_run_pointer(self):
+        self.row['canonical_run']['run_id'] = self.row['prior_ordinary_source']['lean_run']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_completed_render_cannot_use_different_source(self):
+        self.row['rendering_run']['verified_source_commit'] = '0' * 40
         with self.assertRaises(AssertionError): self.check()
 
 

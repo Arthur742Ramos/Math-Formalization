@@ -67,9 +67,13 @@ proves the dense-Gdelta projection construction and Baire product theorem with
 an arbitrary Baire first factor. It now retains ten imported-declaration meanings,35literal excerpts from15pinned
 files and separately compiled Challenge/Solution semantic bridges. Its six
 selected proofs and all package pins are unchanged. Audited source `d972b3cb0637c0e962c04384f16ec2b3e033d768`
-has local/source checks and independent reviews with separate scopes from later
-canonical full/render and service outcomes.
-No prior runner security approval transfers.
+passed its exact-source [full canonical check](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39296128546)
+and [Challenge rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39296127840),
+each on attempt1. Original reports in PREPARATIONS.json supersede the dated
+prelaunch checkpoint without changing the frozen package. Ordinary hosted Lean
+and definition/source checks passed at the same package tree. Current intake,
+editorial review and registration remain unconfirmed. The two specific runner
+approvals were consumed; they do not authorize a future security exception.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

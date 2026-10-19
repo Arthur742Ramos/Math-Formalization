@@ -70,6 +70,7 @@ def check_verified(p, package, source, tree):
         'topology/sigma-product-compactness': 'catalog-evidence/sigma-compact-2026-10-18',
         'topology/product-countable-chain-condition': 'catalog-evidence/product-ccc-2026-10-19',
         'topology/kuratowski-ulam': 'catalog-evidence/kuratowski-ulam-2026-10-19',
+        'topology/locally-compact-baire': 'catalog-evidence/locally-compact-baire-2026-10-19',
     }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     corrected = 'status_correction' in p
@@ -245,8 +246,12 @@ def check_locally_compact_definition_preparation(p, source, tree):
     assert audit['upstream_files'] == len(manifest['source_files']) == 15
     assert audit['literal_excerpts'] == sum(len(f['excerpts']) for f in manifest['source_files']) == 35
     assert audit['semantic_tests'] == ['ChallengeTests.lean', 'SemanticTests.lean']
-    assert p['canonical_full'] == p['rendering'] == 'not-established'
-    assert p['canonical_run'] is None and p['rendering_run'] is None
+    if p['state'] == 'reviewed-preparation-not-submitted':
+        assert p['canonical_full'] == p['rendering'] == 'not-established'
+        assert p['canonical_run'] is None and p['rendering_run'] is None
+    else:
+        assert p['state'] == 'verified-preparation-intake-unconfirmed'
+        check_verified(p, ROOT / p['path'], source, tree)
     assert p['fresh_runner_security_approval'] is False
 
 
