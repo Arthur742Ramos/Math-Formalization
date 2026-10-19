@@ -38,6 +38,10 @@ dependencies and concurrent work. Read more specific instructions and relevant
   a claim of definitional equality. A link to a moving documentation site is
   insufficient. Independently review the inventory for completeness and compile
   semantic bridges through Challenge and Solution separately. Use
+  independent review to compare each documented mathematical meaning with the
+  pinned definition and dependency expansion in every selected use, checking
+  assumptions and quantifiers. Automated checks do not certify semantic fidelity,
+  inventory completeness or editorial acceptance. Use
   `scripts/check_imported_definitions.py` for retained evidence consistency and,
   after the existing pinned dependency checkout is available, its
   `--dependency-root` mode for exact Git-source provenance. Neither static mode
