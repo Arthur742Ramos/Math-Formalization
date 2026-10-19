@@ -74,3 +74,12 @@ Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources
 preserve their attribution and license headers. Existing standalone repositories
 remain available. Authorship, maintenance, material AI contributions and review
 limits are recorded separately in each package.
+
+PR28’s [product countable-cellularity package](topology/product-countable-chain-condition)
+passed its own exact-source full verification and rendering before merge. Intake
+and public registration are unconfirmed; no new service action is inferred or
+requested by this catalog update. Its source and all prior package trees are
+preserved. The pending registry authentication handoff and PR27’s user-reported
+submission are unchanged. The next independent preparation is
+[Kuratowski–Ulam](topology/kuratowski-ulam), with separately scoped local checks;
+canonical checks require fresh specific runner approval.

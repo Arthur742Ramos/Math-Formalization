@@ -68,12 +68,16 @@ def check_verified(p, package, source, tree):
     evidence = ROOT / {
         'topology/collectionwise-normal': 'catalog-evidence/collectionwise-2026-10-18',
         'topology/sigma-product-compactness': 'catalog-evidence/sigma-compact-2026-10-18',
+        'topology/product-countable-chain-condition': 'catalog-evidence/product-ccc-2026-10-19',
     }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     corrected = 'status_correction' in p
     assert p['canonical_full'] == p['rendering'] == ('historical-pass' if corrected else 'pass')
     reported = p['state'] == 'user-reported-submitted'
-    assert p['fresh_runner_security_approval'] is (not (corrected or reported))
+    unconfirmed = p['state'] == 'verified-preparation-intake-unconfirmed'
+    assert p['fresh_runner_security_approval'] is (not (corrected or reported or unconfirmed))
+    if unconfirmed:
+        check_unconfirmed_intake(p)
     if reported:
         assert not corrected
         check_user_submission_report(p)
@@ -138,6 +142,16 @@ def check_user_submission_report(p):
     assert p['fresh_runner_security_approval'] is False
 
 
+def check_unconfirmed_intake(p):
+    """Completed mechanical evidence cannot establish a private intake or registration."""
+    assert p['state'] == 'verified-preparation-intake-unconfirmed'
+    assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
+    assert p['existing_public_id'] is None
+    assert p['registry_intakes_by_this_task'] == 0
+    assert p['registry_submission_ready'] is False
+    assert p['fresh_runner_security_approval'] is False
+
+
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
     assert data['schema_version'] == 1
@@ -150,7 +164,7 @@ def check_preparations(rows, verified_paths):
         seen.add(path)
         assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted',
             'status-correction-awaiting-exact-source-verification', 'status-correction-full-verified',
-            'user-reported-submitted'}
+            'user-reported-submitted', 'verified-preparation-intake-unconfirmed'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
@@ -187,6 +201,7 @@ def check_preparations(rows, verified_paths):
         assert len(matching) == 1
         label = ('Source-account correction' if 'status_correction' in p else
                  'User-reported submitted' if p['state'] == 'user-reported-submitted' else
+                 'Full/render passed; intake and registration unconfirmed' if p['state'] == 'verified-preparation-intake-unconfirmed' else
                  'Preparation; not submitted')
         assert label in matching[0]
         assert p['name'] in matching[0]
