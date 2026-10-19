@@ -7,7 +7,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake
+from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction
 
 
 class CorrectedFullBindings(unittest.TestCase):
@@ -110,15 +110,72 @@ class UnconfirmedIntakeBindings(unittest.TestCase):
             self.check()
 
 
-class KuratowskiUlamUnconfirmedBindings(UnconfirmedIntakeBindings):
+class ImportedDefinitionCorrectionBindings(unittest.TestCase):
     def setUp(self):
         rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
         self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/kuratowski-ulam'))
 
-    def test_wrong_source_report_cannot_transfer(self):
-        self.row['canonical_run']['verified_source_commit'] = '92f1a925329465c86a96b2f612fcd0d5345eed3b'
+    def check(self):
+        source = self.row['source_snapshot']
+        check_material_definition_correction(self.row, source['commit'], source['tree'])
+
+    def test_actual_correction_preserves_old_pass_as_history(self):
+        self.check()
+
+    def test_old_pass_cannot_verify_current_source(self):
+        self.row['canonical_full'] = 'pass'
         with self.assertRaises(AssertionError):
             self.check()
+
+    def test_changed_proof_cannot_be_added_to_allowed_delta(self):
+        self.row['definition_evidence_correction']['allowed_changed_files'].append('KUChallenge.lean')
+        with self.assertRaises(AssertionError):
+            self.check()
+
+    def test_wrong_old_report_digest_rejected(self):
+        old = self.row['definition_evidence_correction']['prior_verified_snapshot']
+        old['full']['report_sha256'] = '0' * 64
+        with self.assertRaises(AssertionError):
+            self.check()
+
+    def test_wrong_rendering_run_rejected(self):
+        old = self.row['definition_evidence_correction']['prior_verified_snapshot']
+        old['rendering']['url'] = 'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/1'
+        with self.assertRaises(AssertionError):
+            self.check()
+
+    def test_runner_approval_cannot_transfer(self):
+        self.row['fresh_runner_security_approval'] = True
+        with self.assertRaises(AssertionError):
+            self.check()
+
+    def test_historical_run_id_must_match_bound_url(self):
+        for kind in ['full', 'rendering']:
+            with self.subTest(kind=kind):
+                old = self.row['definition_evidence_correction']['prior_verified_snapshot'][kind]
+                run_id = old['run_id']
+                old['run_id'] = 1
+                with self.assertRaises(AssertionError):
+                    self.check()
+                old['run_id'] = run_id
+
+    def test_historical_attempt_cannot_be_invented(self):
+        for kind in ['full', 'rendering']:
+            with self.subTest(kind=kind):
+                old = self.row['definition_evidence_correction']['prior_verified_snapshot'][kind]
+                old['attempt'] = 2
+                with self.assertRaises(AssertionError):
+                    self.check()
+                old['attempt'] = 1
+
+    def test_historical_status_must_match_pass_report(self):
+        for kind in ['full', 'rendering']:
+            with self.subTest(kind=kind):
+                old = self.row['definition_evidence_correction']['prior_verified_snapshot'][kind]
+                old['status'] = 'failed'
+                with self.assertRaises(AssertionError):
+                    self.check()
+                old['status'] = 'pass'
 
 
 if __name__ == '__main__':

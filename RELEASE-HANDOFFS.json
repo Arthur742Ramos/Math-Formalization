@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_date": "2026-10-18",
+  "checked_date": "2026-10-19",
   "audit_baseline": "593743569c24dca2025d978b6fc363810a30d923",
   "scope": "Prospective source-status handoff audit; ten officially evidenced registered snapshots remain immutable. No registry or account action. Current private/editorial states are not enumerated.",
   "blocked_sources": [
@@ -43,6 +43,11 @@
       "path": "topology/sigma-product-frechet",
       "source_commit": "10f8b9075144c51468729b9b620c46b739c0a680",
       "reason": "Superseded by status-corrected source359ec3c4a3fff77a68c29d89714bf8a03acc9829; historical packet/latest pointer is not a current handoff."
+    },
+    {
+      "path": "topology/kuratowski-ulam",
+      "source_commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+      "reason": "Superseded prospective handoff: use imported-definition evidence source 0e3676798fe19b23d17defe9d732977d9f913f11 after its own required checks. Historical original-source mechanical passes remain valid; reconcile actual attempts before replacement."
     }
   ],
   "corrected_collectionwise": {
@@ -64,5 +69,13 @@
   },
   "audit_findings": "Five clear stale-source blockers (hyperspace, Whitney, network, coordinates, HMP), one prepared-status ambiguity (Sorgenfrey), and a superseded Sigma latest-packet pointer. Other packages are not changed by this correction.",
   "handoff_command": "python3 scripts/check_release_packet.py --packet PACKET.json --report ORIGINAL_FULL_REPORT.json --report-sha256 ORIGINAL_DIGEST --archive EXACT_SOURCE.tar.gz",
-  "authority": "A passing static guard grants no registry, credential, security-setting or other action authority."
+  "authority": "A passing static guard grants no registry, credential, security-setting or other action authority.",
+  "kuratowski_ulam_current": {
+    "source_commit": "0e3676798fe19b23d17defe9d732977d9f913f11",
+    "package_tree": "cfe04498ffb0be6b5baa60cff793521d69ff6196",
+    "historical_source": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+    "current_source_full": "not-established",
+    "current_source_rendering": "not-established",
+    "intake_ready": false
+  }
 }

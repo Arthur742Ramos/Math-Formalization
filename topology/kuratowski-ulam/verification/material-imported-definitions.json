@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "BaireMeasurableSet"
+  ],
+  "material_declarations": [
+    {
+      "name": "BaireMeasurableSet",
+      "role": "hypothesis",
+      "used_by": [
+        "KuratowskiUlam.isMeagre_iff_eventually_sections",
+        "KuratowskiUlam.residual_iff_eventually_sections"
+      ],
+      "meaning": "Property of Baire: there exists an open set whose symmetric difference with the given set is meagre.",
+      "definition_excerpt": "BaireMeasurableSet",
+      "bridge_kind": "proved-equivalence",
+      "semantic_bridge_excerpt": "BaireMeasurableSet.iff_residualEq_isOpen",
+      "complement_excerpt": "BaireMeasurableSet.compl"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Baire/BaireMeasurable.lean",
+      "sha256": "bbffc3a9d1c907719cfce15eced5d4e2fa8214a878c6d42d8ccbecfeb40d2aee",
+      "git_blob_sha1": "fc445a39538cd7275e52fc6b2efc1321a4e2681b",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2024 Felix Weilacher. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Felix Weilacher\n-/\n",
+      "excerpts": [
+        {
+          "name": "residual-equality-notation",
+          "first_line": 36,
+          "last_line": 40,
+          "text": "/-- Notation for `=ᶠ[residual _]`. That is, eventual equality with respect to\nthe filter of residual sets.\nIn lemma names, this is called `residualEq`. -/\nscoped[Topology] notation:50 f \" =ᵇ \" g:50 => f =ᶠ[residual _] g\n\n",
+          "sha256": "8cc1d8589867d264789893aff893d03794954d6c09962f94c852d355d1bd25a8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean#L36-L40"
+        },
+        {
+          "name": "BaireMeasurableSet",
+          "first_line": 86,
+          "last_line": 92,
+          "text": "/-- We say a set is a `BaireMeasurableSet` if it differs from some Borel set by\na meager set. This forms a σ-algebra.\n\nIt is equivalent, and a more standard definition, to say that the set differs from\nsome *open* set by a meager set. See `BaireMeasurableSet.iff_residualEq_isOpen` -/\ndef BaireMeasurableSet (s : Set α) : Prop :=\n  @MeasurableSet _ (eventuallyMeasurableSpace (borel _) (residual _)) s\n",
+          "sha256": "d46e7e4d6fc517617dfb59a70c015d7ee5d4e3daf7ed4dbd20e19b7dc09ac60c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean#L86-L92"
+        },
+        {
+          "name": "BaireMeasurableSet.compl",
+          "first_line": 110,
+          "last_line": 110,
+          "text": "theorem compl (h : BaireMeasurableSet s) : BaireMeasurableSet sᶜ := MeasurableSet.compl h\n",
+          "sha256": "110a7c0a4c42628df2a6b6ac89f43003f19945fd5b734482bc9bb8e80481d057",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean#L110-L110"
+        },
+        {
+          "name": "MeasurableSet.residualEq_isOpen",
+          "first_line": 160,
+          "last_line": 171,
+          "text": "/-- Any Borel set differs from some open set by a meager set. -/\ntheorem MeasurableSet.residualEq_isOpen [MeasurableSpace α] [BorelSpace α] (h : MeasurableSet s) :\n    ∃ u : Set α, IsOpen u ∧ s =ᵇ u := by\n  induction s, h using MeasurableSet.induction_on_open with\n  | isOpen U hU => exact ⟨U, hU, .rfl⟩\n  | compl s _ ihs =>\n    obtain ⟨U, Uo, hsU⟩ := ihs\n    use (closure U)ᶜ, isClosed_closure.isOpen_compl\n    exact .compl <| hsU.trans <| .symm <| closure_residualEq Uo.isLocallyClosed\n  | iUnion f _ _ ihf =>\n    choose u uo su using ihf\n    exact ⟨⋃ i, u i, isOpen_iUnion uo, .countable_iUnion su⟩\n",
+          "sha256": "40a6fb606b2663c7f55dba5fcb15918d5250846a6a69cec7e30b2271b61185d2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean#L160-L171"
+        },
+        {
+          "name": "BaireMeasurableSet.residualEq_isOpen",
+          "first_line": 173,
+          "last_line": 179,
+          "text": "/-- Any `BaireMeasurableSet` differs from some open set by a meager set. -/\ntheorem BaireMeasurableSet.residualEq_isOpen (h : BaireMeasurableSet s) :\n    ∃ u : Set α, (IsOpen u) ∧ s =ᵇ u := by\n  borelize α\n  rcases h with ⟨t, ht, hst⟩\n  rcases ht.residualEq_isOpen with ⟨u, hu, htu⟩\n  exact ⟨u, hu, hst.trans htu⟩\n",
+          "sha256": "c0e0de2b6ca13e7d1b60a007eb38cf8dd847ad5c8f1aeec5660ff632950c4be1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean#L173-L179"
+        },
+        {
+          "name": "BaireMeasurableSet.iff_residualEq_isOpen",
+          "first_line": 181,
+          "last_line": 184,
+          "text": "/-- A set is Baire measurable if and only if it differs from some open set by a meager set. -/\ntheorem BaireMeasurableSet.iff_residualEq_isOpen :\n    BaireMeasurableSet s ↔ ∃ u : Set α, (IsOpen u) ∧ s =ᵇ u :=\n  ⟨fun h => h.residualEq_isOpen, fun ⟨_, uo, ueq⟩ => uo.baireMeasurableSet.congr ueq.symm⟩\n",
+          "sha256": "59045f45a55a1cb853ac712369f0190aee781db23657f8f333af1f7f0bc758c0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Baire/BaireMeasurable.lean#L181-L184"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/MeasurableSpace/EventuallyMeasurable.lean",
+      "sha256": "30a9186a18255b552b2f616c00632506cfb999a5518dfd8671d3fbcc5a7dcd10",
+      "git_blob_sha1": "1bd69126fbae107fc4b6bde6a8a9673d146901ce",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/MeasurableSpace/EventuallyMeasurable.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2024 Felix Weilacher. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Felix Weilacher\n-/\n",
+      "excerpts": [
+        {
+          "name": "eventuallyMeasurableSpace.parameters",
+          "first_line": 37,
+          "last_line": 39,
+          "text": "open Filter Set MeasurableSpace\n\nvariable {α : Type*} (m : MeasurableSpace α) {s t : Set α}\n",
+          "sha256": "2184e965fda03872b0f8c3412178d525a785f1ba033666c0eff86d40ff8920e7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/MeasurableSpace/EventuallyMeasurable.lean#L37-L39"
+        },
+        {
+          "name": "eventuallyMeasurableSpace",
+          "first_line": 41,
+          "last_line": 51,
+          "text": "/-- The `MeasurableSpace` of sets which are measurable with respect to a given σ-algebra `m`\non `α`, modulo a given σ-filter `l` on `α`. -/\n@[instance_reducible]\ndef eventuallyMeasurableSpace (l : Filter α) [CountableInterFilter l] : MeasurableSpace α where\n  MeasurableSet' s := ∃ t, MeasurableSet t ∧ s =ᶠ[l] t\n  measurableSet_empty := ⟨∅, MeasurableSet.empty, EventuallyEq.refl _ _ ⟩\n  measurableSet_compl := fun _ ⟨t, ht, hts⟩ => ⟨tᶜ, ht.compl, hts.compl⟩\n  measurableSet_iUnion s hs := by\n    choose t ht hts using hs\n    exact ⟨⋃ i, t i, MeasurableSet.iUnion ht, .countable_iUnion hts⟩\n\n",
+          "sha256": "e3bd4d3edf2ae652f88f85e610ccef2f9ac47c8c321d2430cd2b344954301c55",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/MeasurableSpace/EventuallyMeasurable.lean#L41-L51"
+        },
+        {
+          "name": "EventuallyMeasurableSet",
+          "first_line": 52,
+          "last_line": 56,
+          "text": "/-- We say a set `s` is an `EventuallyMeasurableSet` with respect to a given\nσ-algebra `m` and σ-filter `l` if it differs from a set in `m` by a set in\nthe dual ideal of `l`. -/\ndef EventuallyMeasurableSet (l : Filter α) [CountableInterFilter l] (s : Set α) : Prop :=\n  @MeasurableSet _ (eventuallyMeasurableSpace m l) s\n",
+          "sha256": "add3b56d85c866bb3375d187e2bbb071670328270ab734dcc4ab81fad87924ee",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/MeasurableSpace/EventuallyMeasurable.lean#L52-L56"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean",
+      "sha256": "d15ab5af19662b4cd2ae3c3a9665ae52e134d8954ad17d5ded063819b72b7e40",
+      "git_blob_sha1": "7c7da67bdb2729e65b1245a11c800f945ee6214e",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "borel",
+          "first_line": 49,
+          "last_line": 52,
+          "text": "/-- `MeasurableSpace` structure generated by `TopologicalSpace`. -/\n@[instance_reducible]\ndef borel (α : Type u) [TopologicalSpace α] : MeasurableSpace α :=\n  generateFrom { s : Set α | IsOpen s }\n",
+          "sha256": "cd3b12ae1b04f23006d4af175f3528f60b5f5483b805609aa0e1b13bb11c7df2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean#L49-L52"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/GDelta/Basic.lean",
+      "sha256": "839130eb18758aa2bfcbe3ef40c98fcf9e0827458293fbdb5d04a5ec43b2d08a",
+      "git_blob_sha1": "feae671419368d0d284d9ed57c536b6b54afba33",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "residual",
+          "first_line": 169,
+          "last_line": 174,
+          "text": "/-- A set `s` is called *residual* if it includes a countable intersection of dense open sets. -/\ndef residual (X : Type*) [TopologicalSpace X] : Filter X :=\n  Filter.countableGenerate { t | IsOpen t ∧ Dense t }\n\ninstance countableInterFilter_residual : CountableInterFilter (residual X) := by\n  rw [residual]; infer_instance\n",
+          "sha256": "40511e662d43c822959d4d5eb99bb2eb56e8060e02b748a622b553f1b6c5d4f9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L169-L174"
+        },
+        {
+          "name": "mem_residual_iff",
+          "first_line": 187,
+          "last_line": 192,
+          "text": "/-- A set is residual iff it includes a countable intersection of dense open sets. -/\ntheorem mem_residual_iff {s : Set X} :\n    s ∈ residual X ↔\n      ∃ S : Set (Set X), (∀ t ∈ S, IsOpen t) ∧ (∀ t ∈ S, Dense t) ∧ S.Countable ∧ ⋂₀ S ⊆ s :=\n  mem_countableGenerate_iff.trans <| by simp_rw [subset_def, mem_ofPred, forall_and, and_assoc]\n\n",
+          "sha256": "a6efd3171b43b5a21cb8b5320db08dfaf9b997326bfeb2fb19079975c84275f8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L187-L192"
+        },
+        {
+          "name": "IsNowhereDense",
+          "first_line": 199,
+          "last_line": 200,
+          "text": "/-- A set is called **nowhere dense** iff its closure has empty interior. -/\ndef IsNowhereDense (s : Set X) := interior (closure s) = ∅\n",
+          "sha256": "c1e6842368a7dcba1a45a74552e1bf5c7c110ca6660cb7ec07cd88797a612880",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L199-L200"
+        },
+        {
+          "name": "IsMeagre",
+          "first_line": 283,
+          "last_line": 284,
+          "text": "/-- A set is called **meagre** iff its complement is a residual (or comeagre) set. -/\ndef IsMeagre (s : Set X) := sᶜ ∈ residual X\n",
+          "sha256": "80d5ad65363710a540b6617b2f76c42436ad82097aa65a8f085b262cfdc163cd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L283-L284"
+        },
+        {
+          "name": "isMeagre_iff_countable_union_isNowhereDense",
+          "first_line": 319,
+          "last_line": 331,
+          "text": "/-- A set is meagre iff it is contained in a countable union of nowhere dense sets. -/\nlemma isMeagre_iff_countable_union_isNowhereDense {s : Set X} :\n    IsMeagre s ↔ ∃ S : Set (Set X), (∀ t ∈ S, IsNowhereDense t) ∧ S.Countable ∧ s ⊆ ⋃₀ S := by\n  rw [IsMeagre, mem_residual_iff, compl_bijective.surjective.image_surjective.exists]\n  simp_rw [← and_assoc, ← forall_and, forall_mem_image, ← isClosed_isNowhereDense_iff_compl,\n    sInter_image, ← compl_iUnion₂, compl_subset_compl, ← sUnion_eq_biUnion, and_assoc]\n  refine ⟨fun ⟨S, hS, hc, hsub⟩ ↦ ⟨S, fun s hs ↦ (hS hs).2, ?_, hsub⟩, ?_⟩\n  · rw [← compl_compl_image S]; exact hc.image _\n  · intro ⟨S, hS, hc, hsub⟩\n    use closure '' S\n    rw [forall_mem_image]\n    exact ⟨fun s hs ↦ ⟨isClosed_closure, (hS s hs).closure⟩,\n      (hc.image _).image _, hsub.trans (sUnion_mono_subsets fun s ↦ subset_closure)⟩\n",
+          "sha256": "8306417c06ff75de6556ecd914205dab74740cfd3a2f8ffe9d4b727560cc2b7b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L319-L331"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Basic.lean",
+      "sha256": "5dac9f84ef61915588e250fbb6e816ecf3d3183a94aa7e31f85e390baeb30afb",
+      "git_blob_sha1": "13734fc09a2dff6db46ca52140aceb45d45eccd8",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter.eventuallyEqSet_iff",
+          "first_line": 943,
+          "last_line": 944,
+          "text": "theorem eventuallyEqSet_iff {s t : Set α} {l : Filter α} : s =ᶠ[l] t ↔ ∀ᶠ x in l, x ∈ s ↔ x ∈ t :=\n  eventually_congr <| Eventually.of_forall fun _ ↦ eq_iff_iff\n",
+          "sha256": "43edcbeb206718a9a3594bed01ef56e2bdf19221acfb9f902b0b68940458c9e2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Basic.lean#L943-L944"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "path": "ChallengeTests.lean",
+      "module": "ChallengeTests",
+      "sha256": "e7543fce4d78cac25be644a83a37393e04528406fc517b72b0067fdf9fe2909b"
+    },
+    {
+      "path": "SemanticTests.lean",
+      "module": "SemanticTests",
+      "sha256": "1793aca823790598148989305c5230a57a60505d4da78705696c3f381e719aee"
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "scope": "Independently reviewed material imported hypothesis inventory. Static checks are consistency only; pinned-checkout mode authenticates excerpts against exact Git source. Lean bridges require a separate actual build."
+}

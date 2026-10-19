@@ -6,7 +6,7 @@ definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
 The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction,
-three separately verified product projects, one new preparation, and exact
+two separately verified product projects, one new preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
 All 17 audited package trees match successful full canonical runs. Ten official
@@ -48,15 +48,21 @@ passed for source `92f1a925329465c86a96b2f612fcd0d5345eed3b`.
 Intake and public registration are unconfirmed; no service action is inferred.
 Its package bytes remain unchanged. No consumed runner approval transfers.
 
-The [Kuratowski–Ulam package](topology/kuratowski-ulam) also passed exact-source
-full verification and rendering before its reviewed PR29 merge. Intake and
-registration remain unconfirmed; do not resubmit on assumed absence. Frozen
-source `dd4675197cac51f2de3fc0ab66195cb0807023dc` is preserved, with
-[full](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375861)
-and [rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182)
-receipts recorded in PREPARATIONS.json. Its two runner approvals are consumed.
+The [Kuratowski–Ulam package](topology/kuratowski-ulam) now retains an
+[exact pinned property-of-Baire definition audit](topology/kuratowski-ulam/MATERIAL-DEFINITIONS.md).
+Literal source excerpts, the Borel/residual dependency chain and independent
+Challenge/Solution bridges make both converse hypotheses auditable without
+changing the selected theorems or package pins. The original source
+`dd4675197cac51f2de3fc0ab66195cb0807023dc` passed
+[full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375861)
+and [rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182).
+Those reports certify the original bytes. Corrected source `0e3676798fe19b23d17defe9d732977d9f913f11`
+requires its own exact-source canonical receipts; ordinary builds and internal
+review have separate scopes. PREPARATIONS.json binds both snapshots. Private
+attempts and public registration must be reconciled before any corrected intake.
+Consumed runner approvals do not transfer.
 
-Exactly one next [locally compact R1 Baire product preparation](topology/locally-compact-baire)
+The resumed [locally compact R1 Baire product preparation](topology/locally-compact-baire)
 proves the dense-Gdelta projection construction and Baire product theorem with
 an arbitrary Baire first factor. Its local/source checks and independent review
 evidence are distinct from later canonical full/render and service outcomes.

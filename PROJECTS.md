@@ -78,16 +78,20 @@ in PREPARATIONS.json; browser/runtime visual review remains unestablished.
 | --- | --- | --- | --- |
 | [Countable cellularity of arbitrary products via finite subproducts](topology/product-countable-chain-condition) | Arbitrary-product CCC from finite subproducts, nonempty-factor iff, indexed Delta-system lemma and separable-product corollary. | Full/render passed; intake and registration unconfirmed | [`92f1a92`](https://github.com/Arthur742Ramos/Math-Formalization/tree/92f1a925329465c86a96b2f612fcd0d5345eed3b/topology/product-countable-chain-condition) |
 
-## Separately verified Kuratowski–Ulam theorem
+## New independent preparation
 
-PR29 merged after exact-source full verification and rendering passed, each once
-at attempt1. Original immutable reports bind the unchanged source in
-PREPARATIONS.json. Intake and registration are unconfirmed; do not resubmit on
-an assumption of absence. Browser/runtime inspection remains unestablished.
+Exactly one next target is under development. Its local source checks and
+independent internal AI reviews do not certify canonical or service outcomes.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Full/render passed; intake and registration unconfirmed | [`dd46751`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dd4675197cac51f2de3fc0ab66195cb0807023dc/topology/kuratowski-ulam) |
+| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Preparation; not submitted | [`0e36767`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0e3676798fe19b23d17defe9d732977d9f913f11/topology/kuratowski-ulam) |
+
+The current Kuratowski–Ulam preparation adds retained imported-definition
+evidence and independently compiled semantic bridges. Its selected proof files,
+Comparator and dependency pins are unchanged. Original full/render receipts
+remain historical evidence for the original commit; no old pass transfers to
+the corrected source. Registry state requires separate attempt reconciliation.
 
 ## New independent preparation
 

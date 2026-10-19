@@ -31,6 +31,21 @@ dependencies and concurrent work. Read more specific instructions and relevant
 - Proof and library code must have no `sorry`, `admit` or custom axioms. Audit
   transitive axiom dependencies of every selected declaration against the
   project's approved standard axiom allowlist.
+- Inventory material imported predicates in selected hypotheses and conclusions.
+  For each, retain its exact pinned definition, immutable source URL, source and
+  excerpt hashes, attribution, dependency expansion and any theorem connecting
+  the literal definition to the prose. Do not replace a proved equivalence with
+  a claim of definitional equality. A link to a moving documentation site is
+  insufficient. Independently review the inventory for completeness and compile
+  semantic bridges through Challenge and Solution separately. Use
+  independent review to compare each documented mathematical meaning with the
+  pinned definition and dependency expansion in every selected use, checking
+  assumptions and quantifiers. Automated checks do not certify semantic fidelity,
+  inventory completeness or editorial acceptance. Use
+  `scripts/check_imported_definitions.py` for retained evidence consistency and,
+  after the existing pinned dependency checkout is available, its
+  `--dependency-root` mode for exact Git-source provenance. Neither static mode
+  nor hashes alone establish mathematical fidelity or a successful Lean build.
 
 ## Keep identity and review accounts accurate
 
