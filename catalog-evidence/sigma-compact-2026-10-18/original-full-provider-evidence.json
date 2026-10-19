@@ -1,0 +1,33 @@
+{
+  "run": {
+    "id": 39158667327,
+    "head": "2c6e6291b5eaf7d7cc9203ba823daacd9c58b192",
+    "status": "completed",
+    "conclusion": "success",
+    "attempt": 1,
+    "created": "2026-10-18T19:25:01Z",
+    "updated": "2026-10-18T19:30:17Z",
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39158667327"
+  },
+  "artifacts": [
+    {
+      "id": 12147843508,
+      "name": "mechanical-report-scpreflight1",
+      "size_in_bytes": 6956,
+      "url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12147843508",
+      "archive_download_url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12147843508/zip",
+      "expired": false,
+      "created_at": "2026-10-18T19:30:02Z",
+      "expires_at": "2027-01-16T19:25:01Z",
+      "updated_at": "2026-10-18T19:30:02Z",
+      "digest": "sha256:22d2d1c082b6727af5472c7947f9b4624116363814b3ee0451ca8655f4c6c7cc",
+      "workflow_run": {
+        "id": 39158667327,
+        "repository_id": 1407508278,
+        "head_repository_id": 1407508278,
+        "head_branch": "verify/sigma-compact-preflight-2026-10-18",
+        "head_sha": "2c6e6291b5eaf7d7cc9203ba823daacd9c58b192"
+      }
+    }
+  ]
+}

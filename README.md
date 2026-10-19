@@ -6,7 +6,7 @@ definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
 The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction,
-one new preparation, and exact
+one separately verified user-reported submission, one new preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
 All 17 audited package trees match successful full canonical runs. Ten official
@@ -30,12 +30,20 @@ binds both snapshots. [RELEASE-HANDOFFS.json](RELEASE-HANDOFFS.json) records the
 prospective-packet audit and blocks stale sources from a new handoff. Earlier
 no-intake notes describe their observation time and actor, not all later user actions.
 
-One new [Sigma-product compactness preparation](topology/sigma-product-compactness)
-proves omega-boundedness for T1 omega-bounded factors and a sharp compactness
-criterion for compact Hausdorff factors. Its local checks and independent
-reviews have their own scope; no canonical or service outcome transfers from
-another package. Its dated preparation record remains separate from the
-seventeen-project canonical-pass audit.
+The [Sigma-product compactness package](topology/sigma-product-compactness)
+passed its own exact-source [full check](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39158667327)
+and [renderer](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39158667202),
+both once at attempt1 for source `0bdc86b6daf37e26dae68c451ed9d811247f075d`.
+PR27 merged with identical package bytes. The user reports submission as of
+2026-10-19 01:12:35 UTC; acceptance and public registration
+remain unverified. Do not duplicate its intake. Original reports now supersede
+the earlier development checkpoint without altering the frozen source.
+
+One new [product CCC preparation](topology/product-countable-chain-condition)
+proves the finite-subproduct criterion for arbitrary product cellularity, with
+separable-factor and nonempty-factor equivalence corollaries. Its local checks,
+independent reviews and later source-bound evidence have separate scopes.
+No earlier runner security authority transfers to this project.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

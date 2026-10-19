@@ -54,11 +54,23 @@ result is inferred.
 | --- | --- | --- | --- |
 | [Paracompact expansion and collectionwise separation](topology/collectionwise-normal) | Arbitrary locally finite family open expansion and prescribed disjoint-closure neighborhoods of discrete closed families. | Source-account correction; corrected-source full passed; user-reported Palomar pass, public ID unconfirmed | [`5ad14f0`](https://github.com/Arthur742Ramos/Math-Formalization/tree/5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf/topology/collectionwise-normal) |
 
-## New independent preparation
+## Separately verified Sigma-product compactness
 
-The following development has a separate dated preparation record. Its source
-does not inherit canonical verification or registration from an earlier project.
+The following development passed its own exact-source full and rendering checks.
+The user reports submission as of 2026-10-19 01:12:35 UTC;
+editorial acceptance and public registration are unverified. Do not duplicate its
+intake. The earlier preparation checkpoint is superseded by the original reports
+in [PREPARATIONS.json](PREPARATIONS.json); source bytes are unchanged.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Omega-bounded Sigma-products and a sharp compactness criterion](topology/sigma-product-compactness) | Omega-bounded T1 Sigma-products, countable compactness and compact-Hausdorff compactness iff countably many factors can differ from the basepoint. | Preparation; not submitted | [`0bdc86b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0bdc86b6daf37e26dae68c451ed9d811247f075d/topology/sigma-product-compactness) |
+| [Omega-bounded Sigma-products and a sharp compactness criterion](topology/sigma-product-compactness) | Omega-bounded T1 Sigma-products, countable compactness and compact-Hausdorff compactness iff countably many factors can differ from the basepoint. | User-reported submitted; full/render passed; acceptance and registration unverified | [`0bdc86b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0bdc86b6daf37e26dae68c451ed9d811247f075d/topology/sigma-product-compactness) |
+
+## New independent preparation
+
+The following project has its own frozen source and dated preparation evidence.
+Its completed local checks do not imply canonical or registry outcomes.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Countable cellularity of arbitrary products via finite subproducts](topology/product-countable-chain-condition) | Arbitrary-product CCC from finite subproducts, nonempty-factor iff, indexed Delta-system lemma and separable-product corollary. | Preparation; not submitted | [`92f1a92`](https://github.com/Arthur742Ramos/Math-Formalization/tree/92f1a925329465c86a96b2f612fcd0d5345eed3b/topology/product-countable-chain-condition) |

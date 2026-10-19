@@ -1,0 +1,8 @@
+'ProductCCC.uncountable_delta_system' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.hasCCC_pi_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.hasCCC_pi_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.hasCCC_pi_of_separable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.HasCCC.of_continuous_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.hasCCC_discrete_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.HasCCC' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ProductCCC.IsDeltaSystem' depends on axioms: [propext, Classical.choice, Quot.sound]

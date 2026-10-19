@@ -65,12 +65,18 @@ def check_status_correction(p, source, tree):
 
 def check_verified(p, package, source, tree):
     """Require completed source-bound canonical and rendered evidence for this preparation."""
-    evidence = ROOT / 'catalog-evidence/collectionwise-2026-10-18'
+    evidence = ROOT / {
+        'topology/collectionwise-normal': 'catalog-evidence/collectionwise-2026-10-18',
+        'topology/sigma-product-compactness': 'catalog-evidence/sigma-compact-2026-10-18',
+    }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
-    assert p['path'] == 'topology/collectionwise-normal'
     corrected = 'status_correction' in p
     assert p['canonical_full'] == p['rendering'] == ('historical-pass' if corrected else 'pass')
-    assert p['fresh_runner_security_approval'] is (not corrected)
+    reported = p['state'] == 'user-reported-submitted'
+    assert p['fresh_runner_security_approval'] is (not (corrected or reported))
+    if reported:
+        assert not corrected
+        check_user_submission_report(p)
     assert p['source_snapshot']['commit'] == source
     canonical = p['canonical_run']
     rendered = p['rendering_run']
@@ -118,6 +124,20 @@ def check_verified(p, package, source, tree):
     assert '--renderer-commit ' + report['renderer_commit'] in caller
 
 
+def check_user_submission_report(p):
+    """User-reported intake is not editorial acceptance or public registration."""
+    report = p['latest_user_report']
+    assert report['classification'] == 'user-reported-submitted'
+    assert re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z', report['observed_at_utc'])
+    assert report['actor'] == 'user'
+    assert report['acceptance'] == report['registration'] == 'unverified'
+    assert report['public_registration_id'] is None
+    assert p['existing_public_id'] is None
+    assert p['registry_intakes_by_this_task'] == 0
+    assert p['registry_submission_ready'] is False
+    assert p['fresh_runner_security_approval'] is False
+
+
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
     assert data['schema_version'] == 1
@@ -129,7 +149,8 @@ def check_preparations(rows, verified_paths):
         assert path not in seen | verified_paths
         seen.add(path)
         assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted',
-            'status-correction-awaiting-exact-source-verification', 'status-correction-full-verified'}
+            'status-correction-awaiting-exact-source-verification', 'status-correction-full-verified',
+            'user-reported-submitted'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
@@ -164,7 +185,9 @@ def check_preparations(rows, verified_paths):
             assert re.fullmatch(r'[0-9a-f]{64}', digest)
         matching = [row for row in rows if '](' + path + ')' in row]
         assert len(matching) == 1
-        label = 'Source-account correction' if 'status_correction' in p else 'Preparation; not submitted'
+        label = ('Source-account correction' if 'status_correction' in p else
+                 'User-reported submitted' if p['state'] == 'user-reported-submitted' else
+                 'Preparation; not submitted')
         assert label in matching[0]
         assert p['name'] in matching[0]
         catalog_source = p.get('current_source_snapshot', p['source_snapshot'])['commit']

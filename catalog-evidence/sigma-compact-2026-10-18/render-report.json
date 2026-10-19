@@ -1,0 +1,105 @@
+{
+  "artifact_tree_sha256": "16d36353a8f561b181949391db67e0a8b6e9fc8e563052b2a2387a550865c0fb",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-18T19:26:25Z",
+  "rendered_at": "2026-10-18T19:31:52Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/sigma-product-compactness/SigmaCompactChallenge.lean",
+    "challenge_sha256": "b67f6500849e83748fc5ac19c90a35d650a8dba6b00f0e5978dc648a79e3826e",
+    "commit": "0bdc86b6daf37e26dae68c451ed9d811247f075d",
+    "comparator_config_path": "topology/sigma-product-compactness/comparator.json",
+    "lakefile_path": "topology/sigma-product-compactness/lakefile.toml",
+    "lean_toolchain_path": "topology/sigma-product-compactness/lean-toolchain",
+    "project_path": "topology/sigma-product-compactness",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/sigma-product-compactness/SigmaCompactSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem SigmaCompact.exists_compact_trap.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v} [(i : \u03b9) \u2192 TopologicalSpace (X i)]\n  (b : (i : \u03b9) \u2192 X i) [\u2200 (i : \u03b9), T1Space (X i)] (hX : \u2200 (i : \u03b9), SigmaCompact.OmegaBounded (X i))\n  {s : Set ((i : \u03b9) \u2192 X i)} (hs : Set.Countable s)\n  (hsupp : \u2200 (x : (i : \u03b9) \u2192 X i), Membership.mem s x \u2192 Set.Countable (SigmaCompact.deviationSupport b x)) :\n  Exists fun J =>\n    Exists fun K =>\n      And (Set.Countable J)\n        (And (IsClosed K)\n          (And (IsCompact K)\n            (And (LE.le (closure s) K)\n              (\u2200 (x : (i : \u03b9) \u2192 X i), Membership.mem K x \u2192 LE.le (SigmaCompact.deviationSupport b x) J))))",
+        "name": "SigmaCompact.exists_compact_trap"
+      },
+      {
+        "declaration": "theorem SigmaCompact.omegaBounded_sigmaProduct.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v} [(i : \u03b9) \u2192 TopologicalSpace (X i)]\n  (b : (i : \u03b9) \u2192 X i) [\u2200 (i : \u03b9), T1Space (X i)] (hX : \u2200 (i : \u03b9), SigmaCompact.OmegaBounded (X i)) :\n  SigmaCompact.OmegaBounded (SigmaCompact.SigmaProduct b)",
+        "name": "SigmaCompact.omegaBounded_sigmaProduct"
+      },
+      {
+        "declaration": "theorem SigmaCompact.countablyCompactSpace_sigmaProduct.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v} [(i : \u03b9) \u2192 TopologicalSpace (X i)]\n  (b : (i : \u03b9) \u2192 X i) [\u2200 (i : \u03b9), T1Space (X i)] (hX : \u2200 (i : \u03b9), SigmaCompact.OmegaBounded (X i)) :\n  CountablyCompactSpace (SigmaCompact.SigmaProduct b)",
+        "name": "SigmaCompact.countablyCompactSpace_sigmaProduct"
+      },
+      {
+        "declaration": "theorem SigmaCompact.omegaBounded_sigmaProduct_of_compact.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v}\n  [(i : \u03b9) \u2192 TopologicalSpace (X i)] (b : (i : \u03b9) \u2192 X i) [\u2200 (i : \u03b9), T1Space (X i)] [\u2200 (i : \u03b9), CompactSpace (X i)] :\n  SigmaCompact.OmegaBounded (SigmaCompact.SigmaProduct b)",
+        "name": "SigmaCompact.omegaBounded_sigmaProduct_of_compact"
+      },
+      {
+        "declaration": "theorem SigmaCompact.compactSpace_sigmaProduct_iff.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v} [(i : \u03b9) \u2192 TopologicalSpace (X i)]\n  (b : (i : \u03b9) \u2192 X i) [\u2200 (i : \u03b9), T2Space (X i)] [\u2200 (i : \u03b9), CompactSpace (X i)] :\n  Iff (CompactSpace (SigmaCompact.SigmaProduct b)) (Set.Countable (SigmaCompact.activeCoordinates b))",
+        "name": "SigmaCompact.compactSpace_sigmaProduct_iff"
+      },
+      {
+        "declaration": "theorem SigmaCompact.boolean_sigma_countablyCompact_not_compact.{u} {\u03b9 : Type u} (h\u03b9 : Not (Countable \u03b9)) :\n  And (CountablyCompactSpace (SigmaCompact.SigmaProduct fun x => Bool.false))\n    (Not (CompactSpace (SigmaCompact.SigmaProduct fun x => Bool.false)))",
+        "name": "SigmaCompact.boolean_sigma_countablyCompact_not_compact"
+      },
+      {
+        "declaration": "def SigmaCompact.OmegaBounded.{w} (Y : Type w) [TopologicalSpace Y] : Prop",
+        "name": "SigmaCompact.OmegaBounded"
+      },
+      {
+        "declaration": "def SigmaCompact.deviationSupport.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v} (b x : (i : \u03b9) \u2192 X i) : Set \u03b9",
+        "name": "SigmaCompact.deviationSupport"
+      },
+      {
+        "declaration": "def SigmaCompact.activeCoordinates.{u, v} {\u03b9 : Type u} {X : \u03b9 \u2192 Type v} (b : (i : \u03b9) \u2192 X i) : Set \u03b9",
+        "name": "SigmaCompact.activeCoordinates"
+      }
+    ],
+    "declarations": [
+      "SigmaCompact.exists_compact_trap",
+      "SigmaCompact.omegaBounded_sigmaProduct",
+      "SigmaCompact.countablyCompactSpace_sigmaProduct",
+      "SigmaCompact.omegaBounded_sigmaProduct_of_compact",
+      "SigmaCompact.compactSpace_sigmaProduct_iff",
+      "SigmaCompact.boolean_sigma_countablyCompact_not_compact",
+      "SigmaCompact.OmegaBounded",
+      "SigmaCompact.deviationSupport",
+      "SigmaCompact.activeCoordinates"
+    ],
+    "imports": [
+      "Mathlib.Topology.Compactness.CountablyCompact",
+      "Mathlib.Topology.Separation.Hausdorff"
+    ],
+    "module_doc": "# Compact closures in countable-support products\n\nThe product topology and its canonical subtype topology are used throughout.\nThe omega-bounded theorem assumes T1 factors, not first countability or\ncompactness. The compactness criterion assumes compact Hausdorff factors.",
+    "schema_version": 3,
+    "solution_imports": [
+      "SigmaCompact"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39158667202"
+}
