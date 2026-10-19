@@ -1,0 +1,9 @@
+module
+public import LCBSolution
+
+#print axioms LocallyCompactBaire.exists_maximal_pairwiseDisjoint_refinement
+#print axioms LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement
+#print axioms LocallyCompactBaire.exists_dense_isGdelta_fiber_witness
+#print axioms LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst
+#print axioms LocallyCompactBaire.baireSpace_prod
+#print axioms LocallyCompactBaire.baireSpace_prod_of_compact

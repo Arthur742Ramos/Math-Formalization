@@ -13,11 +13,13 @@ from check_imported_definitions import check, sha
 
 
 class ImportedDefinitionEvidence(unittest.TestCase):
+    PACKAGE = 'topology/kuratowski-ulam'
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.project = pathlib.Path(self.temp.name) / 'project'
-        shutil.copytree(ROOT / 'topology/kuratowski-ulam', self.project,
+        shutil.copytree(ROOT / self.PACKAGE, self.project,
                         ignore=shutil.ignore_patterns('.lake', '__pycache__'))
         self.file = self.project / 'verification/material-imported-definitions.json'
         self.data = json.loads(self.file.read_text())
@@ -98,6 +100,46 @@ class ImportedDefinitionEvidence(unittest.TestCase):
         doc = self.project / self.data['documentation']
         doc.unlink()
         doc.symlink_to(ROOT / 'topology/kuratowski-ulam/MATERIAL-DEFINITIONS.md')
+        self.reject()
+
+
+class ClassAndLiteralEvidence(ImportedDefinitionEvidence):
+    PACKAGE = 'topology/locally-compact-baire'
+
+    def test_class_fields_cannot_be_labelled_literal_unfolding(self):
+        self.data['material_declarations'][0]['bridge_kind'] = 'literal-unfolding'
+        self.reject()
+
+    def test_class_cannot_be_labelled_definition(self):
+        self.data['material_declarations'][0]['declaration_kind'] = 'def'
+        self.reject()
+
+    def test_unrecognized_schema_rejected(self):
+        self.data['schema_version'] = 99
+        self.reject()
+
+    def test_v2_cannot_downgrade_class_to_legacy_schema(self):
+        self.data['schema_version'] = 1
+        self.reject()
+
+    def test_missing_dependency_expansion_rejected(self):
+        self.data['material_declarations'][0]['dependency_expansion'] = ''
+        self.reject()
+
+    def test_missing_proof_status_rejected(self):
+        self.data['material_declarations'][0]['proof_status'] = ''
+        self.reject()
+
+    def test_missing_semantic_bridge_reference_rejected(self):
+        self.data['material_declarations'][0]['bridge_excerpts'] = []
+        self.reject()
+
+    def test_foreign_semantic_bridge_reference_rejected(self):
+        self.data['material_declarations'][0]['bridge_excerpts'] = ['invented']
+        self.reject()
+
+    def test_wrong_structure_kind_rejected(self):
+        self.data['material_declarations'][0]['declaration_kind'] = 'structure'
         self.reject()
 
 

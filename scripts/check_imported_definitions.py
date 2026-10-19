@@ -42,7 +42,8 @@ def check(project, dependency_root=None):
     project = pathlib.Path(project)
     manifest_file = local_file(project, 'verification/material-imported-definitions.json')
     data = json.loads(manifest_file.read_text())
-    require(data['schema_version'] == 1, 'Unknown imported-definition schema')
+    version = data['schema_version']
+    require(version in {1, 2}, 'Unknown imported-definition schema')
     dep = data['dependency']
     pin = dep['commit']
     require(re.fullmatch(r'[0-9a-f]{40}', pin), 'Non-exact dependency commit')
@@ -113,19 +114,37 @@ def check(project, dependency_root=None):
     require(paths, 'Missing upstream sources')
     for declaration in declarations:
         name = declaration['name']
-        require(declaration['role'] in {'hypothesis', 'conclusion', 'definition'} and
+        roles = {'hypothesis', 'conclusion', 'definition'}
+        if version == 2:
+            roles |= {'hypothesis-and-conclusion', 'proof-dependency'}
+        require(declaration['role'] in roles and
                 declaration['meaning'].strip() and name in document, 'Missing semantic account')
         usage = declaration['used_by']
         require(usage and len(usage) == len(set(usage)) and set(usage) <= selected,
                 'Missing or invalid selected-declaration coverage')
         require(all(n in document for n in usage), 'Document omits affected declarations')
         body = excerpts[declaration['definition_excerpt']]
-        require(re.search(r'(?m)^def ' + re.escape(name.split('.')[-1]) + r'\b', body),
-                'Definition evidence is not a definition')
-        require(declaration['bridge_kind'] == 'proved-equivalence',
-                'Semantic bridge must not be claimed as definitional equality')
-        for key in ['semantic_bridge_excerpt', 'complement_excerpt']:
-            require(declaration[key] in excerpts, 'Missing semantic/complement bridge')
+        if version == 1:
+            require(re.search(r'(?m)^def ' + re.escape(name.split('.')[-1]) + r'\b', body),
+                    'Definition evidence is not a definition')
+            require(declaration['bridge_kind'] == 'proved-equivalence',
+                    'Semantic bridge must not be claimed as definitional equality')
+            for key in ['semantic_bridge_excerpt', 'complement_excerpt']:
+                require(declaration[key] in excerpts, 'Missing semantic/complement bridge')
+        else:
+            kind = declaration['declaration_kind']
+            require(kind in {'def', 'class', 'structure'}, 'Unknown declaration kind')
+            require(re.search(r'(?m)^' + kind + ' ' + re.escape(name.split('.')[-1]) + r'\b', body),
+                    'Pinned declaration kind/name mismatch')
+            bridge = declaration['bridge_kind']
+            allowed = {'class-fields'} if kind in {'class', 'structure'} else {
+                'literal-unfolding', 'proved-equivalence'}
+            require(bridge in allowed, 'Incorrect literal/class/proved bridge kind')
+            refs = declaration['bridge_excerpts']
+            require(refs and len(refs) == len(set(refs)) and all(n in excerpts for n in refs),
+                    'Missing or invalid semantic bridge evidence')
+            require(declaration['dependency_expansion'].strip() and
+                    declaration['proof_status'].strip(), 'Missing dependency or proof-status account')
     lake = tomllib.loads(local_file(project, 'lakefile.toml').read_text())
     modules = data['checked_bridge_modules']
     require(len(modules) >= 2 and len({m['module'] for m in modules}) == len(modules),

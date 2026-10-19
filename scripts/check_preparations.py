@@ -69,6 +69,8 @@ def check_verified(p, package, source, tree):
         'topology/collectionwise-normal': 'catalog-evidence/collectionwise-2026-10-18',
         'topology/sigma-product-compactness': 'catalog-evidence/sigma-compact-2026-10-18',
         'topology/product-countable-chain-condition': 'catalog-evidence/product-ccc-2026-10-19',
+        'topology/kuratowski-ulam': 'catalog-evidence/kuratowski-ulam-2026-10-19',
+        'topology/locally-compact-baire': 'catalog-evidence/locally-compact-baire-2026-10-19',
     }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     corrected = 'status_correction' in p
@@ -206,6 +208,53 @@ def check_material_definition_correction(p, source, tree):
     assert p['fresh_runner_security_approval'] is False
 
 
+def check_locally_compact_definition_preparation(p, source, tree):
+    """Bind prior ordinary evidence without promoting it to new-source canonical evidence."""
+    assert p['path'] == 'topology/locally-compact-baire'
+    history = p['prior_ordinary_source']
+    old = history['source_commit']
+    assert old == '56c93c5ab4cdc1291d87c0b17104cb31f7c243dc' and source != old
+    assert history['package_tree'] == git('rev-parse', old + ':' + p['path'])
+    head = history['reviewed_head']
+    assert git('rev-parse', head + ':' + p['path']) == history['package_tree']
+    record = ROOT / history['provider_record']
+    assert record.resolve().is_relative_to((ROOT / 'catalog-evidence').resolve())
+    assert hashlib.sha256(record.read_bytes()).hexdigest() == history['provider_record_sha256']
+    provider = json.loads(record.read_text())
+    for kind in ['lean', 'catalog']:
+        run = provider[kind]
+        assert history[kind + '_run'] == run['id']
+        assert run['head_sha'] == head and run['head_branch'] == 'topology/locally-compact-baire'
+        assert run['run_attempt'] == history['attempts'] == 1
+        assert run['status'] == 'completed' and run['conclusion'] == history['conclusion'] == 'success'
+        assert run['html_url'] == f'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/{run["id"]}'
+    assert history['lean_run'] == 39265820552 and history['catalog_run'] == 39265820469
+    changed = {'ChallengeTests.lean', 'SemanticTests.lean', 'MATERIAL-DEFINITIONS.md',
+        'README.md', 'REVIEW.md', 'VERIFICATION.md', 'formalization.yaml', 'scripts/check_package.py',
+        'verification/material-imported-definitions.json', 'verification/source-hashes.json'}
+    assert set(git('diff', '--name-only', old, source, '--', p['path']).splitlines()) == {
+        p['path'] + '/' + n for n in changed}
+    before, after = snapshot(ROOT, old, p['path']), snapshot(ROOT, source, p['path'])
+    assert all(before[n] == after[n] for n in before if n not in changed)
+    audit = p['material_definition_audit']
+    assert audit['source_commit'] == source
+    assert git('rev-parse', source + ':' + p['path']) == tree
+    assert audit['manifest'] == 'verification/material-imported-definitions.json'
+    manifest = json.loads(after[audit['manifest']])
+    assert audit['schema_version'] == manifest['schema_version'] == 2
+    assert audit['material_declarations'] == len(manifest['material_declarations']) == 10
+    assert audit['upstream_files'] == len(manifest['source_files']) == 15
+    assert audit['literal_excerpts'] == sum(len(f['excerpts']) for f in manifest['source_files']) == 35
+    assert audit['semantic_tests'] == ['ChallengeTests.lean', 'SemanticTests.lean']
+    if p['state'] == 'reviewed-preparation-not-submitted':
+        assert p['canonical_full'] == p['rendering'] == 'not-established'
+        assert p['canonical_run'] is None and p['rendering_run'] is None
+    else:
+        assert p['state'] == 'verified-preparation-intake-unconfirmed'
+        check_verified(p, ROOT / p['path'], source, tree)
+    assert p['fresh_runner_security_approval'] is False
+
+
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
     assert data['schema_version'] == 1
@@ -224,6 +273,8 @@ def check_preparations(rows, verified_paths):
         assert git('rev-parse', source + ':' + path) == tree
         if 'definition_evidence_correction' in p:
             check_material_definition_correction(p, source, tree)
+        if path == 'topology/locally-compact-baire':
+            check_locally_compact_definition_preparation(p, source, tree)
         if 'status_correction' in p:
             check_status_correction(p, source, tree)
         else:

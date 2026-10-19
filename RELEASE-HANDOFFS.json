@@ -48,6 +48,11 @@
       "path": "topology/kuratowski-ulam",
       "source_commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
       "reason": "Superseded prospective handoff: use imported-definition evidence source 0e3676798fe19b23d17defe9d732977d9f913f11 after its own required checks. Historical original-source mechanical passes remain valid; reconcile actual attempts before replacement."
+    },
+    {
+      "path": "topology/locally-compact-baire",
+      "source_commit": "56c93c5ab4cdc1291d87c0b17104cb31f7c243dc",
+      "reason": "Superseded preparation: use pinned-definition-audited source d972b3cb0637c0e962c04384f16ec2b3e033d768 after its own required checks. Prior ordinary builds/reviews remain history; no existing canonical or service outcome is transferred."
     }
   ],
   "corrected_collectionwise": {
@@ -74,6 +79,15 @@
     "source_commit": "0e3676798fe19b23d17defe9d732977d9f913f11",
     "package_tree": "cfe04498ffb0be6b5baa60cff793521d69ff6196",
     "historical_source": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+    "current_source_full": "not-established",
+    "current_source_rendering": "not-established",
+    "intake_ready": false
+  },
+  "locally_compact_baire_current": {
+    "source_commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+    "package_tree": "6d02d6bdf576e971004b6e77ea34ef7ddaa24957",
+    "historical_preparation_source": "56c93c5ab4cdc1291d87c0b17104cb31f7c243dc",
+    "material_definition_audit": true,
     "current_source_full": "not-established",
     "current_source_rendering": "not-established",
     "intake_ready": false

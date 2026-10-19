@@ -1,0 +1,18 @@
+{
+  "challenge_module": "LCBChallenge",
+  "solution_module": "LCBSolution",
+  "theorem_names": [
+    "LocallyCompactBaire.exists_maximal_pairwiseDisjoint_refinement",
+    "LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement",
+    "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+    "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+    "LocallyCompactBaire.baireSpace_prod",
+    "LocallyCompactBaire.baireSpace_prod_of_compact"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

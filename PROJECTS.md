@@ -92,3 +92,12 @@ evidence and independently compiled semantic bridges. Its selected proof files,
 Comparator and dependency pins are unchanged. Original full/render receipts
 remain historical evidence for the original commit; no old pass transfers to
 the corrected source. Registry state requires separate attempt reconciliation.
+
+## New independent preparation
+
+Exactly one next target is under development. Its source, local checks and
+internal AI reviews have separate scopes from canonical and service outcomes.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Baire products with locally compact R1 factors](topology/locally-compact-baire) | Dense-Gdelta fixed-region projection and Baire product theorem by maximal disjoint refinements and nested compact fibers. | Full/render passed; intake and registration unconfirmed | [`d972b3c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/d972b3cb0637c0e962c04384f16ec2b3e033d768/topology/locally-compact-baire) |

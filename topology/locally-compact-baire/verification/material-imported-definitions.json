@@ -1,0 +1,659 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "BaireSpace",
+    "R1Space",
+    "LocallyCompactSpace",
+    "CompactSpace",
+    "IsCompact",
+    "Dense",
+    "IsGδ",
+    "Set.PairwiseDisjoint",
+    "IsOpen",
+    "closure"
+  ],
+  "material_declarations": [
+    {
+      "name": "BaireSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+        "LocallyCompactBaire.baireSpace_prod",
+        "LocallyCompactBaire.baireSpace_prod_of_compact"
+      ],
+      "meaning": "Every natural-number-indexed intersection of dense open sets is dense. No separation or nonempty hypothesis.",
+      "dependency_expansion": "The class field uses Dense and IsOpen in the given topology, including the canonical product topology for the conclusions.",
+      "definition_excerpt": "BaireSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "BaireSpace"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "R1Space",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+        "LocallyCompactBaire.baireSpace_prod",
+        "LocallyCompactBaire.baireSpace_prod_of_compact"
+      ],
+      "meaning": "Preregular: topologically distinguishable points have disjoint neighborhood filters. R1 does not imply T0 or Hausdorff.",
+      "dependency_expansion": "Literal field is Specializes x y or disjoint neighborhood filters. Specializes is neighborhood-filter order; the inseparable alternative is a proved equivalence.",
+      "definition_excerpt": "R1Space",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "R1Space",
+        "r1Space_iff_inseparable_or_disjoint_nhds",
+        "inseparable_iff_forall_isOpen"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "LocallyCompactSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+        "LocallyCompactBaire.baireSpace_prod"
+      ],
+      "meaning": "Every neighborhood of every point contains a compact neighborhood of that point.",
+      "dependency_expansion": "This is the full compact-neighborhood-basis convention, not merely existence of one compact neighborhood. Compactness means IsCompact without separation.",
+      "definition_excerpt": "LocallyCompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LocallyCompactSpace",
+        "mem_nhds_iff"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "LocallyCompactBaire.baireSpace_prod_of_compact"
+      ],
+      "meaning": "The whole space is IsCompact, without a bundled Hausdorff or nonempty assumption.",
+      "dependency_expansion": "CompactSpace gives WeaklyLocallyCompactSpace. R1 permits upgrading this to LocallyCompactSpace in the compact specialization.",
+      "definition_excerpt": "CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CompactSpace",
+        "compact-to-weak-local",
+        "weak-local-R1-upgrade"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+        "LocallyCompactBaire.baireSpace_prod",
+        "LocallyCompactBaire.baireSpace_prod_of_compact"
+      ],
+      "meaning": "Every nontrivial filter supported on the set has a cluster point in that set.",
+      "dependency_expansion": "ClusterPt x f means the meet of the neighborhood filter at x and f is nontrivial. Under R1 the closure of an IsCompact set is compact, not necessarily equal to the original set.",
+      "definition_excerpt": "IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IsCompact",
+        "ClusterPt",
+        "IsCompact.closure",
+        "isCompact_iff_finite_subcover"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst"
+      ],
+      "meaning": "Every ambient point belongs to the closure; equivalently every nonempty open set meets the set.",
+      "dependency_expansion": "Closure is the intersection of all closed supersets. The open-intersection characterization is proved, not literal unfolding.",
+      "definition_excerpt": "Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dense",
+        "dense_iff_inter_open"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "IsGδ",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst"
+      ],
+      "meaning": "A countable family of open sets has the given set as its intersection.",
+      "dependency_expansion": "The literal definition uses a countable set of sets. A natural-number-indexed open-intersection representation is a proved equivalence, including the empty family.",
+      "definition_excerpt": "IsGδ",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IsGδ",
+        "isGδ_iff_eq_iInter_nat"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "Set.PairwiseDisjoint",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "LocallyCompactBaire.exists_maximal_pairwiseDisjoint_refinement",
+        "LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement"
+      ],
+      "meaning": "For every pair of distinct labels in the chosen family, their image sets are disjoint.",
+      "dependency_expansion": "Set.Pairwise quantifies distinct labels; Disjoint on sets means empty intersection. Equal inhabited image sets are not exempt. No countability or universe identification is added.",
+      "definition_excerpt": "PairwiseDisjoint",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "PairwiseDisjoint",
+        "Set.Pairwise",
+        "Disjoint",
+        "set-disjoint"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement",
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst"
+      ],
+      "meaning": "The open-set predicate supplied by the given ambient topological-space structure.",
+      "dependency_expansion": "TopologicalSpace supplies the open-set axioms. IsOpen literally projects its protected field; the actual product topology is the infimum of the two coordinate-induced topologies.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement"
+      ],
+      "meaning": "The smallest closed superset: the intersection of every closed set containing the given set.",
+      "dependency_expansion": "This term appears in the dense-refinement conclusion G subset closure of the union. IsClosed is the open-complement class; closure is not a compactness or Hausdorff assumption.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "Dense",
+          "first_line": 145,
+          "last_line": 147,
+          "text": "/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n",
+          "sha256": "2a52522d35b48a1b96df7fa73b15254b113108436e633e0e45e5bdffc455fbf8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L145-L147"
+        },
+        {
+          "name": "BaireSpace",
+          "first_line": 235,
+          "last_line": 240,
+          "text": "/-- The property `BaireSpace α` means that the topological space `α` has the Baire property:\nany countable intersection of open dense subsets is dense.\nFormulated here when the source space is ℕ.\nUse `dense_iInter_of_isOpen` which works for any countable index type instead. -/\nclass BaireSpace (X : Type*) [TopologicalSpace X] : Prop where\n  baire_property : ∀ f : ℕ → Set X, (∀ n, IsOpen (f n)) → (∀ n, Dense (f n)) → Dense (⋂ n, f n)\n",
+          "sha256": "977d5c7b2d9473e369aa9c2df40a2da2bea81bf7fb22f4978096b547f603e335",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L235-L240"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "filter-context",
+          "first_line": 122,
+          "last_line": 125,
+          "text": "variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n\nopen Filter\nopen scoped Topology\n",
+          "sha256": "f0d097b9088681bc9b24ae95010a381fe6ec5d223ad9bdd58157cef20eaac984",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L122-L125"
+        },
+        {
+          "name": "nhds",
+          "first_line": 127,
+          "last_line": 134,
+          "text": "/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n\n@[inherit_doc]\nscoped[Topology] notation \"𝓝\" => nhds\n",
+          "sha256": "50aa67ca57c8473255d83882eea110cc29269ae9a77d58cae57886b24f0bfa07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L127-L134"
+        },
+        {
+          "name": "Specializes",
+          "first_line": 193,
+          "last_line": 210,
+          "text": "\n/-- `x` specializes to `y` (notation: `x ⤳ y`) if either of the following equivalent properties\nhold:\n\n* `𝓝 x ≤ 𝓝 y`; this property is used as the definition;\n* `pure x ≤ 𝓝 y`; in other words, any neighbourhood of `y` contains `x`;\n* `y ∈ closure {x}`;\n* `closure {y} ⊆ closure {x}`;\n* for any closed set `s` we have `x ∈ s → y ∈ s`;\n* for any open set `s` we have `y ∈ s → x ∈ s`;\n* `y` is a cluster point of the filter `pure x = 𝓟 {x}`.\n\nThis relation defines a `Preorder` on `X`. If `X` is a T₀ space, then this `Preorder` is a\n`PartialOrder`. If `X` is a T₁ space, then this `PartialOrder` is trivial: `x ⤳ y ↔ x = y`. -/\ndef Specializes (x y : X) : Prop := 𝓝 x ≤ 𝓝 y\n\n@[inherit_doc]\ninfixl:300 \" ⤳ \" => Specializes\n",
+          "sha256": "9ba7a645add0aca2d044eb709cb5b59c270536d761af1ec8b27957edb2f05f33",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L193-L210"
+        },
+        {
+          "name": "Inseparable",
+          "first_line": 212,
+          "last_line": 222,
+          "text": "/-- Two points `x` and `y` in a topological space are `Inseparable`, or *topologically\nindistinguishable*, if any of the following equivalent properties hold:\n\n- `𝓝 x = 𝓝 y`; we use this property as the definition;\n- for any open set `s`, `x ∈ s ↔ y ∈ s`, see `inseparable_iff_forall_isOpen`;\n- for any closed set `s`, `x ∈ s ↔ y ∈ s`, see `inseparable_iff_forall_isClosed`;\n- `x ∈ closure {y}` and `y ∈ closure {x}`, see `inseparable_iff_mem_closure`;\n- `closure {x} = closure {y}`, see `inseparable_iff_closure_eq`.\n-/\ndef Inseparable (x y : X) : Prop :=\n  𝓝 x = 𝓝 y\n",
+          "sha256": "84057f5ddefc324abe61ece92b2d183791f2743889fe3e5fbb4e6fad734a36ea",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L212-L222"
+        },
+        {
+          "name": "ClusterPt",
+          "first_line": 271,
+          "last_line": 276,
+          "text": "/-- A point `x` is a cluster point of a filter `F` if `𝓝 x ⊓ F ≠ ⊥`.\nAlso known as an accumulation point or a limit point, but beware that terminology varies.\nThis is *not* the same as asking `𝓝[≠] x ⊓ F ≠ ⊥`, which is called `AccPt` in Mathlib.\nSee `mem_closure_iff_clusterPt` in particular. -/\ndef ClusterPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝 x ⊓ F)\n",
+          "sha256": "82c9fd0900d0a55fa46c6a78fa400334fd5b57e606aa9b7c35a3fb022fe2398b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L271-L276"
+        },
+        {
+          "name": "IsCompact",
+          "first_line": 288,
+          "last_line": 291,
+          "text": "/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n",
+          "sha256": "8a5dd611ce1298df5a9753168f4f6cd3dc9f56e66212e62e0043a0dcae9c2833",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L288-L291"
+        },
+        {
+          "name": "CompactSpace",
+          "first_line": 293,
+          "last_line": 299,
+          "text": "variable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n",
+          "sha256": "73972a6caa1a04dc4257f07a3dd4f189f937de1f64678b166a06806c12cd30d1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L293-L299"
+        },
+        {
+          "name": "WeaklyLocallyCompactSpace",
+          "first_line": 306,
+          "last_line": 313,
+          "text": "\n/-- We say that a topological space is a *weakly locally compact space*,\nif each point of this space admits a compact neighborhood. -/\nclass WeaklyLocallyCompactSpace (X : Type*) [TopologicalSpace X] : Prop where\n  /-- Every point of a weakly locally compact space admits a compact neighborhood. -/\n  exists_compact_mem_nhds (x : X) : ∃ s, IsCompact s ∧ s ∈ 𝓝 x\n\nexport WeaklyLocallyCompactSpace (exists_compact_mem_nhds)\n",
+          "sha256": "024b435a4309a82bf671bad68d52d289db4c21c27fa6bdcc01b5f83945df8ea2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L306-L313"
+        },
+        {
+          "name": "LocallyCompactSpace",
+          "first_line": 315,
+          "last_line": 326,
+          "text": "/-- There are various definitions of \"locally compact space\" in the literature,\nwhich agree for Hausdorff spaces but not in general.\nThis one is the precise condition on X needed\nfor the evaluation map `C(X, Y) × X → Y` to be continuous for all `Y`\nwhen `C(X, Y)` is given the compact-open topology.\n\nSee also `WeaklyLocallyCompactSpace`, a typeclass that only assumes\nthat each point has a compact neighborhood. -/\nclass LocallyCompactSpace (X : Type*) [TopologicalSpace X] : Prop where\n  /-- In a locally compact space,\n  every neighbourhood of every point contains a compact neighbourhood of that same point. -/\n  local_compact_nhds : ∀ (x : X), ∀ n ∈ 𝓝 x, ∃ s ∈ 𝓝 x, s ⊆ n ∧ IsCompact s\n",
+          "sha256": "6425a4e0c98ef2c5b36afbb98cfe9e99911497ea53fd9b3d9c55f71b654de65c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L315-L326"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Separation/Basic.lean",
+      "sha256": "96c74f410b14c3adecc1cb06d90d9d7a61bbb1529c18000426687bee99ba6991",
+      "git_blob_sha1": "2d39660bfd78f367e80c7ee07b36871de306e3f2",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "R1Space",
+          "first_line": 934,
+          "last_line": 948,
+          "text": "section R1Space\n\n/-- A topological space is called a *preregular* (a.k.a. R₁) space,\nif any two topologically distinguishable points have disjoint neighbourhoods. -/\n@[mk_iff r1Space_iff_specializes_or_disjoint_nhds]\nclass R1Space (X : Type*) [TopologicalSpace X] : Prop where\n  specializes_or_disjoint_nhds (x y : X) : Specializes x y ∨ Disjoint (𝓝 x) (𝓝 y)\n\nexport R1Space (specializes_or_disjoint_nhds)\n\nvariable [R1Space X] {x y : X}\n\ninstance (priority := 100) : R0Space X where\n  specializes_symm.symm _ _ h := (specializes_or_disjoint_nhds _ _).resolve_right <| fun hd ↦\n    h.not_disjoint hd.symm\n",
+          "sha256": "8a0a3cd26634e3559042c5988069e5b31a87a2176fcc8307e2af28c3fc962fb8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L934-L948"
+        },
+        {
+          "name": "r1Space_iff_inseparable_or_disjoint_nhds",
+          "first_line": 959,
+          "last_line": 962,
+          "text": "theorem r1Space_iff_inseparable_or_disjoint_nhds {X : Type*} [TopologicalSpace X] :\n    R1Space X ↔ ∀ x y : X, Inseparable x y ∨ Disjoint (𝓝 x) (𝓝 y) :=\n  ⟨fun _h x y ↦ (specializes_or_disjoint_nhds x y).imp_left Specializes.inseparable, fun h ↦\n    ⟨fun x y ↦ (h x y).imp_left Inseparable.specializes⟩⟩\n",
+          "sha256": "e366876b98798de4a24f01f7803dfce104b5f20c6e86635dfbdaa3e47e92290a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L959-L962"
+        },
+        {
+          "name": "IsCompact.closure_subset_of_isOpen",
+          "first_line": 1017,
+          "last_line": 1022,
+          "text": "/-- In an R₁ space, if a compact set `K` is contained in an open set `U`,\nthen its closure is also contained in `U`. -/\ntheorem IsCompact.closure_subset_of_isOpen {K : Set X} (hK : IsCompact K)\n    {U : Set X} (hU : IsOpen U) (hKU : K ⊆ U) : closure K ⊆ U := by\n  rw [hK.closure_eq_biUnion_inseparable, iUnion₂_subset_iff]\n  exact fun x hx y hxy ↦ (hxy.mem_open_iff hU).1 (hKU hx)\n",
+          "sha256": "1e9c59da9024afc5135a5238356a7a5c24200a53c792a47629d19ea67429c716",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L1017-L1022"
+        },
+        {
+          "name": "IsCompact.closure",
+          "first_line": 1024,
+          "last_line": 1028,
+          "text": "/-- The closure of a compact set in an R₁ space is a compact set. -/\nprotected theorem IsCompact.closure {K : Set X} (hK : IsCompact K) : IsCompact (closure K) := by\n  refine isCompact_of_finite_subcover fun U hUo hKU ↦ ?_\n  rcases hK.elim_finite_subcover U hUo (subset_closure.trans hKU) with ⟨t, ht⟩\n  exact ⟨t, hK.closure_subset_of_isOpen (isOpen_biUnion fun _ _ ↦ hUo _) ht⟩\n",
+          "sha256": "3673e6d87035839e33c63ff973ea55292945cfaeb4161e43069451e8de3a6510",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L1024-L1028"
+        },
+        {
+          "name": "weak-local-R1-context",
+          "first_line": 1177,
+          "last_line": 1184,
+          "text": "/-!\n### Lemmas about a weakly locally compact R₁ space\n\nIn fact, a space with these properties is locally compact and regular.\nSome lemmas are formulated using the latter assumptions below.\n-/\n\nvariable [WeaklyLocallyCompactSpace X]\n",
+          "sha256": "d537e2c5c6e2b468aee44826a6bdbd7f4e2bc8eea20dc008ed06a63ef0078f08",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L1177-L1184"
+        },
+        {
+          "name": "weak-local-R1-upgrade",
+          "first_line": 1197,
+          "last_line": 1200,
+          "text": "-- see Note [lower instance priority]\n/-- A weakly locally compact R₁ space is locally compact. -/\ninstance (priority := 80) WeaklyLocallyCompactSpace.locallyCompactSpace : LocallyCompactSpace X :=\n  .of_hasBasis isCompact_isClosed_basis_nhds fun _ _ ⟨_, h, _⟩ ↦ h\n",
+          "sha256": "3e9a138512815e7f16b68792e363db518d071570500704f7a6c2bc73526239a3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L1197-L1200"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/GDelta/Basic.lean",
+      "sha256": "839130eb18758aa2bfcbe3ef40c98fcf9e0827458293fbdb5d04a5ec43b2d08a",
+      "git_blob_sha1": "feae671419368d0d284d9ed57c536b6b54afba33",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "IsGδ",
+          "first_line": 62,
+          "last_line": 64,
+          "text": "/-- A Gδ set is a countable intersection of open sets. -/\ndef IsGδ (s : Set X) : Prop :=\n  ∃ T : Set (Set X), (∀ t ∈ T, IsOpen t) ∧ T.Countable ∧ s = ⋂₀ T\n",
+          "sha256": "7e136567a7e24bfece5698ef37f33eb8f5cefd4a7610ba8f35c4f9e765917187",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L62-L64"
+        },
+        {
+          "name": "isGδ_iff_eq_iInter_nat",
+          "first_line": 90,
+          "last_line": 101,
+          "text": "lemma isGδ_iff_eq_iInter_nat {s : Set X} :\n    IsGδ s ↔ ∃ (f : ℕ → Set X), (∀ n, IsOpen (f n)) ∧ s = ⋂ n, f n := by\n  refine ⟨?_, ?_⟩\n  · rintro ⟨T, hT, T_count, rfl⟩\n    rcases Set.eq_empty_or_nonempty T with rfl | hT\n    · exact ⟨fun _n ↦ univ, fun _n ↦ isOpen_univ, by simp⟩\n    · obtain ⟨f, hf⟩ : ∃ (f : ℕ → Set X), T = range f := Countable.exists_eq_range T_count hT\n      exact ⟨f, by simp_all, by simp [hf]⟩\n  · rintro ⟨f, hf, rfl⟩\n    exact .iInter_of_isOpen hf\n\nalias ⟨IsGδ.eq_iInter_nat, _⟩ := isGδ_iff_eq_iInter_nat\n",
+          "sha256": "0e2113073e8539401f878584cd5a9c865b112b247a20ffa4506d3acdf6118a1e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L90-L101"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Neighborhoods.lean",
+      "sha256": "ef0e4d65986641366ffcc380a613f210207fee31e8640e1488a8cae41395383a",
+      "git_blob_sha1": "8bfc6cc6c85396ab77a34b0725508d165b3903f4",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "mem_nhds_iff",
+          "first_line": 64,
+          "last_line": 66,
+          "text": "theorem mem_nhds_iff : s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t :=\n  (nhds_basis_opens x).mem_iff.trans <| exists_congr fun _ =>\n    ⟨fun h => ⟨h.2, h.1.2, h.1.1⟩, fun h => ⟨⟨h.2.2, h.2.1⟩, h.1⟩⟩\n",
+          "sha256": "3920d4125f26e7f74ea0eb050f41fa4c4f00ef056b57524cd6b93066efb1d515",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean#L64-L66"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Inseparable.lean",
+      "sha256": "dca5fb650652280da014c44e928d3992da800db80c65ffebcdf51e3f2e5c0556",
+      "git_blob_sha1": "59b2ec991587de238c6e0c425547d933a2a33a35",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Inseparable.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Andrew Yang. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Andrew Yang, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "inseparable_iff_forall_isOpen",
+          "first_line": 468,
+          "last_line": 470,
+          "text": "theorem inseparable_iff_forall_isOpen : (x ~ᵢ y) ↔ ∀ s : Set X, IsOpen s → (x ∈ s ↔ y ∈ s) := by\n  simp only [inseparable_iff_specializes_and, specializes_iff_forall_open, ← forall_and, ← iff_def,\n    Iff.comm]\n",
+          "sha256": "f8a7fe770ae6e0b6d8a20e3e969ea32f7882c63108a2caa5e305ae36cbdebb6e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Inseparable.lean#L468-L470"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "product-topology",
+          "first_line": 50,
+          "last_line": 56,
+          "text": "    TopologicalSpace (X ⊕ Y) :=\n  coinduced Sum.inl t₁ ⊔ coinduced Sum.inr t₂\n\ninstance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n\n",
+          "sha256": "bf3f7010718cef54196c57b689842a501f33f5fb0d2c152012fd10e8c5fc1f14",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L50-L56"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Closure.lean",
+      "sha256": "d4e49fd0b092d34d5db79261bfc58b69ad3383a113ff2a0f54c0912a8b9afb5c",
+      "git_blob_sha1": "557a4cd1768bc437e6f55fd9635ad07eba7c6080",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Closure.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "dense_iff_inter_open",
+          "first_line": 407,
+          "last_line": 416,
+          "text": "/-- A set is dense if and only if it has a nonempty intersection with each nonempty open set. -/\ntheorem dense_iff_inter_open :\n    Dense s ↔ ∀ U, IsOpen U → U.Nonempty → (U ∩ s).Nonempty := by\n  constructor <;> intro h\n  · rintro U U_op ⟨x, x_in⟩\n    exact mem_closure_iff.1 (h _) U U_op x_in\n  · intro x\n    rw [mem_closure_iff]\n    intro U U_op x_in\n    exact h U U_op ⟨_, x_in⟩\n",
+          "sha256": "9a409a04b115c02363949db371f217b2c698b697dc6265202576be7c5de7920f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Closure.lean#L407-L416"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Compactness/LocallyCompact.lean",
+      "sha256": "4b6595bb61a6c53eee398a96f7fb2301cf24f400f82ce9fdfe4ee1d5dd3e64ce",
+      "git_blob_sha1": "a8daae99ac29b2ad06fbe9308dc7fb988c732763",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/LocallyCompact.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "compact-to-weak-local",
+          "first_line": 36,
+          "last_line": 37,
+          "text": "instance (priority := 100) [CompactSpace X] : WeaklyLocallyCompactSpace X where\n  exists_compact_mem_nhds _ := ⟨univ, isCompact_univ, univ_mem⟩\n",
+          "sha256": "337424b6e8af5ae2df1fba0f833fd930023be8f7028cd4cb78c2aad2d7d12169",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/LocallyCompact.lean#L36-L37"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Compactness/Compact.lean",
+      "sha256": "3fc7ffe7db4db0a2de07d6fdf0e65da486b3dced1f3bac4d58ab869a92f4ac64",
+      "git_blob_sha1": "30fc9322f4ce78f847a592b0035bf5edfc65f33c",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "closed-nested-intersection",
+          "first_line": 336,
+          "last_line": 345,
+          "text": "/-- Cantor's intersection theorem for sequences indexed by `ℕ`:\nthe intersection of a decreasing sequence of nonempty compact closed sets is nonempty. -/\ntheorem IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed (t : ℕ → Set X)\n    (htd : ∀ i, t (i + 1) ⊆ t i) (htn : ∀ i, (t i).Nonempty) (ht0 : IsCompact (t 0))\n    (htcl : ∀ i, IsClosed (t i)) : (⋂ i, t i).Nonempty :=\n  have tmono : Antitone t := antitone_nat_of_succ_le htd\n  have htd : Directed (· ⊇ ·) t := tmono.directed_ge\n  have : ∀ i, t i ⊆ t 0 := fun i => tmono <| Nat.zero_le i\n  have htc : ∀ i, IsCompact (t i) := fun i => ht0.of_isClosed_subset (htcl i) (this i)\n  IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed t htd htn htc htcl\n",
+          "sha256": "b269cbf03f8700525fb6302bd5a19b8a6fd83bface21df1286d79a3e3b0db4ee",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L336-L345"
+        },
+        {
+          "name": "isCompact_iff_finite_subcover",
+          "first_line": 384,
+          "last_line": 390,
+          "text": "/-- A set `s` is compact if and only if\nfor every open cover of `s`, there exists a finite subcover. -/\ntheorem isCompact_iff_finite_subcover :\n    IsCompact s ↔ ∀ {ι : Type u} (U : ι → Set X),\n      (∀ i, IsOpen (U i)) → (s ⊆ ⋃ i, U i) → ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=\n  ⟨fun hs => hs.elim_finite_subcover, isCompact_of_finite_subcover⟩\n\n",
+          "sha256": "758302c18c0095b5390d3d24055fba6ef1b52b1356027614c3370500aeb0de37",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L384-L390"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Sets/Compacts.lean",
+      "sha256": "9f897430e92d1bb496298d6c4daefecb76232f79c4e9cdee7d137eecaf77b5fc",
+      "git_blob_sha1": "76e5a262cb3b16845ecc95c68b8955b4cd24526d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Sets/Compacts.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Floris van Doorn. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Floris van Doorn, Yaël Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "Compacts",
+          "first_line": 33,
+          "last_line": 57,
+          "text": "namespace TopologicalSpace\n\n/-! ### Compact sets -/\n\n/-- The type of compact sets of a topological space. -/\nstructure Compacts (α : Type*) [TopologicalSpace α] where\n  /-- the carrier set, i.e. the points in this set -/\n  carrier : Set α\n  isCompact' : IsCompact carrier\n\nnamespace Compacts\n\ninstance : SetLike (Compacts α) α where\n  coe := Compacts.carrier\n  coe_injective s t h := by cases s; cases t; congr\n\ninstance : PartialOrder (Compacts α) := .ofSetLike (Compacts α) α\n\n/-- See Note [custom simps projection]. -/\ndef Simps.coe (s : Compacts α) : Set α := s\n\ninitialize_simps_projections Compacts (carrier → coe, as_prefix coe)\n\nprotected theorem isCompact (s : Compacts α) : IsCompact (s : Set α) :=\n  s.isCompact'\n",
+          "sha256": "7cd74f9ed016c88488c233b5f236947d98e41e4fd8d3d5857a5225197405d707",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Sets/Compacts.lean#L33-L57"
+        },
+        {
+          "name": "PositiveCompacts",
+          "first_line": 645,
+          "last_line": 674,
+          "text": "\n/-- The type of compact sets with nonempty interior of a topological space.\nSee also `TopologicalSpace.Compacts` and `TopologicalSpace.NonemptyCompacts`. -/\nstructure PositiveCompacts (α : Type*) [TopologicalSpace α] extends Compacts α where\n  interior_nonempty' : (interior carrier).Nonempty\n\nnamespace PositiveCompacts\n\ninstance : SetLike (PositiveCompacts α) α where\n  coe s := s.carrier\n  coe_injective s t h := by\n    obtain ⟨⟨_, _⟩, _⟩ := s\n    obtain ⟨⟨_, _⟩, _⟩ := t\n    congr\n\ninstance : PartialOrder (PositiveCompacts α) := .ofSetLike (PositiveCompacts α) α\n\n/-- See Note [custom simps projection]. -/\ndef Simps.coe (s : PositiveCompacts α) : Set α := s\n\ninitialize_simps_projections PositiveCompacts (carrier → coe, as_prefix coe, as_prefix toCompacts)\n\nprotected theorem isCompact (s : PositiveCompacts α) : IsCompact (s : Set α) :=\n  s.isCompact'\n\ntheorem interior_nonempty (s : PositiveCompacts α) : (interior (s : Set α)).Nonempty :=\n  s.interior_nonempty'\n\nprotected theorem nonempty (s : PositiveCompacts α) : (s : Set α).Nonempty :=\n  s.interior_nonempty.mono interior_subset\n",
+          "sha256": "35d189bfffebda7a853da2e7a64458f1ad022cac40c953872c3818a4fc2dacd1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Sets/Compacts.lean#L645-L674"
+        },
+        {
+          "name": "positive-compact-closure-shrinking",
+          "first_line": 744,
+          "last_line": 747,
+          "text": "theorem _root_.IsOpen.exists_positiveCompacts_closure_subset [R1Space α] [LocallyCompactSpace α]\n    {U : Set α} (ho : IsOpen U) (hn : U.Nonempty) : ∃ K : PositiveCompacts α, closure ↑K ⊆ U :=\n  let ⟨K, hKU⟩ := exists_positiveCompacts_subset ho hn\n  ⟨K, K.isCompact.closure_subset_of_isOpen ho hKU⟩\n",
+          "sha256": "60faf91ff0c2deb86b5248d9eca69b99b9996fccb1b1051e6ee07d83f2dcffad",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Sets/Compacts.lean#L744-L747"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Pairwise/Basic.lean",
+      "sha256": "49a08e66f604f22b7978292a7569496c1c69b6e16014aee317ebf9f9750fa6d6",
+      "git_blob_sha1": "fa5e633790a26b7451827cbd834d87dafe1f4f10",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Pairwise/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "PairwiseDisjoint",
+          "first_line": 250,
+          "last_line": 258,
+          "text": "\n/-- A set is `PairwiseDisjoint` under `f`, if the images of any distinct two elements under `f`\nare disjoint.\n\n`s.Pairwise Disjoint` is (definitionally) the same as `s.PairwiseDisjoint id`. We prefer the latter\nin order to allow dot notation on `Set.PairwiseDisjoint`, even though the former unfolds more\nnicely. -/\ndef PairwiseDisjoint (s : Set ι) (f : ι → α) : Prop :=\n  s.Pairwise (Disjoint on f)\n",
+          "sha256": "4d382da5fe077b9a61f80db6db72f9596cf47ba580a857100189218aa52ae285",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Pairwise/Basic.lean#L250-L258"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Pairwise.lean",
+      "sha256": "ccac95d1101a308ae38946e81caaa6d2c32e7e90ed99f7305dba9f01a955e62f",
+      "git_blob_sha1": "7a2f0dc7819c5656049e1d99f6ba0be56f1e04ca",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Pairwise.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Pairwise",
+          "first_line": 80,
+          "last_line": 84,
+          "text": "namespace Set\n\n/-- The relation `r` holds pairwise on the set `s` if `r x y` for all *distinct* `x y ∈ s`. -/\nprotected def Pairwise (s : Set α) (r : α → α → Prop) :=\n  ∀ ⦃x⦄, x ∈ s → ∀ ⦃y⦄, y ∈ s → x ≠ y → r x y\n",
+          "sha256": "dc07f59c0a776d37ad78e1161dd9c87ae848c879ee2bdabe152d0a979ac4affa",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Pairwise.lean#L80-L84"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Disjoint.lean",
+      "sha256": "5c59598e126b8345a9373277f8e30c0d52b3fce1080a96281f1dc54bc6dd619c",
+      "git_blob_sha1": "7d5339050bb81a9d325ca7536bbe37dba409813f",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Disjoint",
+          "first_line": 29,
+          "last_line": 49,
+          "text": "variable {α : Type*}\n\nsection Disjoint\n\nsection PartialOrderBot\n\nvariable [PartialOrder α] [OrderBot α] {a b c d : α}\n\n/-- Two elements of a lattice are disjoint if their inf is the bottom element.\n  (This generalizes disjoint sets, viewed as members of the subset lattice.)\n\nNote that we define this without reference to `⊓`, as this allows us to talk about orders where\nthe infimum is not unique, or where implementing `Inf` would require additional `Decidable`\narguments. -/\n@[to_dual /-- Two elements of a lattice are codisjoint if their sup is the top element.\n\nNote that we define this without reference to `⊔`, as this allows us to talk about orders where\nthe supremum is not unique, or where implementing `Sup` would require additional `Decidable`\narguments. -/]\ndef Disjoint (a b : α) : Prop :=\n  ∀ ⦃x⦄, x ≤ a → x ≤ b → x ≤ ⊥\n",
+          "sha256": "343e7f81bb0f165ed1d47af17cc8027a7a26b634ca77239d069eb87f9f7e178b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean#L29-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Disjoint.lean",
+      "sha256": "21e4643bfcae089dbbca262cb9d4b4bad1ad1cd77adf31ae43f4d2f2ab69e492",
+      "git_blob_sha1": "e454989683e886f35bb9d6ef45c429eaadbd0f2d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "set-disjoint",
+          "first_line": 29,
+          "last_line": 40,
+          "text": "protected theorem disjoint_iff : Disjoint s t ↔ s ∩ t ⊆ ∅ :=\n  disjoint_iff_inf_le\n\ntheorem disjoint_iff_inter_eq_empty : Disjoint s t ↔ s ∩ t = ∅ :=\n  disjoint_iff\n\ntheorem _root_.Disjoint.inter_eq : Disjoint s t → s ∩ t = ∅ :=\n  Disjoint.eq_bot\n\n@[grind =]\ntheorem disjoint_left : Disjoint s t ↔ ∀ ⦃a⦄, a ∈ s → a ∉ t :=\n  disjoint_iff_inf_le.trans <| forall_congr' fun _ => not_and\n",
+          "sha256": "16a8ba9d0314facecc723d1659f71529b6cad3dcdb4c213134528acae5f363ab",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Disjoint.lean#L29-L40"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "path": "ChallengeTests.lean",
+      "module": "ChallengeTests",
+      "sha256": "4c12242e4fccdc1d862b41be663716ac4c0a4aaa5504952914b77de20e7930bb"
+    },
+    {
+      "path": "SemanticTests.lean",
+      "module": "SemanticTests",
+      "sha256": "a02165b672fe4a8fd47c5ce93b074c2f7636056eacbe7b3af608b8b039afa4ca"
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "scope": "Material selected-surface predicate inventory plus proof-critical dependency chain. Static consistency and pinned-origin authentication do not establish semantic completeness or editorial acceptance; independent source review and actual bridge compilation are separate."
+}

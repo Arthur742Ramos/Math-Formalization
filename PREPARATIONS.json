@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-19",
-  "scope": "Prior registered and verified source ledgers remain immutable. Kuratowski–Ulam now has a separate material imported-definition evidence correction with original source mechanical receipts retained as history; current canonical and service gates remain separate.",
+  "scope": "Prior registered and verified sources remain immutable. Kuratowski\u2013Ulam imported-definition correction is preserved. Locally compact R1 Baire products is the sole resumed development; its prior checks are source-bound and current canonical/service gates remain separate.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -372,7 +372,7 @@
       "registry_registration_status": "unconfirmed"
     },
     {
-      "name": "Kuratowski–Ulam category theorem for countable pi-base spaces",
+      "name": "Kuratowski\u2013Ulam category theorem for countable pi-base spaces",
       "path": "topology/kuratowski-ulam",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
@@ -474,6 +474,138 @@
           "verification/source-hashes.json"
         ],
         "preservation": "Selected proof files, Comparator, AxiomAudit and all package dependency pins are byte-identical. New retained definition evidence, semantic test bridges and related explanation require their own source-bound checks."
+      }
+    },
+    {
+      "name": "Baire products with locally compact R1 factors",
+      "path": "topology/locally-compact-baire",
+      "state": "verified-preparation-intake-unconfirmed",
+      "source_snapshot": {
+        "commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+        "tree": "6d02d6bdf576e971004b6e77ea34ef7ddaa24957"
+      },
+      "source_files_sha256": {
+        "comparator.json": "170f08f762c79ae8e0830f03ecbb142162d140c16fcda4f1a8435546981f5b07",
+        "formalization.yaml": "ad9fbff8ca298f69782e5e6423361396078b9862d700448b44faab1ec4fad34b",
+        "lake-manifest.json": "f136b80d7848af0da439136b6647b1f417d2165d8f19aa33d9975d837937d6d9",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "LocallyCompactBaire.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
+        "LCBChallenge.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
+        "LCBSolution.lean": "c377975d573cb8f1bea06591f416f1042c00fb65264b5fc9eef613644be44586"
+      },
+      "theorem_names": [
+        "LocallyCompactBaire.exists_maximal_pairwiseDisjoint_refinement",
+        "LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement",
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+        "LocallyCompactBaire.baireSpace_prod",
+        "LocallyCompactBaire.baireSpace_prod_of_compact"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source-definition-research-review.json": "6c30fdef8f8a03cfa17b49d5fa2214f983f91ba7dc8c1566aadaf018f99cbef6",
+          "candidate-source-definition-review.json": "cb862a97f7f2ffa0addcc860710d9da8053f88bb4eda4e8f9ac2c37dabef08d6",
+          "candidate-implementation-review.json": "76b8476438bcfdb6962cff02c92d7d2cb689b9194bf323ad842266eb9c256d17"
+        }
+      },
+      "ordinary_local": "pass; final six-module960-job package-owned build, ten material declarations with literal/class/proved bridge checks through both independent entrypoints, six fresh standard-three transitive axiom closures,35retained excerpts/15exact clean pinned Git sources authenticated",
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "run_id": 39296128546,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39296128546",
+        "workflow": ".github/workflows/palomar-lcb-full-preflight.yml",
+        "workflow_head": "ea9a45403bf022290b1c16ab753c80e033e90d54",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "6d02d6bdf576e971004b6e77ea34ef7ddaa24957",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/locally-compact-baire-2026-10-19/full-report.json",
+        "original_report_sha256": "df00eaab7bad463c8e920a950963e1f377d8bd84515198cfe89516219c0c708c",
+        "request_id": "lcbdefpre001"
+      },
+      "rendering_run": {
+        "run_id": 39296127840,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39296127840",
+        "workflow": ".github/workflows/palomar-lcb-renderer.yml",
+        "workflow_head": "ea9a45403bf022290b1c16ab753c80e033e90d54",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "6d02d6bdf576e971004b6e77ea34ef7ddaa24957",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/locally-compact-baire-2026-10-19/render-report.json",
+        "original_report_sha256": "c33c49ebd2c14cd0d40e4a3a4f36271adb469bc4145a7cee1da6ec4bbf44b1f5",
+        "artifact_tree_sha256": "625d58ef01686301ecefd3bc684028a45dce760bb159229246ae629a94622ce9"
+      },
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-19",
+      "checkpoint_scope": "Current2026-10-19 exact-source full/render passes supersede the dated prelaunch preparation checkpoint. Original reports bind audited source d972b3cb0637c0e962c04384f16ec2b3e033d768; ordinary proof/definition evidence retains its own tested head. No private intake, editorial decision or registration is inferred. The two specific disposable-runner approvals were consumed; no future approval transfers.",
+      "duplicate_check": "No equivalent located in target-selection inventory of21prior packages,36then-current remote branches/0openPRs, pinnedMathlib065356 and independently rehashed24page/598entry revision332snapshot captured2026-10-17. Current official public/protocol reads403; private attempts not enumerated. No absolute originality or intake clearance claim.",
+      "remaining_obligations": [
+        "Final root completion catalog check and independent exact-source/packet review before normal protected merge; verify remote tree afterward.",
+        "Current official protocol, actual attempts, duplicates/public ID, effective identity and proof capability before any service action. Prior gist403 remains unresolved and is not retried.",
+        "Browser-runtime visual inspection is unestablished; actual canonical rendering surface, original HTML, contracts and all bundle hashes are verified. Editorial acceptance and registration are separate.",
+        "The exact full350/render360 runner approvals were consumed. No future security-sensitive exception is authorized. Corrected KU and its unconfirmed intake are preserved."
+      ],
+      "scope": "Dense-Gdelta fixed-region projection via maximal disjoint open refinements and nested compact fibers; arbitrary Baire first factor times locally compact R1 factor is Baire, including empty factors.",
+      "prior_ordinary_source": {
+        "source_commit": "56c93c5ab4cdc1291d87c0b17104cb31f7c243dc",
+        "package_tree": "98d935b8da91ff2e65cf98f0d2c090a20fe29416",
+        "reviewed_head": "13eaead07f5ee94cbae0636c877bea5bb08d6c39",
+        "lean_run": 39265820552,
+        "catalog_run": 39265820469,
+        "attempts": 1,
+        "conclusion": "success",
+        "scope": "Historical ordinary CI only; not verification of the new definition-audited source.",
+        "provider_record": "catalog-evidence/locally-compact-baire-2026-10-19/prior-ordinary-provider.json",
+        "provider_record_sha256": "831e4274e19451c8a914c4979a674d411ef374748f739afaa898911a296693d0"
+      },
+      "material_definition_audit": {
+        "source_commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+        "material_declarations": 10,
+        "upstream_files": 15,
+        "literal_excerpts": 35,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed",
+      "ordinary_hosted": {
+        "reviewed_head": "9a38881dc1c0820f37fb3d625b1e3ab8c11e2c2c",
+        "lean_run": 39292097029,
+        "catalog_run": 39292097067,
+        "each_attempt": 1,
+        "status": "pass",
+        "scope": "Six modules960jobs/sixactualstandard-threeaxiomclosures/15exactsourcefiles35excerpts and93regressions. Later root-only completion changes preserve the exact package tree."
       }
     }
   ]
