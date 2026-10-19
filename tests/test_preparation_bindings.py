@@ -7,7 +7,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction
+from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction, check_locally_compact_definition_preparation
 
 
 class CorrectedFullBindings(unittest.TestCase):
@@ -176,6 +176,63 @@ class ImportedDefinitionCorrectionBindings(unittest.TestCase):
                 with self.assertRaises(AssertionError):
                     self.check()
                 old['status'] = 'pass'
+
+
+class LocallyCompactDefinitionBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/locally-compact-baire'))
+
+    def check(self):
+        source = self.row['source_snapshot']
+        check_locally_compact_definition_preparation(self.row, source['commit'], source['tree'])
+
+    def test_actual_prior_ordinary_history_and_new_audit_pass(self):
+        self.check()
+
+    def test_prior_run_id_cannot_be_fabricated(self):
+        self.row['prior_ordinary_source']['lean_run'] = 1
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_prior_attempt_cannot_be_invented(self):
+        self.row['prior_ordinary_source']['attempts'] = 2
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_prior_source_cannot_be_substituted(self):
+        self.row['prior_ordinary_source']['source_commit'] = self.row['source_snapshot']['commit']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_wrong_old_package_tree_rejected(self):
+        self.row['prior_ordinary_source']['package_tree'] = '0' * 40
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_provider_digest_cannot_be_relabelled(self):
+        self.row['prior_ordinary_source']['provider_record_sha256'] = '0' * 64
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_failed_history_cannot_be_called_success(self):
+        self.row['prior_ordinary_source']['conclusion'] = 'failure'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_audit_bound_to_wrong_source_rejected(self):
+        self.row['material_definition_audit']['source_commit'] = '0' * 40
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_audit_inventory_count_cannot_be_fabricated(self):
+        self.row['material_definition_audit']['material_declarations'] = 1
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_audit_excerpt_count_cannot_be_fabricated(self):
+        self.row['material_definition_audit']['literal_excerpts'] = 1
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_old_ordinary_pass_cannot_establish_new_canonical_pass(self):
+        self.row['canonical_full'] = 'pass'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_prior_security_approval_cannot_transfer(self):
+        self.row['fresh_runner_security_approval'] = True
+        with self.assertRaises(AssertionError): self.check()
 
 
 if __name__ == '__main__':

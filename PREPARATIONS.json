@@ -548,7 +548,9 @@
         "catalog_run": 39265820469,
         "attempts": 1,
         "conclusion": "success",
-        "scope": "Historical ordinary CI only; not verification of the new definition-audited source."
+        "scope": "Historical ordinary CI only; not verification of the new definition-audited source.",
+        "provider_record": "catalog-evidence/locally-compact-baire-2026-10-19/prior-ordinary-provider.json",
+        "provider_record_sha256": "831e4274e19451c8a914c4979a674d411ef374748f739afaa898911a296693d0"
       },
       "material_definition_audit": {
         "source_commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
