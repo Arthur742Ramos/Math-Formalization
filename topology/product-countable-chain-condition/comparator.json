@@ -1,0 +1,21 @@
+{
+  "challenge_module": "ProductCCCChallenge",
+  "solution_module": "ProductCCCSolution",
+  "theorem_names": [
+    "ProductCCC.uncountable_delta_system",
+    "ProductCCC.hasCCC_pi_of_finite",
+    "ProductCCC.hasCCC_pi_iff",
+    "ProductCCC.hasCCC_pi_of_separable",
+    "ProductCCC.HasCCC.of_continuous_surjective",
+    "ProductCCC.hasCCC_discrete_iff"
+  ],
+  "definition_names": [
+    "ProductCCC.HasCCC",
+    "ProductCCC.IsDeltaSystem"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

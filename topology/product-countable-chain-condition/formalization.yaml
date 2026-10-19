@@ -1,0 +1,95 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Countable cellularity of arbitrary products via finite subproducts",
+    "description": "An arbitrary product of topological spaces satisfies the countable chain condition (CCC) whenever every finite subproduct does. For nonempty factors this is an equivalence. The proof includes an indexed uncountable delta-system lemma that permits repeated finite supports, and glues compatible cylinders over a finite common root. Arbitrary products of separable spaces are consequently CCC, without a cardinal bound or separation assumptions and allowing empty factors. Continuous-surjection preservation and the discrete-space countability criterion are proved companions. No unrestricted productivity of CCC factors or productively-CCC theorem is asserted.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54B10",
+      "54A25"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Is the product of ccc spaces a ccc space?, Publicacions Matematiques 33 (1989), 173–183",
+      "authors": [
+        "Nina M. Roy"
+      ],
+      "type": "paper",
+      "id": "https://ddd.uab.cat/pub/pubmat/pubmat_a1989v33n2/pubmat_a1989v33n2p173.pdf",
+      "relationship": "formalizes",
+      "note": "Directly consulted published exposition, PDF SHA256 d44ee8f6faea16261a8f006afd65d8f7fb378c92ab2ea8637ded2b3fd6353e65. Printed pp.174–175 give the delta-system lemma; printed p.176 Theorem 2.2 and Corollary 2.3 are the exact forward finite-subproduct criterion and separable-product corollary. The iff under nonempty factors, continuous-image transport and discrete boundary are companion proofs. These statements do not use MA or CH; nearby conditional results are excluded. Roy gives classical exposition, not a claim of original discovery, and tentatively traces the criterion to Noble–Ulmer (1972), whose original paper is not claimed directly consulted. No novelty, priority or first-formalization claim."
+    },
+    {
+      "title": "A characterization of productive cellularity, arXiv:2005.10325v3",
+      "authors": [
+        "Renan M. Mezabarba",
+        "Leandro F. Aurichi",
+        "Lucia R. Junqueira"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/2005.10325v3",
+      "relationship": "related",
+      "note": "Directly consulted primary research PDF SHA256 6cf2896ace0650065f02deaf7797f60f9b3ea1c2c6372904c0b05ead145a9e89. Introduction and Section 4 establish the research audience in cellularity and productive chain conditions. Proposition 4.1 is stronger (productively CCC); Theorem 4.4 concerns forcing-poset spectra. Neither stronger statement nor its forcing machinery is claimed formalized."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses Zorn maximality, finite/countable set APIs, actual product topology, finite-cylinder neighborhoods, finite separable products, and Pairwise.countable_of_isOpen_disjoint. Separable implies CCC is existing Mathlib mathematics, explicitly reused; it is not the principal new bridge."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e/topology/hewitt-marczewski-pondiczery",
+      "relationship": "related",
+      "note": "Prior campaign proves product separability with a continuum index bound and its Boolean sharpness. This independent package proves cellularity for arbitrary index types via the finite-subproduct criterion. No prior package is imported, and no prior theorem is claimed new."
+    }
+  ],
+  "status": {
+    "scope": "Six selected theorems and two literal definitions, with no proof holes. The forward criterion and separable corollary allow empty factors; only the iff uses nonempty factors.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof gaps in the selected statements. Unconditional productivity of arbitrary CCC factors, stronger productively-CCC or Knaster/caliber results, forcing independence and MA/CH theorems are outside scope. Canonical full verification and rendering are established only by separately preserved receipts naming the exact source. Local Lean checks and internal AI review do not imply those receipts, browser visual inspection, editorial acceptance or registration. Frozen source provenance and external source-bound outcome receipts are distinct.",
+    "attribution_status": "Campaign-authorized author and responsible-maintainer memberships preserved separately. Names do not attest human proof contributions or human review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored the substantive Lean proofs, tests and package. Independent internal AI source/scope and implementation review have separately scoped receipts; no human or external peer review is invented."
+      }
+    ],
+    "notes": "Material AI proof and packaging contributions disclosed. Backend identity and costs are not independently attested."
+  },
+  "fidelity": {
+    "divergences": "Roy Theorem 2.2 and Corollary 2.3 are formalized for actual product topologies with independent index/factor universes. The indexed delta-system form handles repeated supports. The rare-coordinate case uses a maximal disjoint subfamily via Zorn instead of a transfinite omega-one enumeration. Nonempty-factor iff, continuous-surjection transport and discrete iff are proved companions. No separation, compactness, first-countability or cardinal restriction is smuggled into the forward criterion. No productively-CCC claim."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex source/scope reviewer"
+    ],
+    "notes": "Source correspondence, research significance and bounded overlap reviewed before final packaging; the proof body received a separate mathematical review. Immutable final implementation/source/packet reviews have their own scope and receipts. This field does not attest human review or canonical verification."
+  },
+  "acknowledgements": "Roy retains exposition/source credit; the classical origin is not reassigned. Lean/Mathlib retain infrastructure and separable-CCC argument credit. The prior HMP package is credited as related, not imported. No novelty or acceptance promised."
+}
