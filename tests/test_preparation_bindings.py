@@ -110,5 +110,16 @@ class UnconfirmedIntakeBindings(unittest.TestCase):
             self.check()
 
 
+class KuratowskiUlamUnconfirmedBindings(UnconfirmedIntakeBindings):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/kuratowski-ulam'))
+
+    def test_wrong_source_report_cannot_transfer(self):
+        self.row['canonical_run']['verified_source_commit'] = '92f1a925329465c86a96b2f612fcd0d5345eed3b'
+        with self.assertRaises(AssertionError):
+            self.check()
+
+
 if __name__ == '__main__':
     unittest.main()

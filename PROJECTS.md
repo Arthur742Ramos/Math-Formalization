@@ -78,11 +78,22 @@ in PREPARATIONS.json; browser/runtime visual review remains unestablished.
 | --- | --- | --- | --- |
 | [Countable cellularity of arbitrary products via finite subproducts](topology/product-countable-chain-condition) | Arbitrary-product CCC from finite subproducts, nonempty-factor iff, indexed Delta-system lemma and separable-product corollary. | Full/render passed; intake and registration unconfirmed | [`92f1a92`](https://github.com/Arthur742Ramos/Math-Formalization/tree/92f1a925329465c86a96b2f612fcd0d5345eed3b/topology/product-countable-chain-condition) |
 
-## New independent preparation
+## Separately verified Kuratowski–Ulam theorem
 
-Exactly one next target is under development. Its local source checks and
-independent internal AI reviews do not certify canonical or service outcomes.
+PR29 merged after exact-source full verification and rendering passed, each once
+at attempt1. Original immutable reports bind the unchanged source in
+PREPARATIONS.json. Intake and registration are unconfirmed; do not resubmit on
+an assumption of absence. Browser/runtime inspection remains unestablished.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Preparation; not submitted | [`dd46751`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dd4675197cac51f2de3fc0ab66195cb0807023dc/topology/kuratowski-ulam) |
+| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Full/render passed; intake and registration unconfirmed | [`dd46751`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dd4675197cac51f2de3fc0ab66195cb0807023dc/topology/kuratowski-ulam) |
+
+## New independent preparation
+
+Exactly one next target is under development. Its source, local checks and
+internal AI reviews have separate scopes from canonical and service outcomes.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Baire products with locally compact R1 factors](topology/locally-compact-baire) | Dense-Gdelta fixed-region projection and Baire product theorem by maximal disjoint refinements and nested compact fibers. | Preparation; not submitted | [`56c93c5`](https://github.com/Arthur742Ramos/Math-Formalization/tree/56c93c5ab4cdc1291d87c0b17104cb31f7c243dc/topology/locally-compact-baire) |

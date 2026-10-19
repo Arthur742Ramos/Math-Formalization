@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-19",
-  "scope": "Seventeen audited packages retain immutable ledgers. Separately verified collectionwise, Sigma compactness and product-CCC preserve exact-source outcomes; private intake and registration states are separately scoped. Kuratowski–Ulam is the sole next preparation.",
+  "scope": "Immutable audited ledgers and prior package sources retained. Separately verified preparations record source-bound full/render evidence and actor-scoped intake status. Locally compact R1 Baire products is the sole next preparation.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -374,7 +374,7 @@
     {
       "name": "Kuratowski–Ulam category theorem for countable pi-base spaces",
       "path": "topology/kuratowski-ulam",
-      "state": "reviewed-preparation-not-submitted",
+      "state": "verified-preparation-intake-unconfirmed",
       "source_snapshot": {
         "commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
         "tree": "a53ccf7f92776429b66b15e4604673b6d7ffc7e8"
@@ -418,10 +418,114 @@
         "receipts_sha256": {
           "source-scope-review.json": "c6e20ae5fb5f400193e4f47f5f819c2d90544f6da681166c884e02bdec9f3e5b",
           "immutable-package-mathematical-source-review.json": "d65f2cbbae9d66a3e4fe76fe802d746c6623dda38f9104a64bc8cc0e3930fff1",
-          "immutable-package-implementation-review.json": "36b793dea2f9d96a9b03b63eed24c065ace4c98f8b5b84adf47347daba4716d8"
+          "immutable-package-implementation-review.json": "36b793dea2f9d96a9b03b63eed24c065ace4c98f8b5b84adf47347daba4716d8",
+          "actual-full-evidence-implementation-review.json": "cc422c99801c88415e146d128fdfac3315f409d395d86bcaad5e88528a81ec23",
+          "actual-results-source-render-review.json": "2be5d9da387f7820bc16145441c79d87aa5cec8c930fadd28f99d16ef74578e5",
+          "final-submission-data-implementation-review.json": "c8b2c2f6154e0fada158ab37696c57e9b0463f07c3d25a26bcd5dfd68ef51bf2",
+          "final-submission-data-source-review.json": "f5cc0a731e54d7cb52d467a3421e444de2dedc81e23baae1ac6852cc13fee473"
         }
       },
       "ordinary_local": "pass; exact package-owned six-module1744job build; seven selected theorem contracts and two literal definition bodies independently checked through Challenge/Solution; Sierpinski non-cover/empty-space/universe/separation boundaries; seven actual standard-three axiom closures and two empty definition closures",
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "a53ccf7f92776429b66b15e4604673b6d7ffc7e8",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+        "workflow_head": "8159e4593c7dc5f57d7fb8e68fed33fb9de54fef",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "run_id": 39258375861,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375861",
+        "workflow": ".github/workflows/palomar-ku-full-preflight.yml",
+        "report_file": "catalog-evidence/kuratowski-ulam-2026-10-19/full-report.json",
+        "original_report_sha256": "bf6c0dbf64e537dfb758c19dcdbf5390cedec767a57bb2dffce33ce1e73e9ff5",
+        "request_id": "kupreflight1"
+      },
+      "rendering_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "a53ccf7f92776429b66b15e4604673b6d7ffc7e8",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+        "workflow_head": "8159e4593c7dc5f57d7fb8e68fed33fb9de54fef",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "run_id": 39258375182,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182",
+        "workflow": ".github/workflows/palomar-ku-renderer.yml",
+        "report_file": "catalog-evidence/kuratowski-ulam-2026-10-19/render-report.json",
+        "original_report_sha256": "547739cb24abe12dc2ff2d4db24194d39234d287ebcab284de7147b4501e03d1",
+        "artifact_tree_sha256": "0bfc83055dfabb3ad042649082d85239326c4b076fc6737e24f3a39611faa4df"
+      },
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-19",
+      "checkpoint_scope": "Completed exact-source full/render receipts supersede the preparation checkpoint; intake and registration remain unconfirmed, not absent.",
+      "duplicate_check": "No equivalent located in20baselinepackages,34remote branches/0openPRs atselection, pinnedMathlib065356, or independently rehashed24page/598entryrevision332datedsnapshot. Fresh public KU searches unavailable; currentglobal/privateclearance unestablished.",
+      "remaining_obligations": [
+        "Intake and public registration unconfirmed. Do not resubmit on an assumption of absence; reconcile actual attempt, current protocol and effective proof capability before any service action.",
+        "Browser/runtime visual inspection unestablished; original HTML, declaration/hash bindings and three approximate static pages independently reviewed. Two nonblocking exposure tooltips disclosed externally.",
+        "The exact two attempt1 disposable-runner approvals are consumed; no permission transfers."
+      ],
+      "scope": "Countable-pi-base nowhere-dense/meagre/residual section theorems, Baire-property converse companions under Baire factors, and product Baire theorem.",
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed",
+      "completed_evidence_note": "PR29 normal merge a5858d3c734cf57aa07a9123634aa3598e764349 preserved exact source, reviews passed and automatic postmerge catalog39260274686 passed. No registry intake or registration is inferred."
+    },
+    {
+      "name": "Baire products with locally compact R1 factors",
+      "path": "topology/locally-compact-baire",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "56c93c5ab4cdc1291d87c0b17104cb31f7c243dc",
+        "tree": "98d935b8da91ff2e65cf98f0d2c090a20fe29416"
+      },
+      "source_files_sha256": {
+        "comparator.json": "170f08f762c79ae8e0830f03ecbb142162d140c16fcda4f1a8435546981f5b07",
+        "formalization.yaml": "8487c5a153862ac8bc63995fb0850d2c896f67489b171e463e277d6d6b5c296c",
+        "lake-manifest.json": "f136b80d7848af0da439136b6647b1f417d2165d8f19aa33d9975d837937d6d9",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "LocallyCompactBaire.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
+        "LCBChallenge.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
+        "LCBSolution.lean": "c377975d573cb8f1bea06591f416f1042c00fb65264b5fc9eef613644be44586"
+      },
+      "theorem_names": [
+        "LocallyCompactBaire.exists_maximal_pairwiseDisjoint_refinement",
+        "LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement",
+        "LocallyCompactBaire.exists_dense_isGdelta_fiber_witness",
+        "LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst",
+        "LocallyCompactBaire.baireSpace_prod",
+        "LocallyCompactBaire.baireSpace_prod_of_compact"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source-scope-review.json": "53e1dfc0986d078e7502a340844ae8de126f60c93e9c8aca906ff6253ffed445",
+          "immutable-package-mathematical-source-review.json": "ccdf1a271fde4195e6207dc97e48cf846b7bb33496d7c75f24d21e5d91bcf57c",
+          "immutable-package-implementation-review.json": "eeab6f3193b811f7961683620cf50a51674ae7d66f89d943eceef9bef8505407"
+        }
+      },
+      "ordinary_local": "pass; six modules,960Lakejobs, six actual standard-three axiom closures; separate Challenge/Solution contracts, independent universes, empty factors, essential nonempty fiber region and compact non-T0 R1 example; pinned native metadata parser accepts math.GN/54E52/54B10",
       "canonical_full": "not-established",
       "rendering": "not-established",
       "canonical_run": null,
@@ -432,14 +536,14 @@
       "fresh_runner_security_approval": false,
       "evidence_observed_date": "2026-10-19",
       "checkpoint_scope": "Dated preparation evidence, not a permanent claim that later source-bound external verification has never run. Frozen source status is future-stable.",
-      "duplicate_check": "No equivalent located in20baselinepackages,34remote branches/0openPRs atselection, pinnedMathlib065356, or independently rehashed24page/598entryrevision332datedsnapshot. Fresh public KU searches unavailable; currentglobal/privateclearance unestablished.",
+      "duplicate_check": "No equivalent located in target-selection inventory of21prior packages,36then-current remote branches/0openPRs, pinnedMathlib065356 and independently rehashed24page/598entry revision332snapshot captured2026-10-17. Current official public/protocol reads403; private attempts not enumerated. No absolute originality or intake clearance claim.",
       "remaining_obligations": [
-        "Ordinary hosted checks and independent final root/workflow/packet review.",
-        "Canonical full protected comparison, independent kernels and rendering require source-bound reports and new specific per-run security approval. Prepared callers remain outside Git and undispatched.",
-        "Actual original full/render provenance and rendered surface inspection plus strict verified packet guard before any verified handoff.",
-        "No registry action until separately authorized current protocol/identity/proof capability/actual attempt and duplicate/publicID reconciliation. Preserve PR27 occupied user-reported intake and PR28 unconfirmed service status."
+        "Ordinary hosted exact-head checks and final immutable source/root/workflow/packet review.",
+        "Source-bound canonical full protected comparison, independent kernels and rendering require their own immutable receipts and specific approval if a fresh runner may conditionally load the AppArmor exception; old approvals do not transfer.",
+        "No intake until current policy/protocol, effective authorized identity and proof capability, actual attempts and duplicates/public ID are reconciled.",
+        "Preserve PR29 source and unconfirmed intake; do not resubmit it. No second target."
       ],
-      "scope": "Countable-pi-base nowhere-dense/meagre/residual section theorems, Baire-property converse companions under Baire factors, and product Baire theorem."
+      "scope": "Dense-Gdelta fixed-region projection via maximal disjoint open refinements and nested compact fibers; arbitrary Baire first factor times locally compact R1 factor is Baire, including empty factors."
     }
   ]
 }

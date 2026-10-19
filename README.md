@@ -6,7 +6,7 @@ definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
 The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction,
-two separately verified product projects, one new preparation, and exact
+three separately verified product projects, one new preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
 All 17 audited package trees match successful full canonical runs. Ten official
@@ -48,12 +48,19 @@ passed for source `92f1a925329465c86a96b2f612fcd0d5345eed3b`.
 Intake and public registration are unconfirmed; no service action is inferred.
 Its package bytes remain unchanged. No consumed runner approval transfers.
 
-The sole new [Kuratowski–Ulam preparation](topology/kuratowski-ulam) proves
-generic nowhere-dense, meagre and residual section results at countable
-pi-weight, with Baire-property converses and a product Baire companion.
-Its local checks and independent reviews have their own scope. Canonical checks
-require fresh specific runner approval. PR27’s reported submission and the
-pending registry authentication handoff remain unchanged.
+The [Kuratowski–Ulam package](topology/kuratowski-ulam) also passed exact-source
+full verification and rendering before its reviewed PR29 merge. Intake and
+registration remain unconfirmed; do not resubmit on assumed absence. Frozen
+source `dd4675197cac51f2de3fc0ab66195cb0807023dc` is preserved, with
+[full](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375861)
+and [rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182)
+receipts recorded in PREPARATIONS.json. Its two runner approvals are consumed.
+
+Exactly one next [locally compact R1 Baire product preparation](topology/locally-compact-baire)
+proves the dense-Gdelta projection construction and Baire product theorem with
+an arbitrary Baire first factor. Its local/source checks and independent review
+evidence are distinct from later canonical full/render and service outcomes.
+No prior runner security approval transfers.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and
