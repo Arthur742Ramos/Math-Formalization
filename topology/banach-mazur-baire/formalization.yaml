@@ -1,0 +1,97 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Oxtoby's Banach–Mazur characterization of Baire spaces",
+    "description": "An arbitrary topological space is Baire if and only if the first player has no winning full-history strategy in the nested nonempty-open Banach–Mazur game. The proof constructs a compatible play with one common point from disjoint dense response levels, and constructs a winning strategy from failure of Baireness. It separately verifies compatible-play existence, equality of the two players’ intersections and the empty-space boundary. No separation, countability or metric hypothesis is imposed. This is classical mathematics, not a novelty or determinacy claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E52",
+      "91A44"
+    ]
+  },
+  "sources": [
+    {
+      "title": "More on products of Baire spaces, arXiv:1702.06197v3",
+      "authors": [
+        "Rui Li",
+        "László Zsilinszky"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1702.06197v3",
+      "relationship": "formalizes",
+      "note": "The classical Banach–Mazur Baire characterization is recalled on printed p.2; the full finite opponent-history strategy convention and payoffs are specified in Section2, printed pp.2–3. The proof here develops the disjoint-response-level construction rather than claiming to reproduce Oxtoby’s unconsulted original. PDF SHA256 e289b7691238657b2d686f21b2cb2bf0900a569e7db0bdd41045e501523ef47f. No novelty, priority or first-formalization claim. The paper’s strong Choquet and infinite product theorems are outside scope."
+    },
+    {
+      "title": "Some variations of the Banach-Mazur game, arXiv:2104.02269v2",
+      "authors": [
+        "Leandro Fiorini Aurichi",
+        "Maddalena Bonanzinga",
+        "Gabriel Andre Asmat Medina"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/2104.02269v2",
+      "relationship": "formalizes",
+      "note": "The introduction, printed p.1, recalls Oxtoby’s characterization and specifies alternating nonempty open sets and common-point payoff. Corollary3.3, printed p.6, includes the classical equivalence for nonempty spaces. This package proves that classical game criterion and explicitly extends it to the empty space by absence of initial strategies; it does not claim the paper’s finite/countable-family variants or productiveness results. PDF SHA256 3f6739c64f46d09aa96385c57ddaa1c5607725ca137412b620b9597414dfa4a2. Original Oxtoby1957 and the cited Kechris Theorem8.11 were not consulted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Canonical BaireSpace, all-open topology, Dense/closure, indexed pairwise disjointness, Zorn and open-subspace Baireness supply infrastructure. Eight material imported declarations retain exact pinned sources and independent compiled meanings. Exact Lean11acb17 core List/length sources and literal four-definition game model are audited separately. Comparator definition_names is empty; all four game definitions and the strategy structure remain fixed non-target dependencies of the seven selected theorem types. No imported Banach–Mazur/Choquet strategy characterization was located in the exact Mathlib revision."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/d972b3cb0637c0e962c04384f16ec2b3e033d768/topology/locally-compact-baire",
+      "relationship": "builds-on",
+      "note": "The two maximal-disjoint/dense-refinement helper proofs are reused under Apache-2.0 with preserved attribution. The new full-history strategy tree, coherent-play extraction, counterstrategy, equivalence and boundary proofs are substantive new package code. Challenge imports only canonical Mathlib modules and does not import this earlier project."
+    }
+  ],
+  "status": {
+    "scope": "Full Oxtoby iff, common-point play against every first strategy on a Baire space, actual winning strategy on a non-Baire space, payoff intersection equality, compatible-play existence, empty-space strategy impossibility.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical proof gap in the selected statements. A missing first-player winning strategy does not assert a second-player winning strategy or determinacy. No strong-Choquet, productiveness, stationary-strategy or finite/countable-family game characterization is claimed. Local builds and ordinary CI are separate from protected Comparator, NanoDa/con-ron and canonical rendering. Each completed verification stage requires its own immutable exact-source external receipt; no registry intake, editorial acceptance or registration is inferred. Browser-runtime inspection is a separate stage.",
+    "attribution_status": "Campaign-authorized established author and responsible-maintainer lists preserved separately; material AI proof authorship disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proof, test and packaging code under Arthur’s campaign authorization. Independent internal AI reviewers separately assess mathematical/source scope and implementation. No human proof contribution or human/external peer review is inferred from the authorized author/maintainer names."
+      }
+    ],
+    "notes": "Material AI proof contributions and independent internal AI reviews are disclosed. Backend costs and human mathematical review are not independently attested."
+  },
+  "fidelity": {
+    "divergences": "Matches the classical nested-nonempty-open game criterion recalled in the consulted papers. The full deterministic first strategy stores all opponent moves in reverse chronological order; its own moves are reconstructible. No stationary restriction. Equal successive moves are permitted. Empty-space extension is explicit. The proof uses maximal disjoint strategy-response levels and a Baire point; it does not claim original Oxtoby-proof correspondence."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal mathematical/source AI reviewer",
+      "Independent internal implementation/contract AI reviewer"
+    ],
+    "notes": "Independent scope and candidate proof review passed. Exact final package review, compilation, definition-value contracts and original canonical results are distinct source-bound evidence; require the corresponding immutable receipts before claiming a completed stage. No human or external peer review is claimed."
+  },
+  "acknowledgements": "Classical Oxtoby attribution, consulted modern primary sources, pinned Lean/Mathlib infrastructure and prior Apache-2.0 helper provenance are retained. Existing campaign-authorized human roles are separate from material Codex proof contributions."
+}

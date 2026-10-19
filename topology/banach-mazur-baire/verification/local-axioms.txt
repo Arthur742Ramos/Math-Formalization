@@ -1,0 +1,11 @@
+'BanachMazur.exists_compatiblePlay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BanachMazur.follows_intersection_eq' depends on axioms: [propext, Quot.sound]
+'BanachMazur.exists_commonPoint_play' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BanachMazur.not_firstWins_of_baireSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BanachMazur.exists_firstWins_of_not_baireSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BanachMazur.baireSpace_iff_no_firstWins' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BanachMazur.isEmpty_firstStrategy' does not depend on any axioms
+'BanachMazur.OpenMove' does not depend on any axioms
+'BanachMazur.history' does not depend on any axioms
+'BanachMazur.Follows' does not depend on any axioms
+'BanachMazur.FirstWins' does not depend on any axioms
