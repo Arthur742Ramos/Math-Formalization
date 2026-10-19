@@ -672,7 +672,7 @@
       "checkpoint_scope": "Dated preparation evidence only. Each later completed stage requires its own exact-source immutable receipt; proof compilation and independent source review do not establish protected export comparison, independent kernel acceptance, rendering, intake or editorial approval. No new security exception is authorized.",
       "duplicate_check": "No equivalent found among22prior packages,40remote branches/0openPRs at selection, exact pinned Mathlib065356 and independently rehashed24page598entry revision332 public snapshot captured2026-10-17. Current global/public and private-attempt clearance is unestablished. No novelty or intake-clearance claim.",
       "remaining_obligations": [
-        "Ordinary hosted exact-package verification and final immutable source/archive/root review.",
+        "Final packet/root status review and catalog check; the completed ordinary hosted proof check retains its own exact head and unchanged package-tree binding.",
         "Exact-source protected Comparator, Lean/NanoDa/con-ron and canonical rendering reports; reconcile runs first. Fresh runner approval or an already authorized compatible host is required before any conditional AppArmor policy change. Prior approvals do not transfer.",
         "Strict verified release-packet guard and independently reviewed original report/artifact provenance before a verified manual handoff.",
         "Arthur owns manual intake. Reconcile current official protocol, actual attempts, duplicates, public ID and effective capabilities before any service action. This task initiates no registry intake."
@@ -696,7 +696,17 @@
         "BanachMazur.Follows",
         "BanachMazur.FirstWins"
       ],
-      "definition_contract": "Zero definition holes; all four model definitions and FirstStrategy remain complete non-target dependencies. Literal body tests and eleven axiom audits are separate evidence."
+      "definition_contract": "Zero definition holes; all four model definitions and FirstStrategy remain complete non-target dependencies. Literal body tests and eleven axiom audits are separate evidence.",
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed",
+      "ordinary_hosted": {
+        "reviewed_head": "3f9c7f6b1d5b38f2e5b32333bc1d72a7e3679a69",
+        "lean_run": 39325771980,
+        "catalog_run": 39325771875,
+        "each_attempt": 1,
+        "status": "pass",
+        "scope": "Exact package tree fb8b665974589ef6bb90abd176f4ddd63b8635ef: six modules853jobs, both independent entrypoints, eight exact Mathlib sources and compiler Prelude authenticated, eleven actual axiom reports/frozen-source checker. Later root-only status changes preserve the package; no protected full/render pass inferred."
+      }
     }
   ]
 }

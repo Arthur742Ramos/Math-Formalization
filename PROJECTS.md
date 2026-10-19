@@ -107,8 +107,8 @@ internal AI reviews have separate scopes from canonical and service outcomes.
 The following package has independent internal source/implementation reviews,
 a package-owned proof build and separately compiled game-definition bridges.
 Protected full verification and rendering need their own exact-source receipts;
-ordinary checks do not establish editorial acceptance. No registry intake is initiated.
+ordinary checks do not establish editorial acceptance. This task has initiated no registry intake; other private attempts remain unconfirmed.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Oxtoby's Banach–Mazur characterization of Baire spaces](topology/banach-mazur-baire) | Arbitrary-space Baire criterion via full-history first-player strategies; coherent common-point play, explicit non-Baire strategy and empty-space boundary. | Preparation; not submitted | [`59d4a50`](https://github.com/Arthur742Ramos/Math-Formalization/tree/59d4a50df466480e88ab71bc1f3527bfe0bf1811/topology/banach-mazur-baire) |
+| [Oxtoby's Banach–Mazur characterization of Baire spaces](topology/banach-mazur-baire) | Arbitrary-space Baire criterion via full-history first-player strategies; coherent common-point play, explicit non-Baire strategy and empty-space boundary. | Preparation; intake unconfirmed | [`59d4a50`](https://github.com/Arthur742Ramos/Math-Formalization/tree/59d4a50df466480e88ab71bc1f3527bfe0bf1811/topology/banach-mazur-baire) |

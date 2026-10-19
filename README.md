@@ -81,7 +81,8 @@ Seven theorem targets, four fixed model definitions, eight imported Mathlib mean
 and Lean list infrastructure have independent internal review and compiled semantic
 bridges. Source `59d4a50df466480e88ab71bc1f3527bfe0bf1811` is frozen with package-owned pins.
 Protected full verification and canonical rendering require their own exact-source
-receipts before a verified handoff; no registry intake is initiated.
+receipts before a verified handoff; this task has initiated no registry intake.
+Other private attempts remain unconfirmed.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

@@ -53,6 +53,14 @@ class FixedGameAuditBindings(unittest.TestCase):
         self.row['definition_names'] = self.row['fixed_model_definitions']
         with self.assertRaises(AssertionError): self.check()
 
+    def test_task_zero_intakes_cannot_establish_private_absence(self):
+        self.row['registry_intake_status'] = 'none'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_proof_checks_cannot_establish_registration(self):
+        self.row['registry_registration_status'] = 'registered'
+        with self.assertRaises(AssertionError): self.check()
+
 
 class CorrectedFullBindings(unittest.TestCase):
     def setUp(self):

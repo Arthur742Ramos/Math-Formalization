@@ -268,6 +268,7 @@ def check_material_audit_binding(p, source):
     assert audit['literal_excerpts'] == sum(len(f['excerpts']) for f in manifest['source_files'])
     assert audit['semantic_tests'] == [b['path'] for b in manifest['checked_bridge_modules']]
     if p['path'] == 'topology/banach-mazur-baire':
+        assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
         proof = git('show', source + ':' + p['path'] + '/BanachMazur.lean')
         fixed = ['BanachMazur.' + n for n in re.findall(r'^@\[expose\] def (\w+)', proof, re.M)]
         assert len(fixed) == 4 and p['fixed_model_definitions'] == fixed
@@ -331,6 +332,8 @@ def check_preparations(rows, verified_paths):
                  'User-reported submitted' if p['state'] == 'user-reported-submitted' else
                  'Full/render passed; intake and registration unconfirmed' if p['state'] == 'verified-preparation-intake-unconfirmed' else
                  'Preparation; not submitted')
+        if path == 'topology/banach-mazur-baire' and p['state'] == 'reviewed-preparation-not-submitted':
+            label = 'Preparation; intake unconfirmed'
         assert label in matching[0]
         assert p['name'] in matching[0]
         catalog_source = p.get('current_source_snapshot', p['source_snapshot'])['commit']
