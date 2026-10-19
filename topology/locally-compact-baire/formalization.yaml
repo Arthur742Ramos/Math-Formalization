@@ -1,0 +1,91 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Baire products with locally compact R1 factors",
+    "description": "The product X × Y is a Baire space when X is Baire and Y is locally compact and R1 (preregular). No countability, metrizability, separation or quasi-regularity hypothesis is imposed on X, and empty factors are allowed. The substantive supporting construction shows that, for any dense Gδ subset D of X × Y and any fixed nonempty open V in Y, the first projection of D intersect (X × V) contains a dense Gδ subset of X. It uses maximal disjoint open refinements in X and nested compact neighborhoods in Y. Arbitrary label sets and independent type universes are included. The locally compact Hausdorff product result is classical; the formulation adapts the cited projection argument to explicitly weaker separation premises, without any novelty or priority claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E52",
+      "54B10"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Pseudo-completeness and the product of Baire spaces",
+      "authors": [
+        "J. M. Aarts",
+        "D. J. Lutzer"
+      ],
+      "type": "paper",
+      "id": "https://msp.org/pjm/1973/48-1/pjm-v48-n1-p01-p.pdf",
+      "relationship": "formalizes",
+      "note": "Directly consulted publisher PDF, Pacific Journal of Mathematics 48(1) (1973), 1–10, SHA256 538268e9276a75184874f44e4c7d79a64c5f1415caaaa5cd1f2da12de7651ceb. Printed pp.8–9, Section4.1 Projection Lemma, supplies the maximal disjoint open refinement/nested-fiber argument. Printed p.9 Section4.2 and its following corollary give a quasi-regular Baire first factor and, in particular, a locally compact Hausdorff second factor. This package specializes the completeness mechanism to compact neighborhoods, proves the arbitrary-first-factor/R1 formulation explicitly, and does not claim a literal match to all hypotheses or the full pseudocomplete theorem. The fixed nonempty open fiber region is explicit; empty products are separately included in the main theorem. No novelty, priority or first-formalization claim. Original Oxtoby1961 and White1975 full texts were not consulted."
+    },
+    {
+      "title": "More on products of Baire spaces, arXiv:1702.06197v3",
+      "authors": [
+        "Rui Li",
+        "Laszlo Zsilinszky"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1702.06197v3",
+      "relationship": "related",
+      "note": "Directly consulted author manuscript, 24Aug2017, PDF SHA256 e289b7691238657b2d686f21b2cb2bf0900a569e7db0bdd41045e501523ef47f. Printed pp.1–2 explain the productive-Baire research problem and completeness/game hypotheses that yield Baire products. This is research context, not a claim to formalize its stronger Choquet, Krom-space or hereditary-Baire theorems."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses canonical product topology, IsGδ, Dense, BaireSpace, R1Space, LocallyCompactSpace, PositiveCompacts and compact closed-intersection infrastructure. The existing Mathlib single-space Baire theorem for locally compact R1 spaces and compact-neighborhood shrinking are credited, not presented as new. No equivalent product or dense-Gδ projection theorem was found in the bounded pinned-library audit. The substantive new bridge constructs maximal disjoint parameter refinements and coherent nested compact fibers. The sibling Kuratowski–Ulam package uses a countable pi-base instead; it is not imported and that assumption is absent here."
+    }
+  ],
+  "status": {
+    "scope": "Six selected theorems: maximal labelled disjoint refinement, dense open refinement, dense-Gδ fixed-region fiber witnesses and projection, the locally compact R1 Baire product theorem, and its compact R1 specialization. No new mathematical definitions are selected.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof hole or added assumption within the selected contracts. No general pseudocomplete, Choquet-game or arbitrary-Baire-product theorem is claimed. The projection witness set depends on the fixed nonempty open fiber region; no simultaneous dense or residual entire-section conclusion is asserted. Exact-source protected full verification, independent-kernel acceptance, rendering, browser inspection, editorial decisions and registration are separate stages certified only by their own immutable receipts. Local compilation alone does not certify them; later source or metadata edits require their own affected checks. No registry outcome is inferred.",
+    "attribution_status": "Established campaign author and responsible-maintainer roles preserved separately; substantive OpenAI Codex proof contributions disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs, tests and packaging under the user-authorized campaign. Separate internal AI reviewers examined source fidelity and implementation contracts. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Material AI contributions are disclosed. Established human author and maintainer attribution is preserved; no human mathematical proof contribution or human/external review is invented."
+  },
+  "fidelity": {
+    "divergences": "Adapts Aarts–Lutzer Section4.1 maximal disjoint open refinements to positive compact fiber neighborhoods. The product theorem is a locally compact completeness specialization with an arbitrary Baire first factor and R1 second factor, explicitly broader separation premises than the consulted Hausdorff/quasi-regular corollary. It does not formalize the full pseudocomplete theorem or claim an original proof or historical priority. All shrinking occurs in Y; no regularity of X is assumed. Nonempty V is essential for the projection statement, while the product theorem permits empty factors."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal OpenAI Codex mathematical/source reviewer",
+      "Independent internal OpenAI Codex implementation/contract reviewer"
+    ],
+    "notes": "Independent internal AI source/fidelity and whole-package implementation reviewers examined the integrated proof, exact contracts, source mapping, roles and initial package consistency. A helper author is not counted as an independent reviewer of their own proof. REVIEW.md and external immutable receipts distinguish development, frozen-source and later release-packet review scopes. No human or external peer review is claimed."
+  },
+  "acknowledgements": "Aarts–Lutzer projection construction and classical productive-category literature, together with Lean and Mathlib compactness, category and order infrastructure, retain their attribution. Material OpenAI Codex proof authorship is explicit."
+}

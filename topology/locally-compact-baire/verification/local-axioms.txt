@@ -1,0 +1,10 @@
+'LocallyCompactBaire.exists_maximal_pairwiseDisjoint_refinement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'LocallyCompactBaire.exists_pairwiseDisjoint_dense_refinement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'LocallyCompactBaire.exists_dense_isGdelta_fiber_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LocallyCompactBaire.exists_dense_isGdelta_subset_image_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LocallyCompactBaire.baireSpace_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LocallyCompactBaire.baireSpace_prod_of_compact' depends on axioms: [propext, Classical.choice, Quot.sound]

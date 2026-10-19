@@ -1,0 +1,18 @@
+{
+  "AxiomAudit.lean": "4eaa09e69e61daca0d53712226905a2fa920137d599336ad27550b1472ca038d",
+  "ChallengeTests.lean": "417d95f727e493af615cde424e0141dc600f7988bb408696fdc3ca5fba724616",
+  "LCBChallenge.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
+  "LCBSolution.lean": "c377975d573cb8f1bea06591f416f1042c00fb65264b5fc9eef613644be44586",
+  "LocallyCompactBaire.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
+  "README.md": "6cbda8913aecdd468bded35377ebdb73b62c97dfc06477165a522c6ce49b91c3",
+  "REVIEW.md": "bf957051abf632173667df2b0c584ca187ee4a36c9a13d7c14b6f886d253fcd7",
+  "SemanticTests.lean": "10d2d5804b16b33d29f29b04ac2e3d159b09eea0b89995f0e8ba2289d7eeaf8d",
+  "VERIFICATION.md": "9c1177fa0113de5b01c7104973c4856a9bb426d831def835afbf074881820e2e",
+  "comparator.json": "170f08f762c79ae8e0830f03ecbb142162d140c16fcda4f1a8435546981f5b07",
+  "formalization.yaml": "8487c5a153862ac8bc63995fb0850d2c896f67489b171e463e277d6d6b5c296c",
+  "lake-manifest.json": "f136b80d7848af0da439136b6647b1f417d2165d8f19aa33d9975d837937d6d9",
+  "lakefile.toml": "8f8bf40eb29fb882c16fb4d1a8b35448dda8cb3d18293863d81f1e2005da6a71",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_package.py": "35f4b51a6a96f0b6bb94783160836bc745a6ed06c60d28c62ce12e4c4162130a",
+  "verification/local-axioms.txt": "594b770a73fb3c312076f38ed6cc31034c705c3c761d0ac01939deebf639dd9a"
+}
