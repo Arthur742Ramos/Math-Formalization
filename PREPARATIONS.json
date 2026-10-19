@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-19",
-  "scope": "Seventeen audited packages retain their immutable ledger. Collectionwise corrected-source full passed and user reports Palomar pass with publicID unconfirmed. Sigma compactness has completed exact-source full/render and user-reported submission, acceptance/registration unverified. The next product-CCC project is a separate preparation.",
+  "scope": "Seventeen audited packages retain immutable ledgers. Separately verified collectionwise, Sigma compactness and product-CCC preserve exact-source outcomes; private intake and registration states are separately scoped. Kuratowski–Ulam is the sole next preparation.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -272,7 +272,7 @@
     {
       "name": "Countable cellularity of arbitrary products via finite subproducts",
       "path": "topology/product-countable-chain-condition",
-      "state": "reviewed-preparation-not-submitted",
+      "state": "verified-preparation-intake-unconfirmed",
       "source_snapshot": {
         "commit": "92f1a925329465c86a96b2f612fcd0d5345eed3b",
         "tree": "8f1ab6d2193990e0a0893e15b3a113e51f451454"
@@ -319,6 +319,109 @@
         }
       },
       "ordinary_local": "pass; package-owned exact Lean v4.35.0-rc2 six-module build1756jobs, six selected theorem contracts, both literal definition values under independent imports, semantic boundaries and eight actual transitive axiom closures",
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "run_id": 39186942906,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39186942906",
+        "workflow": ".github/workflows/palomar-product-ccc-full-preflight.yml",
+        "workflow_head": "8876db82d6f45f910fe16c49356e6c7c3a67bc1f",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "8f1ab6d2193990e0a0893e15b3a113e51f451454",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "92f1a925329465c86a96b2f612fcd0d5345eed3b",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/product-ccc-2026-10-19/full-report.json",
+        "original_report_sha256": "8936117735ac7784cfa2355d80428f4184b9918523cb839225402a9a55ca8c26",
+        "request_id": "ccpreflight1"
+      },
+      "rendering_run": {
+        "run_id": 39186942748,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39186942748",
+        "workflow": ".github/workflows/palomar-product-ccc-renderer.yml",
+        "workflow_head": "8876db82d6f45f910fe16c49356e6c7c3a67bc1f",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "8f1ab6d2193990e0a0893e15b3a113e51f451454",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "92f1a925329465c86a96b2f612fcd0d5345eed3b",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/product-ccc-2026-10-19/render-report.json",
+        "original_report_sha256": "3581c004f93f0a4a251ca752254c219829501bf79f23485f8332a8b0ad60d805",
+        "artifact_tree_sha256": "aad7f32b9986f491314a28e0f9f749f59f8d0a8d9ba113cf9a62c7f26d2a756a"
+      },
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-19",
+      "checkpoint_scope": "Earlier preparation status is historical. Original exact-source full and render reports now complete; no private intake or public registration is inferred.",
+      "duplicate_check": "No equivalent located in19prior packages,32remote branches/0openPRs atselection, pinnedMathlib065356127b1dc0016f66b7283ce0ce2c4055aa55, and independently rehashed24page/598entry revision332public snapshotcaptured2026-10-17 16:05UTC. Currentglobal/privateclearance unavailable. Prioruserreportedsubmissions treatedoccupied.",
+      "remaining_obligations": [
+        "PR28 intake and public registration are unconfirmed. Reconcile actual attempt/protocol/identity/proof capability before any separately authorized service action; do not resubmit on an assumption of absence.",
+        "Browser/runtime visual inspection remains unestablished; original canonical rendering, actual HTML/contract/hash and approximate static inspection passed. Two nonblocking expose tooltip annotations are disclosed in external evidence.",
+        "The exact two disposable-runner approvals were consumed; no new runner or security operation is authorized."
+      ],
+      "scope": "Arbitrary-product CCC from every finite subproduct, iff under nonempty factors, uncountable indexed Delta-system and separable-factor corollary.",
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed"
+    },
+    {
+      "name": "Kuratowski–Ulam category theorem for countable pi-base spaces",
+      "path": "topology/kuratowski-ulam",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+        "tree": "a53ccf7f92776429b66b15e4604673b6d7ffc7e8"
+      },
+      "source_files_sha256": {
+        "comparator.json": "8fe819ee35b6fecaac9567d362c7813d108373ee618b1629b84420b9c672a39b",
+        "formalization.yaml": "a43daa0b734ff126d30d71c649d104e15458cb23cabeb34bb431cbc6dc76c73c",
+        "lake-manifest.json": "e9fa364f1122e46aee5c19ce769d6e413423c21aee6cefef02d1aaf2f02a8d8d",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "KuratowskiUlam.lean": "3d5aa92b97958ebe32fc1c036748c2e94b1ca638dc833887834d3acf9484834e",
+        "KUChallenge.lean": "3d5aa92b97958ebe32fc1c036748c2e94b1ca638dc833887834d3acf9484834e",
+        "KUSolution.lean": "4662f446a46e852929ba87ee5edeefd3d5974fa271bd440f16e14493d115dbfb"
+      },
+      "theorem_names": [
+        "KuratowskiUlam.hasCountablePiBase_of_secondCountable",
+        "KuratowskiUlam.eventually_isNowhereDense_sections",
+        "KuratowskiUlam.eventually_residual_sections",
+        "KuratowskiUlam.eventually_isMeagre_sections",
+        "KuratowskiUlam.isMeagre_iff_eventually_sections",
+        "KuratowskiUlam.residual_iff_eventually_sections",
+        "KuratowskiUlam.baireSpace_prod"
+      ],
+      "definition_names": [
+        "KuratowskiUlam.IsCountablePiBase",
+        "KuratowskiUlam.HasCountablePiBase"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source-scope-review.json": "c6e20ae5fb5f400193e4f47f5f819c2d90544f6da681166c884e02bdec9f3e5b",
+          "immutable-package-mathematical-source-review.json": "d65f2cbbae9d66a3e4fe76fe802d746c6623dda38f9104a64bc8cc0e3930fff1",
+          "immutable-package-implementation-review.json": "36b793dea2f9d96a9b03b63eed24c065ace4c98f8b5b84adf47347daba4716d8"
+        }
+      },
+      "ordinary_local": "pass; exact package-owned six-module1744job build; seven selected theorem contracts and two literal definition bodies independently checked through Challenge/Solution; Sierpinski non-cover/empty-space/universe/separation boundaries; seven actual standard-three axiom closures and two empty definition closures",
       "canonical_full": "not-established",
       "rendering": "not-established",
       "canonical_run": null,
@@ -328,15 +431,15 @@
       "existing_public_id": null,
       "fresh_runner_security_approval": false,
       "evidence_observed_date": "2026-10-19",
-      "checkpoint_scope": "Dated preparation evidence; later actual exact-source receipts supersede this checkpoint. The frozen source contains no permanent unperformed-stage invariant.",
-      "duplicate_check": "No equivalent located in19prior packages,32remote branches/0openPRs atselection, pinnedMathlib065356127b1dc0016f66b7283ce0ce2c4055aa55, and independently rehashed24page/598entry revision332public snapshotcaptured2026-10-17 16:05UTC. Currentglobal/privateclearance unavailable. Prioruserreportedsubmissions treatedoccupied.",
+      "checkpoint_scope": "Dated preparation evidence, not a permanent claim that later source-bound external verification has never run. Frozen source status is future-stable.",
+      "duplicate_check": "No equivalent located in20baselinepackages,34remote branches/0openPRs atselection, pinnedMathlib065356, or independently rehashed24page/598entryrevision332datedsnapshot. Fresh public KU searches unavailable; currentglobal/privateclearance unestablished.",
       "remaining_obligations": [
-        "Ordinary hosted checks and independent final root/workflow/packet review, with own source/tree correspondence.",
-        "Exact-source full protected comparison and independentkernels plus canonical rendering are not established by local checks. Prior runnersecurityapproval does not transfer; prepared callers must not run without new specific approval.",
-        "Original full/render report and artifact provenance, actual rendered surface inspection and independent release-packet guard review before verified handoff.",
-        "Any registry operation remains separate, separately authorized, and requires current protocol, actual attempts/duplicates/publicID and authorized effective identity/proof capability reconciliation. No intake initiated."
+        "Ordinary hosted checks and independent final root/workflow/packet review.",
+        "Canonical full protected comparison, independent kernels and rendering require source-bound reports and new specific per-run security approval. Prepared callers remain outside Git and undispatched.",
+        "Actual original full/render provenance and rendered surface inspection plus strict verified packet guard before any verified handoff.",
+        "No registry action until separately authorized current protocol/identity/proof capability/actual attempt and duplicate/publicID reconciliation. Preserve PR27 occupied user-reported intake and PR28 unconfirmed service status."
       ],
-      "scope": "Arbitrary-product CCC from every finite subproduct, iff under nonempty factors, uncountable indexed Delta-system and separable-factor corollary."
+      "scope": "Countable-pi-base nowhere-dense/meagre/residual section theorems, Baire-property converse companions under Baire factors, and product Baire theorem."
     }
   ]
 }

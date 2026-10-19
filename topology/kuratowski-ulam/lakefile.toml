@@ -1,0 +1,26 @@
+name = "kuratowskiUlam"
+version = "0.1.0"
+defaultTargets = ["KuratowskiUlam", "KUChallenge", "KUSolution", "AxiomAudit", "ChallengeTests", "SemanticTests"]
+moreLeanArgs = ["-j2", "-M3072", "-DwarningAsError=true"]
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+
+[[lean_lib]]
+name = "KuratowskiUlam"
+
+[[lean_lib]]
+name = "KUChallenge"
+
+[[lean_lib]]
+name = "KUSolution"
+
+[[lean_lib]]
+name = "AxiomAudit"
+
+[[lean_lib]]
+name = "ChallengeTests"
+
+[[lean_lib]]
+name = "SemanticTests"

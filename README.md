@@ -6,7 +6,7 @@ definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
 The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction,
-one separately verified user-reported submission, one new preparation, and exact
+two separately verified product projects, one new preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
 their mechanical checks, public registration evidence and remaining obligations.
 All 17 audited package trees match successful full canonical runs. Ten official
@@ -39,11 +39,21 @@ PR27 merged with identical package bytes. The user reports submission as of
 remain unverified. Do not duplicate its intake. Original reports now supersede
 the earlier development checkpoint without altering the frozen source.
 
-One new [product CCC preparation](topology/product-countable-chain-condition)
+The verified [product CCC package](topology/product-countable-chain-condition)
 proves the finite-subproduct criterion for arbitrary product cellularity, with
-separable-factor and nonempty-factor equivalence corollaries. Its local checks,
-independent reviews and later source-bound evidence have separate scopes.
-No earlier runner security authority transfers to this project.
+separable-factor and nonempty-factor equivalence corollaries. PR28 merged after
+[full verification](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39186942906)
+and [rendering](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39186942748)
+passed for source `92f1a925329465c86a96b2f612fcd0d5345eed3b`.
+Intake and public registration are unconfirmed; no service action is inferred.
+Its package bytes remain unchanged. No consumed runner approval transfers.
+
+The sole new [Kuratowski–Ulam preparation](topology/kuratowski-ulam) proves
+generic nowhere-dense, meagre and residual section results at countable
+pi-weight, with Baire-property converses and a product Baire companion.
+Its local checks and independent reviews have their own scope. Canonical checks
+require fresh specific runner approval. PR27’s reported submission and the
+pending registry authentication handoff remain unchanged.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and
@@ -74,3 +84,4 @@ Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources
 preserve their attribution and license headers. Existing standalone repositories
 remain available. Authorship, maintenance, material AI contributions and review
 limits are recorded separately in each package.
+

@@ -66,11 +66,23 @@ in [PREPARATIONS.json](PREPARATIONS.json); source bytes are unchanged.
 | --- | --- | --- | --- |
 | [Omega-bounded Sigma-products and a sharp compactness criterion](topology/sigma-product-compactness) | Omega-bounded T1 Sigma-products, countable compactness and compact-Hausdorff compactness iff countably many factors can differ from the basepoint. | User-reported submitted; full/render passed; acceptance and registration unverified | [`0bdc86b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0bdc86b6daf37e26dae68c451ed9d811247f075d/topology/sigma-product-compactness) |
 
-## New independent preparation
+## Separately verified product countable cellularity
 
-The following project has its own frozen source and dated preparation evidence.
-Its completed local checks do not imply canonical or registry outcomes.
+PR28 merged after exact-source full verification and rendering passed. Its
+intake and public registration are unconfirmed; earlier no-intake notes describe
+their actor and observation time. Do not resubmit on an assumption of absence.
+The two runner approvals are consumed. Original reports bind the unchanged source
+in PREPARATIONS.json; browser/runtime visual review remains unestablished.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Countable cellularity of arbitrary products via finite subproducts](topology/product-countable-chain-condition) | Arbitrary-product CCC from finite subproducts, nonempty-factor iff, indexed Delta-system lemma and separable-product corollary. | Preparation; not submitted | [`92f1a92`](https://github.com/Arthur742Ramos/Math-Formalization/tree/92f1a925329465c86a96b2f612fcd0d5345eed3b/topology/product-countable-chain-condition) |
+| [Countable cellularity of arbitrary products via finite subproducts](topology/product-countable-chain-condition) | Arbitrary-product CCC from finite subproducts, nonempty-factor iff, indexed Delta-system lemma and separable-product corollary. | Full/render passed; intake and registration unconfirmed | [`92f1a92`](https://github.com/Arthur742Ramos/Math-Formalization/tree/92f1a925329465c86a96b2f612fcd0d5345eed3b/topology/product-countable-chain-condition) |
+
+## New independent preparation
+
+Exactly one next target is under development. Its local source checks and
+independent internal AI reviews do not certify canonical or service outcomes.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Kuratowski–Ulam category theorem for countable pi-base spaces](topology/kuratowski-ulam) | Countable-pi-base generic section theorem, Baire-property converse and product Baire companion. | Preparation; not submitted | [`dd46751`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dd4675197cac51f2de3fc0ab66195cb0807023dc/topology/kuratowski-ulam) |

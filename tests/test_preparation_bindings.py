@@ -7,7 +7,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction, check_verified, check_user_submission_report
+from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake
 
 
 class CorrectedFullBindings(unittest.TestCase):
@@ -73,6 +73,39 @@ class ReportedSubmissionBindings(unittest.TestCase):
 
     def test_second_attempt_not_invented(self):
         self.row['canonical_run']['attempt'] = 2
+        with self.assertRaises(AssertionError):
+            self.check()
+
+
+class UnconfirmedIntakeBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/product-countable-chain-condition'))
+
+    def check(self):
+        source = self.row['source_snapshot']
+        check_verified(self.row, ROOT / self.row['path'], source['commit'], source['tree'])
+
+    def test_actual_completed_evidence_with_unconfirmed_intake_passes(self):
+        self.check()
+
+    def test_completed_checks_do_not_establish_intake(self):
+        self.row['registry_intake_status'] = 'submitted'
+        with self.assertRaises(AssertionError):
+            check_unconfirmed_intake(self.row)
+
+    def test_completed_checks_do_not_establish_registration(self):
+        self.row['registry_registration_status'] = 'registered'
+        with self.assertRaises(AssertionError):
+            check_unconfirmed_intake(self.row)
+
+    def test_consumed_runner_approval_cannot_transfer(self):
+        self.row['fresh_runner_security_approval'] = True
+        with self.assertRaises(AssertionError):
+            check_unconfirmed_intake(self.row)
+
+    def test_wrong_source_report_cannot_transfer(self):
+        self.row['canonical_run']['verified_source_commit'] = 'dd4675197cac51f2de3fc0ab66195cb0807023dc'
         with self.assertRaises(AssertionError):
             self.check()
 
