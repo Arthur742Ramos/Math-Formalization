@@ -1,0 +1,12 @@
+module
+public import KUSolution
+
+#print axioms KuratowskiUlam.hasCountablePiBase_of_secondCountable
+#print axioms KuratowskiUlam.eventually_isNowhereDense_sections
+#print axioms KuratowskiUlam.eventually_residual_sections
+#print axioms KuratowskiUlam.eventually_isMeagre_sections
+#print axioms KuratowskiUlam.isMeagre_iff_eventually_sections
+#print axioms KuratowskiUlam.residual_iff_eventually_sections
+#print axioms KuratowskiUlam.baireSpace_prod
+#print axioms KuratowskiUlam.IsCountablePiBase
+#print axioms KuratowskiUlam.HasCountablePiBase

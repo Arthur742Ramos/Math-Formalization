@@ -1,0 +1,9 @@
+'KuratowskiUlam.hasCountablePiBase_of_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.eventually_isNowhereDense_sections' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.eventually_residual_sections' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.eventually_isMeagre_sections' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.isMeagre_iff_eventually_sections' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.residual_iff_eventually_sections' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.baireSpace_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KuratowskiUlam.IsCountablePiBase' does not depend on any axioms
+'KuratowskiUlam.HasCountablePiBase' does not depend on any axioms

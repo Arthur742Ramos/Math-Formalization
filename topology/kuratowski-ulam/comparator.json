@@ -1,0 +1,22 @@
+{
+  "challenge_module": "KUChallenge",
+  "solution_module": "KUSolution",
+  "theorem_names": [
+    "KuratowskiUlam.hasCountablePiBase_of_secondCountable",
+    "KuratowskiUlam.eventually_isNowhereDense_sections",
+    "KuratowskiUlam.eventually_residual_sections",
+    "KuratowskiUlam.eventually_isMeagre_sections",
+    "KuratowskiUlam.isMeagre_iff_eventually_sections",
+    "KuratowskiUlam.residual_iff_eventually_sections",
+    "KuratowskiUlam.baireSpace_prod"
+  ],
+  "definition_names": [
+    "KuratowskiUlam.IsCountablePiBase",
+    "KuratowskiUlam.HasCountablePiBase"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
