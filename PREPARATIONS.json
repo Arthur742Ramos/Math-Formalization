@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-19",
-  "scope": "Prior registered and verified sources remain immutable. Kuratowski\u2013Ulam imported-definition correction is preserved. Locally compact R1 Baire products is the sole resumed development; its prior checks are source-bound and current canonical/service gates remain separate.",
+  "scope": "Prior registered and verified sources remain immutable. Kuratowski–Ulam imported-definition correction is preserved. Locally compact R1 Baire products is the sole resumed development; its prior checks are source-bound and current canonical/service gates remain separate.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -372,7 +372,7 @@
       "registry_registration_status": "unconfirmed"
     },
     {
-      "name": "Kuratowski\u2013Ulam category theorem for countable pi-base spaces",
+      "name": "Kuratowski–Ulam category theorem for countable pi-base spaces",
       "path": "topology/kuratowski-ulam",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
@@ -481,12 +481,12 @@
       "path": "topology/locally-compact-baire",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "56c93c5ab4cdc1291d87c0b17104cb31f7c243dc",
-        "tree": "98d935b8da91ff2e65cf98f0d2c090a20fe29416"
+        "commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+        "tree": "6d02d6bdf576e971004b6e77ea34ef7ddaa24957"
       },
       "source_files_sha256": {
         "comparator.json": "170f08f762c79ae8e0830f03ecbb142162d140c16fcda4f1a8435546981f5b07",
-        "formalization.yaml": "8487c5a153862ac8bc63995fb0850d2c896f67489b171e463e277d6d6b5c296c",
+        "formalization.yaml": "ad9fbff8ca298f69782e5e6423361396078b9862d700448b44faab1ec4fad34b",
         "lake-manifest.json": "f136b80d7848af0da439136b6647b1f417d2165d8f19aa33d9975d837937d6d9",
         "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
         "LocallyCompactBaire.lean": "458ed461b1a348d8d8d58bdc2d614469ca323dd303dedd5a94665ed5c9ece01e",
@@ -517,12 +517,12 @@
         "mathematical_source": "pass",
         "implementation": "pass",
         "receipts_sha256": {
-          "source-scope-review.json": "53e1dfc0986d078e7502a340844ae8de126f60c93e9c8aca906ff6253ffed445",
-          "immutable-package-mathematical-source-review.json": "ccdf1a271fde4195e6207dc97e48cf846b7bb33496d7c75f24d21e5d91bcf57c",
-          "immutable-package-implementation-review.json": "eeab6f3193b811f7961683620cf50a51674ae7d66f89d943eceef9bef8505407"
+          "source-definition-research-review.json": "6c30fdef8f8a03cfa17b49d5fa2214f983f91ba7dc8c1566aadaf018f99cbef6",
+          "candidate-source-definition-review.json": "cb862a97f7f2ffa0addcc860710d9da8053f88bb4eda4e8f9ac2c37dabef08d6",
+          "candidate-implementation-review.json": "76b8476438bcfdb6962cff02c92d7d2cb689b9194bf323ad842266eb9c256d17"
         }
       },
-      "ordinary_local": "pass; six modules,960Lakejobs, six actual standard-three axiom closures; separate Challenge/Solution contracts, independent universes, empty factors, essential nonempty fiber region and compact non-T0 R1 example; pinned native metadata parser accepts math.GN/54E52/54B10",
+      "ordinary_local": "pass; final six-module960-job package-owned build, ten material declarations with literal/class/proved bridge checks through both independent entrypoints, six fresh standard-three transitive axiom closures,35retained excerpts/15exact clean pinned Git sources authenticated",
       "canonical_full": "not-established",
       "rendering": "not-established",
       "canonical_run": null,
@@ -532,15 +532,36 @@
       "existing_public_id": null,
       "fresh_runner_security_approval": false,
       "evidence_observed_date": "2026-10-19",
-      "checkpoint_scope": "Dated preparation evidence, not a permanent claim that later source-bound external verification has never run. Frozen source status is future-stable.",
+      "checkpoint_scope": "Resumed PR30 preparation after current main integration,2026-10-19. Previous ordinary source retained as history; no protected full/render or service outcome inferred for this edited source. KU corrected source remains preserved and its intake unresolved.",
       "duplicate_check": "No equivalent located in target-selection inventory of21prior packages,36then-current remote branches/0openPRs, pinnedMathlib065356 and independently rehashed24page/598entry revision332snapshot captured2026-10-17. Current official public/protocol reads403; private attempts not enumerated. No absolute originality or intake clearance claim.",
       "remaining_obligations": [
-        "Ordinary hosted exact-head checks and final immutable source/root/workflow/packet review.",
-        "Source-bound canonical full protected comparison, independent kernels and rendering require their own immutable receipts and specific approval if a fresh runner may conditionally load the AppArmor exception; old approvals do not transfer.",
-        "No intake until current policy/protocol, effective authorized identity and proof capability, actual attempts and duplicates/public ID are reconciled.",
-        "Preserve PR29 source and unconfirmed intake; do not resubmit it. No second target."
+        "Final immutable source/root/packet review and new-head ordinary hosted Lean/catalog evidence.",
+        "Exact audited source needs its own full350 and renderer360 receipts; each possible conditional AppArmor exception on a fresh disposable runner needs specific approval. No canonical caller has been dispatched.",
+        "Current supported protocol, actual attempt, duplicates/publicID, effective identity and proof capability clearance before any service action. No denied gist retry or credential expansion."
       ],
-      "scope": "Dense-Gdelta fixed-region projection via maximal disjoint open refinements and nested compact fibers; arbitrary Baire first factor times locally compact R1 factor is Baire, including empty factors."
+      "scope": "Dense-Gdelta fixed-region projection via maximal disjoint open refinements and nested compact fibers; arbitrary Baire first factor times locally compact R1 factor is Baire, including empty factors.",
+      "prior_ordinary_source": {
+        "source_commit": "56c93c5ab4cdc1291d87c0b17104cb31f7c243dc",
+        "package_tree": "98d935b8da91ff2e65cf98f0d2c090a20fe29416",
+        "reviewed_head": "13eaead07f5ee94cbae0636c877bea5bb08d6c39",
+        "lean_run": 39265820552,
+        "catalog_run": 39265820469,
+        "attempts": 1,
+        "conclusion": "success",
+        "scope": "Historical ordinary CI only; not verification of the new definition-audited source."
+      },
+      "material_definition_audit": {
+        "source_commit": "d972b3cb0637c0e962c04384f16ec2b3e033d768",
+        "material_declarations": 10,
+        "upstream_files": 15,
+        "literal_excerpts": 35,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      }
     }
   ]
 }

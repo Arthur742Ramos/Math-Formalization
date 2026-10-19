@@ -64,8 +64,11 @@ Consumed runner approvals do not transfer.
 
 The resumed [locally compact R1 Baire product preparation](topology/locally-compact-baire)
 proves the dense-Gdelta projection construction and Baire product theorem with
-an arbitrary Baire first factor. Its local/source checks and independent review
-evidence are distinct from later canonical full/render and service outcomes.
+an arbitrary Baire first factor. It now retains ten imported-declaration meanings,35literal excerpts from15pinned
+files and separately compiled Challenge/Solution semantic bridges. Its six
+selected proofs and all package pins are unchanged. Audited source `d972b3cb0637c0e962c04384f16ec2b3e033d768`
+has local/source checks and independent reviews with separate scopes from later
+canonical full/render and service outcomes.
 No prior runner security approval transfers.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
