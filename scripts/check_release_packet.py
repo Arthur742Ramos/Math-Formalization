@@ -11,6 +11,9 @@ import pathlib
 import re
 import subprocess
 import tarfile
+import tempfile
+
+from check_imported_definitions import check as check_imported_definitions
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPOSITORY = 'Arthur742Ramos/Math-Formalization'
@@ -109,6 +112,20 @@ def check_status(root, commit, project, historical_report=None):
     files = snapshot(root, commit, project)
     errors = status_errors(files)
     require(not errors, '; '.join(errors))
+    material_manifest = 'verification/material-imported-definitions.json'
+    if project == 'topology/kuratowski-ulam':
+        require(material_manifest in files, 'Missing material imported-definition evidence')
+    if material_manifest in files:
+        # Audit the proposed source bytes, never a later working directory.
+        # This is static consistency; pinned-origin and compilation are separate.
+        with tempfile.TemporaryDirectory(prefix='material-definition-source-') as directory:
+            package = pathlib.Path(directory)
+            for name, body in files.items():
+                target = package / name
+                require(target.resolve().is_relative_to(package.resolve()), 'Unsafe source path')
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(body)
+            check_imported_definitions(package)
     if historical_report is not None:
         history = json.loads(files['verification/canonical-history.json'])
         report_bytes = pathlib.Path(historical_report).read_bytes()

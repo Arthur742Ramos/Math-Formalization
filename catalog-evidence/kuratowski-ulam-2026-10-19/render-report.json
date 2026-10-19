@@ -1,0 +1,105 @@
+{
+  "artifact_tree_sha256": "0bfc83055dfabb3ad042649082d85239326c4b076fc6737e24f3a39611faa4df",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-19T13:16:24Z",
+  "rendered_at": "2026-10-19T13:22:11Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/kuratowski-ulam/KUChallenge.lean",
+    "challenge_sha256": "3d5aa92b97958ebe32fc1c036748c2e94b1ca638dc833887834d3acf9484834e",
+    "commit": "dd4675197cac51f2de3fc0ab66195cb0807023dc",
+    "comparator_config_path": "topology/kuratowski-ulam/comparator.json",
+    "lakefile_path": "topology/kuratowski-ulam/lakefile.toml",
+    "lean_toolchain_path": "topology/kuratowski-ulam/lean-toolchain",
+    "project_path": "topology/kuratowski-ulam",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/kuratowski-ulam/KUSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem KuratowskiUlam.hasCountablePiBase_of_secondCountable.{u_2} {Y : Type u_2} [TopologicalSpace Y]\n  [SecondCountableTopology Y] : KuratowskiUlam.HasCountablePiBase Y",
+        "name": "KuratowskiUlam.hasCountablePiBase_of_secondCountable"
+      },
+      {
+        "declaration": "theorem KuratowskiUlam.eventually_isNowhereDense_sections.{u_1, u_2} {X : Type u_1} {Y : Type u_2} [TopologicalSpace X]\n  [TopologicalSpace Y] (hY : KuratowskiUlam.HasCountablePiBase Y) {A : Set (Prod X Y)} (hA : IsNowhereDense A) :\n  Filter.Eventually (fun x => IsNowhereDense (Set.preimage (Prod.mk x) A)) (residual X)",
+        "name": "KuratowskiUlam.eventually_isNowhereDense_sections"
+      },
+      {
+        "declaration": "theorem KuratowskiUlam.eventually_residual_sections.{u_1, u_2} {X : Type u_1} {Y : Type u_2} [TopologicalSpace X]\n  [TopologicalSpace Y] (hY : KuratowskiUlam.HasCountablePiBase Y) {A : Set (Prod X Y)}\n  (hA : Membership.mem (residual (Prod X Y)) A) :\n  Filter.Eventually (fun x => Membership.mem (residual Y) (Set.preimage (Prod.mk x) A)) (residual X)",
+        "name": "KuratowskiUlam.eventually_residual_sections"
+      },
+      {
+        "declaration": "theorem KuratowskiUlam.eventually_isMeagre_sections.{u_1, u_2} {X : Type u_1} {Y : Type u_2} [TopologicalSpace X]\n  [TopologicalSpace Y] (hY : KuratowskiUlam.HasCountablePiBase Y) {A : Set (Prod X Y)} (hA : IsMeagre A) :\n  Filter.Eventually (fun x => IsMeagre (Set.preimage (Prod.mk x) A)) (residual X)",
+        "name": "KuratowskiUlam.eventually_isMeagre_sections"
+      },
+      {
+        "declaration": "theorem KuratowskiUlam.isMeagre_iff_eventually_sections.{u_1, u_2} {X : Type u_1} {Y : Type u_2} [TopologicalSpace X]\n  [TopologicalSpace Y] [BaireSpace X] [BaireSpace Y] (hY : KuratowskiUlam.HasCountablePiBase Y) {A : Set (Prod X Y)}\n  (hA : BaireMeasurableSet A) :\n  Iff (IsMeagre A) (Filter.Eventually (fun x => IsMeagre (Set.preimage (Prod.mk x) A)) (residual X))",
+        "name": "KuratowskiUlam.isMeagre_iff_eventually_sections"
+      },
+      {
+        "declaration": "theorem KuratowskiUlam.residual_iff_eventually_sections.{u_1, u_2} {X : Type u_1} {Y : Type u_2} [TopologicalSpace X]\n  [TopologicalSpace Y] [BaireSpace X] [BaireSpace Y] (hY : KuratowskiUlam.HasCountablePiBase Y) {A : Set (Prod X Y)}\n  (hA : BaireMeasurableSet A) :\n  Iff (Membership.mem (residual (Prod X Y)) A)\n    (Filter.Eventually (fun x => Membership.mem (residual Y) (Set.preimage (Prod.mk x) A)) (residual X))",
+        "name": "KuratowskiUlam.residual_iff_eventually_sections"
+      },
+      {
+        "declaration": "theorem KuratowskiUlam.baireSpace_prod.{u_1, u_2} {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y]\n  [BaireSpace X] [BaireSpace Y] (hY : KuratowskiUlam.HasCountablePiBase Y) : BaireSpace (Prod X Y)",
+        "name": "KuratowskiUlam.baireSpace_prod"
+      },
+      {
+        "declaration": "def KuratowskiUlam.IsCountablePiBase.{u_1} {Y : Type u_1} [TopologicalSpace Y] (B : Set (Set Y)) : Prop",
+        "name": "KuratowskiUlam.IsCountablePiBase"
+      },
+      {
+        "declaration": "def KuratowskiUlam.HasCountablePiBase.{u_1} (Y : Type u_1) [TopologicalSpace Y] : Prop",
+        "name": "KuratowskiUlam.HasCountablePiBase"
+      }
+    ],
+    "declarations": [
+      "KuratowskiUlam.hasCountablePiBase_of_secondCountable",
+      "KuratowskiUlam.eventually_isNowhereDense_sections",
+      "KuratowskiUlam.eventually_residual_sections",
+      "KuratowskiUlam.eventually_isMeagre_sections",
+      "KuratowskiUlam.isMeagre_iff_eventually_sections",
+      "KuratowskiUlam.residual_iff_eventually_sections",
+      "KuratowskiUlam.baireSpace_prod",
+      "KuratowskiUlam.IsCountablePiBase",
+      "KuratowskiUlam.HasCountablePiBase"
+    ],
+    "imports": [
+      "Mathlib.Topology.Baire.BaireMeasurable",
+      "Mathlib.Topology.Bases"
+    ],
+    "module_doc": null,
+    "schema_version": 3,
+    "solution_imports": [
+      "KuratowskiUlam"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39258375182"
+}

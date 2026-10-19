@@ -152,6 +152,60 @@ def check_unconfirmed_intake(p):
     assert p['fresh_runner_security_approval'] is False
 
 
+def check_material_definition_correction(p, source, tree):
+    """Retain the old mechanical pass without transferring it to edited evidence."""
+    change = p['definition_evidence_correction']
+    assert change['kind'] == 'material-imported-definition-evidence'
+    old = change['prior_verified_snapshot']
+    old_source = old['commit']
+    assert old_source != source
+    assert git('rev-parse', old_source + ':' + p['path']) == old['tree']
+    assert git('rev-parse', source + ':' + p['path']) == tree
+    allowed = {'ChallengeTests.lean', 'SemanticTests.lean', 'README.md', 'REVIEW.md',
+        'VERIFICATION.md', 'formalization.yaml', 'scripts/check_package.py',
+        'verification/source-hashes.json', 'MATERIAL-DEFINITIONS.md',
+        'verification/material-imported-definitions.json'}
+    assert set(change['allowed_changed_files']) == allowed
+    actual = set(git('diff', '--name-only', old_source, source, '--', p['path']).splitlines())
+    assert actual == {p['path'] + '/' + name for name in allowed}
+    old_files = snapshot(ROOT, old_source, p['path'])
+    new_files = snapshot(ROOT, source, p['path'])
+    for name in set(old_files) - allowed:
+        assert old_files[name] == new_files[name], ('Preserved proof/pin source changed', name)
+    before = json.loads(old_files['formalization.yaml'])
+    after = json.loads(new_files['formalization.yaml'])
+    before['related_formalizations'][0]['note'] = after['related_formalizations'][0]['note']
+    assert before == after, 'Only metadata imported-definition explanation may change'
+    for kind in ['full', 'rendering']:
+        historical = old[kind]
+        assert historical['status'] == 'pass' and historical['attempt'] == 1
+        assert type(historical['run_id']) is int and historical['run_id'] > 0
+        assert historical['url'] == f'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/{historical["run_id"]}'
+        report_path = (ROOT / historical['report_file']).resolve()
+        assert report_path.is_relative_to((ROOT / 'catalog-evidence').resolve())
+        body = report_path.read_bytes()
+        assert hashlib.sha256(body).hexdigest() == historical['report_sha256']
+        report = json.loads(body)
+        assert report['source']['commit'] == old_source
+        assert report['source']['repository'] == 'Arthur742Ramos/Math-Formalization'
+        assert report['source']['project_path'] == p['path']
+        assert report['status'] == 'pass' and report['stage'] == 'complete' and report['errors'] == []
+        assert report['workflow_url'] == historical['url']
+        if kind == 'full':
+            bind_full(report, dict(repository='Arthur742Ramos/Math-Formalization',
+                commit=old_source, project_path=p['path'],
+                comparator_config_path=p['path'] + '/comparator.json',
+                formalization_metadata_path=p['path'] + '/formalization.yaml'), old_files)
+        else:
+            config = json.loads(old_files['comparator.json'])
+            assert report['surface']['declarations'] == config['theorem_names'] + config['definition_names']
+            assert report['source']['challenge_sha256'] == hashlib.sha256(old_files['KUChallenge.lean']).hexdigest()
+    assert p['state'] == 'reviewed-preparation-not-submitted'
+    assert p['canonical_full'] == p['rendering'] == 'not-established'
+    assert p['canonical_run'] is None and p['rendering_run'] is None
+    assert p['fresh_runner_security_approval'] is False
+
+
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
     assert data['schema_version'] == 1
@@ -168,6 +222,8 @@ def check_preparations(rows, verified_paths):
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
+        if 'definition_evidence_correction' in p:
+            check_material_definition_correction(p, source, tree)
         if 'status_correction' in p:
             check_status_correction(p, source, tree)
         else:
