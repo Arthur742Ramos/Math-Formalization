@@ -1,0 +1,19 @@
+{
+  "challenge_module": "BMChallenge",
+  "solution_module": "BMSolution",
+  "theorem_names": [
+    "BanachMazur.exists_compatiblePlay",
+    "BanachMazur.follows_intersection_eq",
+    "BanachMazur.exists_commonPoint_play",
+    "BanachMazur.not_firstWins_of_baireSpace",
+    "BanachMazur.exists_firstWins_of_not_baireSpace",
+    "BanachMazur.baireSpace_iff_no_firstWins",
+    "BanachMazur.isEmpty_firstStrategy"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

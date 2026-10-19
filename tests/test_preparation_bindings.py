@@ -7,7 +7,59 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction, check_locally_compact_definition_preparation
+from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction, check_locally_compact_definition_preparation, check_material_audit_binding
+
+
+class FixedGameAuditBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-baire'))
+
+    def check(self):
+        check_material_audit_binding(self.row, self.row['source_snapshot']['commit'])
+
+    def test_exact_fixed_model_and_material_evidence_pass(self):
+        self.check()
+
+    def test_entire_required_audit_cannot_be_removed(self):
+        del self.row['material_definition_audit']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_wrong_source_cannot_borrow_audit(self):
+        self.row['material_definition_audit']['source_commit'] = '0' * 40
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_fabricated_inventory_counts_rejected(self):
+        for key in ['material_declarations', 'upstream_files', 'literal_excerpts']:
+            with self.subTest(key=key):
+                old = self.row['material_definition_audit'][key]
+                self.row['material_definition_audit'][key] = 999
+                with self.assertRaises(AssertionError): self.check()
+                self.row['material_definition_audit'][key] = old
+
+    def test_wrong_schema_rejected(self):
+        self.row['material_definition_audit']['schema_version'] = 1
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_missing_independent_entrypoint_rejected(self):
+        self.row['material_definition_audit']['semantic_tests'].pop()
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_wrong_fixed_model_names_rejected(self):
+        self.row['fixed_model_definitions'] = ['False']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_game_definition_holes_rejected(self):
+        self.row['definition_names'] = self.row['fixed_model_definitions']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_task_zero_intakes_cannot_establish_private_absence(self):
+        self.row['registry_intake_status'] = 'none'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_proof_checks_cannot_establish_registration(self):
+        self.row['registry_registration_status'] = 'registered'
+        with self.assertRaises(AssertionError): self.check()
 
 
 class CorrectedFullBindings(unittest.TestCase):
@@ -245,6 +297,37 @@ class LocallyCompactDefinitionBindings(unittest.TestCase):
 
     def test_completed_render_cannot_use_different_source(self):
         self.row['rendering_run']['verified_source_commit'] = '0' * 40
+        with self.assertRaises(AssertionError): self.check()
+
+
+class VerifiedGameFullBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-baire'))
+
+    def check(self):
+        source = self.row['source_snapshot']
+        check_material_audit_binding(self.row, source['commit'])
+        check_verified(self.row, ROOT / self.row['path'], source['commit'], source['tree'])
+
+    def test_actual_original_full_and_renderer_bind(self):
+        self.check()
+
+    def test_ordinary_run_cannot_replace_protected_full(self):
+        self.row['canonical_run']['run_id'] = 39326670168
+        self.row['canonical_run']['url'] = 'https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39326670168'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_equal_package_tree_does_not_change_tested_commit(self):
+        self.row['canonical_run']['verified_source_commit'] = 'e5da90e7f29da2ce1270a1ada54ff39e782dba74'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_unobserved_request_cannot_borrow_report(self):
+        self.row['canonical_run']['request_id'] = 'bmfull000002'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_original_render_digest_cannot_be_relabelled(self):
+        self.row['rendering_run']['original_report_sha256'] = '0' * 64
         with self.assertRaises(AssertionError): self.check()
 
 

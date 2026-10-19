@@ -1,0 +1,376 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "BaireSpace",
+    "Dense",
+    "Set.PairwiseDisjoint",
+    "IsOpen",
+    "closure",
+    "Set.Nonempty",
+    "IsEmpty",
+    "TopologicalSpace"
+  ],
+  "material_declarations": [
+    {
+      "name": "BaireSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins"
+      ],
+      "meaning": "Every natural-number-indexed intersection of dense open sets is dense. No separation or nonempty hypothesis.",
+      "dependency_expansion": "The class field uses Dense and IsOpen in the given arbitrary topology. Open-subspace Baireness supplies a point in the dense response levels.",
+      "definition_excerpt": "BaireSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "BaireSpace"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins"
+      ],
+      "meaning": "Every ambient point belongs to the closure; equivalently every nonempty open set meets the set.",
+      "dependency_expansion": "Closure is the intersection of all closed supersets. The open-intersection characterization is proved, not literal unfolding.",
+      "definition_excerpt": "Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dense",
+        "dense_iff_inter_open"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "Set.PairwiseDisjoint",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins"
+      ],
+      "meaning": "For every pair of distinct labels in the chosen family, their image sets are disjoint.",
+      "dependency_expansion": "Set.Pairwise quantifies distinct labels; Disjoint on sets means empty intersection. Equal inhabited image sets are not exempt. No countability or universe identification is added.",
+      "definition_excerpt": "PairwiseDisjoint",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "PairwiseDisjoint",
+        "Set.Pairwise",
+        "Disjoint",
+        "set-disjoint"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "BanachMazur.exists_compatiblePlay",
+        "BanachMazur.follows_intersection_eq",
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins",
+        "BanachMazur.isEmpty_firstStrategy"
+      ],
+      "meaning": "The open-set predicate supplied by the given ambient topological-space structure.",
+      "dependency_expansion": "IsOpen literally projects the chosen ambient topology. The space has no separation or countability requirement; both players choose all nonempty opens.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins"
+      ],
+      "meaning": "The smallest closed superset: the intersection of every closed set containing the given set.",
+      "dependency_expansion": "This term appears in the dense-refinement conclusion G subset closure of the union. IsClosed is the open-complement class; closure is not a compactness or Hausdorff assumption.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Both independent entrypoints compile the literal predicates or constructor/projection class equivalence and any stated proved characterization. Upstream infrastructure is credited; no new selected theorem or axiom is introduced."
+    },
+    {
+      "name": "Set.Nonempty",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "BanachMazur.exists_compatiblePlay",
+        "BanachMazur.follows_intersection_eq",
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins",
+        "BanachMazur.isEmpty_firstStrategy"
+      ],
+      "meaning": "There exists one element belonging to the set. A common point belongs to every move; one different point per round is insufficient.",
+      "dependency_expansion": "Protected Set.Nonempty is an existential membership predicate. Intersections are literal universal membership; indexed Nonempty is not a compactness assumption.",
+      "definition_excerpt": "Set.Nonempty",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Nonempty"
+      ],
+      "proof_status": "Literal existential and common-point equivalence compile independently through both entrypoints."
+    },
+    {
+      "name": "IsEmpty",
+      "declaration_kind": "class",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "BanachMazur.isEmpty_firstStrategy"
+      ],
+      "meaning": "The type has no elements: every element implies False.",
+      "dependency_expansion": "Class field IsEmpty.false : X → False. This type-emptiness is distinct from set Nonempty; an empty space has no strategy because its initial open cannot be chosen.",
+      "definition_excerpt": "IsEmpty",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsEmpty"
+      ],
+      "proof_status": "Constructor/projection equivalence compiled; not claimed to be definitional equality of class and field."
+    },
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "definition",
+      "used_by": [
+        "BanachMazur.exists_compatiblePlay",
+        "BanachMazur.follows_intersection_eq",
+        "BanachMazur.exists_commonPoint_play",
+        "BanachMazur.not_firstWins_of_baireSpace",
+        "BanachMazur.exists_firstWins_of_not_baireSpace",
+        "BanachMazur.baireSpace_iff_no_firstWins",
+        "BanachMazur.isEmpty_firstStrategy"
+      ],
+      "meaning": "An open-set predicate containing the whole space and closed under binary intersections and arbitrary unions.",
+      "dependency_expansion": "The class is data carrying the open predicate and proofs of its axioms. It supplies no Hausdorff, regularity, metric, countability or nonempty condition.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed"
+      ],
+      "proof_status": "The exact class-field axioms compile through projections in both entrypoints; the data class is not falsely identified with a proposition."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "Dense",
+          "first_line": 145,
+          "last_line": 147,
+          "text": "/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n",
+          "sha256": "2a52522d35b48a1b96df7fa73b15254b113108436e633e0e45e5bdffc455fbf8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L145-L147"
+        },
+        {
+          "name": "BaireSpace",
+          "first_line": 235,
+          "last_line": 240,
+          "text": "/-- The property `BaireSpace α` means that the topological space `α` has the Baire property:\nany countable intersection of open dense subsets is dense.\nFormulated here when the source space is ℕ.\nUse `dense_iInter_of_isOpen` which works for any countable index type instead. -/\nclass BaireSpace (X : Type*) [TopologicalSpace X] : Prop where\n  baire_property : ∀ f : ℕ → Set X, (∀ n, IsOpen (f n)) → (∀ n, Dense (f n)) → Dense (⋂ n, f n)\n",
+          "sha256": "977d5c7b2d9473e369aa9c2df40a2da2bea81bf7fb22f4978096b547f603e335",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L235-L240"
+        },
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Closure.lean",
+      "sha256": "d4e49fd0b092d34d5db79261bfc58b69ad3383a113ff2a0f54c0912a8b9afb5c",
+      "git_blob_sha1": "557a4cd1768bc437e6f55fd9635ad07eba7c6080",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Closure.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "dense_iff_inter_open",
+          "first_line": 407,
+          "last_line": 416,
+          "text": "/-- A set is dense if and only if it has a nonempty intersection with each nonempty open set. -/\ntheorem dense_iff_inter_open :\n    Dense s ↔ ∀ U, IsOpen U → U.Nonempty → (U ∩ s).Nonempty := by\n  constructor <;> intro h\n  · rintro U U_op ⟨x, x_in⟩\n    exact mem_closure_iff.1 (h _) U U_op x_in\n  · intro x\n    rw [mem_closure_iff]\n    intro U U_op x_in\n    exact h U U_op ⟨_, x_in⟩\n",
+          "sha256": "9a409a04b115c02363949db371f217b2c698b697dc6265202576be7c5de7920f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Closure.lean#L407-L416"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Pairwise/Basic.lean",
+      "sha256": "49a08e66f604f22b7978292a7569496c1c69b6e16014aee317ebf9f9750fa6d6",
+      "git_blob_sha1": "fa5e633790a26b7451827cbd834d87dafe1f4f10",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Pairwise/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "PairwiseDisjoint",
+          "first_line": 250,
+          "last_line": 258,
+          "text": "\n/-- A set is `PairwiseDisjoint` under `f`, if the images of any distinct two elements under `f`\nare disjoint.\n\n`s.Pairwise Disjoint` is (definitionally) the same as `s.PairwiseDisjoint id`. We prefer the latter\nin order to allow dot notation on `Set.PairwiseDisjoint`, even though the former unfolds more\nnicely. -/\ndef PairwiseDisjoint (s : Set ι) (f : ι → α) : Prop :=\n  s.Pairwise (Disjoint on f)\n",
+          "sha256": "4d382da5fe077b9a61f80db6db72f9596cf47ba580a857100189218aa52ae285",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Pairwise/Basic.lean#L250-L258"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Pairwise.lean",
+      "sha256": "ccac95d1101a308ae38946e81caaa6d2c32e7e90ed99f7305dba9f01a955e62f",
+      "git_blob_sha1": "7a2f0dc7819c5656049e1d99f6ba0be56f1e04ca",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Pairwise.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Pairwise",
+          "first_line": 80,
+          "last_line": 84,
+          "text": "namespace Set\n\n/-- The relation `r` holds pairwise on the set `s` if `r x y` for all *distinct* `x y ∈ s`. -/\nprotected def Pairwise (s : Set α) (r : α → α → Prop) :=\n  ∀ ⦃x⦄, x ∈ s → ∀ ⦃y⦄, y ∈ s → x ≠ y → r x y\n",
+          "sha256": "dc07f59c0a776d37ad78e1161dd9c87ae848c879ee2bdabe152d0a979ac4affa",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Pairwise.lean#L80-L84"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Disjoint.lean",
+      "sha256": "5c59598e126b8345a9373277f8e30c0d52b3fce1080a96281f1dc54bc6dd619c",
+      "git_blob_sha1": "7d5339050bb81a9d325ca7536bbe37dba409813f",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Disjoint",
+          "first_line": 29,
+          "last_line": 49,
+          "text": "variable {α : Type*}\n\nsection Disjoint\n\nsection PartialOrderBot\n\nvariable [PartialOrder α] [OrderBot α] {a b c d : α}\n\n/-- Two elements of a lattice are disjoint if their inf is the bottom element.\n  (This generalizes disjoint sets, viewed as members of the subset lattice.)\n\nNote that we define this without reference to `⊓`, as this allows us to talk about orders where\nthe infimum is not unique, or where implementing `Inf` would require additional `Decidable`\narguments. -/\n@[to_dual /-- Two elements of a lattice are codisjoint if their sup is the top element.\n\nNote that we define this without reference to `⊔`, as this allows us to talk about orders where\nthe supremum is not unique, or where implementing `Sup` would require additional `Decidable`\narguments. -/]\ndef Disjoint (a b : α) : Prop :=\n  ∀ ⦃x⦄, x ≤ a → x ≤ b → x ≤ ⊥\n",
+          "sha256": "343e7f81bb0f165ed1d47af17cc8027a7a26b634ca77239d069eb87f9f7e178b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean#L29-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Disjoint.lean",
+      "sha256": "21e4643bfcae089dbbca262cb9d4b4bad1ad1cd77adf31ae43f4d2f2ab69e492",
+      "git_blob_sha1": "e454989683e886f35bb9d6ef45c429eaadbd0f2d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "set-disjoint",
+          "first_line": 29,
+          "last_line": 40,
+          "text": "protected theorem disjoint_iff : Disjoint s t ↔ s ∩ t ⊆ ∅ :=\n  disjoint_iff_inf_le\n\ntheorem disjoint_iff_inter_eq_empty : Disjoint s t ↔ s ∩ t = ∅ :=\n  disjoint_iff\n\ntheorem _root_.Disjoint.inter_eq : Disjoint s t → s ∩ t = ∅ :=\n  Disjoint.eq_bot\n\n@[grind =]\ntheorem disjoint_left : Disjoint s t ↔ ∀ ⦃a⦄, a ∈ s → a ∉ t :=\n  disjoint_iff_inf_le.trans <| forall_congr' fun _ => not_and\n",
+          "sha256": "16a8ba9d0314facecc723d1659f71529b6cad3dcdb4c213134528acae5f363ab",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Disjoint.lean#L29-L40"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean",
+      "sha256": "4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7",
+      "git_blob_sha1": "866ef6ab673f737a4ffbb7b2138402d5c76e6c05",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Nonempty",
+          "first_line": 277,
+          "last_line": 281,
+          "text": "/-- The property `s.Nonempty` expresses the fact that the set `s` is not empty. It should be used\nin theorem assumptions instead of `∃ x, x ∈ s` or `s ≠ ∅` as it gives access to a nice API thanks\nto the dot notation. -/\nprotected def Nonempty (s : Set α) : Prop :=\n  ∃ x, x ∈ s\n",
+          "sha256": "cb3870fa0008d18792a7122276c41e3e45998a2f2defae575b4225f0a2cf53de",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L277-L281"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Basic/IsEmpty/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean",
+      "sha256": "4cc13389d971b07836334b2c9b2a1d979fa1f0043ea9e37a5ba08a9214765399",
+      "git_blob_sha1": "8cddc87f06c29a7e02b57c48e725d0725febde92",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Floris van Doorn. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "IsEmpty",
+          "first_line": 26,
+          "last_line": 28,
+          "text": "/-- `IsEmpty α` expresses that `α` is empty. -/\nclass IsEmpty (α : Sort u) : Prop where\n  protected false : α → False\n",
+          "sha256": "91cda3d147caf0690894eb7e775e12d73d277418a3818042a138e40d5cf7579e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean#L26-L28"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "path": "ChallengeTests.lean",
+      "module": "ChallengeTests",
+      "sha256": "a9322db3887d074416cfb94779bdba7346294aae320c4e2e673092dd6482966a"
+    },
+    {
+      "path": "SemanticTests.lean",
+      "module": "SemanticTests",
+      "sha256": "021ff1eeb698f3bdc17d9dd216ba692d4e76ff508c6b893f75dec4ebad357fbb"
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "scope": "Eight imported meanings plus separately retained exact Lean-core history constructors/length. Static origin, compilation and independent semantic review are separate evidence. No editorial or canonical verification inferred."
+}

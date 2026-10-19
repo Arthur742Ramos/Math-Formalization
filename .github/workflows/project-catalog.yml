@@ -24,6 +24,8 @@ jobs:
         run: python3 scripts/check_imported_definitions.py --project-path topology/kuratowski-ulam
       - name: Check locally compact Baire hypothesis evidence without claiming source provenance
         run: python3 scripts/check_imported_definitions.py --project-path topology/locally-compact-baire
+      - name: Check Banach–Mazur hypothesis evidence without claiming source provenance
+        run: python3 scripts/check_imported_definitions.py --project-path topology/banach-mazur-baire
       - name: Reject incomplete or misleading material-definition evidence
         run: python3 -m unittest discover -s tests -p 'test_imported_definitions.py' -v
       - name: Check source-contained release status and historical bindings
