@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-19",
-  "scope": "Prior registered and verified sources remain immutable. Kuratowski\u2013Ulam imported-definition correction is preserved. Locally compact R1 Baire products is the sole resumed development; its prior checks are source-bound and current canonical/service gates remain separate.",
+  "scope": "Prior registered and verified sources remain immutable. Kuratowski\u2013Ulam imported-definition correction is preserved. Prior locally compact R1 Baire product evidence remains source-bound. Oxtoby Banach-Mazur is the sole new preparation; canonical and service gates remain separate.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",

@@ -255,6 +255,25 @@ def check_locally_compact_definition_preparation(p, source, tree):
     assert p['fresh_runner_security_approval'] is False
 
 
+def check_material_audit_binding(p, source):
+    """Bind a preparation's summary to its exact retained source evidence."""
+    assert 'material_definition_audit' in p, 'Missing required retained audit'
+    audit = p['material_definition_audit']
+    assert audit['source_commit'] == source
+    assert audit['manifest'] == 'verification/material-imported-definitions.json'
+    manifest = json.loads(git('show', source + ':' + p['path'] + '/' + audit['manifest']))
+    assert audit['schema_version'] == manifest['schema_version']
+    assert audit['material_declarations'] == len(manifest['material_declarations'])
+    assert audit['upstream_files'] == len(manifest['source_files'])
+    assert audit['literal_excerpts'] == sum(len(f['excerpts']) for f in manifest['source_files'])
+    assert audit['semantic_tests'] == [b['path'] for b in manifest['checked_bridge_modules']]
+    if p['path'] == 'topology/banach-mazur-baire':
+        proof = git('show', source + ':' + p['path'] + '/BanachMazur.lean')
+        fixed = ['BanachMazur.' + n for n in re.findall(r'^@\[expose\] def (\w+)', proof, re.M)]
+        assert len(fixed) == 4 and p['fixed_model_definitions'] == fixed
+        assert p['definition_names'] == [], 'Fixed game meanings must not become holes'
+
+
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
     assert data['schema_version'] == 1
@@ -271,6 +290,8 @@ def check_preparations(rows, verified_paths):
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
+        if path == 'topology/banach-mazur-baire' or 'material_definition_audit' in p:
+            check_material_audit_binding(p, source)
         if 'definition_evidence_correction' in p:
             check_material_definition_correction(p, source, tree)
         if path == 'topology/locally-compact-baire':

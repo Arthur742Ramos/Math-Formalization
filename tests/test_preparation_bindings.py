@@ -7,7 +7,51 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction, check_locally_compact_definition_preparation
+from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction, check_locally_compact_definition_preparation, check_material_audit_binding
+
+
+class FixedGameAuditBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-baire'))
+
+    def check(self):
+        check_material_audit_binding(self.row, self.row['source_snapshot']['commit'])
+
+    def test_exact_fixed_model_and_material_evidence_pass(self):
+        self.check()
+
+    def test_entire_required_audit_cannot_be_removed(self):
+        del self.row['material_definition_audit']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_wrong_source_cannot_borrow_audit(self):
+        self.row['material_definition_audit']['source_commit'] = '0' * 40
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_fabricated_inventory_counts_rejected(self):
+        for key in ['material_declarations', 'upstream_files', 'literal_excerpts']:
+            with self.subTest(key=key):
+                old = self.row['material_definition_audit'][key]
+                self.row['material_definition_audit'][key] = 999
+                with self.assertRaises(AssertionError): self.check()
+                self.row['material_definition_audit'][key] = old
+
+    def test_wrong_schema_rejected(self):
+        self.row['material_definition_audit']['schema_version'] = 1
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_missing_independent_entrypoint_rejected(self):
+        self.row['material_definition_audit']['semantic_tests'].pop()
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_wrong_fixed_model_names_rejected(self):
+        self.row['fixed_model_definitions'] = ['False']
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_game_definition_holes_rejected(self):
+        self.row['definition_names'] = self.row['fixed_model_definitions']
+        with self.assertRaises(AssertionError): self.check()
 
 
 class CorrectedFullBindings(unittest.TestCase):
