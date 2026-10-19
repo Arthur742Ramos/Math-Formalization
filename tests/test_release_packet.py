@@ -7,14 +7,42 @@ import json
 import pathlib
 import tarfile
 import unittest
+import sys
 from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
 spec = importlib.util.spec_from_file_location('release_guard', ROOT / 'scripts/check_release_packet.py')
 guard = importlib.util.module_from_spec(spec);spec.loader.exec_module(guard)
 OLD = '8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814'
 NEW = '5ad14f00d92275a9e782fb9491dbfd8d8d8f9faf'
 PROJECT = 'topology/collectionwise-normal'
+
+
+class MaterialDefinitionHandoff(unittest.TestCase):
+    def setUp(self):
+        package = ROOT / 'topology/kuratowski-ulam'
+        self.files = {p.relative_to(package).as_posix(): p.read_bytes()
+                      for p in package.rglob('*') if p.is_file() and
+                      '.lake' not in p.relative_to(package).parts and
+                      '__pycache__' not in p.relative_to(package).parts}
+
+    def check(self):
+        with mock.patch.object(guard, 'snapshot', return_value=self.files):
+            return guard.check_status(ROOT, '0' * 40, 'topology/kuratowski-ulam')
+
+    def test_complete_frozen_material_evidence_passes(self):
+        self.check()
+
+    def test_missing_inventory_blocks_frozen_handoff(self):
+        del self.files['verification/material-imported-definitions.json']
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_stale_frozen_bridge_blocks_handoff(self):
+        self.files['ChallengeTests.lean'] = b'module\n'
+        with self.assertRaises(ValueError):
+            self.check()
 
 
 def archive(files):

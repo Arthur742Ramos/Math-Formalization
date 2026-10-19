@@ -14,6 +14,15 @@ checks pins, metadata, roles, sources, entrypoints and the frozen manifest; it
 parses a supplied fresh axiom log and never substitutes an expected allowlist
 for observed output. It performs no build or registry operation itself.
 
+MATERIAL-DEFINITIONS.md and verification/material-imported-definitions.json
+retain the exact imported property-of-Baire definition, pinned source excerpts,
+dependency chain and attribution. The root imported-definition checker validates
+static consistency, then separately authenticates full-file hashes and all
+excerpts against the pinned clean Git checkout in --dependency-root mode.
+Both independently built entrypoint tests include the literal definition,
+Borel/residual unfolding, open symmetric-difference equivalence and its use in
+both converse contracts. These tests add no selected theorem or hypothesis.
+
 An exact-source canonical full report must bind source commit, metadata,
 Comparator, Challenge/Solution, lockfile, selected declarations, protected
 provenance and actual kernel acceptance. Rendering and actual artifact/visual

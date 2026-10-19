@@ -116,3 +116,54 @@ example : IsCountablePiBase ({{True}} : Set (Set Prop)) := by
     exact ⟨{True}, mem_singleton _, fun p hp => (mem_singleton_iff.mp hp) ▸ ht⟩
 
 example : False ∉ ⋃₀ ({{True}} : Set (Set Prop)) := by simp
+
+-- BEGIN material-imported-definition audit
+open scoped symmDiff
+-- The literal upstream definition, using the canonical Borel sigma-algebra.
+example {Z : Type u} [TopologicalSpace Z] (A : Set Z) :
+    BaireMeasurableSet A ↔
+      @MeasurableSet Z (eventuallyMeasurableSpace (borel Z) (residual Z)) A := Iff.rfl
+
+example {Z : Type u} [TopologicalSpace Z] (A : Set Z) :
+    BaireMeasurableSet A ↔
+      ∃ B : Set Z, @MeasurableSet Z (borel Z) B ∧ A =ᶠ[residual Z] B := Iff.rfl
+
+-- Open approximation is a proved upstream equivalence, not definitional equality.
+private theorem propertyOfBaire_iff_open_symmDiff_isMeagre
+    {Z : Type u} [TopologicalSpace Z] (A : Set Z) :
+    BaireMeasurableSet A ↔ ∃ O : Set Z, IsOpen O ∧ IsMeagre (A ∆ O) := by
+  rw [BaireMeasurableSet.iff_residualEq_isOpen]
+  constructor
+  · rintro ⟨O, hO, hAO⟩
+    refine ⟨O, hO, ?_⟩
+    change ∀ᶠ z in residual Z, z ∉ A ∆ O
+    filter_upwards [hAO.mem_iff] with z hz
+    simp only [mem_symmDiff]
+    tauto
+  · rintro ⟨O, hO, hAO⟩
+    refine ⟨O, hO, Filter.eventuallyEqSet_iff.mpr ?_⟩
+    change ∀ᶠ z in residual Z, z ∉ A ∆ O at hAO
+    filter_upwards [hAO] with z hz
+    simp only [mem_symmDiff] at hz
+    tauto
+
+-- Both original converse contracts follow from the explicit classical hypothesis.
+-- No Baire, separation or nonempty hypothesis was needed by the bridge itself.
+example {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
+    [BaireSpace X] [BaireSpace Y] (hY : HasCountablePiBase Y)
+    {A : Set (X × Y)} (hA : ∃ O, IsOpen O ∧ IsMeagre (A ∆ O)) :
+    IsMeagre A ↔ ∀ᶠ x in residual X, IsMeagre (Prod.mk x ⁻¹' A) :=
+  isMeagre_iff_eventually_sections hY
+    ((propertyOfBaire_iff_open_symmDiff_isMeagre A).mpr hA)
+
+example {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
+    [BaireSpace X] [BaireSpace Y] (hY : HasCountablePiBase Y)
+    {A : Set (X × Y)} (hA : ∃ O, IsOpen O ∧ IsMeagre (A ∆ O)) :
+    A ∈ residual (X × Y) ↔ ∀ᶠ x in residual X, Prod.mk x ⁻¹' A ∈ residual Y :=
+  residual_iff_eventually_sections hY
+    ((propertyOfBaire_iff_open_symmDiff_isMeagre A).mpr hA)
+
+example {Z : Type u} [TopologicalSpace Z] {A : Set Z} (hA : BaireMeasurableSet A) :
+    ∃ O : Set Z, IsOpen O ∧ IsMeagre (Aᶜ ∆ O) :=
+  (propertyOfBaire_iff_open_symmDiff_isMeagre Aᶜ).mp hA.compl
+-- END material-imported-definition audit

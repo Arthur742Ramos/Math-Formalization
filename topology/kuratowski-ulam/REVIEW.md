@@ -29,3 +29,10 @@ definitions, exact selected types and semantic boundaries. Mechanical and
 source-fidelity checks have different scopes. Protected full verification,
 independent kernels, rendering, browser inspection, editorial decisions and
 registration are established only by their own source-bound external receipts.
+
+The imported-definition audit records exact Mathlib Git-source excerpts and
+the semantic chain for the material BaireMeasurableSet hypothesis in both
+converses. The open-modulo-meagre bridge is a theorem with only a topological
+space premise; its proof is not confused with definitional unfolding. The
+residual converse uses the same predicate on the complement. Separate review
+of the audit and both new entrypoint test blocks is recorded externally.

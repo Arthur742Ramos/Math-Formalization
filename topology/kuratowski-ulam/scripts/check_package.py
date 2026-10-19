@@ -58,6 +58,21 @@ def check(axiom_log, write):
     assert set(metadata['status']['axioms']) == ALLOWED
     assert all(name in (ROOT / 'README.md').read_text() for name in ROLES)
     assert 'No novelty' in metadata['sources'][0]['note']
+    material = json.loads((ROOT / 'verification/material-imported-definitions.json').read_text())
+    assert material['required_declarations'] == ['BaireMeasurableSet']
+    assert len(material['material_declarations']) == 1
+    predicate = material['material_declarations'][0]
+    assert predicate['name'] == 'BaireMeasurableSet'
+    assert predicate['used_by'] == [THEOREMS[4], THEOREMS[5]]
+    assert predicate['bridge_kind'] == 'proved-equivalence'
+    assert material['dependency']['commit'] == PIN
+    assert material['documentation'] == 'MATERIAL-DEFINITIONS.md'
+    assert (ROOT / material['documentation']).is_file()
+    for bridge in material['checked_bridge_modules']:
+        assert bridge['path'] in ['ChallengeTests.lean', 'SemanticTests.lean']
+        assert hashlib.sha256((ROOT / bridge['path']).read_bytes()).hexdigest() == bridge['sha256']
+    assert {b['path'] for b in material['checked_bridge_modules']} == {'ChallengeTests.lean', 'SemanticTests.lean'}
+    assert 'MATERIAL-DEFINITIONS.md' in (ROOT / 'README.md').read_text()
     text = pathlib.Path(axiom_log).read_text()
     reports = {}
     for name, axioms in re.findall(r"'([^']+)' depends on axioms:\s*\[([^\]]*)\]", text):
@@ -85,7 +100,7 @@ def check(axiom_log, write):
     print(json.dumps({'status': 'pass', 'theorems': len(THEOREMS),
         'definitions': len(DEFINITIONS), 'axiom_reports': len(reports),
         'source_files_hashed': len(hashes), 'challenge_lines': len(proof.splitlines()),
-        'scope': 'Static package consistency and supplied transitive axiom evidence. Canonical full, rendering, editorial and registry stages require separate exact-source receipts.',
+        'scope': 'Static package consistency, retained imported-definition inventory and supplied transitive axiom evidence. Source provenance, actual bridge compilation, canonical full, rendering, editorial and registry stages require their own evidence.',
         'intake_authorized': False}, indent=2))
 
 
