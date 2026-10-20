@@ -3606,4 +3606,3 @@ protected lemma IsUniformEmbedding.isEmbedding {f : α → β} (h : IsUniformEmb
   injective := h.injective
 
 ```
-

@@ -43,4 +43,3 @@ Currently, the test `tests/elab/implicit_reducible_list_length.lean` fails if we
   | nil       => 0
   | cons _ as => HAdd.hAdd (length as) 1
 ```
-
