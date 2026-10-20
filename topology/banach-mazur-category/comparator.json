@@ -1,0 +1,22 @@
+{
+  "challenge_module": "CGChallenge",
+  "solution_module": "CGSolution",
+  "theorem_names": [
+    "CategoryGame.exists_jointPlay",
+    "CategoryGame.not_both_winning",
+    "CategoryGame.residual_has_dense_open_sequence",
+    "CategoryGame.second_winning_of_isMeagre",
+    "CategoryGame.open_residual_witness",
+    "CategoryGame.first_winning_of_open_residual",
+    "CategoryGame.first_winning_of_nonmeagre",
+    "CategoryGame.determined_of_baireMeasurable",
+    "CategoryGame.first_winning_iff_nonmeagre",
+    "CategoryGame.second_winning_iff_isMeagre"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

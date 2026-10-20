@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/leanprover/lean4",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "path": "src/Init/Prelude.lean",
+  "sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+  "git_blob_sha1": "f87ee970af5149d74434f09a89aedff1a8fdb2d2",
+  "source_authentication": "Retains exact-compiler source digests and excerpts authenticated in the credited prior package; current installed exact-toolchain bytes independently compared here. Network source-authentication and actual compilation have separate receipts.",
+  "excerpts": [
+    {
+      "name": "List",
+      "first_line": 3110,
+      "last_line": 3117,
+      "text": "inductive List (α : Type u) where\n  /-- The empty list, usually written `[]`. -/\n  | nil : List α\n  /--\n  The list whose first element is `head`, where `tail` is the rest of the list.\n  Usually written `head :: tail`.\n  -/\n  | cons (head : α) (tail : List α) : List α\n",
+      "sha256": "22924dff4fd3d23b1edb5e5dcd13a4234b7beffd6c2dec74051991eb306d9906",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L3110-L3117"
+    },
+    {
+      "name": "List.length",
+      "first_line": 3192,
+      "last_line": 3197,
+      "text": "-/\n/- One might expect/hope that this was `implicit_reducible` rather than `instance_reducible`.\nCurrently, the test `tests/elab/implicit_reducible_list_length.lean` fails if we make this change. -/\n@[instance_reducible] def List.length : List α → Nat\n  | nil       => 0\n  | cons _ as => HAdd.hAdd (length as) 1\n",
+      "sha256": "82e7a80439440da89b7c309bdda2ccff1b59e03d52fffcbcf6f3a0f0aec724eb",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L3192-L3197"
+    }
+  ],
+  "scope": "Exact compiler-owned List nil/cons and List.length encode both full reverse opponent histories. FirstStrategy accepts empty initial history; SecondStrategy also receives the current move separately. Length selects the nth dense-open requirement and radius bound. Hashes do not establish compilation, full-history dependence or nonvacuity by themselves."
+}

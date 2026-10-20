@@ -68,6 +68,12 @@ class ChoquetFixedGameAuditBindings(FixedGameAuditBindings):
         self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/choquet-baire-product'))
 
 
+class CategoryGameFixedAuditBindings(FixedGameAuditBindings):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-category'))
+
+
 class CorrectedFullBindings(unittest.TestCase):
     def setUp(self):
         row = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects'][0]

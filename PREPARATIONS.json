@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-20",
-  "scope": "Prior registered/verified sources and packets remain unchanged. Choquet Baire product is the sole newly selected preparation after the completed Oxtoby manual handoff; canonical, browser and service gates remain distinct.",
+  "scope": "Prior source snapshots and status records preserved. Category-game determinacy is the sole new preparation after the completed Choquet manual handoff; current service state is unconfirmed.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -882,6 +882,153 @@
         "each_attempt": 1,
         "status": "pass",
         "scope": "Exactpackagefe5513 sixmodules1693jobs/14actualaxioms/27exactsourcefiles52excerpts/127regressions. Later root-only completion preserves package; no new-source or browser/editorial claims."
+      }
+    },
+    {
+      "path": "topology/banach-mazur-category",
+      "name": "Banach\u2013Mazur determinacy for Baire-property targets",
+      "state": "verified-preparation-intake-unconfirmed",
+      "source_snapshot": {
+        "commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
+        "tree": "3ed28ec204f235529b18d9fbdfaa76a56ed74326"
+      },
+      "source_files_sha256": {
+        "AxiomAudit.lean": "311d1c96dd560fe9af89934a0801bd433e6d42d15ca5b226d20839e4be3cbd7d",
+        "CGChallenge.lean": "d57f3f211926f402be1748c08c52a66d4ced8d3f863e90f6056743673835a859",
+        "CGSolution.lean": "9013a5a499ef8bf88edb6fc66047c096b830181dbded60de0d6bd0d36721201f",
+        "CORE-DEFINITIONS.md": "7ec6307538be80cb50e29ba980b9ab27e33e0c8cca29bb050c6431f84a4398b0",
+        "CategoryGame.lean": "d57f3f211926f402be1748c08c52a66d4ced8d3f863e90f6056743673835a859",
+        "ChallengeTests.lean": "a5a52f95e138bf63b5819f93f40216011bc47887057d533181cd32308bf4b548",
+        "MATERIAL-DEFINITIONS.md": "9df73b2f573b485645ca57f46052cfa10e76d726acc1be72be76222e09a891ce",
+        "README.md": "1cf45405ab5814af1109ce5ca3741176a46fa1fccc4e2f74199b0213e7d60ecc",
+        "REVIEW.md": "58bfa6eb83513a91a94edee6ac43219fa45c7076d4cb8219af0b555ec5277b7b",
+        "SemanticTests.lean": "0500df383c4e2625493cf875956d6117984d3438e1d76d20581aa234b7371df9",
+        "VERIFICATION.md": "d1e0e570bdd00f0bb3f960e7d0049cb53f212c066b8a578994aa7cb996350880",
+        "comparator.json": "573f48e39213865032d42de41a63f18d65d68d986b3868c7aef2c1095025386a",
+        "formalization.yaml": "d4fae07d9ae5a9691604ff5d09ebdd3c1c88b1399402ed2709f8d99dfde5d373",
+        "lake-manifest.json": "4df4c5e33cc505370c42d79c9efe6d9051e6b1fe848361b18e22d8f96309402b",
+        "lakefile.toml": "5a22302564b6bdec828bb22632a2ae48f361e7a12b934d0d2877852d7072d8f2",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a"
+      },
+      "theorem_names": [
+        "CategoryGame.exists_jointPlay",
+        "CategoryGame.not_both_winning",
+        "CategoryGame.residual_has_dense_open_sequence",
+        "CategoryGame.second_winning_of_isMeagre",
+        "CategoryGame.open_residual_witness",
+        "CategoryGame.first_winning_of_open_residual",
+        "CategoryGame.first_winning_of_nonmeagre",
+        "CategoryGame.determined_of_baireMeasurable",
+        "CategoryGame.first_winning_iff_nonmeagre",
+        "CategoryGame.second_winning_iff_isMeagre"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "independent-selection-source-review.json": "a01e506e438c2c77a5d881655e66f32b8aac6c02decf09aa9de7b78d4be98a4b",
+          "candidate-final-source-definition-review.json": "9a20aa520f517a8198bb03eeecf6a68474935dfbc1853fbdbf45f017a04bcffb",
+          "candidate-final-implementation-review.json": "f3148ee5a8f29f901ababab4e2ff8526952175d283a28134391a917047a7d01f",
+          "actual-full-implementation-review.json": "3d71278e610cd858d1b8b3c2054a33bc303d4b82f5bd5fe26a308bfb84e71fce",
+          "final-source-mathematical-review.json": "b4b446917d43b183c1bf6f01f207fdaa9a0c1f17037a8aa74a7f7a5a0c0c93da",
+          "actual-render-implementation-review.json": "d3b76381f8a13bc448318fce6b57d2d409a4ded54daf3856af636a90456423a0",
+          "actual-results-source-render-review.json": "c7669b0011c6c4c1020783ba6e510feb1127f5b2a47263630159007936b5a1fc"
+        }
+      },
+      "ordinary_local": "pass; six modules1744jobs, ten theorem contracts, seven fixed game definitions, both independent material semantic entrypoints,17actualaxiomreports;33meanings/28pinnedMathlibfiles/73excerpts and exact Lean List/length evidence",
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "run_id": 39407418492,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39407418492",
+        "workflow": ".github/workflows/palomar-category-full-preflight.yml",
+        "workflow_head": "c68f45e335dc349c34e597d715bc2b83633b375d",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "3ed28ec204f235529b18d9fbdfaa76a56ed74326",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/banach-mazur-category-2026-10-20/full-report.json",
+        "original_report_sha256": "3c669832ac5371e00774ad1600c4bcb899c43312d9b29738d94baa9ed032d164",
+        "request_id": "cgfull000001"
+      },
+      "rendering_run": {
+        "run_id": 39407418027,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39407418027",
+        "workflow": ".github/workflows/palomar-category-renderer.yml",
+        "workflow_head": "c68f45e335dc349c34e597d715bc2b83633b375d",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "3ed28ec204f235529b18d9fbdfaa76a56ed74326",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/banach-mazur-category-2026-10-20/render-report.json",
+        "original_report_sha256": "c8a047729ac08b5ac1372f5041c275125964e43ec14b97667d33a19b54987e9d",
+        "artifact_tree_sha256": "1cf8f19faa5c9200ca52b75b0cf3ca5da196cd8ca00c665c00044f61ad50c2f0"
+      },
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-20",
+      "checkpoint_scope": "Original exact-source full39407418492/render39407418027 attempt1 passes supersede the dated ordinary-preparation checkpoint without changing source, metadata, fixed meanings or package bytes. Protected Lean/NanoDa/con-ron and original rendered artifacts have independent authentication. Browser runtime and current private/editorial/registration state remain separate. This task initiates no registry intake. The specific two disposable-runner approvals were consumed and do not transfer.",
+      "duplicate_check": "No equivalent in24priorpackages/44remote branches/0openPRs/0runningorqueuedruns, exact pinned Mathlib and independently rehashed24page598entryrevision332 public snapshot. Current official registry reads unavailable; no current/private clearance or novelty promise.",
+      "remaining_obligations": [
+        "Final root checks/review and normal merge with remote tree verification.",
+        "Current actual private attempts, duplicates/publicID and effective identity/capability reconciliation before any parent-owned manual intake; no registry action by this task.",
+        "Browser-runtime visual inspection remains unestablished.",
+        "Approved full350/render360 pair consumed; no rerun or future security exception authority."
+      ],
+      "scope": "Ten selected theorems: exact joint-play execution, opposed winners, residual dense-open enumeration, meagre-target avoidance, local residual witness, complete-metric first-player forcing, Baire-property determinacy and both winner iff characterizations.",
+      "material_definition_audit": {
+        "source_commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
+        "material_declarations": 33,
+        "upstream_files": 28,
+        "literal_excerpts": 73,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "fixed_model_definitions": [
+        "CategoryGame.OpenMove",
+        "CategoryGame.history",
+        "CategoryGame.FollowsFirst",
+        "CategoryGame.FollowsSecond",
+        "CategoryGame.FirstWins",
+        "CategoryGame.SecondWins",
+        "CategoryGame.Determined"
+      ],
+      "definition_contract": "Seven literal game meanings and both strategy structures fixed; zero definition holes. Private recursion/avoidance/metric proof-witness helpers do not occur in selected types.",
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed",
+      "ordinary_hosted": {
+        "reviewed_head": "4600c60f1c7512c3bfe2500e02f3b0bed4e45bd3",
+        "lean_run": 39368213519,
+        "catalog_run": 39368213399,
+        "each_attempt": 1,
+        "status": "pass",
+        "scope": "Identical package tree; six modules1744jobs/17actual axioms/33meanings28pinned files73excerpts/146regressions. Root-only completion preserves package; no browser/editorial claim."
       }
     }
   ]

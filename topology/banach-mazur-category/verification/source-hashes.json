@@ -1,0 +1,22 @@
+{
+  "AxiomAudit.lean": "311d1c96dd560fe9af89934a0801bd433e6d42d15ca5b226d20839e4be3cbd7d",
+  "CGChallenge.lean": "d57f3f211926f402be1748c08c52a66d4ced8d3f863e90f6056743673835a859",
+  "CGSolution.lean": "9013a5a499ef8bf88edb6fc66047c096b830181dbded60de0d6bd0d36721201f",
+  "CORE-DEFINITIONS.md": "7ec6307538be80cb50e29ba980b9ab27e33e0c8cca29bb050c6431f84a4398b0",
+  "CategoryGame.lean": "d57f3f211926f402be1748c08c52a66d4ced8d3f863e90f6056743673835a859",
+  "ChallengeTests.lean": "a5a52f95e138bf63b5819f93f40216011bc47887057d533181cd32308bf4b548",
+  "MATERIAL-DEFINITIONS.md": "9df73b2f573b485645ca57f46052cfa10e76d726acc1be72be76222e09a891ce",
+  "README.md": "1cf45405ab5814af1109ce5ca3741176a46fa1fccc4e2f74199b0213e7d60ecc",
+  "REVIEW.md": "58bfa6eb83513a91a94edee6ac43219fa45c7076d4cb8219af0b555ec5277b7b",
+  "SemanticTests.lean": "0500df383c4e2625493cf875956d6117984d3438e1d76d20581aa234b7371df9",
+  "VERIFICATION.md": "d1e0e570bdd00f0bb3f960e7d0049cb53f212c066b8a578994aa7cb996350880",
+  "comparator.json": "573f48e39213865032d42de41a63f18d65d68d986b3868c7aef2c1095025386a",
+  "formalization.yaml": "d4fae07d9ae5a9691604ff5d09ebdd3c1c88b1399402ed2709f8d99dfde5d373",
+  "lake-manifest.json": "4df4c5e33cc505370c42d79c9efe6d9051e6b1fe848361b18e22d8f96309402b",
+  "lakefile.toml": "5a22302564b6bdec828bb22632a2ae48f361e7a12b934d0d2877852d7072d8f2",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_package.py": "9876e90b317aeb9bc33e21f88a42660d56489389c82da3bc65b06024ef8907ba",
+  "verification/core-definitions.json": "f310fe06f6add4c116e1453e7df76e07c415a396b0d68a96aa179ea86851f9e8",
+  "verification/local-axioms.txt": "02167a391b6c7ffb81a70d589a6a055e260c562c77b81819f1088e3c6ab80081",
+  "verification/material-imported-definitions.json": "0effcdf039cfd54bae48af059375c76379872d2fa7d363b27d4b2c09863a0349"
+}

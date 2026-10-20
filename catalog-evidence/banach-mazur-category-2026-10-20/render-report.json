@@ -1,0 +1,111 @@
+{
+  "artifact_tree_sha256": "1cf8f19faa5c9200ca52b75b0cf3ca5da196cd8ca00c665c00044f61ad50c2f0",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-20T10:23:38Z",
+  "rendered_at": "2026-10-20T10:28:17Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/banach-mazur-category/CGChallenge.lean",
+    "challenge_sha256": "d57f3f211926f402be1748c08c52a66d4ced8d3f863e90f6056743673835a859",
+    "commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
+    "comparator_config_path": "topology/banach-mazur-category/comparator.json",
+    "lakefile_path": "topology/banach-mazur-category/lakefile.toml",
+    "lean_toolchain_path": "topology/banach-mazur-category/lean-toolchain",
+    "project_path": "topology/banach-mazur-category",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/banach-mazur-category/CGSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem CategoryGame.exists_jointPlay.{u} {X : Type u} [TopologicalSpace X] (\u03c3 : CategoryGame.FirstStrategy X)\n  (\u03c4 : CategoryGame.SecondStrategy X) :\n  Exists fun a =>\n    Exists fun b =>\n      And (\u2200 (n : Nat), Eq (a n) (CategoryGame.FirstStrategy.move \u03c3 (CategoryGame.history X b n)))\n        (And (\u2200 (n : Nat), Eq (b n) (CategoryGame.SecondStrategy.move \u03c4 (a n) (CategoryGame.history X a n)))\n          (And (CategoryGame.FollowsFirst X \u03c3 b)\n            (And (CategoryGame.FollowsSecond X \u03c4 a)\n              (\u2200 (n : Nat),\n                And (LE.le (Subtype.val (b n)) (Subtype.val (a n)))\n                  (LE.le (Subtype.val (a (HAdd.hAdd n 1))) (Subtype.val (b n)))))))",
+        "name": "CategoryGame.exists_jointPlay"
+      },
+      {
+        "declaration": "theorem CategoryGame.not_both_winning.{u} {X : Type u} [TopologicalSpace X] {A : Set X} (\u03c3 : CategoryGame.FirstStrategy X)\n  (\u03c4 : CategoryGame.SecondStrategy X) (h\u03c3 : CategoryGame.FirstWins X A \u03c3) : Not (CategoryGame.SecondWins X A \u03c4)",
+        "name": "CategoryGame.not_both_winning"
+      },
+      {
+        "declaration": "theorem CategoryGame.residual_has_dense_open_sequence.{u} {X : Type u} [TopologicalSpace X] {S : Set X}\n  (hS : Membership.mem (residual X) S) :\n  Exists fun D => And (\u2200 (n : Nat), IsOpen (D n)) (And (\u2200 (n : Nat), Dense (D n)) (LE.le (Set.iInter fun n => D n) S))",
+        "name": "CategoryGame.residual_has_dense_open_sequence"
+      },
+      {
+        "declaration": "theorem CategoryGame.second_winning_of_isMeagre.{u} {X : Type u} [TopologicalSpace X] {A : Set X} (hA : IsMeagre A) :\n  Exists fun \u03c4 => CategoryGame.SecondWins X A \u03c4",
+        "name": "CategoryGame.second_winning_of_isMeagre"
+      },
+      {
+        "declaration": "theorem CategoryGame.open_residual_witness.{u} {X : Type u} [TopologicalSpace X] {A : Set X} (hA : BaireMeasurableSet A)\n  (hn : Not (IsMeagre A)) :\n  Exists fun U => Exists fun S => And (Membership.mem (residual X) S) (LE.le (Inter.inter (Subtype.val U) S) A)",
+        "name": "CategoryGame.open_residual_witness"
+      },
+      {
+        "declaration": "theorem CategoryGame.first_winning_of_open_residual.{u} {X : Type u} [MetricSpace X] [CompleteSpace X] {A : Set X}\n  (U : CategoryGame.OpenMove X) {S : Set X} (hS : Membership.mem (residual X) S)\n  (hSA : LE.le (Inter.inter (Subtype.val U) S) A) : Exists fun \u03c3 => CategoryGame.FirstWins X A \u03c3",
+        "name": "CategoryGame.first_winning_of_open_residual"
+      },
+      {
+        "declaration": "theorem CategoryGame.first_winning_of_nonmeagre.{u} {X : Type u} [MetricSpace X] [CompleteSpace X] {A : Set X}\n  (hA : BaireMeasurableSet A) (hn : Not (IsMeagre A)) : Exists fun \u03c3 => CategoryGame.FirstWins X A \u03c3",
+        "name": "CategoryGame.first_winning_of_nonmeagre"
+      },
+      {
+        "declaration": "theorem CategoryGame.determined_of_baireMeasurable.{u} {X : Type u} [MetricSpace X] [CompleteSpace X] {A : Set X}\n  (hA : BaireMeasurableSet A) : CategoryGame.Determined X A",
+        "name": "CategoryGame.determined_of_baireMeasurable"
+      },
+      {
+        "declaration": "theorem CategoryGame.first_winning_iff_nonmeagre.{u} {X : Type u} [MetricSpace X] [CompleteSpace X] {A : Set X}\n  (hA : BaireMeasurableSet A) : Iff (Exists fun \u03c3 => CategoryGame.FirstWins X A \u03c3) (Not (IsMeagre A))",
+        "name": "CategoryGame.first_winning_iff_nonmeagre"
+      },
+      {
+        "declaration": "theorem CategoryGame.second_winning_iff_isMeagre.{u} {X : Type u} [MetricSpace X] [CompleteSpace X] {A : Set X}\n  (hA : BaireMeasurableSet A) : Iff (Exists fun \u03c4 => CategoryGame.SecondWins X A \u03c4) (IsMeagre A)",
+        "name": "CategoryGame.second_winning_iff_isMeagre"
+      }
+    ],
+    "declarations": [
+      "CategoryGame.exists_jointPlay",
+      "CategoryGame.not_both_winning",
+      "CategoryGame.residual_has_dense_open_sequence",
+      "CategoryGame.second_winning_of_isMeagre",
+      "CategoryGame.open_residual_witness",
+      "CategoryGame.first_winning_of_open_residual",
+      "CategoryGame.first_winning_of_nonmeagre",
+      "CategoryGame.determined_of_baireMeasurable",
+      "CategoryGame.first_winning_iff_nonmeagre",
+      "CategoryGame.second_winning_iff_isMeagre"
+    ],
+    "imports": [
+      "Mathlib.Analysis.SpecificLimits.Basic",
+      "Mathlib.Topology.Baire.BaireMeasurable",
+      "Mathlib.Topology.MetricSpace.Bounded"
+    ],
+    "module_doc": null,
+    "schema_version": 3,
+    "solution_imports": [
+      "CategoryGame"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39407418027"
+}

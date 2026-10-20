@@ -108,6 +108,23 @@ registration state remain unconfirmed. The two specific disposable-runner
 approvals were consumed; no future exception transfers. Oxtoby and all23 prior
 package trees remain unchanged.
 
+The new [category-game preparation](topology/banach-mazur-category) proves Banach–Mazur determinacy
+for Baire-property targets in complete metric spaces, including both winning
+strategy characterizations and actual jointly executed plays. Its ten targets,
+seven fixed game definitions and33 imported meanings have independent internal
+review and package-owned ordinary checks. Source `0377aacab289fee8153cdec87fd8a1be06b9ec2c` is frozen.
+Its exact-source [full canonical check](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39407418492)
+and [Challenge renderer](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39407418027)
+passed on attempt1 under the pinned pipeline. Original reports in PREPARATIONS.json
+supersede the dated ordinary checkpoint without changing the frozen source.
+The full report has no warnings or errors. Original rendered HTML has 8 nonblocking exposition tooltips;
+browser-runtime visual inspection remains unestablished.
+This task initiates no registry intake; private/editorial/registration state
+remains unconfirmed. All24 prior packages, including Choquet, are preserved.
+The repository contains25 independent packages; existing audit counts describe
+their stated historical scopes. The approved exact pair was consumed; no rerun
+or future security exception transfers.
+
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and
 internal AI review do not establish Palomar editorial approval. Existing
