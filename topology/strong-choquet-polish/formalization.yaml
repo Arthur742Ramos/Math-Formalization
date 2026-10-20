@@ -1,0 +1,116 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "The strong Choquet characterization of Polish spaces",
+    "description": "For every second-countable metrizable topological space, the second player has a winning full-history strong Choquet strategy if and only if the topology admits a complete metric, equivalently if and only if the space is Polish. Moves include a marked point which every response must retain. The difficult converse constructs a coherent countable response tree, proves the embedded image is Gδ, and transfers complete metrizability from the metric completion. Supporting results prove complete-metric winning strategies without second countability, complete metrizability of Gδ subsets of arbitrary complete metric spaces, actual legal-play existence and explicit empty-space behavior. This is classical mathematics; no novelty or priority is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E50",
+      "54E52",
+      "91A44"
+    ]
+  },
+  "sources": [
+    {
+      "title": "On complete metrizability of the Hausdorff metric topology, arXiv:1503.04383v1",
+      "authors": [
+        "László Zsilinszky"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1503.04383v1",
+      "relationship": "formalizes",
+      "note": "Section2 recalls the classical marked-point strong Choquet characterization of complete metrizability in arbitrary metrizable spaces. We prove the explicit second-countable specialization including the difficult converse, not the new hyperspace examples or conclusions of this paper. PDF directly consulted, SHA256 d426d5cf00008147d6c1719b83ee9711603a0d3965269832484439ae53d29499. The original Choquet1969 book was not consulted. No novelty, priority or first-formalization claim."
+    },
+    {
+      "title": "Preservation and Destruction in Simple Refinements",
+      "authors": [
+        "William R. Brian"
+      ],
+      "type": "paper",
+      "id": "https://wrbrian.wordpress.com/wp-content/uploads/2012/01/refinements1.pdf",
+      "relationship": "formalizes",
+      "note": "Lemma3.5, printedp11, recalls the full classical metrizable strong Choquet criterion. This package restricts the converse to second-countable spaces. The overbroad informal ambient Gδ remark on printedp12 is not used: our Gδ completeness theorem explicitly requires a complete metric ambient. PDF SHA256 e6068204bc38ceb074335b3a5bd93ccc74abfcbec91b4fcfa0d057c823bd575a."
+    },
+    {
+      "title": "Stationary and convergent strategies in Choquet games, arXiv:0907.4126v2",
+      "authors": [
+        "François G. Dorais",
+        "Carl Mummert"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/0907.4126v2",
+      "relationship": "formalizes",
+      "note": "Printedpp2–3 supply the marked-point game and full-history winning convention and recall the complete-metric forward construction. Domain representations and descriptive set theory motivate the criterion. No stationary-strategy, convergent-strategy classification or open-image theorem is claimed. PDF SHA256 a893db766555c41b9401e6e481629e68cdbb8e6c84e15501c6d8ec86a56b4902."
+    },
+    {
+      "title": "Notes on quasi-Polish spaces",
+      "authors": [
+        "Ruiyuan Chen"
+      ],
+      "type": "notes",
+      "id": "https://rynchn.github.io/math/qpol.pdf",
+      "relationship": "builds-on",
+      "note": "Theorem11.7, printedpp18–19, inspires the countable response-cover subtree. We adapt it to a metric ambient and prove the coherent node-implication Gδ argument and metric-completion finish here. No quasi-Polish or general open-image characterization is formalized. PDF SHA256 bd17b18fd94e353002b650e984376d094bb3ff2be9085017c2cbc172934d7637."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses exact canonical topology, complete metrizability, PolishSpace, CompleteCopy, metric completion and countable Lindelöf covers. Pinned Mathlib contains the needed local metric infrastructure, not the strong Choquet characterization or its difficult converse. The Gδ complete-subspace result is proved here by a closed diagonal of complete copies. Exact meanings and separately compiled bridges are retained."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/51def6feb5e4469cce2396dfa4c9fa4f3b933d82/topology/choquet-baire-product",
+      "relationship": "builds-on",
+      "note": "Apache-2.0 shrinking closed-ball completeness argument and full reverse opponent-history convention adapted with attribution. New marked-point retention, Gδ converse tree and complete-metric topology transport are proved here; no cross-project imports or prior registration assumptions."
+    }
+  ],
+  "status": {
+    "scope": "Ten selected targets: actual compatible legal play, empty-space strategy, complete-metric and completely-metrizable forward implications, countable-open-intersection and Gδ completeness, strong embedded-image Gδ converse, strong-to-complete-metrizable, main iff and Polish iff. Main converse explicitly assumes second countability and metrizability.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gap in the selected statements. The main converse is restricted to second-countable metrizable spaces; the full arbitrary nonseparable metrizable characterization is not claimed. The forward implication and complete-ambient Gδ results have their stated more general scope. The image Gδ theorem requires a second-countable metric codomain without completeness. Empty-space winning is explicitly vacuous because no marked input exists. No stationary strategy, finite branching, compactness of closed balls, quasi-Polish theorem or completeness of an arbitrary original metric is claimed. Each verification stage requires its own immutable exact-source receipt. Browser runtime, current private attempts, editorial decisions and registration are separate evidence.",
+    "attribution_status": "Campaign-authorized established author and responsible-maintainer lists preserved separately; material AI proof authorship disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive marked-point strategy, closed-product Gδ and coherent-tree converse proofs, tests and packaging under Arthur’s campaign authorization. Independent internal AI reviewers separately examine mathematical/source scope, implementation and literal imported meanings. Established author and responsible-maintainer lists are separately preserved; no human proof contribution or human/external peer review is inferred."
+      }
+    ],
+    "notes": "Material AI proof contributions and independent internal AI reviews are disclosed. Backend costs and human mathematical review are not independently attested."
+  },
+  "fidelity": {
+    "divergences": "The classical metrizable strong Choquet equivalence is restricted explicitly to second-countable metrizable spaces in the difficult converse. First moves consist of a point and an open neighborhood; the second reply is open, contains that point and lies in the input. Non-strict nesting and full reverse opponent histories are available. The metric strategy depends on history length, so no stationarity is claimed. The converse countable response tree uses node implications to ensure a coherent branch; an intersection of level unions alone would be insufficient. The completion/closed-diagonal finish is our formal proof route, not an asserted reproduction of Choquet’s original proof."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal mathematical/source AI reviewer",
+      "Independent internal implementation/contract AI reviewer"
+    ],
+    "notes": "Independent internal scope and candidate proof review are separate from exact final package/compiled semantics/original canonical-result review. Each completed stage must be supported by its own immutable source-bound receipt. No human or external peer review is claimed."
+  },
+  "acknowledgements": "Classical strong Choquet attribution through the consulted Brian, Dorais–Mummert and Zsilinszky recalls; countable response-cover subtree inspiration from Chen Theorem11.7; Apache-2.0 prior Choquet source and pinned Lean/Mathlib infrastructure. Substantive Codex proof/test authorship is separate from the established campaign-authorized human author and responsible-maintainer roles."
+}
