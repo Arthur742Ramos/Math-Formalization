@@ -1,0 +1,17 @@
+'CategoryGame.exists_jointPlay' does not depend on any axioms
+'CategoryGame.not_both_winning' does not depend on any axioms
+'CategoryGame.residual_has_dense_open_sequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.second_winning_of_isMeagre' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.open_residual_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.first_winning_of_open_residual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.first_winning_of_nonmeagre' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.determined_of_baireMeasurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.first_winning_iff_nonmeagre' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.second_winning_iff_isMeagre' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CategoryGame.OpenMove' does not depend on any axioms
+'CategoryGame.history' does not depend on any axioms
+'CategoryGame.FollowsFirst' does not depend on any axioms
+'CategoryGame.FollowsSecond' does not depend on any axioms
+'CategoryGame.FirstWins' does not depend on any axioms
+'CategoryGame.SecondWins' does not depend on any axioms
+'CategoryGame.Determined' does not depend on any axioms
