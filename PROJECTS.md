@@ -127,3 +127,17 @@ registered snapshot is changed.
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [The Baire product theorem for Choquet spaces](topology/choquet-baire-product) | Arbitrary Baire times alpha-favorable product, fixed-open dense-Gdelta fiber witnesses and complete-metric winning strategy. | Full/render passed; intake and registration unconfirmed | [`51def6f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/51def6feb5e4469cce2396dfa4c9fa4f3b933d82/topology/choquet-baire-product) |
+
+## Banach–Mazur category-game preparation
+
+This separately reviewed package proves complete-metric determinacy for
+Baire-property target sets, with both winner characterizations. It adds target
+payoffs, actual joint-play execution and residual target forcing beyond Oxtoby
+and Choquet. Ordinary compilation and semantic audits passed. Exact-source
+protected full/render evidence and any required new runner approval remain
+separate gates at this dated preparation checkpoint. Private service state is
+unconfirmed; no prior package or registered source is changed.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Banach–Mazur determinacy for Baire-property targets](topology/banach-mazur-category) | Complete-metric target-game determinacy, exact joint execution, meagre avoidance and first-player target forcing. | Preparation; intake unconfirmed | [`0377aac`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0377aacab289fee8153cdec87fd8a1be06b9ec2c/topology/banach-mazur-category) |
