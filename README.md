@@ -174,3 +174,10 @@ preserve their attribution and license headers. Existing standalone repositories
 remain available. Authorship, maintenance, material AI contributions and review
 limits are recorded separately in each package.
 
+
+The new [continuous open Polish images preparation](topology/open-polish-images) proves general
+strong Choquet preservation by continuous open surjections and its classical
+Polish-image consequence. The dated preparation checkpoint is recorded in
+[PREPARATIONS.json](PREPARATIONS.json); exact-source canonical/rendering stages
+and current registry clearance require separate receipts. The previous strong
+Choquet source and its unknown private intake remain unchanged.

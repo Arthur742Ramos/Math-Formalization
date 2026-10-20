@@ -1190,6 +1190,103 @@
         "status": "pass",
         "scope": "Frozen-equal package tree, six modules1741jobs/16actualaxioms/51meanings43pinnedfiles107excerpts and184rootregressions. Three prior-package workflows also passed after shared parser change. Root-only canonical-completion records preserve every package byte."
       }
+    },
+    {
+      "path": "topology/open-polish-images",
+      "name": "Continuous open images of Polish spaces",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "7d0d6b456b49e373e6ac6083d3f2da54e00df1d3",
+        "tree": "17bfa6233703a670857ee7a3ebcbe9cfc5725b68"
+      },
+      "source_files_sha256": {
+        "lake-manifest.json": "f089b14b07513753d84478187b32cb4c3507487fcb057b5f90dd2ee3e1671338",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "comparator.json": "700a56702a25e1cbb64bb9ed06acf41741b4ac4938b0263ecbaa32d81bffb1a9",
+        "SemanticTests.lean": "34663a328be42e807a2bf4715bd1ffd1da6bc07a76ec4c2e5c6ff41920d3a8af",
+        "VERIFICATION.md": "c0f5e227734f5b9ad86430a1644b328daa3a6fa5652b125ba0db74d3aa1ec135",
+        "OpenPolish.lean": "f8f5e2ba20b2b1c8b727162c52edee6250d07b580c721081221f4ee4e1b50e91",
+        "README.md": "b2feb1284c054cffe0a567750d4280f486850dbd53a5203acbf6bba8b35a8fc6",
+        "formalization.yaml": "d3f08b9ea59a132ce7f1c224a73fa61d49c0538822a27f4a106c66f7b8c86d9c",
+        "OPChallenge.lean": "f8f5e2ba20b2b1c8b727162c52edee6250d07b580c721081221f4ee4e1b50e91",
+        "OPSolution.lean": "e22042d3220b2a692da04594e38605dff74d64b5e8ffe952047410c021751a4a",
+        "REVIEW.md": "f9972e0fba68180ad0b23d705d7ecf8e526d28f04e42f0497743f16f29bccde3",
+        "AxiomAudit.lean": "2ef8332ff6b14602306a3adbd90d7d82e0b7e9622f2eb89e11ce32db71747744",
+        "ChallengeTests.lean": "c21ac7d0dcbed627f78dcbd653ffd4bcd5c535b084637ebf010bdfb4dac0b726",
+        "CORE-DEFINITIONS.md": "842aae45e5443b56d1be63feea220d310ea660adfa09c4d487ee68d36f69c97b",
+        "lakefile.toml": "23b6c03b6940db2ba2aef5e9b982ce8db6854586ba45ab05f6d2fa5c1c2c79b5",
+        "StrongChoquetFoundation.lean": "3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb",
+        "MATERIAL-DEFINITIONS.md": "13217f3cacb345d40a2d2e54546db20d3a082ecfe72ac6c61c5b216c2ad7415d"
+      },
+      "theorem_names": [
+        "OpenPolish.imageStrategy_winning",
+        "OpenPolish.strong_image",
+        "OpenPolish.completelyMetrizable_image",
+        "OpenPolish.polish_image",
+        "OpenPolish.polish_image_of_t3"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "final-source-definition-review.json": "ff321330bba68e77a67257df19614d29a98f7bee058f0227aa38a5c708420559",
+          "candidate-final-implementation-review.json": "a5d87fc56b52c475878801f539b14c789a4e76c5519fe5db1e844c701c2ea270"
+        }
+      },
+      "ordinary_local": "pass;7modules1797jobs,5newcontracts,12actualaxiomreports, bothindependentsemanticentrypoints,62meanings46pinnedfiles119excerpts; exactsourceLeanbytesequalcompiledcandidate. NativeLeanchecker exit0 attested separately; no protectedcanonicalclaim.",
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-20",
+      "checkpoint_scope": "Dated ordinary preparation of this single new target. Exact-source full/render receipts and specific disposable-runner security approval are separate. Existing PR35 frozen packet and unknown private intake remain unchanged; no registration inferred.",
+      "duplicate_check": "No equivalent found in26priorpackages, currentremote branches/0openPRs, soledevelopmentownership and exactpinnedMathlib. Freshglobalregistrysearch and repositoryindex403; currentglobalnonduplication notcleared, no bypass.",
+      "remaining_obligations": [
+        "New specific approval before triggering one proposed full350/render360 pair that may load a temporary AppArmor exception on each fresh disposable runner; prior approval consumed.",
+        "Original exact-source full/render results and independent artifact/final-packet review, required final checks and normal merge/remote preservation verification.",
+        "Reconcile actual private attempts, current protocol/identity/proof capability, duplicates/publicID before any authorized service intake; no denied gist write retried.",
+        "Browser-runtime inspection, editorial review and registration remain separate."
+      ],
+      "scope": "Five selected theorem contracts: imageStrategy_winning, strong_image, completelyMetrizable_image with second-countable source and metrizable target, polish_image with metrizable target, and polish_image_of_t3. The core transfer has no separation, metric, countability or nonemptiness assumptions.",
+      "material_definition_audit": {
+        "source_commit": "7d0d6b456b49e373e6ac6083d3f2da54e00df1d3",
+        "material_declarations": 62,
+        "upstream_files": 46,
+        "literal_excerpts": 119,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "fixed_model_definitions": [
+        "StrongChoquet.history",
+        "StrongChoquet.Follows",
+        "StrongChoquet.Winning",
+        "StrongChoquet.Strong"
+      ],
+      "fixed_model_types": [
+        "StrongChoquet.Move",
+        "StrongChoquet.Strategy"
+      ],
+      "definition_contract": "Byte-identical attributed prior foundation, marked point retained, full reverse histories, four fixed game definitions and two structures. Zero definition holes. New explicit total image strategy and coherence proof."
     }
   ]
 }
