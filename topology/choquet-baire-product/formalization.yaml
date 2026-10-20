@@ -1,0 +1,86 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "The Baire product theorem for Choquet spaces",
+    "description": "An arbitrary Baire topological space times a space with a winning full-history second-player Banach–Mazur strategy is Baire. A disjoint dense rectangle tree yields, for each prescribed nonempty open fiber region, a dense Gδ set of parameters with a common-point fiber witness for every countable dense-open product family. An explicit shrinking-ball strategy establishes alpha-favorability of complete metric spaces. Empty factors and legal-play existence are treated explicitly. This is classical mathematics, not a novelty or determinacy claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54E52",
+      "54B10",
+      "91A44"
+    ]
+  },
+  "sources": [
+    {
+      "title": "More on products of Baire spaces, arXiv:1702.06197v3",
+      "authors": [
+        "Rui Li",
+        "László Zsilinszky"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1702.06197v3",
+      "relationship": "formalizes",
+      "note": "Printed p.2 explicitly recalls that a Baire space times a Banach–Mazur alpha-favorable space is Baire, citing H.E.White1975. Section2, printed pp.2–3, specifies full finite opponent-history strategies and common-point payoffs. The proof here develops a disjoint dense rectangle tree and coherent branch, not a claimed reproduction of the original White proof, which was not consulted. The strong-Choquet beta-unfavorability Theorem1.1, almost-locally-ccc products and Krom theorems are outside scope. No novelty, priority or first-formalization claim."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Canonical topology, BaireSpace, dense/Gδ sets, Zorn, metric and filter completeness provide infrastructure. Exact material imported definitions and proof dependencies retain pinned source excerpts and independently compiled semantic bridges. No matching Choquet strategy or arbitrary Baire-times-alpha-favorable product theorem was located in this exact revision."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/d972b3cb0637c0e962c04384f16ec2b3e033d768/topology/locally-compact-baire",
+      "relationship": "builds-on",
+      "note": "Two maximal-disjoint/dense-refinement helpers are reused under Apache-2.0 with attribution. The rectangle-tree architecture is adapted from this prior compact-fiber argument; the new full-history strategy branch replaces compact-fiber intersection. No cross-project import or locally compact assumption is used. The game-history convention also credits Banach–Mazur source59d4a50df466480e88ab71bc1f3527bfe0bf1811."
+    }
+  ],
+  "status": {
+    "scope": "Arbitrary Baire times Banach–Mazur alpha-favorable product, dense-Gdelta fixed-region fiber witnesses, complete-metric winning second strategy and product corollary, payoff equality, legal-play existence, explicit empty-space extension.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gap in the selected statements. On nonempty spaces AlphaFavorable means the usual Choquet property; on an empty space it is a vacuous extension with no legal initial move. No strong Choquet/completely metrizable equivalence, determinacy, second-countability or arbitrary-product theorem is claimed. The witness G depends on the dense-open family and prescribed fiber open region; it does not assert dense entire sections. Each verification stage needs its own immutable exact-source external receipt. No intake, editorial acceptance, public registration or browser-runtime visual inspection is inferred.",
+    "attribution_status": "Campaign-authorized established author and responsible-maintainer lists preserved separately; material AI proof authorship disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive proof, test and packaging code under Arthur’s campaign authorization. Independent internal AI reviewers separately assess mathematical/source scope and implementation. No human proof contribution or human/external peer review is inferred from the authorized author/maintainer names."
+      }
+    ],
+    "notes": "Material AI proof contributions and independent internal AI reviews are disclosed. Backend costs and human mathematical review are not independently attested."
+  },
+  "fidelity": {
+    "divergences": "Matches the classical arbitrary-topology Baire-times-Banach–Mazur-alpha-favorable theorem recalled on Li–Zsilinszky printed p.2. All nonempty open sets are legal; current and full earlier opponent history are available, in reverse chronological storage, and equal nested moves are allowed. Empty-space extension is explicit. The proof derives the fixed-region dense-Gdelta fiber witness with a disjoint rectangle tree. Complete metric strategies use bounded shrinking closed traps and completeness, never compactness of balls. The original White1975 proof and the strong-Choquet characterization were not consulted/formalized."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal mathematical/source AI reviewer",
+      "Independent internal implementation/contract AI reviewer"
+    ],
+    "notes": "Independent internal scope and candidate proof review are separate from exact final package/compiled semantics/original canonical-result review. Each completed stage must be supported by its own immutable source-bound receipt. No human or external peer review is claimed."
+  },
+  "acknowledgements": "Classical White product attribution via consulted Li–Zsilinszky paper, canonical pinned Lean/Mathlib infrastructure and prior Apache-2.0 helper/tree provenance are retained. Campaign-authorized human author and responsible-maintainer roles remain separate from substantive Codex proof contributions."
+}

@@ -178,5 +178,42 @@ class ProtectedDefinitionEvidence(unittest.TestCase):
             check(self.project)
 
 
+class NoncomputableDefinitionEvidence(unittest.TestCase):
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        self.project = pathlib.Path(temp.name) / 'project'
+        shutil.copytree(ROOT / 'topology/choquet-baire-product', self.project,
+                        ignore=shutil.ignore_patterns('.lake', '__pycache__'))
+        self.file = self.project / 'verification/material-imported-definitions.json'
+        self.data = json.loads(self.file.read_text())
+
+    def test_actual_noncomputable_diameter_passes(self):
+        result = check(self.project)
+        self.assertIn('Metric.diam', result['material_declarations'])
+
+    def test_noncomputable_definition_cannot_be_claimed_as_class(self):
+        row = next(d for d in self.data['material_declarations'] if d['name'] == 'Metric.diam')
+        row['declaration_kind'] = 'class'
+        row['bridge_kind'] = 'class-fields'
+        self.file.write_text(json.dumps(self.data))
+        with self.assertRaises(ValueError):
+            check(self.project)
+
+    def test_noncomputable_token_inside_other_text_is_rejected(self):
+        row = next(d for d in self.data['material_declarations'] if d['name'] == 'Metric.diam')
+        excerpt = next(e for f in self.data['source_files'] for e in f['excerpts']
+                       if e['name'] == row['definition_excerpt'])
+        old = excerpt['text']
+        excerpt['text'] = old.replace('noncomputable def diam', 'unsafe noncomputable def diam')
+        self.assertNotEqual(old, excerpt['text'])
+        excerpt['sha256'] = sha(excerpt['text'].encode())
+        doc = self.project / self.data['documentation']
+        doc.write_text(doc.read_text().replace(old, excerpt['text']))
+        self.file.write_text(json.dumps(self.data))
+        with self.assertRaises(ValueError):
+            check(self.project)
+
+
 if __name__ == '__main__':
     unittest.main()

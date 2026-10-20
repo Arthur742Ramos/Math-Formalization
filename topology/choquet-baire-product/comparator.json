@@ -1,0 +1,20 @@
+{
+  "challenge_module": "CPChallenge",
+  "solution_module": "CPSolution",
+  "theorem_names": [
+    "ChoquetProduct.follows_intersection_eq",
+    "ChoquetProduct.exists_compatiblePlay",
+    "ChoquetProduct.alphaFavorable_of_isEmpty",
+    "ChoquetProduct.exists_dense_isGdelta_fiber_witness",
+    "ChoquetProduct.baireSpace_prod",
+    "ChoquetProduct.metricStrategy_wins",
+    "ChoquetProduct.alphaFavorable_of_completeMetric",
+    "ChoquetProduct.baireSpace_prod_completeMetric"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
