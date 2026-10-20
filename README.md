@@ -119,11 +119,25 @@ passed on attempt1 under the pinned pipeline. Original reports in PREPARATIONS.j
 supersede the dated ordinary checkpoint without changing the frozen source.
 The full report has no warnings or errors. Original rendered HTML has 8 nonblocking exposition tooltips;
 browser-runtime visual inspection remains unestablished.
-This task initiates no registry intake; private/editorial/registration state
-remains unconfirmed. All24 prior packages, including Choquet, are preserved.
+The user confirmed PR34 registered on2026-10-20 at14:22:25 UTC. Its public
+registration ID/version/link remain independently unconfirmed; do not duplicate
+intake. The original frozen package and completed receipts remain unchanged. All24 prior packages, including Choquet, are preserved.
 The repository contains25 independent packages; existing audit counts describe
 their stated historical scopes. The approved exact pair was consumed; no rerun
 or future security exception transfers.
+
+The new [strong Choquet/Polish preparation](topology/strong-choquet-polish) proves the classical
+game characterization of compatible complete metrizability for second-countable
+metrizable spaces, including the difficult coherent-tree Gδ converse. Ten theorem
+targets, four fixed game definitions and two marked-point structures have
+independent internal review and package-owned ordinary checks. Frozen source
+`f2ee17b609eec4788b85043f8ad504a63cd69d86` passed six modules1741jobs,16actualaxiomreports,
+native Lean checking and the51meaning/43pinnedfile/107excerpt semantic audit.
+Protected full/render stages need their own exact-source receipts and any
+specifically required fresh disposable-runner approval. This dated preparation
+initiates no registry intake; current private/editorial/registration state is
+unconfirmed. All25 prior package trees are preserved; the repository now contains
+26 independent packages. Existing audit counts describe their historical scopes.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence
 does not establish absence of private submissions. Mechanical success and

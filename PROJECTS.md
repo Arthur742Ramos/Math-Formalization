@@ -140,4 +140,18 @@ visual inspection remain unconfirmed. No prior package or registered source is c
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Banach–Mazur determinacy for Baire-property targets](topology/banach-mazur-category) | Complete-metric target-game determinacy, exact joint execution, meagre avoidance and first-player target forcing. | Full/render passed; intake and registration unconfirmed | [`0377aac`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0377aacab289fee8153cdec87fd8a1be06b9ec2c/topology/banach-mazur-category) |
+| [Banach–Mazur determinacy for Baire-property targets](topology/banach-mazur-category) | Complete-metric target-game determinacy, exact joint execution, meagre avoidance and first-player target forcing. | User-confirmed registered; public ID unconfirmed | [`0377aac`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0377aacab289fee8153cdec87fd8a1be06b9ec2c/topology/banach-mazur-category) |
+
+## Strong Choquet/Polish preparation
+
+The sole next campaign project after user-confirmed PR34 registration proves the
+strong Choquet characterization of Polish spaces, including the difficult
+second-countable metrizable converse. Complete-metric winning strategies and
+complete-ambient Gδ-subspace completeness have their stated more general scope.
+Ordinary exact-source checks and independent internal review passed. Protected
+full/render checks require their own original receipts and any necessary fresh
+runner approval. No prior frozen source, registration or package pin is changed.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Preparation; intake unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |

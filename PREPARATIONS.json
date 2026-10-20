@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-20",
-  "scope": "Prior source snapshots and status records preserved. Category-game determinacy is the sole new preparation after the completed Choquet manual handoff; current service state is unconfirmed.",
+  "scope": "Prior source snapshots and verification records preserved. PR34 is user-confirmed registered with independently unconfirmed public ID/link. Strong Choquet/Polish characterization is the sole next preparation; current service state unconfirmed.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -887,7 +887,7 @@
     {
       "path": "topology/banach-mazur-category",
       "name": "Banach\u2013Mazur determinacy for Baire-property targets",
-      "state": "verified-preparation-intake-unconfirmed",
+      "state": "user-reported-registered",
       "source_snapshot": {
         "commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
         "tree": "3ed28ec204f235529b18d9fbdfaa76a56ed74326"
@@ -989,13 +989,12 @@
       "existing_public_id": null,
       "fresh_runner_security_approval": false,
       "evidence_observed_date": "2026-10-20",
-      "checkpoint_scope": "Original exact-source full39407418492/render39407418027 attempt1 passes supersede the dated ordinary-preparation checkpoint without changing source, metadata, fixed meanings or package bytes. Protected Lean/NanoDa/con-ron and original rendered artifacts have independent authentication. Browser runtime and current private/editorial/registration state remain separate. This task initiates no registry intake. The specific two disposable-runner approvals were consumed and do not transfer.",
+      "checkpoint_scope": "Original exact-source full39407418492/render39407418027 attempt1 passes supersede the dated ordinary-preparation checkpoint without changing source, metadata, fixed meanings or package bytes. Protected Lean/NanoDa/con-ron and original rendered artifacts have independent authentication. Browser runtime and current private/editorial/registration state remain separate. This task initiates no registry intake. The specific two disposable-runner approvals were consumed and do not transfer. User confirmed PR34 registered on2026-10-20T14:22:25Z; public ID/version/link remain independently unconfirmed. Do not duplicate intake.",
       "duplicate_check": "No equivalent in24priorpackages/44remote branches/0openPRs/0runningorqueuedruns, exact pinned Mathlib and independently rehashed24page598entryrevision332 public snapshot. Current official registry reads unavailable; no current/private clearance or novelty promise.",
       "remaining_obligations": [
-        "Final root checks/review and normal merge with remote tree verification.",
-        "Current actual private attempts, duplicates/publicID and effective identity/capability reconciliation before any parent-owned manual intake; no registry action by this task.",
+        "User-confirmed registration recorded; public ID/version/link remain independently unconfirmed. Do not duplicate intake.",
         "Browser-runtime visual inspection remains unestablished.",
-        "Approved full350/render360 pair consumed; no rerun or future security exception authority."
+        "Prior full350/render360 approval pair consumed; no rerun or future security exception authority."
       ],
       "scope": "Ten selected theorems: exact joint-play execution, opposed winners, residual dense-open enumeration, meagre-target avoidance, local residual witness, complete-metric first-player forcing, Baire-property determinacy and both winner iff characterizations.",
       "material_definition_audit": {
@@ -1020,8 +1019,8 @@
         "CategoryGame.Determined"
       ],
       "definition_contract": "Seven literal game meanings and both strategy structures fixed; zero definition holes. Private recursion/avoidance/metric proof-witness helpers do not occur in selected types.",
-      "registry_intake_status": "unconfirmed",
-      "registry_registration_status": "unconfirmed",
+      "registry_intake_status": "user-confirmed-completed",
+      "registry_registration_status": "user-confirmed-registered",
       "ordinary_hosted": {
         "reviewed_head": "4600c60f1c7512c3bfe2500e02f3b0bed4e45bd3",
         "lean_run": 39368213519,
@@ -1029,7 +1028,126 @@
         "each_attempt": 1,
         "status": "pass",
         "scope": "Identical package tree; six modules1744jobs/17actual axioms/33meanings28pinned files73excerpts/146regressions. Root-only completion preserves package; no browser/editorial claim."
+      },
+      "latest_user_report": {
+        "observed_at_utc": "2026-10-20T14:22:25Z",
+        "recorded_at_utc": "2026-10-20T14:24:31.488333+00:00",
+        "PR": 34,
+        "project_path": "topology/banach-mazur-category",
+        "source_commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
+        "classification": "user-confirmed-registered",
+        "actor": "user",
+        "statement": "Pr34 registered let\u2019s do the next one now",
+        "public_registration_id": null,
+        "public_registration_version": null,
+        "independently_verified_registry_link": null,
+        "authority": "Proceed with exactly one next target; no registry action or transfer of consumed runner approval."
       }
+    },
+    {
+      "path": "topology/strong-choquet-polish",
+      "name": "The strong Choquet characterization of Polish spaces",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "f2ee17b609eec4788b85043f8ad504a63cd69d86",
+        "tree": "8a03caf15c3d01f9c1e7fa7255b8b2e0dbd9fe11"
+      },
+      "source_files_sha256": {
+        "AxiomAudit.lean": "816d54311ef6cfc32486f166d9db24677ab8c108c8c364f466accc3b6b71278b",
+        "CORE-DEFINITIONS.md": "1f8c44d3027c2960ca77f6f7261971886d560f09da9c8916ba7a8b0da4ee4b67",
+        "ChallengeTests.lean": "14e8f756ee799051b35c7583843bfa675c7646191c79eb1ce929505c218f6b35",
+        "MATERIAL-DEFINITIONS.md": "edb1e69e7fa56c7659f4e9f24c798be4fca4f372ca20add1b2143977e8c165bf",
+        "README.md": "f19f433f22ed8c1f44ecd3080734901507addb54b04ca1311920f710fa7e640c",
+        "REVIEW.md": "7f2da5a947244828f17d0ae7293421dc450662cf2f85d86e4a56a65d7529e8fb",
+        "SCChallenge.lean": "3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb",
+        "SCSolution.lean": "8b4bf767cb6839b384aa055eb79652c25ef60ed1fd94c23e1de2c090e661b59b",
+        "SemanticTests.lean": "fa6a4997ca4fff11d1a4ec74b0eea7aa83afbd09a62ee286755e0c94ee8efd5b",
+        "StrongChoquet.lean": "3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb",
+        "VERIFICATION.md": "1bfa95c307e325a782b07585d47316e4fe22575a7fd9426c5681725e7d5b6e20",
+        "comparator.json": "0b48fe3f2d5cc080f4e43da9e69e110b1b0f783ce17f498ca31547584e920c20",
+        "formalization.yaml": "ea3d84c08a026d106e29620f6baf156d323fe01c14654e22c134f068c98b641a",
+        "lake-manifest.json": "2ed7749926d4633a7d2be15437c3392af6feddbdd1605ec7cc4a6612b10b7707",
+        "lakefile.toml": "f02c10985c394d6f85bb3efca5c5e90fbc150af3478d6f661e61450188297ef2",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a"
+      },
+      "theorem_names": [
+        "StrongChoquet.exists_legalPlay",
+        "StrongChoquet.strong_of_isEmpty",
+        "StrongChoquet.strong_of_completeMetric",
+        "StrongChoquet.strong_of_completelyMetrizable",
+        "StrongChoquet.completelyMetrizable_iInter",
+        "StrongChoquet.completelyMetrizable_of_isGdelta",
+        "StrongChoquet.isGdelta_range_of_strong",
+        "StrongChoquet.completelyMetrizable_of_strong",
+        "StrongChoquet.strong_iff_completelyMetrizable",
+        "StrongChoquet.polish_iff_strong"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "candidate-final-source-definition-review.json": "96e285cb63157582b27e38673e39b575bf69bc80f44f1cb2998b5186e428c0e2",
+          "candidate-final-implementation-review.json": "72cb02a88667e545e95d4f6a2e03216048e56b15939105b1dc46814e4d57fabe",
+          "immutable-source-scope-review.json": "50aefb8e8ba3c802a51841f55a9f078b3d7bd4313aa8f0c039abc0a3d93d2cdb",
+          "immutable-source-implementation-review.json": "f481a87ac236085875e54c1e885db86bc18dc99bc7ec98706a80e23ac22991e0"
+        }
+      },
+      "ordinary_local": "pass; six modules1741jobs, ten theorem contracts, four fixed game definitions and two structures, both independent material-semantic entrypoints,16actualaxiomreports;51meanings/43pinnedMathlibfiles/107excerpts and exact Lean List/length evidence; native leanchecker exit0",
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-20",
+      "checkpoint_scope": "Dated independently reviewed ordinary preparation. Completed protected full/render stages require original exact-source receipts and any specifically required fresh disposable-runner security approval. No assertion about absent private intake or editorial/registration state. PR34 separately user-confirmed registered; ID/link independently unconfirmed. No registry action by this task.",
+      "duplicate_check": "No equivalent in25priorpackages/46remote branches/0openPRs/0runningorqueuedruns, exact pinned Mathlib, and rehashed24page598entryrevision332 saved official snapshot. Current official registry/private attempts not cleared; no novelty promise.",
+      "remaining_obligations": [
+        "Fresh specific approval before triggering a new disposable-runner AppArmor exception; prior approvals consumed.",
+        "Original exact-source full/render results, independent result/packet review, ordinary final-head checks and normal merge/remote preservation verification.",
+        "Current attempts/duplicates/publicID/effective identity and proof capabilities must be reconciled before parent-owned manual intake; no registry action here.",
+        "Browser-runtime visual inspection remains a separate stage."
+      ],
+      "scope": "Ten selected targets: actual compatible legal play, empty-space strategy, complete-metric and completely-metrizable forward implications, countable-open-intersection and G\u03b4 completeness, strong embedded-image G\u03b4 converse, strong-to-complete-metrizable, main iff and Polish iff. Main converse explicitly assumes second countability and metrizability.",
+      "material_definition_audit": {
+        "source_commit": "f2ee17b609eec4788b85043f8ad504a63cd69d86",
+        "material_declarations": 51,
+        "upstream_files": 43,
+        "literal_excerpts": 107,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "fixed_model_definitions": [
+        "StrongChoquet.history",
+        "StrongChoquet.Follows",
+        "StrongChoquet.Winning",
+        "StrongChoquet.Strong"
+      ],
+      "fixed_model_types": [
+        "StrongChoquet.Move",
+        "StrongChoquet.Strategy"
+      ],
+      "definition_contract": "Four literal full-history strong-game meanings and both marked-point structures fixed; zero definition holes. Every reply retains the marked point. Private helpers do not occur in selected types.",
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed"
     }
   ]
 }

@@ -74,13 +74,18 @@ def check_verified(p, package, source, tree):
         'topology/banach-mazur-baire': 'catalog-evidence/banach-mazur-baire-2026-10-19',
         'topology/choquet-baire-product': 'catalog-evidence/choquet-baire-product-2026-10-20',
         'topology/banach-mazur-category': 'catalog-evidence/banach-mazur-category-2026-10-20',
+        'topology/strong-choquet-polish': 'catalog-evidence/strong-choquet-polish-2026-10-20',
     }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     corrected = 'status_correction' in p
     assert p['canonical_full'] == p['rendering'] == ('historical-pass' if corrected else 'pass')
     reported = p['state'] == 'user-reported-submitted'
+    registered_report = p['state'] == 'user-reported-registered'
     unconfirmed = p['state'] == 'verified-preparation-intake-unconfirmed'
-    assert p['fresh_runner_security_approval'] is (not (corrected or reported or unconfirmed))
+    assert p['fresh_runner_security_approval'] is (not (corrected or reported or registered_report or unconfirmed))
+    if registered_report:
+        assert not corrected
+        check_user_registration_report(p)
     if unconfirmed:
         check_unconfirmed_intake(p)
     if reported:
@@ -151,6 +156,27 @@ def check_unconfirmed_intake(p):
     """Completed mechanical evidence cannot establish a private intake or registration."""
     assert p['state'] == 'verified-preparation-intake-unconfirmed'
     assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
+    assert p['existing_public_id'] is None
+    assert p['registry_intakes_by_this_task'] == 0
+    assert p['registry_submission_ready'] is False
+    assert p['fresh_runner_security_approval'] is False
+
+
+def check_user_registration_report(p):
+    """Preserve an explicit user registration report without inventing a public ID."""
+    assert p['state'] == 'user-reported-registered'
+    report = p['latest_user_report']
+    assert report['classification'] == 'user-confirmed-registered'
+    assert report['actor'] == 'user'
+    assert re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z', report['observed_at_utc'])
+    assert report['project_path'] == p['path']
+    assert report['source_commit'] == p['source_snapshot']['commit']
+    assert report['public_registration_id'] is None
+    assert report['public_registration_version'] is None
+    assert report['independently_verified_registry_link'] is None
+    assert report['statement'].strip()
+    assert p['registry_intake_status'] == 'user-confirmed-completed'
+    assert p['registry_registration_status'] == 'user-confirmed-registered'
     assert p['existing_public_id'] is None
     assert p['registry_intakes_by_this_task'] == 0
     assert p['registry_submission_ready'] is False
@@ -289,11 +315,23 @@ def check_material_audit_binding(p, source):
 
 
     if p['path'] == 'topology/banach-mazur-category':
-        assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
+        if p['state'] == 'user-reported-registered':
+            check_user_registration_report(p)
+        else:
+            assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
         proof = git('show', source + ':' + p['path'] + '/CategoryGame.lean')
         fixed = ['CategoryGame.' + n for n in re.findall(r'^@\[expose\] def (\w+)', proof, re.M)]
         assert len(fixed) == 7 and p['fixed_model_definitions'] == fixed
         assert p['definition_names'] == [], 'Fixed target-game meanings must not become holes'
+
+    if p['path'] == 'topology/strong-choquet-polish':
+        assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
+        proof = git('show', source + ':' + p['path'] + '/StrongChoquet.lean')
+        fixed = ['StrongChoquet.' + n for n in re.findall(r'^@\[expose\] def (\w+)', proof, re.M)]
+        assert len(fixed) == 4 and p['fixed_model_definitions'] == fixed
+        assert p['fixed_model_types'] == ['StrongChoquet.Move', 'StrongChoquet.Strategy']
+        assert p['definition_names'] == [], 'Fixed marked-point game meanings must not become holes'
+
 
 
 def check_preparations(rows, verified_paths):
@@ -308,11 +346,11 @@ def check_preparations(rows, verified_paths):
         seen.add(path)
         assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted',
             'status-correction-awaiting-exact-source-verification', 'status-correction-full-verified',
-            'user-reported-submitted', 'verified-preparation-intake-unconfirmed'}
+            'user-reported-submitted', 'user-reported-registered', 'verified-preparation-intake-unconfirmed'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
-        if path in {'topology/banach-mazur-baire', 'topology/choquet-baire-product', 'topology/banach-mazur-category'} or 'material_definition_audit' in p:
+        if path in {'topology/banach-mazur-baire', 'topology/choquet-baire-product', 'topology/banach-mazur-category', 'topology/strong-choquet-polish'} or 'material_definition_audit' in p:
             check_material_audit_binding(p, source)
         if 'definition_evidence_correction' in p:
             check_material_definition_correction(p, source, tree)
@@ -350,10 +388,11 @@ def check_preparations(rows, verified_paths):
         matching = [row for row in rows if '](' + path + ')' in row]
         assert len(matching) == 1
         label = ('Source-account correction' if 'status_correction' in p else
+                 'User-confirmed registered; public ID unconfirmed' if p['state'] == 'user-reported-registered' else
                  'User-reported submitted' if p['state'] == 'user-reported-submitted' else
                  'Full/render passed; intake and registration unconfirmed' if p['state'] == 'verified-preparation-intake-unconfirmed' else
                  'Preparation; not submitted')
-        if path in {'topology/banach-mazur-baire', 'topology/choquet-baire-product', 'topology/banach-mazur-category'} and p['state'] == 'reviewed-preparation-not-submitted':
+        if path in {'topology/banach-mazur-baire', 'topology/choquet-baire-product', 'topology/banach-mazur-category', 'topology/strong-choquet-polish'} and p['state'] == 'reviewed-preparation-not-submitted':
             label = 'Preparation; intake unconfirmed'
         assert label in matching[0]
         assert p['name'] in matching[0]

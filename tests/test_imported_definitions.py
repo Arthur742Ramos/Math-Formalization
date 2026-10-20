@@ -215,5 +215,27 @@ class NoncomputableDefinitionEvidence(unittest.TestCase):
             check(self.project)
 
 
+class StrongChoquetQualifiedEvidence(ImportedDefinitionEvidence):
+    PACKAGE = 'topology/strong-choquet-polish'
+
+    def test_root_qualified_class_and_attribute_prefix_pass(self):
+        result = check(self.project)
+        self.assertIn('SecondCountableTopology', result['material_declarations'])
+        self.assertIn('SeparableSpace', result['material_declarations'])
+
+    def test_attribute_token_inside_other_text_rejected(self):
+        row = next(d for d in self.data['material_declarations'] if d['name'] == 'SeparableSpace')
+        excerpt = next(e for f in self.data['source_files'] for e in f['excerpts']
+                       if e['name'] == row['definition_excerpt'])
+        old = excerpt['text']
+        excerpt['text'] = old.replace('@[mk_iff] class', 'fake @[mk_iff] class')
+        self.assertNotEqual(old, excerpt['text'])
+        excerpt['sha256'] = sha(excerpt['text'].encode())
+        doc = self.project / self.data['documentation']
+        doc.write_text(doc.read_text().replace(old, excerpt['text']))
+        self.file.write_text(json.dumps(self.data))
+        with self.assertRaises(ValueError): check(self.project)
+
+
 if __name__ == '__main__':
     unittest.main()
