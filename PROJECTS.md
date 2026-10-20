@@ -134,10 +134,10 @@ This separately reviewed package proves complete-metric determinacy for
 Baire-property target sets, with both winner characterizations. It adds target
 payoffs, actual joint-play execution and residual target forcing beyond Oxtoby
 and Choquet. Ordinary compilation and semantic audits passed. Exact-source
-protected full/render evidence and any required new runner approval remain
-separate gates at this dated preparation checkpoint. Private service state is
-unconfirmed; no prior package or registered source is changed.
+protected full and canonical rendering passed on attempt1; original reports are
+bound in PREPARATIONS.json. Current private service state and browser-runtime
+visual inspection remain unconfirmed. No prior package or registered source is changed.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Banach–Mazur determinacy for Baire-property targets](topology/banach-mazur-category) | Complete-metric target-game determinacy, exact joint execution, meagre avoidance and first-player target forcing. | Preparation; intake unconfirmed | [`0377aac`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0377aacab289fee8153cdec87fd8a1be06b9ec2c/topology/banach-mazur-category) |
+| [Banach–Mazur determinacy for Baire-property targets](topology/banach-mazur-category) | Complete-metric target-game determinacy, exact joint execution, meagre avoidance and first-player target forcing. | Full/render passed; intake and registration unconfirmed | [`0377aac`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0377aacab289fee8153cdec87fd8a1be06b9ec2c/topology/banach-mazur-category) |
