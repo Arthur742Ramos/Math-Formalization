@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
-  "checked_date": "2026-10-19",
-  "scope": "Prior registered and verified sources remain immutable. Kuratowski\u2013Ulam imported-definition correction is preserved. Prior locally compact R1 Baire product evidence remains source-bound. Oxtoby Banach-Mazur is the sole new preparation; canonical and service gates remain separate.",
+  "checked_date": "2026-10-20",
+  "scope": "Prior registered/verified sources and packets remain unchanged. Choquet Baire product is the sole newly selected preparation after the completed Oxtoby manual handoff; canonical, browser and service gates remain distinct.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -610,7 +610,7 @@
     },
     {
       "path": "topology/banach-mazur-baire",
-      "name": "Oxtoby's Banach–Mazur characterization of Baire spaces",
+      "name": "Oxtoby's Banach\u2013Mazur characterization of Baire spaces",
       "state": "verified-preparation-intake-unconfirmed",
       "source_snapshot": {
         "commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
@@ -738,6 +738,150 @@
         "each_attempt": 1,
         "status": "pass",
         "scope": "Exact package tree fb8b665974589ef6bb90abd176f4ddd63b8635ef: six modules853jobs, both independent entrypoints, eight exact Mathlib sources and compiler Prelude authenticated, eleven actual axiom reports/frozen-source checker. Later root-only status changes preserve the package; no protected full/render pass inferred."
+      }
+    },
+    {
+      "path": "topology/choquet-baire-product",
+      "name": "The Baire product theorem for Choquet spaces",
+      "state": "verified-preparation-intake-unconfirmed",
+      "source_snapshot": {
+        "commit": "51def6feb5e4469cce2396dfa4c9fa4f3b933d82",
+        "tree": "fe55139dc41ae5717bb435aea616ba2f1ffa504e"
+      },
+      "source_files_sha256": {
+        "AxiomAudit.lean": "91193a676a52a39fd68ed18b407fe8d2e5a952216dcd92847b2ebae4b01e6293",
+        "CORE-DEFINITIONS.md": "d882e28ddecf594a2bee699b8f17b12c7bac57eb99521a0b9174bdea1cac4f94",
+        "CPChallenge.lean": "4e4c323c79febac5d15e4df9bc646e4e27bad2c441ecc08ea6219811b8fb5e1c",
+        "CPSolution.lean": "8c8622e165d52cf5ca043533d0b78c7bae769aa5abcba35353afa0e2e15cd9c5",
+        "ChallengeTests.lean": "c3b883a0bf1e54dbc90fc35642ca5b16ff0b0f98f2aa5c528dcd2616a28b71ef",
+        "ChoquetProduct.lean": "4e4c323c79febac5d15e4df9bc646e4e27bad2c441ecc08ea6219811b8fb5e1c",
+        "MATERIAL-DEFINITIONS.md": "ef05d1014b469b94800ae21e8feec6bfc0ef1037e4770968a76c39bd65e6039c",
+        "README.md": "9082053fe41de7371bd7648e8cb54813173ec5b6c1db84e545e445c85ec9d472",
+        "REVIEW.md": "4ffbd4a8f2d5a5e901f052d667d868626cf3b8fd62ea910b57f2ca40dc148d99",
+        "SemanticTests.lean": "cbeee805da508410c889a2632365f3026ecb4524dfdc7a04a54245ca7ee537ee",
+        "VERIFICATION.md": "1cabde43be8efe453e4a89de9f71b8b1ae7d6aad9714f8622b5060eb41b5f260",
+        "comparator.json": "0e0ab9d97fd9401e9cf7d69a0e133a6c670f9f08d46a034ef6747b960fd12646",
+        "formalization.yaml": "b5af2470715b08f22ce946c6c94ca8178ac9f001281dd5de9758146a6cc10dfa",
+        "lake-manifest.json": "fa0632d8a5b02670ca2986a184202324bdfeeee6e1d1cededca3fae323090357",
+        "lakefile.toml": "d2791fc498c5d49a823cbfd388f504b2d274a48795d349738c730a6a53bad3ce",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a"
+      },
+      "theorem_names": [
+        "ChoquetProduct.follows_intersection_eq",
+        "ChoquetProduct.exists_compatiblePlay",
+        "ChoquetProduct.alphaFavorable_of_isEmpty",
+        "ChoquetProduct.exists_dense_isGdelta_fiber_witness",
+        "ChoquetProduct.baireSpace_prod",
+        "ChoquetProduct.metricStrategy_wins",
+        "ChoquetProduct.alphaFavorable_of_completeMetric",
+        "ChoquetProduct.baireSpace_prod_completeMetric"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source-scope-review.json": "30ab1a9920ebc2ca246fb459bc19ea8656f5759c6541c305988ef7b7cb2da836",
+          "candidate-final-mathematical-source-review.json": "7cf8be25a23a6a2000e971bcbe36849994860a3268525b18dca7a808e5929124",
+          "candidate-implementation-review.json": "59e9a8bf167dec8ce45b4bca9096d794df5297a29b06e057c00ab3bd2ee30afd",
+          "native-fixed-metric-contract-resolution-review.json": "5adfc51194150972ba3a30bdef9c1fff9a46258e5f19b06639b0d407cf7f5961",
+          "actual-full-implementation-review.json": "15e27b4db11c36e603b270dd4bc1d70e852c65ec5c33d1125359767884715012",
+          "actual-full-mathematical-source-review.json": "b81cad1b57bbf6d0714c5a32cd5b259c83216962573cd2543242925ff1c9825f",
+          "actual-render-implementation-review.json": "0856f2f22cf2ac849eb820033e6ac4a0fb25ba99600f216a10d86acc4e91a5ec",
+          "actual-results-source-render-review.json": "88333c7f189baadb80927918ce43ec35935dc1f824f5ecbba1b4df8d190eae89"
+        }
+      },
+      "ordinary_local": "pass; six modules1693jobs, both independent semantic entrypoints, eight theorem contracts, five fixed model definitions and actual metric strategy; fourteen actual axiom reports; twenty-two material meanings/twenty-seven exact pinned Mathlib files/fifty-two excerpts and exact Lean-core List/length evidence",
+      "canonical_full": "pass",
+      "rendering": "pass",
+      "canonical_run": {
+        "run_id": 39357299528,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39357299528",
+        "workflow": ".github/workflows/palomar-choquet-full-preflight.yml",
+        "workflow_head": "9f763c6e1927c1e0e08b91b0266a382bedd915b3",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "fe55139dc41ae5717bb435aea616ba2f1ffa504e",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "51def6feb5e4469cce2396dfa4c9fa4f3b933d82",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/choquet-baire-product-2026-10-20/full-report.json",
+        "original_report_sha256": "4f1bf75dd63e7283157c9a9a7e7da4514741dd9bf4084aa496f1922287cbabfa",
+        "request_id": "cpfull000001"
+      },
+      "rendering_run": {
+        "run_id": 39357299007,
+        "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39357299007",
+        "workflow": ".github/workflows/palomar-choquet-renderer.yml",
+        "workflow_head": "9f763c6e1927c1e0e08b91b0266a382bedd915b3",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "tested_package_tree": "fe55139dc41ae5717bb435aea616ba2f1ffa504e",
+        "current_package_tree_equal": true,
+        "verified_source_commit": "51def6feb5e4469cce2396dfa4c9fa4f3b933d82",
+        "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+        "execution_profile": "palomar-standard-v1",
+        "report_file": "catalog-evidence/choquet-baire-product-2026-10-20/render-report.json",
+        "original_report_sha256": "78ff6e5aa4a77269cf6e7ae6002e431d16266e13f6dd668df3b81221cc79800e",
+        "artifact_tree_sha256": "963fea533c4c14a33c7e57c78873ebcf00ac34f5b3c3d9119001aa800b8b4693"
+      },
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-20",
+      "checkpoint_scope": "Original exact-source full39357299528/render39357299007 attempt1 passes supersede the dated ordinary-preparation checkpoint without changing sourceS, metadata, fixed meanings or package bytes. ProtectedLean/NanoDa/conron and actual original rendering artifacts are independently authenticated. Browser runtime and registry/editorial state remain separate. This task initiates no registry intake; private attempts remain unconfirmed. The exact two disposable-runner approvals were consumed and do not transfer.",
+      "duplicate_check": "No equivalent found in23prior packages,42remote branches/0openPRs/0runningorqueuedruns at selection, exact pinned Mathlib065356 and independently rehashed24page598entry revision332 public snapshot captured2026-10-17. Current official registry/protocol reads unavailable, no global/private clearance or novelty guarantee.",
+      "remaining_obligations": [
+        "Final root catalog/regressions and independent exact-head/packet reviews, normal merge and remote tree verification.",
+        "Current official protocol, actual attempts, duplicates/public ID and effective identity/capabilities before Arthur manually acts; no service action by this task.",
+        "Browser-runtime visual inspection remains unestablished; original sanitized HTML/contracts/manifest hashes are separate evidence.",
+        "The approved full350/render360 pair was consumed; no future security-setting exception or rerun authority."
+      ],
+      "scope": "Arbitrary Baire times Banach\u2013Mazur alpha-favorable product; coherent full-history rectangle tree, fixed-open dense-Gdelta fiber witnesses, actual complete-metric winning second strategy, compatible play/payoff equality and explicit empty-space extension.",
+      "material_definition_audit": {
+        "source_commit": "51def6feb5e4469cce2396dfa4c9fa4f3b933d82",
+        "material_declarations": 22,
+        "upstream_files": 27,
+        "literal_excerpts": 52,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "ChallengeTests.lean",
+          "SemanticTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "fixed_model_definitions": [
+        "ChoquetProduct.OpenMove",
+        "ChoquetProduct.history",
+        "ChoquetProduct.Follows",
+        "ChoquetProduct.SecondWins",
+        "ChoquetProduct.AlphaFavorable"
+      ],
+      "definition_contract": "Zero definition holes; five literal model definitions, SecondStrategy and actual metricStrategy with public exposed module-independent shrinking support remain fixed non-target dependencies.",
+      "registry_intake_status": "unconfirmed",
+      "registry_registration_status": "unconfirmed",
+      "ordinary_hosted": {
+        "reviewed_head": "7d1f8e250bedfaef0dccbc194d18b4391f72ff31",
+        "lean_run": 39356617262,
+        "catalog_run": 39356617229,
+        "each_attempt": 1,
+        "status": "pass",
+        "scope": "Exactpackagefe5513 sixmodules1693jobs/14actualaxioms/27exactsourcefiles52excerpts/127regressions. Later root-only completion preserves package; no new-source or browser/editorial claims."
       }
     }
   ]

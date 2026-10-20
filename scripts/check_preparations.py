@@ -72,6 +72,7 @@ def check_verified(p, package, source, tree):
         'topology/kuratowski-ulam': 'catalog-evidence/kuratowski-ulam-2026-10-19',
         'topology/locally-compact-baire': 'catalog-evidence/locally-compact-baire-2026-10-19',
         'topology/banach-mazur-baire': 'catalog-evidence/banach-mazur-baire-2026-10-19',
+        'topology/choquet-baire-product': 'catalog-evidence/choquet-baire-product-2026-10-20',
     }[p['path']]
     ledger = json.loads((ROOT / 'READINESS.json').read_text())
     corrected = 'status_correction' in p
@@ -275,6 +276,16 @@ def check_material_audit_binding(p, source):
         assert len(fixed) == 4 and p['fixed_model_definitions'] == fixed
         assert p['definition_names'] == [], 'Fixed game meanings must not become holes'
 
+    if p['path'] == 'topology/choquet-baire-product':
+        assert p['registry_intake_status'] == p['registry_registration_status'] == 'unconfirmed'
+        proof = git('show', source + ':' + p['path'] + '/ChoquetProduct.lean')
+        fixed = ['ChoquetProduct.' + n for n in re.findall(r'^@\[expose\] def (\w+)', proof, re.M)]
+        assert len(fixed) == 5 and p['fixed_model_definitions'] == fixed
+        assert p['definition_names'] == [], 'Fixed game meanings must not become holes'
+        assert 'private noncomputable def metricShrink' not in proof
+        assert '@[expose] noncomputable def metricShrink' in proof
+        assert '@[expose] noncomputable def metricStrategy' in proof
+
 
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
@@ -292,7 +303,7 @@ def check_preparations(rows, verified_paths):
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
-        if path == 'topology/banach-mazur-baire' or 'material_definition_audit' in p:
+        if path in {'topology/banach-mazur-baire', 'topology/choquet-baire-product'} or 'material_definition_audit' in p:
             check_material_audit_binding(p, source)
         if 'definition_evidence_correction' in p:
             check_material_definition_correction(p, source, tree)
@@ -333,7 +344,7 @@ def check_preparations(rows, verified_paths):
                  'User-reported submitted' if p['state'] == 'user-reported-submitted' else
                  'Full/render passed; intake and registration unconfirmed' if p['state'] == 'verified-preparation-intake-unconfirmed' else
                  'Preparation; not submitted')
-        if path == 'topology/banach-mazur-baire' and p['state'] == 'reviewed-preparation-not-submitted':
+        if path in {'topology/banach-mazur-baire', 'topology/choquet-baire-product'} and p['state'] == 'reviewed-preparation-not-submitted':
             label = 'Preparation; intake unconfirmed'
         assert label in matching[0]
         assert p['name'] in matching[0]

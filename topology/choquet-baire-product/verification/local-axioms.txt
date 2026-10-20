@@ -1,0 +1,14 @@
+'ChoquetProduct.follows_intersection_eq' depends on axioms: [propext, Quot.sound]
+'ChoquetProduct.exists_compatiblePlay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.alphaFavorable_of_isEmpty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.exists_dense_isGdelta_fiber_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.baireSpace_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.metricStrategy_wins' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.alphaFavorable_of_completeMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.baireSpace_prod_completeMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ChoquetProduct.OpenMove' does not depend on any axioms
+'ChoquetProduct.history' does not depend on any axioms
+'ChoquetProduct.Follows' does not depend on any axioms
+'ChoquetProduct.SecondWins' does not depend on any axioms
+'ChoquetProduct.AlphaFavorable' does not depend on any axioms
+'ChoquetProduct.metricStrategy' depends on axioms: [propext, Classical.choice, Quot.sound]
