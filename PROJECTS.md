@@ -149,9 +149,10 @@ strong Choquet characterization of Polish spaces, including the difficult
 second-countable metrizable converse. Complete-metric winning strategies and
 complete-ambient Gδ-subspace completeness have their stated more general scope.
 Ordinary exact-source checks and independent internal review passed. Protected
-full/render checks require their own original receipts and any necessary fresh
-runner approval. No prior frozen source, registration or package pin is changed.
+full and canonical rendering passed on attempt1 with original source-bound reports
+in PREPARATIONS.json. Current service state and browser-runtime visual inspection
+remain separate. No prior frozen source, registration or package pin is changed.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Preparation; intake unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
+| [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Full/render passed; intake and registration unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
