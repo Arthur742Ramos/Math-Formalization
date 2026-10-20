@@ -1,0 +1,17 @@
+{
+  "challenge_module": "OPChallenge",
+  "solution_module": "OPSolution",
+  "theorem_names": [
+    "OpenPolish.imageStrategy_winning",
+    "OpenPolish.strong_image",
+    "OpenPolish.completelyMetrizable_image",
+    "OpenPolish.polish_image",
+    "OpenPolish.polish_image_of_t3"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
