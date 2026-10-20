@@ -119,10 +119,11 @@ not establish editorial acceptance. This task has initiated no registry intake; 
 This separately reviewed package proves the classical Baire-times-alpha-favorable
 product theorem by a coherent disjoint rectangle tree, with an actual
 complete-metric winning second strategy. Ordinary package compilation and
-semantic audits have passed. Protected full/render receipts remain separate
-source-bound gates at this dated preparation checkpoint; current service state
-is unconfirmed. No prior package or registered snapshot is changed.
+semantic audits passed. Exact-source full and canonical renderer passed on
+attempt1; original reports are bound in PREPARATIONS.json. Current service state
+and browser-runtime visual inspection remain unconfirmed. No prior package or
+registered snapshot is changed.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [The Baire product theorem for Choquet spaces](topology/choquet-baire-product) | Arbitrary Baire times alpha-favorable product, fixed-open dense-Gdelta fiber witnesses and complete-metric winning strategy. | Preparation; intake unconfirmed | [`51def6f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/51def6feb5e4469cce2396dfa4c9fa4f3b933d82/topology/choquet-baire-product) |
+| [The Baire product theorem for Choquet spaces](topology/choquet-baire-product) | Arbitrary Baire times alpha-favorable product, fixed-open dense-Gdelta fiber witnesses and complete-metric winning strategy. | Full/render passed; intake and registration unconfirmed | [`51def6f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/51def6feb5e4469cce2396dfa4c9fa4f3b933d82/topology/choquet-baire-product) |

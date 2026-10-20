@@ -97,9 +97,15 @@ factors without compactness of balls. Its eight theorem targets use zero
 definition holes;22 imported meanings,27 exact source files and52 excerpts
 have independent internal review and compiled semantic bridges. Frozen source
 `51def6feb5e4469cce2396dfa4c9fa4f3b933d82` passed its package-owned six-module build and fourteen
-actual axiom audits. Protected full/render verification requires separate
-exact-source receipts and any specifically required new runner approval.
-This dated checkpoint initiates no registry intake. Oxtoby and all23 prior
+actual axiom audits. Its exact-source [full canonical check](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39357299528)
+and [Challenge renderer](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39357299007)
+passed on attempt1 under the pinned pipeline. Original reports in PREPARATIONS.json
+supersede the dated prelaunch checkpoint without changing the frozen source.
+The full report has one nonblocking preferred-review-size warning. The original HTML contains seven nonblocking expose-attribute tooltips.
+Browser-runtime visual inspection remains unestablished.
+This task initiates no registry intake; private attempts and editorial/public
+registration state remain unconfirmed. The two specific disposable-runner
+approvals were consumed; no future exception transfers. Oxtoby and all23 prior
 package trees remain unchanged.
 
 Fresh global registry reads returned HTTP403 on 2026-10-18. Public snapshot absence

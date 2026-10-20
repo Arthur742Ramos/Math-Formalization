@@ -51,6 +51,14 @@ class LocallyCompactMaterialHandoff(MaterialDefinitionHandoff):
     PROJECT = 'topology/locally-compact-baire'
 
 
+class BanachMazurMaterialHandoff(MaterialDefinitionHandoff):
+    PROJECT = 'topology/banach-mazur-baire'
+
+
+class ChoquetMaterialHandoff(MaterialDefinitionHandoff):
+    PROJECT = 'topology/choquet-baire-product'
+
+
 def archive(files):
     out = io.BytesIO()
     with tarfile.open(fileobj=out, mode='w') as tar:
