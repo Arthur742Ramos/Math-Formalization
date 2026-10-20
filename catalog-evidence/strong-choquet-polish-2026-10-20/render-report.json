@@ -1,0 +1,112 @@
+{
+  "artifact_tree_sha256": "faa0c3ba6550c235337b5bef1a2d974d5a04ccd6fb18cdbe0de3f6c4d06d2475",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-20T15:32:06Z",
+  "rendered_at": "2026-10-20T15:36:42Z",
+  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/strong-choquet-polish/SCChallenge.lean",
+    "challenge_sha256": "3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb",
+    "commit": "f2ee17b609eec4788b85043f8ad504a63cd69d86",
+    "comparator_config_path": "topology/strong-choquet-polish/comparator.json",
+    "lakefile_path": "topology/strong-choquet-polish/lakefile.toml",
+    "lean_toolchain_path": "topology/strong-choquet-polish/lean-toolchain",
+    "project_path": "topology/strong-choquet-polish",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/strong-choquet-polish/SCSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem StrongChoquet.exists_legalPlay.{u} {X : Type u} [TopologicalSpace X] (\u03c3 : StrongChoquet.Strategy X)\n  (a\u2080 : StrongChoquet.Move X) : Exists fun a => And (Eq (a 0) a\u2080) (StrongChoquet.Follows \u03c3 a)",
+        "name": "StrongChoquet.exists_legalPlay"
+      },
+      {
+        "declaration": "theorem StrongChoquet.strong_of_isEmpty.{u} {X : Type u} [TopologicalSpace X] [IsEmpty X] : StrongChoquet.Strong X",
+        "name": "StrongChoquet.strong_of_isEmpty"
+      },
+      {
+        "declaration": "theorem StrongChoquet.strong_of_completeMetric.{u} {X : Type u} [MetricSpace X] [CompleteSpace X] : StrongChoquet.Strong X",
+        "name": "StrongChoquet.strong_of_completeMetric"
+      },
+      {
+        "declaration": "theorem StrongChoquet.strong_of_completelyMetrizable.{u} {X : Type u} [TopologicalSpace X]\n  [TopologicalSpace.IsCompletelyMetrizableSpace X] : StrongChoquet.Strong X",
+        "name": "StrongChoquet.strong_of_completelyMetrizable"
+      },
+      {
+        "declaration": "theorem StrongChoquet.completelyMetrizable_iInter.{u} {Y : Type u} [MetricSpace Y] [CompleteSpace Y]\n  (U : Nat \u2192 TopologicalSpace.Opens Y) :\n  TopologicalSpace.IsCompletelyMetrizableSpace (Set.Elem (Set.iInter fun n => SetLike.coe (U n)))",
+        "name": "StrongChoquet.completelyMetrizable_iInter"
+      },
+      {
+        "declaration": "theorem StrongChoquet.completelyMetrizable_of_isGdelta.{u} {Y : Type u} [MetricSpace Y] [CompleteSpace Y] {s : Set Y}\n  (hs : IsG\u03b4 s) : TopologicalSpace.IsCompletelyMetrizableSpace (Set.Elem s)",
+        "name": "StrongChoquet.completelyMetrizable_of_isGdelta"
+      },
+      {
+        "declaration": "theorem StrongChoquet.isGdelta_range_of_strong.{v, u} {X : Type v} [TopologicalSpace X] {Y : Type u} [MetricSpace Y] (f : X \u2192 Y)\n  [SecondCountableTopology Y] (hf : Topology.IsEmbedding f) (hstrong : StrongChoquet.Strong X) : IsG\u03b4 (Set.range f)",
+        "name": "StrongChoquet.isGdelta_range_of_strong"
+      },
+      {
+        "declaration": "theorem StrongChoquet.completelyMetrizable_of_strong.{u} {X : Type u} [TopologicalSpace X] [TopologicalSpace.MetrizableSpace X]\n  [SecondCountableTopology X] (h : StrongChoquet.Strong X) : TopologicalSpace.IsCompletelyMetrizableSpace X",
+        "name": "StrongChoquet.completelyMetrizable_of_strong"
+      },
+      {
+        "declaration": "theorem StrongChoquet.strong_iff_completelyMetrizable.{u} {X : Type u} [TopologicalSpace X] [TopologicalSpace.MetrizableSpace X]\n  [SecondCountableTopology X] : Iff (StrongChoquet.Strong X) (TopologicalSpace.IsCompletelyMetrizableSpace X)",
+        "name": "StrongChoquet.strong_iff_completelyMetrizable"
+      },
+      {
+        "declaration": "theorem StrongChoquet.polish_iff_strong.{u} {X : Type u} [TopologicalSpace X] [TopologicalSpace.MetrizableSpace X]\n  [SecondCountableTopology X] : Iff (PolishSpace X) (StrongChoquet.Strong X)",
+        "name": "StrongChoquet.polish_iff_strong"
+      }
+    ],
+    "declarations": [
+      "StrongChoquet.exists_legalPlay",
+      "StrongChoquet.strong_of_isEmpty",
+      "StrongChoquet.strong_of_completeMetric",
+      "StrongChoquet.strong_of_completelyMetrizable",
+      "StrongChoquet.completelyMetrizable_iInter",
+      "StrongChoquet.completelyMetrizable_of_isGdelta",
+      "StrongChoquet.isGdelta_range_of_strong",
+      "StrongChoquet.completelyMetrizable_of_strong",
+      "StrongChoquet.strong_iff_completelyMetrizable",
+      "StrongChoquet.polish_iff_strong"
+    ],
+    "imports": [
+      "Mathlib.Topology.Compactness.Lindelof",
+      "Mathlib.Topology.GDelta.MetrizableSpace",
+      "Mathlib.Topology.MetricSpace.Completion",
+      "Mathlib.Topology.MetricSpace.Polish"
+    ],
+    "module_doc": null,
+    "schema_version": 3,
+    "solution_imports": [
+      "StrongChoquet"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39448800834"
+}

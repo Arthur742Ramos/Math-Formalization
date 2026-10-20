@@ -1,0 +1,22 @@
+{
+  "AxiomAudit.lean": "816d54311ef6cfc32486f166d9db24677ab8c108c8c364f466accc3b6b71278b",
+  "CORE-DEFINITIONS.md": "1f8c44d3027c2960ca77f6f7261971886d560f09da9c8916ba7a8b0da4ee4b67",
+  "ChallengeTests.lean": "14e8f756ee799051b35c7583843bfa675c7646191c79eb1ce929505c218f6b35",
+  "MATERIAL-DEFINITIONS.md": "edb1e69e7fa56c7659f4e9f24c798be4fca4f372ca20add1b2143977e8c165bf",
+  "README.md": "f19f433f22ed8c1f44ecd3080734901507addb54b04ca1311920f710fa7e640c",
+  "REVIEW.md": "7f2da5a947244828f17d0ae7293421dc450662cf2f85d86e4a56a65d7529e8fb",
+  "SCChallenge.lean": "3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb",
+  "SCSolution.lean": "8b4bf767cb6839b384aa055eb79652c25ef60ed1fd94c23e1de2c090e661b59b",
+  "SemanticTests.lean": "fa6a4997ca4fff11d1a4ec74b0eea7aa83afbd09a62ee286755e0c94ee8efd5b",
+  "StrongChoquet.lean": "3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb",
+  "VERIFICATION.md": "1bfa95c307e325a782b07585d47316e4fe22575a7fd9426c5681725e7d5b6e20",
+  "comparator.json": "0b48fe3f2d5cc080f4e43da9e69e110b1b0f783ce17f498ca31547584e920c20",
+  "formalization.yaml": "ea3d84c08a026d106e29620f6baf156d323fe01c14654e22c134f068c98b641a",
+  "lake-manifest.json": "2ed7749926d4633a7d2be15437c3392af6feddbdd1605ec7cc4a6612b10b7707",
+  "lakefile.toml": "f02c10985c394d6f85bb3efca5c5e90fbc150af3478d6f661e61450188297ef2",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_package.py": "0aeb86fdcb8f14ba123ad1bfd506cc050b2e2ddb70a2f710ceaebb73e1db5202",
+  "verification/core-definitions.json": "4278ac77dd8656a71c3ed07b01adbd0e0294c112fe84bcc0df3a4360fc37074b",
+  "verification/local-axioms.txt": "ce2190c52766cf9b3adaae910f2ca647a5c3e1a1d479621cfb5c889a511ef79f",
+  "verification/material-imported-definitions.json": "17aaf3a98a24cfbf5116439f4ef26e22f61a1a63432de252e5eb28d0756a6edc"
+}

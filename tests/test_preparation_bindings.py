@@ -7,7 +7,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_material_definition_correction, check_locally_compact_definition_preparation, check_material_audit_binding
+from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_user_registration_report, check_material_definition_correction, check_locally_compact_definition_preparation, check_material_audit_binding
 
 
 class FixedGameAuditBindings(unittest.TestCase):
@@ -72,6 +72,45 @@ class CategoryGameFixedAuditBindings(FixedGameAuditBindings):
     def setUp(self):
         rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
         self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-category'))
+
+
+class StrongChoquetFixedAuditBindings(FixedGameAuditBindings):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/strong-choquet-polish'))
+
+
+class UserRegistrationReportBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text())['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/banach-mazur-category'))
+
+    def test_explicit_user_report_preserves_unknown_public_id(self):
+        check_user_registration_report(self.row)
+
+    def test_missing_report_is_not_registration_evidence(self):
+        del self.row['latest_user_report']
+        with self.assertRaises(KeyError): check_user_registration_report(self.row)
+
+    def test_machine_checks_cannot_replace_user_report(self):
+        self.row['latest_user_report']['actor'] = 'CI'
+        with self.assertRaises(AssertionError): check_user_registration_report(self.row)
+
+    def test_wrong_source_report_rejected(self):
+        self.row['latest_user_report']['source_commit'] = '0' * 40
+        with self.assertRaises(AssertionError): check_user_registration_report(self.row)
+
+    def test_unverified_public_id_cannot_be_invented(self):
+        self.row['latest_user_report']['public_registration_id'] = 'PALOMAR-2026-10-20-000001'
+        with self.assertRaises(AssertionError): check_user_registration_report(self.row)
+
+    def test_report_is_not_independent_public_confirmation(self):
+        self.row['latest_user_report']['classification'] = 'independently-verified-registered'
+        with self.assertRaises(AssertionError): check_user_registration_report(self.row)
+
+    def test_consumed_security_approval_does_not_transfer(self):
+        self.row['fresh_runner_security_approval'] = True
+        with self.assertRaises(AssertionError): check_user_registration_report(self.row)
 
 
 class CorrectedFullBindings(unittest.TestCase):

@@ -1,0 +1,16 @@
+'StrongChoquet.exists_legalPlay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.strong_of_isEmpty' does not depend on any axioms
+'StrongChoquet.strong_of_completeMetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.strong_of_completelyMetrizable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.completelyMetrizable_iInter' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.completelyMetrizable_of_isGdelta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.isGdelta_range_of_strong' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.completelyMetrizable_of_strong' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.strong_iff_completelyMetrizable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.polish_iff_strong' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.Move' does not depend on any axioms
+'StrongChoquet.Strategy' does not depend on any axioms
+'StrongChoquet.history' does not depend on any axioms
+'StrongChoquet.Follows' does not depend on any axioms
+'StrongChoquet.Winning' does not depend on any axioms
+'StrongChoquet.Strong' does not depend on any axioms

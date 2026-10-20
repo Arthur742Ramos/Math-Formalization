@@ -1,0 +1,22 @@
+{
+  "challenge_module": "SCChallenge",
+  "solution_module": "SCSolution",
+  "theorem_names": [
+    "StrongChoquet.exists_legalPlay",
+    "StrongChoquet.strong_of_isEmpty",
+    "StrongChoquet.strong_of_completeMetric",
+    "StrongChoquet.strong_of_completelyMetrizable",
+    "StrongChoquet.completelyMetrizable_iInter",
+    "StrongChoquet.completelyMetrizable_of_isGdelta",
+    "StrongChoquet.isGdelta_range_of_strong",
+    "StrongChoquet.completelyMetrizable_of_strong",
+    "StrongChoquet.strong_iff_completelyMetrizable",
+    "StrongChoquet.polish_iff_strong"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

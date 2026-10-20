@@ -63,6 +63,10 @@ class CategoryGameMaterialHandoff(MaterialDefinitionHandoff):
     PROJECT = 'topology/banach-mazur-category'
 
 
+class StrongChoquetMaterialHandoff(MaterialDefinitionHandoff):
+    PROJECT = 'topology/strong-choquet-polish'
+
+
 def archive(files):
     out = io.BytesIO()
     with tarfile.open(fileobj=out, mode='w') as tar:

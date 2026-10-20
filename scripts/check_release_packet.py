@@ -115,7 +115,7 @@ def check_status(root, commit, project, historical_report=None):
     material_manifest = 'verification/material-imported-definitions.json'
     if project in {'topology/kuratowski-ulam', 'topology/locally-compact-baire',
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',
-                   'topology/banach-mazur-category'}:
+                   'topology/banach-mazur-category', 'topology/strong-choquet-polish'}:
         require(material_manifest in files, 'Missing material imported-definition evidence')
     if material_manifest in files:
         # Audit the proposed source bytes, never a later working directory.
