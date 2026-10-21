@@ -53,7 +53,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish",
       "relationship": "builds-on",
-      "note": "StrongChoquetFoundation.lean copies the Apache-2.0 prior verified StrongChoquet.lean byte-for-byte, including attribution, full-history game and second-countable criterion. No cross-project imports, prior registration assumption or new authorship claim for this inherited proof. New work is coherent image strategy and image theorems."
+      "note": "StrongChoquetFoundation.lean copies the Apache-2.0 prior verified StrongChoquet.lean byte-for-byte, including attribution, full-history game and second-countable criterion. No cross-project imports, prior registration assumption or new authorship claim for this inherited proof. New work is coherent image strategy and image theorems. The retained reference file stays byte-identical; the repaired proof and protected Challenge inline its attributed declaration body verbatim, with only pinned Mathlib imports. These restructured modules are not claimed byte-identical to the historical module."
     },
     {
       "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
@@ -70,7 +70,7 @@
       "Classical.choice",
       "Quot.sound"
     ],
-    "known_gaps": "No mathematical gap in the selected statements. Source surjectivity, continuity and openness are all explicit. Image completeness means existence of a compatible complete metric; an arbitrary original metric need not be complete. The T3 corollary uses regularity plus T0, which implies Hausdorffness; Hausdorffness alone is not substituted. General nonseparable complete-metrizable image preservation, stationary/convergent classification and quasi-Polish spaces are outside this scope. Verification stages require their own exact-source receipts; public registration, current private attempts and browser-runtime inspection are separate.",
+    "known_gaps": "No mathematical gap in the selected statements. Source surjectivity, continuity and openness are all explicit. Image completeness means existence of a compatible complete metric; an arbitrary original metric need not be complete. The T3 corollary uses regularity plus T0, which implies Hausdorffness; Hausdorffness alone is not substituted. General nonseparable complete-metrizable image preservation, stationary/convergent classification and quasi-Polish spaces are outside this scope. Verification stages require their own exact-source receipts; public registration, current private attempts and browser-runtime inspection are separate. Protected import closure correction: the original frozen source failed canonical Challenge compilation because its candidate-local foundation import was unavailable in the protected closure. The corrected modules inline the inherited declaration body without changing its mathematical content. Verification outcomes require exact-source receipts outside the frozen package; prior-source reports do not certify these bytes.",
     "attribution_status": "Established campaign author and responsible-maintainer lists preserved separately; substantive AI contribution and independent internal AI review disclosed."
   },
   "automation": {

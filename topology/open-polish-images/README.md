@@ -44,7 +44,10 @@ Polish-space constructions, open quotient maps and descriptive set theory.
 
 `StrongChoquetFoundation.lean` is a byte-identical Apache-2.0 copy of the attributed
 [prior verified foundation](https://github.com/Arthur742Ramos/Math-Formalization/blob/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish/StrongChoquet.lean).
-The image construction is new to this package. All imports resolve inside this
+The protected `OPChallenge` and proof module now inline that attributed foundation
+declaration body verbatim and import only the five pinned Mathlib modules. The
+retained `StrongChoquetFoundation.lean` remains byte-identical historical provenance;
+it is not imported by those entrypoints. The image construction is new to this package. All imports resolve inside this
 standalone package or its pinned Mathlib dependency; no sibling package is imported.
 
 ## Reproducibility and review
@@ -74,3 +77,12 @@ Ruy Jose Guerra Barretto de Queiroz.
 Material new Lean proof/test/package authorship: OpenAI Codex. Independent internal
 AI review is distinct from human mathematical review and external peer review.
 Inherited source authorship, classical mathematics and Apache-2.0 notices are preserved.
+
+## Protected import closure
+
+This packaging correction repairs the candidate-local import rejected at the canonical
+Challenge stage of full run39666845881 against source
+`7d0d6b456b49e373e6ac6083d3f2da54e00df1d3`. Both declaration bodies are preserved
+verbatim under one module header. The original failed report remains historical evidence for that earlier source.
+Each ordinary/native check, independent review and separately approved exact-source
+canonical pair is established only by its own immutable external receipt.

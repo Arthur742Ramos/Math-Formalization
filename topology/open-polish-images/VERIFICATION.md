@@ -23,3 +23,10 @@ Current account, permissions, duplicate/public registration and actual private
 attempts must be reconciled before intake. An empty public result does not prove
 there is no pending private submission. PR35's separate frozen packet and unknown
 intake state are unaffected. No registry acceptance or registration is asserted.
+
+Protected import closure correction: proof and Challenge inline the attributed inherited
+foundation declaration body and import only pinned Mathlib. Prior ordinary builds
+and reviews remain historical receipts for source7d0d6b456b49e373e6ac6083d3f2da54e00df1d3,
+whose canonical full39666845881 failed at protected Challenge import resolution.
+This corrected source needs its own ordinary and canonical receipts; the original one-pair
+approval is consumed and grants no new runner exception. No trust boundary is changed.

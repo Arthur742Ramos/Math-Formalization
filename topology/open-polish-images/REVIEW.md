@@ -16,3 +16,9 @@ Each final review receipt binds the files it actually reviewed by hash or commit
 Final packaging, exact printed contracts, imported-definition meanings and source
 commit verification require their own reviewed receipts. There is no inferred human
 review, external peer review, editorial approval, public registration or novelty.
+
+Packaging repair scope: the corrected source preserves both declaration bodies
+verbatim while replacing the candidate-local foundation import with an inline
+attributed body and the five existing Mathlib imports. Prior review receipts do
+not certify these new module bytes or successful compilation. Each independent layout review and affected exact-source verification gate is
+established by its own external receipt.

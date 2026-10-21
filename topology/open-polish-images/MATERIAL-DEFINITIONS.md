@@ -2759,3 +2759,9 @@ https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283c
 ```lean
 class T3Space (X : Type u) [TopologicalSpace X] : Prop extends T0Space X, RegularSpace X
 ```
+
+Packaging repair note: inherited game declarations appear inline in both proof
+and Challenge with their bodies unchanged. The retained attributed foundation
+reference is historical provenance, not an imported candidate dependency. The
+material predicate inventory and both semantic test entrypoints remain unchanged;
+new module-layout compilation and source-fidelity review are separate obligations.

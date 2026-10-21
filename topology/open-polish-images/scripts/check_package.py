@@ -33,6 +33,13 @@ def check(axiom_log=None, write=False):
         'permitted_axioms': ['propext', 'Quot.sound', 'Classical.choice']}
     proof = (ROOT / 'OpenPolish.lean').read_bytes()
     assert proof == (ROOT / 'OPChallenge.lean').read_bytes()
+    imports = re.findall(r'^(?:public\s+)?import\s+(\S+)', proof.decode(), re.M)
+    assert set(imports) == {'Mathlib.Topology.MetricSpace.Polish',
+        'Mathlib.Topology.MetricSpace.Completion', 'Mathlib.Topology.GDelta.MetrizableSpace',
+        'Mathlib.Topology.Compactness.Lindelof', 'Mathlib.Topology.Metrizable.Urysohn'}, \
+        'Protected Challenge must import only the five pinned Mathlib modules'
+    foundation_body = (ROOT / 'StrongChoquetFoundation.lean').read_text().split('public section\n', 1)[1]
+    assert foundation_body in proof.decode(), 'Attributed foundation declaration body changed or omitted'
     assert len(proof.splitlines()) <= 1000 and len(proof) <= 100 * 1024
     assert SHA((ROOT / 'StrongChoquetFoundation.lean').read_bytes()) == (
         '3d22c5f7f5af43d1a1cb40d58f4cb2b1c1b5d217a17f62269d26225baaddbcdb')
