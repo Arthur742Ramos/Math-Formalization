@@ -147,8 +147,7 @@ steps. Upper feasibility at M is proved from the game premises; no LP oracle is
 supplied. Returned data also satisfy the normalized full-game reconstruction
 contracts and the declared repertoire. The resulting shifted enclosure has width
 at most η+M/2^n. Fourier–Motzkin elimination may be exponential: this does not
-prove the paper's polynomial LP/flow or bit-cost guarantee. Interval repertoire/value integration,
-allocation-grid execution/selection, efficient separation and source-specific
+prove the paper's polynomial LP/flow or bit-cost guarantee. Allocation-grid execution/selection, efficient separation and source-specific
 residual payoff algorithms remain tracked in SCOPE.md. Native exact-source
 verification must be tied to the frozen commit by its external receipt.
 
@@ -157,11 +156,23 @@ The actual rational interval program now encodes q,V,K and finite call epigraph
 variables. Its matrix is proved equivalent over both Q and Real to the intended
 constraints. For M,η>0 and p≥0, any compatible real completion at ρ forces rational program success;
 with explicit endpoint containment and normalization, its returned game obeys
-the original intervals and all response bounds at ρ+η. Extra interval repertoire
-constraints and interval value search are still to be integrated.
+the original intervals and all response bounds at ρ+η. The augmented program below also preserves finite physical q,V,K constraints
+and implements actual interval value search.
 
 For fixed observations and finite rational linear repertoires, automatic rounds
 n=Nat.log2(Nat.ceil(M/ζ))+1 yield an actual returned certificate and value bracket
 of shifted width<η+ζ for ζ>0. The Boolean checker validates original anchors and
 repertoire membership. This full support container may include zero weights;
 it does not certify the paper's sparse-output algorithm or polynomial cost.
+
+
+The augmented interval solver preserves finite rational linear constraints R on
+physical q,V,K, independently of epigraph auxiliaries. For positive M,η,
+nonnegative normalized anchors, bounded consistent intervals and a nonempty
+compatible game class, its bisection program automatically succeeds. The class
+contains all original q,D,K,B satisfying intervals and R(q,qD,K); its actual
+exploitability optimum is attained. The returned rational game gives L≤V≤U+η
+and automatic shifted bracket width<η+ζ for ζ>0. Physical consistency assumes
+neither a tolerance bound nor solver success. Full action nonemptiness is
+explicit for exploitability/value. Sparse-output selection, raw-input consistency
+initialization, grid execution and polynomial operation/bit guarantees remain open.

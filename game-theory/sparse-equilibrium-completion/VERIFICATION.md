@@ -349,3 +349,17 @@ rejection are required before describing the integrated bytes as verified.
 Protected comparator behavior, dependency pins and root verification tools are
 unchanged. Whole-paper, polynomial-cost and canonical-release readiness remain
 unestablished. No submission or publication is authorized or attempted.
+
+
+## Physical-repertoire interval value follow-on
+
+The preserved cbe6aadb16069f666edb28cfa9e71af161b90fdb checkpoint passed all12
+native gates,648 source audits and538 protected contracts, with independent
+source/log/kernel/export/bundle authentication. It does not verify these altered
+bytes. The new15 mathematical modules and32 independently reviewed proofs take
+the package to145 mathematics modules,680 source audits and570 protected
+contracts. Five executable controls cover accepted/inconsistent residual floors,
+automatic approximation and its computed width, and negative-tolerance rejection.
+Precise imported usage, semantic/static reviews and a fresh exact-commit native
+run remain required for this tranche. No future PASS or commit is embedded. No
+submission or publication is authorized or attempted.

@@ -479,5 +479,17 @@ example {n : ℕ} (f g : Fin n → ℚ) : decide (f=g)=true ↔ ∀ i, f i=g i :
 example (P : Fin 0 → Prop) [DecidablePred P] : decide (∀ i, P i)=true := by simp
 example (P : Fin 1 → Prop) [DecidablePred P] : decide (∀ i, P i)=true ↔ P 0 := by simp
 
+
+/- Exact interval-value continuity and implication-order contracts. -/
+example {α β : Type*} (e : α ≃ β) : Function.Surjective e := e.surjective
+example (f g : ℝ → ℝ) (hf : Continuous f) (hg : Continuous g) :
+    Continuous (fun x => f x*g x) := hf.mul hg
+example (f : ℝ → ℝ) (hf : Continuous f) (c : ℝ) :
+    Continuous (fun x => f x*c) := hf.mul_const c
+example (f g : ℝ → ℝ) (hf : Continuous f) (hg : Continuous g) :
+    Continuous (fun x => f x+g x) := hf.add hg
+example : Continuous (fun p : ℝ × ℝ => p.1*p.2) := continuous_mul
+example (P Q : Prop) : P ≤ Q ↔ (P → Q) := Iff.rfl
+
 end SECDefinitions
 -- END material-imported-definition audit
