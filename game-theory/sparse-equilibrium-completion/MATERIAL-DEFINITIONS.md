@@ -2097,3 +2097,142 @@ Affected selected declarations: SparseCompletion.binned_middle_injective, Sparse
 The finite-feature compression works on ((Fin k ⊕ Fin d) ⊕ Fin H), preserving both the actual anchor columns and arbitrary d extra linear measurements. The exact case uses H−1 hinge values and obtains its endpoint from the original score mean, with no extra game anchors. Existing finite sum, coproduct cardinality, convex recombination, interval-grid and reconstruction meanings apply. At r=0, nonnegative_mass_zero proves every residual coordinate vanishes; all observations and measurements are retained. The all-mass wrappers add literal finite-cardinality minima without assuming support positivity.
 
 Additional affected contracts: SparseCompletion.nonnegative_mass_zero, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass.
+
+## Score prefixes and fixed-tolerance conic systems
+
+The exact score-prefix proof uses a nonempty finite maximum with membership and upper-bound contracts. Its definition is max′=sup′ of the identity; sup′ extracts the non-bottom finite supremum under a proof of nonemptiness. This data helper is retained as a proof contract, alongside literal Antitone and Finset.Nonempty predicate definitions. Zero threshold set and zero prefix are handled explicitly. The concrete rotatedLorentz predicate is fixed project code, with convention 2uv≥w² and u,v≥0; its value at v=1/2 is proved equivalent to the displayed quadratic. No imported cone-feasibility theorem is assumed.
+
+Existing finite sums and compact separation support the completion characterizations. Existing Convex/StarConvex meanings support the direct mixture proofs, including arbitrary convex repertoires and literal families of linear inequalities. Scalar quadratic_rotated_cone has no finite-index premise. Additional contracts: SparseCompletion.threshold_is_score_prefix, SparseCompletion.cuts_iff_score_prefixes, SparseCompletion.prefix_cut_quadratic, SparseCompletion.quadratic_rotated_cone, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.finite_linear_mix, SparseCompletion.finite_mass_mix, SparseCompletion.prefix_quadratic_mix, SparseCompletion.prefix_system_convex, SparseCompletion.anchor_response_mix, SparseCompletion.known_anchor_conic_system_convex, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.linear_repertoire_convex.
+
+### Antitone pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Monotone/Defs.lean
+
+Whole-source SHA256: 9b75e423f4425994dec847788cbcf1a510fce43c1c69facba3f9cdef50ed37d6
+
+```lean
+/-
+Copyright (c) 2014 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Mario Carneiro, Yaël Dillies
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Monotone/Defs.lean#L67-L69
+
+```lean
+/-- A function `f` is antitone if `a ≤ b` implies `f b ≤ f a`. -/
+def Antitone (f : α → β) : Prop :=
+  ∀ ⦃a b⦄, a ≤ b → f b ≤ f a
+```
+
+### Finset.Nonempty pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Empty.lean
+
+Whole-source SHA256: bc77217d483f0e3f1e159e7911ea21cc69647dfcf795c232c218a0ec0bbea93a
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Empty.lean#L44-L50
+
+```lean
+/-- The property `s.Nonempty` expresses the fact that the finset `s` is not empty. It should be used
+in theorem assumptions instead of `∃ x, x ∈ s` or `s ≠ ∅` as it gives access to a nice API thanks
+to the dot notation. -/
+protected def Nonempty (s : Finset α) : Prop := ∃ x : α, x ∈ s
+
+@[grind =]
+theorem nonempty_def {s : Finset α} : s.Nonempty ↔ ∃ x, x ∈ s := Iff.rfl
+```
+
+### Finset.max' pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean
+
+Whole-source SHA256: f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L128-L136
+
+```lean
+/-- Given a nonempty finset `s` in a linear order `α`, then `s.max' H` is its maximum, as an
+element of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.max`,
+taking values in `WithBot α`. -/
+@[to_dual
+/-- Given a nonempty finset `s` in a linear order `α`, then `s.min' H` is its minimum, as an
+element of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.min`,
+taking values in `WithTop α`. -/]
+def max' (s : Finset α) (H : s.Nonempty) : α :=
+  sup' s H id
+```
+
+### finite-maximum-membership-bound pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean
+
+Whole-source SHA256: f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L146
+
+```lean
+@[to_dual]
+theorem max'_mem : s.max' H ∈ s :=
+  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]
+
+@[to_dual min'_le]
+theorem le_max' (x) (H2 : x ∈ s) : x ≤ s.max' ⟨x, H2⟩ :=
+  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm
+```
+
+### nonempty-supremum-expansion pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean
+
+Whole-source SHA256: d8d50163e1990cd27cf072b38fb3c78f60af5eba53d657ff2afec18d4e3d505b
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L525-L533
+
+```lean
+/-- Given nonempty finset `s` then `s.sup' H f` is the supremum of its image under `f` in (possibly
+unbounded) join-semilattice `α`, where `H` is a proof of nonemptiness. If `α` has a bottom element
+you may instead use `Finset.sup` which does not require `s` nonempty. -/
+@[to_dual
+/-- Given nonempty finset `s` then `s.inf' H f` is the infimum of its image under `f` in (possibly
+unbounded) meet-semilattice `α`, where `H` is a proof of nonemptiness. If `α` has a top element you
+may instead use `Finset.inf` which does not require `s` nonempty. -/]
+def sup' (s : Finset β) (H : s.Nonempty) (f : β → α) : α :=
+  WithBot.unbot (s.sup ((↑) ∘ f)) (by simpa using! H)
+```
+
+
+The normalized full-game wrapper SparseCompletion.normalized_known_anchor_conic_iff adds literal nonnegative block weights of mass1 and full-matrix skew/bounds under the explicit fixed K/D/p premodel conditions. It uses the same prefix-order, finite-sum and completion meanings as SparseCompletion.known_anchor_prefix_characterization.

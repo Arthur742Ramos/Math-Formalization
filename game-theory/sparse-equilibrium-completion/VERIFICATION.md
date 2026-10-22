@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact forty-three local source bodies with
+Challenge is a deterministic assembly of the exact forty-six local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -190,3 +190,25 @@ This new source has 291 actual source proof audits and 181 selected contracts.
 Its full frozen-source checks require a separate native receipt. It inherits no
 verification gate from the preceding midpoint checkpoint. Algorithmic, graph,
 conic and joint-k construction clauses in SCOPE.md remain unfinished.
+
+
+## Score-prefix and conic follow-on
+
+The all-mass/extra-moment checkpoint
+`0834612ffb5c9ef52eb7cf17b02a0708cec3ce27` is preserved with native receipt
+SHA256 `6175f6f2456f0c96b4ee558748e637de2665812f4943a9f5246c2031965eeb0c`:
+all 12 checks passed, with 181 protected contracts, 291 axiom reports, both
+kernel checks and altered-helper rejection. Independent verification authenticates
+the source, pins, logs and exports; its complete-history bundle is preserved.
+
+Three follow-on modules prove the score-prefix reduction, exact quadratic and
+concrete rotated-cone representation, and convexity at fixed tolerance. The
+threshold maximum is only taken after genuine nonemptiness is proved; prefix0
+handles empty sets. The retained predicate inventory covers Antitone and
+Finset.Nonempty; finite maximum/supremum definitions and membership/upper-bound
+contracts have source evidence and bridges through both entrypoints. No shared
+checker or protected comparator is changed.
+
+The new integrated source requires its own exact frozen-commit native receipt.
+These results do not certify an executable conic solver, rational exact-decision
+complexity, interval convexity/separation, or any publication readiness.

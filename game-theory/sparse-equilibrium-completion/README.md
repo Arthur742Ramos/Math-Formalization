@@ -19,7 +19,7 @@ classical compact-convex separation. All original rows satisfy the resulting
 response bound. This is an existence proof over reals; executable rational
 reconstruction and complexity claims remain open. Definitions and all proof
 helpers have stable public exposed declaration names. The theorem map, including
-completed results and outstanding algorithmic, graph, conic and joint-support work, is in [SCOPE.md](SCOPE.md).
+completed results and outstanding algorithmic, graph, interval-conic and joint-support work, is in [SCOPE.md](SCOPE.md).
 
 For `m≥2`, the two-anchor construction realizes every strictly positive residual
 target of mass `1/4` using bounded observations. Under the two minimum shares `3/8`,
@@ -51,6 +51,16 @@ exploitability r²/12 (1/h²−1/m²), with r=1/4: every row is bounded and anch
 attains that value. Balanced bins additionally satisfy the sharper finite bound
 d≤r²/12 (1/h+1/m)² with support≤min(m,2h). The source's explicit
 residual-payoff algorithm remains open.
+
+The score-prefix reduction and fixed-tolerance conic characterization are proved.
+For nonincreasing scores, every strict score threshold is an actual prefix, including ties and the empty
+case. The displayed linear and quadratic constraints exactly characterize a
+bounded skew residual completion and all original response inequalities; the
+quadratics have explicit rotated-Lorentz representations. The q-system is proved
+convex for a fixed tolerance and convex repertoire, including literal families
+of linear inequalities. Fixed core/cross observations and normalized strategy
+premises determine the full game model. Interval-conic extensions and numerical
+separation/solver complexity remain separate.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`; its dependencies are package-owned.

@@ -25,7 +25,8 @@ the actual declarations; unfinished targets have no placeholder Lean theorem.
 | `sp:thm:gap`, `sp:cor:fixedapprox`, algorithms.tex | Unformalized | Open: rational LP exclusion/gap guarantees, monotone bisection and arithmetic cost. |
 | `sp:prop:interval`, `sp:cor:gridp`, algorithms.tex | Unformalized | Open: independent interval perspective lift, zero-mass recovery, variable core, fixed-`k` anchor grid and additive error/bit-complexity guarantees. |
 | `ext:thm:cover`, `ext:cor:algorithm`, `ext:prop:weakcover`, graph_noise.tex | Unformalized | Open: constrained-edge cover reduction and imperfect-cover response loss. The general sparse-witness zero-mass and additional-linear-moment wrappers are proved, but their graph-cover specialization remains separate. |
-| `cv:lem:prefix`, `cv:thm:soc`, `cv:thm:interval`, conic.tex | Unformalized | Open: score-prefix sufficiency and exact convex/SOC formulations; no polynomial exact-decision claim is licensed by convex representability. |
+| `cv:lem:prefix`, `cv:thm:soc`, conic.tex | `threshold_is_score_prefix`, `cuts_iff_score_prefixes`, `prefix_cut_quadratic`, `quadratic_rotated_cone`, `weighted_completion_prefix_quadratic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_prefix_characterization`, `normalized_known_anchor_conic_iff`, `known_anchor_conic_system_iff`, `prefix_system_convex`, `known_anchor_conic_system_convex`, `linear_repertoire_convex` | Proved: every strict threshold set is a genuine nonincreasing-score prefix, including ties, zero masses and empty types; all cuts iff the prefixes. The empty prefix is included as a tautology. Exact bounded skew residual completion and every original row are equivalent to the linear guards/anchor constraints and explicit rotated-cone constraints (2uv≥w², v=1/2). The full displayed q-system is convex at fixed tolerance for M≥0 and arbitrary convex repertoire; completion equivalence uses M>0 and fixed sorted scores. Literal linear-inequality repertoires are proved convex rather than assumed. `normalized_known_anchor_conic_iff` additionally proves the literal nonnegative mass-one, bounded skew full-game equivalence under explicit fixed K/D/p premodel premises. Quantified prefixes are l≤m (m+1 including empty), so this is a finite linear-size mathematical representation; no solver implementation, operation count, bit-complexity or exact-decision theorem is claimed. |
+| `cv:thm:interval`, conic.tex | Unformalized | Open: integrated interval perspective characterization, variable core constraints, joint convexity and candidate-dependent prefix separation. No polynomial exact-decision claim is licensed by convex representability. |
 
 The central result concerns existence of a compatible completion and strategy.
 Compression may change the residual payoff block, retains original action labels,
@@ -40,7 +41,7 @@ resides in the combined sharp completion theorem, two-anchor realization and
 family-specific uncertainty law. Completion existence, the sparse upper count,
 the two-anchor exact realization and the total-support sharp order are now proved. The family-specific
 uncertainty sharp laws are now proved. Whole-paper coverage, including the open
-joint k-support lower construction and algorithmic/conic/graph
+joint k-support lower construction and algorithmic/interval-conic/graph
 clauses, remains unfinished.
 Pinned Mathlib filename and term searches found no existing development of this
 specific completion problem. This is not an exhaustive external overlap audit or

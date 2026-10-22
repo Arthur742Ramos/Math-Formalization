@@ -8,3 +8,4 @@ public import NoiseSharp
 public import MidpointGame
 public import BalancedExact
 public import ExtraMomentAllMass
+public import ConicConvexity

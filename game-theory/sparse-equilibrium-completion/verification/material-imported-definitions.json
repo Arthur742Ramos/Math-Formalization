@@ -46,7 +46,9 @@
     "finSigmaFinEquiv",
     "Finset.sigma",
     "Fin.revPerm",
-    "Finset.image"
+    "Finset.image",
+    "Antitone",
+    "Finset.Nonempty"
   ],
   "material_declarations": [
     {
@@ -207,7 +209,20 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.prefix_cut_quadratic",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.prefix_quadratic_mix",
+        "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.anchor_response_mix",
+        "SparseCompletion.known_anchor_conic_system_convex",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.linear_repertoire_convex",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -379,7 +394,22 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.prefix_cut_quadratic",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.finite_linear_mix",
+        "SparseCompletion.finite_mass_mix",
+        "SparseCompletion.prefix_quadratic_mix",
+        "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.anchor_response_mix",
+        "SparseCompletion.known_anchor_conic_system_convex",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.linear_repertoire_convex",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -549,7 +579,22 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.prefix_cut_quadratic",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.finite_linear_mix",
+        "SparseCompletion.finite_mass_mix",
+        "SparseCompletion.prefix_quadratic_mix",
+        "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.anchor_response_mix",
+        "SparseCompletion.known_anchor_conic_system_convex",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.linear_repertoire_convex",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -862,7 +907,10 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.known_anchor_conic_system_convex",
+        "SparseCompletion.linear_repertoire_convex"
       ],
       "meaning": "Every point of the set is a star center of the set.",
       "dependency_expansion": "Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.",
@@ -903,7 +951,10 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.known_anchor_conic_system_convex",
+        "SparseCompletion.linear_repertoire_convex"
       ],
       "meaning": "All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.",
       "dependency_expansion": "Centers in the set quantify convexity. No topological closedness is assumed.",
@@ -1413,7 +1464,12 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "Every nontrivial filter containing the set has a cluster point in the set.",
       "dependency_expansion": "The filter is finer than the principal filter of s. ClusterPt means the neighborhood filter and input filter have nontrivial infimum; in finite Euclidean space this gives ordinary compactness.",
@@ -1444,7 +1500,12 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "The complement is open.",
       "dependency_expansion": "Closedness of the upper orthant is proved coordinatewise, rather than assumed. IsOpen is the given topology predicate.",
@@ -1474,7 +1535,12 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "Preimages of open sets are open.",
       "dependency_expansion": "Used for the image of a compact set under the weighted response linear map and for continuous separating functionals.",
@@ -1508,7 +1574,12 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "A bundled additive scalar-preserving map.",
       "dependency_expansion": "Specializing the scalar homomorphism to the identity on real numbers gives ordinary real linearity; weightedNegResponse is constructed with both laws.",
@@ -1538,7 +1609,12 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "A bundled linear map together with continuity.",
       "dependency_expansion": "StrongDual real E abbreviates E to real continuous linear maps. Only evaluation, linearity and continuity are used, not any topology on the dual itself.",
@@ -1573,7 +1649,12 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ],
       "meaning": "The image comprises values of domain points in the specified set.",
       "dependency_expansion": "weightedScoreSet is the image of the full bounded skew box. Membership yields an actual skew matrix with entry bounds, rather than an abstract unrelated score vector.",
@@ -2011,6 +2092,53 @@
         "finite-injective-image-cardinality"
       ],
       "proof_status": "Independent entrypoint bridge proofs check literal multiset value, membership, cardinal monotonicity and exact cardinality under injectivity."
+    },
+    {
+      "name": "Antitone",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
+      ],
+      "meaning": "Order reversal: i\u2264j implies v(j)\u2264v(i).",
+      "dependency_expansion": "On finite ordinal labels this is the paper\u2019s nonincreasing score order. Ties are allowed, and subtracting a fixed tolerance preserves the order.",
+      "definition_excerpt": "Antitone",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Antitone"
+      ],
+      "proof_status": "Independent entrypoint bridges unfold the literal predicates and prove the maximum membership/order contract from upstream theorems. Empty sets never invoke the maximum."
+    },
+    {
+      "name": "Finset.Nonempty",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
+      ],
+      "meaning": "A finite set contains an element.",
+      "dependency_expansion": "This is an existential membership predicate; it supplies a genuine maximum only in the nonempty branch. The empty threshold set uses prefix0.",
+      "definition_excerpt": "Finset.Nonempty",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.Nonempty",
+        "Finset.max'",
+        "finite-maximum-membership-bound",
+        "nonempty-supremum-expansion"
+      ],
+      "proof_status": "Independent entrypoint bridges unfold the literal predicates and prove the maximum membership/order contract from upstream theorems. Empty sets never invoke the maximum."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -2906,18 +3034,98 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean#L290-L294"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Order/Monotone/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Monotone/Defs.lean",
+      "sha256": "9b75e423f4425994dec847788cbcf1a510fce43c1c69facba3f9cdef50ed37d6",
+      "git_blob_sha1": "bc6f01210e9fb3eb001121d20566820f89617b06",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Mario Carneiro, Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "Antitone",
+          "first_line": 67,
+          "last_line": 69,
+          "text": "/-- A function `f` is antitone if `a \u2264 b` implies `f b \u2264 f a`. -/\ndef Antitone (f : \u03b1 \u2192 \u03b2) : Prop :=\n  \u2200 \u2983a b\u2984, a \u2264 b \u2192 f b \u2264 f a\n",
+          "sha256": "226c6c86b23a3b8b966fa2fa0190a69c86a1ef0c852d8a49b610495aa29e59c7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Monotone/Defs.lean#L67-L69"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Empty.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Empty.lean",
+      "sha256": "bc77217d483f0e3f1e159e7911ea21cc69647dfcf795c232c218a0ec0bbea93a",
+      "git_blob_sha1": "f9ab453c3339994ada780f6fcb663206b6acb5bb",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.Nonempty",
+          "first_line": 44,
+          "last_line": 50,
+          "text": "/-- The property `s.Nonempty` expresses the fact that the finset `s` is not empty. It should be used\nin theorem assumptions instead of `\u2203 x, x \u2208 s` or `s \u2260 \u2205` as it gives access to a nice API thanks\nto the dot notation. -/\nprotected def Nonempty (s : Finset \u03b1) : Prop := \u2203 x : \u03b1, x \u2208 s\n\n@[grind =]\ntheorem nonempty_def {s : Finset \u03b1} : s.Nonempty \u2194 \u2203 x, x \u2208 s := Iff.rfl\n",
+          "sha256": "dc980be4dde194efc36564cf0a86a7889645f2df84d0907633adfac061fd2203",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Empty.lean#L44-L50"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Max.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean",
+      "sha256": "f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e",
+      "git_blob_sha1": "a6735d1f9cdcb1f6a9f78925a565d9ab7b48781b",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.max'",
+          "first_line": 128,
+          "last_line": 136,
+          "text": "/-- Given a nonempty finset `s` in a linear order `\u03b1`, then `s.max' H` is its maximum, as an\nelement of `\u03b1`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.max`,\ntaking values in `WithBot \u03b1`. -/\n@[to_dual\n/-- Given a nonempty finset `s` in a linear order `\u03b1`, then `s.min' H` is its minimum, as an\nelement of `\u03b1`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.min`,\ntaking values in `WithTop \u03b1`. -/]\ndef max' (s : Finset \u03b1) (H : s.Nonempty) : \u03b1 :=\n  sup' s H id\n",
+          "sha256": "b3e47a2484cd671db9f34d2a7726eebc61fda30e1251e8d06026c30059225b8e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L128-L136"
+        },
+        {
+          "name": "finite-maximum-membership-bound",
+          "first_line": 140,
+          "last_line": 146,
+          "text": "@[to_dual]\ntheorem max'_mem : s.max' H \u2208 s :=\n  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]\n\n@[to_dual min'_le]\ntheorem le_max' (x) (H2 : x \u2208 s) : x \u2264 s.max' \u27e8x, H2\u27e9 :=\n  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm\n",
+          "sha256": "4c1162b041754029e1092db0e81bb257c21c1d6ff8542afe07b62f21be20a225",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L146"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Lattice/Fold.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean",
+      "sha256": "d8d50163e1990cd27cf072b38fb3c78f60af5eba53d657ff2afec18d4e3d505b",
+      "git_blob_sha1": "783cde945127918c9131e63274d5e39f464e61c2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "nonempty-supremum-expansion",
+          "first_line": 525,
+          "last_line": 533,
+          "text": "/-- Given nonempty finset `s` then `s.sup' H f` is the supremum of its image under `f` in (possibly\nunbounded) join-semilattice `\u03b1`, where `H` is a proof of nonemptiness. If `\u03b1` has a bottom element\nyou may instead use `Finset.sup` which does not require `s` nonempty. -/\n@[to_dual\n/-- Given nonempty finset `s` then `s.inf' H f` is the infimum of its image under `f` in (possibly\nunbounded) meet-semilattice `\u03b1`, where `H` is a proof of nonemptiness. If `\u03b1` has a top element you\nmay instead use `Finset.inf` which does not require `s` nonempty. -/]\ndef sup' (s : Finset \u03b2) (H : s.Nonempty) (f : \u03b2 \u2192 \u03b1) : \u03b1 :=\n  WithBot.unbot (s.sup ((\u2191) \u2218 f)) (by simpa using! H)\n",
+          "sha256": "580dac9cb6d41394de0f011a662a0f13191f25a1516e9c0a1bb5d4c17be14a4a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L525-L533"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "48988b03d197874908bf8fe096394d5df3a815710cdd0f51a65c14404ee223b4"
+      "sha256": "72822a7ac66e8b147a48b8125852e237700d39dfef0a0990c4cb6820e241c27c"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "3a6b88a5914a92ee7c441e74fbfa0295fcd0f6a08b43a4144d902372dce8f2f8"
+      "sha256": "4bd739fdb7b198405e643d396384dd2d582d0b7f2187d485b403f53000d400af"
     }
   ],
   "generated_declarations": [
@@ -3142,6 +3350,34 @@
         "SparseCompletion.binned_odd_support",
         "SparseCompletion.binned_support_lower",
         "SparseCompletion.binned_odd_support_exact"
+      ]
+    },
+    {
+      "name": "Finset.max'_mem",
+      "excerpt": "finite-maximum-membership-bound",
+      "bridge": "finite_maximum_contract",
+      "used_by": [
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
+      ]
+    },
+    {
+      "name": "Finset.le_max'",
+      "excerpt": "finite-maximum-membership-bound",
+      "bridge": "finite_maximum_contract",
+      "used_by": [
+        "SparseCompletion.threshold_is_score_prefix",
+        "SparseCompletion.cuts_iff_score_prefixes",
+        "SparseCompletion.weighted_completion_prefix_quadratic_iff",
+        "SparseCompletion.weighted_completion_rotated_cones_iff",
+        "SparseCompletion.known_anchor_prefix_characterization",
+        "SparseCompletion.known_anchor_conic_system_iff",
+        "SparseCompletion.normalized_known_anchor_conic_iff"
       ]
     }
   ]

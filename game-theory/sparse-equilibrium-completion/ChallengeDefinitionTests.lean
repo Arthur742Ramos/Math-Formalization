@@ -209,5 +209,17 @@ theorem injectivity_literal {ι κ : Type*} (f : ι → κ) :
     Function.Injective f ↔ ∀ ⦃x y⦄, f x=f y → x=y := Iff.rfl
 
 
+
+theorem antitone_literal {m : ℕ} (v : Fin m → ℝ) :
+    Antitone v ↔ ∀ ⦃i j⦄, i ≤ j → v j ≤ v i := Iff.rfl
+
+theorem finite_nonempty_literal {ι : Type*} (s : Finset ι) :
+    s.Nonempty ↔ ∃ i, i ∈ s := Iff.rfl
+
+theorem finite_maximum_contract {m : ℕ} (s : Finset (Fin m)) (hs : s.Nonempty) :
+    s.max' hs ∈ s ∧ ∀ i ∈ s, i ≤ s.max' hs :=
+  ⟨Finset.max'_mem s hs,fun i hi => Finset.le_max' s i hi⟩
+
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

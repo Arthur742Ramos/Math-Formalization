@@ -6035,3 +6035,335 @@ theorem normalized_exact_sparse_witness_extra_moments_all_mass {ι : Type*} [Fin
 
 end
 end SparseCompletion
+
+/- Fixed source body: ScorePrefixes.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def scorePrefix (m l : ℕ) : Finset (Fin m) := Finset.univ.filter fun i => i.val<l
+
+theorem threshold_is_score_prefix {m : ℕ} (v : Fin m → ℝ) (hv : Antitone v) (z : ℝ) :
+    ∃ l : ℕ, l ≤ m ∧ (Finset.univ.filter fun i => 0 < v i-z)=scorePrefix m l := by
+  classical
+  let s := Finset.univ.filter fun i => 0 < v i-z
+  by_cases hs : s.Nonempty
+  · let j := s.max' hs
+    have hj : j ∈ s := Finset.max'_mem s hs
+    have hjv : 0 < v j-z := (Finset.mem_filter.mp hj).2
+    refine ⟨j.val+1,by omega,?_⟩
+    ext i
+    change i ∈ s ↔ i ∈ scorePrefix m (j.val+1)
+    simp only [scorePrefix,Finset.mem_filter,Finset.mem_univ,true_and]
+    constructor
+    · intro hi
+      have hle : i ≤ j := Finset.le_max' s i hi
+      exact Nat.lt_succ_iff.mpr (show i.val ≤ j.val from hle)
+    · intro hi
+      have hle : i ≤ j := show i.val ≤ j.val from Nat.lt_succ_iff.mp hi
+      have hvi := hv hle
+      change i ∈ Finset.univ.filter fun i => 0 < v i-z
+      exact Finset.mem_filter.mpr ⟨Finset.mem_univ _,by linarith⟩
+  · refine ⟨0,Nat.zero_le _,?_⟩
+    have he : s=∅ := Finset.not_nonempty_iff_eq_empty.mp hs
+    simpa only [scorePrefix,Nat.not_lt_zero,Finset.filter_false] using he
+
+theorem cuts_iff_score_prefixes {m : ℕ} (q v : Fin m → ℝ) (M r : ℝ)
+    (hM : 0 < M) (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i=r) (hv : Antitone v) :
+    Cuts M r q v ↔ ∀ l : ℕ, l ≤ m →
+      (∑ i ∈ scorePrefix m l, q i*v i) ≤
+        M*mass (scorePrefix m l) q*(r-mass (scorePrefix m l) q) := by
+  constructor
+  · intro hc l _
+    exact hc _
+  · intro hp
+    apply call_bound_implies_cuts q v M r hM hq hmass
+    intro z _
+    classical
+    let s := Finset.univ.filter fun i => 0 < v i-z
+    let Q := mass s q
+    have heq : call q v z = (∑ i ∈ s, q i*v i)-z*Q := by
+      have hh : call q v z = ∑ i ∈ s, q i*(v i-z) := by
+        unfold call
+        rw [← Finset.sum_filter_add_sum_filter_not (s := Finset.univ) (p := fun i => 0 < v i-z)]
+        have hz : (∑ i ∈ Finset.univ.filter (fun i => ¬0 < v i-z), q i*max (v i-z) 0) = 0 := by
+          apply Finset.sum_eq_zero
+          intro i hi
+          have := (Finset.mem_filter.mp hi).2
+          rw [max_eq_right (le_of_not_gt this), mul_zero]
+        rw [hz, add_zero]
+        exact Finset.sum_congr rfl fun i hi => by rw [max_eq_left (le_of_lt (Finset.mem_filter.mp hi).2)]
+      rw [hh]
+      simp only [Q, mass, mul_sub, Finset.sum_sub_distrib, Finset.mul_sum]
+      simp only [mul_comm]
+    obtain ⟨l,hl,he⟩ := threshold_is_score_prefix v hv z
+    have hc : (∑ i ∈ s, q i*v i) ≤ M*Q*(r-Q) := by
+      dsimp only [Q,s]
+      rw [he]
+      exact hp l hl
+    have hs := sq_nonneg (2*M*Q - (M*r-z))
+    have he : 4*M*envelope M r z = (M*r-z)^2 := by
+      unfold envelope
+      field_simp
+    rw [heq]
+    apply (mul_le_mul_iff_right₀ (show 0 < 4*M by positivity)).mp
+    nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: ConicCompletion.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def rotatedLorentz (u v w : ℝ) : Prop := 0 ≤ u ∧ 0 ≤ v ∧ w^2 ≤ (2 : ℕ)*u*v
+
+theorem prefix_cut_quadratic {m : ℕ} (q t : Fin m → ℝ) (M r ε : ℝ) (l : ℕ) :
+    (∑ i ∈ scorePrefix m l, q i*(t i-ε)) ≤
+      M*mass (scorePrefix m l) q*(r-mass (scorePrefix m l) q) ↔
+    M*(mass (scorePrefix m l) q)^2-M*r*mass (scorePrefix m l) q+
+      (∑ i ∈ scorePrefix m l, q i*(t i-ε)) ≤ 0 := by
+  constructor <;> intro h <;> nlinarith
+
+theorem quadratic_rotated_cone (M r Q a : ℝ) (hM : 0 < M) :
+    M*Q^2-M*r*Q+a ≤ 0 ↔ rotatedLorentz (r*Q-a/M) (1/(2 : ℕ)) Q := by
+  have hscale : M*(r*Q-a/M-Q^2)= -(M*Q^2-M*r*Q+a) := by
+    field_simp
+    ring
+  unfold rotatedLorentz
+  norm_num only [Nat.cast_ofNat]
+  constructor
+  · intro h
+    have hh : 0 ≤ r*Q-a/M-Q^2 := nonneg_of_mul_nonneg_right (by linarith) hM
+    refine ⟨?_,by norm_num,?_⟩ <;> nlinarith [sq_nonneg Q]
+  · rintro ⟨_,_,h⟩
+    have hh : 0 ≤ M*(r*Q-a/M-Q^2) := mul_nonneg (le_of_lt hM) (by nlinarith)
+    linarith
+
+theorem weighted_completion_prefix_quadratic_iff {m : ℕ} (q t : Fin m → ℝ)
+    (M r ε : ℝ) (hM : 0 < M) (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=r)
+    (ht : Antitone t) :
+    (∃ B, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ i, t i+response B q i ≤ ε) ↔
+    (∀ i, t i ≤ ε+M*r) ∧ ∀ l : ℕ, l ≤ m →
+      M*(mass (scorePrefix m l) q)^2-M*r*mass (scorePrefix m l) q+
+        (∑ i ∈ scorePrefix m l, q i*(t i-ε)) ≤ 0 := by
+  rw [weighted_completion_iff q t M r ε (le_of_lt hM) hq hr]
+  have hs : Antitone (fun i => t i-ε) := fun _ _ hij => sub_le_sub_right (ht hij) ε
+  rw [cuts_iff_score_prefixes q (fun i => t i-ε) M r hM hq hr hs]
+  constructor
+  · rintro ⟨hg,hp⟩
+    exact ⟨hg,fun l hl => (prefix_cut_quadratic q t M r ε l).mp (hp l hl)⟩
+  · rintro ⟨hg,hp⟩
+    exact ⟨hg,fun l hl => (prefix_cut_quadratic q t M r ε l).mpr (hp l hl)⟩
+
+theorem weighted_completion_rotated_cones_iff {m : ℕ} (q t : Fin m → ℝ)
+    (M r ε : ℝ) (hM : 0 < M) (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=r)
+    (ht : Antitone t) :
+    (∃ B, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ i, t i+response B q i ≤ ε) ↔
+    (∀ i, t i ≤ ε+M*r) ∧ ∀ l : ℕ, l ≤ m →
+      rotatedLorentz (r*mass (scorePrefix m l) q-
+        (∑ i ∈ scorePrefix m l, q i*(t i-ε))/M) (1/(2 : ℕ)) (mass (scorePrefix m l) q) := by
+  rw [weighted_completion_prefix_quadratic_iff q t M r ε hM hq hr ht]
+  constructor
+  · rintro ⟨hg,hp⟩
+    exact ⟨hg,fun l hl => (quadratic_rotated_cone M r _ _ hM).mp (hp l hl)⟩
+  · rintro ⟨hg,hp⟩
+    exact ⟨hg,fun l hl => (quadratic_rotated_cone M r _ _ hM).mpr (hp l hl)⟩
+
+theorem known_anchor_prefix_characterization {m k : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p : Fin k → ℝ) (q : Fin m → ℝ)
+    (M r ε : ℝ) (hM : 0 < M) (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=r)
+    (ht : Antitone (score D p)) :
+    (∃ B, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε) ↔
+    (∀ h, anchorResponse K D p q h ≤ ε) ∧ (∀ i, score D p i ≤ ε+M*r) ∧
+      ∀ l : ℕ, l ≤ m →
+        rotatedLorentz (r*mass (scorePrefix m l) q-
+          (∑ i ∈ scorePrefix m l, q i*(score D p i-ε))/M) (1/(2 : ℕ)) (mass (scorePrefix m l) q) := by
+  constructor
+  · rintro ⟨B,hB,hb,hrows⟩
+    have hh := (block_response_bounds_iff K D B p q ε).mp hrows
+    have hc := (weighted_completion_rotated_cones_iff q (score D p) M r ε hM hq hr ht).mp
+      ⟨B,hB,hb,hh.2⟩
+    exact ⟨hh.1,hc⟩
+  · rintro ⟨ha,hg,hp⟩
+    obtain ⟨B,hB,hb,hrows⟩ :=
+      (weighted_completion_rotated_cones_iff q (score D p) M r ε hM hq hr ht).mpr ⟨hg,hp⟩
+    exact ⟨B,hB,hb,(block_response_bounds_iff K D B p q ε).mpr ⟨ha,hrows⟩⟩
+
+theorem normalized_known_anchor_conic_iff {m k : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p : Fin k → ℝ) (q : Fin m → ℝ)
+    (M r ε : ℝ) (hM : 0 < M) (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hr : ∑ i, q i=r) (hpmass : (∑ h, p h)+r=1)
+    (hK : IsSkew K) (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M) (ht : Antitone (score D p)) :
+    (∃ B, (∀ a, 0 ≤ blockWeights p q a) ∧ (∑ a, blockWeights p q a)=1 ∧
+      IsSkew (blockMatrix K D B) ∧
+      (∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε) ↔
+    (∀ h, anchorResponse K D p q h ≤ ε) ∧ (∀ i, score D p i ≤ ε+M*r) ∧
+      ∀ l : ℕ, l ≤ m →
+        rotatedLorentz (r*mass (scorePrefix m l) q-
+          (∑ i ∈ scorePrefix m l, q i*(score D p i-ε))/M) (1/(2 : ℕ)) (mass (scorePrefix m l) q) := by
+  constructor
+  · rintro ⟨B,_,_,hsk,hb,hrows⟩
+    apply (known_anchor_prefix_characterization K D p q M r ε hM hq hr ht).mp
+    refine ⟨B,?_,?_,hrows⟩
+    · intro i j
+      exact hsk (.inr i) (.inr j)
+    · intro i j
+      exact hb (.inr i) (.inr j)
+  · intro h
+    obtain ⟨B,hB,hb,hrows⟩ :=
+      (known_anchor_prefix_characterization K D p q M r ε hM hq hr ht).mpr h
+    refine ⟨B,blockWeights_nonneg p q hp hq,?_,blockMatrix_skew K D B hK hB,
+      blockMatrix_bounds K D B M hKb hDb hb,hrows⟩
+    rw [blockWeights_mass,hr]
+    exact hpmass
+
+end
+end SparseCompletion
+
+/- Fixed source body: ConicConvexity.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def prefixQuadratic {m : ℕ} (t : Fin m → ℝ) (M r ε : ℝ) (l : ℕ) (q : Fin m → ℝ) : ℝ :=
+  M*(mass (scorePrefix m l) q)^2-M*r*mass (scorePrefix m l) q+
+    ∑ i ∈ scorePrefix m l, q i*(t i-ε)
+
+theorem finite_linear_mix {ι : Type*} (s : Finset ι) (q q' f : ι → ℝ) (a b : ℝ) :
+    (∑ i ∈ s, (a*q i+b*q' i)*f i)=a*(∑ i ∈ s, q i*f i)+b*(∑ i ∈ s, q' i*f i) := by
+  simp only [add_mul,mul_assoc,Finset.sum_add_distrib,←Finset.mul_sum]
+
+theorem finite_mass_mix {ι : Type*} (s : Finset ι) (q q' : ι → ℝ) (a b : ℝ) :
+    mass s (a • q+b • q')=a*mass s q+b*mass s q' := by
+  unfold mass
+  simpa only [Pi.add_apply,Pi.smul_apply,smul_eq_mul,mul_one] using finite_linear_mix s q q' (fun _ => 1) a b
+
+theorem prefix_quadratic_mix {m : ℕ} (t q q' : Fin m → ℝ) (M r ε a b : ℝ)
+    (l : ℕ) (hM : 0 ≤ M) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a+b=1) :
+    prefixQuadratic t M r ε l (a • q+b • q') ≤
+      a*prefixQuadratic t M r ε l q+b*prefixQuadratic t M r ε l q' := by
+  unfold prefixQuadratic
+  rw [finite_mass_mix]
+  have he := finite_linear_mix (scorePrefix m l) q q' (fun i => t i-ε) a b
+  simp only [Pi.add_apply,Pi.smul_apply,smul_eq_mul]
+  rw [he]
+  have hid : M*(a*mass (scorePrefix m l) q+b*mass (scorePrefix m l) q')^2-
+      M*r*(a*mass (scorePrefix m l) q+b*mass (scorePrefix m l) q')+
+      (a*(∑ i ∈ scorePrefix m l, q i*(t i-ε))+b*(∑ i ∈ scorePrefix m l, q' i*(t i-ε))) =
+      a*(M*(mass (scorePrefix m l) q)^2-M*r*mass (scorePrefix m l) q+
+        ∑ i ∈ scorePrefix m l, q i*(t i-ε))+
+      b*(M*(mass (scorePrefix m l) q')^2-M*r*mass (scorePrefix m l) q'+
+        ∑ i ∈ scorePrefix m l, q' i*(t i-ε))-
+      M*a*b*(mass (scorePrefix m l) q-mass (scorePrefix m l) q')^2 := by
+    have hb' : b=1-a := by linarith
+    rw [hb']
+    ring
+  rw [hid]
+  exact sub_le_self _ (by positivity)
+
+theorem prefix_system_convex {m : ℕ} (t : Fin m → ℝ) (M r ε : ℝ) (hM : 0 ≤ M) :
+    Convex ℝ {q : Fin m → ℝ | ∀ l : ℕ, l ≤ m → prefixQuadratic t M r ε l q ≤ 0} := by
+  intro q hq q' hq' a b ha hb hab l hl
+  have hm := prefix_quadratic_mix t q q' M r ε a b l hM ha hb hab
+  have h1 := mul_nonpos_of_nonneg_of_nonpos ha (hq l hl)
+  have h2 := mul_nonpos_of_nonneg_of_nonpos hb (hq' l hl)
+  exact le_trans hm (by linarith)
+
+
+theorem anchor_response_mix {m k : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p : Fin k → ℝ) (q q' : Fin m → ℝ)
+    (a b : ℝ) (hab : a+b=1) (h : Fin k) :
+    anchorResponse K D p (a • q+b • q') h=
+      a*anchorResponse K D p q h+b*anchorResponse K D p q' h := by
+  have hs := finite_linear_mix Finset.univ q q' (fun i => D i h) a b
+  have hs' : (∑ i, D i h*(a • q+b • q') i)=
+      a*(∑ i, D i h*q i)+b*(∑ i, D i h*q' i) := by
+    simpa only [Pi.add_apply,Pi.smul_apply,smul_eq_mul,mul_comm] using hs
+  unfold anchorResponse
+  rw [hs']
+  have hb : b=1-a := by linarith
+  rw [hb]
+  ring
+
+def knownAnchorConicFeasible {m k : ℕ} (R : Set (Fin m → ℝ))
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℝ) (p : Fin k → ℝ)
+    (M r ε : ℝ) : Set (Fin m → ℝ) :=
+  {q | q ∈ R ∧ (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+    (∀ h, anchorResponse K D p q h ≤ ε) ∧ (∀ i, score D p i ≤ ε+M*r) ∧
+    ∀ l : ℕ, l ≤ m → prefixQuadratic (score D p) M r ε l q ≤ 0}
+
+theorem known_anchor_conic_system_convex {m k : ℕ} (R : Set (Fin m → ℝ))
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℝ) (p : Fin k → ℝ)
+    (M r ε : ℝ) (hM : 0 ≤ M) (hR : Convex ℝ R) :
+    Convex ℝ (knownAnchorConicFeasible R K D p M r ε) := by
+  intro q hq q' hq' a b ha hb hab
+  rcases hq with ⟨hqR,hqn,hqm,hqa,hqg,hqp⟩
+  rcases hq' with ⟨hqR',hqn',hqm',hqa',_,hqp'⟩
+  refine ⟨hR hqR hqR' ha hb hab,?_,?_,?_,hqg,?_⟩
+  · intro i
+    exact add_nonneg (mul_nonneg ha (hqn i)) (mul_nonneg hb (hqn' i))
+  · have hm := finite_mass_mix Finset.univ q q' a b
+    unfold mass at hm
+    rw [hm,hqm,hqm',←add_mul,hab,one_mul]
+  · intro h
+    rw [anchor_response_mix K D p q q' a b hab h]
+    have h0 := mul_le_mul_of_nonneg_left (hqa h) ha
+    have h1 := mul_le_mul_of_nonneg_left (hqa' h) hb
+    calc
+      _ ≤ a*ε+b*ε := add_le_add h0 h1
+      _ = ε := by rw [←add_mul,hab,one_mul]
+  · exact prefix_system_convex (score D p) M r ε hM hqp hqp' ha hb hab
+
+theorem known_anchor_conic_system_iff {m k : ℕ} (R : Set (Fin m → ℝ))
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℝ) (p : Fin k → ℝ)
+    (q : Fin m → ℝ) (M r ε : ℝ) (hM : 0 < M) (ht : Antitone (score D p)) :
+    q ∈ knownAnchorConicFeasible R K D p M r ε ↔
+      q ∈ R ∧ (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+      ∃ B, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+        ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε := by
+  constructor
+  · rintro ⟨hqR,hq,hm,ha,hg,hp⟩
+    refine ⟨hqR,hq,hm,?_⟩
+    apply (known_anchor_prefix_characterization K D p q M r ε hM hq hm ht).mpr
+    refine ⟨ha,hg,?_⟩
+    intro l hl
+    exact (quadratic_rotated_cone M r _ _ hM).mp (hp l hl)
+  · rintro ⟨hqR,hq,hm,hB⟩
+    obtain ⟨ha,hg,hp⟩ := (known_anchor_prefix_characterization K D p q M r ε hM hq hm ht).mp hB
+    refine ⟨hqR,hq,hm,ha,hg,?_⟩
+    intro l hl
+    exact (quadratic_rotated_cone M r _ _ hM).mpr (hp l hl)
+
+
+theorem linear_repertoire_convex {m : ℕ} {β : Type*} (F : Fin m → β → ℝ) (c : β → ℝ) :
+    Convex ℝ {q : Fin m → ℝ | ∀ j, (∑ i, q i*F i j) ≤ c j} := by
+  intro q hq q' hq' a b ha hb hab j
+  have hs := finite_linear_mix Finset.univ q q' (fun i => F i j) a b
+  simp only [Pi.add_apply,Pi.smul_apply,smul_eq_mul]
+  rw [hs]
+  calc
+    _ ≤ a*c j+b*c j := add_le_add
+      (mul_le_mul_of_nonneg_left (hq j) ha) (mul_le_mul_of_nonneg_left (hq' j) hb)
+    _ = c j := by rw [←add_mul,hab,one_mul]
+
+end
+end SparseCompletion
