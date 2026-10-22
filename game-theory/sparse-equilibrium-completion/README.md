@@ -101,7 +101,7 @@ compact-class optimistic values and their support-budget restrictions attain
 actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
 games and universal sparse upper witnesses give the quantified joint-k order.
 Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
-The remaining interval/grid execution, source-specific flow construction, executable sorted
+The remaining sparse-output selection, source-specific flow construction, executable sorted
 separation and operation/bit-cost clauses are tracked in
 SCOPE.md; whole-paper and submission readiness remain unestablished.
 
@@ -147,7 +147,7 @@ steps. Upper feasibility at M is proved from the game premises; no LP oracle is
 supplied. Returned data also satisfy the normalized full-game reconstruction
 contracts and the declared repertoire. The resulting shifted enclosure has width
 at most η+M/2^n. Fourier–Motzkin elimination may be exponential: this does not
-prove the paper's polynomial LP/flow or bit-cost guarantee. Allocation-grid execution/selection, efficient separation and source-specific
+prove the paper's polynomial LP/flow or bit-cost guarantee. Efficient separation, sparse-output selection and source-specific
 residual payoff algorithms remain tracked in SCOPE.md. Native exact-source
 verification must be tied to the frozen commit by its external receipt.
 
@@ -174,7 +174,7 @@ contains all original q,D,K,B satisfying intervals and R(q,qD,K); its actual
 exploitability optimum is attained. The returned rational game gives L≤V≤U+η
 and automatic shifted bracket width<η+ζ for ζ>0. Physical consistency assumes
 neither a tolerance bound nor solver success. Full action nonemptiness is
-explicit for exploitability/value. Sparse-output selection, grid execution and polynomial operation/bit guarantees remain open.
+explicit for exploitability/value. Sparse-output selection and polynomial operation/bit guarantees remain open.
 
 
 The initializer now computes physical consistency for admissible rational
@@ -187,3 +187,24 @@ q,K,D,B belong to the original class and have all responses at most U+η. With
 nonempty full action type and ζ>0, L≤V≤U+η and shifted width<η+ζ. This is not
 a parser validating arbitrary untrusted rational inputs. It supplies neither
 sparse output nor a polynomial-time bound.
+
+
+The floor-constrained global allocation algorithm now executes rational grid
+enumeration, physical consistency checks, interval value search and min-upper
+selection. Its actual real game class varies both anchor and residual weights
+with the original core/cross intervals and all declared nonnegative floors.
+The global minimum V is attained. For ε>0, the total program chooses η=ζ=ε/3
+and δ=ε/(6M(k+1)), returns actual rational game data and τ=U+ε/3 with
+V≤τ<V+ε, and preserves every original interval and floor. A residual coordinate
+receives removed mass when m>0; an existing anchor is the reservoir when m=0.
+The fully empty class returns None. For positive ε, None is equivalent to
+physical incompatibility and a genuine solver-derived Boolean decision is
+provided. Parameters still carry explicit admissibility proofs. Global search
+requires the literal floor-only repertoire; arbitrary extra R is supported by
+the fixed-anchor algorithm, without an asserted rounding-invariance theorem.
+
+These are functional correctness results. Explicit lists contain
+(1+floor(1/δ))^k nodes; Fourier–Motzkin may grow exponentially. No FPTAS
+running-time or sparse-output algorithm guarantee is inferred. Efficient sorted
+separation/flow, polynomial arithmetic/bit bounds, actual sparse selection and
+the paper's explicit within/across-bin payoff construction remain unformalized.

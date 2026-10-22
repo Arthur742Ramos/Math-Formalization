@@ -376,3 +376,24 @@ controls cover feasible/infeasible floors, computed consistency and game
 initialization, actual bracket width, zero residual and fully empty cases.
 Fresh integrated consistency, protected comparison, kernel/export and exact-commit
 verification are required before claiming this tranche verified. No submission.
+
+
+## Executed floor-grid follow-on
+
+The preserved8bc06639dbe13f12a721f039e0606756798c2733 checkpoint passed all12
+exact native gates and independent authentication:150 mathematics modules,692
+math-source axiom audits,582 protected contracts and186 source files. Its tag
+and complete-history bundle are preserved outside this source. Later bytes
+require their own run.
+
+The new29 mathematics modules add60 independently reviewed proofs, bringing
+the candidate to179 math modules,752 math-source audits and642 protected
+contracts. Three executable control modules add22 passing guards, covering
+finite enumeration, infeasible candidates, true variable-anchor feasibility,
+nonzero-core optimization, solver-derived global decisions, epsilon0, empty
+actions and residual-only actions. One finite-index test-helper theorem is
+compiled in the controls and is outside the60 mathematical contracts.
+The candidate still requires integrated imported-meaning closure, exact public
+helper identity comparison, both exports/kernels and fresh immutable-commit
+verification. Compiling drafts and preflight checks do not establish those
+gates. No submission or publication is authorized or attempted.

@@ -16,6 +16,7 @@ public import Mathlib.Data.Nat.Sqrt
 public import Mathlib.Data.List.OfFn
 public import Mathlib.Data.Finset.Max
 public import Mathlib.Logic.Equiv.Fin.Basic
+public import Mathlib.Data.List.MinMax
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -14593,4 +14594,1458 @@ theorem rational_interval_initialized_value {k m : ℕ} {I : Type*} [Fintype I]
   exact ⟨hc,rational_interval_accurate_value_enclosure (d.toModel hc) ζ hζ z x B ha⟩
 
 end
+end SparseCompletion
+
+/- Fixed source body: AllocationReservoir.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def reservoirRounded {α : Type*} [Fintype α] [DecidableEq α]
+    (s p : α → ℝ) (δ : ℝ) (j : α) : α → ℝ :=
+  transferredResidual (roundedAllocation s p δ) (removedAnchorMass s p δ) j
+
+theorem reservoir_rounded_mass {α : Type*} [Fintype α] [DecidableEq α]
+    (s p : α → ℝ) (δ : ℝ) (j : α) :
+    (∑ i, reservoirRounded s p δ j i) = ∑ i, p i := by
+  rw [reservoirRounded, transferred_residual_mass]
+  unfold removedAnchorMass
+  rw [Finset.sum_sub_distrib]
+  ring
+
+theorem reservoir_rounded_floors {α : Type*} [Fintype α] [DecidableEq α]
+    (s p : α → ℝ) (δ : ℝ) (j : α)
+    (hsp : ∀ i, s i ≤ p i) (hδ : 0 < δ) :
+    ∀ i, s i ≤ reservoirRounded s p δ j i := by
+  intro i
+  apply le_trans (rounded_anchor_bounds _ _ _ (hsp i) hδ).1
+  apply le_add_of_nonneg_right
+  split_ifs
+  · exact (removed_anchor_mass_bounds s p δ hsp hδ).1
+  · exact le_refl 0
+
+theorem reservoir_rounded_distance {α : Type*} [Fintype α] [DecidableEq α]
+    (s p : α → ℝ) (δ : ℝ) (j : α)
+    (hsp : ∀ i, s i ≤ p i) (hδ : 0 < δ) :
+    (∑ i, |p i-reservoirRounded s p δ j i|) ≤ (2 : ℕ)*(Fintype.card α : ℝ)*δ := by
+  have hd := removed_anchor_mass_bounds s p δ hsp hδ
+  have ha : (∑ i, |p i-roundedAllocation s p δ i|)=removedAnchorMass s p δ := by
+    apply Finset.sum_congr rfl
+    intro i _
+    exact abs_of_nonneg (sub_nonneg.mpr (rounded_anchor_bounds _ _ _ (hsp i) hδ).2.1)
+  calc
+    (∑ i, |p i-reservoirRounded s p δ j i|) ≤
+        ∑ i, (|p i-roundedAllocation s p δ i|+
+          |roundedAllocation s p δ i-reservoirRounded s p δ j i|) := by
+      apply Finset.sum_le_sum
+      intro i _
+      exact abs_sub_le _ _ _
+    _ = removedAnchorMass s p δ+removedAnchorMass s p δ := by
+      rw [Finset.sum_add_distrib,ha]
+      rw [reservoirRounded,transferred_residual_distance _ _ j hd.1]
+    _ ≤ _ := by norm_num only [Nat.cast_ofNat]; linarith
+
+def reservoirGridAllocation {α : Type*} [Fintype α] [DecidableEq α]
+    (s : α → ℝ) (δ : ℝ) (j : α) (z : α → Fin (1+Nat.floor (1/δ))) : α → ℝ :=
+  transferredResidual (fun i => s i+δ*(z i : ℕ))
+    (1-∑ i, (s i+δ*(z i : ℕ))) j
+
+theorem reservoir_grid_mass {α : Type*} [Fintype α] [DecidableEq α]
+    (s : α → ℝ) (δ : ℝ) (j : α) (z : α → Fin (1+Nat.floor (1/δ))) :
+    (∑ i, reservoirGridAllocation s δ j z i)=1 := by
+  rw [reservoirGridAllocation,transferred_residual_mass]
+  ring
+
+theorem reservoir_rounded_finite_grid {α : Type*} [Fintype α] [DecidableEq α]
+    (s p : α → ℝ) (δ : ℝ) (j : α) (hs : ∀ i, 0 ≤ s i)
+    (hp : p ∈ floorStrategies s) (hδ : 0 < δ) :
+    ∃ z : α → Fin (1+Nat.floor (1/δ)), reservoirRounded s p δ j=reservoirGridAllocation s δ j z := by
+  obtain ⟨z,hz⟩ := rounded_allocation_finite_grid s p δ hs
+    (fun i => (floor_strategy_coordinate_bounds s p hs hp i).2) hδ
+  have he : roundedAllocation s p δ=(fun i => s i+δ*(z i : ℕ)) := funext hz
+  have hm : removedAnchorMass s p δ=1-∑ i, (s i+δ*(z i : ℕ)) := by
+    unfold removedAnchorMass
+    rw [Finset.sum_sub_distrib,hp.2,he]
+  exact ⟨z,by rw [reservoirRounded,reservoirGridAllocation,he,hm]⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: AllocationReservoirValue.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem reservoir_rounding_in_floor_strategies {α : Type*} [Fintype α] [DecidableEq α]
+    (s p : α → ℝ) (δ : ℝ) (j : α) (hp : p ∈ floorStrategies s) (hδ : 0 < δ) :
+    reservoirRounded s p δ j ∈ floorStrategies s :=
+  ⟨reservoir_rounded_floors s p δ j hp.1 hδ,(reservoir_rounded_mass s p δ j).trans hp.2⟩
+
+theorem reservoir_rounding_value_bound {α : Type*} [Fintype α] [DecidableEq α] [Nonempty α]
+    (s p : α → ℝ) (δ M : ℝ) (j : α) (A : α → α → ℝ)
+    (hsp : ∀ i, s i ≤ p i) (hδ : 0 < δ) (hM : 0 ≤ M)
+    (hA : ∀ i l, |A i l| ≤ M) :
+    exploitability A (reservoirRounded s p δ j) ≤
+      exploitability A p+(2 : ℕ)*M*(Fintype.card α : ℝ)*δ := by
+  have h := (abs_le.mp (exploitability_strategy_distance A p
+    (reservoirRounded s p δ j) M hA)).1
+  have hd := mul_le_mul_of_nonneg_left (reservoir_rounded_distance s p δ j hsp hδ) hM
+  norm_num only [Nat.cast_ofNat] at hd ⊢
+  nlinarith
+
+theorem reservoir_grid_approximation {α : Type*} [Fintype α] [DecidableEq α] [Nonempty α]
+    (s p : α → ℝ) (δ M : ℝ) (j : α) (A : α → α → ℝ)
+    (hs : ∀ i, 0 ≤ s i) (hp : p ∈ floorStrategies s) (hδ : 0 < δ) (hM : 0 ≤ M)
+    (hA : ∀ i l, |A i l| ≤ M) :
+    ∃ z : α → Fin (1+Nat.floor (1/δ)),
+      reservoirGridAllocation s δ j z ∈ floorStrategies s ∧
+      exploitability A (reservoirGridAllocation s δ j z) ≤
+        exploitability A p+(2 : ℕ)*M*(Fintype.card α : ℝ)*δ := by
+  obtain ⟨z,hz⟩ := reservoir_rounded_finite_grid s p δ j hs hp hδ
+  exact ⟨z,hz ▸ reservoir_rounding_in_floor_strategies s p δ j hp hδ,
+    hz ▸ reservoir_rounding_value_bound s p δ M j A hp.1 hδ hM hA⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFiniteSelection.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalFiniteSelect {α β : Type*} (candidates : List α)
+    (run : α → Option β) (score : β → ℚ) : Option β :=
+  (candidates.filterMap run).argmin score
+
+theorem rational_finite_select_origin {α β : Type*} (candidates : List α)
+    (run : α → Option β) (score : β → ℚ) (o : β)
+    (hout : rationalFiniteSelect candidates run score=some o) :
+    ∃ a ∈ candidates, run a=some o := by
+  have hm : o ∈ (candidates.filterMap run).argmin score := hout
+  exact List.mem_filterMap.mp (List.argmin_mem hm)
+
+theorem rational_finite_select_minimal {α β : Type*} (candidates : List α)
+    (run : α → Option β) (score : β → ℚ) (o : β)
+    (hout : rationalFiniteSelect candidates run score=some o)
+    (a : α) (ha : a ∈ candidates) (b : β) (hb : run a=some b) : score o ≤ score b := by
+  have hm : o ∈ (candidates.filterMap run).argmin score := hout
+  exact List.le_of_mem_argmin (List.mem_filterMap.mpr ⟨a,ha,hb⟩) hm
+
+theorem rational_finite_select_none_iff {α β : Type*} (candidates : List α)
+    (run : α → Option β) (score : β → ℚ) :
+    rationalFiniteSelect candidates run score=none ↔ ∀ a ∈ candidates, run a=none := by
+  rw [rationalFiniteSelect,List.argmin_eq_none]
+  constructor
+  · intro he a ha
+    cases hr : run a with
+    | none => rfl
+    | some b =>
+      have hm : b ∈ candidates.filterMap run := List.mem_filterMap.mpr ⟨a,ha,hr⟩
+      rw [he] at hm
+      cases hm
+  · intro h
+    apply List.eq_nil_iff_forall_not_mem.mpr
+    intro b hb
+    obtain ⟨a,ha,hb⟩ := List.mem_filterMap.mp hb
+    rw [h a ha] at hb
+    cases hb
+
+end SparseCompletion
+
+/- Fixed source body: RationalAllocationGrid.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalGridTuples : (k N : ℕ) → List (Fin k → Fin N)
+  | 0,_ => [Fin.elim0]
+  | k+1,N => (List.finRange N).flatMap (fun a =>
+      (rationalGridTuples k N).map (fun z => Fin.cons a z))
+
+theorem rational_grid_tuples_complete (k N : ℕ) (z : Fin k → Fin N) :
+    z ∈ rationalGridTuples k N := by
+  induction k with
+  | zero =>
+    have he : z=Fin.elim0 := by funext i; exact Fin.elim0 i
+    simp only [rationalGridTuples,he,List.mem_singleton]
+  | succ k ih =>
+    apply List.mem_flatMap.mpr
+    refine ⟨z 0,by simp only [List.mem_finRange],?_⟩
+    apply List.mem_map.mpr
+    exact ⟨fun i => z i.succ,ih _,by ext i; exact Fin.cases rfl (fun _ => rfl) i⟩
+
+theorem rational_grid_tuples_length (k N : ℕ) :
+    (rationalGridTuples k N).length=N^k := by
+  induction k with
+  | zero => simp only [rationalGridTuples,List.length_singleton,pow_zero]
+  | succ k ih =>
+    simp [rationalGridTuples,List.length_flatMap,ih,pow_succ,mul_comm]
+
+def rationalAllocationNodes (k : ℕ) (δ : ℚ) :
+    List (Fin k → Fin (1+Nat.floor (1/δ))) := rationalGridTuples k (1+Nat.floor (1/δ))
+
+def rationalAnchorAllocation {k : ℕ} (s : Fin k → ℚ) (δ : ℚ)
+    (z : Fin k → Fin (1+Nat.floor (1/δ))) : Fin k → ℚ :=
+  fun i => s i+δ*(z i : ℕ)
+
+def rationalReservoirAllocation {k : ℕ} (s : Fin k → ℚ) (δ : ℚ) (j : Fin k)
+    (z : Fin k → Fin (1+Nat.floor (1/δ))) : Fin k → ℚ :=
+  fun i => rationalAnchorAllocation s δ z i+
+    if i=j then 1-∑ a, rationalAnchorAllocation s δ z a else 0
+
+theorem rational_allocation_nodes_complete (k : ℕ) (δ : ℚ)
+    (z : Fin k → Fin (1+Nat.floor (1/δ))) : z ∈ rationalAllocationNodes k δ := by
+  exact rational_grid_tuples_complete _ _ z
+
+
+theorem rational_reservoir_allocation_mass {k : ℕ} (s : Fin k → ℚ) (δ : ℚ) (j : Fin k)
+    (z : Fin k → Fin (1+Nat.floor (1/δ))) :
+    (∑ i, rationalReservoirAllocation s δ j z i)=1 := by
+  simp only [rationalReservoirAllocation,Finset.sum_add_distrib,Finset.sum_ite_eq',
+    Finset.mem_univ,ite_true]
+  ring
+
+theorem rational_nat_floor_real_cast (x : ℚ) : Nat.floor (x : ℝ)=Nat.floor x := by
+  rw [←Int.floor_toNat,←Int.floor_toNat,Rat.floor_cast]
+
+theorem rational_grid_real_index_bound (δ : ℚ) (n : ℕ)
+    (h : n < 1+Nat.floor (1/δ)) : n < 1+Nat.floor (1/(δ : ℝ)) := by
+  rw [show (1/(δ : ℝ))=((1/δ : ℚ) : ℝ) by push_cast; rfl,
+    rational_nat_floor_real_cast]
+  exact h
+
+noncomputable def rationalRealGridIndex {k : ℕ} (δ : ℚ)
+    (z : Fin k → Fin (1+Nat.floor (1/δ))) : Fin k → Fin (1+Nat.floor (1/(δ : ℝ))) :=
+  fun i => ⟨(z i).val,rational_grid_real_index_bound δ _ (z i).isLt⟩
+
+theorem rational_reservoir_allocation_real {k : ℕ} (s : Fin k → ℚ) (δ : ℚ) (j : Fin k)
+    (z : Fin k → Fin (1+Nat.floor (1/δ))) :
+    (fun i => (rationalReservoirAllocation s δ j z i : ℝ))=
+      reservoirGridAllocation (fun i => (s i : ℝ)) (δ : ℝ) j
+        (rationalRealGridIndex δ z) := by
+  ext i
+  by_cases h : i=j
+  · simp only [rationalReservoirAllocation,rationalAnchorAllocation,reservoirGridAllocation,
+      transferredResidual,h,ite_true,Rat.cast_add,Rat.cast_mul,Rat.cast_natCast,Rat.cast_sub,
+      Rat.cast_one,Rat.cast_sum]
+    rfl
+  · simp only [rationalReservoirAllocation,rationalAnchorAllocation,reservoirGridAllocation,
+      transferredResidual,h,ite_false,Rat.cast_add,Rat.cast_mul,Rat.cast_natCast,Rat.cast_zero]
+    rfl
+
+end SparseCompletion
+
+/- Fixed source body: RationalAllocationRun.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalIntervalParameters.withAllocation {k m : ℕ} {I : Type*}
+    (d : RationalIntervalParameters k m I) (p : Fin k → ℚ) (hp : ∀ a, 0 ≤ p a) :
+    RationalIntervalParameters k m I :=
+  {d with p := p, r := 1-∑ a,p a, anchorNonneg := hp, normalized := by ring}
+
+def rationalAllocationRun {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ζ : ℚ) (p : Fin k → ℚ) : Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  if h : ∀ a, s a ≤ p a then
+    (rationalIntervalInitializedApproximation
+      (d.withAllocation p (fun a => le_trans (hs a) (h a))) ζ).map (fun o => (p,o))
+  else none
+
+theorem rational_allocation_run_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ζ : ℚ) (p : Fin k → ℚ) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalAllocationRun d s hs ζ p=some w) :
+    ∃ h : ∀ a,s a ≤ p a,
+      rationalIntervalInitializedApproximation
+        (d.withAllocation p (fun a => le_trans (hs a) (h a))) ζ=some w.2 ∧ w.1=p := by
+  by_cases h : ∀ a,s a ≤ p a
+  · simp only [rationalAllocationRun,dite_eq_left h] at hout
+    cases ho : rationalIntervalInitializedApproximation
+      (d.withAllocation p (fun a => le_trans (hs a) (h a))) ζ with
+    | none => simp only [ho,Option.map_none] at hout; cases hout
+    | some o =>
+      rw [ho,Option.map_some] at hout
+      have he := Option.some.inj hout
+      subst w
+      exact ⟨h,ho,rfl⟩
+  · simp only [rationalAllocationRun,dite_eq_right h] at hout
+    cases hout
+
+def rationalAllocationSearch {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) : Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  rationalFiniteSelect (rationalAllocationNodes k δ)
+    (fun z => rationalAllocationRun d s hs ζ (rationalAnchorAllocation s δ z))
+    (fun w => w.2.bracket.2)
+
+def rationalReservoirSearch {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) (j : Fin k) : Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  rationalFiniteSelect (rationalAllocationNodes k δ)
+    (fun z => rationalAllocationRun d s hs ζ (rationalReservoirAllocation s δ j z))
+    (fun w => w.2.bracket.2)
+
+theorem rational_allocation_search_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalAllocationSearch d s hs δ ζ=some w) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      rationalAllocationRun d s hs ζ (rationalAnchorAllocation s δ z)=some w := by
+  obtain ⟨z,_,hz⟩ := rational_finite_select_origin _ _ _ w hout
+  exact ⟨z,hz⟩
+
+theorem rational_reservoir_search_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) (j : Fin k) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalReservoirSearch d s hs δ ζ j=some w) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      rationalAllocationRun d s hs ζ (rationalReservoirAllocation s δ j z)=some w := by
+  obtain ⟨z,_,hz⟩ := rational_finite_select_origin _ _ _ w hout
+  exact ⟨z,hz⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalAllocationSearchSoundness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_allocation_run_game {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ζ : ℚ) (p : Fin k → ℚ) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalAllocationRun d s hs ζ p=some w) :
+    ∃ h : ∀ a,s a ≤ w.1 a,
+      ∃ hc : (d.withAllocation w.1 (fun a => le_trans (hs a) (h a))).Compatible,
+        w.2.realData ∈ intervalGameClass
+          ((d.withAllocation w.1 (fun a => le_trans (hs a) (h a))).toModel hc) ∧
+        ∀ a, response (intervalGameMatrix w.2.realData)
+          (intervalGameWeights ((d.withAllocation w.1
+            (fun a => le_trans (hs a) (h a))).toModel hc) w.2.realData) a ≤
+              (w.2.bracket.2 : ℝ)+(d.η : ℝ) := by
+  obtain ⟨h,ho,hp⟩ := rational_allocation_run_output d s hs ζ p w hout
+  rw [hp]
+  obtain ⟨hc,hg,hr⟩ := rational_interval_initialized_game
+    (d.withAllocation p (fun a => le_trans (hs a) (h a))) ζ w.2 ho
+  exact ⟨h,hc,hg,hr⟩
+
+theorem rational_allocation_search_minimal {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalAllocationSearch d s hs δ ζ=some w)
+    (z : Fin k → Fin (1+Nat.floor (1/δ)))
+    (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalAllocationRun d s hs ζ (rationalAnchorAllocation s δ z)=some v) :
+    w.2.bracket.2 ≤ v.2.bracket.2 :=
+  rational_finite_select_minimal _ _ _ w hout z
+    (rational_allocation_nodes_complete k δ z) v hv
+
+theorem rational_reservoir_search_minimal {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) (j : Fin k) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalReservoirSearch d s hs δ ζ j=some w)
+    (z : Fin k → Fin (1+Nat.floor (1/δ)))
+    (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalAllocationRun d s hs ζ (rationalReservoirAllocation s δ j z)=some v) :
+    w.2.bracket.2 ≤ v.2.bracket.2 :=
+  rational_finite_select_minimal _ _ _ w hout z
+    (rational_allocation_nodes_complete k δ z) v hv
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalReservoirApproximation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_reservoir_grid_approximation {k : ℕ} [Nonempty (Fin k)]
+    (s : Fin k → ℚ) (p : Fin k → ℝ) (δ M : ℚ) (j : Fin k)
+    (A : Fin k → Fin k → ℝ) (hs : ∀ i,0 ≤ s i)
+    (hp : p ∈ floorStrategies (fun i => (s i : ℝ))) (hδ : 0 < δ) (hM : 0 ≤ M)
+    (hA : ∀ i l,|A i l| ≤ (M : ℝ)) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      (fun i => (rationalReservoirAllocation s δ j z i : ℝ)) ∈
+        floorStrategies (fun i => (s i : ℝ)) ∧
+      exploitability A (fun i => (rationalReservoirAllocation s δ j z i : ℝ)) ≤
+        exploitability A p+(2 : ℕ)*(M : ℝ)*k*(δ : ℝ) := by
+  have hfloor : Nat.floor (1/(δ : ℝ))=Nat.floor (1/δ) := by
+    rw [show 1/(δ : ℝ)=((1/δ : ℚ) : ℝ) by push_cast; rfl,rational_nat_floor_real_cast]
+  obtain ⟨z,hz,hv⟩ := reservoir_grid_approximation (fun i => (s i : ℝ)) p
+    (δ : ℝ) (M : ℝ) j A (fun i => by exact_mod_cast hs i) hp
+    (by exact_mod_cast hδ) (by exact_mod_cast hM) hA
+  let zQ : Fin k → Fin (1+Nat.floor (1/δ)) :=
+    fun i => ⟨(z i).val,by rw [←hfloor]; exact (z i).isLt⟩
+  have he : (fun i => (rationalReservoirAllocation s δ j zQ i : ℝ))=
+      reservoirGridAllocation (fun i => (s i : ℝ)) (δ : ℝ) j z := by
+    rw [rational_reservoir_allocation_real]
+    congr 1
+  refine ⟨zQ,he.symm ▸ hz,?_⟩
+  rw [he]
+  simpa only [Fintype.card_fin] using hv
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorRepertoire.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalResidualFloors {k m : ℕ} (t : Fin m → ℚ) :
+    RationalLinearSystem (Fin m) (m+(m*k+(k*k+0*m))) :=
+  ⟨fun i => rationalFormScale (-1) (intervalQForm k m 0 i),fun i => -t i⟩
+
+theorem rational_residual_floors_iff {k m : ℕ} (t : Fin m → ℚ)
+    (x : Fin (m+(m*k+(k*k+0*m))) → ℚ) :
+    (rationalResidualFloors (k := k) t).Satisfies x ↔ ∀ i,t i ≤ intervalQ x i := by
+  change (∀ i,rationalFormEval (rationalFormScale (-1) (intervalQForm k m 0 i)) x ≤ -t i) ↔ _
+  simp only [rational_form_eval_scale,interval_q_form_eval,neg_one_mul,neg_le_neg_iff]
+
+theorem rational_residual_floors_real_iff {k m : ℕ} (t : Fin m → ℚ)
+    (x : Fin (m+(m*k+(k*k+0*m))) → ℝ) :
+    (rationalResidualFloors (k := k) t).RealSatisfies x ↔ ∀ i,(t i : ℝ) ≤ intervalQ x i := by
+  change (∀ i,rationalFormRealEval (rationalFormScale (-1) (intervalQForm k m 0 i)) x ≤ (-t i : ℚ)) ↔ _
+  simp only [rational_form_real_eval_scale,interval_q_real_form_eval,Rat.cast_neg,Rat.cast_one,
+    neg_one_mul,neg_le_neg_iff]
+
+theorem rational_residual_floors_real_pack {k m : ℕ} (t : Fin m → ℚ)
+    (q : Fin m → ℝ) (V : Fin m → Fin k → ℝ) (K : Fin k → Fin k → ℝ) :
+    (rationalResidualFloors t).RealSatisfies (intervalPack q V K (H := 0) Fin.elim0) ↔
+      ∀ i,(t i : ℝ) ≤ q i := by
+  rw [rational_residual_floors_real_iff,interval_pack_q]
+
+end SparseCompletion
+
+/- Fixed source body: RationalAllocationCompleteness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_allocation_run_success_iff {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ζ : ℚ) (p : Fin k → ℚ) :
+    (∃ w,rationalAllocationRun d s hs ζ p=some w) ↔
+      ∃ h : ∀ a,s a ≤ p a,(d.withAllocation p (fun a => le_trans (hs a) (h a))).Compatible := by
+  constructor
+  · rintro ⟨w,hw⟩
+    obtain ⟨h,ho,_⟩ := rational_allocation_run_output d s hs ζ p w hw
+    obtain ⟨hc,_,_⟩ := rational_interval_initialized_game
+      (d.withAllocation p (fun a => le_trans (hs a) (h a))) ζ w.2 ho
+    exact ⟨h,hc⟩
+  · rintro ⟨h,hc⟩
+    obtain ⟨o,ho⟩ := rational_interval_initialized_complete
+      (d.withAllocation p (fun a => le_trans (hs a) (h a))) ζ hc
+    refine ⟨(p,o),?_⟩
+    simp only [rationalAllocationRun,dite_eq_left h,ho,Option.map_some]
+
+theorem rational_finite_select_success_iff {α β : Type*} (candidates : List α)
+    (run : α → Option β) (score : β → ℚ) :
+    (∃ o,rationalFiniteSelect candidates run score=some o) ↔
+      ∃ a ∈ candidates, ∃ o,run a=some o := by
+  constructor
+  · rintro ⟨o,ho⟩
+    obtain ⟨a,ha,hr⟩ := rational_finite_select_origin candidates run score o ho
+    exact ⟨a,ha,o,hr⟩
+  · rintro ⟨a,ha,o,hr⟩
+    cases hs : rationalFiniteSelect candidates run score with
+    | none =>
+      have hn := (rational_finite_select_none_iff candidates run score).mp hs a ha
+      rw [hn] at hr
+      cases hr
+    | some v => exact ⟨v,rfl⟩
+
+theorem rational_allocation_search_success_iff {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) :
+    (∃ w,rationalAllocationSearch d s hs δ ζ=some w) ↔
+      ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+        ∃ h : ∀ a,s a ≤ rationalAnchorAllocation s δ z a,
+          (d.withAllocation (rationalAnchorAllocation s δ z)
+            (fun a => le_trans (hs a) (h a))).Compatible := by
+  rw [rationalAllocationSearch,rational_finite_select_success_iff]
+  constructor
+  · rintro ⟨z,_,hz⟩
+    exact ⟨z,(rational_allocation_run_success_iff d s hs ζ _).mp hz⟩
+  · rintro ⟨z,hz⟩
+    exact ⟨z,rational_allocation_nodes_complete k δ z,
+      (rational_allocation_run_success_iff d s hs ζ _).mpr hz⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalAnchorApproximation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_anchor_rounding_enumerated {k : ℕ} (s : Fin k → ℚ)
+    (p : Fin k → ℝ) (δ : ℚ) (hs : ∀ i,0 ≤ s i) (hp : ∀ i,p i ≤ 1) (hδ : 0 < δ) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      ∀ i,(rationalAnchorAllocation s δ z i : ℝ)=
+        roundedAllocation (fun i => (s i : ℝ)) p (δ : ℝ) i := by
+  have hfloor : Nat.floor (1/(δ : ℝ))=Nat.floor (1/δ) := by
+    rw [show 1/(δ : ℝ)=((1/δ : ℚ) : ℝ) by push_cast; rfl,rational_nat_floor_real_cast]
+  obtain ⟨z,hz⟩ := rounded_allocation_finite_grid (fun i => (s i : ℝ)) p (δ : ℝ)
+    (fun i => by exact_mod_cast hs i) hp (by exact_mod_cast hδ)
+  let zQ : Fin k → Fin (1+Nat.floor (1/δ)) :=
+    fun i => ⟨(z i).val,by rw [←hfloor]; exact (z i).isLt⟩
+  refine ⟨zQ,?_⟩
+  intro i
+  simpa only [rationalAnchorAllocation,Rat.cast_add,Rat.cast_mul,Rat.cast_natCast] using (hz i).symm
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorGridPhysical.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_grid_compatible {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ)
+    (u : Fin m → ℚ) (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i)
+    (hR : d.R=rationalResidualFloors u)
+    (p : Fin k → ℝ) (q : Fin m → ℝ) (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ)
+    (hsp : ∀ a,(s a : ℝ) ≤ p a) (huq : ∀ i,(u i : ℝ) ≤ q i)
+    (hmass : (∑ a,p a)+(∑ i,q i)=1) (hK : IsSkew K)
+    (hKI : ∀ a b,(d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ))
+    (hDI : ∀ i a,(d.lo i a : ℝ) ≤ D i a ∧ D i a ≤ (d.hi i a : ℝ))
+    (hB : IsSkew B) (hBI : ∀ i l,-(d.M : ℝ) ≤ B i l ∧ B i l ≤ (d.M : ℝ))
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin m) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      ∃ h : ∀ a,s a ≤ rationalAnchorAllocation s δ z a,
+        (∀ a,(rationalAnchorAllocation s δ z a : ℝ)=
+          roundedAllocation (fun a => (s a : ℝ)) p (δ : ℝ) a) ∧
+        (d.withAllocation (rationalAnchorAllocation s δ z)
+          (fun a => le_trans (hs a) (h a))).Compatible := by
+  have hp0 : ∀ a,0 ≤ p a := fun a => le_trans (by exact_mod_cast hs a) (hsp a)
+  have hq0 : ∀ i,0 ≤ q i := fun i => le_trans (by exact_mod_cast hu i) (huq i)
+  have hp1 : ∀ a,p a ≤ 1 := by
+    intro a
+    have hsingle := Finset.single_le_sum (fun b _ => hp0 b) (Finset.mem_univ a)
+    have hqsum : 0 ≤ ∑ i,q i := Finset.sum_nonneg fun i _ => hq0 i
+    linarith
+  obtain ⟨z,hz⟩ := rational_anchor_rounding_enumerated s p δ hs hp1 hδ
+  have hδR : 0 < (δ : ℝ) := by exact_mod_cast hδ
+  have hf := allocation_rounding_preserves_floors (fun a => (s a : ℝ)) p
+    (fun i => (u i : ℝ)) q (δ : ℝ) j hsp huq hδR
+  have hsz : ∀ a,s a ≤ rationalAnchorAllocation s δ z a := by
+    intro a
+    have hh := hf.1 a
+    rw [←hz a] at hh
+    exact_mod_cast hh
+  let q' := transferredResidual q
+    (removedAnchorMass (fun a => (s a : ℝ)) p (δ : ℝ)) j
+  have hm := allocation_rounding_mass (fun a => (s a : ℝ)) p q (δ : ℝ) j
+  have hzsum : (∑ a,(rationalAnchorAllocation s δ z a : ℝ))=
+      ∑ a,roundedAllocation (fun a => (s a : ℝ)) p (δ : ℝ) a :=
+    Finset.sum_congr rfl (fun a _ => hz a)
+  refine ⟨z,hsz,hz,q',K,D,B,?_,?_,hK,hKI,hDI,hB,hBI,?_⟩
+  · exact fun i => le_trans (by exact_mod_cast hu i) (hf.2 i)
+  · change (∑ i,q' i)=((1-∑ a,rationalAnchorAllocation s δ z a : ℚ) : ℝ)
+    push_cast
+    change (∑ i,transferredResidual q
+      (removedAnchorMass (fun a => (s a : ℝ)) p (δ : ℝ)) j i)=_
+    linarith
+  · change d.R.RealSatisfies (intervalPack q' (fun i a => q' i*D i a) K (H := 0) Fin.elim0)
+    rw [hR,rational_residual_floors_real_pack]
+    exact hf.2
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalWitnessClass.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem interval_game_class_of_witness {k m : ℕ} {I : Type*}
+    (d : RationalIntervalModel k m I) (q : Fin m → ℝ) (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ)
+    (hq : ∀ i,0 ≤ q i) (hm : (∑ i,q i)=(d.r : ℝ)) (hK : IsSkew K)
+    (hKI : ∀ a b,(d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ))
+    (hDI : ∀ i a,(d.lo i a : ℝ) ≤ D i a ∧ D i a ≤ (d.hi i a : ℝ))
+    (hB : IsSkew B) (hBI : ∀ i l,-(d.M : ℝ) ≤ B i l ∧ B i l ≤ (d.M : ℝ))
+    (hR : d.R.RealSatisfies (intervalPack q (fun i a => q i*D i a) K (H := 0) Fin.elim0)) :
+    (q,D,K,B) ∈ intervalGameClass d := by
+  refine ⟨⟨⟨hq,?_⟩,⟨fun i a => (hDI i a).1,fun i a => (hDI i a).2⟩,
+    ⟨fun a b => (hKI a b).1,fun a b => (hKI a b).2⟩,hB,hBI⟩,hm,hK,hR⟩
+  intro i
+  have hi := Finset.single_le_sum (fun j (_ : j ∈ (Finset.univ : Finset (Fin m))) => hq j)
+    (Finset.mem_univ i)
+  rwa [hm] at hi
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorGridGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_grid_game {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ)
+    (u : Fin m → ℚ) (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i)
+    (hR : d.R=rationalResidualFloors u)
+    (p : Fin k → ℝ) (q : Fin m → ℝ) (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ)
+    (hsp : ∀ a,(s a : ℝ) ≤ p a) (huq : ∀ i,(u i : ℝ) ≤ q i)
+    (hmass : (∑ a,p a)+(∑ i,q i)=1) (hK : IsSkew K)
+    (hKI : ∀ a b,(d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ))
+    (hDI : ∀ i a,(d.lo i a : ℝ) ≤ D i a ∧ D i a ≤ (d.hi i a : ℝ))
+    (hB : IsSkew B) (hBI : ∀ i l,-(d.M : ℝ) ≤ B i l ∧ B i l ≤ (d.M : ℝ))
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin m) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      ∃ h : ∀ a,s a ≤ rationalAnchorAllocation s δ z a,
+        ∃ hc : (d.withAllocation (rationalAnchorAllocation s δ z)
+          (fun a => le_trans (hs a) (h a))).Compatible,
+          ∃ q' : Fin m → ℝ,
+            (q',D,K,B) ∈ intervalGameClass
+              ((d.withAllocation (rationalAnchorAllocation s δ z)
+                (fun a => le_trans (hs a) (h a))).toModel hc) ∧
+            exploitability (blockMatrix K D B)
+              (blockWeights (fun a => (rationalAnchorAllocation s δ z a : ℝ)) q') ≤
+              exploitability (blockMatrix K D B) (blockWeights p q)+
+                (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ) := by
+  obtain ⟨z,hsz,hz,hc⟩ := rational_floor_grid_compatible d s u hs hu hR
+    p q K D B hsp huq hmass hK hKI hDI hB hBI δ hδ j
+  have hδR : 0 < (δ : ℝ) := by exact_mod_cast hδ
+  let q' := transferredResidual q
+    (removedAnchorMass (fun a => (s a : ℝ)) p (δ : ℝ)) j
+  have hf := allocation_rounding_preserves_floors (fun a => (s a : ℝ)) p
+    (fun i => (u i : ℝ)) q (δ : ℝ) j hsp huq hδR
+  have hq' : ∀ i,0 ≤ q' i := fun i => le_trans (by exact_mod_cast hu i) (hf.2 i)
+  have hm := allocation_rounding_mass (fun a => (s a : ℝ)) p q (δ : ℝ) j
+  have hzsum : (∑ a,(rationalAnchorAllocation s δ z a : ℝ))=
+      ∑ a,roundedAllocation (fun a => (s a : ℝ)) p (δ : ℝ) a :=
+    Finset.sum_congr rfl (fun a _ => hz a)
+  have hmq' : (∑ i,q' i)=
+      (((d.withAllocation (rationalAnchorAllocation s δ z)
+        (fun a => le_trans (hs a) (hsz a))).toModel hc).r : ℝ) := by
+    change (∑ i,q' i)=((1-∑ a,rationalAnchorAllocation s δ z a : ℚ) : ℝ)
+    push_cast
+    change (∑ i,transferredResidual q
+      (removedAnchorMass (fun a => (s a : ℝ)) p (δ : ℝ)) j i)=_
+    linarith
+  have hRq' : d.R.RealSatisfies (intervalPack q' (fun i a => q' i*D i a) K (H := 0) Fin.elim0) := by
+    rw [hR,rational_residual_floors_real_pack]
+    exact hf.2
+  refine ⟨z,hsz,hc,q',interval_game_class_of_witness _ q' K D B
+    hq' hmq' hK hKI hDI hB hBI hRq',?_⟩
+  have hAb := blockMatrix_bounds K D B (d.M : ℝ)
+    (fun a b => ⟨le_trans (by exact_mod_cast d.coreLower a b) (hKI a b).1,
+      le_trans (hKI a b).2 (by exact_mod_cast d.coreUpper a b)⟩)
+    (fun i a => ⟨le_trans (by exact_mod_cast d.crossLower i a) (hDI i a).1,
+      le_trans (hDI i a).2 (by exact_mod_cast d.crossUpper i a)⟩) hBI
+  have hE := allocation_rounding_value_bound (fun a => (s a : ℝ)) p q
+    (δ : ℝ) (d.M : ℝ) j (blockMatrix K D B) hsp hδR
+    (by exact_mod_cast le_of_lt d.positiveBound) (fun a b => abs_le.mpr (hAb a b))
+  have hw : blockWeights (fun a => (rationalAnchorAllocation s δ z a : ℝ)) q'=
+      blockWeights (roundedAllocation (fun a => (s a : ℝ)) p (δ : ℝ)) q' := by
+    funext a
+    cases a with
+    | inl a => exact hz a
+    | inr i => rfl
+  rw [hw]
+  simpa only [Fintype.card_fin] using hE
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorGridAccuracy.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_grid_search_accuracy {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ)
+    (u : Fin m → ℚ) (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i)
+    (hR : d.R=rationalResidualFloors u)
+    (p : Fin k → ℝ) (q : Fin m → ℝ) (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ)
+    (hsp : ∀ a,(s a : ℝ) ≤ p a) (huq : ∀ i,(u i : ℝ) ≤ q i)
+    (hmass : (∑ a,p a)+(∑ i,q i)=1) (hK : IsSkew K)
+    (hKI : ∀ a b,(d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ))
+    (hDI : ∀ i a,(d.lo i a : ℝ) ≤ D i a ∧ D i a ≤ (d.hi i a : ℝ))
+    (hB : IsSkew B) (hBI : ∀ i l,-(d.M : ℝ) ≤ B i l ∧ B i l ≤ (d.M : ℝ))
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin m) (ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalAllocationSearch d s hs δ ζ=some w ∧
+      ∀ a, response (intervalGameMatrix w.2.realData)
+        (blockWeights (fun b => (w.1 b : ℝ)) (fun i => (w.2.q i : ℝ))) a <
+          exploitability (blockMatrix K D B) (blockWeights p q)+
+            (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ)+(ζ : ℝ)+(d.η : ℝ) := by
+  obtain ⟨z,hz,hc,q',hClass,hE⟩ := rational_floor_grid_game d s u hs hu hR
+    p q K D B hsp huq hmass hK hKI hDI hB hBI δ hδ j
+  let dz := d.withAllocation (rationalAnchorAllocation s δ z)
+    (fun a => le_trans (hs a) (hz a))
+  obtain ⟨v,hv⟩ := rational_interval_initialized_complete dz ζ hc
+  have hRun : rationalAllocationRun d s hs ζ (rationalAnchorAllocation s δ z)=
+      some (rationalAnchorAllocation s δ z,v) := by
+    simp only [rationalAllocationRun,dite_eq_left hz]
+    change (rationalIntervalInitializedApproximation dz ζ).map
+      (fun o => (rationalAnchorAllocation s δ z,o))=some (rationalAnchorAllocation s δ z,v)
+    rw [hv]
+    rfl
+  have hSuccess : ∃ w,rationalAllocationSearch d s hs δ ζ=some w := by
+    rw [rationalAllocationSearch,rational_finite_select_success_iff]
+    exact ⟨z,rational_allocation_nodes_complete k δ z,_,hRun⟩
+  obtain ⟨w,hw⟩ := hSuccess
+  have hmin := rational_allocation_search_minimal d s hs δ ζ w hw z _ hRun
+  obtain ⟨hc',hL,_,hwidth⟩ := rational_interval_initialized_value dz ζ hζ v hv
+  have hVal := interval_game_value_le_witness (dz.toModel hc') (q',D,K,B) hClass
+  change intervalGameValue (dz.toModel hc') ≤
+    exploitability (blockMatrix K D B)
+      (blockWeights (fun a => (rationalAnchorAllocation s δ z a : ℝ)) q') at hVal
+  have hminR : (w.2.bracket.2 : ℝ) ≤ (v.bracket.2 : ℝ) := by exact_mod_cast hmin
+  obtain ⟨zw,hzw⟩ := rational_allocation_search_output d s hs δ ζ w hw
+  obtain ⟨_,_,_,hrows⟩ := rational_allocation_run_game d s hs ζ _ w hzw
+  refine ⟨w,hw,?_⟩
+  intro a
+  have hr := hrows a
+  change response (intervalGameMatrix w.2.realData)
+    (blockWeights (fun b => (w.1 b : ℝ)) (fun i => (w.2.q i : ℝ))) a ≤
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) at hr
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorClass.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+abbrev FloorIntervalGameData (k m : ℕ) := (Fin k → ℝ) × IntervalGameData k m
+
+def floorIntervalGameBox {k m : ℕ} {I : Type*} (d : RationalIntervalParameters k m I) :
+    Set (FloorIntervalGameData k m) :=
+  Set.Icc (fun _ => 0) (fun _ => 1) ×ˢ
+    (Set.Icc (fun _ => 0) (fun _ => 1) ×ˢ
+      (Set.Icc (fun i a => (d.lo i a : ℝ)) (fun i a => (d.hi i a : ℝ)) ×ˢ
+        (Set.Icc (fun a b => (d.loK a b : ℝ)) (fun a b => (d.hiK a b : ℝ)) ×ˢ skewBox d.M)))
+
+def floorIntervalGameClass {k m : ℕ} {I : Type*} (d : RationalIntervalParameters k m I)
+    (s : Fin k → ℚ) (u : Fin m → ℚ) : Set (FloorIntervalGameData k m) :=
+  floorIntervalGameBox d ∩ {z | (∀ a,(s a : ℝ) ≤ z.1 a) ∧
+    (∀ i,(u i : ℝ) ≤ z.2.1 i) ∧ (∑ a,z.1 a)+(∑ i,z.2.1 i)=1 ∧ IsSkew z.2.2.2.1}
+
+theorem floor_interval_game_class_compact {k m : ℕ} {I : Type*}
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (u : Fin m → ℚ) :
+    IsCompact (floorIntervalGameClass d s u) := by
+  have hc : IsCompact (floorIntervalGameBox d) :=
+    isCompact_Icc.prod (isCompact_Icc.prod (isCompact_Icc.prod
+      (isCompact_Icc.prod (skewBox_compact d.M))))
+  apply hc.inter_right
+  have he : {z : FloorIntervalGameData k m | (∀ a,(s a : ℝ) ≤ z.1 a) ∧
+      (∀ i,(u i : ℝ) ≤ z.2.1 i) ∧ (∑ a,z.1 a)+(∑ i,z.2.1 i)=1 ∧ IsSkew z.2.2.2.1}=
+      (⋂ a,{z | (s a : ℝ) ≤ z.1 a}) ∩ ((⋂ i,{z | (u i : ℝ) ≤ z.2.1 i}) ∩
+        ({z | (∑ a,z.1 a)+(∑ i,z.2.1 i)=1} ∩
+          (⋂ a,⋂ b,{z | z.2.2.2.1 a b= -z.2.2.2.1 b a}))) := by
+    ext z
+    simp only [Set.mem_inter_iff,Set.mem_ofPred_eq,Set.mem_iInter,IsSkew]
+  rw [he]
+  exact (isClosed_iInter fun a => isClosed_le continuous_const (by fun_prop)).inter
+    ((isClosed_iInter fun i => isClosed_le continuous_const (by fun_prop)).inter
+      ((isClosed_eq (by fun_prop) continuous_const).inter
+        (isClosed_iInter fun a => isClosed_iInter fun b => isClosed_eq (by fun_prop) (by fun_prop))))
+
+def floorIntervalGameExploitability {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (z : FloorIntervalGameData k m) : ℝ :=
+  exploitability (intervalGameMatrix z.2) (blockWeights z.1 z.2.1)
+
+theorem floor_interval_game_exploitability_continuous {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)] :
+    Continuous (floorIntervalGameExploitability (k := k) (m := m)) := by
+  unfold floorIntervalGameExploitability intervalGameMatrix exploitability
+  apply Continuous.finset_sup'_apply
+  intro a _
+  cases a with
+  | inl a => simp only [block_response_anchor,anchorResponse]; fun_prop
+  | inr i =>
+    simp only [response,Fintype.sum_sum_type,blockMatrix,blockWeights,Sum.elim_inl,Sum.elim_inr]
+    fun_prop
+
+def floorIntervalGameValue {k m : ℕ} {I : Type*} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (u : Fin m → ℚ) : ℝ :=
+  sInf (floorIntervalGameExploitability '' floorIntervalGameClass d s u)
+
+theorem floor_interval_game_value_attained {k m : ℕ} {I : Type*} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hne : (floorIntervalGameClass d s u).Nonempty) :
+    ∃ z ∈ floorIntervalGameClass d s u,
+      floorIntervalGameExploitability z=floorIntervalGameValue d s u := by
+  have hc := (floor_interval_game_class_compact d s u).image floor_interval_game_exploitability_continuous
+  obtain ⟨v,hv,he⟩ := hc.sInf_mem (hne.image floorIntervalGameExploitability)
+  exact ⟨v,hv,he⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorGlobalAccuracy.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_grid_global_accuracy {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty)
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin m) (ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalAllocationSearch d s hs δ ζ=some w ∧
+      ∀ a, response (intervalGameMatrix w.2.realData)
+        (blockWeights (fun b => (w.1 b : ℝ)) (fun i => (w.2.q i : ℝ))) a <
+          floorIntervalGameValue d s u+
+            (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ)+(ζ : ℝ)+(d.η : ℝ) := by
+  obtain ⟨⟨p,q,D,K,B⟩,hz,he⟩ := floor_interval_game_value_attained d s u hne
+  rcases hz with ⟨⟨_,_,hDI,hKI,hB,hBI⟩,hsp,huq,hmass,hK⟩
+  obtain ⟨w,hw,hr⟩ := rational_floor_grid_search_accuracy d s u hs hu hR p q K D B
+    hsp huq hmass hK (fun a b => ⟨hKI.1 a b,hKI.2 a b⟩)
+    (fun i a => ⟨hDI.1 i a,hDI.2 i a⟩) hB hBI δ hδ j ζ hζ
+  change exploitability (blockMatrix K D B) (blockWeights p q)=floorIntervalGameValue d s u at he
+  rw [he] at hr
+  exact ⟨w,hw,hr⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalReservoirRepresentation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_reservoir_rounding_enumerated {k : ℕ} (s : Fin k → ℚ)
+    (p : Fin k → ℝ) (δ : ℚ) (j : Fin k) (hs : ∀ i,0 ≤ s i)
+    (hp : p ∈ floorStrategies (fun i => (s i : ℝ))) (hδ : 0 < δ) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      (fun i => (rationalReservoirAllocation s δ j z i : ℝ))=
+        reservoirRounded (fun i => (s i : ℝ)) p (δ : ℝ) j := by
+  have hfloor : Nat.floor (1/(δ : ℝ))=Nat.floor (1/δ) := by
+    rw [show 1/(δ : ℝ)=((1/δ : ℚ) : ℝ) by push_cast; rfl,rational_nat_floor_real_cast]
+  obtain ⟨z,hz⟩ := reservoir_rounded_finite_grid (fun i => (s i : ℝ)) p (δ : ℝ) j
+    (fun i => by exact_mod_cast hs i) hp (by exact_mod_cast hδ)
+  let zQ : Fin k → Fin (1+Nat.floor (1/δ)) :=
+    fun i => ⟨(z i).val,by rw [←hfloor]; exact (z i).isLt⟩
+  refine ⟨zQ,?_⟩
+  rw [rational_reservoir_allocation_real,hz]
+  congr 1
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalNoResidualGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_no_residual_grid_game {k : ℕ} [Nonempty (Fin k ⊕ Fin 0)]
+    (d : RationalIntervalParameters k 0 (Fin 0)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (Fin.elim0 : Fin 0 → ℚ))
+    (p : Fin k → ℝ) (hp : p ∈ floorStrategies (fun a => (s a : ℝ)))
+    (K : Fin k → Fin k → ℝ) (hK : IsSkew K)
+    (hKI : ∀ a b,(d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ))
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin k) :
+    ∃ z : Fin k → Fin (1+Nat.floor (1/δ)),
+      ∃ h : ∀ a,s a ≤ rationalReservoirAllocation s δ j z a,
+        ∃ hc : (d.withAllocation (rationalReservoirAllocation s δ j z)
+          (fun a => le_trans (hs a) (h a))).Compatible,
+          (Fin.elim0,Fin.elim0,K,Fin.elim0) ∈ intervalGameClass
+            ((d.withAllocation (rationalReservoirAllocation s δ j z)
+              (fun a => le_trans (hs a) (h a))).toModel hc) ∧
+          exploitability (blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0)
+            (blockWeights (fun a => (rationalReservoirAllocation s δ j z a : ℝ)) Fin.elim0) ≤
+            exploitability (blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0)
+              (blockWeights p Fin.elim0)+(2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ) := by
+  obtain ⟨z,hz⟩ := rational_reservoir_rounding_enumerated s p δ j hs hp hδ
+  have hδR : 0 < (δ : ℝ) := by exact_mod_cast hδ
+  have hsz : ∀ a,s a ≤ rationalReservoirAllocation s δ j z a := by
+    intro a
+    have hh := reservoir_rounded_floors (fun a => (s a : ℝ)) p (δ : ℝ) j hp.1 hδR a
+    rw [←hz] at hh
+    change (s a : ℝ) ≤ (rationalReservoirAllocation s δ j z a : ℝ) at hh
+    exact_mod_cast hh
+  let dz := d.withAllocation (rationalReservoirAllocation s δ j z)
+    (fun a => le_trans (hs a) (hsz a))
+  have hm : (∑ i : Fin 0,(Fin.elim0 i : ℝ))=(dz.r : ℝ) := by
+    change (∑ i : Fin 0,(Fin.elim0 i : ℝ))=((1-∑ a,rationalReservoirAllocation s δ j z a : ℚ) : ℝ)
+    rw [rational_reservoir_allocation_mass]
+    norm_num
+  have hRp : dz.R.RealSatisfies
+      (intervalPack (Fin.elim0 : Fin 0 → ℝ)
+        (fun (i : Fin 0) (a : Fin k) => (Fin.elim0 i : ℝ)*((Fin.elim0 i : Fin k → ℝ) a)) K (H := 0) Fin.elim0) := by
+    change d.R.RealSatisfies _
+    rw [hR,rational_residual_floors_real_pack]
+    exact fun i => Fin.elim0 i
+  have hc : dz.Compatible :=
+    ⟨Fin.elim0,K,Fin.elim0,Fin.elim0,(fun i => Fin.elim0 i),hm,hK,hKI,
+      (fun i => Fin.elim0 i),(fun i => Fin.elim0 i),(fun i => Fin.elim0 i),hRp⟩
+  refine ⟨z,hsz,hc,interval_game_class_of_witness (dz.toModel hc)
+    Fin.elim0 K Fin.elim0 Fin.elim0 (fun i => Fin.elim0 i) hm hK hKI
+    (fun i => Fin.elim0 i) (fun i => Fin.elim0 i) (fun i => Fin.elim0 i) hRp,?_⟩
+  let A := blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0
+  have hAb := blockMatrix_bounds K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0 (d.M : ℝ)
+    (fun a b => ⟨le_trans (by exact_mod_cast d.coreLower a b) (hKI a b).1,
+      le_trans (hKI a b).2 (by exact_mod_cast d.coreUpper a b)⟩)
+    (fun i => Fin.elim0 i) (fun i => Fin.elim0 i)
+  have hd : (∑ a : Fin k ⊕ Fin 0,
+      |blockWeights p (Fin.elim0 : Fin 0 → ℝ) a-
+        blockWeights (fun b => (rationalReservoirAllocation s δ j z b : ℝ)) Fin.elim0 a|) ≤
+      (2 : ℕ)*(k : ℝ)*(δ : ℝ) := by
+    rw [Fintype.sum_sum_type]
+    simp only [blockWeights,Sum.elim_inl,Sum.elim_inr,Fin.sum_univ_zero,add_zero]
+    simp_rw [show ∀ a,(rationalReservoirAllocation s δ j z a : ℝ)=
+      reservoirRounded (fun a => (s a : ℝ)) p (δ : ℝ) j a from fun a => congrFun hz a]
+    simpa only [Fintype.card_fin] using
+      reservoir_rounded_distance (fun a => (s a : ℝ)) p (δ : ℝ) j hp.1 hδR
+  have hh := (abs_le.mp (exploitability_strategy_distance A
+    (blockWeights p Fin.elim0)
+    (blockWeights (fun b => (rationalReservoirAllocation s δ j z b : ℝ)) Fin.elim0)
+    (d.M : ℝ) (fun a b => abs_le.mpr (hAb a b)))).1
+  have hdM := mul_le_mul_of_nonneg_left hd (by exact_mod_cast le_of_lt d.positiveBound : 0 ≤ (d.M : ℝ))
+  norm_num only [Nat.cast_ofNat] at hdM ⊢
+  nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalNoResidualAccuracy.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_no_residual_search_accuracy {k : ℕ} [Nonempty (Fin k ⊕ Fin 0)]
+    (d : RationalIntervalParameters k 0 (Fin 0)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (Fin.elim0 : Fin 0 → ℚ))
+    (p : Fin k → ℝ) (hp : p ∈ floorStrategies (fun a => (s a : ℝ)))
+    (K : Fin k → Fin k → ℝ) (hK : IsSkew K)
+    (hKI : ∀ a b,(d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ))
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin k) (ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k 0,
+      rationalReservoirSearch d s hs δ ζ j=some w ∧
+      ∀ a, response (intervalGameMatrix w.2.realData)
+        (blockWeights (fun b => (w.1 b : ℝ)) (fun i => (w.2.q i : ℝ))) a <
+          exploitability (blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0)
+            (blockWeights p Fin.elim0)+
+            (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ)+(ζ : ℝ)+(d.η : ℝ) := by
+  obtain ⟨z,hz,hc,hClass,hE⟩ := rational_no_residual_grid_game d s hs hR p hp K hK hKI δ hδ j
+  let dz := d.withAllocation (rationalReservoirAllocation s δ j z)
+    (fun a => le_trans (hs a) (hz a))
+  obtain ⟨v,hv⟩ := rational_interval_initialized_complete dz ζ hc
+  have hRun : rationalAllocationRun d s hs ζ (rationalReservoirAllocation s δ j z)=
+      some (rationalReservoirAllocation s δ j z,v) := by
+    simp only [rationalAllocationRun,dite_eq_left hz]
+    change (rationalIntervalInitializedApproximation dz ζ).map
+      (fun o => (rationalReservoirAllocation s δ j z,o))=some (rationalReservoirAllocation s δ j z,v)
+    rw [hv]
+    rfl
+  have hSuccess : ∃ w,rationalReservoirSearch d s hs δ ζ j=some w := by
+    rw [rationalReservoirSearch,rational_finite_select_success_iff]
+    exact ⟨z,rational_allocation_nodes_complete k δ z,_,hRun⟩
+  obtain ⟨w,hw⟩ := hSuccess
+  have hmin := rational_reservoir_search_minimal d s hs δ ζ j w hw z _ hRun
+  obtain ⟨hc',hL,_,hwidth⟩ := rational_interval_initialized_value dz ζ hζ v hv
+  have hVal := interval_game_value_le_witness (dz.toModel hc')
+    (Fin.elim0,Fin.elim0,K,Fin.elim0) hClass
+  change intervalGameValue (dz.toModel hc') ≤
+    exploitability (blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0)
+      (blockWeights (fun a => (rationalReservoirAllocation s δ j z a : ℝ)) Fin.elim0) at hVal
+  have hminR : (w.2.bracket.2 : ℝ) ≤ (v.bracket.2 : ℝ) := by exact_mod_cast hmin
+  obtain ⟨zw,hzw⟩ := rational_reservoir_search_output d s hs δ ζ j w hw
+  obtain ⟨_,_,_,hrows⟩ := rational_allocation_run_game d s hs ζ _ w hzw
+  refine ⟨w,hw,?_⟩
+  intro a
+  have hr := hrows a
+  change response (intervalGameMatrix w.2.realData)
+    (blockWeights (fun b => (w.1 b : ℝ)) (fun i => (w.2.q i : ℝ))) a ≤
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) at hr
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalInitializedUpperWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_initialized_upper_lt_witness {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalIntervalParameters k m I)
+    (ζ : ℚ) (hζ : 0 < ζ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalInitializedApproximation d ζ=some o)
+    (hc : d.Compatible) (z : IntervalGameData k m) (hz : z ∈ intervalGameClass (d.toModel hc)) :
+    (o.bracket.2 : ℝ) < intervalGameExploitability (d.toModel hc) z+(ζ : ℝ) := by
+  obtain ⟨hc',hL,_,hwidth⟩ := rational_interval_initialized_value d ζ hζ o hout
+  have hv := interval_game_value_le_witness (d.toModel hc) z hz
+  have he : d.toModel hc'=d.toModel hc := rfl
+  rw [he] at hL
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorClassWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem floor_interval_game_class_of_fixed {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hR : d.R=rationalResidualFloors u)
+    (p : Fin k → ℚ) (hsp : ∀ a,s a ≤ p a)
+    (hc : (d.withAllocation p (fun a => le_trans (hs a) (hsp a))).Compatible)
+    (z : IntervalGameData k m)
+    (hz : z ∈ intervalGameClass ((d.withAllocation p (fun a => le_trans (hs a) (hsp a))).toModel hc)) :
+    ((fun a => (p a : ℝ)),z) ∈ floorIntervalGameClass d s u := by
+  rcases hz with ⟨⟨⟨hq,_⟩,hD,hK,hB,hBI⟩,hm,hKs,hRp⟩
+  have hp0 : ∀ a,0 ≤ (p a : ℝ) := fun a => by exact_mod_cast le_trans (hs a) (hsp a)
+  have hmass : (∑ a,(p a : ℝ))+(∑ i,z.1 i)=1 := by
+    change (∑ i,z.1 i)=((1-∑ a,p a : ℚ) : ℝ) at hm
+    push_cast at hm
+    linarith
+  have hp1 : ∀ a,(p a : ℝ) ≤ 1 := by
+    intro a
+    have hsingle := Finset.single_le_sum (fun b _ => hp0 b) (Finset.mem_univ a)
+    have hqsum : 0 ≤ ∑ i,z.1 i := Finset.sum_nonneg fun i _ => hq i
+    linarith
+  have hq1 : ∀ i,z.1 i ≤ 1 := by
+    intro i
+    have hsingle := Finset.single_le_sum (fun l _ => hq l) (Finset.mem_univ i)
+    have hpsum : 0 ≤ ∑ a,(p a : ℝ) := Finset.sum_nonneg fun a _ => hp0 a
+    linarith
+  refine ⟨⟨⟨hp0,hp1⟩,⟨hq,hq1⟩,hD,hK,hB,hBI⟩,
+    (fun a => by change (s a : ℝ) ≤ (p a : ℝ); exact_mod_cast hsp a),?_,hmass,hKs⟩
+  change d.R.RealSatisfies
+    (intervalPack z.1 (fun i a => z.1 i*z.2.1 i a) z.2.2.1 (H := 0) Fin.elim0) at hRp
+  rw [hR,rational_residual_floors_real_pack] at hRp
+  exact hRp
+
+theorem floor_interval_game_value_le_witness {k m : ℕ} {I : Type*} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (z : FloorIntervalGameData k m) (hz : z ∈ floorIntervalGameClass d s u) :
+    floorIntervalGameValue d s u ≤ floorIntervalGameExploitability z := by
+  apply csInf_le ((floor_interval_game_class_compact d s u).image
+    floor_interval_game_exploitability_continuous).bddBelow
+  exact ⟨z,hz,rfl⟩
+
+theorem rational_floor_search_output_class {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hR : d.R=rationalResidualFloors u) (δ ζ : ℚ)
+    (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalAllocationSearch d s hs δ ζ=some w) :
+    ((fun a => (w.1 a : ℝ)),w.2.realData) ∈ floorIntervalGameClass d s u := by
+  obtain ⟨z,hz⟩ := rational_allocation_search_output d s hs δ ζ w hout
+  obtain ⟨hsp,hc,hClass,_⟩ := rational_allocation_run_game d s hs ζ _ w hz
+  exact floor_interval_game_class_of_fixed d s u hs hR w.1 hsp hc w.2.realData hClass
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorValueCertificate.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_grid_value_certificate {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty)
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin m) (ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalAllocationSearch d s hs δ ζ=some w ∧
+      floorIntervalGameValue d s u ≤ (w.2.bracket.2 : ℝ)+(d.η : ℝ) ∧
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) < floorIntervalGameValue d s u+
+        (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ)+(ζ : ℝ)+(d.η : ℝ) := by
+  obtain ⟨⟨p,q,D,K,B⟩,hz0,he⟩ := floor_interval_game_value_attained d s u hne
+  rcases hz0 with ⟨⟨_,_,hDI,hKI,hB,hBI⟩,hsp,huq,hmass,hK⟩
+  obtain ⟨z,hz,hc,q',hClass,hE⟩ := rational_floor_grid_game d s u hs hu hR p q K D B
+    hsp huq hmass hK (fun a b => ⟨hKI.1 a b,hKI.2 a b⟩)
+    (fun i a => ⟨hDI.1 i a,hDI.2 i a⟩) hB hBI δ hδ j
+  change exploitability (blockMatrix K D B) (blockWeights p q)=floorIntervalGameValue d s u at he
+  rw [he] at hE
+  let dz := d.withAllocation (rationalAnchorAllocation s δ z)
+    (fun a => le_trans (hs a) (hz a))
+  obtain ⟨v,hv⟩ := rational_interval_initialized_complete dz ζ hc
+  have hRun : rationalAllocationRun d s hs ζ (rationalAnchorAllocation s δ z)=
+      some (rationalAnchorAllocation s δ z,v) := by
+    simp only [rationalAllocationRun,dite_eq_left hz]
+    change (rationalIntervalInitializedApproximation dz ζ).map
+      (fun o => (rationalAnchorAllocation s δ z,o))=some (rationalAnchorAllocation s δ z,v)
+    rw [hv]
+    rfl
+  have hSuccess : ∃ w,rationalAllocationSearch d s hs δ ζ=some w := by
+    rw [rationalAllocationSearch,rational_finite_select_success_iff]
+    exact ⟨z,rational_allocation_nodes_complete k δ z,_,hRun⟩
+  obtain ⟨w,hw⟩ := hSuccess
+  have hmin := rational_allocation_search_minimal d s hs δ ζ w hw z _ hRun
+  have hminR : (w.2.bracket.2 : ℝ) ≤ (v.bracket.2 : ℝ) := by exact_mod_cast hmin
+  have hU := rational_initialized_upper_lt_witness dz ζ hζ v hv hc (q',D,K,B) hClass
+  change (v.bracket.2 : ℝ) < exploitability (blockMatrix K D B)
+    (blockWeights (fun a => (rationalAnchorAllocation s δ z a : ℝ)) q')+(ζ : ℝ) at hU
+  have hGlobal := rational_floor_search_output_class d s u hs hR δ ζ w hw
+  have hLower := floor_interval_game_value_le_witness d s u _ hGlobal
+  obtain ⟨zw,hzw⟩ := rational_allocation_search_output d s hs δ ζ w hw
+  obtain ⟨_,_,_,hrows⟩ := rational_allocation_run_game d s hs ζ _ w hzw
+  have hUpper : floorIntervalGameExploitability ((fun a => (w.1 a : ℝ)),w.2.realData) ≤
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) := by
+    exact (exploitability_le_iff _ _ _).mpr hrows
+  exact ⟨w,hw,le_trans hLower hUpper,by linarith⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalReservoirClass.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_reservoir_output_class {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hR : d.R=rationalResidualFloors u) (δ ζ : ℚ) (j : Fin k)
+    (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalReservoirSearch d s hs δ ζ j=some w) :
+    ((fun a => (w.1 a : ℝ)),w.2.realData) ∈ floorIntervalGameClass d s u := by
+  obtain ⟨z,hz⟩ := rational_reservoir_search_output d s hs δ ζ j w hout
+  obtain ⟨hsp,hc,hClass,_⟩ := rational_allocation_run_game d s hs ζ _ w hz
+  exact floor_interval_game_class_of_fixed d s u hs hR w.1 hsp hc w.2.realData hClass
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalNoResidualGlobal.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_no_residual_global_certificate {k : ℕ} [Nonempty (Fin k ⊕ Fin 0)]
+    (d : RationalIntervalParameters k 0 (Fin 0)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (Fin.elim0 : Fin 0 → ℚ))
+    (hne : (floorIntervalGameClass d s Fin.elim0).Nonempty)
+    (δ : ℚ) (hδ : 0 < δ) (j : Fin k) (ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k 0,
+      rationalReservoirSearch d s hs δ ζ j=some w ∧
+      floorIntervalGameValue d s Fin.elim0 ≤ (w.2.bracket.2 : ℝ)+(d.η : ℝ) ∧
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) < floorIntervalGameValue d s Fin.elim0+
+        (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ)+(ζ : ℝ)+(d.η : ℝ) := by
+  obtain ⟨⟨p,q,D,K,B⟩,hz0,he⟩ := floor_interval_game_value_attained d s Fin.elim0 hne
+  have hq : q=(Fin.elim0 : Fin 0 → ℝ) := funext fun i => Fin.elim0 i
+  have hD : D=(Fin.elim0 : Fin 0 → Fin k → ℝ) := funext fun i => Fin.elim0 i
+  have hB : B=(Fin.elim0 : Fin 0 → Fin 0 → ℝ) := funext fun i => Fin.elim0 i
+  subst q
+  subst D
+  subst B
+  rcases hz0 with ⟨⟨_,_,_,hKI,_,_⟩,hsp,_,hmass,hK⟩
+  have hp : p ∈ floorStrategies (fun a => (s a : ℝ)) :=
+    ⟨hsp,by simpa only [Fin.sum_univ_zero,add_zero] using hmass⟩
+  obtain ⟨z,hz,hc,hClass,hE⟩ := rational_no_residual_grid_game d s hs hR p hp K hK
+    (fun a b => ⟨hKI.1 a b,hKI.2 a b⟩) δ hδ j
+  change exploitability (blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0)
+    (blockWeights p Fin.elim0)=floorIntervalGameValue d s Fin.elim0 at he
+  rw [he] at hE
+  let dz := d.withAllocation (rationalReservoirAllocation s δ j z)
+    (fun a => le_trans (hs a) (hz a))
+  obtain ⟨v,hv⟩ := rational_interval_initialized_complete dz ζ hc
+  have hRun : rationalAllocationRun d s hs ζ (rationalReservoirAllocation s δ j z)=
+      some (rationalReservoirAllocation s δ j z,v) := by
+    simp only [rationalAllocationRun,dite_eq_left hz]
+    change (rationalIntervalInitializedApproximation dz ζ).map
+      (fun o => (rationalReservoirAllocation s δ j z,o))=some (rationalReservoirAllocation s δ j z,v)
+    rw [hv]
+    rfl
+  have hSuccess : ∃ w,rationalReservoirSearch d s hs δ ζ j=some w := by
+    rw [rationalReservoirSearch,rational_finite_select_success_iff]
+    exact ⟨z,rational_allocation_nodes_complete k δ z,_,hRun⟩
+  obtain ⟨w,hw⟩ := hSuccess
+  have hmin := rational_reservoir_search_minimal d s hs δ ζ j w hw z _ hRun
+  have hminR : (w.2.bracket.2 : ℝ) ≤ (v.bracket.2 : ℝ) := by exact_mod_cast hmin
+  have hU := rational_initialized_upper_lt_witness dz ζ hζ v hv hc
+    (Fin.elim0,Fin.elim0,K,Fin.elim0) hClass
+  change (v.bracket.2 : ℝ) <
+    exploitability (blockMatrix K (Fin.elim0 : Fin 0 → Fin k → ℝ) Fin.elim0)
+      (blockWeights (fun a => (rationalReservoirAllocation s δ j z a : ℝ)) Fin.elim0)+(ζ : ℝ) at hU
+  have hGlobal := rational_floor_reservoir_output_class d s Fin.elim0 hs hR δ ζ j w hw
+  have hLower := floor_interval_game_value_le_witness d s Fin.elim0 _ hGlobal
+  obtain ⟨zw,hzw⟩ := rational_reservoir_search_output d s hs δ ζ j w hw
+  obtain ⟨_,_,_,hrows⟩ := rational_allocation_run_game d s hs ζ _ w hzw
+  have hUpper : floorIntervalGameExploitability ((fun a => (w.1 a : ℝ)),w.2.realData) ≤
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) := by
+    exact (exploitability_le_iff _ _ _).mpr hrows
+  exact ⟨w,hw,le_trans hLower hUpper,by linarith⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSearch.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalFloorSearch {k m : ℕ} (d : RationalIntervalParameters k m (Fin m))
+    (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a) (δ ζ : ℚ) :
+    Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  if 0 < m then rationalAllocationSearch d s hs δ ζ else
+    if hk : 0 < k then rationalReservoirSearch d s hs δ ζ ⟨0,hk⟩ else none
+
+noncomputable section
+
+theorem rational_floor_search_value_certificate {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty)
+    (δ : ℚ) (hδ : 0 < δ) (ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalFloorSearch d s hs δ ζ=some w ∧
+      floorIntervalGameValue d s u ≤ (w.2.bracket.2 : ℝ)+(d.η : ℝ) ∧
+      (w.2.bracket.2 : ℝ)+(d.η : ℝ) < floorIntervalGameValue d s u+
+        (2 : ℕ)*(d.M : ℝ)*k*(δ : ℝ)+(ζ : ℝ)+(d.η : ℝ) := by
+  cases m with
+  | zero =>
+    have hk : 0 < k := by
+      have hcard := Fintype.card_pos_iff.mpr (inferInstance : Nonempty (Fin k ⊕ Fin 0))
+      simp only [Fintype.card_sum,Fintype.card_fin] at hcard
+      omega
+    have hu0 : u=(Fin.elim0 : Fin 0 → ℚ) := funext fun i => Fin.elim0 i
+    subst u
+    obtain ⟨w,hw,hlo,hhi⟩ := rational_no_residual_global_certificate d s hs hR hne δ hδ ⟨0,hk⟩ ζ hζ
+    refine ⟨w,?_,hlo,hhi⟩
+    simpa only [rationalFloorSearch,show ¬0 < (0 : ℕ) by omega,ite_false,dite_eq_left hk] using hw
+  | succ m =>
+    obtain ⟨w,hw,hlo,hhi⟩ := rational_floor_grid_value_certificate d s u hs hu hR hne δ hδ
+      ⟨0,Nat.zero_lt_succ m⟩ ζ hζ
+    refine ⟨w,?_,hlo,hhi⟩
+    simpa only [rationalFloorSearch,Nat.zero_lt_succ,ite_true] using hw
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorAccuracyParameters.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalFloorAllocationStep (M ε : ℚ) (k : ℕ) : ℚ := ε/(((6 : ℕ) : ℚ)*M*((k : ℚ)+1))
+
+theorem rational_third_positive (ε : ℚ) (hε : 0 < ε) : 0 < ε/((3 : ℕ) : ℚ) :=
+  div_pos hε (by norm_num)
+
+theorem rational_floor_allocation_step_positive (M ε : ℚ) (k : ℕ)
+    (hM : 0 < M) (hε : 0 < ε) : 0 < rationalFloorAllocationStep M ε k := by
+  unfold rationalFloorAllocationStep
+  positivity
+
+theorem rational_floor_allocation_error_budget (M ε : ℚ) (k : ℕ)
+    (hM : 0 < M) (hε : 0 < ε) :
+    ((2 : ℕ) : ℚ)*M*k*rationalFloorAllocationStep M ε k+ε/((3 : ℕ) : ℚ)+ε/((3 : ℕ) : ℚ) ≤ ε := by
+  have hd : 0 < ((6 : ℕ) : ℚ)*M*((k : ℚ)+1) := by positivity
+  have hs : ((2 : ℕ) : ℚ)*M*k*(ε/(((6 : ℕ) : ℚ)*M*((k : ℚ)+1))) ≤ ε/((3 : ℕ) : ℚ) := by
+    rw [←mul_div_assoc]
+    apply (div_le_iff₀ hd).mpr
+    nlinarith [mul_pos hε hM]
+  change ((2 : ℕ) : ℚ)*M*k*(ε/(((6 : ℕ) : ℚ)*M*((k : ℚ)+1)))+ε/((3 : ℕ) : ℚ)+ε/((3 : ℕ) : ℚ) ≤ ε
+  linarith
+
+def RationalIntervalParameters.withSlack {k m : ℕ} {I : Type*}
+    (d : RationalIntervalParameters k m I) (η : ℚ) (hη : 0 < η) :
+    RationalIntervalParameters k m I := {d with η := η, positiveSlack := hη}
+
+def rationalFloorApproximation {k m : ℕ} (d : RationalIntervalParameters k m (Fin m))
+    (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a) (ε : ℚ) :
+    Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  if he : 0 < ε then
+    rationalFloorSearch (d.withSlack (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε he)) s hs
+      (rationalFloorAllocationStep d.M ε k) (ε/((3 : ℕ) : ℚ))
+  else none
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorAutomatic.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_approximation_global {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty) (ε : ℚ) (hε : 0 < ε) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalFloorApproximation d s hs ε=some w ∧
+      floorIntervalGameValue d s u ≤ (w.2.bracket.2 : ℝ)+(ε : ℝ)/((3 : ℕ) : ℝ) ∧
+      (w.2.bracket.2 : ℝ)+(ε : ℝ)/((3 : ℕ) : ℝ) < floorIntervalGameValue d s u+(ε : ℝ) := by
+  let de := d.withSlack (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε hε)
+  obtain ⟨w,hw,hlo,hhi⟩ := rational_floor_search_value_certificate de s u hs hu hR hne
+    (rationalFloorAllocationStep d.M ε k)
+    (rational_floor_allocation_step_positive d.M ε k d.positiveBound hε)
+    (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε hε)
+  change floorIntervalGameValue d s u ≤ (w.2.bracket.2 : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) at hlo
+  change (w.2.bracket.2 : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) < floorIntervalGameValue d s u+
+    (2 : ℕ)*(d.M : ℝ)*k*(rationalFloorAllocationStep d.M ε k : ℝ)+
+      ((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) at hhi
+  push_cast at hlo hhi
+  have hBudget : (2 : ℕ)*(d.M : ℝ)*k*(rationalFloorAllocationStep d.M ε k : ℝ)+
+      (ε : ℝ)/((3 : ℕ) : ℝ)+(ε : ℝ)/((3 : ℕ) : ℝ) ≤ (ε : ℝ) := by
+    exact_mod_cast rational_floor_allocation_error_budget d.M ε k d.positiveBound hε
+  refine ⟨w,?_,hlo,?_⟩
+  · simp only [rationalFloorApproximation,dite_eq_left hε]
+    exact hw
+  · linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorTotalClass.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_total_output_class {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hR : d.R=rationalResidualFloors u) (δ ζ : ℚ)
+    (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSearch d s hs δ ζ=some w) :
+    ((fun a => (w.1 a : ℝ)),w.2.realData) ∈ floorIntervalGameClass d s u := by
+  by_cases hm : 0 < m
+  · simp only [rationalFloorSearch,hm,ite_true] at hout
+    exact rational_floor_search_output_class d s u hs hR δ ζ w hout
+  · by_cases hk : 0 < k
+    · simp only [rationalFloorSearch,hm,ite_false,dite_eq_left hk] at hout
+      exact rational_floor_reservoir_output_class d s u hs hR δ ζ ⟨0,hk⟩ w hout
+    · simp only [rationalFloorSearch,hm,ite_false,dite_eq_right hk] at hout
+      cases hout
+
+theorem rational_floor_approximation_output_class {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hR : d.R=rationalResidualFloors u) (ε : ℚ)
+    (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorApproximation d s hs ε=some w) :
+    ((fun a => (w.1 a : ℝ)),w.2.realData) ∈ floorIntervalGameClass d s u := by
+  by_cases he : 0 < ε
+  · simp only [rationalFloorApproximation,dite_eq_left he] at hout
+    exact rational_floor_total_output_class
+      (d.withSlack (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε he)) s u hs hR
+      (rationalFloorAllocationStep d.M ε k) (ε/((3 : ℕ) : ℚ)) w hout
+  · simp only [rationalFloorApproximation,dite_eq_right he] at hout
+    cases hout
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorDecision.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem floor_interval_class_nonempty_actions {k m : ℕ} {I : Type*}
+    (d : RationalIntervalParameters k m I) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hne : (floorIntervalGameClass d s u).Nonempty) : Nonempty (Fin k ⊕ Fin m) := by
+  by_cases hk : 0 < k
+  · exact ⟨Sum.inl ⟨0,hk⟩⟩
+  · by_cases hm : 0 < m
+    · exact ⟨Sum.inr ⟨0,hm⟩⟩
+    · have hk0 : k=0 := by omega
+      have hm0 : m=0 := by omega
+      subst k
+      subst m
+      obtain ⟨z,hz⟩ := hne
+      have hmass := hz.2.2.2.1
+      norm_num at hmass
+
+theorem rational_floor_approximation_none_iff {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (hε : 0 < ε) :
+    rationalFloorApproximation d s hs ε=none ↔ ¬(floorIntervalGameClass d s u).Nonempty := by
+  constructor
+  · intro hn hne
+    let _ := floor_interval_class_nonempty_actions d s u hne
+    obtain ⟨w,hw,_,_⟩ := rational_floor_approximation_global d s u hs hu hR hne ε hε
+    rw [hn] at hw
+    cases hw
+  · intro hn
+    cases hr : rationalFloorApproximation d s hs ε with
+    | none => rfl
+    | some w =>
+      exact False.elim (hn ⟨_,rational_floor_approximation_output_class d s u hs hR ε w hr⟩)
+
+theorem rational_floor_approximation_empty (d : RationalIntervalParameters 0 0 (Fin 0))
+    (s : Fin 0 → ℚ) (hs : ∀ a,0 ≤ s a) (ε : ℚ) :
+    rationalFloorApproximation d s hs ε=none := by
+  simp [rationalFloorApproximation,rationalFloorSearch]
+
+def rationalFloorClassDecision {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (hε : 0 < ε) : Decidable (floorIntervalGameClass d s u).Nonempty :=
+  (Option.rec (motive := fun o => rationalFloorApproximation d s hs ε=o →
+      Decidable (floorIntervalGameClass d s u).Nonempty)
+    (fun he => isFalse ((rational_floor_approximation_none_iff d s u hs hu hR ε hε).mp he))
+    (fun w he => isTrue ⟨_,rational_floor_approximation_output_class d s u hs hR ε w he⟩)
+    (rationalFloorApproximation d s hs ε)) rfl
+
 end SparseCompletion

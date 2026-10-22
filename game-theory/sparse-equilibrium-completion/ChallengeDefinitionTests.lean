@@ -498,5 +498,57 @@ example {α : Sort*} (c : Prop) [Decidable c] (h : c)
 example {α : Sort*} (c : Prop) [Decidable c] (h : ¬c)
     (t : c → α) (e : ¬c → α) : dite c t e=e h := dite_eq_right h
 
+
+/- Exact finite-list generator, runtime and floor semantics for executed grid search. -/
+theorem finite_list_argmin_literal {α β : Type*} [Preorder β] [DecidableLT β]
+    (f : α → β) (l : List α) :
+    l.argmin f=l.foldl (List.argAux (fun b c => f b < f c)) none := rfl
+
+theorem finite_list_argmin_member {α : Type*} (f : α → ℚ) (l : List α) (a : α)
+    (h : l.argmin f=some a) : a ∈ l := List.argmin_mem h
+
+theorem finite_list_argmin_none {α : Type*} (f : α → ℚ) (l : List α) :
+    l.argmin f=none ↔ l=[] := List.argmin_eq_none
+
+theorem finite_list_argmin_minimal {α : Type*} (f : α → ℚ) (l : List α) (a b : α)
+    (ha : a ∈ l) (hb : l.argmin f=some b) : f b ≤ f a := List.le_of_mem_argmin ha hb
+
+theorem finite_filterMap_membership {α β : Type*} (f : α → Option β) (l : List α) (b : β) :
+    b ∈ l.filterMap f ↔ ∃ a ∈ l,f a=some b := List.mem_filterMap
+
+theorem finite_filterMap_runtime {α β : Type*} (f : α → Option β) (l : List α) :
+    l.filterMap f=List.filterMapTR f l := by rw [List.filterMap_eq_filterMapTR]
+
+theorem finite_flatMap_runtime {α β : Type*} (f : α → List β) (l : List α) :
+    l.flatMap f=List.flatMapTR f l := by rw [List.flatMap_eq_flatMapTR]
+
+theorem finite_range_literal (n : ℕ) : List.finRange n=List.ofFn (fun i : Fin n => i) := rfl
+
+theorem finite_range_member (n : ℕ) (i : Fin n) : i ∈ List.finRange n := List.mem_finRange i
+
+theorem finite_range_length (n : ℕ) : (List.finRange n).length=n := List.length_finRange
+
+theorem finite_array_append_list {α : Type*} (a : Array α) (l : List α) :
+    (Array.appendList a l).toList=a.toList++l := by
+  simpa only [Array.appendList_eq_append] using (Array.toList_appendList (xs := a) (l := l))
+
+theorem finite_array_push_list {α : Type*} (a : Array α) (x : α) :
+    (a.push x).toList=a.toList++[x] := Array.toList_push
+
+theorem finite_decidable_rel_literal {α : Sort*} (r : α → α → Prop) :
+    DecidableRel r=(∀ a b,Decidable (r a b)) := rfl
+
+theorem finite_decidable_lt_literal :
+    DecidableLT ℚ=DecidableRel (fun a b : ℚ => a < b) := rfl
+
+theorem finite_rat_nat_floor_cast (q : ℚ) : Nat.floor (q : ℝ)=Nat.floor q := by
+  rw [←Int.floor_toNat,←Int.floor_toNat,Rat.floor_cast]
+
+theorem finite_list_fold_nil {α β : Type*} (f : α → β → α) (z : α) :
+    ([] : List β).foldl f z=z := rfl
+
+theorem finite_list_fold_cons {α β : Type*} (f : α → β → α) (z : α) (a : β) (l : List β) :
+    (a::l).foldl f z=l.foldl f (f z a) := rfl
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit
