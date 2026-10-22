@@ -16049,3 +16049,853 @@ def rationalFloorClassDecision {k m : ℕ}
     (rationalFloorApproximation d s hs ε)) rfl
 
 end SparseCompletion
+
+/- Fixed source body: RationalGapCompression.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Constructive solver preparation: real compression at the actual rational grid.
+No computational complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+noncomputable def rationalSparseFeatures {k m : ℕ} {I : Type}
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) (i : Fin m) :
+    (Fin k ⊕ (Fin (rationalGridSize M r η) ⊕ I)) → ℝ :=
+  Sum.elim (fun a => ((-D i a : ℚ) : ℝ))
+    (Sum.elim (fun l => ((max (rationalScore D p i-ρ-
+      (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ))
+      (fun a => (R.coefficient a i : ℝ)))
+
+/-- Real compression preserves every actual finite-grid inequality and every
+supplied linear physical constraint. The support bound uses the actual rational
+node count, and includes the number of additional rows. -/
+theorem rational_gap_real_compression {k m : ℕ} {I : Type} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (x : Fin m → ℝ)
+    (hx : ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies x)
+    (hq : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=(r : ℝ)) :
+    ∃ y : Fin m → ℝ,
+      ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies y ∧
+      (∀ i, 0 ≤ y i) ∧ (∑ i, y i)=(r : ℝ) ∧
+      (∀ i, x i=0 → y i=0) ∧
+      (Finset.univ.filter fun i => y i ≠ 0).card ≤
+        min m (k+rationalGridSize M r η+Fintype.card I+1) := by
+  classical
+  have hr : (0 : ℝ) ≤ (r : ℝ) := by
+    rw [←hm]
+    exact Finset.sum_nonneg fun i _ => hq i
+  by_cases hz : (r : ℝ)=0
+  · have hzero : x=fun _ => 0 := nonnegative_mass_zero x hq (by simpa only [hz] using hm)
+    refine ⟨x,hx,hq,hm,fun _ hi => hi,?_⟩
+    simp [hzero]
+  · obtain ⟨y,hy,hym,hys,hyc,hyf⟩ := finite_feature_compression
+      (Fin k ⊕ (Fin (rationalGridSize M r η) ⊕ I)) x
+      (rationalSparseFeatures D p M r ρ η R) (r : ℝ) hq hm
+      (lt_of_le_of_ne hr (Ne.symm hz))
+    have hparts := (rational_linear_real_append_iff _ _ x).mp hx
+    refine ⟨y,(rational_linear_real_append_iff _ _ y).mpr ⟨?_,?_⟩,
+      hy,hym,hys,Nat.le_min.mpr ⟨?_,?_⟩⟩
+    · intro row
+      rcases row with i | row
+      · change (∑ j, ((if j=i then (-1 : ℚ) else 0 : ℚ) : ℝ)*y j) ≤ ((0 : ℚ) : ℝ)
+        have he : (∑ j, ((if j=i then (-1 : ℚ) else 0 : ℚ) : ℝ)*y j)= -y i := by
+          calc
+            _ = ∑ j, if j=i then -y j else 0 := by
+              apply Finset.sum_congr rfl
+              intro j _
+              by_cases hj : j=i <;> simp [hj]
+            _ = _ := by simp
+        rw [he,Rat.cast_zero]
+        exact neg_nonpos.mpr (hy i)
+      · rcases row with a | row
+        · by_cases ha : a.val=0
+          · change (∑ j, ((if a.val=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*y j) ≤
+              ((if a.val=0 then r else -r : ℚ) : ℝ)
+            simpa only [ha,ite_true,Rat.cast_one,one_mul] using le_of_eq hym
+          · change (∑ j, ((if a.val=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*y j) ≤
+              ((if a.val=0 then r else -r : ℚ) : ℝ)
+            simpa only [ha,ite_false,Rat.cast_neg,Rat.cast_one,neg_one_mul,
+              Finset.sum_neg_distrib] using neg_le_neg (le_of_eq hym.symm)
+        · rcases row with i | row
+          · have hh := hparts.1 (.inr (.inr (.inl i)))
+            simpa only [RationalLinearSystem.RealSatisfies,rationalGapSystem,
+              rationalGapCoefficient,Sum.elim_inr,Sum.elim_inl,Rat.cast_zero,
+              zero_mul,Finset.sum_const_zero] using hh
+          · rcases row with a | l
+            · have he := hyf (.inl a)
+              change (∑ i, y i*((-D i a : ℚ) : ℝ))=∑ i, x i*((-D i a : ℚ) : ℝ) at he
+              have hh := hparts.1 (.inr (.inr (.inr (.inl a))))
+              change (∑ i, ((-D i a : ℚ) : ℝ)*y i) ≤ _
+              change (∑ i, ((-D i a : ℚ) : ℝ)*x i) ≤ _ at hh
+              calc
+                _ = ∑ i, y i*((-D i a : ℚ) : ℝ) :=
+                  Finset.sum_congr rfl fun _ _ => mul_comm _ _
+                _ = _ := he
+                _ ≤ _ := by simpa only [mul_comm] using hh
+            · have he := hyf (.inr (.inl l))
+              change (∑ i, y i*((max (rationalScore D p i-ρ-
+                (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ))=
+                ∑ i, x i*((max (rationalScore D p i-ρ-
+                  (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ) at he
+              have hh := hparts.1 (.inr (.inr (.inr (.inr l))))
+              change (∑ i, ((max (rationalScore D p i-ρ-
+                (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ)*y i) ≤ _
+              change (∑ i, ((max (rationalScore D p i-ρ-
+                (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ)*x i) ≤ _ at hh
+              calc
+                _ = ∑ i, y i*((max (rationalScore D p i-ρ-
+                    (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ) :=
+                  Finset.sum_congr rfl fun _ _ => mul_comm _ _
+                _ = _ := he
+                _ ≤ _ := by simpa only [mul_comm] using hh
+    · intro a
+      have he := hyf (.inr (.inr a))
+      change (∑ i, y i*(R.coefficient a i : ℝ))=∑ i, x i*(R.coefficient a i : ℝ) at he
+      change (∑ i, (R.coefficient a i : ℝ)*y i) ≤ _
+      calc
+        _ = ∑ i, y i*(R.coefficient a i : ℝ) :=
+          Finset.sum_congr rfl fun _ _ => mul_comm _ _
+        _ = _ := he
+        _ ≤ _ := by simpa only [mul_comm] using hparts.2 a
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · simpa only [Fintype.card_sum,Fintype.card_fin,Nat.add_assoc] using hyc
+
+end SparseCompletion
+
+/- Fixed source body: RationalSparseSupport.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Finite support search uses the verified rational LP solver. It may be exponential. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalSupportMask {m : ℕ} (z : Fin m → Fin 2) : Finset (Fin m) :=
+  Finset.univ.filter fun i => (z i).val ≠ 0
+
+def rationalSupportZeros {m : ℕ} (z : Fin m → Fin 2) : RationalLinearSystem (Fin m) m :=
+  ⟨fun a i => if (z a).val=0 ∧ i=a then 1 else 0,fun _ => 0⟩
+
+theorem rational_support_zeros_iff {m : ℕ} (z : Fin m → Fin 2) (q : Fin m → ℚ) :
+    (rationalSupportZeros z).Satisfies q ↔ ∀ i, (z i).val=0 → q i ≤ 0 := by
+  constructor
+  · intro h i hi
+    have hh := h i
+    simpa only [RationalLinearSystem.Satisfies,rationalSupportZeros,hi,true_and,
+      ite_mul,one_mul,zero_mul,Finset.sum_ite_eq',Finset.mem_univ,ite_true] using hh
+  · intro h i
+    by_cases hi : (z i).val=0
+    · simpa only [rationalSupportZeros,hi,true_and,ite_mul,one_mul,zero_mul,
+        Finset.sum_ite_eq',Finset.mem_univ,ite_true] using h i hi
+    · simp only [rationalSupportZeros,hi,false_and,ite_false,zero_mul,
+        Finset.sum_const_zero,le_refl]
+
+theorem rational_support_zeros_real {m : ℕ} (z : Fin m → Fin 2) (x : Fin m → ℝ)
+    (h : ∀ i, (z i).val=0 → x i=0) : (rationalSupportZeros z).RealSatisfies x := by
+  intro a
+  by_cases ha : (z a).val=0
+  · change (∑ i, ((if (z a).val=0 ∧ i=a then (1 : ℚ) else 0 : ℚ) : ℝ)*x i) ≤ ((0 : ℚ) : ℝ)
+    have he : (∑ i, ((if (z a).val=0 ∧ i=a then (1 : ℚ) else 0 : ℚ) : ℝ)*x i)=x a := by
+      calc
+        _ = ∑ i, if i=a then x i else 0 := by
+          apply Finset.sum_congr rfl
+          intro i _
+          by_cases hi : i=a <;> simp [ha,hi]
+        _ = _ := by simp
+    rw [he,h a ha,Rat.cast_zero]
+  · change (∑ i, ((if (z a).val=0 ∧ i=a then (1 : ℚ) else 0 : ℚ) : ℝ)*x i) ≤ ((0 : ℚ) : ℝ)
+    simp only [ha,false_and,ite_false,Rat.cast_zero,zero_mul,Finset.sum_const_zero,le_refl]
+
+theorem rational_support_card_of_zeros {m : ℕ} (z : Fin m → Fin 2) (q : Fin m → ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hz : (rationalSupportZeros z).Satisfies q) :
+    (Finset.univ.filter fun i => q i ≠ 0).card ≤ (rationalSupportMask z).card := by
+  apply Finset.card_le_card
+  intro i hi
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_univ i,?_⟩
+  intro he
+  exact (Finset.mem_filter.mp hi).2 (le_antisymm
+    ((rational_support_zeros_iff z q).mp hz i he) (hq i))
+
+noncomputable def realSupportIndex {m : ℕ} (x : Fin m → ℝ) : Fin m → Fin 2 :=
+  fun i => if x i=0 then ⟨0,Nat.zero_lt_succ 1⟩ else ⟨1,Nat.lt_succ_self 1⟩
+
+theorem real_support_index_zero {m : ℕ} (x : Fin m → ℝ) (i : Fin m) :
+    (realSupportIndex x i).val=0 ↔ x i=0 := by
+  classical
+  by_cases hi : x i=0 <;> simp [realSupportIndex,hi]
+
+theorem real_support_index_mask {m : ℕ} (x : Fin m → ℝ) :
+    rationalSupportMask (realSupportIndex x)=Finset.univ.filter (fun i => x i ≠ 0) := by
+  classical
+  ext i
+  simp only [rationalSupportMask,Finset.mem_filter,Finset.mem_univ,true_and]
+  exact not_congr (real_support_index_zero x i)
+
+end SparseCompletion
+
+/- Fixed source body: RationalSparseGapSearch.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+An actual finite support search; no polynomial operation or bit-cost claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalSparseGapRun {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (z : Fin m → Fin 2) :
+    Option (Fin m → ℚ) :=
+  if (rationalSupportMask z).card ≤ k+rationalGridSize M r η+Fintype.card I+1 then
+    rationalGapSolve K D p M r ρ η (R.append (rationalSupportZeros z)) else none
+
+def rationalSparseGapSearch {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) : Option (Fin m → ℚ) :=
+  rationalFiniteSelect (rationalGridTuples m 2)
+    (rationalSparseGapRun K D p M r ρ η R) (fun _ => 0)
+
+theorem rational_sparse_gap_run_sound {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (z : Fin m → Fin 2) (q : Fin m → ℚ)
+    (hout : rationalSparseGapRun K D p M r ρ η R z=some q) :
+    RationalGapConditions K D p q M r ρ η ∧ R.Satisfies q ∧
+    (Finset.univ.filter fun i => q i ≠ 0).card ≤
+      min m (k+rationalGridSize M r η+Fintype.card I+1) := by
+  unfold rationalSparseGapRun at hout
+  split at hout
+  next hc =>
+    have h := rational_gap_solve_sound K D p M r ρ η (R.append (rationalSupportZeros z)) q hout
+    have hg := (rational_gap_check_iff K D p q M r ρ η).mp h.1
+    have hp := (rational_linear_append_iff _ _ q).mp h.2
+    refine ⟨hg,hp.1,Nat.le_min.mpr ⟨?_,?_⟩⟩
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · exact le_trans (rational_support_card_of_zeros z q hg.1 hp.2) hc
+  next => cases hout
+
+theorem rational_sparse_gap_search_sound {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (q : Fin m → ℚ)
+    (hout : rationalSparseGapSearch K D p M r ρ η R=some q) :
+    RationalGapConditions K D p q M r ρ η ∧ R.Satisfies q ∧
+    (Finset.univ.filter fun i => q i ≠ 0).card ≤
+      min m (k+rationalGridSize M r η+Fintype.card I+1) := by
+  obtain ⟨z,_,hz⟩ := rational_finite_select_origin (rationalGridTuples m 2)
+    (rationalSparseGapRun K D p M r ρ η R) (fun _ => 0) q hout
+  exact rational_sparse_gap_run_sound K D p M r ρ η R z q hz
+
+/-- Completeness needs a real feasible finite-grid point, rather than an input
+rational sparse witness or an oracle for choosing a support. -/
+theorem rational_sparse_gap_search_complete {k m : ℕ} {I : Type} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (x : Fin m → ℝ)
+    (hx : ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies x)
+    (hq : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=(r : ℝ)) :
+    ∃ q, rationalSparseGapSearch K D p M r ρ η R=some q := by
+  classical
+  obtain ⟨y,hy,_,_,_,hc⟩ := rational_gap_real_compression K D p M r ρ η R x hx hq hm
+  let z := realSupportIndex y
+  have hzc : (rationalSupportMask z).card ≤ k+rationalGridSize M r η+Fintype.card I+1 := by
+    rw [show z=realSupportIndex y from rfl,real_support_index_mask]
+    exact le_trans hc (min_le_right _ _)
+  have hzero : (rationalSupportZeros z).RealSatisfies y :=
+    rational_support_zeros_real z y (fun i hi => (real_support_index_zero y i).mp hi)
+  have hparts := (rational_linear_real_append_iff _ _ y).mp hy
+  obtain ⟨q,hq⟩ := rational_lp_real_complete m
+    ((rationalGapSystem K D p M r ρ η).append (R.append (rationalSupportZeros z)))
+    ⟨y,(rational_linear_real_append_iff _ _ y).mpr
+      ⟨hparts.1,(rational_linear_real_append_iff _ _ y).mpr ⟨hparts.2,hzero⟩⟩⟩
+  have hrun : rationalSparseGapRun K D p M r ρ η R z=some q := by
+    simpa only [rationalSparseGapRun,ite_eq_left hzc,rationalGapSolve] using hq
+  cases ho : rationalSparseGapSearch K D p M r ρ η R with
+  | some q => exact ⟨q,rfl⟩
+  | none =>
+    have hn := (rational_finite_select_none_iff (rationalGridTuples m 2)
+      (rationalSparseGapRun K D p M r ρ η R) (fun _ => 0)).mp ho z
+      (rational_grid_tuples_complete m 2 z)
+    rw [hrun] at hn
+    cases hn
+
+end SparseCompletion
+
+/- Fixed source body: RationalSparseGapAlgorithm.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Returns actual rational strategy/payoff data; Fourier–Motzkin cost may be exponential. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalSparseGapAlgorithm {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) :
+    Option ((Fin m → ℚ) × (Fin m → Fin m → ℚ)) :=
+  (rationalSparseGapSearch K D p M r ρ η R).bind (fun q =>
+    (rationalResidualCompletion q (rationalScore D p) M (ρ+η)).map (fun B => (q,B)))
+
+theorem rational_sparse_gap_algorithm_sound {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (h : rationalSparseGapAlgorithm K D p M r ρ η R=some (q,B)) :
+    R.Satisfies q ∧ RationalGapConditions K D p q M r ρ η ∧
+      ResidualRatConditions q (rationalScore D p) M (ρ+η) B ∧
+      (Finset.univ.filter fun i => q i ≠ 0).card ≤
+        min m (k+rationalGridSize M r η+Fintype.card I+1) := by
+  cases hq : rationalSparseGapSearch K D p M r ρ η R with
+  | none => simp only [rationalSparseGapAlgorithm,hq,Option.bind_none] at h; cases h
+  | some y =>
+    cases hB : rationalResidualCompletion y (rationalScore D p) M (ρ+η) with
+    | none => simp only [rationalSparseGapAlgorithm,hq,Option.bind_some,hB,Option.map_none] at h; cases h
+    | some C =>
+      have hp : (y,C)=(q,B) := Option.some.inj (by
+        simpa only [rationalSparseGapAlgorithm,hq,Option.bind_some,hB,Option.map_some] using h)
+      obtain ⟨rfl,rfl⟩ := Prod.mk.inj hp
+      have hh := rational_sparse_gap_search_sound K D p M r ρ η R y hq
+      exact ⟨hh.2.1,hh.1,
+        rational_residual_completion_rat_sound y (rationalScore D p) M (ρ+η) C hB,hh.2.2⟩
+
+theorem rational_sparse_gap_algorithm_complete {k m : ℕ} {I : Type} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (hM : 0 < M) (hη : 0 < η)
+    (x : Fin m → ℝ)
+    (hx : ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies x)
+    (hq : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=(r : ℝ)) :
+    ∃ q B, rationalSparseGapAlgorithm K D p M r ρ η R=some (q,B) := by
+  obtain ⟨q,hq⟩ := rational_sparse_gap_search_complete K D p M r ρ η R x hx hq hm
+  have hc := rational_sparse_gap_search_sound K D p M r ρ η R q hq
+  obtain ⟨B,hB⟩ := rational_gap_reconstruction_complete K D p q M r ρ η hM hη
+    ((rational_gap_check_iff K D p q M r ρ η).mpr hc.1)
+  change rationalResidualCompletion q (rationalScore D p) M (ρ+η)=some B at hB
+  exact ⟨q,B,by simp only [rationalSparseGapAlgorithm,hq,Option.bind_some,hB,Option.map_some]⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalSparseGapGame.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_sparse_gap_algorithm_full_game {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hη : 0 < η) (hp : ∀ a, 0 ≤ p a) (hnorm : (∑ a, p a)+r=1)
+    (hK : ∀ a b, K a b= -K b a)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (R : RationalLinearSystem I m)
+    (B : Fin m → Fin m → ℚ) (h : rationalSparseGapAlgorithm K D p M r ρ η R=some (q,B)) :
+    (∀ a, 0 ≤ blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) a) ∧
+    (∑ a, blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+    IsSkew (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ))) ∧
+    (∀ a b, -(M : ℝ) ≤ blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ)) a b ∧
+      blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+        (fun i j => (B i j : ℝ)) a b ≤ (M : ℝ)) ∧
+    ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ))) (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤
+        (ρ : ℝ)+(η : ℝ) := by
+  have hs := rational_sparse_gap_algorithm_sound K D p M r ρ η R q B h
+  have hc := hs.2.1
+  have hB := (residual_rat_real_iff q (rationalScore D p) M (ρ+η) B).mp hs.2.2.1
+  have hrows : ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ))) (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤
+        (ρ : ℝ)+(η : ℝ) := by
+    apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+    constructor
+    · intro a
+      have hh : (rationalAnchorResponse K D p q a : ℝ) ≤ (ρ : ℝ) := by
+        exact_mod_cast hc.2.2.2.1 a
+      rw [rational_anchor_response_real] at hh
+      have hηR : (0 : ℝ)<(η : ℝ) := by exact_mod_cast hη
+      linarith
+    · intro i
+      have hi := hB.2.2 i
+      simpa only [response,←rational_score_real,Rat.cast_add] using hi
+  have hKR : IsSkew (fun h a => (K h a : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a)
+    (fun i => by exact_mod_cast hc.1 i),?_,blockMatrix_skew _ _ _ hKR hB.1,
+    blockMatrix_bounds _ _ _ _ hKbR hDbR hB.2.1,
+    hrows⟩
+  rw [blockWeights_mass]
+  have hm : (∑ i, (q i : ℝ))=(r : ℝ) := by exact_mod_cast hc.2.1
+  rw [hm]
+  exact_mod_cast hnorm
+
+theorem rational_sparse_gap_algorithm_full_support {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (h : rationalSparseGapAlgorithm K D p M r ρ η R=some (q,B)) :
+    (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a ≠ 0).card ≤
+      min (k+m) ((2 : ℕ)*k+rationalGridSize M r η+Fintype.card I+1) := by
+  classical
+  have hc := (rational_sparse_gap_algorithm_sound K D p M r ρ η R q B h).2.2.2
+  have hcR : (Finset.univ.filter fun i => (q i : ℝ) ≠ 0).card ≤
+      min m (k+rationalGridSize M r η+Fintype.card I+1) := by
+    have he : (Finset.univ.filter fun i => (q i : ℝ) ≠ 0)=
+        Finset.univ.filter (fun i => q i ≠ 0) := by
+      ext i
+      simp only [Finset.mem_filter,Finset.mem_univ,true_and,Rat.cast_ne_zero]
+    rw [he]
+    exact hc
+  rw [block_support_card]
+  have hpa : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+    le_trans (Finset.card_filter_le _ _) (by simp)
+  have h1 := le_trans hcR (min_le_left _ _)
+  have h2 := le_trans hcR (min_le_right _ _)
+  exact Nat.le_min.mpr ⟨by omega,by omega⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalFrozenPhysical.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+After rational K,D recovery, physical constraints become linear in q. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalFrozenCoefficient {k m : ℕ} (D : Fin m → Fin k → ℚ)
+    (j : Fin (m+(m*k+(k*k+0*m)))) (i : Fin m) : ℚ :=
+  Sum.elim (fun a => if i=a then 1 else 0)
+    (Sum.elim (fun a => if i=a.1 then D a.1 a.2 else 0)
+      (Sum.elim (fun _ => 0) (fun a => Fin.elim0 a.1)))
+    ((rationalIntervalVariableEquiv k m 0).symm j)
+
+def rationalFrozenConstant {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (j : Fin (m+(m*k+(k*k+0*m)))) : ℚ :=
+  Sum.elim (fun _ => 0) (Sum.elim (fun _ => 0)
+    (Sum.elim (fun a => K a.1 a.2) (fun a => Fin.elim0 a.1)))
+    ((rationalIntervalVariableEquiv k m 0).symm j)
+
+theorem rational_frozen_physical_eval {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (q : Fin m → ℚ)
+    (j : Fin (m+(m*k+(k*k+0*m)))) :
+    (∑ i, rationalFrozenCoefficient D j i*q i)+rationalFrozenConstant K j=
+      intervalPack q (fun i a => q i*D i a) K (H := 0) Fin.elim0 j := by
+  unfold rationalFrozenCoefficient rationalFrozenConstant intervalPack intervalVariableEncode
+  generalize (rationalIntervalVariableEquiv k m 0).symm j=v
+  rcases v with a | v
+  · simp only [Sum.elim_inl,ite_mul,one_mul,zero_mul,Finset.sum_ite_eq',
+      Finset.mem_univ,ite_true,add_zero]
+  · rcases v with a | v
+    · simp only [Sum.elim_inr,Sum.elim_inl,ite_mul,zero_mul,Finset.sum_ite_eq',
+        Finset.mem_univ,ite_true,add_zero]
+      exact mul_comm _ _
+    · rcases v with a | a
+      · simp only [Sum.elim_inr,Sum.elim_inl,zero_mul,Finset.sum_const_zero,zero_add]
+      · exact Fin.elim0 a.1
+
+def rationalFrozenPhysicalSystem {k m : ℕ} {I : Type*}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (R : RationalLinearSystem I (m+(m*k+(k*k+0*m)))) : RationalLinearSystem I m where
+  coefficient := fun a i => ∑ j, R.coefficient a j*rationalFrozenCoefficient D j i
+  rightSide := fun a => R.rightSide a-∑ j, R.coefficient a j*rationalFrozenConstant K j
+
+theorem rational_frozen_physical_system_iff {k m : ℕ} {I : Type*}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (R : RationalLinearSystem I (m+(m*k+(k*k+0*m)))) (q : Fin m → ℚ) :
+    (rationalFrozenPhysicalSystem K D R).Satisfies q ↔
+      R.Satisfies (intervalPack q (fun i a => q i*D i a) K (H := 0) Fin.elim0) := by
+  have he (a : I) : (∑ i, (∑ j, R.coefficient a j*rationalFrozenCoefficient D j i)*q i)+
+      (∑ j, R.coefficient a j*rationalFrozenConstant K j)=
+      ∑ j, R.coefficient a j*intervalPack q (fun i b => q i*D i b) K (H := 0) Fin.elim0 j := by
+    simp_rw [←rational_frozen_physical_eval K D q,mul_add,Finset.sum_add_distrib,
+      Finset.sum_mul,Finset.mul_sum,mul_assoc]
+    rw [Finset.sum_comm]
+  change (∀ a, (∑ i, (∑ j, R.coefficient a j*rationalFrozenCoefficient D j i)*q i) ≤
+    R.rightSide a-(∑ j, R.coefficient a j*rationalFrozenConstant K j)) ↔ _
+  constructor
+  · intro h a
+    rw [←he a]
+    linarith [h a]
+  · intro h a
+    have hh := h a
+    rw [←he a] at hh
+    linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSparseReduction.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Freeze rational interval recovery before sparsification; no second gap slack. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem interval_physical_recovered_pack {k m H : ℕ}
+    (lo hi : Fin m → Fin k → ℚ) (x : Fin (m+(m*k+(k*k+H*m))) → ℚ)
+    (hV : ∀ i a, lo i a*intervalQ x i ≤ intervalV x i a ∧
+      intervalV x i a ≤ hi i a*intervalQ x i) :
+    intervalPhysicalVector x=intervalPack (intervalQ x)
+      (fun i a => intervalQ x i*rationalIntervalRecover lo (intervalV x) (intervalQ x) i a)
+      (intervalK x) (H := 0) Fin.elim0 := by
+  have hprod := rational_interval_recovered_product lo hi (intervalV x) (intervalQ x) hV
+  rw [interval_physical_projection]
+  congr 1
+  funext i a
+  exact (hprod i a).symm
+
+theorem rational_interval_sparse_reduction {k m : ℕ} {I : Type} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hx : RationalIntervalPoint loK hiK lo hi (intervalV x) (intervalK x) p (intervalQ x)
+      M r ρ η (intervalAux x)) (hR : R.Satisfies (intervalPhysicalVector x)) :
+    let D := rationalIntervalRecover lo (intervalV x) (intervalQ x)
+    ∃ q B, rationalSparseGapAlgorithm (intervalK x) D p M r ρ η
+      (rationalFrozenPhysicalSystem (intervalK x) D R)=some (q,B) := by
+  let D := rationalIntervalRecover lo (intervalV x) (intervalQ x)
+  have hg := (rational_interval_gap_recovered (intervalK x) lo hi (intervalV x) p
+    (intervalQ x) M r ρ η hlu
+    (rational_interval_point_gap loK hiK lo hi (intervalV x) (intervalK x) p
+      (intervalQ x) M r ρ η (intervalAux x) hx).2.2).2
+  have hR' : (rationalFrozenPhysicalSystem (intervalK x) D R).Satisfies (intervalQ x) := by
+    apply (rational_frozen_physical_system_iff (intervalK x) D R (intervalQ x)).mpr
+    rw [←interval_physical_recovered_pack lo hi x hx.2.2.1]
+    exact hR
+  have hsys : ((rationalGapSystem (intervalK x) D p M r ρ η).append
+      (rationalFrozenPhysicalSystem (intervalK x) D R)).Satisfies (intervalQ x) :=
+    (rational_linear_append_iff _ _ _).mpr
+      ⟨(rational_gap_conditions_iff_linear _ D p _ M r ρ η).mp hg,hR'⟩
+  apply rational_sparse_gap_algorithm_complete (intervalK x) D p M r ρ η _ hM hη
+    (fun i => (intervalQ (α := ℚ) x i : ℝ))
+    ((rational_linear_real_cast_iff _ _).mpr hsys)
+    (fun i => by exact_mod_cast hg.1 i)
+  exact_mod_cast hg.2.1
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSparseAlgorithm.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual rational interval recovery and finite-support search. No polynomial cost. -/
+@[expose] public section
+namespace SparseCompletion
+
+abbrev RationalSparseIntervalData (k m : ℕ) :=
+  (Fin m → ℚ) × ((Fin k → Fin k → ℚ) ×
+    ((Fin m → Fin k → ℚ) × (Fin m → Fin m → ℚ)))
+
+def rationalIntervalSparseAlgorithm {k m : ℕ} {I : Type*} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m)))) :
+    Option (RationalSparseIntervalData k m) :=
+  (rationalLPSolve _ (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R)).bind
+    (fun x =>
+      let K := intervalK x
+      let D := rationalIntervalRecover lo (intervalV x) (intervalQ x)
+      (rationalSparseGapAlgorithm K D p M r ρ η (rationalFrozenPhysicalSystem K D R)).map
+        (fun w => (w.1,(K,(D,w.2)))))
+
+theorem rational_interval_sparse_algorithm_origin {k m : ℕ} {I : Type*} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (q : Fin m → ℚ) (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (hout : rationalIntervalSparseAlgorithm loK hiK lo hi p M r ρ η R=some (q,(K,(D,B)))) :
+    ∃ x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℚ,
+      RationalIntervalPoint loK hiK lo hi (intervalV x) (intervalK x) p (intervalQ x)
+        M r ρ η (intervalAux x) ∧ R.Satisfies (intervalPhysicalVector x) ∧
+      K=intervalK x ∧ D=rationalIntervalRecover lo (intervalV x) (intervalQ x) ∧
+      rationalSparseGapAlgorithm K D p M r ρ η (rationalFrozenPhysicalSystem K D R)=some (q,B) := by
+  unfold rationalIntervalSparseAlgorithm at hout
+  cases hx : rationalLPSolve _ (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R) with
+  | none => simp only [hx,Option.bind_none] at hout; cases hout
+  | some x =>
+    cases hs : rationalSparseGapAlgorithm (intervalK x)
+      (rationalIntervalRecover lo (intervalV x) (intervalQ x)) p M r ρ η
+      (rationalFrozenPhysicalSystem (intervalK x)
+        (rationalIntervalRecover lo (intervalV x) (intervalQ x)) R) with
+    | none => simp only [hx,Option.bind_some,hs,Option.map_none] at hout; cases hout
+    | some w =>
+      have he : (w.1,(intervalK x,(rationalIntervalRecover lo (intervalV x) (intervalQ x),w.2)))=
+          (q,(K,(D,B))) := Option.some.inj
+        (by simpa only [hx,Option.bind_some,hs,Option.map_some] using hout)
+      obtain ⟨hqw,hrest⟩ := Prod.mk.inj he
+      obtain ⟨hK,hrest⟩ := Prod.mk.inj hrest
+      obtain ⟨hD,hB⟩ := Prod.mk.inj hrest
+      have hp := (rational_interval_repertoire_system_iff loK hiK lo hi p M r ρ η R x).mp
+        (rational_lp_solve_sound _ _ x hx)
+      refine ⟨x,(rational_interval_system_point loK hiK lo hi p M r ρ η x).mp hp.1,
+        hp.2,hK.symm,hD.symm,?_⟩
+      have hw : w=(q,B) := Prod.ext hqw hB
+      simpa only [hK,hD,hw] using hs
+
+theorem rational_interval_sparse_algorithm_real_complete {k m : ℕ} {I : Type} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hf : ∃ x, (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).RealSatisfies x) :
+    ∃ w, rationalIntervalSparseAlgorithm loK hiK lo hi p M r ρ η R=some w := by
+  obtain ⟨x,hx⟩ := rational_lp_real_complete _ _ hf
+  have hp := (rational_interval_repertoire_system_iff loK hiK lo hi p M r ρ η R x).mp
+    (rational_lp_solve_sound _ _ x hx)
+  obtain ⟨q,B,hq⟩ := rational_interval_sparse_reduction loK hiK lo hi p M r ρ η R x hM hη hlu
+    ((rational_interval_system_point loK hiK lo hi p M r ρ η x).mp hp.1) hp.2
+  exact ⟨(q,(intervalK x,(rationalIntervalRecover lo (intervalV x) (intervalQ x),B))),by
+    simp only [rationalIntervalSparseAlgorithm,hx,Option.bind_some,hq,Option.map_some]⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSparseConditions.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_interval_sparse_algorithm_conditions {k m : ℕ} {I : Type*} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (q : Fin m → ℚ) (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (hout : rationalIntervalSparseAlgorithm loK hiK lo hi p M r ρ η R=some (q,(K,(D,B)))) :
+    R.Satisfies (intervalPack q (fun i a => q i*D i a) K (H := 0) Fin.elim0) ∧
+    (∀ a b, K a b= -K b a) ∧ (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+    (∀ i a, lo i a ≤ D i a ∧ D i a ≤ hi i a) ∧
+    RationalGapConditions K D p q M r ρ η ∧
+    ResidualRatConditions q (rationalScore D p) M (ρ+η) B ∧
+    (Finset.univ.filter fun i => q i ≠ 0).card ≤
+      min m (k+rationalGridSize M r η+Fintype.card I+1) := by
+  obtain ⟨x,hpoint,_,hK,hD,hs⟩ := rational_interval_sparse_algorithm_origin
+    loK hiK lo hi p M r ρ η R q K D B hout
+  have hg := rational_interval_point_gap loK hiK lo hi (intervalV x) (intervalK x) p
+    (intervalQ x) M r ρ η (intervalAux x) hpoint
+  have hd := (rational_interval_gap_recovered (intervalK x) lo hi (intervalV x) p
+    (intervalQ x) M r ρ η hlu hg.2.2).1
+  rw [←hK] at hg
+  rw [←hD] at hd
+  have hh := rational_sparse_gap_algorithm_sound K D p M r ρ η
+    (rationalFrozenPhysicalSystem K D R) q B hs
+  exact ⟨(rational_frozen_physical_system_iff K D R q).mp hh.1,hg.1,hg.2.1,hd,
+    hh.2.1,hh.2.2.1,hh.2.2.2⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSparseGame.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_interval_sparse_algorithm_game {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalModel k m I) (ρ : ℚ)
+    (q : Fin m → ℚ) (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (hout : rationalIntervalSparseAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r ρ d.η d.R=
+      some (q,(K,(D,B)))) :
+    ((fun i => (q i : ℝ)),(fun i a => (D i a : ℝ)),
+      (fun a b => (K a b : ℝ)),(fun i j => (B i j : ℝ))) ∈ intervalGameClass d ∧
+    (∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ))) (blockWeights (fun a => (d.p a : ℝ)) (fun i => (q i : ℝ))) a ≤
+        (ρ : ℝ)+(d.η : ℝ)) ∧
+    (Finset.univ.filter fun i => q i ≠ 0).card ≤
+      min m (k+rationalGridSize d.M d.r d.η+Fintype.card I+1) := by
+  rcases rational_interval_sparse_algorithm_conditions d.loK d.hiK d.lo d.hi d.p d.M d.r
+    ρ d.η d.R d.orderedCross q K D B hout with ⟨hR,hK,hKI,hDI,hg,hB,hc⟩
+  have hBreal := (residual_rat_real_iff q (rationalScore D d.p) d.M (ρ+d.η) B).mp hB
+  have hRR := (rational_linear_real_cast_iff d.R
+    (intervalPack q (fun i a => q i*D i a) K (H := 0) Fin.elim0)).mpr hR
+  have hpack : (fun j => (intervalPack (α := ℚ) q (fun i a => q i*D i a) K (H := 0) Fin.elim0 j : ℝ))=
+      intervalPack (fun i => (q i : ℝ)) (fun i a => (q i : ℝ)*(D i a : ℝ))
+        (fun a b => (K a b : ℝ)) (H := 0) Fin.elim0 := by
+    funext j
+    unfold intervalPack intervalVariableEncode
+    generalize (rationalIntervalVariableEquiv k m 0).symm j=v
+    rcases v with i | v
+    · rfl
+    · rcases v with a | v
+      · exact Rat.cast_mul _ _
+      · rcases v with a | a
+        · rfl
+        · exact Fin.elim0 a.1
+  rw [hpack] at hRR
+  have hclass := interval_game_class_of_witness d (fun i => (q i : ℝ))
+    (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ))
+    (fun i => by exact_mod_cast hg.1 i) (by exact_mod_cast hg.2.1)
+    (fun a b => by change (K a b : ℝ)= -(K b a : ℝ); exact_mod_cast hK a b)
+    (fun a b => by exact_mod_cast hKI a b) (fun i a => by exact_mod_cast hDI i a)
+    hBreal.1 hBreal.2.1 hRR
+  obtain ⟨_,_,_,_,_,hs⟩ := rational_interval_sparse_algorithm_origin d.loK d.hiK d.lo d.hi d.p
+    d.M d.r ρ d.η d.R q K D B hout
+  have hfull := rational_sparse_gap_algorithm_full_game K D d.p q d.M d.r ρ d.η d.positiveSlack
+    d.anchorNonneg d.normalized hK
+    (fun a b => ⟨le_trans (d.coreLower a b) (hKI a b).1,
+      le_trans (hKI a b).2 (d.coreUpper a b)⟩)
+    (fun i a => ⟨le_trans (d.crossLower i a) (hDI i a).1,
+      le_trans (hDI i a).2 (d.crossUpper i a)⟩)
+    (rationalFrozenPhysicalSystem K D d.R) B hs
+  exact ⟨hclass,hfull.2.2.2.2,hc⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSparseApproximation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Sparse actual witnesses at the original interval bisection bracket. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalIntervalSparseApproximation {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalModel k m I) (n : ℕ) :
+    Option ((ℚ × ℚ) × RationalSparseIntervalData k m) :=
+  let z := rationalIntervalSearch d.loK d.hiK d.lo d.hi d.p d.M d.r d.η d.R n
+  (rationalIntervalSparseAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r z.2 d.η d.R).map
+    (fun w => (z,w))
+
+theorem rational_interval_sparse_approximation_origin {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalModel k m I) (n : ℕ) (z : ℚ × ℚ) (w : RationalSparseIntervalData k m)
+    (hout : rationalIntervalSparseApproximation d n=some (z,w)) :
+    z=rationalIntervalSearch d.loK d.hiK d.lo d.hi d.p d.M d.r d.η d.R n ∧
+      rationalIntervalSparseAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r z.2 d.η d.R=some w := by
+  cases ha : rationalIntervalSparseAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r
+    (rationalIntervalSearch d.loK d.hiK d.lo d.hi d.p d.M d.r d.η d.R n).2 d.η d.R with
+  | none => simp only [rationalIntervalSparseApproximation,ha,Option.map_none] at hout; cases hout
+  | some v =>
+    have he := Option.some.inj (by
+      simpa only [rationalIntervalSparseApproximation,ha,Option.map_some] using hout)
+    obtain ⟨rfl,rfl⟩ := Prod.mk.inj he
+    exact ⟨rfl,ha⟩
+
+theorem rational_interval_sparse_approximation_complete {k m : ℕ} {I : Type} [Fintype I]
+    (d : RationalIntervalModel k m I) (n : ℕ) :
+    ∃ z w, rationalIntervalSparseApproximation d n=some (z,w) := by
+  have hz := rational_interval_search_bracket d.loK d.hiK d.lo d.hi d.p d.M d.r d.η d.R n
+    (le_of_lt d.positiveBound) (rational_interval_model_upper_feasible d)
+  let z := rationalIntervalSearch d.loK d.hiK d.lo d.hi d.p d.M d.r d.η d.R n
+  obtain ⟨w,hw⟩ := rational_interval_sparse_algorithm_real_complete d.loK d.hiK d.lo d.hi d.p
+    d.M d.r z.2 d.η d.R d.positiveBound d.positiveSlack d.orderedCross
+    ((rational_linear_real_feasible_iff _).mpr hz.2.2.2.1)
+  dsimp only [z] at hw
+  exact ⟨z,w,by simp only [rationalIntervalSparseApproximation,hw,Option.map_some,z]⟩
+
+theorem rational_interval_sparse_approximation_value_enclosure {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalIntervalModel k m I) (n : ℕ)
+    (z : ℚ × ℚ) (w : RationalSparseIntervalData k m)
+    (hout : rationalIntervalSparseApproximation d n=some (z,w)) :
+    (z.1 : ℝ) ≤ intervalGameValue d ∧ intervalGameValue d ≤ (z.2 : ℝ)+(d.η : ℝ) ∧
+      z.2-z.1 ≤ d.M/((2 : ℕ) : ℚ)^n := by
+  have hz := (rational_interval_sparse_approximation_origin d n z w hout).1
+  obtain ⟨z',x,B,ha⟩ := rational_interval_model_approximation_complete d n
+  have hz' := (rational_interval_approximation_output d n z' x B ha).1
+  have hb := rational_interval_approximation_value_enclosure d n z' x B ha
+  rw [hz',←hz] at hb
+  exact hb
+
+def rationalIntervalSparseAccurate {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalModel k m I) (ζ : ℚ) :=
+  rationalIntervalSparseApproximation d (rationalLogRounds d.M ζ)
+
+theorem rational_interval_sparse_accurate_complete {k m : ℕ} {I : Type} [Fintype I]
+    (d : RationalIntervalModel k m I) (ζ : ℚ) :
+    ∃ z w, rationalIntervalSparseAccurate d ζ=some (z,w) :=
+  rational_interval_sparse_approximation_complete d (rationalLogRounds d.M ζ)
+
+theorem rational_interval_sparse_accurate_value_enclosure {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalIntervalModel k m I) (ζ : ℚ) (hζ : 0 < ζ)
+    (z : ℚ × ℚ) (w : RationalSparseIntervalData k m)
+    (hout : rationalIntervalSparseAccurate d ζ=some (z,w)) :
+    (z.1 : ℝ) ≤ intervalGameValue d ∧ intervalGameValue d ≤ (z.2 : ℝ)+(d.η : ℝ) ∧
+      (z.2 : ℝ)+(d.η : ℝ)-(z.1 : ℝ) < (d.η : ℝ)+(ζ : ℝ) := by
+  have hb := rational_interval_sparse_approximation_value_enclosure d (rationalLogRounds d.M ζ) z w hout
+  have hw : z.2-z.1 < ζ := lt_of_le_of_lt hb.2.2 (rational_log_rounds_width d.M ζ hζ)
+  have hwR : (z.2 : ℝ)-(z.1 : ℝ) < (ζ : ℝ) := by exact_mod_cast hw
+  exact ⟨hb.1,hb.2.1,by linarith⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSparseInitialized.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Physical compatibility and sparse value search form one actual rational program. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalSparseIntervalPackOutput {k m : ℕ}
+    (w : (ℚ × ℚ) × RationalSparseIntervalData k m) : RationalIntervalRationalOutput k m where
+  bracket := w.1
+  q := w.2.1
+  K := w.2.2.1
+  D := w.2.2.2.1
+  B := w.2.2.2.2
+
+def rationalIntervalSparseInitialized {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) : Option (RationalIntervalRationalOutput k m) :=
+  (rationalIntervalInitialize d).bind (fun model =>
+    (rationalIntervalSparseAccurate model ζ).map rationalSparseIntervalPackOutput)
+
+theorem rational_interval_sparse_initialized_origin {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalSparseInitialized d ζ=some o) :
+    ∃ model, rationalIntervalInitialize d=some model ∧
+      ∃ z w, rationalIntervalSparseAccurate model ζ=some (z,w) ∧
+        o=rationalSparseIntervalPackOutput (z,w) := by
+  cases hm : rationalIntervalInitialize d with
+  | none => simp only [rationalIntervalSparseInitialized,hm,Option.bind_none] at hout; cases hout
+  | some model =>
+    cases ha : rationalIntervalSparseAccurate model ζ with
+    | none => simp only [rationalIntervalSparseInitialized,hm,Option.bind_some,ha,Option.map_none] at hout; cases hout
+    | some w =>
+      have he : rationalSparseIntervalPackOutput w=o := Option.some.inj
+        (by simpa only [rationalIntervalSparseInitialized,hm,Option.bind_some,ha,Option.map_some] using hout)
+      exact ⟨model,rfl,w.1,w.2,ha,he.symm⟩
+
+theorem rational_interval_sparse_initialized_complete {k m : ℕ} {I : Type} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) (hc : d.Compatible) :
+    ∃ o, rationalIntervalSparseInitialized d ζ=some o := by
+  obtain ⟨z,w,hout⟩ := rational_interval_sparse_accurate_complete (d.toModel hc) ζ
+  exact ⟨rationalSparseIntervalPackOutput (z,w),by
+    simp only [rationalIntervalSparseInitialized,rational_interval_initialize_complete d hc,
+      Option.bind_some,hout,Option.map_some]⟩
+
+theorem rational_interval_sparse_initialized_none_iff {k m : ℕ} {I : Type} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) :
+    rationalIntervalSparseInitialized d ζ=none ↔ ¬d.Compatible := by
+  constructor
+  · intro hn hc
+    obtain ⟨o,ho⟩ := rational_interval_sparse_initialized_complete d ζ hc
+    rw [hn] at ho
+    cases ho
+  · intro hn
+    have hi := (rational_interval_initialize_none_iff d).mpr hn
+    simp only [rationalIntervalSparseInitialized,hi,Option.bind_none]
+
+theorem rational_interval_sparse_initialized_game {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalSparseInitialized d ζ=some o) :
+    ∃ hc : d.Compatible,
+      o.realData ∈ intervalGameClass (d.toModel hc) ∧
+      (∀ a, response (intervalGameMatrix o.realData) (intervalGameWeights (d.toModel hc) o.realData) a ≤
+        (o.bracket.2 : ℝ)+(d.η : ℝ)) ∧
+      (Finset.univ.filter fun i => o.q i ≠ 0).card ≤
+        min m (k+rationalGridSize d.M d.r d.η+Fintype.card I+1) := by
+  obtain ⟨model,hm,z,w,ha,rfl⟩ := rational_interval_sparse_initialized_origin d ζ o hout
+  obtain ⟨hc,he⟩ := rational_interval_initialize_sound d model hm
+  subst model
+  have hAlg := (rational_interval_sparse_approximation_origin (d.toModel hc)
+    (rationalLogRounds d.M ζ) z w ha).2
+  exact ⟨hc,rational_interval_sparse_algorithm_game (d.toModel hc) z.2
+    w.1 w.2.1 w.2.2.1 w.2.2.2 hAlg⟩
+
+theorem rational_interval_sparse_initialized_value {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalIntervalParameters k m I)
+    (ζ : ℚ) (hζ : 0 < ζ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalSparseInitialized d ζ=some o) :
+    ∃ hc : d.Compatible,
+      (o.bracket.1 : ℝ) ≤ intervalGameValue (d.toModel hc) ∧
+      intervalGameValue (d.toModel hc) ≤ (o.bracket.2 : ℝ)+(d.η : ℝ) ∧
+      (o.bracket.2 : ℝ)+(d.η : ℝ)-(o.bracket.1 : ℝ) < (d.η : ℝ)+(ζ : ℝ) := by
+  obtain ⟨model,hm,z,w,ha,rfl⟩ := rational_interval_sparse_initialized_origin d ζ o hout
+  obtain ⟨hc,he⟩ := rational_interval_initialize_sound d model hm
+  subst model
+  exact ⟨hc,rational_interval_sparse_accurate_value_enclosure (d.toModel hc) ζ hζ z w ha⟩
+
+end SparseCompletion

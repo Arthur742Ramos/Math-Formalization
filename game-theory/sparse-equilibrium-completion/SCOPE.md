@@ -102,7 +102,7 @@ This closes functional rational LP feasibility/reconstruction and fixed-anchor
 solver/bisection composition. It does not close polynomial complexity:
 Fourier–Motzkin elimination can grow exponentially. The paper's efficient
 flow-based reconstruction, encoded bit bounds, executable sorted separation,
-actual sparse selection remain explicit work.
+global sparse-output composition remain explicit work.
 The source-explicit within/across-bin payoff construction is also still open.
 Whole-paper submission readiness remains false.
 
@@ -115,7 +115,7 @@ Whole-paper submission readiness remains false.
 | Real feasibility and actual rational outputs | `rational_interval_system_real_point`, `real_interval_completion_rational_lp`, `rational_interval_algorithm_real_lp_complete`, `real_interval_completion_algorithm_success`, `rational_interval_algorithm_full_game` | Same rational matrix over Real; for M>0 and p≥0, every compatible real completion at ρ supplies a feasible point at the actual rational H. With η>0 and consistent cross intervals, genuine finite rational elimination returns actual coordinates and residual B. With p≥0, p-mass+r=1, η>0, consistent cross intervals and endpoints inside ±M, returned K,D lie in original intervals and the actual full game is normalized, skew, bounded and satisfies every response≤ρ+η. M>0 is needed for completeness. The base program has no repertoire parameter; the augmented program below handles finite physical linear constraints and interval value search. |
 | Automatic fixed-anchor accuracy and returned certificate | `rational_log_rounds_width`, `rational_gap_accurate_value_enclosure`, `rational_gap_algorithm_checked_output`, `rational_certified_approximation_complete`, `rational_certified_approximation_sound` | Actual natural log2/ceil round choice n=log2(ceil(M/ζ))+1; M/2^n<ζ for ζ>0. Total returned program carries a rational full-container certificate and actual compact-class value bracket L≤V≤U+η with shifted width<η+ζ. Checker explicitly verifies same anchors and declared finite rational repertoire. The support container is all residual labels, may contain zero weights, and carries no claimed sparse cardinality bound. |
 
-These are functional rational algorithms. The source's sparse vertex-selection
+These are functional rational algorithms. The source's polynomial sparse vertex-selection
 program, efficient sorted separation/flow construction, polynomial operation and
 bit bounds, and explicit within/across-bin residual payoff algorithm remain
 unformalized. Fourier–Motzkin may be exponential. The canonical-grid sparse
@@ -132,7 +132,7 @@ Whole-paper submission readiness remains false.
 | Actual optimum | `interval_game_class_compact`, `interval_game_class_nonempty`, `interval_game_value_attained`, `interval_game_class_game_facts`, `interval_game_value_bounds` | The full original q,D,K,B class with physical R(q,qD,K) is compact by finite boxes and closed polynomial constraints. The q≤r box is derived from nonnegative mass. Actual exploitability attains its infimum V∈[0,M]. Class/value proofs allow arbitrary I intersections; algorithms require finite I. Nonempty full action type is explicit for finite row supremum/value. |
 | Output and value | `rational_interval_output_physical`, `rational_interval_algorithm_output_class`, `rational_interval_approximation_value_enclosure`, `rational_interval_accurate_complete`, `rational_interval_accurate_value_enclosure` | Every returned rational game belongs to the original physical class; qD=V includes zero q. True attained optimal witnesses contradict computed infeasible lower endpoints; returned all-row games certify the upper endpoint. Thus L≤V≤U+η, U−L≤M/2^n and automatic log2/ceil rounds give shifted width<η+ζ for ζ>0. One η slack; no optimum oracle or sparse-output bound. |
 
-Sparse vertex selection, efficient sorted separation
+Polynomial sparse vertex selection, efficient sorted separation
 and flow, source-explicit within/across-bin payoff construction and operation/bit
 bounds remain open. For M=1, the source fixedapprox result claims time polynomial in input bit
 length, inverse η and log(1/ζ). Fourier–Motzkin may be exponential; a bounded pinned-library audit found
@@ -149,8 +149,7 @@ instance for compatible real games. Initialization and the combined approximatio
 return None exactly for incompatibility. Returned fixed-dimension rational
 q,K,D,B belong to the original class and have all responses at most U+η. With
 nonempty full action type and ζ>0, L≤V≤U+η and shifted width<η+ζ. This is not
-a parser validating arbitrary untrusted rational inputs. It supplies neither
-sparse output nor a polynomial-time bound.
+a parser validating arbitrary untrusted rational inputs. The original dense initializer supplies no polynomial-time bound. The sparse follow-on below reuses its actual compatibility decision.
 
 Exact new contracts are `rational_interval_success_compatible`,
 `rational_interval_compatible_success`,
@@ -159,7 +158,7 @@ Exact new contracts are `rational_interval_success_compatible`,
 `rational_interval_initialized_complete`, `rational_interval_initialized_none_iff`,
 `rational_interval_initialized_game` and `rational_interval_initialized_value`.
 The proofs cover all dimensions; executable controls include zero residual
-actions and the fully empty incompatible case. Sparse selection, efficient sorted
+actions and the fully empty incompatible case. Global sparse-output composition, efficient sorted
 separation/flow, explicit within/across-bin payoff construction, and polynomial
 cost bounds remain outside this integrated tranche. Whole-paper readiness is false.
 
@@ -182,6 +181,24 @@ nonnegative template anchors and normalization are input fields, not an
 untrusted-data parser. The returned game may have dense residual support.
 The finite node-count theorem is not a machine/bit-cost bound. The source's
 polynomial-time guarantee, efficient sorted separation and max-flow
-reconstruction, a proved sparse selection program, explicit within/across-bin
+reconstruction, global sparse-output composition, explicit within/across-bin
 payoff construction and canonical release verification remain open. No
 whole-paper or submission readiness is claimed.
+
+
+## Executable sparse interval output
+
+| Scope | Lean contracts | Exact result and limits |
+| --- | --- | --- |
+| Compression at the executed grid | `rational_gap_real_compression` | Nonnegative real finite-gap points compress to min(m,k+actualH+card(I)+1), preserving every actual H call, anchor-response coefficient and additional linear row. Mass zero is handled directly. This real intermediate also preserves original zeros. |
+| Actual support search | `rational_sparse_gap_search_sound`, `rational_sparse_gap_search_complete`, `rational_sparse_gap_algorithm_sound`, `rational_sparse_gap_algorithm_complete` | All 2^m masks are enumerated by the existing actual tuple program; zero-outside-mask rows are imposed on the actual rational LP. Real compression and proved real-to-rational feasibility transfer force actual success. The returned rational q preserves gap feasibility and R, with min(m,k+actualH+card(I)+1) support. No sparse input witness, choice oracle or fake real decision supplies the algorithm. |
+| Returned full games | `rational_sparse_gap_algorithm_full_game`, `rational_sparse_gap_algorithm_full_support` | With explicit normalized, bounded skew anchor data and eta>0, actual q,B form a normalized bounded skew full game with every response<=rho+eta, and total support<=min(k+m,2k+actualH+card(I)+1). |
+| Interval recovery and physical rows | `rational_frozen_physical_system_iff`, `rational_interval_sparse_reduction`, `rational_interval_sparse_algorithm_real_complete`, `rational_interval_sparse_algorithm_conditions`, `rational_interval_sparse_algorithm_game` | Rational K,D are recovered at original rho before compression. Original arbitrary R(q,qD,K) becomes affine in q, with the constant K contribution subtracted exactly. Actual sparse q,K,D,B retain original interval membership and all physical rows, with only one eta. Final q is not asserted to preserve an arbitrary original real witness's individual moments. |
+| Actual automatic value program | `rational_interval_sparse_accurate_complete`, `rational_interval_sparse_accurate_value_enclosure`, `rational_interval_sparse_initialized_none_iff`, `rational_interval_sparse_initialized_game`, `rational_interval_sparse_initialized_value` | Compatible admissible parameters give actual sparse rational output; None iff physical incompatibility. The original compact class's true value satisfies L<=V<=U+eta with shifted width<eta+zeta for zeta>0. Full action nonemptiness remains explicit for values. Runtime does not take a physical-nonemptiness proof. Completeness/computed incompatibility theorems use row type I:Type, matching the existing finite-compression theorem; soundness permits Type*. |
+
+This is an exhaustive functional algorithm. It does not prove polynomial
+operation or bit complexity, sorted separation or efficient flow reconstruction.
+It does not yet replace the dense global floor-grid output. Arbitrary extra
+physical rows contribute card(I) to the support bound; no sparsity independent
+of positive residual floors is claimed. Source-explicit bin payoffs, global
+sparse-output composition and canonical release checks remain open.

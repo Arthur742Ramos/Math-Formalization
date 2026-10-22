@@ -101,7 +101,7 @@ compact-class optimistic values and their support-budget restrictions attain
 actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
 games and universal sparse upper witnesses give the quantified joint-k order.
 Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
-The remaining sparse-output selection, source-specific flow construction, executable sorted
+The remaining global sparse-output composition, source-specific flow construction, executable sorted
 separation and operation/bit-cost clauses are tracked in
 SCOPE.md; whole-paper and submission readiness remain unestablished.
 
@@ -147,7 +147,7 @@ steps. Upper feasibility at M is proved from the game premises; no LP oracle is
 supplied. Returned data also satisfy the normalized full-game reconstruction
 contracts and the declared repertoire. The resulting shifted enclosure has width
 at most η+M/2^n. Fourier–Motzkin elimination may be exponential: this does not
-prove the paper's polynomial LP/flow or bit-cost guarantee. Efficient separation, sparse-output selection and source-specific
+prove the paper's polynomial LP/flow or bit-cost guarantee. Efficient separation, polynomial sparse selection and source-specific
 residual payoff algorithms remain tracked in SCOPE.md. Native exact-source
 verification must be tied to the frozen commit by its external receipt.
 
@@ -174,7 +174,7 @@ contains all original q,D,K,B satisfying intervals and R(q,qD,K); its actual
 exploitability optimum is attained. The returned rational game gives L≤V≤U+η
 and automatic shifted bracket width<η+ζ for ζ>0. Physical consistency assumes
 neither a tolerance bound nor solver success. Full action nonemptiness is
-explicit for exploitability/value. Sparse-output selection and polynomial operation/bit guarantees remain open.
+explicit for exploitability/value. Global sparse-output composition and polynomial operation/bit guarantees remain open.
 
 
 The initializer now computes physical consistency for admissible rational
@@ -185,8 +185,7 @@ instance for compatible real games. Initialization and the combined approximatio
 return None exactly for incompatibility. Returned fixed-dimension rational
 q,K,D,B belong to the original class and have all responses at most U+η. With
 nonempty full action type and ζ>0, L≤V≤U+η and shifted width<η+ζ. This is not
-a parser validating arbitrary untrusted rational inputs. It supplies neither
-sparse output nor a polynomial-time bound.
+a parser validating arbitrary untrusted rational inputs. The original dense initializer supplies no polynomial-time bound; the sparse extension below uses the same physical decision.
 
 
 The floor-constrained global allocation algorithm now executes rational grid
@@ -205,6 +204,30 @@ the fixed-anchor algorithm, without an asserted rounding-invariance theorem.
 
 These are functional correctness results. Explicit lists contain
 (1+floor(1/δ))^k nodes; Fourier–Motzkin may grow exponentially. No FPTAS
-running-time or sparse-output algorithm guarantee is inferred. Efficient sorted
-separation/flow, polynomial arithmetic/bit bounds, actual sparse selection and
+running-time guarantee is inferred. Efficient sorted
+separation/flow, polynomial arithmetic/bit bounds, global sparse-output composition and
 the paper's explicit within/across-bin payoff construction remain unformalized.
+
+
+An actual finite-support algorithm now handles fixed-anchor rational games and
+interval observations. It enumerates all 2^m residual support masks and solves
+the corresponding rational linear programs, then reconstructs rational residual
+payoffs once at the original rho+eta. Every returned q satisfies the original
+finite gap and physical repertoire. Its support is at most
+min(m,k+H+card(I)+1), where H is the actual rational grid size and I indexes the
+additional physical rows. In a normalized full game, total support is at most
+min(k+m,2k+H+card(I)+1). The row term is necessary for arbitrary repertoires;
+positive residual floors can force every residual action to remain supported.
+
+For interval input, the program first recovers rational K,D at the original rho,
+then exactly substitutes qD and fixed K into the original physical constraints.
+Sparse output belongs to that original interval class and all responses are at
+most U+eta. Automatic bisection retains L<=V<=U+eta and shifted width<eta+zeta
+for positive zeta. The compatibility initializer produces actual fixed-dimension
+rational q,K,D,B, with None exactly for incompatibility. Zero residual mass and
+empty indices are included. This proof gives functional correctness, not the
+paper's polynomial-time sparsification algorithm. The global floor-grid program
+above still returns its original possibly dense output; composition with this
+sparse interval program remains separate. The final rational LP point preserves
+feasibility and support bounds; equality to an arbitrary original real witness's
+individual moments or support is not claimed for that final point.

@@ -142,3 +142,15 @@ public import RationalFloorAccuracyParameters
 public import RationalFloorAutomatic
 public import RationalFloorTotalClass
 public import RationalFloorDecision
+public import RationalGapCompression
+public import RationalSparseSupport
+public import RationalSparseGapSearch
+public import RationalSparseGapAlgorithm
+public import RationalSparseGapGame
+public import RationalFrozenPhysical
+public import RationalIntervalSparseReduction
+public import RationalIntervalSparseAlgorithm
+public import RationalIntervalSparseConditions
+public import RationalIntervalSparseGame
+public import RationalIntervalSparseApproximation
+public import RationalIntervalSparseInitialized

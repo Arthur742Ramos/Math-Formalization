@@ -397,3 +397,28 @@ The candidate still requires integrated imported-meaning closure, exact public
 helper identity comparison, both exports/kernels and fresh immutable-commit
 verification. Compiling drafts and preflight checks do not establish those
 gates. No submission or publication is authorized or attempted.
+
+
+## Sparse rational output follow-on
+
+Preserved677b724c9ff7e5ef31e4a4fb212994534217a478 passed all12 native gates and
+independent exact-source authentication:179 mathematics modules,752 actual
+math-source audits,642 protected contracts and218 files. Its complete-history
+bundle and tag remain outside this source. This history does not verify later
+source bytes.
+
+The next12 mathematics modules add31 independently reviewed, pinned-toolchain
+compiled proofs: exact actual-grid compression, finite support LP search,
+actual rational payoff completion, full-game validity, interval physical-row
+reduction, sparse output, automatic value brackets and computed physical
+initialization. The candidate has191 math modules,783 math-source audits and
+673 protected contracts. Three additional control modules have23 passing
+guards: actual support reduction from4actions to at most3, mass/nonnegativity,
+skew/bounded payoff and response checks, incompatible interval floors, exact
+rational recovered data, empty/zero-mass behavior, initialized sparse output
+and automatic width. These controls are outside the31 selected math contracts.
+
+Integrated imported-meaning review and a fresh frozen-commit native build,
+protected dependency comparison, altered-helper rejection, exports and both
+kernels remain required for the new candidate. Scratch compile successes do
+not substitute for those gates. No registry or journal submission occurred.
