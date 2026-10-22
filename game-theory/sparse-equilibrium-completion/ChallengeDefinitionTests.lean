@@ -75,5 +75,39 @@ theorem caratheodory_contract {ν : Type} {s : Set (ν → ℝ)} {x : ν → ℝ
       (∑ j, w j) = 1 ∧ (∑ j, w j • z j) = x :=
   eq_pos_convex_span_of_mem_convexHull hx
 
+
+theorem compact_filter_literal {ν : Type} (s : Set (ν → ℝ)) : IsCompact s ↔
+    ∀ ⦃f : Filter (ν → ℝ)⦄, f.NeBot → f ≤ Filter.principal s → ∃ x ∈ s, ClusterPt x f := by
+  constructor
+  · intro h f hf hfs
+    let := hf
+    exact h hfs
+  · intro h f hf hfs
+    exact h hf hfs
+
+theorem closed_complement_literal {ν : Type} (s : Set (ν → ℝ)) :
+    IsClosed s ↔ IsOpen sᶜ := ⟨fun h => h.isOpen_compl, fun h => ⟨h⟩⟩
+
+theorem continuous_open_preimage {ν : Type} (f : (ν → ℝ) → ℝ) (h : Continuous f)
+    (s : Set ℝ) (hs : IsOpen s) : IsOpen (f ⁻¹' s) := h.isOpen_preimage s hs
+
+theorem strong_dual_literal {ν : Type} : StrongDual ℝ (ν → ℝ) = ((ν → ℝ) →L[ℝ] ℝ) := rfl
+
+theorem linear_map_laws {ν : Type} (L : (ν → ℝ) →ₗ[ℝ] ℝ) (x y : ν → ℝ) (a : ℝ) :
+    L (x+y) = L x+L y ∧ L (a • x) = a*L x := ⟨L.map_add x y, L.map_smul a x⟩
+
+theorem continuous_linear_fields {ν : Type} (f : StrongDual ℝ (ν → ℝ)) :
+    Continuous f ∧ ∀ x y, f (x+y) = f x+f y := ⟨f.continuous, f.map_add⟩
+
+theorem set_image_literal {ν : Type} (f : (ν → ℝ) → (ν → ℝ)) (s : Set (ν → ℝ)) (y : ν → ℝ) :
+    y ∈ f '' s ↔ ∃ x ∈ s, f x = y := Iff.rfl
+
+theorem compact_closed_separation_contract {ν : Type} [Fintype ν]
+    (s t : Set (ν → ℝ)) (hs : Convex ℝ s) (hsc : IsCompact s)
+    (ht : Convex ℝ t) (htc : IsClosed t) (hd : Disjoint s t) :
+    ∃ (f : StrongDual ℝ (ν → ℝ)) (u v : ℝ),
+      (∀ a ∈ s, f a < u) ∧ u < v ∧ ∀ b ∈ t, v < f b :=
+  geometric_hahn_banach_compact_closed hs hsc ht htc hd
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

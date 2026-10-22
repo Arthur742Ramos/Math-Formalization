@@ -6,6 +6,7 @@ public import Mathlib.Tactic
 public import Mathlib.Analysis.Convex.Caratheodory
 public import Mathlib.LinearAlgebra.AffineSpace.FiniteDimensional
 public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.Analysis.LocallyConvex.Separation
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -944,8 +945,8 @@ theorem anchor_response_of_moments {ι : Type*} [Fintype ι]
   simpa only [mul_comm] using hm h
 
 /-- Original-game sparsification through all scalar completion conditions,
-    including omitted-row guards. Turning these conditions into B' remains
-    the separate weighted completion sufficiency theorem. -/
+    including omitted-row guards. SparseCompletionWitness combines these
+    conditions with the weighted completion sufficiency theorem. -/
 theorem game_sparse_cut_certificate {ι : Type*} [Fintype ι]
     (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
     (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
@@ -1002,6 +1003,581 @@ theorem exact_game_sparse_cut_certificate {ι : Type*} [Fintype ι]
   intro i
   have hg := response_guard q (score D p) B M r 0 hq hmass
     (fun i j => (hbound i j).1) hres i
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: CompletionDual.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+
+open scoped BigOperators
+
+namespace SparseCompletion
+noncomputable section
+
+def lowerPositive {ι : Type*} (a : ℝ) (y : ι → ℝ) (i : ι) : ℝ := by
+  classical
+  exact if 0 < y i then y i-a else 0
+
+def positiveSet {ι : Type*} [Fintype ι] (y : ι → ℝ) : Finset ι := by
+  classical
+  exact Finset.univ.filter fun i => 0 < y i
+
+def weightedVariation {ι : Type*} [Fintype ι] (q y : ι → ℝ) : ℝ :=
+  (∑ i, ∑ j, q i*q j*|y i-y j|)/2
+
+theorem masked_sum {ι : Type*} [Fintype ι] [DecidableEq ι] (s : Finset ι) (f : ι → ℝ) :
+    (∑ i, if i ∈ s then f i else 0) = mass s f := by
+  unfold mass
+  calc
+    _ = ∑ i ∈ s, if i ∈ s then f i else 0 := by
+      symm
+      apply Finset.sum_subset (Finset.subset_univ s)
+      intro i _ hi
+      exact ite_eq_right hi
+    _ = _ := Finset.sum_congr rfl fun i hi => ite_eq_left hi
+
+theorem complement_masked_sum {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (s : Finset ι) (q : ι → ℝ) (r : ℝ) (hr : ∑ i, q i = r) :
+    (∑ i, if i ∈ s then 0 else q i) = r-mass s q := by
+  have heq : (∑ i, if i ∈ s then q i else 0)+(∑ i, if i ∈ s then 0 else q i) = r := by
+    rw [← Finset.sum_add_distrib, ← hr]
+    exact Finset.sum_congr rfl fun i _ => by split <;> simp_all
+  rw [masked_sum] at heq
+  linarith
+
+theorem outer_product_sum {ι : Type*} [Fintype ι] (f g : ι → ℝ) :
+    (∑ i, ∑ j, f i*g j) = (∑ i, f i)*(∑ j, g j) := by
+  rw [Finset.sum_mul]
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [Finset.mul_sum]
+
+theorem positive_pair_decomposition {ι : Type*} (a : ℝ) (q y : ι → ℝ)
+    (hy : ∀ i, 0 ≤ y i) (hmin : ∀ i, 0 < y i → a ≤ y i) (i j : ι) :
+    q i*q j*|y i-y j| = q i*q j*|lowerPositive a y i-lowerPositive a y j| +
+      a*((if 0 < y i then q i else 0)*(if 0 < y j then 0 else q j)+
+         (if 0 < y i then 0 else q i)*(if 0 < y j then q j else 0)) := by
+  classical
+  by_cases hi : 0 < y i <;> by_cases hj : 0 < y j
+  · simp only [lowerPositive, ite_eq_left hi, ite_eq_left hj, mul_zero, zero_mul, add_zero]
+    congr 2
+    ring
+  · have hj0 : y j = 0 := by linarith [hy j]
+    have hia : 0 ≤ y i-a := by linarith [hmin i hi]
+    simp [lowerPositive, hi, hj0, abs_of_nonneg (hy i), abs_of_nonneg hia]
+    ring
+  · have hi0 : y i = 0 := by linarith [hy i]
+    have hja : y j-a ≥ 0 := by linarith [hmin j hj]
+    simp only [lowerPositive, ite_eq_right hi, ite_eq_left hj]
+    rw [hi0]
+    simp only [zero_sub, abs_neg, abs_of_nonneg (hy j), abs_of_nonneg hja,
+      mul_zero]
+    ring
+  · have hi0 : y i = 0 := by linarith [hy i]
+    have hj0 : y j = 0 := by linarith [hy j]
+    simp [lowerPositive, hi0, hj0]
+
+theorem variation_lower_positive {ι : Type*} [Fintype ι]
+    (a : ℝ) (q y : ι → ℝ) (r : ℝ) (hr : ∑ i, q i = r)
+    (hy : ∀ i, 0 ≤ y i) (hmin : ∀ i, 0 < y i → a ≤ y i) :
+    weightedVariation q y = weightedVariation q (lowerPositive a y)+
+      a*mass (positiveSet y) q*(r-mass (positiveSet y) q) := by
+  classical
+  let s := positiveSet y
+  let f : ι → ℝ := fun i => if i ∈ s then q i else 0
+  let g : ι → ℝ := fun i => if i ∈ s then 0 else q i
+  have hf : ∑ i, f i = mass s q := masked_sum s q
+  have hg : ∑ i, g i = r-mass s q := complement_masked_sum s q r hr
+  have hp : ∀ i j, q i*q j*|y i-y j| = q i*q j*|lowerPositive a y i-lowerPositive a y j|+
+      a*(f i*g j+g i*f j) := by
+    intro i j
+    simpa only [f, g, s, positiveSet, Finset.mem_filter, Finset.mem_univ, true_and] using
+      positive_pair_decomposition a q y hy hmin i j
+  have hcross : (∑ i, ∑ j, a*(f i*g j+g i*f j)) =
+      a*((∑ i, f i)*(∑ j, g j)+(∑ i, g i)*(∑ j, f j)) := by
+    simp only [← Finset.mul_sum, Finset.sum_add_distrib]
+    rw [← Finset.sum_mul, ← Finset.sum_mul]
+  have hsum : (∑ i, ∑ j, q i*q j*|y i-y j|) =
+      (∑ i, ∑ j, q i*q j*|lowerPositive a y i-lowerPositive a y j|)+
+      a*((∑ i, f i)*(∑ j, g j)+(∑ i, g i)*(∑ j, f j)) := by
+    simp_rw [hp]
+    simp only [Finset.sum_add_distrib]
+    rw [hcross]
+  rw [hf, hg] at hsum
+  unfold weightedVariation
+  dsimp [s] at hsum
+  linarith
+
+theorem demand_lower_positive {ι : Type*} [Fintype ι]
+    (a : ℝ) (q v y : ι → ℝ) (hy : ∀ i, 0 ≤ y i) :
+    (∑ i, q i*v i*y i) = (∑ i, q i*v i*lowerPositive a y i)+
+      a*(∑ i ∈ positiveSet y, q i*v i) := by
+  classical
+  have hp : ∀ i, q i*v i*y i = q i*v i*lowerPositive a y i+
+      a*(if i ∈ positiveSet y then q i*v i else 0) := by
+    intro i
+    by_cases hi : 0 < y i
+    · simp only [lowerPositive, positiveSet, Finset.mem_filter,
+        Finset.mem_univ, true_and, ite_eq_left hi]
+      ring
+    · have hi0 : y i = 0 := by linarith [hy i]
+      simp [lowerPositive, positiveSet, hi0]
+  simp_rw [hp]
+  rw [Finset.sum_add_distrib, ← Finset.mul_sum, masked_sum]
+  rfl
+
+/-- Finite layer-cake extension of all subset cuts to every nonnegative
+    linear test vector. No separation or completion theorem is assumed. -/
+theorem cuts_dual_bound {ι : Type*} [Fintype ι]
+    (q v : ι → ℝ) (M r : ℝ) (hr : ∑ i, q i = r) (hc : Cuts M r q v)
+    (y : ι → ℝ) (hy : ∀ i, 0 ≤ y i) :
+    (∑ i, q i*v i*y i) ≤ M*weightedVariation q y := by
+  classical
+  by_cases hs : (positiveSet y).Nonempty
+  · let s := positiveSet y
+    let t := s.image y
+    have ht : t.Nonempty := hs.image y
+    let a := t.min' ht
+    have hamem : a ∈ t := Finset.min'_mem t ht
+    obtain ⟨i, hi, hai⟩ := Finset.mem_image.mp hamem
+    have ha : 0 < a := by
+      rw [← hai]
+      exact (Finset.mem_filter.mp hi).2
+    have hmin : ∀ j, 0 < y j → a ≤ y j := by
+      intro j hj
+      apply Finset.min'_le
+      exact Finset.mem_image.mpr ⟨j, Finset.mem_filter.mpr ⟨Finset.mem_univ j, hj⟩, rfl⟩
+    have hnonneg : ∀ j, 0 ≤ lowerPositive a y j := by
+      intro j
+      dsimp [lowerPositive]
+      split
+      · rename_i hj
+        linarith [hmin j hj]
+      · exact le_rfl
+    have hsub : positiveSet (lowerPositive a y) ⊆ s.erase i := by
+      intro j hj
+      have hjpos : 0 < lowerPositive a y j := (Finset.mem_filter.mp hj).2
+      have hjy : 0 < y j := by
+        by_contra hn
+        simp only [lowerPositive, ite_eq_right hn] at hjpos
+        linarith
+      have hji : j ≠ i := by
+        intro he
+        subst j
+        simp [lowerPositive, hai, ha] at hjpos
+      exact Finset.mem_erase.mpr ⟨hji, Finset.mem_filter.mpr ⟨Finset.mem_univ j, hjy⟩⟩
+    have hcard : (positiveSet (lowerPositive a y)).card < (positiveSet y).card :=
+      lt_of_le_of_lt (Finset.card_le_card hsub) (Finset.card_erase_lt_of_mem hi)
+    have ih := cuts_dual_bound q v M r hr hc (lowerPositive a y) hnonneg
+    calc
+      _ = (∑ j, q j*v j*lowerPositive a y j)+a*(∑ j ∈ positiveSet y, q j*v j) :=
+        demand_lower_positive a q v y hy
+      _ ≤ M*weightedVariation q (lowerPositive a y)+a*(M*mass (positiveSet y) q*(r-mass (positiveSet y) q)) :=
+        add_le_add ih (mul_le_mul_of_nonneg_left (hc (positiveSet y)) (le_of_lt ha))
+      _ = _ := by
+        rw [variation_lower_positive a q y r hr hy hmin]
+        ring
+  · have hy0 : ∀ i, y i = 0 := by
+      intro i
+      have hn : ¬0 < y i := by
+        intro hi
+        exact hs ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ i, hi⟩⟩
+      linarith [hy i]
+    simp only [hy0, mul_zero, Finset.sum_const_zero, weightedVariation, sub_self, abs_zero, zero_div, le_refl]
+termination_by (positiveSet y).card
+decreasing_by exact hcard
+
+end
+end SparseCompletion
+
+/- Fixed source body: CompletionGeometry.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+
+open scoped BigOperators
+open Set
+
+namespace SparseCompletion
+noncomputable section
+
+def skewBox {ι : Type*} (M : ℝ) : Set (ι → ι → ℝ) :=
+  {B | IsSkew B ∧ ∀ i j, -M ≤ B i j ∧ B i j ≤ M}
+
+def weightedNegResponse {ι : Type*} [Fintype ι] (q : ι → ℝ) :
+    (ι → ι → ℝ) →ₗ[ℝ] (ι → ℝ) where
+  toFun B i := -q i*response B q i
+  map_add' B C := by
+    ext i
+    change -q i*response (B+C) q i = -q i*response B q i+-q i*response C q i
+    simp only [response, Pi.add_apply, add_mul, Finset.sum_add_distrib]
+    ring
+  map_smul' a B := by
+    ext i
+    change -q i*(∑ j, (a*B i j)*q j) = a*(-q i*∑ j, B i j*q j)
+    simp only [mul_assoc, ← Finset.mul_sum]
+    ring
+
+theorem skewBox_zero {ι : Type*} (M : ℝ) (hM : 0 ≤ M) :
+    (0 : ι → ι → ℝ) ∈ skewBox M := by
+  constructor
+  · intro i j
+    simp
+  · intro i j
+    exact ⟨neg_nonpos.mpr hM, hM⟩
+
+theorem skewBox_compact {ι : Type*} [Fintype ι] (M : ℝ) : IsCompact (skewBox (ι := ι) M) := by
+  have hclosed : IsClosed {B : ι → ι → ℝ | IsSkew B} := by
+    have heq : {B : ι → ι → ℝ | IsSkew B} = ⋂ i, ⋂ j, {B | B i j = -B j i} := by
+      ext B
+      simp only [Set.mem_ofPred_eq, Set.mem_iInter, IsSkew]
+    rw [heq]
+    exact isClosed_iInter fun i => isClosed_iInter fun j => isClosed_eq (by fun_prop) (by fun_prop)
+  have heq : skewBox (ι := ι) M =
+      Set.Icc (fun _ _ => -M) (fun _ _ => M) ∩ {B | IsSkew B} := by
+    ext B
+    constructor
+    · rintro ⟨hsk, hb⟩
+      exact ⟨⟨fun i j => (hb i j).1, fun i j => (hb i j).2⟩, hsk⟩
+    · rintro ⟨⟨hl, hu⟩, hsk⟩
+      exact ⟨hsk, fun i j => ⟨hl i j, hu i j⟩⟩
+  rw [heq]
+  exact isCompact_Icc.inter_right hclosed
+
+theorem skewBox_convex {ι : Type*} (M : ℝ) : Convex ℝ (skewBox (ι := ι) M) := by
+  intro B hB C hC a b ha hb hab
+  constructor
+  · intro i j
+    change a*B i j+b*C i j = -(a*B j i+b*C j i)
+    rw [hB.1 i j, hC.1 i j]
+    ring
+  · intro i j
+    change -M ≤ a*B i j+b*C i j ∧ a*B i j+b*C i j ≤ M
+    constructor
+    · calc
+        -M = a*(-M)+b*(-M) := by rw [← add_mul, hab, one_mul]
+        _ ≤ _ := add_le_add (mul_le_mul_of_nonneg_left (hB.2 i j).1 ha)
+          (mul_le_mul_of_nonneg_left (hC.2 i j).1 hb)
+    · calc
+        _ ≤ a*M+b*M := add_le_add (mul_le_mul_of_nonneg_left (hB.2 i j).2 ha)
+          (mul_le_mul_of_nonneg_left (hC.2 i j).2 hb)
+        _ = M := by rw [← add_mul, hab, one_mul]
+
+def weightedScoreSet {ι : Type*} [Fintype ι] (q : ι → ℝ) (M : ℝ) : Set (ι → ℝ) :=
+  weightedNegResponse q '' skewBox M
+
+theorem weightedScoreSet_compact {ι : Type*} [Fintype ι] (q : ι → ℝ) (M : ℝ) :
+    IsCompact (weightedScoreSet q M) :=
+  (skewBox_compact M).image (weightedNegResponse q).continuous_of_finiteDimensional
+
+theorem weightedScoreSet_convex {ι : Type*} [Fintype ι] (q : ι → ℝ) (M : ℝ) :
+    Convex ℝ (weightedScoreSet q M) := (skewBox_convex M).linear_image (weightedNegResponse q)
+
+theorem weightedScoreSet_zero {ι : Type*} [Fintype ι] (q : ι → ℝ) (M : ℝ) (hM : 0 ≤ M) :
+    (0 : ι → ℝ) ∈ weightedScoreSet q M :=
+  ⟨0, skewBox_zero M hM, (weightedNegResponse q).map_zero⟩
+
+def upperOrthant {ι : Type*} (d : ι → ℝ) : Set (ι → ℝ) := {z | ∀ i, d i ≤ z i}
+
+theorem upperOrthant_closed {ι : Type*} (d : ι → ℝ) : IsClosed (upperOrthant d) := by
+  have heq : upperOrthant d = ⋂ i, {z | d i ≤ z i} := by
+    ext z
+    simp only [upperOrthant, mem_ofPred_eq, mem_iInter]
+  rw [heq]
+  exact isClosed_iInter fun i => isClosed_le continuous_const (by fun_prop)
+
+theorem upperOrthant_convex {ι : Type*} (d : ι → ℝ) : Convex ℝ (upperOrthant d) := by
+  intro z hz w hw a b ha hb hab i
+  change d i ≤ a*z i+b*w i
+  calc
+    d i = a*d i+b*d i := by rw [← add_mul, hab, one_mul]
+    _ ≤ _ := add_le_add (mul_le_mul_of_nonneg_left (hz i) ha) (mul_le_mul_of_nonneg_left (hw i) hb)
+
+theorem dual_evaluation {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (f : StrongDual ℝ (ι → ℝ)) (z : ι → ℝ) :
+    f z = ∑ i, f (Pi.single i 1)*z i := by
+  have hz : z = ∑ i, z i • Pi.single i (1 : ℝ) := by
+    ext j
+    simp [Pi.single_apply]
+  conv_lhs => rw [hz, map_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [map_smul]
+  ring
+
+theorem separator_coefficients_nonnegative {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (d : ι → ℝ) (f : StrongDual ℝ (ι → ℝ)) (v : ℝ)
+    (hf : ∀ z ∈ upperOrthant d, v < f z) : ∀ i, 0 ≤ f (Pi.single i 1) := by
+  intro i
+  have hfd : v < f d := hf d (fun _ => le_rfl)
+  by_contra hn
+  have hneg : f (Pi.single i 1) < 0 := lt_of_not_ge hn
+  let a := (f d-v+1)/(-f (Pi.single i 1))
+  have ha : 0 ≤ a := le_of_lt (div_pos (by linarith) (neg_pos.mpr hneg))
+  have hz : d+a • Pi.single i (1 : ℝ) ∈ upperOrthant d := by
+    intro j
+    change d j ≤ d j+a*(Pi.single i (1 : ℝ) : ι → ℝ) j
+    have hsingle : 0 ≤ (Pi.single i (1 : ℝ) : ι → ℝ) j := by
+      simp only [Pi.single_apply]
+      split <;> norm_num
+    exact le_add_of_nonneg_right (mul_nonneg ha hsingle)
+  have ht := hf _ hz
+  rw [map_add, map_smul] at ht
+  have hprod : a*f (Pi.single i 1) = -(f d-v+1) := by
+    dsimp [a]
+    field_simp [ne_of_lt hneg]
+  change v < f d+a*f (Pi.single i 1) at ht
+  rw [hprod] at ht
+  linarith
+
+theorem skew_dot_identity {ι : Type*} [Fintype ι]
+    (q y : ι → ℝ) (B : ι → ι → ℝ) (hB : IsSkew B) :
+    (∑ i, y i*weightedNegResponse q B i) =
+      (∑ i, ∑ j, q i*q j*(-B i j)*(y i-y j))/2 := by
+  let S₁ := ∑ i, ∑ j, q i*q j*B i j*y i
+  let S₂ := ∑ i, ∑ j, q i*q j*B i j*y j
+  have hdot : (∑ i, y i*weightedNegResponse q B i) = -S₁ := by
+    change (∑ i, y i*(-q i*response B q i)) = -S₁
+    dsimp [S₁, response]
+    rw [← Finset.sum_neg_distrib]
+    simp only [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro i _
+    rw [← Finset.sum_neg_distrib]
+    exact Finset.sum_congr rfl fun j _ => by ring
+  have hswap : S₂ = -S₁ := by
+    dsimp [S₁, S₂]
+    rw [Finset.sum_comm, ← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl
+    intro i _
+    rw [← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [hB j i]
+    ring
+  have hterm : ∀ i j, q i*q j*(-B i j)*(y i-y j) =
+      -(q i*q j*B i j*y i)+q i*q j*B i j*y j := by intros; ring
+  have hdiff : (∑ i, ∑ j, q i*q j*(-B i j)*(y i-y j)) = -S₁+S₂ := by
+    simp_rw [hterm]
+    simp only [Finset.sum_add_distrib, Finset.sum_neg_distrib]
+    rfl
+  rw [hdot, hdiff, hswap]
+  ring
+
+def orderedMatrix {ι : Type*} (M : ℝ) (y : ι → ℝ) (i j : ι) : ℝ := by
+  classical
+  exact if y j < y i then -M else if y i < y j then M else 0
+
+theorem orderedMatrix_skew {ι : Type*} (M : ℝ) (y : ι → ℝ) : IsSkew (orderedMatrix M y) := by
+  intro i j
+  rcases lt_trichotomy (y i) (y j) with hij | heq | hji
+  · simp [orderedMatrix, hij, not_lt.mpr (le_of_lt hij)]
+  · simp [orderedMatrix, heq]
+  · simp [orderedMatrix, hji, not_lt.mpr (le_of_lt hji)]
+
+theorem orderedMatrix_mem_box {ι : Type*} (M : ℝ) (y : ι → ℝ) (hM : 0 ≤ M) :
+    orderedMatrix M y ∈ skewBox M := by
+  refine ⟨orderedMatrix_skew M y, ?_⟩
+  intro i j
+  unfold orderedMatrix
+  split_ifs <;> constructor <;> linarith
+
+theorem orderedMatrix_pair {ι : Type*} (M : ℝ) (y : ι → ℝ) (i j : ι) :
+    (-orderedMatrix M y i j)*(y i-y j) = M*|y i-y j| := by
+  classical
+  by_cases hij : y j < y i
+  · simp only [orderedMatrix, ite_eq_left hij, neg_neg, abs_of_pos (sub_pos.mpr hij)]
+  · by_cases hji : y i < y j
+    · simp only [orderedMatrix, ite_eq_right hij, ite_eq_left hji, abs_of_neg (sub_neg.mpr hji)]
+      ring
+    · have heq : y i = y j := by linarith
+      simp [orderedMatrix, heq]
+
+theorem orderedMatrix_dot {ι : Type*} [Fintype ι] (M : ℝ) (q y : ι → ℝ) :
+    (∑ i, y i*weightedNegResponse q (orderedMatrix M y) i) = M*weightedVariation q y := by
+  rw [skew_dot_identity q y _ (orderedMatrix_skew M y)]
+  have ht : ∀ i j, q i*q j*(-orderedMatrix M y i j)*(y i-y j) = M*(q i*q j*|y i-y j|) := by
+    intro i j
+    calc
+      _ = q i*q j*((-orderedMatrix M y i j)*(y i-y j)) := by ring
+      _ = _ := by rw [orderedMatrix_pair]; ring
+  simp only [ht, ← Finset.mul_sum, weightedVariation]
+  ring
+
+/-- Every family of subset cuts has a bounded skew realization in weighted
+    coordinates. Zero weights require no cancellation in this theorem. -/
+theorem cuts_weighted_completion {ι : Type*} [Fintype ι]
+    (q v : ι → ℝ) (M r : ℝ) (hM : 0 ≤ M)
+    (hr : ∑ i, q i = r) (hc : Cuts M r q v) :
+    ∃ B ∈ skewBox M, ∀ i, q i*v i ≤ -q i*response B q i := by
+  classical
+  let d : ι → ℝ := fun i => q i*v i
+  have hinter : (weightedScoreSet q M ∩ upperOrthant d).Nonempty := by
+    by_contra hn
+    have hdisj : Disjoint (weightedScoreSet q M) (upperOrthant d) := by
+      rw [Set.disjoint_iff_inter_eq_empty]
+      exact Set.not_nonempty_iff_eq_empty.mp hn
+    obtain ⟨f, u, w, hleft, huw, hright⟩ :=
+      geometric_hahn_banach_compact_closed (weightedScoreSet_convex q M)
+        (weightedScoreSet_compact q M) (upperOrthant_convex d)
+        (upperOrthant_closed d) hdisj
+    let y : ι → ℝ := fun i => f (Pi.single i 1)
+    have hy : ∀ i, 0 ≤ y i := separator_coefficients_nonnegative d f w hright
+    have hbound : f d ≤ M*weightedVariation q y := by
+      rw [dual_evaluation]
+      have hterms : (∑ i, f (Pi.single i 1)*d i) = ∑ i, q i*v i*y i := by
+        apply Finset.sum_congr rfl
+        intro i _
+        dsimp [d, y]
+        ring
+      rw [hterms]
+      exact cuts_dual_bound q v M r hr hc y hy
+    have hscore : weightedNegResponse q (orderedMatrix M y) ∈ weightedScoreSet q M :=
+      ⟨orderedMatrix M y, orderedMatrix_mem_box M y hM, rfl⟩
+    have heval : f (weightedNegResponse q (orderedMatrix M y)) = M*weightedVariation q y := by
+      rw [dual_evaluation]
+      exact orderedMatrix_dot M q y
+    have hl := hleft _ hscore
+    have hrgt := hright d (fun _ => le_rfl)
+    rw [heval] at hl
+    linarith
+  obtain ⟨z, ⟨B, hB, rfl⟩, hz⟩ := hinter
+  exact ⟨B, hB, hz⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: CompletionCriterion.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- The weighted cuts and global guards reconstruct every row, including
+    rows whose prescribed probability is zero. -/
+theorem completion_of_cuts_and_guards {ι : Type*} [Fintype ι]
+    (q t : ι → ℝ) (M r ρ : ℝ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i = r)
+    (hc : Cuts M r q (fun i => t i-ρ)) (hg : ∀ i, t i ≤ ρ+M*r) :
+    ∃ B, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ i, t i+response B q i ≤ ρ := by
+  classical
+  obtain ⟨B, hB, hw⟩ := cuts_weighted_completion q (fun i => t i-ρ) M r hM hr hc
+  let s := Finset.univ.filter fun i => q i ≠ 0
+  have hs : ∀ j, j ∉ s → q j = 0 := by
+    intro j hj
+    by_contra hn
+    exact hj (Finset.mem_filter.mpr ⟨Finset.mem_univ j, hn⟩)
+  refine ⟨compactCompletion s M B, compactCompletion_skew s M B (fun i _ j _ => hB.1 i j),
+    compactCompletion_bounds s M B hM (fun i _ j _ => hB.2 i j), ?_⟩
+  intro i
+  by_cases hi : i ∈ s
+  · have hqi : 0 < q i := lt_of_le_of_ne (hq i) (Ne.symm (Finset.mem_filter.mp hi).2)
+    have hrow : t i+response B q i ≤ ρ := by
+      have hh := hw i
+      nlinarith
+    have hsum : (∑ j ∈ s, B i j*q j) = response B q i := by
+      apply Finset.sum_subset (Finset.subset_univ s)
+      intro j _ hj
+      rw [hs j hj, mul_zero]
+    rw [compactCompletion_response_on s M B q hs i hi, hsum]
+    exact hrow
+  · rw [compactCompletion_response_off s M r B q hs hr i hi]
+    linarith [hg i]
+
+/-- Exact weighted completion criterion, with no positivity requirement on
+    individual weights and no division by a probability coordinate. -/
+theorem weighted_completion_iff {ι : Type*} [Fintype ι]
+    (q t : ι → ℝ) (M r ρ : ℝ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i = r) :
+    (∃ B, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ i, t i+response B q i ≤ ρ) ↔
+    (∀ i, t i ≤ ρ+M*r) ∧ Cuts M r q (fun i => t i-ρ) := by
+  classical
+  constructor
+  · rintro ⟨B, hsk, hb, hresp⟩
+    exact ⟨response_guard q t B M r ρ hq hr (fun i j => (hb i j).1) hresp,
+      completion_cuts_necessary q t B M r ρ hq hr hsk (fun i j => (hb i j).1) hresp⟩
+  · rintro ⟨hg, hc⟩
+    exact completion_of_cuts_and_guards q t M r ρ hM hq hr hc hg
+
+end
+end SparseCompletion
+
+/- Fixed source body: SparseCompletionWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- A moment-preserving sparse witness with a reconstructed bounded skew
+    completion. Every original row is retained in the response inequality. -/
+theorem game_sparse_completion {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hB : IsSkew B) (hbound : ∀ i j, -M ≤ B i j)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+1+gridSize M r η ∧
+      (∀ h, anchorResponse K D p q' h = anchorResponse K D p q h) ∧
+      IsSkew B' ∧ (∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  obtain ⟨q', hq', hm', hs, hn, ha, hg, hc⟩ :=
+    game_sparse_cut_certificate k K D B p q M r ρ η hM hr hη hq hmass hB hbound hresp
+  obtain ⟨B', hsk', hb', hres'⟩ := completion_of_cuts_and_guards q' (score D p)
+    M r (ρ+η) (le_of_lt hM) hq' hm' hc hg
+  refine ⟨q', B', hq', hm', hs, hn, ha, hsk', hb', ?_⟩
+  apply (block_response_bounds_iff K D B' p q' (ρ+η)).mpr
+  refine ⟨?_, hres'⟩
+  intro h
+  rw [ha h]
+  have hh := ((block_response_bounds_iff K D B p q ρ).mp hresp).1 h
+  linarith
+
+/-- Exact equilibria save the bottom hinge constraint, hence one support
+    point, while still producing an actual completion on all original rows. -/
+theorem exact_game_sparse_completion {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B) (hbound : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+gridSize M r η ∧
+      (∀ h, anchorResponse K D p q' h = anchorResponse K D p q h) ∧
+      IsSkew B' ∧ (∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) := by
+  classical
+  obtain ⟨q', hq', hm', hs, hn, ha, hg, hc⟩ :=
+    exact_game_sparse_cut_certificate k K D B p q M r η hM hr hη hp hq hmass hK hB hbound hresp
+  obtain ⟨B', hsk', hb', hres'⟩ := completion_of_cuts_and_guards q' (score D p)
+    M r η (le_of_lt hM) hq' hm' hc hg
+  refine ⟨q', B', hq', hm', hs, hn, ha, hsk', hb', ?_⟩
+  apply (block_response_bounds_iff K D B' p q' η).mpr
+  refine ⟨?_, hres'⟩
+  intro h
+  rw [ha h]
+  have hh := ((block_response_bounds_iff K D B p q 0).mp hresp).1 h
   linarith
 
 end

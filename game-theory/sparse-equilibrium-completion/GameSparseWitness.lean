@@ -22,8 +22,8 @@ theorem anchor_response_of_moments {ι : Type*} [Fintype ι]
   simpa only [mul_comm] using hm h
 
 /-- Original-game sparsification through all scalar completion conditions,
-    including omitted-row guards. Turning these conditions into B' remains
-    the separate weighted completion sufficiency theorem. -/
+    including omitted-row guards. SparseCompletionWitness combines these
+    conditions with the weighted completion sufficiency theorem. -/
 theorem game_sparse_cut_certificate {ι : Type*} [Fintype ι]
     (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
     (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)

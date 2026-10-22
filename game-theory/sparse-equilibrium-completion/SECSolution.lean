@@ -1,2 +1,2 @@
 module
-public import GameSparseWitness
+public import SparseCompletionWitness

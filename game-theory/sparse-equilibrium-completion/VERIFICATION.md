@@ -47,3 +47,15 @@ account/duplicate state, obtain exact-source canonical and rendering receipts,
 and run the repository release-packet guard. A security-changing runner requires
 specific action-time authorization. No prior topology-job runner approval or
 submission authorization transfers to this project.
+
+## Completion reconstruction follow-on
+
+The next source tranche adds finite layer-cake duality, compact-convex separation,
+the exact completion criterion (including zero weights), and actual sparse game
+witnesses. A development build passed 3142 jobs before the expanded imported-
+definition bridges. Independent internal mathematical review found no defect in
+the three reconstruction modules; it explicitly excludes algorithmic complexity.
+These edits do not inherit the preceding checkpoint's exact-source verification.
+A separate immutable external receipt will identify the final commit and all
+actual build/export/comparator/kernel outcomes. No canonical sandbox, rendering,
+registry eligibility or submission claim follows from native checks.

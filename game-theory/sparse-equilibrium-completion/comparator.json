@@ -26,7 +26,13 @@
     "SparseCompletion.exact_score_mean_zero",
     "SparseCompletion.game_sparse_cut_certificate",
     "SparseCompletion.exact_game_sparse_cut_certificate",
-    "SparseCompletion.compact_block_certificate_iff"
+    "SparseCompletion.compact_block_certificate_iff",
+    "SparseCompletion.cuts_dual_bound",
+    "SparseCompletion.cuts_weighted_completion",
+    "SparseCompletion.completion_of_cuts_and_guards",
+    "SparseCompletion.weighted_completion_iff",
+    "SparseCompletion.game_sparse_completion",
+    "SparseCompletion.exact_game_sparse_completion"
   ],
   "definition_names": [],
   "permitted_axioms": [

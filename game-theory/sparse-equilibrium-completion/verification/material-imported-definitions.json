@@ -26,7 +26,13 @@
     "Submodule.span",
     "Module.finrank",
     "Finset.card",
-    "Fintype.card"
+    "Fintype.card",
+    "IsCompact",
+    "IsClosed",
+    "Continuous",
+    "LinearMap",
+    "ContinuousLinearMap",
+    "Set.image"
   ],
   "material_declarations": [
     {
@@ -52,7 +58,13 @@
         "SparseCompletion.exact_score_mean_zero",
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
-        "SparseCompletion.compact_block_certificate_iff"
+        "SparseCompletion.compact_block_certificate_iff",
+        "SparseCompletion.cuts_dual_bound",
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -89,7 +101,13 @@
         "SparseCompletion.exact_score_mean_zero",
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
-        "SparseCompletion.compact_block_certificate_iff"
+        "SparseCompletion.compact_block_certificate_iff",
+        "SparseCompletion.cuts_dual_bound",
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -124,7 +142,13 @@
         "SparseCompletion.exact_score_mean_zero",
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
-        "SparseCompletion.compact_block_certificate_iff"
+        "SparseCompletion.compact_block_certificate_iff",
+        "SparseCompletion.cuts_dual_bound",
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -147,7 +171,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The closed interval consists of x with a \u2264 x and x \u2264 b.",
       "dependency_expansion": "The grid/envelope domain includes both endpoints; interval_literal unfolds the actual predicate.",
@@ -167,7 +193,9 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
       "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
@@ -187,7 +215,9 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
       "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
@@ -207,7 +237,9 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
       "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
@@ -227,7 +259,9 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
       "dependency_expansion": "Negative inputs yield zero. Only nonnegative Mr/\u03b7 is used; square_root_meaning proves the needed square and sign laws.",
@@ -247,7 +281,9 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
       "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
@@ -269,7 +305,12 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Every point of the set is a star center of the set.",
       "dependency_expansion": "Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.",
@@ -291,7 +332,12 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.",
       "dependency_expansion": "Centers in the set quantify convexity. No topological closedness is assumed.",
@@ -313,7 +359,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The closure operator generated by all convex supersets.",
       "dependency_expansion": "Membership means belonging to every convex superset, proved by convex_hull_meaning. It is algebraic convex hull, not topological closure.",
@@ -335,7 +383,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Zero-sum finite affine relations with zero weighted subtraction have all coefficients zero.",
       "dependency_expansion": "The point-subtraction base cancels when coefficient sum is zero. affine_independence_literal and weighted_subtraction_zero_sum audit the actual meaning.",
@@ -357,7 +407,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "Finite weighted differences from a default affine base point.",
       "dependency_expansion": "This is used only with zero total weight, where the base is arbitrary and cancels. The checked bridge specializes to vector-space base zero.",
@@ -379,7 +431,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The linear map summing weights times differences from a specified base point.",
       "dependency_expansion": "Its application is the literal finite sum; the zero-sum bridge verifies the needed base-zero interpretation.",
@@ -401,7 +455,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The submodule spanned by all differences of two points in the set.",
       "dependency_expansion": "vector_span_literal unfolds the pairwise-difference image; the dimension is at most that of the ambient feature space.",
@@ -423,7 +479,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The infimum of all submodules containing the supplied generating set.",
       "dependency_expansion": "submodule_span_literal checks the precise intersection/infimum meaning; it is linear span, not an analytic closure.",
@@ -445,7 +503,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The natural-number conversion of the cardinal-valued module rank.",
       "dependency_expansion": "Cardinal.toNat is zero on infinite cardinals. Here the feature space is a finite real product and the checked finite_feature_dimension law gives its actual finite dimension; no infinite-dimensional rank is interpreted as a support bound.",
@@ -467,7 +527,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The number of elements in the underlying duplicate-free multiset.",
       "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
@@ -489,7 +551,9 @@
         "SparseCompletion.exact_sparse_cut_witness",
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
-        "SparseCompletion.exact_game_sparse_cut_certificate"
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
       ],
       "meaning": "The cardinality of the finite universal enumeration.",
       "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
@@ -499,6 +563,128 @@
         "Fintype.card"
       ],
       "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
+      ],
+      "meaning": "Every nontrivial filter containing the set has a cluster point in the set.",
+      "dependency_expansion": "The filter is finer than the principal filter of s. ClusterPt means the neighborhood filter and input filter have nontrivial infimum; in finite Euclidean space this gives ordinary compactness.",
+      "definition_excerpt": "IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IsCompact",
+        "ClusterPt"
+      ],
+      "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
+      ],
+      "meaning": "The complement is open.",
+      "dependency_expansion": "Closedness of the upper orthant is proved coordinatewise, rather than assumed. IsOpen is the given topology predicate.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
+      ],
+      "meaning": "Preimages of open sets are open.",
+      "dependency_expansion": "Used for the image of a compact set under the weighted response linear map and for continuous separating functionals.",
+      "definition_excerpt": "Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Continuous"
+      ],
+      "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "LinearMap",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
+      ],
+      "meaning": "A bundled additive scalar-preserving map.",
+      "dependency_expansion": "Specializing the scalar homomorphism to the identity on real numbers gives ordinary real linearity; weightedNegResponse is constructed with both laws.",
+      "definition_excerpt": "LinearMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearMap"
+      ],
+      "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "ContinuousLinearMap",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
+      ],
+      "meaning": "A bundled linear map together with continuity.",
+      "dependency_expansion": "StrongDual real E abbreviates E to real continuous linear maps. Only evaluation, linearity and continuity are used, not any topology on the dual itself.",
+      "definition_excerpt": "ContinuousLinearMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ContinuousLinearMap",
+        "StrongDual"
+      ],
+      "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "Set.image",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_weighted_completion",
+        "SparseCompletion.completion_of_cuts_and_guards",
+        "SparseCompletion.weighted_completion_iff",
+        "SparseCompletion.game_sparse_completion",
+        "SparseCompletion.exact_game_sparse_completion"
+      ],
+      "meaning": "The image comprises values of domain points in the specified set.",
+      "dependency_expansion": "weightedScoreSet is the image of the full bounded skew box. Membership yields an actual skew matrix with entry bounds, rather than an abstract unrelated score vector.",
+      "definition_excerpt": "Set.image",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.image"
+      ],
+      "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -904,18 +1090,150 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Constructions.lean#L287-L293"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "IsCompact",
+          "first_line": 288,
+          "last_line": 291,
+          "text": "/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a \u2208 s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  \u2200 \u2983f\u2984 [NeBot f], f \u2264 \ud835\udcdf s \u2192 \u2203 x \u2208 s, ClusterPt x f\n",
+          "sha256": "8a5dd611ce1298df5a9753168f4f6cd3dc9f56e66212e62e0043a0dcae9c2833",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L288-L291"
+        },
+        {
+          "name": "ClusterPt",
+          "first_line": 273,
+          "last_line": 276,
+          "text": "This is *not* the same as asking `\ud835\udcdd[\u2260] x \u2293 F \u2260 \u22a5`, which is called `AccPt` in Mathlib.\nSee `mem_closure_iff_clusterPt` in particular. -/\ndef ClusterPt (x : X) (F : Filter X) : Prop :=\n  NeBot (\ud835\udcdd x \u2293 F)\n",
+          "sha256": "d7e6461eaba5286f4ce60911310a14efaf7c3de5cdb0a65a389bba66bb18625d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L273-L276"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "IsClosed",
+          "first_line": 105,
+          "last_line": 109,
+          "text": "/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen s\u1d9c\n",
+          "sha256": "6cafabfa9ef982d1b32ae8de67fec2f5b937253e8c7662109c3468b44a8d947d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L105-L109"
+        },
+        {
+          "name": "Continuous",
+          "first_line": 152,
+          "last_line": 158,
+          "text": "/-- A function between topological spaces is continuous if the preimage\n  of every open set is open. Registered as a structure to make sure it is not unfolded by Lean. -/\n@[fun_prop, wikidata Q170058]\nstructure Continuous (f : X \u2192 Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : \u2200 s, IsOpen s \u2192 IsOpen (f \u207b\u00b9' s)\n",
+          "sha256": "443d6992d716d7fe76fe34b73e61f6e5c1580c2529036a04e15334c9a9661992",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L152-L158"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "sha256": "aea1c354ffc798aaa5397f2f58124bc2ed7b29d24227ae568d3f5745f839570d",
+      "git_blob_sha1": "5f68ae60b4f22094ae57c9e4ef28be13925e8ef7",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes H\u00f6lzl, Mario Carneiro, Anne Baanen,\n  Fr\u00e9d\u00e9ric Dupuis, Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearMap",
+          "first_line": 79,
+          "last_line": 88,
+          "text": "/-- A map `f` between an `R`-module and an `S`-module over a ring homomorphism `\u03c3 : R \u2192+* S`\nis semilinear if it satisfies the two properties `f (x + y) = f x + f y` and\n`f (c \u2022 x) = (\u03c3 c) \u2022 f x`. Elements of `LinearMap \u03c3 M M\u2082` (available under the notation\n`M \u2192\u209b\u2097[\u03c3] M\u2082`) are bundled versions of such maps. For plain linear maps (i.e. for which\n`\u03c3 = RingHom.id R`), the notation `M \u2192\u2097[R] M\u2082` is available. An unbundled version of plain linear\nmaps is available with the predicate `IsLinearMap`, but it should be avoided most of the time. -/\nstructure LinearMap {R S : Type*} [Semiring R] [Semiring S] (\u03c3 : R \u2192+* S) (M : Type*)\n    (M\u2082 : Type*) [AddCommMonoid M] [AddCommMonoid M\u2082] [Module R M] [Module S M\u2082] extends\n    AddHom M M\u2082, MulActionHom \u03c3 M M\u2082\n\n",
+          "sha256": "2e03b5e318103a173b2f094cf99d21e6394d07584e05ca989d12ed6961d72db4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean#L79-L88"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean",
+      "sha256": "d081051ca12363eeb95590a88decc17fd18f5bdc76c7fb30748f48ffc854d379",
+      "git_blob_sha1": "5fcb4432855e52781f08acce8e96afc667aa2f20",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 S\u00e9bastien Gou\u00ebzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jan-David Salchow, S\u00e9bastien Gou\u00ebzel, Jean Lo, Yury Kudryashov, Fr\u00e9d\u00e9ric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "ContinuousLinearMap",
+          "first_line": 56,
+          "last_line": 65,
+          "text": "\n/-- Continuous linear maps between modules. We only put the type classes that are necessary for the\ndefinition, although in applications `M` and `M\u2082` will be topological modules over the topological\nring `R`. -/\nstructure ContinuousLinearMap {R : Type*} {S : Type*} [Semiring R] [Semiring S] (\u03c3 : R \u2192+* S)\n    (M : Type*) [TopologicalSpace M] [AddCommMonoid M] (M\u2082 : Type*) [TopologicalSpace M\u2082]\n    [AddCommMonoid M\u2082] [Module R M] [Module S M\u2082] extends M \u2192\u209b\u2097[\u03c3] M\u2082 where\n  cont : Continuous toFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n\n",
+          "sha256": "0be7c530716a8601c8c94ee0436e1a4c6debede9b8a7ccd89aec73e8bc410e91",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean#L56-L65"
+        },
+        {
+          "name": "StrongDual",
+          "first_line": 92,
+          "last_line": 97,
+          "text": "\n/-- The *strong dual* of a topological vector space `M` over a ring `R`. This is the space of\ncontinuous linear functionals and is equipped with the topology of uniform convergence\non bounded subsets. `StrongDual R M` is an abbreviation for `M \u2192L[R] R`. -/\nabbrev StrongDual (R : Type*) [Semiring R] [TopologicalSpace R]\n  (M : Type*) [TopologicalSpace M] [AddCommMonoid M] [Module R M] : Type _ := M \u2192L[R] R\n",
+          "sha256": "c1da5d3ad4d40ab087002bfa8a6ceae76136581e588dcd0285cf0b9320924147",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean#L92-L97"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean",
+      "sha256": "4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7",
+      "git_blob_sha1": "866ef6ab673f737a4ffbb7b2138402d5c76e6c05",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.image",
+          "first_line": 265,
+          "last_line": 266,
+          "text": "`f a = b` for some `a \u2208 s`. -/\ndef image {\u03b2 : Type v} (f : \u03b1 \u2192 \u03b2) (s : Set \u03b1) : Set \u03b2 := {f a | a \u2208 s}\n",
+          "sha256": "f530b4544838c1c2d2cc39d40d2838c0ddd6f544e555cc48c69d09cb361f3e36",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L265-L266"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/LocallyConvex/Separation.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/LocallyConvex/Separation.lean",
+      "sha256": "649cfe33fdb3999dfe168ee52cdfba11c45856e3fc34f7be4f971c80c772166e",
+      "git_blob_sha1": "a0983da158129c6df2a08626f4001f8c5ae957d4",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Bhavik Mehta. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Bhavik Mehta, Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "compact_closed_separation",
+          "first_line": 196,
+          "last_line": 214,
+          "text": "/-- A version of the **Hahn-Banach theorem**: given disjoint convex sets `s`, `t` where `s` is\ncompact and `t` is closed, there is a continuous linear functional which strongly separates them. -/\ntheorem geometric_hahn_banach_compact_closed (hs\u2081 : Convex \u211d s) (hs\u2082 : IsCompact s)\n    (ht\u2081 : Convex \u211d t) (ht\u2082 : IsClosed t) (disj : Disjoint s t) :\n    \u2203 (f : StrongDual \u211d E) (u v : \u211d), (\u2200 a \u2208 s, f a < u) \u2227 u < v \u2227 \u2200 b \u2208 t, v < f b := by\n  obtain rfl | hs := s.eq_empty_or_nonempty\n  \u00b7 exact \u27e80, -2, -1, by simp\u27e9\n  obtain rfl | _ht := t.eq_empty_or_nonempty\n  \u00b7 exact \u27e80, 1, 2, by simp\u27e9\n  obtain \u27e8U, V, hU, hV, hU\u2081, hV\u2081, sU, tV, disj'\u27e9 := disj.exists_open_convexes hs\u2081 hs\u2082 ht\u2081 ht\u2082\n  obtain \u27e8f, u, hf\u2081, hf\u2082\u27e9 := geometric_hahn_banach_open_open hU\u2081 hU hV\u2081 hV disj'\n  obtain \u27e8x, hx\u2081, hx\u2082\u27e9 := hs\u2082.exists_isMaxOn hs f.continuous.continuousOn\n  have : f x < u := hf\u2081 x (sU hx\u2081)\n  exact\n    \u27e8f, (f x + u) / 2, u,\n      fun a ha => by have := hx\u2082 ha; dsimp at this; linarith,\n      by linarith,\n      fun b hb => hf\u2082 b (tV hb)\u27e9\n\n",
+          "sha256": "0610752d92fc9081c64b78ad2a237f78c2a287d900cce57228ab5095bbcacc04",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/LocallyConvex/Separation.lean#L196-L214"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "901ce858d26589dea492c985611764d48dda944f5e37d8be9a7ffc9986518ef3"
+      "sha256": "d18cf20bb6c9d700ba2a9f500f4d4a98154e749e098f1ee631f34fdd05401eb0"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "17e36e63683d6692e5c76dcc32dba02bba6cd553c5b090c461ac86775ceba79d"
+      "sha256": "e38ba1bfc83f0dd0cc45b59fbb49f6bd2f8cf50f4bf1acf6e5f1a57c1f4a8c47"
     }
   ],
   "generated_declarations": [

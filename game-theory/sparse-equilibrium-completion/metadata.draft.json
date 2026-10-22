@@ -1,6 +1,6 @@
 {
   "schema": "local-development-status-v1",
-  "title": "Sparse equilibrium completion: analytic sparsification",
+  "title": "Sparse equilibrium completion: bounded skew reconstruction and sparse witnesses",
   "submission_ready": false,
   "paper_title": "Sharp Sparse Witnesses for Incomplete Zero-Sum Games",
   "paper_repository": "Arthur742Ramos/aoe2-equilibrium-balance",
@@ -12,10 +12,35 @@
   "role_status": "Awaiting explicit project-authorized human membership; no other package's author list is reused.",
   "license": "Apache-2.0",
   "material_ai_contribution": "OpenAI Codex authored the Lean development, proof contracts, documentation and local verification scripts. Independent internal AI review is recorded separately. No human proof contribution or external peer review is inferred.",
-  "provisional_classification": {"arxiv": ["math.OC", "cs.GT"], "msc2020": ["91A05", "91A80"]},
+  "provisional_classification": {
+    "arxiv": [
+      "math.OC",
+      "cs.GT"
+    ],
+    "msc2020": [
+      "91A05",
+      "91A80"
+    ]
+  },
   "toolchain": "leanprover/lean4:v4.35.0-rc2",
   "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
-  "status": "Partial development: original-label sparse cut certificates with both support counts, exact anchor moments and all row guards are proved through full block-game bridges. Bounded skew reconstruction from cuts, rigidity and sharp support/uncertainty laws remain open. Exact scope is in SCOPE.md. This is deliberately not registry-schema intake metadata.",
+  "status": "Partial development: exact guards/cuts completion criterion and actual original-label sparse completed-game witnesses with both support counts and exact anchor responses are proved. Two-anchor rigidity, sharp lower/upper support and uncertainty laws, normalized paper-facing wrappers, and algorithmic/conic/graph clauses remain open. Exact scope is in SCOPE.md. This is local development metadata, not registry-schema intake metadata.",
   "submission": "No action authorized or attempted. Current policy/schema eligibility, account/private-attempt reconciliation, human roles and canonical exact-source checks remain separate gates.",
-  "standard_axiom_allowlist": ["propext", "Quot.sound", "Classical.choice"]
+  "standard_axiom_allowlist": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "paper_authors_user_instruction": [
+    {
+      "display_name": "Arthur"
+    },
+    {
+      "display_name": "David"
+    },
+    {
+      "display_name": "Ruy",
+      "role_instruction": "institutional author; affiliation unspecified"
+    }
+  ]
 }
