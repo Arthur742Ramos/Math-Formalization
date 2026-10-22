@@ -4,18 +4,25 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
+
+if not __debug__ or sys.flags.optimize:
+    raise SystemExit('Source checks refuse assertion-disabled Python optimization modes')
+
+from assemble_challenge import assemble, MODULES
 
 root = Path(__file__).resolve().parents[1]
 cfg = json.loads((root / 'comparator.json').read_text())
 source = (root / 'SparseCompletion.lean').read_text()
 challenge = (root / 'SECChallenge.lean').read_text()
-assert source == challenge, 'Protected Challenge must contain the exact fixed public definitions and proofs'
-for filename in ['SparseCompletion.lean', 'SECChallenge.lean', 'SECSolution.lean', 'AxiomAudit.lean']:
+assert challenge == assemble(root), 'Challenge must contain the exact assembled public source bodies'
+all_source = '\n'.join((root/(name+'.lean')).read_text() for name in MODULES)
+for filename in [name+'.lean' for name in MODULES] + ['SECChallenge.lean', 'SECSolution.lean', 'AxiomAudit.lean']:
     text = (root / filename).read_text()
     assert not re.search(r'\b(sorry|admit|axiom|unsafe)\b', text), filename
     assert not re.search(r'^private\s', text, re.M), filename
 for name in cfg['theorem_names']:
-    assert re.search(r'^theorem ' + re.escape(name.split('.')[-1]) + r'\b', source, re.M), name
+    assert re.search(r'^theorem ' + re.escape(name.split('.')[-1]) + r'\b', all_source, re.M), name
 assert cfg['definition_names'] == [], 'All model definitions are fixed; there are no definition holes'
 assert cfg['permitted_axioms'] == ['propext', 'Quot.sound', 'Classical.choice']
 assert (root / 'lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.35.0-rc2'
@@ -29,7 +36,7 @@ assert metadata['formalization_authors'] == metadata['responsible_maintainers'] 
 assert metadata['paper_commit'] == '1a424f297925294ae5818ff1ee7512304af1d460'
 files = [p for p in root.rglob('*') if p.is_file() and '.lake' not in p.parts
          and p.suffix not in ['.olean', '.ilean', '.log'] and '__pycache__' not in p.parts]
-print(json.dumps({'check': 'foundation-source-consistency', 'result': 'pass',
+print(json.dumps({'check': 'analytic-sparsification-source-consistency', 'result': 'pass',
     'selected_theorems': cfg['theorem_names'],
     'sha256': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)},
     'limits': 'Not a proof build, source-fidelity review, canonical verifier, or release clearance'}, indent=2))

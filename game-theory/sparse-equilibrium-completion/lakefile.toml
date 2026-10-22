@@ -1,6 +1,6 @@
 name = "sparseEquilibriumCompletion"
 version = "0.1.0"
-defaultTargets = ["SparseCompletion", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests"]
+defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests"]
 moreLeanArgs = ["-j2", "-M3072", "-DwarningAsError=true"]
 [[require]]
 name = "mathlib"
@@ -23,3 +23,15 @@ name = "SemanticTests"
 name = "DefinitionTests"
 [[lean_lib]]
 name = "ChallengeDefinitionTests"
+
+[[lean_lib]]
+name = "MomentCompression"
+
+[[lean_lib]]
+name = "GameModel"
+
+[[lean_lib]]
+name = "SparseWitness"
+
+[[lean_lib]]
+name = "GameSparseWitness"

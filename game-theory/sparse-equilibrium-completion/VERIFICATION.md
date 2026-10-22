@@ -20,13 +20,19 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a byte-identical source copy with full proofs, zero definition holes,
-and exposed public declarations; it is compiled under a different module alias
+Challenge is a deterministic assembly of the exact five local source bodies with
+full proofs, zero definition holes, and exposed public declarations; it is
+compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
 compares dependency identities. A modified fixed `envelope` definition must be
 rejected. `Lake.Check.checkAxioms`, native module checking and independent checking
 of the solution export provide separately logged checks. No custom comparison
 normalization is introduced.
+
+`scripts/assemble_challenge.py --check` authenticates this assembly. Source module
+imports are replaced by their fixed bodies; external Mathlib imports are retained.
+The immutable first foundation checkpoint remains tagged separately with its own
+exact-source receipt; later development never inherits that receipt automatically.
 
 These native checks do not constitute the registry's canonical Linux sandbox,
 renderer, editorial decision or publication. They do not prove correspondence

@@ -15,7 +15,18 @@
     "FloorSemiring",
     "NNReal.sqrt",
     "Real.sqrt",
-    "Real.toNNReal"
+    "Real.toNNReal",
+    "Convex",
+    "StarConvex",
+    "convexHull",
+    "AffineIndependent",
+    "Finset.weightedVSub",
+    "Finset.weightedVSubOfPoint",
+    "vectorSpan",
+    "Submodule.span",
+    "Module.finrank",
+    "Finset.card",
+    "Fintype.card"
   ],
   "material_declarations": [
     {
@@ -30,7 +41,18 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.supported_response_zero",
         "SparseCompletion.response_perturbation",
-        "SparseCompletion.compact_certificate_responses_iff"
+        "SparseCompletion.compact_certificate_responses_iff",
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.block_response_bounds_iff",
+        "SparseCompletion.exact_score_bounds",
+        "SparseCompletion.exact_score_mean_zero",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.compact_block_certificate_iff"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -56,7 +78,18 @@
         "SparseCompletion.response_perturbation",
         "SparseCompletion.compact_certificate_responses_iff",
         "SparseCompletion.compactCompletion_skew",
-        "SparseCompletion.compactCompletion_bounds"
+        "SparseCompletion.compactCompletion_bounds",
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.block_response_bounds_iff",
+        "SparseCompletion.exact_score_bounds",
+        "SparseCompletion.exact_score_mean_zero",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.compact_block_certificate_iff"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -80,7 +113,18 @@
         "SparseCompletion.canonical_grid_implication",
         "SparseCompletion.supported_response_zero",
         "SparseCompletion.response_perturbation",
-        "SparseCompletion.compact_certificate_responses_iff"
+        "SparseCompletion.compact_certificate_responses_iff",
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.block_response_bounds_iff",
+        "SparseCompletion.exact_score_bounds",
+        "SparseCompletion.exact_score_mean_zero",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate",
+        "SparseCompletion.compact_block_certificate_iff"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -98,7 +142,12 @@
       "used_by": [
         "SparseCompletion.cuts_iff_call_bound",
         "SparseCompletion.finite_grid_implication",
-        "SparseCompletion.canonical_grid_implication"
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
       ],
       "meaning": "The closed interval consists of x with a \u2264 x and x \u2264 b.",
       "dependency_expansion": "The grid/envelope domain includes both endpoints; interval_literal unfolds the actual predicate.",
@@ -115,7 +164,10 @@
       "role": "proof-dependency",
       "used_by": [
         "SparseCompletion.gridSize_bound",
-        "SparseCompletion.canonical_grid_implication"
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
       ],
       "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
       "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
@@ -132,7 +184,10 @@
       "role": "proof-dependency",
       "used_by": [
         "SparseCompletion.gridSize_bound",
-        "SparseCompletion.canonical_grid_implication"
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
       ],
       "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
       "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
@@ -149,7 +204,10 @@
       "role": "proof-dependency",
       "used_by": [
         "SparseCompletion.gridSize_bound",
-        "SparseCompletion.canonical_grid_implication"
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
       ],
       "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
       "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
@@ -166,7 +224,10 @@
       "role": "proof-dependency",
       "used_by": [
         "SparseCompletion.gridSize_bound",
-        "SparseCompletion.canonical_grid_implication"
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
       ],
       "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
       "dependency_expansion": "Negative inputs yield zero. Only nonnegative Mr/\u03b7 is used; square_root_meaning proves the needed square and sign laws.",
@@ -183,7 +244,10 @@
       "role": "proof-dependency",
       "used_by": [
         "SparseCompletion.gridSize_bound",
-        "SparseCompletion.canonical_grid_implication"
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
       ],
       "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
       "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
@@ -193,6 +257,248 @@
         "Real.toNNReal"
       ],
       "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Convex",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "Every point of the set is a star center of the set.",
+      "dependency_expansion": "Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.",
+      "definition_excerpt": "Convex",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Convex"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "StarConvex",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.",
+      "dependency_expansion": "Centers in the set quantify convexity. No topological closedness is assumed.",
+      "definition_excerpt": "StarConvex",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "StarConvex"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "convexHull",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The closure operator generated by all convex supersets.",
+      "dependency_expansion": "Membership means belonging to every convex superset, proved by convex_hull_meaning. It is algebraic convex hull, not topological closure.",
+      "definition_excerpt": "convexHull",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "convexHull"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "AffineIndependent",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "Zero-sum finite affine relations with zero weighted subtraction have all coefficients zero.",
+      "dependency_expansion": "The point-subtraction base cancels when coefficient sum is zero. affine_independence_literal and weighted_subtraction_zero_sum audit the actual meaning.",
+      "definition_excerpt": "AffineIndependent",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "AffineIndependent"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Finset.weightedVSub",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "Finite weighted differences from a default affine base point.",
+      "dependency_expansion": "This is used only with zero total weight, where the base is arbitrary and cancels. The checked bridge specializes to vector-space base zero.",
+      "definition_excerpt": "Finset.weightedVSub",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.weightedVSub"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Finset.weightedVSubOfPoint",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The linear map summing weights times differences from a specified base point.",
+      "dependency_expansion": "Its application is the literal finite sum; the zero-sum bridge verifies the needed base-zero interpretation.",
+      "definition_excerpt": "Finset.weightedVSubOfPoint",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.weightedVSubOfPoint"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "vectorSpan",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The submodule spanned by all differences of two points in the set.",
+      "dependency_expansion": "vector_span_literal unfolds the pairwise-difference image; the dimension is at most that of the ambient feature space.",
+      "definition_excerpt": "vectorSpan",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "vectorSpan"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Submodule.span",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The infimum of all submodules containing the supplied generating set.",
+      "dependency_expansion": "submodule_span_literal checks the precise intersection/infimum meaning; it is linear span, not an analytic closure.",
+      "definition_excerpt": "Submodule.span",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.span"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Module.finrank",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The natural-number conversion of the cardinal-valued module rank.",
+      "dependency_expansion": "Cardinal.toNat is zero on infinite cardinals. Here the feature space is a finite real product and the checked finite_feature_dimension law gives its actual finite dimension; no infinite-dimensional rank is interpreted as a support bound.",
+      "definition_excerpt": "Module.finrank",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Module.finrank"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Finset.card",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The number of elements in the underlying duplicate-free multiset.",
+      "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
+      "definition_excerpt": "Finset.card",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.card"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Fintype.card",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ],
+      "meaning": "The cardinality of the finite universal enumeration.",
+      "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
+      "definition_excerpt": "Fintype.card",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Fintype.card"
+      ],
+      "proof_status": "Independent entrypoint bridges are default build targets; exact receipts authenticate compilation. Internal review owns semantic fidelity."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -338,18 +644,278 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/NNReal/Defs.lean#L154-L159"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Analysis/Convex/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Basic.lean",
+      "sha256": "9044a0be27a288e404cbd80670eb0e739271be1fdd7577dbf205dff40af24fcf",
+      "git_blob_sha1": "74588106f9753245de719836b31e43fdad4293ab",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Alexander Bentkamp. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Alexander Bentkamp, Yury Kudryashov, Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "Convex",
+          "first_line": 48,
+          "last_line": 54,
+          "text": "\nvariable (\ud835\udd5c) [SMul \ud835\udd5c E] [SMul \ud835\udd5c F] (s : Set E) {x : E}\n\n/-- Convexity of sets. -/\ndef Convex : Prop :=\n  \u2200 \u2983x : E\u2984, x \u2208 s \u2192 StarConvex \ud835\udd5c x s\n\n",
+          "sha256": "078a97ca6c626f88e61266b92f2efddb3e1c3ee4fa8ef852d10509ab034ffc39",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Basic.lean#L48-L54"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Convex/Star.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Star.lean",
+      "sha256": "7d8a7df5d59812e6d1bebdeb0cfddc109fb5a54b0973eff14c128af0ff933858",
+      "git_blob_sha1": "268c23f78ca3f8280fed604e90b00b3a71cf70cc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Ya\u00ebl Dillies. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "StarConvex",
+          "first_line": 70,
+          "last_line": 75,
+          "text": "/-- Star-convexity of sets. `s` is star-convex at `x` if every segment from `x` to a point in `s` is\ncontained in `s`. -/\ndef StarConvex (\ud835\udd5c : Type*) {E : Type*} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c]\n    [AddCommMonoid E] [SMul \ud835\udd5c E] (x : E) (s : Set E) : Prop :=\n  \u2200 \u2983y : E\u2984, y \u2208 s \u2192 \u2200 \u2983a b : \ud835\udd5c\u2984, 0 \u2264 a \u2192 0 \u2264 b \u2192 a + b = 1 \u2192 a \u2022 x + b \u2022 y \u2208 s\n\n",
+          "sha256": "7ecf378475156dd7f81e8604073d3181109ee9dec684fd126015a24617a8c029",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Star.lean#L70-L75"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Convex/Hull.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Hull.lean",
+      "sha256": "7f05ca2487110c7a2e35be41043231e1094e78e7dc34045202d4b0c85913e53b",
+      "git_blob_sha1": "ba9b983894e36afe33959e5c55d51f350beebd17",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov, Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "convexHull",
+          "first_line": 44,
+          "last_line": 62,
+          "text": "/-- The convex hull of a set `s` is the minimal convex set that includes `s`. -/\n@[simps! isClosed]\ndef convexHull : ClosureOperator (Set E) := .ofCompletePred (Convex \ud835\udd5c) fun _ \u21a6 convex_sInter\n\nvariable (s : Set E)\n\ntheorem subset_convexHull : s \u2286 convexHull \ud835\udd5c s :=\n  (convexHull \ud835\udd5c).le_closure s\n\ntheorem convex_convexHull : Convex \ud835\udd5c (convexHull \ud835\udd5c s) := (convexHull \ud835\udd5c).isClosed_closure s\n\nset_option backward.isDefEq.respectTransparency false in\ntheorem convexHull_eq_iInter : convexHull \ud835\udd5c s = \u22c2 (t : Set E) (_ : s \u2286 t) (_ : Convex \ud835\udd5c t), t := by\n  simp [convexHull, iInter_subtype, iInter_and]\n\nvariable {\ud835\udd5c s} {t : Set E} {x y : E}\n\ntheorem mem_convexHull_iff : x \u2208 convexHull \ud835\udd5c s \u2194 \u2200 t, s \u2286 t \u2192 Convex \ud835\udd5c t \u2192 x \u2208 t := by\n  simp_rw [convexHull_eq_iInter, mem_iInter]\n",
+          "sha256": "605899f186fb40f61e2c07a93a51e024978595102d39680d193ebf6f6789e2ec",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Hull.lean#L44-L62"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/AffineSpace/Independent.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/Independent.lean",
+      "sha256": "9475bae0945645d79cc089bb3eeee405e6fae6d6923c8f22e6686b3a53219594",
+      "git_blob_sha1": "a21f59cfc58cb4c40dcb2c6e59ce2c74b7904cba",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Joseph Myers. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joseph Myers\n-/\n",
+      "excerpts": [
+        {
+          "name": "AffineIndependent",
+          "first_line": 50,
+          "last_line": 61,
+          "text": "/-- An indexed family is said to be affinely independent if no nontrivial weighted subtractions\n(where the sum of weights is 0) are 0. -/\ndef AffineIndependent (p : \u03b9 \u2192 P) : Prop :=\n  \u2200 (s : Finset \u03b9) (w : \u03b9 \u2192 k),\n    \u2211 i \u2208 s, w i = 0 \u2192 s.weightedVSub p w = (0 : V) \u2192 \u2200 i \u2208 s, w i = 0\n\n/-- `AffineIndepOn k p s` states that the points in the family `p` that are indexed\nby the elements of `s` are affinely independent over `k`. -/\ndef AffineIndepOn (p : \u03b9 \u2192 P) (s : Set \u03b9) : Prop := AffineIndependent k (fun x : s \u21a6 p x)\n\n/-- The definition of `AffineIndependent`. -/\ntheorem affineIndependent_def (p : \u03b9 \u2192 P) :\n",
+          "sha256": "7f164359d0fa8376d2397dbda7bad305f7c4ca8a7c042825501ed381b6b873e2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/Independent.lean#L50-L61"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/AffineSpace/Combination.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/Combination.lean",
+      "sha256": "d7c58df194c17fb81cc55d9f20b4cd0aaef1b06695b434594e2c97b51c16f1a8",
+      "git_blob_sha1": "1528c742dbb5367d306602203a48a1e4bd0e3051",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Joseph Myers. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joseph Myers\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.weightedVSub",
+          "first_line": 227,
+          "last_line": 249,
+          "text": "/-- A weighted sum of the results of subtracting a default base point\nfrom the given points, as a linear map on the weights.  This is\nintended to be used when the sum of the weights is 0; that condition\nis specified as a hypothesis on those lemmas that require it. -/\ndef weightedVSub (p : \u03b9 \u2192 P) : (\u03b9 \u2192 k) \u2192\u2097[k] V :=\n  s.weightedVSubOfPoint p (Classical.choice S.nonempty)\n\n/-- Applying `weightedVSub` with given weights.  This is for the case\nwhere a result involving a default base point is OK (for example, when\nthat base point will cancel out later); a more typical use case for\n`weightedVSub` would involve selecting a preferred base point with\n`weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero` and then\nusing `weightedVSubOfPoint_apply`. -/\ntheorem weightedVSub_apply (w : \u03b9 \u2192 k) (p : \u03b9 \u2192 P) :\n    s.weightedVSub p w = \u2211 i \u2208 s, w i \u2022 (p i -\u1d65 Classical.choice S.nonempty) := by\n  simp [weightedVSub]\n\n/-- `weightedVSub` gives the sum of the results of subtracting any\nbase point, when the sum of the weights is 0. -/\ntheorem weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero (w : \u03b9 \u2192 k) (p : \u03b9 \u2192 P)\n    (h : \u2211 i \u2208 s, w i = 0) (b : P) : s.weightedVSub p w = s.weightedVSubOfPoint p b w :=\n  s.weightedVSubOfPoint_eq_of_sum_eq_zero w p h _ _\n\n",
+          "sha256": "fd94fabbae0c75716cc3bca470656c307b27f536aef93f1bc3d243a92237daf4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/Combination.lean#L227-L249"
+        },
+        {
+          "name": "Finset.weightedVSubOfPoint",
+          "first_line": 58,
+          "last_line": 68,
+          "text": "interest are where the sum of the weights is 0, in which case the sum\nis independent of the choice of base point, and where the sum of the\nweights is 1, in which case the sum added to the base point is\nindependent of the choice of base point. -/\ndef weightedVSubOfPoint (p : \u03b9 \u2192 P) (b : P) : (\u03b9 \u2192 k) \u2192\u2097[k] V :=\n  \u2211 i \u2208 s, (LinearMap.proj i : (\u03b9 \u2192 k) \u2192\u2097[k] k).smulRight (p i -\u1d65 b)\n\n@[simp]\ntheorem weightedVSubOfPoint_apply (w : \u03b9 \u2192 k) (p : \u03b9 \u2192 P) (b : P) :\n    s.weightedVSubOfPoint p b w = \u2211 i \u2208 s, w i \u2022 (p i -\u1d65 b) := by\n  simp [weightedVSubOfPoint, LinearMap.sum_apply]\n",
+          "sha256": "1bb5cb92f072372ce7b140d480299023b71dbf07d9efcaafa84777751219126b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/Combination.lean#L58-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/AffineSpace/AffineSubspace/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/AffineSubspace/Defs.lean",
+      "sha256": "db1a84f71e149014ac383885710a49afa0d625a144e776757fff81c1cc923981",
+      "git_blob_sha1": "3c637693e063bbcced7d0c9271c69c3b893076ed",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Joseph Myers. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joseph Myers\n-/\n",
+      "excerpts": [
+        {
+          "name": "vectorSpan",
+          "first_line": 62,
+          "last_line": 68,
+          "text": "/-- The submodule spanning the differences of a (possibly empty) set of points. -/\ndef vectorSpan (s : Set P) : Submodule k V :=\n  Submodule.span k (s -\u1d65 s)\n\n/-- The definition of `vectorSpan`, for rewriting. -/\ntheorem vectorSpan_def (s : Set P) : vectorSpan k s = Submodule.span k (s -\u1d65 s) :=\n  rfl\n",
+          "sha256": "272c10b93d49f1b1f4bb6b62f4fa415838dbcae098b88f7920631e98e9dd12b4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/AffineSubspace/Defs.lean#L62-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Span/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Span/Defs.lean",
+      "sha256": "a0403eb6f96f384672a7b52d7ddb94405d3d3b1c43f699facc3e99ef8b0c00c6",
+      "git_blob_sha1": "1fa4ca034f300129c42b38d023f33ff077585abf",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Fr\u00e9d\u00e9ric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "Submodule.span",
+          "first_line": 43,
+          "last_line": 48,
+          "text": "\nvariable (R) in\n/-- The span of a set `s \u2286 M` is the smallest submodule of M that contains `s`. -/\ndef span (s : Set M) : Submodule R M :=\n  sInf { p | s \u2286 p }\n\n",
+          "sha256": "8464315a6e2c9c2bc34f4f9f8558933d9b3690e5d4cc006122167b8153070afc",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Span/Defs.lean#L43-L48"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Dimension/Finrank.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Finrank.lean",
+      "sha256": "4ab91c2b2e2d56f24c0260f25d55a31042cac8112a943a7c877594528c363e21",
+      "git_blob_sha1": "9d3c800da753634e2b5913731996053678b8e879",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Chris Hughes. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Chris Hughes, Anne Baanen\n-/\n",
+      "excerpts": [
+        {
+          "name": "Module.finrank",
+          "first_line": 54,
+          "last_line": 64,
+          "text": "For a general module `M` over a ring `R`, `Module.finrank R M` is defined to be the supremum of the\ncardinalities of the `R`-linearly independent subsets of `M`, if this supremum is finite. It is\ndefined by convention to be `0` if this supremum is infinite. See `Module.rank` for a\ncardinal-valued version where infinite rank modules have rank an infinite cardinal.\n\nNote that if `R` is not a field then there can exist modules `M` with `\u00ac(Module.Finite R M)` but\n`finrank R M \u2260 0`. For example `\u211a` has `finrank` equal to `1` over `\u2124`, because the nonempty\n`\u2124`-linearly independent subsets of `\u211a` are precisely the nonzero singletons. -/\nnoncomputable def finrank (R M : Type*) [Semiring R] [AddCommMonoid M] [Module R M] : \u2115 :=\n  Cardinal.toNat (Module.rank R M)\n\n",
+          "sha256": "e10fb88fcac6bb07fb88d3b21991690f190df5504a12fc66b32f8cc5c9225766",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Finrank.lean#L54-L64"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Card.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean",
+      "sha256": "901b74774650c909674c06dc8a78882db528af0b296cede9ef7b716079665e80",
+      "git_blob_sha1": "d8cc335cdf749546f1883120a2f37444ced64fb5",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.card",
+          "first_line": 43,
+          "last_line": 53,
+          "text": "\n/-- `s.card` is the number of elements of `s`, aka its cardinality.\n\nThe notation `#s` can be accessed in the `Finset` locale. -/\ndef card (s : Finset \u03b1) : \u2115 :=\n  Multiset.card s.1\n\n@[inherit_doc] scoped prefix:arg \"#\" => Finset.card\n\ntheorem card_def (s : Finset \u03b1) : #s = Multiset.card s.1 :=\n  rfl\n",
+          "sha256": "8c18fa0d55a08477b928d5955b55d36d561f651fa6b323ea9b52cb80e2127429",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L43-L53"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/Card.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Card.lean",
+      "sha256": "a77eb573a459ee525cfb4ac753dd05968ef2cc831d7549dc4e9036c7a90a1f00",
+      "git_blob_sha1": "f59efd09968716b3727825b05027f6fdee9e5dc8",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fintype.card",
+          "first_line": 39,
+          "last_line": 43,
+          "text": "/-- `card \u03b1` is the number of elements in `\u03b1`, defined when `\u03b1` is a fintype. -/\ndef card (\u03b1) [Fintype \u03b1] : \u2115 :=\n  (@univ \u03b1 _).card\n\ntheorem subtype_card {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 x : \u03b1, x \u2208 s \u2194 p x) :\n",
+          "sha256": "379822685f878466c61b39c9973dd913a967c72d08d98cae44625706b656097b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Card.lean#L39-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Convex/Caratheodory.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Caratheodory.lean",
+      "sha256": "8e2ead25535366604c2caab3071e5549586f909fe70b885d1c75784e117720f2",
+      "git_blob_sha1": "ed18655cbfd064d8f50d03a37f336430b502f267",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin, Kim Morrison\n-/\n",
+      "excerpts": [
+        {
+          "name": "Caratheodory-contract",
+          "first_line": 148,
+          "last_line": 166,
+          "text": "/-- **Carath\u00e9odory's convexity theorem** -/\ntheorem convexHull_eq_union : convexHull \ud835\udd5c s =\n    \u22c3 (t : Finset E) (_ : \u2191t \u2286 s) (_ : AffineIndependent \ud835\udd5c ((\u2191) : t \u2192 E)), convexHull \ud835\udd5c \u2191t := by\n  apply Set.Subset.antisymm\n  \u00b7 intro x hx\n    simp only [exists_prop, Set.mem_iUnion]\n    exact \u27e8Caratheodory.minCardFinsetOfMemConvexHull hx,\n      Caratheodory.minCardFinsetOfMemConvexHull_subseteq hx,\n      Caratheodory.affineIndependent_minCardFinsetOfMemConvexHull hx,\n      Caratheodory.mem_minCardFinsetOfMemConvexHull hx\u27e9\n  \u00b7 iterate 3 convert! Set.iUnion_subset _; intro\n    exact convexHull_mono \u2039_\u203a\n\n/-- A more explicit version of `convexHull_eq_union`. -/\ntheorem eq_pos_convex_span_of_mem_convexHull {x : E} (hx : x \u2208 convexHull \ud835\udd5c s) :\n    \u2203 (\u03b9 : Sort (u + 1)) (_ : Fintype \u03b9),\n      \u2203 (z : \u03b9 \u2192 E) (w : \u03b9 \u2192 \ud835\udd5c), Set.range z \u2286 s \u2227 AffineIndependent \ud835\udd5c z \u2227 (\u2200 i, 0 < w i) \u2227\n        \u2211 i, w i = 1 \u2227 \u2211 i, w i \u2022 z i = x := by\n  rw [convexHull_eq_union] at hx\n",
+          "sha256": "533144aa86bb2dd19c680134a103822128c6cb8d60c2330f3637ebdaa4a45739",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/Caratheodory.lean#L148-L166"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/AffineSpace/FiniteDimensional.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/FiniteDimensional.lean",
+      "sha256": "d1762f0257b80394b1d08f2cc68ad42c8723d5f6aefbcf7ce9e89a22a82eb864",
+      "git_blob_sha1": "0c4a7d8cba662c1df248e8fe352b0360a409e7fb",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Joseph Myers. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joseph Myers\n-/\n",
+      "excerpts": [
+        {
+          "name": "AffineIndependent-card-bound",
+          "first_line": 313,
+          "last_line": 321,
+          "text": "variable {k}\n\nlemma AffineIndependent.card_le_finrank_succ [Fintype \u03b9] {p : \u03b9 \u2192 P} (hp : AffineIndependent k p) :\n    Fintype.card \u03b9 \u2264 Module.finrank k (vectorSpan k (Set.range p)) + 1 := by\n  cases isEmpty_or_nonempty \u03b9\n  \u00b7 simp [Fintype.card_eq_zero]\n  rw [\u2190 tsub_le_iff_right]\n  exact (affineIndependent_iff_le_finrank_vectorSpan _ _\n    (tsub_add_cancel_of_le <| Nat.one_le_iff_ne_zero.2 Fintype.card_ne_zero).symm).1 hp\n",
+          "sha256": "cdad869f95b410165fa45789f6a2535cac0cd5a5159c4d67e562a2b71fd5a6dd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/AffineSpace/FiniteDimensional.lean#L313-L321"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Dimension/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Basic.lean",
+      "sha256": "f1989e361485382c4a47a8712dbdd58a7c89b339788b7d75c0dac0d9a3a5f12f",
+      "git_blob_sha1": "c43d2716ae2a3de01950349a3c3b65675720a767",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Johannes H\u00f6lzl, Sander Dahmen, Kim Morrison\n-/\n",
+      "excerpts": [
+        {
+          "name": "Module.rank-source",
+          "first_line": 59,
+          "last_line": 72,
+          "text": "(e.g. left-Noetherian rings, commutative rings, and in particular division rings and fields),\nthis is the same as the dimension of the space (i.e. the cardinality of any basis).\n\nIn particular this agrees with the usual notion of the dimension of a vector space.\n\nSee also `Module.finrank` for a `\u2115`-valued function which returns the correct value\nfor a finite-dimensional vector space (but 0 for an infinite-dimensional vector space).\n-/\n@[stacks 09G3 \"first part\"]\nprotected irreducible_def Module.rank : Cardinal :=\n  \u2a06 \u03b9 : { s : Set M // LinearIndepOn R id s }, (#\u03b9.1)\n\ntheorem rank_le_card : Module.rank R M \u2264 #M :=\n  (Module.rank_def _ _).trans_le (ciSup_le' fun _ \u21a6 mk_set_le _)\n",
+          "sha256": "cef3b2738e36b5276b058b94beb2d898174ec224db9fe06637064a37cd7cdc8c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Basic.lean#L59-L72"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Dimension/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Constructions.lean",
+      "sha256": "ba705b4a5e12709dfbd792ddd9946aafdcc276daf1a8778de760ec2f4e660363",
+      "git_blob_sha1": "3f10556492f309ed7ef1c09946213330ccbbb597",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Johannes H\u00f6lzl, Sander Dahmen, Kim Morrison, Chris Hughes, Anne Baanen\n-/\n",
+      "excerpts": [
+        {
+          "name": "finite-product-dimension",
+          "first_line": 287,
+          "last_line": 293,
+          "text": "\n/-- The `finrank` of `(\u03b9 \u2192 R)` is `Fintype.card \u03b9`. -/\ntheorem Module.finrank_pi {\u03b9 : Type v} [Fintype \u03b9] :\n    finrank R (\u03b9 \u2192 R) = Fintype.card \u03b9 := by\n  simp [finrank]\n\n--TODO: this should follow from `LinearEquiv.finrank_eq`, that is over a field.\n",
+          "sha256": "c6f13ddd1919b5c8692290098ae29ca28b7e08a6f50c4cc777b04a88731d81ae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Dimension/Constructions.lean#L287-L293"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "5d794c832696b6a12ba7fc644927f5c34ad465c60c249822f10428058be5e0f1"
+      "sha256": "901ce858d26589dea492c985611764d48dda944f5e37d8be9a7ffc9986518ef3"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "28b78046c5b3b63c9b028c8f2068d113a452360150e6af709447b3918064b65a"
+      "sha256": "17e36e63683d6692e5c76dcc32dba02bba6cd553c5b090c461ac86775ceba79d"
     }
   ],
   "generated_declarations": [
@@ -358,6 +924,41 @@
       "source": "Finset.prod",
       "mechanism": "to_additive",
       "checked_bridge": "finite_sum_literal"
+    },
+    {
+      "name": "Module.rank",
+      "source": "Module.rank-source",
+      "mechanism": "irreducible_def",
+      "checked_bridge": "finite_feature_dimension"
+    }
+  ],
+  "theorem_contracts": [
+    {
+      "name": "eq_pos_convex_span_of_mem_convexHull",
+      "excerpt": "Caratheodory-contract",
+      "bridge": "caratheodory_contract",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ]
+    },
+    {
+      "name": "AffineIndependent.card_le_finrank_succ",
+      "excerpt": "AffineIndependent-card-bound",
+      "used_by": [
+        "SparseCompletion.finite_moment_recombination",
+        "SparseCompletion.finite_feature_compression",
+        "SparseCompletion.sparse_cut_witness",
+        "SparseCompletion.exact_sparse_cut_witness",
+        "SparseCompletion.canonical_sparse_cut_witness",
+        "SparseCompletion.game_sparse_cut_certificate",
+        "SparseCompletion.exact_game_sparse_cut_certificate"
+      ]
     }
   ]
 }

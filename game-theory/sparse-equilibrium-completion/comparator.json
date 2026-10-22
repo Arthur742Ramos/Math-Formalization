@@ -15,7 +15,18 @@
     "SparseCompletion.response_perturbation",
     "SparseCompletion.compactCompletion_skew",
     "SparseCompletion.compactCompletion_bounds",
-    "SparseCompletion.compact_certificate_responses_iff"
+    "SparseCompletion.compact_certificate_responses_iff",
+    "SparseCompletion.finite_moment_recombination",
+    "SparseCompletion.finite_feature_compression",
+    "SparseCompletion.sparse_cut_witness",
+    "SparseCompletion.exact_sparse_cut_witness",
+    "SparseCompletion.canonical_sparse_cut_witness",
+    "SparseCompletion.block_response_bounds_iff",
+    "SparseCompletion.exact_score_bounds",
+    "SparseCompletion.exact_score_mean_zero",
+    "SparseCompletion.game_sparse_cut_certificate",
+    "SparseCompletion.exact_game_sparse_cut_certificate",
+    "SparseCompletion.compact_block_certificate_iff"
   ],
   "definition_names": [],
   "permitted_axioms": [
