@@ -230,3 +230,18 @@ additive certificate packaging. Efficient sorted separation/flow, a polynomial
 rational LP implementation and polynomial operation/bit-cost guarantees remain
 unformalized. The exact source cost of checking compact certificates is a
 separate follow-on; no whole-paper readiness is claimed.
+
+## Complete original-source statement inventory and instrumented checker
+
+WHOLE-PAPER-COVERAGE.md enumerates all27 formal source environments and32
+additional substantive claim groups. The new no-grid positive-mass bound,
+quantitative prefix domination, general nonnegative-floor returned value bracket
+and uniform supplied-cover ceiling corollary are proved in the added modules.
+The connected finite-table certificate checker has proved unit-rational
+arithmetic/order/equality and rational-slot bounds, including fixed/floor and
+chosen interval checks. This closes that explicitly declared source arithmetic
+model, not polynomial LP/flow or input-bit/machine complexity. All old cost-open
+statements referring to this checker are superseded only to this precise extent.
+Executable sorted separation, arbitrary-cover program transport, source-exact
+allocation node constants, general-M joint/worst-case packaging and polynomial
+LP/flow/bit guarantees remain explicit gaps. See the full table for edge cases.

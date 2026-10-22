@@ -277,3 +277,42 @@ establish polynomial LP/flow or bit-complexity guarantees. The two rational
 bin-label definitions now reuse the prior public, executable bin algorithms;
 this removes duplicate proof-hoisting sites while retaining the same actual
 label values and the unchanged protected dependency comparison.
+
+## Instrumented compact certificates and source refinements
+
+The finite-table certificate checker stores anchor weights, an injectively
+labelled residual support, its weights and its square residual payoff table in
+`Vector` data. Its Boolean acceptance is equivalent to the existing compact
+certificate conditions and yields an actual normalized bounded skew game with
+all response bounds, including omitted rows. The attached counter bounds unit
+rational additions, multiplications, negations, arithmetic comparisons and
+equalities. For an accepted certificate, with n=k+m and injective support-container length s,
+the base counter is at most 128(nk+s²). Stored zero weights are allowed, so
+the actual nonzero residual support can be smaller than s; fixed-share or anchor-floor checks use
+at most 256(nk+s²), and adding chosen interval-observation checks uses at most
+512(nk+s²). The witness stores k+s+s² rational scalars, at most k+2s²;
+chosen anchor-incident observations use nk additional scalars. These are proved
+source-level arithmetic ledgers. Table loading, index and Boolean bookkeeping,
+raw-input validation, bit complexity and compiled machine time are outside
+these counters. No polynomial-time LP or flow algorithm is established.
+
+For η≥Mr and positive residual mass, preserving only the anchor and d extra
+moments gives residual support at most k+d+1 and total support at most
+2k+d+1. The proof supplies the explicit zero residual payoff block. Another
+result shows that a score prefix dominates the numerical violation of every
+subset, which strengthens the zero-threshold feasibility equivalence. A uniform
+observation-cover corollary eliminates r and bounds total support by
+min(n,2|C|+ceil(sqrt(M/η))) for every supplied cover, including a minimum one.
+It does not compute that cover or transport an executable program through it.
+
+The dense rational allocation program also returns a certified global bracket
+for arbitrary nonnegative coordinate floors: L<V≤U, U−L=ε, with an actual
+compatible game whose every response is at most U. Positive residual floors
+are retained and can force dense support. The separate zero-floor sparse
+program retains its own proved support guarantee.
+
+The complete original-source coverage table, including remaining algorithmic
+and mathematical packaging gaps, is in WHOLE-PAPER-COVERAGE.md. These additions
+have local proof and executable-control evidence; exact-source verification
+and final integrated review must identify the eventual frozen commit before
+any readiness claim. No registry or journal submission is authorized or made.

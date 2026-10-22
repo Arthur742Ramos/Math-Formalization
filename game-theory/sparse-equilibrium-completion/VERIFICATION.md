@@ -480,8 +480,43 @@ identified40 constructor/3 DecidablePred/2 Decidable predecessor contexts.
 Historical receipts are preserved; earlier inventory-completeness judgments
 are qualified by that newly discovered supporting-context omission.
 
-Fresh integrated reviews, final byte-bound static checks and a new immutable
-commit native run must cover these corrected source bytes. The last fully
-passing native checkpoint remains91afffed2205d48ed60214ef7370c5a98ed5c362.
+At that draft stage, fresh integrated reviews and a new immutable commit run
+were pending, and91afffed2205d48ed60214ef7370c5a98ed5c362 was the last fully
+passing checkpoint. That corrected source subsequently passed as355 below.
 No registry or journal submission, canonical Linux sandbox or release clearance
 is claimed.
+
+## Instrumented-certificate and source-refinement follow-on freeze
+
+The new candidate contains232 math modules,910 math-source theorem audits and800
+protected selected contracts. Independent internal AI mathematical/source reviews
+cover71 added proofs; three control modules contain36 executable guards. The nine
+new compiler contexts retain authenticated exact source/excerpts, and literal
+NeZero/Fin.foldr expansions are assigned from actual declaration traces. The
+meaning inventory is66material/85compiler/2auxiliary,111Mathlib sources/203excerpts.
+Nine additional semantic bridges must compile separately through both import
+contexts. The exact source/commit build, axiom/kernel audits, fresh independent
+exports, unchanged protected comparator and deliberate altered-helper rejection
+are pending for this candidate at freeze. Prior checkpoint and failed-run
+evidence remain immutable history; no prior receipt certifies this candidate.
+Native macOS checks do not establish canonical Linux/registry/release clearance.
+
+## Completed corrected-bin/global-sparse baseline
+
+Commit355f44f29419e7317dab3c0ac7e3fd9a142073c2, package tree
+2efc570974794358fd00c0462318488d51057378, passed all12 exact native macOS
+gates:3596-job clean build,839 source axiom audits, native module kernel,
+fresh protected compilation, both exports,729 protected contracts with unchanged
+axiom checks and deliberately altered-envelope rejection, and export kernel.
+All259 source hashes, nine clean dependency pins and compiler/tool identities
+were independently authenticated. Receipt SHA256:
+973026910b6ce7ff3a85136b8b4345a896e7cb621a0d90c4cd0fb71f3e2e3e35.
+Independent authentication SHA256:
+ed3a0992b17f41fea65acbafe0786ca2254914734af2ee11001732e2f6e2428c.
+A local checkpoint tag and complete-history bundle are preserved; bundle SHA256:
+ebfbd6757d610679cb17d4359fa3b2c34533275a908adc2f24910a15f7451867.
+The bundle/tag authentication SHA256 is
+9be621d9e18be7601026b3931b26ed934837fc0b3ea6281babbe3b47acfd9d82.
+These receipts certify that baseline only. The later71-proof candidate requires
+its own exact-source gates; canonical Linux, registry and journal submission,
+release clearance and external human review are not asserted.

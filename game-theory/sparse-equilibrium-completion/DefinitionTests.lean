@@ -584,5 +584,45 @@ theorem finite_floorsemiring_nat_cast {α : Type*} [Semiring α] [PartialOrder �
 theorem finite_nontrivial_one_nonzero {α : Type*} [MulZeroOneClass α] [Nontrivial α] :
     (1 : α) ≠ 0 := (NeZero.one (M₀ := α)).out
 
+/-- Exact-size Vector data invariant. -/
+theorem counted_vector_size {α : Type*} {n : Nat} (v : Vector α n) :
+    v.toArray.size = n := v.size_toArray
+
+/-- The actual finite-index transport used by the exposed Vector accessor. -/
+theorem counted_vector_get {α : Type*} {n : Nat} (v : Vector α n) (i : Fin n) :
+    v.get i = v.toArray[(i.cast v.size_toArray.symm).val] := rfl
+
+/-- Indexing notation denotes the valid-index method of the supplied instance. -/
+theorem counted_getelem_method {C : Type*} {I : Type*} {α : Type*}
+    {valid : C → I → Prop} [inst : GetElem C I α valid]
+    (c : C) (i : I) (hi : valid c i) :
+    c[i]'hi = @GetElem.getElem C I α valid inst c i hi := rfl
+
+/-- Use the proved Array/List conversion contract across module boundaries. -/
+theorem counted_array_read {α : Type*} (a : Array α) (i : Nat)
+    (hi : i < a.toList.length) : a[i] = a.toList[i] :=
+  (Array.getElem_toList hi).symm
+
+/-- Logical Boolean conjunction truth-table branch; not an operational cost law. -/
+theorem counted_bool_false (b : Bool) : Bool.and false b = false := rfl
+
+/-- Actual pinned csimp theorem, proved equality rather than opaque rfl assertion. -/
+theorem counted_bool_executable : Bool.and = Bool.Internal.and :=
+  Bool.and_eq_internalAnd
+
+/-- Structural right fold supporting the literal sum definition. -/
+theorem counted_foldr_cons {α β : Type*} (f : α → β → β) (z : β)
+    (a : α) (xs : List α) : (a :: xs).foldr f z = f a (xs.foldr f z) :=
+  List.foldr_cons
+
+/-- Generic Add/Zero sum contract; applies to both Rat values and Nat ledgers. -/
+theorem counted_sum_cons {α : Type*} [Add α] [Zero α] (a : α) (xs : List α) :
+    (a :: xs).sum = a + xs.sum := List.sum_cons
+
+/-- Actual logical finite-bounded read in the tail; no default element or choice. -/
+theorem counted_list_get_succ {α : Type*} (a : α) (xs : List α)
+    (i : Fin xs.length) : (a :: xs).get i.succ = xs.get i := rfl
+
+
 end SECDefinitions
 -- END material-imported-definition audit

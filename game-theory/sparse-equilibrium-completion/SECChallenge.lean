@@ -18092,3 +18092,1197 @@ theorem rational_floor_sparse_certified_value {k m : ℕ} [Nonempty (Fin k ⊕ F
     ring
 
 end SparseCompletion
+
+/- Fixed source body: RationalCountedDot.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Explicit unit arithmetic-call ledger; no machine runtime or bit-cost assertion. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCountedDot : List (ℚ × ℚ) → ℚ × ℕ
+  | [] => (0,0)
+  | (a,b)::xs =>
+    let z := rationalCountedDot xs
+    (a*b+z.1,z.2+((2 : ℕ)))
+
+theorem rational_counted_dot_value (xs : List (ℚ × ℚ)) :
+    (rationalCountedDot xs).1=(xs.map fun z => z.1*z.2).sum := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih => simp only [rationalCountedDot,List.map_cons,List.sum_cons,ih]
+
+theorem rational_counted_dot_calls (xs : List (ℚ × ℚ)) :
+    (rationalCountedDot xs).2=((2 : ℕ))*xs.length := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih => simp only [rationalCountedDot,List.length_cons,ih]; omega
+
+def rationalCountedFinDot {n : ℕ} (f g : Fin n → ℚ) : ℚ × ℕ :=
+  rationalCountedDot (List.ofFn fun i => (f i,g i))
+
+theorem rational_counted_fin_dot_value {n : ℕ} (f g : Fin n → ℚ) :
+    (rationalCountedFinDot f g).1=∑ i,f i*g i := by
+  rw [rationalCountedFinDot,rational_counted_dot_value,List.map_ofFn]
+  exact Fin.sum_ofFn _
+
+theorem rational_counted_fin_dot_calls {n : ℕ} (f g : Fin n → ℚ) :
+    (rationalCountedFinDot f g).2=((2 : ℕ))*n := by
+  simp only [rationalCountedFinDot,rational_counted_dot_calls,List.length_ofFn]
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableCertificate.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Table-backed compact certificate; scalar lookup is explicit Vector access. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+structure RationalTableCertificate (k m s : ℕ) where
+  labels : Vector (Fin m) s
+  anchors : Vector ℚ k
+  weights : Vector ℚ s
+  residual : Vector (Vector ℚ s) s
+  labelsInjective : Function.Injective labels.get
+
+def rationalTableSupport {k m s : ℕ} (c : RationalTableCertificate k m s) : Finset (Fin m) :=
+  Finset.univ.image c.labels.get
+
+theorem rational_table_support_mem {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (i : Fin m) : i ∈ rationalTableSupport c ↔ ∃ j,c.labels.get j=i := by
+  simp only [rationalTableSupport,Finset.mem_image,Finset.mem_univ,true_and]
+
+theorem rational_table_support_card {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    (rationalTableSupport c).card=s := by
+  rw [rationalTableSupport,Finset.card_image_of_injective _ c.labelsInjective,Finset.card_univ,Fintype.card_fin]
+
+noncomputable def rationalTableIndex {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (i : rationalTableSupport c) : Fin s :=
+  Classical.choose ((rational_table_support_mem c i).mp i.property)
+
+theorem rational_table_index_label {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (i : rationalTableSupport c) : c.labels.get (rationalTableIndex c i)=i :=
+  Classical.choose_spec ((rational_table_support_mem c i).mp i.property)
+
+theorem rational_table_label_index {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (j : Fin s) (h : c.labels.get j ∈ rationalTableSupport c) :
+    rationalTableIndex c ⟨c.labels.get j,h⟩=j := by
+  apply c.labelsInjective
+  exact rational_table_index_label c _
+
+noncomputable def rationalTableAsCertificate {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    RationalCertificate k m where
+  support := rationalTableSupport c
+  anchors := c.anchors.get
+  weights := fun i => c.weights.get (rationalTableIndex c i)
+  residual := fun i j => (c.residual.get (rationalTableIndex c i)).get (rationalTableIndex c j)
+
+theorem rational_table_q_label {k m s : ℕ} (c : RationalTableCertificate k m s) (j : Fin s) :
+    (rationalTableAsCertificate c).q (c.labels.get j)=c.weights.get j := by
+  have h : c.labels.get j ∈ rationalTableSupport c := (rational_table_support_mem c _).mpr ⟨j,rfl⟩
+  simp only [RationalCertificate.q,rationalTableAsCertificate,h,dite_eq_left,rational_table_label_index]
+
+theorem rational_table_q_off {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (i : Fin m) (h : i ∉ rationalTableSupport c) : (rationalTableAsCertificate c).q i=0 := by
+  simp [RationalCertificate.q,rationalTableAsCertificate,h]
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableSums.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_table_weighted_sum {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (f : Fin m → ℚ) :
+    (∑ i,f i*(rationalTableAsCertificate c).q i)=∑ j,f (c.labels.get j)*c.weights.get j := by
+  have hreduce : (∑ i ∈ rationalTableSupport c,f i*(rationalTableAsCertificate c).q i)=
+      ∑ i,f i*(rationalTableAsCertificate c).q i := by
+    apply Finset.sum_subset (Finset.subset_univ _)
+    intro i _ hi
+    rw [rational_table_q_off c i hi,mul_zero]
+  rw [←hreduce,rationalTableSupport,Finset.sum_image c.labelsInjective.injOn]
+  apply Finset.sum_congr rfl
+  intro j _
+  rw [rational_table_q_label]
+
+theorem rational_table_mass_sum {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    (∑ i,(rationalTableAsCertificate c).q i)=∑ j,c.weights.get j := by
+  simpa only [one_mul] using rational_table_weighted_sum c (fun _ => 1)
+
+theorem rational_table_b_labels {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (i j : Fin s) :
+    (rationalTableAsCertificate c).b (c.labels.get i) (c.labels.get j)=
+      (c.residual.get i).get j := by
+  have hi := (rational_table_support_mem c _).mpr ⟨i,rfl⟩
+  have hj := (rational_table_support_mem c _).mpr ⟨j,rfl⟩
+  simp only [RationalCertificate.b,rationalTableAsCertificate,hi,hj,dite_eq_left,
+    rational_table_label_index]
+
+theorem rational_table_supported_sum {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (i : Fin s) :
+    (∑ j ∈ (rationalTableAsCertificate c).support,
+      (rationalTableAsCertificate c).b (c.labels.get i) j*(rationalTableAsCertificate c).q j)=
+    ∑ j,(c.residual.get i).get j*c.weights.get j := by
+  change (∑ j ∈ rationalTableSupport c,
+      (rationalTableAsCertificate c).b (c.labels.get i) j*(rationalTableAsCertificate c).q j)=_
+  rw [rationalTableSupport,Finset.sum_image c.labelsInjective.injOn]
+  apply Finset.sum_congr rfl
+  intro j _
+  rw [rational_table_q_label,rational_table_b_labels]
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableRows.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalTableRows {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) : Prop :=
+  (∀ h,(∑ h',(K.get h).get h'*c.anchors.get h')-
+      ∑ j,(D.get (c.labels.get j)).get h*c.weights.get j ≤ σ) ∧
+  (∀ i,(∑ h,(D.get (c.labels.get i)).get h*c.anchors.get h)+
+      ∑ j,(c.residual.get i).get j*c.weights.get j ≤ σ) ∧
+  (∀ i,(∀ j,c.labels.get j ≠ i) →
+      (∑ h,(D.get i).get h*c.anchors.get h)-M*(∑ j,c.weights.get j) ≤ σ)
+
+theorem rational_table_rows_iff {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalTableAsCertificate c).Rows (fun h h' => (K.get h).get h')
+      (fun i h => (D.get i).get h) M σ ↔ rationalTableRows c K D M σ := by
+  constructor
+  · rintro ⟨ha,hr,ho⟩
+    refine ⟨?_,?_,?_⟩
+    · intro h
+      have hh := ha h
+      change (∑ h',(K.get h).get h'*c.anchors.get h')-
+        (∑ i,(D.get i).get h*(rationalTableAsCertificate c).q i) ≤ σ at hh
+      rwa [rational_table_weighted_sum] at hh
+    · intro i
+      have hh := hr (c.labels.get i) ((rational_table_support_mem c _).mpr ⟨i,rfl⟩)
+      change (∑ h,(D.get (c.labels.get i)).get h*c.anchors.get h)+_ ≤ σ at hh
+      rwa [rational_table_supported_sum] at hh
+    · intro i hi
+      have hoff : i ∉ rationalTableSupport c := by
+        rw [rational_table_support_mem]
+        rintro ⟨j,hj⟩
+        exact hi j hj
+      have hh := ho i hoff
+      change (∑ h,(D.get i).get h*c.anchors.get h)-M*_ ≤ σ at hh
+      rwa [rational_table_mass_sum] at hh
+  · rintro ⟨ha,hr,ho⟩
+    refine ⟨?_,?_,?_⟩
+    · intro h
+      change (∑ h',(K.get h).get h'*c.anchors.get h')-
+        (∑ i,(D.get i).get h*(rationalTableAsCertificate c).q i) ≤ σ
+      rw [rational_table_weighted_sum]
+      exact ha h
+    · intro i hi
+      obtain ⟨j,rfl⟩ := (rational_table_support_mem c i).mp hi
+      change (∑ h,(D.get (c.labels.get j)).get h*c.anchors.get h)+_ ≤ σ
+      rw [rational_table_supported_sum]
+      exact hr j
+    · intro i hi
+      change (∑ h,(D.get i).get h*c.anchors.get h)-M*_ ≤ σ
+      rw [rational_table_mass_sum]
+      apply ho i
+      intro j hj
+      exact hi ((rational_table_support_mem c i).mpr ⟨j,hj⟩)
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableOmitted.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_table_omitted_exists {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    (∃ i : Fin m,∀ j : Fin s,c.labels.get j ≠ i) ↔ s < m := by
+  have hcard := rational_table_support_card c
+  constructor
+  · rintro ⟨i,hi⟩
+    have hnot : i ∉ rationalTableSupport c := by
+      rw [rational_table_support_mem]
+      rintro ⟨j,hj⟩
+      exact hi j hj
+    have hlt : rationalTableSupport c ⊂ Finset.univ := by
+      apply Finset.ssubset_iff_subset_ne.mpr
+      refine ⟨Finset.subset_univ _,?_⟩
+      intro he
+      exact hnot (he ▸ Finset.mem_univ i)
+    have hc := Finset.card_lt_card hlt
+    simpa only [hcard,Finset.card_univ,Fintype.card_fin] using hc
+  · intro hlt
+    by_contra hn
+    push Not at hn
+    have he : rationalTableSupport c=Finset.univ := by
+      apply Finset.eq_univ_iff_forall.mpr
+      intro i
+      exact (rational_table_support_mem c i).mpr (hn i)
+    have hc := congrArg Finset.card he
+    simp only [hcard,Finset.card_univ,Fintype.card_fin] at hc
+    omega
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedAll.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Counter counts all generated tests; actual Boolean short-circuit savings are unused. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCountedConjunction : List (Bool × ℕ) → Bool × ℕ
+  | [] => (true,0)
+  | x::xs =>
+    let z := rationalCountedConjunction xs
+    (x.1 && z.1,x.2+z.2)
+
+theorem rational_counted_conjunction_value (xs : List (Bool × ℕ)) :
+    (rationalCountedConjunction xs).1=true ↔ ∀ x ∈ xs,x.1=true := by
+  induction xs with
+  | nil => simp only [rationalCountedConjunction,List.not_mem_nil,IsEmpty.forall_iff,implies_true]
+  | cons x xs ih =>
+    simp only [rationalCountedConjunction,Bool.and_eq_true,ih,List.mem_cons,forall_eq_or_imp]
+
+theorem rational_counted_conjunction_calls (xs : List (Bool × ℕ)) :
+    (rationalCountedConjunction xs).2=(xs.map Prod.snd).sum := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih => simp only [rationalCountedConjunction,List.map_cons,List.sum_cons,ih]
+
+def rationalCountedAll {n : ℕ} (f : Fin n → Bool × ℕ) : Bool × ℕ :=
+  rationalCountedConjunction (List.ofFn f)
+
+theorem rational_counted_all_value {n : ℕ} (f : Fin n → Bool × ℕ) :
+    (rationalCountedAll f).1=true ↔ ∀ i,(f i).1=true := by
+  rw [rationalCountedAll,rational_counted_conjunction_value]
+  simp only [List.mem_ofFn,forall_exists_index,forall_apply_eq_imp_iff]
+
+theorem rational_counted_all_calls {n : ℕ} (f : Fin n → Bool × ℕ) :
+    (rationalCountedAll f).2=∑ i,(f i).2 := by
+  rw [rationalCountedAll,rational_counted_conjunction_calls,List.map_ofFn]
+  exact Fin.sum_ofFn _
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedTableRows.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Instrumented rational arithmetic/comparison calls; not bit or machine cost.
+Inputs are genuine finite tables. Index/Boolean bookkeeping is outside this ledger. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCountedTableOmitted {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (D : Vector (Vector ℚ k) m) (threshold : ℚ) : Bool × ℕ :=
+  if k=0 then
+    if s < m then (decide (0 ≤ threshold),1) else (true,0)
+  else rationalCountedAll fun i : Fin m =>
+    if ∀ j : Fin s,c.labels.get j ≠ i then
+      let z := rationalCountedFinDot (D.get i).get c.anchors.get
+      (decide (z.1 ≤ threshold),z.2+1)
+    else (true,0)
+
+def rationalCountedTableRows {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) : Bool × ℕ :=
+  let mass := rationalCountedFinDot c.weights.get (fun _ => 1)
+  let threshold := σ+M*mass.1
+  let anchor := rationalCountedAll fun h : Fin k =>
+    let a := rationalCountedFinDot (K.get h).get c.anchors.get
+    let b := rationalCountedFinDot (fun j => (D.get (c.labels.get j)).get h) c.weights.get
+    (decide (a.1-b.1 ≤ σ),a.2+b.2+((2 : ℕ)))
+  let supported := rationalCountedAll fun i : Fin s =>
+    let a := rationalCountedFinDot (D.get (c.labels.get i)).get c.anchors.get
+    let b := rationalCountedFinDot (c.residual.get i).get c.weights.get
+    (decide (a.1+b.1 ≤ σ),a.2+b.2+((2 : ℕ)))
+  let omitted := rationalCountedTableOmitted c D threshold
+  (anchor.1 && supported.1 && omitted.1,
+    mass.2+((2 : ℕ))+anchor.2+supported.2+omitted.2)
+
+theorem rational_counted_table_omitted_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (D : Vector (Vector ℚ k) m) (threshold : ℚ) :
+    (rationalCountedTableOmitted c D threshold).1=true ↔
+      ∀ i,(∀ j,c.labels.get j ≠ i) → ∑ h,(D.get i).get h*c.anchors.get h ≤ threshold := by
+  by_cases hk : k=0
+  · subst k
+    simp only [rationalCountedTableOmitted,ite_true,Finset.univ_eq_empty,Finset.sum_empty]
+    by_cases hs : s < m
+    · simp only [hs,ite_true,decide_eq_true_eq]
+      constructor
+      · intro ht _ _; exact ht
+      · intro hall
+        obtain ⟨i,hi⟩ := (rational_table_omitted_exists c).mpr hs
+        exact hall i hi
+    · simp only [hs,ite_false]
+      constructor
+      · intro _ i hi
+        exact False.elim (hs ((rational_table_omitted_exists c).mp ⟨i,hi⟩))
+      · intro _; trivial
+  · simp only [rationalCountedTableOmitted,hk,ite_false,rational_counted_all_value]
+    constructor
+    · intro hall i hi
+      have hh := hall i
+      simpa only [ite_eq_left hi,rational_counted_fin_dot_value,decide_eq_true_eq] using hh
+    · intro hall i
+      by_cases hi : ∀ j,c.labels.get j ≠ i
+      · simpa only [ite_eq_left hi,rational_counted_fin_dot_value,decide_eq_true_eq] using hall i hi
+      · simp only [ite_eq_right hi]
+
+theorem rational_counted_table_rows_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableRows c K D M σ).1=true ↔ rationalTableRows c K D M σ := by
+  simp only [rationalCountedTableRows,Bool.and_eq_true,rational_counted_all_value,
+    rational_counted_fin_dot_value,rational_counted_table_omitted_value,decide_eq_true_eq,mul_one]
+  unfold rationalTableRows
+  constructor
+  · rintro ⟨⟨ha,hr⟩,ho⟩
+    refine ⟨ha,hr,?_⟩
+    intro i hi
+    have hh := ho i hi
+    linarith
+  · rintro ⟨ha,hr,ho⟩
+    refine ⟨⟨ha,hr⟩,?_⟩
+    intro i hi
+    have hh := ho i hi
+    linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedRowCost.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Intrinsic ledger bounds count rational arithmetic and rational order tests;
+index/Boolean bookkeeping, table loading and bit costs are separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_counted_omitted_zero_cost {m s : ℕ} (c : RationalTableCertificate 0 m s)
+    (D : Vector (Vector ℚ 0) m) (threshold : ℚ) :
+    (rationalCountedTableOmitted c D threshold).2 ≤ 1 := by
+  simp only [rationalCountedTableOmitted,ite_true]
+  split_ifs <;> norm_num
+
+theorem rational_counted_omitted_positive_cost {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (D : Vector (Vector ℚ k) m) (threshold : ℚ) (hk : k ≠ 0) :
+    (rationalCountedTableOmitted c D threshold).2 ≤ m*(((2 : ℕ))*k+1) := by
+  simp only [rationalCountedTableOmitted,hk,ite_false,rational_counted_all_calls]
+  calc
+    _ ≤ ∑ _ : Fin m,(((2 : ℕ))*k+1) := by
+      apply Finset.sum_le_sum
+      intro i _
+      split_ifs <;> simp only [rational_counted_fin_dot_calls] <;> omega
+    _ = _ := by simp only [Finset.sum_const,Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,Nat.cast_id]
+
+theorem rational_counted_rows_exact_ledger {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableRows c K D M σ).2=
+      ((2 : ℕ))*s+((2 : ℕ))+k*(((2 : ℕ))*k+((2 : ℕ))*s+((2 : ℕ)))+
+        s*(((2 : ℕ))*k+((2 : ℕ))*s+((2 : ℕ)))+
+        (rationalCountedTableOmitted c D (σ+M*(∑ j,c.weights.get j))).2 := by
+  simp only [rationalCountedTableRows,rational_counted_fin_dot_calls,
+    rational_counted_all_calls,rational_counted_fin_dot_value,mul_one,
+    Finset.sum_const,Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,Nat.cast_id]
+
+theorem rational_counted_rows_quadratic_bound {k m s : ℕ}
+    (c : RationalTableCertificate k m s) (K : Vector (Vector ℚ k) k)
+    (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableRows c K D M σ).2 ≤
+      ((16 : ℕ))*(1+(k+m)*k+s*s) := by
+  rw [rational_counted_rows_exact_ledger]
+  by_cases hk : k=0
+  · subst k
+    have ho := rational_counted_omitted_zero_cost c D (σ+M*(∑ j,c.weights.get j))
+    have hs := Nat.le_mul_self s
+    nlinarith
+  · have ho := rational_counted_omitted_positive_cost c D (σ+M*(∑ j,c.weights.get j)) hk
+    have hsm : s ≤ m := by
+      have hh := Finset.card_le_card (Finset.subset_univ (rationalTableSupport c))
+      simpa only [rational_table_support_card,Finset.card_univ,Fintype.card_fin] using hh
+    have hk1 : 1 ≤ k := by omega
+    have hsk := Nat.mul_le_mul_right k hsm
+    have hmk := Nat.mul_le_mul_left m hk1
+    have hkk := Nat.le_mul_self k
+    have hss := Nat.le_mul_self s
+    nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableConditions.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalTableConditions {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) : Prop :=
+  0 ≤ M ∧ (∀ h,0 ≤ c.anchors.get h) ∧ (∀ j,0 ≤ c.weights.get j) ∧
+  (∑ h,c.anchors.get h)+(∑ j,c.weights.get j)=1 ∧
+  (∀ h h',(K.get h).get h' = -(K.get h').get h) ∧
+  (∀ h h',-M ≤ (K.get h).get h' ∧ (K.get h).get h' ≤ M) ∧
+  (∀ i h,-M ≤ (D.get i).get h ∧ (D.get i).get h ≤ M) ∧
+  (∀ i j,(c.residual.get i).get j = -(c.residual.get j).get i) ∧
+  (∀ i j,-M ≤ (c.residual.get i).get j ∧ (c.residual.get i).get j ≤ M) ∧
+  rationalTableRows c K D M σ
+
+theorem rational_table_support_forall {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (P : Fin m → Prop) : (∀ i ∈ rationalTableSupport c,P i) ↔ ∀ j,P (c.labels.get j) := by
+  constructor
+  · intro h j
+    exact h _ ((rational_table_support_mem c _).mpr ⟨j,rfl⟩)
+  · intro h i hi
+    obtain ⟨j,rfl⟩ := (rational_table_support_mem c i).mp hi
+    exact h j
+
+theorem rational_table_q_nonnegative {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    (∀ i,0 ≤ (rationalTableAsCertificate c).q i) ↔ ∀ j,0 ≤ c.weights.get j := by
+  constructor
+  · intro h j
+    simpa only [rational_table_q_label] using h (c.labels.get j)
+  · intro h i
+    by_cases hi : i ∈ rationalTableSupport c
+    · obtain ⟨j,rfl⟩ := (rational_table_support_mem c i).mp hi
+      simpa only [rational_table_q_label] using h j
+    · rw [rational_table_q_off c i hi]
+
+theorem rational_table_conditions_iff {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalTableAsCertificate c).Conditions (fun h h' => (K.get h).get h')
+      (fun i h => (D.get i).get h) M σ ↔ rationalTableConditions c K D M σ := by
+  change (0 ≤ M ∧ (∀ h,0 ≤ c.anchors.get h) ∧
+    (∀ i,0 ≤ (rationalTableAsCertificate c).q i) ∧
+    (∑ h,c.anchors.get h)+(∑ i,(rationalTableAsCertificate c).q i)=1 ∧
+    (∀ h h',(K.get h).get h' = -(K.get h').get h) ∧
+    (∀ h h',-M ≤ (K.get h).get h' ∧ (K.get h).get h' ≤ M) ∧
+    (∀ i h,-M ≤ (D.get i).get h ∧ (D.get i).get h ≤ M) ∧
+    (∀ i ∈ rationalTableSupport c,∀ j ∈ rationalTableSupport c,
+      (rationalTableAsCertificate c).b i j = -(rationalTableAsCertificate c).b j i) ∧
+    (∀ i ∈ rationalTableSupport c,∀ j ∈ rationalTableSupport c,
+      -M ≤ (rationalTableAsCertificate c).b i j ∧ (rationalTableAsCertificate c).b i j ≤ M) ∧
+    (rationalTableAsCertificate c).Rows (fun h h' => (K.get h).get h')
+      (fun i h => (D.get i).get h) M σ) ↔ _
+  simp_rw [rational_table_q_nonnegative,rational_table_mass_sum,
+    rational_table_support_forall,rational_table_b_labels,rational_table_rows_iff]
+  rfl
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedTableCertificate.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Finite-table checker with intrinsic unit arithmetic/comparison ledger.
+Table loading, index operations and bit costs are not charged by this ledger. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCountedTableCertificate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) : Bool × ℕ :=
+  let lower := -M
+  let pmass := rationalCountedFinDot c.anchors.get (fun _ => 1)
+  let qmass := rationalCountedFinDot c.weights.get (fun _ => 1)
+  let tests := rationalCountedConjunction [
+    (decide (0 ≤ M),1),
+    rationalCountedAll (fun h : Fin k => (decide (0 ≤ c.anchors.get h),1)),
+    rationalCountedAll (fun j : Fin s => (decide (0 ≤ c.weights.get j),1)),
+    (decide (pmass.1+qmass.1=1),pmass.2+qmass.2+((2 : ℕ))),
+    rationalCountedAll (fun h : Fin k => rationalCountedAll (fun h' : Fin k =>
+      (decide ((K.get h).get h' = -(K.get h').get h ∧
+        lower ≤ (K.get h).get h' ∧ (K.get h).get h' ≤ M),((4 : ℕ))))),
+    rationalCountedAll (fun i : Fin m => rationalCountedAll (fun h : Fin k =>
+      (decide (lower ≤ (D.get i).get h ∧ (D.get i).get h ≤ M),((2 : ℕ))))),
+    rationalCountedAll (fun i : Fin s => rationalCountedAll (fun j : Fin s =>
+      (decide ((c.residual.get i).get j = -(c.residual.get j).get i ∧
+        lower ≤ (c.residual.get i).get j ∧ (c.residual.get i).get j ≤ M),((4 : ℕ))))),
+    rationalCountedTableRows c K D M σ]
+  (tests.1,tests.2+1)
+
+theorem rational_counted_table_certificate_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableCertificate c K D M σ).1=true ↔ rationalTableConditions c K D M σ := by
+  simp only [rationalCountedTableCertificate,rational_counted_conjunction_value,
+    List.mem_cons,List.not_mem_nil,or_false,forall_eq_or_imp,forall_eq,rational_counted_all_value,
+    rational_counted_fin_dot_value,decide_eq_true_eq,mul_one,rational_counted_table_rows_value]
+  unfold rationalTableConditions
+  constructor
+  · rintro ⟨hM,hp,hq,hn,hK,hD,hB,hr⟩
+    exact ⟨hM,hp,hq,hn,(fun a b => (hK a b).1),(fun a b => (hK a b).2),hD,
+      (fun i j => (hB i j).1),(fun i j => (hB i j).2),hr⟩
+  · rintro ⟨hM,hp,hq,hn,hKs,hKb,hD,hBs,hBb,hr⟩
+    exact ⟨hM,hp,hq,hn,(fun a b => ⟨hKs a b,hKb a b⟩),hD,
+      (fun i j => ⟨hBs i j,hBb i j⟩),hr⟩
+
+theorem rational_counted_table_certificate_ledger {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableCertificate c K D M σ).2=
+      ((3 : ℕ))*k+((3 : ℕ))*s+((4 : ℕ))+((4 : ℕ))*k*k+((2 : ℕ))*m*k+
+        ((4 : ℕ))*s*s+(rationalCountedTableRows c K D M σ).2 := by
+  simp only [rationalCountedTableCertificate,rational_counted_conjunction_calls,
+    List.map_cons,List.map_nil,List.sum_cons,List.sum_nil,rational_counted_all_calls,
+    rational_counted_fin_dot_calls,Finset.sum_const,Finset.card_univ,Fintype.card_fin,
+    nsmul_eq_mul,Nat.cast_id]
+  ring
+
+theorem rational_counted_table_certificate_quadratic_bound {k m s : ℕ}
+    (c : RationalTableCertificate k m s) (K : Vector (Vector ℚ k) k)
+    (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableCertificate c K D M σ).2 ≤
+      ((64 : ℕ))*(1+(k+m)*k+s*s) := by
+  rw [rational_counted_table_certificate_ledger]
+  have hr := rational_counted_rows_quadratic_bound c K D M σ
+  have hk := Nat.le_mul_self k
+  have hs := Nat.le_mul_self s
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedCertificateSoundness.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_counted_certificate_check_iff {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) :
+    (rationalCountedTableCertificate c K D M σ).1=true ↔
+      (rationalTableAsCertificate c).check (fun h h' => (K.get h).get h')
+        (fun i h => (D.get i).get h) M σ=true := by
+  rw [rational_counted_table_certificate_value,RationalCertificate.check_iff,
+    rational_table_conditions_iff]
+
+theorem rational_counted_certificate_full_game {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ)
+    (hc : (rationalCountedTableCertificate c K D M σ).1=true) :
+    let cert := rationalTableAsCertificate c
+    (∀ a,0 ≤ blockWeights (fun h => (cert.anchors h : ℝ)) cert.realQ a) ∧
+    (∑ a,blockWeights (fun h => (cert.anchors h : ℝ)) cert.realQ a)=1 ∧
+    IsSkew (blockMatrix (fun h h' => ((K.get h).get h' : ℝ))
+      (fun i h => ((D.get i).get h : ℝ)) (cert.realB M)) ∧
+    (∀ a b,-(M : ℝ) ≤ blockMatrix (fun h h' => ((K.get h).get h' : ℝ))
+      (fun i h => ((D.get i).get h : ℝ)) (cert.realB M) a b ∧
+      blockMatrix (fun h h' => ((K.get h).get h' : ℝ))
+        (fun i h => ((D.get i).get h : ℝ)) (cert.realB M) a b ≤ (M : ℝ)) ∧
+    (∀ a,response (blockMatrix (fun h h' => ((K.get h).get h' : ℝ))
+      (fun i h => ((D.get i).get h : ℝ)) (cert.realB M))
+      (blockWeights (fun h => (cert.anchors h : ℝ)) cert.realQ) a ≤ (σ : ℝ)) := by
+  exact RationalCertificate.accepted_full_game (rationalTableAsCertificate c)
+    (fun h h' => (K.get h).get h') (fun i h => (D.get i).get h) M σ
+    ((rational_counted_certificate_check_iff c K D M σ).mp hc)
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableStorage.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Counts rational scalar slots; label indices and encoding bits are separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalTableScalarSlots {k m s : ℕ} (c : RationalTableCertificate k m s) : ℕ :=
+  c.anchors.toArray.size+c.weights.toArray.size+
+    ∑ i : Fin s,(c.residual.get i).toArray.size
+
+theorem rational_table_scalar_slots {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    rationalTableScalarSlots c=k+s+s*s := by
+  simp [rationalTableScalarSlots,Vector.size_toArray]
+
+theorem rational_table_scalar_slots_bound {k m s : ℕ} (c : RationalTableCertificate k m s) :
+    rationalTableScalarSlots c ≤ k+((2 : ℕ))*s*s := by
+  rw [rational_table_scalar_slots]
+  have hs := Nat.le_mul_self s
+  nlinarith
+
+def rationalObservationScalarSlots {k m : ℕ}
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) : ℕ :=
+  (∑ h : Fin k,(K.get h).toArray.size)+(∑ i : Fin m,(D.get i).toArray.size)
+
+theorem rational_observation_scalar_slots {k m : ℕ}
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) :
+    rationalObservationScalarSlots K D=(k+m)*k := by
+  simp [rationalObservationScalarSlots,Vector.size_toArray]
+  ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedCommitments.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual prescribed-anchor and coordinatewise-floor checks; arbitrary R costs separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCountedFixedCertificate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ)
+    (p : Vector ℚ k) : Bool × ℕ :=
+  let base := rationalCountedTableCertificate c K D M σ
+  let extra := rationalCountedAll fun h : Fin k => (decide (c.anchors.get h=p.get h),1)
+  (base.1 && extra.1,base.2+extra.2)
+
+def rationalCountedFloorCertificate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ)
+    (floors : Vector ℚ k) : Bool × ℕ :=
+  let base := rationalCountedTableCertificate c K D M σ
+  let extra := rationalCountedAll fun h : Fin k => (decide (floors.get h ≤ c.anchors.get h),1)
+  (base.1 && extra.1,base.2+extra.2)
+
+theorem rational_counted_fixed_certificate_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (p : Vector ℚ k) :
+    (rationalCountedFixedCertificate c K D M σ p).1=true ↔
+      rationalTableConditions c K D M σ ∧ ∀ h,c.anchors.get h=p.get h := by
+  simp only [rationalCountedFixedCertificate,Bool.and_eq_true,rational_counted_all_value,
+    rational_counted_table_certificate_value,decide_eq_true_eq]
+
+theorem rational_counted_floor_certificate_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (floors : Vector ℚ k) :
+    (rationalCountedFloorCertificate c K D M σ floors).1=true ↔
+      rationalTableConditions c K D M σ ∧ ∀ h,floors.get h ≤ c.anchors.get h := by
+  simp only [rationalCountedFloorCertificate,Bool.and_eq_true,rational_counted_all_value,
+    rational_counted_table_certificate_value,decide_eq_true_eq]
+
+theorem rational_counted_fixed_certificate_calls {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (p : Vector ℚ k) :
+    (rationalCountedFixedCertificate c K D M σ p).2=
+      (rationalCountedTableCertificate c K D M σ).2+k := by
+  simp only [rationalCountedFixedCertificate,rational_counted_all_calls,Finset.sum_const,
+    Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,Nat.cast_id,mul_one]
+
+theorem rational_counted_floor_certificate_calls {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (floors : Vector ℚ k) :
+    (rationalCountedFloorCertificate c K D M σ floors).2=
+      (rationalCountedTableCertificate c K D M σ).2+k := by
+  simp only [rationalCountedFloorCertificate,rational_counted_all_calls,Finset.sum_const,
+    Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,Nat.cast_id,mul_one]
+
+theorem rational_counted_fixed_certificate_bound {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (p : Vector ℚ k) :
+    (rationalCountedFixedCertificate c K D M σ p).2 ≤ ((128 : ℕ))*(1+(k+m)*k+s*s) := by
+  rw [rational_counted_fixed_certificate_calls]
+  have hb := rational_counted_table_certificate_quadratic_bound c K D M σ
+  have hk := Nat.le_mul_self k
+  nlinarith
+
+theorem rational_counted_floor_certificate_bound {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (floors : Vector ℚ k) :
+    (rationalCountedFloorCertificate c K D M σ floors).2 ≤ ((128 : ℕ))*(1+(k+m)*k+s*s) := by
+  rw [rational_counted_floor_certificate_calls]
+  have hb := rational_counted_table_certificate_quadratic_bound c K D M σ
+  have hk := Nat.le_mul_self k
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedIntervalObservations.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Chosen D,K are checked against every supplied endpoint; arbitrary R is separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCountedObservationCheck {k m : ℕ}
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m) : Bool × ℕ :=
+  let core := rationalCountedAll fun h : Fin k => rationalCountedAll fun h' : Fin k =>
+    (decide ((loK.get h).get h' ≤ (K.get h).get h' ∧
+      (K.get h).get h' ≤ (hiK.get h).get h'),((2 : ℕ)))
+  let cross := rationalCountedAll fun i : Fin m => rationalCountedAll fun h : Fin k =>
+    (decide ((loD.get i).get h ≤ (D.get i).get h ∧
+      (D.get i).get h ≤ (hiD.get i).get h),((2 : ℕ)))
+  (core.1 && cross.1,core.2+cross.2)
+
+theorem rational_counted_observation_value {k m : ℕ}
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m) :
+    (rationalCountedObservationCheck K loK hiK D loD hiD).1=true ↔
+      (∀ h h',(loK.get h).get h' ≤ (K.get h).get h' ∧ (K.get h).get h' ≤ (hiK.get h).get h') ∧
+      (∀ i h,(loD.get i).get h ≤ (D.get i).get h ∧ (D.get i).get h ≤ (hiD.get i).get h) := by
+  simp only [rationalCountedObservationCheck,Bool.and_eq_true,rational_counted_all_value,decide_eq_true_eq]
+
+theorem rational_counted_observation_calls {k m : ℕ}
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m) :
+    (rationalCountedObservationCheck K loK hiK D loD hiD).2=((2 : ℕ))*(k+m)*k := by
+  simp only [rationalCountedObservationCheck,rational_counted_all_calls,Finset.sum_const,
+    Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,Nat.cast_id]
+  ring
+
+def rationalCountedIntervalFixedCertificate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (p : Vector ℚ k) : Bool × ℕ :=
+  let base := rationalCountedFixedCertificate c K D M σ p
+  let observation := rationalCountedObservationCheck K loK hiK D loD hiD
+  (base.1 && observation.1,base.2+observation.2)
+
+def rationalCountedIntervalFloorCertificate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (floors : Vector ℚ k) : Bool × ℕ :=
+  let base := rationalCountedFloorCertificate c K D M σ floors
+  let observation := rationalCountedObservationCheck K loK hiK D loD hiD
+  (base.1 && observation.1,base.2+observation.2)
+
+theorem rational_counted_interval_fixed_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (p : Vector ℚ k) :
+    (rationalCountedIntervalFixedCertificate c K loK hiK D loD hiD M σ p).1=true ↔
+      (rationalTableConditions c K D M σ ∧ ∀ h,c.anchors.get h=p.get h) ∧
+      (∀ h h',(loK.get h).get h' ≤ (K.get h).get h' ∧ (K.get h).get h' ≤ (hiK.get h).get h') ∧
+      (∀ i h,(loD.get i).get h ≤ (D.get i).get h ∧ (D.get i).get h ≤ (hiD.get i).get h) := by
+  simp only [rationalCountedIntervalFixedCertificate,Bool.and_eq_true,
+    rational_counted_fixed_certificate_value,rational_counted_observation_value]
+
+theorem rational_counted_interval_floor_value {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (floors : Vector ℚ k) :
+    (rationalCountedIntervalFloorCertificate c K loK hiK D loD hiD M σ floors).1=true ↔
+      (rationalTableConditions c K D M σ ∧ ∀ h,floors.get h ≤ c.anchors.get h) ∧
+      (∀ h h',(loK.get h).get h' ≤ (K.get h).get h' ∧ (K.get h).get h' ≤ (hiK.get h).get h') ∧
+      (∀ i h,(loD.get i).get h ≤ (D.get i).get h ∧ (D.get i).get h ≤ (hiD.get i).get h) := by
+  simp only [rationalCountedIntervalFloorCertificate,Bool.and_eq_true,
+    rational_counted_floor_certificate_value,rational_counted_observation_value]
+
+theorem rational_counted_interval_fixed_calls {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (p : Vector ℚ k) :
+    (rationalCountedIntervalFixedCertificate c K loK hiK D loD hiD M σ p).2=
+      (rationalCountedTableCertificate c K D M σ).2+k+((2 : ℕ))*(k+m)*k := by
+  simp only [rationalCountedIntervalFixedCertificate,rational_counted_fixed_certificate_calls,
+    rational_counted_observation_calls]
+
+theorem rational_counted_interval_floor_calls {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (floors : Vector ℚ k) :
+    (rationalCountedIntervalFloorCertificate c K loK hiK D loD hiD M σ floors).2=
+      (rationalCountedTableCertificate c K D M σ).2+k+((2 : ℕ))*(k+m)*k := by
+  simp only [rationalCountedIntervalFloorCertificate,rational_counted_floor_certificate_calls,
+    rational_counted_observation_calls]
+
+theorem rational_counted_interval_fixed_bound {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (p : Vector ℚ k) :
+    (rationalCountedIntervalFixedCertificate c K loK hiK D loD hiD M σ p).2 ≤
+      ((256 : ℕ))*(1+(k+m)*k+s*s) := by
+  rw [rational_counted_interval_fixed_calls]
+  have hb := rational_counted_table_certificate_quadratic_bound c K D M σ
+  have hk := Nat.le_mul_self k
+  nlinarith
+
+theorem rational_counted_interval_floor_bound {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (floors : Vector ℚ k) :
+    (rationalCountedIntervalFloorCertificate c K loK hiK D loD hiD M σ floors).2 ≤
+      ((256 : ℕ))*(1+(k+m)*k+s*s) := by
+  rw [rational_counted_interval_floor_calls]
+  have hb := rational_counted_table_certificate_quadratic_bound c K D M σ
+  have hk := Nat.le_mul_self k
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalCountedCertificateRate.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Valid normalized certificates absorb the additive ledger constant.
+These remain unit-rational source counts, not bit or machine time. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_table_valid_dimensions {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ)
+    (hc : rationalTableConditions c K D M σ) : 0 < k+s := by
+  have hn := hc.2.2.2.1
+  by_contra hh
+  have hk : k=0 := by omega
+  have hs : s=0 := by omega
+  subst k
+  subst s
+  simp only [Finset.univ_eq_empty,Finset.sum_empty,zero_add] at hn
+  norm_num at hn
+
+theorem rational_table_valid_size {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ)
+    (hc : rationalTableConditions c K D M σ) : 1 ≤ (k+m)*k+s*s := by
+  have hd := rational_table_valid_dimensions c K D M σ hc
+  by_cases hk : k=0
+  · subst k
+    have hs : 1 ≤ s := by omega
+    have hsq := Nat.le_mul_self s
+    nlinarith
+  · have hk1 : 1 ≤ k := by omega
+    have hsq := Nat.le_mul_self k
+    nlinarith
+
+theorem rational_counted_certificate_valid_rate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ)
+    (hc : (rationalCountedTableCertificate c K D M σ).1=true) :
+    (rationalCountedTableCertificate c K D M σ).2 ≤ ((128 : ℕ))*((k+m)*k+s*s) := by
+  have hsize := rational_table_valid_size c K D M σ
+    ((rational_counted_table_certificate_value c K D M σ).mp hc)
+  have hb := rational_counted_table_certificate_quadratic_bound c K D M σ
+  nlinarith
+
+theorem rational_counted_fixed_valid_rate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (p : Vector ℚ k)
+    (hc : (rationalCountedFixedCertificate c K D M σ p).1=true) :
+    (rationalCountedFixedCertificate c K D M σ p).2 ≤ ((256 : ℕ))*((k+m)*k+s*s) := by
+  have hsize := rational_table_valid_size c K D M σ
+    ((rational_counted_fixed_certificate_value c K D M σ p).mp hc).1
+  have hb := rational_counted_fixed_certificate_bound c K D M σ p
+  nlinarith
+
+theorem rational_counted_floor_valid_rate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K : Vector (Vector ℚ k) k) (D : Vector (Vector ℚ k) m) (M σ : ℚ) (floors : Vector ℚ k)
+    (hc : (rationalCountedFloorCertificate c K D M σ floors).1=true) :
+    (rationalCountedFloorCertificate c K D M σ floors).2 ≤ ((256 : ℕ))*((k+m)*k+s*s) := by
+  have hsize := rational_table_valid_size c K D M σ
+    ((rational_counted_floor_certificate_value c K D M σ floors).mp hc).1
+  have hb := rational_counted_floor_certificate_bound c K D M σ floors
+  nlinarith
+
+theorem rational_counted_interval_fixed_valid_rate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (p : Vector ℚ k)
+    (hc : (rationalCountedIntervalFixedCertificate c K loK hiK D loD hiD M σ p).1=true) :
+    (rationalCountedIntervalFixedCertificate c K loK hiK D loD hiD M σ p).2 ≤
+      ((512 : ℕ))*((k+m)*k+s*s) := by
+  have hsize := rational_table_valid_size c K D M σ
+    ((rational_counted_interval_fixed_value c K loK hiK D loD hiD M σ p).mp hc).1.1
+  have hb := rational_counted_interval_fixed_bound c K loK hiK D loD hiD M σ p
+  nlinarith
+
+theorem rational_counted_interval_floor_valid_rate {k m s : ℕ} (c : RationalTableCertificate k m s)
+    (K loK hiK : Vector (Vector ℚ k) k) (D loD hiD : Vector (Vector ℚ k) m)
+    (M σ : ℚ) (floors : Vector ℚ k)
+    (hc : (rationalCountedIntervalFloorCertificate c K loK hiK D loD hiD M σ floors).1=true) :
+    (rationalCountedIntervalFloorCertificate c K loK hiK D loD hiD M σ floors).2 ≤
+      ((512 : ℕ))*((k+m)*k+s*s) := by
+  have hsize := rational_table_valid_size c K D M σ
+    ((rational_counted_interval_floor_value c K loK hiK D loD hiD M σ floors).mp hc).1.1
+  have hb := rational_counted_interval_floor_bound c K loK hiK D loD hiD M σ floors
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: LargeToleranceWitness.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The no-grid large-tolerance refinement in the source sparsification section. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- When η covers the entire possible residual response, zero residual payoffs
+suffice after preserving the anchor and extra moments. No call nodes remain. -/
+theorem large_tolerance_sparse_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ)
+    (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 ≤ M) (hr : 0 < r) (hη : M*r ≤ η)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hbound : ∀ i j, -M ≤ B i j)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ q' : ι → ℝ, (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+1 ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      (∀ a, response (blockMatrix K D (fun _ _ => 0)) (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  let G : ι → (Fin k ⊕ Fin d) → ℝ := fun i => Sum.elim (D i) (F i)
+  obtain ⟨q', hn, hm, hs, hc, hf⟩ :=
+    finite_feature_compression (Fin k ⊕ Fin d) q G r hq hmass hr
+  have hd : ∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h := by
+    intro h
+    exact hf (.inl h)
+  have he : ∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g := by
+    intro g
+    exact hf (.inr g)
+  refine ⟨q', hn, hm, hs, ?_, hd, he, ?_⟩
+  · simpa only [Fintype.card_sum, Fintype.card_fin] using hc
+  · have hb := (block_response_bounds_iff K D B p q ρ).mp hresp
+    have hg := response_guard q (score D p) B M r ρ hq hmass hbound hb.2
+    have hη0 : 0 ≤ η := le_trans (mul_nonneg hM (le_of_lt hr)) hη
+    apply (block_response_bounds_iff K D (fun _ _ => 0) p q' (ρ+η)).mpr
+    constructor
+    · intro h
+      rw [anchor_response_of_moments k K D p q q' hd]
+      exact le_trans (hb.1 h) (le_add_of_nonneg_right hη0)
+    · intro i
+      simpa only [response, zero_mul, Finset.sum_const_zero, add_zero] using
+        (show score D p i ≤ ρ+η by linarith [hg i])
+
+/-- The optional source refinement, with no additional moment constraints. -/
+theorem large_tolerance_sparse_witness {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 ≤ M) (hr : 0 < r) (hη : M*r ≤ η)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hbound : ∀ i j, -M ≤ B i j)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ q' : ι → ℝ, (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+1 ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ a, response (blockMatrix K D (fun _ _ => 0)) (blockWeights p q') a ≤ ρ+η) := by
+  obtain ⟨q', hn, hm, hs, hc, hd, _, he⟩ :=
+    large_tolerance_sparse_moments k 0 K D (fun _ g => Fin.elim0 g) B p q M r ρ η
+      hM hr hη hq hmass hbound hresp
+  exact ⟨q', hn, hm, hs, by simpa only [Nat.add_zero] using hc, hd, he⟩
+
+/-- Whole-game version: retain the anchor shares, all extra moments, and at
+most 2k+d+1 total support points, with the explicit zero residual block. -/
+theorem normalized_large_tolerance_sparse_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ)
+    (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 ≤ M) (hr : 0 < r) (hη : M*r ≤ η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r=1) (hmass : ∑ i, q i=r)
+    (hK : IsSkew K)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hbound : ∀ i j, -M ≤ B i j)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ q' : ι → ℝ,
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a)=1 ∧
+      (∀ h, blockWeights p q' (.inl h)=p h) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+1 ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ 2*k+d+1 ∧
+      (∀ h, (∑ i, q' i*D i h)=∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g)=∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D (fun _ _ => 0)) ∧
+      (∀ a b, -M ≤ blockMatrix K D (fun _ _ => 0) a b ∧
+        blockMatrix K D (fun _ _ => 0) a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D (fun _ _ => 0)) (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  obtain ⟨q', hn, hm, hs, hc, hd, he, hb⟩ :=
+    large_tolerance_sparse_moments k d K D F B p q M r ρ η hM hr hη hq hmass hbound hresp
+  refine ⟨q', blockWeights_nonneg p q' hp hn, ?_, fun _ => rfl, hs, hc, ?_, hd, he,
+    blockMatrix_skew K D _ hK (by intro i j; simp only [neg_zero]),
+    blockMatrix_bounds K D _ M hKb hDb (fun _ _ => ⟨by linarith, hM⟩), hb⟩
+  · rw [blockWeights_mass, hm]
+    exact hpmass
+  · rw [block_support_card]
+    have ha : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp only [Finset.card_univ, Fintype.card_fin]; exact le_rfl)
+    omega
+
+end
+end SparseCompletion
+
+/- Fixed source body: PrefixViolation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Quantitative prefix domination from the source conic-section proof. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem call_positive_filter_identity {ι : Type*} [Fintype ι]
+    (q v : ι → ℝ) (z : ℝ) :
+    call q v z =
+      (∑ i ∈ Finset.univ.filter (fun i => 0 < v i-z), q i*v i)-
+        z*mass (Finset.univ.filter (fun i => 0 < v i-z)) q := by
+  classical
+  have he : call q v z =
+      ∑ i ∈ Finset.univ.filter (fun i => 0 < v i-z), q i*(v i-z) := by
+    unfold call
+    rw [Finset.sum_filter]
+    apply Finset.sum_congr rfl
+    intro i _
+    by_cases hi : 0 < v i-z
+    · rw [ite_eq_left hi, max_eq_left (le_of_lt hi)]
+    · rw [ite_eq_right hi, max_eq_right (le_of_not_gt hi), mul_zero]
+  rw [he]
+  simp only [mass, mul_sub, Finset.sum_sub_distrib, Finset.mul_sum]
+  simp only [mul_comm]
+
+/-- Every subset's numerical cut violation is dominated by a score prefix,
+even when the subset already violates the constraints. -/
+theorem score_prefix_violation_dominates {m : ℕ}
+    (q v : Fin m → ℝ) (M r : ℝ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hv : Antitone v) (S : Finset (Fin m)) :
+    ∃ l : ℕ, l ≤ m ∧
+      (∑ i ∈ S, q i*v i)-M*mass S q*(r-mass S q) ≤
+      (∑ i ∈ scorePrefix m l, q i*v i)-
+        M*mass (scorePrefix m l) q*(r-mass (scorePrefix m l) q) := by
+  classical
+  let Q := mass S q
+  let z := M*r-2*M*Q
+  obtain ⟨l, hl, he⟩ := threshold_is_score_prefix v hv z
+  refine ⟨l, hl, ?_⟩
+  have hsub : (∑ i ∈ S, q i*v i)-z*Q ≤ call q v z := by
+    calc
+      _ = ∑ i ∈ S, q i*(v i-z) := by
+        simp only [Q, mass, mul_sub, Finset.sum_sub_distrib, ← Finset.sum_mul]
+        ring
+      _ ≤ ∑ i ∈ S, q i*max (v i-z) 0 :=
+        Finset.sum_le_sum fun i _ => mul_le_mul_of_nonneg_left (le_max_left _ _) (hq i)
+      _ ≤ call q v z := Finset.sum_le_univ_sum_of_nonneg fun i =>
+        mul_nonneg (hq i) (le_max_right _ _)
+  rw [call_positive_filter_identity, he] at hsub
+  have hs := mul_nonneg hM (sq_nonneg (mass (scorePrefix m l) q-Q))
+  dsimp only [z, Q] at hsub hs
+  nlinarith
+
+/-- Prefixes certify any upper bound on the maximum cut violation, not only
+feasibility at zero. No normalization or positivity of total mass is needed. -/
+theorem cut_violation_bound_iff_prefix_bound {m : ℕ}
+    (q v : Fin m → ℝ) (M r δ : ℝ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hv : Antitone v) :
+    (∀ S : Finset (Fin m),
+      (∑ i ∈ S, q i*v i)-M*mass S q*(r-mass S q) ≤ δ) ↔
+    ∀ l : ℕ, l ≤ m →
+      (∑ i ∈ scorePrefix m l, q i*v i)-
+        M*mass (scorePrefix m l) q*(r-mass (scorePrefix m l) q) ≤ δ := by
+  constructor
+  · intro h l _
+    exact h _
+  · intro h S
+    obtain ⟨l, hl, hd⟩ := score_prefix_violation_dominates q v M r hM hq hv S
+    exact le_trans hd (h l hl)
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorCertifiedGeneral.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+A returned global bracket for arbitrary nonnegative coordinate floors.
+This retains the dense allocation-search witness, without a sparsity claim. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalFloorCertifiedApproximation {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) : Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  (rationalFloorApproximation d s hs ε).map (fun w =>
+    (w.1,{w.2 with bracket := (w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε,w.2.bracket.2+ε/((3 : ℕ) : ℚ))}))
+
+theorem rational_floor_certified_origin {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalFloorCertifiedApproximation d s hs ε=some v) :
+    0 < ε ∧ ∃ w,rationalFloorApproximation d s hs ε=some w ∧
+      v=(w.1,{w.2 with bracket := (w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε,w.2.bracket.2+ε/((3 : ℕ) : ℚ))}) := by
+  have he : 0 < ε := by
+    by_contra hh
+    simp only [rationalFloorCertifiedApproximation,rationalFloorApproximation,dite_eq_right hh,
+      Option.map_none] at hv
+    cases hv
+  refine ⟨he,?_⟩
+  cases hw : rationalFloorApproximation d s hs ε with
+  | none => simp only [rationalFloorCertifiedApproximation,hw,Option.map_none] at hv; cases hv
+  | some w =>
+    refine ⟨w,rfl,?_⟩
+    exact (Option.some.inj (by simpa only [rationalFloorCertifiedApproximation,hw,Option.map_some] using hv)).symm
+
+theorem rational_floor_certified_none_iff {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (hε : 0 < ε) :
+    rationalFloorCertifiedApproximation d s hs ε=none ↔ ¬(floorIntervalGameClass d s u).Nonempty := by
+  rw [rationalFloorCertifiedApproximation,Option.map_eq_none_iff,
+    rational_floor_approximation_none_iff d s u hs hu hR ε hε]
+
+theorem rational_floor_certified_complete {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty) (ε : ℚ) (hε : 0 < ε) :
+    ∃ v,rationalFloorCertifiedApproximation d s hs ε=some v := by
+  obtain ⟨w,hw,_,_⟩ := rational_floor_approximation_global d s u hs hu hR hne ε hε
+  refine ⟨(w.1,{w.2 with bracket := (w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε,w.2.bracket.2+ε/((3 : ℕ) : ℚ))}),?_⟩
+  simp only [rationalFloorCertifiedApproximation,hw,Option.map_some]
+
+theorem rational_floor_certified_value {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalFloorCertifiedApproximation d s hs ε=some v) :
+    ((fun a => (v.1 a : ℝ)),v.2.realData) ∈ floorIntervalGameClass d s u ∧
+    (∀ a,response (intervalGameMatrix v.2.realData)
+      (blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ))) a ≤ (v.2.bracket.2 : ℝ)) ∧
+    (v.2.bracket.1 : ℝ) < floorIntervalGameValue d s u ∧
+    floorIntervalGameValue d s u ≤ (v.2.bracket.2 : ℝ) ∧
+    v.2.bracket.2-v.2.bracket.1=ε := by
+  obtain ⟨he,w,hw,rfl⟩ := rational_floor_certified_origin d s hs ε v hv
+  have hc := rational_floor_approximation_output_class d s u hs hR ε w hw
+  have hrows := (rational_floor_approximation_rows d s hs ε he w hw).2
+  push_cast at hrows
+  have hn : (floorIntervalGameClass d s u).Nonempty := ⟨_,hc⟩
+  obtain ⟨w',hw',hlo,hhi⟩ := rational_floor_approximation_global d s u hs hu hR hn ε he
+  have hsame : w'=w := Option.some.inj (hw'.symm.trans hw)
+  subst w'
+  refine ⟨hc,?_,?_,?_,?_⟩
+  · intro a
+    change _ ≤ ((w.2.bracket.2+ε/((3 : ℕ) : ℚ) : ℚ) : ℝ)
+    push_cast
+    exact hrows a
+  · change ((w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε : ℚ) : ℝ) < _
+    push_cast
+    linarith
+  · change _ ≤ ((w.2.bracket.2+ε/((3 : ℕ) : ℚ) : ℚ) : ℝ)
+    push_cast
+    exact hlo
+  · change w.2.bracket.2+ε/((3 : ℕ) : ℚ)-(w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε)=ε
+    ring
+
+end SparseCompletion
+
+/- Fixed source body: CoverUniformBound.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Uniform ceiling bound for any supplied observation cover, hence a minimum one. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem cover_residual_mass_le_one {ν : Type*} [Fintype ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (x : ν → ℝ)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) :
+    (∑ i : (Cᶜ : Set ν), x i) ≤ 1 := by
+  have he := Equiv.sum_comp (coverEquiv C) x
+  simp only [Fintype.sum_sum_type, cover_equiv_residual, hm] at he
+  have ha : 0 ≤ ∑ h : Fin (Fintype.card C), x (coverEquiv C (.inl h)) :=
+    Finset.sum_nonneg fun h _ => hn _
+  linarith
+
+theorem gridSize_uniform_mass_bound (M r η : ℝ)
+    (hM : 0 ≤ M) (hr : r ≤ 1) (hη : 0 < η) :
+    gridSize M r η ≤ Nat.ceil (Real.sqrt (M/η)) := by
+  unfold gridSize
+  apply Nat.ceil_mono
+  apply Real.sqrt_le_sqrt
+  exact div_le_div_of_nonneg_right (mul_le_of_le_one_right hM hr) (le_of_lt hη)
+
+/-- Uniform bound with r eliminated; applies to a minimum cover by choosing it
+as C. The theorem retains the original cover shares and incident payoffs. -/
+theorem arbitrary_vertex_cover_uniform_exact {ν : Type*} [Fintype ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (A lo hi : ν → ν → ℝ)
+    (x : ν → ℝ) (M η : ℝ) (hM : 0 < M) (hη : 0 < η)
+    (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hcover : intervalVertexCover C lo hi M) (hresp : ∀ i, response A x i ≤ 0) :
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ η) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) (2*Fintype.card C+Nat.ceil (Real.sqrt (M/η))) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) := by
+  classical
+  obtain ⟨A',x',hqn,hqm,hsk,hb',hI',hr',hp',hz',_,ht',he',ha',_⟩ :=
+    arbitrary_vertex_cover_exact C 0 (fun _ g => Fin.elim0 g) A lo hi x M η
+      hM hη hA hb hn hm hI hcover hresp
+  have hg := gridSize_uniform_mass_bound M (∑ i : (Cᶜ : Set ν), x i) η
+    (le_of_lt hM) (cover_residual_mass_le_one C x hn hm) hη
+  refine ⟨A',x',hqn,hqm,hsk,hb',hI',hr',hp',hz',?_,he',ha'⟩
+  apply le_trans ht'
+  apply min_le_min_left
+  simp only [Nat.add_zero]
+  omega
+
+end
+end SparseCompletion

@@ -11219,3 +11219,372 @@ instance NeZero.one : NeZero (1 : M₀) := ⟨by
 Named instance affected declarations: SparseCompletion.rational_central_pair_response, SparseCompletion.rational_uniform_score_real.
 
 Four actual Nat.instNeZeroSucc contexts are also retained: SparseCompletion.bin_ordered_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_uniform_score_real. These additions are actual direct constants, not blanket finite-numeral or inhabitant assignments. All other alias39 usage groups are unchanged; the two aliases are public mathematical model reuse, with both prior algorithms still in the protected closure. Current evidence counts are66 material/76 compiler/2 auxiliary,111 Mathlib source files and203 exact excerpts. The generic one-nonzero contract is compiled through both entrypoints.
+
+## Vector-based compact certificate compiler contexts
+
+Current integrated meaning inventory:66material,85compiler and2auxiliary contexts,111exact Mathlib source files/203excerpts. The nine additions below have precise actual-use assignments in the JSON inventory. Supporting NeZero and Fin.foldr contexts are included for actual successor-instance and List.ofFn users. No Fin.ofNat, default or positivity use is inferred solely from a nonzero instance.
+
+### Vector exact-size Array representation
+
+Vector stores a genuine Array plus proof its size=n; proof is erased data invariant.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Vector/Basic.lean
+
+Source SHA256 4b1e57bfc71ac23e15e6a87fd5b3ee43197dbe0c7d46d184fe9d27a9389d9d9a; Git blob c1af6da8c7c511dc806f2ea03900d3a2c59b25a4. Excerpt SHA256 5c469df00e6646e59d7d5aafd42163e6127224c3c7f7177856d505da3cb6a464. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Shreyas Srinivas. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Shreyas Srinivas, François G. Dorais, Kim Morrison
+-/```
+
+```lean
+structure Vector (α : Type u) (n : Nat) where
+  /-- The underlying array. -/
+  toArray : Array α
+  /-- Array size. -/
+  size_toArray : toArray.size = n
+deriving @[expose] DecidableEq
+
+attribute [simp, grind =] Vector.size_toArray
+```
+
+### Vector.get finite indexed access
+
+Finite index transported along exactsize equality then Array GetElem; no chosen element/default fallback.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Vector/Basic.lean
+
+Source SHA256 4b1e57bfc71ac23e15e6a87fd5b3ee43197dbe0c7d46d184fe9d27a9389d9d9a; Git blob c1af6da8c7c511dc806f2ea03900d3a2c59b25a4. Excerpt SHA256 351da80e630c42779473094458f6b73fd0ba3787588a19dcfa831b47ed2230bd. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Shreyas Srinivas. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Shreyas Srinivas, François G. Dorais, Kim Morrison
+-/```
+
+```lean
+/-- Get an element of a vector using a `Fin` index. -/
+@[inline, expose] def get (xs : Vector α n) (i : Fin n) : α :=
+  xs.toArray[(i.cast xs.size_toArray.symm).1]
+```
+
+### GetElem interface
+
+Indexing class carries valid-index proof and actual element-returning method.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/GetElem.lean
+
+Source SHA256 48f15b60c7557c565aa59db2833e49e7256c9e690f228272cffc7de2d75c5f14; Git blob 0542f6a8f0f8d35afd702da0605e5dcd90e07506. Excerpt SHA256 9ccb88bc8525adad724be5485fccde3f0cfbf7a475db5f1ed2c9b4be65d9f660. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+```lean
+class GetElem (coll : Type u) (idx : Type v) (elem : outParam (Type w))
+              (valid : outParam (coll → idx → Prop)) where
+  /--
+  The syntax `arr[i]` gets the `i`'th element of the collection `arr`. If there
+  are proof side conditions to the application, they will be automatically
+  inferred by the `get_elem_tactic` tactic.
+  -/
+  getElem (xs : coll) (i : idx) (h : valid xs i) : elem
+
+export GetElem (getElem)
+```
+
+### Array Nat GetElem instance
+
+Actual Nat array indexing delegates Array.getInternal under i<size. Existing Prelude Array context already retains getInternal and extern override boundary.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/GetElem.lean
+
+Source SHA256 48f15b60c7557c565aa59db2833e49e7256c9e690f228272cffc7de2d75c5f14; Git blob 0542f6a8f0f8d35afd702da0605e5dcd90e07506. Excerpt SHA256 387a874aa6da9a4ace8264709c6f933bdc503ed97ccec83672c5c227429b53d0. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+```lean
+namespace Array
+
+instance : GetElem (Array α) Nat α fun xs i => i < xs.size where
+  getElem xs i h := xs.getInternal i h
+```
+
+### Bool.and logical and executable form
+
+Bool.and logical Bool.rec and macro_inline Internal.and with shortcircuit runtime; noncomputable logical spelling is replaced by proved csimp, not fake decidability.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2. Excerpt SHA256 317866439091b80d189604f8e80b45e21489a62833204fc968099864ad6e66c8. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+```lean
+Boolean “and”, also known as conjunction. `and x y` can be written `x && y`.
+
+The corresponding propositional connective is `And : Prop → Prop → Prop`, written with the `∧`
+operator.
+
+The Boolean `and` is a `@[macro_inline]` function in order to give it short-circuiting evaluation:
+if `x` is `false` then `y` is not evaluated at runtime.
+-/
+@[implicit_reducible]
+noncomputable def Bool.and (x y : Bool) : Bool :=
+  Bool.rec false y x
+
+@[macro_inline, inherit_doc Bool.and] def Bool.Internal.and (x y : Bool) : Bool :=
+  match x with
+  | false => false
+  | true  => y
+```
+
+### Bool.and csimp equality
+
+Actual compiler simplification theorem identifies logical Bool.and with executable Internal.and.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2. Excerpt SHA256 cab7703af6b5ce2e8dba096e1857c9a95ea96bc8b38c2bf6e433d4dc05c40f39. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+```lean
+@[csimp]
+theorem Bool.and_eq_internalAnd : Eq Bool.and Bool.Internal.and :=
+  funext (fun x => match x with | true | false => rfl)
+```
+
+### List.foldr structural fold
+
+Recursive right fold; supporting literal expansion for List.sum in theorem statements and ledger identities.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa. Excerpt SHA256 ed058ebe60ae904ddeb3c25f4dad6a23d08393b32ad5ae336b07a4024c5fe005. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/```
+
+```lean
+@[specialize] def foldr (f : α → β → β) (init : β) : (l : List α) → β
+  | []     => init
+  | a :: l => f a (foldr f init l)
+
+@[simp, grind =] theorem foldr_nil : [].foldr f b = b := rfl
+@[simp, grind =] theorem foldr_cons {a} {l : List α} {f : α → β → β} {b} :
+    (a :: l).foldr f b = f a (l.foldr f b) := rfl
+```
+
+### List.sum literal definition and contracts
+
+List.sum is foldr addition zero, polymorphic Add/Zero; both rational and natural use. This is semantic proof context, not an extra runtime dot implementation.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa. Excerpt SHA256 ea5fbafefeaaab3b1c234da01fac91f3f522889cab5e75a58ed33689b11d228e. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/```
+
+```lean
+def sum {α} [Add α] [Zero α] : List α → α :=
+  foldr (· + ·) 0
+
+@[simp, grind =] theorem sum_nil [Add α] [Zero α] : ([] : List α).sum = 0 := rfl
+@[simp, grind =] theorem sum_cons [Add α] [Zero α] {a : α} {l : List α} : (a::l).sum = a + l.sum := rfl
+theorem sum_eq_foldr [Add α] [Zero α] {l : List α} : l.sum = l.foldr (· + ·) 0 := rfl
+```
+
+### List.get valid finite indexed read
+
+Actual logical finite-bounded List indexedread used by Array.getInternal; recursivehead/successor selection, no defaultchoice. Arrayextern remainsmachineimplementationtrustboundary.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2. Excerpt SHA256 3c3547fd1b869c17c7fa128e7bf901961e54b69357b9864e7ea8ee7418e84bcd. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+```lean
+@[implicit_reducible]
+def List.get {α : Type u} : (as : List α) → Fin as.length → α
+  | cons a _,  ⟨0, _⟩ => a
+  | cons _ as, ⟨Nat.succ i, h⟩ => get as ⟨i, Nat.le_of_succ_le_succ h⟩
+
+```
+
+Both import contexts contain the same nine semantic bridge statements. Their actual compiled outcomes must be recorded independently of source/hash consistency; the scratch bridge build alone is not a dual-entrypoint result. The Array bridge uses the proved Array/List indexing conversion contract across module boundaries and does not assert opaque extern unfolding by reflexivity.
+
+## Precise added declarations by retained material definition
+
+The following assignments list only the71 newly integrated mathematical targets. Existing839 assignments remain in the preceding inventory and retained JSON. These lists describe actual transitive proof/model uses, not a claim that every item appears literally in a theorem type.
+
+`Fintype`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.call_positive_filter_identity`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_weighted_sum`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Finset`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.call_positive_filter_identity`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fin_dot_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Finset.prod`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.call_positive_filter_identity`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fin_dot_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Set.Icc`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Nat.ceil`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.gridSize_uniform_mass_bound`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`FloorSemiring`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.gridSize_uniform_mass_bound`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`NNReal.sqrt`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.gridSize_uniform_mass_bound`.
+
+`Real.sqrt`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.gridSize_uniform_mass_bound`.
+
+`Real.toNNReal`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.gridSize_uniform_mass_bound`.
+
+`Convex`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`StarConvex`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`convexHull`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`AffineIndependent`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`Finset.weightedVSub`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`Finset.weightedVSubOfPoint`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`vectorSpan`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`Submodule.span`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`Module.finrank`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`.
+
+`Finset.card`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`.
+
+`Fintype.card`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_support_card`.
+
+`IsCompact`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`IsClosed`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Continuous`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`LinearMap`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`ContinuousLinearMap`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Set.image`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Equiv`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Finset.image`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_weighted_sum`.
+
+`Antitone`: `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Finset.Nonempty`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Finset.max'`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Finset.sup'`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Set.compl`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`.
+
+`Fintype.equivFin`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`.
+
+`Equiv.Set.sumCompl`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`.
+
+`LinearOrder`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.call_positive_filter_identity`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`InfSet`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_value`.
+
+`ConditionallyCompleteLattice`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_value`.
+
+`ConditionallyCompleteLinearOrder`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Set.prod`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_value`.
+
+`Rat.castRec`: `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Set.Nonempty`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Nat.floor`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Finset.filter`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.call_positive_filter_identity`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Multiset.filter`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.call_positive_filter_identity`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Fin.cons`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`finProdFinEquiv`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`finSumFinEquiv`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Equiv.sumCongr`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Equiv.refl`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Equiv.symm`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Equiv.trans`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cover_residual_mass_le_one`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`List.argmax`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+
+Actual new compiler-context users:
+
+`Rat.floor`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Rat.le_floor_iff`: `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`Fin.foldr`: `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_all_value`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fin_dot_calls`, `SparseCompletion.rational_counted_fin_dot_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`.
+
+`NeZero actual nonzero premise`: `SparseCompletion.arbitrary_vertex_cover_uniform_exact`, `SparseCompletion.cut_violation_bound_iff_prefix_bound`, `SparseCompletion.large_tolerance_sparse_moments`, `SparseCompletion.large_tolerance_sparse_witness`, `SparseCompletion.normalized_large_tolerance_sparse_moments`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.score_prefix_violation_dominates`.
+
+`Vector exact-size Array representation`: `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`.
+
+`Vector.get finite indexed access`: `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`.
+
+`GetElem interface`: `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`.
+
+`Array Nat GetElem instance`: `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`.
+
+`Bool.and logical and executable form`: `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_all_value`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_conjunction_calls`, `SparseCompletion.rational_counted_conjunction_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`.
+
+`Bool.and csimp equality`: `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_all_value`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_conjunction_calls`, `SparseCompletion.rational_counted_conjunction_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`.
+
+`List.foldr structural fold`: `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_conjunction_calls`, `SparseCompletion.rational_counted_dot_value`, `SparseCompletion.rational_counted_fin_dot_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`.
+
+`List.sum literal definition and contracts`: `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_conjunction_calls`, `SparseCompletion.rational_counted_dot_value`, `SparseCompletion.rational_counted_fin_dot_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`.
+
+`List.get valid finite indexed read`: `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`.
