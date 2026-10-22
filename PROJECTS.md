@@ -179,8 +179,12 @@ Prior package trees and historical preparation records remain unchanged.
 
 | Project | Scope | Status | Frozen source |
 | --- | --- | --- | --- |
-| [Alexandrov–Urysohn characterization of Baire space](topology/baire-space-characterization) | Full homeomorphism iff nonempty, Polish, clopen basis and empty compact interiors; infinite clopen partitions. | Preparation; not submitted; native checks and independent internal reviews passed | [`b77053b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/b77053ba8669ad046ec3c0d54d83a79724935a9f/topology/baire-space-characterization) |
+| [Alexandrov–Urysohn characterization of Baire space](topology/baire-space-characterization) | Full homeomorphism iff nonempty, Polish, clopen basis and empty compact interiors; infinite clopen partitions. | Preparation; not submitted; canonical full/render passed; independent internal reviews passed | [`b77053b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/b77053ba8669ad046ec3c0d54d83a79724935a9f/topology/baire-space-characterization) |
 
 [Native evidence](catalog-evidence/baire-space-characterization-2026-10-22/native-summary.json)
-binds this source. Canonical full/render and final packet review remain separate.
-No fresh security-changing runner pair or new registry action has been run.
+binds this source. The later [canonical results](catalog-evidence/baire-space-characterization-2026-10-22/canonical-results.json)
+record successful full39834601956 and rendering39834601494, attempt1, exactb77053b.
+The single approved pair is consumed; Lean, NanoDa and verified con-ron accepted
+all15,231 declarations. Complete rendering and final report/archive guard passed.
+The initial PREPARATIONS checkpoint remains historical. No registry submission,
+merge or browser visual inspection was performed; no rerun is authorized.
