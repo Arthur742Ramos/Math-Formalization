@@ -314,8 +314,10 @@ program retains its own proved support guarantee.
 The complete original-source coverage table, including remaining algorithmic
 and mathematical packaging gaps, is in WHOLE-PAPER-COVERAGE.md. These additions
 passed all12 native gates at f3c300572e22fb88de71183aee09ccc66785c3da,
-with the retained-source qualification recorded in VERIFICATION.md. The current43
-candidate corrects that inventory and requires its own exact-source receipt. No registry or journal submission is authorized or made.
+with the retained-source qualification recorded in VERIFICATION.md. The later878941b
+source corrected that inventory and passed all12 native gates. The current59
+additions have their own source-retention corrections and require their own
+complete exact-source receipt. No registry or journal submission is authorized or made.
 
 ## General payoff bounds and actual worst-case support
 
@@ -340,9 +342,72 @@ certificate does not affect that minimum when observed K,D and floors agree;
 These extrema use genuine classical predicates and do not provide an executable
 optimizer or a polynomial-time decision procedure.
 
-This candidate has246 mathematical modules,953 source theorem audits and843
+At the historical43 source, the package had246 mathematical modules,953 source theorem audits and843
 protected selected contracts. Strict scratch compilation and independent
 internal AI mathematical review cover the43 additions. Final integrated builds,
 separate protected identities, altered-helper rejection, exports and kernel
-checks require a new immutable exact-source receipt. Predecessor receipts
+checks require a new immutable exact-source receipt. Those predecessor receipts
 remain evidence for their own source only.
+
+## Executable rational cut checks and the source-scale allocation mesh
+
+The current follow-on adds59 proofs in17 mathematical modules:45 cover actual
+balanced sorting, original action labels, running-sum prefix scanning and raw
+or interval perspective cut checks;14 cover the allocation step proportional to
+`epsilon/(M*k)` and its actual dense floor-search output. The resulting package
+has263 mathematical modules,1012 source theorem axiom audits and902 selected
+protected contracts. Independent internal AI mathematical reviews cover these
+additions; these are not human or external peer reviews. Only an immutable report for this candidate's complete source certifies the
+checks named in that report. Reports are stored outside the frozen package.
+A predecessor's receipt only certifies that predecessor.
+
+`rationalSortedCutCheck` computes a descending score order and scans every prefix
+until a violation occurs, carrying mass and payoff sums. For nonnegative M and
+weights, `rational_sorted_cut_check_iff` proves its returned Boolean is true iff
+all original cuts have violation at most delta. The bound
+`m*(Nat.log2 m+2)+1` is the returned same-program **comparison count**: sorting
+score comparisons plus quadratic prefix comparisons. It excludes arithmetic,
+effective-score formation, equality guards, moment formation, getter and
+administrative work, bit operations and machine runtime. No stability of sorting
+or equality with the entire upstream mergeSort algorithm is asserted.
+
+`rational_perspective_cut_check_iff` uses candidate-dependent H/q scores with
+zero-mass H=0 explicitly required. `rational_interval_cut_check_iff` earns that
+condition from the actual linear perspective bounds and forms H as sum(p*V).
+The returned Boolean checks the quadratic cut component. Other linear, anchor,
+core and global zero-row guards remain separate. It does not return a violating
+subset or separating hyperplane; those outputs and full candidate-guard
+composition remain open. M>=0 suffices for this cut checker; the existing
+interval completion equivalence retains its explicit M>0 assumption.
+
+For M>0, epsilon>0 and k>0, `rationalSourceFloorAllocationStep` equals
+epsilon/(6*M*k); the k=0
+branch uses the previous safe positive step. The actual generated allocation-node
+count is `(1+floor(6*M*k/epsilon))^k`, including nodes later skipped as inadmissible.
+This is neither a count of feasible nodes nor an algorithm-time bound.
+`rational_source_floor_certified_value` supplies an actual compatible dense
+rational game, all row bounds and a global interval of exact width epsilon.
+No additional reconstruction error eta is hidden in that width. The older sparse
+floor program still uses its conservative k+1 step; this dense variant does not
+silently replace it or prove arbitrary-repertoire sparsification.
+
+Source-inventory correction: authenticated compiler list recipes, including
+logical/runtime length contexts, now retain precise supporting contexts for53
+historical declarations. The existing finite-equivalence choice recipe is also
+expanded through Trunc.out, Quot.out and Classical.choose for its exact19 users;
+Nodup/Pairwise/list membership contexts are assigned to their actual affected
+subgroups. These are source-retention corrections. Historical build, protected
+comparison and kernel receipts remain evidence for their own source; the new
+candidate requires its own checks. The literal Unit=PUnit alias additionally
+receives its exact42 missing historical contexts; newly added Unit users carry
+the same PUnit support. The specialized WellFounded.Nat.fix recipe is retained
+for its exact final-trace new-target group, distinct from generic WellFounded.fix.
+No blanket assignment to all1012 targets is
+made, and the generic comparator, permitted axioms and dependency pins are
+unchanged.
+
+Whole-paper readiness remains false. Remaining work includes explicit violating
+cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
+LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
+cover transport. Native macOS checks do not establish canonical Linux sandbox,
+rendering, release-role or editorial readiness. No submission is authorized.

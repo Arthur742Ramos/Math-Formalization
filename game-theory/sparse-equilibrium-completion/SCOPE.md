@@ -23,12 +23,12 @@ the actual declarations; unfinished targets have no placeholder Lean theorem.
 | `ext:cor:corenoise`, graph_noise.tex | `two_core_response_perturbation`, `UniformCoreWitness`, `uniform_core_restore`, `uniform_core_total_support_card`, `uniform_core_total_support_lower`, `uniformMinimumCoreTotalSupport_attained`, `uniformMinimumCoreTotalSupport_le`, `uniformMinimumCoreTotalSupport_lower`, `uniformMinimumCoreTotalSupport_radius_zero`, `uniformMinimumCoreTotalSupport_origin`, `uniform_core_adjust`, `uniform_core_uncertainty_upper`, `uniformMinimumCoreTotalSupport_sharp` | Proved: exact cross observations, fixed anchor shares, one bounded uncertain core payoff, sharper restoration/lower scale ε+3δ/8, genuine attained support minima, radius-zero equality and origin m+2 for m≥2. Perturbation vanishes on every residual row and is at most 3δ/8 on each anchor row. The matching sharp law is proved at every 0<ε+3δ/8≤1, with lower constant sqrt(3/1216) and upper constant5, for actual attained minima. Its positive-tolerance theorem even holds for m>0; origin density still requires m≥2. The new core payoff stays inside its clipped bounded interval, residual responses remain≤0, and the anchor error is max(d−3δ/8,0). |
 | `sp:cor:certificate`, algorithms.tex | `compact_block_certificate_iff`, `RationalCertificate.check_iff`, `RationalCertificate.rows_iff`, `RationalCertificate.check_iff_full_rows`, `RationalCertificate.accepted_full_game`, `RationalCertificate.support_card_le`, `RationalCertificate.reject_omitted_violation` | Proved actual rational finite certificate checker and full-game soundness, including normalization, bounds, skewness and all original omitted rows. Actual reduced Rat data, lawful rational decidability and exact rational-to-Real injection contracts are retained. The support container may contain zero weights. The checker uses ambient finite quantification with support-membership guards and has no proved support-only operation bound. Finite rational linear repertoire and exact anchor checks are implemented below; arbitrary nonlinear repertoire checks and O(nk+S²) arithmetic/bit cost remain open. |
 | `sp:thm:gap`, `sp:cor:fixedapprox`, algorithms.tex | `exact_completion_gap_point`, `gap_point_completed_witness`, `gap_infeasible_excludes_completion`, `gap_feasibility_monotone`, `fixed_game_value_bounds`, `gap_threshold_attained`, `gap_original_infimum_eq`, `fixed_anchor_additive_value_enclosure`, `RationalBisection.search_spec`, `RationalBisection.value_certificate` | Proved true→gap→relaxed feasibility for arbitrary R, monotonicity, actual compact-class fixed optimum V∈[0,M], attained nonnegative gap optimum W, equality with the original unrestricted nonnegative-threshold infimum, W≤V≤W+η and an actual completed witness. Rational bisection is an executable conditional procedure with genuine DecidablePred input, exact halving, nested bracket, finite-width existence and upper-witness enclosure of width η+ζ from explicit feasibility/exclusion/reconstruction contracts. The rational elimination tranche below now supplies an actual rational LP decider, payoff constructor and composed fixed-anchor bisection; explicit log2/ceil round choice is proved below; bit-cost and polynomial complexity theorems remain open. |
-| `sp:prop:interval`, `sp:cor:gridp`, algorithms.tex | `perspective_call_epigraph_iff`, `exact_interval_completion_gap_point`, `interval_gap_recovered_exact_point`, `normalized_interval_gap_completed_witness`, `rounded_anchor_bounds`, `allocation_rounding_mass`, `allocation_rounding_distance`, `rounded_allocation_finite_grid`, `allocation_grid_card`, `allocation_rounding_in_grid`, `optimistic_allocation_grid_bounds` | Proved finite-grid perspective call/epigraph equivalence, necessary compatible-game lift and sufficient actual normalized bounded compatible completion at ρ+η, including zero-mass rows and unchanged q/K. Repertoire membership and core constraints are preserved by that literal identity. For nonnegative floors, nonempty feasible strategies, δ>0 and a specified residual action, round-down transfers removed mass to that action, preserves all floors/mass, has L1 distance≤2kδ, and lies in a finite grid with (1+floor(1/δ))^k index vectors. Compactness/attainment for actual floor classes and grid subclasses prove V≤Vgrid≤V+2Mkδ over actual compatible interval games. The rational implementation below handles the zero-residual case and returns an epsilon value approximation for the literal floor-only repertoire. Sparse algorithm output and polynomial execution/bit cost remain open; no complete FPTAS implementation theorem is claimed. The literal interval LP and actual rational compatible-game output are proved below. |
+| `sp:prop:interval`, `sp:cor:gridp`, algorithms.tex | `perspective_call_epigraph_iff`, `exact_interval_completion_gap_point`, `interval_gap_recovered_exact_point`, `normalized_interval_gap_completed_witness`, `rounded_anchor_bounds`, `allocation_rounding_mass`, `allocation_rounding_distance`, `rounded_allocation_finite_grid`, `allocation_grid_card`, `allocation_rounding_in_grid`, `optimistic_allocation_grid_bounds` | Proved finite-grid perspective call/epigraph equivalence, necessary compatible-game lift and sufficient actual normalized bounded compatible completion at ρ+η, including zero-mass rows and unchanged q/K. Repertoire membership and core constraints are preserved by that literal identity. For nonnegative floors, nonempty feasible strategies, δ>0 and a specified residual action, round-down transfers removed mass to that action, preserves all floors/mass, has L1 distance≤2kδ, and lies in a finite grid with (1+floor(1/δ))^k index vectors. Compactness/attainment for actual floor classes and grid subclasses prove V≤Vgrid≤V+2Mkδ over actual compatible interval games. The rational implementation below handles the zero-residual case and returns an epsilon value approximation for the literal floor-only repertoire. Later sections prove actual sparse output for the zero-residual-floor class; polynomial execution/bit cost remains open, and no complete FPTAS implementation theorem is claimed. The literal interval LP and actual rational compatible-game output are proved below. |
 | `ext:thm:cover`, graph_noise.tex | `free_residual_iff_anchor_cover`, `arbitrary_vertex_cover_sparse`, `arbitrary_vertex_cover_exact` (see ArbitraryCover.lean) | Proved on arbitrary original finite vertex sets: a constraint edge is an off-diagonal interval differing from the full interval, including an observed zero. A vertex cover frees the entire residual block. Nonnegative normalized actual witnesses are compressed with cover probabilities, all cover-incident entries and responses unchanged, original residual-support containment, all interval constraints and d specified linear moments preserved. General/exact residual and total finite-cardinality caps hold, including r=0, empty/full covers. The theorem uses H=gridSize M r η=ceil(sqrt(Mr/η)) directly, including the zero-mass branch. Decidable cover membership is genuine; the coordinate equivalence uses classical enumeration and asserts no efficient cover-finding algorithm. |
 | `ext:prop:weakcover`, graph_noise.tex | `arbitrary_vertex_subset_weak_sparse`, `arbitrary_vertex_subset_weak_exact`, `residual_loss_bound_ordered` | Proved on arbitrary original subsets: project the residual block into nonempty bounded intervals with reverse consistency. All original constraints, cover data, residual-support containment and d extra moments are preserved, with final tolerance ρ+η+β_C r (η+β_C r for exact input). β_C is the least nonnegative bound on residual-pair losses, lies in [0,2M], and equals the source i<j maximum under a linear order and reverse interval symmetry. Empty/singleton residual types give zero. |
 | `ext:cor:algorithm`, graph_noise.tex | Cover/weak-cover witness reductions and allocation-rounding mathematics in preceding rows | Supplied-cover mathematical reductions are proved; general allocation-floor grid/value bounds are proved for an explicitly nonempty residual action. Still open: end-to-end executable supplied-cover enumeration/selection and zero-residual branch, interval/cover-specific solver and grid integration, arithmetic and polynomial bit-complexity guarantees. Fixed-anchor finite rational linear repertoires now have an actual solver and bisection composition below. |
 | `cv:lem:prefix`, `cv:thm:soc`, conic.tex | `threshold_is_score_prefix`, `cuts_iff_score_prefixes`, `prefix_cut_quadratic`, `quadratic_rotated_cone`, `weighted_completion_prefix_quadratic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_prefix_characterization`, `normalized_known_anchor_conic_iff`, `known_anchor_conic_system_iff`, `prefix_system_convex`, `known_anchor_conic_system_convex`, `linear_repertoire_convex` | Proved: every strict threshold set is a genuine nonincreasing-score prefix, including ties, zero masses and empty types; all cuts iff the prefixes. The empty prefix is included as a tautology. Exact bounded skew residual completion and every original row are equivalent to the linear guards/anchor constraints and explicit rotated-cone constraints (2uv≥w², v=1/2). The full displayed q-system is convex at fixed tolerance for M≥0 and arbitrary convex repertoire; completion equivalence uses M>0 and fixed sorted scores. Literal linear-inequality repertoires are proved convex rather than assumed. `normalized_known_anchor_conic_iff` additionally proves the literal nonnegative mass-one, bounded skew full-game equivalence under explicit fixed K/D/p premodel premises. Quantified prefixes are l≤m (m+1 including empty), so this is a finite linear-size mathematical representation; no solver implementation, operation count, bit-complexity or exact-decision theorem is claimed. |
-| `cv:thm:interval`, conic.tex | `interval_perspective_completion_iff`, `normalized_interval_perspective_iff`, `interval_perspective_system_convex`, `repertoire_interval_completion_iff`, `interval_system_repertoire_convex`, `residual_linear_repertoire_convex`, `perspective_cuts_iff_candidate_thresholds`, `interval_system_iff_threshold_system` | Proved exact normalized full-game characterization with jointly variable q,V,K and arbitrary declared residual repertoire R. The displayed perspective/core/anchor/cut system is jointly convex for M≥0; exact completion equivalence uses M>0, nonnegative fixed p and explicit normalization/interval premises. Convex repertoires preserve convexity; literal linear repertoires are proved convex. Zero-mass rows force V and H to zero, recovering D at the lower endpoint while retaining the explicit guard. All subset quadratics are equivalent to candidate-dependent upper-score threshold tests indexed only by positive-mass rows, with ties grouped. No globally fixed interval-score ordering is asserted. Mathematical finite separation is proved; executable sorting, O(m log m) arithmetic cost, rational conic solving and bit-complexity remain open. |
+| `cv:thm:interval`, conic.tex | `interval_perspective_completion_iff`, `normalized_interval_perspective_iff`, `interval_perspective_system_convex`, `repertoire_interval_completion_iff`, `interval_system_repertoire_convex`, `residual_linear_repertoire_convex`, `perspective_cuts_iff_candidate_thresholds`, `interval_system_iff_threshold_system` | Proved exact normalized full-game characterization with jointly variable q,V,K and arbitrary declared residual repertoire R. The displayed perspective/core/anchor/cut system is jointly convex for M≥0; exact completion equivalence uses M>0, nonnegative fixed p and explicit normalization/interval premises. Convex repertoires preserve convexity; literal linear repertoires are proved convex. Zero-mass rows force V and H to zero, recovering D at the lower endpoint while retaining the explicit guard. All subset quadratics are equivalent to candidate-dependent upper-score threshold tests indexed only by positive-mass rows, with ties grouped. No globally fixed interval-score ordering is asserted. Mathematical finite separation and executable sorted Boolean cut checking are proved; violating-cut output, full candidate guards, O(m log m) arithmetic cost, rational conic solving and bit-complexity remain open. |
 
 The central result concerns existence of a compatible completion and strategy.
 Compression may change the residual payoff block, retains original action labels,
@@ -42,8 +42,11 @@ Tchakaloff-type work and related convex-order geometry. Research significance
 resides in the combined sharp completion theorem, two-anchor realization and
 family-specific uncertainty law. Completion existence, the sparse upper count,
 the two-anchor exact realization and the total-support sharp order are now proved. The family-specific
-uncertainty sharp laws are now proved. Whole-paper coverage, including rational algorithms, executable separation/cost, and the source-explicit
-residual-payoff construction, remains unfinished.
+uncertainty sharp laws are now proved. Later sections prove actual rational
+algorithms, Boolean cut checking and the source-explicit residual-payoff
+construction. Whole-paper coverage remains unfinished: full candidate separation,
+arithmetic and bit complexity, polynomial LP/flow and the other explicit gaps
+remain open.
 Pinned Mathlib filename and term searches found no existing development of this
 specific completion problem. This is not an exhaustive external overlap audit or
 editorial novelty clearance. General finite sums, real algebra and convexity
@@ -55,7 +58,7 @@ of grid size (`finite_feature_compression`, `finite_grid_implication`). Rational
 executable full-game certificate checking with repertoire constraints is proved
 below; row-specific perturbation bounds remain an extension to prove.
 
-Generic certificate checking and conditional bisection are strengthened by the total rational elimination and reconstruction tranche below. Its computed q,B are distinct from the prior existential Real completion. The algorithm does not supply polynomial encoding bounds. The source-explicit within/across-bin residual-payoff construction, executable sorted separation and all stated cost guarantees remain tracked gaps.
+Generic certificate checking and conditional bisection are strengthened by the total rational elimination and reconstruction tranche below. Its computed q,B are distinct from the prior existential Real completion. The algorithm does not supply polynomial encoding bounds. Later sections prove the source-explicit within/across-bin residual-payoff construction and executable sorted Boolean cut checking. Violating-cut output, full candidate guards, arithmetic and bit cost, and polynomial LP/flow guarantees remain tracked gaps.
 
 The finite-gap sparsification results `gap_sparse_point`,
 `normalized_gap_sparse_completed_witness` and
@@ -242,9 +245,9 @@ arithmetic/order/equality and rational-slot bounds, including fixed/floor and
 chosen interval checks. This closes that explicitly declared source arithmetic
 model, not polynomial LP/flow or input-bit/machine complexity. All old cost-open
 statements referring to this checker are superseded only to this precise extent.
-Executable sorted separation, arbitrary-cover program transport, source-exact
-allocation node constants and polynomial LP/flow/bit guarantees remain explicit
-gaps. General-M joint bounds and the actual worst-case support operator are
+Full candidate separation, arbitrary-cover program transport and polynomial
+LP/flow/bit guarantees remain explicit gaps. The current59 additions prove
+sorted Boolean cut checks and source-exact dense allocation node constants. General-M joint bounds and the actual worst-case support operator are
 proved in the43 additions described below. See the full table for edge cases.
 
 ## General payoff bounds and actual worst-case support
@@ -270,9 +273,72 @@ certificate does not affect that minimum when observed K,D and floors agree;
 These extrema use genuine classical predicates and do not provide an executable
 optimizer or a polynomial-time decision procedure.
 
-This candidate has246 mathematical modules,953 source theorem audits and843
+At the historical43 source, the package had246 mathematical modules,953 source theorem audits and843
 protected selected contracts. Strict scratch compilation and independent
 internal AI mathematical review cover the43 additions. Final integrated builds,
 separate protected identities, altered-helper rejection, exports and kernel
-checks require a new immutable exact-source receipt. Predecessor receipts
+checks require a new immutable exact-source receipt. Those predecessor receipts
 remain evidence for their own source only.
+
+## Executable rational cut checks and the source-scale allocation mesh
+
+The current follow-on adds59 proofs in17 mathematical modules:45 cover actual
+balanced sorting, original action labels, running-sum prefix scanning and raw
+or interval perspective cut checks;14 cover the allocation step proportional to
+`epsilon/(M*k)` and its actual dense floor-search output. The resulting package
+has263 mathematical modules,1012 source theorem axiom audits and902 selected
+protected contracts. Independent internal AI mathematical reviews cover these
+additions; these are not human or external peer reviews. Only an immutable report for this candidate's complete source certifies the
+checks named in that report. Reports are stored outside the frozen package.
+A predecessor's receipt only certifies that predecessor.
+
+`rationalSortedCutCheck` computes a descending score order and scans every prefix
+until a violation occurs, carrying mass and payoff sums. For nonnegative M and
+weights, `rational_sorted_cut_check_iff` proves its returned Boolean is true iff
+all original cuts have violation at most delta. The bound
+`m*(Nat.log2 m+2)+1` is the returned same-program **comparison count**: sorting
+score comparisons plus quadratic prefix comparisons. It excludes arithmetic,
+effective-score formation, equality guards, moment formation, getter and
+administrative work, bit operations and machine runtime. No stability of sorting
+or equality with the entire upstream mergeSort algorithm is asserted.
+
+`rational_perspective_cut_check_iff` uses candidate-dependent H/q scores with
+zero-mass H=0 explicitly required. `rational_interval_cut_check_iff` earns that
+condition from the actual linear perspective bounds and forms H as sum(p*V).
+The returned Boolean checks the quadratic cut component. Other linear, anchor,
+core and global zero-row guards remain separate. It does not return a violating
+subset or separating hyperplane; those outputs and full candidate-guard
+composition remain open. M>=0 suffices for this cut checker; the existing
+interval completion equivalence retains its explicit M>0 assumption.
+
+For M>0, epsilon>0 and k>0, `rationalSourceFloorAllocationStep` equals
+epsilon/(6*M*k); the k=0
+branch uses the previous safe positive step. The actual generated allocation-node
+count is `(1+floor(6*M*k/epsilon))^k`, including nodes later skipped as inadmissible.
+This is neither a count of feasible nodes nor an algorithm-time bound.
+`rational_source_floor_certified_value` supplies an actual compatible dense
+rational game, all row bounds and a global interval of exact width epsilon.
+No additional reconstruction error eta is hidden in that width. The older sparse
+floor program still uses its conservative k+1 step; this dense variant does not
+silently replace it or prove arbitrary-repertoire sparsification.
+
+Source-inventory correction: authenticated compiler list recipes, including
+logical/runtime length contexts, now retain precise supporting contexts for53
+historical declarations. The existing finite-equivalence choice recipe is also
+expanded through Trunc.out, Quot.out and Classical.choose for its exact19 users;
+Nodup/Pairwise/list membership contexts are assigned to their actual affected
+subgroups. These are source-retention corrections. Historical build, protected
+comparison and kernel receipts remain evidence for their own source; the new
+candidate requires its own checks. The literal Unit=PUnit alias additionally
+receives its exact42 missing historical contexts; newly added Unit users carry
+the same PUnit support. The specialized WellFounded.Nat.fix recipe is retained
+for its exact final-trace new-target group, distinct from generic WellFounded.fix.
+No blanket assignment to all1012 targets is
+made, and the generic comparator, permitted axioms and dependency pins are
+unchanged.
+
+Whole-paper readiness remains false. Remaining work includes explicit violating
+cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
+LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
+cover transport. Native macOS checks do not establish canonical Linux sandbox,
+rendering, release-role or editorial readiness. No submission is authorized.

@@ -11964,3 +11964,1135 @@ noncomputable def decEq (α : Sort*) : DecidableEq α := by infer_instance
 Excerpt SHA256 3f0b314a4eaf6e917ff5797794f42f3db70c1f25fcdfba5309aa2118a19cbd66
 
 The cardinality-specific wrapper is distinct from equivFin; the retained bijectivity bridge states its mathematical contract. The decEq bridge proves genuine equality decision correctness, not an executable real decision algorithm. Six added semantic controls occur in both import contexts.
+
+## Sorting, bijection and historical recipe correction
+
+Current retained inventory: 67 material records, 110 compiler records,2 auxiliary records, 115 Mathlib source files and 210 excerpts. Precise usages below are supporting-source assignments, not runtime claims.
+
+### List.merge logical source
+
+Logical ordered merge; actual countedMerge firstprojection equalsit. No upstreamTR costpreservation.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Sort/Basic.lean
+
+Source SHA256 a100c2a753aae0dda38a6e3afaca64f7ea70f4eba73d007ac29b5889fbf842ac; Git blob 74e3845a99d7959cd5c1a345140152065843d522; excerpt SHA256 53d8ba598a333356516cd50620fe47dc16fb5d6c0c214f615c18073cdaed345f. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Lean FRO. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison
+-/
+```
+
+```lean
+/--
+Merges two lists, using `le` to select the first element of the resulting list if both are
+non-empty.
+
+If both input lists are sorted according to `le`, then the resulting list is also sorted according
+to `le`. `O(|xs| + |ys|)`.
+
+This implementation is not tail-recursive, but it is replaced at runtime by a proven-equivalent
+tail-recursive merge.
+-/
+def merge (xs ys : List α) (le : α → α → Bool := by exact fun a b => a ≤ b) : List α :=
+  match xs, ys with
+  | [], ys => ys
+  | xs, [] => xs
+  | x :: xs, y :: ys =>
+    if le x y then
+      x :: merge xs (y :: ys) le
+    else
+      y :: merge (x :: xs) ys le
+
+@[simp] theorem nil_merge (ys : List α) : merge [] ys le = ys := by simp [merge]
+@[simp] theorem merge_right (xs : List α) : merge xs [] le = xs := by
+  induction xs with
+  | nil => simp
+  | cons x xs ih => simp [merge]
+```
+
+Actual users: SparseCompletion.counted_merge_length, SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_merge_value, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### List.splitAt and local go
+
+Actual contiguous list splitting byrecursive accumulator; usesreverse.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 cda93d3f7f55dd615fea83f4f9024f218254586ea98e82e87886f10c0431ce77. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+def splitAt (n : Nat) (l : List α) : List α × List α := go l n [] where
+  /--
+  Auxiliary for `splitAt`:
+  `splitAt.go l xs n acc = (acc.reverse ++ take n xs, drop n xs)` if `n < xs.length`,
+  and `(l, [])` otherwise.
+  -/
+  go : List α → Nat → List α → List α × List α
+  | [], _, _ => (l, []) -- This branch ensures the pointer equality of the result with the input
+                        -- without any runtime branching cost.
+  | x :: xs, n+1, acc => go xs n (x :: acc)
+  | xs, _, acc => (acc.reverse, xs)
+```
+
+Actual users: SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### List.reverse and reverseAux
+
+Literal accumulator reversal usedbyactualsplitAt.go, no inferredmachinecost.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 86695550e0f6ee339a1ffbb38b42e73684bad5784dce23a4f0b656d8ece955f5. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+def reverseAux : List α → List α → List α
+  | [],   r => r
+  | a::l, r => reverseAux l (a::r)
+
+@[simp] theorem reverseAux_nil : reverseAux [] r = r := rfl
+@[simp] theorem reverseAux_cons : reverseAux (a::l) r = reverseAux l (a::r) := rfl
+
+/--
+Reverses a list.
+
+`O(|as|)`.
+
+Because of the “functional but in place” optimization implemented by Lean's compiler, this function
+does not allocate a new list when its reference to the input list is unshared: it simply walks the
+linked list and reverses all the node pointers.
+
+Examples:
+* `[1, 2, 3, 4].reverse = [4, 3, 2, 1]`
+* `[].reverse = []`
+-/
+def reverse (as : List α) : List α :=
+  reverseAux as []
+```
+
+Actual users: SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### List.take and drop supporting models
+
+Logical prefix/suffix models supporting exactsplitAt theorem; interveningdocs contextonly.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 4173b7cfb2100a6e225dca5e2db223623f1f674baa463ce2d3760c90931771e8. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+def take : (n : Nat) → (xs : List α) → List α
+  | 0,   _     => []
+  | _+1, []    => []
+  | n+1, a::as => a :: take n as
+
+@[simp, grind =] theorem take_nil {i : Nat} : ([] : List α).take i = [] := by cases i <;> rfl
+@[simp, grind =] theorem take_zero {l : List α} : l.take 0 = [] := rfl
+@[simp, grind =] theorem take_succ_cons {a : α} {as : List α} {i : Nat} :
+    (a::as).take (i+1) = a :: as.take i := rfl
+
+/-! ### drop -/
+
+/--
+Removes the first `n` elements of the list `xs`. Returns the empty list if `n` is greater than the
+length of the list.
+
+`O(min n |xs|)`.
+
+Examples:
+* `[0, 1, 2, 3, 4].drop 0 = [0, 1, 2, 3, 4]`
+* `[0, 1, 2, 3, 4].drop 3 = [3, 4]`
+* `[0, 1, 2, 3, 4].drop 6 = []`
+-/
+def drop : (n : Nat) → (xs : List α) → List α
+  | 0,   as     => as
+  | _+1, []    => []
+  | n+1, _::as => drop n as
+```
+
+Actual users: SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.list_take_sum_indexed, SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_prefix_scan_complete, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### List.Pairwise actual inductive predicate
+
+Every earlier list element relates to everylater element; positional strictorder, notadjacent-only.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 95a8f024a00c613f8b7d8e942f702c1859562dda2b2b21e08aac4b2ad2658796. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+inductive Pairwise : List α → Prop
+  /-- All elements of the empty list are vacuously pairwise related. -/
+  | nil : Pairwise []
+  /--
+  A nonempty list is pairwise related with `R` if the head is related to every element of the tail
+  and the tail is itself pairwise related.
+
+  That is, `a :: l` is `Pairwise R` if:
+   * `R` relates `a` to every element of `l`
+   * `l` is `Pairwise R`.
+  -/
+  | cons : ∀ {a : α} {l : List α}, (∀ a', a' ∈ l → R a a') → Pairwise l → Pairwise (a :: l)
+```
+
+Actual users: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+### List.Nodup actual predicate
+
+No repeated list element: literalPairwise inequality, not mere setcoverage.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 19b1ddfa115f608a0298ebee7d39c1adb1c344cced788fd98139d5538bf5f7c5. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+def Nodup : List α → Prop := Pairwise (· ≠ ·)
+```
+
+Actual users: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+### List.Perm actual inductive predicate
+
+Permutationpreserves all elements andmultiplicities, via nil/cons/swap/trans; no set-only surrogate.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 f748bcb655abfd2548a4e8c68bb598876803ec859382b987a62f504fea93409b. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+inductive Perm : List α → List α → Prop
+  /-- The empty list is a permutation of the empty list: `[] ~ []`. -/
+  | nil : Perm [] []
+  /--
+  If one list is a permutation of the other, adding the same element as the head of each yields
+  lists that are permutations of each other: `l₁ ~ l₂ → x::l₁ ~ x::l₂`.
+  -/
+  | cons (x : α) {l₁ l₂ : List α} : Perm l₁ l₂ → Perm (x :: l₁) (x :: l₂)
+  /--
+  If two lists are identical except for having their first two elements swapped, then they are
+  permutations of each other: `x::y::l ~ y::x::l`.
+  -/
+  | swap (x y : α) (l : List α) : Perm (y :: x :: l) (x :: y :: l)
+  /--
+  Permutation is transitive: `l₁ ~ l₂ → l₂ ~ l₃ → l₁ ~ l₃`.
+  -/
+  | trans {l₁ l₂ l₃ : List α} : Perm l₁ l₂ → Perm l₂ l₃ → Perm l₁ l₃
+```
+
+Actual users: SparseCompletion.counted_merge_sort_perm, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### List.length logical and tailrecursive source
+
+Actual structural length pluslengthTRAux/TR; comparisonledger useslength as mathematicalsize; traversalcostnotcharged.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2; excerpt SHA256 c002cd86a8fc974562b55a1040983cca0504a3441052bf6952ef553e4065fd54. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+```lean
+@[instance_reducible] def List.length : List α → Nat
+  | nil       => 0
+  | cons _ as => HAdd.hAdd (length as) 1
+
+/-- Auxiliary function for `List.lengthTR`. -/
+def List.lengthTRAux : List α → Nat → Nat
+  | nil,       n => n
+  | cons _ as, n => lengthTRAux as (Nat.succ n)
+
+/--
+The length of a list.
+
+This is a tail-recursive version of `List.length`, used to implement `List.length` without running
+out of stack space.
+
+Examples:
+ * `([] : List String).lengthTR = 0`
+ * `["green", "brown"].lengthTR = 2`
+-/
+def List.lengthTR (as : List α) : Nat :=
+  lengthTRAux as 0
+```
+
+Actual users: SparseCompletion.counted_merge_bound, SparseCompletion.counted_merge_length, SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.list_take_sum_indexed, SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.rational_counted_certificate_check_iff, SparseCompletion.rational_counted_certificate_full_game, SparseCompletion.rational_counted_certificate_valid_rate, SparseCompletion.rational_counted_dot_calls, SparseCompletion.rational_counted_fin_dot_calls, SparseCompletion.rational_counted_fixed_certificate_bound, SparseCompletion.rational_counted_fixed_certificate_calls, SparseCompletion.rational_counted_fixed_certificate_value, SparseCompletion.rational_counted_fixed_valid_rate, SparseCompletion.rational_counted_floor_certificate_bound, SparseCompletion.rational_counted_floor_certificate_calls, SparseCompletion.rational_counted_floor_certificate_value, SparseCompletion.rational_counted_floor_valid_rate, SparseCompletion.rational_counted_interval_fixed_bound, SparseCompletion.rational_counted_interval_fixed_calls, SparseCompletion.rational_counted_interval_fixed_valid_rate, SparseCompletion.rational_counted_interval_fixed_value, SparseCompletion.rational_counted_interval_floor_bound, SparseCompletion.rational_counted_interval_floor_calls, SparseCompletion.rational_counted_interval_floor_valid_rate, SparseCompletion.rational_counted_interval_floor_value, SparseCompletion.rational_counted_observation_calls, SparseCompletion.rational_counted_observation_value, SparseCompletion.rational_counted_omitted_positive_cost, SparseCompletion.rational_counted_omitted_zero_cost, SparseCompletion.rational_counted_rows_exact_ledger, SparseCompletion.rational_counted_rows_quadratic_bound, SparseCompletion.rational_counted_table_certificate_ledger, SparseCompletion.rational_counted_table_certificate_quadratic_bound, SparseCompletion.rational_counted_table_certificate_value, SparseCompletion.rational_counted_table_omitted_value, SparseCompletion.rational_counted_table_rows_value, SparseCompletion.rational_grid_tuples_length, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_observation_scalar_slots, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_prefix_scan_comparisons, SparseCompletion.rational_prefix_scan_complete, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective, SparseCompletion.rational_source_floor_node_count, SparseCompletion.rational_table_b_labels, SparseCompletion.rational_table_conditions_iff, SparseCompletion.rational_table_index_label, SparseCompletion.rational_table_label_index, SparseCompletion.rational_table_mass_sum, SparseCompletion.rational_table_omitted_exists, SparseCompletion.rational_table_q_label, SparseCompletion.rational_table_q_nonnegative, SparseCompletion.rational_table_q_off, SparseCompletion.rational_table_rows_iff, SparseCompletion.rational_table_scalar_slots, SparseCompletion.rational_table_scalar_slots_bound, SparseCompletion.rational_table_support_card, SparseCompletion.rational_table_support_forall, SparseCompletion.rational_table_support_mem, SparseCompletion.rational_table_supported_sum, SparseCompletion.rational_table_valid_dimensions, SparseCompletion.rational_table_valid_size, SparseCompletion.rational_table_weighted_sum.
+
+### List.length runtime equality supporting contract
+
+Publiccsimp identity toTRlength; valueequivalenceonly,no costtransportclaim.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean
+
+Source SHA256 566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293; Git blob d99b37a6ff92aba32801ecf221eaece95db29faa; excerpt SHA256 b07bf5697bffd3c696fe7550c35c30a7f36284720e995c86f942ea96cb0307fc. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+theorem length_add_eq_lengthTRAux {as : List α} {n : Nat} : as.length + n = as.lengthTRAux n := by
+  induction as generalizing n with
+  | nil  => simp [length, lengthTRAux]
+  | cons a as ih =>
+    simp [length, lengthTRAux, ← ih, Nat.succ_add]
+    rfl
+
+@[csimp] theorem length_eq_lengthTR : @List.length = @List.lengthTR := by
+  apply funext; intro α; apply funext; intro as
+  simp [lengthTR, ← length_add_eq_lengthTRAux]
+```
+
+Actual users: SparseCompletion.counted_merge_bound, SparseCompletion.counted_merge_length, SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.list_take_sum_indexed, SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.rational_counted_certificate_check_iff, SparseCompletion.rational_counted_certificate_full_game, SparseCompletion.rational_counted_certificate_valid_rate, SparseCompletion.rational_counted_dot_calls, SparseCompletion.rational_counted_fin_dot_calls, SparseCompletion.rational_counted_fixed_certificate_bound, SparseCompletion.rational_counted_fixed_certificate_calls, SparseCompletion.rational_counted_fixed_certificate_value, SparseCompletion.rational_counted_fixed_valid_rate, SparseCompletion.rational_counted_floor_certificate_bound, SparseCompletion.rational_counted_floor_certificate_calls, SparseCompletion.rational_counted_floor_certificate_value, SparseCompletion.rational_counted_floor_valid_rate, SparseCompletion.rational_counted_interval_fixed_bound, SparseCompletion.rational_counted_interval_fixed_calls, SparseCompletion.rational_counted_interval_fixed_valid_rate, SparseCompletion.rational_counted_interval_fixed_value, SparseCompletion.rational_counted_interval_floor_bound, SparseCompletion.rational_counted_interval_floor_calls, SparseCompletion.rational_counted_interval_floor_valid_rate, SparseCompletion.rational_counted_interval_floor_value, SparseCompletion.rational_counted_observation_calls, SparseCompletion.rational_counted_observation_value, SparseCompletion.rational_counted_omitted_positive_cost, SparseCompletion.rational_counted_omitted_zero_cost, SparseCompletion.rational_counted_rows_exact_ledger, SparseCompletion.rational_counted_rows_quadratic_bound, SparseCompletion.rational_counted_table_certificate_ledger, SparseCompletion.rational_counted_table_certificate_quadratic_bound, SparseCompletion.rational_counted_table_certificate_value, SparseCompletion.rational_counted_table_omitted_value, SparseCompletion.rational_counted_table_rows_value, SparseCompletion.rational_grid_tuples_length, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_observation_scalar_slots, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_prefix_scan_comparisons, SparseCompletion.rational_prefix_scan_complete, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective, SparseCompletion.rational_source_floor_node_count, SparseCompletion.rational_table_b_labels, SparseCompletion.rational_table_conditions_iff, SparseCompletion.rational_table_index_label, SparseCompletion.rational_table_label_index, SparseCompletion.rational_table_mass_sum, SparseCompletion.rational_table_omitted_exists, SparseCompletion.rational_table_q_label, SparseCompletion.rational_table_q_nonnegative, SparseCompletion.rational_table_q_off, SparseCompletion.rational_table_rows_iff, SparseCompletion.rational_table_scalar_slots, SparseCompletion.rational_table_scalar_slots_bound, SparseCompletion.rational_table_support_card, SparseCompletion.rational_table_support_forall, SparseCompletion.rational_table_support_mem, SparseCompletion.rational_table_supported_sum, SparseCompletion.rational_table_valid_dimensions, SparseCompletion.rational_table_valid_size, SparseCompletion.rational_table_weighted_sum.
+
+### merge branch and length contracts
+
+Publiclogicalmerge branchandlength equations usedbycountedproofs.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Sort/Lemmas.lean
+
+Source SHA256 e04f8070b20080cdbcdd31a6d240e267363e308a5804fdaf6749c92a885547c0; Git blob d734e36c7e7e3c68ba78cb6f2c1f6b850264e8f1; excerpt SHA256 21abc42dd5207ee4f598b9cf7e01c72a854775b7b57926ec746bf1d23589c5ed. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Lean FRO. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison, Eric Wieser, François G. Dorais
+-/
+```
+
+```lean
+theorem cons_merge_cons (s : α → α → Bool) (a b l r) :
+    merge (a::l) (b::r) s = if s a b then a :: merge l (b::r) s else b :: merge (a::l) r s := by
+  simp only [merge]
+
+@[simp] theorem cons_merge_cons_pos (s : α → α → Bool) (l r) (h : s a b) :
+    merge (a::l) (b::r) s = a :: merge l (b::r) s := by
+  rw [cons_merge_cons, ite_eq_left h]
+
+@[simp] theorem cons_merge_cons_neg (s : α → α → Bool) (l r) (h : ¬ s a b) :
+    merge (a::l) (b::r) s = b :: merge (a::l) r s := by
+  rw [cons_merge_cons, ite_eq_right h]
+
+@[simp] theorem length_merge (s : α → α → Bool) (l r) :
+    (merge l r s).length = l.length + r.length := by
+  match l, r with
+  | [], r => simp
+  | l, [] => simp
+  | a::l, b::r =>
+    rw [cons_merge_cons]
+    split
+    · simp +arith [length_merge s l (b::r)]
+    · simp +arith [length_merge s (a::l) r]
+```
+
+Actual users: SparseCompletion.counted_merge_length, SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_merge_value, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### merge sortedness contract
+
+Publicpairwise_merge underexplicit comparatortruth trans/total; proofcontextnotnewruntime.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Sort/Lemmas.lean
+
+Source SHA256 e04f8070b20080cdbcdd31a6d240e267363e308a5804fdaf6749c92a885547c0; Git blob d734e36c7e7e3c68ba78cb6f2c1f6b850264e8f1; excerpt SHA256 fcaf3bdbab855c4e4299cd62a7d789163ab1b5efd1ed145108a8eb2c1284a9b8. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Lean FRO. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison, Eric Wieser, François G. Dorais
+-/
+```
+
+```lean
+theorem pairwise_merge
+    (trans : ∀ (a b c : α), le a b → le b c → le a c)
+    (total : ∀ (a b : α), le a b || le b a)
+    (l₁ l₂ : List α) (h₁ : l₁.Pairwise le) (h₂ : l₂.Pairwise le) : (merge l₁ l₂ le).Pairwise le := by
+  induction l₁ generalizing l₂ with
+  | nil => simpa only [merge]
+  | cons x l₁ ih₁ =>
+    induction l₂ with
+    | nil => simpa only [merge]
+    | cons y l₂ ih₂ =>
+      simp only [merge]
+      split <;> rename_i h
+      · apply Pairwise.cons
+        · intro z m
+          rw [mem_merge, mem_cons] at m
+          rcases m with (m|rfl|m)
+          · exact rel_of_pairwise_cons h₁ m
+          · exact h
+          · exact trans _ _ _ h (rel_of_pairwise_cons h₂ m)
+        · exact ih₁ _ h₁.tail h₂
+      · apply Pairwise.cons
+        · intro z m
+          rw [mem_merge, mem_cons] at m
+          simp only [Bool.not_eq_true] at h
+          rcases m with (⟨rfl|m⟩|m)
+          · simpa [h] using total y z
+          · exact trans _ _ _ (by simpa [h] using total x y) (rel_of_pairwise_cons h₁ m)
+          · exact rel_of_pairwise_cons h₂ m
+        · exact ih₂ h₂.tail
+```
+
+Actual users: SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone.
+
+### merge permutation contract
+
+Publicmerge_perm_append preservesmultiplicity.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Sort/Lemmas.lean
+
+Source SHA256 e04f8070b20080cdbcdd31a6d240e267363e308a5804fdaf6749c92a885547c0; Git blob d734e36c7e7e3c68ba78cb6f2c1f6b850264e8f1; excerpt SHA256 1eeb7d22592618f794f76243e02f400dbb0cf942d8f4c4f8be69d9c101d42910. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Lean FRO. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison, Eric Wieser, François G. Dorais
+-/
+```
+
+```lean
+variable (le) in
+theorem merge_perm_append : ∀ {xs ys : List α}, merge xs ys le ~ xs ++ ys
+  | [], ys => by simp
+  | xs, [] => by simp
+  | x :: xs, y :: ys => by
+    simp only [merge]
+    split
+    · exact merge_perm_append.cons x
+    · exact (merge_perm_append.cons y).trans
+        ((Perm.swap x y _).trans (perm_middle.symm.cons x))
+```
+
+Actual users: SparseCompletion.counted_merge_sort_perm, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### Pairwise finite-index contract
+
+Pairwise iff earlierboundedindices relate, rel_getElem_of_lt.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Pairwise.lean
+
+Source SHA256 fcc984c70a81216c178d42a858dea5e3640201023a9a4d2837e76f138fd9b0f4; Git blob 5a9d78ffe7bfd903dd2f027747765677ccabf3da; excerpt SHA256 6bfcaad7286f6fc21fb3edf50642b7f4282b39f9115a1fb4531a2571801cd370. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Parikshit Khanna. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Parikshit Khanna, Jeremy Avigad, Leonardo de Moura, Floris van Doorn, Mario Carneiro
+-/
+```
+
+```lean
+theorem pairwise_iff_getElem {l : List α} : Pairwise R l ↔
+    ∀ (i j : Nat) (_hi : i < l.length) (_hj : j < l.length) (_hij : i < j), R l[i] l[j] := by
+  induction l with | nil => simp | cons a l ihl =>
+  simp only [pairwise_cons, length_cons, mem_iff_getElem, ihl, forall_exists_index,
+    forall_comm (α := α), forall_apply_eq_imp_iff]
+  refine ⟨fun ⟨h0, hs⟩ => ?_, fun h => ?_⟩
+  · rintro (_ | i) (_ | j) hi hj hij <;> try contradiction
+    · apply h0
+    · apply hs; simpa [succ_lt_succ_iff] using hij
+  · simpa [succ_lt_succ_iff] using And.intro (fun j => h 0 (j + 1)) (fun i j => h (i + 1) (j + 1))
+
+theorem Pairwise.rel_getElem_of_lt {l : List α} {i j} (hi : i < l.length) (hj : j < l.length)
+    (h : Pairwise R l) : i < j → R l[i] l[j] := pairwise_iff_getElem.mp h _ _ _ _
+```
+
+Actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone.
+
+### splitAt logical split contract
+
+ActualsplitAt=(take,drop) proved; not assumeddefinitional.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/TakeDrop.lean
+
+Source SHA256 9efed9c3f05746ce0dd47c5fcd2c414ba9541d6631d6ddf0cb06203d723c7918; Git blob d4af7853dcae53e60111036a09259cbdf5aece86; excerpt SHA256 884bf368f1387dcea5ab856c1775560639e0ab2d1b7d11a3bdafa9836c1439de. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Parikshit Khanna. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Parikshit Khanna, Jeremy Avigad, Leonardo de Moura, Floris van Doorn, Mario Carneiro
+-/
+```
+
+```lean
+@[simp, grind =] theorem splitAt_eq {i : Nat} {l : List α} : splitAt i l = (l.take i, l.drop i) := by
+  rw [splitAt, splitAt_go, reverse_nil, nil_append]
+  split <;> simp_all [take_of_length_le, drop_of_length_le]
+```
+
+Actual users: SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### prefix/suffix reconstruction
+
+take_append_drop andlength_drop supportingbalancedhalves.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/TakeDrop.lean
+
+Source SHA256 9efed9c3f05746ce0dd47c5fcd2c414ba9541d6631d6ddf0cb06203d723c7918; Git blob d4af7853dcae53e60111036a09259cbdf5aece86; excerpt SHA256 2e14e4ac1907e67279d21a0999789552d67624053ce0975a7816636f93aed980. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Parikshit Khanna. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Parikshit Khanna, Jeremy Avigad, Leonardo de Moura, Floris van Doorn, Mario Carneiro
+-/
+```
+
+```lean
+@[simp] theorem take_append_drop : ∀ (i : Nat) (l : List α), l.take i ++ l.drop i = l
+  | 0, _ => rfl
+  | _ + 1, [] => rfl
+  | _ + 1, x :: _ => congrArg (cons x) (take_append_drop ..)
+
+@[simp, grind =] theorem length_drop : ∀ {i : Nat} {l : List α}, (drop i l).length = l.length - i
+  | 0, _ => rfl
+  | succ i, [] => Eq.symm (Nat.zero_sub (succ i))
+  | succ i, x :: l => calc
+    length (drop (i + 1) (x :: l)) = length l - i := length_drop (i := i) (l := l)
+    _ = succ (length l) - succ i := (Nat.succ_sub_succ_eq_sub (length l) i).symm
+
+```
+
+Actual users: SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_sort_half_lengths, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### permutation membership contract
+
+Permutationmembership iff publiccontract.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Perm.lean
+
+Source SHA256 d91620e1c9767119095b48601266b8c5267ed4ab0afb7fe31a4780209b9751fb; Git blob 774cd1c866364c30c9f62cd802fca90dc67945d3; excerpt SHA256 548b61381274c4e52527801079b50e5cf6f7c20718dcea27b4ac97c310cc2199. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+```lean
+theorem Perm.mem_iff {a : α} {l₁ l₂ : List α} (p : l₁ ~ l₂) : a ∈ l₁ ↔ a ∈ l₂ := by
+  induction p with
+  | nil => rfl
+  | cons _ _ ih => simp only [mem_cons, ih]
+  | swap => simp only [mem_cons, or_left_comm]
+  | trans _ _ ih₁ ih₂ => simp only [ih₁, ih₂]
+```
+
+Actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective.
+
+### permutation map contract
+
+Mappedpermutations retainlabelorderbag.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Perm.lean
+
+Source SHA256 d91620e1c9767119095b48601266b8c5267ed4ab0afb7fe31a4780209b9751fb; Git blob 774cd1c866364c30c9f62cd802fca90dc67945d3; excerpt SHA256 5bb0499cad22f54ad23098315aace7335935c22c9709628084187410aeab141f. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+```lean
+theorem Perm.map (f : α → β) {l₁ l₂ : List α} (p : l₁ ~ l₂) : map f l₁ ~ map f l₂ :=
+  filterMap_eq_map ▸ p.filterMap _
+```
+
+Actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective.
+
+### permutation nodup contract
+
+Permutation preservesNodup; exactoriginal-labelunique property.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Perm.lean
+
+Source SHA256 d91620e1c9767119095b48601266b8c5267ed4ab0afb7fe31a4780209b9751fb; Git blob 774cd1c866364c30c9f62cd802fca90dc67945d3; excerpt SHA256 288458814a2bc416ac7d0c7898573e9fba89b82d8682076b6eb1159b00561ffa. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+```lean
+theorem Perm.nodup {l l' : List α} (hl : l ~ l') (hR : l.Nodup) : l'.Nodup := hR.perm hl
+
+theorem Perm.nodup_iff {l₁ l₂ : List α} : l₁ ~ l₂ → (Nodup l₁ ↔ Nodup l₂) :=
+  Perm.pairwise_iff <| @Ne.symm α
+```
+
+Actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective.
+
+### Function.Surjective
+
+Everycodomainvaluehasactualpreimage; newselectedsurjectivitycontract.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Function.lean
+
+Source SHA256 88217ed8ec91da1ec655c8a10f737b659a4570b4c05dbd6b084162a3157cf030; Git blob d3526ccde628989d0d4658dbec3c3f334bcb7a7f; excerpt SHA256 81f3c1294b8b4f215a4b094823922dbd95234cd6a53280e94f6fd6d7280c0148. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2024 Lean FRO. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison
+-/
+```
+
+```lean
+/-- A function `f : α → β` is called surjective if every `b : β` is equal to `f a`
+for some `a : α`. -/
+@[expose]
+def Surjective (f : α → β) : Prop :=
+  ∀ b, Exists fun a => f a = b
+```
+
+Actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_surjective.
+
+### Classical.choose actual witnessed choice wrapper
+
+indefiniteDescriptionviaapprovedClassical.choiceandchooseprojection/choose_spec. Noncomputableproof-layerdata, notsort/executableinverse.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Classical.lean
+
+Source SHA256 9217cf075cac15875b6fb5073ce5d150037953623fbfacac8a181214d42edd0b; Git blob d14cdb485afe5b127b844c5a9501d05528beb373; excerpt SHA256 0cfabe03022ddc9b6c7125159d88cb3aef15835d0198545d64f3ae6c6b7b9784. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+```lean
+noncomputable def indefiniteDescription {α : Sort u} (p : α → Prop) (h : ∃ x, p x) : {x // p x} :=
+  choice <| let ⟨x, px⟩ := h; ⟨⟨x, px⟩⟩
+
+/--
+Given that there exists an element satisfying `p`, returns one such element.
+
+This is a straightforward consequence of, and equivalent to, `Classical.choice`.
+
+See also `choose_spec`, which asserts that the returned value has property `p`.
+-/
+noncomputable def choose {α : Sort u} {p : α → Prop} (h : ∃ x, p x) : α :=
+  (indefiniteDescription p h).val
+
+theorem choose_spec {α : Sort u} {p : α → Prop} (h : ∃ x, p x) : p (choose h) :=
+  (indefiniteDescription p h).property
+```
+
+Actual users: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+### WellFounded.Nat.fix natural-measure recursion and equation
+
+Exact specialized natural-measure fixpoint: F receives recursive results only for strictly smaller measure. Public Nat.eager preserves the measure value; generated local go is structurally recursive on a natural fuel initialized to h x+1. Strict-decrease proofs justify each recursive call; zero fuel is impossible from the witness. Nat.fix_eq is the proved recursive equation. This is distinct from generic Acc/WellFounded.fixF/fix and does not require a classical decision oracle. Used here for the actual counted sort computational definition and precisely traced supporting proof dependencies; no compiler-runtime, allocation, bit-cost or global full-proof-closure claim.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/WF.lean
+
+Source SHA256 fe7c0a49de4a9c4b4fac24493f40598a1374837b17a6c334fc1ed03e23646e01; Git blob 1d0216ed49d1250db35bc6b551fb03c0c7777293; excerpt SHA256 85e2cefdf0ed53ab91a9fc3f8851ddf9cffa030712f365951b0f7f524282a5e7. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+```
+
+```lean
+namespace WellFounded
+
+variable {α : Sort u}
+variable {motive : α → Sort v}
+variable (h : α → Nat)
+variable (F : (x : α) → ((y : α) → InvImage (· < ·) h y x → motive y) → motive x)
+
+/-- Helper gadget that prevents reduction of `Nat.eager n` unless `n` evaluates to a ground term. -/
+@[implicit_reducible]
+def Nat.eager (n : Nat) : Nat :=
+  if Nat.beq n n = true then n else n
+
+theorem Nat.eager_eq (n : Nat) : Nat.eager n = n := ite_self n
+
+/--
+A well-founded fixpoint operator specialized for `Nat`-valued measures. Given a measure `h`, it expects
+its higher order function argument `F` to invoke its argument only on values `y` that are smaller
+than `x` with regard to `h`.
+
+In contrast to `WellFounded.fix`, this fixpoint operator reduces on closed terms. (More precisely:
+when `h x` evaluates to a ground value)
+
+-/
+@[implicit_reducible]
+def Nat.fix : (x : α) → motive x :=
+  let rec go : ∀ (fuel : Nat) (x : α), (h x < fuel) → motive x :=
+    Nat.rec
+      (fun _ hfuel => (Nat.not_succ_le_zero _ hfuel).elim)
+      (fun _ ih x hfuel => F x (fun y hy => ih y (by exact Nat.lt_of_lt_of_le hy (Nat.le_of_lt_add_one hfuel))))
+  fun x => go (Nat.eager (h x + 1)) x (Nat.eager_eq _ ▸ Nat.lt_add_one _)
+
+attribute [implicit_reducible] Nat.fix.go
+
+protected theorem Nat.fix.go_congr (x : α) (fuel₁ fuel₂ : Nat) (h₁ : h x < fuel₁) (h₂ : h x < fuel₂) :
+    Nat.fix.go h F fuel₁ x h₁ = Nat.fix.go h F fuel₂ x h₂ := by
+  induction fuel₁ generalizing x fuel₂ with
+  | zero => contradiction
+  | succ fuel₁ ih =>
+    cases fuel₂ with
+    | zero => contradiction
+    | succ fuel₂ =>
+      exact congrArg (F x) (funext fun y => funext fun hy => ih y fuel₂ _ _ )
+
+theorem Nat.fix_eq (x : α) :
+    Nat.fix h F x = F x (fun y _ => Nat.fix h F y) := by
+  unfold Nat.fix
+  simp [Nat.eager_eq]
+  exact congrArg (F x) (funext fun _ => funext fun _ => Nat.fix.go_congr ..)
+```
+
+Actual users: SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+### DecidablePred
+
+Pointwise family of genuine Decidable evidence; classical instances do not certify an executable algorithm. For actual finite listscore selection only, DecidableRel/DecidableLT are predicate-indexed genuine rational comparison instances. They are not a feasibilityoracle, a Real comparisonalgorithm or a runtimecostclaim. Retained DecidableEq alias is genuine equality-indexed evidence, supporting the exact historical19 finite-equivalence Classical.decEq adapter and actual named equality-decision users. Extra colocated alias does not imply every prior predicate user invokes equality or classical choice.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2; excerpt SHA256 851125490fc7a570fde8cf309081a02929676341c298a78727596af81332a9c2. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+```lean
+/--
+A decidable predicate.
+
+A predicate is decidable if the corresponding proposition is `Decidable` for each possible argument.
+-/
+abbrev DecidablePred {α : Sort u} (r : α → Prop) :=
+  (a : α) → Decidable (r a)
+
+/--
+A decidable relation.
+
+A relation is decidable if the corresponding proposition is `Decidable` for all possible arguments.
+-/
+abbrev DecidableRel {α : Sort u} {β : Sort v} (r : α → β → Prop) :=
+  (a : α) → (b : β) → Decidable (r a b)
+
+/--
+Propositional equality is `Decidable` for all elements of a type.
+
+In other words, an instance of `DecidableEq α` is a means of deciding the proposition `a = b` is
+for all `a b : α`.
+-/
+abbrev DecidableEq (α : Sort u) :=
+  (a b : α) → Decidable (Eq a b)
+```
+
+Actual users: SparseCompletion.RationalElimination.fintype_candidate_feasible, SparseCompletion.RationalElimination.fintype_eliminated_iff_exists, SparseCompletion.RationalElimination.indexed_candidate_bounds, SparseCompletion.RationalElimination.indexed_lower_mem, SparseCompletion.RationalElimination.indexed_upper_mem, SparseCompletion.RationalElimination.solve_finite_none_iff, SparseCompletion.RationalElimination.solve_finite_some_sound, SparseCompletion.RationalElimination.solve_fintype_none_iff, SparseCompletion.RationalElimination.solve_fintype_some_sound, SparseCompletion.RationalElimination.solve_none_iff, SparseCompletion.RationalElimination.solve_some_sound, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.bin_ordered_response, SparseCompletion.bin_prefix_mass, SparseCompletion.call_positive_filter_identity, SparseCompletion.counted_merge_bound, SparseCompletion.counted_merge_length, SparseCompletion.counted_merge_sort_capacity, SparseCompletion.counted_merge_sort_length, SparseCompletion.counted_merge_sort_log_bound, SparseCompletion.counted_merge_sort_pairwise, SparseCompletion.counted_merge_sort_perm, SparseCompletion.counted_merge_value, SparseCompletion.counted_sort_half_lengths, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.cut_violation_bound_iff_prefix_bound, SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_game_rational_gap_solve, SparseCompletion.exact_instance_support_exists, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_residual_response, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.large_tolerance_sparse_moments, SparseCompletion.large_tolerance_sparse_witness, SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.normalized_large_tolerance_sparse_moments, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_support_exists, SparseCompletion.rational_allocation_run_game, SparseCompletion.rational_allocation_run_output, SparseCompletion.rational_allocation_run_success_iff, SparseCompletion.rational_allocation_search_minimal, SparseCompletion.rational_allocation_search_output, SparseCompletion.rational_allocation_search_success_iff, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_effective_score_product, SparseCompletion.rational_finite_select_minimal, SparseCompletion.rational_finite_select_none_iff, SparseCompletion.rational_finite_select_origin, SparseCompletion.rational_finite_select_success_iff, SparseCompletion.rational_floor_approximation_empty, SparseCompletion.rational_floor_approximation_global, SparseCompletion.rational_floor_approximation_none_iff, SparseCompletion.rational_floor_approximation_output_class, SparseCompletion.rational_floor_approximation_rows, SparseCompletion.rational_floor_certified_complete, SparseCompletion.rational_floor_certified_none_iff, SparseCompletion.rational_floor_certified_origin, SparseCompletion.rational_floor_certified_value, SparseCompletion.rational_floor_grid_global_accuracy, SparseCompletion.rational_floor_grid_search_accuracy, SparseCompletion.rational_floor_grid_value_certificate, SparseCompletion.rational_floor_reservoir_output_class, SparseCompletion.rational_floor_search_output_class, SparseCompletion.rational_floor_search_rows, SparseCompletion.rational_floor_search_value_certificate, SparseCompletion.rational_floor_sparse_certified_complete, SparseCompletion.rational_floor_sparse_certified_none_iff, SparseCompletion.rational_floor_sparse_certified_origin, SparseCompletion.rational_floor_sparse_certified_value, SparseCompletion.rational_floor_sparse_empty, SparseCompletion.rational_floor_sparse_global, SparseCompletion.rational_floor_sparse_none_iff, SparseCompletion.rational_floor_sparse_nonpositive, SparseCompletion.rational_floor_sparse_origin, SparseCompletion.rational_floor_sparse_output_game, SparseCompletion.rational_floor_sparse_sqrt_support, SparseCompletion.rational_floor_sparse_total_support, SparseCompletion.rational_floor_sparsify_class, SparseCompletion.rational_floor_sparsify_complete, SparseCompletion.rational_floor_sparsify_origin, SparseCompletion.rational_floor_total_output_class, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_gap_algorithm_complete, SparseCompletion.rational_gap_algorithm_sound, SparseCompletion.rational_gap_approximation_complete, SparseCompletion.rational_gap_approximation_output, SparseCompletion.rational_gap_approximation_value_enclosure, SparseCompletion.rational_gap_model_upper_feasible, SparseCompletion.rational_gap_real_compression, SparseCompletion.rational_gap_reconstruction_complete, SparseCompletion.rational_gap_reconstruction_full_rows, SparseCompletion.rational_gap_reconstruction_normalized_full_game, SparseCompletion.rational_gap_reconstruction_residual_sound, SparseCompletion.rational_gap_search_bracket, SparseCompletion.rational_gap_solve_completed_witness, SparseCompletion.rational_gap_solve_none_excludes_real_completion, SparseCompletion.rational_gap_solve_none_iff, SparseCompletion.rational_gap_solve_sound, SparseCompletion.rational_initialized_upper_lt_witness, SparseCompletion.rational_interval_accurate_complete, SparseCompletion.rational_interval_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_output_class, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_approximation_complete, SparseCompletion.rational_interval_approximation_output, SparseCompletion.rational_interval_approximation_value_enclosure, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_model_approximation_complete, SparseCompletion.rational_interval_model_upper_feasible, SparseCompletion.rational_interval_repertoire_algorithm_full_game, SparseCompletion.rational_interval_repertoire_algorithm_output, SparseCompletion.rational_interval_repertoire_algorithm_real_complete, SparseCompletion.rational_interval_search_bracket, SparseCompletion.rational_interval_sparse_accurate_complete, SparseCompletion.rational_interval_sparse_accurate_value_enclosure, SparseCompletion.rational_interval_sparse_algorithm_conditions, SparseCompletion.rational_interval_sparse_algorithm_game, SparseCompletion.rational_interval_sparse_algorithm_origin, SparseCompletion.rational_interval_sparse_algorithm_real_complete, SparseCompletion.rational_interval_sparse_approximation_complete, SparseCompletion.rational_interval_sparse_approximation_origin, SparseCompletion.rational_interval_sparse_approximation_value_enclosure, SparseCompletion.rational_interval_sparse_initialized_complete, SparseCompletion.rational_interval_sparse_initialized_game, SparseCompletion.rational_interval_sparse_initialized_none_iff, SparseCompletion.rational_interval_sparse_initialized_origin, SparseCompletion.rational_interval_sparse_initialized_value, SparseCompletion.rational_interval_sparse_reduction, SparseCompletion.rational_interval_success_compatible, SparseCompletion.rational_label_sort_comparisons, SparseCompletion.rational_label_sort_covers, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_label_sort_labels, SparseCompletion.rational_label_sort_length, SparseCompletion.rational_label_sort_nodup, SparseCompletion.rational_label_sort_stored_score, SparseCompletion.rational_linear_eliminated_exists, SparseCompletion.rational_linear_real_feasible_iff, SparseCompletion.rational_lp_real_complete, SparseCompletion.rational_lp_solve_complete, SparseCompletion.rational_lp_solve_none_iff, SparseCompletion.rational_lp_solve_none_iff_real, SparseCompletion.rational_lp_solve_sound, SparseCompletion.rational_no_residual_global_certificate, SparseCompletion.rational_no_residual_search_accuracy, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_prefix_scan_comparisons, SparseCompletion.rational_reservoir_search_minimal, SparseCompletion.rational_reservoir_search_output, SparseCompletion.rational_residual_completion_complete, SparseCompletion.rational_residual_completion_none_iff, SparseCompletion.rational_residual_completion_rat_iff, SparseCompletion.rational_residual_completion_rat_sound, SparseCompletion.rational_residual_completion_real_sound, SparseCompletion.rational_score_sort_comparisons, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_score_sort_length, SparseCompletion.rational_score_sort_perm, SparseCompletion.rational_score_sort_stored_score, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_sorted_index_bijective, SparseCompletion.rational_sorted_index_injective, SparseCompletion.rational_sorted_index_score, SparseCompletion.rational_sorted_index_surjective, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff, SparseCompletion.rational_sparse_gap_algorithm_complete, SparseCompletion.rational_sparse_gap_algorithm_full_game, SparseCompletion.rational_sparse_gap_algorithm_full_support, SparseCompletion.rational_sparse_gap_algorithm_sound, SparseCompletion.rational_sparse_gap_run_sound, SparseCompletion.rational_sparse_gap_search_complete, SparseCompletion.rational_sparse_gap_search_sound, SparseCompletion.rational_support_card_of_zeros, SparseCompletion.rational_uniform_score_real, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_physical_point, SparseCompletion.real_interval_completion_rational_lp, SparseCompletion.real_interval_repertoire_algorithm_success, SparseCompletion.real_support_index_mask, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.score_prefix_violation_dominates, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+Material Fintype: A finite type has a finite duplicate-free enumeration containing every element.
+
+Added actual users: SparseCompletion.all_cut_violation_reindex, SparseCompletion.cut_violation_reindex, SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset: A finite set is a multiset with no duplicate entries.
+
+Added actual users: SparseCompletion.all_cut_violation_reindex, SparseCompletion.cut_violation_reindex, SparseCompletion.list_take_sum_indexed, SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_perspective_moment_zero, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset.prod: Multiplicative source for the generated additive Finset.sum definition.
+
+Added actual users: SparseCompletion.all_cut_violation_reindex, SparseCompletion.cut_violation_reindex, SparseCompletion.list_take_sum_indexed, SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_perspective_moment_zero, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Set.Icc: The closed interval consists of x with a ≤ x and x ≤ b.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Nat.ceil: The natural ceiling delegates to FloorSemiring.ceil.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material FloorSemiring: Floor and ceiling operations with their natural-cast adjunction laws.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_node_count, SparseCompletion.rational_source_floor_none_iff, SparseCompletion.source_allocation_mesh_error.
+
+Material Convex: Every point of the set is a star center of the set.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material StarConvex: All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset.card: The number of elements in the underlying duplicate-free multiset.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Fintype.card: The cardinality of the finite universal enumeration.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material IsCompact: Every nontrivial filter containing the set has a cluster point in the set.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material IsClosed: The complement is open.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Continuous: Preimages of open sets are open.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material LinearMap: A bundled additive scalar-preserving map.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material ContinuousLinearMap: A bundled linear map together with continuity.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Set.image: The image comprises values of domain points in the specified set.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Equiv: A map equipped with a two-sided inverse.
+
+Added actual users: SparseCompletion.all_cut_violation_reindex, SparseCompletion.cut_violation_reindex, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset.image: The finite image maps every element and removes duplicate values.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Antitone: Order reversal: i≤j implies v(j)≤v(i).
+
+Added actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone.
+
+Material Finset.Nonempty: A finite set contains an element.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset.max': Maximum element of a genuinely nonempty finite set in a linear order.
+
+Added actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset.sup': Supremum of the image of a genuinely nonempty finite set in a join semilattice.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material LinearOrder: A reflexive, transitive, antisymmetric and total ordering with decidable comparisons/equality and consistent min/max/comparison operations.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_interval_cut_check_comparisons, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_label_sort_descending, SparseCompletion.rational_label_sort_index_antitone, SparseCompletion.rational_perspective_cut_check_comparisons, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_perspective_moment_zero, SparseCompletion.rational_prefix_scan_comparisons, SparseCompletion.rational_prefix_scan_complete, SparseCompletion.rational_score_le_total, SparseCompletion.rational_score_le_trans, SparseCompletion.rational_score_sort_descending, SparseCompletion.rational_sorted_cut_check_comparisons, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_antitone, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_error_budget, SparseCompletion.rational_source_floor_node_count, SparseCompletion.rational_source_floor_none_iff, SparseCompletion.rational_source_floor_step_positive.
+
+Material InfSet: A typeclass supplying a total set-infimum operator, with no minimum law asserted by this field alone.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material ConditionallyCompleteLattice: Every nonempty bounded-below set has a greatest lower bound; dually for suprema.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material ConditionallyCompleteLinearOrder: Conditional completeness together with a total ordered structure and coherent decidable comparisons.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Set.prod: Cartesian product membership is conjunction of memberships of the two projections.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Rat.castRec: Default rational-to-division-ring recipe is the integer numerator divided by its nonzero natural denominator.
+
+Added actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Set.Nonempty: There exists an actual member of the set; compactness alone does not supply one.
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Nat.floor: Nat.floor selects the FloorSemiring.floor field and is natural-valued: it is zero on negative reals. It is the greatest natural below a nonnegative input; the contract floor(x)<=x requires x>=0. The next-integer bound x<floor(x)+1 and monotonicity hold for all reals. Actual Real floor is noncomputable via Archimedean FloorRing construction and then Int.toNat; these mathematical rounding lemmas are not an executable Real-floor algorithm. Finite allocation maps are actual functions from the anchor index type to the finite ordinal, enumerated by Pi.instFintype/Fintype.piFinset, whose cardinal is N^(card anchors).
+
+Added actual users: SparseCompletion.optimistic_source_allocation_grid_bounds, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_node_count, SparseCompletion.rational_source_floor_none_iff.
+
+Material Finset.filter: Actual finite filtering by a decidable predicate.
+
+Added actual users: SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Multiset.filter: Finite multiset filtering via quotient lift of List.filter.
+
+Added actual users: SparseCompletion.list_take_sum_scorePrefix, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_check_prefix_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Fin.cons: Dependent bounded-coordinate cons; coordinate zero is the supplied head and successor coordinates are the tail.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_node_count, SparseCompletion.rational_source_floor_none_iff.
+
+Material finProdFinEquiv: Bounded row-major bijection (i,j)↦j+n*i.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material finSumFinEquiv: Computable disjoint-sum flattening with unchanged left index and right offset.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Equiv.sumCongr: Computable independent mapping of both tags by supplied equivalences.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Equiv.refl: Identity equivalence.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Equiv.symm: Inverse of the explicitly supplied equivalence.
+
+Added actual users: SparseCompletion.all_cut_violation_reindex, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Equiv.trans: Composition of two explicitly supplied equivalences.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material List.argmax: Literal maximizing-score left-fold generator. The selected rational program uses its to_dual-generated List.argmin: returnsNone exactly onemptylist, otherwise anoriginalelement attainingminimumscore, with earlierinput retained onscoreties. ActualscoresareRat withgenuineorder/comparison.
+
+Added actual users: SparseCompletion.rational_source_floor_approximation_global, SparseCompletion.rational_source_floor_approximation_output_class, SparseCompletion.rational_source_floor_approximation_rows, SparseCompletion.rational_source_floor_certified_complete, SparseCompletion.rational_source_floor_certified_none_iff, SparseCompletion.rational_source_floor_certified_origin, SparseCompletion.rational_source_floor_certified_value, SparseCompletion.rational_source_floor_none_iff.
+
+Material Function.Bijective: The conjunction that a map is injective and surjective.
+
+Added actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_bijective.
+
+New material Function.Bijective: The conjunction that a map is injective and surjective. Literal Function.Bijective retains Injective and Surjective. Actual ofBijective proof-only inverse is surjInv chosen from genuine surjectivity; no executable inverse claim.
+
+Actual users: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.rational_sorted_index_bijective.
+
+### Mathlib/Logic/Function/Basic.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Basic.lean
+
+Source SHA256 a3c45dcdfb9c5395a6650745e92a509b91f21b2bd9dd3fde373ccdf04c12e273; Git blob e32127e286544f7ecdbd488c9787b85bee4548ba. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Basic.lean#L572-L588
+
+```lean
+/-- The inverse of a surjective function. (Unlike `invFun`, this does not require
+  `α` to be inhabited.) -/
+noncomputable def surjInv {f : α → β} (h : Surjective f) (b : β) : α :=
+  Classical.choose (h b)
+
+theorem surjInv_eq (h : Surjective f) (b) : f (surjInv h b) = b :=
+  Classical.choose_spec (h b)
+
+@[simp]
+lemma comp_surjInv (hf : f.Surjective) : f ∘ f.surjInv hf = id :=
+  funext (Function.surjInv_eq _)
+
+theorem rightInverse_surjInv (hf : Surjective f) : RightInverse (surjInv hf) f :=
+  surjInv_eq hf
+
+theorem leftInverse_surjInv (hf : Bijective f) : LeftInverse (surjInv hf.2) f :=
+  rightInverse_of_injective_of_leftInverse hf.1 (rightInverse_surjInv hf.2)
+```
+
+Excerpt SHA256 7842266b404ca0ef2886724ec57a60f215c4a25688996f95df2a046984aa0606
+
+### Mathlib/Logic/Function/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Defs.lean
+
+Source SHA256 a783ef2cbf8b63c895b371dfc43dec55fc07fee6bf0da23fa25cfbceab45a872; Git blob 565ae3df6b95fa084d60818ab13fab2e80874f3f. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Haitao Zhang
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Defs.lean#L162-L164
+
+```lean
+/-- A function is called bijective if it is both injective and surjective. -/
+def Bijective (f : α → β) :=
+  Injective f ∧ Surjective f
+```
+
+Excerpt SHA256 1c96641054d201c2db0c0ce991c137a931539b8fc41ed5e41360c0b2116d6c38
+
+### Mathlib/Data/Quot.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Quot.lean
+
+Source SHA256 14af0ddf94e04029ce230f6635d339578d906014206fe4c3fc2a3f6bc25cb1a2; Git blob f1a7041eb6f2b670c4d7af246ad5a6afca689a42. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Quot.lean#L359-L362
+
+```lean
+/-- Choose an element of the equivalence class using the axiom of choice.
+  Sound but noncomputable. -/
+noncomputable def Quot.out {r : α → α → Prop} (q : Quot r) : α :=
+  Classical.choose (Quot.exists_rep q)
+```
+
+Excerpt SHA256 aed052b414ce97141a3de7c0ac1eab0691994a20a5b3cc0aa45b5593bd2007f2
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Quot.lean#L555-L557
+
+```lean
+/-- Noncomputably extract a representative of `Trunc α` (using the axiom of choice). -/
+noncomputable def out : Trunc α → α :=
+  Quot.out
+```
+
+Excerpt SHA256 31c75d88104fae2a769ddc6a45fe1feefd5deda8b8942ddf8b2770a3e08de0f4
+
+### Additional exact recipe in Mathlib/Logic/Equiv/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L819-L839
+
+```lean
+/-- If `f` is a bijective function, then its domain is equivalent to its codomain. -/
+@[simps (attr := grind =) apply]
+noncomputable def ofBijective (f : α → β) (hf : Bijective f) : α ≃ β where
+  toFun := f
+  invFun := surjInv hf.surjective
+  left_inv := leftInverse_surjInv hf
+  right_inv := rightInverse_surjInv _
+
+@[simp] lemma coe_ofBijective (f : α → β) (hf : Bijective f) : ⇑(ofBijective f hf) = f := rfl
+
+@[simp] lemma ofBijective_coe {f : α ≃ β} :
+    Equiv.ofBijective f f.bijective = f := Equiv.ext (congrFun rfl)
+
+lemma ofBijective_apply_symm_apply (f : α → β) (hf : Bijective f) (x : β) :
+    f ((ofBijective f hf).symm x) = x :=
+  (ofBijective f hf).apply_symm_apply x
+
+@[simp]
+lemma ofBijective_symm_apply_apply (f : α → β) (hf : Bijective f) (x : α) :
+    (ofBijective f hf).symm (f x) = x :=
+  (ofBijective f hf).symm_apply_apply x
+```
+
+Excerpt SHA256 74a4e2e2f4407f57c27f4a146e814af8ddcb1a3bfcabd03600c6000a1a8201c4
+
+The29 added semantic bridges occur identically in both import contexts, alongside11 executable controls. Actual compilation of both contexts and protected comparison is an independent gate. The counter proofs deliberately exclude compiler csimp runtime equivalence as a cost law. Choice constructs a genuine proof-only inverse; the executable sort retains original labels without computing that inverse.
+
+Historical context List.length logical and tailrecursive source: SparseCompletion.rational_counted_certificate_check_iff, SparseCompletion.rational_counted_certificate_full_game, SparseCompletion.rational_counted_certificate_valid_rate, SparseCompletion.rational_counted_dot_calls, SparseCompletion.rational_counted_fin_dot_calls, SparseCompletion.rational_counted_fixed_certificate_bound, SparseCompletion.rational_counted_fixed_certificate_calls, SparseCompletion.rational_counted_fixed_certificate_value, SparseCompletion.rational_counted_fixed_valid_rate, SparseCompletion.rational_counted_floor_certificate_bound, SparseCompletion.rational_counted_floor_certificate_calls, SparseCompletion.rational_counted_floor_certificate_value, SparseCompletion.rational_counted_floor_valid_rate, SparseCompletion.rational_counted_interval_fixed_bound, SparseCompletion.rational_counted_interval_fixed_calls, SparseCompletion.rational_counted_interval_fixed_valid_rate, SparseCompletion.rational_counted_interval_fixed_value, SparseCompletion.rational_counted_interval_floor_bound, SparseCompletion.rational_counted_interval_floor_calls, SparseCompletion.rational_counted_interval_floor_valid_rate, SparseCompletion.rational_counted_interval_floor_value, SparseCompletion.rational_counted_observation_calls, SparseCompletion.rational_counted_observation_value, SparseCompletion.rational_counted_omitted_positive_cost, SparseCompletion.rational_counted_omitted_zero_cost, SparseCompletion.rational_counted_rows_exact_ledger, SparseCompletion.rational_counted_rows_quadratic_bound, SparseCompletion.rational_counted_table_certificate_ledger, SparseCompletion.rational_counted_table_certificate_quadratic_bound, SparseCompletion.rational_counted_table_certificate_value, SparseCompletion.rational_counted_table_omitted_value, SparseCompletion.rational_counted_table_rows_value, SparseCompletion.rational_grid_tuples_length, SparseCompletion.rational_observation_scalar_slots, SparseCompletion.rational_table_b_labels, SparseCompletion.rational_table_conditions_iff, SparseCompletion.rational_table_index_label, SparseCompletion.rational_table_label_index, SparseCompletion.rational_table_mass_sum, SparseCompletion.rational_table_omitted_exists, SparseCompletion.rational_table_q_label, SparseCompletion.rational_table_q_nonnegative, SparseCompletion.rational_table_q_off, SparseCompletion.rational_table_rows_iff, SparseCompletion.rational_table_scalar_slots, SparseCompletion.rational_table_scalar_slots_bound, SparseCompletion.rational_table_support_card, SparseCompletion.rational_table_support_forall, SparseCompletion.rational_table_support_mem, SparseCompletion.rational_table_supported_sum, SparseCompletion.rational_table_valid_dimensions, SparseCompletion.rational_table_valid_size, SparseCompletion.rational_table_weighted_sum.
+
+Historical context List.length runtime equality supporting contract: SparseCompletion.rational_counted_certificate_check_iff, SparseCompletion.rational_counted_certificate_full_game, SparseCompletion.rational_counted_certificate_valid_rate, SparseCompletion.rational_counted_dot_calls, SparseCompletion.rational_counted_fin_dot_calls, SparseCompletion.rational_counted_fixed_certificate_bound, SparseCompletion.rational_counted_fixed_certificate_calls, SparseCompletion.rational_counted_fixed_certificate_value, SparseCompletion.rational_counted_fixed_valid_rate, SparseCompletion.rational_counted_floor_certificate_bound, SparseCompletion.rational_counted_floor_certificate_calls, SparseCompletion.rational_counted_floor_certificate_value, SparseCompletion.rational_counted_floor_valid_rate, SparseCompletion.rational_counted_interval_fixed_bound, SparseCompletion.rational_counted_interval_fixed_calls, SparseCompletion.rational_counted_interval_fixed_valid_rate, SparseCompletion.rational_counted_interval_fixed_value, SparseCompletion.rational_counted_interval_floor_bound, SparseCompletion.rational_counted_interval_floor_calls, SparseCompletion.rational_counted_interval_floor_valid_rate, SparseCompletion.rational_counted_interval_floor_value, SparseCompletion.rational_counted_observation_calls, SparseCompletion.rational_counted_observation_value, SparseCompletion.rational_counted_omitted_positive_cost, SparseCompletion.rational_counted_omitted_zero_cost, SparseCompletion.rational_counted_rows_exact_ledger, SparseCompletion.rational_counted_rows_quadratic_bound, SparseCompletion.rational_counted_table_certificate_ledger, SparseCompletion.rational_counted_table_certificate_quadratic_bound, SparseCompletion.rational_counted_table_certificate_value, SparseCompletion.rational_counted_table_omitted_value, SparseCompletion.rational_counted_table_rows_value, SparseCompletion.rational_grid_tuples_length, SparseCompletion.rational_observation_scalar_slots, SparseCompletion.rational_table_b_labels, SparseCompletion.rational_table_conditions_iff, SparseCompletion.rational_table_index_label, SparseCompletion.rational_table_label_index, SparseCompletion.rational_table_mass_sum, SparseCompletion.rational_table_omitted_exists, SparseCompletion.rational_table_q_label, SparseCompletion.rational_table_q_nonnegative, SparseCompletion.rational_table_q_off, SparseCompletion.rational_table_rows_iff, SparseCompletion.rational_table_scalar_slots, SparseCompletion.rational_table_scalar_slots_bound, SparseCompletion.rational_table_support_card, SparseCompletion.rational_table_support_forall, SparseCompletion.rational_table_support_mem, SparseCompletion.rational_table_supported_sum, SparseCompletion.rational_table_valid_dimensions, SparseCompletion.rational_table_valid_size, SparseCompletion.rational_table_weighted_sum.
+
+Historical context List.Nodup actual predicate: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context List.Pairwise actual inductive predicate: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context List constructors: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context List.Mem and Membership: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context Classical.choose actual witnessed choice wrapper: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context Nonempty: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context Subtype: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context Classical.propDecidable noncomputable instance: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context Decidable: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context DecidablePred: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_uniform_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_residual_mass_le_one, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+Historical context PUnit: SparseCompletion.rational_counted_all_calls, SparseCompletion.rational_counted_all_value, SparseCompletion.rational_counted_certificate_check_iff, SparseCompletion.rational_counted_certificate_full_game, SparseCompletion.rational_counted_certificate_valid_rate, SparseCompletion.rational_counted_conjunction_calls, SparseCompletion.rational_counted_conjunction_value, SparseCompletion.rational_counted_dot_calls, SparseCompletion.rational_counted_dot_value, SparseCompletion.rational_counted_fin_dot_calls, SparseCompletion.rational_counted_fin_dot_value, SparseCompletion.rational_counted_fixed_certificate_bound, SparseCompletion.rational_counted_fixed_certificate_calls, SparseCompletion.rational_counted_fixed_certificate_value, SparseCompletion.rational_counted_fixed_valid_rate, SparseCompletion.rational_counted_floor_certificate_bound, SparseCompletion.rational_counted_floor_certificate_calls, SparseCompletion.rational_counted_floor_certificate_value, SparseCompletion.rational_counted_floor_valid_rate, SparseCompletion.rational_counted_interval_fixed_bound, SparseCompletion.rational_counted_interval_fixed_calls, SparseCompletion.rational_counted_interval_fixed_valid_rate, SparseCompletion.rational_counted_interval_fixed_value, SparseCompletion.rational_counted_interval_floor_bound, SparseCompletion.rational_counted_interval_floor_calls, SparseCompletion.rational_counted_interval_floor_valid_rate, SparseCompletion.rational_counted_interval_floor_value, SparseCompletion.rational_counted_observation_calls, SparseCompletion.rational_counted_observation_value, SparseCompletion.rational_counted_omitted_positive_cost, SparseCompletion.rational_counted_omitted_zero_cost, SparseCompletion.rational_counted_rows_exact_ledger, SparseCompletion.rational_counted_rows_quadratic_bound, SparseCompletion.rational_counted_table_certificate_ledger, SparseCompletion.rational_counted_table_certificate_quadratic_bound, SparseCompletion.rational_counted_table_certificate_value, SparseCompletion.rational_counted_table_omitted_value, SparseCompletion.rational_counted_table_rows_value, SparseCompletion.rational_floor_sparsify_origin, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_sparse_gap_search_complete, SparseCompletion.scaled_cloned_observations_bounded.
+
+Historical context Equiv: SparseCompletion.rational_interval_cut_check_iff, SparseCompletion.rational_perspective_cut_check_iff, SparseCompletion.rational_sorted_cut_check_iff, SparseCompletion.rational_sorted_cut_prefix_criterion.
+
+Historical context Fintype.equivFin: .

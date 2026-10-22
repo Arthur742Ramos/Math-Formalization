@@ -17,6 +17,9 @@ public import Mathlib.Data.List.OfFn
 public import Mathlib.Data.Finset.Max
 public import Mathlib.Logic.Equiv.Fin.Basic
 public import Mathlib.Data.List.MinMax
+public import Mathlib.Data.List.Sort
+public import Mathlib.Algebra.Order.Ring.Rat
+public import Mathlib.Algebra.BigOperators.Group.List.Basic
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -20164,4 +20167,952 @@ theorem anchored_support_problem_representation (k m : ℕ) (M : ℝ)
   exact ⟨⟨I,floors,hf,hfloor,hfix⟩,rfl,rfl,rfl⟩
 
 end
+end SparseCompletion
+
+/- Fixed source body: CountedMerge.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Intrinsic comparator-call ledger for merge; no bit-time claim.
+Public list recursors avoid generated well-founded helper identities. Unit
+thunks defer the unused branch, so building a recursor does not call le. -/
+@[expose] public section
+namespace SparseCompletion
+
+def countedMerge {α : Type*} (le : α → α → Bool) (xs ys : List α) : List α × ℕ :=
+  List.rec (motive := fun _ => List α → List α × ℕ)
+    (fun ys => (ys,0))
+    (fun x xs recX ys =>
+      (List.rec (motive := fun _ => Unit → List α × ℕ)
+        (fun _ => (x::xs,0))
+        (fun y ys recY _ =>
+          if le x y then
+            let r := recX (y::ys)
+            (x::r.1,r.2+1)
+          else
+            let r := recY ()
+            (y::r.1,r.2+1)) ys) ()) xs ys
+
+theorem counted_merge_value {α : Type*} (le : α → α → Bool) (xs ys : List α) :
+    (countedMerge le xs ys).1=List.merge xs ys le := by
+  induction xs generalizing ys with
+  | nil =>
+    change ys = List.merge [] ys le
+    exact (List.nil_merge ys).symm
+  | cons x xs ih =>
+    induction ys with
+    | nil =>
+      change x::xs = List.merge (x::xs) [] le
+      exact (List.merge_right _).symm
+    | cons y ys ihy =>
+      have hc : countedMerge le (x::xs) (y::ys) =
+          (if le x y then
+            let r := countedMerge le xs (y::ys)
+            (x::r.1,r.2+1)
+          else
+            let r := countedMerge le (x::xs) ys
+            (y::r.1,r.2+1)) := rfl
+      rw [hc,List.cons_merge_cons]
+      by_cases h : le x y
+      · simp only [ite_eq_left h]
+        exact congrArg (List.cons x) (ih (y::ys))
+      · simp only [ite_eq_right h]
+        exact congrArg (List.cons y) ihy
+
+theorem counted_merge_bound {α : Type*} (le : α → α → Bool) (xs ys : List α) :
+    (countedMerge le xs ys).2 ≤ xs.length+ys.length := by
+  induction xs generalizing ys with
+  | nil =>
+    change 0 ≤ _
+    exact Nat.zero_le _
+  | cons x xs ih =>
+    induction ys with
+    | nil =>
+      change 0 ≤ _
+      exact Nat.zero_le _
+    | cons y ys ihy =>
+      have hc : countedMerge le (x::xs) (y::ys) =
+          (if le x y then
+            let r := countedMerge le xs (y::ys)
+            (x::r.1,r.2+1)
+          else
+            let r := countedMerge le (x::xs) ys
+            (y::r.1,r.2+1)) := rfl
+      rw [hc]
+      by_cases h : le x y
+      · simp only [ite_eq_left h]
+        have hh := ih (y::ys)
+        simp only [List.length_cons] at hh ⊢
+        omega
+      · simp only [ite_eq_right h]
+        simp only [List.length_cons] at ihy ⊢
+        omega
+
+theorem counted_merge_length {α : Type*} (le : α → α → Bool) (xs ys : List α) :
+    (countedMerge le xs ys).1.length=xs.length+ys.length := by
+  rw [counted_merge_value]
+  simp
+
+end SparseCompletion
+
+/- Fixed source body: CountedMergeSort.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Balanced sort with an intrinsic comparator-call ledger; no machine-cost claim. -/
+@[expose] public section
+namespace SparseCompletion
+
+def countedMergeSort {α : Type*} (le : α → α → Bool) : List α → List α × ℕ
+  | [] => ([],0)
+  | [a] => ([a],0)
+  | a::b::xs =>
+    let ys := a::b::xs
+    let halves := ys.splitAt ((ys.length+1)/2)
+    let left := countedMergeSort le halves.1
+    let right := countedMergeSort le halves.2
+    let merged := countedMerge le left.1 right.1
+    (merged.1,left.2+right.2+merged.2)
+termination_by xs => xs.length
+decreasing_by
+  · change Nat.lt
+      ((List.splitAt (((a::b::xs).length+1)/2) (a::b::xs)).1.length)
+      (a::b::xs).length
+    rw [List.splitAt_eq, List.length_take]
+    have hh : Nat.lt (Nat.add (Nat.add xs.length 2) 1)
+        (Nat.mul (Nat.add xs.length 2) 2) := by
+      have hm : Nat.mul (Nat.add xs.length 2) 2 =
+          Nat.add (Nat.add xs.length 2) (Nat.add xs.length 2) :=
+        Nat.mul_two (Nat.add xs.length 2)
+      rw [hm]
+      exact Nat.add_lt_add_left (Nat.succ_lt_succ (Nat.zero_lt_succ xs.length)) _
+    exact Nat.lt_of_le_of_lt (Nat.min_le_left _ _)
+      ((Nat.div_lt_iff_lt_mul Nat.zero_lt_two).2 hh)
+  · change Nat.lt
+      ((List.splitAt (((a::b::xs).length+1)/2) (a::b::xs)).2.length)
+      (a::b::xs).length
+    rw [List.splitAt_eq, List.length_drop]
+    apply Nat.sub_lt (Nat.succ_pos _)
+    exact Nat.div_pos
+      (Nat.succ_le_succ (Nat.succ_le_succ (Nat.zero_le (xs.length+1)))) Nat.zero_lt_two
+
+theorem counted_merge_sort_length {α : Type*} (le : α → α → Bool) (xs : List α) :
+    (countedMergeSort le xs).1.length=xs.length := by
+  fun_induction countedMergeSort le xs
+  all_goals simp_all +zetaDelta [counted_merge_length,List.splitAt_eq]
+  all_goals omega
+
+
+theorem counted_sort_half_lengths {α : Type*} (xs : List α) :
+    (xs.splitAt ((xs.length+1)/2)).1.length=(xs.length+1)/2 ∧
+    (xs.splitAt ((xs.length+1)/2)).2.length=xs.length/2 := by
+  simp only [List.splitAt_eq,List.length_take,List.length_drop]
+  omega
+
+theorem counted_merge_sort_capacity {α : Type*} (le : α → α → Bool)
+    (xs : List α) (h : ℕ) (hcap : xs.length ≤ Nat.pow 2 h) :
+    (countedMergeSort le xs).2 ≤ xs.length*h := by
+  induction h generalizing xs with
+  | zero =>
+    cases xs with
+    | nil => simp [countedMergeSort]
+    | cons a xs =>
+      cases xs with
+      | nil => simp [countedMergeSort]
+      | cons b xs =>
+        have hh : (a::b::xs).length ≤ 1 := hcap
+        simp only [List.length_cons] at hh
+        omega
+  | succ h ih =>
+    cases xs with
+    | nil => simp [countedMergeSort]
+    | cons a xs =>
+      cases xs with
+      | nil => simp [countedMergeSort]
+      | cons b xs =>
+        let ys := a::b::xs
+        let halves := ys.splitAt ((ys.length+1)/2)
+        have hparts := counted_sort_half_lengths ys
+        have hl : halves.1.length=(ys.length+1)/2 := hparts.1
+        have hr : halves.2.length=ys.length/2 := hparts.2
+        have hn : ys.length ≤ Nat.pow 2 h*2 := hcap
+        have hleft : halves.1.length ≤ Nat.pow 2 h := by rw [hl]; omega
+        have hright : halves.2.length ≤ Nat.pow 2 h := by rw [hr]; omega
+        have hsum : halves.1.length+halves.2.length=ys.length := by rw [hl,hr]; omega
+        have hcL := ih halves.1 hleft
+        have hcR := ih halves.2 hright
+        have hcM := counted_merge_bound le (countedMergeSort le halves.1).1
+          (countedMergeSort le halves.2).1
+        rw [counted_merge_sort_length,counted_merge_sort_length] at hcM
+        rw [countedMergeSort]
+        change (countedMergeSort le halves.1).2+(countedMergeSort le halves.2).2+
+            (countedMerge le (countedMergeSort le halves.1).1
+              (countedMergeSort le halves.2).1).2 ≤ ys.length*(h+1)
+        calc
+          _ ≤ halves.1.length*h+halves.2.length*h+
+              (halves.1.length+halves.2.length) := Nat.add_le_add (Nat.add_le_add hcL hcR) hcM
+          _ = (halves.1.length+halves.2.length)*(h+1) := by simp only [Nat.mul_succ,Nat.add_mul]
+          _ = ys.length*(h+1) := by rw [hsum]
+
+theorem counted_merge_sort_log_bound {α : Type*} (le : α → α → Bool) (xs : List α) :
+    (countedMergeSort le xs).2 ≤ xs.length*(Nat.log2 xs.length+1) := by
+  exact counted_merge_sort_capacity le xs _ (Nat.le_of_lt Nat.lt_log2_self)
+
+
+theorem counted_merge_sort_perm {α : Type*} (le : α → α → Bool) (xs : List α) :
+    (countedMergeSort le xs).1.Perm xs := by
+  fun_induction countedMergeSort le xs
+  all_goals simp_all +zetaDelta [counted_merge_value,List.splitAt_eq]
+  apply (List.merge_perm_append le).trans
+  apply List.Perm.trans
+  · apply List.Perm.append
+    all_goals assumption
+  · exact List.Perm.of_eq (List.take_append_drop _ _)
+
+theorem counted_merge_sort_pairwise {α : Type*} (le : α → α → Bool)
+    (trans : ∀ a b c,le a b → le b c → le a c)
+    (total : ∀ a b,le a b = true ∨ le b a = true) (xs : List α) :
+    (countedMergeSort le xs).1.Pairwise (fun a b => le a b = true) := by
+  fun_induction countedMergeSort le xs
+  all_goals simp_all +zetaDelta [counted_merge_value]
+  apply List.pairwise_merge trans (fun a b => by simpa only [Bool.or_eq_true] using total a b)
+  all_goals assumption
+
+end SparseCompletion
+
+/- Fixed source body: RationalScoreSort.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Executable descending rational-score sorting with original labels retained.
+The counter measures calls to the score comparator, not bit operations. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalScoreLe {α : Type*} (a b : α × ℚ) : Bool := decide (b.2 ≤ a.2)
+
+theorem rational_score_le_trans {α : Type*} (a b c : α × ℚ)
+    (hab : rationalScoreLe a b) (hbc : rationalScoreLe b c) : rationalScoreLe a c := by
+  simp only [rationalScoreLe, decide_eq_true_eq] at *
+  exact le_trans hbc hab
+
+theorem rational_score_le_total {α : Type*} (a b : α × ℚ) :
+    rationalScoreLe a b = true ∨ rationalScoreLe b a = true := by
+  simp only [rationalScoreLe, decide_eq_true_eq]
+  exact le_total _ _
+
+def rationalScoreSort {α : Type*} (xs : List (α × ℚ)) : List (α × ℚ) × ℕ :=
+  countedMergeSort rationalScoreLe xs
+
+theorem rational_score_sort_perm {α : Type*} (xs : List (α × ℚ)) :
+    (rationalScoreSort xs).1.Perm xs := counted_merge_sort_perm _ _
+
+theorem rational_score_sort_descending {α : Type*} (xs : List (α × ℚ)) :
+    (rationalScoreSort xs).1.Pairwise (fun a b => b.2 ≤ a.2) := by
+  have h := counted_merge_sort_pairwise rationalScoreLe rational_score_le_trans
+    rational_score_le_total xs
+  simpa only [rationalScoreSort, rationalScoreLe, decide_eq_true_eq] using h
+
+theorem rational_score_sort_length {α : Type*} (xs : List (α × ℚ)) :
+    (rationalScoreSort xs).1.length = xs.length := counted_merge_sort_length _ _
+
+theorem rational_score_sort_comparisons {α : Type*} (xs : List (α × ℚ)) :
+    (rationalScoreSort xs).2 ≤ xs.length * (Nat.log2 xs.length + 1) :=
+  counted_merge_sort_log_bound _ _
+
+theorem rational_score_sort_stored_score {α : Type*} (f : α → ℚ)
+    (xs : List (α × ℚ)) (h : ∀ a ∈ xs, a.2 = f a.1) :
+    ∀ a ∈ (rationalScoreSort xs).1, a.2 = f a.1 := by
+  intro a ha
+  exact h a ((rational_score_sort_perm xs).mem_iff.mp ha)
+
+end SparseCompletion
+
+/- Fixed source body: RationalLabelSort.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Finite rational score sorting retains every original action label exactly once. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalLabelSort {m : ℕ} (f : Fin m → ℚ) : List (Fin m × ℚ) × ℕ :=
+  rationalScoreSort ((List.finRange m).map (fun i => (i, f i)))
+
+theorem rational_label_sort_length {m : ℕ} (f : Fin m → ℚ) :
+    (rationalLabelSort f).1.length = m := by
+  simp only [rationalLabelSort, rational_score_sort_length, List.length_map, List.length_finRange]
+
+theorem rational_label_sort_labels {m : ℕ} (f : Fin m → ℚ) :
+    ((rationalLabelSort f).1.map Prod.fst).Perm (List.finRange m) := by
+  have h := (rational_score_sort_perm ((List.finRange m).map (fun i => (i, f i)))).map Prod.fst
+  simpa only [rationalLabelSort, List.map_map, Function.comp_def, List.map_id'] using h
+
+theorem rational_label_sort_nodup {m : ℕ} (f : Fin m → ℚ) :
+    ((rationalLabelSort f).1.map Prod.fst).Nodup :=
+  (rational_label_sort_labels f).nodup_iff.mpr (List.nodup_finRange m)
+
+theorem rational_label_sort_stored_score {m : ℕ} (f : Fin m → ℚ) :
+    ∀ a ∈ (rationalLabelSort f).1, a.2 = f a.1 := by
+  apply rational_score_sort_stored_score
+  intro a ha
+  obtain ⟨i, _, rfl⟩ := List.mem_map.mp ha
+  rfl
+
+theorem rational_label_sort_descending {m : ℕ} (f : Fin m → ℚ) :
+    (rationalLabelSort f).1.Pairwise (fun a b => b.2 ≤ a.2) :=
+  rational_score_sort_descending _
+
+theorem rational_label_sort_comparisons {m : ℕ} (f : Fin m → ℚ) :
+    (rationalLabelSort f).2 ≤ m * (Nat.log2 m + 1) := by
+  simpa only [rationalLabelSort, List.length_map, List.length_finRange] using
+    rational_score_sort_comparisons ((List.finRange m).map (fun i => (i, f i)))
+
+theorem rational_label_sort_covers {m : ℕ} (f : Fin m → ℚ) (i : Fin m) :
+    (i, f i) ∈ (rationalLabelSort f).1 := by
+  apply (rational_score_sort_perm _).mem_iff.mpr
+  exact List.mem_map.mpr ⟨i, List.mem_finRange i, rfl⟩
+
+theorem rational_label_sort_index_antitone {m : ℕ} (f : Fin m → ℚ) :
+    Antitone (fun i : Fin (rationalLabelSort f).1.length =>
+      ((rationalLabelSort f).1.get i).2) := by
+  intro i j hij
+  rcases lt_or_eq_of_le hij with hlt | heq
+  · simpa only [List.get_eq_getElem] using
+      (rational_label_sort_descending f).rel_getElem_of_lt i.isLt j.isLt hlt
+  · rw [heq]
+
+end SparseCompletion
+
+/- Fixed source body: RationalSortedIndex.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The computed sorted table supplies a bijective reindexing of original labels. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalSortedIndex {m : ℕ} (f : Fin m → ℚ)
+    (i : Fin (rationalLabelSort f).1.length) : Fin m :=
+  ((rationalLabelSort f).1.get i).1
+
+theorem rational_sorted_index_score {m : ℕ} (f : Fin m → ℚ)
+    (i : Fin (rationalLabelSort f).1.length) :
+    ((rationalLabelSort f).1.get i).2 = f (rationalSortedIndex f i) :=
+  rational_label_sort_stored_score f _ (List.get_mem _ _)
+
+theorem rational_sorted_index_injective {m : ℕ} (f : Fin m → ℚ) :
+    Function.Injective (rationalSortedIndex f) := by
+  intro i j hij
+  have hn := List.Nodup.of_map Prod.fst (rational_label_sort_nodup f)
+  apply hn.get_inj_iff.mp
+  apply Prod.ext hij
+  rw [rational_sorted_index_score, rational_sorted_index_score, hij]
+
+theorem rational_sorted_index_surjective {m : ℕ} (f : Fin m → ℚ) :
+    Function.Surjective (rationalSortedIndex f) := by
+  intro i
+  obtain ⟨j, hj⟩ := List.mem_iff_get.mp (rational_label_sort_covers f i)
+  exact ⟨j, congrArg Prod.fst hj⟩
+
+theorem rational_sorted_index_bijective {m : ℕ} (f : Fin m → ℚ) :
+    Function.Bijective (rationalSortedIndex f) :=
+  ⟨rational_sorted_index_injective f, rational_sorted_index_surjective f⟩
+
+theorem rational_sorted_index_antitone {m : ℕ} (f : Fin m → ℚ) :
+    Antitone (fun i => f (rationalSortedIndex f i)) := by
+  simpa only [← rational_sorted_index_score] using rational_label_sort_index_antitone f
+
+noncomputable def rationalSortedEquiv {m : ℕ} (f : Fin m → ℚ) :
+    Fin (rationalLabelSort f).1.length ≃ Fin m :=
+  Equiv.ofBijective (rationalSortedIndex f) (rational_sorted_index_bijective f)
+
+end SparseCompletion
+
+/- Fixed source body: RationalSortedPrefixes.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The computed rational ordering discharges the sortedness hypothesis of the
+paper's quantitative prefix criterion. Efficient prefix scanning is separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem cut_violation_reindex {ι κ : Type*} [Fintype ι] [Fintype κ]
+    (e : ι ≃ κ) (q v : κ → ℝ) (M r : ℝ) (S : Finset ι) :
+    (∑ i ∈ S.map e.toEmbedding, q i * v i) -
+        M * mass (S.map e.toEmbedding) q * (r - mass (S.map e.toEmbedding) q) =
+      (∑ i ∈ S, q (e i) * v (e i)) -
+        M * mass S (fun i => q (e i)) * (r - mass S (fun i => q (e i))) := by
+  simp only [mass, Finset.sum_map, Equiv.toEmbedding_apply]
+
+theorem all_cut_violation_reindex {ι κ : Type*} [Fintype ι] [Fintype κ]
+    (e : ι ≃ κ) (q v : κ → ℝ) (M r δ : ℝ) :
+    (∀ S : Finset κ, (∑ i ∈ S, q i*v i)-M*mass S q*(r-mass S q) ≤ δ) ↔
+    ∀ S : Finset ι, (∑ i ∈ S, q (e i)*v (e i))-
+      M*mass S (fun i => q (e i))*(r-mass S (fun i => q (e i))) ≤ δ := by
+  constructor
+  · intro h S
+    rw [← cut_violation_reindex]
+    exact h _
+  · intro h S
+    have hs : (S.map e.symm.toEmbedding).map e.toEmbedding = S := by
+      ext i
+      simp only [Finset.mem_map, Equiv.toEmbedding_apply]
+      constructor
+      · rintro ⟨j, ⟨k, hk, rfl⟩, rfl⟩
+        simpa using hk
+      · intro hi
+        exact ⟨e.symm i, ⟨i, hi, rfl⟩, e.apply_symm_apply i⟩
+    have hh := h (S.map e.symm.toEmbedding)
+    rw [← cut_violation_reindex, hs] at hh
+    exact hh
+
+theorem rational_sorted_cut_prefix_criterion {m : ℕ}
+    (q : Fin m → ℝ) (f : Fin m → ℚ) (M r δ : ℝ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) :
+    (∀ S : Finset (Fin m),
+      (∑ i ∈ S, q i*(f i : ℝ))-M*mass S q*(r-mass S q) ≤ δ) ↔
+    ∀ l : ℕ, l ≤ (rationalLabelSort f).1.length →
+      (∑ i ∈ scorePrefix (rationalLabelSort f).1.length l,
+          q (rationalSortedIndex f i)*(f (rationalSortedIndex f i) : ℝ))-
+        M*mass (scorePrefix (rationalLabelSort f).1.length l)
+          (fun i => q (rationalSortedIndex f i))*
+          (r-mass (scorePrefix (rationalLabelSort f).1.length l)
+            (fun i => q (rationalSortedIndex f i))) ≤ δ := by
+  rw [all_cut_violation_reindex (rationalSortedEquiv f)]
+  apply cut_violation_bound_iff_prefix_bound _ _ M r δ hM
+  · intro i
+    exact hq _
+  · intro i j hij
+    change (f (rationalSortedIndex f j) : ℝ) ≤ (f (rationalSortedIndex f i) : ℝ)
+    exact Rat.cast_le.mpr (rational_sorted_index_antitone f hij)
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalPrefixScan.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+An early-exit rational prefix scan carries both sums; its counter counts cut
+comparisons, including the empty prefix, and excludes arithmetic bit cost. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalPrefixScan (M r δ Q H : ℚ) : List (ℚ × ℚ) → Bool × ℕ
+  | [] => (decide (H-M*Q*(r-Q) ≤ δ), 1)
+  | a::xs =>
+    if H-M*Q*(r-Q) ≤ δ then
+      let out := rationalPrefixScan M r δ (Q+a.1) (H+a.2) xs
+      (out.1, out.2+1)
+    else (false, 1)
+
+theorem rational_prefix_scan_comparisons (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) :
+    (rationalPrefixScan M r δ Q H xs).2 ≤ xs.length+1 := by
+  induction xs generalizing Q H with
+  | nil => simp [rationalPrefixScan]
+  | cons a xs ih =>
+    simp only [rationalPrefixScan]
+    split
+    · have hi := ih (Q+a.1) (H+a.2)
+      simp only [List.length_cons]
+      omega
+    · simp
+
+theorem rational_prefix_scan_complete (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) :
+    (rationalPrefixScan M r δ Q H xs).1 = true ↔
+      ∀ l : ℕ, l ≤ xs.length →
+        H+((xs.take l).map Prod.snd).sum-
+          M*(Q+((xs.take l).map Prod.fst).sum)*
+            (r-(Q+((xs.take l).map Prod.fst).sum)) ≤ δ := by
+  induction xs generalizing Q H with
+  | nil => simp [rationalPrefixScan]
+  | cons a xs ih =>
+    simp only [rationalPrefixScan]
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · rw [ite_eq_left hc]
+      simp only [ih]
+      constructor
+      · intro hh l hl
+        cases l with
+        | zero => simpa using hc
+        | succ l =>
+          have hh' := hh l (by simpa using hl)
+          simpa only [List.take_succ_cons, List.map_cons, List.sum_cons, add_assoc] using hh'
+      · intro hh l hl
+        have hh' := hh (l+1) (by simpa using hl)
+        simpa only [List.take_succ_cons, List.map_cons, List.sum_cons, add_assoc] using hh'
+    · rw [ite_eq_right hc]
+      simp only [Bool.false_eq_true, false_iff]
+      intro hh
+      have hh' := hh 0 (Nat.zero_le _)
+      exact hc (by simpa using hh')
+
+end SparseCompletion
+
+/- Fixed source body: ListPrefixSum.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Bridge from executable list prefixes to the finite-index prefix convention. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem list_take_sum_indexed {α β : Type*} [AddCommMonoid β]
+    (xs : List α) (f : α → β) (l : ℕ) :
+    ((xs.take l).map f).sum =
+      ∑ i : Fin xs.length, if i.val < l then f (xs.get i) else 0 := by
+  induction xs generalizing l with
+  | nil => simp
+  | cons a xs ih =>
+    cases l with
+    | zero => simp
+    | succ l =>
+      simp only [List.take_succ_cons, List.map_cons, List.sum_cons, List.length_cons]
+      rw [Fin.sum_univ_succ, ih]
+      simp
+
+theorem list_take_sum_scorePrefix {α β : Type*} [AddCommMonoid β]
+    (xs : List α) (f : α → β) (l : ℕ) :
+    ((xs.take l).map f).sum =
+      ∑ i ∈ scorePrefix xs.length l, f (xs.get i) := by
+  rw [list_take_sum_indexed]
+  simp only [scorePrefix, Finset.sum_filter]
+
+end SparseCompletion
+
+/- Fixed source body: RationalSortedCutCheck.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Sort and early-exit scan share one returned comparison ledger. Arithmetic,
+getter work and bit costs are outside this comparison-count statement. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalSortedCutCheck {m : ℕ} (M r δ : ℚ) (q f : Fin m → ℚ) : Bool × ℕ :=
+  let sorted := rationalLabelSort f
+  let scan := rationalPrefixScan M r δ 0 0
+    (sorted.1.map (fun a => (q a.1, q a.1*a.2)))
+  (scan.1, sorted.2+scan.2)
+
+theorem rational_sorted_cut_check_comparisons {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedCutCheck M r δ q f).2 ≤ m*(Nat.log2 m+2)+1 := by
+  have hs := rational_label_sort_comparisons f
+  have hp := rational_prefix_scan_comparisons M r δ 0 0
+    ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2)))
+  simp only [List.length_map, rational_label_sort_length] at hp
+  change (rationalLabelSort f).2+
+    (rationalPrefixScan M r δ 0 0
+      ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2)))).2 ≤ _
+  calc
+    _ ≤ m*(Nat.log2 m+1)+(m+1) := Nat.add_le_add hs hp
+    _ = m*(Nat.log2 m+2)+1 := by simp only [Nat.mul_add, Nat.mul_one, Nat.mul_two]; omega
+
+theorem rational_sorted_cut_check_prefix_iff {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedCutCheck M r δ q f).1 = true ↔
+      ∀ l : ℕ, l ≤ (rationalLabelSort f).1.length →
+        (∑ i ∈ scorePrefix (rationalLabelSort f).1.length l,
+            q (rationalSortedIndex f i)*f (rationalSortedIndex f i))-
+          M*(∑ i ∈ scorePrefix (rationalLabelSort f).1.length l,
+            q (rationalSortedIndex f i))*
+            (r-∑ i ∈ scorePrefix (rationalLabelSort f).1.length l,
+              q (rationalSortedIndex f i)) ≤ δ := by
+  change (rationalPrefixScan M r δ 0 0
+    ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2)))).1 = true ↔ _
+  rw [rational_prefix_scan_complete]
+  simp only [List.length_map, ← List.map_take, List.map_map, Function.comp_def, zero_add]
+  simp_rw [list_take_sum_scorePrefix, rational_sorted_index_score]
+  rfl
+
+theorem rational_sorted_cut_check_iff {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) :
+    (rationalSortedCutCheck M r δ q f).1 = true ↔
+      ∀ S : Finset (Fin m),
+        (∑ i ∈ S, (q i : ℝ)*(f i : ℝ))-
+          (M : ℝ)*mass S (fun i => (q i : ℝ))*
+            ((r : ℝ)-mass S (fun i => (q i : ℝ))) ≤ (δ : ℝ) := by
+  rw [rational_sorted_cut_check_prefix_iff]
+  have hMr : (0 : ℝ) ≤ (M : ℝ) := by exact_mod_cast hM
+  have hqr : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := by intro i; exact_mod_cast hq i
+  have hreal := rational_sorted_cut_prefix_criterion (fun i => (q i : ℝ)) f
+    (M : ℝ) (r : ℝ) (δ : ℝ) hMr hqr
+  constructor
+  · intro hp
+    apply hreal.mpr
+    intro l hl
+    have hh := hp l hl
+    dsimp only [mass]
+    exact_mod_cast hh
+  · intro hall l hl
+    have hh := hreal.mp hall l hl
+    dsimp only [mass] at hh
+    exact_mod_cast hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalPerspectiveCutCheck.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Candidate-dependent effective-score sorting for raw perspective moments.
+The zero-mass moment condition is explicit; other linear/row guards remain separate. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalEffectiveScore {m : ℕ} (q H : Fin m → ℚ) (i : Fin m) : ℚ :=
+  if q i = 0 then 0 else H i / q i
+
+theorem rational_effective_score_product {m : ℕ} (q H : Fin m → ℚ)
+    (hzero : ∀ i, q i = 0 → H i = 0) (i : Fin m) :
+    q i * rationalEffectiveScore q H i = H i := by
+  unfold rationalEffectiveScore
+  split_ifs with h
+  · rw [hzero i h, mul_zero]
+  · field_simp
+
+def rationalPerspectiveCutCheck {m : ℕ} (M r ε : ℚ) (q H : Fin m → ℚ) : Bool × ℕ :=
+  rationalSortedCutCheck M r 0 q (fun i => rationalEffectiveScore q H i-ε)
+
+theorem rational_perspective_cut_check_comparisons {m : ℕ}
+    (M r ε : ℚ) (q H : Fin m → ℚ) :
+    (rationalPerspectiveCutCheck M r ε q H).2 ≤ m*(Nat.log2 m+2)+1 :=
+  rational_sorted_cut_check_comparisons _ _ _ _ _
+
+theorem rational_perspective_cut_check_iff {m : ℕ}
+    (M r ε : ℚ) (q H : Fin m → ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hzero : ∀ i, q i = 0 → H i = 0) :
+    (rationalPerspectiveCutCheck M r ε q H).1 = true ↔
+      perspectiveCuts (fun i => (q i : ℝ)) (fun i => (H i : ℝ))
+        (M : ℝ) (r : ℝ) (ε : ℝ) := by
+  have hp : ∀ i, (q i : ℝ)*(rationalEffectiveScore q H i : ℝ) = (H i : ℝ) := by
+    intro i
+    exact_mod_cast rational_effective_score_product q H hzero i
+  have hc := rational_sorted_cut_check_iff M r 0 q
+    (fun i => rationalEffectiveScore q H i-ε) hM hq
+  have hh : (rationalPerspectiveCutCheck M r ε q H).1 = true ↔
+      Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ))
+        (fun i => (rationalEffectiveScore q H i : ℝ)-(ε : ℝ)) := by
+    simpa only [rationalPerspectiveCutCheck, Cuts, Rat.cast_sub, Rat.cast_zero, sub_nonpos] using hc
+  exact hh.trans (perspective_cuts_iff _ _ _ _ _ _ hp)
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalCutCheck.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The cut component of candidate separation, with effective moments formed from
+the actual perspective variables. Other linear and zero-row guards are separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_perspective_moment_zero {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (hb : ∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) :
+    ∀ i, q i = 0 → (∑ h, p h*V i h) = 0 := by
+  intro i hiq
+  apply Finset.sum_eq_zero
+  intro h _
+  have hv : V i h = 0 := by
+    have hh := hb i h
+    have hl := hh.1
+    have hu := hh.2
+    rw [hiq, mul_zero] at hl hu
+    exact le_antisymm hu hl
+  rw [hv, mul_zero]
+
+def rationalIntervalCutCheck {k m : ℕ} (M r ε : ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (V : Fin m → Fin k → ℚ) : Bool × ℕ :=
+  rationalPerspectiveCutCheck M r ε q (fun i => ∑ h, p h*V i h)
+
+theorem rational_interval_cut_check_comparisons {k m : ℕ} (M r ε : ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (V : Fin m → Fin k → ℚ) :
+    (rationalIntervalCutCheck M r ε p q V).2 ≤ m*(Nat.log2 m+2)+1 :=
+  rational_perspective_cut_check_comparisons _ _ _ _ _
+
+theorem rational_interval_cut_check_iff {k m : ℕ}
+    (M r ε : ℚ) (lo hi V : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i)
+    (hb : ∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) :
+    (rationalIntervalCutCheck M r ε p q V).1 = true ↔
+      perspectiveCuts (fun i => (q i : ℝ))
+        (intervalMomentScore (fun h => (p h : ℝ)) (fun i h => (V i h : ℝ)))
+        (M : ℝ) (r : ℝ) (ε : ℝ) := by
+  have hh := rational_perspective_cut_check_iff M r ε q
+    (fun i => ∑ h, p h*V i h) hM hq
+    (rational_perspective_moment_zero lo hi V p q hb)
+  change (rationalPerspectiveCutCheck M r ε q (fun i => ∑ h, p h*V i h)).1 = true ↔
+    perspectiveCuts (fun i => (q i : ℝ))
+      (fun i => ∑ h, (p h : ℝ)*(V i h : ℝ)) (M : ℝ) (r : ℝ) (ε : ℝ)
+  simpa only [Rat.cast_sum, Rat.cast_mul] using hh
+
+end SparseCompletion
+
+/- Fixed source body: SourceAllocationStepNormalized.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Literal source allocation mesh; no polynomial-time solver assertion. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem source_allocation_mesh_error {M ε : ℝ} {k : ℕ}
+    (hM : 0 < M) (hε : 0 < ε) (hk : 0 < k) :
+    0 < ε/((6 : ℕ)*M*(k : ℝ)) ∧
+      (2 : ℕ)*M*(k : ℝ)*(ε/((6 : ℕ)*M*(k : ℝ)))=ε/(3 : ℕ) := by
+  have hkR : 0 < (k : ℝ) := by exact_mod_cast hk
+  constructor
+  · positivity
+  · field_simp
+    ring
+
+theorem optimistic_source_allocation_grid_bounds {α ι : Type*} [Fintype α] [Fintype ι]
+    [DecidableEq ι] [Nonempty (α ⊕ ι)]
+    (lo hi : (α ⊕ ι) → (α ⊕ ι) → ℝ) (M ε : ℝ) (s : (α ⊕ ι) → ℝ) (j : ι)
+    (hI : ValidIntervalSystem lo hi M) (hs : ∀ i, 0 ≤ s i)
+    (hne : (floorStrategies s).Nonempty) (hM : 0 < M) (hε : 0 < ε)
+    (hk : 0 < Fintype.card α) :
+    optimisticValue lo hi M (floorStrategies s) ≤
+      optimisticValue lo hi M (allocationGridStrategies s (ε/((6 : ℕ)*M*(Fintype.card α : ℝ)))) ∧
+    optimisticValue lo hi M (allocationGridStrategies s (ε/((6 : ℕ)*M*(Fintype.card α : ℝ)))) ≤
+      optimisticValue lo hi M (floorStrategies s)+ε/(3 : ℕ) := by
+  obtain ⟨hδ,he⟩ := source_allocation_mesh_error hM hε hk
+  have h := optimistic_allocation_grid_bounds lo hi M (ε/((6 : ℕ)*M*(Fintype.card α : ℝ))) s j hI hs hne hδ
+  norm_num only [Nat.cast_ofNat] at he
+  simpa only [Nat.cast_ofNat,he] using h
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalSourceFloorParameters.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Allocation mesh with literal k denominator on the positive-k branch. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalSourceFloorAllocationStep (M ε : ℚ) (k : ℕ) : ℚ :=
+  if k=0 then rationalFloorAllocationStep M ε k
+  else ε/(((6 : ℕ) : ℚ)*M*(k : ℚ))
+
+theorem rational_source_floor_step_exact (M ε : ℚ) (k : ℕ) (hk : 0 < k) :
+    rationalSourceFloorAllocationStep M ε k=ε/(((6 : ℕ) : ℚ)*M*(k : ℚ)) := by
+  simp only [rationalSourceFloorAllocationStep,ite_eq_right (Nat.ne_of_gt hk)]
+
+theorem rational_source_floor_step_positive (M ε : ℚ) (k : ℕ)
+    (hM : 0 < M) (hε : 0 < ε) : 0 < rationalSourceFloorAllocationStep M ε k := by
+  by_cases hk : k=0
+  · simpa only [rationalSourceFloorAllocationStep,ite_eq_left hk] using
+      rational_floor_allocation_step_positive M ε k hM hε
+  · rw [rationalSourceFloorAllocationStep,ite_eq_right hk]
+    have hkQ : 0 < (k : ℚ) := by exact_mod_cast Nat.pos_of_ne_zero hk
+    positivity
+
+theorem rational_source_floor_error_budget (M ε : ℚ) (k : ℕ)
+    (hM : 0 < M) (hε : 0 < ε) :
+    ((2 : ℕ) : ℚ)*M*k*rationalSourceFloorAllocationStep M ε k+
+      ε/((3 : ℕ) : ℚ)+ε/((3 : ℕ) : ℚ) ≤ ε := by
+  have henergy : ((2 : ℕ) : ℚ)*M*k*rationalSourceFloorAllocationStep M ε k ≤
+      ε/((3 : ℕ) : ℚ) := by
+    by_cases hk : k=0
+    · subst k
+      simp only [Nat.cast_zero,mul_zero,zero_mul]
+      positivity
+    · have hkQ : 0 < (k : ℚ) := by exact_mod_cast Nat.pos_of_ne_zero hk
+      have he : ((2 : ℕ) : ℚ)*M*k*rationalSourceFloorAllocationStep M ε k=
+          ε/((3 : ℕ) : ℚ) := by
+        rw [rationalSourceFloorAllocationStep,ite_eq_right hk]
+        field_simp
+        ring
+      exact le_of_eq he
+  linarith
+
+def rationalSourceFloorApproximation {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ)
+    (hs : ∀ a,0 ≤ s a) (ε : ℚ) :
+    Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  if he : 0 < ε then
+    rationalFloorSearch (d.withSlack (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε he)) s hs
+      (rationalSourceFloorAllocationStep d.M ε k) (ε/((3 : ℕ) : ℚ))
+  else none
+
+
+theorem rational_source_floor_node_count (M ε : ℚ) (k : ℕ) (hk : 0 < k) :
+    (rationalAllocationNodes k (rationalSourceFloorAllocationStep M ε k)).length=
+      (1+Nat.floor ((((6 : ℕ) : ℚ)*M*(k : ℚ))/ε))^k := by
+  have he : 1/rationalSourceFloorAllocationStep M ε k=
+      (((6 : ℕ) : ℚ)*M*(k : ℚ))/ε := by
+    rw [rational_source_floor_step_exact M ε k hk]
+    simp only [one_div_div]
+  change (rationalGridTuples k (1+Nat.floor (1/rationalSourceFloorAllocationStep M ε k))).length=_
+  rw [rational_grid_tuples_length,he]
+
+end SparseCompletion
+
+/- Fixed source body: RationalSourceFloorAutomatic.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_source_floor_approximation_global {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty) (ε : ℚ) (hε : 0 < ε) :
+    ∃ w : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalSourceFloorApproximation d s hs ε=some w ∧
+      floorIntervalGameValue d s u ≤ (w.2.bracket.2 : ℝ)+(ε : ℝ)/((3 : ℕ) : ℝ) ∧
+      (w.2.bracket.2 : ℝ)+(ε : ℝ)/((3 : ℕ) : ℝ) < floorIntervalGameValue d s u+(ε : ℝ) := by
+  let de := d.withSlack (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε hε)
+  obtain ⟨w,hw,hlo,hhi⟩ := rational_floor_search_value_certificate de s u hs hu hR hne
+    (rationalSourceFloorAllocationStep d.M ε k)
+    (rational_source_floor_step_positive d.M ε k d.positiveBound hε)
+    (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε hε)
+  change floorIntervalGameValue d s u ≤ (w.2.bracket.2 : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) at hlo
+  change (w.2.bracket.2 : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) < floorIntervalGameValue d s u+
+    (2 : ℕ)*(d.M : ℝ)*k*(rationalSourceFloorAllocationStep d.M ε k : ℝ)+
+      ((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) at hhi
+  push_cast at hlo hhi
+  have hBudget : (2 : ℕ)*(d.M : ℝ)*k*(rationalSourceFloorAllocationStep d.M ε k : ℝ)+
+      (ε : ℝ)/((3 : ℕ) : ℝ)+(ε : ℝ)/((3 : ℕ) : ℝ) ≤ (ε : ℝ) := by
+    exact_mod_cast rational_source_floor_error_budget d.M ε k d.positiveBound hε
+  refine ⟨w,?_,hlo,?_⟩
+  · simp only [rationalSourceFloorApproximation,dite_eq_left hε]
+    exact hw
+  · linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalSourceFloorClass.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_source_floor_approximation_output_class {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hR : d.R=rationalResidualFloors u) (ε : ℚ)
+    (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalSourceFloorApproximation d s hs ε=some w) :
+    ((fun a => (w.1 a : ℝ)),w.2.realData) ∈ floorIntervalGameClass d s u := by
+  by_cases he : 0 < ε
+  · simp only [rationalSourceFloorApproximation,dite_eq_left he] at hout
+    exact rational_floor_total_output_class
+      (d.withSlack (ε/((3 : ℕ) : ℚ)) (rational_third_positive ε he)) s u hs hR
+      (rationalSourceFloorAllocationStep d.M ε k) (ε/((3 : ℕ) : ℚ)) w hout
+  · simp only [rationalSourceFloorApproximation,dite_eq_right he] at hout
+    cases hout
+
+
+theorem rational_source_floor_none_iff {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (hε : 0 < ε) :
+    rationalSourceFloorApproximation d s hs ε=none ↔
+      ¬(floorIntervalGameClass d s u).Nonempty := by
+  constructor
+  · intro hn hne
+    let _ := floor_interval_class_nonempty_actions d s u hne
+    obtain ⟨w,hw,_,_⟩ := rational_source_floor_approximation_global d s u hs hu hR hne ε hε
+    rw [hn] at hw
+    cases hw
+  · intro hi
+    cases hw : rationalSourceFloorApproximation d s hs ε with
+    | none => rfl
+    | some w =>
+      exact False.elim (hi ⟨_,rational_source_floor_approximation_output_class d s u hs hR ε w hw⟩)
+
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalSourceFloorRows.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_source_floor_approximation_rows {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (hε : 0 < ε) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalSourceFloorApproximation d s hs ε=some w) :
+    (∀ a,s a ≤ w.1 a) ∧
+    ∀ a,response (intervalGameMatrix w.2.realData)
+      (blockWeights (fun a => (w.1 a : ℝ)) (fun i => (w.2.q i : ℝ))) a ≤
+        (w.2.bracket.2 : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) := by
+  simp only [rationalSourceFloorApproximation,dite_eq_left hε] at hout
+  exact rational_floor_search_rows _ s hs _ _ w hout
+
+end SparseCompletion
+
+/- Fixed source body: RationalSourceFloorCertified.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+A returned global bracket for arbitrary nonnegative coordinate floors.
+This retains the dense allocation-search witness, without a sparsity claim. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalSourceFloorCertifiedApproximation {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) : Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  (rationalSourceFloorApproximation d s hs ε).map (fun w =>
+    (w.1,{w.2 with bracket := (w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε,w.2.bracket.2+ε/((3 : ℕ) : ℚ))}))
+
+theorem rational_source_floor_certified_origin {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalSourceFloorCertifiedApproximation d s hs ε=some v) :
+    0 < ε ∧ ∃ w,rationalSourceFloorApproximation d s hs ε=some w ∧
+      v=(w.1,{w.2 with bracket := (w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε,w.2.bracket.2+ε/((3 : ℕ) : ℚ))}) := by
+  have he : 0 < ε := by
+    by_contra hh
+    simp only [rationalSourceFloorCertifiedApproximation,rationalSourceFloorApproximation,dite_eq_right hh,
+      Option.map_none] at hv
+    cases hv
+  refine ⟨he,?_⟩
+  cases hw : rationalSourceFloorApproximation d s hs ε with
+  | none => simp only [rationalSourceFloorCertifiedApproximation,hw,Option.map_none] at hv; cases hv
+  | some w =>
+    refine ⟨w,rfl,?_⟩
+    exact (Option.some.inj (by simpa only [rationalSourceFloorCertifiedApproximation,hw,Option.map_some] using hv)).symm
+
+theorem rational_source_floor_certified_none_iff {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (hε : 0 < ε) :
+    rationalSourceFloorCertifiedApproximation d s hs ε=none ↔ ¬(floorIntervalGameClass d s u).Nonempty := by
+  rw [rationalSourceFloorCertifiedApproximation,Option.map_eq_none_iff,
+    rational_source_floor_none_iff d s u hs hu hR ε hε]
+
+theorem rational_source_floor_certified_complete {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (hne : (floorIntervalGameClass d s u).Nonempty) (ε : ℚ) (hε : 0 < ε) :
+    ∃ v,rationalSourceFloorCertifiedApproximation d s hs ε=some v := by
+  obtain ⟨w,hw,_,_⟩ := rational_source_floor_approximation_global d s u hs hu hR hne ε hε
+  refine ⟨(w.1,{w.2 with bracket := (w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε,w.2.bracket.2+ε/((3 : ℕ) : ℚ))}),?_⟩
+  simp only [rationalSourceFloorCertifiedApproximation,hw,Option.map_some]
+
+theorem rational_source_floor_certified_value {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (u : Fin m → ℚ)
+    (hs : ∀ a,0 ≤ s a) (hu : ∀ i,0 ≤ u i) (hR : d.R=rationalResidualFloors u)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalSourceFloorCertifiedApproximation d s hs ε=some v) :
+    ((fun a => (v.1 a : ℝ)),v.2.realData) ∈ floorIntervalGameClass d s u ∧
+    (∀ a,response (intervalGameMatrix v.2.realData)
+      (blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ))) a ≤ (v.2.bracket.2 : ℝ)) ∧
+    (v.2.bracket.1 : ℝ) < floorIntervalGameValue d s u ∧
+    floorIntervalGameValue d s u ≤ (v.2.bracket.2 : ℝ) ∧
+    v.2.bracket.2-v.2.bracket.1=ε := by
+  obtain ⟨he,w,hw,rfl⟩ := rational_source_floor_certified_origin d s hs ε v hv
+  have hc := rational_source_floor_approximation_output_class d s u hs hR ε w hw
+  have hrows := (rational_source_floor_approximation_rows d s hs ε he w hw).2
+  push_cast at hrows
+  have hn : (floorIntervalGameClass d s u).Nonempty := ⟨_,hc⟩
+  obtain ⟨w',hw',hlo,hhi⟩ := rational_source_floor_approximation_global d s u hs hu hR hn ε he
+  have hsame : w'=w := Option.some.inj (hw'.symm.trans hw)
+  subst w'
+  refine ⟨hc,?_,?_,?_,?_⟩
+  · intro a
+    change _ ≤ ((w.2.bracket.2+ε/((3 : ℕ) : ℚ) : ℚ) : ℝ)
+    push_cast
+    exact hrows a
+  · change ((w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε : ℚ) : ℝ) < _
+    push_cast
+    linarith
+  · change _ ≤ ((w.2.bracket.2+ε/((3 : ℕ) : ℚ) : ℚ) : ℝ)
+    push_cast
+    exact hlo
+  · change w.2.bracket.2+ε/((3 : ℕ) : ℚ)-(w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε)=ε
+    ring
+
 end SparseCompletion

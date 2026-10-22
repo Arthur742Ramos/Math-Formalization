@@ -641,5 +641,112 @@ theorem finite_equiv_card_bijective {α : Type*} [Fintype α] {n : ℕ} (h : Fin
 
 theorem finite_classical_decEq {α : Sort*} (a b : α) : (@decide (a = b) (Classical.decEq α a b) = true) ↔ a = b := @decide_eq_true_iff (a = b) (Classical.decEq α a b)
 
+-- Reviewed sorting and equivalence semantic controls
+
+theorem sort_merge_empty {α : Type*} (le : α → α → Bool) (ys : List α) :
+    List.merge [] ys le = ys := List.nil_merge ys
+
+theorem sort_merge_cons {α : Type*} (le : α → α → Bool) (a b : α) (xs ys : List α) :
+    List.merge (a::xs) (b::ys) le =
+      if le a b then a::List.merge xs (b::ys) le else b::List.merge (a::xs) ys le :=
+  List.cons_merge_cons le a b xs ys
+
+theorem sort_merge_length {α : Type*} (le : α → α → Bool) (xs ys : List α) :
+    (List.merge xs ys le).length = xs.length+ys.length := List.length_merge le xs ys
+
+theorem sort_split_model {α : Type*} (xs : List α) (n : ℕ) :
+    xs.splitAt n = (xs.take n,xs.drop n) := List.splitAt_eq
+
+theorem sort_reverse_aux {α : Type*} (a : α) (xs ys : List α) :
+    List.reverseAux (a::xs) ys = List.reverseAux xs (a::ys) := List.reverseAux_cons
+
+theorem sort_reverse_empty {α : Type*} : ([] : List α).reverse = [] := List.reverse_nil
+
+theorem sort_take_cons {α : Type*} (a : α) (xs : List α) (n : ℕ) :
+    (a::xs).take (n+1) = a::xs.take n := List.take_succ_cons
+
+theorem sort_drop_cons {α : Type*} (a : α) (xs : List α) (n : ℕ) :
+    (a::xs).drop (n+1) = xs.drop n := List.drop_succ_cons
+
+theorem sort_pairwise_cons {α : Type*} (R : α → α → Prop) (a : α) (xs : List α) :
+    List.Pairwise R (a::xs) ↔ (∀ b ∈ xs, R a b) ∧ List.Pairwise R xs := List.pairwise_cons
+
+theorem sort_nodup_definition {α : Type*} (xs : List α) :
+    xs.Nodup = List.Pairwise (· ≠ ·) xs := rfl
+
+theorem sort_perm_reflexive {α : Type*} (xs : List α) : xs.Perm xs := .refl _
+
+theorem sort_length_cons {α : Type*} (a : α) (xs : List α) :
+    (a::xs).length = xs.length+1 := rfl
+
+theorem sort_length_runtime {α : Type*} (xs : List α) :
+    xs.length = xs.lengthTR := congrFun (congrFun List.length_eq_lengthTR α) xs
+
+theorem sort_merge_pairwise {α : Type*} (le : α → α → Bool)
+    (trans : ∀ a b c, le a b → le b c → le a c)
+    (total : ∀ a b, le a b = true ∨ le b a = true) (xs ys : List α)
+    (hx : xs.Pairwise (fun a b => le a b = true))
+    (hy : ys.Pairwise (fun a b => le a b = true)) :
+    (List.merge xs ys le).Pairwise (fun a b => le a b = true) :=
+  List.pairwise_merge trans (fun a b => by simpa only [Bool.or_eq_true] using total a b) xs ys hx hy
+
+theorem sort_merge_permutation {α : Type*} (le : α → α → Bool) (xs ys : List α) :
+    (List.merge xs ys le).Perm (xs++ys) := List.merge_perm_append le
+
+theorem sort_pairwise_indexed {α : Type*} (R : α → α → Prop) (xs : List α) :
+    xs.Pairwise R ↔ ∀ (i j : ℕ) (hi : i < xs.length) (hj : j < xs.length),
+      i < j → R xs[i] xs[j] := List.pairwise_iff_getElem
+
+theorem sort_prefix_suffix {α : Type*} (xs : List α) (n : ℕ) :
+    xs.take n ++ xs.drop n = xs := List.take_append_drop n xs
+
+theorem sort_permutation_membership {α : Type*} (xs ys : List α) (h : xs.Perm ys) (a : α) :
+    a ∈ xs ↔ a ∈ ys := h.mem_iff
+
+theorem sort_permutation_map {α β : Type*} (f : α → β) (xs ys : List α) (h : xs.Perm ys) :
+    (xs.map f).Perm (ys.map f) := h.map f
+
+theorem sort_permutation_nodup {α : Type*} (xs ys : List α) (h : xs.Perm ys) :
+    xs.Nodup ↔ ys.Nodup := h.nodup_iff
+
+theorem sort_rational_order (a b : ℚ) :
+    decide (b ≤ a) = true ↔ b ≤ a := by simp only [decide_eq_true_eq]
+
+theorem sort_surjective_meaning {α β : Type*} (f : α → β) :
+    Function.Surjective f ↔ ∀ b, ∃ a, f a = b := Iff.rfl
+
+theorem sort_bijective_meaning {α β : Type*} (f : α → β) :
+    Function.Bijective f ↔ Function.Injective f ∧ Function.Surjective f := Iff.rfl
+
+theorem sort_bijection_forward {α β : Type*} (f : α → β) (h : Function.Bijective f) :
+    (Equiv.ofBijective f h : α → β) = f := Equiv.coe_ofBijective f h
+
+theorem sort_bijection_inverse {α β : Type*} (f : α → β) (h : Function.Bijective f) (b : β) :
+    f ((Equiv.ofBijective f h).symm b) = b := Equiv.ofBijective_apply_symm_apply f h b
+
+theorem sort_surjInv_contract {α β : Type*} (f : α → β) (h : Function.Surjective f) (b : β) :
+    f (Function.surjInv h b) = b := Function.surjInv_eq h b
+
+theorem sort_choose_contract {α : Type*} (p : α → Prop) (h : ∃ a,p a) :
+    p (Classical.choose h) := Classical.choose_spec h
+
+
+-- Authenticated natural-measure recursion context; no cost theorem.
+example (n : Nat) : WellFounded.Nat.eager n = n := WellFounded.Nat.eager_eq n
+example {α : Sort u} {C : α → Sort v} (h : α → Nat) (F : (x : α) → ((y : α) → h y < h x → C y) → C x) (x : α) : WellFounded.Nat.fix (motive := C) h F x = F x (fun y _ => WellFounded.Nat.fix (motive := C) h F y) := WellFounded.Nat.fix_eq (motive := C) h F x
+
+open SparseCompletion
+#guard rationalSortedCutCheck 1 0 0 (fun i : Fin 0 => Fin.elim0 i) (fun i => Fin.elim0 i) = (true,1)
+#guard rationalSortedCutCheck 1 0 (-1) (fun i : Fin 0 => Fin.elim0 i) (fun i => Fin.elim0 i) = (false,1)
+#guard (rationalSortedCutCheck 1 2 0 (fun _ : Fin 2 => 1) (fun i => if i.val=0 then 1 else -1)).1 = true
+#guard (rationalSortedCutCheck 1 2 0 (fun _ : Fin 2 => 1) (fun i => if i.val=0 then 2 else -2)).1 = false
+#guard (rationalSortedCutCheck 1 2 0 (fun _ : Fin 2 => 1) (fun i => if i.val=0 then -2 else 2)).1 = false
+#guard ((rationalLabelSort (fun i : Fin 3 => if i.val=0 then (1/2 : ℚ) else if i.val=1 then -3 else 2)).1.map Prod.fst).map Fin.val = [2,0,1]
+#guard (rationalPerspectiveCutCheck 1 1 0 (fun i : Fin 2 => if i.val=0 then 0 else 1) (fun _ => 0)).1 = true
+#guard (rationalPerspectiveCutCheck 1 1 0 (fun _ : Fin 1 => 1) (fun _ => 1)).1 = false
+#guard (rationalPerspectiveCutCheck 1 1 1 (fun _ : Fin 1 => 1) (fun _ => 1)).1 = true
+#guard (rationalIntervalCutCheck 1 1 0 (fun _ : Fin 1 => 1) (fun i : Fin 2 => if i.val=0 then 0 else 1) (fun _ _ => 0)).1 = true
+#guard (rationalPerspectiveCutCheck 1 1 0 (fun _ : Fin 1 => (1/2 : ℚ)) (fun _ => (1/8 : ℚ))).1 = true
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit
