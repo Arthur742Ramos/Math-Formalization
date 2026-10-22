@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "source_commit": "ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f",
+  "package_tree": "067518cc78b6bc84d82930d0e07a09ee74a906f8",
+  "caller_commit": "19af5107de847f188d4f4f88af4a5263fab943ed",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "full": {
+    "run": 39870012306,
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39870012306",
+    "status": "pass",
+    "attempt": 1,
+    "report_sha256": "7f2d0f2fb3718ebbf58b5c0aac5b8411eeeba588111cf4ab2e7e776f6c58492b"
+  },
+  "renderer": {
+    "run": 39870011750,
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39870011750",
+    "status": "pass",
+    "attempt": 1,
+    "report_sha256": "e6b1e423baeac050170d5df9711362174d091e6872ce3e5db6c32032fb659717",
+    "artifact_tree_sha256": "7a0df94c3ff3c9e843bf2e3c241ef219a7bd2b50133cd81aa89d3319dac170d8"
+  },
+  "kernel_declarations": 14096,
+  "warnings": [
+    "configured Challenge source exceeds the preferred 32 KiB / 300-line review surface"
+  ],
+  "browser_visual_inspection": "not performed",
+  "dispatches": 1,
+  "approval_consumed": true,
+  "reruns_authorized": false,
+  "registration_authorized": false
+}

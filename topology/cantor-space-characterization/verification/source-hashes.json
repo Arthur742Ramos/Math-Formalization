@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "Source byte inventory; exact source commit and completed verification receipts retained externally",
+  "files": {
+    ".gitignore": "2dbda161eaadab05b93b4b1269cfdd8c7a18f44b07d58bc2847513054b5c120d",
+    "AxiomAudit.lean": "d31ac7708f8246558ace0aeb5bf2807fc0a118a96a4eea619ea3fbc9b70c2d56",
+    "CSChallenge.lean": "676431e045145be9c98ba69acb5293a605cd2c4ad1aaed55f6f7d612b957eaf1",
+    "CSSolution.lean": "1b1ec8cbcb3d55e88685c76fb9d42018482133bed09b0461495e18188e9d7c94",
+    "CantorCharacterization.lean": "676431e045145be9c98ba69acb5293a605cd2c4ad1aaed55f6f7d612b957eaf1",
+    "ChallengeTests.lean": "ba7cb3946d2da5e19cc7076d532f012178f1b8549015c30b3cb3b90942c85d49",
+    "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+    "MATERIAL-DEFINITIONS.md": "ac7ea776a7d9dc52120adf6585b4628be5de7869b3052b5cf259acda41718e9d",
+    "README.md": "5b49c6a1b2f84e3ec82783fa12599c5b49757402878c1a6fb78b7315c44f409d",
+    "REVIEW.md": "b012bf4d7b7177a1313ee49ff4c934242820aff4186c4cf64eabf4f3c72d7e7b",
+    "SOURCE-MAPPING.md": "9bad5528d9dd85ce50a4d7e3888fe69c224245d3e4c2829dc4b22bb7aa355eb1",
+    "SemanticTests.lean": "1c74f6c9d325eebce324475f43d7d94af3cd507f743a8c37e464e571a5f05c21",
+    "VERIFICATION.md": "76a2a42f0da3081c369d3b1f540f51d89a5724cf2c439731131837a1d956f7c0",
+    "comparator.json": "570f08730629267af58d9e4a675fa59b78cf08f6a234fb2940cdc3beb7af9eec",
+    "formalization.yaml": "6a6245d7a08f2e80260dc9621f9479eec329ea004d59bbc6559560e6c9c3d68e",
+    "lake-manifest.json": "9840ca556a7abe2d6e6f44c490b554b4b9581ab2e98b27fdbc5ccc0a2b524343",
+    "lakefile.toml": "f4e94f5bf2211826485a94bd3b562a59e97501a15e025fbb7e0f6ca5cb16a71b",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "scripts/check_package.py": "b49bac32e57f842e0955ba4e0b18b8e0b572671ef66b932ad5baa1f7452a7460",
+    "verification/core-imported-definitions.json": "3089012f0626af6511c5e4f9403cd5c0016284c8104958c298f7001845d2fb9a",
+    "verification/material-imported-definitions.json": "726325ff808d785d886f607e32a444159b416fdd37ac808a2cf1ff469816640e"
+  }
+}

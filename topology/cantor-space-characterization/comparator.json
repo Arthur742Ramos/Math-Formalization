@@ -1,0 +1,23 @@
+{
+  "challenge_module": "CSChallenge",
+  "solution_module": "CSSolution",
+  "theorem_names": [
+    "CantorCharacterization.exists_clopen_split",
+    "CantorCharacterization.exists_deciding_split",
+    "CantorCharacterization.exists_binary_scheme",
+    "CantorCharacterization.BinaryScheme.continuous_code",
+    "CantorCharacterization.BinaryScheme.surjective_code",
+    "CantorCharacterization.BinaryScheme.injective_code",
+    "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+    "CantorCharacterization.cantor_hasClopenBasis",
+    "CantorCharacterization.cantor_perfectSpace",
+    "CantorCharacterization.nonempty_homeomorph",
+    "CantorCharacterization.nonempty_homeomorph_iff"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,1727 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "IsClosed",
+    "Set.Nonempty",
+    "IsClopen",
+    "Countable",
+    "Set.Countable",
+    "SecondCountableTopology",
+    "TopologicalSpace.IsTopologicalBasis",
+    "Continuous",
+    "Homeomorph",
+    "Equiv",
+    "Function.Bijective",
+    "Disjoint",
+    "Pairwise",
+    "Set.image",
+    "Set.preimage",
+    "Set.range",
+    "TopologicalSpace.induced",
+    "PiNat.cylinder",
+    "PiNat.res",
+    "DiscreteTopology",
+    "CompactSpace",
+    "IsCompact",
+    "ClusterPt",
+    "PerfectSpace",
+    "Preperfect",
+    "AccPt",
+    "nhdsWithin",
+    "Filter.NeBot",
+    "T2Space",
+    "TopologicalSpace.MetrizableSpace",
+    "TopologicalSpace.PseudoMetrizableSpace",
+    "T0Space",
+    "Inseparable",
+    "Filter.IsCountablyGenerated",
+    "UniformSpace",
+    "Topology.IsEmbedding"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Open sets closed under the whole space, finite intersections and arbitrary unions.",
+      "dependency_expansion": "All statements use the supplied topology. Metrizability concerns this same topology; the construction itself is topological.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The open-set predicate of the supplied topology.",
+      "dependency_expansion": "All binary cells are clopen. Local constancy of each address coordinate on an open cell proves continuity.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "A set whose complement is open.",
+      "dependency_expansion": "Every scheme cell is closed. Nested nonempty closed cells in the compact whole space have a nonempty intersection; no metric completeness argument is used.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Set.Nonempty",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "There exists a point belonging to the set.",
+      "dependency_expansion": "Every binary cell is nonempty, including both children at every split. The full iff separately excludes the empty space.",
+      "definition_excerpt": "Set.Nonempty",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Nonempty"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "IsClopen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The conjunction of closedness and openness.",
+      "dependency_expansion": "Cells and enumerated basis members are genuinely clopen; no replacement by compactness or total disconnectedness is made.",
+      "definition_excerpt": "characterization-IsClopen",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "characterization-IsClopen"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Countable",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "A type admits an injection into the naturals.",
+      "dependency_expansion": "Only the countable basis index subtype is enumerated. Repeated basis sets are permitted; each split still has two distinct nonempty children.",
+      "definition_excerpt": "Countable",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Countable",
+        "Set.Countable"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Set.Countable",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The subtype of elements of the set is countable.",
+      "dependency_expansion": "A countable subfamily of the clopen basis is selected; the underlying Cantor space is not asserted countable.",
+      "definition_excerpt": "Set.Countable",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Countable",
+        "Countable"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "SecondCountableTopology",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The supplied topology is generated by a countable family of subsets.",
+      "dependency_expansion": "The explicit second-countable sufficiency enumerates a countable clopen basis. Compact metrizability supplies second countability in the standard sufficient direction.",
+      "definition_excerpt": "SecondCountableTopology",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "SecondCountableTopology",
+        "IsTopologicalBasis",
+        "basis-second-countable",
+        "generateFrom",
+        "exists_countable_basis",
+        "open-union-countable",
+        "nonempty-countable-enumeration"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "TopologicalSpace.IsTopologicalBasis",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "A family generating the topology, covering the space, and refining intersections at each point.",
+      "dependency_expansion": "The proved neighborhood/open-set characterizations justify clopen refinements and point separation. Basis decisions imply injectivity, while generic continuity and compact-branch realization do not assume this family is a basis.",
+      "definition_excerpt": "IsTopologicalBasis",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsTopologicalBasis",
+        "basis-second-countable",
+        "generateFrom"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Preimages of open codomain sets are open.",
+      "dependency_expansion": "Each Bool address coordinate is locally constant on an open scheme cell; continuity into the product is coordinatewise. A continuous bijection from compact X to Hausdorff Cantor space has continuous inverse.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Homeomorph",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "A bijection continuous in both directions.",
+      "dependency_expansion": "Extends Equiv with forward and inverse continuity. The proof uses the compact-to-Hausdorff continuous-equivalence theorem; continuous injection into a Cantor subset would not establish this result.",
+      "definition_excerpt": "characterization-Homeomorph",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "characterization-Homeomorph"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Equiv",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Two functions satisfying left and right inverse laws.",
+      "dependency_expansion": "Equiv.ofBijective uses separately proved injection and surjection of the address map. Homeomorph adds both continuity obligations.",
+      "definition_excerpt": "characterization-Equiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "characterization-Equiv"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Function.Bijective",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Injectivity and surjectivity together.",
+      "dependency_expansion": "Every branch is realized by compactness, and basis decisions distinguish different points. Both are needed for the equivalence.",
+      "definition_excerpt": "characterization-Function.Bijective",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "characterization-Function.Bijective"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Disjoint",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "For sets, empty intersection.",
+      "dependency_expansion": "Literal lattice lower-bound definition is connected by the proved set-intersection equivalence. Binary siblings never share a point.",
+      "definition_excerpt": "characterization-Disjoint",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "characterization-Disjoint",
+        "set-disjoint-bridge"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Pairwise",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The relation holds for every two distinct indices.",
+      "dependency_expansion": "This is used in the literal Hausdorff class field; sibling disjointness is specifically the false/true pair.",
+      "definition_excerpt": "characterization-Pairwise",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "characterization-Pairwise"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Set.image",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Values attained by a function on a specified domain set.",
+      "dependency_expansion": "Clopen basis transfer takes image neighborhoods under a homeomorphism, then pulls selected clopen sets back; all membership witnesses are retained.",
+      "definition_excerpt": "open-image-Set.image",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "open-image-Set.image"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Set.preimage",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Points whose function values belong to a specified target set.",
+      "dependency_expansion": "Literal continuity and clopen pullback use preimages, not an unjustified commutation of images and intersections.",
+      "definition_excerpt": "open-image-Set.preimage",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "open-image-Set.preimage"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Set.range",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The set of all values attained by a function.",
+      "dependency_expansion": "The enumerated family B has a range that is a topological basis; this is a range of sets, not the image of the coding map.",
+      "definition_excerpt": "Set.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.range"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The topology consisting of preimages of opens under the specified map.",
+      "dependency_expansion": "The topology on Bool sequences is the infimum of coordinate-induced topologies. A topological embedding includes equality with the induced topology.",
+      "definition_excerpt": "induced",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "induced",
+        "Pi.product-topology",
+        "cantor-Bool-topology"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "PiNat.cylinder",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "All sequences agreeing with the given sequence at coordinates strictly below n.",
+      "dependency_expansion": "Here coordinates are Bool, so paths are genuinely binary. Every finite cylinder is clopen; every cylinder contains a distinct point obtained by toggling coordinate n.",
+      "definition_excerpt": "PiNat.cylinder",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "PiNat.cylinder",
+        "PiNat.res-equivalence",
+        "PiNat.cylinder-basis"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "PiNat.res",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The first n coordinates stored in reverse order as a list.",
+      "dependency_expansion": "res x (n+1)=x n::res x n. The scheme uses exactly this child convention, and res_code explicitly equates the recursive address prefix with this reverse prefix.",
+      "definition_excerpt": "PiNat.res",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "PiNat.res",
+        "PiNat.res-equivalence"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "DiscreteTopology",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.continuous_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_hasClopenBasis",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "The given topology is the bottom, discrete topology.",
+      "dependency_expansion": "Each Bool coordinate is discrete. The product on all binary sequences is not discrete; finite-coordinate cylinders form its basis.",
+      "definition_excerpt": "DiscreteTopology",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "DiscreteTopology",
+        "Pi.product-topology",
+        "induced",
+        "PiNat.cylinder-basis",
+        "cantor-Bool-topology"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-CompactSpace",
+        "characterization-IsCompact",
+        "cantor-nested-compact-intersection",
+        "cantor-homeomorph-compact-Hausdorff"
+      ],
+      "meaning": "The whole space is compact, with no separation axiom built in.",
+      "dependency_expansion": "Compactness is independent of Hausdorffness and nonemptiness. Nested nonempty closed cells yield every binary branch. The inverse continuity theorem uses the separate Hausdorff property of the codomain.",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "hypothesis-and-conclusion",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Every open cover of the set has a finite subcover.",
+      "dependency_expansion": "Its literal definition uses cluster points of nontrivial filters supported on the set. The open-cover formulation is a proved equivalence. Only compactness of closed scheme cells in a compact ambient space is needed.",
+      "definition_excerpt": "characterization-IsCompact",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "characterization-IsCompact",
+        "compact-open-cover-bridge"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "ClusterPt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "Every filter set meets every neighborhood of the point.",
+      "dependency_expansion": "Literal nontrivial intersection of the neighborhood filter and supplied filter. This allows the point itself; AccPt removes it using punctured neighborhoods.",
+      "definition_excerpt": "characterization-ClusterPt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "characterization-ClusterPt"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "PerfectSpace",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-PerfectSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-PerfectSpace",
+        "cantor-Preperfect",
+        "cantor-AccPt",
+        "cantor-punctured-neighborhood",
+        "cantor-preperfect-neighborhood",
+        "cantor-no-isolated"
+      ],
+      "meaning": "Every point is non-isolated.",
+      "dependency_expansion": "Literal field says the universe is Preperfect; Preperfect quantifies accumulation at each point, including punctured neighborhoods. Empty types satisfy this vacuously, so Nonempty is separate. In open nonempty cells it supplies two distinct points.",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "hypothesis-and-conclusion",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Preperfect",
+      "declaration_kind": "def",
+      "definition_excerpt": "cantor-Preperfect",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "cantor-Preperfect",
+        "cantor-preperfect-neighborhood",
+        "cantor-AccPt-neighborhood"
+      ],
+      "meaning": "Every point of a set is an accumulation point of that same set.",
+      "dependency_expansion": "No closedness or nonemptiness is included. Its neighborhood equivalence explicitly supplies another point of the set in every neighborhood, distinct from the given point.",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "AccPt",
+      "declaration_kind": "def",
+      "definition_excerpt": "cantor-AccPt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "cantor-AccPt",
+        "cantor-punctured-neighborhood",
+        "cantor-AccPt-neighborhood"
+      ],
+      "meaning": "Nontrivial intersection of the punctured-neighborhood filter with the supplied filter.",
+      "dependency_expansion": "For a principal set filter, every neighborhood contains a point of that set different from x. This is distinct from ClusterPt, which does not remove x.",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "nhdsWithin",
+      "declaration_kind": "def",
+      "definition_excerpt": "cantor-punctured-neighborhood",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "cantor-punctured-neighborhood"
+      ],
+      "meaning": "Intersection of the neighborhood filter with the principal filter of a set.",
+      "dependency_expansion": "Punctured neighborhoods mean nhdsWithin x {x}ᶜ. Thus distinctness in PerfectSpace is literal and is not merely nontriviality of an ordinary neighborhood filter.",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Filter.NeBot",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-NeBot",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-NeBot"
+      ],
+      "meaning": "The filter differs from the bottom filter.",
+      "dependency_expansion": "A nontrivial filter contains no empty set. In AccPt this applies after puncturing; in IsCompact the tested filters are required nontrivial.",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.surjective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.cantor_perfectSpace",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "T2Space",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-T2Space",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-T2Space"
+      ],
+      "meaning": "Every two distinct points have disjoint open neighborhoods.",
+      "dependency_expansion": "Required explicitly in the second-countable sufficient core and injective-code contract. In the metrizable sufficient form it is derived from MetrizableSpace, not silently assumed by CompactSpace.",
+      "used_by": [
+        "CantorCharacterization.exists_clopen_split",
+        "CantorCharacterization.exists_deciding_split",
+        "CantorCharacterization.exists_binary_scheme",
+        "CantorCharacterization.BinaryScheme.injective_code",
+        "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "hypothesis",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "TopologicalSpace.MetrizableSpace",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-MetrizableSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-MetrizableSpace",
+        "cantor-PseudoMetrizableSpace",
+        "cantor-T0Space",
+        "cantor-compatible-metric-construction",
+        "cantor-metrizable-second-countable"
+      ],
+      "meaning": "Pseudometrizability together with the T0 separation axiom.",
+      "dependency_expansion": "Literal parents are PseudoMetrizableSpace and T0Space. The pinned compatible metric construction supplies the familiar metric interpretation. Compact metrizable spaces are second-countable; no complete metric or diameter-decay choice is used by this proof.",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "hypothesis-and-conclusion",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "TopologicalSpace.PseudoMetrizableSpace",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-PseudoMetrizableSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-PseudoMetrizableSpace",
+        "cantor-countably-generated",
+        "cantor-compatible-metric-construction"
+      ],
+      "meaning": "Existence of a compatible countably generated uniformity.",
+      "dependency_expansion": "Literal field supplies a UniformSpace whose topology equals the supplied topology and whose uniformity filter is countably generated. Compatible pseudometric construction is a theorem-level construction, not the literal class body.",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "T0Space",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-T0Space",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-T0Space",
+        "cantor-Inseparable"
+      ],
+      "meaning": "Inseparable points must be equal.",
+      "dependency_expansion": "Inseparable means equality of neighborhood filters. This separation parent distinguishes metric from pseudometric compatibility.",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Inseparable",
+      "declaration_kind": "def",
+      "definition_excerpt": "cantor-Inseparable",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "cantor-Inseparable"
+      ],
+      "meaning": "The two neighborhood filters are equal.",
+      "dependency_expansion": "This literal equality is used to express the T0 parent of MetrizableSpace.",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Filter.IsCountablyGenerated",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-countably-generated",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-countably-generated",
+        "cantor-filter-generate"
+      ],
+      "meaning": "The filter is generated by a countable family of sets.",
+      "dependency_expansion": "The literal field quantifies a countable set s and equality f=Filter.generate s; finite intersections and supersets form the generated filter. This is a uniformity property, distinct from topology second countability.",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "UniformSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph",
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "meaning": "A compatible topology and symmetric composable uniformity on pairs.",
+      "dependency_expansion": "Only used inside the literal metrizable class expansion. No completeness or Cauchy filter assumption is added to the topological binary-scheme proof.",
+      "definition_excerpt": "UniformSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "UniformSpace",
+        "UniformSpace.Core",
+        "Filter",
+        "Filter.principal",
+        "Filter.map-Tendsto",
+        "Filter.comap",
+        "nhds",
+        "mem_nhds_iff",
+        "Filter.order",
+        "Filter.product"
+      ],
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    },
+    {
+      "name": "Topology.IsEmbedding",
+      "declaration_kind": "structure",
+      "definition_excerpt": "cantor-IsEmbedding",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-IsEmbedding",
+        "cantor-IsInducing"
+      ],
+      "meaning": "An injective map inducing exactly the source topology.",
+      "dependency_expansion": "Homeomorph.isEmbedding transfers metrizability in the necessary direction; arbitrary injectivity or continuity alone would not suffice.",
+      "used_by": [
+        "CantorCharacterization.nonempty_homeomorph_iff"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Authored from independently inspected pinned source. Semantic bridge modules are prepared but this author ran no Lean build; compilation and an independent review of this authored inventory remain separate requirements. Hash consistency is not a fidelity, completeness, kernel, canonical or editorial certificate."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "IsClosed",
+          "first_line": 107,
+          "last_line": 109,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n",
+          "sha256": "b781df1f94b7e9a0b16791daa67c0bad5d4446809fc5e63093140999f5ae536a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L109"
+        },
+        {
+          "name": "characterization-IsClopen",
+          "first_line": 112,
+          "last_line": 113,
+          "text": "def IsClopen (s : Set X) : Prop :=\n  IsClosed s ∧ IsOpen s\n",
+          "sha256": "d15fde9db9d1f1bc6c388a1d8f7c84eb3e0752449d0ac83bb8d07d893ce3f4dd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L112-L113"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean",
+      "sha256": "4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7",
+      "git_blob_sha1": "866ef6ab673f737a4ffbb7b2138402d5c76e6c05",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Nonempty",
+          "first_line": 277,
+          "last_line": 281,
+          "text": "/-- The property `s.Nonempty` expresses the fact that the set `s` is not empty. It should be used\nin theorem assumptions instead of `∃ x, x ∈ s` or `s ≠ ∅` as it gives access to a nice API thanks\nto the dot notation. -/\nprotected def Nonempty (s : Set α) : Prop :=\n  ∃ x, x ∈ s\n",
+          "sha256": "cb3870fa0008d18792a7122276c41e3e45998a2f2defae575b4225f0a2cf53de",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L277-L281"
+        },
+        {
+          "name": "open-image-Set.image",
+          "first_line": 266,
+          "last_line": 266,
+          "text": "def image {β : Type v} (f : α → β) (s : Set α) : Set β := {f a | a ∈ s}\n",
+          "sha256": "33bdb2da05833cc25b82686d5f94a98b24778577e5407ac386d980dd33e609a4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L266-L266"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Basic/Countable/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Countable/Defs.lean",
+      "sha256": "d42047c8b18f28b7eba8ceca5867e472fcb8e840ac3499f88d3cd1d01451bb9f",
+      "git_blob_sha1": "2718dae9396dc0acff5f8b703d3587512b0281db",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Countable",
+          "first_line": 41,
+          "last_line": 46,
+          "text": "class Countable (α : Sort u) : Prop where\n  /-- A type `α` is countable if there exists an injective map `α → ℕ`. -/\n  exists_injective_nat' : ∃ f : α → ℕ, Injective f\n\nlemma Countable.exists_injective_nat (α : Sort u) [Countable α] : ∃ f : α → ℕ, Injective f :=\n  Countable.exists_injective_nat'\n",
+          "sha256": "551b5558571ec8d95682ed77589bddacda46501f10be4eef3efb6971e2a241e9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Countable/Defs.lean#L41-L46"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Countable.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Countable.lean",
+      "sha256": "047d0f370cc830214b8dba702ec49434af0072523561404e40a314d2a5f24b98",
+      "git_blob_sha1": "f5ffd2035308f61e38f10aad4df99b2405ec519a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Countable",
+          "first_line": 40,
+          "last_line": 49,
+          "text": "namespace Set\n\n/-- A set `s` is countable if the corresponding subtype is countable,\ni.e., there exists an injective map `f : s → ℕ`.\n\nNote that this is an abbreviation, so `hs : Set.Countable s` in the proof context\nis the same as an instance `Countable s`.\nFor a constructive version, see `Encodable`.\n-/\nprotected def Countable (s : Set α) : Prop := Countable s\n",
+          "sha256": "029b5880e2f8d6ee503311ecdcfba5d91268eceeb5194b1788413175bcb3ccd5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Countable.lean#L40-L49"
+        },
+        {
+          "name": "nonempty-countable-enumeration",
+          "first_line": 128,
+          "last_line": 135,
+          "text": "/-- A non-empty set is countable iff there exists a surjection from the\nnatural numbers onto the subtype induced by the set.\n-/\nprotected theorem countable_iff_exists_surjective {s : Set α} (hs : s.Nonempty) :\n    s.Countable ↔ ∃ f : ℕ → s, Surjective f :=\n  @countable_iff_exists_surjective s hs.to_subtype\n\nalias ⟨Countable.exists_surjective, _⟩ := Set.countable_iff_exists_surjective\n",
+          "sha256": "9f910f7c565b48c923524f064214b8df96db7ea66273207d6a64f00608489b1a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Countable.lean#L128-L135"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Bases.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean",
+      "sha256": "fbd29cb53487d8ff54efda38cd831d4966a19a052654ef39a09352753986d1d6",
+      "git_blob_sha1": "4165527ffdf10c235881bc6738e99ad2bf6b1b07",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "SecondCountableTopology",
+          "first_line": 793,
+          "last_line": 795,
+          "text": "class _root_.SecondCountableTopology : Prop where\n  /-- There exists a countable set of sets that generates the topology. -/\n  is_open_generated_countable : ∃ b : Set (Set α), b.Countable ∧ t = TopologicalSpace.generateFrom b\n",
+          "sha256": "be0e6df4a04de8ef9819f4c545edf341efed762b08226cf4af131b90d05813b4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L793-L795"
+        },
+        {
+          "name": "IsTopologicalBasis",
+          "first_line": 73,
+          "last_line": 79,
+          "text": "structure IsTopologicalBasis (s : Set (Set α)) : Prop where\n  /-- For every point `x`, the set of `t ∈ s` such that `x ∈ t` is directed downwards. -/\n  exists_subset_inter : ∀ t₁ ∈ s, ∀ t₂ ∈ s, ∀ x ∈ t₁ ∩ t₂, ∃ t₃ ∈ s, x ∈ t₃ ∧ t₃ ⊆ t₁ ∩ t₂\n  /-- The sets from `s` cover the whole space. -/\n  sUnion_eq : ⋃₀ s = univ\n  /-- The topology is generated by sets from `s`. -/\n  eq_generateFrom : t = generateFrom s\n",
+          "sha256": "06ef0a524e711562ab10d1c840fe57620c7dd2df3111034ac2d8f81c0424ed42",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L73-L79"
+        },
+        {
+          "name": "basis-second-countable",
+          "first_line": 797,
+          "last_line": 804,
+          "text": "protected theorem IsTopologicalBasis.secondCountableTopology {b : Set (Set α)}\n    (hb : IsTopologicalBasis b) (hc : b.Countable) : SecondCountableTopology α :=\n  ⟨⟨b, hc, hb.eq_generateFrom⟩⟩\n\nlemma SecondCountableTopology.mk' {α} {b : Set (Set α)} (hc : b.Countable) :\n    @SecondCountableTopology α (generateFrom b) :=\n  @SecondCountableTopology.mk α (generateFrom b) ⟨b, hc, rfl⟩\n\n",
+          "sha256": "1d2bbba6b36e34e85c48c0bfe5c5d05b8b445469e9ff2228dad8646ac50518b3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L797-L804"
+        },
+        {
+          "name": "exists_countable_basis",
+          "first_line": 811,
+          "last_line": 815,
+          "text": "theorem exists_countable_basis [SecondCountableTopology α] :\n    ∃ b : Set (Set α), b.Countable ∧ ∅ ∉ b ∧ IsTopologicalBasis b := by\n  obtain ⟨b, hb₁, hb₂⟩ := @SecondCountableTopology.is_open_generated_countable α _ _\n  refine ⟨_, ?_, notMem_sdiff_of_mem ?_, (isTopologicalBasis_of_subbasis hb₂).sdiff_empty⟩\n  exacts [((countable_ofPred_finite_subset hb₁).image _).mono sdiff_subset, rfl]\n",
+          "sha256": "23a21589d0b5dab34322c819ed07e5a123b4b506ffdd168a2eb01177dc1e1af5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L811-L815"
+        },
+        {
+          "name": "open-union-countable",
+          "first_line": 930,
+          "last_line": 941,
+          "text": "/-- In a second-countable space, an open set, given as a union of open sets,\nis equal to the union of countably many of those sets.\nIn particular, any open covering of `α` has a countable subcover: α is a Lindelöf space. -/\ntheorem isOpen_iUnion_countable [SecondCountableTopology α] {ι} (s : ι → Set α)\n    (H : ∀ i, IsOpen (s i)) : ∃ T : Set ι, T.Countable ∧ ⋃ i ∈ T, s i = ⋃ i, s i := by\n  let B := { b ∈ countableBasis α | ∃ i, b ⊆ s i }\n  choose f hf using fun b : B => b.2.2\n  have : Countable B := ((countable_countableBasis α).mono (sep_subset _ _)).to_subtype\n  refine ⟨_, countable_range f, (iUnion₂_subset_iUnion _ _).antisymm (sUnion_subset ?_)⟩\n  rintro _ ⟨i, rfl⟩ x xs\n  rcases (isBasis_countableBasis α).exists_subset_of_mem_open xs (H _) with ⟨b, hb, xb, bs⟩\n  exact ⟨_, ⟨_, rfl⟩, _, ⟨⟨⟨_, hb, _, bs⟩, rfl⟩, rfl⟩, hf _ xb⟩\n",
+          "sha256": "16328afa0beea669b91aaa80230b1d152898d3cf700e7213dc0a10ac60a211d1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L930-L941"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "generateFrom",
+          "first_line": 62,
+          "last_line": 75,
+          "text": "inductive GenerateOpen (g : Set (Set α)) : Set α → Prop\n  | basic : ∀ s ∈ g, GenerateOpen g s\n  | univ : GenerateOpen g univ\n  | inter : ∀ s t, GenerateOpen g s → GenerateOpen g t → GenerateOpen g (s ∩ t)\n  | sUnion : ∀ S : Set (Set α), (∀ s ∈ S, GenerateOpen g s) → GenerateOpen g (⋃₀ S)\n\n/-- The smallest topological space containing the collection `g` of basic sets -/\n@[instance_reducible]\ndef generateFrom (g : Set (Set α)) : TopologicalSpace α where\n  IsOpen := GenerateOpen g\n  isOpen_univ := GenerateOpen.univ\n  isOpen_inter := GenerateOpen.inter\n  isOpen_sUnion := GenerateOpen.sUnion\n\n",
+          "sha256": "157d25ad393ea6c2266bed17f78f91f1658d33d3609091b788dfa8c70f0692a4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L62-L75"
+        },
+        {
+          "name": "DiscreteTopology",
+          "first_line": 307,
+          "last_line": 311,
+          "text": "/-- A topological space is discrete if every set is open, that is,\n  its topology equals the discrete topology `⊥`. -/\nclass DiscreteTopology (α : Type*) [t : TopologicalSpace α] : Prop where\n  /-- The `TopologicalSpace` structure on a type with discrete topology is equal to `⊥`. -/\n  eq_bot : t = ⊥\n",
+          "sha256": "26015841fe28c8608aba85513b1657bd58475e98010121e1391aeb8726391b3f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L307-L311"
+        },
+        {
+          "name": "cantor-Bool-topology",
+          "first_line": 572,
+          "last_line": 576,
+          "text": "instance : DiscreteTopology PUnit := ⟨rfl⟩\ninstance : IndiscreteTopology PUnit := inferInstance\n\ninstance : TopologicalSpace Bool := ⊥\ninstance : DiscreteTopology Bool := ⟨rfl⟩\n",
+          "sha256": "2d8bbbaa7265a7f44dd244c394855aa4f2fccb8128ba008672e414bc4393a5d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homeomorph/Defs.lean",
+      "sha256": "4d27914014d20e4b9a6af97ebd7e7bea7451cc37a96dbd102b6d21c9a3f0eb72",
+      "git_blob_sha1": "7c7e9c3c815eb873ab5e637aaac83e4cdf80f39d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Reid Barton. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Sébastien Gouëzel, Zhouhang Zhou, Reid Barton\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Homeomorph",
+          "first_line": 42,
+          "last_line": 50,
+          "text": "/-- Homeomorphism between `X` and `Y`, also called topological isomorphism -/\nstructure Homeomorph (X : Type*) (Y : Type*) [TopologicalSpace X] [TopologicalSpace Y]\n    extends X ≃ Y where\n  /-- The forward map of a homeomorphism is a continuous function. -/\n  continuous_toFun : Continuous toFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n  /-- The inverse map of a homeomorphism is a continuous function. -/\n  continuous_invFun : Continuous invFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n",
+          "sha256": "0b946359899cb78e8004065cc44729b505a4bff977bbf44444b74f5da935a5d4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean#L42-L50"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Defs.lean",
+      "sha256": "c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8",
+      "git_blob_sha1": "7821cb864d27388f46fd335a5f2fbc5d3be358ff",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Equiv",
+          "first_line": 66,
+          "last_line": 77,
+          "text": "/-- `α ≃ β` is the type of functions from `α → β` with a two-sided inverse. -/\nstructure Equiv (α β : Sort*) where\n  /-- The forward map of an equivalence.\n\n  Do NOT use directly. Use the coercion instead. -/\n  protected toFun : α → β\n  /-- The backward map of an equivalence.\n\n  Do NOT use `e.invFun` directly. Use the coercion of `e.symm` instead. -/\n  protected invFun : β → α\n  protected left_inv : LeftInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n  protected right_inv : RightInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n",
+          "sha256": "6a1b835401ec07580608a00c5fa8b5085dd26fc6ee07dce4eaaa5f5fb26ad15d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L66-L77"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Function/Defs.lean",
+      "sha256": "a783ef2cbf8b63c895b371dfc43dec55fc07fee6bf0da23fa25cfbceab45a872",
+      "git_blob_sha1": "565ae3df6b95fa084d60818ab13fab2e80874f3f",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Haitao Zhang\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Function.Bijective",
+          "first_line": 162,
+          "last_line": 164,
+          "text": "/-- A function is called bijective if it is both injective and surjective. -/\ndef Bijective (f : α → β) :=\n  Injective f ∧ Surjective f\n",
+          "sha256": "1c96641054d201c2db0c0ce991c137a931539b8fc41ed5e41360c0b2116d6c38",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Defs.lean#L162-L164"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Disjoint.lean",
+      "sha256": "5c59598e126b8345a9373277f8e30c0d52b3fce1080a96281f1dc54bc6dd619c",
+      "git_blob_sha1": "7d5339050bb81a9d325ca7536bbe37dba409813f",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Disjoint",
+          "first_line": 48,
+          "last_line": 49,
+          "text": "def Disjoint (a b : α) : Prop :=\n  ∀ ⦃x⦄, x ≤ a → x ≤ b → x ≤ ⊥\n",
+          "sha256": "0afa2cf8eba8be7e8c79707dafde25b73970201e3d74bd9888afabf992c96ba2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean#L48-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Disjoint.lean",
+      "sha256": "21e4643bfcae089dbbca262cb9d4b4bad1ad1cd77adf31ae43f4d2f2ab69e492",
+      "git_blob_sha1": "e454989683e886f35bb9d6ef45c429eaadbd0f2d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "set-disjoint-bridge",
+          "first_line": 32,
+          "last_line": 33,
+          "text": "theorem disjoint_iff_inter_eq_empty : Disjoint s t ↔ s ∩ t = ∅ :=\n  disjoint_iff\n",
+          "sha256": "6e2db5beb25dea053abf506750cca6f73c1641e037d9cb12976ccf586dcb2f7d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Disjoint.lean#L32-L33"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Pairwise.lean",
+      "sha256": "ccac95d1101a308ae38946e81caaa6d2c32e7e90ed99f7305dba9f01a955e62f",
+      "git_blob_sha1": "7a2f0dc7819c5656049e1d99f6ba0be56f1e04ca",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Pairwise.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Pairwise",
+          "first_line": 33,
+          "last_line": 35,
+          "text": "/-- A relation `r` holds pairwise if `r i j` for all `i ≠ j`. -/\ndef Pairwise (r : α → α → Prop) :=\n  ∀ ⦃i j⦄, i ≠ j → r i j\n",
+          "sha256": "8ebaa32f0ec686f549223f6f457e93b9ab78c95dfb08e5968c891a6dde4af5eb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Pairwise.lean#L33-L35"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "open-image-Set.preimage",
+          "first_line": 135,
+          "last_line": 135,
+          "text": "def preimage (f : α → β) (s : Set β) : Set α := {x | f x ∈ s}\n",
+          "sha256": "bdbb3311188d718892907fb87ac66f86bfb45fc4cbcefeb9b80864b388966258",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L135-L135"
+        },
+        {
+          "name": "Set.range",
+          "first_line": 173,
+          "last_line": 173,
+          "text": "def range (f : ι → α) : Set α := {x | ∃ y, f y = x}\n",
+          "sha256": "6ea5f38bede17452fab4c6025aa7489ccb2b191c13d4a1ce86fc1d2bc8a6bbd0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L173-L173"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "induced",
+          "first_line": 64,
+          "last_line": 67,
+          "text": "def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n",
+          "sha256": "878b69c8488a10bac25ce164587ebbe29156ddb4fddd3fe1e9a3911d8bdd8110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67"
+        },
+        {
+          "name": "cantor-IsEmbedding",
+          "first_line": 145,
+          "last_line": 149,
+          "text": "  and for all `s : Set X`, `s` is open iff it is the preimage of an open set. -/\n@[fun_prop, mk_iff]\nstructure IsEmbedding (f : X → Y) : Prop extends IsInducing f where\n  /-- A topological embedding is injective. -/\n  injective : Function.Injective f\n",
+          "sha256": "3298f2b98dd8701ecf141d8b2c58c7a3cd9312863c9cae9615d444bfad484a34",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L145-L149"
+        },
+        {
+          "name": "cantor-IsInducing",
+          "first_line": 128,
+          "last_line": 134,
+          "text": "/-- A function `f : X → Y` between topological spaces is inducing if the topology on `X` is induced\nby the topology on `Y` through `f`, meaning that a set `s : Set X` is open iff it is the preimage\nunder `f` of some open set `t : Set Y`. -/\n@[fun_prop, mk_iff]\nstructure IsInducing (f : X → Y) : Prop where\n  /-- The topology on the domain is equal to the induced topology. -/\n  eq_induced : tX = tY.induced f\n",
+          "sha256": "884daae7f374977dffec6b6f379ec2bf9b884248d4f57b1b27710cefc5ac7110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L128-L134"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pi.product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/PiNat.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/PiNat.lean",
+      "sha256": "a6d5b738f8217038bc1b2889f5fa0f0ea84b544dbc21761e90b35dcf8cd0d669",
+      "git_blob_sha1": "9037e11c4d4eeb6bcd61b008be2f6f95426d2181",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel\n-/\n",
+      "excerpts": [
+        {
+          "name": "PiNat.cylinder",
+          "first_line": 109,
+          "last_line": 110,
+          "text": "def cylinder (x : ∀ n, E n) (n : ℕ) : Set (∀ n, E n) :=\n  { y | ∀ i, i < n → y i = x i }\n",
+          "sha256": "a45172b1a533ce6d7736a8b2d4709829b0a6c4ed21959e84070312d88432e511",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/PiNat.lean#L109-L110"
+        },
+        {
+          "name": "PiNat.res-equivalence",
+          "first_line": 195,
+          "last_line": 239,
+          "text": "@[simp]\ntheorem res_zero (x : ℕ → α) : res x 0 = @nil α :=\n  rfl\n\n@[simp]\ntheorem res_succ (x : ℕ → α) (n : ℕ) : res x n.succ = x n :: res x n :=\n  rfl\n\n@[simp]\ntheorem res_length (x : ℕ → α) (n : ℕ) : (res x n).length = n := by induction n <;> simp [*]\n\n/-- The restrictions of `x` and `y` to `n` are equal if and only if `x m = y m` for all `m < n`. -/\ntheorem res_eq_res {x y : ℕ → α} {n : ℕ} :\n    res x n = res y n ↔ ∀ ⦃m⦄, m < n → x m = y m := by\n  constructor <;> intro h\n  · induction n with\n    | zero => simp\n    | succ n ih =>\n      intro m hm\n      rw [Nat.lt_succ_iff_lt_or_eq] at hm\n      simp only [res_succ, cons.injEq] at h\n      rcases hm with hm | hm\n      · exact ih h.2 hm\n      rw [hm]\n      exact h.1\n  · induction n with\n    | zero => simp\n    | succ n ih =>\n      simp only [res_succ, cons.injEq]\n      refine ⟨h (Nat.lt_succ_self _), ih fun m hm => ?_⟩\n      exact h (hm.trans (Nat.lt_succ_self _))\n\ntheorem res_injective : Injective (@res α) := by\n  intro x y h\n  ext n\n  apply res_eq_res.mp _ (Nat.lt_succ_self _)\n  rw [h]\n\n/-- `cylinder x n` is equal to the set of sequences `y` with the same restriction to `n` as `x`. -/\ntheorem cylinder_eq_res (x : ℕ → α) (n : ℕ) :\n    cylinder x n = { y | res y n = res x n } := by\n  ext y\n  dsimp [cylinder]\n  rw [res_eq_res]\n\n",
+          "sha256": "8ba98ec91cfb75501b47e742278333ac8844f08fe5e4c32aa10f2f905d1cb6bc",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/PiNat.lean#L195-L239"
+        },
+        {
+          "name": "PiNat.cylinder-basis",
+          "first_line": 344,
+          "last_line": 368,
+          "text": "theorem isOpen_cylinder (x : ∀ n, E n) (n : ℕ) : IsOpen (cylinder x n) := by\n  rw [PiNat.cylinder_eq_pi]\n  exact isOpen_set_pi (Finset.range n).finite_toSet fun a _ => isOpen_discrete _\n\ntheorem isTopologicalBasis_cylinders :\n    IsTopologicalBasis { s : Set (∀ n, E n) | ∃ (x : ∀ n, E n) (n : ℕ), s = cylinder x n } := by\n  apply isTopologicalBasis_of_isOpen_of_nhds\n  · rintro u ⟨x, n, rfl⟩\n    apply isOpen_cylinder\n  · intro x u hx u_open\n    obtain ⟨v, ⟨U, F, -, rfl⟩, xU, Uu⟩ :\n        ∃ v ∈ { S : Set (∀ i : ℕ, E i) | ∃ (U : ∀ i : ℕ, Set (E i)) (F : Finset ℕ),\n          (∀ i : ℕ, i ∈ F → U i ∈ { s : Set (E i) | IsOpen s }) ∧ S = (F : Set ℕ).pi U },\n        x ∈ v ∧ v ⊆ u :=\n      (isTopologicalBasis_pi fun n : ℕ => isTopologicalBasis_opens).exists_subset_of_mem_open hx\n        u_open\n    rcases Finset.bddAbove F with ⟨n, hn⟩\n    refine ⟨cylinder x (n + 1), ⟨x, n + 1, rfl⟩, self_mem_cylinder _ _, Subset.trans ?_ Uu⟩\n    intro y hy\n    suffices ∀ i : ℕ, i ∈ F → y i ∈ U i by simpa\n    intro i hi\n    have : y i = x i := mem_cylinder_iff.1 hy i ((hn hi).trans_lt (lt_add_one n))\n    rw [this]\n    simp only [Set.mem_pi, Finset.mem_coe] at xU\n    exact xU i hi\n",
+          "sha256": "808b0ee14e623257bb1b10fd817064f716381635545a0bc70872163046b929c0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/PiNat.lean#L344-L368"
+        },
+        {
+          "name": "PiNat.res",
+          "first_line": 191,
+          "last_line": 193,
+          "text": "def res (x : ℕ → α) : ℕ → List α\n  | 0 => nil\n  | Nat.succ n => x n :: res x n\n",
+          "sha256": "b7c50e4330d7be3ef49d1dbffb21714607d69decef6090de175e38a4106a39ae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/PiNat.lean#L191-L193"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-CompactSpace",
+          "first_line": 293,
+          "last_line": 299,
+          "text": "variable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n",
+          "sha256": "73972a6caa1a04dc4257f07a3dd4f189f937de1f64678b166a06806c12cd30d1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L293-L299"
+        },
+        {
+          "name": "cantor-AccPt",
+          "first_line": 283,
+          "last_line": 286,
+          "text": "/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n",
+          "sha256": "5b9c87379963ecd9b39f25869d8dfe0aa53e9861b3cd97fb69cfcb94ae036548",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L283-L286"
+        },
+        {
+          "name": "cantor-punctured-neighborhood",
+          "first_line": 136,
+          "last_line": 146,
+          "text": "/-- The \"neighborhood within\" filter. Elements of `𝓝[s] x` are sets containing the\nintersection of `s` and a neighborhood of `x`. -/\ndef nhdsWithin (x : X) (s : Set X) : Filter X :=\n  𝓝 x ⊓ 𝓟 s\n\n@[inherit_doc]\nscoped[Topology] notation \"𝓝[\" s \"] \" x:100 => nhdsWithin x s\n\n/-- Notation for the filter of punctured neighborhoods of a point. -/\nscoped[Topology] notation3 (name := nhdsNE) \"𝓝[≠] \" x:100 =>\n  nhdsWithin x (@singleton _ (Set _) Set.instSingletonSet x)ᶜ\n",
+          "sha256": "66d257ee2991366f209610ee7cf88410147833a0310b171216f8690f86f8b42c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L136-L146"
+        },
+        {
+          "name": "cantor-Inseparable",
+          "first_line": 221,
+          "last_line": 222,
+          "text": "def Inseparable (x y : X) : Prop :=\n  𝓝 x = 𝓝 y\n",
+          "sha256": "e809956c5dea068e27b679d8ffde1bd9afd081fcc514ea99d45dd53014ee5b1b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L221-L222"
+        },
+        {
+          "name": "characterization-IsCompact",
+          "first_line": 288,
+          "last_line": 291,
+          "text": "/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n",
+          "sha256": "8a5dd611ce1298df5a9753168f4f6cd3dc9f56e66212e62e0043a0dcae9c2833",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L288-L291"
+        },
+        {
+          "name": "characterization-ClusterPt",
+          "first_line": 271,
+          "last_line": 276,
+          "text": "/-- A point `x` is a cluster point of a filter `F` if `𝓝 x ⊓ F ≠ ⊥`.\nAlso known as an accumulation point or a limit point, but beware that terminology varies.\nThis is *not* the same as asking `𝓝[≠] x ⊓ F ≠ ⊥`, which is called `AccPt` in Mathlib.\nSee `mem_closure_iff_clusterPt` in particular. -/\ndef ClusterPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝 x ⊓ F)\n",
+          "sha256": "82c9fd0900d0a55fa46c6a78fa400334fd5b57e606aa9b7c35a3fb022fe2398b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L271-L276"
+        },
+        {
+          "name": "nhds",
+          "first_line": 127,
+          "last_line": 134,
+          "text": "/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n\n@[inherit_doc]\nscoped[Topology] notation \"𝓝\" => nhds\n",
+          "sha256": "50aa67ca57c8473255d83882eea110cc29269ae9a77d58cae57886b24f0bfa07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L127-L134"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Perfect.lean",
+      "sha256": "40c4a61f6a8a9f923674520215130f4ffd77ba4f69fb8ee0ba5ed5d461637f7f",
+      "git_blob_sha1": "562e3496db8f6ee7ca09dd1ba85944372aab6851",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Felix Weilacher. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Felix Weilacher\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-PerfectSpace",
+          "first_line": 95,
+          "last_line": 105,
+          "text": "\n/--\nA topological space `X` is said to be perfect if its universe is a perfect set.\nEquivalently, this means that `𝓝[≠] x ≠ ⊥` for every point `x : X`.\n-/\n@[mk_iff perfectSpace_def]\nclass PerfectSpace : Prop where\n  univ_preperfect : Preperfect (Set.univ : Set α)\n\ntheorem PerfectSpace.univ_perfect [PerfectSpace α] : Perfect (Set.univ : Set α) :=\n  ⟨isClosed_univ, PerfectSpace.univ_preperfect⟩\n",
+          "sha256": "00b86428446eabdad2c97a72547e797e4fd199f5db6f5e06826e9065fc5b0040",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean#L95-L105"
+        },
+        {
+          "name": "cantor-Preperfect",
+          "first_line": 74,
+          "last_line": 79,
+          "text": "\n/-- A set `C` is preperfect if all of its points are accumulation points of itself.\nIf `α` is a T1 space, this is equivalent to the closure of `C` being perfect,\nsee `preperfect_iff_perfect_closure`. This property is also called dense-in-itself. -/\ndef Preperfect (C : Set α) : Prop :=\n  ∀ x ∈ C, AccPt x (𝓟 C)\n",
+          "sha256": "aa7ae39eb772dafd5d7b7ac452755a640a1a7635631bcfe69929b17277f7dee1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean#L74-L79"
+        },
+        {
+          "name": "cantor-preperfect-neighborhood",
+          "first_line": 89,
+          "last_line": 90,
+          "text": "theorem preperfect_iff_nhds : Preperfect C ↔ ∀ x ∈ C, ∀ U ∈ 𝓝 x, ∃ y ∈ U ∩ C, y ≠ x := by\n  simp only [Preperfect, accPt_iff_nhds]\n",
+          "sha256": "b912ef934d8f2daa8aec935c6523fffe38d671c447af8f22096488869ba76b5c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean#L89-L90"
+        },
+        {
+          "name": "cantor-no-isolated",
+          "first_line": 278,
+          "last_line": 282,
+          "text": "theorem perfectSpace_iff_forall_not_isolated : PerfectSpace X ↔ ∀ x : X, Filter.NeBot (𝓝[≠] x) := by\n  simp [perfectSpace_def, Preperfect, AccPt]\n\ninstance PerfectSpace.not_isolated [PerfectSpace X] (x : X) : Filter.NeBot (𝓝[≠] x) :=\n  perfectSpace_iff_forall_not_isolated.mp ‹_› x\n",
+          "sha256": "2811b3b4b48c879eb097a6e8ab2f80982d32b9f0c1b6701da4545fd5994f752e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean#L278-L282"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/ClusterPt.lean",
+      "sha256": "97256f9659e179ee0327e4601d3d1e01b520f0d5b8981849a0cd0d97b907c848",
+      "git_blob_sha1": "32d060a7d214ef1af4f7a3826a5690059e1aa183",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/ClusterPt.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-AccPt-neighborhood",
+          "first_line": 206,
+          "last_line": 210,
+          "text": "theorem accPt_iff_nhds {x : X} {C : Set X} : AccPt x (𝓟 C) ↔ ∀ U ∈ 𝓝 x, ∃ y ∈ U ∩ C, y ≠ x := by\n  simp [accPt_principal_iff_clusterPt, clusterPt_principal_iff, Set.Nonempty,\n    and_assoc]\n\n/-- `x` is an accumulation point of a set `C` iff\n",
+          "sha256": "24289dc8d07c4af661c4be5df6af99dc0265f368b767507d1cd69191cb73d6b6",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/ClusterPt.lean#L206-L210"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Separation/Hausdorff.lean",
+      "sha256": "95c58f7ad7ef3ea627d5af8d2427c7d7e08a47207ed084e51945217f32566f06",
+      "git_blob_sha1": "c7c9a4de3b9c0ea0eef31a6f5b98170c89b7f98d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-T2Space",
+          "first_line": 81,
+          "last_line": 91,
+          "text": "/-- A T₂ space, also known as a Hausdorff space, is one in which for every\n  `x ≠ y` there exists disjoint open sets around `x` and `y`. This is\n  the most widely used of the separation axioms. -/\n@[mk_iff]\nclass T2Space (X : Type u) [TopologicalSpace X] : Prop where\n  /-- Every two points in a Hausdorff space admit disjoint open neighbourhoods. -/\n  t2 : Pairwise fun x y => ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v\n\n/-- Two different points can be separated by open sets. -/\ntheorem t2_separation [T2Space X] {x y : X} (h : x ≠ y) :\n    ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v :=\n",
+          "sha256": "e875f4f7c4e62052292e8ce7f9e0caac25e7dd18a47fc9e6dec7240de02cdd81",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean#L81-L91"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Separation/Basic.lean",
+      "sha256": "96c74f410b14c3adecc1cb06d90d9d7a61bbb1529c18000426687bee99ba6991",
+      "git_blob_sha1": "2d39660bfd78f367e80c7ee07b36871de306e3f2",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-T0Space",
+          "first_line": 73,
+          "last_line": 82,
+          "text": "/-- A T₀ space, also known as a Kolmogorov space, is a topological space such that for every pair\n`x ≠ y`, there is an open set containing one but not the other. We formulate the definition in terms\nof the `Inseparable` relation. -/\n@[stacks 004X \"(2)\"]\nclass T0Space (X : Type u) [TopologicalSpace X] : Prop where\n  /-- Two inseparable points in a T₀ space are equal. -/\n  t0 : ∀ ⦃x y : X⦄, Inseparable x y → x = y\n\ntheorem t0Space_iff_inseparable (X : Type u) [TopologicalSpace X] :\n    T0Space X ↔ ∀ x y : X, Inseparable x y → x = y :=\n",
+          "sha256": "b81e09d464c3afc469981bac9cd9928ef560a856c89e9af4ad91e999a5dfd68b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Basic.lean#L73-L82"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Metrizable/Basic.lean",
+      "sha256": "b3109255e290e85cfeaca128a66def49978c4e9fe22866c499e9882132bd3ac8",
+      "git_blob_sha1": "a018e7cd9cf73cca86af3af0ae8a63aa6f463f20",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-MetrizableSpace",
+          "first_line": 115,
+          "last_line": 137,
+          "text": "    ⟨⊤, (IndiscreteTopology.eq_top X).symm, isCountablyGenerated_top⟩\n\n/-- A topological space is metrizable if there exists a metric space structure compatible with the\ntopology. To minimize imports, we implement this class in terms of the existence of a\ncountably generated uniformity inducing the topology, which is mathematically\nequivalent.\nTo endow such a space with a compatible uniformity, use\n`letI : UniformSpace X := TopologicalSpace.pseudoMetrizableSpaceUniformity X`.\nTo endow such a space with a compatible distance, use\n`letI : MetricSpace X := TopologicalSpace.metrizableSpaceMetric X`. -/\nclass MetrizableSpace (X : Type*) [t : TopologicalSpace X] : Prop extends\n    PseudoMetrizableSpace X, T0Space X\n\n-- See note [lower instance priority]\nattribute [instance 100] MetrizableSpace.toT0Space\nattribute [instance 100] MetrizableSpace.toPseudoMetrizableSpace\n\ninstance (priority := 100) PseudoMetrizableSpace.toMetrizableSpace\n    [T0Space X] [h : PseudoMetrizableSpace X] : MetrizableSpace X where\n\ninstance (priority := 100) t2Space_of_metrizableSpace [MetrizableSpace X] : T2Space X :=\n  letI : UniformSpace X := pseudoMetrizableSpaceUniformity X\n  inferInstance\n",
+          "sha256": "b719f45659b428eea69ab09ffa5ff7f2f7617ee399d7c9a128b83242c0d16a5f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/Basic.lean#L115-L137"
+        },
+        {
+          "name": "cantor-PseudoMetrizableSpace",
+          "first_line": 34,
+          "last_line": 45,
+          "text": "/-- A topological space is *pseudometrizable* if there exists a pseudometric space structure\ncompatible with the topology. To minimize imports, we implement this class in terms of the\nexistence of a countably generated uniformity inducing the topology, which is mathematically\nequivalent.\nTo endow such a space with a compatible uniformity, use\n`letI : UniformSpace X := TopologicalSpace.pseudoMetrizableSpaceUniformity X`.\nTo endow such a space with a compatible distance, use\n`letI : PseudoMetricSpace X := TopologicalSpace.pseudoMetrizableSpacePseudoMetric X`. -/\nclass PseudoMetrizableSpace (X : Type*) [t : TopologicalSpace X] : Prop where\n  exists_countably_generated :\n    ∃ u : UniformSpace X, u.toTopologicalSpace = t ∧ (uniformity X).IsCountablyGenerated\n\n",
+          "sha256": "a48d22cf7db086b8bc2a9d909ba5232b909274df228c82ed3e31cad87c86bf4d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/Basic.lean#L34-L45"
+        },
+        {
+          "name": "cantor-metrizable-second-countable",
+          "first_line": 166,
+          "last_line": 176,
+          "text": "instance (X : Type*) [TopologicalSpace X] [LindelofSpace X] [PseudoMetrizableSpace X] :\n    SecondCountableTopology X := by\n  let := pseudoMetrizableSpaceUniformity X\n  have := pseudoMetrizableSpaceUniformity_countably_generated X\n  suffices _ : SeparableSpace X from secondCountable_of_separable X\n  obtain ⟨V, hVb, hVs⟩ := has_seq_basis X\n  choose U hUc hUu using fun n =>\n    LindelofSpace.elim_nhds_subcover (fun x => ball x (V n))\n      (fun x => ball_mem_nhds x (hVb.mem n))\n  refine ⟨Set.iUnion U, Set.countable_iUnion hUc, fun x => ?_⟩\n  rw [mem_closure_iff_frequently, nhds_eq_comap_uniformity, frequently_comap, hVb.frequently_iff]\n",
+          "sha256": "2cf83c5b9270afe92b3918d6ea38f9b303e553b630aa076488a204bb0496a800",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/Basic.lean#L166-L176"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/CountablyGenerated.lean",
+      "sha256": "5628113472da223e2345cc12426ec269ca87c2e233eb76e9789ed1c21719f2d0",
+      "git_blob_sha1": "1732fded7e6e4de54b0ee7290f109aa998c7d880",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountablyGenerated.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Gabriel Ebner. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Gabriel Ebner, Yury Kudryashov, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-countably-generated",
+          "first_line": 29,
+          "last_line": 32,
+          "text": "/-- `IsCountablyGenerated f` means `f = generate s` for some countable `s`. -/\nclass IsCountablyGenerated (f : Filter α) : Prop where\n  /-- There exists a countable set that generates the filter. -/\n  out : ∃ s : Set (Set α), s.Countable ∧ f = generate s\n",
+          "sha256": "049037e8cae993a87f04992fca2c9d4ab8212a0bb6e0c9f8b0f172c304148b79",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountablyGenerated.lean#L29-L32"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Basic.lean",
+      "sha256": "5dac9f84ef61915588e250fbb6e816ecf3d3183a94aa7e31f85e390baeb30afb",
+      "git_blob_sha1": "13734fc09a2dff6db46ca52140aceb45d45eccd8",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-filter-generate",
+          "first_line": 163,
+          "last_line": 174,
+          "text": "inductive GenerateSets (g : Set (Set α)) : Set α → Prop\n  | basic {s : Set α} : s ∈ g → GenerateSets g s\n  | univ : GenerateSets g univ\n  | superset {s t : Set α} : GenerateSets g s → s ⊆ t → GenerateSets g t\n  | inter {s t : Set α} : GenerateSets g s → GenerateSets g t → GenerateSets g (s ∩ t)\n\n/-- `generate g` is the largest filter containing the sets `g`. -/\ndef generate (g : Set (Set α)) : Filter α where\n  sets := {s | GenerateSets g s}\n  univ_sets := GenerateSets.univ\n  sets_of_superset := GenerateSets.superset\n  inter_sets := GenerateSets.inter\n",
+          "sha256": "5d01aff6d8f48d930b9443ba3824e8437c572ea18bd4320278310d9ce3018cc4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Basic.lean#L163-L174"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Metrizable/Uniformity.lean",
+      "sha256": "57cd395dfc2492244906b4cd136ca48bf553fca053e5fdb3033132f105a7d265",
+      "git_blob_sha1": "79e68cd4e8e930ab7b13e9b4e96e35b8a0101d55",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/Uniformity.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-compatible-metric-construction",
+          "first_line": 264,
+          "last_line": 283,
+          "text": "-- see note [reducible non-instances]\nnoncomputable abbrev TopologicalSpace.pseudoMetrizableSpacePseudoMetric (X : Type*)\n    [TopologicalSpace X] [TopologicalSpace.PseudoMetrizableSpace X] : PseudoMetricSpace X :=\n  letI := TopologicalSpace.pseudoMetrizableSpaceUniformity X\n  haveI := TopologicalSpace.pseudoMetrizableSpaceUniformity_countably_generated X\n  UniformSpace.pseudoMetricSpace X\n\nexample {X : Type*} [t : TopologicalSpace X] [t.PseudoMetrizableSpace] :\n    t.pseudoMetrizableSpacePseudoMetric.toUniformSpace = t.pseudoMetrizableSpaceUniformity := by\n  with_reducible_and_instances rfl\n\n/-- Construct on a metrizable space a metric compatible with the topology. -/\nnoncomputable abbrev TopologicalSpace.metrizableSpaceMetric (X : Type*) [TopologicalSpace X]\n    [TopologicalSpace.MetrizableSpace X] : MetricSpace X :=\n  letI := pseudoMetrizableSpacePseudoMetric X\n  .ofT0PseudoMetricSpace X\n\nexample {X : Type*} [t : TopologicalSpace X] [t.MetrizableSpace] :\n    t.metrizableSpaceMetric.toPseudoMetricSpace = t.pseudoMetrizableSpacePseudoMetric := by\n  with_reducible_and_instances rfl\n",
+          "sha256": "dbb69ab5348ec0bf4d6afd06e69488c778b32499c2c3024a7e5343ddfd6db56d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/Uniformity.lean#L264-L283"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-NeBot",
+          "first_line": 267,
+          "last_line": 277,
+          "text": "\n/-- A filter is `NeBot` if it is not equal to `⊥`, or equivalently the empty set does not belong to\nthe filter. Bourbaki include this assumption in the definition of a filter but we prefer to have a\n`CompleteLattice` structure on `Filter _`, so we use a typeclass argument in lemmas instead. -/\nclass NeBot (f : Filter α) : Prop where\n  /-- The filter is nontrivial: `f ≠ ⊥` or equivalently, `∅ ∉ f`. -/\n  ne' : f ≠ ⊥\n\n@[push ←]\ntheorem neBot_iff {f : Filter α} : NeBot f ↔ f ≠ ⊥ :=\n  ⟨fun h => h.1, fun h => ⟨h⟩⟩\n",
+          "sha256": "de28aba95e4d9fbf3ff965f6b2efbc6b1591d5b15e59c8422eefe58ba95c15ad",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L267-L277"
+        },
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        },
+        {
+          "name": "Filter.principal",
+          "first_line": 147,
+          "last_line": 158,
+          "text": "/-- The principal filter of `s` is the collection of all supersets of `s`. -/\ndef principal (s : Set α) : Filter α where\n  sets := { t | s ⊆ t }\n  univ_sets := subset_univ s\n  sets_of_superset hx := Subset.trans hx\n  inter_sets := subset_inter\n\n@[inherit_doc]\nscoped notation \"𝓟\" => Filter.principal\n\n@[simp] theorem mem_principal : s ∈ 𝓟 t ↔ t ⊆ s := Iff.rfl\n\n",
+          "sha256": "b9ac7078f265922dbe9c103f5320642c8b0341f855d674b959a051d39edcee33",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L147-L158"
+        },
+        {
+          "name": "Filter.map-Tendsto",
+          "first_line": 405,
+          "last_line": 423,
+          "text": "\n/-- Unexpander printing `Filter.EventuallySubset l s t` as `s ≤ᶠ[l] t`. -/\n@[app_unexpander Filter.EventuallySubset]\nmeta def unexpandEventuallySubset : Lean.PrettyPrinter.Unexpander\n  | `($_ $l $s $t) => `($s ≤ᶠ[$l] $t)\n  | _ => throw ()\n\n/-- The forward map of a filter -/\ndef map (m : α → β) (f : Filter α) : Filter β where\n  sets := preimage m ⁻¹' f.sets\n  univ_sets := univ_mem\n  sets_of_superset hs st := mem_of_superset hs fun _x hx ↦ st hx\n  inter_sets hs ht := inter_mem hs ht\n\n/-- `Filter.Tendsto` is the generic \"limit of a function\" predicate.\n  `Tendsto f l₁ l₂` asserts that for every `l₂` neighborhood `a`,\n  the `f`-preimage of `a` is an `l₁` neighborhood. -/\ndef Tendsto (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :=\n  l₁.map f ≤ l₂\n",
+          "sha256": "e6f89a53ff1df261c7705955e27a8d227354e5926f369e20b02c35ad98be4313",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L405-L423"
+        },
+        {
+          "name": "Filter.comap",
+          "first_line": 425,
+          "last_line": 439,
+          "text": "/-- The inverse map of a filter. A set `s` belongs to `Filter.comap m f` if either of the following\nequivalent conditions hold.\n\n1. There exists a set `t ∈ f` such that `m ⁻¹' t ⊆ s`. This is used as a definition.\n2. The set `kernImage m s = {y | ∀ x, m x = y → x ∈ s}` belongs to `f`, see `Filter.mem_comap'`.\n3. The set `(m '' sᶜ)ᶜ` belongs to `f`, see `Filter.mem_comap_iff_compl` and\n   `Filter.compl_mem_comap`.\n-/\ndef comap (m : α → β) (f : Filter β) : Filter α where\n  sets := { s | ∃ t ∈ f, m ⁻¹' t ⊆ s }\n  univ_sets := ⟨univ, univ_mem, subset_univ _⟩\n  sets_of_superset := fun ⟨a', ha', ma'a⟩ ab => ⟨a', ha', ma'a.trans ab⟩\n  inter_sets := fun ⟨a', ha₁, ha₂⟩ ⟨b', hb₁, hb₂⟩ =>\n    ⟨a' ∩ b', inter_mem ha₁ hb₁, inter_subset_inter ha₂ hb₂⟩\n\n",
+          "sha256": "362366ce36802bc59b3b10b58727f2c6636d06fcf2d31241e21f8d26a375d782",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L425-L439"
+        },
+        {
+          "name": "Filter.order",
+          "first_line": 183,
+          "last_line": 190,
+          "text": "  le f g := ∀ ⦃U : Set α⦄, U ∈ g → U ∈ f\n  le_antisymm a b h₁ h₂ := filter_eq <| Subset.antisymm h₂ h₁\n  le_refl a := Subset.rfl\n  le_trans a b c h₁ h₂ := Subset.trans h₂ h₁\n\ntheorem le_def : f ≤ g ↔ ∀ x ∈ g, x ∈ f :=\n  Iff.rfl\n\n",
+          "sha256": "a99ab18fd794b2e2b76c56bfa8532bcb16e403417f304a87285b776cb5782aca",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L183-L190"
+        },
+        {
+          "name": "Filter.product",
+          "first_line": 444,
+          "last_line": 452,
+          "text": "/-- Product of filters. This is the filter generated by Cartesian products\nof elements of the component filters. -/\ninstance instSProd : SProd (Filter α) (Filter β) (Filter (α × β)) where\n  sprod f g := f.comap Prod.fst ⊓ g.comap Prod.snd\n\ntheorem prod_eq_inf (f : Filter α) (g : Filter β) : f ×ˢ g = f.comap Prod.fst ⊓ g.comap Prod.snd :=\n  rfl\n\n/-- The product of an indexed family of filters. -/\n",
+          "sha256": "9ef3719fef82cd6404287f98980c3054bbce035b372a7bd938e80fccdc056a78",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L444-L452"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Compactness/Compact.lean",
+      "sha256": "3fc7ffe7db4db0a2de07d6fdf0e65da486b3dced1f3bac4d58ab869a92f4ac64",
+      "git_blob_sha1": "30fc9322f4ce78f847a592b0035bf5edfc65f33c",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-nested-compact-intersection",
+          "first_line": 336,
+          "last_line": 346,
+          "text": "/-- Cantor's intersection theorem for sequences indexed by `ℕ`:\nthe intersection of a decreasing sequence of nonempty compact closed sets is nonempty. -/\ntheorem IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed (t : ℕ → Set X)\n    (htd : ∀ i, t (i + 1) ⊆ t i) (htn : ∀ i, (t i).Nonempty) (ht0 : IsCompact (t 0))\n    (htcl : ∀ i, IsClosed (t i)) : (⋂ i, t i).Nonempty :=\n  have tmono : Antitone t := antitone_nat_of_succ_le htd\n  have htd : Directed (· ⊇ ·) t := tmono.directed_ge\n  have : ∀ i, t i ⊆ t 0 := fun i => tmono <| Nat.zero_le i\n  have htc : ∀ i, IsCompact (t i) := fun i => ht0.of_isClosed_subset (htcl i) (this i)\n  IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed t htd htn htc htcl\n\n",
+          "sha256": "39d0f9e050fc50eeda72d8bc66e1d8cefcb02f7ffc8c11094fe166101d16ee37",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L336-L346"
+        },
+        {
+          "name": "compact-open-cover-bridge",
+          "first_line": 384,
+          "last_line": 389,
+          "text": "/-- A set `s` is compact if and only if\nfor every open cover of `s`, there exists a finite subcover. -/\ntheorem isCompact_iff_finite_subcover :\n    IsCompact s ↔ ∀ {ι : Type u} (U : ι → Set X),\n      (∀ i, IsOpen (U i)) → (s ⊆ ⋃ i, U i) → ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=\n  ⟨fun hs => hs.elim_finite_subcover, isCompact_of_finite_subcover⟩\n",
+          "sha256": "a48a11009a0c741b08d427892ef7d163ea7c6e21e3dd43a265d6ce8ee7149a11",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L384-L389"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homeomorph/Lemmas.lean",
+      "sha256": "e76ff3b356c5cff8dafa5ebdb561b7f439ad7d687e0def918e6512e36ef02e9e",
+      "git_blob_sha1": "6baab7e4c182041ffe730e81632aaec349057894",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Lemmas.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Reid Barton. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Sébastien Gouëzel, Zhouhang Zhou, Reid Barton\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-homeomorph-compact-Hausdorff",
+          "first_line": 469,
+          "last_line": 477,
+          "text": "/-- Continuous equivalences from a compact space to a T2 space are homeomorphisms.\n\nThis is not true when T2 is weakened to T1\n(see `Continuous.homeoOfEquivCompactToT2.t1_counterexample`). -/\n@[simps toEquiv]\ndef homeoOfEquivCompactToT2 [CompactSpace X] [T2Space Y] {f : X ≃ Y} (hf : Continuous f) : X ≃ₜ Y :=\n  { f with\n    continuous_toFun := hf\n    continuous_invFun := hf.continuous_symm_of_equiv_compact_to_t2 }\n",
+          "sha256": "224f9c67092a3b7828360ddd3608d23f326e0f67a233b3544c24dac80aeeb6e8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Lemmas.lean#L469-L477"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/UniformSpace/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean",
+      "sha256": "0678d9754b2f7c95f4ca1c62ff0fe923bfff83092e890b26d524040be1f1a47c",
+      "git_blob_sha1": "3f068a41cafe8605be201dd24b3843bcbba45a6e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "UniformSpace",
+          "first_line": 185,
+          "last_line": 209,
+          "text": "-- the topological structure is embedded in the uniform structure\n-- to avoid instance diamond issues. See Note [forgetful inheritance].\n/-- A uniform space is a generalization of the \"uniform\" topological aspects of a\n  metric space. It consists of a filter on `α × α` called the \"uniformity\", which\n  satisfies properties analogous to the reflexivity, symmetry, and triangle properties\n  of a metric.\n\n  A metric space has a natural uniformity, and a uniform space has a natural topology.\n  A topological group also has a natural uniformity, even when it is not metrizable. -/\n@[wikidata Q652446]\nclass UniformSpace (α : Type u) extends TopologicalSpace α where\n  /-- The uniformity filter. -/\n  protected uniformity : Filter (α × α)\n  /-- If `s ∈ uniformity`, then `Prod.swap ⁻¹' s ∈ uniformity`. -/\n  protected symm : Tendsto Prod.swap uniformity uniformity\n  /-- For every set `u ∈ uniformity`, there exists `v ∈ uniformity` such that `v ○ v ⊆ u`. -/\n  protected comp : (uniformity.lift' fun s => s ○ s) ≤ uniformity\n  /-- The uniformity agrees with the topology: the neighborhoods filter of each point `x`\n  is equal to `Filter.comap (Prod.mk x) (𝓤 α)`. -/\n  protected nhds_eq_comap_uniformity (x : α) : 𝓝 x = comap (Prod.mk x) uniformity\n\n/-- The uniformity is a filter on α × α (inferred from an ambient uniform space\n  structure on α). -/\ndef uniformity (α : Type u) [UniformSpace α] : Filter (α × α) :=\n  @UniformSpace.uniformity α _\n",
+          "sha256": "a67f56908a4cffd4c4c069fff92e9f5256c8d56e81e6c5e074c827feac86bc13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean#L185-L209"
+        },
+        {
+          "name": "UniformSpace.Core",
+          "first_line": 129,
+          "last_line": 140,
+          "text": "/-- This core description of a uniform space is outside of the type class hierarchy. It is useful\n  for constructions of uniform spaces, when the topology is derived from the uniform space. -/\nstructure UniformSpace.Core (α : Type u) where\n  /-- The uniformity filter. Once `UniformSpace` is defined, `𝓤 α` (`_root_.uniformity`) becomes the\n  normal form. -/\n  uniformity : Filter (α × α)\n  /-- Every set in the uniformity filter includes the diagonal. -/\n  refl : 𝓟 SetRel.id ≤ uniformity\n  /-- If `s ∈ uniformity`, then `Prod.swap ⁻¹' s ∈ uniformity`. -/\n  symm : Tendsto Prod.swap uniformity uniformity\n  /-- For every set `u ∈ uniformity`, there exists `v ∈ uniformity` such that `v ○ v ⊆ u`. -/\n  comp : (uniformity.lift' fun s => s ○ s) ≤ uniformity\n",
+          "sha256": "5313987700fb612d91a82f7603e0ae3fe6cda1b5d64773c26afedb74c7f1bb37",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean#L129-L140"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Neighborhoods.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean",
+      "sha256": "ef0e4d65986641366ffcc380a613f210207fee31e8640e1488a8cae41395383a",
+      "git_blob_sha1": "8bfc6cc6c85396ab77a34b0725508d165b3903f4",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "mem_nhds_iff",
+          "first_line": 64,
+          "last_line": 66,
+          "text": "theorem mem_nhds_iff : s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t :=\n  (nhds_basis_opens x).mem_iff.trans <| exists_congr fun _ =>\n    ⟨fun h => ⟨h.2, h.1.2, h.1.1⟩, fun h => ⟨⟨h.2.2, h.2.1⟩, h.1⟩⟩\n",
+          "sha256": "3920d4125f26e7f74ea0eb050f41fa4c4f00ef056b57524cd6b93066efb1d515",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean#L64-L66"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "SemanticTests",
+      "path": "SemanticTests.lean",
+      "sha256": "1c74f6c9d325eebce324475f43d7d94af3cd507f743a8c37e464e571a5f05c21"
+    },
+    {
+      "module": "ChallengeTests",
+      "path": "ChallengeTests.lean",
+      "sha256": "ba7cb3946d2da5e19cc7076d532f012178f1b8549015c30b3cb3b90942c85d49"
+    }
+  ],
+  "scope": "Authored material mathematical predicate inventory for the eleven selected Brouwer Cantor-space characterization contracts and actual binary basis-decision proof. used_by identifies reviewed semantic use (including class-field/proof use), not an exhaustive certified exported constant closure. Adapted shared same-pin literal source evidence from prior Baire inventory, with all use-specific meanings rewritten. Core Nonempty/Injective/Surjective definitions are retained as exact compiler excerpts in this document; no builds by inventory author."
+}
