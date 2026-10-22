@@ -246,13 +246,13 @@ chosen interval checks. This closes that explicitly declared source arithmetic
 model, not polynomial LP/flow or input-bit/machine complexity. All old cost-open
 statements referring to this checker are superseded only to this precise extent.
 Full candidate separation, arbitrary-cover program transport and polynomial
-LP/flow/bit guarantees remain explicit gaps. The current59 additions prove
+LP/flow/bit guarantees remain explicit gaps. The historical59 additions prove
 sorted Boolean cut checks and source-exact dense allocation node constants. General-M joint bounds and the actual worst-case support operator are
 proved in the43 additions described below. See the full table for edge cases.
 
 ## General payoff bounds and actual worst-case support
 
-The 43-proof follow-on adds payoff rescaling, general-M upper and hard-instance
+The historical43-proof follow-on added payoff rescaling, general-M upper and hard-instance
 lower bounds, and actual attained per-instance support minima and their attained
 worst-case maximum. For every k≥2, m>0, M>0 and 0<η≤M, in both fixed-anchor and
 minimum-anchor-share classes, the maximum of those minima lies between
@@ -282,11 +282,13 @@ remain evidence for their own source only.
 
 ## Executable rational cut checks and the source-scale allocation mesh
 
-The current follow-on adds59 proofs in17 mathematical modules:45 cover actual
+This section records predecessor836ab90. Later additions and resolved gaps are described below.
+
+The prior verified follow-on added59 proofs in17 mathematical modules:45 cover actual
 balanced sorting, original action labels, running-sum prefix scanning and raw
 or interval perspective cut checks;14 cover the allocation step proportional to
-`epsilon/(M*k)` and its actual dense floor-search output. The resulting package
-has263 mathematical modules,1012 source theorem axiom audits and902 selected
+`epsilon/(M*k)` and its actual dense floor-search output. That historical package
+had263 mathematical modules,1012 source theorem axiom audits and902 selected
 protected contracts. Independent internal AI mathematical reviews cover these
 additions; these are not human or external peer reviews. Only an immutable report for this candidate's complete source certifies the
 checks named in that report. Reports are stored outside the frozen package.
@@ -342,3 +344,51 @@ cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
 LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
 cover transport. Native macOS checks do not establish canonical Linux sandbox,
 rendering, release-role or editorial readiness. No submission is authorized.
+
+## Violating-cut payloads and exact candidate reconstruction
+
+The next local tranche adds43 genuine proofs in8 modules, giving271 mathematical
+modules,1055 source theorem audits and945 selected protected contracts. The
+actual rational prefix scan returns an original-label subset whose cut is
+strictly violated. Its None result agrees with the existing Boolean cut checker;
+all-cut completeness requires nonnegative M and weights. A second payload
+constructor uses the proved Nodup label list directly. Its executable data path
+uses take/map and the Finset constructor without dedup; its equality proof with
+the earlier List.toFinset program still imports the literal dedup semantics.
+This tranche does not yet wrap the payload in interval perspective coordinates
+or return affine separating coefficients.
+
+The same-program supplied-score arithmetic ledger counts additions,
+subtractions and multiplications as unit rational operations. It proves at most
+7*m+4 written arithmetic operations and m*(Nat.log2 m+2)+1 comparisons, with
+combined bound m*(Nat.log2 m+9)+5. It excludes score/getter formation, rational
+normalization, equality tests, allocation, traversal and machine/bit costs.
+Denominator products bound the reduced denominator of a rational list sum and
+its binary length. Numerator growth, primitive arithmetic bit cost and complete
+algorithm runtime remain unproved.
+
+rationalIntervalExactCheck computes all finite linear perspective, anchor,
+core-skew/core-interval and global lower-score guards, including every zero-mass
+row, and the sorted quadratic cut check. For M>=0 it is equivalent to the exact
+cast intervalPerspectiveSystem. An optional arbitrary physical repertoire R is
+not wired into this base checker. The full-game existence wrapper retains M>0 and
+explicit normalization, anchor nonnegativity and physical interval bounds.
+rationalIntervalExactReconstruction returns actual rational cross and residual
+payoff tables using the existing genuine rational residual LP at epsilon.
+Its completeness holds for M>=0, including M=0; soundness gives the original
+bounded normalized skew game under the stated physical premises and all rows
+at epsilon without hidden eta slack. None rejects this particular candidate
+(q,V,K), not the entire physical class. The residual LP is Fourier--Motzkin:
+its correctness is proved, but no polynomial running-time bound is claimed.
+
+The43-source narrow check passed strict compilation,43 axiom reports (including
+two axiom-free proofs) and36 executable controls. Internal independent AI review
+covers the mathematics, proof repairs and receipt authentication. These narrow
+checks are not a clean exact-commit whole-package verification. All completed
+mechanical gates for the integrated candidate are bound by immutable evidence
+outside the frozen source; predecessor836ab90 passed all12 native gates for its
+own bytes. Whole-paper and submission readiness remain false. Still open are
+perspective violating-cut output and affine separation, complete arithmetic/bit
+costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection
+and executable arbitrary-cover transport. Native macOS checks do not establish
+canonical Linux, rendering or editorial readiness. No submission is authorized.

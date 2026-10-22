@@ -749,5 +749,67 @@ open SparseCompletion
 #guard (rationalIntervalCutCheck 1 1 0 (fun _ : Fin 1 => 1) (fun i : Fin 2 => if i.val=0 then 0 else 1) (fun _ _ => 0)).1 = true
 #guard (rationalPerspectiveCutCheck 1 1 0 (fun _ : Fin 1 => (1/2 : ℚ)) (fun _ => (1/8 : ℚ))).1 = true
 
+
+-- Exact deduplication, denominator and generated-recursor semantics
+theorem future43_list_toFinset_delegation {α : Type*} [DecidableEq α] (xs : List α) : xs.toFinset = (xs : Multiset α).toFinset := rfl
+
+theorem future43_multiset_toFinset_data {α : Type*} [DecidableEq α] (s : Multiset α) : s.toFinset.val = s.dedup := rfl
+
+theorem future43_multiset_dedup_coercion {α : Type*} [DecidableEq α] (xs : List α) : (xs : Multiset α).dedup = (xs.dedup : Multiset α) := Multiset.coe_dedup xs
+
+theorem future43_list_dedup_fold_selector {α : Type*} [DecidableEq α] (xs : List α) : xs.dedup = List.pwFilter (· ≠ ·) xs := rfl
+
+theorem future43_pairwise_filter_fold {α : Type*} (R : α → α → Prop) [DecidableRel R] (xs : List α) : List.pwFilter R xs = xs.foldr (fun x ys => if ∀ y ∈ ys, R x y then x::ys else ys) [] := rfl
+
+theorem future43_constructor_payload_conversion {α : Type*} [DecidableEq α] (xs : List α) (hn : xs.Nodup) : (⟨(xs : Multiset α), by simpa only [Multiset.coe_nodup] using hn⟩ : Finset α) = xs.toFinset := List.toFinset_eq hn
+
+theorem future43_multiset_coercion_nodup {α : Type*} (xs : List α) : (xs : Multiset α).Nodup ↔ xs.Nodup := Multiset.coe_nodup
+
+theorem future43_rational_denominator_positive (q : ℚ) : 0 < q.den := Rat.den_pos q
+
+theorem future43_rational_sum_denominator_contract (q t : ℚ) : (q+t).den ∣ q.den*t.den := Rat.add_den_dvd q t
+
+theorem future43_list_generated_recursor_nil {α β : Type*} (z : β) (step : α → List α → β → β) : List.rec (motive := fun _ : List α => β) z step [] = z := rfl
+
+theorem future43_list_generated_recursor_cons {α β : Type*} (z : β) (step : α → List α → β → β) (a : α) (xs : List α) : List.rec (motive := fun _ : List α => β) z step (a::xs) = step a xs (List.rec (motive := fun _ : List α => β) z step xs) := rfl
+
+open SparseCompletion
+#guard rationalViolationSearch 1 0 0 0 0 [] = (none,1)
+#guard rationalViolationSearch 1 0 (-1) 0 0 [] = (some 0,1)
+#guard rationalViolationSearch 1 2 0 0 0 [(1,2)] = (some 1,2)
+#guard rationalViolationSearch 1 2 0 0 0 [(1,0),(1,2)] = (some 2,3)
+#guard rationalViolationSearch 1 2 0 1 2 [(1,0)] = (some 0,1)
+#guard rationalViolationSearch 1 2 0 0 0 [(1,0),(1,0)] = (none,3)
+#guard (rationalSortedViolation (m:=0) 1 0 0 (fun i => Fin.elim0 i) (fun i => Fin.elim0 i)).1 = none
+#guard (rationalSortedViolation (m:=0) 1 0 (-1) (fun i => Fin.elim0 i) (fun i => Fin.elim0 i)).1 = some ∅
+#guard (rationalSortedViolation 1 2 0 (fun _ : Fin 2 => 1) (fun i => if i.val=0 then 0 else 2)).1 = some {⟨1,by decide⟩}
+#guard (rationalSortedViolation 1 2 0 (fun _ : Fin 2 => 1) (fun _ => 0)).1 = none
+#guard (rationalSortedViolation 1 2 1 (fun _ : Fin 2 => 1) (fun _ => 2)).1 = some Finset.univ
+#guard (rationalSortedViolation 1 2 0 (fun _ : Fin 2 => 0) (fun _ => 3)).1 = none
+#guard (rationalSortedViolation 1 2 0 (fun _ : Fin 2 => 1) (fun i => if i.val=0 then 0 else 2)).2 ≤ 2*(Nat.log2 2+2)+1
+#guard rationalPrefixArithmetic 0 1 0 0 0 [] = (true,1,4)
+#guard rationalPrefixArithmetic 0 1 0 0 0 [(1,1)] = (false,2,10)
+#guard rationalPrefixArithmetic 0 1 1 0 2 [(1,0),(1,0)] = (false,1,4)
+#guard rationalPrefixArithmetic 0 1 (-1) 0 0 [] = (false,1,4)
+#guard rationalPrefixArithmetic 0 1 0 0 0 [(1,0),(1,0)] = (true,3,16)
+#guard rationalSortedArithmetic 0 1 0 (fun _ : Fin 0 => 0) (fun _ => 0) = (true,1,4)
+#guard rationalSortedArithmetic 0 1 0 (fun _ : Fin 1 => 1) (fun _ => 0) = (true,2,11)
+#guard rationalSortedArithmetic 0 1 0 (fun _ : Fin 1 => 1) (fun _ => 1) = (false,2,11)
+#guard rationalSortedArithmetic 0 1 (-1) (fun _ : Fin 0 => 0) (fun _ => 0) = (false,1,4)
+#guard rationalDenominatorProduct [(1/2 : ℚ),1/3] = 6
+#guard (([(1/2 : ℚ),-1/2] : List ℚ).sum).den = 1
+#guard rationalNodupSortedViolation 0 1 (-1) (fun _ : Fin 0 => 0) (fun _ => 0) = (some ∅,1)
+#guard rationalNodupSortedViolation 0 1 0 (fun _ : Fin 1 => 1) (fun _ => 1) = (some {0},2)
+#guard rationalIntervalExactCheck (fun _ : Fin 1 => fun _ : Fin 1 => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => 1/2) (fun _ => 1/2) 1 (1/2) 0 = true
+#guard rationalIntervalExactCheck (fun _ : Fin 1 => fun _ : Fin 1 => 1) (fun _ => fun _ => 1) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0 = false
+#guard rationalIntervalExactCheck (fun _ : Fin 1 => fun _ : Fin 1 => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 1) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0 = false
+#guard rationalIntervalExactCheck (fun _ : Fin 1 => fun _ : Fin 1 => 0) (fun _ => fun _ => 0) (fun _ => fun _ => 0) (fun _ => fun _ => (-1)) (fun _ => fun _ => 1) (fun _ => fun _ => 1/2) (fun _ => 1/2) (fun _ => 1/2) 1 (1/2) 1 = false
+#guard ((rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => 1) (fun _ _ => 1) (fun _ _ => 1/2) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1/2) (fun _ => 1/2) 1 (1/2) (1/2)).map (fun out => out.1 0 0)) = some 1
+#guard (rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => 1) (fun _ _ => 1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0).isNone
+#guard (rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0).isNone
+#guard (rationalIntervalExactReconstruction (k:=1) (m:=0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0).isSome
+#guard ((rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => -1) (fun _ _ => 1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0).map (fun out => out.1 0 0)) = some (-1)
+#guard (rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1/2) (fun _ => 1/2) 0 (1/2) 0).isSome
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

@@ -20,6 +20,7 @@ public import Mathlib.Data.List.MinMax
 public import Mathlib.Data.List.Sort
 public import Mathlib.Algebra.Order.Ring.Rat
 public import Mathlib.Algebra.BigOperators.Group.List.Basic
+public import Mathlib.Data.Rat.Lemmas
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -21114,5 +21115,821 @@ theorem rational_source_floor_certified_value {k m : ℕ} [Nonempty (Fin k ⊕ F
     exact hlo
   · change w.2.bracket.2+ε/((3 : ℕ) : ℚ)-(w.2.bracket.2+ε/((3 : ℕ) : ℚ)-ε)=ε
     ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalViolationSearch.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+A returned first failing prefix length with the same cached rational scan.
+The intrinsic ledger counts comparisons, not arithmetic or bit operations. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalViolationSearch (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) : Option ℕ × ℕ :=
+  (List.rec (motive := fun _ => ℚ → ℚ → Option ℕ × ℕ)
+    (fun Q H => (if H-M*Q*(r-Q) ≤ δ then none else some 0, 1))
+    (fun a _ tail Q H =>
+      if H-M*Q*(r-Q) ≤ δ then
+        let out := tail (Q+a.1) (H+a.2)
+        (out.1.map Nat.succ, out.2+1)
+      else (some 0, 1)) xs) Q H
+
+theorem rational_violation_search_none_iff (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) :
+    (rationalViolationSearch M r δ Q H xs).1 = none ↔
+      (rationalPrefixScan M r δ Q H xs).1 = true := by
+  induction xs generalizing Q H with
+  | nil =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp [rationalViolationSearch, rationalPrefixScan, hc]
+    · simp [rationalViolationSearch, rationalPrefixScan, hc]
+  | cons a xs ih =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp only [rationalViolationSearch, rationalPrefixScan, ite_eq_left hc]
+      exact Option.map_eq_none_iff.trans (ih (Q+a.1) (H+a.2))
+    · simp [rationalViolationSearch, rationalPrefixScan, hc]
+
+theorem rational_violation_search_count (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) :
+    (rationalViolationSearch M r δ Q H xs).2 =
+      (rationalPrefixScan M r δ Q H xs).2 := by
+  induction xs generalizing Q H with
+  | nil => simp [rationalViolationSearch, rationalPrefixScan]
+  | cons a xs ih =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp only [rationalViolationSearch, rationalPrefixScan, ite_eq_left hc]
+      exact congrArg (fun n : ℕ => n+1) (ih (Q+a.1) (H+a.2))
+    · simp [rationalViolationSearch, rationalPrefixScan, hc]
+
+theorem rational_violation_search_comparisons (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) :
+    (rationalViolationSearch M r δ Q H xs).2 ≤ xs.length+1 := by
+  rw [rational_violation_search_count]
+  exact rational_prefix_scan_comparisons M r δ Q H xs
+
+theorem rational_violation_search_some_sound (M r δ Q H : ℚ) (xs : List (ℚ × ℚ))
+    (l : ℕ) (hout : (rationalViolationSearch M r δ Q H xs).1 = some l) :
+    l ≤ xs.length ∧
+      δ < H+((xs.take l).map Prod.snd).sum-
+        M*(Q+((xs.take l).map Prod.fst).sum)*
+          (r-(Q+((xs.take l).map Prod.fst).sum)) := by
+  induction xs generalizing Q H l with
+  | nil =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp only [rationalViolationSearch, ite_eq_left hc] at hout
+      cases hout
+    · simp only [rationalViolationSearch, ite_eq_right hc] at hout
+      have hl : 0 = l := Option.some.inj hout
+      subst l
+      exact ⟨Nat.zero_le _, by simpa using lt_of_not_ge hc⟩
+  | cons a xs ih =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp only [rationalViolationSearch, ite_eq_left hc] at hout
+      obtain ⟨j,hj,hjl⟩ := Option.map_eq_some_iff.mp hout
+      obtain ⟨hbound,hbad⟩ := ih (Q+a.1) (H+a.2) j hj
+      subst l
+      refine ⟨by simpa using Nat.succ_le_succ hbound, ?_⟩
+      simpa only [List.take_succ_cons, List.map_cons, List.sum_cons, add_assoc] using hbad
+    · simp only [rationalViolationSearch, ite_eq_right hc] at hout
+      have hl : 0 = l := Option.some.inj hout
+      subst l
+      exact ⟨Nat.zero_le _, by simpa using lt_of_not_ge hc⟩
+
+theorem rational_violation_search_none_iff_prefixes (M r δ Q H : ℚ)
+    (xs : List (ℚ × ℚ)) :
+    (rationalViolationSearch M r δ Q H xs).1 = none ↔
+      ∀ l : ℕ, l ≤ xs.length →
+        H+((xs.take l).map Prod.snd).sum-
+          M*(Q+((xs.take l).map Prod.fst).sum)*
+            (r-(Q+((xs.take l).map Prod.fst).sum)) ≤ δ :=
+  (rational_violation_search_none_iff M r δ Q H xs).trans
+    (rational_prefix_scan_complete M r δ Q H xs)
+
+end SparseCompletion
+
+/- Fixed source body: RationalViolationPayload.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The executable payload uses one cached sorted table. The counter excludes
+finite-set construction, arithmetic, indexing, bit operations and runtime. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalSortedViolation {m : ℕ} (M r δ : ℚ) (q f : Fin m → ℚ) :
+    Option (Finset (Fin m)) × ℕ :=
+  let sorted := rationalLabelSort f
+  let scan := rationalViolationSearch M r δ 0 0
+    (sorted.1.map (fun a => (q a.1, q a.1*a.2)))
+  (scan.1.map (fun l => ((sorted.1.take l).map Prod.fst).toFinset), sorted.2+scan.2)
+
+theorem rational_nodup_toFinset_sum {α β : Type*} [DecidableEq α]
+    [AddCommMonoid β] (xs : List α) (hn : xs.Nodup) (g : α → β) :
+    (∑ i ∈ xs.toFinset, g i) = (xs.map g).sum := by
+  induction xs with
+  | nil => simp
+  | cons a xs ih =>
+    obtain ⟨ha, ht⟩ := List.nodup_cons.mp hn
+    simp [ha, ih ht]
+
+theorem rational_sorted_prefix_sum {m : ℕ} (f : Fin m → ℚ) (l : ℕ)
+    (g : Fin m → ℚ) :
+    (∑ i ∈ (((rationalLabelSort f).1.take l).map Prod.fst).toFinset, g i) =
+      (((rationalLabelSort f).1.take l).map (fun a => g a.1)).sum := by
+  have hn : (((rationalLabelSort f).1.take l).map Prod.fst).Nodup := by
+    rw [List.map_take]
+    exact (rational_label_sort_nodup f).take
+  rw [rational_nodup_toFinset_sum _ hn]
+  simp only [List.map_map, Function.comp_def]
+
+theorem rational_sorted_violation_none_iff_check {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedViolation M r δ q f).1 = none ↔
+      (rationalSortedCutCheck M r δ q f).1 = true := by
+  change Option.map _ _ = none ↔ _
+  rw [Option.map_eq_none_iff]
+  exact rational_violation_search_none_iff M r δ 0 0 _
+
+theorem rational_sorted_violation_count {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedViolation M r δ q f).2 =
+      (rationalSortedCutCheck M r δ q f).2 := by
+  change (rationalLabelSort f).2+_ = (rationalLabelSort f).2+_
+  rw [rational_violation_search_count]
+
+theorem rational_sorted_violation_comparisons {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedViolation M r δ q f).2 ≤ m*(Nat.log2 m+2)+1 := by
+  rw [rational_sorted_violation_count]
+  exact rational_sorted_cut_check_comparisons M r δ q f
+
+theorem rational_sorted_violation_none_iff_cuts {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) :
+    (rationalSortedViolation M r δ q f).1 = none ↔
+      ∀ S : Finset (Fin m),
+        (∑ i ∈ S, (q i : ℝ)*(f i : ℝ))-
+          (M : ℝ)*mass S (fun i => (q i : ℝ))*
+            ((r : ℝ)-mass S (fun i => (q i : ℝ))) ≤ (δ : ℝ) :=
+  (rational_sorted_violation_none_iff_check M r δ q f).trans
+    (rational_sorted_cut_check_iff M r δ q f hM hq)
+
+theorem rational_sorted_violation_some_sound {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) (S : Finset (Fin m))
+    (hout : (rationalSortedViolation M r δ q f).1 = some S) :
+    (δ : ℝ) < (∑ i ∈ S, (q i : ℝ)*(f i : ℝ))-
+      (M : ℝ)*mass S (fun i => (q i : ℝ))*
+        ((r : ℝ)-mass S (fun i => (q i : ℝ))) := by
+  change Option.map _ _ = some S at hout
+  obtain ⟨l, hl, hS⟩ := Option.map_eq_some_iff.mp hout
+  obtain ⟨_, hbad⟩ := rational_violation_search_some_sound M r δ 0 0
+    ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2))) l hl
+  simp only [← List.map_take, List.map_map, Function.comp_def, zero_add] at hbad
+  have hm : (((rationalLabelSort f).1.take l).map (fun a => q a.1*a.2)) =
+      (((rationalLabelSort f).1.take l).map (fun a => q a.1*f a.1)) := by
+    apply List.map_congr_left
+    intro a ha
+    rw [rational_label_sort_stored_score f a (List.mem_of_mem_take ha)]
+  rw [hm, ← rational_sorted_prefix_sum f l (fun i => q i*f i),
+    ← rational_sorted_prefix_sum f l q] at hbad
+  rw [hS] at hbad
+  dsimp only [mass]
+  exact_mod_cast hbad
+
+end SparseCompletion
+
+/- Fixed source body: RationalPrefixArithmetic.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source-level rational arithmetic ledger for the cached prefix scan. Each test
+uses two multiplications and two subtractions; an advancing step additionally
+uses two additions. Operand sizes, normalization, allocation, getters, sorting
+and moment preprocessing are outside this ledger. No bit/runtime bound. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalPrefixArithmetic (M r δ Q H : ℚ) (xs : List (ℚ × ℚ)) :
+    Bool × ℕ × ℕ :=
+  (List.rec (motive := fun _ => ℚ → ℚ → Bool × ℕ × ℕ)
+    (fun Q H => (decide (H-M*Q*(r-Q) ≤ δ), 1, 4))
+    (fun a _ tail Q H =>
+      if H-M*Q*(r-Q) ≤ δ then
+        let out := tail (Q+a.1) (H+a.2)
+        (out.1, out.2.1+1, out.2.2+6)
+      else (false, 1, 4)) xs) Q H
+
+theorem rational_prefix_arithmetic_projection (M r δ Q H : ℚ)
+    (xs : List (ℚ × ℚ)) :
+    ((rationalPrefixArithmetic M r δ Q H xs).1,
+      (rationalPrefixArithmetic M r δ Q H xs).2.1) =
+      rationalPrefixScan M r δ Q H xs := by
+  induction xs generalizing Q H with
+  | nil => rfl
+  | cons a xs ih =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simpa only [rationalPrefixArithmetic, rationalPrefixScan, ite_eq_left hc]
+        using congrArg (fun out : Bool × ℕ => (out.1,out.2+1)) (ih (Q+a.1) (H+a.2))
+    · simp [rationalPrefixArithmetic, rationalPrefixScan, hc]
+
+theorem rational_prefix_arithmetic_ledger (M r δ Q H : ℚ)
+    (xs : List (ℚ × ℚ)) :
+    (rationalPrefixArithmetic M r δ Q H xs).2.2+2 =
+      6*(rationalPrefixArithmetic M r δ Q H xs).2.1 := by
+  induction xs generalizing Q H with
+  | nil => rfl
+  | cons a xs ih =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp only [rationalPrefixArithmetic, ite_eq_left hc]
+      have hh := ih (Q+a.1) (H+a.2)
+      simp only [rationalPrefixArithmetic] at hh
+      omega
+    · simp [rationalPrefixArithmetic, hc]
+
+theorem rational_prefix_arithmetic_operations (M r δ Q H : ℚ)
+    (xs : List (ℚ × ℚ)) :
+    (rationalPrefixArithmetic M r δ Q H xs).2.2 ≤ 6*xs.length+4 := by
+  induction xs generalizing Q H with
+  | nil => simp [rationalPrefixArithmetic]
+  | cons a xs ih =>
+    by_cases hc : H-M*Q*(r-Q) ≤ δ
+    · simp only [rationalPrefixArithmetic, ite_eq_left hc, List.length_cons]
+      have hh := ih (Q+a.1) (H+a.2)
+      simp only [rationalPrefixArithmetic] at hh
+      omega
+    · simp only [rationalPrefixArithmetic, ite_eq_right hc, List.length_cons]
+      omega
+
+theorem rational_prefix_arithmetic_comparisons (M r δ Q H : ℚ)
+    (xs : List (ℚ × ℚ)) :
+    (rationalPrefixArithmetic M r δ Q H xs).2.1 ≤ xs.length+1 := by
+  have hh := congrArg Prod.snd (rational_prefix_arithmetic_projection M r δ Q H xs)
+  change (rationalPrefixArithmetic M r δ Q H xs).2.1 =
+    (rationalPrefixScan M r δ Q H xs).2 at hh
+  rw [hh]
+  exact rational_prefix_scan_comparisons M r δ Q H xs
+
+end SparseCompletion
+
+/- Fixed source body: RationalSortedArithmetic.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual sorted cut program with comparison and source rational arithmetic ledgers.
+The supplied score function is materialized by the existing label sort; the
+score/getter computation, rational normalization, bit sizes and allocation are
+outside this ledger. The arithmetic charge includes one weighted-score product
+per materialized table entry and the intrinsic cached scan's operations. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalSortedArithmetic {m : ℕ} (M r δ : ℚ) (q f : Fin m → ℚ) :
+    Bool × ℕ × ℕ :=
+  let sorted := rationalLabelSort f
+  let scan := rationalPrefixArithmetic M r δ 0 0
+    (sorted.1.map (fun a => (q a.1,q a.1*a.2)))
+  (scan.1,sorted.2+scan.2.1,sorted.1.length+scan.2.2)
+
+theorem rational_sorted_arithmetic_projection {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    ((rationalSortedArithmetic M r δ q f).1,
+      (rationalSortedArithmetic M r δ q f).2.1) =
+      rationalSortedCutCheck M r δ q f := by
+  have hh := rational_prefix_arithmetic_projection M r δ 0 0
+    ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2)))
+  exact congrArg (fun out : Bool × ℕ =>
+    (out.1,(rationalLabelSort f).2+out.2)) hh
+
+theorem rational_sorted_arithmetic_comparisons {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedArithmetic M r δ q f).2.1 ≤ m*(Nat.log2 m+2)+1 := by
+  have hh := congrArg Prod.snd (rational_sorted_arithmetic_projection M r δ q f)
+  change (rationalSortedArithmetic M r δ q f).2.1 =
+    (rationalSortedCutCheck M r δ q f).2 at hh
+  rw [hh]
+  exact rational_sorted_cut_check_comparisons M r δ q f
+
+theorem rational_sorted_arithmetic_operations {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedArithmetic M r δ q f).2.2 ≤ 7*m+4 := by
+  have hh := rational_prefix_arithmetic_operations M r δ 0 0
+    ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2)))
+  simp only [List.length_map,rational_label_sort_length] at hh
+  change (rationalLabelSort f).1.length +
+    (rationalPrefixArithmetic M r δ 0 0
+      ((rationalLabelSort f).1.map (fun a => (q a.1,q a.1*a.2)))).2.2 ≤ _
+  rw [rational_label_sort_length]
+  omega
+
+theorem rational_sorted_arithmetic_combined {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalSortedArithmetic M r δ q f).2.1+
+      (rationalSortedArithmetic M r δ q f).2.2 ≤ m*(Nat.log2 m+9)+5 := by
+  have hc := rational_sorted_arithmetic_comparisons M r δ q f
+  have ha := rational_sorted_arithmetic_operations M r δ q f
+  calc
+    _ ≤ (m*(Nat.log2 m+2)+1)+(7*m+4) := Nat.add_le_add hc ha
+    _ = _ := by simp only [Nat.mul_add]; omega
+
+end SparseCompletion
+
+/- Fixed source body: RationalNodupCutPayload.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Construct the returned original-label Finset directly from its proved Nodup
+prefix. Its data path uses take/map and the Finset constructor, without dedup.
+No allocation, machine or bit-cost theorem is asserted. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalNodupPrefixLabels {m : ℕ} (xs : List (Fin m × ℚ))
+    (hn : (xs.map Prod.fst).Nodup) (l : ℕ) : Finset (Fin m) :=
+  ⟨((xs.take l).map Prod.fst : Multiset (Fin m)), by
+    rw [Multiset.coe_nodup,List.map_take]
+    exact hn.take⟩
+
+theorem rational_nodup_prefix_labels_data {m : ℕ} (xs : List (Fin m × ℚ))
+    (hn : (xs.map Prod.fst).Nodup) (l : ℕ) :
+    (rationalNodupPrefixLabels xs hn l).val =
+      ((xs.take l).map Prod.fst : Multiset (Fin m)) := rfl
+
+theorem rational_nodup_prefix_labels_eq {m : ℕ} (xs : List (Fin m × ℚ))
+    (hn : (xs.map Prod.fst).Nodup) (l : ℕ) :
+    rationalNodupPrefixLabels xs hn l = ((xs.take l).map Prod.fst).toFinset := by
+  apply List.toFinset_eq
+
+def rationalNodupSortedViolation {m : ℕ} (M r δ : ℚ) (q f : Fin m → ℚ) :
+    Option (Finset (Fin m)) × ℕ :=
+  let sorted := rationalLabelSort f
+  let scan := rationalViolationSearch M r δ 0 0
+    (sorted.1.map (fun a => (q a.1,q a.1*a.2)))
+  (scan.1.map (fun l => rationalNodupPrefixLabels sorted.1
+    (rational_label_sort_nodup f) l), sorted.2+scan.2)
+
+theorem rational_nodup_sorted_violation_eq {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    rationalNodupSortedViolation M r δ q f = rationalSortedViolation M r δ q f := by
+  have hh : (fun l => rationalNodupPrefixLabels (rationalLabelSort f).1
+      (rational_label_sort_nodup f) l) =
+      (fun l => (((rationalLabelSort f).1.take l).map Prod.fst).toFinset) := by
+    funext l
+    exact rational_nodup_prefix_labels_eq _ _ l
+  simp only [rationalNodupSortedViolation,rationalSortedViolation]
+  rw [hh]
+
+theorem rational_nodup_sorted_violation_none_iff {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) :
+    (rationalNodupSortedViolation M r δ q f).1 = none ↔
+      ∀ S : Finset (Fin m),
+        (∑ i ∈ S, (q i : ℝ)*(f i : ℝ))-
+          (M : ℝ)*mass S (fun i => (q i : ℝ))*
+            ((r : ℝ)-mass S (fun i => (q i : ℝ))) ≤ (δ : ℝ) := by
+  rw [rational_nodup_sorted_violation_eq]
+  exact rational_sorted_violation_none_iff_cuts M r δ q f hM hq
+
+theorem rational_nodup_sorted_violation_some_sound {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) (S : Finset (Fin m))
+    (hout : (rationalNodupSortedViolation M r δ q f).1 = some S) :
+    (δ : ℝ) < (∑ i ∈ S, (q i : ℝ)*(f i : ℝ))-
+      (M : ℝ)*mass S (fun i => (q i : ℝ))*
+        ((r : ℝ)-mass S (fun i => (q i : ℝ))) := by
+  rw [rational_nodup_sorted_violation_eq] at hout
+  exact rational_sorted_violation_some_sound M r δ q f S hout
+
+theorem rational_nodup_sorted_violation_comparisons {m : ℕ}
+    (M r δ : ℚ) (q f : Fin m → ℚ) :
+    (rationalNodupSortedViolation M r δ q f).2 ≤ m*(Nat.log2 m+2)+1 := by
+  rw [rational_nodup_sorted_violation_eq]
+  exact rational_sorted_violation_comparisons M r δ q f
+
+end SparseCompletion
+
+/- Fixed source body: RationalDenominatorGrowth.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+A denominator-only encoding foundation for cached rational prefix sums.
+This does not bound numerators or prove any primitive/solver bit complexity. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalDenominatorProduct (xs : List ℚ) : ℕ :=
+  xs.foldr (fun a n => Nat.mul a.den n) 1
+
+theorem rational_denominator_product_positive (xs : List ℚ) :
+    0 < rationalDenominatorProduct xs := by
+  induction xs with
+  | nil => exact Nat.zero_lt_one
+  | cons a xs ih =>
+    change 0 < Nat.mul a.den (rationalDenominatorProduct xs)
+    exact Nat.mul_pos (Rat.den_pos a) ih
+
+theorem rational_sum_denominator_divides (xs : List ℚ) :
+    xs.sum.den ∣ rationalDenominatorProduct xs := by
+  induction xs with
+  | nil => simp [rationalDenominatorProduct]
+  | cons a xs ih =>
+    change (a+xs.sum).den ∣ Nat.mul a.den (rationalDenominatorProduct xs)
+    exact (Rat.add_den_dvd a xs.sum).trans (Nat.mul_dvd_mul_left a.den ih)
+
+theorem rational_sum_denominator_le_product (xs : List ℚ) :
+    xs.sum.den ≤ rationalDenominatorProduct xs :=
+  Nat.le_of_dvd (rational_denominator_product_positive xs)
+    (rational_sum_denominator_divides xs)
+
+theorem rational_denominator_product_power (xs : List ℚ) (D : ℕ)
+    (hb : ∀ a ∈ xs, a.den ≤ D) :
+    rationalDenominatorProduct xs ≤ Nat.pow D xs.length := by
+  induction xs generalizing D with
+  | nil => exact Nat.le_refl 1
+  | cons a xs ih =>
+    have ha := hb a List.mem_cons_self
+    have ht := ih D (fun b h => hb b (List.mem_cons_of_mem a h))
+    change Nat.mul a.den (rationalDenominatorProduct xs) ≤ Nat.pow D (xs.length+1)
+    have hp : Nat.pow D (xs.length+1) = Nat.pow D xs.length*D := rfl
+    rw [hp]
+    exact (Nat.mul_le_mul ha ht).trans_eq (Nat.mul_comm _ _)
+
+theorem rational_sum_denominator_power (xs : List ℚ) (D : ℕ)
+    (hb : ∀ a ∈ xs, a.den ≤ D) :
+    xs.sum.den ≤ Nat.pow D xs.length :=
+  (rational_sum_denominator_le_product xs).trans
+    (rational_denominator_product_power xs D hb)
+
+
+theorem rational_sum_denominator_binary_bound (xs : List ℚ) (B : ℕ)
+    (hb : ∀ a ∈ xs, a.den ≤ Nat.pow 2 B) :
+    xs.sum.den ≤ Nat.pow 2 (B*xs.length) := by
+  have hh := rational_sum_denominator_power xs (Nat.pow 2 B) hb
+  have hp : Nat.pow 2 (B*xs.length) = Nat.pow (Nat.pow 2 B) xs.length :=
+    Nat.pow_mul 2 B xs.length
+  exact hh.trans_eq hp.symm
+
+
+theorem rational_sum_denominator_bits (xs : List ℚ) (B : ℕ)
+    (hb : ∀ a ∈ xs, a.den ≤ Nat.pow 2 B) :
+    Nat.log2 xs.sum.den+1 ≤ B*xs.length+1 := by
+  have hd : xs.sum.den ≠ 0 := (Rat.den_pos xs.sum).ne'
+  have hp : Nat.pow 2 (B*xs.length) < Nat.pow 2 (B*xs.length+1) :=
+    Nat.pow_lt_pow_succ Nat.one_lt_two
+  have hl : xs.sum.den < Nat.pow 2 (B*xs.length+1) :=
+    (rational_sum_denominator_binary_bound xs B hb).trans_lt hp
+  have hh : Nat.log2 xs.sum.den < B*xs.length+1 := (Nat.log2_lt hd).mpr hl
+  omega
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalExactGuards.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate exact composition: all candidate linear/core/global guards are tested.
+The sorted quadratic checker is exact; this is not the eta-grid relaxation. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalIntervalExactGuards {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) ∧
+  (∀ a, (∑ b, K a b*p b)-(∑ i, V i a) ≤ ε) ∧
+  (∀ a b, K a b= -K b a) ∧
+  (∀ a b, coreLo a b ≤ K a b ∧ K a b ≤ coreHi a b) ∧
+  (∀ i, rationalScore lo p i ≤ ε+M*r)
+
+instance rationalIntervalExactGuardsDecidable {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) :
+    Decidable (RationalIntervalExactGuards lo hi V coreLo coreHi K p q M r ε) := by
+  unfold RationalIntervalExactGuards
+  infer_instance
+
+def rationalIntervalExactCheck {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) : Bool :=
+  decide (RationalIntervalExactGuards lo hi V coreLo coreHi K p q M r ε) &&
+    (rationalIntervalCutCheck M r ε p q V).1
+
+theorem rational_interval_exact_check_iff {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M) :
+    rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε = true ↔
+      intervalPerspectiveSystem
+        (fun i a => (lo i a : ℝ)) (fun i a => (hi i a : ℝ))
+        (fun a b => (coreLo a b : ℝ)) (fun a b => (coreHi a b : ℝ))
+        (fun a => (p a : ℝ)) (M : ℝ) (r : ℝ) (ε : ℝ)
+        ((fun i => (q i : ℝ)),(fun i a => (V i a : ℝ)),(fun a b => (K a b : ℝ))) := by
+  rw [rationalIntervalExactCheck, Bool.and_eq_true, decide_eq_true_eq]
+  constructor
+  · rintro ⟨hg,hcheck⟩
+    rcases hg with ⟨hq,hr,hV,ha,hK,hC,hguard⟩
+    have hc := (rational_interval_cut_check_iff M r ε lo hi V p q hM hq hV).mp hcheck
+    dsimp only [intervalPerspectiveSystem, IsSkew]
+    refine ⟨?_,?_,?_,?_,?_,?_,?_,hc⟩
+    · intro i; exact_mod_cast hq i
+    · exact_mod_cast hr
+    · intro i a
+      constructor
+      · exact_mod_cast (hV i a).1
+      · exact_mod_cast (hV i a).2
+    · intro a; exact_mod_cast ha a
+    · intro a b; exact_mod_cast hK a b
+    · intro a b
+      constructor
+      · exact_mod_cast (hC a b).1
+      · exact_mod_cast (hC a b).2
+    · intro i
+      change (∑ a, (lo i a : ℝ)*(p a : ℝ)) ≤ (ε : ℝ)+(M : ℝ)*(r : ℝ)
+      have hg' := hguard i
+      unfold rationalScore at hg'
+      exact_mod_cast hg'
+  · rintro ⟨hq,hr,hV,ha,hK,hC,hguard,hcuts⟩
+    dsimp only [IsSkew] at hq hr hV ha hK hC hguard hcuts
+    have hqr : ∀ i, 0 ≤ q i := by intro i; exact_mod_cast hq i
+    have hVr : ∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i := by
+      intro i a
+      constructor
+      · exact_mod_cast (hV i a).1
+      · exact_mod_cast (hV i a).2
+    refine ⟨⟨hqr,?_,hVr,?_,?_,?_,?_⟩,
+      (rational_interval_cut_check_iff M r ε lo hi V p q hM hqr hVr).mpr hcuts⟩
+    · exact_mod_cast hr
+    · intro a; exact_mod_cast ha a
+    · intro a b; exact_mod_cast hK a b
+    · intro a b
+      constructor
+      · exact_mod_cast (hC a b).1
+      · exact_mod_cast (hC a b).2
+    · intro i
+      unfold rationalScore
+      have hg' := hguard i
+      change (∑ a, (lo i a : ℝ)*(p a : ℝ)) ≤ (ε : ℝ)+(M : ℝ)*(r : ℝ) at hg'
+      exact_mod_cast hg'
+
+theorem rational_interval_exact_check_full_game {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 < M) (hp : ∀ a, 0 ≤ p a) (hpmass : (∑ a, p a)+r=1)
+    (hclo : ∀ a b, -M ≤ coreLo a b) (hchi : ∀ a b, coreHi a b ≤ M)
+    (hlo : ∀ i a, -M ≤ lo i a) (hhi : ∀ i a, hi i a ≤ M)
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hc : rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε = true) :
+    ∃ (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ),
+      (∀ i a, (lo i a : ℝ) ≤ D i a ∧ D i a ≤ (hi i a : ℝ)) ∧
+      (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) D B) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) D B a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) D B a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) D B)
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ε : ℝ) := by
+  have hs := (rational_interval_exact_check_iff lo hi V coreLo coreHi K p q M r ε (le_of_lt hM)).mp hc
+  rcases hs with ⟨hq,hr,hV,ha,hK,hC,hg,hcuts⟩
+  dsimp only [IsSkew] at hq hr hV ha hK hC hg hcuts
+  have hMr : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hpr : ∀ a, (0 : ℝ) ≤ (p a : ℝ) := by intro a; exact_mod_cast hp a
+  have hpm : (∑ a, (p a : ℝ))+(r : ℝ)=1 := by exact_mod_cast hpmass
+  have hKb : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    have hl : -(M : ℝ) ≤ (coreLo a b : ℝ) := by exact_mod_cast hclo a b
+    have hu : (coreHi a b : ℝ) ≤ (M : ℝ) := by exact_mod_cast hchi a b
+    exact ⟨hl.trans (hC a b).1,(hC a b).2.trans hu⟩
+  exact (normalized_interval_perspective_iff _ _ _ _ _ _ _ _ hMr hpr hq hr hpm hK hKb
+    (by intro i a; exact_mod_cast hlo i a)
+    (by intro i a; exact_mod_cast hhi i a)
+    (by intro i a; exact_mod_cast hlu i a)).mpr ⟨(fun i a => (V i a : ℝ)),hV,ha,hg,hcuts⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalExactReconstruction.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Exact candidate reconstruction uses the actual rational
+residual LP at epsilon, without an eta-grid or extra reconstruction slack.
+Failure does not classify the whole physical class: another V may work. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+
+/-- The singleton-cut cap also holds at zero payoff bound. -/
+theorem supported_score_cap_of_nonnegative {ι : Type*} [Fintype ι]
+    (q v : ι → ℝ) (M r : ℝ) (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i)
+    (hc : Cuts M r q v) : ∀ i, q i ≠ 0 → v i ≤ M*r := by
+  classical
+  intro i hi
+  have hqi : 0 < q i := lt_of_le_of_ne (hq i) hi.symm
+  have hcut := hc {i}
+  simp only [Finset.sum_singleton,mass] at hcut
+  have hsq := mul_nonneg hM (sq_nonneg (q i))
+  by_contra hv
+  have hprod := mul_pos hqi (sub_pos.mpr (lt_of_not_ge hv))
+  nlinarith
+
+def rationalIntervalExactReconstruction {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) :
+    Option ((Fin m → Fin k → ℚ) × (Fin m → Fin m → ℚ)) :=
+  if rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε then
+    (rationalResidualCompletion q (rationalScore (rationalIntervalRecover lo V q) p) M ε).map
+      (Prod.mk (rationalIntervalRecover lo V q))
+  else none
+
+theorem rational_interval_exact_reconstruction_origin {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ)
+    (out : (Fin m → Fin k → ℚ) × (Fin m → Fin m → ℚ))
+    (ho : rationalIntervalExactReconstruction lo hi V coreLo coreHi K p q M r ε = some out) :
+    rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε = true ∧
+      out.1 = rationalIntervalRecover lo V q ∧
+      rationalResidualCompletion q (rationalScore (rationalIntervalRecover lo V q) p) M ε = some out.2 := by
+  unfold rationalIntervalExactReconstruction at ho
+  split at ho
+  · rename_i hc
+    obtain ⟨B,hB,he⟩ := Option.map_eq_some_iff.mp ho
+    subst out
+    exact ⟨hc,rfl,hB⟩
+  · cases ho
+
+theorem rational_interval_exact_residual_exists {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M)
+    (hc : rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε = true) :
+    ∃ B, ResidualRealConditions q (rationalScore (rationalIntervalRecover lo V q) p) M ε B := by
+  have hs := (rational_interval_exact_check_iff lo hi V coreLo coreHi K p q M r ε hM).mp hc
+  rcases hs with ⟨hq,hr,hV,_,_,_,hg,hcuts⟩
+  have hguard : RationalIntervalExactGuards lo hi V coreLo coreHi K p q M r ε := by
+    have hh := hc
+    unfold rationalIntervalExactCheck at hh
+    rw [Bool.and_eq_true] at hh
+    exact of_decide_eq_true hh.1
+  have hVq := hguard.2.2.1
+  have hprod := rational_interval_recovered_product lo hi V q hVq
+  let D := rationalIntervalRecover lo V q
+  have hprodR : ∀ i a, (q i : ℝ)*(D i a : ℝ) = (V i a : ℝ) := by
+    intro i a
+    exact_mod_cast hprod i a
+  have hH : ∀ i, (q i : ℝ)*score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i =
+      intervalMomentScore (fun a => (p a : ℝ)) (fun i a => (V i a : ℝ)) i := by
+    intro i
+    unfold score intervalMomentScore
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro a _
+    calc
+      _ = (p a : ℝ)*((q i : ℝ)*(D i a : ℝ)) := by ring
+      _ = _ := by rw [hprodR i a]
+  have hcut := (perspective_cuts_iff (fun i => (q i : ℝ))
+    (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)))
+    (intervalMomentScore (fun a => (p a : ℝ)) (fun i a => (V i a : ℝ)))
+    (M : ℝ) (r : ℝ) (ε : ℝ) hH).mpr hcuts
+  have hMr : (0 : ℝ) ≤ (M : ℝ) := by exact_mod_cast hM
+  have hgD : ∀ i, score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i ≤
+      (ε : ℝ)+(M : ℝ)*(r : ℝ) := by
+    intro i
+    by_cases hz : q i=0
+    · simpa only [score,D,rationalIntervalRecover,hz,ite_true] using hg i
+    · have hn : (q i : ℝ) ≠ 0 := by exact_mod_cast hz
+      have hh := supported_score_cap_of_nonnegative (fun i => (q i : ℝ))
+        (fun i => score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-(ε : ℝ))
+        (M : ℝ) (r : ℝ) hMr hq hcut i hn
+      linarith
+  obtain ⟨B,hB,hb,hrows⟩ :=
+    (weighted_completion_iff (fun i => (q i : ℝ))
+      (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)))
+      (M : ℝ) (r : ℝ) (ε : ℝ) hMr hq hr).mpr ⟨hgD,hcut⟩
+  refine ⟨B,hB,hb,?_⟩
+  intro i
+  simpa only [response,rational_score_real] using hrows i
+
+theorem rational_interval_exact_reconstruction_complete {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M)
+    (hc : rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε = true) :
+    ∃ out, rationalIntervalExactReconstruction lo hi V coreLo coreHi K p q M r ε = some out := by
+  obtain ⟨B,hB⟩ := rational_residual_completion_complete q
+    (rationalScore (rationalIntervalRecover lo V q) p) M ε
+    (rational_interval_exact_residual_exists lo hi V coreLo coreHi K p q M r ε hM hc)
+  refine ⟨(rationalIntervalRecover lo V q,B),?_⟩
+  simp only [rationalIntervalExactReconstruction,hc,ite_true,hB,Option.map_some]
+
+theorem rational_interval_exact_reconstruction_none_iff {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M) :
+    rationalIntervalExactReconstruction lo hi V coreLo coreHi K p q M r ε = none ↔
+      rationalIntervalExactCheck lo hi V coreLo coreHi K p q M r ε ≠ true := by
+  constructor
+  · intro hn hc
+    obtain ⟨out,ho⟩ := rational_interval_exact_reconstruction_complete
+      lo hi V coreLo coreHi K p q M r ε hM hc
+    rw [hn] at ho
+    cases ho
+  · intro hc
+    unfold rationalIntervalExactReconstruction
+    split
+    · rename_i hh
+      exact (hc hh).elim
+    · rfl
+
+theorem rational_interval_exact_reconstruction_sound {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ)
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (out : (Fin m → Fin k → ℚ) × (Fin m → Fin m → ℚ))
+    (ho : rationalIntervalExactReconstruction lo hi V coreLo coreHi K p q M r ε = some out) :
+    (∀ i a, q i*out.1 i a=V i a) ∧
+      (∀ i a, lo i a ≤ out.1 i a ∧ out.1 i a ≤ hi i a) ∧
+      ResidualRatConditions q (rationalScore out.1 p) M ε out.2 ∧
+      ∀ a, rationalAnchorResponse K out.1 p q a ≤ ε := by
+  obtain ⟨hc,hD,hB⟩ := rational_interval_exact_reconstruction_origin lo hi V coreLo coreHi K p q M r ε out ho
+  have hg : RationalIntervalExactGuards lo hi V coreLo coreHi K p q M r ε := by
+    have hh := hc
+    unfold rationalIntervalExactCheck at hh
+    rw [Bool.and_eq_true] at hh
+    exact of_decide_eq_true hh.1
+  rcases hg with ⟨hq,_,hV,ha,_,_,_⟩
+  have hprod := rational_interval_recovered_product lo hi V q hV
+  refine ⟨?_,?_,?_,?_⟩
+  · simpa only [hD] using hprod
+  · simpa only [hD] using rational_interval_recovered_bounds lo hi V q hq hlu hV
+  · rw [hD]
+    exact rational_residual_completion_rat_sound _ _ _ _ out.2 hB
+  · intro a
+    unfold rationalAnchorResponse
+    have he : (∑ i, out.1 i a*q i) = ∑ i, V i a := by
+      apply Finset.sum_congr rfl
+      intro i _
+      rw [mul_comm,hD,hprod i a]
+    rw [he]
+    exact ha a
+
+theorem rational_interval_exact_reconstruction_full_rows {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ)
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (out : (Fin m → Fin k → ℚ) × (Fin m → Fin m → ℚ))
+    (ho : rationalIntervalExactReconstruction lo hi V coreLo coreHi K p q M r ε = some out) :
+    ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (out.1 i a : ℝ)) (fun i j => (out.2 i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ε : ℝ) := by
+  obtain ⟨_,_,hB,ha⟩ := rational_interval_exact_reconstruction_sound
+    lo hi V coreLo coreHi K p q M r ε hlu out ho
+  have hBR := (residual_rat_real_iff q (rationalScore out.1 p) M ε out.2).mp hB
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    have hh : (rationalAnchorResponse K out.1 p q a : ℝ) ≤ (ε : ℝ) := by
+      exact_mod_cast ha a
+    rw [rational_anchor_response_real] at hh
+    exact hh
+  · intro i
+    simpa only [response,← rational_score_real] using hBR.2.2 i
+
+
+/-- Every returned rational table gives this normalized bounded original game. -/
+theorem rational_interval_exact_reconstruction_normalized_game {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (coreLo coreHi K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ε : ℚ)
+    (hp : ∀ a, 0 ≤ p a) (hpmass : (∑ a, p a)+r=1)
+    (hclo : ∀ a b, -M ≤ coreLo a b) (hchi : ∀ a b, coreHi a b ≤ M)
+    (hlo : ∀ i a, -M ≤ lo i a) (hhi : ∀ i a, hi i a ≤ M)
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (out : (Fin m → Fin k → ℚ) × (Fin m → Fin m → ℚ))
+    (ho : rationalIntervalExactReconstruction lo hi V coreLo coreHi K p q M r ε = some out) :
+    (∀ i a, q i*out.1 i a=V i a) ∧
+      (∀ i a, lo i a ≤ out.1 i a ∧ out.1 i a ≤ hi i a) ∧
+      (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ))
+        (fun i a => (out.1 i a : ℝ)) (fun i j => (out.2 i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ))
+        (fun i a => (out.1 i a : ℝ)) (fun i j => (out.2 i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ))
+          (fun i a => (out.1 i a : ℝ)) (fun i j => (out.2 i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+        (fun i a => (out.1 i a : ℝ)) (fun i j => (out.2 i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ε : ℝ) := by
+  obtain ⟨hc,_,_⟩ := rational_interval_exact_reconstruction_origin
+    lo hi V coreLo coreHi K p q M r ε out ho
+  have hg : RationalIntervalExactGuards lo hi V coreLo coreHi K p q M r ε := by
+    have hh := hc
+    unfold rationalIntervalExactCheck at hh
+    rw [Bool.and_eq_true] at hh
+    exact of_decide_eq_true hh.1
+  rcases hg with ⟨hq,hr,_,_,hK,hC,_⟩
+  obtain ⟨hprod,hD,hB,_⟩ := rational_interval_exact_reconstruction_sound
+    lo hi V coreLo coreHi K p q M r ε hlu out ho
+  have hBR := (residual_rat_real_iff q (rationalScore out.1 p) M ε out.2).mp hB
+  have hpR : ∀ a, (0 : ℝ) ≤ (p a : ℝ) := by intro a; exact_mod_cast hp a
+  have hqR : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := by intro i; exact_mod_cast hq i
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hKb : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    have hh : -M ≤ K a b ∧ K a b ≤ M :=
+      ⟨(hclo a b).trans (hC a b).1,(hC a b).2.trans (hchi a b)⟩
+    exact_mod_cast hh
+  have hDb : ∀ i a, -(M : ℝ) ≤ (out.1 i a : ℝ) ∧ (out.1 i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    have hh : -M ≤ out.1 i a ∧ out.1 i a ≤ M :=
+      ⟨(hlo i a).trans (hD i a).1,(hD i a).2.trans (hhi i a)⟩
+    exact_mod_cast hh
+  refine ⟨hprod,hD,blockWeights_nonneg _ _ hpR hqR,?_,
+    blockMatrix_skew _ _ _ hKR hBR.1,
+    blockMatrix_bounds _ _ _ _ hKb hDb hBR.2.1,
+    rational_interval_exact_reconstruction_full_rows lo hi V coreLo coreHi K p q M r ε hlu out ho⟩
+  rw [blockWeights_mass]
+  have hh : (∑ a, p a)+(∑ i, q i)=1 := by rw [hr]; exact hpmass
+  exact_mod_cast hh
 
 end SparseCompletion

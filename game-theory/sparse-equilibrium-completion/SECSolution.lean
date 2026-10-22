@@ -226,3 +226,11 @@ public import RationalSourceFloorAutomatic
 public import RationalSourceFloorClass
 public import RationalSourceFloorRows
 public import RationalSourceFloorCertified
+public import RationalViolationSearch
+public import RationalViolationPayload
+public import RationalPrefixArithmetic
+public import RationalSortedArithmetic
+public import RationalNodupCutPayload
+public import RationalDenominatorGrowth
+public import RationalIntervalExactGuards
+public import RationalIntervalExactReconstruction

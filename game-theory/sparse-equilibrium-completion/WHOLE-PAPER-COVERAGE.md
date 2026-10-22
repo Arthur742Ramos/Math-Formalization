@@ -9,7 +9,7 @@ actual functional programs and arithmetic/bit-cost assertions.
 The 71-proof tranche passed all12 native gates at predecessor
 f3c300572e22fb88de71183aee09ccc66785c3da, with a historical retained-source
 completeness qualification. The later878941b source corrected its Find/WF/Classical contexts and passed
-all12 native gates. The current59 additions also correct later list and finite-
+all12 native gates. The historical59 additions also correct later list and finite-
 equivalence recipe omissions and require their own exact-source evidence;
 predecessor checks do not certify altered source or whole-paper readiness. The no-grid zero-block result assumes
 positive residual mass; earlier separate results cover zero-mass branches.
@@ -34,7 +34,7 @@ positive residual mass; earlier separate results cover zero-mass branches.
 | `UNLABELED:uniform-total-support` — Uniform total-support law for two minimum shares (sections/rigidity.tex:267) | Actual attained total-support minimum, both commitment classes, origin=m+2 and constants sqrt(3/1216),5 for0<epsilon<=1. `uniformMinimumTotalSupport_sharp`, `uniformMinimumTotalSupport_zero`, `uniform_witness_total_support_card`. | This is the sole unlabeled theorem-like environment and must remain in the result count. |
 | `sp:cor:sharpk` — Sharp dependence on the number of anchors (sections/joint_support.tex:1) | Every exact-feasible normalized instance has the upper witness; actual mandatory-clone family forces source lower constant in both commitment classes for every k>=2. `joint_anchor_support_order_general`, `cloned_uniform_total_support_lower`, `normalized_joint_support_upper`. | The integrated43 tranche constructs actual attained minima and their attained worst-case operator; general-M payoff rescaling and actual finite clone family prove `worstCaseSupport_sharp_general`. Exact-source verification remains external to this source. |
 | `sp:thm:gap` — Linear programming gap decision (sections/algorithms.tex:4) | Actual rational LP decision, true Real-to-Q necessity/completeness, rejection excludes true compatible games, and actual rational q,B returned at rho+eta. `rational_gap_solve_none_excludes_real_completion`, `rational_gap_algorithm_sound`, `rational_gap_algorithm_complete`, `rational_gap_encoding_rows`. | Fourier–Motzkin may be exponential; no polynomial LP or flow claim. Executed H is Nat.sqrt(ceil(Mr/eta))+1, not literal source H. Extra trivial guard/normalization rows are counted honestly. |
-| `sp:cor:certificate` — Compact witness and direct verification (sections/algorithms.tex:30) | Committed compact certificate iff/full-game checker. Integrated71 adds actual finite tables, connected Rat-operation ledger, fixed/floor commitments, selected interval checks, storage and accepted-input rates. Committed `compact_block_certificate_iff`, `RationalCertificate.accepted_full_game`; integrated `rational_counted_certificate_full_game`, `rational_counted_interval_fixed_bound`, `rational_counted_interval_fixed_valid_rate`. | Integrated unit-Rat arithmetic model only, not machine/bit/runtime-parser or arbitrary-R cost. The integrated71 passed all12 native gates at f3c300572e22fb88de71183aee09ccc66785c3da. The later878 checkpoint passed all12 native gates after its Find/WF/Classical correction. The current59 source also corrects later list and finite-equivalence recipe findings and binds its verification separately. |
+| `sp:cor:certificate` — Compact witness and direct verification (sections/algorithms.tex:30) | Committed compact certificate iff/full-game checker. Integrated71 adds actual finite tables, connected Rat-operation ledger, fixed/floor commitments, selected interval checks, storage and accepted-input rates. Committed `compact_block_certificate_iff`, `RationalCertificate.accepted_full_game`; integrated `rational_counted_certificate_full_game`, `rational_counted_interval_fixed_bound`, `rational_counted_interval_fixed_valid_rate`. | Integrated unit-Rat arithmetic model only, not machine/bit/runtime-parser or arbitrary-R cost. The integrated71 passed all12 native gates at f3c300572e22fb88de71183aee09ccc66785c3da. The later878 checkpoint passed all12 native gates after its Find/WF/Classical correction. The later59 source corrected the list and finite-equivalence recipe findings and passed all12 native gates at836ab90 for its own bytes. |
 | `sp:cor:fixedapprox` — Fixed-anchor additive approximation (sections/algorithms.tex:49) | Actual attained gap optimum W and game optimum V, W<=V<=W+eta, executable rational decision/bisection and logarithmic round choice, actual game/value bracket. `gap_original_infimum_eq`, `fixed_anchor_additive_value_enclosure`, `rational_certified_approximation_sound`, `rational_log_rounds_width`. | Polynomial coefficient encoding, LP/flow operations and end-to-end bit-time remain open. Round count alone is not polynomial total cost. |
 | `sp:prop:interval` — Interval-anchor LP gap decision (sections/algorithms.tex:86) | Actual q,V,K,aux finite rational matrix and exact Q/Real equivalence; zero-q lower-endpoint recovery; actual normalized compatible returned game with one eta. `interval_gap_epigraph_iff`, `rational_interval_system_point`, `rational_interval_system_real_point`, `rational_interval_algorithm_full_game`. | Physical finite-linear R extension/value search is proved beyond source residual-only R. No arbitrary nonlinear R solver or efficient LP claim. |
 | `sp:cor:gridp` — Additive approximation for a fixed number of anchors (sections/algorithms.tex:111) | Actual global floor class with varying p,q; rounding/L1/grid count; actual enumeration and selection; accurate tau. Integrated general-floor wrapper now returns actual global rational interval(tau−epsilon,tau). `optimistic_allocation_grid_bounds`, `rational_grid_tuples_length`, `rational_floor_approximation_global`; integrated `rational_floor_certified_value`, `rational_floor_certified_none_iff`. | Source FPTAS polynomial cost is unproved. The new dense source-floor variant uses epsilon/(6Mk) for k>0 with an explicit k=0 branch and actual all-node count; the older sparse variant remains conservative. No slice L is asserted globally valid. |
@@ -153,14 +153,14 @@ Statistical coverage, time-uniform confidence guarantees, sample complexity, cau
 
 ## Readiness and attribution
 
-Whole-paper completion and submission readiness remain **false**. Predecessor f3c300572e22fb88de71183aee09ccc66785c3da passed all12 native gates, with the historical retained Nat.find/WF/Classical source-completeness qualification. The later878941b source corrected that inventory and passed all12 native gates for its general-M and attained worst-case results. The current59 additions also correct later list and finite-equivalence recipe findings and require separately bound exact-source evidence for both entrypoints, builds, axiom audits, protected comparison/negative controls, exports and kernels. Failed receipts remain failed; predecessor receipts certify only their own source.
+Whole-paper completion and submission readiness remain **false**. Predecessor f3c300572e22fb88de71183aee09ccc66785c3da passed all12 native gates, with the historical retained Nat.find/WF/Classical source-completeness qualification. The later878941b source corrected that inventory and passed all12 native gates for its general-M and attained worst-case results. The later59 source corrected those list and finite-equivalence recipe findings and passed all12 native gates at836ab90 for both entrypoints, builds, axiom audits, protected comparison/negative controls, exports and kernels. Failed receipts remain failed; predecessor receipts certify only their own source.
 
 The authenticated manuscript retains its anonymous-draft authorship statement. The user separately supplied Arthur/David/Ruy paper attribution, which remains distinct from unconfirmed human Lean authors/maintainers. No coauthor approval, external peer review or publication authorization is inferred. No submission or external publication action was taken.
 
 
 ## General payoff bounds and actual worst-case support
 
-The 43-proof follow-on adds payoff rescaling, general-M upper and hard-instance
+The historical43-proof follow-on added payoff rescaling, general-M upper and hard-instance
 lower bounds, and actual attained per-instance support minima and their attained
 worst-case maximum. For every k≥2, m>0, M>0 and 0<η≤M, in both fixed-anchor and
 minimum-anchor-share classes, the maximum of those minima lies between
@@ -190,11 +190,13 @@ remain evidence for their own source only.
 
 ## Executable rational cut checks and the source-scale allocation mesh
 
-The current follow-on adds59 proofs in17 mathematical modules:45 cover actual
+This section records predecessor836ab90. Later additions and resolved gaps are described below.
+
+The prior verified follow-on added59 proofs in17 mathematical modules:45 cover actual
 balanced sorting, original action labels, running-sum prefix scanning and raw
 or interval perspective cut checks;14 cover the allocation step proportional to
-`epsilon/(M*k)` and its actual dense floor-search output. The resulting package
-has263 mathematical modules,1012 source theorem axiom audits and902 selected
+`epsilon/(M*k)` and its actual dense floor-search output. That historical package
+had263 mathematical modules,1012 source theorem axiom audits and902 selected
 protected contracts. Independent internal AI mathematical reviews cover these
 additions; these are not human or external peer reviews. Only an immutable report for this candidate's complete source certifies the
 checks named in that report. Reports are stored outside the frozen package.
@@ -250,3 +252,51 @@ cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
 LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
 cover transport. Native macOS checks do not establish canonical Linux sandbox,
 rendering, release-role or editorial readiness. No submission is authorized.
+
+## Violating-cut payloads and exact candidate reconstruction
+
+The next local tranche adds43 genuine proofs in8 modules, giving271 mathematical
+modules,1055 source theorem audits and945 selected protected contracts. The
+actual rational prefix scan returns an original-label subset whose cut is
+strictly violated. Its None result agrees with the existing Boolean cut checker;
+all-cut completeness requires nonnegative M and weights. A second payload
+constructor uses the proved Nodup label list directly. Its executable data path
+uses take/map and the Finset constructor without dedup; its equality proof with
+the earlier List.toFinset program still imports the literal dedup semantics.
+This tranche does not yet wrap the payload in interval perspective coordinates
+or return affine separating coefficients.
+
+The same-program supplied-score arithmetic ledger counts additions,
+subtractions and multiplications as unit rational operations. It proves at most
+7*m+4 written arithmetic operations and m*(Nat.log2 m+2)+1 comparisons, with
+combined bound m*(Nat.log2 m+9)+5. It excludes score/getter formation, rational
+normalization, equality tests, allocation, traversal and machine/bit costs.
+Denominator products bound the reduced denominator of a rational list sum and
+its binary length. Numerator growth, primitive arithmetic bit cost and complete
+algorithm runtime remain unproved.
+
+rationalIntervalExactCheck computes all finite linear perspective, anchor,
+core-skew/core-interval and global lower-score guards, including every zero-mass
+row, and the sorted quadratic cut check. For M>=0 it is equivalent to the exact
+cast intervalPerspectiveSystem. An optional arbitrary physical repertoire R is
+not wired into this base checker. The full-game existence wrapper retains M>0 and
+explicit normalization, anchor nonnegativity and physical interval bounds.
+rationalIntervalExactReconstruction returns actual rational cross and residual
+payoff tables using the existing genuine rational residual LP at epsilon.
+Its completeness holds for M>=0, including M=0; soundness gives the original
+bounded normalized skew game under the stated physical premises and all rows
+at epsilon without hidden eta slack. None rejects this particular candidate
+(q,V,K), not the entire physical class. The residual LP is Fourier--Motzkin:
+its correctness is proved, but no polynomial running-time bound is claimed.
+
+The43-source narrow check passed strict compilation,43 axiom reports (including
+two axiom-free proofs) and36 executable controls. Internal independent AI review
+covers the mathematics, proof repairs and receipt authentication. These narrow
+checks are not a clean exact-commit whole-package verification. All completed
+mechanical gates for the integrated candidate are bound by immutable evidence
+outside the frozen source; predecessor836ab90 passed all12 native gates for its
+own bytes. Whole-paper and submission readiness remain false. Still open are
+perspective violating-cut output and affine separation, complete arithmetic/bit
+costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection
+and executable arbitrary-cover transport. Native macOS checks do not establish
+canonical Linux, rendering or editorial readiness. No submission is authorized.
