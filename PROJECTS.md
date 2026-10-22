@@ -162,12 +162,29 @@ remain separate. No prior frozen source, registration or package pin is changed.
 
 | Project | Scope | Status | Frozen source |
 | --- | --- | --- | --- |
-| [Open Baire-space representation of Polish spaces](topology/open-baire-representation) | Nonempty Polish open Baire representation, genuine covering scheme and exact cylinder images. | Preparation; not submitted; canonical full/render passed | [`87652c9`](https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation) |
+| [Open Baire-space representation of Polish spaces](topology/open-baire-representation) | Nonempty Polish open Baire representation, genuine covering scheme and exact cylinder images. | Preparation; not submitted at historical checkpoint; canonical full/render passed; now [registered000041v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-22-000041&version=1) | [`87652c9`](https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation) |
 
 The initial native preparation checkpoint in PREPARATIONS.json is historical.
 The later exact-source [canonical results](catalog-evidence/open-baire-representation-2026-10-22/canonical-results.json)
 record full run 39811305855 and render run 39811305165, both successful on attempt 1 for
 source 87652c909a92afded15aad86a901d8c11dd75ed8. Lean, NanoDa and verified
 con-ron accepted; the final report/archive guard and 189 regressions passed.
-Browser visual inspection has not been performed. No registry action or merge
-was performed; editorial status and public registration remain unconfirmed.
+Browser visual inspection was not performed. That checkpoint predates intake.
+The user subsequently registered the exact frozen source as
+[PALOMAR-2026-10-22-000041 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-22-000041&version=1),
+confirmed by its public record at2026-10-22T17:49:54Z.
+Prior package trees and historical preparation records remain unchanged.
+
+## Alexandrov–Urysohn Baire characterization preparation
+
+| Project | Scope | Status | Frozen source |
+| --- | --- | --- | --- |
+| [Alexandrov–Urysohn characterization of Baire space](topology/baire-space-characterization) | Full homeomorphism iff nonempty, Polish, clopen basis and empty compact interiors; infinite clopen partitions. | Preparation; not submitted; canonical full/render passed; independent internal reviews passed | [`b77053b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/b77053ba8669ad046ec3c0d54d83a79724935a9f/topology/baire-space-characterization) |
+
+[Native evidence](catalog-evidence/baire-space-characterization-2026-10-22/native-summary.json)
+binds this source. The later [canonical results](catalog-evidence/baire-space-characterization-2026-10-22/canonical-results.json)
+record successful full39834601956 and rendering39834601494, attempt1, exactb77053b.
+The single approved pair is consumed; Lean, NanoDa and verified con-ron accepted
+all15,231 declarations. Complete rendering and final report/archive guard passed.
+The initial PREPARATIONS checkpoint remains historical. No registry submission,
+merge or browser visual inspection was performed; no rerun is authorized.

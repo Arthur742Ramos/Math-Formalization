@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+  "report_sha256": "0f710a6bda845e8940d1ec7181fb3eee16de3e8e4f5cbdf72af8702858f030ac",
+  "artifact_tree_sha256": "8fbdbf3d0bd7389fc290c5412eb702e364bfe316111a3a4d65724719b4b203cb",
+  "files": 13,
+  "bytes": 4522557,
+  "theorem_names": [
+    "BaireCharacterization.exists_clopen_partition",
+    "BaireCharacterization.exists_clopen_scheme",
+    "BaireCharacterization.ClopenScheme.image_cylinder",
+    "BaireCharacterization.nonempty_homeomorph_of_completeSpace",
+    "BaireCharacterization.nonempty_homeomorph",
+    "BaireCharacterization.baire_hasClopenBasis",
+    "BaireCharacterization.baire_compactInteriorEmpty",
+    "BaireCharacterization.nonempty_homeomorph_iff"
+  ],
+  "browser_visual_inspection": "not performed",
+  "scope": "Original report, exact source and complete sanitized bundle authentication; independent rendering inspection and final packet review are separate."
+}

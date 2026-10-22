@@ -1,0 +1,20 @@
+{
+  "challenge_module": "BCChallenge",
+  "solution_module": "BCSolution",
+  "theorem_names": [
+    "BaireCharacterization.exists_clopen_partition",
+    "BaireCharacterization.exists_clopen_scheme",
+    "BaireCharacterization.ClopenScheme.image_cylinder",
+    "BaireCharacterization.nonempty_homeomorph_of_completeSpace",
+    "BaireCharacterization.nonempty_homeomorph",
+    "BaireCharacterization.baire_hasClopenBasis",
+    "BaireCharacterization.baire_compactInteriorEmpty",
+    "BaireCharacterization.nonempty_homeomorph_iff"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

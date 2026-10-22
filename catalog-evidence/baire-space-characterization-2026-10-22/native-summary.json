@@ -1,0 +1,114 @@
+{
+  "scope": "Native exact-pin checks, distinct from canonical full/render and registration",
+  "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+  "package_tree": "3c0b57799f617929a98c27fff8b15065e1470601",
+  "source_sha256": "38c095626a13c6f95b93073505acc49eae21957e373d0850ddf9f0177c35cd49",
+  "metadata_sha256": "5f95f576b250fa70204410bf7813d4912465186b60e1918f4b97fbd54836e956",
+  "comparator_sha256": "f135763376a7ec84e7852a436c76e7d3a6979f15c47720c3dfae448e5eb3fe07",
+  "theorem_names": [
+    "BaireCharacterization.exists_clopen_partition",
+    "BaireCharacterization.exists_clopen_scheme",
+    "BaireCharacterization.ClopenScheme.image_cylinder",
+    "BaireCharacterization.nonempty_homeomorph_of_completeSpace",
+    "BaireCharacterization.nonempty_homeomorph",
+    "BaireCharacterization.baire_hasClopenBasis",
+    "BaireCharacterization.baire_compactInteriorEmpty",
+    "BaireCharacterization.nonempty_homeomorph_iff"
+  ],
+  "definition_names": [],
+  "checks": [
+    {
+      "name": "candidate-BaireCharacterization",
+      "exit_code": 0,
+      "seconds": 22.932
+    },
+    {
+      "name": "candidate-BCSolution",
+      "exit_code": 0,
+      "seconds": 9.903
+    },
+    {
+      "name": "protected-compile",
+      "exit_code": 0,
+      "seconds": 8.897
+    },
+    {
+      "name": "challenge-export",
+      "exit_code": 0,
+      "seconds": 14.28
+    },
+    {
+      "name": "solution-export",
+      "exit_code": 0,
+      "seconds": 9.961
+    },
+    {
+      "name": "pinned-comparator",
+      "exit_code": 0,
+      "seconds": 37.696
+    },
+    {
+      "name": "lean-kernel",
+      "exit_code": 0,
+      "seconds": 8.034
+    },
+    {
+      "name": "nanoda-kernel",
+      "exit_code": 0,
+      "seconds": 3.305
+    },
+    {
+      "name": "con-ron-kernel",
+      "exit_code": 0,
+      "seconds": 17.062
+    }
+  ],
+  "primitive_targets": [
+    "Nat.add",
+    "Nat.sub",
+    "Nat.mul",
+    "Nat.pow",
+    "Nat.gcd",
+    "Nat.div",
+    "Nat.mod",
+    "Nat.beq",
+    "Nat.ble",
+    "Nat.land",
+    "Nat.lor",
+    "Nat.xor",
+    "Nat.shiftLeft",
+    "Nat.shiftRight",
+    "String.ofList",
+    "Char.ofNat",
+    "List",
+    "eagerReduce",
+    "Nat",
+    "String",
+    "String.mk",
+    "Char",
+    "optParam",
+    "autoParam",
+    "semiOutParam",
+    "outParam"
+  ],
+  "altered_fixed_helpers_rejected": [
+    "BaireCharacterization.ClopenScheme.limit",
+    "BaireCharacterization.HasClopenBasis",
+    "BaireCharacterization.CompactInteriorEmpty"
+  ],
+  "con_ron": {
+    "mode": "--verified",
+    "jobs": 1,
+    "accepted_declarations": 15231
+  },
+  "raw_receipt_sha256": "54a1ac6f5fc6c0c1985ca3f5fc489e938379cbaab3a36ce35d8b0f955b018cf5",
+  "regressions": 189,
+  "regression_log_sha256": "7ff0105879764876dc137ff5ba53d88e202930ec2f2aced8195c757a53fa3b80",
+  "reviews_sha256": {
+    "baire-homeomorphism-target-independent-review.json": "41c279630c299768c8d379e3a0c698b00f04b4e311550cbc65dc177c873c3a57",
+    "baire-homeomorphism-feasibility-audit.json": "72326d4e97ac234cd82594274669f731ecadc483fcb87e7f302dd2fb3b8aaa7b",
+    "baire-characterization-implementation-independent-review.json": "d87ad4a283169a81bf66798d67bcd9f0fe87de35d7642859286a29ffb07da4d3",
+    "baire-characterization-final-source-metadata-harness-independent-review.json": "d0a5c136ad9c994b60b73e0f916a2e83b67fc9550572da65a88e3d471f0ed3f4",
+    "baire-characterization-retained-material-independent-review.json": "6a4db4f232934f0bc37930f4c6e336658ca4af8c4cf15cdca6fd5a7e775fcf07"
+  }
+}

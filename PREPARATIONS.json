@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "Arthur742Ramos/Math-Formalization",
   "checked_date": "2026-10-22",
-  "scope": "Prior source snapshots and all nine historical preparation records preserved. The current isolated topology preparation is open Baire-space representation; its native checks passed and canonical full/render gates remain separate. The earlier open-image handoff and active paper work remain on their own branches/tasks. No new registry action or acceptance is claimed.",
+  "scope": "Historical preparation records and prior source snapshots preserved unchanged. Latest preparation is Alexandrov\u2013Urysohn Baire characterization, native-qualified with canonical full/render separate. Prior open Baire entry now registered000041v1; its dated preparation checkpoint remains historical. No new intake or merge.",
   "projects": [
     {
       "name": "Paracompact expansion and collectionwise separation",
@@ -1280,6 +1280,100 @@
       },
       "registry_intake_status": "not-submitted-by-this-task",
       "registry_registration_status": "unconfirmed"
+    },
+    {
+      "path": "topology/baire-space-characterization",
+      "name": "Alexandrov\u2013Urysohn characterization of Baire space",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+        "tree": "3c0b57799f617929a98c27fff8b15065e1470601"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "e86f003dbc8b72598a1ac70f302e4000a5eee299db85bfab071568c30626d848",
+        "comparator.json": "f135763376a7ec84e7852a436c76e7d3a6979f15c47720c3dfae448e5eb3fe07",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "BCSolution.lean": "c35a432435a18c88bb5a37c339519f039aafd2471c30d65af5ff118003c3b4d1",
+        "SOURCE-MAPPING.md": "4914e76e11dd609a94343493f55b1324b359a5d232d43f3fa6cd23c434e19a0c",
+        "BaireCharacterization.lean": "38c095626a13c6f95b93073505acc49eae21957e373d0850ddf9f0177c35cd49",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "formalization.yaml": "5f95f576b250fa70204410bf7813d4912465186b60e1918f4b97fbd54836e956",
+        "BCChallenge.lean": "38c095626a13c6f95b93073505acc49eae21957e373d0850ddf9f0177c35cd49",
+        "README.md": "8d9d8a42f797bc58e5c0d8b6471dc71c063fca282d737fb51ab170db95e9fa90",
+        "VERIFICATION.md": "555d9132697697c8bfb10affa69c8875d311faa62736467af659852eede554df",
+        "lake-manifest.json": "f089b14b07513753d84478187b32cb4c3507487fcb057b5f90dd2ee3e1671338",
+        ".gitignore": "2dbda161eaadab05b93b4b1269cfdd8c7a18f44b07d58bc2847513054b5c120d",
+        "lakefile.toml": "e87da37aa28248afcc350bfefdb68bed1d75d6f96029f01fde9f1415ad4aba1c",
+        "ChallengeTests.lean": "31ea12db8261045d3be0d2688013d130c2e139a6afe896f89abf9075966e5c1d",
+        "REVIEW.md": "528615956808dcd15cec8bd9e5c8781d2753aecf219dd17fc71e7cf0cc56c2ab",
+        "AxiomAudit.lean": "33a8f7a314abb92e516ff527f29b0b89e0ccdc0759ed6fa7b08d5bf70c92abc5",
+        "MATERIAL-DEFINITIONS.md": "0814fc24075371b8d271cedb94748c4ed338c861eb42f07048e50404f7205311"
+      },
+      "theorem_names": [
+        "BaireCharacterization.exists_clopen_partition",
+        "BaireCharacterization.exists_clopen_scheme",
+        "BaireCharacterization.ClopenScheme.image_cylinder",
+        "BaireCharacterization.nonempty_homeomorph_of_completeSpace",
+        "BaireCharacterization.nonempty_homeomorph",
+        "BaireCharacterization.baire_hasClopenBasis",
+        "BaireCharacterization.baire_compactInteriorEmpty",
+        "BaireCharacterization.nonempty_homeomorph_iff"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "baire-homeomorphism-target-independent-review.json": "41c279630c299768c8d379e3a0c698b00f04b4e311550cbc65dc177c873c3a57",
+          "baire-homeomorphism-feasibility-audit.json": "72326d4e97ac234cd82594274669f731ecadc483fcb87e7f302dd2fb3b8aaa7b",
+          "baire-characterization-implementation-independent-review.json": "d87ad4a283169a81bf66798d67bcd9f0fe87de35d7642859286a29ffb07da4d3",
+          "baire-characterization-final-source-metadata-harness-independent-review.json": "d0a5c136ad9c994b60b73e0f916a2e83b67fc9550572da65a88e3d471f0ed3f4",
+          "baire-characterization-retained-material-independent-review.json": "6a4db4f232934f0bc37930f4c6e336658ca4af8c4cf15cdca6fd5a7e775fcf07"
+        }
+      },
+      "ordinary_local": "PASS: exact six modules and separate semantic bridges; allowed transitive axioms; fresh-candidate protected exports and unchanged comparator/all26primitives; three altered fixed helpers rejected; Lean/NanoDa/verified-con-ron accepted15231declarations;189regressions;48material meanings/41files/92excerpts.",
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-22",
+      "checkpoint_scope": "Reviewed native-qualified frozen source; canonical full/render separate. Prior source/evidence and paper work preserved. No new registry action.",
+      "duplicate_check": "No equivalent in27priorpackages or exact pinned Mathlib.24public repository registrations checked. Bounded public title searches found no equivalent; global/private overlap not exhaustive.",
+      "remaining_obligations": [
+        "Exact-source canonical full/render pair and final report/packet review.",
+        "Fresh action-time approval before any disclosed temporary AppArmor runner exception.",
+        "No new registry intake, credentials, merge or access grant authorized."
+      ],
+      "scope": "Eight selected contracts: infinite small clopen partition, full clopen scheme, exact cylinder images, complete-metric and Polish sufficiency, Baire clopen basis and compact interiors, and the unrestricted full iff.",
+      "material_definition_audit": {
+        "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+        "material_declarations": 48,
+        "upstream_files": 41,
+        "literal_excerpts": 92,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "SemanticTests.lean",
+          "ChallengeTests.lean"
+        ],
+        "schema_version": 2
+      },
+      "registry_intake_status": "not-submitted-by-this-task",
+      "registry_registration_status": "not-submitted"
     }
   ]
 }
