@@ -1,0 +1,25 @@
+module
+public import SECSolution
+
+#print axioms SparseCompletion.skew_weighted_sum
+#print axioms SparseCompletion.response_guard
+#print axioms SparseCompletion.completion_cuts_necessary
+#print axioms SparseCompletion.quadratic_duality
+#print axioms SparseCompletion.call_bound_implies_cuts
+#print axioms SparseCompletion.quadratic_grid_identity
+#print axioms SparseCompletion.truncated_grid_error
+#print axioms SparseCompletion.cuts_imply_call_bound
+#print axioms SparseCompletion.cuts_iff_call_bound
+#print axioms SparseCompletion.call_convex
+#print axioms SparseCompletion.call_secant
+#print axioms SparseCompletion.grid_interval_cover
+#print axioms SparseCompletion.finite_grid_implication
+#print axioms SparseCompletion.gridSize_bound
+#print axioms SparseCompletion.canonical_grid_implication
+#print axioms SparseCompletion.supported_response_zero
+#print axioms SparseCompletion.compactCompletion_skew
+#print axioms SparseCompletion.compactCompletion_bounds
+#print axioms SparseCompletion.compactCompletion_response_on
+#print axioms SparseCompletion.compactCompletion_response_off
+#print axioms SparseCompletion.compact_certificate_responses_iff
+#print axioms SparseCompletion.response_perturbation

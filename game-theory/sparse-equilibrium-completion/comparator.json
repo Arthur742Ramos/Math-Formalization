@@ -1,0 +1,26 @@
+{
+  "challenge_module": "SECChallenge",
+  "solution_module": "SECSolution",
+  "theorem_names": [
+    "SparseCompletion.skew_weighted_sum",
+    "SparseCompletion.response_guard",
+    "SparseCompletion.completion_cuts_necessary",
+    "SparseCompletion.cuts_iff_call_bound",
+    "SparseCompletion.quadratic_grid_identity",
+    "SparseCompletion.truncated_grid_error",
+    "SparseCompletion.finite_grid_implication",
+    "SparseCompletion.gridSize_bound",
+    "SparseCompletion.canonical_grid_implication",
+    "SparseCompletion.supported_response_zero",
+    "SparseCompletion.response_perturbation",
+    "SparseCompletion.compactCompletion_skew",
+    "SparseCompletion.compactCompletion_bounds",
+    "SparseCompletion.compact_certificate_responses_iff"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

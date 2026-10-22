@@ -1,0 +1,363 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "Fintype",
+    "Finset",
+    "Finset.prod",
+    "Set.Icc",
+    "Nat.ceil",
+    "FloorSemiring",
+    "NNReal.sqrt",
+    "Real.sqrt",
+    "Real.toNNReal"
+  ],
+  "material_declarations": [
+    {
+      "name": "Fintype",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.response_guard",
+        "SparseCompletion.completion_cuts_necessary",
+        "SparseCompletion.cuts_iff_call_bound",
+        "SparseCompletion.finite_grid_implication",
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.supported_response_zero",
+        "SparseCompletion.response_perturbation",
+        "SparseCompletion.compact_certificate_responses_iff"
+      ],
+      "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
+      "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
+      "definition_excerpt": "Fintype",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Fintype"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Finset",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.skew_weighted_sum",
+        "SparseCompletion.response_guard",
+        "SparseCompletion.completion_cuts_necessary",
+        "SparseCompletion.cuts_iff_call_bound",
+        "SparseCompletion.finite_grid_implication",
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.supported_response_zero",
+        "SparseCompletion.response_perturbation",
+        "SparseCompletion.compact_certificate_responses_iff",
+        "SparseCompletion.compactCompletion_skew",
+        "SparseCompletion.compactCompletion_bounds"
+      ],
+      "meaning": "A finite set is a multiset with no duplicate entries.",
+      "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
+      "definition_excerpt": "Finset",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Finset"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Finset.prod",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.skew_weighted_sum",
+        "SparseCompletion.response_guard",
+        "SparseCompletion.completion_cuts_necessary",
+        "SparseCompletion.cuts_iff_call_bound",
+        "SparseCompletion.finite_grid_implication",
+        "SparseCompletion.canonical_grid_implication",
+        "SparseCompletion.supported_response_zero",
+        "SparseCompletion.response_perturbation",
+        "SparseCompletion.compact_certificate_responses_iff"
+      ],
+      "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
+      "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
+      "definition_excerpt": "Finset.prod",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.prod"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Set.Icc",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.cuts_iff_call_bound",
+        "SparseCompletion.finite_grid_implication",
+        "SparseCompletion.canonical_grid_implication"
+      ],
+      "meaning": "The closed interval consists of x with a \u2264 x and x \u2264 b.",
+      "dependency_expansion": "The grid/envelope domain includes both endpoints; interval_literal unfolds the actual predicate.",
+      "definition_excerpt": "Set.Icc",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Icc"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Nat.ceil",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.gridSize_bound",
+        "SparseCompletion.canonical_grid_implication"
+      ],
+      "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
+      "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
+      "definition_excerpt": "Nat.ceil",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Nat.ceil"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "FloorSemiring",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.gridSize_bound",
+        "SparseCompletion.canonical_grid_implication"
+      ],
+      "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
+      "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
+      "definition_excerpt": "FloorSemiring",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "FloorSemiring"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "NNReal.sqrt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.gridSize_bound",
+        "SparseCompletion.canonical_grid_implication"
+      ],
+      "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
+      "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
+      "definition_excerpt": "NNReal.sqrt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "NNReal.sqrt"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Real.sqrt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.gridSize_bound",
+        "SparseCompletion.canonical_grid_implication"
+      ],
+      "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
+      "dependency_expansion": "Negative inputs yield zero. Only nonnegative Mr/\u03b7 is used; square_root_meaning proves the needed square and sign laws.",
+      "definition_excerpt": "Real.sqrt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Real.sqrt"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    },
+    {
+      "name": "Real.toNNReal",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.gridSize_bound",
+        "SparseCompletion.canonical_grid_implication"
+      ],
+      "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
+      "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
+      "definition_excerpt": "Real.toNNReal",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Real.toNNReal"
+      ],
+      "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "source_files": [
+    {
+      "path": "Mathlib/Data/Fintype/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean",
+      "sha256": "e69e8e7a3605d293a7ef6c4a7aaefde3191da4f33b43b7be09963eec2e44965c",
+      "git_blob_sha1": "ee6ad77ee3befe5863cc58c91f784b0aa0564e07",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fintype",
+          "first_line": 51,
+          "last_line": 62,
+          "text": "variable {\u03b1 \u03b2 : Type*}\n\n/-- `Fintype \u03b1` means that `\u03b1` is finite, i.e. there are only\n  finitely many distinct elements of type `\u03b1`. The evidence of this\n  is a finset `elems` (a list up to permutation without duplicates),\n  together with a proof that everything of type `\u03b1` is in the list. -/\nclass Fintype (\u03b1 : Type*) where\n  /-- The `Finset` containing all elements of a `Fintype` -/\n  elems : Finset \u03b1\n  /-- A proof that `elems` contains every element of the type -/\n  complete : \u2200 x : \u03b1, x \u2208 elems\n\n",
+          "sha256": "ccc0167da005c12ce09e1e41af0a2ebbcda025a6f6d81a5ae5b97a10341ffd59",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L51-L62"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean",
+      "sha256": "ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d",
+      "git_blob_sha1": "e94299ba14677e4193e7004cf77bf70c1ca6e065",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset",
+          "first_line": 72,
+          "last_line": 79,
+          "text": "/-- `Finset \u03b1` is the type of finite sets of elements of `\u03b1`. It is implemented\n  as a multiset (a list up to permutation) which has no duplicate elements. -/\n@[use_set_notation_for_order, to_dual_dont_translate]\nstructure Finset (\u03b1 : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset \u03b1\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
+          "sha256": "afb72753ded86e288bed4c75c35cefa870d2252544a7ba0146669917603c0134",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L72-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean",
+      "sha256": "e935efa96ad9381658f3158f900d04589c46d7e933cab15f4d8632e1af85527f",
+      "git_blob_sha1": "0eec64f2576f4d449b44b877678fe95678cfc9f0",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.prod",
+          "first_line": 59,
+          "last_line": 69,
+          "text": "/-- `\u220f x \u2208 s, f x` is the product of `f x` as `x` ranges over the elements of the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `\u220f x, f x`, is a shorthand for\n`\u220f x \u2208 Finset.univ, f x`. -/\n@[to_additive /-- `\u2211 x \u2208 s, f x` is the sum of `f x` as `x` ranges over the elements\nof the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `\u2211 x, f x`, is a shorthand for\n`\u2211 x \u2208 Finset.univ, f x`. -/]\nprotected def prod [CommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M) : M :=\n  (s.1.map f).prod\n",
+          "sha256": "26d8fa821bd539acece2d861933171554c86d441fbb32266ecc2ebc472639de1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean#L59-L69"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Interval/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Set/Defs.lean",
+      "sha256": "53970116254a7e705eb85f92c9236be431966dbd61c1c1315a914a6d05e39b7b",
+      "git_blob_sha1": "068a144114ac37ca8a4ca9d92de1ff33d94918e8",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Icc",
+          "first_line": 74,
+          "last_line": 81,
+          "text": "/-- `Icc a b` is the left-closed right-closed interval $[a, b]$. -/\n@[to_dual self (reorder := a b)]\ndef Icc (a b : \u03b1) := { x | a \u2264 x \u2227 x \u2264 b }\n\nto_dual_insert_cast Icc := by simp only [and_comm]\n\n@[simp, grind =, push, to_dual none] theorem mem_Icc : x \u2208 Icc a b \u2194 a \u2264 x \u2227 x \u2264 b := .rfl\n@[to_dual none] theorem Icc_def (a b : \u03b1) : { x | a \u2264 x \u2227 x \u2264 b } = Icc a b := rfl\n",
+          "sha256": "cd66598cde677aa3908344faee474669a8c7c6e232e6e1a84b8e793e7e780439",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Set/Defs.lean#L74-L81"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Order/Floor/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean",
+      "sha256": "f6cc4cbab72e40e7afadb67d625a720359c26b32b9293a72255df2018a7876f7",
+      "git_blob_sha1": "e38bd9356445865e98d15633af5bef1161b4f7df",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Kevin Kappelmann\n-/\n",
+      "excerpts": [
+        {
+          "name": "Nat.ceil",
+          "first_line": 115,
+          "last_line": 122,
+          "text": "\n/-- `\u230aa\u230b\u208a` is the greatest natural `n` such that `n \u2264 a`. If `a` is negative, then `\u230aa\u230b\u208a = 0`. -/\ndef floor : \u03b1 \u2192 \u2115 :=\n  FloorSemiring.floor\n\n/-- `\u2308a\u2309\u208a` is the least natural `n` such that `a \u2264 n` -/\ndef ceil : \u03b1 \u2192 \u2115 :=\n  FloorSemiring.ceil\n",
+          "sha256": "de25b129387a66cd093cc29cf122302dea76da950fa585813bfc65f682f479f7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L115-L122"
+        },
+        {
+          "name": "FloorSemiring",
+          "first_line": 57,
+          "last_line": 71,
+          "text": "/-- A `FloorSemiring` is an ordered semiring over `\u03b1` with a function\n`floor : \u03b1 \u2192 \u2115` satisfying `\u2200 (n : \u2115) (x : \u03b1), n \u2264 \u230ax\u230b \u2194 (n : \u03b1) \u2264 x)`.\nNote that many lemmas require a `LinearOrder`. Please see the above `TODO`. -/\nclass FloorSemiring (\u03b1) [Semiring \u03b1] [PartialOrder \u03b1] where\n  /-- `FloorSemiring.floor a` computes the greatest natural `n` such that `(n : \u03b1) \u2264 a`. -/\n  floor : \u03b1 \u2192 \u2115\n  /-- `FloorSemiring.ceil a` computes the least natural `n` such that `a \u2264 (n : \u03b1)`. -/\n  ceil : \u03b1 \u2192 \u2115\n  /-- `FloorSemiring.floor` of a negative element is zero. -/\n  floor_of_neg {a : \u03b1} (ha : a < 0) : floor a = 0\n  /-- A natural number `n` is smaller than `FloorSemiring.floor a` iff its coercion to `\u03b1` is\n  smaller than `a`. -/\n  gc_floor {a : \u03b1} {n : \u2115} (ha : 0 \u2264 a) : n \u2264 floor a \u2194 (n : \u03b1) \u2264 a\n  /-- `FloorSemiring.ceil` is the lower adjoint of the coercion `\u2191 : \u2115 \u2192 \u03b1`. -/\n  gc_ceil : GaloisConnection ceil (\u2191)\n",
+          "sha256": "5b0a713fe3d952383b08a08ac24046a02f7a047d4e22c7d21adaae9e36556b79",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L57-L71"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Real/Sqrt.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Real/Sqrt.lean",
+      "sha256": "f4e96c735ead60a8983bcf8eb6e38dfd05d8102c3f741094f73639858605bb6a",
+      "git_blob_sha1": "92936ac2ea8d16aff301eecc8983d24e0b1f65d2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Floris van Doorn, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "NNReal.sqrt",
+          "first_line": 40,
+          "last_line": 51,
+          "text": "namespace NNReal\n\nvariable {x y : \u211d\u22650}\n\n/-- Square root of a nonnegative real number. -/\n@[pp_nodot]\nnoncomputable def sqrt : \u211d\u22650 \u2243o \u211d\u22650 :=\n  OrderIso.symm <| powOrderIso 2 two_ne_zero\n\n@[simp] lemma sq_sqrt (x : \u211d\u22650) : sqrt x ^ 2 = x := sqrt.symm_apply_apply _\n\n@[simp] lemma sqrt_sq (x : \u211d\u22650) : sqrt (x ^ 2) = x := sqrt.apply_symm_apply _\n",
+          "sha256": "44755372bd21ff74f1a58cd2e570ae606fe486ff6d1f038944d034ad79420675",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Real/Sqrt.lean#L40-L51"
+        },
+        {
+          "name": "Real.sqrt",
+          "first_line": 108,
+          "last_line": 113,
+          "text": "\n/-- The square root of a real number. This returns 0 for negative inputs.\n\nThis has notation `\u221ax`. Note that `\u221ax\u207b\u00b9` is parsed as `\u221a(x\u207b\u00b9)`. -/\n@[irreducible] noncomputable def sqrt (x : \u211d) : \u211d :=\n  NNReal.sqrt (Real.toNNReal x)\n",
+          "sha256": "88f1e5e1bf15526c807ed9c89155d3b9b5de32dfba34833325412f2c81305a74",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Real/Sqrt.lean#L108-L113"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Basic/NNReal/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/NNReal/Defs.lean",
+      "sha256": "5a94f78b3f6ce87106eea63ea8bfa48647de38cf2e51bff75f06a311ef821c99",
+      "git_blob_sha1": "17a16cab929f5ab10979e46078284068c567bf88",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Johan Commelin. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin\n-/\n",
+      "excerpts": [
+        {
+          "name": "Real.toNNReal",
+          "first_line": 154,
+          "last_line": 159,
+          "text": "/-- Reinterpret a real number `r` as a non-negative real number. Returns `0` if `r < 0`. -/\ndef _root_.Real.toNNReal (r : \u211d) : \u211d\u22650 :=\n  .mk (max r 0) (le_max_right _ _)\n\ntheorem _root_.Real.coe_toNNReal (r : \u211d) (hr : 0 \u2264 r) : (Real.toNNReal r : \u211d) = r :=\n  max_eq_left hr\n",
+          "sha256": "8161052c14e7de652bb8a2677551335ecb6ca8cce417d568327027c9c0c5724a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/NNReal/Defs.lean#L154-L159"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "module": "DefinitionTests",
+      "path": "DefinitionTests.lean",
+      "sha256": "5d794c832696b6a12ba7fc644927f5c34ad465c60c249822f10428058be5e0f1"
+    },
+    {
+      "module": "ChallengeDefinitionTests",
+      "path": "ChallengeDefinitionTests.lean",
+      "sha256": "28b78046c5b3b63c9b028c8f2068d113a452360150e6af709447b3918064b65a"
+    }
+  ],
+  "generated_declarations": [
+    {
+      "name": "Finset.sum",
+      "source": "Finset.prod",
+      "mechanism": "to_additive",
+      "checked_bridge": "finite_sum_literal"
+    }
+  ]
+}

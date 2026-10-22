@@ -1,0 +1,65 @@
+[
+  {
+    "file": "paper__main.tex",
+    "sha": "99d52dad6f7cabed7af6062b5be2d4cbaeba79ee",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/main.tex",
+    "length": 20893,
+    "sha256": "beaafb409dad0cb5711b7b47aba494c1f2189730e02458e8aaf36e0569b30beb"
+  },
+  {
+    "file": "paper__sections__main_theorem.tex",
+    "sha": "0f7607c4710c1a0a9c5f31d5640e48a6b85f7924",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/main_theorem.tex",
+    "length": 1487,
+    "sha256": "3bc30763ae091e0f009f19898b8c1dcea586b524c0af09c0d532f52f9b9f65d0"
+  },
+  {
+    "file": "paper__sections__completion.tex",
+    "sha": "c6030ae7672b84699d1a5c60fe43327a38f35daa",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/completion.tex",
+    "length": 3733,
+    "sha256": "a2fc41a6307dcababb3c718500b71efeb3b550ef1913fece53520950df320854"
+  },
+  {
+    "file": "paper__sections__sparsification.tex",
+    "sha": "2f8239fe1652937065a2155e20a017a439ed1d5a",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/sparsification.tex",
+    "length": 4845,
+    "sha256": "1a7c9688e56432f982a186023fe9f4ac33abae7481edbdd4717e5027bd0a7fae"
+  },
+  {
+    "file": "paper__sections__rigidity.tex",
+    "sha": "1527263873b6b35ce6f88d243cfe105c5268b0bf",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/rigidity.tex",
+    "length": 18087,
+    "sha256": "2bef79a7dd2684dc90ec6d7d82bb448342eba6b7e7bcd4793fcacca0b351f795"
+  },
+  {
+    "file": "paper__sections__joint_support.tex",
+    "sha": "9a6fddb967d09be05316834a654d5867c79e19a6",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/joint_support.tex",
+    "length": 2135,
+    "sha256": "d7751985f10f084b603c68e79f6f545e1801fe44132c3c718d89056913f7c408"
+  },
+  {
+    "file": "paper__sections__algorithms.tex",
+    "sha": "44b2f0c0c29566c21ffa03a17ba650fe980fe2db",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/algorithms.tex",
+    "length": 11592,
+    "sha256": "6f03545fe3ede2a70f27a4804154eceb9ff05f9f8acbcee8eefb0db4dd4762b4"
+  },
+  {
+    "file": "paper__sections__graph_noise.tex",
+    "sha": "966d55bdb1021226cbe116ac15aadbb6b4299dfd",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/graph_noise.tex",
+    "length": 14487,
+    "sha256": "2e69fa998468c9c035b4b933e0f128a5d967cdf98920c8d9546ddd6a2cd97990"
+  },
+  {
+    "file": "paper__sections__conic.tex",
+    "sha": "3f559beda69211a76c56a5c813d2a98207dcca6f",
+    "url": "https://github.com/Arthur742Ramos/aoe2-equilibrium-balance/blob/1a424f297925294ae5818ff1ee7512304af1d460/research/sparse-equilibrium-completion/paper/sections/conic.tex",
+    "length": 6791,
+    "sha256": "8ceac4901eefa509ef41ba2326bc953c422c9deec738f538454ed60532fb3803"
+  }
+]

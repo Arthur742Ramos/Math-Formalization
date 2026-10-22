@@ -1,0 +1,21 @@
+{
+  "schema": "local-development-status-v1",
+  "title": "Sparse equilibrium completion: foundation tranche",
+  "submission_ready": false,
+  "paper_title": "Sharp Sparse Witnesses for Incomplete Zero-Sum Games",
+  "paper_repository": "Arthur742Ramos/aoe2-equilibrium-balance",
+  "paper_commit": "1a424f297925294ae5818ff1ee7512304af1d460",
+  "paper_path": "research/sparse-equilibrium-completion",
+  "paper_author_display": "Anonymous manuscript draft",
+  "formalization_authors": [],
+  "responsible_maintainers": [],
+  "role_status": "Awaiting explicit project-authorized human membership; no other package's author list is reused.",
+  "license": "Apache-2.0",
+  "material_ai_contribution": "OpenAI Codex authored the Lean development, proof contracts, documentation and local verification scripts. Independent internal AI review is recorded separately. No human proof contribution or external peer review is inferred.",
+  "provisional_classification": {"arxiv": ["math.OC", "cs.GT"], "msc2020": ["91A05", "91A80"]},
+  "toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "status": "Partial development. Exact coverage and outstanding mathematics are recorded in SCOPE.md. This is deliberately not registry-schema intake metadata.",
+  "submission": "No action authorized or attempted. Current policy/schema eligibility, account/private-attempt reconciliation, human roles and canonical exact-source checks remain separate gates.",
+  "standard_axiom_allowlist": ["propext", "Quot.sound", "Classical.choice"]
+}

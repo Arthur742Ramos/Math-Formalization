@@ -1,0 +1,5 @@
+*.log
+*.olean
+*.ilean
+*.olean.*
+__pycache__/
