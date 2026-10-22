@@ -13,13 +13,10 @@ theorem rational_binned_label_representative {h : ℕ}
     (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (b : Fin h × Fin 2) :
     rationalBinRepresentative L (rationalBinnedLabel L hL b)=true := by
   simp only [rationalBinRepresentative,decide_eq_true_eq]
-  unfold rationalBinDecode rationalBinnedLabel
+  unfold rationalBinDecode rationalBinnedLabel binnedLabel binIndex
   rw [Equiv.symm_apply_apply]
   by_cases hb : b.2.val=0
-  · simp only [rationalBinSlotLabel,hb,ite_true]
-    exact Or.inl trivial
-  · simp only [rationalBinSlotLabel,hb,ite_false]
-    exact Or.inr trivial
+  all_goals simp [binCompressedLabel,binLower,binUpper,hb]
 
 theorem rational_binned_nonrepresentative_zero {h : ℕ}
     (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ) (j : Fin (∑ b,L b))

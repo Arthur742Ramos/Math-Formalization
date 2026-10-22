@@ -7,12 +7,10 @@ open scoped BigOperators
 namespace SparseCompletion
 
 def rationalBinSlotLabel (L : ℕ) (hL : 0 < L) (b : Fin 2) : Fin L :=
-  if b.val=0 then
-    ⟨(L-1)/2,lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.sub_lt hL (Nat.zero_lt_succ 0))⟩
-  else ⟨L/2,Nat.div_lt_self hL (Nat.lt_succ_self 1)⟩
+  binCompressedLabel L hL b
 
 def rationalBinnedLabel {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (b : Fin h × Fin 2) :
-    Fin (∑ b,L b) := finSigmaFinEquiv ⟨b.1,rationalBinSlotLabel (L b.1) (hL b.1) b.2⟩
+    Fin (∑ b,L b) := binnedLabel L hL b
 
 def rationalBinnedWeights {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℚ)
     (j : Fin (∑ b,L b)) : ℚ :=

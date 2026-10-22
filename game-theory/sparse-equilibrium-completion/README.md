@@ -100,9 +100,9 @@ compact-class optimistic values and their support-budget restrictions attain
 actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
 games and universal sparse upper witnesses give the quantified joint-k order.
 Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
-The remaining global sparse-output composition, efficient flow reconstruction, executable sorted
-separation and operation/bit-cost clauses are tracked in
-SCOPE.md; whole-paper and submission readiness remain unestablished.
+The zero-floor global sparse-output composition is proved below. Efficient flow
+reconstruction, executable sorted separation and polynomial operation/bit-cost
+clauses remain tracked gaps in SCOPE.md; whole-paper readiness is unestablished.
 
 The algorithm tranche proves an actual computable rational certificate checker,
 compact attained fixed/gap optima and the additive enclosure W≤V≤W+η.
@@ -173,7 +173,7 @@ contains all original q,D,K,B satisfying intervals and R(q,qD,K); its actual
 exploitability optimum is attained. The returned rational game gives L≤V≤U+η
 and automatic shifted bracket width<η+ζ for ζ>0. Physical consistency assumes
 neither a tolerance bound nor solver success. Full action nonemptiness is
-explicit for exploitability/value. Global sparse-output composition and polynomial operation/bit guarantees remain open.
+explicit for exploitability/value. The zero-floor global sparse-output composition is proved below. Polynomial operation/bit guarantees remain open.
 
 
 The initializer now computes physical consistency for admissible rational
@@ -204,7 +204,7 @@ the fixed-anchor algorithm, without an asserted rounding-invariance theorem.
 These are functional correctness results. Explicit lists contain
 (1+floor(1/δ))^k nodes; Fourier–Motzkin may grow exponentially. No FPTAS
 running-time guarantee is inferred. Efficient sorted
-separation/flow, polynomial arithmetic/bit bounds, global sparse-output composition and
+separation/flow, polynomial arithmetic/bit bounds and
 the canonical release gates remain open; the explicit bin construction is covered below.
 
 
@@ -225,9 +225,10 @@ most U+eta. Automatic bisection retains L<=V<=U+eta and shifted width<eta+zeta
 for positive zeta. The compatibility initializer produces actual fixed-dimension
 rational q,K,D,B, with None exactly for incompatibility. Zero residual mass and
 empty indices are included. This proof gives functional correctness, not the
-paper's polynomial-time sparsification algorithm. The global floor-grid program
-above still returns its original possibly dense output; composition with this
-sparse interval program remains separate. The final rational LP point preserves
+paper's polynomial-time sparsification algorithm. The original global floor-grid entrypoint
+returns its possibly dense output. The subsequent zero-floor global composition
+now supplies sparse output; arbitrary extra physical rows and positive residual
+floors are outside that sparse composition. The final rational LP point preserves
 feasibility and support bounds; equality to an arbitrary original real witness's
 individual moments or support is not claimed for that final point.
 
@@ -248,4 +249,31 @@ error d=r^2/(12m^3)*sum_b L_b*(L_b^2-c_b), with c_b=4 for even lengths and
 c_b=1 for odd lengths. The clipped core-only uncertainty theorem retains that
 q and residual matrix whenever d<=epsilon+3delta/8. This replaces existential
 residual completion in this construction; it does not supply a polynomial
-generic flow/LP algorithm or change the still-dense global allocation output.
+generic flow/LP algorithm. The zero-floor global sparse-output composition is separate and described below.
+
+
+The zero-residual-floor global program now returns an actual sparse rational
+game and an actual additive value certificate. It first runs the global dense
+search at e=epsilon/2, preserves its chosen p,K,D, then runs the actual sparse
+finite-gap solver at that same e. True-game necessity supplies its input at
+rho=U+e/3 without a first reconstruction loss. One sparse reconstruction gives
+tau=rho+e with V<=tau<V+epsilon. Every game row is at most tau. Original anchor
+floors and all anchor-incident intervals are retained; residual floors must be
+literally zero. Positive residual floors may force full support and remain
+covered by the separate dense floor program.
+
+Residual support is at most min(m,k+H+1), full support at most
+min(k+m,2k+H+1), with H the actual rational grid size at residual mass r and
+eta=epsilon/2. The proved real bound is 2k+sqrt(2M/epsilon)+3. The first sparse
+program stores (0,tau), which has no asserted epsilon width. The subsequent
+computed certificate wrapper stores (tau-epsilon,tau), proves strict L<V<=U
+and exact rational width epsilon, and leaves all game fields unchanged. Both
+programs return None exactly on physical incompatibility when epsilon>0;
+epsilon<=0 returns None without an incompatibility conclusion.
+
+These are functional exhaustive programs with genuine computed decisions,
+including empty, residual-only and zero-residual-mass cases. They do not
+establish polynomial LP/flow or bit-complexity guarantees. The two rational
+bin-label definitions now reuse the prior public, executable bin algorithms;
+this removes duplicate proof-hoisting sites while retaining the same actual
+label values and the unchanged protected dependency comparison.

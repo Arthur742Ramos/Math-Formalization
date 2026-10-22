@@ -580,5 +580,9 @@ theorem finite_floorsemiring_nat_cast {α : Type*} [Semiring α] [PartialOrder �
     [FloorSemiring α] : Function.Injective (Nat.cast : ℕ → α) :=
   FloorSemiring.natCast_strictMono.injective
 
+
+theorem finite_nontrivial_one_nonzero {α : Type*} [MulZeroOneClass α] [Nontrivial α] :
+    (1 : α) ≠ 0 := (NeZero.one (M₀ := α)).out
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

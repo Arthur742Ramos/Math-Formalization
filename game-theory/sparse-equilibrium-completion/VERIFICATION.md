@@ -444,6 +444,44 @@ The new candidate retains expanded constructive indexing evidence with
 66 material meanings,76 compiler contexts,2 auxiliary records and110 Mathlib
 source files containing202 exact excerpts. Local source/provenance checks
 and9 fresh optimization-mode rejection controls passed. The ten new semantic
-contracts require separate protected-entrypoint bridge builds; final integrated
-reviews and fresh immutable-commit build/axiom/protected/export/kernel gates remain. Prior receipt
+contracts passed separate Challenge and Solution bridge builds before the09
+freeze. Its integrated reviews are retained, subject to the later filter-context
+discovery. Fresh immutable-commit gates remain necessary for each altered candidate. Prior receipt
 history does not verify the new bytes. No registry or journal submission.
+
+
+## Global sparse certificate and bin-identity correction follow-on
+
+Frozen09e46bd223a0692b3a3a2ade46b680ba404776f8 passed its3576-job clean
+build,822 actual axiom allowlist checks, first native kernel, protected alias
+compilation and both exports. Its unchanged protected comparator rejected
+rationalBinnedLabel, so it is NOT a fully verified checkpoint. The negative
+altered-helper control after positive comparison and the export kernel gate
+did not run. The failed receipt, exports and independent diagnosis are retained.
+Lean shared generalized Fin bound and positivity proof auxiliaries differently
+between assembled Challenge and separate Solution modules.
+
+The correction reuses the existing executable public binCompressedLabel and
+binnedLabel definitions. Five actual alias execution controls and all affected
+bin proofs/22 guards pass. One representative proof now unfolds those genuine
+public definitions explicitly. No comparator behavior, definition hole, allowed
+axiom, toolchain or dependency pin is changed.
+
+Eight new math modules add17 independently reviewed, strict-toolchain compiled
+global proofs and two control modules add20 passing guards, including the
+computed epsilon-width bracket. The candidate has213 math modules,839 actual
+math-source audits,729 protected contracts and259 source files. The retained
+meaning counts remain66 material,76 compiler and2 auxiliary, with111 exact
+Mathlib files/203 excerpts. The final alias audit also retains the actual named
+NeZero.one instance for its two direct users and four direct Nat successor
+nonzero contexts; a generic one-nonzero bridge is checked through both entrypoints. A versioned literal filter expansion corrects
+List.filter context for132 earlier and13 new users, plus the specifically
+identified40 constructor/3 DecidablePred/2 Decidable predecessor contexts.
+Historical receipts are preserved; earlier inventory-completeness judgments
+are qualified by that newly discovered supporting-context omission.
+
+Fresh integrated reviews, final byte-bound static checks and a new immutable
+commit native run must cover these corrected source bytes. The last fully
+passing native checkpoint remains91afffed2205d48ed60214ef7370c5a98ed5c362.
+No registry or journal submission, canonical Linux sandbox or release clearance
+is claimed.

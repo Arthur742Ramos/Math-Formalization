@@ -168,3 +168,11 @@ public import RationalBinnedResponse
 public import RationalBinnedRealResponse
 public import ExplicitBinnedGame
 public import ExplicitBinnedCore
+public import RationalFloorOutputRows
+public import RationalFloorSparsify
+public import RationalFloorSparsifyComplete
+public import RationalFloorSparsifyClass
+public import RationalFloorSparseValue
+public import RationalFloorSparseSupport
+public import RationalFloorSparseDecision
+public import RationalFloorSparseCertified

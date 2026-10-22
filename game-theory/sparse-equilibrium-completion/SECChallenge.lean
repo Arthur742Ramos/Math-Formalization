@@ -17118,12 +17118,10 @@ open scoped BigOperators
 namespace SparseCompletion
 
 def rationalBinSlotLabel (L : ℕ) (hL : 0 < L) (b : Fin 2) : Fin L :=
-  if b.val=0 then
-    ⟨(L-1)/2,lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.sub_lt hL (Nat.zero_lt_succ 0))⟩
-  else ⟨L/2,Nat.div_lt_self hL (Nat.lt_succ_self 1)⟩
+  binCompressedLabel L hL b
 
 def rationalBinnedLabel {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (b : Fin h × Fin 2) :
-    Fin (∑ b,L b) := finSigmaFinEquiv ⟨b.1,rationalBinSlotLabel (L b.1) (hL b.1) b.2⟩
+    Fin (∑ b,L b) := binnedLabel L hL b
 
 def rationalBinnedWeights {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℚ)
     (j : Fin (∑ b,L b)) : ℚ :=
@@ -17173,13 +17171,10 @@ theorem rational_binned_label_representative {h : ℕ}
     (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (b : Fin h × Fin 2) :
     rationalBinRepresentative L (rationalBinnedLabel L hL b)=true := by
   simp only [rationalBinRepresentative,decide_eq_true_eq]
-  unfold rationalBinDecode rationalBinnedLabel
+  unfold rationalBinDecode rationalBinnedLabel binnedLabel binIndex
   rw [Equiv.symm_apply_apply]
   by_cases hb : b.2.val=0
-  · simp only [rationalBinSlotLabel,hb,ite_true]
-    exact Or.inl trivial
-  · simp only [rationalBinSlotLabel,hb,ite_false]
-    exact Or.inr trivial
+  all_goals simp [binCompressedLabel,binLower,binUpper,hb]
 
 theorem rational_binned_nonrepresentative_zero {h : ℕ}
     (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ) (j : Fin (∑ b,L b))
@@ -17658,4 +17653,442 @@ theorem explicit_binned_core_witness {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0
     exact le_of_eq (hrows j)
 
 end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorOutputRows.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The actual global floor program exposes its fixed-slice all-row certificate. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_floor_search_rows {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (δ ζ : ℚ) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSearch d s hs δ ζ=some w) :
+    (∀ a,s a ≤ w.1 a) ∧
+    ∀ a,response (intervalGameMatrix w.2.realData)
+      (blockWeights (fun a => (w.1 a : ℝ)) (fun i => (w.2.q i : ℝ))) a ≤
+        (w.2.bracket.2 : ℝ)+(d.η : ℝ) := by
+  have hrun : ∃ p,rationalAllocationRun d s hs ζ p=some w := by
+    by_cases hm : 0 < m
+    · simp only [rationalFloorSearch,hm,ite_true] at hout
+      obtain ⟨z,hz⟩ := rational_allocation_search_output d s hs δ ζ w hout
+      exact ⟨_,hz⟩
+    · by_cases hk : 0 < k
+      · simp only [rationalFloorSearch,hm,ite_false,dite_eq_left hk] at hout
+        obtain ⟨z,hz⟩ := rational_reservoir_search_output d s hs δ ζ ⟨0,hk⟩ w hout
+        exact ⟨_,hz⟩
+      · simp only [rationalFloorSearch,hm,ite_false,dite_eq_right hk] at hout
+        cases hout
+  obtain ⟨p,hp⟩ := hrun
+  obtain ⟨h,_,_,hr⟩ := rational_allocation_run_game d s hs ζ p w hp
+  exact ⟨h,hr⟩
+
+theorem rational_floor_approximation_rows {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (hε : 0 < ε) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorApproximation d s hs ε=some w) :
+    (∀ a,s a ≤ w.1 a) ∧
+    ∀ a,response (intervalGameMatrix w.2.realData)
+      (blockWeights (fun a => (w.1 a : ℝ)) (fun i => (w.2.q i : ℝ))) a ≤
+        (w.2.bracket.2 : ℝ)+((ε/((3 : ℕ) : ℚ) : ℚ) : ℝ) := by
+  simp only [rationalFloorApproximation,dite_eq_left hε] at hout
+  exact rational_floor_search_rows _ s hs _ _ w hout
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparsify.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Follow-on global sparse composition; specifications require zero residual floors. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalUnconstrainedSystem (m : ℕ) : RationalLinearSystem (Fin 0) m :=
+  ⟨Fin.elim0,Fin.elim0⟩
+
+def rationalFloorSparsify {k m : ℕ} (d : RationalIntervalParameters k m (Fin m))
+    (e : ℚ) (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m) :
+    Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  (rationalSparseGapAlgorithm w.2.K w.2.D w.1 d.M (1-∑ a,w.1 a)
+    (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e (rationalUnconstrainedSystem m)).map (fun v =>
+      (w.1,{ bracket := (0,w.2.bracket.2+e/((3 : ℕ) : ℚ)+e), q := v.1,
+             K := w.2.K, D := w.2.D, B := v.2 }))
+
+def rationalFloorSparseApproximation {k m : ℕ} (d : RationalIntervalParameters k m (Fin m))
+    (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a) (ε : ℚ) :
+    Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  if 0 < ε then
+    (rationalFloorApproximation d s hs (ε/((2 : ℕ) : ℚ))).bind
+      (rationalFloorSparsify d (ε/((2 : ℕ) : ℚ))) else none
+
+theorem rational_floor_sparsify_origin {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (e : ℚ)
+    (w v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSparsify d e w=some v) :
+    v.1=w.1 ∧ v.2.K=w.2.K ∧ v.2.D=w.2.D ∧
+    v.2.bracket=(0,w.2.bracket.2+e/((3 : ℕ) : ℚ)+e) ∧
+    rationalSparseGapAlgorithm w.2.K w.2.D w.1 d.M (1-∑ a,w.1 a)
+      (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e (rationalUnconstrainedSystem m)=some (v.2.q,v.2.B) := by
+  cases hs : rationalSparseGapAlgorithm w.2.K w.2.D w.1 d.M (1-∑ a,w.1 a)
+      (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e (rationalUnconstrainedSystem m) with
+  | none => simp only [rationalFloorSparsify,hs,Option.map_none] at hout; cases hout
+  | some z =>
+    have he := Option.some.inj (by simpa only [rationalFloorSparsify,hs,Option.map_some] using hout)
+    subst v
+    exact ⟨rfl,rfl,rfl,rfl,rfl⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparsifyComplete.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_floor_sparsify_complete {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (e : ℚ) (he : 0 < e)
+    (w : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorApproximation d s hs e=some w) :
+    ∃ v,rationalFloorSparsify d e w=some v := by
+  have hclass := rational_floor_approximation_output_class d s (fun _ => 0) hs hR e w hout
+  rcases hclass with ⟨⟨_,hq,_,_,hB,hBI⟩,_,_,hmass,_⟩
+  have hq' : ∀ i,(0 : ℝ) ≤ (w.2.q i : ℝ) := hq.1
+  have hm : (∑ i,(w.2.q i : ℝ))=((1-∑ a,w.1 a : ℚ) : ℝ) := by
+    push_cast
+    change (∑ a,(w.1 a : ℝ))+(∑ i,(w.2.q i : ℝ))=1 at hmass
+    linarith
+  have hr := (rational_floor_approximation_rows d s hs e he w hout).2
+  have hsys := exact_game_rational_gap_system_real w.2.K w.2.D w.1
+    (fun i => (w.2.q i : ℝ)) (fun i j => (w.2.B i j : ℝ))
+    d.M (1-∑ a,w.1 a) (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e d.positiveBound hq' hm hB hBI
+    (by simpa only [intervalGameMatrix,RationalIntervalRationalOutput.realData,Rat.cast_add] using hr)
+  have hnone : (rationalUnconstrainedSystem m).RealSatisfies (fun i => (w.2.q i : ℝ)) :=
+    fun a => Fin.elim0 a
+  obtain ⟨q,B,hqB⟩ := rational_sparse_gap_algorithm_complete w.2.K w.2.D w.1
+    d.M (1-∑ a,w.1 a) (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e (rationalUnconstrainedSystem m)
+    d.positiveBound he (fun i => (w.2.q i : ℝ))
+    ((rational_linear_real_append_iff _ _ _).mpr ⟨hsys,hnone⟩) hq' hm
+  exact ⟨(w.1,{ bracket := (0,w.2.bracket.2+e/((3 : ℕ) : ℚ)+e), q := q,
+                K := w.2.K, D := w.2.D, B := B }),by
+      simp only [rationalFloorSparsify,hqB,Option.map_some]⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparsifyClass.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Sparse global output preserves original intervals and zero residual floors. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rational_floor_sparsify_class {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (e : ℚ) (he : 0 < e)
+    (w v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hw : rationalFloorApproximation d s hs e=some w) (hv : rationalFloorSparsify d e w=some v) :
+    ((fun a => (v.1 a : ℝ)),v.2.realData) ∈ floorIntervalGameClass d s (fun _ => 0) ∧
+    (∀ a,response (intervalGameMatrix v.2.realData)
+      (blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ))) a ≤ (v.2.bracket.2 : ℝ)) ∧
+    (Finset.univ.filter fun i => v.2.q i ≠ 0).card ≤
+      min m (k+rationalGridSize d.M (1-∑ a,v.1 a) e+1) := by
+  obtain ⟨hp,hK,hD,hz,ha⟩ := rational_floor_sparsify_origin d e w v hv
+  have hc := rational_floor_approximation_output_class d s (fun _ => 0) hs hR e w hw
+  rcases hc with ⟨⟨hpa,hqa,hDI,hKI,hB,hBI⟩,hsp,_,hmass,hKs⟩
+  have hsave := rational_sparse_gap_algorithm_sound w.2.K w.2.D w.1 d.M (1-∑ a,w.1 a)
+    (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e (rationalUnconstrainedSystem m) v.2.q v.2.B ha
+  have hg := hsave.2.1
+  have hBnew := (residual_rat_real_iff v.2.q (rationalScore w.2.D w.1) d.M
+    (w.2.bracket.2+e/((3 : ℕ) : ℚ)+e) v.2.B).mp hsave.2.2.1
+  have hq0 : ∀ i,(0 : ℝ) ≤ (v.2.q i : ℝ) := fun i => by exact_mod_cast hg.1 i
+  have hm : (∑ a,(w.1 a : ℝ))+(∑ i,(v.2.q i : ℝ))=1 := by
+    have hh := hg.2.1
+    have hhc : (∑ i,(v.2.q i : ℝ))=((1-∑ a,w.1 a : ℚ) : ℝ) := by exact_mod_cast hh
+    push_cast at hhc
+    linarith
+  have hq1 : ∀ i,(v.2.q i : ℝ) ≤ 1 := by
+    intro i
+    have hi := Finset.single_le_sum (fun j _ => hq0 j) (Finset.mem_univ i)
+    have hp0 : 0 ≤ ∑ a,(w.1 a : ℝ) := Finset.sum_nonneg fun a _ => hpa.1 a
+    linarith
+  have hClass : ((fun a => (v.1 a : ℝ)),v.2.realData) ∈ floorIntervalGameClass d s (fun _ => 0) := by
+    change ((fun a => (v.1 a : ℝ)),((fun i => (v.2.q i : ℝ)),(fun i a => (v.2.D i a : ℝ)),
+      (fun a b => (v.2.K a b : ℝ)),(fun i j => (v.2.B i j : ℝ)))) ∈ _
+    rw [hp,hK,hD]
+    exact ⟨⟨hpa,⟨hq0,hq1⟩,hDI,hKI,hBnew.1,hBnew.2.1⟩,hsp,(fun i => by simpa only [Rat.cast_zero] using hq0 i),hm,hKs⟩
+  have hKq : ∀ a b,w.2.K a b= -w.2.K b a := by
+    intro a b
+    have hh := hKs a b
+    change (w.2.K a b : ℝ)= -(w.2.K b a : ℝ) at hh
+    exact_mod_cast hh
+  have hKb : ∀ a b,-d.M ≤ w.2.K a b ∧ w.2.K a b ≤ d.M := by
+    intro a b
+    have hh : d.loK a b ≤ w.2.K a b ∧ w.2.K a b ≤ d.hiK a b := by
+      exact_mod_cast (show (d.loK a b : ℝ) ≤ (w.2.K a b : ℝ) ∧
+        (w.2.K a b : ℝ) ≤ (d.hiK a b : ℝ) from ⟨hKI.1 a b,hKI.2 a b⟩)
+    exact ⟨le_trans (d.coreLower a b) hh.1,le_trans hh.2 (d.coreUpper a b)⟩
+  have hDb : ∀ i a,-d.M ≤ w.2.D i a ∧ w.2.D i a ≤ d.M := by
+    intro i a
+    have hh : d.lo i a ≤ w.2.D i a ∧ w.2.D i a ≤ d.hi i a := by
+      exact_mod_cast (show (d.lo i a : ℝ) ≤ (w.2.D i a : ℝ) ∧
+        (w.2.D i a : ℝ) ≤ (d.hi i a : ℝ) from ⟨hDI.1 i a,hDI.2 i a⟩)
+    exact ⟨le_trans (d.crossLower i a) hh.1,le_trans hh.2 (d.crossUpper i a)⟩
+  have hfull := rational_sparse_gap_algorithm_full_game w.2.K w.2.D w.1 v.2.q d.M
+    (1-∑ a,w.1 a) (w.2.bracket.2+e/((3 : ℕ) : ℚ)) e he
+    (fun a => by
+      have hh : (0 : ℝ) ≤ (w.1 a : ℝ) := hpa.1 a
+      exact_mod_cast hh) (by ring) hKq hKb hDb (rationalUnconstrainedSystem m) v.2.B ha
+  refine ⟨hClass,?_,?_⟩
+  · simpa only [intervalGameMatrix,RationalIntervalRationalOutput.realData,hp,hK,hD,hz,Rat.cast_add] using hfull.2.2.2.2
+  · simpa only [hp,Fintype.card_fin,Nat.add_zero] using hsave.2.2.2
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparseValue.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Global additive value approximation with actual sparse rational game output.
+Specifications require zero residual floors. No polynomial cost claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_floor_sparse_origin {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSparseApproximation d s hs ε=some v) :
+    0 < ε ∧ ∃ w,rationalFloorApproximation d s hs (ε/((2 : ℕ) : ℚ))=some w ∧
+      rationalFloorSparsify d (ε/((2 : ℕ) : ℚ)) w=some v := by
+  by_cases he : 0 < ε
+  · refine ⟨he,?_⟩
+    cases hw : rationalFloorApproximation d s hs (ε/((2 : ℕ) : ℚ)) with
+    | none => simp only [rationalFloorSparseApproximation,he,ite_true,hw,Option.bind_none] at hout; cases hout
+    | some w =>
+      exact ⟨w,rfl,by simpa only [rationalFloorSparseApproximation,he,ite_true,hw,Option.bind_some] using hout⟩
+  · simp only [rationalFloorSparseApproximation,he,ite_false] at hout
+    cases hout
+
+theorem rational_floor_sparse_output_game {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (ε : ℚ)
+    (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSparseApproximation d s hs ε=some v) :
+    ((fun a => (v.1 a : ℝ)),v.2.realData) ∈ floorIntervalGameClass d s (fun _ => 0) ∧
+    (∀ a,response (intervalGameMatrix v.2.realData)
+      (blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ))) a ≤ (v.2.bracket.2 : ℝ)) ∧
+    (Finset.univ.filter fun i => v.2.q i ≠ 0).card ≤
+      min m (k+rationalGridSize d.M (1-∑ a,v.1 a) (ε/((2 : ℕ) : ℚ))+1) := by
+  obtain ⟨he,w,hw,hv⟩ := rational_floor_sparse_origin d s hs ε v hout
+  exact rational_floor_sparsify_class d s hs hR _ (div_pos he (by norm_num)) w v hw hv
+
+theorem rational_floor_sparse_global {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0))
+    (hne : (floorIntervalGameClass d s (fun _ => 0)).Nonempty) (ε : ℚ) (hε : 0 < ε) :
+    ∃ v : (Fin k → ℚ) × RationalIntervalRationalOutput k m,
+      rationalFloorSparseApproximation d s hs ε=some v ∧
+      floorIntervalGameValue d s (fun _ => 0) ≤ (v.2.bracket.2 : ℝ) ∧
+      (v.2.bracket.2 : ℝ) < floorIntervalGameValue d s (fun _ => 0)+(ε : ℝ) := by
+  let e := ε/((2 : ℕ) : ℚ)
+  have he : 0 < e := div_pos hε (by norm_num)
+  obtain ⟨w,hw,hlo,hhi⟩ := rational_floor_approximation_global d s (fun _ => 0) hs
+    (fun _ => le_rfl) hR hne e he
+  obtain ⟨v,hv⟩ := rational_floor_sparsify_complete d s hs hR e he w hw
+  have hz := (rational_floor_sparsify_origin d e w v hv).2.2.2.1
+  have hu : (v.2.bracket.2 : ℝ)=(w.2.bracket.2 : ℝ)+(e : ℝ)/((3 : ℕ) : ℝ)+(e : ℝ) := by
+    have hh := congrArg (fun z : ℚ × ℚ => (z.2 : ℝ)) hz
+    simpa only [Rat.cast_add,Rat.cast_div,Rat.cast_natCast] using hh
+  have heR : (0 : ℝ) < (e : ℝ) := by exact_mod_cast he
+  have heq : (e : ℝ)+(e : ℝ)=(ε : ℝ) := by
+    dsimp only [e]
+    push_cast
+    ring
+  refine ⟨v,?_,?_,?_⟩
+  · dsimp only [e] at hw hv
+    simp only [rationalFloorSparseApproximation,hε,ite_true,hw,Option.bind_some,hv]
+  · rw [hu]
+    linarith
+  · rw [hu]
+    linarith
+
+theorem rational_floor_sparse_none_iff {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (ε : ℚ) (hε : 0 < ε) :
+    rationalFloorSparseApproximation d s hs ε=none ↔ ¬(floorIntervalGameClass d s (fun _ => 0)).Nonempty := by
+  constructor
+  · intro hn hne
+    let _ := floor_interval_class_nonempty_actions d s (fun _ => 0) hne
+    obtain ⟨v,hv,_,_⟩ := rational_floor_sparse_global d s hs hR hne ε hε
+    rw [hn] at hv
+    cases hv
+  · intro hn
+    cases hv : rationalFloorSparseApproximation d s hs ε with
+    | none => rfl
+    | some v => exact False.elim (hn ⟨_,(rational_floor_sparse_output_game d s hs hR ε v hv).1⟩)
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparseSupport.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_floor_sparse_total_support {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSparseApproximation d s hs ε=some v) :
+    (Finset.univ.filter fun a =>
+      blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ)) a ≠ 0).card ≤
+      min (k+m) ((2 : ℕ)*k+rationalGridSize d.M (1-∑ a,v.1 a) (ε/((2 : ℕ) : ℚ))+1) := by
+  obtain ⟨_,w,_,hv⟩ := rational_floor_sparse_origin d s hs ε v hout
+  obtain ⟨hp,_,_,_,ha⟩ := rational_floor_sparsify_origin d (ε/((2 : ℕ) : ℚ)) w v hv
+  have hc := rational_sparse_gap_algorithm_full_support w.2.K w.2.D w.1 d.M (1-∑ a,w.1 a)
+    (w.2.bracket.2+(ε/((2 : ℕ) : ℚ))/((3 : ℕ) : ℚ)) (ε/((2 : ℕ) : ℚ))
+    (rationalUnconstrainedSystem m) v.2.q v.2.B ha
+  simpa only [hp,Fintype.card_fin,Nat.add_zero] using hc
+
+theorem rational_floor_sparse_sqrt_support {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (ε : ℚ)
+    (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hout : rationalFloorSparseApproximation d s hs ε=some v) :
+    ((Finset.univ.filter fun a =>
+      blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ)) a ≠ 0).card : ℝ) ≤
+      ((2 : ℕ) : ℝ)*(k : ℝ)+Real.sqrt (((2 : ℕ) : ℝ)*(d.M : ℝ)/(ε : ℝ))+(3 : ℕ) := by
+  have hε := (rational_floor_sparse_origin d s hs ε v hout).1
+  have he : (0 : ℚ) < ε/((2 : ℕ) : ℚ) := div_pos hε (by norm_num)
+  have heR : (0 : ℝ) < ((ε/((2 : ℕ) : ℚ) : ℚ) : ℝ) := by exact_mod_cast he
+  have hclass := (rational_floor_sparse_output_game d s hs hR ε v hout).1
+  rcases hclass with ⟨⟨hp,hq,_,_,_,_⟩,_,_,hmass,_⟩
+  have hp0 : 0 ≤ ∑ a,(v.1 a : ℝ) := Finset.sum_nonneg fun a _ => hp.1 a
+  have hq0 : 0 ≤ ∑ i,(v.2.q i : ℝ) := Finset.sum_nonneg fun i _ => hq.1 i
+  change (∑ a,(v.1 a : ℝ))+(∑ i,(v.2.q i : ℝ))=1 at hmass
+  have hr0 : (0 : ℚ) ≤ 1-∑ a,v.1 a := by
+    have hh : (0 : ℝ) ≤ ((1-∑ a,v.1 a : ℚ) : ℝ) := by push_cast; linarith
+    exact_mod_cast hh
+  have hr1 : ((1-∑ a,v.1 a : ℚ) : ℝ) ≤ 1 := by push_cast; linarith
+  have hM : (0 : ℝ) ≤ (d.M : ℝ) := by exact_mod_cast d.positiveBound.le
+  have hratio : (d.M : ℝ)*((1-∑ a,v.1 a : ℚ) : ℝ)/((ε/((2 : ℕ) : ℚ) : ℚ) : ℝ) ≤
+      ((2 : ℕ) : ℝ)*(d.M : ℝ)/(ε : ℝ) := by
+    calc
+      _ ≤ (d.M : ℝ)/((ε/((2 : ℕ) : ℚ) : ℚ) : ℝ) :=
+        div_le_div_of_nonneg_right (mul_le_of_le_one_right hM hr1) heR.le
+      _ = _ := by push_cast; ring
+  have hH := rational_grid_size_sqrt_bound d.M (1-∑ a,v.1 a) (ε/((2 : ℕ) : ℚ))
+    d.positiveBound.le hr0 he
+  have hH' := add_le_add_left (Real.sqrt_le_sqrt hratio) ((2 : ℕ) : ℝ)
+  have hH' := le_trans hH hH'
+  have hc := le_trans (rational_floor_sparse_total_support d s hs ε v hout) (min_le_right _ _)
+  have hcR : ((Finset.univ.filter fun a =>
+      blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ)) a ≠ 0).card : ℝ) ≤
+      ((2 : ℕ) : ℝ)*(k : ℝ)+(rationalGridSize d.M (1-∑ a,v.1 a) (ε/((2 : ℕ) : ℚ)) : ℝ)+1 := by
+    exact_mod_cast hc
+  norm_num only [Nat.cast_ofNat] at hH' hcR ⊢
+  linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparseDecision.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalSparseFloorClassDecision {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (ε : ℚ) (hε : 0 < ε) :
+    Decidable (floorIntervalGameClass d s (fun _ => 0)).Nonempty :=
+  (Option.rec (motive := fun o => rationalFloorSparseApproximation d s hs ε=o →
+      Decidable (floorIntervalGameClass d s (fun _ => 0)).Nonempty)
+    (fun he => isFalse ((rational_floor_sparse_none_iff d s hs hR ε hε).mp he))
+    (fun v he => isTrue ⟨_,(rational_floor_sparse_output_game d s hs hR ε v he).1⟩)
+    (rationalFloorSparseApproximation d s hs ε)) rfl
+
+theorem rational_floor_sparse_nonpositive {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (hε : ε ≤ 0) : rationalFloorSparseApproximation d s hs ε=none := by
+  simp only [rationalFloorSparseApproximation,not_lt.mpr hε,ite_false]
+
+theorem rational_floor_sparse_empty (d : RationalIntervalParameters 0 0 (Fin 0))
+    (s : Fin 0 → ℚ) (hs : ∀ a,0 ≤ s a) (ε : ℚ) :
+    rationalFloorSparseApproximation d s hs ε=none := by
+  unfold rationalFloorSparseApproximation
+  rw [rational_floor_approximation_empty]
+  split_ifs <;> rfl
+
+end SparseCompletion
+
+/- Fixed source body: RationalFloorSparseCertified.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Computed global value bracket from the proved additive upper certificate.
+Zero residual floors only; no polynomial running-time assertion. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalFloorSparseCertifiedApproximation {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) : Option ((Fin k → ℚ) × RationalIntervalRationalOutput k m) :=
+  (rationalFloorSparseApproximation d s hs ε).map (fun w =>
+    (w.1,{w.2 with bracket := (w.2.bracket.2-ε,w.2.bracket.2)}))
+
+theorem rational_floor_sparse_certified_origin {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (ε : ℚ) (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalFloorSparseCertifiedApproximation d s hs ε=some v) :
+    ∃ w,rationalFloorSparseApproximation d s hs ε=some w ∧
+      v=(w.1,{w.2 with bracket := (w.2.bracket.2-ε,w.2.bracket.2)}) := by
+  cases hw : rationalFloorSparseApproximation d s hs ε with
+  | none => simp only [rationalFloorSparseCertifiedApproximation,hw,Option.map_none] at hv; cases hv
+  | some w =>
+    refine ⟨w,rfl,?_⟩
+    exact (Option.some.inj (by simpa only [rationalFloorSparseCertifiedApproximation,hw,Option.map_some] using hv)).symm
+
+theorem rational_floor_sparse_certified_none_iff {k m : ℕ}
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (ε : ℚ) (hε : 0 < ε) :
+    rationalFloorSparseCertifiedApproximation d s hs ε=none ↔
+      ¬(floorIntervalGameClass d s (fun _ => 0)).Nonempty := by
+  rw [rationalFloorSparseCertifiedApproximation,Option.map_eq_none_iff,
+    rational_floor_sparse_none_iff d s hs hR ε hε]
+
+theorem rational_floor_sparse_certified_complete {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0))
+    (hne : (floorIntervalGameClass d s (fun _ => 0)).Nonempty) (ε : ℚ) (hε : 0 < ε) :
+    ∃ v,rationalFloorSparseCertifiedApproximation d s hs ε=some v := by
+  obtain ⟨w,hw,_,_⟩ := rational_floor_sparse_global d s hs hR hne ε hε
+  refine ⟨(w.1,{w.2 with bracket := (w.2.bracket.2-ε,w.2.bracket.2)}),?_⟩
+  simp only [rationalFloorSparseCertifiedApproximation,hw,Option.map_some]
+
+theorem rational_floor_sparse_certified_value {k m : ℕ} [Nonempty (Fin k ⊕ Fin m)]
+    (d : RationalIntervalParameters k m (Fin m)) (s : Fin k → ℚ) (hs : ∀ a,0 ≤ s a)
+    (hR : d.R=rationalResidualFloors (fun _ => 0)) (ε : ℚ)
+    (v : (Fin k → ℚ) × RationalIntervalRationalOutput k m)
+    (hv : rationalFloorSparseCertifiedApproximation d s hs ε=some v) :
+    ((fun a => (v.1 a : ℝ)),v.2.realData) ∈ floorIntervalGameClass d s (fun _ => 0) ∧
+    (∀ a,response (intervalGameMatrix v.2.realData)
+      (blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ))) a ≤ (v.2.bracket.2 : ℝ)) ∧
+    (v.2.bracket.1 : ℝ) < floorIntervalGameValue d s (fun _ => 0) ∧
+    floorIntervalGameValue d s (fun _ => 0) ≤ (v.2.bracket.2 : ℝ) ∧
+    v.2.bracket.2-v.2.bracket.1=ε ∧
+    (Finset.univ.filter fun a =>
+      blockWeights (fun a => (v.1 a : ℝ)) (fun i => (v.2.q i : ℝ)) a ≠ 0).card ≤
+      min (k+m) (((2 : ℕ))*k+rationalGridSize d.M (1-∑ a,v.1 a) (ε/((2 : ℕ) : ℚ))+1) := by
+  obtain ⟨w,hw,rfl⟩ := rational_floor_sparse_certified_origin d s hs ε v hv
+  have he := (rational_floor_sparse_origin d s hs ε w hw).1
+  have hg := rational_floor_sparse_output_game d s hs hR ε w hw
+  have hne : (floorIntervalGameClass d s (fun _ => 0)).Nonempty := ⟨_,hg.1⟩
+  obtain ⟨w',hw',hlo,hhi⟩ := rational_floor_sparse_global d s hs hR hne ε he
+  have heq : w'=w := Option.some.inj (hw'.symm.trans hw)
+  subst w'
+  refine ⟨hg.1,hg.2.1,?_,hlo,?_,rational_floor_sparse_total_support d s hs ε w hw⟩
+  · change ((w.2.bracket.2-ε : ℚ) : ℝ) < _
+    push_cast
+    linarith
+  · change w.2.bracket.2-(w.2.bracket.2-ε)=ε
+    ring
+
 end SparseCompletion
