@@ -1,0 +1,13 @@
+module
+public import BCSolution
+#print axioms BaireCharacterization.exists_clopen_partition
+#print axioms BaireCharacterization.exists_clopen_scheme
+#print axioms BaireCharacterization.ClopenScheme.image_cylinder
+#print axioms BaireCharacterization.nonempty_homeomorph_of_completeSpace
+#print axioms BaireCharacterization.nonempty_homeomorph
+#print axioms BaireCharacterization.baire_hasClopenBasis
+#print axioms BaireCharacterization.baire_compactInteriorEmpty
+#print axioms BaireCharacterization.nonempty_homeomorph_iff
+#print axioms BaireCharacterization.HasClopenBasis
+#print axioms BaireCharacterization.CompactInteriorEmpty
+#print axioms BaireCharacterization.ClopenScheme.limit

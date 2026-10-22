@@ -1,0 +1,100 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Alexandrov\u2013Urysohn characterization of Baire space",
+    "description": "A topological space is homeomorphic to Baire space, the countable product of discrete natural numbers, if and only if it is nonempty, Polish, has a basis of clopen sets, and every compact subset has empty interior. The construction partitions each nonempty clopen set into countably infinitely many distinct nonempty clopen children with arbitrarily small diameter. A fully branching shrinking scheme gives a continuous open bijective limit map and therefore a homeomorphism. The converse uses finite coordinate images of compact Baire subsets. This formalizes a classical theorem of Alexandrov and Urysohn; no novelty or priority claim is made.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN",
+      "math.LO"
+    ],
+    "msc2020": [
+      "54E50",
+      "54F65",
+      "03E15"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Introduction to descriptive set theory",
+      "authors": [
+        "Anush Tserunyan"
+      ],
+      "type": "other",
+      "id": "https://www.math.mcgill.ca/atserunyan/Teaching_notes/dst_lectures.pdf",
+      "relationship": "formalizes",
+      "note": "Theorem5.4, printedp19, downloaded PDF SHA256523e7872328aa6136054effbcc194dbe4ff2da7f177257f5d317475540acab61; dated October21,2026. Classical attribution Alexandrov\u2013Urysohn. Full source snapshot retained outside the source package."
+    },
+    {
+      "title": "Descriptive set theory problem set",
+      "authors": [
+        "Anush Tserunyan"
+      ],
+      "type": "other",
+      "id": "https://homepages.math.uic.edu/~cdean8/docs/dst_problems.pdf",
+      "relationship": "formalizes",
+      "note": "Problem26(a,b), printedp5, in retained18page PDF SHA256b9cf370dee86d3a1fa6f33bf32411f996eb3f7e3e80cac64bd8fb776f601dcd5. Other cached web versions number it33; the retained bytes determine this citation. The hint forces an infinite small clopen partition. No full Kechris book proof consulted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/CantorScheme.lean",
+      "relationship": "builds-on",
+      "note": "Felix Weilacher generic scheme limits, totality, continuity and injectivity reused. New infinite disjoint clopen partition and full characterization are local."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation",
+      "relationship": "builds-on",
+      "note": "Limit, branch-extension and exact cylinder-image proof code adapted with attribution from the prior campaign package. It supplied generally noninjective open surjections; new infinite disjoint clopen partitions make the limit bijective."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean",
+      "relationship": "builds-on",
+      "note": "Countable refinement, clopen operations, total boundedness and enumeration are reused as ingredients. Exact-pin audit found no equivalent characterization; global/private duplicate clearance remains limited."
+    }
+  ],
+  "status": {
+    "scope": "Eight selected contracts: infinite small clopen partition, full clopen scheme, exact cylinder images, complete-metric and Polish sufficiency, Baire clopen basis and compact interiors, and the unrestricted full iff.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "No mathematical gap claimed in the selected contracts. Nonempty, Polish, clopen basis and empty compact interiors are all explicit. No replacement by total disconnectedness or merely failure of local compactness; no quasi-Polish, uncountable-weight, irrational-space corollary or new classification result. Mechanical, rendering and registration outcomes belong to exact-source release records. Global/private overlap is not exhaustively cleared.",
+    "attribution_status": "Established campaign author and responsible-maintainer lists retained separately; substantive AI proof work and internal AI review disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored the new proof, semantic tests and packaging under user authorization. Independent internal AI reviewers assessed primary-source/research scope, mathematical implementation and imported meanings. No human mathematical proof contribution or external peer review is inferred."
+      }
+    ],
+    "notes": "Clopen cover disjointification, failure of total boundedness and a bijective Nat enumeration supply the new infinite partition. Prior open Baire branch/limit proof code and Mathlib generic scheme machinery are credited."
+  },
+  "fidelity": {
+    "divergences": "PiNat.res uses reversed finite lists with children a::l. Complete compatible metrics are introduced internally for the Polish theorem without changing topology. The compact-interior and clopen-basis predicates remain fixed non-target definitions; definition_names is empty. Countably infinite children are reindexed bijectively, never padded with repetitions."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal source/scope AI reviewer",
+      "Independent internal mathematical implementation AI reviewer"
+    ],
+    "notes": "Review receipts identify exact covered files/digests and scope. Imported-predicate, kernel, rendering, final-packet and registry stages have separate evidence; this field is not a public acceptance claim."
+  }
+}
