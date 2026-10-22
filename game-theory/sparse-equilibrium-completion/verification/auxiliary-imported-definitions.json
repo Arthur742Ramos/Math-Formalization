@@ -1,0 +1,43 @@
+{
+  "dependency": {
+    "url": "https://github.com/leanprover-community/batteries",
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+    "rev": "ed9b316aabe389fec1ef43c3326ab48c7e59be42",
+    "name": "batteries",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+    "inherited": true,
+    "configFile": "lakefile.toml"
+  },
+  "provenance": "Existing authorized package manifest pin and clean installed Git checkout; exact pinned Git object matches whole source bytes. No claim of new network authentication.",
+  "sources": [
+    {
+      "path": "Batteries/Classes/RatCast.lean",
+      "url": "https://github.com/leanprover-community/batteries/blob/ed9b316aabe389fec1ef43c3326ab48c7e59be42/Batteries/Classes/RatCast.lean",
+      "github_blob_sha1": "b2df7c7304c219d3b812a2b800154d03007f9110",
+      "source_sha256": "2d2f0265802ab69e891924f62d1ddca1b82c303027dfa0ef3453bea37577e7b9",
+      "upstream_header": "/-\nCopyright (c) 2014 Robert Lewis. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert Lewis, Leonardo de Moura, Johannes H\u00f6lzl, Mario Carneiro, Gabriel Ebner\n-/",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "RatCast and rational identity instance",
+          "first_line": 10,
+          "last_line": 15,
+          "excerpt": "/-- Type class for the canonical homomorphism `Rat \u2192 K`. -/\nclass RatCast (K : Type u) where\n  /-- The canonical homomorphism `Rat \u2192 K`. -/\n  protected ratCast : Rat \u2192 K\n\ninstance : RatCast Rat where ratCast n := n\n",
+          "excerpt_sha256": "a69e623239916e7d8264ae91a4f5fdd2454dfd44e14a514eb0bb14c6841632c1",
+          "kind": "literal class and instance"
+        },
+        {
+          "name": "Rat.cast and coercion selectors",
+          "first_line": 17,
+          "last_line": 26,
+          "excerpt": "/-- Canonical homomorphism from `Rat` to a division ring `K`.\nThis is just the bare function in order to aid in creating instances of `DivisionRing`. -/\n@[coe, reducible, match_pattern] protected def Rat.cast {K : Type u} [RatCast K] : Rat \u2192 K :=\n  RatCast.ratCast\n\n-- see note [coercion into rings]\ninstance [RatCast K] : CoeTail Rat K where coe := Rat.cast\n\n-- see note [coercion into rings]\ninstance [RatCast K] : CoeHTCT Rat K where coe := Rat.cast\n",
+          "excerpt_sha256": "024e00aa2e1dea3abf727589cdd7171b65c5d853bf07f271baf60f545569e9d2",
+          "kind": "literal selector and CoeTail/CoeHTCT instances"
+        }
+      ]
+    }
+  ]
+}

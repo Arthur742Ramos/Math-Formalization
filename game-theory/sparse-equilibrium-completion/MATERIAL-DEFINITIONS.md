@@ -3226,3 +3226,2648 @@ Compact-convex completion coverage for Convex: SparseCompletion.interval_perspec
 Compact-convex completion coverage for StarConvex: SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_interval_perspective_iff.
 
 Set.Icc also appears as the coordinatewise bounded matrix cube in compact completion reconstruction for SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_interval_perspective_iff. This uses the same literal closed order-interval predicate, with pointwise matrix order.
+
+
+## Joint interval geometry, actual minima, and cloned anchors
+
+### Mathlib/Algebra/Notation/Prod.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Notation/Prod.lean
+
+Whole-source SHA256: 04b328557e18a8f75955a89484cda74bfeb9bb685e62d0b59ab70f01477dfd4a
+
+```lean
+/-
+Copyright (c) 2020 Yury Kudryashov. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Simon Hudon, Patrick Massot, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Notation/Prod.lean#L61-L82
+
+```lean
+section Mul
+
+variable {M N : Type*} [Mul M] [Mul N]
+
+@[to_additive]
+instance instMul : Mul (M × N) :=
+  ⟨fun p q => ⟨p.1 * q.1, p.2 * q.2⟩⟩
+
+@[to_additive (attr := simp)]
+theorem fst_mul (p q : M × N) : (p * q).1 = p.1 * q.1 := rfl
+
+@[to_additive (attr := simp)]
+theorem snd_mul (p q : M × N) : (p * q).2 = p.2 * q.2 := rfl
+
+@[to_additive (attr := simp)]
+theorem mk_mul_mk (a₁ a₂ : M) (b₁ b₂ : N) : (a₁, b₁) * (a₂, b₂) = (a₁ * a₂, b₁ * b₂) := rfl
+
+@[to_additive (attr := simp)]
+theorem swap_mul (p q : M × N) : (p * q).swap = p.swap * q.swap := rfl
+
+@[to_additive]
+theorem mul_def (p q : M × N) : p * q = (p.1 * q.1, p.2 * q.2) := rfl
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Notation/Prod.lean#L132-L152
+
+```lean
+section Pow
+
+variable {E α β : Type*} [Pow α E] [Pow β E]
+
+@[to_additive (attr := to_additive) instSMul]
+instance instPow : Pow (α × β) E where pow p c := (p.1 ^ c, p.2 ^ c)
+
+@[to_additive (attr := to_additive, simp) (reorder := p c) smul_fst]
+lemma pow_fst (p : α × β) (c : E) : (p ^ c).fst = p.fst ^ c := rfl
+
+@[to_additive (attr := to_additive, simp) (reorder := p c) smul_snd]
+lemma pow_snd (p : α × β) (c : E) : (p ^ c).snd = p.snd ^ c := rfl
+
+@[to_additive (attr := to_additive, simp) (reorder := a b c) smul_mk]
+lemma pow_mk (a : α) (b : β) (c : E) : Prod.mk a b ^ c = Prod.mk (a ^ c) (b ^ c) := rfl
+
+@[to_additive (attr := to_additive) (reorder := p c) smul_def]
+lemma pow_def (p : α × β) (c : E) : p ^ c = (p.1 ^ c, p.2 ^ c) := rfl
+
+@[to_additive (attr := to_additive, simp) (reorder := p c) smul_swap]
+lemma pow_swap (p : α × β) (c : E) : (p ^ c).swap = p.swap ^ c := rfl
+```
+
+### Mathlib/Algebra/Notation/Pi/Defs.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Notation/Pi/Defs.lean
+
+Whole-source SHA256: 79c1a26611ae1d19d22b47b0b109eb02ff5502545b55e7ad96b2a9164622a89c
+
+```lean
+/-
+Copyright (c) 2020 Eric Wieser. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Simon Hudon, Patrick Massot, Eric Wieser
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Notation/Pi/Defs.lean#L63-L73
+
+```lean
+section Mul
+variable [∀ i, Mul (M i)]
+
+@[to_additive]
+instance instMul : Mul (∀ i, M i) where mul f g i := f i * g i
+
+@[to_additive (attr := simp)]
+lemma mul_apply (f g : ∀ i, M i) (i : ι) : (f * g) i = f i * g i := rfl
+
+@[to_additive (attr := push ←)]
+lemma mul_def (f g : ∀ i, M i) : f * g = fun i ↦ f i * g i := rfl
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Notation/Pi/Defs.lean#L128-L139
+
+```lean
+section Pow
+
+variable [∀ i, Pow (M i) α]
+
+@[to_additive (attr := to_additive) instSMul]
+instance instPow : Pow (∀ i, M i) α where pow f a i := f i ^ a
+
+@[to_additive (attr := simp, to_additive) (reorder := 5 6) smul_apply]
+lemma pow_apply (f : ∀ i, M i) (a : α) (i : ι) : (f ^ a) i = f i ^ a := rfl
+
+@[to_additive (attr := push ←, to_additive) (reorder := 5 6) smul_def]
+lemma pow_def (f : ∀ i, M i) (a : α) : f ^ a = fun i ↦ f i ^ a := rfl
+```
+
+### Mathlib/Algebra/Group/Action/Defs.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Action/Defs.lean
+
+Whole-source SHA256: ffecdd8214bad55eab6c631352ec37254a3459a674362fc43681ebfef8ede9b9
+
+```lean
+/-
+Copyright (c) 2018 Chris Hughes. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Chris Hughes, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Action/Defs.lean#L74-L75
+
+```lean
+@[to_additive (attr := simp)]
+lemma smul_eq_mul {α : Type*} [Mul α] (a b : α) : a • b = a * b := rfl
+```
+
+### Compiler-owned product and finite-sum meanings
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Whole-source SHA256: cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L602-L620
+
+```lean
+
+/--
+The product type, usually written `α × β`. Product types are also called pair or tuple types.
+Elements of this type are pairs in which the first element is an `α` and the second element is a
+`β`.
+
+Products nest to the right, so `(x, y, z) : α × β × γ` is equivalent to `(x, (y, z)) : α × (β × γ)`.
+-/
+structure Prod (α : Type u) (β : Type v) where
+  /--
+  Constructs a pair. This is usually written `(x, y)` instead of `Prod.mk x y`.
+  -/
+  mk ::
+  /-- The first element of a pair. -/
+  fst : α
+  /-- The second element of a pair. -/
+  snd : β
+
+attribute [unbox] Prod
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1635-L1651
+
+```lean
+  one : α
+
+/-- The homogeneous version of `HAdd`: `a + b : α` where `a b : α`. -/
+class Add (α : Type u) where
+  /-- `a + b` computes the sum of `a` and `b`. See `HAdd`. -/
+  add : α → α → α
+
+/-- The homogeneous version of `HSub`: `a - b : α` where `a b : α`. -/
+class Sub (α : Type u) where
+  /-- `a - b` computes the difference of `a` and `b`. See `HSub`. -/
+  sub : α → α → α
+
+/-- The homogeneous version of `HMul`: `a * b : α` where `a b : α`. -/
+class Mul (α : Type u) where
+  /-- `a * b` computes the product of `a` and `b`. See `HMul`. -/
+  mul : α → α → α
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1721-L1725
+
+```lean
+/-- Typeclass for types with a scalar multiplication operation, denoted `•` (`\bu`) -/
+class SMul (M : Type u) (α : Type v) where
+  /-- `m • a : α` denotes the product of `m : M` and `a : α`. The meaning of this notation is type-dependent,
+  but it is intended to be used for left actions. -/
+  smul : M → α → α
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1818-L1824
+
+```lean
+@[default_instance]
+instance instHSMul {α β} [SMul α β] : HSMul α β β where
+  hSMul := SMul.smul
+
+instance (priority := 910) {α : Type u} [Mul α] : SMul α α where
+  smul x y := Mul.mul x y
+
+```
+
+### Mathlib/Order/SetNotation.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean
+
+Whole-source SHA256: 302c614100cbc978e2af66d21d5eb0e09eb39402e9ae52a166e6faaa36d3dc14
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Patrick Massot, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean#L43-L56
+
+```lean
+/-- Class for the `sSup` operator -/
+class SupSet (α : Type*) where
+  /-- Supremum of a set -/
+  sSup : Set α → α
+
+/-- Class for the `sInf` operator -/
+@[to_dual existing]
+class InfSet (α : Type*) where
+  /-- Infimum of a set -/
+  sInf : Set α → α
+
+export SupSet (sSup)
+
+export InfSet (sInf)
+```
+
+### Mathlib/Order/ConditionallyCompleteLattice/Defs.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/ConditionallyCompleteLattice/Defs.lean
+
+Whole-source SHA256: 69a260fe2f698bec70175570cdcc411e231b36cc62845cc5ad061da43e4fc7b0
+
+```lean
+/-
+Copyright (c) 2018 Sébastien Gouëzel. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Sébastien Gouëzel
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/ConditionallyCompleteLattice/Defs.lean#L37-L82
+
+```lean
+/-- A conditionally complete lattice is a lattice in which
+every nonempty subset which is bounded above has a supremum, and
+every nonempty subset which is bounded below has an infimum.
+Typical examples are real numbers or natural numbers.
+
+To differentiate the statements from the corresponding statements in (unconditional)
+complete lattices, we prefix `sInf` and `sSup` by a `c` everywhere. The same statements should
+hold in both worlds, sometimes with additional assumptions of nonemptiness or
+boundedness. -/
+class ConditionallyCompleteLattice (α : Type*) extends Lattice α, SupSet α, InfSet α where
+  /-- Every nonempty subset which is bounded above has a least upper bound. -/
+  isLUB_csSup : ∀ s : Set α, s.Nonempty → BddAbove s → IsLUB s (sSup s)
+  /-- Every nonempty subset which is bounded below has a greatest lower bound. -/
+  isGLB_csInf : ∀ s : Set α, s.Nonempty → BddBelow s → IsGLB s (sInf s)
+
+attribute [to_dual self (reorder := 3 4, 5 6)] ConditionallyCompleteLattice.mk
+attribute [to_dual existing] ConditionallyCompleteLattice.toSupSet
+attribute [to_dual existing] ConditionallyCompleteLattice.isLUB_csSup
+
+/-- A conditionally complete linear order is a linear order in which
+every nonempty subset which is bounded above has a supremum, and
+every nonempty subset which is bounded below has an infimum.
+Typical examples are real numbers or natural numbers.
+
+To differentiate the statements from the corresponding statements in (unconditional)
+complete linear orders, we prefix `sInf` and `sSup` by a `c` everywhere. The same statements should
+hold in both worlds, sometimes with additional assumptions of nonemptiness or
+boundedness. -/
+class ConditionallyCompleteLinearOrder (α : Type*)
+    extends ConditionallyCompleteLattice α, Ord α where
+  /-- A `ConditionallyCompleteLinearOrder` is total. -/
+  le_total (a b : α) : a ≤ b ∨ b ≤ a
+  /-- In a `ConditionallyCompleteLinearOrder`, we assume the order relations are all decidable. -/
+  toDecidableLE : DecidableLE α
+  /-- In a `ConditionallyCompleteLinearOrder`, we assume the order relations are all decidable. -/
+  toDecidableEq : DecidableEq α := @decidableEqOfDecidableLE _ _ toDecidableLE
+  /-- In a `ConditionallyCompleteLinearOrder`, we assume the order relations are all decidable. -/
+  toDecidableLT : DecidableLT α := @decidableLTOfDecidableLE _ _ toDecidableLE
+  /-- If a set is not bounded above, its supremum is by convention `sSup ∅`. -/
+  csSup_of_not_bddAbove : ∀ s, ¬BddAbove s → sSup s = sSup (∅ : Set α)
+  /-- If a set is not bounded below, its infimum is by convention `sInf ∅`. -/
+  csInf_of_not_bddBelow : ∀ s, ¬BddBelow s → sInf s = sInf (∅ : Set α)
+  compare a b := compareOfLessAndEq a b
+  /-- Comparison via `compare` is equal to the canonical comparison given decidable `<` and `=`. -/
+  compare_eq_compareOfLessAndEq : ∀ a b, compare a b = compareOfLessAndEq a b := by
+    compareOfLessAndEq_rfl
+```
+
+### Mathlib/Order/ConditionallyCompleteLattice/Basic.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/ConditionallyCompleteLattice/Basic.lean
+
+Whole-source SHA256: f3ccc930eeef8bd3cdd245cd88e9941a3b226f0baf0e83029b7c86897fa2a224
+
+```lean
+/-
+Copyright (c) 2018 Sébastien Gouëzel. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Sébastien Gouëzel
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/ConditionallyCompleteLattice/Basic.lean#L188-L202
+
+```lean
+section ConditionallyCompleteLattice
+
+variable [ConditionallyCompleteLattice α] {s t : Set α} {a b : α}
+
+@[to_dual]
+theorem isLUB_csSup (hn : s.Nonempty) (hb : BddAbove s := by bddDefault) : IsLUB s (sSup s) :=
+  ConditionallyCompleteLattice.isLUB_csSup _ hn hb
+
+@[to_dual csInf_le]
+theorem le_csSup (h₁ : BddAbove s) (h₂ : a ∈ s) : a ≤ sSup s :=
+  (isLUB_csSup (nonempty_of_mem h₂) h₁).1 h₂
+
+@[to_dual le_csInf]
+theorem csSup_le (h₁ : s.Nonempty) (h₂ : ∀ b ∈ s, b ≤ a) : sSup s ≤ a :=
+  (isLUB_csSup h₁ ⟨a, h₂⟩).2 h₂
+```
+
+### Mathlib/Algebra/Order/Archimedean/Real/Basic.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Real/Basic.lean
+
+Whole-source SHA256: 1c03e3aecbfa3739e79ae8ebfd33b6100781d4c90e6475677cdcff4487e972d1
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Floris van Doorn
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Real/Basic.lean#L106-L142
+
+```lean
+/-- A nonempty, bounded below set of real numbers has a greatest lower bound. -/
+theorem exists_isGLB (hne : s.Nonempty) (hbdd : BddBelow s) : ∃ x, IsGLB s x := by
+  have hne' : (-s).Nonempty := Set.nonempty_neg.mpr hne
+  have hbdd' : BddAbove (-s) := bddAbove_neg.mpr hbdd
+  use -Classical.choose (Real.exists_isLUB hne' hbdd')
+  rw [← isLUB_neg]
+  exact Classical.choose_spec (Real.exists_isLUB hne' hbdd')
+
+open scoped Classical in
+noncomputable instance : SupSet ℝ :=
+  ⟨fun s => if h : s.Nonempty ∧ BddAbove s then Classical.choose (exists_isLUB h.1 h.2) else 0⟩
+
+open scoped Classical in
+theorem sSup_def (s : Set ℝ) :
+    sSup s = if h : s.Nonempty ∧ BddAbove s then Classical.choose (exists_isLUB h.1 h.2) else 0 :=
+  rfl
+
+protected theorem isLUB_sSup (h₁ : s.Nonempty) (h₂ : BddAbove s) : IsLUB s (sSup s) := by
+  simp only [sSup_def, dite_eq_left (And.intro h₁ h₂)]
+  apply Classical.choose_spec
+
+noncomputable instance : InfSet ℝ :=
+  ⟨fun s => -sSup (-s)⟩
+
+theorem sInf_def (s : Set ℝ) : sInf s = -sSup (-s) := rfl
+
+protected theorem isGLB_sInf (h₁ : s.Nonempty) (h₂ : BddBelow s) : IsGLB s (sInf s) := by
+  rw [sInf_def, ← isLUB_neg', neg_neg]
+  exact Real.isLUB_sSup h₁.neg h₂.neg
+
+noncomputable instance : ConditionallyCompleteLinearOrder ℝ where
+  __ := Real.linearOrder
+  __ := Real.lattice
+  isLUB_csSup _ := Real.isLUB_sSup
+  isGLB_csInf _ := Real.isGLB_sInf
+  csSup_of_not_bddAbove s hs := by simp [hs, sSup_def]
+  csInf_of_not_bddBelow s hs := by simp [hs, sInf_def, sSup_def]
+```
+
+### Mathlib/Order/Bounds/Defs.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Bounds/Defs.lean
+
+Whole-source SHA256: e5a38e3cf5b12a87a53bbd64d4d458bacb2f707aa75e1b3dca1c33014aa23c2d
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Bounds/Defs.lean#L30-L52
+
+```lean
+variable {α : Type*} [LE α]
+
+/-- The set of upper bounds of a set. -/
+@[to_dual /-- The set of lower bounds of a set. -/]
+def upperBounds (s : Set α) : Set α :=
+  { x | ∀ ⦃a⦄, a ∈ s → a ≤ x }
+
+/-- A set is bounded above if there exists an upper bound. -/
+@[to_dual /-- A set is bounded below if there exists a lower bound. -/]
+def BddAbove (s : Set α) :=
+  (upperBounds s).Nonempty
+
+/-- `a` is a least element of a set `s`; for a partial order, it is unique if exists. -/
+@[to_dual
+/-- `a` is a greatest element of a set `s`; for a partial order, it is unique if exists. -/]
+def IsLeast (s : Set α) (a : α) : Prop :=
+  a ∈ s ∧ a ∈ lowerBounds s
+
+/-- `a` is a least upper bound of a set `s`; for a partial order, it is unique if exists. -/
+@[to_dual
+/-- `a` is a greatest lower bound of a set `s`; for a partial order, it is unique if exists. -/]
+def IsLUB (s : Set α) : α → Prop :=
+  IsLeast (upperBounds s)
+```
+
+### Mathlib/Topology/Order/Compact.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/Compact.lean
+
+Whole-source SHA256: 7c02670f2e88f16acd11d69ddd6afb8d8118adca50279e1abb2a3c7761feb044
+
+```lean
+/-
+Copyright (c) 2021 Patrick Massot. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Patrick Massot, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/Compact.lean#L142-L156
+
+```lean
+section LinearOrder
+
+variable {α β : Type*} [LinearOrder α] [TopologicalSpace α] [TopologicalSpace β]
+
+theorem IsCompact.exists_isLeast [ClosedIicTopology α] {s : Set α} (hs : IsCompact s)
+    (ne_s : s.Nonempty) : ∃ x, IsLeast s x := by
+  have : Nonempty s := ne_s.to_subtype
+  suffices (s ∩ ⋂ x ∈ s, Iic x).Nonempty from
+    ⟨this.choose, this.choose_spec.1, mem_iInter₂.mp this.choose_spec.2⟩
+  rw [biInter_eq_iInter]
+  by_contra H
+  rw [not_nonempty_iff_eq_empty, ← disjoint_iff_inter_eq_empty] at H
+  rcases hs.elim_directed_family_closed (fun x : s => Iic ↑x) (fun x => isClosed_Iic) H
+      (Monotone.directed_ge fun _ _ h => Iic_subset_Iic.mpr h) with ⟨x, hx⟩
+  exact disjoint_left.mp hx x.2 le_rfl
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/Compact.lean#L313-L319
+
+```lean
+/-- A compact set is bounded below -/
+theorem IsCompact.bddBelow [ClosedIicTopology α] [Nonempty α] {s : Set α} (hs : IsCompact s) :
+    BddBelow s := by
+  rcases s.eq_empty_or_nonempty with rfl | hne
+  · exact bddBelow_empty
+  · obtain ⟨a, -, has⟩ := hs.exists_isLeast hne
+    exact ⟨a, has⟩
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/Compact.lean#L375-L383
+
+```lean
+section InfSup
+
+variable {α β : Type*} [ConditionallyCompleteLinearOrder α] [TopologicalSpace α]
+  [TopologicalSpace β]
+
+theorem IsCompact.sInf_mem [ClosedIicTopology α] {s : Set α} (hs : IsCompact s)
+    (ne_s : s.Nonempty) : sInf s ∈ s :=
+  let ⟨_a, ha⟩ := hs.exists_isLeast ne_s
+  ha.csInf_mem
+```
+
+### Mathlib/Data/Set/Operations.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean
+
+Whole-source SHA256: 60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e
+
+```lean
+/-
+Copyright (c) 2016 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,
+Minchao Wu, Yury Kudryashov, Floris van Doorn
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L219-L229
+
+```lean
+section Prod
+
+/-- The Cartesian product `Set.prod s t` is the set of `(a, b)` such that `a ∈ s` and `b ∈ t`. -/
+@[wikidata Q173740]
+def prod (s : Set α) (t : Set β) : Set (α × β) := {p | p.1 ∈ s ∧ p.2 ∈ t}
+
+@[default_instance]
+instance instSProd : SProd (Set α) (Set β) (Set (α × β)) where
+  sprod := Set.prod
+
+theorem prod_eq (s : Set α) (t : Set β) : s ×ˢ t = Prod.fst ⁻¹' s ∩ Prod.snd ⁻¹' t := rfl
+```
+
+### Mathlib/Data/Set/Defs.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean
+
+Whole-source SHA256: 4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L263-L268
+
+```lean
+universe v in
+/-- The image of `s : Set α` by `f : α → β`, written `f '' s`, is the set of `b : β` such that
+`f a = b` for some `a ∈ s`. -/
+def image {β : Type v} (f : α → β) (s : Set α) : Set β := {f a | a ∈ s}
+
+instance : Functor Set where map := @Set.image
+```
+
+### Mathlib/Topology/Constructions/SumProd.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean
+
+Whole-source SHA256: 35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Patrick Massot
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L47-L55
+
+```lean
+variable {X : Type u} {Y : Type v} {W Z ε ζ : Type*}
+
+instance instTopologicalSpaceSum [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :
+    TopologicalSpace (X ⊕ Y) :=
+  coinduced Sum.inl t₁ ⊔ coinduced Sum.inr t₂
+
+instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :
+    TopologicalSpace (X × Y) :=
+  induced Prod.fst t₁ ⊓ induced Prod.snd t₂
+```
+
+### Mathlib/Topology/Defs/Induced.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean
+
+Whole-source SHA256: ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L59-L74
+
+```lean
+/-- Given `f : X → Y` and a topology on `Y`,
+  the induced topology on `X` is the collection of sets
+  that are preimages of some open set in `Y`.
+  This is the coarsest topology that makes `f` continuous. -/
+@[instance_reducible]
+def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where
+  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s
+  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩
+  isOpen_inter := by
+    rintro s₁ s₂ ⟨s'₁, hs₁, rfl⟩ ⟨s'₂, hs₂, rfl⟩
+    exact ⟨s'₁ ∩ s'₂, hs₁.inter hs₂, preimage_inter⟩
+  isOpen_sUnion S h := by
+    choose! g hgo hfg using h
+    refine ⟨⋃₀ (g '' S), isOpen_sUnion <| forall_mem_image.2 hgo, ?_⟩
+    rw [preimage_sUnion, biUnion_image, sUnion_eq_biUnion]
+    exact iUnion₂_congr hfg
+```
+
+### Mathlib/Topology/Order.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean
+
+Whole-source SHA256: 2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L180-L195
+
+```lean
+  a topology to its collection of open subsets, and whose upper part sends a collection of subsets
+  of `α` to the topology they generate. -/
+def gciGenerateFrom (α : Type*) :
+    GaloisCoinsertion (fun t : TopologicalSpace α => OrderDual.toDual { s | IsOpen[t] s })
+      (generateFrom ∘ OrderDual.ofDual) where
+  gc := gc_generateFrom α
+  u_l_le _ s hs := TopologicalSpace.GenerateOpen.basic s hs
+  choice g hg := TopologicalSpace.mkOfClosure g
+    (Subset.antisymm hg <| le_generateFrom_iff_subset_isOpen.1 <| le_rfl)
+  choice_eq _ _ := mkOfClosure_sets
+
+/-- Topologies on `α` form a complete lattice, with `⊥` the discrete topology
+  and `⊤` the indiscrete topology. The infimum of a collection of topologies
+  is the topology generated by all their open sets, while the supremum is the
+  topology whose open sets are those sets open in every member of the collection. -/
+instance : CompleteLattice (TopologicalSpace α) := (gciGenerateFrom α).liftCompleteLattice
+```
+
+### Mathlib/Topology/Compactness/Compact.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean
+
+Whole-source SHA256: 3fc7ffe7db4db0a2de07d6fdf0e65da486b3dced1f3bac4d58ab869a92f4ac64
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L110-L126
+
+```lean
+@[compactness .]
+theorem IsCompact.image_of_continuousOn {f : X → Y} (hs : IsCompact s) (hf : ContinuousOn f s) :
+    IsCompact (f '' s) := by
+  intro l lne ls
+  have : NeBot (l.comap f ⊓ 𝓟 s) :=
+    comap_inf_principal_neBot_of_image_mem lne (le_principal_iff.1 ls)
+  obtain ⟨x, hxs, hx⟩ : ∃ x ∈ s, ClusterPt x (l.comap f ⊓ 𝓟 s) := @hs _ this inf_le_right
+  have := hx.neBot
+  use f x, mem_image_of_mem f hxs
+  have : Tendsto f (𝓝 x ⊓ (comap f l ⊓ 𝓟 s)) (𝓝 (f x) ⊓ l) := by
+    convert! (hf x hxs).inf (@tendsto_comap _ _ f l) using 1
+    rw [nhdsWithin]
+    ac_rfl
+  exact this.neBot
+
+theorem IsCompact.image {f : X → Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s) :=
+  hs.image_of_continuousOn hf.continuousOn
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L1071-L1082
+
+```lean
+@[compactness .]
+theorem IsCompact.prod {t : Set Y} (hs : IsCompact s) (ht : IsCompact t) :
+    IsCompact (s ×ˢ t) := by
+  rw [isCompact_iff_ultrafilter_le_nhds'] at hs ht ⊢
+  intro f hfs
+  obtain ⟨x : X, sx : x ∈ s, hx : map Prod.fst f.1 ≤ 𝓝 x⟩ :=
+    hs (f.map Prod.fst) (mem_map.2 <| mem_of_superset hfs fun x => And.left)
+  obtain ⟨y : Y, ty : y ∈ t, hy : map Prod.snd f.1 ≤ 𝓝 y⟩ :=
+    ht (f.map Prod.snd) (mem_map.2 <| mem_of_superset hfs fun x => And.right)
+  rw [map_le_iff_le_comap] at hx hy
+  refine ⟨⟨x, y⟩, ⟨sx, ty⟩, ?_⟩
+  rw [nhds_prod_eq]; exact le_inf hx hy
+```
+
+### Mathlib/Topology/Order/OrderClosed.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/OrderClosed.lean
+
+Whole-source SHA256: e311dbc7fca744dc0f0d4a10e3c838eb4996c2fa8b63e833077c40f763f05444
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/OrderClosed.lean#L71-L75
+
+```lean
+/-- If `α` is a topological space and a preorder, `ClosedIicTopology α` means that `Iic a` is
+closed for all `a : α`. -/
+class ClosedIicTopology (α : Type*) [TopologicalSpace α] [Preorder α] : Prop where
+  /-- For any `a`, the set `(-∞, a]` is closed. -/
+  isClosed_Iic (a : α) : IsClosed (Iic a)
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/OrderClosed.lean#L446-L453
+
+```lean
+@[to_dual self (reorder := f g, hf hg)]
+theorem isClosed_le [TopologicalSpace β] {f g : β → α} (hf : Continuous f) (hg : Continuous g) :
+    IsClosed { b | f b ≤ g b } :=
+  continuous_iff_isClosed.mp (hf.prodMk hg) _ isClosed_le_prod
+
+@[to_dual]
+instance : ClosedIicTopology α where
+  isClosed_Iic _ := isClosed_le continuous_id continuous_const
+```
+
+### Mathlib/Topology/Order/Basic.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/Basic.lean
+
+Whole-source SHA256: 70041d69776fc6d4a8c15c7c9da1b6c01b11fe8d3194ca7aebccebec539c7db2
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order/Basic.lean#L400-L418
+
+```lean
+section LinearOrder
+
+variable [TopologicalSpace α] [LinearOrder α]
+
+section OrderTopology
+variable [OrderTopology α]
+
+@[to_dual none]
+theorem order_separated {a₁ a₂ : α} (h : a₁ < a₂) :
+    ∃ u v : Set α, IsOpen u ∧ IsOpen v ∧ a₁ ∈ u ∧ a₂ ∈ v ∧ ∀ b₁ ∈ u, ∀ b₂ ∈ v, b₁ < b₂ :=
+  let ⟨x, hx, y, hy, h⟩ := h.exists_disjoint_Iio_Ioi
+  ⟨Iio x, Ioi y, isOpen_gt' _, isOpen_lt' _, hx, hy, h⟩
+
+-- see Note [lower instance priority]
+instance (priority := 100) OrderTopology.to_orderClosedTopology : OrderClosedTopology α where
+  isClosed_le' := isOpen_compl_iff.1 <| isOpen_prod_iff.mpr fun a₁ a₂ (h : ¬a₁ ≤ a₂) =>
+    have h : a₂ < a₁ := lt_of_not_ge h
+    let ⟨u, v, hu, hv, ha₁, ha₂, h⟩ := order_separated h
+    ⟨v, u, hv, hu, ha₂, ha₁, fun ⟨b₁, b₂⟩ ⟨h₁, h₂⟩ => not_le_of_gt <| h b₂ h₂ b₁ h₁⟩
+```
+
+### Mathlib/Topology/MetricSpace/Pseudo/Lemmas.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Lemmas.lean
+
+Whole-source SHA256: 6a0cf742b00efa9cbd7f386a61c33a84710797bc1fb1cb82d8d92e1951b4df6a
+
+```lean
+/-
+Copyright (c) 2015 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Robert Y. Lewis, Johannes Hölzl, Mario Carneiro, Sébastien Gouëzel
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Lemmas.lean#L17-L25
+
+```lean
+
+open Filter Metric Set
+open scoped NNReal Topology
+
+variable {ι α : Type*} [PseudoMetricSpace α]
+
+instance : OrderTopology ℝ :=
+  orderTopology_of_nhds_abs fun x => by
+    simp only [nhds_basis_ball.eq_biInf, ball, Real.dist_eq, abs_sub_comm]
+```
+
+### Compiler-owned product and finite-sum meanings
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Whole-source SHA256: cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L35-L44
+
+```lean
+set_option bootstrap.inductiveCheckResultingUniverse false in
+/--
+The canonical universe-polymorphic type with just one element.
+
+It should be used in contexts that require a type to be universe polymorphic, thus disallowing
+`Unit`.
+-/
+inductive PUnit : Sort u where
+  /-- The only element of the universe-polymorphic unit type. -/
+  | unit : PUnit
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L214-L231
+
+```lean
+/--
+The canonical type with one element. This element is written `()`.
+
+`Unit` has a number of uses:
+ * It can be used to model control flow that returns from a function call without providing other
+   information.
+ * Monadic actions that return `Unit` have side effects without computing values.
+ * In polymorphic types, it can be used to indicate that no data is to be stored in a particular
+   field.
+-/
+abbrev Unit : Type := PUnit
+
+/--
+The only element of the unit type.
+
+It can be written as an empty tuple: `()`.
+-/
+@[match_pattern] abbrev Unit.unit : Unit := PUnit.unit
+```
+
+### Compiler-owned product and finite-sum meanings
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean
+
+Whole-source SHA256: 264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99; Git blob 23e784c3806badcabd1e8f19c50946d66bc3c87a.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+
+notation, basic datatypes and type classes
+-/```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean#L202-L218
+
+```lean
+
+/--
+The disjoint union of types `α` and `β`, ordinarily written `α ⊕ β`.
+
+An element of `α ⊕ β` is either an `a : α` wrapped in `Sum.inl` or a `b : β` wrapped in `Sum.inr`.
+`α ⊕ β` is not equivalent to the set-theoretic union of `α` and `β` because its values include an
+indication of which of the two types was chosen. The union of a singleton set with itself contains
+one element, while `Unit ⊕ Unit` contains distinct values `inl ()` and `inr ()`.
+-/
+@[suggest_for Either]
+inductive Sum (α : Type u) (β : Type v) where
+  /-- Left injection into the sum type `α ⊕ β`. -/
+  | inl (val : α) : Sum α β
+  /-- Right injection into the sum type `α ⊕ β`. -/
+  | inr (val : β) : Sum α β
+
+@[inherit_doc] infixr:30 " ⊕ " => Sum
+```
+
+### Compiler-owned product and finite-sum meanings
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Sum/Basic.lean
+
+Whole-source SHA256: c58e4b1ef684fdb842d6ae50fff0501fadd58dc8121773b00630e9e25ee1ac51; Git blob 7179f792183250f7947a7718abd04fcb7b725c98.
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Yury G. Kudryashov
+-/```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Sum/Basic.lean#L99-L111
+
+```lean
+/--
+Case analysis for sums that applies the appropriate function `f` or `g` after checking which
+constructor is present.
+-/
+@[expose] protected def elim {α β γ} (f : α → γ) (g : β → γ) : α ⊕ β → γ :=
+  fun x => Sum.casesOn x f g
+
+@[simp, grind =] theorem elim_inl (f : α → γ) (g : β → γ) (x : α) :
+    Sum.elim f g (inl x) = f x := rfl
+
+@[simp, grind =] theorem elim_inr (f : α → γ) (g : β → γ) (x : β) :
+    Sum.elim f g (inr x) = g x := rfl
+
+```
+
+### Mathlib/Data/Fintype/Sum.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sum.lean
+
+Whole-source SHA256: ade79778a014dce4b3b7c3f473295010528795d9188c15f5a9c3a0c31106cf18
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sum.lean#L25-L28
+
+```lean
+open Finset
+
+instance (α : Type u) (β : Type v) [Fintype α] [Fintype β] : Fintype (α ⊕ β) where
+  elems := univ.disjSum univ
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sum.lean#L62-L65
+
+```lean
+@[simp]
+theorem Fintype.card_sum [Fintype α] [Fintype β] :
+    Fintype.card (α ⊕ β) = Fintype.card α + Fintype.card β :=
+  card_disjSum _ _
+```
+
+### Mathlib/Data/Fintype/Basic.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Basic.lean
+
+Whole-source SHA256: 3c4b1e41181451d1965b55e9a8c558d4f2a08b46dbdd47489950027629a395c0
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Basic.lean#L135-L139
+
+```lean
+instance Unit.fintype : Fintype Unit :=
+  Fintype.ofSubsingleton ()
+
+theorem Fintype.univ_unit : @univ Unit _ = {()} :=
+  rfl
+```
+
+### Mathlib/Data/Fintype/OfMap.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/OfMap.lean
+
+Whole-source SHA256: 1fcb10b0b6b6789534a5bd2b3f93312cce927035fec0bc4eebe705ccf8662af6
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/OfMap.lean#L77-L85
+
+```lean
+/-- Any subsingleton type with a witness is a fintype (with one term). -/
+@[instance_reducible]
+def ofSubsingleton (a : α) [Subsingleton α] : Fintype α :=
+  ⟨{a}, fun _ => Finset.mem_singleton.2 (Subsingleton.elim _ _)⟩
+
+-- In principle, this could be a `simp` theorem but it applies to any occurrence of `univ` and
+-- required unification of the (possibly very complex) `Fintype` instances.
+theorem univ_ofSubsingleton (a : α) [Subsingleton α] : @univ _ (ofSubsingleton a) = {a} :=
+  rfl
+```
+
+### Mathlib/Data/Fintype/Card.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Card.lean
+
+Whole-source SHA256: a77eb573a459ee525cfb4ac753dd05968ef2cc831d7549dc4e9036c7a90a1f00
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Card.lean#L174-L175
+
+```lean
+theorem Fintype.card_unit : Fintype.card Unit = 1 :=
+  rfl
+```
+
+### Mathlib/Data/Fintype/BigOperators.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean
+
+Whole-source SHA256: b9a6354ebff5fcd22fb1ddb7992682a404ec44c8ee42d519177f17d1d5a239e9
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L260-L268
+
+```lean
+@[to_additive]
+theorem Fintype.prod_sumElim (f : α₁ → M) (g : α₂ → M) :
+    ∏ x, Sum.elim f g x = (∏ a₁, f a₁) * ∏ a₂, g a₂ :=
+  prod_disjSum _ _ _
+
+@[to_additive (attr := simp)]
+theorem Fintype.prod_sum_type (f : α₁ ⊕ α₂ → M) :
+    ∏ x, f x = (∏ a₁, f (Sum.inl a₁)) * ∏ a₂, f (Sum.inr a₂) :=
+  prod_disjSum _ _ _
+```
+
+### Mathlib/Data/Finset/Sum.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sum.lean
+
+Whole-source SHA256: 0f383b603d87d7cdad80e1e86de933f4158edcaa85883521fa8a8fb369673b5b
+
+```lean
+/-
+Copyright (c) 2022 Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yaël Dillies, Bhavik Mehta
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sum.lean#L28-L35
+
+```lean
+
+namespace Finset
+
+variable {α β γ : Type*} (s : Finset α) (t : Finset β)
+
+/-- Disjoint sum of finsets. -/
+def disjSum : Finset (α ⊕ β) :=
+  ⟨s.1.disjSum t.1, s.2.disjSum t.2⟩
+```
+
+### Mathlib/Data/Multiset/Sum.lean exact expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/Sum.lean
+
+Whole-source SHA256: 46ad986a41048710426d3296a8284bc983e91e0a000d6a497db675e512528c15
+
+```lean
+/-
+Copyright (c) 2022 Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yaël Dillies
+-/```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/Sum.lean#L24-L32
+
+```lean
+open Sum
+
+namespace Multiset
+
+variable {α β γ : Type*} (s : Multiset α) (t : Multiset β)
+
+/-- Disjoint sum of multisets. -/
+def disjSum : Multiset (α ⊕ β) :=
+  s.map inl + t.map inr
+```
+
+### InfSet material account
+
+A typeclass supplying a total set-infimum operator, with no minimum law asserted by this field alone. The actual Real instance is -sSup(-s). Conditional completeness proves greatest-lower-bound semantics on nonempty bounded-below inputs; compactness and nonemptiness are proved for the actual compatible matrix/strategy image. Invalid or empty inputs are not claimed to attain a minimum.
+
+Used by: SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_support_value_ordered_stability.
+
+### ConditionallyCompleteLattice material account
+
+Every nonempty bounded-below set has a greatest lower bound; dually for suprema. Real uses its proved isGLB_sInf and isLUB_sSup. BddBelow and IsGLB are generated duals of retained bounds definitions. The actual value image is compact and nonempty before sInf membership/lower-bound theorems are applied.
+
+Used by: SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_support_value_ordered_stability.
+
+### ConditionallyCompleteLinearOrder material account
+
+Conditional completeness together with a total ordered structure and coherent decidable comparisons. On reals this is the retained canonical instance. Outside bounded sets the operation is total by convention; all claimed optimistic minima use actual compact nonempty sets.
+
+Used by: SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_support_value_ordered_stability.
+
+### Set.prod material account
+
+Cartesian product membership is conjunction of memberships of the two projections. The topology is the ordinary product topology given by the infimum of projection-induced topologies (topologies use reverse order). Compact matrix and strategy sets therefore have compact product, and continuous exploitability gives a compact value image.
+
+Used by: SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.exploitability_continuous.
+
+Product tuples are right associated: (q,V,K) means q,(V,K); projections .1,.2.1,.2.2 have literal semantic bridges. Product and function addition/scalar multiplication are componentwise generated instances, not tensor products. Unit is the genuine one-element type, and Sum is a disjoint union; clone aggregation uses actual singleton/sum enumeration and cardinality. The real infimum is not an assumed target minimum: attainment follows from proved compactness, continuity and nonempty admissibility.
+
+
+## Selected interval, stability, gap and joint-support dependencies
+
+These additions combine exact reviewed dependency groups with source-reference closure. Imported operation expansions propagate from natural ceiling to FloorSemiring and from real square root to NNReal.sqrt/Real.toNNReal. They supplement immutable earlier usage lists; actual semantic completeness requires independent review.
+
+AffineIndependent: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+ConditionallyCompleteLattice: SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+ConditionallyCompleteLinearOrder: SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+Continuous: SparseCompletion.exact_completion_gap_point, SparseCompletion.exploitability_continuous, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff.
+
+ContinuousLinearMap: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff.
+
+Convex: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.perspective_cut_system_convex, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.variable_core_interval_completion_iff.
+
+Finset: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.aggregate_clones_mass, SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative, SparseCompletion.clone_support_card, SparseCompletion.cloned_anchor_response, SparseCompletion.cloned_response_anchor, SparseCompletion.cloned_response_bounds_iff, SparseCompletion.cloned_response_residual, SparseCompletion.cloned_score, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.exact_completion_gap_point, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_perturbation, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_moment_mix, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.perspective_cut_system_convex, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.perspective_cuts_mix, SparseCompletion.perspective_moment_zero, SparseCompletion.perspective_quadratic_mix, SparseCompletion.positive_score_call_identity, SparseCompletion.positive_score_threshold, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.response_le_exploitability, SparseCompletion.shifted_call_antitone, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff.
+
+Finset.Nonempty: SparseCompletion.positive_score_threshold.
+
+Finset.card: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.clone_support_card, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff.
+
+Finset.orderEmbOfFin: SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+Finset.orderIsoOfFin: SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+Finset.prod: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.aggregate_clones_mass, SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative, SparseCompletion.clone_support_card, SparseCompletion.cloned_anchor_response, SparseCompletion.cloned_response_anchor, SparseCompletion.cloned_response_bounds_iff, SparseCompletion.cloned_response_residual, SparseCompletion.cloned_score, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.exact_completion_gap_point, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_perturbation, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_moment_mix, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.perspective_cut_system_convex, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.perspective_cuts_mix, SparseCompletion.perspective_moment_zero, SparseCompletion.perspective_quadratic_mix, SparseCompletion.positive_score_call_identity, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.response_le_exploitability, SparseCompletion.shifted_call_antitone, SparseCompletion.variable_core_interval_completion_iff.
+
+Finset.range: SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+Finset.weightedVSub: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+Finset.weightedVSubOfPoint: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+Fintype: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.aggregate_clones_mass, SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative, SparseCompletion.clone_support_card, SparseCompletion.cloned_anchor_response, SparseCompletion.cloned_response_anchor, SparseCompletion.cloned_response_bounds_iff, SparseCompletion.cloned_response_residual, SparseCompletion.cloned_score, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.exact_completion_gap_point, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_perturbation, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_moment_mix, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.perspective_cut_system_convex, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.perspective_cuts_mix, SparseCompletion.perspective_moment_zero, SparseCompletion.positive_score_call_identity, SparseCompletion.positive_score_threshold, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.response_le_exploitability, SparseCompletion.shifted_call_antitone, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff.
+
+Fintype.card: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.clone_support_card, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+FloorSemiring: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.unit_mass_grid_bound.
+
+InfSet: SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+IsClosed: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff.
+
+IsCompact: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff.
+
+LinearMap: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff.
+
+LinearOrder: SparseCompletion.endpoint_bounds_from_order, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_value_ordered_interval_stability.
+
+Module.finrank: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+NNReal.sqrt: SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.unit_mass_grid_bound.
+
+Nat.ceil: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.unit_mass_grid_bound.
+
+Real.sqrt: SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.unit_mass_grid_bound.
+
+Real.toNNReal: SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.unit_mass_grid_bound.
+
+RelEmbedding: SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+Set.Icc: SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff.
+
+Set.image: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff.
+
+Set.prod: SparseCompletion.exploitability_continuous, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+StarConvex: SparseCompletion.exact_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff.
+
+Submodule.span: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+convexHull: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+vectorSpan: SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_joint_support_upper.
+
+
+Reviewed additional usage for Fintype: SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative.
+
+Reviewed additional usage for Finset: SparseCompletion.aggregate_clones_mass.
+
+Reviewed additional usage for Fintype.card: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares.
+
+Reviewed additional usage for Finset.Nonempty: SparseCompletion.positive_score_threshold.
+
+The actual exploitability function is Finset.univ.sup' of all row responses with a genuine universal-set nonemptiness proof from the nonempty action type. Finset.sup' and Finset.Nonempty therefore also cover SparseCompletion.exploitability_le_iff, SparseCompletion.response_le_exploitability, SparseCompletion.exploitability_perturbation, SparseCompletion.exploitability_continuous, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_support_value_ordered_stability. This is a row supremum, distinct from the earlier interval-loss maximum; both are genuine attained finite extrema.
+
+
+## Rational certificates, actual support enumeration, and nonemptiness
+
+### Exact retained source src/Init/Data/Rat/Basic.lean
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean
+
+Source SHA256 30b77ea0918aa986f6617bef4ad99a8d79cd538a714c9f05134bcb6a5e490cc8; Git blob 9722e2373e6d49b7ec3e635a6125af895c9940b0.
+
+```lean
+/-
+Copyright (c) 2022 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L27-L46
+
+```lean
+/--
+Rational numbers, implemented as a pair of integers `num / den` such that the
+denominator is positive and the numerator and denominator are coprime.
+-/
+-- `Rat` is not tagged with the `ext` attribute, since this is more often than not undesirable
+@[suggest_for ℚ]
+structure Rat where
+  /-- Constructs a rational number from components.
+  We rename the constructor to `mk'` to avoid a clash with the smart constructor. -/
+  mk' ::
+  /-- The numerator of the rational number is an integer. -/
+  num : Int
+  /-- The denominator of the rational number is a natural number. -/
+  den : Nat := 1
+  /-- The denominator is nonzero. -/
+  den_nz : den ≠ 0 := by decide
+  /-- The numerator and denominator are coprime: it is in "reduced form". -/
+  reduced : num.natAbs.Coprime den := by decide
+  deriving DecidableEq, Hashable
+
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L100-L117
+
+```lean
+Construct a rational number from a numerator and denominator.
+This is a "smart constructor" that divides the numerator and denominator by
+the gcd to ensure that the resulting rational number is normalized, and returns
+zero if `den` is zero.
+-/
+def mkRat (num : Int) (den : Nat) : Rat :=
+  if den_nz : den = 0 then { num := 0 } else Rat.normalize num den den_nz
+
+namespace Rat
+
+/-- Embedding of `Int` in the rational numbers. -/
+def ofInt (num : Int) : Rat := { num, reduced := Nat.coprime_one_right _ }
+
+instance : NatCast Rat where
+  natCast n := ofInt n
+instance : IntCast Rat := ⟨ofInt⟩
+
+instance : OfNat Rat n := ⟨n⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L140-L161
+
+```lean
+
+/-- Rational number strictly less than relation, as a `Bool`. -/
+protected def blt (a b : Rat) : Bool :=
+  if a.num < 0 && 0 ≤ b.num then
+    true
+  else if a.num = 0 then
+    0 < b.num
+  else if 0 < a.num && b.num ≤ 0 then
+    false
+  else
+    -- `a` and `b` must have the same sign
+   a.num * b.den < b.num * a.den
+
+instance : LT Rat := ⟨(·.blt ·)⟩
+
+instance (a b : Rat) : Decidable (a < b) :=
+  inferInstanceAs (Decidable (_ = true))
+
+instance : LE Rat := ⟨fun a b => b.blt a = false⟩
+
+instance (a b : Rat) : Decidable (a ≤ b) :=
+  inferInstanceAs (Decidable (_ = false))
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L166-L185
+
+```lean
+/-- Multiplication of rational numbers. (This definition is `@[irreducible]` because you don't
+want to unfold it. Use `Rat.mul_def` instead.) -/
+@[irreducible] protected def mul (a b : Rat) : Rat :=
+  let g1 := Nat.gcd a.num.natAbs b.den
+  let g2 := Nat.gcd b.num.natAbs a.den
+  { num := a.num.divExact g1 (normalize.dvd_num rfl) * b.num.divExact g2 (normalize.dvd_num rfl)
+    den := a.den.divExact g2 (normalize.dvd_den rfl) * b.den.divExact g1 (normalize.dvd_den rfl)
+    den_nz := Nat.ne_of_gt <| Nat.mul_pos
+      (Nat.div_gcd_pos_of_pos_right _ a.den_pos) (Nat.div_gcd_pos_of_pos_right _ b.den_pos)
+    reduced := by
+      simp only [Int.divExact_eq_tdiv, Int.natAbs_mul, Int.natAbs_tdiv, Nat.coprime_mul_iff_left]
+      refine ⟨Nat.coprime_mul_iff_right.2 ⟨?_, ?_⟩, Nat.coprime_mul_iff_right.2 ⟨?_, ?_⟩⟩
+      · exact a.reduced.coprime_div_left (Nat.gcd_dvd_left ..)
+          |>.coprime_div_right (Nat.gcd_dvd_right ..)
+      · exact Nat.coprime_div_gcd_div_gcd (Nat.gcd_pos_of_pos_right _ b.den_pos)
+      · exact Nat.coprime_div_gcd_div_gcd (Nat.gcd_pos_of_pos_right _ a.den_pos)
+      · exact b.reduced.coprime_div_left (Nat.gcd_dvd_left ..)
+          |>.coprime_div_right (Nat.gcd_dvd_right ..) }
+
+instance : Mul Rat := ⟨Rat.mul⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L250-L282
+
+```lean
+  · have := (H1 bd).1 <| Nat.dvd_trans (Nat.gcd_dvd_left ..) (Nat.dvd_mul_left ..)
+    have := (cop.symm.coprime_dvd_left <| Nat.gcd_dvd_left ..).dvd_of_dvd_mul_right this
+    exact Nat.eq_one_of_dvd_one <| b.reduced.gcd_eq_one ▸ Nat.dvd_gcd this <|
+      Nat.dvd_trans (Nat.gcd_dvd_left ..) (be ▸ Nat.dvd_mul_right ..)
+
+/--
+Addition of rational numbers. (This definition is `@[irreducible]` because you don't want to
+unfold it. Use `Rat.add_def` instead.)
+-/
+@[irreducible] protected def add (a b : Rat) : Rat :=
+  let g := a.den.gcd b.den
+  if hg : g = 1 then
+    have den_nz := Nat.ne_of_gt <| Nat.mul_pos a.den_pos b.den_pos
+    have reduced := add.aux a b hg.symm (Nat.div_one _).symm (Nat.div_one _).symm
+      |>.symm.trans (Nat.gcd_one_right _)
+    { num := a.num * b.den + b.num * a.den, den := a.den * b.den, den_nz, reduced }
+  else
+    let den := (a.den / g) * b.den
+    let num := a.num * ↑(b.den / g) + b.num * ↑(a.den / g)
+    let g1  := num.natAbs.gcd g
+    have den_nz := Nat.ne_of_gt <| Nat.mul_pos (Nat.div_gcd_pos_of_pos_left _ a.den_pos) b.den_pos
+    have e : g1 = num.natAbs.gcd den := add.aux a b rfl rfl rfl
+    Rat.maybeNormalize num den g1 (normalize.dvd_num e) (normalize.dvd_den e)
+      (normalize.den_nz den_nz e) (normalize.reduced den_nz e)
+
+instance : Add Rat := ⟨Rat.add⟩
+
+/-- Negation of rational numbers. -/
+@[implicit_reducible]
+protected def neg (a : Rat) : Rat :=
+  { a with num := -a.num, reduced := by rw [Int.natAbs_neg]; exact a.reduced }
+
+instance : Neg Rat := ⟨Rat.neg⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L291-L311
+
+```lean
+
+/-- Subtraction of rational numbers. (This definition is `@[irreducible]` because you don't want to
+unfold it. Use `Rat.sub_def` instead.)
+-/
+@[irreducible] protected def sub (a b : Rat) : Rat :=
+  let g := a.den.gcd b.den
+  if hg : g = 1 then
+    have den_nz := Nat.ne_of_gt <| Nat.mul_pos a.den_pos b.den_pos
+    have reduced := sub.aux a b hg.symm (Nat.div_one _).symm (Nat.div_one _).symm
+      |>.symm.trans (Nat.gcd_one_right _)
+    { num := a.num * b.den - b.num * a.den, den := a.den * b.den, den_nz, reduced }
+  else
+    let den := (a.den / g) * b.den
+    let num := a.num * ↑(b.den / g) - b.num * ↑(a.den / g)
+    let g1  := num.natAbs.gcd g
+    have den_nz := Nat.ne_of_gt <| Nat.mul_pos (Nat.div_gcd_pos_of_pos_left _ a.den_pos) b.den_pos
+    have e : g1 = num.natAbs.gcd den := sub.aux a b rfl rfl rfl
+    Rat.maybeNormalize num den g1 (normalize.dvd_num e) (normalize.dvd_den e)
+      (normalize.den_nz den_nz e) (normalize.reduced den_nz e)
+
+instance : Sub Rat := ⟨Rat.sub⟩
+
+```
+
+### Exact retained source Mathlib/Algebra/Field/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Field/Defs.lean
+
+Source SHA256 341e5bbbc77690b9cce20dd460d0a4c22138beea4ed9e10cc100c4d4a2db6152; Git blob c7cfb7246b4896ec3fc910efbfdeb50261baddeb.
+
+```lean
+/-
+Copyright (c) 2014 Robert Y. Lewis. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Robert Y. Lewis, Leonardo de Moura, Johannes Hölzl, Mario Carneiro, Yaël Dillies
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Field/Defs.lean#L70-L75
+
+```lean
+
+`↑q : K` is defined as `(q.num : K) / (q.den : K)`.
+
+Do not use this directly (instances of `DivisionRing` are allowed to override that default for
+better definitional properties). Instead, use the coercion. -/
+def Rat.castRec [NatCast K] [IntCast K] [Div K] (q : ℚ) : K := q.num / q.den
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Field/Defs.lean#L134-L154
+
+```lean
+  /-- However `qsmul` is defined, it must be propositionally equal to multiplication by `Rat.cast`.
+
+  Do not use this lemma directly. Use `NNRat.smul_def` instead. -/
+  protected nnqsmul_def (q : ℚ≥0) (a : K) : nnqsmul q a = NNRat.cast q * a := by intros; rfl
+  protected ratCast := Rat.castRec
+  /-- However `Rat.cast q` is defined, it must be propositionally equal to `q.num / q.den`.
+
+  Do not use this lemma directly. Use `Rat.cast_def` instead. -/
+  protected ratCast_def (q : ℚ) : (Rat.cast q : K) = q.num / q.den := by intros; rfl
+  /-- Scalar multiplication by a rational number.
+
+  Unless there is a risk of a `Module ℚ _` instance diamond, write `qsmul := _`. This will set
+  `qsmul` to `(Rat.cast · * ·)` thanks to unification in the default proof of `qsmul_def`.
+
+  Do not use directly. Instead use the `•` notation. -/
+  protected qsmul : ℚ → K → K
+  /-- However `qsmul` is defined, it must be propositionally equal to multiplication by `Rat.cast`.
+
+  Do not use this lemma directly. Use `Rat.cast_def` instead. -/
+  protected qsmul_def (a : ℚ) (x : K) : qsmul a x = Rat.cast a * x := by intros; rfl
+
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Field/Defs.lean#L196-L204
+
+```lean
+
+end NNRat
+
+namespace Rat
+variable [DivisionRing K]
+
+lemma cast_def (q : ℚ) : (q : K) = q.num / q.den := DivisionRing.ratCast_def _
+
+lemma cast_mk' (a b h1 h2) : ((⟨a, b, h1, h2⟩ : ℚ) : K) = a / b := cast_def _
+
+```
+
+### Exact retained source Mathlib/Basic/Real/Basic.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean
+
+Source SHA256 b10f715c299e6c3f468e916cad97620e921dc432e31269217954d94191fc7829; Git blob 3f5de911ff81bf5a8a6dc2e3dbfe8a4a7beec8f3.
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Floris van Doorn
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean#L161-L169
+
+```lean
+instance instNatCast : NatCast ℝ where natCast n := ⟨n⟩
+instance instIntCast : IntCast ℝ where intCast z := ⟨z⟩
+instance instNNRatCast : NNRatCast ℝ where nnratCast q := ⟨q⟩
+instance instRatCast : RatCast ℝ where ratCast q := ⟨q⟩
+
+lemma ofCauchy_natCast (n : ℕ) : (⟨n⟩ : ℝ) = n := rfl
+lemma ofCauchy_intCast (z : ℤ) : (⟨z⟩ : ℝ) = z := rfl
+lemma ofCauchy_nnratCast (q : ℚ≥0) : (⟨q⟩ : ℝ) = q := rfl
+lemma ofCauchy_ratCast (q : ℚ) : (⟨q⟩ : ℝ) = q := rfl
+
+```
+
+### Exact retained source Mathlib/Data/Rat/Cast/CharZero.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Cast/CharZero.lean
+
+Source SHA256 a0cf8d3fd177656c086c13e1de2c9065d0ae898cc635acde1e5d877c46d3c5eb; Git blob 4bc491d3b1dafebc5cf20a5fc503bb87a51f5bfe.
+
+```lean
+/-
+Copyright (c) 2019 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Cast/CharZero.lean#L20-L64
+
+```lean
+
+namespace Rat
+variable [DivisionRing α] [CharZero α] {p q : ℚ}
+
+@[stacks 09FR "Characteristic zero case."]
+lemma cast_injective : Injective ((↑) : ℚ → α)
+  | ⟨n₁, d₁, d₁0, c₁⟩, ⟨n₂, d₂, d₂0, c₂⟩, h => by
+    have d₁a : (d₁ : α) ≠ 0 := Nat.cast_ne_zero.2 d₁0
+    have d₂a : (d₂ : α) ≠ 0 := Nat.cast_ne_zero.2 d₂0
+    rw [mk_eq_divInt, mk_eq_divInt] at h ⊢
+    rw [cast_divInt_of_ne_zero _ (by simpa), cast_divInt_of_ne_zero _ (by simpa)] at h
+    norm_cast at h
+    rwa [eq_div_iff_mul_eq d₂a, division_def, mul_assoc, (d₁.cast_commute (d₂ : α)).inv_left₀.eq,
+      ← mul_assoc, ← division_def, eq_comm, eq_div_iff_mul_eq d₁a, eq_comm, ← Int.cast_natCast d₁,
+      ← Int.cast_mul, ← Int.cast_natCast d₂, ← Int.cast_mul, Int.cast_inj, ← mkRat_eq_iff d₁0 d₂0]
+      at h
+
+@[simp, norm_cast] lemma cast_inj : (p : α) = q ↔ p = q := cast_injective.eq_iff
+
+@[simp, norm_cast] lemma cast_eq_zero : (p : α) = 0 ↔ p = 0 := cast_injective.eq_iff' cast_zero
+lemma cast_ne_zero : (p : α) ≠ 0 ↔ p ≠ 0 := cast_eq_zero.ne
+
+@[simp, norm_cast] lemma cast_add (p q : ℚ) : ↑(p + q) = (p + q : α) :=
+  cast_add_of_ne_zero (Nat.cast_ne_zero.2 p.pos.ne') (Nat.cast_ne_zero.2 q.pos.ne')
+
+@[simp, norm_cast] lemma cast_sub (p q : ℚ) : ↑(p - q) = (p - q : α) :=
+  cast_sub_of_ne_zero (Nat.cast_ne_zero.2 p.pos.ne') (Nat.cast_ne_zero.2 q.pos.ne')
+
+@[simp, norm_cast] lemma cast_mul (p q : ℚ) : ↑(p * q) = (p * q : α) :=
+  cast_mul_of_ne_zero (Nat.cast_ne_zero.2 p.pos.ne') (Nat.cast_ne_zero.2 q.pos.ne')
+
+variable (α) in
+/-- Coercion `ℚ → α` as a `RingHom`. -/
+@[implicit_reducible]
+def castHom : ℚ →+* α where
+  toFun := (↑)
+  map_one' := cast_one
+  map_mul' := cast_mul
+  map_zero' := cast_zero
+  map_add' := cast_add
+
+@[simp] lemma coe_castHom : ⇑(castHom α) = ((↑) : ℚ → α) := rfl
+
+@[simp, norm_cast] lemma cast_inv (p : ℚ) : ↑(p⁻¹) = (p⁻¹ : α) := map_inv₀ (castHom α) _
+@[simp, norm_cast] lemma cast_div (p q : ℚ) : ↑(p / q) = (p / q : α) := map_div₀ (castHom α) ..
+
+```
+
+### Exact retained source Mathlib/Data/Rat/Cast/Order.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Cast/Order.lean
+
+Source SHA256 7168364a994bf3fa35b898925ea574614748a9976df00e7bfd4b27cab0a3a2a6; Git blob ae4592f3acfb55a28a8f1cc7826d904f941e2717.
+
+```lean
+/-
+Copyright (c) 2019 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Cast/Order.lean#L29-L54
+
+```lean
+variable {K : Type*} [Field K] [LinearOrder K] [IsStrictOrderedRing K]
+
+theorem cast_pos_of_pos (hq : 0 < q) : (0 : K) < q := by
+  rw [Rat.cast_def]
+  exact div_pos (Int.cast_pos.2 <| num_pos.2 hq) (Nat.cast_pos.2 q.pos)
+
+@[gcongr, mono]
+theorem cast_strictMono : StrictMono ((↑) : ℚ → K) := fun p q => by
+  simpa only [sub_pos, cast_sub] using cast_pos_of_pos (K := K) (q := q - p)
+
+@[gcongr, mono]
+theorem cast_mono : Monotone ((↑) : ℚ → K) :=
+  cast_strictMono.monotone
+
+/-- Coercion from `ℚ` as an order embedding. -/
+@[simps!]
+def castOrderEmbedding : ℚ ↪o K :=
+  OrderEmbedding.ofStrictMono (↑) cast_strictMono
+
+@[simp, norm_cast] lemma cast_le : (p : K) ≤ q ↔ p ≤ q := castOrderEmbedding.le_iff_le
+
+@[simp, norm_cast] lemma cast_lt : (p : K) < q ↔ p < q := cast_strictMono.lt_iff_lt
+
+@[simp] lemma cast_nonneg : 0 ≤ (q : K) ↔ 0 ≤ q := by norm_cast
+
+@[simp] lemma cast_nonpos : (q : K) ≤ 0 ↔ q ≤ 0 := by norm_cast
+
+```
+
+### Exact retained source Mathlib/Data/Rat/Cast/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Cast/Defs.lean
+
+Source SHA256 110a63943b322f70b41bf277ee664ae602dbe6a7d4def27ae6568c2856101f30; Git blob b4b3794a6319462865b7ec095747392d963d4481.
+
+```lean
+/-
+Copyright (c) 2019 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Cast/Defs.lean#L174-L177
+
+```lean
+  · push_cast
+    exact mul_ne_zero hq hr
+
+@[simp, norm_cast] lemma cast_neg (q : ℚ) : ↑(-q) = (-q : α) := by simp [cast_def, neg_div]
+
+```
+
+### Exact retained source src/Init/Prelude.lean
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L832-L841
+
+```lean
+`Nonempty α` is a typeclass that says that `α` is not an empty type,
+that is, there exists an element in the type. It differs from `Inhabited α`
+in that `Nonempty α` is a `Prop`, which means that it does not actually carry
+an element of `α`, only a proof that *there exists* such an element.
+Given `Nonempty α`, you can construct an element of `α` *nonconstructively*
+using `Classical.choice`.
+-/
+class inductive Nonempty (α : Sort u) : Prop where
+  /-- If `val : α`, then `α` is nonempty. -/
+  | intro (val : α) : Nonempty α
+
+```
+
+### Exact retained source Mathlib/Data/Set/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean
+
+Source SHA256 4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7; Git blob 866ef6ab673f737a4ffbb7b2138402d5c76e6c05.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L277-L281
+
+```lean
+/-- The property `s.Nonempty` expresses the fact that the set `s` is not empty. It should be used
+in theorem assumptions instead of `∃ x, x ∈ s` or `s ≠ ∅` as it gives access to a nice API thanks
+to the dot notation. -/
+protected def Nonempty (s : Set α) : Prop :=
+  ∃ x, x ∈ s
+
+```
+
+### Exact retained source Mathlib/Data/Finset/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean
+
+Source SHA256 ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d; Git blob e94299ba14677e4193e7004cf77bf70c1ca6e065.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L98-L118
+
+```lean
+/-! ### set coercion -/
+
+/-- Convert a finset to a set in the natural way. -/
+instance : SetLike (Finset α) α where
+  coe s := {a | a ∈ s.1}
+  coe_injective s₁ s₂ h := (val_inj.symm.trans <| s₁.nodup.ext s₂.nodup).2 <| Set.ext_iff.mp h
+
+theorem mem_def {a : α} {s : Finset α} : a ∈ s ↔ a ∈ s.1 :=
+  Iff.rfl
+
+-- If https://github.com/leanprover/lean4/issues/2678 is resolved-
+-- this can be changed back to an `Iff`, but for now we would like `dsimp` to use it.
+@[simp, grind =]
+theorem mem_val {a : α} {s : Finset α} : (a ∈ s.1) = (a ∈ s) := rfl
+
+@[simp, grind =]
+theorem mem_mk {a : α} {s nd} : a ∈ @Finset.mk α s nd ↔ a ∈ s :=
+  Iff.rfl
+
+instance decidableMem [_h : DecidableEq α] (a : α) (s : Finset α) : Decidable (a ∈ s) :=
+  Multiset.decidableMem _ _
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L174-L181
+
+```lean
+  PiFinsetCoe.canLift ι (fun _ => α) s
+
+instance FinsetCoe.canLift (s : Finset α) : CanLift α s (↑) fun a => a ∈ s where
+  prf a ha := ⟨⟨a, ha⟩, rfl⟩
+
+@[norm_cast]
+theorem coe_sort_coe (s : Finset α) : ((s : Set α) : Sort _) = s :=
+  rfl
+
+```
+
+### Exact retained source Mathlib/Data/SetLike/Basic.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/SetLike/Basic.lean
+
+Source SHA256 514b079e1db7bfbecf7a49c52be49150fa365ab9a8fe370a4a52aae465698598; Git blob 9bd1bb78940e58836f654fc5688a9b4d4c4b4c5a.
+
+```lean
+/-
+Copyright (c) 2021 Eric Wieser. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Eric Wieser
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/SetLike/Basic.lean#L120-L126
+
+```lean
+instance : CoeTC A (Set B) where coe := SetLike.coe
+
+instance (priority := 100) instMembership : Membership B A :=
+  ⟨fun p x => x ∈ (p : Set B)⟩
+
+instance (priority := 100) : CoeSort A (Type _) :=
+  ⟨fun p => { x : B // x ∈ p }⟩
+
+```
+
+### Exact retained source Mathlib/Data/Fintype/Sets.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean
+
+Source SHA256 87b401f8e6bf02de9250adba00dcb1de4157d55e286f6e627d01639fe2b2ef9a; Git blob 81672c76f6ea0ec10b76b09a4422bdb9312e9e90.
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean#L222-L231
+
+```lean
+
+/-! ### `Fintype (s : Finset α)` -/
+
+
+instance Finset.fintypeCoeSort {α : Type u} (s : Finset α) : Fintype s :=
+  ⟨s.attach, s.mem_attach⟩
+
+@[simp]
+theorem Finset.univ_eq_attach {α : Type u} (s : Finset α) : (univ : Finset s) = s.attach :=
+  rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean#L245-L249
+
+```lean
+instance Finset.Subtype.fintype (s : Finset α) : Fintype { x // x ∈ s } :=
+  ⟨s.attach, s.mem_attach⟩
+
+instance FinsetCoe.fintype (s : Finset α) : Fintype (↑s : Set α) :=
+  Finset.Subtype.fintype s
+
+```
+
+### Exact retained source Mathlib/Data/Finset/Attach.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Attach.lean
+
+Source SHA256 4fdb01a7ff510914f4940e38fda5281f89b3fc59802d033bf833edef571f3de6; Git blob cd5f80fca89b7e0609388f6ee97977b4eca0d511.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Attach.lean#L44-L58
+
+```lean
+/-- `attach s` takes the elements of `s` and forms a new set of elements of the subtype
+`{x // x ∈ s}`. -/
+def attach (s : Finset α) : Finset { x // x ∈ s } :=
+  ⟨Multiset.attach s.1, nodup_attach.2 s.2⟩
+
+@[simp]
+theorem attach_val (s : Finset α) : s.attach.1 = s.1.attach :=
+  rfl
+
+@[simp, grind ←]
+theorem mem_attach (s : Finset α) : ∀ x, x ∈ s.attach :=
+  Multiset.mem_attach _
+
+@[simp, norm_cast]
+theorem coe_attach (s : Finset α) : (s.attach : Set s) = Set.univ := by ext; simp
+
+```
+
+### Exact retained source Mathlib/Data/Multiset/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/Defs.lean
+
+Source SHA256 418e9f8cfefe7e643c58737d3986e6910f0cb818640a3b10ff97fe9d27d56ed3; Git blob 0d0fe151e7b0321cae4626f575644f6bd8bbe1d7.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/Defs.lean#L283-L294
+
+```lean
+/-- "Attach" a proof that `a ∈ s` to each element `a` in `s` to produce
+  a multiset on `{x // x ∈ s}`. -/
+def attach (s : Multiset α) : Multiset { x // x ∈ s } :=
+  pmap Subtype.mk s fun _a => id
+
+@[simp]
+theorem coe_attach (l : List α) : @Eq (Multiset { x // x ∈ l }) (@attach α l) l.attach :=
+  rfl
+
+@[simp]
+theorem mem_attach (s : Multiset α) : ∀ x, x ∈ s.attach :=
+  Quot.inductionOn s fun _l => List.mem_attach _
+
+```
+
+### Exact retained source Mathlib/Data/Set/Finite/Lemmas.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Finite/Lemmas.lean
+
+Source SHA256 c91596535840063fb0507849f4bdc53d44a49e389739af998cd2902c17a8d35c; Git blob de41c17e1d3056674b274a6b3e695a9e20c87a25.
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Kyle Miller
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Finite/Lemmas.lean#L73-L80
+
+```lean
+
+@[to_dual]
+theorem exists_min_image [LinearOrder β] (s : Set α) (f : α → β) (h1 : s.Finite) :
+    s.Nonempty → ∃ a ∈ s, ∀ b ∈ s, f a ≤ f b
+  | ⟨x, hx⟩ => by
+    simpa only [exists_prop, Finite.mem_toFinset] using
+      h1.toFinset.exists_min_image f ⟨x, h1.mem_toFinset.2 hx⟩
+
+
+```
+
+### Batteries RatCast, separate pinned dependency
+
+https://github.com/leanprover-community/batteries/blob/ed9b316aabe389fec1ef43c3326ab48c7e59be42/Batteries/Classes/RatCast.lean
+
+Source SHA256 2d2f0265802ab69e891924f62d1ddca1b82c303027dfa0ef3453bea37577e7b9; Git blob b2df7c7304c219d3b812a2b800154d03007f9110.
+
+```lean
+/-
+Copyright (c) 2014 Robert Lewis. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Robert Lewis, Leonardo de Moura, Johannes Hölzl, Mario Carneiro, Gabriel Ebner
+-/
+```
+
+https://github.com/leanprover-community/batteries/blob/ed9b316aabe389fec1ef43c3326ab48c7e59be42/Batteries/Classes/RatCast.lean#L10-L15
+
+```lean
+/-- Type class for the canonical homomorphism `Rat → K`. -/
+class RatCast (K : Type u) where
+  /-- The canonical homomorphism `Rat → K`. -/
+  protected ratCast : Rat → K
+
+instance : RatCast Rat where ratCast n := n
+
+```
+
+https://github.com/leanprover-community/batteries/blob/ed9b316aabe389fec1ef43c3326ab48c7e59be42/Batteries/Classes/RatCast.lean#L17-L26
+
+```lean
+/-- Canonical homomorphism from `Rat` to a division ring `K`.
+This is just the bare function in order to aid in creating instances of `DivisionRing`. -/
+@[coe, reducible, match_pattern] protected def Rat.cast {K : Type u} [RatCast K] : Rat → K :=
+  RatCast.ratCast
+
+-- see note [coercion into rings]
+instance [RatCast K] : CoeTail Rat K where coe := Rat.cast
+
+-- see note [coercion into rings]
+instance [RatCast K] : CoeHTCT Rat K where coe := Rat.cast
+
+```
+
+### Exact retained source Mathlib/Data/Rat/Init.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Init.lean
+
+Source SHA256 8bf4701007955ed168463dde3a8a30fe19d3ea979aec1dfd128d4ef8858aa1a2; Git blob 1583d46e237792c89bf490d4b1684ce8f4b73054.
+
+```lean
+/-
+Copyright (c) 2019 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Yaël Dillies
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Init.lean#L8-L24
+
+```lean
+public import Mathlib.Data.Nat.Notation
+public import Batteries.Classes.RatCast
+
+/-!
+# Basic definitions around the rational numbers
+
+This file declares `ℚ` notation for the rationals and defines the nonnegative rationals `ℚ≥0`.
+
+This file is eligible to upstreaming to Batteries.
+-/
+
+@[expose] public section
+
+@[inherit_doc] notation "ℚ" => Rat
+
+/-- Nonnegative rational numbers. -/
+def NNRat := {q : ℚ // 0 ≤ q}
+
+```
+
+### Rat.castRec material account
+
+Default rational-to-division-ring recipe is the integer numerator divided by its nonzero natural denominator. Batteries RatCast supplies the selected map/coercions. Real overrides the default recipe with its Cauchy-real injection. The numerator/denominator formula, injectivity, order reflection and arithmetic preservation are proved contracts, not definitional equality of the Real constructor. Compiler Rat data, reduced arithmetic and lawful decidability are retained separately; finite support uses its actual attach enumeration.
+
+Used by: SparseCompletion.RationalCertificate.accepted_full_game, SparseCompletion.RationalCertificate.check_iff_full_rows.
+
+### Set.Nonempty material account
+
+There exists an actual member of the set; compactness alone does not supply one. Distinct from the compiler Nonempty typeclass and from Inhabited/default data. The exact existential definition and separate actual witness hypotheses/constructions are retained.
+
+Affected declarations are listed in the final coverage table below.
+
+
+
+## Natural floor and finite allocation-grid audit
+
+### Mathlib/Algebra/Order/Floor/Defs.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean
+
+Source SHA256 f6cc4cbab72e40e7afadb67d625a720359c26b32b9293a72255df2018a7876f7
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L56-L71
+
+```lean
+
+/-- A `FloorSemiring` is an ordered semiring over `α` with a function
+`floor : α → ℕ` satisfying `∀ (n : ℕ) (x : α), n ≤ ⌊x⌋ ↔ (n : α) ≤ x)`.
+Note that many lemmas require a `LinearOrder`. Please see the above `TODO`. -/
+class FloorSemiring (α) [Semiring α] [PartialOrder α] where
+  /-- `FloorSemiring.floor a` computes the greatest natural `n` such that `(n : α) ≤ a`. -/
+  floor : α → ℕ
+  /-- `FloorSemiring.ceil a` computes the least natural `n` such that `a ≤ (n : α)`. -/
+  ceil : α → ℕ
+  /-- `FloorSemiring.floor` of a negative element is zero. -/
+  floor_of_neg {a : α} (ha : a < 0) : floor a = 0
+  /-- A natural number `n` is smaller than `FloorSemiring.floor a` iff its coercion to `α` is
+  smaller than `a`. -/
+  gc_floor {a : α} {n : ℕ} (ha : 0 ≤ a) : n ≤ floor a ↔ (n : α) ≤ a
+  /-- `FloorSemiring.ceil` is the lower adjoint of the coercion `↑ : ℕ → α`. -/
+  gc_ceil : GaloisConnection ceil (↑)
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L114-L119
+
+```lean
+variable [Semiring α] [PartialOrder α] [FloorSemiring α] {a : α} {n : ℕ}
+
+/-- `⌊a⌋₊` is the greatest natural `n` such that `n ≤ a`. If `a` is negative, then `⌊a⌋₊ = 0`. -/
+def floor : α → ℕ :=
+  FloorSemiring.floor
+
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L208-L242
+
+```lean
+open scoped Classical in
+private noncomputable def floorAux
+    {α} [Ring α] [PartialOrder α] [IsOrderedRing α] [Nontrivial α] {x : α}
+    (below : ∃ n : ℤ, n ≤ x) (above : ∃ n : ℤ, x ≤ n) :
+    {n : ℤ // n ≤ x ∧ ∀ m : ℤ, m ≤ x → m ≤ n} := by
+  let n := Classical.indefiniteDescription _ above
+  refine Int.greatestOfBdd (P := (· ≤ x)) n.1 (fun m hm ↦ ?_) below
+  rw [← Int.cast_le (R := α)]
+  exact hm.trans n.2
+
+/-- See `exists_floor` for a variant which instead assumes an `Archimedean` ring. -/
+theorem exists_floor'
+    {α} [Ring α] [PartialOrder α] [IsOrderedRing α] [Nontrivial α] (x : α)
+    (below : ∃ n : ℤ, n ≤ x) (above : ∃ n : ℤ, x ≤ n) :
+    ∃ fl : ℤ, ∀ z : ℤ, z ≤ fl ↔ (z : α) ≤ x := by
+  refine ⟨_, fun n ↦ ⟨?_, (floorAux below above).2.2 _⟩⟩
+  rw [← Int.cast_le (R := α)]
+  exact le_trans' (floorAux below above).2.1
+
+/-- Construct a `FloorRing` instance noncomputably, from the hypothesis that every element is
+bounded above by a natural number. -/
+@[no_expose, instance_reducible]
+noncomputable def FloorRing.ofBounded
+    (α) [Ring α] [LinearOrder α] [IsOrderedRing α] [Nontrivial α]
+    (bounded : ∀ x : α, ∃ n : ℕ, x ≤ n) : FloorRing α :=
+  have below (x : α) : ∃ n : ℤ, n ≤ x := by
+    obtain ⟨n, hn⟩ := bounded (-x)
+    use -n
+    simpa [neg_le]
+  have above (x : α) : ∃ n : ℤ, x ≤ n := by
+    obtain ⟨n, hn⟩ := bounded x
+    use n
+    exact_mod_cast hn
+  .ofFloor _ _ fun n x ↦ (Classical.choose_spec (exists_floor' x (below x) (above x)) n).symm
+
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L341-L351
+
+```lean
+
+-- see Note [lower instance priority]
+instance (priority := 100) FloorRing.toFloorSemiring : FloorSemiring α where
+  floor a := ⌊a⌋.toNat
+  ceil a := ⌈a⌉.toNat
+  floor_of_neg {_} ha := Int.toNat_of_nonpos (Int.floor_lt.mpr (ha.trans_eq Int.cast_zero.symm)).le
+  gc_floor {a n} ha := by rw [Int.le_toNat (Int.floor_nonneg.2 ha), Int.le_floor, Int.cast_natCast]
+  gc_ceil a n := by rw [Int.toNat_le, Int.ceil_le, Int.cast_natCast]
+
+theorem Int.floor_toNat (a : α) : ⌊a⌋.toNat = ⌊a⌋₊ :=
+  rfl
+
+```
+
+### Mathlib/Algebra/Order/Floor/Semiring.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean
+
+Source SHA256 1b0e45f02a914287979a2f39feb3f5b4808bff05f49e5a998e718168c4e36efb
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L36-L63
+
+```lean
+
+variable [Semiring R] [LinearOrder R] [FloorSemiring R] {a b : R} {n : ℕ}
+
+section floor
+
+theorem floor_lt (ha : 0 ≤ a) : ⌊a⌋₊ < n ↔ a < n :=
+  lt_iff_lt_of_le_iff_le <| le_floor_iff ha
+
+theorem floor_lt_one (ha : 0 ≤ a) : ⌊a⌋₊ < 1 ↔ a < 1 :=
+  (floor_lt ha).trans <| by rw [Nat.cast_one]
+
+theorem floor_le (ha : 0 ≤ a) : (⌊a⌋₊ : R) ≤ a :=
+  (le_floor_iff ha).1 le_rfl
+
+theorem floor_eq_iff (ha : 0 ≤ a) : ⌊a⌋₊ = n ↔ ↑n ≤ a ∧ a < ↑n + 1 := by
+  rw [← le_floor_iff ha, ← Nat.cast_one, ← Nat.cast_add, ← floor_lt ha, Nat.lt_add_one_iff,
+    le_antisymm_iff, and_comm]
+
+theorem lt_of_floor_lt (h : ⌊a⌋₊ < n) : a < n :=
+  lt_of_not_ge fun h' => (le_floor h').not_gt h
+
+theorem lt_one_of_floor_lt_one (h : ⌊a⌋₊ < 1) : a < 1 := mod_cast lt_of_floor_lt h
+
+theorem lt_succ_floor (a : R) : a < ⌊a⌋₊.succ :=
+  lt_of_floor_lt <| Nat.lt_succ_self _
+
+@[bound]
+theorem lt_floor_add_one (a : R) : a < ⌊a⌋₊ + 1 := by simpa using lt_succ_floor a
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L82-L95
+
+```lean
+
+theorem floor_of_nonpos (ha : a ≤ 0) : ⌊a⌋₊ = 0 :=
+  ha.lt_or_eq.elim FloorSemiring.floor_of_neg <| by
+    rintro rfl
+    exact floor_zero
+
+@[gcongr]
+theorem floor_mono : Monotone (floor : R → ℕ) := fun a b h => by
+  obtain ha | ha := le_total a 0
+  · rw [floor_of_nonpos ha]
+    exact Nat.zero_le _
+  · exact le_floor ((floor_le ha).trans h)
+
+@[bound] lemma floor_le_floor (hab : a ≤ b) : ⌊a⌋₊ ≤ ⌊b⌋₊ := floor_mono hab
+
+```
+
+### Mathlib/Algebra/Order/Archimedean/Basic.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Basic.lean
+
+Source SHA256 bf2b863c793c5fae4baaec4722b94771c1feb00947104b6965fb13f8a66962da
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Basic.lean#L477-L483
+
+```lean
+/-- A linear ordered archimedean ring is a floor ring. This is not an `instance` because in some
+cases we have a computable `floor` function. -/
+@[instance_reducible]
+noncomputable def Archimedean.floorRing (R) [Ring R] [LinearOrder R] [IsStrictOrderedRing R]
+    [Archimedean R] : FloorRing R :=
+  .ofBounded _ exists_nat_ge
+
+
+```
+
+### Mathlib/Algebra/Order/Archimedean/Real/Basic.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Real/Basic.lean
+
+Source SHA256 1c03e3aecbfa3739e79ae8ebfd33b6100781d4c90e6475677cdcff4487e972d1
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Floris van Doorn
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Real/Basic.lean#L30-L38
+
+```lean
+
+instance instArchimedean : Archimedean ℝ :=
+  archimedean_iff_rat_le.2 fun x =>
+    Real.ind_mk x fun f =>
+      let ⟨M, _, H⟩ := f.bounded' 0
+      ⟨M, mk_le_of_forall_le ⟨0, fun i _ => Rat.cast_le.2 <| le_of_lt (abs_lt.1 (H i)).2⟩⟩
+
+noncomputable instance : FloorRing ℝ :=
+  Archimedean.floorRing _
+
+```
+
+### Mathlib/Data/Fintype/Pi.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean
+
+Source SHA256 3621d016ef00906a9538347e3565bc44f5fe22210006ba64009b183c8ff6338f
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean#L26-L45
+
+```lean
+variable [DecidableEq α] [Fintype α] {γ δ : α → Type*} {s : ∀ a, Finset (γ a)}
+
+/-- Given for all `a : α` a finset `t a` of `δ a`, then one can define the
+finset `Fintype.piFinset t` of all functions taking values in `t a` for all `a`. This is the
+analogue of `Finset.pi` where the base finset is `univ` (but formally they are not the same, as
+there is an additional condition `i ∈ Finset.univ` in the `Finset.pi` definition). -/
+def piFinset (t : ∀ a, Finset (δ a)) : Finset (∀ a, δ a) :=
+  (Finset.univ.pi t).map ⟨fun f a => f a (mem_univ a), fun _ _ =>
+    by simp +contextual [funext_iff]⟩
+
+@[simp, grind =]
+theorem mem_piFinset {t : ∀ a, Finset (δ a)} {f : ∀ a, δ a} : f ∈ piFinset t ↔ ∀ a, f a ∈ t a := by
+  constructor
+  · simp only [piFinset, mem_map, and_imp, forall_prop_of_true, mem_univ, exists_imp,
+      mem_pi]
+    rintro g hg hgf a
+    rw [← hgf]
+    exact hg a
+  · simp only [piFinset, mem_map, forall_prop_of_true, mem_univ, mem_pi]
+    exact fun hf => ⟨fun a _ => f a, hf, rfl⟩
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean#L132-L143
+
+```lean
+
+/-- A dependent product of fintypes, indexed by a fintype, is a fintype. -/
+instance Pi.instFintype {α : Type*} {β : α → Type*} [DecidableEq α] [Fintype α]
+    [∀ a, Fintype (β a)] : Fintype (∀ a, β a) :=
+  ⟨Fintype.piFinset fun _ => univ, by simp⟩
+
+@[simp]
+theorem Fintype.piFinset_univ {α : Type*} {β : α → Type*} [DecidableEq α] [Fintype α]
+    [∀ a, Fintype (β a)] :
+    (Fintype.piFinset fun a : α => (Finset.univ : Finset (β a))) =
+      (Finset.univ : Finset (∀ a, β a)) :=
+  rfl
+
+```
+
+### Mathlib/Data/Finset/Pi.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Pi.lean
+
+Source SHA256 f218ce708938f20007a6662a41c52aab6453f666bea3766197ccf1d26c1f3418
+
+```lean
+/-
+Copyright (c) 2018 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Pi.lean#L47-L58
+
+```lean
+/-- Given a finset `s` of `α` and for all `a : α` a finset `t a` of `β a`, then one can define the
+finset `s.pi t` of all functions defined on elements of `s` taking values in `t a` for `a ∈ s`.
+Note that the elements of `s.pi t` are only partially defined, on `s`. -/
+def pi (s : Finset α) (t : ∀ a, Finset (β a)) : Finset (∀ a ∈ s, β a) :=
+  ⟨s.1.pi fun a => (t a).1, s.nodup.pi fun a _ => (t a).nodup⟩
+
+@[simp]
+theorem pi_val (s : Finset α) (t : ∀ a, Finset (β a)) : (s.pi t).1 = s.1.pi fun a => (t a).1 :=
+  rfl
+
+@[simp, grind =]
+theorem mem_pi {s : Finset α} {t : ∀ a, Finset (β a)} {f : ∀ a ∈ s, β a} :
+
+```
+
+### Mathlib/Data/Fintype/BigOperators.lean exact floor/enumeration contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean
+
+Source SHA256 b9a6354ebff5fcd22fb1ddb7992682a404ec44c8ee42d519177f17d1d5a239e9
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L198-L202
+
+```lean
+-- TODO: this is a basic theorem about `Fintype.card`,
+-- and ideally could be moved to `Mathlib/Data/Fintype/Card.lean`.
+theorem Fintype.card_fun [DecidableEq α] [Fintype α] [Fintype β] :
+    Fintype.card (α → β) = Fintype.card β ^ Fintype.card α := by
+  simp
+
+```
+
+### Material Nat.floor account
+
+Nat.floor selects the FloorSemiring.floor field and is natural-valued: it is zero on negative reals. It is the greatest natural below a nonnegative input; the contract floor(x)<=x requires x>=0. The next-integer bound x<floor(x)+1 and monotonicity hold for all reals. Actual Real floor is noncomputable via Archimedean FloorRing construction and then Int.toNat; these mathematical rounding lemmas are not an executable Real-floor algorithm. Finite allocation maps are actual functions from the anchor index type to the finite ordinal, enumerated by Pi.instFintype/Fintype.piFinset, whose cardinal is N^(card anchors).
+
+FloorSemiring.floor and its Galois connection select the natural floor, zero on negative inputs. Actual Real FloorRing uses an Archimedean choice construction and the Nat floor is its Int.toNat truncation; mathematical rounding is not claimed executable on arbitrary Reals. Pi.instFintype enumerates genuine finite functions by Fintype.piFinset; its cardinality is proved, not a runtime assertion.
+
+## Conditional rational bisection order and finite-width evidence
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Monotone/Defs.lean
+
+Source SHA256 9b75e423f4425994dec847788cbcf1a510fce43c1c69facba3f9cdef50ed37d6
+
+```lean
+/-
+Copyright (c) 2014 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Mario Carneiro, Yaël Dillies
+-/
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Monotone/Defs.lean#L56-L63
+
+```lean
+
+section MonotoneDef
+
+variable [Preorder α] [Preorder β]
+
+/-- A function `f` is monotone if `a ≤ b` implies `f a ≤ f b`. -/
+def Monotone (f : α → β) : Prop :=
+  ∀ ⦃a b⦄, a ≤ b → f a ≤ f b
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/Prop.lean
+
+Source SHA256 a68666f5228676d4cc8f5e30e46b072952fc626e6fa73af493fe28f61e52dbb1
+
+```lean
+/-
+Copyright (c) 2016 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Yury Kudryashov
+-/
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/Prop.lean#L27-L33
+
+```lean
+/-- Propositions form a complete Boolean algebra, where the `≤` relation is given by implication. -/
+instance Prop.le : LE Prop :=
+  ⟨(· → ·)⟩
+
+@[simp]
+theorem le_Prop_eq : ((· ≤ ·) : Prop → Prop → Prop) = (· → ·) :=
+  rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Defs.lean
+
+Source SHA256 792d8e81ef492132ffe4cbd31ad9cfa0cf4d2a215b47acb86f1240bba0a6525c
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Defs.lean#L30-L35
+
+```lean
+/-- An ordered additive commutative monoid is called `Archimedean` if for any two elements `x`, `y`
+such that `0 < y`, there exists a natural number `n` such that `x ≤ n • y`. -/
+class Archimedean (R) [AddCommMonoid R] [PartialOrder R] : Prop where
+  /-- For any two elements `x`, `y` such that `0 < y`, there exists a natural number `n`
+  such that `x ≤ n • y`. -/
+  arch : ∀ (x : R) {y : R}, 0 < y → ∃ n : ℕ, x ≤ n • y
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Defs.lean#L73-L77
+
+```lean
+section StrictOrderedSemiring
+variable [Semiring R] [PartialOrder R] [IsStrictOrderedRing R] [Archimedean R]
+
+theorem exists_nat_gt (x : R) : ∃ n : ℕ, x < n :=
+  (exists_lt_nsmul zero_lt_one x).imp fun n hn ↦ by rwa [← nsmul_one]
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Basic.lean
+
+Source SHA256 bf2b863c793c5fae4baaec4722b94771c1feb00947104b6965fb13f8a66962da
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Basic.lean#L309-L351
+
+```lean
+section LinearOrderedField
+variable [Field K] [LinearOrder K] [IsStrictOrderedRing K]
+
+theorem archimedean_iff_nat_lt : Archimedean K ↔ ∀ x : K, ∃ n : ℕ, x < n :=
+  ⟨@exists_nat_gt K _ _ _, fun H =>
+    ⟨fun x y y0 =>
+      (H (x / y)).imp fun n h => le_of_lt <| by rwa [div_lt_iff₀ y0, ← nsmul_eq_mul] at h⟩⟩
+
+theorem archimedean_iff_nat_le : Archimedean K ↔ ∀ x : K, ∃ n : ℕ, x ≤ n :=
+  archimedean_iff_nat_lt.trans
+    ⟨fun H x => (H x).imp fun _ => le_of_lt, fun H x =>
+      let ⟨n, h⟩ := H x
+      ⟨n + 1, lt_of_le_of_lt h (Nat.cast_lt.2 (lt_add_one _))⟩⟩
+
+theorem archimedean_iff_int_lt : Archimedean K ↔ ∀ x : K, ∃ n : ℤ, x < n :=
+  ⟨@exists_int_gt K _ _ _, by
+    rw [archimedean_iff_nat_lt]
+    intro h x
+    obtain ⟨n, h⟩ := h x
+    refine ⟨n.toNat, h.trans_le ?_⟩
+    exact mod_cast Int.self_le_toNat _⟩
+
+theorem archimedean_iff_int_le : Archimedean K ↔ ∀ x : K, ∃ n : ℤ, x ≤ n :=
+  archimedean_iff_int_lt.trans
+    ⟨fun H x => (H x).imp fun _ => le_of_lt, fun H x =>
+      let ⟨n, h⟩ := H x
+      ⟨n + 1, lt_of_le_of_lt h (Int.cast_lt.2 (lt_add_one _))⟩⟩
+
+theorem archimedean_iff_rat_lt : Archimedean K ↔ ∀ x : K, ∃ q : ℚ, x < q where
+  mp _ x :=
+    let ⟨n, h⟩ := exists_nat_gt x
+    ⟨n, by rwa [Rat.cast_natCast]⟩
+  mpr H := archimedean_iff_nat_lt.2 fun x ↦
+    let ⟨q, h⟩ := H x; ⟨⌈q⌉₊, lt_of_lt_of_le h <| mod_cast Nat.le_ceil _⟩
+
+theorem archimedean_iff_rat_le : Archimedean K ↔ ∀ x : K, ∃ q : ℚ, x ≤ q :=
+  archimedean_iff_rat_lt.trans
+    ⟨fun H x => (H x).imp fun _ => le_of_lt, fun H x =>
+      let ⟨n, h⟩ := H x
+      ⟨n + 1, lt_of_le_of_lt h (Rat.cast_lt.2 (lt_add_one _))⟩⟩
+
+instance : Archimedean ℚ :=
+  archimedean_iff_rat_le.2 fun q => ⟨q, by rw [Rat.cast_id]⟩
+
+```
+
+### Monotone predicate account
+
+For rational thresholds and proposition-valued P, a<=b and P(a) imply P(b). Monotone uses source/target preorder. Target Prop.le is implication, not numerical comparison or a decidability assertion; predicate decision procedure remains an explicit DecidablePred parameter.
+
+### Final affected-declaration coverage
+
+Literal uses and stated proof-dependency expansions; finite-function cardinality and rational certificates carry no inferred runtime claim.
+
+**Fintype**: SparseCompletion.RationalCertificate.accepted_full_game, SparseCompletion.RationalCertificate.check_iff, SparseCompletion.RationalCertificate.check_iff_full_rows, SparseCompletion.RationalCertificate.reject_omitted_violation, SparseCompletion.RationalCertificate.rows_iff, SparseCompletion.RationalCertificate.support_card_le, SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.aggregate_clones_mass, SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative, SparseCompletion.allocation_grid_card, SparseCompletion.allocation_grid_nonempty, SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_in_grid, SparseCompletion.allocation_rounding_mass, SparseCompletion.allocation_rounding_preserves_floors, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.anchor_response_mix, SparseCompletion.anchor_response_of_perspective, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.balancedLength_cube_sum, SparseCompletion.balancedLength_mass, SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.bin_affine_mean, SparseCompletion.bin_call_compression, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_compressed_affine_moment, SparseCompletion.bin_compressed_calls, SparseCompletion.bin_compressed_mass, SparseCompletion.bin_compressed_moment, SparseCompletion.bin_compressed_nonneg, SparseCompletion.bin_compressed_quadratic_loss, SparseCompletion.bin_compressed_support, SparseCompletion.bin_odd_support, SparseCompletion.bin_quadratic_loss_bounds, SparseCompletion.bin_quadratic_loss_identity, SparseCompletion.bin_quadratic_parity_identity, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.block_response_bounds_iff, SparseCompletion.block_support_card, SparseCompletion.bounded_two_anchor_fixed_share_rigidity, SparseCompletion.bounded_two_anchor_minimum_share_rigidity, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.clone_support_card, SparseCompletion.cloned_anchor_response, SparseCompletion.cloned_response_anchor, SparseCompletion.cloned_response_bounds_iff, SparseCompletion.cloned_response_residual, SparseCompletion.cloned_score, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.compact_block_certificate_iff, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.completion_cuts_necessary, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.core_witness_interval, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_iff_call_bound, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.cuts_iff_score_prefixes, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.exploitability_bounded_above, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_nonnegative, SparseCompletion.exploitability_perturbation, SparseCompletion.exploitability_strategy_distance, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_feature_compression, SparseCompletion.finite_grid_implication, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.floor_strategies_compact, SparseCompletion.floor_strategies_nonempty, SparseCompletion.floor_strategy_coordinate_bounds, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_moment_mix, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_recovered_score_moment, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_convex, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.linear_repertoire_convex, SparseCompletion.nonnegative_mass_zero, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.partition_game_witness, SparseCompletion.perspective_call_epigraph_iff, SparseCompletion.perspective_call_identity, SparseCompletion.perspective_cut_system_convex, SparseCompletion.perspective_cuts_iff, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.perspective_cuts_mix, SparseCompletion.perspective_moment_zero, SparseCompletion.positive_score_call_identity, SparseCompletion.positive_score_threshold, SparseCompletion.positive_target_full_support, SparseCompletion.prefix_cut_quadratic, SparseCompletion.prefix_exposing_identity, SparseCompletion.prefix_quadratic_mix, SparseCompletion.prefix_system_convex, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_support_card, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered, SparseCompletion.residual_projection_response_bound, SparseCompletion.response_guard, SparseCompletion.response_le_exploitability, SparseCompletion.response_perturbation, SparseCompletion.response_strategy_distance, SparseCompletion.score_lower_from_intervals, SparseCompletion.shifted_call_antitone, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.strict_prefix_rigidity, SparseCompletion.sum_bin_partition, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.supported_response_zero, SparseCompletion.threshold_is_score_prefix, SparseCompletion.tight_prefix_completion_unique, SparseCompletion.transferred_residual_distance, SparseCompletion.transferred_residual_mass, SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_fixed_share_uniqueness, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.two_anchor_total_support_card, SparseCompletion.two_core_anchor_shift, SparseCompletion.two_core_response_perturbation, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_adjust, SparseCompletion.uniform_core_dense, SparseCompletion.uniform_core_restore, SparseCompletion.uniform_core_support_exists, SparseCompletion.uniform_core_total_support_card, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_exact_to_interval, SparseCompletion.uniform_exposing_weight, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_interval_dense, SparseCompletion.uniform_interval_restore, SparseCompletion.uniform_interval_support_exists, SparseCompletion.uniform_interval_total_support_card, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.uniform_score_affine, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_target_cuts, SparseCompletion.uniform_target_score, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_two_anchor_dense, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_fixed_residual_positive, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.uniform_witness_small_residual_positive, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniform_witness_total_support_card, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Finset**: SparseCompletion.RationalCertificate.accepted_full_game, SparseCompletion.RationalCertificate.b_on, SparseCompletion.RationalCertificate.check_iff, SparseCompletion.RationalCertificate.check_iff_full_rows, SparseCompletion.RationalCertificate.q_on, SparseCompletion.RationalCertificate.realB_omitted, SparseCompletion.RationalCertificate.realB_stored, SparseCompletion.RationalCertificate.realQ_off, SparseCompletion.RationalCertificate.reject_omitted_violation, SparseCompletion.RationalCertificate.rows_iff, SparseCompletion.RationalCertificate.support_card_le, SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.aggregate_clones_mass, SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative, SparseCompletion.allocation_grid_card, SparseCompletion.allocation_grid_nonempty, SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_in_grid, SparseCompletion.allocation_rounding_mass, SparseCompletion.allocation_rounding_preserves_floors, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.anchor_response_mix, SparseCompletion.anchor_response_of_perspective, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.balancedLength_cube_sum, SparseCompletion.balancedLength_mass, SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.bin_affine_mean, SparseCompletion.bin_call_compression, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_compressed_affine_moment, SparseCompletion.bin_compressed_calls, SparseCompletion.bin_compressed_mass, SparseCompletion.bin_compressed_moment, SparseCompletion.bin_compressed_nonneg, SparseCompletion.bin_compressed_quadratic_loss, SparseCompletion.bin_compressed_support, SparseCompletion.bin_odd_support, SparseCompletion.bin_quadratic_loss_bounds, SparseCompletion.bin_quadratic_loss_identity, SparseCompletion.bin_quadratic_parity_identity, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.block_response_bounds_iff, SparseCompletion.block_support_card, SparseCompletion.bounded_two_anchor_fixed_share_rigidity, SparseCompletion.bounded_two_anchor_minimum_share_rigidity, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.clone_support_card, SparseCompletion.cloned_anchor_response, SparseCompletion.cloned_response_anchor, SparseCompletion.cloned_response_bounds_iff, SparseCompletion.cloned_response_residual, SparseCompletion.cloned_score, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.compactCompletion_bounds, SparseCompletion.compactCompletion_skew, SparseCompletion.compact_block_certificate_iff, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.completion_cuts_necessary, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.core_witness_interval, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_iff_call_bound, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.cuts_iff_score_prefixes, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.exploitability_bounded_above, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_nonnegative, SparseCompletion.exploitability_perturbation, SparseCompletion.exploitability_strategy_distance, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_feature_compression, SparseCompletion.finite_grid_implication, SparseCompletion.finite_linear_mix, SparseCompletion.finite_mass_mix, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.floor_strategies_compact, SparseCompletion.floor_strategies_nonempty, SparseCompletion.floor_strategy_coordinate_bounds, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_moment_mix, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_recovered_score_moment, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_convex, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.linear_repertoire_convex, SparseCompletion.nonnegative_mass_zero, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.partition_game_witness, SparseCompletion.perspective_call_epigraph_iff, SparseCompletion.perspective_call_identity, SparseCompletion.perspective_cut_system_convex, SparseCompletion.perspective_cuts_iff, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.perspective_cuts_mix, SparseCompletion.perspective_moment_zero, SparseCompletion.perspective_quadratic_mix, SparseCompletion.positive_score_call_identity, SparseCompletion.positive_score_threshold, SparseCompletion.positive_target_full_support, SparseCompletion.prefix_cut_quadratic, SparseCompletion.prefix_exposing_identity, SparseCompletion.prefix_quadratic_mix, SparseCompletion.prefix_system_convex, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_support_card, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered, SparseCompletion.residual_projection_response_bound, SparseCompletion.response_guard, SparseCompletion.response_le_exploitability, SparseCompletion.response_perturbation, SparseCompletion.response_strategy_distance, SparseCompletion.score_lower_from_intervals, SparseCompletion.shifted_call_antitone, SparseCompletion.skew_weighted_sum, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.strict_prefix_rigidity, SparseCompletion.sum_bin_partition, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.supported_response_zero, SparseCompletion.threshold_is_score_prefix, SparseCompletion.tight_prefix_completion_unique, SparseCompletion.transferred_residual_distance, SparseCompletion.transferred_residual_mass, SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_fixed_share_uniqueness, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.two_anchor_total_support_card, SparseCompletion.two_core_anchor_shift, SparseCompletion.two_core_response_perturbation, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_adjust, SparseCompletion.uniform_core_dense, SparseCompletion.uniform_core_restore, SparseCompletion.uniform_core_support_exists, SparseCompletion.uniform_core_total_support_card, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_exact_to_interval, SparseCompletion.uniform_exposing_weight, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_interval_dense, SparseCompletion.uniform_interval_restore, SparseCompletion.uniform_interval_support_exists, SparseCompletion.uniform_interval_total_support_card, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.uniform_score_affine, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_target_cuts, SparseCompletion.uniform_target_score, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_two_anchor_dense, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_fixed_residual_positive, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.uniform_witness_small_residual_positive, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniform_witness_total_support_card, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Finset.prod**: SparseCompletion.RationalCertificate.accepted_full_game, SparseCompletion.RationalCertificate.check_iff, SparseCompletion.RationalCertificate.check_iff_full_rows, SparseCompletion.RationalCertificate.reject_omitted_violation, SparseCompletion.RationalCertificate.rows_iff, SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.aggregate_clones_mass, SparseCompletion.aggregate_clones_mono, SparseCompletion.aggregate_clones_nonnegative, SparseCompletion.allocation_grid_nonempty, SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_in_grid, SparseCompletion.allocation_rounding_mass, SparseCompletion.allocation_rounding_preserves_floors, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.anchor_response_mix, SparseCompletion.anchor_response_of_perspective, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.balancedLength_cube_sum, SparseCompletion.balancedLength_mass, SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.bin_affine_mean, SparseCompletion.bin_call_compression, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_compressed_affine_moment, SparseCompletion.bin_compressed_calls, SparseCompletion.bin_compressed_mass, SparseCompletion.bin_compressed_moment, SparseCompletion.bin_compressed_nonneg, SparseCompletion.bin_compressed_quadratic_loss, SparseCompletion.bin_compressed_support, SparseCompletion.bin_odd_support, SparseCompletion.bin_quadratic_loss_bounds, SparseCompletion.bin_quadratic_loss_identity, SparseCompletion.bin_quadratic_parity_identity, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.block_response_bounds_iff, SparseCompletion.block_support_card, SparseCompletion.bounded_two_anchor_fixed_share_rigidity, SparseCompletion.bounded_two_anchor_minimum_share_rigidity, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.clone_support_card, SparseCompletion.cloned_anchor_response, SparseCompletion.cloned_response_anchor, SparseCompletion.cloned_response_bounds_iff, SparseCompletion.cloned_response_residual, SparseCompletion.cloned_score, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.compact_block_certificate_iff, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.completion_cuts_necessary, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.core_witness_interval, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_iff_call_bound, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.cuts_iff_score_prefixes, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.exploitability_bounded_above, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_nonnegative, SparseCompletion.exploitability_perturbation, SparseCompletion.exploitability_strategy_distance, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_feature_compression, SparseCompletion.finite_grid_implication, SparseCompletion.finite_linear_mix, SparseCompletion.finite_mass_mix, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.floor_strategies_compact, SparseCompletion.floor_strategies_nonempty, SparseCompletion.floor_strategy_coordinate_bounds, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_moment_mix, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_recovered_score_moment, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_convex, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.linear_repertoire_convex, SparseCompletion.nonnegative_mass_zero, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.partition_game_witness, SparseCompletion.perspective_call_epigraph_iff, SparseCompletion.perspective_call_identity, SparseCompletion.perspective_cut_system_convex, SparseCompletion.perspective_cuts_iff, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.perspective_cuts_mix, SparseCompletion.perspective_moment_zero, SparseCompletion.perspective_quadratic_mix, SparseCompletion.positive_score_call_identity, SparseCompletion.positive_target_full_support, SparseCompletion.prefix_cut_quadratic, SparseCompletion.prefix_exposing_identity, SparseCompletion.prefix_quadratic_mix, SparseCompletion.prefix_system_convex, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_support_card, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.residual_projection_response_bound, SparseCompletion.response_guard, SparseCompletion.response_le_exploitability, SparseCompletion.response_perturbation, SparseCompletion.response_strategy_distance, SparseCompletion.score_lower_from_intervals, SparseCompletion.shifted_call_antitone, SparseCompletion.skew_weighted_sum, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.strict_prefix_rigidity, SparseCompletion.sum_bin_partition, SparseCompletion.supported_response_zero, SparseCompletion.threshold_is_score_prefix, SparseCompletion.tight_prefix_completion_unique, SparseCompletion.transferred_residual_distance, SparseCompletion.transferred_residual_mass, SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_fixed_share_uniqueness, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.two_anchor_total_support_card, SparseCompletion.two_core_anchor_shift, SparseCompletion.two_core_response_perturbation, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_adjust, SparseCompletion.uniform_core_dense, SparseCompletion.uniform_core_restore, SparseCompletion.uniform_core_support_exists, SparseCompletion.uniform_core_total_support_card, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_exact_to_interval, SparseCompletion.uniform_exposing_weight, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_interval_dense, SparseCompletion.uniform_interval_restore, SparseCompletion.uniform_interval_support_exists, SparseCompletion.uniform_interval_total_support_card, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.uniform_score_affine, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_target_cuts, SparseCompletion.uniform_target_score, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_two_anchor_dense, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_fixed_residual_positive, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.uniform_witness_small_residual_positive, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniform_witness_total_support_card, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Set.Icc**: SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.clipped_observation_interval, SparseCompletion.cuts_iff_call_bound, SparseCompletion.cuts_iff_positive_thresholds, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_grid_implication, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.floor_strategies_compact, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_system_iff_threshold_system, SparseCompletion.joint_anchor_support_order, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.perspective_cuts_iff_candidate_thresholds, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.variable_core_interval_completion_iff.
+
+**Nat.ceil**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.double_grid_support_upper, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.gridSize_bound, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.unit_mass_grid_bound.
+
+**FloorSemiring**: SparseCompletion.allocation_grid_card, SparseCompletion.allocation_grid_nonempty, SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_in_grid, SparseCompletion.allocation_rounding_mass, SparseCompletion.allocation_rounding_preserves_floors, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.double_grid_support_upper, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.gridSize_bound, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.rounded_allocation_finite_grid, SparseCompletion.rounded_anchor_bounds, SparseCompletion.rounded_anchor_grid_index, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.unit_mass_grid_bound.
+
+**NNReal.sqrt**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.double_grid_support_upper, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.gridSize_bound, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.residual_rate_from_inverse_square, SparseCompletion.uncertainty_rate_comparison, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.unit_mass_grid_bound.
+
+**Real.sqrt**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.double_grid_support_upper, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.gridSize_bound, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.residual_rate_from_inverse_square, SparseCompletion.uncertainty_rate_comparison, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.unit_mass_grid_bound.
+
+**Real.toNNReal**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.double_grid_support_upper, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_anchor_gap_monotone, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasibility_monotone, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.gridSize_bound, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_epigraph_iff, SparseCompletion.interval_gap_recovered_exact_point, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.residual_rate_from_inverse_square, SparseCompletion.uncertainty_rate_comparison, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.unit_mass_grid_bound.
+
+**Convex**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_perspective_cut_system_convex, SparseCompletion.interval_perspective_system_convex, SparseCompletion.interval_system_repertoire_convex, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_convex, SparseCompletion.linear_repertoire_convex, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.perspective_cut_system_convex, SparseCompletion.prefix_system_convex, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.residual_linear_repertoire_convex, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff.
+
+**StarConvex**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_convex, SparseCompletion.linear_repertoire_convex, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.prefix_system_convex, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff.
+
+**convexHull**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**AffineIndependent**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**Finset.weightedVSub**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**Finset.weightedVSubOfPoint**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**vectorSpan**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**Submodule.span**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**Module.finrank**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments.
+
+**Finset.card**: SparseCompletion.RationalCertificate.support_card_le, SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.allocation_grid_card, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.bin_compressed_support, SparseCompletion.bin_odd_support, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.block_support_card, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.clone_support_card, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_observations_bounded, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.cloned_witness_aggregates, SparseCompletion.core_witness_interval, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.partition_game_witness, SparseCompletion.positive_target_full_support, SparseCompletion.relabel_support_card, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.sum_bin_partition, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.two_anchor_total_support_card, SparseCompletion.two_core_response_perturbation, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniform_core_dense, SparseCompletion.uniform_core_restore, SparseCompletion.uniform_core_support_exists, SparseCompletion.uniform_core_total_support_card, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_exact_to_interval, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_interval_dense, SparseCompletion.uniform_interval_restore, SparseCompletion.uniform_interval_support_exists, SparseCompletion.uniform_interval_total_support_card, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_fixed_residual_positive, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.uniform_witness_small_residual_positive, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniform_witness_total_support_card, SparseCompletion.variable_core_interval_completion_iff.
+
+**Fintype.card**: SparseCompletion.aggregate_clone_lower, SparseCompletion.aggregate_clone_shares, SparseCompletion.allocation_grid_card, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.bin_compressed_support, SparseCompletion.bin_odd_support, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.block_support_card, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.clone_support_card, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.core_witness_interval, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.finite_feature_compression, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.partition_game_witness, SparseCompletion.positive_target_full_support, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.sparse_cut_witness, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.sum_bin_partition, SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.two_anchor_total_support_card, SparseCompletion.two_core_response_perturbation, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniform_core_dense, SparseCompletion.uniform_core_restore, SparseCompletion.uniform_core_support_exists, SparseCompletion.uniform_core_total_support_card, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_exact_to_interval, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_interval_dense, SparseCompletion.uniform_interval_restore, SparseCompletion.uniform_interval_support_exists, SparseCompletion.uniform_interval_total_support_card, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_fixed_residual_positive, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.uniform_witness_small_residual_positive, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniform_witness_total_support_card.
+
+**IsCompact**: SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.floor_strategies_compact, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**IsClosed**: SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.floor_strategies_compact, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.support_budget_closed, SparseCompletion.support_restricted_compact, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Continuous**: SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exploitability_continuous, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.floor_strategies_compact, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_points_closed, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_matrices_compact, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**LinearMap**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**ContinuousLinearMap**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Set.image**: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.cuts_weighted_completion, SparseCompletion.exact_completion_gap_point, SparseCompletion.exact_game_sparse_completion, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_interval_completion_gap_point, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.feasible_implies_gap_feasible, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.game_sparse_completion, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.gap_feasible_implies_relaxed_feasible, SparseCompletion.gap_infeasible_excludes_completion, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_point_completed_witness, SparseCompletion.gap_sparse_completed_witness, SparseCompletion.gap_sparse_point, SparseCompletion.gap_sparse_point_positive, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_gap_completed_witness, SparseCompletion.interval_gap_sparse_completed_witness, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.joint_anchor_support_order, SparseCompletion.joint_anchor_support_order_general, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_gap_sparse_completed_witness, SparseCompletion.normalized_interval_gap_completed_witness, SparseCompletion.normalized_interval_gap_sparse_completed_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_joint_support_upper, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.repertoire_interval_completion_iff, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.variable_core_interval_completion_iff, SparseCompletion.weighted_completion_iff, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Finset.range**: SparseCompletion.uniform_exposing_weight, SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.two_anchor_total_support_card, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_witness_total_support_card, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.cloned_uniform_dense, SparseCompletion.cloned_uniform_dense_full_game, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+**LocallyFiniteOrderBot**: SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight.
+
+**LocallyFiniteOrderTop**: SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight.
+
+**Finset.Ioi**: SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight.
+
+**Nat.find**: SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp.
+
+**Nat.findX**: SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp.
+
+**RelEmbedding**: SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+**Finset.orderIsoOfFin**: SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+**Finset.orderEmbOfFin**: SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.cloned_uniform_total_support_lower, SparseCompletion.joint_anchor_support_order.
+
+**Equiv**: SparseCompletion.binIndex_val, SparseCompletion.sum_bin_partition, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.bin_call_compression, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_compressed_calls, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.balanced_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_odd_game_witness, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_odd_support, SparseCompletion.binned_middle_positive, SparseCompletion.binned_middle_injective, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.relabel_intervals, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_skew, SparseCompletion.relabel_support_card, SparseCompletion.split_skew_matrix, SparseCompletion.split_weights.
+
+**finSigmaFinEquiv**: SparseCompletion.binIndex_val, SparseCompletion.sum_bin_partition, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.balanced_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_odd_game_witness, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_odd_support, SparseCompletion.binned_middle_positive, SparseCompletion.binned_middle_injective, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact.
+
+**Finset.sigma**: SparseCompletion.balanced_game_witness, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.balanced_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_odd_game_witness, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_odd_support, SparseCompletion.binned_middle_positive, SparseCompletion.binned_middle_injective, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact.
+
+**Fin.revPerm**: SparseCompletion.balanced_game_witness, SparseCompletion.bin_call_compression, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_compressed_calls, SparseCompletion.binned_call_contraction, SparseCompletion.binned_game_witness, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.partition_game_witness, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper.
+
+**Finset.image**: SparseCompletion.binned_odd_game_witness, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered.
+
+**Antitone**: SparseCompletion.threshold_is_score_prefix, SparseCompletion.cuts_iff_score_prefixes, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.normalized_known_anchor_conic_iff.
+
+**Finset.Nonempty**: SparseCompletion.allocation_rounding_value_bound, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cuts_iff_score_prefixes, SparseCompletion.exploitability_bounded_above, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_nonnegative, SparseCompletion.exploitability_perturbation, SparseCompletion.exploitability_strategy_distance, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.known_anchor_conic_system_iff, SparseCompletion.known_anchor_prefix_characterization, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_known_anchor_conic_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.positive_score_threshold, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.response_le_exploitability, SparseCompletion.response_strategy_distance, SparseCompletion.threshold_is_score_prefix, SparseCompletion.weighted_completion_prefix_quadratic_iff, SparseCompletion.weighted_completion_rotated_cones_iff.
+
+**Finset.max'**: SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_bound_le, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_maximum.
+
+**Finset.sup'**: SparseCompletion.allocation_rounding_value_bound, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.exploitability_bounded_above, SparseCompletion.exploitability_continuous, SparseCompletion.exploitability_le_iff, SparseCompletion.exploitability_nonnegative, SparseCompletion.exploitability_perturbation, SparseCompletion.exploitability_strategy_distance, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.response_le_exploitability, SparseCompletion.response_strategy_distance.
+
+**Set.compl**: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_relabel_on_anchor.
+
+**Fintype.equivFin**: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_relabel_on_anchor.
+
+**Equiv.Set.sumCompl**: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_relabel_on_anchor.
+
+**LinearOrder**: SparseCompletion.residual_loss_bound_ordered, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered, SparseCompletion.endpoint_bounds_from_order, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_value_ordered_interval_stability.
+
+**InfSet**: SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+**ConditionallyCompleteLattice**: SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+**ConditionallyCompleteLinearOrder**: SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+**Set.prod**: SparseCompletion.exploitability_continuous, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_exploitability_continuous, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.fixed_game_value_le_witness, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_pairs_compact, SparseCompletion.gap_points_closed, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_le, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_le_witness, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+**Rat.castRec**: SparseCompletion.RationalBisection.value_certificate, SparseCompletion.RationalCertificate.accepted_full_game, SparseCompletion.RationalCertificate.check_iff_full_rows, SparseCompletion.RationalCertificate.realB_omitted, SparseCompletion.RationalCertificate.realB_stored, SparseCompletion.RationalCertificate.realQ_off, SparseCompletion.RationalCertificate.rows_iff, SparseCompletion.RationalCertificate.support_card_le.
+
+**Set.Nonempty**: SparseCompletion.allocation_grid_nonempty, SparseCompletion.fixed_anchor_additive_value_enclosure, SparseCompletion.fixed_game_value_attained, SparseCompletion.fixed_game_value_bounds, SparseCompletion.floor_strategies_nonempty, SparseCompletion.gap_original_infimum_eq, SparseCompletion.gap_threshold_attained, SparseCompletion.gap_threshold_minimal_nonnegative, SparseCompletion.interval_matrices_nonempty, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.optimistic_support_value_attained, SparseCompletion.optimistic_support_value_ordered_stability, SparseCompletion.optimistic_support_value_stability, SparseCompletion.optimistic_value_attained, SparseCompletion.optimistic_value_interval_stability, SparseCompletion.optimistic_value_ordered_interval_stability, SparseCompletion.optimistic_value_projection_bound.
+
+**Nat.floor**: SparseCompletion.allocation_grid_card, SparseCompletion.allocation_grid_nonempty, SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_in_grid, SparseCompletion.allocation_rounding_mass, SparseCompletion.allocation_rounding_preserves_floors, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.rounded_allocation_finite_grid, SparseCompletion.rounded_anchor_bounds, SparseCompletion.rounded_anchor_grid_index.
+
+**Monotone**: SparseCompletion.RationalBisection.excludes_below.

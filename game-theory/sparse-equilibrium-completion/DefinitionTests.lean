@@ -276,5 +276,126 @@ theorem insert_zero_literal (s : Finset ℝ) : (insert 0 s).val=Multiset.ndinser
   classical
   rfl
 
+theorem right_tuple_projection_contract {α β γ : Type*} (a : α) (b : β) (c : γ) :
+    (a,b,c).1=a ∧ (a,b,c).2.1=b ∧ (a,b,c).2.2=c := ⟨rfl,rfl,rfl⟩
+
+theorem tuple_real_function_mix_contract {ι α : Type*}
+    (z z' : (ι → ℝ) × (ι → α → ℝ) × (α → α → ℝ)) (a b : ℝ) :
+    (a • z+b • z').1=a • z.1+b • z'.1 ∧
+    (a • z+b • z').2.1=a • z.2.1+b • z'.2.1 ∧
+    (a • z+b • z').2.2=a • z.2.2+b • z'.2.2 := ⟨rfl,rfl,rfl⟩
+
+theorem pi_real_mix_evaluation_contract {ι α : Type*}
+    (V V' : ι → α → ℝ) (a b : ℝ) (i : ι) (h : α) :
+    (a • V+b • V') i h=a*V i h+b*V' i h := rfl
+
+theorem real_infimum_literal (s : Set ℝ) : sInf s= -sSup (-s) := Real.sInf_def s
+
+theorem compact_infimum_attained (s : Set ℝ) (hc : IsCompact s) (hn : s.Nonempty) :
+    sInf s ∈ s := hc.sInf_mem hn
+
+theorem compact_infimum_lower (s : Set ℝ) (hc : IsCompact s) (a : ℝ) (ha : a ∈ s) :
+    sInf s ≤ a := csInf_le hc.bddBelow ha
+
+theorem real_infimum_glb (s : Set ℝ) (hn : s.Nonempty) (hb : BddBelow s) :
+    IsGLB s (sInf s) := Real.isGLB_sInf hn hb
+
+theorem cartesian_product_literal {α β : Type*} (s : Set α) (t : Set β) (a : α) (b : β) :
+    (a,b) ∈ s ×ˢ t ↔ a ∈ s ∧ b ∈ t := Iff.rfl
+
+theorem unit_singleton_contract (x : Unit) : x=() := by cases x; rfl
+
+theorem disjoint_sum_eliminator_contract {α β γ : Type*} (f : α → γ) (g : β → γ)
+    (a : α) (b : β) : Sum.elim f g (Sum.inl a)=f a ∧ Sum.elim f g (Sum.inr b)=g b := ⟨rfl,rfl⟩
+
+theorem clone_index_cardinality (n : ℕ) : Fintype.card (Fin (n+1) ⊕ Unit)=n+2 := by
+  simp only [Fintype.card_sum,Fintype.card_fin,Fintype.card_unit]
+
+theorem clone_sum_literal (n : ℕ) (f : Fin (n+1) ⊕ Unit → ℝ) :
+    (∑ h, f h)=(∑ i, f (Sum.inl i))+f (Sum.inr ()) := by
+  rw [Fintype.sum_sum_type]
+  simp only [Fintype.sum_unique]
+
+theorem conditional_infimum_contract {α : Type*} [ConditionallyCompleteLattice α]
+    (s : Set α) (hn : s.Nonempty) (hb : BddBelow s) : IsGLB s (sInf s) :=
+  ConditionallyCompleteLattice.isGLB_csInf s hn hb
+
+theorem bounded_below_literal (s : Set ℝ) : BddBelow s ↔ ∃ a, ∀ b ∈ s, a ≤ b := Iff.rfl
+
+theorem greatest_lower_bound_contract (s : Set ℝ) (a : ℝ) :
+    IsGLB s a ↔ (∀ b ∈ s, a ≤ b) ∧ ∀ c, (∀ b ∈ s, c ≤ b) → c ≤ a := Iff.rfl
+
+theorem compact_product_contract {α β : Type*} [TopologicalSpace α] [TopologicalSpace β]
+    (s : Set α) (t : Set β) (hs : IsCompact s) (ht : IsCompact t) : IsCompact (s ×ˢ t) := hs.prod ht
+
+
+theorem rational_denominator_nonzero (q : ℚ) : q.den ≠ 0 := q.den_nz
+
+theorem rational_denominator_positive (q : ℚ) : 0 < q.den := Nat.pos_of_ne_zero q.den_nz
+
+theorem rational_real_numerator_denominator (q : ℚ) :
+    (q : ℝ)=(q.num : ℝ)/(q.den : ℝ) := Rat.cast_def q
+
+theorem rational_real_add_mul (q r : ℚ) :
+    ((q+r : ℚ) : ℝ)=(q : ℝ)+(r : ℝ) ∧ ((q*r : ℚ) : ℝ)=(q : ℝ)*(r : ℝ) :=
+  ⟨Rat.cast_add _ _,Rat.cast_mul _ _⟩
+
+theorem rational_real_sub_neg (q r : ℚ) :
+    ((q-r : ℚ) : ℝ)=(q : ℝ)-(r : ℝ) ∧ ((-q : ℚ) : ℝ)= -(q : ℝ) :=
+  ⟨Rat.cast_sub _ _,Rat.cast_neg _⟩
+
+theorem rational_real_order (q r : ℚ) : (q : ℝ) ≤ (r : ℝ) ↔ q ≤ r := Rat.cast_le
+
+theorem rational_real_injective (q r : ℚ) : (q : ℝ)=(r : ℝ) ↔ q=r := Rat.cast_inj
+
+theorem rational_real_sum {α : Type*} (s : Finset α) (f : α → ℚ) :
+    ((∑ i ∈ s, f i : ℚ) : ℝ)=∑ i ∈ s, (f i : ℝ) := by norm_cast
+
+theorem rational_cast_selector {α : Type*} [RatCast α] (q : ℚ) :
+    (q : α)=RatCast.ratCast q := rfl
+
+theorem rational_identity_cast (q : ℚ) : Rat.cast (K := ℚ) q=q := rfl
+
+theorem set_nonempty_literal {α : Type*} (s : Set α) : s.Nonempty ↔ ∃ x, x ∈ s := Iff.rfl
+
+theorem type_nonempty_literal {α : Type*} : Nonempty α ↔ ∃ _x : α, True := by
+  constructor
+  · rintro ⟨x⟩; exact ⟨x,True.intro⟩
+  · rintro ⟨x,_⟩; exact ⟨x⟩
+
+theorem finite_support_membership {α : Type*} (s : Finset α) (i : s) : (i : α) ∈ s :=
+  i.property
+
+theorem finite_support_enumeration {α : Type*} (s : Finset α) :
+    (Finset.univ : Finset s)=s.attach := rfl
+
+theorem finite_min_image_contract {α : Type*} (s : Set α) (f : α → ℝ)
+    (hf : s.Finite) (hn : s.Nonempty) : ∃ a ∈ s, ∀ b ∈ s, f a ≤ f b :=
+  s.exists_min_image f hf hn
+
+
+theorem natural_floor_literal (x : ℝ) : Nat.floor x=FloorSemiring.floor x := rfl
+
+theorem natural_floor_nonnegative_bound (x : ℝ) (hx : 0 ≤ x) : (Nat.floor x : ℝ) ≤ x :=
+  Nat.floor_le hx
+
+theorem natural_floor_next_integer (x : ℝ) : x < (Nat.floor x : ℝ)+1 := Nat.lt_floor_add_one x
+
+theorem natural_floor_monotone (x y : ℝ) (hxy : x ≤ y) : Nat.floor x ≤ Nat.floor y :=
+  Nat.floor_mono hxy
+
+theorem finite_allocation_index_card {α : Type*} [Fintype α] [DecidableEq α] (N : ℕ) :
+    Fintype.card (α → Fin N)=N^Fintype.card α := by
+  simp only [Fintype.card_fun,Fintype.card_fin]
+
+
+theorem monotone_rational_predicate_literal (P : ℚ → Prop) :
+    Monotone P ↔ ∀ a b : ℚ, a ≤ b → P a → P b := by
+  constructor
+  · intro h a b hab; exact h hab
+  · intro h a b hab; exact h a b hab
+
+theorem rational_archimedean_contract (x : ℚ) : ∃ n : ℕ, x < n := exists_nat_gt x
+
 end SECDefinitions
 -- END material-imported-definition audit

@@ -1,3 +1,9 @@
+Historical scope statements in the checkpoint sections below describe that
+checkpoint's source at the time recorded. They do not describe the latest scope.
+The final “Joint geometry, stability, gap correctness and cloned-anchor follow-on”
+section and SCOPE.md describe the expanded development. Exact-source verification
+is recorded by an external immutable receipt naming the complete commit and tree.
+
 # Reproducible verification boundaries
 
 Run from this package with the pinned Lean toolchain and locked dependencies:
@@ -20,7 +26,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact fifty-nine local source bodies with
+Challenge is a deterministic assembly of the exact seventy-four local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -223,16 +229,47 @@ All 12 native gates passed there: 307 source axiom reports, 197 protected
 contracts, both kernel checks, and rejection of a deliberately altered helper.
 Its independently authenticated complete-history bundle and review are retained.
 
-The current interval/cover source adds 13 modules and 57 theorems, for 59
+The historical interval/cover tranche added 13 modules and 57 theorems, for 59
 mathematics modules, 364 source axiom reports and 254 selected contracts.
-It requires a new frozen-source receipt; no predecessor receipt verifies these
-bytes. The root imported-definition checker now accepts exact identifiers ending
+That tranche was subsequently verified at a618d1a32b31abf44277168f0ab0bcba30c3c463,
+with the receipt recorded below. The root imported-definition checker accepts exact identifiers ending
 in primes, with explicit negative identifier controls. The protected comparator
 is unchanged. The native verifier also binds its two root audit tools to the
 recorded clean Git commit and rechecks their hashes after execution.
 
-The exact interval-perspective and arbitrary-cover/weak-cover scope is recorded
-in SCOPE.md. Joint interval convexity/separation, general value stability, joint-k
-lower constructions and algorithmic guarantees remain unfinished. Native macOS
+That historical scope excluded joint interval convexity/separation, general value
+stability and joint-k lower constructions, which the expanded tranche below proves.
+Algorithmic gaps are tracked precisely in the current SCOPE.md. Native macOS
 verification is separate from canonical sandbox checks, intake and publication.
 No submission is authorized or attempted.
+
+
+## Joint geometry, stability, gap correctness and cloned-anchor follow-on
+
+The interval/cover checkpoint `a618d1a32b31abf44277168f0ab0bcba30c3c463`
+is preserved with native receipt SHA256
+`86e5c0a4d1328312e1638df58888ba21e1ad4acd7276d85d6cca4a2e8900ec21`.
+All 12 gates passed: 364 source axiom reports, 254 protected contracts, both
+kernel checks and altered-helper rejection. Independent source, semantic, static
+and evidence authentication reviews bind all 83 files; the complete-history
+bundle is retained.
+
+The expanded follow-on contains 92 mathematics modules, 499 source proof audits
+and 389 selected contracts. The external exact-source receipt mechanism identifies the complete frozen commit
+and tree; this paragraph does not assert that a new run has passed. The protected comparator is unchanged. Literal tuple, singleton,
+disjoint-sum, finite enumeration and actual conditional-infimum meanings have
+pinned source evidence and separate semantic entrypoints. Joint REAL numeral
+normalization follows the established explicit Nat-coercion discipline.
+
+SCOPE.md separates the proved joint interval and clone-family mathematics from
+the remaining rational algorithms, executable separation and operation/bit-cost
+proofs. No predecessor receipt verifies altered source bytes. No registry or
+journal action is authorized or attempted.
+
+The expanded tranche includes the independently reviewed rational checker,
+fixed/gap value minima, interval gap recovery, floor/allocation-grid value bounds
+and conditional rational bisection. Both semantic entrypoints retain actual Rat
+and finite-support enumeration meanings, with Batteries RatCast authenticated
+separately at its own dependency pin. RatCast supplies a bare map; Real cast laws
+are proved contracts. Native verification remains separate from canonical Linux,
+registry rendering, editorial eligibility, human role confirmation and submission.

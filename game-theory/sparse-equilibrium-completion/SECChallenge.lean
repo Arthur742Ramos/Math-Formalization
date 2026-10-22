@@ -7911,3 +7911,2593 @@ theorem residual_loss_bound_ordered {ι : Type*} [Fintype ι] [LinearOrder ι]
 
 end
 end SparseCompletion
+
+/- Fixed source body: IntervalConvexity.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem perspective_quadratic_mix {ι : Type*} (S : Finset ι)
+    (q q' H H' : ι → ℝ) (M r ε a b : ℝ)
+    (hM : 0 ≤ M) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a+b=1) :
+    M*(mass S (a • q+b • q'))^2-M*r*mass S (a • q+b • q')+
+      (∑ i ∈ S, ((a*H i+b*H' i)-ε*(a*q i+b*q' i))) ≤
+      a*(M*(mass S q)^2-M*r*mass S q+(∑ i ∈ S, (H i-ε*q i)))+
+      b*(M*(mass S q')^2-M*r*mass S q'+(∑ i ∈ S, (H' i-ε*q' i))) := by
+  rw [finite_mass_mix]
+  have he : (∑ i ∈ S, ((a*H i+b*H' i)-ε*(a*q i+b*q' i)))=
+      a*(∑ i ∈ S, (H i-ε*q i))+b*(∑ i ∈ S, (H' i-ε*q' i)) := by
+    rw [Finset.mul_sum,Finset.mul_sum,←Finset.sum_add_distrib]
+    apply Finset.sum_congr rfl
+    intro i _
+    ring
+  rw [he]
+  have hid : M*(a*mass S q+b*mass S q')^2-M*r*(a*mass S q+b*mass S q')+
+      (a*(∑ i ∈ S, (H i-ε*q i))+b*(∑ i ∈ S, (H' i-ε*q' i)))=
+      a*(M*(mass S q)^2-M*r*mass S q+(∑ i ∈ S, (H i-ε*q i)))+
+      b*(M*(mass S q')^2-M*r*mass S q'+(∑ i ∈ S, (H' i-ε*q' i)))-
+      M*a*b*(mass S q-mass S q')^2 := by
+    have hb' : b=1-a := by linarith
+    rw [hb']
+    ring
+  rw [hid]
+  exact sub_le_self _ (by positivity)
+
+theorem perspective_cuts_mix {ι : Type*} [Fintype ι]
+    (q q' H H' : ι → ℝ) (M r ε a b : ℝ)
+    (hM : 0 ≤ M) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a+b=1)
+    (h : perspectiveCuts q H M r ε) (h' : perspectiveCuts q' H' M r ε) :
+    perspectiveCuts (a • q+b • q') (a • H+b • H') M r ε := by
+  intro S
+  have hm := perspective_quadratic_mix S q q' H H' M r ε a b hM ha hb hab
+  have h1 := mul_nonpos_of_nonneg_of_nonpos ha (h S)
+  have h2 := mul_nonpos_of_nonneg_of_nonpos hb (h' S)
+  simpa only [Pi.add_apply,Pi.smul_apply,smul_eq_mul] using le_trans hm (by linarith)
+
+theorem perspective_cut_system_convex {ι : Type*} [Fintype ι]
+    (M r ε : ℝ) (hM : 0 ≤ M) :
+    Convex ℝ {z : (ι → ℝ) × (ι → ℝ) | perspectiveCuts z.1 z.2 M r ε} := by
+  intro z hz z' hz' a b ha hb hab
+  exact perspective_cuts_mix z.1 z'.1 z.2 z'.2 M r ε a b hM ha hb hab hz hz'
+
+theorem interval_moment_mix {ι α : Type*} [Fintype α]
+    (p : α → ℝ) (V V' : ι → α → ℝ) (a b : ℝ) :
+    intervalMomentScore p (a • V+b • V')=
+      a • intervalMomentScore p V+b • intervalMomentScore p V' := by
+  funext i
+  unfold intervalMomentScore
+  simp only [Pi.add_apply,Pi.smul_apply,smul_eq_mul]
+  rw [Finset.mul_sum,Finset.mul_sum,←Finset.sum_add_distrib]
+  apply Finset.sum_congr rfl
+  intro h _
+  ring
+
+theorem interval_perspective_cut_system_convex {ι α : Type*} [Fintype ι] [Fintype α]
+    (p : α → ℝ) (M r ε : ℝ) (hM : 0 ≤ M) :
+    Convex ℝ {z : (ι → ℝ) × (ι → α → ℝ) |
+      perspectiveCuts z.1 (intervalMomentScore p z.2) M r ε} := by
+  intro z hz z' hz' a b ha hb hab
+  change perspectiveCuts (a • z.1+b • z'.1)
+    (intervalMomentScore p (a • z.2+b • z'.2)) M r ε
+  rw [interval_moment_mix]
+  exact perspective_cuts_mix z.1 z'.1 (intervalMomentScore p z.2)
+    (intervalMomentScore p z'.2) M r ε a b hM ha hb hab hz hz'
+
+def intervalPerspectiveSystem {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ)
+    (z : (ι → ℝ) × (ι → α → ℝ) × (α → α → ℝ)) : Prop :=
+  (∀ i, 0 ≤ z.1 i) ∧ (∑ i, z.1 i)=r ∧
+  (∀ i h, lo i h*z.1 i ≤ z.2.1 i h ∧ z.2.1 i h ≤ hi i h*z.1 i) ∧
+  (∀ h, (∑ a, z.2.2 h a*p a)-(∑ i, z.2.1 i h) ≤ ε) ∧
+  IsSkew z.2.2 ∧ (∀ h h', coreLo h h' ≤ z.2.2 h h' ∧ z.2.2 h h' ≤ coreHi h h') ∧
+  (∀ i, score lo p i ≤ ε+M*r) ∧ perspectiveCuts z.1 (intervalMomentScore p z.2.1) M r ε
+
+theorem interval_perspective_system_convex {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ) (hM : 0 ≤ M) :
+    Convex ℝ {z | intervalPerspectiveSystem lo hi coreLo coreHi p M r ε z} := by
+  intro z hz z' hz' a b ha hb hab
+  rcases hz with ⟨hq,hr,hV,hA,hK,hC,hg,hcuts⟩
+  rcases hz' with ⟨hq',hr',hV',hA',hK',hC',_,hcuts'⟩
+  change intervalPerspectiveSystem lo hi coreLo coreHi p M r ε
+    (a • z.1+b • z'.1, a • z.2.1+b • z'.2.1, a • z.2.2+b • z'.2.2)
+  refine ⟨?_,?_,?_,?_,?_,?_,hg,?_⟩
+  · intro i
+    change 0 ≤ a*z.1 i+b*z'.1 i
+    exact add_nonneg (mul_nonneg ha (hq i)) (mul_nonneg hb (hq' i))
+  · change (∑ i, (a*z.1 i+b*z'.1 i))=r
+    rw [Finset.sum_add_distrib,←Finset.mul_sum,←Finset.mul_sum,hr,hr',←add_mul,hab,one_mul]
+  · intro i h
+    change lo i h*(a*z.1 i+b*z'.1 i) ≤ a*z.2.1 i h+b*z'.2.1 i h ∧
+      a*z.2.1 i h+b*z'.2.1 i h ≤ hi i h*(a*z.1 i+b*z'.1 i)
+    have h1 := mul_le_mul_of_nonneg_left (hV i h).1 ha
+    have h2 := mul_le_mul_of_nonneg_left (hV' i h).1 hb
+    have h3 := mul_le_mul_of_nonneg_left (hV i h).2 ha
+    have h4 := mul_le_mul_of_nonneg_left (hV' i h).2 hb
+    constructor <;> nlinarith
+  · intro h
+    change (∑ c, (a*z.2.2 h c+b*z'.2.2 h c)*p c)-(∑ i, (a*z.2.1 i h+b*z'.2.1 i h)) ≤ ε
+    rw [finite_linear_mix]
+    rw [Finset.sum_add_distrib,←Finset.mul_sum,←Finset.mul_sum]
+    have h1 := mul_le_mul_of_nonneg_left (hA h) ha
+    have h2 := mul_le_mul_of_nonneg_left (hA' h) hb
+    have he : a*ε+b*ε=ε := by rw [←add_mul,hab,one_mul]
+    nlinarith
+  · intro h h'
+    change a*z.2.2 h h'+b*z'.2.2 h h'= -(a*z.2.2 h' h+b*z'.2.2 h' h)
+    rw [hK h h',hK' h h']
+    ring
+  · intro h h'
+    change coreLo h h' ≤ a*z.2.2 h h'+b*z'.2.2 h h' ∧
+      a*z.2.2 h h'+b*z'.2.2 h h' ≤ coreHi h h'
+    have h1 := mul_le_mul_of_nonneg_left (hC h h').1 ha
+    have h2 := mul_le_mul_of_nonneg_left (hC' h h').1 hb
+    have h3 := mul_le_mul_of_nonneg_left (hC h h').2 ha
+    have h4 := mul_le_mul_of_nonneg_left (hC' h h').2 hb
+    have hlo : a*coreLo h h'+b*coreLo h h'=coreLo h h' := by rw [←add_mul,hab,one_mul]
+    have hhi : a*coreHi h h'+b*coreHi h h'=coreHi h h' := by rw [←add_mul,hab,one_mul]
+    constructor <;> linarith
+  · rw [interval_moment_mix]
+    exact perspective_cuts_mix z.1 z'.1 (intervalMomentScore p z.2.1)
+      (intervalMomentScore p z'.2.1) M r ε a b hM ha hb hab hcuts hcuts'
+
+theorem variable_core_interval_completion_iff {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ) (hM : 0 < M) (hp : ∀ h, 0 ≤ p h)
+    (hpmass : (∑ h, p h)+r=1)
+    (hclo : ∀ h h', -M ≤ coreLo h h') (hchi : ∀ h h', coreHi h h' ≤ M)
+    (hlo : ∀ i h, -M ≤ lo i h) (hhi : ∀ i h, hi i h ≤ M)
+    (hlu : ∀ i h, lo i h ≤ hi i h) :
+    (∃ (q : ι → ℝ) (K : α → α → ℝ),
+      (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧ IsSkew K ∧
+      (∀ h h', coreLo h h' ≤ K h h' ∧ K h h' ≤ coreHi h h') ∧
+      ∃ (D : ι → α → ℝ) (B : ι → ι → ℝ),
+        (∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h) ∧
+        (∀ a, 0 ≤ blockWeights p q a) ∧ (∑ a, blockWeights p q a)=1 ∧
+        IsSkew (blockMatrix K D B) ∧
+        (∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M) ∧
+        ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε) ↔
+    ∃ z, intervalPerspectiveSystem lo hi coreLo coreHi p M r ε z := by
+  constructor
+  · rintro ⟨q,K,hq,hr,hK,hC,hgame⟩
+    have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun h h' =>
+      ⟨le_trans (hclo h h') (hC h h').1,le_trans (hC h h').2 (hchi h h')⟩
+    obtain ⟨V,hV,hA,hg,hcuts⟩ :=
+      (normalized_interval_perspective_iff K lo hi p q M r ε hM hp hq hr hpmass
+        hK hKb hlo hhi hlu).mp hgame
+    exact ⟨(q,V,K),hq,hr,hV,hA,hK,hC,hg,hcuts⟩
+  · rintro ⟨⟨q,V,K⟩,hq,hr,hV,hA,hK,hC,hg,hcuts⟩
+    have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun h h' =>
+      ⟨le_trans (hclo h h') (hC h h').1,le_trans (hC h h').2 (hchi h h')⟩
+    refine ⟨q,K,hq,hr,hK,hC,?_⟩
+    exact (normalized_interval_perspective_iff K lo hi p q M r ε hM hp hq hr hpmass
+      hK hKb hlo hhi hlu).mpr ⟨V,hV,hA,hg,hcuts⟩
+
+theorem interval_system_repertoire_convex {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ) (hM : 0 ≤ M)
+    (R : Set (ι → ℝ)) (hR : Convex ℝ R) :
+    Convex ℝ {z | intervalPerspectiveSystem lo hi coreLo coreHi p M r ε z ∧ z.1 ∈ R} := by
+  intro z hz z' hz' a b ha hb hab
+  exact ⟨interval_perspective_system_convex lo hi coreLo coreHi p M r ε hM
+    hz.1 hz'.1 ha hb hab,hR hz.2 hz'.2 ha hb hab⟩
+
+theorem residual_linear_repertoire_convex {ι κ : Type*} [Fintype ι]
+    (F : κ → ι → ℝ) (b : κ → ℝ) :
+    Convex ℝ {q : ι → ℝ | ∀ c, (∑ i, q i*F c i) ≤ b c} := by
+  intro q hq q' hq' a d ha hd had c
+  change (∑ i, (a*q i+d*q' i)*F c i) ≤ b c
+  rw [finite_linear_mix]
+  have h1 := mul_le_mul_of_nonneg_left (hq c) ha
+  have h2 := mul_le_mul_of_nonneg_left (hq' c) hd
+  have he : a*b c+d*b c=b c := by rw [←add_mul,had,one_mul]
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: GapCertificates.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def fixedAnchorGapPoint {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i, score D p i ≤ ρ+M*r) ∧ (∀ h, anchorResponse K D p q h ≤ ρ) ∧
+  ∀ l : ℕ, 1 ≤ l → l ≤ gridSize M r η →
+    call q (fun i => score D p i-ρ) (M*r-gridNode M r η l) ≤
+      envelope M r (M*r-gridNode M r η l)
+
+theorem exact_completion_gap_point {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (B : ι → ι → ℝ)
+    (p : α → ℝ) (q : ι → ℝ) (M r ρ η : ℝ) (hM : 0 < M)
+    (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=r) (hB : IsSkew B)
+    (hb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    fixedAnchorGapPoint K D p q M r ρ η := by
+  have hh := (block_response_bounds_iff K D B p q ρ).mp hrows
+  have hc := (weighted_completion_iff q (score D p) M r ρ (le_of_lt hM) hq hr).mp
+    ⟨B,hB,hb,hh.2⟩
+  refine ⟨hq,hr,hc.1,hh.1,?_⟩
+  intro l _ _
+  exact cuts_imply_call_bound q (fun i => score D p i-ρ) M r hM hc.2 _
+
+theorem gap_point_completed_witness {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (h : fixedAnchorGapPoint K D p q M r ρ η) :
+    ∃ B : ι → ι → ℝ, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ+η := by
+  rcases h with ⟨hq,hm,hg,ha,hgrid⟩
+  have hcap : ∀ i, q i ≠ 0 → score D p i-ρ ≤ M*r := fun i _ => by linarith [hg i]
+  have hc := canonical_grid_implication q (fun i => score D p i-ρ) M r η hM hr hη hq hcap hgrid
+  have hcuts := call_bound_implies_cuts q (fun i => (score D p i-ρ)-η) M r hM hq hm hc
+  have he : (fun i => (score D p i-ρ)-η)=(fun i => score D p i-(ρ+η)) := by
+    funext i
+    ring
+  rw [he] at hcuts
+  obtain ⟨B,hB,hb,hres⟩ :=
+    (weighted_completion_iff q (score D p) M r (ρ+η) (le_of_lt hM) hq hm).mpr
+      ⟨fun i => by linarith [hg i],hcuts⟩
+  refine ⟨B,hB,hb,?_⟩
+  apply (block_response_bounds_iff K D B p q (ρ+η)).mpr
+  exact ⟨fun h => le_trans (ha h) (by linarith),hres⟩
+
+theorem shifted_call_antitone {ι : Type*} [Fintype ι]
+    (q t : ι → ℝ) (ρ ρ' z : ℝ) (hq : ∀ i, 0 ≤ q i) (hρ : ρ ≤ ρ') :
+    call q (fun i => t i-ρ') z ≤ call q (fun i => t i-ρ) z := by
+  unfold call
+  apply Finset.sum_le_sum
+  intro i _
+  apply mul_le_mul_of_nonneg_left _ (hq i)
+  exact max_le_max (by linarith) (le_refl 0)
+
+theorem fixed_anchor_gap_monotone {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ ρ' η : ℝ) (hρ : ρ ≤ ρ')
+    (h : fixedAnchorGapPoint K D p q M r ρ η) :
+    fixedAnchorGapPoint K D p q M r ρ' η := by
+  rcases h with ⟨hq,hm,hg,ha,hgrid⟩
+  refine ⟨hq,hm,fun i => by linarith [hg i],fun h => le_trans (ha h) hρ,?_⟩
+  intro l hl hH
+  exact le_trans (shifted_call_antitone q (score D p) ρ ρ' _ hq hρ) (hgrid l hl hH)
+
+end
+end SparseCompletion
+
+/- Fixed source body: GapFeasibility.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def fixedAnchorFeasible {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ)
+    (p : α → ℝ) (M r ρ : ℝ) : Prop :=
+  ∃ q ∈ R, (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+    ∃ B : ι → ι → ℝ, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ
+
+def fixedAnchorGapFeasible {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ)
+    (p : α → ℝ) (M r ρ η : ℝ) : Prop :=
+  ∃ q ∈ R, fixedAnchorGapPoint K D p q M r ρ η
+
+theorem feasible_implies_gap_feasible {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ)
+    (p : α → ℝ) (M r ρ η : ℝ) (hM : 0 < M)
+    (h : fixedAnchorFeasible R K D p M r ρ) :
+    fixedAnchorGapFeasible R K D p M r ρ η := by
+  rcases h with ⟨q,hR,hq,hr,B,hB,hb,hrows⟩
+  exact ⟨q,hR,exact_completion_gap_point K D B p q M r ρ η hM hq hr hB hb hrows⟩
+
+theorem gap_feasible_implies_relaxed_feasible {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ)
+    (p : α → ℝ) (M r ρ η : ℝ) (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (h : fixedAnchorGapFeasible R K D p M r ρ η) :
+    fixedAnchorFeasible R K D p M r (ρ+η) := by
+  rcases h with ⟨q,hR,hpoint⟩
+  exact ⟨q,hR,hpoint.1,hpoint.2.1,gap_point_completed_witness K D p q M r ρ η hM hr hη hpoint⟩
+
+theorem gap_infeasible_excludes_completion {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ)
+    (p : α → ℝ) (M r ρ η : ℝ) (hM : 0 < M)
+    (h : ¬fixedAnchorGapFeasible R K D p M r ρ η) :
+    ¬fixedAnchorFeasible R K D p M r ρ :=
+  fun hf => h (feasible_implies_gap_feasible R K D p M r ρ η hM hf)
+
+theorem gap_feasibility_monotone {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ)
+    (p : α → ℝ) (M r ρ ρ' η : ℝ) (hρ : ρ ≤ ρ')
+    (h : fixedAnchorGapFeasible R K D p M r ρ η) :
+    fixedAnchorGapFeasible R K D p M r ρ' η := by
+  rcases h with ⟨q,hR,hpoint⟩
+  exact ⟨q,hR,fixed_anchor_gap_monotone K D p q M r ρ ρ' η hρ hpoint⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalRepertoire.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem repertoire_interval_completion_iff {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ) (hM : 0 < M) (hp : ∀ h, 0 ≤ p h)
+    (hpmass : (∑ h, p h)+r=1)
+    (hclo : ∀ h h', -M ≤ coreLo h h') (hchi : ∀ h h', coreHi h h' ≤ M)
+    (hlo : ∀ i h, -M ≤ lo i h) (hhi : ∀ i h, hi i h ≤ M)
+    (hlu : ∀ i h, lo i h ≤ hi i h) (R : Set (ι → ℝ)) :
+    (∃ (q : ι → ℝ) (K : α → α → ℝ),
+      q ∈ R ∧ (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧ IsSkew K ∧
+      (∀ h h', coreLo h h' ≤ K h h' ∧ K h h' ≤ coreHi h h') ∧
+      ∃ (D : ι → α → ℝ) (B : ι → ι → ℝ),
+        (∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h) ∧
+        (∀ a, 0 ≤ blockWeights p q a) ∧ (∑ a, blockWeights p q a)=1 ∧
+        IsSkew (blockMatrix K D B) ∧
+        (∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M) ∧
+        ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε) ↔
+    ∃ z, intervalPerspectiveSystem lo hi coreLo coreHi p M r ε z ∧ z.1 ∈ R := by
+  constructor
+  · rintro ⟨q,K,hR,hq,hr,hK,hC,hgame⟩
+    have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun h h' =>
+      ⟨le_trans (hclo h h') (hC h h').1,le_trans (hC h h').2 (hchi h h')⟩
+    obtain ⟨V,hV,hA,hg,hcuts⟩ :=
+      (normalized_interval_perspective_iff K lo hi p q M r ε hM hp hq hr hpmass
+        hK hKb hlo hhi hlu).mp hgame
+    exact ⟨(q,V,K),⟨hq,hr,hV,hA,hK,hC,hg,hcuts⟩,hR⟩
+  · rintro ⟨⟨q,V,K⟩,⟨hq,hr,hV,hA,hK,hC,hg,hcuts⟩,hR⟩
+    have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun h h' =>
+      ⟨le_trans (hclo h h') (hC h h').1,le_trans (hC h h').2 (hchi h h')⟩
+    refine ⟨q,K,hR,hq,hr,hK,hC,?_⟩
+    exact (normalized_interval_perspective_iff K lo hi p q M r ε hM hp hq hr hpmass
+      hK hKb hlo hhi hlu).mpr ⟨V,hV,hA,hg,hcuts⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalStability.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem interval_clip_endpoint_distance (lo hi lo' hi' x δ : ℝ)
+    (hx : lo ≤ x ∧ x ≤ hi) (hlu' : lo' ≤ hi') (hδ : 0 ≤ δ)
+    (hl : |lo-lo'| ≤ δ) (hu : |hi-hi'| ≤ δ) :
+    |intervalClip lo' hi' x-x| ≤ δ := by
+  obtain ⟨hl1,hl2⟩ := abs_le.mp hl
+  obtain ⟨hu1,hu2⟩ := abs_le.mp hu
+  unfold intervalClip
+  by_cases hxl : x < lo'
+  · rw [min_eq_right (le_trans (le_of_lt hxl) hlu'),max_eq_left (le_of_lt hxl),
+      abs_of_nonneg (by linarith)]
+    linarith [hx.1]
+  · by_cases hxu : hi' < x
+    · rw [min_eq_left (le_of_lt hxu),max_eq_right hlu',abs_of_nonpos (by linarith)]
+      linarith [hx.2]
+    · rw [min_eq_right (le_of_not_gt hxu),max_eq_right (le_of_not_gt hxl),sub_self,abs_zero]
+      exact hδ
+
+theorem interval_system_projection_distance {ν : Type*} (lo hi lo' hi' A : ν → ν → ℝ) (δ : ℝ)
+    (hδ : 0 ≤ δ) (hA : IsSkew A) (hI : offDiagonalIntervals lo hi A)
+    (hlu' : ∀ i j, i ≠ j → lo' i j ≤ hi' i j)
+    (hd : ∀ i j, i ≠ j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    ∀ i j, |A i j-projectedResidual lo' hi' A i j| ≤ δ := by
+  intro i j
+  by_cases he : i=j
+  · subst j
+    have hz : A i i=0 := by have h := hA i i; linarith
+    simp only [projectedResidual,ite_true,hz,sub_self,abs_zero]
+    exact hδ
+  · simp only [projectedResidual,ite_eq_right he]
+    rw [abs_sub_comm]
+    exact interval_clip_endpoint_distance _ _ _ _ _ _ (hI i j he) (hlu' i j he) hδ
+      (hd i j he).1 (hd i j he).2
+
+def exploitability {ν : Type*} [Fintype ν] [Nonempty ν] (A : ν → ν → ℝ) (x : ν → ℝ) : ℝ :=
+  Finset.univ.sup' Finset.univ_nonempty (response A x)
+
+theorem exploitability_le_iff {ν : Type*} [Fintype ν] [Nonempty ν]
+    (A : ν → ν → ℝ) (x : ν → ℝ) (v : ℝ) :
+    exploitability A x ≤ v ↔ ∀ i, response A x i ≤ v := by
+  unfold exploitability
+  simp only [Finset.sup'_le_iff,Finset.mem_univ,true_implies]
+
+theorem response_le_exploitability {ν : Type*} [Fintype ν] [Nonempty ν]
+    (A : ν → ν → ℝ) (x : ν → ℝ) (i : ν) : response A x i ≤ exploitability A x :=
+  Finset.le_sup' (response A x) (Finset.mem_univ i)
+
+theorem exploitability_perturbation {ν : Type*} [Fintype ν] [Nonempty ν]
+    (A B : ν → ν → ℝ) (x : ν → ℝ) (δ r : ℝ)
+    (hx : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=r) (hAB : ∀ i j, |A i j-B i j| ≤ δ) :
+    |exploitability A x-exploitability B x| ≤ δ*r := by
+  apply abs_le.mpr
+  constructor
+  · have h : exploitability B x ≤ exploitability A x+δ*r := by
+      apply (exploitability_le_iff B x _).mpr
+      intro i
+      have hp := (abs_le.mp (response_perturbation A B x δ r hx hm hAB i)).1
+      linarith [response_le_exploitability A x i]
+    linarith
+  · have h : exploitability A x ≤ exploitability B x+δ*r := by
+      apply (exploitability_le_iff A x _).mpr
+      intro i
+      have hp := (abs_le.mp (response_perturbation A B x δ r hx hm hAB i)).2
+      linarith [response_le_exploitability B x i]
+    linarith
+
+theorem exploitability_continuous {ν : Type*} [Fintype ν] [Nonempty ν] :
+    Continuous (fun z : (ν → ν → ℝ) × (ν → ℝ) => exploitability z.1 z.2) := by
+  unfold exploitability
+  apply Continuous.finset_sup'_apply
+  intro i _
+  unfold response
+  fun_prop
+
+end
+end SparseCompletion
+
+/- Fixed source body: OptimisticValue.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def ValidIntervalSystem {ν : Type*} (lo hi : ν → ν → ℝ) (M : ℝ) : Prop :=
+  0 ≤ M ∧ ∀ i j, i ≠ j → -M ≤ lo i j ∧ lo i j ≤ hi i j ∧ hi i j ≤ M ∧
+    lo i j= -hi j i ∧ hi i j= -lo j i
+
+def intervalMatrices {ν : Type*} (lo hi : ν → ν → ℝ) (M : ℝ) : Set (ν → ν → ℝ) :=
+  skewBox M ∩ {A | offDiagonalIntervals lo hi A}
+
+theorem interval_matrices_compact {ν : Type*} [Fintype ν]
+    (lo hi : ν → ν → ℝ) (M : ℝ) : IsCompact (intervalMatrices lo hi M) := by
+  apply (skewBox_compact M).inter_right
+  have he : {A : ν → ν → ℝ | offDiagonalIntervals lo hi A}=
+      ⋂ i, ⋂ j, ⋂ (_h : i ≠ j), {A | lo i j ≤ A i j ∧ A i j ≤ hi i j} := by
+    ext A
+    simp only [Set.mem_ofPred_eq,Set.mem_iInter,offDiagonalIntervals]
+  rw [he]
+  apply isClosed_iInter
+  intro i
+  apply isClosed_iInter
+  intro j
+  apply isClosed_iInter
+  intro _
+  change IsClosed ({A : ν → ν → ℝ | lo i j ≤ A i j} ∩ {A | A i j ≤ hi i j})
+  exact (isClosed_le continuous_const
+    (show Continuous (fun A : ν → ν → ℝ => A i j) by fun_prop)).inter
+    (isClosed_le (show Continuous (fun A : ν → ν → ℝ => A i j) by fun_prop) continuous_const)
+
+theorem interval_matrices_nonempty {ν : Type*}
+    (lo hi : ν → ν → ℝ) (M : ℝ) (h : ValidIntervalSystem lo hi M) :
+    (intervalMatrices lo hi M).Nonempty := by
+  let A := projectedResidual lo hi (fun _ _ => 0)
+  have hzero : IsSkew (fun _ _ : ν => (0 : ℝ)) := by intro _ _; exact neg_zero.symm
+  have hlu := fun i j he => (h.2 i j he).2.1
+  have hlo := fun i j he => (h.2 i j he).1
+  have hhi := fun i j he => (h.2 i j he).2.2.1
+  have hrev := fun i j he => (h.2 i j he).2.2.2
+  exact ⟨A,⟨projected_residual_skew lo hi _ hzero hlu hrev,
+    projected_residual_bounds lo hi _ M h.1 hlu hlo hhi⟩,
+    projected_residual_interval lo hi _ hlu⟩
+
+def optimisticValue {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi : ν → ν → ℝ) (M : ℝ) (X : Set (ν → ℝ)) : ℝ :=
+  sInf ((fun z : (ν → ν → ℝ) × (ν → ℝ) => exploitability z.1 z.2) ''
+    (intervalMatrices lo hi M ×ˢ X))
+
+theorem optimistic_value_attained {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi : ν → ν → ℝ) (M : ℝ) (X : Set (ν → ℝ))
+    (hI : ValidIntervalSystem lo hi M) (hX : IsCompact X) (hne : X.Nonempty) :
+    ∃ A ∈ intervalMatrices lo hi M, ∃ x ∈ X, exploitability A x=optimisticValue lo hi M X := by
+  have hc := ((interval_matrices_compact lo hi M).prod hX).image exploitability_continuous
+  have hn := ((interval_matrices_nonempty lo hi M hI).prod hne).image
+    (fun z : (ν → ν → ℝ) × (ν → ℝ) => exploitability z.1 z.2)
+  obtain ⟨⟨A,x⟩,⟨hA,hx⟩,he⟩ := hc.sInf_mem hn
+  exact ⟨A,hA,x,hx,he⟩
+
+theorem optimistic_value_le_witness {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi : ν → ν → ℝ) (M : ℝ) (X : Set (ν → ℝ)) (hX : IsCompact X)
+    (A : ν → ν → ℝ) (x : ν → ℝ) (hA : A ∈ intervalMatrices lo hi M) (hx : x ∈ X) :
+    optimisticValue lo hi M X ≤ exploitability A x := by
+  apply csInf_le (((interval_matrices_compact lo hi M).prod hX).image exploitability_continuous).bddBelow
+  exact ⟨(A,x),⟨hA,hx⟩,rfl⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: ValueStability.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem interval_matrices_projection {ν : Type*}
+    (lo hi lo' hi' A : ν → ν → ℝ) (M : ℝ)
+    (hI' : ValidIntervalSystem lo' hi' M) (hA : A ∈ intervalMatrices lo hi M) :
+    projectedResidual lo' hi' A ∈ intervalMatrices lo' hi' M := by
+  have hlu := fun i j he => (hI'.2 i j he).2.1
+  have hlo := fun i j he => (hI'.2 i j he).1
+  have hhi := fun i j he => (hI'.2 i j he).2.2.1
+  have hrev := fun i j he => (hI'.2 i j he).2.2.2
+  exact ⟨⟨projected_residual_skew lo' hi' A hA.1.1 hlu hrev,
+    projected_residual_bounds lo' hi' A M hI'.1 hlu hlo hhi⟩,
+    projected_residual_interval lo' hi' A hlu⟩
+
+theorem optimistic_value_projection_bound {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi lo' hi' : ν → ν → ℝ) (M δ : ℝ) (X : Set (ν → ℝ))
+    (hI : ValidIntervalSystem lo hi M) (hI' : ValidIntervalSystem lo' hi' M)
+    (hδ : 0 ≤ δ) (hX : IsCompact X) (hne : X.Nonempty)
+    (hprob : ∀ x ∈ X, (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=1)
+    (hd : ∀ i j, i ≠ j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    optimisticValue lo' hi' M X ≤ optimisticValue lo hi M X+δ := by
+  obtain ⟨A,hA,x,hx,he⟩ := optimistic_value_attained lo hi M X hI hX hne
+  let A' := projectedResidual lo' hi' A
+  have hA' : A' ∈ intervalMatrices lo' hi' M := interval_matrices_projection lo hi lo' hi' A M hI' hA
+  have hdist := interval_system_projection_distance lo hi lo' hi' A δ hδ hA.1.1 hA.2
+    (fun i j hij => (hI'.2 i j hij).2.1) hd
+  have hp := exploitability_perturbation A A' x δ 1 (hprob x hx).1 (hprob x hx).2 hdist
+  have hv := optimistic_value_le_witness lo' hi' M X hX A' x hA' hx
+  have hb := (abs_le.mp hp).1
+  rw [he] at hb
+  nlinarith
+
+theorem optimistic_value_interval_stability {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi lo' hi' : ν → ν → ℝ) (M δ : ℝ) (X : Set (ν → ℝ))
+    (hI : ValidIntervalSystem lo hi M) (hI' : ValidIntervalSystem lo' hi' M)
+    (hδ : 0 ≤ δ) (hX : IsCompact X) (hne : X.Nonempty)
+    (hprob : ∀ x ∈ X, (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=1)
+    (hd : ∀ i j, i ≠ j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    |optimisticValue lo hi M X-optimisticValue lo' hi' M X| ≤ δ := by
+  have h1 := optimistic_value_projection_bound lo hi lo' hi' M δ X hI hI' hδ hX hne hprob hd
+  have hd' : ∀ i j, i ≠ j → |lo' i j-lo i j| ≤ δ ∧ |hi' i j-hi i j| ≤ δ := by
+    intro i j hij
+    constructor
+    · rw [abs_sub_comm]; exact (hd i j hij).1
+    · rw [abs_sub_comm]; exact (hd i j hij).2
+  have h2 := optimistic_value_projection_bound lo' hi' lo hi M δ X hI' hI hδ hX hne hprob hd'
+  exact abs_le.mpr ⟨by linarith,by linarith⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportCompact.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def supportBudget {ν : Type*} [Fintype ν] (s : ℕ) : Set (ν → ℝ) := by
+  classical
+  exact {x | (Finset.univ.filter fun i => x i ≠ 0).card ≤ s}
+
+theorem support_budget_closed {ν : Type*} [Fintype ν] (s : ℕ) :
+    IsClosed (supportBudget (ν := ν) s) := by
+  classical
+  have he : supportBudget (ν := ν) s=
+      ⋃ S : {S : Finset ν // S.card ≤ s}, {x : ν → ℝ | ∀ i, i ∉ S.val → x i=0} := by
+    ext x
+    simp only [Set.mem_iUnion,Set.mem_ofPred_eq]
+    constructor
+    · intro h
+      refine ⟨⟨Finset.univ.filter (fun i => x i ≠ 0),h⟩,?_⟩
+      intro i hi
+      by_contra hx
+      exact hi (Finset.mem_filter.mpr ⟨Finset.mem_univ i,hx⟩)
+    · rintro ⟨S,hS⟩
+      apply le_trans (Finset.card_le_card ?_) S.property
+      intro i hi
+      by_contra hn
+      exact (Finset.mem_filter.mp hi).2 (hS i hn)
+  rw [he]
+  apply isClosed_iUnion_of_finite
+  intro S
+  have hz : {x : ν → ℝ | ∀ i, i ∉ S.val → x i=0}=
+      ⋂ i, ⋂ (_hi : i ∉ S.val), {x : ν → ℝ | x i=0} := by
+    ext x
+    simp only [Set.mem_iInter,Set.mem_ofPred_eq]
+  rw [hz]
+  exact isClosed_iInter fun i => isClosed_iInter fun _ =>
+    isClosed_eq (continuous_apply i) continuous_const
+
+theorem support_restricted_compact {ν : Type*} [Fintype ν]
+    (X : Set (ν → ℝ)) (hX : IsCompact X) (s : ℕ) : IsCompact (X ∩ supportBudget s) :=
+  hX.inter_right (support_budget_closed s)
+
+theorem optimistic_support_value_attained {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi : ν → ν → ℝ) (M : ℝ) (X : Set (ν → ℝ)) (s : ℕ)
+    (hI : ValidIntervalSystem lo hi M) (hX : IsCompact X)
+    (hne : (X ∩ supportBudget s).Nonempty) :
+    ∃ A ∈ intervalMatrices lo hi M, ∃ x ∈ X ∩ supportBudget s,
+      exploitability A x=optimisticValue lo hi M (X ∩ supportBudget s) :=
+  optimistic_value_attained lo hi M _ hI (support_restricted_compact X hX s) hne
+
+theorem optimistic_support_value_stability {ν : Type*} [Fintype ν] [Nonempty ν]
+    (lo hi lo' hi' : ν → ν → ℝ) (M δ : ℝ) (X : Set (ν → ℝ)) (s : ℕ)
+    (hI : ValidIntervalSystem lo hi M) (hI' : ValidIntervalSystem lo' hi' M)
+    (hδ : 0 ≤ δ) (hX : IsCompact X) (hne : (X ∩ supportBudget s).Nonempty)
+    (hprob : ∀ x ∈ X, (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=1)
+    (hd : ∀ i j, i ≠ j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    |optimisticValue lo hi M (X ∩ supportBudget s)-optimisticValue lo' hi' M (X ∩ supportBudget s)| ≤ δ :=
+  optimistic_value_interval_stability lo hi lo' hi' M δ _ hI hI' hδ
+    (support_restricted_compact X hX s) hne (fun x hx => hprob x hx.1) hd
+
+end
+end SparseCompletion
+
+/- Fixed source body: OrderedStability.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem endpoint_bounds_from_order {ν : Type*} [LinearOrder ν]
+    (lo hi lo' hi' : ν → ν → ℝ) (M δ : ℝ)
+    (hI : ValidIntervalSystem lo hi M) (hI' : ValidIntervalSystem lo' hi' M)
+    (hd : ∀ i j, i < j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    ∀ i j, i ≠ j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ := by
+  intro i j hij
+  rcases lt_or_gt_of_ne hij with h | h
+  · exact hd i j h
+  · have hh := hd j i h
+    have h1 := (hI.2 i j hij).2.2.2
+    have h2 := (hI'.2 i j hij).2.2.2
+    rw [h1.1,h1.2,h2.1,h2.2]
+    constructor
+    · simpa only [neg_sub_neg,abs_sub_comm] using hh.2
+    · simpa only [neg_sub_neg,abs_sub_comm] using hh.1
+
+theorem optimistic_value_ordered_interval_stability {ν : Type*}
+    [Fintype ν] [Nonempty ν] [LinearOrder ν]
+    (lo hi lo' hi' : ν → ν → ℝ) (M δ : ℝ) (X : Set (ν → ℝ))
+    (hI : ValidIntervalSystem lo hi M) (hI' : ValidIntervalSystem lo' hi' M)
+    (hδ : 0 ≤ δ) (hX : IsCompact X) (hne : X.Nonempty)
+    (hprob : ∀ x ∈ X, (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=1)
+    (hd : ∀ i j, i < j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    |optimisticValue lo hi M X-optimisticValue lo' hi' M X| ≤ δ :=
+  optimistic_value_interval_stability lo hi lo' hi' M δ X hI hI' hδ hX hne hprob
+    (endpoint_bounds_from_order lo hi lo' hi' M δ hI hI' hd)
+
+theorem optimistic_support_value_ordered_stability {ν : Type*}
+    [Fintype ν] [Nonempty ν] [LinearOrder ν]
+    (lo hi lo' hi' : ν → ν → ℝ) (M δ : ℝ) (X : Set (ν → ℝ)) (s : ℕ)
+    (hI : ValidIntervalSystem lo hi M) (hI' : ValidIntervalSystem lo' hi' M)
+    (hδ : 0 ≤ δ) (hX : IsCompact X) (hne : (X ∩ supportBudget s).Nonempty)
+    (hprob : ∀ x ∈ X, (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=1)
+    (hd : ∀ i j, i < j → |lo i j-lo' i j| ≤ δ ∧ |hi i j-hi' i j| ≤ δ) :
+    |optimisticValue lo hi M (X ∩ supportBudget s)-optimisticValue lo' hi' M (X ∩ supportBudget s)| ≤ δ :=
+  optimistic_support_value_stability lo hi lo' hi' M δ X s hI hI' hδ hX hne hprob
+    (endpoint_bounds_from_order lo hi lo' hi' M δ hI hI' hd)
+
+end
+end SparseCompletion
+
+/- Fixed source body: ThresholdSeparation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def positiveScoreSet {ι : Type*} [Fintype ι] (q v : ι → ℝ) (z : ℝ) : Finset ι := by
+  classical
+  exact Finset.univ.filter fun i => q i ≠ 0 ∧ 0 < v i-z
+
+def weightedUpperSet {ι : Type*} [Fintype ι] (q v : ι → ℝ) (i : ι) : Finset ι := by
+  classical
+  exact Finset.univ.filter fun j => q j ≠ 0 ∧ v i ≤ v j
+
+theorem positive_score_threshold {ι : Type*} [Fintype ι] (q v : ι → ℝ) (z : ℝ)
+    (hs : (positiveScoreSet q v z).Nonempty) :
+    ∃ i, q i ≠ 0 ∧ positiveScoreSet q v z=weightedUpperSet q v i := by
+  classical
+  let s := positiveScoreSet q v z
+  obtain ⟨i,hi,hmin⟩ := Set.exists_min_image (s : Set ι) v s.finite_toSet hs
+  have hip := (Finset.mem_filter.mp hi).2
+  refine ⟨i,hip.1,?_⟩
+  ext j
+  simp only [positiveScoreSet,weightedUpperSet,Finset.mem_filter,Finset.mem_univ,true_and]
+  constructor
+  · rintro ⟨hq,hv⟩
+    exact ⟨hq,hmin j (Finset.mem_filter.mpr ⟨Finset.mem_univ _,hq,hv⟩)⟩
+  · rintro ⟨hq,hv⟩
+    exact ⟨hq,by linarith [hip.2]⟩
+
+theorem positive_score_call_identity {ι : Type*} [Fintype ι] (q v : ι → ℝ) (z : ℝ) :
+    call q v z=(∑ i ∈ positiveScoreSet q v z, q i*v i)-z*mass (positiveScoreSet q v z) q := by
+  classical
+  have hh : call q v z=∑ i ∈ positiveScoreSet q v z, q i*(v i-z) := by
+    unfold call positiveScoreSet
+    rw [←Finset.sum_filter_add_sum_filter_not (s := Finset.univ)
+      (p := fun i => q i ≠ 0 ∧ 0 < v i-z)]
+    have hz : (∑ i ∈ Finset.univ.filter (fun i => ¬(q i ≠ 0 ∧ 0 < v i-z)),
+        q i*max (v i-z) 0)=0 := by
+      apply Finset.sum_eq_zero
+      intro i hi
+      have hn := (Finset.mem_filter.mp hi).2
+      by_cases hq : q i=0
+      · rw [hq,zero_mul]
+      · have hv : ¬0 < v i-z := fun hv => hn ⟨hq,hv⟩
+        rw [max_eq_right (le_of_not_gt hv),mul_zero]
+    rw [hz,add_zero]
+    exact Finset.sum_congr rfl fun i hi => by
+      rw [max_eq_left (le_of_lt (Finset.mem_filter.mp hi).2.2)]
+  rw [hh]
+  simp only [mass,mul_sub,Finset.sum_sub_distrib,Finset.mul_sum]
+  simp only [mul_comm]
+
+theorem cuts_iff_positive_thresholds {ι : Type*} [Fintype ι]
+    (q v : ι → ℝ) (M r : ℝ) (hM : 0 < M)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i=r) :
+    Cuts M r q v ↔ ∀ i, q i ≠ 0 →
+      (∑ j ∈ weightedUpperSet q v i, q j*v j) ≤
+        M*mass (weightedUpperSet q v i) q*(r-mass (weightedUpperSet q v i) q) := by
+  constructor
+  · intro h i _
+    exact h _
+  · intro hp
+    apply call_bound_implies_cuts q v M r hM hq hmass
+    intro z _
+    classical
+    let s := positiveScoreSet q v z
+    let Q := mass s q
+    have hc : (∑ i ∈ s, q i*v i) ≤ M*Q*(r-Q) := by
+      by_cases hs : s.Nonempty
+      · obtain ⟨i,hi,he⟩ := positive_score_threshold q v z hs
+        dsimp only [Q,s]
+        rw [he]
+        exact hp i hi
+      · have he : s=∅ := Finset.not_nonempty_iff_eq_empty.mp hs
+        dsimp only [Q]
+        simp only [he,mass,Finset.sum_empty,mul_zero,zero_mul,sub_zero,le_refl]
+    have hsq := sq_nonneg ((2 : ℕ)*M*Q-(M*r-z))
+    have he : (4 : ℕ)*M*envelope M r z=(M*r-z)^2 := by
+      unfold envelope
+      norm_num only [Nat.cast_ofNat]
+      field_simp
+    rw [positive_score_call_identity]
+    apply (mul_le_mul_iff_right₀ (show 0 < (4 : ℕ)*M by positivity)).mp
+    dsimp only [Q,s] at hc hsq
+    rw [he]
+    norm_num only [Nat.cast_ofNat] at *
+    nlinarith
+
+def effectiveScore {ι : Type*} (q H : ι → ℝ) (i : ι) : ℝ :=
+  if q i=0 then 0 else H i/q i
+
+theorem effective_score_product {ι : Type*} (q H : ι → ℝ)
+    (hzero : ∀ i, q i=0 → H i=0) (i : ι) : q i*effectiveScore q H i=H i := by
+  unfold effectiveScore
+  split_ifs with h
+  · rw [hzero i h,mul_zero]
+  · field_simp
+
+theorem perspective_cuts_iff_candidate_thresholds {ι : Type*} [Fintype ι]
+    (q H : ι → ℝ) (M r ε : ℝ) (hM : 0 < M)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i=r) (hzero : ∀ i, q i=0 → H i=0) :
+    perspectiveCuts q H M r ε ↔ ∀ i : ι, q i ≠ 0 →
+      M*(mass (weightedUpperSet q (effectiveScore q H) i) q)^2-
+        M*r*mass (weightedUpperSet q (effectiveScore q H) i) q+
+        (∑ j ∈ (weightedUpperSet q (effectiveScore q H) i : Finset ι), (H j-ε*q j : ℝ)) ≤ 0 := by
+  have hprod := effective_score_product q H hzero
+  rw [←perspective_cuts_iff q (effectiveScore q H) H M r ε hprod,
+    cuts_iff_positive_thresholds q (fun i : ι => effectiveScore q H i-ε) M r hM hq hmass]
+  have he : ∀ i, weightedUpperSet q (fun j : ι => effectiveScore q H j-ε) i=
+      weightedUpperSet q (effectiveScore q H) i := by
+    intro i
+    classical
+    ext j
+    simp only [weightedUpperSet,Finset.mem_filter,Finset.mem_univ,true_and]
+    exact and_congr_right fun _ => sub_le_sub_iff_right ε
+  simp_rw [he]
+  have hs : ∀ S : Finset ι, (∑ j ∈ S, q j*(effectiveScore q H j-ε))=
+      ∑ j ∈ S, (H j-ε*q j) := by
+    intro S
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [mul_sub,hprod j,mul_comm (q j) ε]
+  simp_rw [hs]
+  constructor <;> intro h i hi <;> have hc := h i hi <;> nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalSeparation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem perspective_moment_zero {ι α : Type*} [Fintype α]
+    (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (hb : ∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) :
+    ∀ i, q i=0 → intervalMomentScore p V i=0 := by
+  intro i hiq
+  unfold intervalMomentScore
+  apply Finset.sum_eq_zero
+  intro h _
+  rw [perspective_zero (lo i h) (hi i h) (V i h) (q i) hiq (hb i h).1 (hb i h).2,mul_zero]
+
+def intervalThresholdSystem {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ)
+    (z : (ι → ℝ) × (ι → α → ℝ) × (α → α → ℝ)) : Prop :=
+  (∀ i, 0 ≤ z.1 i) ∧ (∑ i, z.1 i)=r ∧
+  (∀ i h, lo i h*z.1 i ≤ z.2.1 i h ∧ z.2.1 i h ≤ hi i h*z.1 i) ∧
+  (∀ h, (∑ a, z.2.2 h a*p a)-(∑ i, z.2.1 i h) ≤ ε) ∧
+  IsSkew z.2.2 ∧ (∀ h h', coreLo h h' ≤ z.2.2 h h' ∧ z.2.2 h h' ≤ coreHi h h') ∧
+  (∀ i, score lo p i ≤ ε+M*r) ∧ ∀ i : ι, z.1 i ≠ 0 →
+    M*(mass (weightedUpperSet z.1 (effectiveScore z.1 (intervalMomentScore p z.2.1)) i) z.1)^2-
+      M*r*mass (weightedUpperSet z.1 (effectiveScore z.1 (intervalMomentScore p z.2.1)) i) z.1+
+      (∑ j ∈ weightedUpperSet z.1 (effectiveScore z.1 (intervalMomentScore p z.2.1)) i,
+        (intervalMomentScore p z.2.1 j-ε*z.1 j)) ≤ 0
+
+theorem interval_system_iff_threshold_system {ι α : Type*} [Fintype ι] [Fintype α]
+    (lo hi : ι → α → ℝ) (coreLo coreHi : α → α → ℝ)
+    (p : α → ℝ) (M r ε : ℝ) (hM : 0 < M)
+    (z : (ι → ℝ) × (ι → α → ℝ) × (α → α → ℝ)) :
+    intervalPerspectiveSystem lo hi coreLo coreHi p M r ε z ↔
+      intervalThresholdSystem lo hi coreLo coreHi p M r ε z := by
+  constructor
+  · rintro ⟨hq,hr,hV,hA,hK,hC,hg,hcuts⟩
+    exact ⟨hq,hr,hV,hA,hK,hC,hg,
+      (perspective_cuts_iff_candidate_thresholds z.1 (intervalMomentScore p z.2.1) M r ε hM hq hr
+        (perspective_moment_zero lo hi z.2.1 p z.1 hV)).mp hcuts⟩
+  · rintro ⟨hq,hr,hV,hA,hK,hC,hg,hcuts⟩
+    exact ⟨hq,hr,hV,hA,hK,hC,hg,
+      (perspective_cuts_iff_candidate_thresholds z.1 (intervalMomentScore p z.2.1) M r ε hM hq hr
+        (perspective_moment_zero lo hi z.2.1 p z.1 hV)).mpr hcuts⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: JointSupportFoundation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+abbrev CloneAnchors (n : ℕ) := Fin (n+1) ⊕ Unit
+
+def cloneClass {n : ℕ} : CloneAnchors n → Fin 2 := Sum.elim (fun _ => 0) (fun _ => 1)
+
+def aggregateClones {n : ℕ} (p : CloneAnchors n → ℝ) : Fin 2 → ℝ :=
+  fun h => if h.val=0 then ∑ i : Fin (n+1), p (.inl i) else p (.inr ())
+
+def clonedCore {n : ℕ} (K : Fin 2 → Fin 2 → ℝ) : CloneAnchors n → CloneAnchors n → ℝ :=
+  fun h h' => K (cloneClass h) (cloneClass h')
+
+def clonedCross {ι : Type*} {n : ℕ} (D : ι → Fin 2 → ℝ) : ι → CloneAnchors n → ℝ :=
+  fun i h => D i (cloneClass h)
+
+theorem aggregate_clones_mass {n : ℕ} (p : CloneAnchors n → ℝ) :
+    (∑ h, aggregateClones p h)=∑ h, p h := by
+  simp [aggregateClones,Fin.sum_univ_two,Fintype.sum_sum_type]
+
+theorem aggregate_clones_nonnegative {n : ℕ} (p : CloneAnchors n → ℝ)
+    (hp : ∀ h, 0 ≤ p h) : ∀ h, 0 ≤ aggregateClones p h := by
+  intro h
+  unfold aggregateClones
+  split_ifs
+  · exact Finset.sum_nonneg fun i _ => hp _
+  · exact hp _
+
+theorem aggregate_clones_mono {n : ℕ} (p p' : CloneAnchors n → ℝ)
+    (hp : ∀ h, p h ≤ p' h) : ∀ h, aggregateClones p h ≤ aggregateClones p' h := by
+  intro h
+  unfold aggregateClones
+  split_ifs
+  · exact Finset.sum_le_sum fun i _ => hp _
+  · exact hp _
+
+theorem cloned_core_skew {n : ℕ} (K : Fin 2 → Fin 2 → ℝ) (hK : IsSkew K) :
+    IsSkew (clonedCore (n := n) K) := fun _ _ => hK _ _
+
+theorem cloned_anchor_response {ι : Type*} [Fintype ι] {n : ℕ}
+    (K : Fin 2 → Fin 2 → ℝ) (D : ι → Fin 2 → ℝ)
+    (p : CloneAnchors n → ℝ) (q : ι → ℝ) (h : CloneAnchors n) :
+    anchorResponse (clonedCore K) (clonedCross D) p q h=
+      anchorResponse K D (aggregateClones p) q (cloneClass h) := by
+  cases h <;>
+    simp [anchorResponse,clonedCore,clonedCross,cloneClass,aggregateClones,
+      Fintype.sum_sum_type,Fin.sum_univ_two,←Finset.mul_sum]
+
+theorem cloned_score {ι : Type*} {n : ℕ} (D : ι → Fin 2 → ℝ)
+    (p : CloneAnchors n → ℝ) (i : ι) :
+    score (clonedCross D) p i=score D (aggregateClones p) i := by
+  simp [score,clonedCross,cloneClass,aggregateClones,Fintype.sum_sum_type,
+    Fin.sum_univ_two,←Finset.mul_sum]
+
+theorem cloned_response_anchor {ι : Type*} [Fintype ι] {n : ℕ}
+    (K : Fin 2 → Fin 2 → ℝ) (D : ι → Fin 2 → ℝ) (B : ι → ι → ℝ)
+    (p : CloneAnchors n → ℝ) (q : ι → ℝ) (h : CloneAnchors n) :
+    response (blockMatrix (clonedCore K) (clonedCross D) B) (blockWeights p q) (.inl h)=
+      response (blockMatrix K D B) (blockWeights (aggregateClones p) q) (.inl (cloneClass h)) := by
+  rw [block_response_anchor,block_response_anchor,cloned_anchor_response]
+
+theorem cloned_response_residual {ι : Type*} [Fintype ι] {n : ℕ}
+    (K : Fin 2 → Fin 2 → ℝ) (D : ι → Fin 2 → ℝ) (B : ι → ι → ℝ)
+    (p : CloneAnchors n → ℝ) (q : ι → ℝ) (i : ι) :
+    response (blockMatrix (clonedCore K) (clonedCross D) B) (blockWeights p q) (.inr i)=
+      response (blockMatrix K D B) (blockWeights (aggregateClones p) q) (.inr i) := by
+  rw [block_response_residual,block_response_residual,cloned_score]
+
+theorem cloned_response_bounds_iff {ι : Type*} [Fintype ι] {n : ℕ}
+    (K : Fin 2 → Fin 2 → ℝ) (D : ι → Fin 2 → ℝ) (B : ι → ι → ℝ)
+    (p : CloneAnchors n → ℝ) (q : ι → ℝ) (ε : ℝ) :
+    (∀ v, response (blockMatrix (clonedCore K) (clonedCross D) B) (blockWeights p q) v ≤ ε) ↔
+      ∀ v, response (blockMatrix K D B) (blockWeights (aggregateClones p) q) v ≤ ε := by
+  constructor
+  · intro h v
+    cases v with
+    | inl a =>
+      fin_cases a
+      · simpa [cloned_response_anchor,cloneClass] using h (.inl (.inl (0 : Fin (n+1))))
+      · simpa [cloned_response_anchor,cloneClass] using h (.inl (.inr ()))
+    | inr i => simpa only [cloned_response_residual] using h (.inr i)
+  · intro h v
+    cases v with
+    | inl a => rw [cloned_response_anchor]; exact h _
+    | inr i => rw [cloned_response_residual]; exact h _
+
+def cloneShares (n : ℕ) : CloneAnchors n → ℝ :=
+  Sum.elim (fun _ => ((3 : ℕ) : ℝ)/((8 : ℕ)*((n+1 : ℕ) : ℝ))) (fun _ => ((3 : ℕ) : ℝ)/(8 : ℕ))
+
+theorem clone_shares_positive (n : ℕ) : ∀ h, 0 < cloneShares n h := by
+  intro h
+  cases h <;> simp only [cloneShares,Sum.elim_inl,Sum.elim_inr] <;> positivity
+
+theorem aggregate_clone_shares (n : ℕ) : aggregateClones (cloneShares n)=twoShares (((3 : ℕ) : ℝ)/(4 : ℕ)) := by
+  funext h
+  fin_cases h
+  · have hn : ((n+1 : ℕ) : ℝ) ≠ 0 := by positivity
+    simp only [aggregateClones,ite_true,cloneShares,Sum.elim_inl,
+      Finset.sum_const,Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,twoShares]
+    field_simp
+    norm_num
+  · norm_num [aggregateClones,cloneShares,twoShares]
+
+theorem aggregate_clone_lower {n : ℕ} (p : CloneAnchors n → ℝ)
+    (hp : ∀ h, cloneShares n h ≤ p h) : ∀ h, (((3 : ℕ) : ℝ)/(8 : ℕ) : ℝ) ≤ aggregateClones p h := by
+  have hh := aggregate_clones_mono (cloneShares n) p hp
+  rw [aggregate_clone_shares] at hh
+  intro h
+  have hx := hh h
+  norm_num [twoShares] at hx
+  exact hx
+
+theorem clone_support_card {m n : ℕ}
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (hp : ∀ h, cloneShares n h ≤ p h) :
+    (Finset.univ.filter fun v => blockWeights p q v ≠ 0).card=n+2+supportSize q := by
+  classical
+  have hpa : (Finset.univ.filter fun h => p h ≠ 0)=(Finset.univ : Finset (CloneAnchors n)) := by
+    ext h
+    simp only [Finset.mem_filter,Finset.mem_univ,true_and,iff_true]
+    exact ne_of_gt (lt_of_lt_of_le (clone_shares_positive n h) (hp h))
+  rw [block_support_card,hpa]
+  simp only [Finset.card_univ,Fintype.card_sum,Fintype.card_fin,Fintype.card_unit]
+  rfl
+
+end
+end SparseCompletion
+
+/- Fixed source body: JointSupportLower.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def ClonedUniformWitness (n m : ℕ) (ε : ℝ) (fixed : Bool)
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) : Prop :=
+  (∀ j, 0 ≤ q j) ∧ (∀ h, cloneShares n h ≤ p h) ∧
+  (fixed=true → p=cloneShares n) ∧
+  (∑ h, p h)+(∑ j, q j)=1 ∧ IsSkew B ∧
+  (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+  ∀ v, response (blockMatrix (clonedCore (rigidityCore (uniformTarget m (1/(4 : ℕ)))))
+    (clonedCross (rigidityCross (uniformTarget m (1/(4 : ℕ))))) B) (blockWeights p q) v ≤ ε
+
+theorem cloned_witness_aggregates {n m : ℕ} (ε : ℝ) (fixed : Bool)
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (h : ClonedUniformWitness n m ε fixed p q B) :
+    UniformWitness m ε fixed (aggregateClones p) q B := by
+  rcases h with ⟨hq,hp,hfix,hm,hB,hb,hr⟩
+  refine ⟨hq,?_,?_,?_,hB,hb,?_⟩
+  · simpa only [Nat.cast_ofNat] using aggregate_clone_lower p hp
+  · intro hf
+    rw [hfix hf,aggregate_clone_shares]
+  · rw [aggregate_clones_mass]
+    exact hm
+  · exact (cloned_response_bounds_iff _ _ _ _ _ _).mp hr
+
+theorem cloned_uniform_dense (n m : ℕ) (hm : 0 < m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    ClonedUniformWitness n m ε fixed (cloneShares n) (uniformTarget m (1/(4 : ℕ))) (orderedBlock 1) := by
+  have h := uniform_witness_dense m hm ε hε fixed
+  rcases h with ⟨hq,ha,hfix,hn,hB,hb,hr⟩
+  refine ⟨hq,fun _ => le_refl _,fun _ => rfl,?_,hB,hb,?_⟩
+  · rw [←aggregate_clones_mass,aggregate_clone_shares]
+    exact hn
+  · apply (cloned_response_bounds_iff _ _ _ _ _ _).mpr
+    rw [aggregate_clone_shares]
+    exact hr
+
+theorem cloned_uniform_observations_bounded (n m : ℕ) (hm : 0 < m) :
+    IsSkew (clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ))))) ∧
+    (∀ h h', -1 ≤ clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))) h h' ∧
+      clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))) h h' ≤ 1) ∧
+    (∀ i h, -1 ≤ clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ)))) i h ∧
+      clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ)))) i h ≤ 1) := by
+  have hb := two_anchor_observed_bounds hm (uniformTarget m (1/(4 : ℕ)))
+    (fun j => le_of_lt (uniformTarget_positive m (1/(4 : ℕ)) (by norm_num) j))
+    (uniformTarget_mass m hm (1/(4 : ℕ)))
+  norm_num only [Nat.cast_ofNat] at hb
+  refine ⟨cloned_core_skew _ (twoCore_skew _),?_,?_⟩
+  · intro h h'
+    simpa only [clonedCore,rigidityCore,Nat.cast_ofNat] using hb.1 (cloneClass h) (cloneClass h')
+  · intro i h
+    simpa only [clonedCross,rigidityCross,Nat.cast_ofNat] using hb.2 i (cloneClass h)
+
+theorem cloned_uniform_dense_full_game (n m : ℕ) (hm : 0 < m) :
+    (∀ v, 0 ≤ blockWeights (cloneShares n) (uniformTarget m (1/(4 : ℕ))) v) ∧
+    (∑ v, blockWeights (cloneShares n) (uniformTarget m (1/(4 : ℕ))) v)=1 ∧
+    IsSkew (blockMatrix (clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))))
+      (clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ))))) (orderedBlock 1)) ∧
+    (∀ v w, -1 ≤ blockMatrix (clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))))
+      (clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ))))) (orderedBlock 1) v w ∧
+      blockMatrix (clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))))
+      (clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ))))) (orderedBlock 1) v w ≤ 1) ∧
+    ∀ v, response (blockMatrix (clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))))
+      (clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ))))) (orderedBlock 1))
+      (blockWeights (cloneShares n) (uniformTarget m (1/(4 : ℕ)))) v ≤ 0 := by
+  have hw := cloned_uniform_dense n m hm 0 (le_refl 0) true
+  have hb := cloned_uniform_observations_bounded n m hm
+  refine ⟨blockWeights_nonneg _ _ (fun h => le_of_lt (clone_shares_positive n h)) hw.1,?_,
+    blockMatrix_skew _ _ _ hb.1 hw.2.2.2.2.1,
+    blockMatrix_bounds _ _ _ 1 hb.2.1 hb.2.2 hw.2.2.2.2.2.1,hw.2.2.2.2.2.2⟩
+  rw [blockWeights_mass]
+  exact hw.2.2.2.1
+
+theorem joint_support_scalar_lower (k m H Q c : ℝ) (hk : 2 ≤ k)
+    (hH : 0 ≤ H) (hc : 0 ≤ c) (hc1 : c ≤ 1) (hbase : c*min (m+2) Q ≤ H+2) :
+    c/(2 : ℕ)*min (k+m) (k+Q) ≤ k+H := by
+  have hsmall : c*min m Q ≤ k+H := by
+    have hm : min m Q ≤ min (m+2) Q := min_le_min (by linarith) (le_refl _)
+    have := mul_le_mul_of_nonneg_left hm hc
+    linarith
+  have hident : min (k+m) (k+Q) = k+min m Q := by rw [min_add_add_left]
+  rw [hident]
+  have hk0 : 0 ≤ k := by linarith
+  have hck := mul_le_mul_of_nonneg_right hc1 hk0
+  nlinarith
+
+theorem cloned_uniform_total_support_lower {n m : ℕ} (hm : 0 < m)
+    (ε : ℝ) (hε : 0 < ε) (fixed : Bool)
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (h : ClonedUniformWitness n m ε fixed p q B) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) * min ((n+2 : ℕ)+ (m : ℝ))
+      ((n+2 : ℕ)+1/Real.sqrt ε) ≤
+      ((Finset.univ.filter fun v => blockWeights p q v ≠ 0).card : ℝ) := by
+  classical
+  have ha := cloned_witness_aggregates ε fixed p q B h
+  have hlow := uniform_total_support_lower hm q (aggregateClones p)
+    ha.1 ha.2.1 ha.2.2.2.1 B ha.2.2.2.2.1 (fun i j => (ha.2.2.2.2.2.1 i j).1)
+    ε hε ha.2.2.2.2.2.2
+  rw [clone_support_card p q h.2.1]
+  push_cast
+  have hc0 := Real.sqrt_nonneg (((3 : ℕ) : ℝ)/(1216 : ℕ) : ℝ)
+  have hc1 : Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ) : ℝ) ≤ 1 := by
+    have hh := Real.sq_sqrt (show (0 : ℝ) ≤ ((3 : ℕ) : ℝ)/(1216 : ℕ) by norm_num)
+    nlinarith
+  have hb := joint_support_scalar_lower ((n : ℝ)+2) m (supportSize q) (1/Real.sqrt ε)
+    (Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))) (by have hn := Nat.cast_nonneg (α := ℝ) n; linarith) (by positivity) hc0 hc1 hlow
+  simpa only [Nat.cast_add,Nat.cast_ofNat] using hb
+
+end
+end SparseCompletion
+
+/- Fixed source body: JointSupportUpper.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem unit_mass_grid_bound (r η : ℝ) (hr : r ≤ 1) (hη : 0 < η) (hη1 : η ≤ 1) :
+    (gridSize 1 r η : ℝ) ≤ (2 : ℕ)*(1/Real.sqrt η) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hs : 0 < Real.sqrt η := Real.sqrt_pos.mpr hη
+  have hs1 : Real.sqrt η ≤ 1 := by simpa using Real.sqrt_le_sqrt hη1
+  have hQ : 1 ≤ 1/Real.sqrt η := (le_div_iff₀ hs).mpr (by simpa using hs1)
+  have hroot : Real.sqrt (1*r/η) ≤ 1/Real.sqrt η := by
+    calc
+      _ ≤ Real.sqrt (1/η) := Real.sqrt_le_sqrt ((div_le_div_iff_of_pos_right hη).mpr (by simpa using hr))
+      _ = _ := by rw [Real.sqrt_div (by norm_num),Real.sqrt_one]
+  have hc := Nat.ceil_lt_add_one (Real.sqrt_nonneg (1*r/η))
+  change (gridSize 1 r η : ℝ) < Real.sqrt (1*r/η)+1 at hc
+  linarith
+
+theorem joint_support_scalar_upper (k m T Q : ℝ) (hm : 0 ≤ m) (hk : 0 ≤ k)
+    (h1 : T ≤ k+m) (h2 : T ≤ (2 : ℕ)*k+(2 : ℕ)*Q) :
+    T ≤ (2 : ℕ)*min (k+m) (k+Q) := by
+  norm_num only [Nat.cast_ofNat] at *
+  rw [mul_min_of_nonneg _ _ (by norm_num : (0 : ℝ) ≤ 2)]
+  exact le_min (by linarith) (by linarith)
+
+theorem normalized_joint_support_upper {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (r η : ℝ)
+    (hr : 0 ≤ r) (hη : 0 < η) (hη1 : η ≤ 1)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r=1) (hqmass : ∑ i, q i=r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -1 ≤ K h h' ∧ K h h' ≤ 1)
+    (hDb : ∀ i h, -1 ≤ D i h ∧ D i h ≤ 1)
+    (hBb : ∀ i j, -1 ≤ B i j ∧ B i j ≤ 1)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a)=1 ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (∀ h, (∑ i, q' i*D i h)=∑ i, q i*D i h) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -1 ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ 1) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) ∧
+      ((Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card : ℝ) ≤
+        (2 : ℕ)*min ((k : ℝ)+Fintype.card ι) ((k : ℝ)+1/Real.sqrt η) := by
+  norm_num only [Nat.cast_ofNat] at *
+  classical
+  obtain ⟨q',B',hn,hm,_ha,hs,_hc,ht,hmo,hsk,hb,hrows⟩ :=
+    normalized_exact_sparse_witness_all_mass k K D B p q 1 r η (by norm_num) hr hη
+      hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+  refine ⟨q',B',hn,hm,hs,hmo,hsk,hb,hrows,?_⟩
+  have hr1 : r ≤ 1 := by
+    have hsp := Finset.sum_nonneg (fun h (_ : h ∈ Finset.univ) => hp h)
+    linarith
+  have hgrid := unit_mass_grid_bound r η hr1 hη hη1
+  norm_num only [Nat.cast_ofNat] at hgrid
+  have hdim := le_trans ht (min_le_left _ _)
+  have hgridnat := le_trans ht (min_le_right _ _)
+  have hdimR : ((Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card : ℝ) ≤ k+Fintype.card ι := by exact_mod_cast hdim
+  have hgridR : ((Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card : ℝ) ≤ (2 : ℕ)*(k : ℝ)+(gridSize 1 r η : ℝ) := by exact_mod_cast hgridnat
+  exact joint_support_scalar_upper k (Fintype.card ι) _ (1/Real.sqrt η)
+    (by positivity) (by positivity) hdimR (by
+      norm_num only [Nat.cast_ofNat] at hgridR ⊢
+      linarith)
+
+end
+end SparseCompletion
+
+/- Fixed source body: JointSupportTheorem.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- An actual bounded normalized exact game, with supplied anchor allocation. -/
+structure ExactAnchorInstance (k m : ℕ) where
+  K : Fin k → Fin k → ℝ
+  D : Fin m → Fin k → ℝ
+  B : Fin m → Fin m → ℝ
+  p : Fin k → ℝ
+  q : Fin m → ℝ
+  r : ℝ
+  residual_nonnegative : 0 ≤ r
+  anchors_nonnegative : ∀ h, 0 ≤ p h
+  residual_weights_nonnegative : ∀ i, 0 ≤ q i
+  normalized : (∑ h, p h)+r=1
+  residual_mass : ∑ i, q i=r
+  core_skew : IsSkew K
+  residual_skew : IsSkew B
+  core_bounds : ∀ h h', -1 ≤ K h h' ∧ K h h' ≤ 1
+  cross_bounds : ∀ i h, -1 ≤ D i h ∧ D i h ≤ 1
+  residual_bounds : ∀ i j, -1 ≤ B i j ∧ B i j ≤ 1
+  exact_responses : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0
+
+/-- The supplied allocation p is held fixed literally, so any originally satisfied
+    coordinatewise anchor floors remain satisfied as well. -/
+def JointUpperWitness {k m : ℕ} (I : ExactAnchorInstance k m) (η : ℝ)
+    (q' : Fin m → ℝ) (B' : Fin m → Fin m → ℝ) : Prop :=
+  (∀ a, 0 ≤ blockWeights I.p q' a) ∧ (∑ a, blockWeights I.p q' a)=1 ∧
+  (∀ i, I.q i=0 → q' i=0) ∧
+  (∀ h, (∑ i, q' i*I.D i h)=∑ i, I.q i*I.D i h) ∧
+  IsSkew (blockMatrix I.K I.D B') ∧
+  (∀ a b, -1 ≤ blockMatrix I.K I.D B' a b ∧ blockMatrix I.K I.D B' a b ≤ 1) ∧
+  (∀ a, response (blockMatrix I.K I.D B') (blockWeights I.p q') a ≤ η) ∧
+  ((Finset.univ.filter fun a => blockWeights I.p q' a ≠ 0).card : ℝ) ≤
+    (2 : ℕ)*min ((k : ℝ)+m) ((k : ℝ)+1/Real.sqrt η)
+
+/-- Quantified sharp joint order: every actual exact instance has the universal
+    upper witness, while the actual bounded clone family is exactly feasible and
+    forces the lower bound in both commitment classes. No worst-case operator or
+    supremum is asserted or assumed. Here the number of anchors is k=n+2. -/
+theorem joint_anchor_support_order (n m : ℕ) (hm : 0 < m)
+    (η : ℝ) (hη : 0 < η) (hη1 : η ≤ 1) :
+    (∀ I : ExactAnchorInstance (n+2) m,
+      ∃ q' B', JointUpperWitness I η q' B') ∧
+    (∀ fixed : Bool,
+      (∃ p q B, ClonedUniformWitness n m 0 fixed p q B) ∧
+      ∀ p q B, ClonedUniformWitness n m η fixed p q B →
+        Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) * min ((n+2 : ℕ)+(m : ℝ))
+          ((n+2 : ℕ)+1/Real.sqrt η) ≤
+          ((Finset.univ.filter fun v => blockWeights p q v ≠ 0).card : ℝ)) ∧
+    (IsSkew (clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ))))) ∧
+      (∀ h h', -1 ≤ clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))) h h' ∧
+        clonedCore (n := n) (rigidityCore (uniformTarget m (1/(4 : ℕ)))) h h' ≤ 1) ∧
+      (∀ i h, -1 ≤ clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ)))) i h ∧
+        clonedCross (n := n) (rigidityCross (uniformTarget m (1/(4 : ℕ)))) i h ≤ 1)) := by
+  refine ⟨?_,?_,cloned_uniform_observations_bounded n m hm⟩
+  · intro I
+    simpa only [JointUpperWitness,Fintype.card_fin] using normalized_joint_support_upper
+      (n+2) I.K I.D I.B I.p I.q I.r η I.residual_nonnegative hη hη1
+      I.anchors_nonnegative I.residual_weights_nonnegative I.normalized I.residual_mass
+      I.core_skew I.residual_skew I.core_bounds I.cross_bounds I.residual_bounds I.exact_responses
+  · intro fixed
+    refine ⟨⟨cloneShares n,uniformTarget m (1/(4 : ℕ)),orderedBlock 1,
+      cloned_uniform_dense n m hm 0 (le_refl 0) fixed⟩,?_⟩
+    intro p q B hw
+    exact cloned_uniform_total_support_lower hm η hη fixed p q B hw
+
+end
+end SparseCompletion
+
+/- Fixed source body: JointSupportGeneral.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem joint_anchor_support_order_general (k m : ℕ) (hk : (2 : ℕ) ≤ k) (hm : 0 < m)
+    (η : ℝ) (hη : 0 < η) (hη1 : η ≤ 1) :
+    (∀ I : ExactAnchorInstance k m,
+      ∃ q' B', JointUpperWitness I η q' B') ∧
+    (∀ fixed : Bool,
+      (∃ p q B, ClonedUniformWitness (k-2) m 0 fixed p q B) ∧
+      ∀ p q B, ClonedUniformWitness (k-2) m η fixed p q B →
+        Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) * min (k+(m : ℝ))
+          (k+1/Real.sqrt η) ≤
+          ((Finset.univ.filter fun v => blockWeights p q v ≠ 0).card : ℝ)) ∧
+    (IsSkew (clonedCore (n := k-2) (rigidityCore (uniformTarget m (1/(4 : ℕ))))) ∧
+      (∀ h h', -1 ≤ clonedCore (n := k-2) (rigidityCore (uniformTarget m (1/(4 : ℕ)))) h h' ∧
+        clonedCore (n := k-2) (rigidityCore (uniformTarget m (1/(4 : ℕ)))) h h' ≤ 1) ∧
+      (∀ i h, -1 ≤ clonedCross (n := k-2) (rigidityCross (uniformTarget m (1/(4 : ℕ)))) i h ∧
+        clonedCross (n := k-2) (rigidityCross (uniformTarget m (1/(4 : ℕ)))) i h ≤ 1)) := by
+  have he : k-2+2=k := Nat.sub_add_cancel hk
+  generalize hn : k-2=n at *
+  subst k
+  exact joint_anchor_support_order n m hm η hη hη1
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalCertificate.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+structure RationalCertificate (k m : ℕ) where
+  support : Finset (Fin m)
+  anchors : Fin k → ℚ
+  weights : support → ℚ
+  residual : support → support → ℚ
+
+namespace RationalCertificate
+
+def q {k m : ℕ} (c : RationalCertificate k m) (i : Fin m) : ℚ :=
+  if h : i ∈ c.support then c.weights ⟨i,h⟩ else 0
+
+def b {k m : ℕ} (c : RationalCertificate k m) (i j : Fin m) : ℚ :=
+  if hi : i ∈ c.support then
+    if hj : j ∈ c.support then c.residual ⟨i,hi⟩ ⟨j,hj⟩ else 0
+  else 0
+
+def Rows {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ) : Prop :=
+  (∀ h, (∑ h', K h h'*c.anchors h')-∑ i, D i h*c.q i ≤ σ) ∧
+  (∀ i ∈ c.support, (∑ h, D i h*c.anchors h)+(∑ j ∈ c.support, c.b i j*c.q j) ≤ σ) ∧
+  (∀ i, i ∉ c.support → (∑ h, D i h*c.anchors h)-M*(∑ j, c.q j) ≤ σ)
+
+def Conditions {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ) : Prop :=
+  0 ≤ M ∧
+  (∀ h, 0 ≤ c.anchors h) ∧ (∀ i, 0 ≤ c.q i) ∧
+  (∑ h, c.anchors h)+(∑ i, c.q i)=1 ∧
+  (∀ h h', K h h' = -K h' h) ∧
+  (∀ h h', -M ≤ K h h' ∧ K h h' ≤ M) ∧
+  (∀ i h, -M ≤ D i h ∧ D i h ≤ M) ∧
+  (∀ i ∈ c.support, ∀ j ∈ c.support, c.b i j = -c.b j i) ∧
+  (∀ i ∈ c.support, ∀ j ∈ c.support, -M ≤ c.b i j ∧ c.b i j ≤ M) ∧
+  c.Rows K D M σ
+
+instance {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ) :
+    Decidable (c.Conditions K D M σ) := by
+  unfold RationalCertificate.Conditions RationalCertificate.Rows
+  infer_instance
+
+/-- Computable finite rational checker, including every omitted row. -/
+def check {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ) : Bool :=
+  decide (c.Conditions K D M σ)
+
+theorem check_iff {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ) :
+    c.check K D M σ=true ↔ c.Conditions K D M σ := by
+  exact decide_eq_true_iff
+
+theorem q_on {k m : ℕ} (c : RationalCertificate k m) (i : c.support) :
+    c.q i=c.weights i := by simp [q]
+
+theorem b_on {k m : ℕ} (c : RationalCertificate k m) (i j : c.support) :
+    c.b i j=c.residual i j := by simp [b]
+
+theorem reject_omitted_violation {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ)
+    (i : Fin m) (hi : i ∉ c.support)
+    (hv : σ < (∑ h, D i h*c.anchors h)-M*(∑ j, c.q j)) :
+    c.check K D M σ=false := by
+  cases he : c.check K D M σ
+  · rfl
+  · have hc := (c.check_iff K D M σ).mp he
+    exact False.elim (not_le_of_gt hv (hc.2.2.2.2.2.2.2.2.2.2.2 i hi))
+
+noncomputable section
+
+def realQ {k m : ℕ} (c : RationalCertificate k m) : Fin m → ℝ :=
+  fun i => (c.q i : ℝ)
+
+def realB {k m : ℕ} (c : RationalCertificate k m) (M : ℚ) : Fin m → Fin m → ℝ :=
+  compactCompletion c.support (M : ℝ) (fun i j => (c.b i j : ℝ))
+
+theorem realQ_off {k m : ℕ} (c : RationalCertificate k m)
+    (i : Fin m) (hi : i ∉ c.support) : c.realQ i=0 := by
+  simp [realQ,q,hi]
+
+theorem support_card_le {k m : ℕ} (c : RationalCertificate k m) :
+    (Finset.univ.filter fun i => c.realQ i ≠ 0).card ≤ c.support.card := by
+  classical
+  apply Finset.card_le_card
+  intro i hi
+  by_contra hs
+  exact (Finset.mem_filter.mp hi).2 (c.realQ_off i hs)
+
+theorem realB_stored {k m : ℕ} (c : RationalCertificate k m)
+    (M : ℚ) (i j : c.support) : c.realB M i j=(c.residual i j : ℝ) := by
+  simp [realB,compactCompletion,b]
+
+theorem realB_omitted {k m : ℕ} (c : RationalCertificate k m)
+    (M : ℚ) (i j : Fin m) (hi : i ∉ c.support) :
+    c.realB M i j=if j ∈ c.support then -(M : ℝ) else 0 := by
+  simp [realB,compactCompletion,hi]
+
+theorem rows_iff {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ) :
+    (∀ a, response (blockMatrix (fun h h' => (K h h' : ℝ))
+      (fun i h => (D i h : ℝ)) (c.realB M))
+      (blockWeights (fun h => (c.anchors h : ℝ)) c.realQ) a ≤ (σ : ℝ)) ↔
+      c.Rows K D M σ := by
+  rw [realB,compact_block_certificate_iff c.support _ _ _ _ c.realQ (M : ℝ)
+    (∑ i, c.realQ i) (σ : ℝ) c.realQ_off rfl]
+  simp only [anchorResponse,score,realQ,Rows]
+  norm_cast
+end
+end RationalCertificate
+end SparseCompletion
+
+/- Fixed source body: RationalCertificateSoundness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+namespace RationalCertificate
+noncomputable section
+
+/-- Acceptance produces this actual explicit completion, not merely an
+    existential response vector or assumed feasibility certificate. -/
+theorem accepted_full_game {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ)
+    (hc : c.check K D M σ=true) :
+    (∀ a, 0 ≤ blockWeights (fun h => (c.anchors h : ℝ)) c.realQ a) ∧
+    (∑ a, blockWeights (fun h => (c.anchors h : ℝ)) c.realQ a)=1 ∧
+    IsSkew (blockMatrix (fun h h' => (K h h' : ℝ)) (fun i h => (D i h : ℝ)) (c.realB M)) ∧
+    (∀ a b, -(M : ℝ) ≤ blockMatrix (fun h h' => (K h h' : ℝ))
+      (fun i h => (D i h : ℝ)) (c.realB M) a b ∧
+      blockMatrix (fun h h' => (K h h' : ℝ)) (fun i h => (D i h : ℝ)) (c.realB M) a b ≤ (M : ℝ)) ∧
+    (∀ a, response (blockMatrix (fun h h' => (K h h' : ℝ)) (fun i h => (D i h : ℝ)) (c.realB M))
+      (blockWeights (fun h => (c.anchors h : ℝ)) c.realQ) a ≤ (σ : ℝ)) := by
+  obtain ⟨hM,hp,hq,hm,hK,hKb,hD,hB,hBb,hrows⟩ := c.check_iff K D M σ |>.mp hc
+  have hpR : ∀ h, 0 ≤ (c.anchors h : ℝ) := by intro h; exact_mod_cast hp h
+  have hqR : ∀ i, 0 ≤ c.realQ i := by
+    intro i
+    change 0 ≤ (c.q i : ℝ)
+    exact_mod_cast hq i
+  have hKR : IsSkew (fun h h' => (K h h' : ℝ)) := by
+    intro h h'
+    change (K h h' : ℝ) = -(K h' h : ℝ)
+    exact_mod_cast hK h h'
+  have hBR : IsSkew (c.realB M) := by
+    apply compactCompletion_skew
+    intro i hi j hj
+    exact_mod_cast hB i hi j hj
+  have hKbR : ∀ h h', -(M : ℝ) ≤ (K h h' : ℝ) ∧ (K h h' : ℝ) ≤ (M : ℝ) := by
+    intro h h'; exact_mod_cast hKb h h'
+  have hDR : ∀ i h, -(M : ℝ) ≤ (D i h : ℝ) ∧ (D i h : ℝ) ≤ (M : ℝ) := by
+    intro i h; exact_mod_cast hD i h
+  have hBbR : ∀ i j, -(M : ℝ) ≤ c.realB M i j ∧ c.realB M i j ≤ (M : ℝ) := by
+    apply compactCompletion_bounds
+    · exact_mod_cast hM
+    · intro i hi j hj; exact_mod_cast hBb i hi j hj
+  refine ⟨blockWeights_nonneg _ _ hpR hqR,?_,blockMatrix_skew _ _ _ hKR hBR,
+    blockMatrix_bounds _ _ _ _ hKbR hDR hBbR,(c.rows_iff K D M σ).mpr hrows⟩
+  rw [blockWeights_mass]
+  simp only [realQ]
+  exact_mod_cast hm
+
+/-- With probability and bounded-skew data validated, acceptance is equivalent
+    to all rows of the explicit omitted-row real completion passing. -/
+theorem check_iff_full_rows {k m : ℕ} (c : RationalCertificate k m)
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (M σ : ℚ)
+    (hg : 0 ≤ M ∧ (∀ h, 0 ≤ c.anchors h) ∧ (∀ i, 0 ≤ c.q i) ∧
+      (∑ h, c.anchors h)+(∑ i, c.q i)=1 ∧
+      (∀ h h', K h h' = -K h' h) ∧
+      (∀ h h', -M ≤ K h h' ∧ K h h' ≤ M) ∧
+      (∀ i h, -M ≤ D i h ∧ D i h ≤ M) ∧
+      (∀ i ∈ c.support, ∀ j ∈ c.support, c.b i j = -c.b j i) ∧
+      (∀ i ∈ c.support, ∀ j ∈ c.support, -M ≤ c.b i j ∧ c.b i j ≤ M)) :
+    c.check K D M σ=true ↔
+      ∀ a, response (blockMatrix (fun h h' => (K h h' : ℝ))
+        (fun i h => (D i h : ℝ)) (c.realB M))
+        (blockWeights (fun h => (c.anchors h : ℝ)) c.realQ) a ≤ (σ : ℝ) := by
+  rw [c.check_iff,c.rows_iff]
+  obtain ⟨hM,hp,hq,hm,hK,hKb,hD,hB,hBb⟩ := hg
+  exact ⟨fun h => h.2.2.2.2.2.2.2.2.2,
+    fun hr => ⟨hM,hp,hq,hm,hK,hKb,hD,hB,hBb,hr⟩⟩
+end
+end RationalCertificate
+end SparseCompletion
+
+/- Fixed source body: FixedValue.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def fixedGameValue {ι α : Type*} [Fintype ι] [Fintype α] [Nonempty (α ⊕ ι)]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) (M : ℝ) (R : Set (ι → ℝ)) : ℝ :=
+  sInf ((fun z : (ι → ι → ℝ) × (ι → ℝ) =>
+    exploitability (blockMatrix K D z.1) (blockWeights p z.2)) '' (skewBox M ×ˢ R))
+
+theorem fixed_game_exploitability_continuous {ι α : Type*} [Fintype ι] [Fintype α]
+    [Nonempty (α ⊕ ι)] (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) :
+    Continuous (fun z : (ι → ι → ℝ) × (ι → ℝ) =>
+      exploitability (blockMatrix K D z.1) (blockWeights p z.2)) := by
+  unfold exploitability
+  apply Continuous.finset_sup'_apply
+  intro a _
+  cases a with
+  | inl h =>
+    simp only [block_response_anchor,anchorResponse]
+    fun_prop
+  | inr i =>
+    simp only [response,Fintype.sum_sum_type,blockMatrix,blockWeights,Sum.elim_inl,Sum.elim_inr]
+    fun_prop
+
+theorem fixed_game_value_attained {ι α : Type*} [Fintype ι] [Fintype α]
+    [Nonempty (α ⊕ ι)] (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M : ℝ) (R : Set (ι → ℝ)) (hM : 0 ≤ M) (hR : IsCompact R) (hne : R.Nonempty) :
+    ∃ B ∈ skewBox M, ∃ q ∈ R,
+      exploitability (blockMatrix K D B) (blockWeights p q)=fixedGameValue K D p M R := by
+  have hc := ((skewBox_compact M).prod hR).image (fixed_game_exploitability_continuous K D p)
+  have hn := ((show (skewBox (ι := ι) M).Nonempty from ⟨0,skewBox_zero M hM⟩).prod hne).image
+    (fun z : (ι → ι → ℝ) × (ι → ℝ) => exploitability (blockMatrix K D z.1) (blockWeights p z.2))
+  obtain ⟨⟨B,q⟩,⟨hB,hq⟩,he⟩ := hc.sInf_mem hn
+  exact ⟨B,hB,q,hq,he⟩
+
+theorem fixed_game_value_le_witness {ι α : Type*} [Fintype ι] [Fintype α]
+    [Nonempty (α ⊕ ι)] (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M : ℝ) (R : Set (ι → ℝ)) (hR : IsCompact R)
+    (B : ι → ι → ℝ) (q : ι → ℝ) (hB : B ∈ skewBox M) (hq : q ∈ R) :
+    fixedGameValue K D p M R ≤ exploitability (blockMatrix K D B) (blockWeights p q) := by
+  apply csInf_le (((skewBox_compact M).prod hR).image (fixed_game_exploitability_continuous K D p)).bddBelow
+  exact ⟨(B,q),⟨hB,hq⟩,rfl⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: GapCompact.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem gap_points_closed {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) (M r η : ℝ) :
+    IsClosed {z : (ι → ℝ) × ℝ | fixedAnchorGapPoint K D p z.1 M r z.2 η} := by
+  change IsClosed ({z : ((ι → ℝ) × ℝ) | ∀ i, 0 ≤ z.1 i} ∩
+    ({z : ((ι → ℝ) × ℝ) | (∑ i, z.1 i)=r} ∩
+    ({z : ((ι → ℝ) × ℝ) | ∀ i, score D p i ≤ z.2+M*r} ∩
+    ({z : ((ι → ℝ) × ℝ) | ∀ h, anchorResponse K D p z.1 h ≤ z.2} ∩
+    {z : ((ι → ℝ) × ℝ) | ∀ l : ℕ, 1 ≤ l → l ≤ gridSize M r η →
+      call z.1 (fun i => score D p i-z.2) (M*r-gridNode M r η l) ≤
+        envelope M r (M*r-gridNode M r η l)}))))
+  simp only [Set.ofPred_forall]
+  apply IsClosed.inter
+  · apply isClosed_iInter
+    intro i
+    exact isClosed_le continuous_const (show Continuous (fun z : ((ι → ℝ) × ℝ) => z.1 i) by fun_prop)
+  · apply IsClosed.inter
+    · exact isClosed_eq (show Continuous (fun z : ((ι → ℝ) × ℝ) => ∑ i, z.1 i) by fun_prop) continuous_const
+    · apply IsClosed.inter
+      · apply isClosed_iInter
+        intro i
+        exact isClosed_le continuous_const (show Continuous (fun z : ((ι → ℝ) × ℝ) => z.2+M*r) by fun_prop)
+      · apply IsClosed.inter
+        · apply isClosed_iInter
+          intro h
+          exact isClosed_le (show Continuous (fun z : ((ι → ℝ) × ℝ) => anchorResponse K D p z.1 h) by
+            unfold anchorResponse; fun_prop) continuous_snd
+        · apply isClosed_iInter
+          intro l
+          apply isClosed_iInter
+          intro _
+          apply isClosed_iInter
+          intro _
+          exact isClosed_le (show Continuous (fun z : ((ι → ℝ) × ℝ) =>
+            call z.1 (fun i => score D p i-z.2) (M*r-gridNode M r η l)) by
+              unfold call; fun_prop) continuous_const
+
+def gapPairs {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η : ℝ) : Set ((ι → ℝ) × ℝ) :=
+  (R ×ˢ Set.Icc 0 M) ∩ {z | fixedAnchorGapPoint K D p z.1 M r z.2 η}
+
+theorem gap_pairs_compact {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η : ℝ) (hR : IsCompact R) : IsCompact (gapPairs R K D p M r η) :=
+  (hR.prod isCompact_Icc).inter_right (gap_points_closed K D p M r η)
+
+def gapThresholdValue {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ) (M r η : ℝ) : ℝ :=
+  sInf (Prod.snd '' gapPairs R K D p M r η)
+
+theorem gap_threshold_attained {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η : ℝ) (hR : IsCompact R) (hne : (gapPairs R K D p M r η).Nonempty) :
+    ∃ q ∈ R, fixedAnchorGapPoint K D p q M r (gapThresholdValue R K D p M r η) η ∧
+      0 ≤ gapThresholdValue R K D p M r η ∧ gapThresholdValue R K D p M r η ≤ M := by
+  have hc := (gap_pairs_compact R K D p M r η hR).image continuous_snd
+  obtain ⟨⟨q,ρ⟩,⟨⟨hq,hρ⟩,hpoint⟩,he⟩ := hc.sInf_mem (hne.image Prod.snd)
+  change ρ=gapThresholdValue R K D p M r η at he
+  rw [←he]
+  exact ⟨q,hq,hpoint,hρ⟩
+
+theorem gap_threshold_le {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η ρ : ℝ) (hR : IsCompact R)
+    (q : ι → ℝ) (hq : q ∈ R) (hρ : 0 ≤ ρ ∧ ρ ≤ M)
+    (hpoint : fixedAnchorGapPoint K D p q M r ρ η) : gapThresholdValue R K D p M r η ≤ ρ := by
+  apply csInf_le ((gap_pairs_compact R K D p M r η hR).image continuous_snd).bddBelow
+  exact ⟨(q,ρ),⟨⟨hq,hρ⟩,hpoint⟩,rfl⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: ValueBounds.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem exploitability_nonnegative {ν : Type*} [Fintype ν] [Nonempty ν]
+    (A : ν → ν → ℝ) (x : ν → ℝ) (hA : IsSkew A)
+    (hx : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) : 0 ≤ exploitability A x := by
+  have hz : (∑ i, x i*response A x i)=0 := by
+    simpa only [response,Finset.mul_sum,mul_assoc] using skew_weighted_sum Finset.univ x A hA
+  calc
+    0 = ∑ i, x i*response A x i := hz.symm
+    _ ≤ ∑ i, x i*exploitability A x := Finset.sum_le_sum fun i _ =>
+      mul_le_mul_of_nonneg_left (response_le_exploitability A x i) (hx i)
+    _ = _ := by rw [←Finset.sum_mul,hm,one_mul]
+
+theorem exploitability_bounded_above {ν : Type*} [Fintype ν] [Nonempty ν]
+    (A : ν → ν → ℝ) (x : ν → ℝ) (M : ℝ)
+    (hA : ∀ i j, A i j ≤ M) (hx : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) :
+    exploitability A x ≤ M := by
+  apply (exploitability_le_iff A x M).mpr
+  intro i
+  unfold response
+  calc
+    (∑ j, A i j*x j) ≤ ∑ j, M*x j := Finset.sum_le_sum fun j _ =>
+      mul_le_mul_of_nonneg_right (hA i j) (hx j)
+    _ = M := by rw [←Finset.mul_sum,hm,mul_one]
+
+theorem fixed_game_value_bounds {ι α : Type*} [Fintype ι] [Fintype α]
+    [Nonempty (α ⊕ ι)] (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r : ℝ) (R : Set (ι → ℝ)) (hM : 0 ≤ M) (hR : IsCompact R) (hne : R.Nonempty)
+    (hp : ∀ h, 0 ≤ p h) (hpm : (∑ h, p h)+r=1)
+    (hprob : ∀ q ∈ R, (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r)
+    (hK : IsSkew K) (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M) :
+    0 ≤ fixedGameValue K D p M R ∧ fixedGameValue K D p M R ≤ M ∧
+      fixedAnchorFeasible R K D p M r (fixedGameValue K D p M R) := by
+  obtain ⟨B,hB,q,hq,he⟩ := fixed_game_value_attained K D p M R hM hR hne
+  have hsk := blockMatrix_skew K D B hK hB.1
+  have hb := blockMatrix_bounds K D B M hKb hDb hB.2
+  have hn := blockWeights_nonneg p q hp (hprob q hq).1
+  have hm : (∑ a, blockWeights p q a)=1 := by rw [blockWeights_mass,(hprob q hq).2,hpm]
+  have h0 := exploitability_nonnegative _ _ hsk hn hm
+  have hu := exploitability_bounded_above _ _ M (fun i j => (hb i j).2) hn hm
+  rw [he] at h0 hu
+  refine ⟨h0,hu,q,hq,(hprob q hq).1,(hprob q hq).2,B,hB.1,hB.2,?_⟩
+  intro a
+  rw [←he]
+  exact response_le_exploitability _ _ a
+
+end
+end SparseCompletion
+
+/- Fixed source body: GapValue.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem gap_threshold_minimal_nonnegative {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η ρ : ℝ) (hR : IsCompact R) (hne : (gapPairs R K D p M r η).Nonempty)
+    (hρ : 0 ≤ ρ) (hgap : fixedAnchorGapFeasible R K D p M r ρ η) :
+    gapThresholdValue R K D p M r η ≤ ρ := by
+  obtain ⟨q,hq,hpoint,_,hW⟩ := gap_threshold_attained R K D p M r η hR hne
+  by_cases hρM : ρ ≤ M
+  · obtain ⟨q',hq',hp'⟩ := hgap
+    exact gap_threshold_le R K D p M r η ρ hR q' hq' ⟨hρ,hρM⟩ hp'
+  · exact le_trans hW (le_of_lt (lt_of_not_ge hρM))
+
+theorem gap_original_infimum_eq {ι α : Type*} [Fintype ι] [Fintype α]
+    (R : Set (ι → ℝ)) (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η : ℝ) (hR : IsCompact R) (hne : (gapPairs R K D p M r η).Nonempty) :
+    sInf {ρ : ℝ | 0 ≤ ρ ∧ fixedAnchorGapFeasible R K D p M r ρ η}=
+      gapThresholdValue R K D p M r η := by
+  obtain ⟨q,hq,hpoint,hW0,_⟩ := gap_threshold_attained R K D p M r η hR hne
+  have hmem : gapThresholdValue R K D p M r η ∈
+      {ρ : ℝ | 0 ≤ ρ ∧ fixedAnchorGapFeasible R K D p M r ρ η} := ⟨hW0,q,hq,hpoint⟩
+  apply le_antisymm
+  · exact csInf_le ⟨0,fun _ h => h.1⟩ hmem
+  · exact le_csInf ⟨_,hmem⟩ fun ρ h => gap_threshold_minimal_nonnegative R K D p M r η ρ hR hne h.1 h.2
+
+theorem fixed_anchor_additive_value_enclosure {ι α : Type*} [Fintype ι] [Fintype α]
+    [Nonempty (α ⊕ ι)] (K : α → α → ℝ) (D : ι → α → ℝ) (p : α → ℝ)
+    (M r η : ℝ) (R : Set (ι → ℝ)) (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hR : IsCompact R) (hne : R.Nonempty)
+    (hp : ∀ h, 0 ≤ p h) (hpm : (∑ h, p h)+r=1)
+    (hprob : ∀ q ∈ R, (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r)
+    (hK : IsSkew K) (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M) :
+    0 ≤ gapThresholdValue R K D p M r η ∧ gapThresholdValue R K D p M r η ≤ M ∧
+    gapThresholdValue R K D p M r η ≤ fixedGameValue K D p M R ∧
+    fixedGameValue K D p M R ≤ gapThresholdValue R K D p M r η+η ∧
+    ∃ q ∈ R, ∃ B : ι → ι → ℝ, IsSkew B ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ gapThresholdValue R K D p M r η+η := by
+  obtain ⟨hV0,hVM,hfeas⟩ := fixed_game_value_bounds K D p M r R (le_of_lt hM) hR hne hp hpm hprob hK hKb hDb
+  obtain ⟨q,hq,hpoint⟩ := feasible_implies_gap_feasible R K D p M r (fixedGameValue K D p M R) η hM hfeas
+  have hpair : (gapPairs R K D p M r η).Nonempty :=
+    ⟨(q,fixedGameValue K D p M R),⟨⟨hq,hV0,hVM⟩,hpoint⟩⟩
+  have hWV := gap_threshold_le R K D p M r η _ hR q hq ⟨hV0,hVM⟩ hpoint
+  obtain ⟨q',hq',hpoint',hW0,hWM⟩ := gap_threshold_attained R K D p M r η hR hpair
+  obtain ⟨B,hB,hb,hrows⟩ := gap_point_completed_witness K D p q' M r _ η hM hr hη hpoint'
+  have hV := fixed_game_value_le_witness K D p M R hR B q' ⟨hB,hb⟩ hq'
+  have hu := (exploitability_le_iff _ _ _).mpr hrows
+  exact ⟨hW0,hWM,hWV,le_trans hV hu,q',hq',B,hB,hb,hrows⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: AllocationRounding.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def roundedAnchor (s p δ : ℝ) : ℝ := s+δ*(Nat.floor ((p-s)/δ) : ℝ)
+
+theorem rounded_anchor_bounds (s p δ : ℝ) (hsp : s ≤ p) (hδ : 0 < δ) :
+    s ≤ roundedAnchor s p δ ∧ roundedAnchor s p δ ≤ p ∧ p-roundedAnchor s p δ < δ := by
+  have hx : 0 ≤ (p-s)/δ := div_nonneg (sub_nonneg.mpr hsp) (le_of_lt hδ)
+  have h1 := Nat.floor_le hx
+  have h2 := Nat.lt_floor_add_one ((p-s)/δ)
+  have h3 := (le_div_iff₀ hδ).mp h1
+  have h4 := (div_lt_iff₀ hδ).mp h2
+  unfold roundedAnchor
+  exact ⟨le_add_of_nonneg_right (mul_nonneg (le_of_lt hδ) (Nat.cast_nonneg _)),by nlinarith,by nlinarith⟩
+
+def roundedAllocation {α : Type*} (s p : α → ℝ) (δ : ℝ) (i : α) : ℝ := roundedAnchor (s i) (p i) δ
+
+def removedAnchorMass {α : Type*} [Fintype α] (s p : α → ℝ) (δ : ℝ) : ℝ :=
+  ∑ i, (p i-roundedAllocation s p δ i)
+
+theorem removed_anchor_mass_bounds {α : Type*} [Fintype α] (s p : α → ℝ) (δ : ℝ)
+    (hsp : ∀ i, s i ≤ p i) (hδ : 0 < δ) :
+    0 ≤ removedAnchorMass s p δ ∧ removedAnchorMass s p δ ≤ (Fintype.card α : ℝ)*δ := by
+  constructor
+  · exact Finset.sum_nonneg fun i _ => sub_nonneg.mpr (rounded_anchor_bounds _ _ _ (hsp i) hδ).2.1
+  · calc
+      removedAnchorMass s p δ ≤ ∑ _i : α, δ := Finset.sum_le_sum fun i _ =>
+        le_of_lt (rounded_anchor_bounds _ _ _ (hsp i) hδ).2.2
+      _ = _ := by simp only [Finset.sum_const,Finset.card_univ,nsmul_eq_mul]
+
+def transferredResidual {ι : Type*} [DecidableEq ι] (q : ι → ℝ) (d : ℝ) (j : ι) (i : ι) : ℝ :=
+  q i+if i=j then d else 0
+
+theorem transferred_residual_mass {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (q : ι → ℝ) (d : ℝ) (j : ι) : (∑ i, transferredResidual q d j i)=(∑ i, q i)+d := by
+  simp only [transferredResidual,Finset.sum_add_distrib,Finset.sum_ite_eq',Finset.mem_univ,ite_true]
+
+theorem allocation_rounding_mass {α ι : Type*} [Fintype α] [Fintype ι] [DecidableEq ι]
+    (s p : α → ℝ) (q : ι → ℝ) (δ : ℝ) (j : ι) :
+    (∑ i, roundedAllocation s p δ i)+(∑ i, transferredResidual q (removedAnchorMass s p δ) j i)=
+      (∑ i, p i)+(∑ i, q i) := by
+  rw [transferred_residual_mass]
+  unfold removedAnchorMass
+  rw [Finset.sum_sub_distrib]
+  ring
+
+theorem transferred_residual_distance {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (q : ι → ℝ) (d : ℝ) (j : ι) (hd : 0 ≤ d) :
+    (∑ i, |q i-transferredResidual q d j i|)=d := by
+  have he : ∀ i, |q i-transferredResidual q d j i|=if i=j then d else 0 := by
+    intro i
+    by_cases h : i=j
+    · simp only [transferredResidual,h,ite_true,sub_add_cancel_left,abs_neg,abs_of_nonneg hd]
+    · simp only [transferredResidual,h,ite_false,add_zero,sub_self,abs_zero]
+  simp_rw [he]
+  simp only [Finset.sum_ite_eq',Finset.mem_univ,ite_true]
+
+theorem allocation_rounding_distance {α ι : Type*} [Fintype α] [Fintype ι] [DecidableEq ι]
+    (s p : α → ℝ) (q : ι → ℝ) (δ : ℝ) (j : ι)
+    (hsp : ∀ i, s i ≤ p i) (hδ : 0 < δ) :
+    (∑ a, |blockWeights p q a-
+      blockWeights (roundedAllocation s p δ) (transferredResidual q (removedAnchorMass s p δ) j) a|) ≤
+        (2 : ℕ)*(Fintype.card α : ℝ)*δ := by
+  have hd := removed_anchor_mass_bounds s p δ hsp hδ
+  have ha : (∑ i, |p i-roundedAllocation s p δ i|)=removedAnchorMass s p δ := by
+    apply Finset.sum_congr rfl
+    intro i _
+    exact abs_of_nonneg (sub_nonneg.mpr (rounded_anchor_bounds _ _ _ (hsp i) hδ).2.1)
+  rw [Fintype.sum_sum_type]
+  simp only [blockWeights,Sum.elim_inl,Sum.elim_inr]
+  rw [ha,transferred_residual_distance q _ j hd.1]
+  norm_num only [Nat.cast_ofNat]
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: AllocationGrid.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem rounded_anchor_grid_index (s p δ : ℝ) (hs : 0 ≤ s) (hp : p ≤ 1) (hδ : 0 < δ) :
+    Nat.floor ((p-s)/δ) < 1+Nat.floor (1/δ) := by
+  have h : (p-s)/δ ≤ 1/δ := div_le_div_of_nonneg_right (by linarith) (le_of_lt hδ)
+  have hm := Nat.floor_mono h
+  omega
+
+theorem rounded_allocation_finite_grid {α : Type*} (s p : α → ℝ) (δ : ℝ)
+    (hs : ∀ i, 0 ≤ s i) (hp : ∀ i, p i ≤ 1) (hδ : 0 < δ) :
+    ∃ z : α → Fin (1+Nat.floor (1/δ)),
+      ∀ i, roundedAllocation s p δ i=s i+δ*(z i : ℕ) := by
+  exact ⟨fun i => ⟨Nat.floor ((p i-s i)/δ),rounded_anchor_grid_index _ _ _ (hs i) (hp i) hδ⟩,
+    fun _ => rfl⟩
+
+theorem allocation_grid_card {α : Type*} [Fintype α] [DecidableEq α] (δ : ℝ) :
+    Fintype.card (α → Fin (1+Nat.floor (1/δ)))=(1+Nat.floor (1/δ))^Fintype.card α := by
+  simp only [Fintype.card_fun,Fintype.card_fin]
+
+theorem allocation_rounding_preserves_floors {α ι : Type*} [Fintype α] [DecidableEq ι]
+    (s p : α → ℝ) (t q : ι → ℝ) (δ : ℝ) (j : ι)
+    (hsp : ∀ i, s i ≤ p i) (htq : ∀ i, t i ≤ q i) (hδ : 0 < δ) :
+    (∀ i, s i ≤ roundedAllocation s p δ i) ∧
+      (∀ i, t i ≤ transferredResidual q (removedAnchorMass s p δ) j i) := by
+  refine ⟨fun i => (rounded_anchor_bounds _ _ _ (hsp i) hδ).1,?_⟩
+  intro i
+  apply le_trans (htq i)
+  apply le_add_of_nonneg_right
+  split_ifs
+  · exact (removed_anchor_mass_bounds s p δ hsp hδ).1
+  · exact le_refl 0
+
+end
+end SparseCompletion
+
+/- Fixed source body: AllocationResponse.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem response_strategy_distance {ν : Type*} [Fintype ν]
+    (A : ν → ν → ℝ) (x y : ν → ℝ) (M : ℝ)
+    (hA : ∀ i j, |A i j| ≤ M) (i : ν) :
+    |response A x i-response A y i| ≤ M*(∑ j, |x j-y j|) := by
+  calc
+    |response A x i-response A y i| = |∑ j, A i j*(x j-y j)| := by
+      simp only [response,mul_sub,Finset.sum_sub_distrib]
+    _ ≤ ∑ j, |A i j*(x j-y j)| := Finset.abs_sum_le_sum_abs _ _
+    _ ≤ ∑ j, M*|x j-y j| := Finset.sum_le_sum fun j _ => by
+      rw [abs_mul]
+      exact mul_le_mul_of_nonneg_right (hA i j) (abs_nonneg _)
+    _ = _ := (Finset.mul_sum _ _ _).symm
+
+theorem exploitability_strategy_distance {ν : Type*} [Fintype ν] [Nonempty ν]
+    (A : ν → ν → ℝ) (x y : ν → ℝ) (M : ℝ)
+    (hA : ∀ i j, |A i j| ≤ M) :
+    |exploitability A x-exploitability A y| ≤ M*(∑ j, |x j-y j|) := by
+  have hone : ∀ x y : ν → ℝ, exploitability A x ≤ exploitability A y+M*(∑ j, |x j-y j|) := by
+    intro x y
+    apply (exploitability_le_iff A x _).mpr
+    intro i
+    have h := (abs_le.mp (response_strategy_distance A x y M hA i)).2
+    linarith [response_le_exploitability A y i]
+  apply abs_le.mpr
+  constructor
+  · have hh := hone y x
+    simp_rw [abs_sub_comm (y _) (x _)] at hh
+    linarith
+  · linarith [hone x y]
+
+theorem allocation_rounding_value_bound {α ι : Type*} [Fintype α] [Fintype ι] [DecidableEq ι] [Nonempty (α ⊕ ι)]
+    (s p : α → ℝ) (q : ι → ℝ) (δ M : ℝ) (j : ι)
+    (A : (α ⊕ ι) → (α ⊕ ι) → ℝ)
+    (hsp : ∀ i, s i ≤ p i) (hδ : 0 < δ) (hM : 0 ≤ M)
+    (hA : ∀ i j, |A i j| ≤ M) :
+    exploitability A (blockWeights (roundedAllocation s p δ)
+      (transferredResidual q (removedAnchorMass s p δ) j)) ≤
+      exploitability A (blockWeights p q)+(2 : ℕ)*M*(Fintype.card α : ℝ)*δ := by
+  have h := (abs_le.mp (exploitability_strategy_distance A (blockWeights p q)
+    (blockWeights (roundedAllocation s p δ) (transferredResidual q (removedAnchorMass s p δ) j)) M hA)).1
+  have hd := mul_le_mul_of_nonneg_left (allocation_rounding_distance s p q δ j hsp hδ) hM
+  norm_num only [Nat.cast_ofNat] at hd ⊢
+  nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: AllocationValue.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def floorStrategies {ν : Type*} [Fintype ν] (s : ν → ℝ) : Set (ν → ℝ) :=
+  {x | (∀ i, s i ≤ x i) ∧ (∑ i, x i)=1}
+
+theorem floor_strategy_coordinate_bounds {ν : Type*} [Fintype ν]
+    (s x : ν → ℝ) (hs : ∀ i, 0 ≤ s i) (hx : x ∈ floorStrategies s) (i : ν) :
+    0 ≤ x i ∧ x i ≤ 1 := by
+  have hn : ∀ j, 0 ≤ x j := fun j => le_trans (hs j) (hx.1 j)
+  refine ⟨hn i,?_⟩
+  rw [←hx.2]
+  exact Finset.single_le_sum (fun j _ => hn j) (Finset.mem_univ i)
+
+theorem floor_strategies_compact {ν : Type*} [Fintype ν]
+    (s : ν → ℝ) (hs : ∀ i, 0 ≤ s i) : IsCompact (floorStrategies s) := by
+  have hc : IsClosed (floorStrategies s) := by
+    have he : floorStrategies s=
+        (⋂ i, {x : ν → ℝ | s i ≤ x i}) ∩ {x | (∑ i, x i)=1} := by
+      ext x
+      simp only [floorStrategies,Set.mem_ofPred_eq,Set.mem_inter_iff,Set.mem_iInter]
+    rw [he]
+    exact (isClosed_iInter fun i => isClosed_le continuous_const (continuous_apply i)).inter
+      (isClosed_eq (by fun_prop) continuous_const)
+  exact isCompact_Icc.of_isClosed_subset hc (fun x hx =>
+    ⟨fun i => (floor_strategy_coordinate_bounds s x hs hx i).1,
+      fun i => (floor_strategy_coordinate_bounds s x hs hx i).2⟩)
+
+def allocationGridStrategies {α ι : Type*} [Fintype α] [Fintype ι]
+    (s : (α ⊕ ι) → ℝ) (δ : ℝ) : Set ((α ⊕ ι) → ℝ) :=
+  floorStrategies s ∩ {x | ∃ z : α → Fin (1+Nat.floor (1/δ)),
+    ∀ i, x (Sum.inl i)=s (Sum.inl i)+δ*(z i : ℕ)}
+
+theorem allocation_grid_strategies_compact {α ι : Type*} [Fintype α] [Fintype ι]
+    (s : (α ⊕ ι) → ℝ) (δ : ℝ) (hs : ∀ i, 0 ≤ s i) :
+    IsCompact (allocationGridStrategies s δ) := by
+  classical
+  apply (floor_strategies_compact s hs).inter_right
+  have he : {x : (α ⊕ ι) → ℝ | ∃ z : α → Fin (1+Nat.floor (1/δ)),
+      ∀ i, x (Sum.inl i)=s (Sum.inl i)+δ*(z i : ℕ)}=
+      ⋃ z : α → Fin (1+Nat.floor (1/δ)),
+        ⋂ i, {x | x (Sum.inl i)=s (Sum.inl i)+δ*(z i : ℕ)} := by
+    ext x
+    simp only [Set.mem_ofPred_eq,Set.mem_iUnion,Set.mem_iInter]
+  rw [he]
+  exact isClosed_iUnion_of_finite fun z => isClosed_iInter fun i =>
+    isClosed_eq (continuous_apply _) continuous_const
+
+theorem allocation_rounding_in_grid {α ι : Type*} [Fintype α] [Fintype ι] [DecidableEq ι]
+    (s : (α ⊕ ι) → ℝ) (x : (α ⊕ ι) → ℝ) (δ : ℝ) (j : ι)
+    (hs : ∀ i, 0 ≤ s i) (hx : x ∈ floorStrategies s) (hδ : 0 < δ) :
+    blockWeights (roundedAllocation (fun i => s (Sum.inl i)) (fun i => x (Sum.inl i)) δ)
+      (transferredResidual (fun i => x (Sum.inr i))
+        (removedAnchorMass (fun i => s (Sum.inl i)) (fun i => x (Sum.inl i)) δ) j) ∈
+      allocationGridStrategies s δ := by
+  have hsp := fun i => hx.1 (Sum.inl i)
+  have htq := fun i => hx.1 (Sum.inr i)
+  have hf := allocation_rounding_preserves_floors _ _ _ _ δ j hsp htq hδ
+  refine ⟨⟨?_,?_⟩,?_⟩
+  · intro i
+    cases i with
+    | inl i => exact hf.1 i
+    | inr i => exact hf.2 i
+  · rw [blockWeights_mass,allocation_rounding_mass]
+    exact (Fintype.sum_sum_type x).symm.trans hx.2
+  · obtain ⟨z,hz⟩ := rounded_allocation_finite_grid
+      (fun i => s (Sum.inl i)) (fun i => x (Sum.inl i)) δ
+      (fun i => hs (Sum.inl i))
+      (fun i => (floor_strategy_coordinate_bounds s x hs hx (Sum.inl i)).2) hδ
+    exact ⟨z,hz⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: AllocationApproximation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem floor_strategies_nonempty {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (s : ν → ℝ) (j : ν) (hm : (∑ i, s i) ≤ 1) : (floorStrategies s).Nonempty := by
+  refine ⟨transferredResidual s (1-∑ i, s i) j,?_,?_⟩
+  · intro i
+    apply le_add_of_nonneg_right
+    split_ifs
+    · linarith
+    · exact le_refl 0
+  · rw [transferred_residual_mass]
+    ring
+
+theorem allocation_grid_nonempty {α ι : Type*} [Fintype α] [Fintype ι] [DecidableEq ι]
+    (s : (α ⊕ ι) → ℝ) (δ : ℝ) (j : ι)
+    (hs : ∀ i, 0 ≤ s i) (hne : (floorStrategies s).Nonempty) (hδ : 0 < δ) :
+    (allocationGridStrategies s δ).Nonempty := by
+  obtain ⟨x,hx⟩ := hne
+  exact ⟨_,allocation_rounding_in_grid s x δ j hs hx hδ⟩
+
+theorem optimistic_allocation_grid_bounds {α ι : Type*} [Fintype α] [Fintype ι]
+    [DecidableEq ι] [Nonempty (α ⊕ ι)]
+    (lo hi : (α ⊕ ι) → (α ⊕ ι) → ℝ) (M δ : ℝ) (s : (α ⊕ ι) → ℝ) (j : ι)
+    (hI : ValidIntervalSystem lo hi M) (hs : ∀ i, 0 ≤ s i)
+    (hne : (floorStrategies s).Nonempty) (hδ : 0 < δ) :
+    optimisticValue lo hi M (floorStrategies s) ≤
+        optimisticValue lo hi M (allocationGridStrategies s δ) ∧
+    optimisticValue lo hi M (allocationGridStrategies s δ) ≤
+        optimisticValue lo hi M (floorStrategies s)+(2 : ℕ)*M*(Fintype.card α : ℝ)*δ := by
+  have hc := floor_strategies_compact s hs
+  have hg := allocation_grid_strategies_compact s δ hs
+  have hgn := allocation_grid_nonempty s δ j hs hne hδ
+  constructor
+  · obtain ⟨A,hA,x,hx,he⟩ := optimistic_value_attained lo hi M _ hI hg hgn
+    have hh := optimistic_value_le_witness lo hi M _ hc A x hA hx.1
+    rwa [he] at hh
+  · obtain ⟨A,hA,x,hx,he⟩ := optimistic_value_attained lo hi M _ hI hc hne
+    let p := fun i => x (Sum.inl i)
+    let q := fun i => x (Sum.inr i)
+    let t := fun i => s (Sum.inl i)
+    have hxdec : blockWeights p q=x := by ext i; cases i <;> rfl
+    let x' := blockWeights (roundedAllocation t p δ)
+      (transferredResidual q (removedAnchorMass t p δ) j)
+    have hx' : x' ∈ allocationGridStrategies s δ := allocation_rounding_in_grid s x δ j hs hx hδ
+    have hv := optimistic_value_le_witness lo hi M _ hg A x' hA hx'
+    have hb : ∀ i j, |A i j| ≤ M := fun i j => abs_le.mpr (hA.1.2 i j)
+    have hh := allocation_rounding_value_bound t p q δ M j A
+      (fun i => hx.1 (Sum.inl i)) hδ hI.1 hb
+    rw [hxdec,he] at hh
+    exact le_trans hv hh
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalGap.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def perspectiveCall {ι : Type*} [Fintype ι] (q H : ι → ℝ) (ρ z : ℝ) : ℝ :=
+  ∑ i, max (H i-(ρ+z)*q i) 0
+
+theorem perspective_call_identity {ι : Type*} [Fintype ι]
+    (q t H : ι → ℝ) (ρ z : ℝ) (hq : ∀ i, 0 ≤ q i) (hH : ∀ i, q i*t i=H i) :
+    call q (fun i => t i-ρ) z=perspectiveCall q H ρ z := by
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [mul_max_of_nonneg _ _ (hq i),mul_zero]
+  congr 1
+  linear_combination hH i
+
+theorem perspective_call_epigraph_iff {ι : Type*} [Fintype ι]
+    (q H : ι → ℝ) (ρ z C : ℝ) :
+    perspectiveCall q H ρ z ≤ C ↔
+      ∃ a : ι → ℝ, (∀ i, 0 ≤ a i) ∧ (∀ i, H i-(ρ+z)*q i ≤ a i) ∧ (∑ i, a i) ≤ C := by
+  constructor
+  · intro h
+    exact ⟨fun i => max (H i-(ρ+z)*q i) 0,fun i => le_max_right _ _,
+      fun i => le_max_left _ _,h⟩
+  · rintro ⟨a,ha,hb,hc⟩
+    exact le_trans (Finset.sum_le_sum fun i _ => max_le (hb i) (ha i)) hc
+
+def intervalGapPoint {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) ∧
+  (∀ h, (∑ a, K h a*p a)-(∑ i, V i h) ≤ ρ) ∧
+  (∀ i, score lo p i ≤ ρ+M*r) ∧
+  (∀ i, intervalMomentScore p V i ≤ (ρ+M*r)*q i) ∧
+  ∀ l : ℕ, 1 ≤ l → l ≤ gridSize M r η →
+    perspectiveCall q (intervalMomentScore p V) ρ (M*r-gridNode M r η l) ≤
+      envelope M r (M*r-gridNode M r η l)
+
+theorem interval_gap_recovered_exact_point {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) (hlu : ∀ i h, lo i h ≤ hi i h)
+    (h : intervalGapPoint K lo hi V p q M r ρ η) :
+    (∀ i h, lo i h ≤ intervalCrossRecover lo V q i h ∧ intervalCrossRecover lo V q i h ≤ hi i h) ∧
+      fixedAnchorGapPoint K (intervalCrossRecover lo V q) p q M r ρ η := by
+  rcases h with ⟨hq,hm,hV,ha,hlo,hcap,hgrid⟩
+  obtain ⟨hD,hprod⟩ := interval_recovered_cross_bounds lo hi V q hq hlu
+    (fun i h => (hV i h).1) (fun i h => (hV i h).2)
+  have hH := fun i => interval_recovered_score_moment lo V p q hprod i
+  refine ⟨hD,hq,hm,?_,?_,?_⟩
+  · intro i
+    by_cases hz : q i=0
+    · simpa only [score,intervalCrossRecover,perspectiveRecover,hz,ite_true] using hlo i
+    · have hp : 0 < q i := lt_of_le_of_ne (hq i) (Ne.symm hz)
+      have hc := hcap i
+      rw [←hH i] at hc
+      exact (mul_le_mul_iff_right₀ hp).mp (by simpa only [mul_comm] using hc)
+  · intro a
+    rw [anchor_response_of_perspective K _ V p q hprod a]
+    exact ha a
+  · intro l hl hL
+    rw [perspective_call_identity q _ _ ρ _ hq hH]
+    exact hgrid l hl hL
+
+theorem interval_gap_completed_witness {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hlu : ∀ i h, lo i h ≤ hi i h) (h : intervalGapPoint K lo hi V p q M r ρ η) :
+    ∃ (D : ι → α → ℝ) (B : ι → ι → ℝ),
+      (∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h) ∧ IsSkew B ∧
+      (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ+η := by
+  obtain ⟨hD,hg⟩ := interval_gap_recovered_exact_point K lo hi V p q M r ρ η hlu h
+  obtain ⟨B,hB,hb,hrows⟩ := gap_point_completed_witness K _ p q M r ρ η hM hr hη hg
+  exact ⟨intervalCrossRecover lo V q,B,hD,hB,hb,hrows⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalGapGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem exact_interval_completion_gap_point {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi D : ι → α → ℝ) (B : ι → ι → ℝ)
+    (p : α → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=r)
+    (hD : ∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h)
+    (hB : IsSkew B) (hb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ V, intervalGapPoint K lo hi V p q M r ρ η := by
+  have hg := exact_completion_gap_point K D B p q M r ρ η hM hq hr hB hb hrows
+  let V := fun i h => q i*D i h
+  have hprod : ∀ i h, q i*D i h=V i h := fun _ _ => rfl
+  have hH : ∀ i, q i*score D p i=intervalMomentScore p V i := by
+    intro i
+    unfold score intervalMomentScore
+    rw [Finset.mul_sum]
+    exact Finset.sum_congr rfl fun h _ => by dsimp only [V]; ring
+  refine ⟨V,hq,hr,?_,?_,?_,?_,?_⟩
+  · intro i h
+    exact ⟨by dsimp only [V]; nlinarith [mul_nonneg (sub_nonneg.mpr (hD i h).1) (hq i)],
+      by dsimp only [V]; nlinarith [mul_nonneg (sub_nonneg.mpr (hD i h).2) (hq i)]⟩
+  · intro h
+    rw [←anchor_response_of_perspective K D V p q hprod h]
+    exact hg.2.2.2.1 h
+  · intro i
+    exact le_trans (score_lower_from_intervals lo D p hp (fun i h => (hD i h).1) i) (hg.2.2.1 i)
+  · intro i
+    rw [←hH i,mul_comm (q i)]
+    exact mul_le_mul_of_nonneg_right (hg.2.2.1 i) (hq i)
+  · intro l hl hL
+    rw [←perspective_call_identity q (score D p) _ ρ _ hq hH]
+    exact hg.2.2.2.2 l hl hL
+
+theorem normalized_interval_gap_completed_witness {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hm : (∑ h, p h)+r=1)
+    (hK : IsSkew K) (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hlo : ∀ i h, -M ≤ lo i h) (hhi : ∀ i h, hi i h ≤ M)
+    (hlu : ∀ i h, lo i h ≤ hi i h) (h : intervalGapPoint K lo hi V p q M r ρ η) :
+    ∃ (D : ι → α → ℝ) (B : ι → ι → ℝ),
+      (∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h) ∧
+      (∀ a, 0 ≤ blockWeights p q a) ∧ (∑ a, blockWeights p q a)=1 ∧
+      IsSkew (blockMatrix K D B) ∧
+      (∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ+η := by
+  obtain ⟨D,B,hD,hB,hb,hrows⟩ := interval_gap_completed_witness K lo hi V p q M r ρ η hM hr hη hlu h
+  have hDb := fun i a => And.intro (le_trans (hlo i a) (hD i a).1) (le_trans (hD i a).2 (hhi i a))
+  refine ⟨D,B,hD,blockWeights_nonneg p q hp h.1,?_,blockMatrix_skew K D B hK hB,
+    blockMatrix_bounds K D B M hKb hDb hb,hrows⟩
+  rw [blockWeights_mass,h.2.1]
+  exact hm
+
+end
+end SparseCompletion
+
+/- Fixed source body: Bisection.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+namespace RationalBisection
+
+/-- Conditional rational bisection: the caller supplies genuine decidable
+    feasibility. This definition does not implement an LP feasibility oracle. -/
+def run (P : ℚ → Prop) [DecidablePred P] : ℕ → ℚ → ℚ → ℚ × ℚ
+  | 0, lo, hi => (lo,hi)
+  | n+1, lo, hi =>
+    let z := run P n lo hi
+    let mid := (z.1+z.2)/((2 : ℕ) : ℚ)
+    if P mid then (z.1,mid) else (mid,z.2)
+
+/-- A feasible upper endpoint and infeasible lower endpoint are retained. -/
+theorem endpoint_invariant (P : ℚ → Prop) [DecidablePred P]
+    (lo hi : ℚ) (hn : ¬P lo) (hy : P hi) (n : ℕ) :
+    ¬P (run P n lo hi).1 ∧ P (run P n lo hi).2 := by
+  induction n with
+  | zero => exact ⟨hn,hy⟩
+  | succ n ih =>
+    simp only [run]
+    split_ifs with hm
+    · exact ⟨ih.1,hm⟩
+    · exact ⟨hm,ih.2⟩
+
+theorem nested_bracket (P : ℚ → Prop) [DecidablePred P]
+    (lo hi : ℚ) (hlh : lo ≤ hi) (n : ℕ) :
+    lo ≤ (run P n lo hi).1 ∧ (run P n lo hi).1 ≤ (run P n lo hi).2 ∧
+      (run P n lo hi).2 ≤ hi := by
+  induction n with
+  | zero => exact ⟨le_refl _,hlh,le_refl _⟩
+  | succ n ih =>
+    simp only [run]
+    split_ifs <;> dsimp only
+    · exact ⟨ih.1,by linarith [ih.2.1],by linarith [ih.2.1,ih.2.2]⟩
+    · exact ⟨by linarith [ih.1,ih.2.1],by linarith [ih.2.1],ih.2.2⟩
+
+theorem width_exact (P : ℚ → Prop) [DecidablePred P]
+    (lo hi : ℚ) (n : ℕ) :
+    (run P n lo hi).2-(run P n lo hi).1=(hi-lo)/((2 : ℕ) : ℚ)^n := by
+  induction n with
+  | zero => simp [run]
+  | succ n ih =>
+    have hh : ((run P n lo hi).2-(run P n lo hi).1)/((2 : ℕ) : ℚ)=
+        (hi-lo)/((2 : ℕ) : ℚ)^(n+1) := by
+      rw [ih,pow_succ,div_div]
+    simp only [run]
+    split_ifs <;> dsimp only <;> linarith
+
+/-- Monotonicity turns an infeasible endpoint into an excluded lower region. -/
+theorem excludes_below (P : ℚ → Prop) [DecidablePred P] (hmono : Monotone P)
+    (lo hi : ℚ) (hn : ¬P lo) (hy : P hi) (n : ℕ) (ρ : ℚ)
+    (hρ : ρ ≤ (run P n lo hi).1) : ¬P ρ := by
+  intro hp
+  exact (endpoint_invariant P lo hi hn hy n).1 (hmono hρ hp)
+
+/-- Finite iteration certificate: once the explicit halved width is at most ζ,
+    the returned upper endpoint is feasible and the bracket has width at most ζ. -/
+theorem certified_bracket (P : ℚ → Prop) [DecidablePred P]
+    (lo hi ζ : ℚ) (hlh : lo ≤ hi) (hn : ¬P lo) (hy : P hi)
+    (n : ℕ) (hwidth : (hi-lo)/((2 : ℕ) : ℚ)^n ≤ ζ) :
+    let z := run P n lo hi
+    lo ≤ z.1 ∧ z.1 ≤ z.2 ∧ z.2 ≤ hi ∧ ¬P z.1 ∧ P z.2 ∧ z.2-z.1 ≤ ζ := by
+  obtain ⟨hlo,horder,hhi⟩ := nested_bracket P lo hi hlh n
+  obtain ⟨hl,hu⟩ := endpoint_invariant P lo hi hn hy n
+  exact ⟨hlo,horder,hhi,hl,hu,(width_exact P lo hi n).symm ▸ hwidth⟩
+
+theorem nat_le_two_pow (n : ℕ) : (n : ℚ) ≤ ((2 : ℕ) : ℚ)^n := by
+  induction n with
+  | zero => norm_num
+  | succ n ih =>
+    rw [pow_succ,Nat.cast_add,Nat.cast_one]
+    have hp : (1 : ℚ) ≤ ((2 : ℕ) : ℚ)^n := one_le_pow₀ (by norm_num)
+    norm_num only [Nat.cast_ofNat] at *
+    linarith
+
+/-- Positive requested width is reached after a finite number of iterations.
+    This is an existence theorem, not an operation-count or bit-cost claim. -/
+theorem exists_finite_width (P : ℚ → Prop) [DecidablePred P]
+    (lo hi ζ : ℚ) (hζ : 0 < ζ) :
+    ∃ n : ℕ, (run P n lo hi).2-(run P n lo hi).1 ≤ ζ := by
+  obtain ⟨n,hn⟩ := exists_nat_gt ((hi-lo)/ζ)
+  refine ⟨n,?_⟩
+  rw [width_exact]
+  have hh : (hi-lo)/ζ < ((2 : ℕ) : ℚ)^n := lt_of_lt_of_le hn (nat_le_two_pow n)
+  have hb := (div_lt_iff₀ hζ).mp hh
+  norm_num only [Nat.cast_ofNat] at *
+  exact (div_le_iff₀ (pow_pos (by norm_num : (0 : ℚ) < 2) n)).mpr (by linarith)
+
+/-- The lower endpoint may already be feasible; return it immediately in that
+    case. This permits the paper's initial nonnegative bracket [0,M]. -/
+def search (P : ℚ → Prop) [DecidablePred P] (n : ℕ) (lo hi : ℚ) : ℚ × ℚ :=
+  if P lo then (lo,lo) else run P n lo hi
+
+theorem search_spec (P : ℚ → Prop) [DecidablePred P] (n : ℕ)
+    (lo hi : ℚ) (hlh : lo ≤ hi) (hy : P hi) :
+    let z := search P n lo hi
+    lo ≤ z.1 ∧ z.1 ≤ z.2 ∧ z.2 ≤ hi ∧ P z.2 ∧
+      (z.1=lo ∨ ¬P z.1) ∧ z.2-z.1 ≤ (hi-lo)/((2 : ℕ) : ℚ)^n := by
+  unfold search
+  split_ifs with hn
+  · refine ⟨le_refl _,le_refl _,hlh,hn,Or.inl rfl,?_⟩
+    dsimp only
+    exact sub_self lo ▸ div_nonneg (sub_nonneg.mpr hlh) (le_of_lt (pow_pos (by norm_num) n))
+  · obtain ⟨hl,ho,hu⟩ := nested_bracket P lo hi hlh n
+    obtain ⟨hno,hyes⟩ := endpoint_invariant P lo hi hn hy n
+    exact ⟨hl,ho,hu,hyes,Or.inr hno,(width_exact P lo hi n).le⟩
+
+/-- Conditional extraction of a feasible upper-end witness and a real value
+    interval. The caller supplies feasibility soundness and lower exclusion;
+    neither a rational LP oracle nor a reconstruction algorithm is invented. -/
+theorem value_certificate {β : Type*} (P : ℚ → Prop) [DecidablePred P]
+    (Witness : ℚ → β → Prop) (V η : ℝ) (M ζ : ℚ) (n : ℕ)
+    (hM : 0 ≤ M) (hupper : P M) (hV : 0 ≤ V)
+    (hlower : ∀ ρ : ℚ, ¬P ρ → (ρ : ℝ) ≤ V)
+    (hsound : ∀ ρ : ℚ, P ρ → ∃ w, Witness ρ w ∧ V ≤ (ρ : ℝ)+η)
+    (hwidth : M/((2 : ℕ) : ℚ)^n ≤ ζ) :
+    let z := search P n 0 M
+    (z.1 : ℝ) ≤ V ∧ V ≤ (z.2 : ℝ)+η ∧
+      (z.2 : ℝ)+η-(z.1 : ℝ) ≤ η+(ζ : ℝ) ∧ ∃ w, Witness z.2 w := by
+  obtain ⟨_,_,_,hu,hl,hw⟩ := search_spec P n 0 M hM hupper
+  obtain ⟨w,hW,hv⟩ := hsound _ hu
+  have hlow : ((search P n 0 M).1 : ℝ) ≤ V := by
+    rcases hl with he | hn
+    · rw [he]; exact_mod_cast hV
+    · exact hlower _ hn
+  have hh : (search P n 0 M).2-(search P n 0 M).1 ≤ ζ := by
+    exact le_trans hw (by simpa only [sub_zero] using hwidth)
+  have hhR : ((search P n 0 M).2 : ℝ)-((search P n 0 M).1 : ℝ) ≤ (ζ : ℝ) := by
+    exact_mod_cast hh
+  exact ⟨hlow,hv,by linarith,w,hW⟩
+
+end RationalBisection
+end SparseCompletion
+
+/- Fixed source body: IntervalGapEpigraph.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def intervalGapEpigraphPoint {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) (a : Fin (gridSize M r η) → ι → ℝ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) ∧
+  (∀ h, (∑ b, K h b*p b)-(∑ i, V i h) ≤ ρ) ∧
+  (∀ i, score lo p i ≤ ρ+M*r) ∧
+  (∀ i, intervalMomentScore p V i ≤ (ρ+M*r)*q i) ∧
+  ∀ l : Fin (gridSize M r η),
+    (∀ i, 0 ≤ a l i) ∧
+    (∀ i, intervalMomentScore p V i-(ρ+(M*r-gridNode M r η (l.val+1)))*q i ≤ a l i) ∧
+    (∑ i, a l i) ≤ envelope M r (M*r-gridNode M r η (l.val+1))
+
+theorem interval_gap_epigraph_iff {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ρ η : ℝ) :
+    intervalGapPoint K lo hi V p q M r ρ η ↔ ∃ a, intervalGapEpigraphPoint K lo hi V p q M r ρ η a := by
+  constructor
+  · rintro ⟨hq,hm,hV,ha,hg,hcap,hcalls⟩
+    let a := fun (l : Fin (gridSize M r η)) i =>
+      max (intervalMomentScore p V i-(ρ+(M*r-gridNode M r η (l.val+1)))*q i) 0
+    refine ⟨a,hq,hm,hV,ha,hg,hcap,?_⟩
+    intro l
+    exact ⟨fun i => le_max_right _ _,fun i => le_max_left _ _,
+      hcalls (l.val+1) (by omega) (by omega)⟩
+  · rintro ⟨a,hq,hm,hV,ha,hg,hcap,hcalls⟩
+    refine ⟨hq,hm,hV,ha,hg,hcap,?_⟩
+    intro l hl hL
+    let u : Fin (gridSize M r η) := ⟨l-1,by omega⟩
+    have he : u.val+1=l := by dsimp only [u]; omega
+    have hh := (perspective_call_epigraph_iff q (intervalMomentScore p V) ρ
+      (M*r-gridNode M r η (u.val+1)) (envelope M r (M*r-gridNode M r η (u.val+1)))).mpr
+        ⟨a u,hcalls u⟩
+    simpa only [he] using hh
+
+end
+end SparseCompletion
+
+/- Fixed source body: GapSparse.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- Compression of a supplied finite-gap point preserves the original grid
+    exactly. No second slack is introduced and no vertex algorithm is assumed. -/
+theorem gap_sparse_point_positive {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ) (hr : 0 < r)
+    (h : fixedAnchorGapPoint K D p q M r ρ η) :
+    ∃ q' : ι → ℝ, fixedAnchorGapPoint K D p q' M r ρ η ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤
+        min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      ∀ a, anchorResponse K D p q' a=anchorResponse K D p q a := by
+  classical
+  let H := gridSize M r η
+  obtain ⟨q',hq',hm',hs,hc,hfeatures⟩ := finite_feature_compression (Fin k ⊕ Fin H)
+    q (sparseFeatures k H D (fun i => score D p i-ρ) M r η) r h.1 h.2.1 hr
+  have hmom : ∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a := fun a => hfeatures (.inl a)
+  have hanchor := anchor_response_of_moments k K D p q q' hmom
+  refine ⟨q',⟨hq',hm',h.2.2.1,?_,?_⟩,hs,?_,hmom,hanchor⟩
+  · intro a
+    rw [hanchor]
+    exact h.2.2.2.1 a
+  · intro l hl hlH
+    let j : Fin H := ⟨l-1,by dsimp only [H]; omega⟩
+    have hj : j.val+1=l := by dsimp only [j]; omega
+    have he := hfeatures (.inr j)
+    change (∑ i, q' i*max ((score D p i-ρ)-(M*r-gridNode M r η (j.val+1))) 0)=
+      ∑ i, q i*max ((score D p i-ρ)-(M*r-gridNode M r η (j.val+1))) 0 at he
+    rw [hj] at he
+    change (∑ i, q' i*max ((score D p i-ρ)-(M*r-gridNode M r η l)) 0) ≤ _
+    rw [he]
+    exact h.2.2.2.2 l hl hlH
+  · apply Nat.le_min.mpr
+    constructor
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · simpa only [Fintype.card_sum,Fintype.card_fin,Nat.add_right_comm k H 1,H] using hc
+
+theorem gap_sparse_point {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (h : fixedAnchorGapPoint K D p q M r ρ η) :
+    ∃ q' : ι → ℝ, fixedAnchorGapPoint K D p q' M r ρ η ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤
+        min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      ∀ a, anchorResponse K D p q' a=anchorResponse K D p q a := by
+  classical
+  have hr : 0 ≤ r := by rw [←h.2.1]; exact Finset.sum_nonneg fun i _ => h.1 i
+  by_cases hz : r=0
+  · have hzero : q=fun _ => 0 := nonnegative_mass_zero q h.1 (by simpa only [hz] using h.2.1)
+    refine ⟨q,h,fun _ hi => hi,?_,fun _ => rfl,fun _ => rfl⟩
+    simp [hzero]
+  · exact gap_sparse_point_positive k K D p q M r ρ η (lt_of_le_of_ne hr (Ne.symm hz)) h
+
+theorem gap_sparse_completed_witness {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (h : fixedAnchorGapPoint K D p q M r ρ η) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤
+        min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, anchorResponse K D p q' a=anchorResponse K D p q a) ∧
+      IsSkew B' ∧ (∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η := by
+  obtain ⟨q',hg,hs,hc,hm,hanchor⟩ := gap_sparse_point k K D p q M r ρ η h
+  have hr : 0 ≤ r := by rw [←h.2.1]; exact Finset.sum_nonneg fun i _ => h.1 i
+  obtain ⟨B',hB,hb,hrows⟩ := gap_point_completed_witness K D p q' M r ρ η hM hr hη hg
+  exact ⟨q',B',hg.1,hg.2.1,hs,hc,hm,hanchor,hB,hb,hrows⟩
+
+/-- Full normalized-game sparse gap witness, still at the original single slack. -/
+theorem normalized_gap_sparse_completed_witness {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hp : ∀ a, 0 ≤ p a)
+    (hnorm : (∑ a, p a)+r=1) (hK : IsSkew K)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (h : fixedAnchorGapPoint K D p q M r ρ η) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a)=1 ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤
+        min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤
+        min (k+Fintype.card ι) ((2 : ℕ)*k+1+gridSize M r η) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, anchorResponse K D p q' a=anchorResponse K D p q a) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      ∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η := by
+  classical
+  obtain ⟨q',B',hq',hm,hs,hc,hmo,ha,hB,hb,hrows⟩ :=
+    gap_sparse_completed_witness k K D p q M r ρ η hM hη h
+  refine ⟨q',B',blockWeights_nonneg p q' hp hq',?_,hs,hc,?_,hmo,ha,
+    blockMatrix_skew K D B' hK hB,blockMatrix_bounds K D B' M hKb hDb hb,hrows⟩
+  · rw [blockWeights_mass,hm]
+    exact hnorm
+  · rw [block_support_card]
+    have hpa : (Finset.univ.filter fun a => p a ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    have h1 := le_trans hc (min_le_left _ _)
+    have h2 := le_trans hc (min_le_right _ _)
+    exact Nat.le_min.mpr ⟨by omega,by omega⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalGapSparse.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- Recover compatible cross data once and hold it fixed during compression. -/
+theorem interval_gap_sparse_completed_witness {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (lo hi V : ι → Fin k → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (h : intervalGapPoint K lo hi V p q M r ρ η) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i a, lo i a ≤ intervalCrossRecover lo V q i a ∧
+        intervalCrossRecover lo V q i a ≤ hi i a) ∧
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤
+        min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (∀ a, (∑ i, q' i*intervalCrossRecover lo V q i a)=
+        ∑ i, q i*intervalCrossRecover lo V q i a) ∧
+      (∀ a, anchorResponse K (intervalCrossRecover lo V q) p q' a=
+        anchorResponse K (intervalCrossRecover lo V q) p q a) ∧
+      IsSkew B' ∧ (∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) ∧
+      ∀ a, response (blockMatrix K (intervalCrossRecover lo V q) B')
+        (blockWeights p q') a ≤ ρ+η := by
+  obtain ⟨hD,hg⟩ := interval_gap_recovered_exact_point K lo hi V p q M r ρ η hlu h
+  obtain ⟨q',B',hq',hm,hs,hc,hmo,ha,hB,hb,hrows⟩ :=
+    gap_sparse_completed_witness k K (intervalCrossRecover lo V q) p q M r ρ η hM hη hg
+  exact ⟨q',B',hD,hq',hm,hs,hc,hmo,ha,hB,hb,hrows⟩
+
+theorem normalized_interval_gap_sparse_completed_witness {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (lo hi V : ι → Fin k → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hp : ∀ a, 0 ≤ p a)
+    (hnorm : (∑ a, p a)+r=1) (hK : IsSkew K)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hlo : ∀ i a, -M ≤ lo i a) (hhi : ∀ i a, hi i a ≤ M)
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (h : intervalGapPoint K lo hi V p q M r ρ η) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i a, lo i a ≤ intervalCrossRecover lo V q i a ∧
+        intervalCrossRecover lo V q i a ≤ hi i a) ∧
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a)=1 ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤
+        min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤
+        min (k+Fintype.card ι) ((2 : ℕ)*k+1+gridSize M r η) ∧
+      (∀ a, (∑ i, q' i*intervalCrossRecover lo V q i a)=
+        ∑ i, q i*intervalCrossRecover lo V q i a) ∧
+      (∀ a, anchorResponse K (intervalCrossRecover lo V q) p q' a=
+        anchorResponse K (intervalCrossRecover lo V q) p q a) ∧
+      IsSkew (blockMatrix K (intervalCrossRecover lo V q) B') ∧
+      (∀ a b, -M ≤ blockMatrix K (intervalCrossRecover lo V q) B' a b ∧
+        blockMatrix K (intervalCrossRecover lo V q) B' a b ≤ M) ∧
+      ∀ a, response (blockMatrix K (intervalCrossRecover lo V q) B')
+        (blockWeights p q') a ≤ ρ+η := by
+  obtain ⟨hD,hg⟩ := interval_gap_recovered_exact_point K lo hi V p q M r ρ η hlu h
+  have hDb : ∀ i a, -M ≤ intervalCrossRecover lo V q i a ∧ intervalCrossRecover lo V q i a ≤ M :=
+    fun i a => ⟨le_trans (hlo i a) (hD i a).1,le_trans (hD i a).2 (hhi i a)⟩
+  obtain ⟨q',B',hn,hm,hs,hc,ht,hmo,ha,hB,hb,hrows⟩ :=
+    normalized_gap_sparse_completed_witness k K (intervalCrossRecover lo V q) p q M r ρ η
+      hM hη hp hnorm hK hKb hDb hg
+  exact ⟨q',B',hD,hn,hm,hs,hc,ht,hmo,ha,hB,hb,hrows⟩
+
+end
+end SparseCompletion

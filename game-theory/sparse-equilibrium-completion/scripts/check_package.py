@@ -58,7 +58,26 @@ for evidence in bins['sources']:
     assert hashlib.sha256(excerpt).hexdigest() == evidence['excerpt_sha256']
     assert data.startswith(evidence['upstream_header'].encode())
     assert evidence['url'] == 'https://github.com/leanprover/lean4/blob/'+bins['compiler_commit']+'/'+evidence['path']
-assert {e['name'] for e in bins['sources']} == {'Sigma','Fin.rev','Function.Injective','Subtype','Bool.Reflects','Decidable','DecidablePred','LE-and-LT','Min-and-Max'}
+assert {e['name'] for e in bins['sources']} == {'Min-and-Max', 'Rat', 'Subtype', 'Bool.Reflects', 'Rat subtraction', 'Prod-with-right-associated-tuple-convention', 'Unit', 'DecidablePred', 'Nonempty', 'SMul-class', 'self-scalar-action-from-multiplication', 'LE-and-LT', 'Rat multiplication', 'Decidable', 'Add-and-Mul-classes', 'Rat comparison and decidability', 'Sigma', 'Rat addition and negation', 'Sum', 'PUnit', 'Function.Injective', 'Fin.rev', 'Sum.elim', 'Rat rational constants'}
+aux = json.loads((root/'verification/auxiliary-imported-definitions.json').read_text())
+aux_pin = next(p for p in manifest['packages'] if p['name'] == 'batteries')
+assert aux['dependency'] == aux_pin
+aux_root = root/'.lake/packages/batteries'
+assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=aux_root, text=True).strip() == aux_pin['rev']
+assert not subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=aux_root, text=True).strip()
+for evidence in aux['sources']:
+    data = (aux_root/evidence['path']).read_bytes()
+    pinned = subprocess.check_output(['git', 'show', aux_pin['rev']+':'+evidence['path']], cwd=aux_root)
+    assert data == pinned
+    assert hashlib.sha256(data).hexdigest() == evidence['source_sha256']
+    assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest() == evidence['github_blob_sha1']
+    assert evidence['url'] == 'https://github.com/leanprover-community/batteries/blob/'+aux_pin['rev']+'/'+evidence['path']
+    assert data.startswith(evidence['upstream_header'].encode())
+    for record in evidence['excerpts']:
+        excerpt = b''.join(data.splitlines(keepends=True)[record['first_line']-1:record['last_line']])
+        assert excerpt == record['excerpt'].encode()
+        assert hashlib.sha256(excerpt).hexdigest() == record['excerpt_sha256']
+
 repo = root.parents[1]
 identifier_test = repo/'scripts/test_imported_definition_identifiers.py'
 identifier_run = subprocess.run([sys.executable, str(identifier_test)], cwd=repo,

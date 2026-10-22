@@ -19,7 +19,7 @@ classical compact-convex separation. All original rows satisfy the resulting
 response bound. This is an existence proof over reals; executable rational
 reconstruction and complexity claims remain open. Definitions and all proof
 helpers have stable public exposed declaration names. The theorem map, including
-completed results and outstanding algorithmic, graph, interval-conic and joint-support work, is in [SCOPE.md](SCOPE.md).
+completed results and remaining rational algorithm and operation/bit-cost work, is in [SCOPE.md](SCOPE.md).
 
 For `m≥2`, the two-anchor construction realizes every strictly positive residual
 target of mass `1/4` using bounded observations. Under the two minimum shares `3/8`,
@@ -59,7 +59,7 @@ bounded skew residual completion and all original response inequalities; the
 quadratics have explicit rotated-Lorentz representations. The q-system is proved
 convex for a fixed tolerance and convex repertoire, including literal families
 of linear inequalities. Fixed core/cross observations and normalized strategy
-premises determine the full game model. Interval-conic extensions and numerical
+premises determine the full game model. Interval-conic algorithm extensions and numerical
 separation/solver complexity remain separate.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
@@ -91,6 +91,32 @@ with the explicit maximum interval-loss penalty β_C r. The maximum has an
 inserted zero and agrees with the ordered-pair convention under reverse interval
 symmetry. Cover probabilities, incident entries and responses remain unchanged;
 original residual-support containment and declared extra moments are preserved. See SCOPE.md
-for hypotheses and the remaining interval, stability, joint-k and algorithmic gaps.
+for hypotheses and the remaining rational algorithm, executable separation and cost gaps.
 These results extend the source mathematical coverage; integrated review and an
 exact-source receipt must identify the tested bytes before a verification claim.
+
+Joint interval geometry now includes variable q,V,K, declared repertoire
+constraints and candidate-dependent positive-mass threshold separation. General
+compact-class optimistic values and their support-budget restrictions attain
+actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
+games and universal sparse upper witnesses give the quantified joint-k order.
+Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
+The remaining total rational LP/flow solver, executable sorted separation,
+combined solver/grid execution and operation/bit-cost clauses are tracked in
+SCOPE.md; whole-paper and submission readiness remain unestablished.
+
+The algorithm tranche proves an actual computable rational certificate checker,
+compact attained fixed/gap optima and the additive enclosure W≤V≤W+η.
+Perspective-grid feasibility yields an actual normalized interval-compatible game
+at ρ+η, including zero-mass rows. Floor-preserving anchor round-down and transfer
+to a specified residual action yield a finite allocation grid, exact normalization,
+L1 error≤2kδ and actual optimistic-value bound V≤Vgrid≤V+2Mkδ.
+Conditional rational bisection has exact halving, bracket and witness contracts;
+its feasibility decider remains an explicit input. These results do not establish
+a total rational LP/flow solver or the paper's polynomial bit-cost guarantees.
+
+Feasible gap points can also be sparsified without a second tolerance slack:
+the original anchor and H call moments are preserved, and actual normalized
+completed witnesses have residual support≤min(m,k+1+H) at ρ+η. The interval
+version freezes the recovered anchor data first. Arbitrary extra repertoire
+constraints are not asserted to survive this compression.
