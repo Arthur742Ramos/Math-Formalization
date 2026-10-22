@@ -1,0 +1,116 @@
+{
+  "artifact_tree_sha256": "7a0df94c3ff3c9e843bf2e3c241ef219a7bd2b50133cd81aa89d3319dac170d8",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-22T23:15:59Z",
+  "rendered_at": "2026-10-22T23:20:28Z",
+  "renderer_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/cantor-space-characterization/CSChallenge.lean",
+    "challenge_sha256": "676431e045145be9c98ba69acb5293a605cd2c4ad1aaed55f6f7d612b957eaf1",
+    "commit": "ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f",
+    "comparator_config_path": "topology/cantor-space-characterization/comparator.json",
+    "lakefile_path": "topology/cantor-space-characterization/lakefile.toml",
+    "lean_toolchain_path": "topology/cantor-space-characterization/lean-toolchain",
+    "project_path": "topology/cantor-space-characterization",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/cantor-space-characterization/CSSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem CantorCharacterization.exists_clopen_split.{u_1} {X : Type u_1} [TopologicalSpace X] [T2Space X] [PerfectSpace X]\n  (hB : CantorCharacterization.HasClopenBasis X) {U : Set X} (hU : IsClopen U) (hne : Set.Nonempty U) :\n  Exists fun V =>\n    Exists fun W =>\n      And (IsClopen V)\n        (And (IsClopen W) (And (Set.Nonempty V) (And (Set.Nonempty W) (And (Disjoint V W) (Eq (Union.union V W) U)))))",
+        "name": "CantorCharacterization.exists_clopen_split"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.exists_deciding_split.{u_1} {X : Type u_1} [TopologicalSpace X] [T2Space X] [PerfectSpace X]\n  (hB : CantorCharacterization.HasClopenBasis X) {U C : Set X} (hU : IsClopen U) (hne : Set.Nonempty U)\n  (hC : IsClopen C) :\n  Exists fun V =>\n    And (Eq (Union.union (V Bool.false) (V Bool.true)) U)\n      (And (Disjoint (V Bool.false) (V Bool.true))\n        (\u2200 (b : Bool),\n          And (IsClopen (V b)) (And (Set.Nonempty (V b)) (Or (LE.le (V b) C) (LE.le (V b) (Compl.compl C))))))",
+        "name": "CantorCharacterization.exists_deciding_split"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.exists_binary_scheme.{u_1} {X : Type u_1} [TopologicalSpace X] [T2Space X] [PerfectSpace X]\n  [Nonempty X] (hB : CantorCharacterization.HasClopenBasis X) (B : Nat \u2192 Set X) (hcl : \u2200 (n : Nat), IsClopen (B n)) :\n  Nonempty (CantorCharacterization.BinaryScheme X B)",
+        "name": "CantorCharacterization.exists_binary_scheme"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.BinaryScheme.continuous_code.{u_1} {X : Type u_1} [TopologicalSpace X] {B : Nat \u2192 Set X}\n  (S : CantorCharacterization.BinaryScheme X B) : Continuous (CantorCharacterization.BinaryScheme.code S)",
+        "name": "CantorCharacterization.BinaryScheme.continuous_code"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.BinaryScheme.surjective_code.{u_1} {X : Type u_1} [TopologicalSpace X] {B : Nat \u2192 Set X}\n  (S : CantorCharacterization.BinaryScheme X B) [CompactSpace X] :\n  Function.Surjective (CantorCharacterization.BinaryScheme.code S)",
+        "name": "CantorCharacterization.BinaryScheme.surjective_code"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.BinaryScheme.injective_code.{u_1} {X : Type u_1} [TopologicalSpace X] {B : Nat \u2192 Set X}\n  (S : CantorCharacterization.BinaryScheme X B) [T2Space X] (hB : TopologicalSpace.IsTopologicalBasis (Set.range B)) :\n  Function.Injective (CantorCharacterization.BinaryScheme.code S)",
+        "name": "CantorCharacterization.BinaryScheme.injective_code"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.nonempty_homeomorph_of_secondCountable.{u_1} (X : Type u_1) [TopologicalSpace X] [T2Space X]\n  [CompactSpace X] [SecondCountableTopology X] [PerfectSpace X] [Nonempty X]\n  (hB : CantorCharacterization.HasClopenBasis X) : Nonempty (Homeomorph X (Nat \u2192 Bool))",
+        "name": "CantorCharacterization.nonempty_homeomorph_of_secondCountable"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.cantor_hasClopenBasis : CantorCharacterization.HasClopenBasis (Nat \u2192 Bool)",
+        "name": "CantorCharacterization.cantor_hasClopenBasis"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.cantor_perfectSpace : PerfectSpace (Nat \u2192 Bool)",
+        "name": "CantorCharacterization.cantor_perfectSpace"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.nonempty_homeomorph.{u_1} (X : Type u_1) [TopologicalSpace X] [CompactSpace X]\n  [TopologicalSpace.MetrizableSpace X] [PerfectSpace X] [Nonempty X] (hB : CantorCharacterization.HasClopenBasis X) :\n  Nonempty (Homeomorph X (Nat \u2192 Bool))",
+        "name": "CantorCharacterization.nonempty_homeomorph"
+      },
+      {
+        "declaration": "theorem CantorCharacterization.nonempty_homeomorph_iff.{u_1} (X : Type u_1) [TopologicalSpace X] :\n  Iff (Nonempty (Homeomorph X (Nat \u2192 Bool)))\n    (And (Nonempty X)\n      (And (CompactSpace X)\n        (And (TopologicalSpace.MetrizableSpace X) (And (CantorCharacterization.HasClopenBasis X) (PerfectSpace X)))))",
+        "name": "CantorCharacterization.nonempty_homeomorph_iff"
+      }
+    ],
+    "declarations": [
+      "CantorCharacterization.exists_clopen_split",
+      "CantorCharacterization.exists_deciding_split",
+      "CantorCharacterization.exists_binary_scheme",
+      "CantorCharacterization.BinaryScheme.continuous_code",
+      "CantorCharacterization.BinaryScheme.surjective_code",
+      "CantorCharacterization.BinaryScheme.injective_code",
+      "CantorCharacterization.nonempty_homeomorph_of_secondCountable",
+      "CantorCharacterization.cantor_hasClopenBasis",
+      "CantorCharacterization.cantor_perfectSpace",
+      "CantorCharacterization.nonempty_homeomorph",
+      "CantorCharacterization.nonempty_homeomorph_iff"
+    ],
+    "imports": [
+      "Mathlib.Topology.MetricSpace.CantorScheme",
+      "Mathlib.Topology.MetricSpace.Polish",
+      "Mathlib.Topology.Perfect"
+    ],
+    "module_doc": "# Brouwer characterization of Cantor space\n\nClassical source: Anush Tserunyan, Introduction to descriptive set theory,\nTheorem 5.3. The proof here uses a binary clopen scheme that decides an\nenumerated basis, rather than prescribing diameter reduction at each split.",
+    "schema_version": 3,
+    "solution_imports": [
+      "CantorCharacterization"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39870011750"
+}

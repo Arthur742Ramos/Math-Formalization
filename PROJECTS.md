@@ -193,11 +193,18 @@ merge or browser visual inspection was performed; no rerun is authorized.
 
 | Project | Scope | Checkpoint | Frozen source |
 | --- | --- | --- | --- |
-| [Brouwer characterization of Cantor space](topology/cantor-space-characterization) | Nonempty compact metrizable clopen-basis perfect iff Cantor space; full covering binary scheme and exact point coding. | Preparation; not submitted; native kernels and independent internal reviews passed; canonical full/render separate | [`ea2e844`](https://github.com/Arthur742Ramos/Math-Formalization/tree/ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f/topology/cantor-space-characterization) |
+| [Brouwer characterization of Cantor space](topology/cantor-space-characterization) | Nonempty compact metrizable clopen-basis perfect iff Cantor space; full covering binary scheme and exact point coding. | Preparation; not submitted at historical checkpoint; native and canonical full/render checks passed | [`ea2e844`](https://github.com/Arthur742Ramos/Math-Formalization/tree/ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f/topology/cantor-space-characterization) |
 
 [Native evidence](catalog-evidence/cantor-space-characterization-2026-10-22/native-summary.json)
 binds this source and all eleven contracts. Both semantic bridge modules,
 protected comparison, three altered-helper controls and all three native
 kernels passed; verified con-ron accepted14,096 declarations. All189regressions
-passed. Canonical full/render and final packet gates remain separate. Prior
-package trees and historical records are preserved.
+passed. The subsequent [canonical results](catalog-evidence/cantor-space-characterization-2026-10-22/canonical-results.json)
+record successful full39870012306 and rendering39870011750, attempt1, at
+exact source ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f. Lean, NanoDa and
+verified con-ron accepted all14,096 declarations; the complete renderer bundle
+was authenticated. The366-line Challenge exceeds the preferred300-line review
+surface while satisfying the hard1000-line/100KiB limit. The original
+PREPARATIONS checkpoint remains historical. No browser visual inspection or
+registry decision is asserted. Prior package trees and historical records
+are preserved.
