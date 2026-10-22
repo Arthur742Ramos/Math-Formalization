@@ -7240,3 +7240,66 @@ Common authenticated rational representation, ordering and total exact field ari
 **Batteries/Classes/RatCast.lean**: SparseCompletion.exact_game_rational_gap_solve, SparseCompletion.exact_game_rational_gap_system_real, SparseCompletion.rational_gap_algorithm_complete, SparseCompletion.rational_gap_algorithm_sound, SparseCompletion.rational_gap_approximation_complete, SparseCompletion.rational_gap_approximation_output, SparseCompletion.rational_gap_approximation_value_enclosure, SparseCompletion.rational_gap_model_upper_feasible, SparseCompletion.rational_gap_model_value_bounds, SparseCompletion.rational_gap_reconstruction_complete, SparseCompletion.rational_gap_reconstruction_full_rows, SparseCompletion.rational_gap_reconstruction_normalized_full_game, SparseCompletion.rational_gap_reconstruction_residual_sound, SparseCompletion.rational_gap_solve_completed_witness, SparseCompletion.rational_gap_solve_none_excludes_real_completion, SparseCompletion.rational_linear_real_append_iff, SparseCompletion.rational_linear_real_cast_iff, SparseCompletion.rational_linear_real_feasible_iff, SparseCompletion.rational_linear_real_reduce_feasible, SparseCompletion.rational_linear_real_reduced_pair, SparseCompletion.rational_linear_real_reduced_zero, SparseCompletion.rational_linear_real_split, SparseCompletion.rational_linear_real_zero_iff, SparseCompletion.rational_lp_real_complete, SparseCompletion.rational_lp_solve_none_iff_real, SparseCompletion.rational_real_repertoire_closed, SparseCompletion.rational_real_repertoire_compact, SparseCompletion.rational_residual_completion_complete, SparseCompletion.rational_residual_completion_none_iff, SparseCompletion.rational_residual_completion_rat_iff, SparseCompletion.rational_residual_completion_rat_sound, SparseCompletion.rational_residual_completion_real_sound, SparseCompletion.residual_basis_real_sum, SparseCompletion.residual_completion_real_exists_iff, SparseCompletion.residual_completion_real_iff, SparseCompletion.residual_rat_real_iff, SparseCompletion.residual_response_real_sum.
 
 **Batteries/Data/Fin/Basic.lean**: SparseCompletion.rational_gap_algorithm_complete, SparseCompletion.rational_gap_algorithm_sound, SparseCompletion.rational_gap_approximation_complete, SparseCompletion.rational_gap_approximation_output, SparseCompletion.rational_gap_approximation_value_enclosure, SparseCompletion.rational_gap_reconstruction_complete, SparseCompletion.rational_gap_reconstruction_full_rows, SparseCompletion.rational_gap_reconstruction_normalized_full_game, SparseCompletion.rational_gap_reconstruction_residual_sound, SparseCompletion.rational_residual_completion_complete, SparseCompletion.rational_residual_completion_none_iff, SparseCompletion.rational_residual_completion_rat_iff, SparseCompletion.rational_residual_completion_rat_sound, SparseCompletion.rational_residual_completion_real_sound, SparseCompletion.residual_basis_real_sum, SparseCompletion.residual_completion_real_exists_iff, SparseCompletion.residual_completion_real_iff, SparseCompletion.residual_decode_encode, SparseCompletion.residual_response_real_sum.
+
+
+## Stable Option composition and dependent elimination
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Option/Basic.lean
+
+Source SHA256 cf4b95fea5eceebccfd6ce65c172b8b3cd35e8a805b1f2018e59f951a2b30bf9; Git blob a62ef09997979b1946a331ef744693225910247c.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Option/Basic.lean#L121-L126
+
+```lean
+@[inline, implicit_reducible] protected def bind : Option α → (α → Option β) → Option β
+  | none,   _ => none
+  | some a, f => f a
+
+@[simp, grind =] theorem bind_none (f : α → Option β) : none.bind f = none := rfl
+@[simp, grind =] theorem bind_some (a) (f : α → Option β) : (some a).bind f = f a := rfl
+
+```
+
+Literal computable Option composition: none skips the continuation and returns none; some a executes f a. Exact branch equations are proved by rfl upstream. This stabilizes shared dependency identity without changing the selected algorithm semantics.
+
+Used by: SparseCompletion.rational_gap_algorithm_sound, SparseCompletion.rational_gap_algorithm_complete, SparseCompletion.rational_gap_approximation_complete, SparseCompletion.rational_gap_approximation_output, SparseCompletion.rational_gap_approximation_value_enclosure.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L3055-L3061
+
+```lean
+@[suggest_for Maybe, suggest_for Optional, suggest_for Nullable]
+inductive Option (α : Type u) where
+  /-- No value. -/
+  | none : Option α
+  /-- Some value of type `α`. -/
+  | some (val : α) : Option α
+
+
+```
+
+compiler-generated inductive recursor; no literal recursor def head claimed. Option inductive with none and some constructors; dependent elimination covers exactly these two constructors.
+
+Used by: SparseCompletion.rational_gap_search_bracket, SparseCompletion.rational_gap_approximation_complete, SparseCompletion.rational_gap_approximation_output, SparseCompletion.rational_gap_approximation_value_enclosure.
+
+The Option recursor is generated from the authenticated inductive declaration. Its dependent motive carries the exact solve-result equality and the genuine existential-feasibility decision. Constructor branch laws are checked independently through both entrypoints. No literal recursor def head, new axiom or arbitrary Real decider is introduced. The two model value/upper-feasibility contracts do not depend on these new operations. Closed Fin2 numeral selectors in the coefficient/right-side definitions are also replaced by explicit value-zero tests, preserving both mass rows and avoiding synthesized proof-helper dependencies.

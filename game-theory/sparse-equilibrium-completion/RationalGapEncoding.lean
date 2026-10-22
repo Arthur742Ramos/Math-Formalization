@@ -12,7 +12,7 @@ def rationalGapCoefficient {k m : ℕ}
     (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
     RationalGapRow k m (rationalGridSize M r η) → Fin m → ℚ :=
   Sum.elim (fun j i => if i=j then -1 else 0)
-    (Sum.elim (fun a _ => if a=0 then 1 else -1)
+    (Sum.elim (fun a _ => if a.val=0 then 1 else -1)
       (Sum.elim (fun _ _ => 0)
         (Sum.elim (fun h i => -D i h) (fun l i =>
           max (rationalScore D p i-ρ-(M*r-rationalGridNode M r η (l.val+1))) 0))))
@@ -21,7 +21,7 @@ def rationalGapRightSide {k m : ℕ}
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
     RationalGapRow k m (rationalGridSize M r η) → ℚ :=
   Sum.elim (fun _ => 0)
-    (Sum.elim (fun a => if a=0 then r else -r)
+    (Sum.elim (fun a => if a.val=0 then r else -r)
       (Sum.elim (fun i => ρ+M*r-rationalScore D p i)
         (Sum.elim (fun h => ρ-∑ a, K h a*p a)
           (fun l => rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))))))

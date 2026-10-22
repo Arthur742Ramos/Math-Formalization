@@ -2220,6 +2220,50 @@
         "SparseCompletion.residual_response_real_sum"
       ],
       "usage_kind": "Shared rational implementation context, not every primitive invoked by every target."
+    },
+    {
+      "name": "Option.bind exact pinned computation and branch equations",
+      "path": "src/Init/Data/Option/Basic.lean",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Option/Basic.lean",
+      "source_sha256": "cf4b95fea5eceebccfd6ce65c172b8b3cd35e8a805b1f2018e59f951a2b30bf9",
+      "github_blob_sha1": "a62ef09997979b1946a331ef744693225910247c",
+      "first_line": 121,
+      "last_line": 126,
+      "excerpt": "@[inline, implicit_reducible] protected def bind : Option \u03b1 \u2192 (\u03b1 \u2192 Option \u03b2) \u2192 Option \u03b2\n  | none,   _ => none\n  | some a, f => f a\n\n@[simp, grind =] theorem bind_none (f : \u03b1 \u2192 Option \u03b2) : none.bind f = none := rfl\n@[simp, grind =] theorem bind_some (a) (f : \u03b1 \u2192 Option \u03b2) : (some a).bind f = f a := rfl\n",
+      "excerpt_sha256": "0989aaffebb2477eb3eab9bfe7367e6ebd5c6c3c27415637020eb5145ef3497e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "meaning": "Literal computable Option composition: none skips the continuation and returns none; some a executes f a. Exact branch equations are proved by rfl upstream. This stabilizes shared dependency identity without changing the selected algorithm semantics.",
+      "used_by": [
+        "SparseCompletion.rational_gap_algorithm_sound",
+        "SparseCompletion.rational_gap_algorithm_complete",
+        "SparseCompletion.rational_gap_approximation_complete",
+        "SparseCompletion.rational_gap_approximation_output",
+        "SparseCompletion.rational_gap_approximation_value_enclosure"
+      ]
+    },
+    {
+      "path": "src/Init/Prelude.lean",
+      "source_sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+      "github_blob_sha1": "f87ee970af5149d74434f09a89aedff1a8fdb2d2",
+      "first_line": 3055,
+      "last_line": 3061,
+      "excerpt": "@[suggest_for Maybe, suggest_for Optional, suggest_for Nullable]\ninductive Option (\u03b1 : Type u) where\n  /-- No value. -/\n  | none : Option \u03b1\n  /-- Some value of type `\u03b1`. -/\n  | some (val : \u03b1) : Option \u03b1\n\n",
+      "excerpt_sha256": "c3d90436d35c2daeec266968cf8a04249e3fc2f8ebfa476d9da9af09413cce01",
+      "used_by": [
+        "SparseCompletion.rational_gap_search_bracket",
+        "SparseCompletion.rational_gap_approximation_complete",
+        "SparseCompletion.rational_gap_approximation_output",
+        "SparseCompletion.rational_gap_approximation_value_enclosure"
+      ],
+      "name": "Option.rec generated eliminator",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/",
+      "meaning": "compiler-generated inductive recursor; no literal recursor def head claimed. Option inductive with none and some constructors; dependent elimination covers exactly these two constructors.",
+      "generated_from": "Option",
+      "declaration_kind": "generated recursor",
+      "proof_status": "Two constructor branch laws compile through each entrypoint; no literal recursor source head is claimed."
     }
   ],
   "bridge_modules": [

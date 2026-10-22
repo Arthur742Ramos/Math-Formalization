@@ -440,5 +440,15 @@ example {m n : ℕ} (u : Fin (m*n)) :
 example {m n : ℕ} (u : Fin (m*n)) : u.divNat.val=u.val/n := rfl
 example {m n : ℕ} (u : Fin (m*n)) : u.modNat.val=u.val%n := rfl
 
+
+-- Stable public Option combinators and compiler-generated dependent elimination.
+example {α β : Type*} (f : α → Option β) : (none : Option α).bind f=none := rfl
+example {α β : Type*} (a : α) (f : α → Option β) : (some a).bind f=f a := rfl
+universe uOptionAudit vOptionAudit
+example {α : Type uOptionAudit} {motive : Option α → Sort vOptionAudit}
+    (hn : motive none) (hs : ∀ a, motive (some a)) : Option.rec hn hs none=hn := rfl
+example {α : Type uOptionAudit} {motive : Option α → Sort vOptionAudit}
+    (hn : motive none) (hs : ∀ a, motive (some a)) (a : α) : Option.rec hn hs (some a)=hs a := rfl
+
 end SECDefinitions
 -- END material-imported-definition audit

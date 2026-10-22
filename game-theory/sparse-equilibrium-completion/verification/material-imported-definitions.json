@@ -7198,12 +7198,12 @@
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "ac02513ef749acda5dcc3b6367342e91106705add0f2ec3a8e2adfaf20e30ede"
+      "sha256": "dd50507ffba33e430ee901757e7cb6df606b1df31d38c86713850744e5785166"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "4e4149f1ab13af4bcba91226ba575eda23d8909064d14efcc8a90de1656f803a"
+      "sha256": "4600a47278c897adba4f1bcd400bcbf7b610184219f998deec673d83df5a6754"
     }
   ],
   "generated_declarations": [

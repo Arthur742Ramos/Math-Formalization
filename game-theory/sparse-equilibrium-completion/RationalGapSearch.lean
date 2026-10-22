@@ -33,11 +33,14 @@ def RationalGapExists {k m : ℕ} {I : Type*}
 instance rationalGapExistsDecidable {k m : ℕ} {I : Type*} [Fintype I]
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
     (R : RationalLinearSystem I m) : Decidable (RationalGapExists K D p M r ρ η R) :=
-  match he : rationalGapSolve K D p M r ρ η R with
-  | none => isFalse ((rational_gap_solve_none_iff K D p M r ρ η R).mp he)
-  | some q => isTrue ⟨q,(rational_gap_check_iff K D p q M r ρ η).mp
+  (Option.rec
+    (motive := fun o => rationalGapSolve K D p M r ρ η R=o →
+      Decidable (RationalGapExists K D p M r ρ η R))
+    (fun he => isFalse ((rational_gap_solve_none_iff K D p M r ρ η R).mp he))
+    (fun q he => isTrue ⟨q,(rational_gap_check_iff K D p q M r ρ η).mp
       (rational_gap_solve_sound K D p M r ρ η R q he).1,
-      (rational_gap_solve_sound K D p M r ρ η R q he).2⟩
+      (rational_gap_solve_sound K D p M r ρ η R q he).2⟩)
+    (rationalGapSolve K D p M r ρ η R)) rfl
 
 theorem rational_gap_exists_monotone {k m : ℕ} {I : Type*}
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r η : ℚ)

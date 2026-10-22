@@ -314,3 +314,18 @@ exact-source receipt outside the frozen package records the follow-on outcome;
 no future commit identity or future PASS is embedded here. Polynomial cost,
 canonical Linux verification, registry rendering and editorial readiness are
 separate unestablished claims. No submission is authorized or attempted.
+
+
+### Generated matcher identity correction
+
+Commit 73f6b11dc7df7b59c6d45c2c70f6528f32bb4bd1 passed its clean 3368-job
+build, all source axiom prints, source kernel, protected compilation and both
+exports, then failed the protected Comparator at rationalGapAlgorithm. It is
+preserved as a failed verification history, not a complete checkpoint. Export
+inspection found generated match-helper reuse differing between assembled and
+separate modules in Algorithm and the gap-feasibility decider. Public Option.bind
+and dependent Option.rec replace those matches; two finite-index selectors use
+explicit natural values. The five affected module revisions preserve all19 theorem
+headers and have independent internal semantic review. The Comparator, negative
+helper control, definition-hole policy, root tools and dependency pins are
+unchanged. A fresh exact-commit receipt is required for the corrected bytes.

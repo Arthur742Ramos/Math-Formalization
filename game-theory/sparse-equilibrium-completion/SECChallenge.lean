@@ -10776,7 +10776,7 @@ def rationalGapCoefficient {k m : ℕ}
     (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
     RationalGapRow k m (rationalGridSize M r η) → Fin m → ℚ :=
   Sum.elim (fun j i => if i=j then -1 else 0)
-    (Sum.elim (fun a _ => if a=0 then 1 else -1)
+    (Sum.elim (fun a _ => if a.val=0 then 1 else -1)
       (Sum.elim (fun _ _ => 0)
         (Sum.elim (fun h i => -D i h) (fun l i =>
           max (rationalScore D p i-ρ-(M*r-rationalGridNode M r η (l.val+1))) 0))))
@@ -10785,7 +10785,7 @@ def rationalGapRightSide {k m : ℕ}
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
     RationalGapRow k m (rationalGridSize M r η) → ℚ :=
   Sum.elim (fun _ => 0)
-    (Sum.elim (fun a => if a=0 then r else -r)
+    (Sum.elim (fun a => if a.val=0 then r else -r)
       (Sum.elim (fun i => ρ+M*r-rationalScore D p i)
         (Sum.elim (fun h => ρ-∑ a, K h a*p a)
           (fun l => rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))))))
@@ -11724,11 +11724,14 @@ def RationalGapExists {k m : ℕ} {I : Type*}
 instance rationalGapExistsDecidable {k m : ℕ} {I : Type*} [Fintype I]
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
     (R : RationalLinearSystem I m) : Decidable (RationalGapExists K D p M r ρ η R) :=
-  match he : rationalGapSolve K D p M r ρ η R with
-  | none => isFalse ((rational_gap_solve_none_iff K D p M r ρ η R).mp he)
-  | some q => isTrue ⟨q,(rational_gap_check_iff K D p q M r ρ η).mp
+  (Option.rec
+    (motive := fun o => rationalGapSolve K D p M r ρ η R=o →
+      Decidable (RationalGapExists K D p M r ρ η R))
+    (fun he => isFalse ((rational_gap_solve_none_iff K D p M r ρ η R).mp he))
+    (fun q he => isTrue ⟨q,(rational_gap_check_iff K D p q M r ρ η).mp
       (rational_gap_solve_sound K D p M r ρ η R q he).1,
-      (rational_gap_solve_sound K D p M r ρ η R q he).2⟩
+      (rational_gap_solve_sound K D p M r ρ η R q he).2⟩)
+    (rationalGapSolve K D p M r ρ η R)) rfl
 
 theorem rational_gap_exists_monotone {k m : ℕ} {I : Type*}
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r η : ℚ)
@@ -11806,8 +11809,8 @@ theorem exact_game_rational_gap_system_real {k m : ℕ}
       · subst a
         change (∑ j, ((1 : ℚ) : ℝ)*x j) ≤ (r : ℝ)
         simpa using le_of_eq hm
-      · change (∑ j, ((if a=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*x j) ≤
-          ((if a=0 then r else -r : ℚ) : ℝ)
+      · change (∑ j, ((if a.val=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*x j) ≤
+          ((if a.val=0 then r else -r : ℚ) : ℝ)
         simpa [hz] using neg_le_neg (le_of_eq hm.symm)
     · rcases a with i | a
       · change (∑ j, ((0 : ℚ) : ℝ)*x j) ≤ ((ρ+M*r-rationalScore D p i : ℚ) : ℝ)
@@ -12250,9 +12253,8 @@ def rationalGapAlgorithm {k m : ℕ} {I : Type*} [Fintype I]
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
     (M r ρ η : ℚ) (R : RationalLinearSystem I m) :
     Option ((Fin m → ℚ) × (Fin m → Fin m → ℚ)) :=
-  match rationalGapSolve K D p M r ρ η R with
-  | none => none
-  | some q => (rationalResidualCompletion q (rationalScore D p) M (ρ+η)).map (fun B => (q,B))
+  (rationalGapSolve K D p M r ρ η R).bind (fun q =>
+    (rationalResidualCompletion q (rationalScore D p) M (ρ+η)).map (fun B => (q,B)))
 
 theorem rational_gap_algorithm_sound {k m : ℕ} {I : Type*} [Fintype I]
     (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
@@ -12261,13 +12263,13 @@ theorem rational_gap_algorithm_sound {k m : ℕ} {I : Type*} [Fintype I]
     R.Satisfies q ∧ RationalGapConditions K D p q M r ρ η ∧
       ResidualRatConditions q (rationalScore D p) M (ρ+η) B := by
   cases hq : rationalGapSolve K D p M r ρ η R with
-  | none => simp only [rationalGapAlgorithm,hq] at h; cases h
+  | none => simp only [rationalGapAlgorithm,hq,Option.bind_none] at h; cases h
   | some y =>
     cases hB : rationalResidualCompletion y (rationalScore D p) M (ρ+η) with
-    | none => simp only [rationalGapAlgorithm,hq,hB,Option.map_none] at h; cases h
+    | none => simp only [rationalGapAlgorithm,hq,Option.bind_some,hB,Option.map_none] at h; cases h
     | some C =>
       have hp : (y,C)=(q,B) := Option.some.inj (by
-        simpa only [rationalGapAlgorithm,hq,hB,Option.map_some] using h)
+        simpa only [rationalGapAlgorithm,hq,Option.bind_some,hB,Option.map_some] using h)
       obtain ⟨rfl,rfl⟩ := Prod.mk.inj hp
       have hh := rational_gap_solve_sound K D p M r ρ η R y hq
       exact ⟨hh.2,(rational_gap_check_iff K D p y M r ρ η).mp hh.1,
@@ -12284,7 +12286,7 @@ theorem rational_gap_algorithm_complete {k m : ℕ} {I : Type*} [Fintype I]
     have hc := (rational_gap_solve_sound K D p M r ρ η R q hq).1
     obtain ⟨B,hB⟩ := rational_gap_reconstruction_complete K D p q M r ρ η hM hη hc
     change rationalResidualCompletion q (rationalScore D p) M (ρ+η)=some B at hB
-    exact ⟨q,B,by simp only [rationalGapAlgorithm,hq,hB,Option.map_some]⟩
+    exact ⟨q,B,by simp only [rationalGapAlgorithm,hq,Option.bind_some,hB,Option.map_some]⟩
 
 end SparseCompletion
 
@@ -12390,12 +12392,12 @@ theorem rational_gap_approximation_value_enclosure {k m : ℕ} {I : Type*} [Fint
   have hB : reconstructRationalGap d.D d.p q d.M z.2 d.η=some B := by
     unfold rationalGapAlgorithm at ha
     cases hq : rationalGapSolve d.K d.D d.p d.M d.r z.2 d.η d.R with
-    | none => simp only [hq] at ha; cases ha
+    | none => simp only [hq,Option.bind_none] at ha; cases ha
     | some y =>
       cases hb : rationalResidualCompletion y (rationalScore d.D d.p) d.M (z.2+d.η) with
-      | none => simp only [hq,hb,Option.map_none] at ha; cases ha
+      | none => simp only [hq,Option.bind_some,hb,Option.map_none] at ha; cases ha
       | some C =>
-        have he : (y,C)=(q,B) := Option.some.inj (by simpa only [hq,hb,Option.map_some] using ha)
+        have he : (y,C)=(q,B) := Option.some.inj (by simpa only [hq,Option.bind_some,hb,Option.map_some] using ha)
         obtain ⟨rfl,rfl⟩ := Prod.mk.inj he
         exact hb
   have hn := rational_gap_reconstruction_normalized_full_game d.K d.D d.p q d.M d.r z.2 d.η

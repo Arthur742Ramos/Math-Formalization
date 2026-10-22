@@ -102,12 +102,12 @@ theorem rational_gap_approximation_value_enclosure {k m : ℕ} {I : Type*} [Fint
   have hB : reconstructRationalGap d.D d.p q d.M z.2 d.η=some B := by
     unfold rationalGapAlgorithm at ha
     cases hq : rationalGapSolve d.K d.D d.p d.M d.r z.2 d.η d.R with
-    | none => simp only [hq] at ha; cases ha
+    | none => simp only [hq,Option.bind_none] at ha; cases ha
     | some y =>
       cases hb : rationalResidualCompletion y (rationalScore d.D d.p) d.M (z.2+d.η) with
-      | none => simp only [hq,hb,Option.map_none] at ha; cases ha
+      | none => simp only [hq,Option.bind_some,hb,Option.map_none] at ha; cases ha
       | some C =>
-        have he : (y,C)=(q,B) := Option.some.inj (by simpa only [hq,hb,Option.map_some] using ha)
+        have he : (y,C)=(q,B) := Option.some.inj (by simpa only [hq,Option.bind_some,hb,Option.map_some] using ha)
         obtain ⟨rfl,rfl⟩ := Prod.mk.inj he
         exact hb
   have hn := rational_gap_reconstruction_normalized_full_game d.K d.D d.p q d.M d.r z.2 d.η

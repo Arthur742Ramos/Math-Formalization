@@ -51,8 +51,8 @@ theorem exact_game_rational_gap_system_real {k m : ℕ}
       · subst a
         change (∑ j, ((1 : ℚ) : ℝ)*x j) ≤ (r : ℝ)
         simpa using le_of_eq hm
-      · change (∑ j, ((if a=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*x j) ≤
-          ((if a=0 then r else -r : ℚ) : ℝ)
+      · change (∑ j, ((if a.val=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*x j) ≤
+          ((if a.val=0 then r else -r : ℚ) : ℝ)
         simpa [hz] using neg_le_neg (le_of_eq hm.symm)
     · rcases a with i | a
       · change (∑ j, ((0 : ℚ) : ℝ)*x j) ≤ ((ρ+M*r-rationalScore D p i : ℚ) : ℝ)
