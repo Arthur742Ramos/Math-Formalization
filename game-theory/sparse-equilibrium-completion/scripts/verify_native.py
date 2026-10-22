@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import time
 
 parser = argparse.ArgumentParser()
@@ -56,8 +57,9 @@ def run(name, argv, cwd=root, runenv=env, output=None):
         raise SystemExit(result.returncode)
 
 run('version', [str(prefix/'bin/lean'), '--version'])
-run('source-consistency', ['python3', 'scripts/check_package.py'])
-run('imported-definitions', ['python3', str(repo/'scripts/check_imported_definitions.py'), '--project-path', 'game-theory/sparse-equilibrium-completion', '--dependency-root', str(mathlib)])
+run('python-version', [sys.executable, '--version'])
+run('source-consistency', [sys.executable, 'scripts/check_package.py'])
+run('imported-definitions', [sys.executable, str(repo/'scripts/check_imported_definitions.py'), '--project-path', 'game-theory/sparse-equilibrium-completion', '--dependency-root', str(mathlib)])
 # Rebuild package-owned artifacts; preserve the isolated dependency cache.
 shutil.rmtree(root/'.lake/build', ignore_errors=True)
 run('build', [str(prefix/'bin/lake'), 'build'])
