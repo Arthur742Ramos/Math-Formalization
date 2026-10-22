@@ -3436,7 +3436,7 @@ theorem uniformMinimumTotalSupport_le (m : ℕ) (hm : 0 < m)
     exact Nat.find_min' (uniform_witness_support_exists m hm ε hε fixed) ⟨a,q,B,hw,rfl⟩
 
 theorem uniformMinimumTotalSupport_zero (m : ℕ) (hm : 2 ≤ m) (fixed : Bool) :
-    uniformMinimumTotalSupport m (by omega) 0 (by norm_num) fixed = m+2 := by
+    uniformMinimumTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) 0 (le_refl 0) fixed = m+2 := by
   obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m (by omega) 0 (by norm_num) fixed
   simp only [UniformWitness,Nat.cast_ofNat] at hw
   obtain ⟨hq,ha,_,hnorm,hB,hb,hresp⟩ := hw
@@ -3453,8 +3453,8 @@ theorem uniformMinimumTotalSupport_zero (m : ℕ) (hm : 2 ≤ m) (fixed : Bool) 
 theorem uniformMinimumTotalSupport_sharp (m : ℕ) (hm : 2 ≤ m)
     (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1) (fixed : Bool) :
     Real.sqrt (3/1216)*min ((m : ℝ)+2) (1/Real.sqrt ε) ≤
-      (uniformMinimumTotalSupport m (by omega) ε (le_of_lt hε) fixed : ℝ) ∧
-    (uniformMinimumTotalSupport m (by omega) ε (le_of_lt hε) fixed : ℝ) ≤
+      (uniformMinimumTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε (le_of_lt hε) fixed : ℝ) ∧
+    (uniformMinimumTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε (le_of_lt hε) fixed : ℝ) ≤
       5*min ((m : ℝ)+2) (1/Real.sqrt ε) := by
   constructor
   · obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m (by omega) ε (le_of_lt hε) fixed

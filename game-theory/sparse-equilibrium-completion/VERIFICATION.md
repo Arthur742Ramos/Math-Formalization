@@ -104,3 +104,13 @@ The external receipt for the frozen quantitative commit records the fresh native
 build, protected dependency comparison, altered-helper rejection, axioms and
 kernel outcomes. The explicit parity/bin constructions, residual-minimum law
 packaging, uncertainty theorem and other open rows in SCOPE.md remain unfinished.
+
+The first quantitative freeze, `79fc325e467d7b2c8ee55f49b09ba6319e255e4d`,
+passed its clean build, axiom audit, module kernel, protected compilation and
+both exports, then failed dependency comparison at
+`uniformMinimumTotalSupport_zero._proof_2`. Elaborated evidence showed its
+statement's `by omega` mass-positivity argument referenced a module-private
+auxiliary theorem under different module identities. The correction uses direct
+public order proof terms in the minimum-zero and sharp theorem statements, plus
+reflexivity for zero tolerance. The fixed definitions and comparator are unchanged;
+the failed receipt remains immutable and the correction requires its own run.
