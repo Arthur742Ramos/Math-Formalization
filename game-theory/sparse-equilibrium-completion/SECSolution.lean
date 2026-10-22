@@ -1,2 +1,3 @@
 module
-public import SparseCompletionWitness
+public import PaperWitness
+public import MinimumShareRigidity

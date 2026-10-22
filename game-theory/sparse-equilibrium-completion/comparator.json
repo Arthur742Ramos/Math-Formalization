@@ -32,7 +32,20 @@
     "SparseCompletion.completion_of_cuts_and_guards",
     "SparseCompletion.weighted_completion_iff",
     "SparseCompletion.game_sparse_completion",
-    "SparseCompletion.exact_game_sparse_completion"
+    "SparseCompletion.exact_game_sparse_completion",
+    "SparseCompletion.block_support_card",
+    "SparseCompletion.normalized_sparse_witness",
+    "SparseCompletion.normalized_exact_sparse_witness",
+    "SparseCompletion.prefix_exposing_identity",
+    "SparseCompletion.strict_prefix_rigidity",
+    "SparseCompletion.tight_prefix_completion_unique",
+    "SparseCompletion.two_anchor_fixed_share_uniqueness",
+    "SparseCompletion.bounded_two_anchor_fixed_share_rigidity",
+    "SparseCompletion.uniform_target_score",
+    "SparseCompletion.uniform_exposing_weight",
+    "SparseCompletion.uniform_two_anchor_dense",
+    "SparseCompletion.positive_target_full_support",
+    "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
   ],
   "definition_names": [],
   "permitted_axioms": [

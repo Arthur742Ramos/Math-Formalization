@@ -1,6 +1,6 @@
 {
   "schema": "local-development-status-v1",
-  "title": "Sparse equilibrium completion: bounded skew reconstruction and sparse witnesses",
+  "title": "Sparse equilibrium completion: sparse witnesses and two-anchor rigidity",
   "submission_ready": false,
   "paper_title": "Sharp Sparse Witnesses for Incomplete Zero-Sum Games",
   "paper_repository": "Arthur742Ramos/aoe2-equilibrium-balance",
@@ -24,7 +24,7 @@
   },
   "toolchain": "leanprover/lean4:v4.35.0-rc2",
   "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
-  "status": "Partial development: exact guards/cuts completion criterion and actual original-label sparse completed-game witnesses with both support counts and exact anchor responses are proved. Two-anchor rigidity, sharp lower/upper support and uncertainty laws, normalized paper-facing wrappers, and algorithmic/conic/graph clauses remain open. Exact scope is in SCOPE.md. This is local development metadata, not registry-schema intake metadata.",
+  "status": "Partial development: exact weighted completion, normalized sparse completed-game witnesses with both support counts, and bounded normalized two-anchor exact rigidity for arbitrary positive targets under fixed or minimum shares are proved. The uniform construction matches the paper formulas. Quantitative inverse-square lower/upper support laws, uncertainty laws and algorithmic/conic/graph clauses remain open. See SCOPE.md; this is local development metadata, not registry intake metadata.",
   "submission": "No action authorized or attempted. Current policy/schema eligibility, account/private-attempt reconciliation, human roles and canonical exact-source checks remain separate gates.",
   "standard_axiom_allowlist": [
     "propext",

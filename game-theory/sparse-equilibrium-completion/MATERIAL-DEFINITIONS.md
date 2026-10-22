@@ -1,6 +1,6 @@
 # Material imported definitions at the exact Mathlib pin
 
-The inventory records finite-index, interval, grid-size finite-dimensional recombination, and compact-convex separation meanings. Ordinary ordered-real algebra, logical connectives, casts and function application remain background infrastructure. No imported game-feasibility or sparse-completion target is assumed. Game predicates are fixed public definitions. Finset.sum is generated from the retained Finset.prod/to_additive source and checked by finite_sum_literal. Module.rank uses irreducible_def; its retained macro source and the actual finite-product dimension law are explicit rather than presenting it as a textual def.
+The inventory records finite-index, interval, grid-size finite-dimensional recombination, compact-convex separation, and finite ordinal/prefix meanings. Ordinary ordered-real algebra, logical connectives, casts and function application remain background infrastructure. No imported game-feasibility or sparse-completion target is assumed. Game predicates are fixed public definitions. Finset.sum is generated from the retained Finset.prod/to_additive source and checked by finite_sum_literal. Module.rank uses irreducible_def; its retained macro source and the actual finite-product dimension law are explicit rather than presenting it as a textual def.
 
 Classical Caratheodory recombination is Mathlib work by Johan Commelin and Kim Morrison, part of the Sphere Eversion project. The finite-dimensional affine cardinal bound is upstream infrastructure. Our proof preserves all selected hinge values exactly, rather than formalizing the paper's inequality-based extreme-point argument. No novelty claim is made for recombination.
 
@@ -12,19 +12,19 @@ The completion proof uses the classical compact/closed Hahn–Banach separation 
 
 A finite type has a finite duplicate-free enumeration containing every element. Finite sums range over that enumeration. Empty types are allowed.
 
-Affected selected declarations: SparseCompletion.response_guard, SparseCompletion.completion_cuts_necessary, SparseCompletion.cuts_iff_call_bound, SparseCompletion.finite_grid_implication, SparseCompletion.canonical_grid_implication, SparseCompletion.supported_response_zero, SparseCompletion.response_perturbation, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.block_response_bounds_iff, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.compact_block_certificate_iff, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.response_guard, SparseCompletion.completion_cuts_necessary, SparseCompletion.cuts_iff_call_bound, SparseCompletion.finite_grid_implication, SparseCompletion.canonical_grid_implication, SparseCompletion.supported_response_zero, SparseCompletion.response_perturbation, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.block_response_bounds_iff, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.compact_block_certificate_iff, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.block_support_card, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.prefix_exposing_identity, SparseCompletion.strict_prefix_rigidity, SparseCompletion.tight_prefix_completion_unique, SparseCompletion.two_anchor_fixed_share_uniqueness, SparseCompletion.bounded_two_anchor_fixed_share_rigidity, SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight, SparseCompletion.uniform_two_anchor_dense, SparseCompletion.positive_target_full_support, SparseCompletion.bounded_two_anchor_minimum_share_rigidity
 
 ## Finset
 
 A finite set is a multiset with no duplicate entries. Membership, complement and subset sums refer to the finite indexing set, without multiplicities.
 
-Affected selected declarations: SparseCompletion.skew_weighted_sum, SparseCompletion.response_guard, SparseCompletion.completion_cuts_necessary, SparseCompletion.cuts_iff_call_bound, SparseCompletion.finite_grid_implication, SparseCompletion.canonical_grid_implication, SparseCompletion.supported_response_zero, SparseCompletion.response_perturbation, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.compactCompletion_skew, SparseCompletion.compactCompletion_bounds, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.block_response_bounds_iff, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.compact_block_certificate_iff, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.skew_weighted_sum, SparseCompletion.response_guard, SparseCompletion.completion_cuts_necessary, SparseCompletion.cuts_iff_call_bound, SparseCompletion.finite_grid_implication, SparseCompletion.canonical_grid_implication, SparseCompletion.supported_response_zero, SparseCompletion.response_perturbation, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.compactCompletion_skew, SparseCompletion.compactCompletion_bounds, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.block_response_bounds_iff, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.compact_block_certificate_iff, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.block_support_card, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.prefix_exposing_identity, SparseCompletion.strict_prefix_rigidity, SparseCompletion.tight_prefix_completion_unique, SparseCompletion.two_anchor_fixed_share_uniqueness, SparseCompletion.bounded_two_anchor_fixed_share_rigidity, SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight, SparseCompletion.uniform_two_anchor_dense, SparseCompletion.positive_target_full_support, SparseCompletion.bounded_two_anchor_minimum_share_rigidity
 
 ## Finset.prod
 
 Multiplicative source for the generated additive Finset.sum definition. The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.
 
-Affected selected declarations: SparseCompletion.skew_weighted_sum, SparseCompletion.response_guard, SparseCompletion.completion_cuts_necessary, SparseCompletion.cuts_iff_call_bound, SparseCompletion.finite_grid_implication, SparseCompletion.canonical_grid_implication, SparseCompletion.supported_response_zero, SparseCompletion.response_perturbation, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.block_response_bounds_iff, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.compact_block_certificate_iff, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.skew_weighted_sum, SparseCompletion.response_guard, SparseCompletion.completion_cuts_necessary, SparseCompletion.cuts_iff_call_bound, SparseCompletion.finite_grid_implication, SparseCompletion.canonical_grid_implication, SparseCompletion.supported_response_zero, SparseCompletion.response_perturbation, SparseCompletion.compact_certificate_responses_iff, SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.block_response_bounds_iff, SparseCompletion.exact_score_bounds, SparseCompletion.exact_score_mean_zero, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.compact_block_certificate_iff, SparseCompletion.cuts_dual_bound, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.block_support_card, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.prefix_exposing_identity, SparseCompletion.strict_prefix_rigidity, SparseCompletion.tight_prefix_completion_unique, SparseCompletion.two_anchor_fixed_share_uniqueness, SparseCompletion.bounded_two_anchor_fixed_share_rigidity, SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight, SparseCompletion.uniform_two_anchor_dense, SparseCompletion.positive_target_full_support, SparseCompletion.bounded_two_anchor_minimum_share_rigidity
 
 ## Set.Icc
 
@@ -36,133 +36,157 @@ Affected selected declarations: SparseCompletion.cuts_iff_call_bound, SparseComp
 
 The natural ceiling delegates to FloorSemiring.ceil. FloorSemiring.gc_ceil says ceil a ≤ n iff a ≤ (n:ℝ); the natural ceiling is zero for negative a.
 
-Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## FloorSemiring
 
 Floor and ceiling operations with their natural-cast adjunction laws. The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at ℝ.
 
-Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## NNReal.sqrt
 
 Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals. powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.
 
-Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Real.sqrt
 
 The real square root applies NNReal.sqrt to Real.toNNReal. Negative inputs yield zero. Only nonnegative Mr/η is used; square_root_meaning proves the needed square and sign laws.
 
-Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Real.toNNReal
 
 Real-to-nonnegative-real conversion clips a real input below at zero. The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.
 
-Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Convex
 
 Every point of the set is a star center of the set. Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## StarConvex
 
 All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set. Centers in the set quantify convexity. No topological closedness is assumed.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## convexHull
 
 The closure operator generated by all convex supersets. Membership means belonging to every convex superset, proved by convex_hull_meaning. It is algebraic convex hull, not topological closure.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## AffineIndependent
 
 Zero-sum finite affine relations with zero weighted subtraction have all coefficients zero. The point-subtraction base cancels when coefficient sum is zero. affine_independence_literal and weighted_subtraction_zero_sum audit the actual meaning.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Finset.weightedVSub
 
 Finite weighted differences from a default affine base point. This is used only with zero total weight, where the base is arbitrary and cancels. The checked bridge specializes to vector-space base zero.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Finset.weightedVSubOfPoint
 
 The linear map summing weights times differences from a specified base point. Its application is the literal finite sum; the zero-sum bridge verifies the needed base-zero interpretation.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## vectorSpan
 
 The submodule spanned by all differences of two points in the set. vector_span_literal unfolds the pairwise-difference image; the dimension is at most that of the ambient feature space.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Submodule.span
 
 The infimum of all submodules containing the supplied generating set. submodule_span_literal checks the precise intersection/infimum meaning; it is linear span, not an analytic closure.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Module.finrank
 
 The natural-number conversion of the cardinal-valued module rank. Cardinal.toNat is zero on infinite cardinals. Here the feature space is a finite real product and the checked finite_feature_dimension law gives its actual finite dimension; no infinite-dimensional rank is interpreted as a support bound.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Finset.card
 
 The number of elements in the underlying duplicate-free multiset. finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.block_support_card, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.positive_target_full_support
 
 ## Fintype.card
 
 The cardinality of the finite universal enumeration. type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.
 
-Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.finite_moment_recombination, SparseCompletion.finite_feature_compression, SparseCompletion.sparse_cut_witness, SparseCompletion.exact_sparse_cut_witness, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.block_support_card, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness, SparseCompletion.positive_target_full_support
 
 ## IsCompact
 
 Every nontrivial filter containing the set has a cluster point in the set. The filter is finer than the principal filter of s. ClusterPt means the neighborhood filter and input filter have nontrivial infimum; in finite Euclidean space this gives ordinary compactness.
 
-Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## IsClosed
 
 The complement is open. Closedness of the upper orthant is proved coordinatewise, rather than assumed. IsOpen is the given topology predicate.
 
-Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Continuous
 
 Preimages of open sets are open. Used for the image of a compact set under the weighted response linear map and for continuous separating functionals.
 
-Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## LinearMap
 
 A bundled additive scalar-preserving map. Specializing the scalar homomorphism to the identity on real numbers gives ordinary real linearity; weightedNegResponse is constructed with both laws.
 
-Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## ContinuousLinearMap
 
 A bundled linear map together with continuity. StrongDual real E abbreviates E to real continuous linear maps. Only evaluation, linearity and continuity are used, not any topology on the dual itself.
 
-Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
 ## Set.image
 
 The image comprises values of domain points in the specified set. weightedScoreSet is the image of the full bounded skew box. Membership yields an actual skew matrix with entry bounds, rather than an abstract unrelated score vector.
 
-Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion
+Affected selected declarations: SparseCompletion.cuts_weighted_completion, SparseCompletion.completion_of_cuts_and_guards, SparseCompletion.weighted_completion_iff, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
+
+## Finset.range
+
+The finite set of natural numbers strictly less than n. Its underlying multiset is Multiset.range n, with a no-duplicates proof. mem_range states membership iff i<n.
+
+Affected selected declarations: SparseCompletion.uniform_exposing_weight
+
+## LocallyFiniteOrderBot
+
+Finite lower order intervals with exact membership laws. Finset.Iio j consists of elements i<j. It is a finite set, distinct from a set-valued interval. On Fin m its cardinality is j.val.
+
+Affected selected declarations: SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight
+
+## LocallyFiniteOrderTop
+
+Finite upper order intervals with exact membership laws. This is the source class for the order-dual generated lower intervals. The actual lower interval uses LocallyFiniteOrderBot.finsetIio.
+
+Affected selected declarations: SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight
+
+## Finset.Ioi
+
+Source definition for order-dual generated Finset.Iio. The retained to_dual annotation generates Iio from Ioi by reversing the order. Actual Iio equality with the lower-interval field and membership i<j are independently compiled, not merely inferred from the source spelling.
+
+Affected selected declarations: SparseCompletion.uniform_target_score, SparseCompletion.uniform_exposing_weight
 
 ## Retained source: Mathlib/Data/Fintype/Defs.lean
 
@@ -1094,4 +1118,207 @@ theorem geometric_hahn_banach_compact_closed (hs₁ : Convex ℝ s) (hs₂ : IsC
       by linarith,
       fun b hb => hf₂ b (tV hb)⟩
 
+```
+
+## Retained source: Mathlib/Data/Finset/Range.lean
+
+[Mathlib/Data/Finset/Range.lean](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Range.lean)
+
+Full-source SHA256: `558338b4d2aafb16975268881803408ffa50d44abc7b9d9eee418e1590094576`
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+### Finset.range
+
+[Exact excerpt](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Range.lean#L52-L65)
+
+```lean
+/-- `range n` is the set of natural numbers less than `n`. -/
+def range (n : ℕ) : Finset ℕ :=
+  ⟨_, nodup_range n⟩
+
+@[simp]
+theorem range_val (n : ℕ) : (range n).1 = Multiset.range n :=
+  rfl
+
+@[simp] lemma _root_.Multiset.toFinset_range (n : ℕ) : (Multiset.range n).toFinset = .range n :=
+  Finset.val_injective (Finset.range n).nodup.dedup
+
+@[simp, grind =]
+theorem mem_range : m ∈ range n ↔ m < n :=
+  Multiset.mem_range
+```
+
+## Retained source: Mathlib/Order/Interval/Finset/Defs.lean
+
+[Mathlib/Order/Interval/Finset/Defs.lean](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean)
+
+Full-source SHA256: `023c4216dc4c48cc0a97e5ceb876aa54e1db126b19097ee89c4d3b12059970a8`
+
+```lean
+/-
+Copyright (c) 2021 Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yaël Dillies
+-/
+```
+
+### LocallyFiniteOrderBot
+
+[Exact excerpt](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L156-L167)
+
+```lean
+/-- This mixin class describes an order where all intervals bounded above are finite. This is
+slightly weaker than `LocallyFiniteOrder` + `OrderBot` as it allows empty types. -/
+@[to_dual]
+class LocallyFiniteOrderBot (α : Type*) [Preorder α] where
+  /-- Left-infinite right-open interval -/
+  finsetIio : α → Finset α
+  /-- Left-infinite right-closed interval -/
+  finsetIic : α → Finset α
+  /-- `x ∈ finsetIic a ↔ x ≤ a` -/
+  finset_mem_Iic : ∀ a x : α, x ∈ finsetIic a ↔ x ≤ a
+  /-- `x ∈ finsetIio a ↔ x < a` -/
+  finset_mem_Iio : ∀ a x : α, x ∈ finsetIio a ↔ x < a
+```
+
+### LocallyFiniteOrderTop
+
+[Exact excerpt](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L141-L154)
+
+```lean
+  finset_mem_Ioc := by grind
+  finset_mem_Ioo := by grind
+
+/-- This mixin class describes an order where all intervals bounded below are finite. This is
+slightly weaker than `LocallyFiniteOrder` + `OrderTop` as it allows empty types. -/
+class LocallyFiniteOrderTop (α : Type*) [Preorder α] where
+  /-- Left-open right-infinite interval -/
+  finsetIoi : α → Finset α
+  /-- Left-closed right-infinite interval -/
+  finsetIci : α → Finset α
+  /-- `x ∈ finsetIci a ↔ a ≤ x` -/
+  finset_mem_Ici : ∀ a x : α, x ∈ finsetIci a ↔ a ≤ x
+  /-- `x ∈ finsetIoi a ↔ a < x` -/
+  finset_mem_Ioi : ∀ a x : α, x ∈ finsetIoi a ↔ a < x
+```
+
+### Finset.Ioi
+
+[Exact excerpt](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L360-L372)
+
+```lean
+/-- The finset $(a, ∞)$ of elements `x` such that `a < x`. Basically `Set.Ioi a` as a finset. -/
+@[to_dual
+/-- The finset $(-∞, b)$ of elements `x` such that `x < b`. Basically `Set.Iio b` as a finset. -/]
+def Ioi (a : α) : Finset α :=
+  LocallyFiniteOrderTop.finsetIoi a
+
+@[to_dual (attr := simp, grind =)]
+theorem mem_Ici : x ∈ Ici a ↔ a ≤ x :=
+  LocallyFiniteOrderTop.finset_mem_Ici _ _
+
+@[to_dual (attr := simp, grind =)]
+theorem mem_Ioi : x ∈ Ioi a ↔ a < x :=
+  LocallyFiniteOrderTop.finset_mem_Ioi _ _
+```
+
+## Retained source: Mathlib/Order/Interval/Finset/Fin.lean
+
+[Mathlib/Order/Interval/Finset/Fin.lean](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Fin.lean)
+
+Full-source SHA256: `1f61a87f5a33679269110a3da98111b222e2daecb73418b7b7df64238cf98263`
+
+```lean
+/-
+Copyright (c) 2021 Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yaël Dillies, Yury Kudryashov
+-/
+```
+
+### Fin.card_Iio
+
+[Exact excerpt](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Fin.lean#L887-L891)
+
+```lean
+@[simp]
+theorem card_Iic : #(Iic b) = b + 1 := by rw [← Nat.card_Iic b, ← map_valEmbedding_Iic, card_map]
+
+@[simp]
+theorem card_Iio : #(Iio b) = b := by rw [← Nat.card_Iio b, ← map_valEmbedding_Iio, card_map]
+```
+
+## Retained source: Mathlib/Data/Fintype/BigOperators.lean
+
+[Mathlib/Data/Fintype/BigOperators.lean](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean)
+
+Full-source SHA256: `b9a6354ebff5fcd22fb1ddb7992682a404ec44c8ee42d519177f17d1d5a239e9`
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+### Fin.sum_range_conversion
+
+[Exact excerpt](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L225-L232)
+
+```lean
+/-- It is equivalent to compute the product of a function over `Fin n` or `Finset.range n`. -/
+@[to_additive /-- It is equivalent to sum a function over `fin n` or `finset.range n`. -/]
+theorem Fin.prod_univ_eq_prod_range [CommMonoid α] (f : ℕ → α) (n : ℕ) :
+    ∏ i : Fin n, f i = ∏ i ∈ range n, f i :=
+  calc
+    ∏ i : Fin n, f i = ∏ i : { x // x ∈ range n }, f i :=
+      Fintype.prod_equiv (Fin.equivSubtype.trans (Equiv.subtypeEquivRight (by simp))) _ _ (by simp)
+    _ = ∏ i ∈ range n, f i := by rw [← attach_eq_univ, prod_attach]
+```
+
+## Lean core finite ordinal
+
+Fin n is a natural value with a proof that it is strictly smaller than n. Fin.ext identifies elements with equal values. The canonical finite ordinal includes no labels outside that bound. GitHub fetch_file at exact compiler commit independently returned the same whole-file Git blob SHA; installed compiler source bytes match.
+
+[Exact compiler source](https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean)
+
+Full-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob `f87ee970af5149d74434f09a89aedff1a8fdb2d2`.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+```lean
+
+In particular, a `Fin n` is a natural number `i` with the constraint that `i < n`. It is the
+canonical type with `n` elements.
+-/
+@[pp_using_anonymous_constructor]
+structure Fin (n : Nat) where
+  /-- Creates a `Fin n` from `i : Nat` and a proof that `i < n`. -/
+  mk ::
+  /--
+  The number that is strictly less than `n`.
+
+  `Fin.val` is a coercion, so any `Fin n` can be used in a position where a `Nat` is expected.
+  -/
+  val  : Nat
+  /--
+  The number `val` is strictly less than the bound `n`.
+  -/
+  isLt : LT.lt val n
+
+attribute [coe] Fin.val
 ```

@@ -1,4 +1,4 @@
-# Sparse equilibrium completion: bounded skew reconstruction and sparse witnesses
+# Sparse equilibrium completion: sparse witnesses and two-anchor rigidity
 
 This independent Lean project develops the mathematics of *Sharp Sparse Witnesses
 for Incomplete Zero-Sum Games*, anonymous revision `1a424f297925294ae5818ff1ee7512304af1d460`
@@ -16,7 +16,15 @@ classical compact-convex separation. All original rows satisfy the resulting
 response bound. This is an existence proof over reals; executable rational
 reconstruction and complexity claims remain open. Definitions and all proof
 helpers have stable public exposed declaration names. The theorem map, including
-substantial outstanding rigidity and sharpness work, is in [SCOPE.md](SCOPE.md).
+outstanding sharp support rates and uncertainty work, is in [SCOPE.md](SCOPE.md).
+
+The two-anchor construction now realizes every strictly positive residual target
+of mass `1/4` using bounded observations. Under the two minimum shares `3/8`,
+exact equilibrium forces both shares to be tight, the target distribution, and
+every residual edge. Its uniform specialization is bridged to the paper's
+explicit score and quadratic weight formulas. The normalized sparse-witness
+wrappers distinguish residual support from total support, including anchors.
+Quantitative inverse-square support and uncertainty laws remain unfinished.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`; its dependencies are package-owned.

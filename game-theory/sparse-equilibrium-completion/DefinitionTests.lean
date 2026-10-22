@@ -109,5 +109,28 @@ theorem compact_closed_separation_contract {ν : Type} [Fintype ν]
       (∀ a ∈ s, f a < u) ∧ u < v ∧ ∀ b ∈ t, v < f b :=
   geometric_hahn_banach_compact_closed hs hsc ht htc hd
 
+
+theorem finite_ordinal_bound (n : ℕ) (i : Fin n) : i.val < n := i.isLt
+
+theorem finite_ordinal_extensionality {n : ℕ} (i j : Fin n) (h : i.val=j.val) : i=j := Fin.ext h
+
+theorem natural_range_literal (n : ℕ) : (Finset.range n).val = Multiset.range n := rfl
+
+theorem finite_upper_interval_literal {n : ℕ} (i : Fin n) :
+    Finset.Ioi i = LocallyFiniteOrderTop.finsetIoi i := rfl
+
+theorem natural_range_meaning (n i : ℕ) : i ∈ Finset.range n ↔ i < n := Finset.mem_range
+
+theorem finite_lower_interval_literal {n : ℕ} (i : Fin n) :
+    Finset.Iio i = LocallyFiniteOrderBot.finsetIio i := rfl
+
+theorem finite_lower_interval_meaning {n : ℕ} (i j : Fin n) :
+    j ∈ Finset.Iio i ↔ j < i := Finset.mem_Iio
+
+theorem finite_prefix_cardinality {n : ℕ} (i : Fin n) : (Finset.Iio i).card = i.val := Fin.card_Iio i
+
+theorem finite_sum_range_conversion (n : ℕ) (f : ℕ → ℝ) :
+    (∑ i : Fin n, f i.val) = ∑ i ∈ Finset.range n, f i := Fin.sum_univ_eq_sum_range f n
+
 end SECDefinitions
 -- END material-imported-definition audit

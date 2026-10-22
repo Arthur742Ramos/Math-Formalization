@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import sys
+import subprocess
 
 if not __debug__ or sys.flags.optimize:
     raise SystemExit('Source checks refuse assertion-disabled Python optimization modes')
@@ -34,9 +35,20 @@ metadata = json.loads((root / 'metadata.draft.json').read_text())
 assert metadata['submission_ready'] is False
 assert metadata['formalization_authors'] == metadata['responsible_maintainers'] == []
 assert metadata['paper_commit'] == '1a424f297925294ae5818ff1ee7512304af1d460'
+core = json.loads((root/'verification/lean-core-definitions.json').read_text())
+assert core['compiler_commit'] == '11acb17ec6b07a8f9e9173e6845197929540936b'
+prefix = Path(subprocess.check_output(['lean', '--print-prefix'], cwd=root, text=True).strip())
+core_bytes = (prefix/'src/lean/Init/Prelude.lean').read_bytes()
+assert hashlib.sha256(core_bytes).hexdigest() == core['source_sha256']
+assert hashlib.sha1(b'blob '+str(len(core_bytes)).encode()+b'\0'+core_bytes).hexdigest() == core['github_blob_sha1']
+core_excerpt = b''.join(core_bytes.splitlines(keepends=True)[core['first_line']-1:core['last_line']])
+assert core_excerpt == core['excerpt'].encode()
+assert hashlib.sha256(core_excerpt).hexdigest() == core['excerpt_sha256']
+assert core['url'] == 'https://github.com/leanprover/lean4/blob/'+core['compiler_commit']+'/'+core['path']
+assert 'structure Fin (n : Nat) where' in core['excerpt'] and 'isLt : LT.lt val n' in core['excerpt']
 files = [p for p in root.rglob('*') if p.is_file() and '.lake' not in p.parts
          and p.suffix not in ['.olean', '.ilean', '.log'] and '__pycache__' not in p.parts]
-print(json.dumps({'check': 'analytic-sparsification-source-consistency', 'result': 'pass',
+print(json.dumps({'check': 'sparse-witness-and-two-anchor-rigidity-source-consistency', 'result': 'pass',
     'selected_theorems': cfg['theorem_names'],
     'sha256': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)},
     'limits': 'Not a proof build, source-fidelity review, canonical verifier, or release clearance'}, indent=2))

@@ -32,7 +32,11 @@
     "Continuous",
     "LinearMap",
     "ContinuousLinearMap",
-    "Set.image"
+    "Set.image",
+    "Finset.range",
+    "LocallyFiniteOrderBot",
+    "LocallyFiniteOrderTop",
+    "Finset.Ioi"
   ],
   "material_declarations": [
     {
@@ -64,7 +68,20 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.block_support_card",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.prefix_exposing_identity",
+        "SparseCompletion.strict_prefix_rigidity",
+        "SparseCompletion.tight_prefix_completion_unique",
+        "SparseCompletion.two_anchor_fixed_share_uniqueness",
+        "SparseCompletion.bounded_two_anchor_fixed_share_rigidity",
+        "SparseCompletion.uniform_target_score",
+        "SparseCompletion.uniform_exposing_weight",
+        "SparseCompletion.uniform_two_anchor_dense",
+        "SparseCompletion.positive_target_full_support",
+        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -107,7 +124,20 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.block_support_card",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.prefix_exposing_identity",
+        "SparseCompletion.strict_prefix_rigidity",
+        "SparseCompletion.tight_prefix_completion_unique",
+        "SparseCompletion.two_anchor_fixed_share_uniqueness",
+        "SparseCompletion.bounded_two_anchor_fixed_share_rigidity",
+        "SparseCompletion.uniform_target_score",
+        "SparseCompletion.uniform_exposing_weight",
+        "SparseCompletion.uniform_two_anchor_dense",
+        "SparseCompletion.positive_target_full_support",
+        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -148,7 +178,20 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.block_support_card",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.prefix_exposing_identity",
+        "SparseCompletion.strict_prefix_rigidity",
+        "SparseCompletion.tight_prefix_completion_unique",
+        "SparseCompletion.two_anchor_fixed_share_uniqueness",
+        "SparseCompletion.bounded_two_anchor_fixed_share_rigidity",
+        "SparseCompletion.uniform_target_score",
+        "SparseCompletion.uniform_exposing_weight",
+        "SparseCompletion.uniform_two_anchor_dense",
+        "SparseCompletion.positive_target_full_support",
+        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -195,7 +238,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
       "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
@@ -217,7 +262,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
       "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
@@ -239,7 +286,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
       "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
@@ -261,7 +310,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
       "dependency_expansion": "Negative inputs yield zero. Only nonnegative Mr/\u03b7 is used; square_root_meaning proves the needed square and sign laws.",
@@ -283,7 +334,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
       "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
@@ -310,7 +363,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Every point of the set is a star center of the set.",
       "dependency_expansion": "Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.",
@@ -337,7 +392,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.",
       "dependency_expansion": "Centers in the set quantify convexity. No topological closedness is assumed.",
@@ -361,7 +418,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The closure operator generated by all convex supersets.",
       "dependency_expansion": "Membership means belonging to every convex superset, proved by convex_hull_meaning. It is algebraic convex hull, not topological closure.",
@@ -385,7 +444,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Zero-sum finite affine relations with zero weighted subtraction have all coefficients zero.",
       "dependency_expansion": "The point-subtraction base cancels when coefficient sum is zero. affine_independence_literal and weighted_subtraction_zero_sum audit the actual meaning.",
@@ -409,7 +470,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Finite weighted differences from a default affine base point.",
       "dependency_expansion": "This is used only with zero total weight, where the base is arbitrary and cancels. The checked bridge specializes to vector-space base zero.",
@@ -433,7 +496,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The linear map summing weights times differences from a specified base point.",
       "dependency_expansion": "Its application is the literal finite sum; the zero-sum bridge verifies the needed base-zero interpretation.",
@@ -457,7 +522,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The submodule spanned by all differences of two points in the set.",
       "dependency_expansion": "vector_span_literal unfolds the pairwise-difference image; the dimension is at most that of the ambient feature space.",
@@ -481,7 +548,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The infimum of all submodules containing the supplied generating set.",
       "dependency_expansion": "submodule_span_literal checks the precise intersection/infimum meaning; it is linear span, not an analytic closure.",
@@ -505,7 +574,9 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The natural-number conversion of the cardinal-valued module rank.",
       "dependency_expansion": "Cardinal.toNat is zero on infinite cardinals. Here the feature space is a finite real product and the checked finite_feature_dimension law gives its actual finite dimension; no infinite-dimensional rank is interpreted as a support bound.",
@@ -529,7 +600,11 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.block_support_card",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.positive_target_full_support"
       ],
       "meaning": "The number of elements in the underlying duplicate-free multiset.",
       "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
@@ -553,7 +628,11 @@
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.block_support_card",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.positive_target_full_support"
       ],
       "meaning": "The cardinality of the finite universal enumeration.",
       "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
@@ -573,7 +652,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Every nontrivial filter containing the set has a cluster point in the set.",
       "dependency_expansion": "The filter is finer than the principal filter of s. ClusterPt means the neighborhood filter and input filter have nontrivial infimum; in finite Euclidean space this gives ordinary compactness.",
@@ -594,7 +675,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The complement is open.",
       "dependency_expansion": "Closedness of the upper orthant is proved coordinatewise, rather than assumed. IsOpen is the given topology predicate.",
@@ -614,7 +697,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "Preimages of open sets are open.",
       "dependency_expansion": "Used for the image of a compact set under the weighted response linear map and for continuous separating functionals.",
@@ -634,7 +719,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "A bundled additive scalar-preserving map.",
       "dependency_expansion": "Specializing the scalar homomorphism to the identity on real numbers gives ordinary real linearity; weightedNegResponse is constructed with both laws.",
@@ -654,7 +741,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "A bundled linear map together with continuity.",
       "dependency_expansion": "StrongDual real E abbreviates E to real continuous linear maps. Only evaluation, linearity and continuity are used, not any topology on the dual itself.",
@@ -675,7 +764,9 @@
         "SparseCompletion.completion_of_cuts_and_guards",
         "SparseCompletion.weighted_completion_iff",
         "SparseCompletion.game_sparse_completion",
-        "SparseCompletion.exact_game_sparse_completion"
+        "SparseCompletion.exact_game_sparse_completion",
+        "SparseCompletion.normalized_sparse_witness",
+        "SparseCompletion.normalized_exact_sparse_witness"
       ],
       "meaning": "The image comprises values of domain points in the specified set.",
       "dependency_expansion": "weightedScoreSet is the image of the full bounded skew box. Membership yields an actual skew matrix with entry bounds, rather than an abstract unrelated score vector.",
@@ -685,6 +776,73 @@
         "Set.image"
       ],
       "proof_status": "Challenge and Solution independently compile the literal/field and separation-contract bridges. Exact-source receipts identify the tested commit; independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "Finset.range",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.uniform_exposing_weight"
+      ],
+      "meaning": "The finite set of natural numbers strictly less than n.",
+      "dependency_expansion": "Its underlying multiset is Multiset.range n, with a no-duplicates proof. mem_range states membership iff i<n.",
+      "definition_excerpt": "Finset.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.range"
+      ],
+      "proof_status": "Challenge and Solution independently compile literal/field, membership and cardinality bridges; exact-source receipts identify the tested commit. Independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "LocallyFiniteOrderBot",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.uniform_target_score",
+        "SparseCompletion.uniform_exposing_weight"
+      ],
+      "meaning": "Finite lower order intervals with exact membership laws.",
+      "dependency_expansion": "Finset.Iio j consists of elements i<j. It is a finite set, distinct from a set-valued interval. On Fin m its cardinality is j.val.",
+      "definition_excerpt": "LocallyFiniteOrderBot",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LocallyFiniteOrderBot"
+      ],
+      "proof_status": "Challenge and Solution independently compile literal/field, membership and cardinality bridges; exact-source receipts identify the tested commit. Independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "LocallyFiniteOrderTop",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.uniform_target_score",
+        "SparseCompletion.uniform_exposing_weight"
+      ],
+      "meaning": "Finite upper order intervals with exact membership laws.",
+      "dependency_expansion": "This is the source class for the order-dual generated lower intervals. The actual lower interval uses LocallyFiniteOrderBot.finsetIio.",
+      "definition_excerpt": "LocallyFiniteOrderTop",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LocallyFiniteOrderTop"
+      ],
+      "proof_status": "Challenge and Solution independently compile literal/field, membership and cardinality bridges; exact-source receipts identify the tested commit. Independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "Finset.Ioi",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.uniform_target_score",
+        "SparseCompletion.uniform_exposing_weight"
+      ],
+      "meaning": "Source definition for order-dual generated Finset.Iio.",
+      "dependency_expansion": "The retained to_dual annotation generates Iio from Ioi by reversing the order. Actual Iio equality with the lower-interval field and membership i<j are independently compiled, not merely inferred from the source spelling.",
+      "definition_excerpt": "Finset.Ioi",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.Ioi"
+      ],
+      "proof_status": "Challenge and Solution independently compile literal/field, membership and cardinality bridges; exact-source receipts identify the tested commit. Independent internal review assesses semantic fidelity."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -1222,18 +1380,106 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/LocallyConvex/Separation.lean#L196-L214"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Range.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Range.lean",
+      "sha256": "558338b4d2aafb16975268881803408ffa50d44abc7b9d9eee418e1590094576",
+      "git_blob_sha1": "43fb35f379700f133c16945442823aec0575665c",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.range",
+          "first_line": 52,
+          "last_line": 65,
+          "text": "/-- `range n` is the set of natural numbers less than `n`. -/\ndef range (n : \u2115) : Finset \u2115 :=\n  \u27e8_, nodup_range n\u27e9\n\n@[simp]\ntheorem range_val (n : \u2115) : (range n).1 = Multiset.range n :=\n  rfl\n\n@[simp] lemma _root_.Multiset.toFinset_range (n : \u2115) : (Multiset.range n).toFinset = .range n :=\n  Finset.val_injective (Finset.range n).nodup.dedup\n\n@[simp, grind =]\ntheorem mem_range : m \u2208 range n \u2194 m < n :=\n  Multiset.mem_range\n",
+          "sha256": "6f296cd2e4bc004cb1c15bf5ecfd247b5e51b4c40de179c4ee9e72d12fea0955",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Range.lean#L52-L65"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Interval/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean",
+      "sha256": "023c4216dc4c48cc0a97e5ceb876aa54e1db126b19097ee89c4d3b12059970a8",
+      "git_blob_sha1": "03a818648aa0d0ccc34298eb6f43d86e40412050",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Ya\u00ebl Dillies. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "LocallyFiniteOrderBot",
+          "first_line": 156,
+          "last_line": 167,
+          "text": "/-- This mixin class describes an order where all intervals bounded above are finite. This is\nslightly weaker than `LocallyFiniteOrder` + `OrderBot` as it allows empty types. -/\n@[to_dual]\nclass LocallyFiniteOrderBot (\u03b1 : Type*) [Preorder \u03b1] where\n  /-- Left-infinite right-open interval -/\n  finsetIio : \u03b1 \u2192 Finset \u03b1\n  /-- Left-infinite right-closed interval -/\n  finsetIic : \u03b1 \u2192 Finset \u03b1\n  /-- `x \u2208 finsetIic a \u2194 x \u2264 a` -/\n  finset_mem_Iic : \u2200 a x : \u03b1, x \u2208 finsetIic a \u2194 x \u2264 a\n  /-- `x \u2208 finsetIio a \u2194 x < a` -/\n  finset_mem_Iio : \u2200 a x : \u03b1, x \u2208 finsetIio a \u2194 x < a\n",
+          "sha256": "cfa9a3c546be3fb3902d0e207e92fe95cbcb0230d66afc411700740e91697ccb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L156-L167"
+        },
+        {
+          "name": "LocallyFiniteOrderTop",
+          "first_line": 141,
+          "last_line": 154,
+          "text": "  finset_mem_Ioc := by grind\n  finset_mem_Ioo := by grind\n\n/-- This mixin class describes an order where all intervals bounded below are finite. This is\nslightly weaker than `LocallyFiniteOrder` + `OrderTop` as it allows empty types. -/\nclass LocallyFiniteOrderTop (\u03b1 : Type*) [Preorder \u03b1] where\n  /-- Left-open right-infinite interval -/\n  finsetIoi : \u03b1 \u2192 Finset \u03b1\n  /-- Left-closed right-infinite interval -/\n  finsetIci : \u03b1 \u2192 Finset \u03b1\n  /-- `x \u2208 finsetIci a \u2194 a \u2264 x` -/\n  finset_mem_Ici : \u2200 a x : \u03b1, x \u2208 finsetIci a \u2194 a \u2264 x\n  /-- `x \u2208 finsetIoi a \u2194 a < x` -/\n  finset_mem_Ioi : \u2200 a x : \u03b1, x \u2208 finsetIoi a \u2194 a < x\n",
+          "sha256": "48853fbb8a826673bd9c7fad2d5fabe68dc1151f927eadc209cf6a68934c1591",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L141-L154"
+        },
+        {
+          "name": "Finset.Ioi",
+          "first_line": 360,
+          "last_line": 372,
+          "text": "/-- The finset $(a, \u221e)$ of elements `x` such that `a < x`. Basically `Set.Ioi a` as a finset. -/\n@[to_dual\n/-- The finset $(-\u221e, b)$ of elements `x` such that `x < b`. Basically `Set.Iio b` as a finset. -/]\ndef Ioi (a : \u03b1) : Finset \u03b1 :=\n  LocallyFiniteOrderTop.finsetIoi a\n\n@[to_dual (attr := simp, grind =)]\ntheorem mem_Ici : x \u2208 Ici a \u2194 a \u2264 x :=\n  LocallyFiniteOrderTop.finset_mem_Ici _ _\n\n@[to_dual (attr := simp, grind =)]\ntheorem mem_Ioi : x \u2208 Ioi a \u2194 a < x :=\n  LocallyFiniteOrderTop.finset_mem_Ioi _ _\n",
+          "sha256": "df336b1238754f78be6a026d9933402848229db0fc1a5e9294124940eee9c2d4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L360-L372"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Interval/Finset/Fin.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Fin.lean",
+      "sha256": "1f61a87f5a33679269110a3da98111b222e2daecb73418b7b7df64238cf98263",
+      "git_blob_sha1": "9e0e5d705b0a65d9b25e9dd1b3de1a6f26ab3590",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Ya\u00ebl Dillies. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Ya\u00ebl Dillies, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fin.card_Iio",
+          "first_line": 887,
+          "last_line": 891,
+          "text": "@[simp]\ntheorem card_Iic : #(Iic b) = b + 1 := by rw [\u2190 Nat.card_Iic b, \u2190 map_valEmbedding_Iic, card_map]\n\n@[simp]\ntheorem card_Iio : #(Iio b) = b := by rw [\u2190 Nat.card_Iio b, \u2190 map_valEmbedding_Iio, card_map]\n",
+          "sha256": "4fc2fbe1e68b0b0f5a3b2dcd7f00a54cd7ec3d94ee6897bb63c46311d15839b6",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Fin.lean#L887-L891"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/BigOperators.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean",
+      "sha256": "b9a6354ebff5fcd22fb1ddb7992682a404ec44c8ee42d519177f17d1d5a239e9",
+      "git_blob_sha1": "917939a39bc342d238acc0cebaee1ef3bce5f100",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fin.sum_range_conversion",
+          "first_line": 225,
+          "last_line": 232,
+          "text": "/-- It is equivalent to compute the product of a function over `Fin n` or `Finset.range n`. -/\n@[to_additive /-- It is equivalent to sum a function over `fin n` or `finset.range n`. -/]\ntheorem Fin.prod_univ_eq_prod_range [CommMonoid \u03b1] (f : \u2115 \u2192 \u03b1) (n : \u2115) :\n    \u220f i : Fin n, f i = \u220f i \u2208 range n, f i :=\n  calc\n    \u220f i : Fin n, f i = \u220f i : { x // x \u2208 range n }, f i :=\n      Fintype.prod_equiv (Fin.equivSubtype.trans (Equiv.subtypeEquivRight (by simp))) _ _ (by simp)\n    _ = \u220f i \u2208 range n, f i := by rw [\u2190 attach_eq_univ, prod_attach]\n",
+          "sha256": "994b6aed5928d2457ffda9796532e9462a9619c6dd0db5eb35b5292a13220582",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L225-L232"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "d18cf20bb6c9d700ba2a9f500f4d4a98154e749e098f1ee631f34fdd05401eb0"
+      "sha256": "c2f04a9b05d63fde011ce7474b455acb8623f58245a680e6be2e4726ad3013af"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "e38ba1bfc83f0dd0cc45b59fbb49f6bd2f8cf50f4bf1acf6e5f1a57c1f4a8c47"
+      "sha256": "f1d2f7c1b8edc129ddeefebdea9fcf5d9d118ac30c0ea0d76bed335a1400038a"
     }
   ],
   "generated_declarations": [

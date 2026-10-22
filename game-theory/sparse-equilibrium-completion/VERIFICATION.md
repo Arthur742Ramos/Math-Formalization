@@ -70,3 +70,18 @@ natural-number cast for that denominator, preserving its real value while
 avoiding generated proof identity sharing. The comparator is unchanged. The
 failed immutable receipt is retained outside source; the correction needs its
 own exact-commit run and independent review.
+
+## Two-anchor rigidity follow-on
+
+This tranche adds normalized bounded sparse-witness wrappers, arbitrary-target
+prefix exposure, tight-prefix edge saturation, bounded normalized fixed-share
+rigidity, the exact uniform formula correspondence, and inverse rigidity under
+two minimum shares. Independent internal mathematical review found no circular
+mass assumption in the minimum-share argument. All proof helpers remain public
+and exposed. Selected real numeric literals use explicit natural casts to avoid
+generated numeral-evidence sharing under protected assembly. Finite-ordinal
+source evidence is independently bound to the compiler's GitHub blob, with
+literal/field bridges compiled through both entrypoints. Full native exact-source
+results belong to the separate immutable receipt for the final commit, not the
+preceding reconstruction checkpoint. Quantitative support and uncertainty work
+remain open; no submission, canonical sandbox or rendering is claimed.
