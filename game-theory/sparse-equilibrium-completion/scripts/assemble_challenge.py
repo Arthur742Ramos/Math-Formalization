@@ -6,7 +6,7 @@ import sys
 if not __debug__ or sys.flags.optimize:
     raise SystemExit('Challenge assembly checks refuse assertion-disabled Python optimization modes')
 
-MODULES = ['SparseCompletion', 'MomentCompression', 'GameModel', 'SparseWitness', 'GameSparseWitness', 'CompletionDual', 'CompletionGeometry', 'CompletionCriterion', 'SparseCompletionWitness', 'PaperWitness', 'PrefixRigidity', 'TwoAnchorRigidity', 'MinimumShareRigidity']
+MODULES = ['SparseCompletion', 'MomentCompression', 'GameModel', 'SparseWitness', 'GameSparseWitness', 'CompletionDual', 'CompletionGeometry', 'CompletionCriterion', 'SparseCompletionWitness', 'PaperWitness', 'PrefixRigidity', 'TwoAnchorRigidity', 'MinimumShareRigidity', 'PrefixStability', 'MinimumShareStability', 'Quantization', 'SupportQuantization', 'SupportLowerBound', 'SupportRate', 'SupportMinimum']
 
 def assemble(root):
     imports, bodies = [], []

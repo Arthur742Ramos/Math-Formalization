@@ -1,6 +1,6 @@
 name = "sparseEquilibriumCompletion"
 version = "0.1.0"
-defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "CompletionDual", "CompletionGeometry", "CompletionCriterion", "SparseCompletionWitness", "PaperWitness", "PrefixRigidity", "TwoAnchorRigidity", "MinimumShareRigidity", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests"]
+defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "CompletionDual", "CompletionGeometry", "CompletionCriterion", "SparseCompletionWitness", "PaperWitness", "PrefixRigidity", "TwoAnchorRigidity", "MinimumShareRigidity", "PrefixStability", "MinimumShareStability", "Quantization", "SupportQuantization", "SupportLowerBound", "SupportRate", "SupportMinimum", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests"]
 moreLeanArgs = ["-j2", "-M3072", "-DwarningAsError=true"]
 [[require]]
 name = "mathlib"
@@ -59,3 +59,24 @@ name = "TwoAnchorRigidity"
 
 [[lean_lib]]
 name = "MinimumShareRigidity"
+
+[[lean_lib]]
+name = "PrefixStability"
+
+[[lean_lib]]
+name = "MinimumShareStability"
+
+[[lean_lib]]
+name = "Quantization"
+
+[[lean_lib]]
+name = "SupportQuantization"
+
+[[lean_lib]]
+name = "SupportLowerBound"
+
+[[lean_lib]]
+name = "SupportRate"
+
+[[lean_lib]]
+name = "SupportMinimum"

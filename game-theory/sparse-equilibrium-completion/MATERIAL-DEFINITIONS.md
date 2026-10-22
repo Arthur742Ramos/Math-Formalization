@@ -1322,3 +1322,297 @@ structure Fin (n : Nat) where
 
 attribute [coe] Fin.val
 ```
+
+## Quantitative support and attained-minimum meanings
+
+### Nat.find
+
+Least natural satisfying a predicate known to have a witness. Projects Nat.findX. Our support predicate uses actual real strategies and matrices; classical decidability is noncomputable, with no claimed executable decision algorithm. The dense exact witness proves nonemptiness for nonnegative tolerance.
+
+Affected selected declarations: SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniformMinimumTotalSupport_sharp
+
+### Nat.findX
+
+Witness of the predicate together with failure at every smaller natural. WellFounded.fix scans successive naturals under the decreasing relation lbp, whose well-foundedness follows from the supplied existential witness. The DecidablePred parameter is genuine standard classical choice in this noncomputable use.
+
+Affected selected declarations: SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniformMinimumTotalSupport_sharp
+
+### RelEmbedding
+
+An injective map reflecting and preserving the specified relation. OrderEmbedding abbreviates RelEmbedding of the two less-than-or-equal relations. On linear orders this yields strict monotonicity; no equal grid indices are introduced by finite enumeration.
+
+Affected selected declarations: SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniformMinimumTotalSupport_sharp
+
+### Finset.orderIsoOfFin
+
+Increasing bijection from Fin k to a finite ordered set s of cardinality k. Constructed from the sorted list, the Fin cardinality cast and a subtype order isomorphism; it covers every element of s.
+
+Affected selected declarations: SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniformMinimumTotalSupport_sharp
+
+### Finset.orderEmbOfFin
+
+Increasing injection from Fin k into the ambient linear order, enumerating exactly s. Composes the finite-set order isomorphism with subtype inclusion. map_orderEmbOfFin_univ gives full coverage; no contiguity of the finite subset is assumed.
+
+Affected selected declarations: SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.uniformMinimumTotalSupport_sharp
+
+Existing finite enumeration, sums, cardinality and natural-range meanings also occur in: SparseCompletion.two_anchor_fixed_share_stability, SparseCompletion.two_anchor_minimum_share_stability, SparseCompletion.finite_subset_quantization_bound, SparseCompletion.sparse_cumulative_quantization, SparseCompletion.uniform_fixed_share_support_lower, SparseCompletion.uniform_minimum_share_support_lower, SparseCompletion.uniform_fixed_share_inverse_square, SparseCompletion.uniform_minimum_share_inverse_square, SparseCompletion.uniform_total_support_lower, SparseCompletion.two_anchor_total_support_card, SparseCompletion.uniform_sparse_upper_rate, SparseCompletion.uniform_witness_total_support_card, SparseCompletion.uniform_witness_dense, SparseCompletion.uniform_witness_support_exists, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.uniformMinimumTotalSupport_sharp. Real square-root sign/square meanings additionally occur in the quantitative lower and sharp support laws.
+
+### Nat.find pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean
+
+Whole-source SHA256: 5a07ff428d4fbd44e2921e630dce57685bc1a1ff544360a7109175aba9fc2640
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean#L55-L79
+
+```lean
+
+/-- If `p` is a (decidable) predicate on `ℕ` and `hp : ∃ (n : ℕ), p n` is a proof that
+there exists some natural number satisfying `p`, then `Nat.find hp` is the
+smallest natural number satisfying `p`. Note that `Nat.find` is protected,
+meaning that you can't just write `find`, even if the `Nat` namespace is open.
+
+The API for `Nat.find` is:
+
+* `Nat.find_spec` is the proof that `Nat.find hp` satisfies `p`.
+* `Nat.find_min` is the proof that if `m < Nat.find hp` then `m` does not satisfy `p`.
+* `Nat.find_min'` is the proof that if `m` does satisfy `p` then `Nat.find hp ≤ m`.
+-/
+protected def find : ℕ :=
+  (Nat.findX H).1
+
+protected theorem find_spec : p (Nat.find H) :=
+  (Nat.findX H).2.left
+
+grind_pattern Nat.find_spec => Nat.find H
+
+protected theorem find_min : ∀ {m : ℕ}, m < Nat.find H → ¬p m :=
+  @(Nat.findX H).2.right
+
+protected theorem find_min' {m : ℕ} (h : p m) : Nat.find H ≤ m :=
+  Nat.le_of_not_gt fun l => Nat.find_min H l h
+```
+
+### Nat.findX pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean
+
+Whole-source SHA256: 5a07ff428d4fbd44e2921e630dce57685bc1a1ff544360a7109175aba9fc2640
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Johannes Hölzl, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean#L25-L53
+
+```lean
+
+private def lbp (m n : ℕ) : Prop :=
+  m = n + 1 ∧ ∀ k ≤ n, ¬p k
+
+private theorem wf_lbp (H : ∃ n, p n) : WellFounded (@lbp p) :=
+  ⟨let ⟨n, pn⟩ := H
+    suffices ∀ m k, n ≤ k + m → Acc lbp k from fun _ => this _ _ (Nat.le_add_left _ _)
+    fun m =>
+    Nat.recOn m
+      (fun _ kn =>
+        ⟨_, fun y r =>
+          match y, r with
+          | _, ⟨rfl, a⟩ => absurd pn (a _ kn)⟩)
+      fun m IH k kn =>
+      ⟨_, fun y r =>
+        match y, r with
+        | _, ⟨rfl, _a⟩ => IH _ (by rw [Nat.add_right_comm]; exact kn)⟩⟩
+
+variable [DecidablePred p] (H : ∃ n, p n)
+
+/-- Find the smallest `n` satisfying `p n`. Returns a subtype. -/
+protected def findX : { n // p n ∧ ∀ m < n, ¬p m } :=
+  @WellFounded.fix _ (fun k => (∀ n < k, ¬p n) → { n // p n ∧ ∀ m < n, ¬p m }) lbp (wf_lbp H)
+    (fun m IH al =>
+      if pm : p m then ⟨m, pm, al⟩
+      else
+        have : ∀ n ≤ m, ¬p n := fun n h =>
+          Or.elim (Nat.lt_or_eq_of_le h) (al n) fun e => by rw [e]; exact pm
+        IH _ ⟨rfl, this⟩ fun n h => this n <| Nat.le_of_succ_le_succ h)
+```
+
+### RelEmbedding pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/RelIso/Basic.lean
+
+Whole-source SHA256: f137f96d298cd198b1db89326bc0967417db4eb66abc752f8bc71d9a9a6428b1
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/RelIso/Basic.lean#L201-L205
+
+```lean
+/-- A relation embedding with respect to a given pair of relations `r` and `s`
+is an embedding `f : α ↪ β` such that `r a b ↔ s (f a) (f b)`. -/
+structure RelEmbedding {α β : Type*} (r : α → α → Prop) (s : β → β → Prop) extends α ↪ β where
+  /-- Elements are related iff they are related after apply a `RelEmbedding` -/
+  map_rel_iff' : ∀ {a b}, s (toEmbedding a) (toEmbedding b) ↔ r a b
+```
+
+### OrderEmbedding-abbreviation pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Hom/Basic.lean
+
+Whole-source SHA256: e23a4af92ee1e161b8511356b2ae57cf4d860cfc96cd5bdbfa7ee765499ace15
+
+```lean
+/-
+Copyright (c) 2020 Johan Commelin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johan Commelin
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Hom/Basic.lean#L91-L94
+
+```lean
+/-- An order embedding is an embedding `f : α ↪ β` such that `a ≤ b ↔ (f a) ≤ (f b)`.
+This definition is an abbreviation of `RelEmbedding (≤) (≤)`. -/
+abbrev OrderEmbedding (α β : Type*) [LE α] [LE β] :=
+  @RelEmbedding α β (· ≤ ·) (· ≤ ·)
+```
+
+### Finset.orderIsoOfFin pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean
+
+Whole-source SHA256: 2fd791b340659c85aea7c548aa01c61e9b73f02bc68346e2eb22b53cc9a1ec4d
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean#L181-L189
+
+```lean
+
+/-- Given a finset `s` of cardinality `k` in a linear order `α`, the map `orderIsoOfFin s h`
+is the increasing bijection between `Fin k` and `s` as an `OrderIso`. Here, `h` is a proof that
+the cardinality of `s` is `k`. We use this instead of an iso `Fin s.card ≃o s` to avoid
+casting issues in further uses of this function. -/
+def orderIsoOfFin (s : Finset α) {k : ℕ} (h : s.card = k) : Fin k ≃o s :=
+  OrderIso.trans (Fin.castOrderIso ((s.length_sort (· ≤ ·)).trans h).symm) <|
+    (s.sortedLT_sort.getIso _).trans <| Set.orderIsoOfEq {x | x ∈ s.sort (· ≤ ·)} _ <| by simp
+
+```
+
+### Finset.orderEmbOfFin pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean
+
+Whole-source SHA256: 2fd791b340659c85aea7c548aa01c61e9b73f02bc68346e2eb22b53cc9a1ec4d
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean#L190-L195
+
+```lean
+/-- Given a finset `s` of cardinality `k` in a linear order `α`, the map `orderEmbOfFin s h` is
+the increasing bijection between `Fin k` and `s` as an order embedding into `α`. Here, `h` is a
+proof that the cardinality of `s` is `k`. We use this instead of an embedding `Fin s.card ↪o α` to
+avoid casting issues in further uses of this function. -/
+def orderEmbOfFin (s : Finset α) {k : ℕ} (h : s.card = k) : Fin k ↪o α :=
+  (orderIsoOfFin s h).toOrderEmbedding.trans (OrderEmbedding.subtype _)
+```
+
+### sorted-enumeration-coverage pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean
+
+Whole-source SHA256: 2fd791b340659c85aea7c548aa01c61e9b73f02bc68346e2eb22b53cc9a1ec4d
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean#L209-L232
+
+```lean
+
+@[simp]
+theorem orderEmbOfFin_mem (s : Finset α) {k : ℕ} (h : s.card = k) (i : Fin k) :
+    s.orderEmbOfFin h i ∈ s :=
+  (s.orderIsoOfFin h i).2
+
+@[simp]
+theorem range_orderEmbOfFin (s : Finset α) {k : ℕ} (h : s.card = k) :
+    Set.range (s.orderEmbOfFin h) = s := by
+  simp only [orderEmbOfFin, Set.range_comp ((↑) : _ → α) (s.orderIsoOfFin h),
+  RelEmbedding.coe_trans, Set.image_univ, Finset.orderEmbOfFin, RelIso.range_eq,
+    OrderEmbedding.coe_subtype, OrderIso.coe_toOrderEmbedding,
+    Subtype.range_coe_subtype, Finset.setOfPred_mem]
+
+@[simp]
+theorem image_orderEmbOfFin_univ (s : Finset α) {k : ℕ} (h : s.card = k) :
+    Finset.image (s.orderEmbOfFin h) Finset.univ = s := by
+  apply Finset.coe_injective
+  simp
+
+@[simp]
+theorem map_orderEmbOfFin_univ (s : Finset α) {k : ℕ} (h : s.card = k) :
+    Finset.map (s.orderEmbOfFin h).toEmbedding Finset.univ = s := by
+  simp [map_eq_image]
+```
+
+### cubic-Jensen-contract pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Chebyshev.lean
+
+Whole-source SHA256: ad0178d8901043bbf10bb55b9a3b689924d470f626b76527bef1e46b42654063
+
+```lean
+/-
+Copyright (c) 2023 Mantas Bakšys, Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mantas Bakšys, Yaël Dillies
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Chebyshev.lean#L126-L128
+
+```lean
+/-- Special case of **Jensen's inequality** for sums of powers. -/
+lemma pow_sum_le_card_mul_sum_pow (hf : ∀ i ∈ s, 0 ≤ f i) :
+    ∀ n, (∑ i ∈ s, f i) ^ (n + 1) ≤ (#s : α) ^ n * ∑ i ∈ s, f i ^ (n + 1)
+```
+
+
+Nat.find and Nat.findX are unexposed upstream definitions. The independent bridge modules prove their projection equality from minimality and attainment; this is a proved equality, not claimed cross-module definitional equality.

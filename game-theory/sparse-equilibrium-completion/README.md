@@ -16,15 +16,22 @@ classical compact-convex separation. All original rows satisfy the resulting
 response bound. This is an existence proof over reals; executable rational
 reconstruction and complexity claims remain open. Definitions and all proof
 helpers have stable public exposed declaration names. The theorem map, including
-outstanding sharp support rates and uncertainty work, is in [SCOPE.md](SCOPE.md).
+outstanding explicit upper constructions and uncertainty work, is in [SCOPE.md](SCOPE.md).
 
-The two-anchor construction now realizes every strictly positive residual target
-of mass `1/4` using bounded observations. Under the two minimum shares `3/8`,
+For `m≥2`, the two-anchor construction realizes every strictly positive residual
+target of mass `1/4` using bounded observations. Under the two minimum shares `3/8`,
 exact equilibrium forces both shares to be tight, the target distribution, and
 every residual edge. Its uniform specialization is bridged to the paper's
 explicit score and quadratic weight formulas. The normalized sparse-witness
 wrappers distinguish residual support from total support, including anchors.
-Quantitative inverse-square support and uncertainty laws remain unfinished.
+Quantitative lower bounds and matching existential upper support order are proved.
+For `m≥2`, the attained total-support minima for fixed and minimum shares equal `m+2` at
+zero tolerance; for `0<ε≤1` they lie between
+`sqrt(3/1216) min(m+2,1/sqrt ε)` and `5 min(m+2,1/sqrt ε)`.
+The minimum is noncomputable over actual strategies and completions, with
+nonemptiness, attainment, minimality and actual support-cardinality bridges.
+The upper proof uses the general sparse theorem. The paper's explicit midpoint/
+bin constructions, residual-minimum packaging and uncertainty laws remain open.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`; its dependencies are package-owned.

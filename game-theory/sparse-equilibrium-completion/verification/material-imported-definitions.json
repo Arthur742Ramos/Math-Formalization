@@ -36,7 +36,12 @@
     "Finset.range",
     "LocallyFiniteOrderBot",
     "LocallyFiniteOrderTop",
-    "Finset.Ioi"
+    "Finset.Ioi",
+    "Nat.find",
+    "Nat.findX",
+    "RelEmbedding",
+    "Finset.orderIsoOfFin",
+    "Finset.orderEmbOfFin"
   ],
   "material_declarations": [
     {
@@ -81,7 +86,25 @@
         "SparseCompletion.uniform_exposing_weight",
         "SparseCompletion.uniform_two_anchor_dense",
         "SparseCompletion.positive_target_full_support",
-        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
+        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity",
+        "SparseCompletion.two_anchor_fixed_share_stability",
+        "SparseCompletion.two_anchor_minimum_share_stability",
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.two_anchor_total_support_card",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniform_witness_total_support_card",
+        "SparseCompletion.uniform_witness_dense",
+        "SparseCompletion.uniform_witness_support_exists",
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -137,7 +160,25 @@
         "SparseCompletion.uniform_exposing_weight",
         "SparseCompletion.uniform_two_anchor_dense",
         "SparseCompletion.positive_target_full_support",
-        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
+        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity",
+        "SparseCompletion.two_anchor_fixed_share_stability",
+        "SparseCompletion.two_anchor_minimum_share_stability",
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.two_anchor_total_support_card",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniform_witness_total_support_card",
+        "SparseCompletion.uniform_witness_dense",
+        "SparseCompletion.uniform_witness_support_exists",
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -191,7 +232,25 @@
         "SparseCompletion.uniform_exposing_weight",
         "SparseCompletion.uniform_two_anchor_dense",
         "SparseCompletion.positive_target_full_support",
-        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity"
+        "SparseCompletion.bounded_two_anchor_minimum_share_rigidity",
+        "SparseCompletion.two_anchor_fixed_share_stability",
+        "SparseCompletion.two_anchor_minimum_share_stability",
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.two_anchor_total_support_card",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniform_witness_total_support_card",
+        "SparseCompletion.uniform_witness_dense",
+        "SparseCompletion.uniform_witness_support_exists",
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -288,7 +347,10 @@
         "SparseCompletion.game_sparse_completion",
         "SparseCompletion.exact_game_sparse_completion",
         "SparseCompletion.normalized_sparse_witness",
-        "SparseCompletion.normalized_exact_sparse_witness"
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
       "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
@@ -312,7 +374,10 @@
         "SparseCompletion.game_sparse_completion",
         "SparseCompletion.exact_game_sparse_completion",
         "SparseCompletion.normalized_sparse_witness",
-        "SparseCompletion.normalized_exact_sparse_witness"
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
       "dependency_expansion": "Negative inputs yield zero. Only nonnegative Mr/\u03b7 is used; square_root_meaning proves the needed square and sign laws.",
@@ -336,7 +401,10 @@
         "SparseCompletion.game_sparse_completion",
         "SparseCompletion.exact_game_sparse_completion",
         "SparseCompletion.normalized_sparse_witness",
-        "SparseCompletion.normalized_exact_sparse_witness"
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
       "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
@@ -604,7 +672,25 @@
         "SparseCompletion.block_support_card",
         "SparseCompletion.normalized_sparse_witness",
         "SparseCompletion.normalized_exact_sparse_witness",
-        "SparseCompletion.positive_target_full_support"
+        "SparseCompletion.positive_target_full_support",
+        "SparseCompletion.two_anchor_fixed_share_stability",
+        "SparseCompletion.two_anchor_minimum_share_stability",
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.two_anchor_total_support_card",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniform_witness_total_support_card",
+        "SparseCompletion.uniform_witness_dense",
+        "SparseCompletion.uniform_witness_support_exists",
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "The number of elements in the underlying duplicate-free multiset.",
       "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
@@ -632,7 +718,25 @@
         "SparseCompletion.block_support_card",
         "SparseCompletion.normalized_sparse_witness",
         "SparseCompletion.normalized_exact_sparse_witness",
-        "SparseCompletion.positive_target_full_support"
+        "SparseCompletion.positive_target_full_support",
+        "SparseCompletion.two_anchor_fixed_share_stability",
+        "SparseCompletion.two_anchor_minimum_share_stability",
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.two_anchor_total_support_card",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniform_witness_total_support_card",
+        "SparseCompletion.uniform_witness_dense",
+        "SparseCompletion.uniform_witness_support_exists",
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "The cardinality of the finite universal enumeration.",
       "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
@@ -782,7 +886,25 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
-        "SparseCompletion.uniform_exposing_weight"
+        "SparseCompletion.uniform_exposing_weight",
+        "SparseCompletion.two_anchor_fixed_share_stability",
+        "SparseCompletion.two_anchor_minimum_share_stability",
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.two_anchor_total_support_card",
+        "SparseCompletion.uniform_sparse_upper_rate",
+        "SparseCompletion.uniform_witness_total_support_card",
+        "SparseCompletion.uniform_witness_dense",
+        "SparseCompletion.uniform_witness_support_exists",
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ],
       "meaning": "The finite set of natural numbers strictly less than n.",
       "dependency_expansion": "Its underlying multiset is Multiset.range n, with a no-duplicates proof. mem_range states membership iff i<n.",
@@ -843,6 +965,116 @@
         "Finset.Ioi"
       ],
       "proof_status": "Challenge and Solution independently compile literal/field, membership and cardinality bridges; exact-source receipts identify the tested commit. Independent internal review assesses semantic fidelity."
+    },
+    {
+      "name": "Nat.find",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ],
+      "meaning": "Least natural satisfying a predicate known to have a witness.",
+      "dependency_expansion": "Projects Nat.findX. Our support predicate uses actual real strategies and matrices; classical decidability is noncomputable, with no claimed executable decision algorithm. The dense exact witness proves nonemptiness for nonnegative tolerance.",
+      "definition_excerpt": "Nat.find",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Nat.find",
+        "Nat.findX"
+      ],
+      "proof_status": "The upstream module keeps these definitions unexposed. Separately compiled bridges prove attainment, minimality and projection equality from their checked theorem contracts, rather than claiming definitional equality across modules."
+    },
+    {
+      "name": "Nat.findX",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ],
+      "meaning": "Witness of the predicate together with failure at every smaller natural.",
+      "dependency_expansion": "WellFounded.fix scans successive naturals under the decreasing relation lbp, whose well-foundedness follows from the supplied existential witness. The DecidablePred parameter is genuine standard classical choice in this noncomputable use.",
+      "definition_excerpt": "Nat.findX",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Nat.findX"
+      ],
+      "proof_status": "The upstream module keeps these definitions unexposed. Separately compiled bridges prove attainment, minimality and projection equality from their checked theorem contracts, rather than claiming definitional equality across modules."
+    },
+    {
+      "name": "RelEmbedding",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ],
+      "meaning": "An injective map reflecting and preserving the specified relation.",
+      "dependency_expansion": "OrderEmbedding abbreviates RelEmbedding of the two less-than-or-equal relations. On linear orders this yields strict monotonicity; no equal grid indices are introduced by finite enumeration.",
+      "definition_excerpt": "RelEmbedding",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "RelEmbedding",
+        "OrderEmbedding-abbreviation"
+      ],
+      "proof_status": "Independent Challenge and Solution bridge builds check these literal/field and theorem contracts; the exact-source receipt records outcomes. Internal review assesses interpretation."
+    },
+    {
+      "name": "Finset.orderIsoOfFin",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ],
+      "meaning": "Increasing bijection from Fin k to a finite ordered set s of cardinality k.",
+      "dependency_expansion": "Constructed from the sorted list, the Fin cardinality cast and a subtype order isomorphism; it covers every element of s.",
+      "definition_excerpt": "Finset.orderIsoOfFin",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.orderIsoOfFin"
+      ],
+      "proof_status": "Independent Challenge and Solution bridge builds check these literal/field and theorem contracts; the exact-source receipt records outcomes. Internal review assesses interpretation."
+    },
+    {
+      "name": "Finset.orderEmbOfFin",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ],
+      "meaning": "Increasing injection from Fin k into the ambient linear order, enumerating exactly s.",
+      "dependency_expansion": "Composes the finite-set order isomorphism with subtype inclusion. map_orderEmbOfFin_univ gives full coverage; no contiguity of the finite subset is assumed.",
+      "definition_excerpt": "Finset.orderEmbOfFin",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.orderEmbOfFin",
+        "sorted-enumeration-coverage"
+      ],
+      "proof_status": "Independent Challenge and Solution bridge builds check these literal/field and theorem contracts; the exact-source receipt records outcomes. Internal review assesses interpretation."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -1468,18 +1700,132 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L225-L232"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Data/Nat/Find.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean",
+      "sha256": "5a07ff428d4fbd44e2921e630dce57685bc1a1ff544360a7109175aba9fc2640",
+      "git_blob_sha1": "7d2bf259d4379a178eeca4e705d98c1baefeaa58",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Johannes H\u00f6lzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Nat.find",
+          "first_line": 55,
+          "last_line": 79,
+          "text": "\n/-- If `p` is a (decidable) predicate on `\u2115` and `hp : \u2203 (n : \u2115), p n` is a proof that\nthere exists some natural number satisfying `p`, then `Nat.find hp` is the\nsmallest natural number satisfying `p`. Note that `Nat.find` is protected,\nmeaning that you can't just write `find`, even if the `Nat` namespace is open.\n\nThe API for `Nat.find` is:\n\n* `Nat.find_spec` is the proof that `Nat.find hp` satisfies `p`.\n* `Nat.find_min` is the proof that if `m < Nat.find hp` then `m` does not satisfy `p`.\n* `Nat.find_min'` is the proof that if `m` does satisfy `p` then `Nat.find hp \u2264 m`.\n-/\nprotected def find : \u2115 :=\n  (Nat.findX H).1\n\nprotected theorem find_spec : p (Nat.find H) :=\n  (Nat.findX H).2.left\n\ngrind_pattern Nat.find_spec => Nat.find H\n\nprotected theorem find_min : \u2200 {m : \u2115}, m < Nat.find H \u2192 \u00acp m :=\n  @(Nat.findX H).2.right\n\nprotected theorem find_min' {m : \u2115} (h : p m) : Nat.find H \u2264 m :=\n  Nat.le_of_not_gt fun l => Nat.find_min H l h\n",
+          "sha256": "9203cb2db646e7d160b19055bb4a5e8c7ac626bad9e5b553d2c311bc9af36a1e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean#L55-L79"
+        },
+        {
+          "name": "Nat.findX",
+          "first_line": 25,
+          "last_line": 53,
+          "text": "\nprivate def lbp (m n : \u2115) : Prop :=\n  m = n + 1 \u2227 \u2200 k \u2264 n, \u00acp k\n\nprivate theorem wf_lbp (H : \u2203 n, p n) : WellFounded (@lbp p) :=\n  \u27e8let \u27e8n, pn\u27e9 := H\n    suffices \u2200 m k, n \u2264 k + m \u2192 Acc lbp k from fun _ => this _ _ (Nat.le_add_left _ _)\n    fun m =>\n    Nat.recOn m\n      (fun _ kn =>\n        \u27e8_, fun y r =>\n          match y, r with\n          | _, \u27e8rfl, a\u27e9 => absurd pn (a _ kn)\u27e9)\n      fun m IH k kn =>\n      \u27e8_, fun y r =>\n        match y, r with\n        | _, \u27e8rfl, _a\u27e9 => IH _ (by rw [Nat.add_right_comm]; exact kn)\u27e9\u27e9\n\nvariable [DecidablePred p] (H : \u2203 n, p n)\n\n/-- Find the smallest `n` satisfying `p n`. Returns a subtype. -/\nprotected def findX : { n // p n \u2227 \u2200 m < n, \u00acp m } :=\n  @WellFounded.fix _ (fun k => (\u2200 n < k, \u00acp n) \u2192 { n // p n \u2227 \u2200 m < n, \u00acp m }) lbp (wf_lbp H)\n    (fun m IH al =>\n      if pm : p m then \u27e8m, pm, al\u27e9\n      else\n        have : \u2200 n \u2264 m, \u00acp n := fun n h =>\n          Or.elim (Nat.lt_or_eq_of_le h) (al n) fun e => by rw [e]; exact pm\n        IH _ \u27e8rfl, this\u27e9 fun n h => this n <| Nat.le_of_succ_le_succ h)\n",
+          "sha256": "362834dd38c5b576f3aa9c1387d3ddfc81514d54a48c32f92415def53a7832c9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean#L25-L53"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/RelIso/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/RelIso/Basic.lean",
+      "sha256": "f137f96d298cd198b1db89326bc0967417db4eb66abc752f8bc71d9a9a6428b1",
+      "git_blob_sha1": "94e818d51e54bd9b3f0e7b16d07ff3770f23d701",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "RelEmbedding",
+          "first_line": 201,
+          "last_line": 205,
+          "text": "/-- A relation embedding with respect to a given pair of relations `r` and `s`\nis an embedding `f : \u03b1 \u21aa \u03b2` such that `r a b \u2194 s (f a) (f b)`. -/\nstructure RelEmbedding {\u03b1 \u03b2 : Type*} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) (s : \u03b2 \u2192 \u03b2 \u2192 Prop) extends \u03b1 \u21aa \u03b2 where\n  /-- Elements are related iff they are related after apply a `RelEmbedding` -/\n  map_rel_iff' : \u2200 {a b}, s (toEmbedding a) (toEmbedding b) \u2194 r a b\n",
+          "sha256": "2b45ef1a706b2525d5a8c82d1054b5314690346d4a6dfb49161f0148b73edc30",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/RelIso/Basic.lean#L201-L205"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Hom/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Hom/Basic.lean",
+      "sha256": "e23a4af92ee1e161b8511356b2ae57cf4d860cfc96cd5bdbfa7ee765499ace15",
+      "git_blob_sha1": "de920e4f0b3877334d2ab1a3ed5344d56a6d6946",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Johan Commelin. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin\n-/\n",
+      "excerpts": [
+        {
+          "name": "OrderEmbedding-abbreviation",
+          "first_line": 91,
+          "last_line": 94,
+          "text": "/-- An order embedding is an embedding `f : \u03b1 \u21aa \u03b2` such that `a \u2264 b \u2194 (f a) \u2264 (f b)`.\nThis definition is an abbreviation of `RelEmbedding (\u2264) (\u2264)`. -/\nabbrev OrderEmbedding (\u03b1 \u03b2 : Type*) [LE \u03b1] [LE \u03b2] :=\n  @RelEmbedding \u03b1 \u03b2 (\u00b7 \u2264 \u00b7) (\u00b7 \u2264 \u00b7)\n",
+          "sha256": "4a93e74edefd640f8c4ae0335af974341887623ef7522b50bec123a45d59f8e7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Hom/Basic.lean#L91-L94"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Sort.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean",
+      "sha256": "2fd791b340659c85aea7c548aa01c61e9b73f02bc68346e2eb22b53cc9a1ec4d",
+      "git_blob_sha1": "7b0a4c48f708fe480d641bb9df04e8861bca3c39",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.orderIsoOfFin",
+          "first_line": 181,
+          "last_line": 189,
+          "text": "\n/-- Given a finset `s` of cardinality `k` in a linear order `\u03b1`, the map `orderIsoOfFin s h`\nis the increasing bijection between `Fin k` and `s` as an `OrderIso`. Here, `h` is a proof that\nthe cardinality of `s` is `k`. We use this instead of an iso `Fin s.card \u2243o s` to avoid\ncasting issues in further uses of this function. -/\ndef orderIsoOfFin (s : Finset \u03b1) {k : \u2115} (h : s.card = k) : Fin k \u2243o s :=\n  OrderIso.trans (Fin.castOrderIso ((s.length_sort (\u00b7 \u2264 \u00b7)).trans h).symm) <|\n    (s.sortedLT_sort.getIso _).trans <| Set.orderIsoOfEq {x | x \u2208 s.sort (\u00b7 \u2264 \u00b7)} _ <| by simp\n\n",
+          "sha256": "711beceea2786baf81678f3dc06f801785b85934c567d71f2c313066c6aad01d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean#L181-L189"
+        },
+        {
+          "name": "Finset.orderEmbOfFin",
+          "first_line": 190,
+          "last_line": 195,
+          "text": "/-- Given a finset `s` of cardinality `k` in a linear order `\u03b1`, the map `orderEmbOfFin s h` is\nthe increasing bijection between `Fin k` and `s` as an order embedding into `\u03b1`. Here, `h` is a\nproof that the cardinality of `s` is `k`. We use this instead of an embedding `Fin s.card \u21aao \u03b1` to\navoid casting issues in further uses of this function. -/\ndef orderEmbOfFin (s : Finset \u03b1) {k : \u2115} (h : s.card = k) : Fin k \u21aao \u03b1 :=\n  (orderIsoOfFin s h).toOrderEmbedding.trans (OrderEmbedding.subtype _)\n",
+          "sha256": "9e1ea88f6b17ee3499bba2dae8bd9b058ab5f8f46096e9f71c34c473261b6ac4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean#L190-L195"
+        },
+        {
+          "name": "sorted-enumeration-coverage",
+          "first_line": 209,
+          "last_line": 232,
+          "text": "\n@[simp]\ntheorem orderEmbOfFin_mem (s : Finset \u03b1) {k : \u2115} (h : s.card = k) (i : Fin k) :\n    s.orderEmbOfFin h i \u2208 s :=\n  (s.orderIsoOfFin h i).2\n\n@[simp]\ntheorem range_orderEmbOfFin (s : Finset \u03b1) {k : \u2115} (h : s.card = k) :\n    Set.range (s.orderEmbOfFin h) = s := by\n  simp only [orderEmbOfFin, Set.range_comp ((\u2191) : _ \u2192 \u03b1) (s.orderIsoOfFin h),\n  RelEmbedding.coe_trans, Set.image_univ, Finset.orderEmbOfFin, RelIso.range_eq,\n    OrderEmbedding.coe_subtype, OrderIso.coe_toOrderEmbedding,\n    Subtype.range_coe_subtype, Finset.setOfPred_mem]\n\n@[simp]\ntheorem image_orderEmbOfFin_univ (s : Finset \u03b1) {k : \u2115} (h : s.card = k) :\n    Finset.image (s.orderEmbOfFin h) Finset.univ = s := by\n  apply Finset.coe_injective\n  simp\n\n@[simp]\ntheorem map_orderEmbOfFin_univ (s : Finset \u03b1) {k : \u2115} (h : s.card = k) :\n    Finset.map (s.orderEmbOfFin h).toEmbedding Finset.univ = s := by\n  simp [map_eq_image]\n",
+          "sha256": "6605a4b286513526edd92aa64d3006b81833f98fc6bd3d5854681e0826d6f0ca",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sort.lean#L209-L232"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Order/Chebyshev.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Chebyshev.lean",
+      "sha256": "ad0178d8901043bbf10bb55b9a3b689924d470f626b76527bef1e46b42654063",
+      "git_blob_sha1": "1cb4cfa28e40dda627ca610aee01bb36945c7b1d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Mantas Bak\u0161ys, Ya\u00ebl Dillies. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mantas Bak\u0161ys, Ya\u00ebl Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "cubic-Jensen-contract",
+          "first_line": 126,
+          "last_line": 128,
+          "text": "/-- Special case of **Jensen's inequality** for sums of powers. -/\nlemma pow_sum_le_card_mul_sum_pow (hf : \u2200 i \u2208 s, 0 \u2264 f i) :\n    \u2200 n, (\u2211 i \u2208 s, f i) ^ (n + 1) \u2264 (#s : \u03b1) ^ n * \u2211 i \u2208 s, f i ^ (n + 1)\n",
+          "sha256": "5e0e82828ca7509bb29005b1bc022d24fbb952025b923056a33833f82a797941",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Chebyshev.lean#L126-L128"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "c2f04a9b05d63fde011ce7474b455acb8623f58245a680e6be2e4726ad3013af"
+      "sha256": "6e514536487e877835a679fba2d175e1d97a8768e4bb791fdc258d2af25febef"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "f1d2f7c1b8edc129ddeefebdea9fcf5d9d118ac30c0ea0d76bed335a1400038a"
+      "sha256": "9247d88423f341beacb1dfc9f9cdd2e422a3d2bf1c0c019f63450dc29fb55fb4"
     }
   ],
   "generated_declarations": [
@@ -1522,6 +1868,47 @@
         "SparseCompletion.canonical_sparse_cut_witness",
         "SparseCompletion.game_sparse_cut_certificate",
         "SparseCompletion.exact_game_sparse_cut_certificate"
+      ]
+    },
+    {
+      "name": "pow_sum_le_card_mul_sum_pow",
+      "excerpt": "cubic-Jensen-contract",
+      "bridge": "cubic_power_mean_contract",
+      "used_by": [
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ]
+    },
+    {
+      "name": "Nat.find_spec / Nat.find_min'",
+      "excerpt": "Nat.find",
+      "bridge": "natural_minimum_contract",
+      "used_by": [
+        "SparseCompletion.uniformMinimumTotalSupport_attained",
+        "SparseCompletion.uniformMinimumTotalSupport_le",
+        "SparseCompletion.uniformMinimumTotalSupport_zero",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ]
+    },
+    {
+      "name": "Finset.map_orderEmbOfFin_univ",
+      "excerpt": "sorted-enumeration-coverage",
+      "bridge": "sorted_finite_coverage",
+      "used_by": [
+        "SparseCompletion.finite_subset_quantization_bound",
+        "SparseCompletion.sparse_cumulative_quantization",
+        "SparseCompletion.uniform_fixed_share_support_lower",
+        "SparseCompletion.uniform_minimum_share_support_lower",
+        "SparseCompletion.uniform_fixed_share_inverse_square",
+        "SparseCompletion.uniform_minimum_share_inverse_square",
+        "SparseCompletion.uniform_total_support_lower",
+        "SparseCompletion.uniformMinimumTotalSupport_sharp"
       ]
     }
   ]

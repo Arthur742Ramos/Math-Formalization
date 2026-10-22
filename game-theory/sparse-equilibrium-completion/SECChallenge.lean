@@ -7,6 +7,8 @@ public import Mathlib.Analysis.Convex.Caratheodory
 public import Mathlib.LinearAlgebra.AffineSpace.FiniteDimensional
 public import Mathlib.LinearAlgebra.Dimension.Constructions
 public import Mathlib.Analysis.LocallyConvex.Separation
+public import Mathlib.Algebra.Order.Chebyshev
+public import Mathlib.Data.Finset.Sort
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -2563,6 +2565,918 @@ theorem bounded_two_anchor_minimum_share_rigidity {m : ℕ} (hm : 2 ≤ m)
   subst a
   exact two_anchor_fixed_share_uniqueness (by omega) qstar q (3/4) (1/4) (by norm_num)
     htpos hq hqm htm B hB (fun i j => (hb i j).1) hresp
+
+end
+end SparseCompletion
+
+/- Fixed source body: PrefixStability.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def prefixError {m : ℕ} (q qstar : Fin m → ℝ) : ℝ :=
+  (∑ l : Fin m, (prefixMass q l.val-prefixMass qstar l.val)^2)/(m : ℝ)
+
+theorem shifted_cut_prefix_gap {m : ℕ} (q t : Fin m → ℝ) (r z : ℝ)
+    (hc : Cuts 1 r q (fun j => t j-z)) (l : ℕ) :
+    prefixGap q t r l ≤ z*prefixMass q l := by
+  have hh := hc (prefixSet l)
+  simp only [mul_sub, Finset.sum_sub_distrib, ← Finset.sum_mul, one_mul] at hh
+  unfold mass at hh
+  unfold prefixGap prefixMass mass
+  nlinarith
+
+/-- Prefix error stability needs only an upper bound on candidate total
+    mass. This includes the variable-mass minimum-share setting. -/
+theorem prefix_error_from_cuts {m : ℕ} (hm : 0 < m) (q qstar : Fin m → ℝ)
+    (r z a : ℝ) (hq : ∀ j, 0 ≤ q j) (hqm : (∑ j, q j) ≤ r)
+    (htm : ∑ j, qstar j = r) (hz : 0 ≤ z)
+    (hc : Cuts 1 r q (fun j => targetScore qstar r j-z))
+    (hβ : -a ≤ scoreMoment q (exposingWeight qstar r)-scoreMoment qstar (exposingWeight qstar r)) :
+    prefixError q qstar ≤ z*r+a := by
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hid := prefix_exposing_identity q qstar r htm
+  have hsum : (∑ l : Fin m, prefixGap q (targetScore qstar r) r l.val)/(m : ℝ) ≤ z*r := by
+    apply (div_le_iff₀ hmR).mpr
+    calc
+      _ ≤ ∑ _l : Fin m, z*r := Finset.sum_le_sum fun l _ =>
+        le_trans (shifted_cut_prefix_gap q (targetScore qstar r) r z hc l.val)
+          (mul_le_mul_of_nonneg_left (le_trans
+            (prefixMass_le_total q hq (∑ j, q j) rfl l.val) hqm) hz)
+      _ = _ := by simp; ring
+  change scoreMoment q (exposingWeight qstar r)-scoreMoment qstar (exposingWeight qstar r)+
+    prefixError q qstar = _ at hid
+  linarith
+
+theorem cut_full_moment_bound {ι : Type*} [Fintype ι] (q t : ι → ℝ) (r z : ℝ)
+    (hmass : ∑ j, q j = r) (hc : Cuts 1 r q (fun j => t j-z)) :
+    (∑ j, q j*t j) ≤ z*r := by
+  have hh := hc Finset.univ
+  simp only [mass, hmass, sub_self, mul_zero, mul_sub, Finset.sum_sub_distrib,
+    ← Finset.sum_mul] at hh
+  nlinarith
+
+/-- The paper's fixed-share quadratic stability estimate, for every
+    prescribed target distribution (not only the uniform target). -/
+theorem two_anchor_fixed_share_stability {m : ℕ} (hm : 0 < m)
+    (qstar q : Fin m → ℝ) (hq : ∀ j, 0 ≤ q j)
+    (hqm : ∑ j, q j = 1/(4 : ℕ)) (htm : ∑ j, qstar j = 1/(4 : ℕ))
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (z : ℝ) (hz : 0 ≤ z)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+      (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) v ≤ z) :
+    prefixError q qstar ≤ z*(1/(4 : ℕ)+1/(((3 : ℕ) : ℝ)/(4 : ℕ))) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let t := targetScore qstar (1/4)
+  let w := exposingWeight qstar (1/4)
+  let βstar := scoreMoment qstar w
+  have hs : score (rigidityCross qstar) (twoShares (3/4)) = t := two_score t w (3/4) (by norm_num)
+  have hres := ((block_response_bounds_iff (rigidityCore qstar) (rigidityCross qstar) B
+    (twoShares (3/4)) q z).mp hresp).2
+  rw [hs] at hres
+  have hc := completion_cuts_necessary q t B 1 (1/4) z hq hqm hB hb hres
+  have hα : scoreMoment q t ≤ z*(1/4) := cut_full_moment_bound q t (1/4) z hqm hc
+  have hanchor := ((block_response_bounds_iff (rigidityCore qstar) (rigidityCross qstar) B
+    (twoShares (3/4)) q z).mp hresp).1 0
+  have hf := (two_anchor_responses t w q (3/4) βstar (by norm_num)).1
+  change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 0 ≤ z at hanchor
+  rw [hf] at hanchor
+  have hβ : -(z/(3/4)) ≤ scoreMoment q w-βstar := by nlinarith
+  have hh := prefix_error_from_cuts hm q qstar (1/4) z (z/(3/4)) hq (le_of_eq hqm) htm hz hc hβ
+  nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: MinimumShareStability.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- A supported row's lower response follows from the whole normalized
+    skew game and a lower probability share. -/
+theorem response_lower_from_share {ι : Type*} [Fintype ι]
+    (A : ι → ι → ℝ) (x : ι → ℝ) (hA : IsSkew A)
+    (hx : ∀ j, 0 ≤ x j) (hmass : ∑ j, x j = 1)
+    (z c : ℝ) (hresp : ∀ j, response A x j ≤ z) (i : ι) (hshare : c ≤ x i) :
+    (c-1)*z ≤ c*response A x i := by
+  have hcancel := skew_weighted_sum Finset.univ x A hA
+  have hzero : (∑ j, x j*response A x j) = 0 := by
+    simpa only [response, Finset.mul_sum, mul_assoc] using hcancel
+  have hsum : (∑ j, x j*(z-response A x j)) = z := by
+    simp only [mul_sub, Finset.sum_sub_distrib, ← Finset.sum_mul, hmass, one_mul, hzero, sub_zero]
+  have hn : ∀ j, 0 ≤ x j*(z-response A x j) := fun j =>
+    mul_nonneg (hx j) (sub_nonneg.mpr (hresp j))
+  have hi := Finset.single_le_sum (fun j (_ : j ∈ Finset.univ) => hn j) (Finset.mem_univ i)
+  rw [hsum] at hi
+  have hc := mul_le_mul_of_nonneg_right hshare (sub_nonneg.mpr (hresp i))
+  nlinarith
+
+theorem cuts_with_score_lower_shift {ι : Type*} [Fintype ι]
+    (q t v : ι → ℝ) (R r u z : ℝ) (hq : ∀ j, 0 ≤ q j) (hmass : R+u=r)
+    (hscore : ∀ j, t j-u ≤ v j) (hc : Cuts 1 R q (fun j => v j-z)) :
+    Cuts 1 r q (fun j => t j-z) := by
+  intro s
+  have hh := hc s
+  simp only [one_mul] at hh
+  have hsum : (∑ j ∈ s, q j*(t j-z)) ≤
+      (∑ j ∈ s, q j*(v j-z))+u*mass s q := by
+    have hp := Finset.sum_le_sum (s := s) (f := fun j => q j*(t j-z))
+      (g := fun j => q j*((v j-z)+u)) fun j _ =>
+        mul_le_mul_of_nonneg_left (by linarith [hscore j]) (hq j)
+    simpa only [mul_add, Finset.sum_add_distrib, ← Finset.sum_mul, mass, mul_comm u] using hp
+  calc
+    _ ≤ mass s q*(R-mass s q)+u*mass s q := le_trans hsum (add_le_add hh le_rfl)
+    _ = _ := by rw [← hmass]; ring
+
+/-- The same prefix error bound holds with only two minimum-share
+    commitments, even when the candidate residual mass is smaller. -/
+theorem two_anchor_minimum_share_stability {m : ℕ} (hm : 0 < m)
+    (qstar q : Fin m → ℝ) (a : Fin 2 → ℝ)
+    (htpos : ∀ j, 0 ≤ qstar j) (htm : ∑ j, qstar j = 1/(4 : ℕ))
+    (ha : ∀ h, ((3 : ℕ) : ℝ)/(8 : ℕ) ≤ a h) (hq : ∀ j, 0 ≤ q j)
+    (hnorm : (∑ h, a h)+(∑ j, q j) = 1)
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (z : ℝ) (hz : 0 ≤ z)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+      (blockWeights a q) v ≤ z) : prefixError q qstar ≤ z*(1/(4 : ℕ)+1/(((3 : ℕ) : ℝ)/(4 : ℕ))) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let t := targetScore qstar (1/4)
+  let w := exposingWeight qstar (1/4)
+  let βstar := scoreMoment qstar w
+  let P := a 0+a 1
+  let R := ∑ j, q j
+  let u := P-3/4
+  have ha0 : ∀ h, 0 ≤ a h := fun h => by linarith [ha h]
+  have hp : 3/4 ≤ P := by dsimp [P]; linarith [ha 0,ha 1]
+  have hu : 0 ≤ u := by dsimp [u]; linarith
+  have hmass : R+u=1/4 := by dsimp [R,u,P]; rw [Fin.sum_univ_two] at hnorm; linarith
+  have hβ0 : 0 ≤ βstar := (exposing_moment_bounds hm qstar (1/4) htpos htm).1
+  have hsk := blockMatrix_skew (rigidityCore qstar) (rigidityCross qstar) B (twoCore_skew _) hB
+  have hallmass : (∑ v, blockWeights a q v) = 1 := by rw [blockWeights_mass]; exact hnorm
+  have hlow := response_lower_from_share (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+    (blockWeights a q) hsk (blockWeights_nonneg a q ha0 hq) hallmass z (3/8) hresp (.inl 1) (ha 1)
+  rw [block_response_anchor] at hlow
+  have hup := ((block_response_bounds_iff (rigidityCore qstar) (rigidityCross qstar) B a q z).mp hresp).1 0
+  have hf := two_anchor_variable_responses t w q a (3/4) βstar
+  change (3/8-1)*z ≤ (3/8)*anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) a q 1 at hlow
+  change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) a q 0 ≤ z at hup
+  rw [hf.2] at hlow
+  rw [hf.1] at hup
+  have hβprod : 0 ≤ βstar*(P-3/4) := mul_nonneg hβ0 (by linarith)
+  have hβ : -(z/(3/4)) ≤ scoreMoment q w-βstar := by dsimp [P] at hβprod; nlinarith
+  have hobs := (two_anchor_observed_bounds hm qstar htpos htm).2
+  have hscore : ∀ j, t j-u ≤ score (rigidityCross qstar) a j := by
+    intro j
+    have hs := congrFun (two_score t w (3/4) (by norm_num)) j
+    have hd0 := (hobs j 0).1
+    have hd1 := (hobs j 1).1
+    have h0 : 0 ≤ (a 0-3/8)*(twoCross t w (3/4) j 0+1) :=
+      mul_nonneg (by linarith [ha 0]) (by linarith)
+    have h1 : 0 ≤ (a 1-3/8)*(twoCross t w (3/4) j 1+1) :=
+      mul_nonneg (by linarith [ha 1]) (by linarith)
+    change score (twoCross t w (3/4)) (twoShares (3/4)) j = t j at hs
+    simp only [score, Fin.sum_univ_two, twoShares] at hs
+    change t j-u ≤ score (twoCross t w (3/4)) a j
+    simp only [score, Fin.sum_univ_two]
+    dsimp [u,P]
+    nlinarith
+  have hres := ((block_response_bounds_iff (rigidityCore qstar) (rigidityCross qstar) B a q z).mp hresp).2
+  have hc0 := completion_cuts_necessary q (score (rigidityCross qstar) a) B 1 R z hq rfl hB hb hres
+  have hc := cuts_with_score_lower_shift q t (score (rigidityCross qstar) a) R (1/4) u z hq hmass hscore hc0
+  have hR : (∑ j, q j) ≤ 1/4 := by change R ≤ 1/4; linarith
+  have hh := prefix_error_from_cuts hm q qstar (1/4) z (z/(3/4)) hq hR htm hz hc hβ
+  nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: Quantization.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- Exact discrete variance decomposition on an arithmetic progression. -/
+theorem constant_run_error_identity (L : ℕ) (a d c : ℝ) :
+    (∑ i ∈ Finset.range L, (c-(a+d*(i : ℝ)))^2) =
+      (L : ℝ)*(c-a-d*((L : ℝ)-1)/2)^2+d^2*(L : ℝ)*((L : ℝ)^2-1)/12 := by
+  induction L with
+  | zero => simp
+  | succ L ih =>
+    rw [Finset.sum_range_succ, ih]
+    push_cast
+    ring
+
+theorem constant_run_error_lower (L : ℕ) (a d c : ℝ) :
+    d^2*(L : ℝ)*((L : ℝ)^2-1)/12 ≤ ∑ i ∈ Finset.range L, (c-(a+d*(i : ℝ)))^2 := by
+  rw [constant_run_error_identity]
+  exact le_add_of_nonneg_left (mul_nonneg (Nat.cast_nonneg L) (sq_nonneg _))
+
+/-- Cubic run-length Jensen inequality with no positivity floor on runs. -/
+theorem cubic_run_bound {κ : Type*} [Fintype κ] (L : κ → ℝ) (hL : ∀ i, 0 ≤ L i) :
+    (∑ i, L i)^3 ≤ (Fintype.card κ : ℝ)^2*∑ i, (L i)^3 := by
+  simpa only [Finset.card_univ] using
+    pow_sum_le_card_mul_sum_pow (s := Finset.univ) (f := L) (fun i _ => hL i) 2
+
+theorem pairwise_square_sum {κ : Type*} [Fintype κ] (v : κ → ℝ) :
+    (∑ i, ∑ j, (v i-v j)^2) =
+      2*((Fintype.card κ : ℝ)*(∑ i, (v i)^2)-(∑ i, v i)^2) := by
+  simp only [sub_sq, Finset.sum_add_distrib, Finset.sum_sub_distrib, Finset.sum_const,
+    Finset.card_univ, nsmul_eq_mul]
+  simp only [← Finset.mul_sum, ← Finset.sum_mul]
+  ring
+
+theorem first_index_moment (L : ℕ) :
+    (∑ i ∈ Finset.range L, (i : ℝ)) = (L : ℝ)*((L : ℝ)-1)/2 := by
+  induction L with
+  | zero => simp
+  | succ L ih => rw [Finset.sum_range_succ, ih]; push_cast; ring
+
+theorem pairwise_index_square_sum (L : ℕ) :
+    (∑ i : Fin L, ∑ j : Fin L, ((i.val : ℝ)-(j.val : ℝ))^2) =
+      (L : ℝ)^2*((L : ℝ)^2-1)/6 := by
+  have hsum : (∑ i : Fin L, (i.val : ℝ)) = (L : ℝ)*((L : ℝ)-1)/2 := by
+    rw [Fin.sum_univ_eq_sum_range]
+    exact first_index_moment L
+  have hsq : (∑ i : Fin L, (i.val : ℝ)^2) =
+      (L : ℝ)*(((L : ℝ)-1)/2)^2+(L : ℝ)*((L : ℝ)^2-1)/12 := by
+    rw [Fin.sum_univ_eq_sum_range (fun i : ℕ => (i : ℝ)^2)]
+    simpa only [zero_add, one_mul, zero_sub, neg_sq, one_pow, mul_one, sub_zero] using
+      constant_run_error_identity L 0 1 0
+  rw [pairwise_square_sum, Fintype.card_fin, hsum, hsq]
+  ring
+
+theorem increasing_nat_distance {L n : ℕ} (e : Fin L ↪o Fin n) (i j : Fin L) (hij : i ≤ j) :
+    i.val+(e j).val ≥ j.val+(e i).val := by
+  have hstep : ∀ k (hk : i.val+k < L), (e i).val+k ≤ (e ⟨i.val+k,hk⟩).val := by
+    intro k
+    induction k with
+    | zero => intro hk; simpa only [Nat.add_zero] using le_rfl (a := (e i).val)
+    | succ k ih =>
+      intro hk
+      have hk0 : i.val+k < L := by omega
+      have hh := ih hk0
+      have hlt : (e ⟨i.val+k,hk0⟩).val  <  (e ⟨i.val+(k+1),hk⟩).val :=
+        e.strictMono (by change i.val+k < i.val+(k+1); omega)
+      omega
+  have hval : i.val ≤ j.val := hij
+  have hbound : i.val+(j.val-i.val) < L := by omega
+  have hh := hstep (j.val-i.val) hbound
+  have hsame : (⟨i.val+(j.val-i.val),hbound⟩ : Fin L) = j := Fin.ext (by change i.val+(j.val-i.val)=j.val; omega)
+  rw [hsame] at hh
+  omega
+
+theorem increasing_square_distance {L n : ℕ} (e : Fin L ↪o Fin n) (i j : Fin L) :
+    ((i.val : ℝ)-(j.val : ℝ))^2 ≤ (((e i).val : ℝ)-((e j).val : ℝ))^2 := by
+  rcases le_total i j with hij | hji
+  · have hh := increasing_nat_distance e i j hij
+    have hm : (e i).val ≤ (e j).val := e.monotone hij
+    have hval : i.val ≤ j.val := hij
+    have hc : (j.val : ℝ)+(e i).val ≤ (i.val : ℝ)+(e j).val := by exact_mod_cast hh
+    have hc0 : (i.val : ℝ) ≤ j.val := by exact_mod_cast hval
+    nlinarith
+  · have hh := increasing_nat_distance e j i hji
+    have hval : j.val ≤ i.val := hji
+    have hc : (i.val : ℝ)+(e j).val ≤ (j.val : ℝ)+(e i).val := by exact_mod_cast hh
+    have hc0 : (j.val : ℝ) ≤ i.val := by exact_mod_cast hval
+    nlinarith
+
+/-- Any L distinct integer grid points have at least the variance of L
+    consecutive points. No contiguity or chosen run partition is assumed. -/
+theorem finite_subset_quantization_bound {n : ℕ} (s : Finset (Fin n)) (a d c : ℝ) :
+    d^2*(s.card : ℝ)*((s.card : ℝ)^2-1)/12 ≤
+      ∑ j ∈ s, (c-(a+d*(j.val : ℝ)))^2 := by
+  classical
+  by_cases hs : s.card=0
+  · have he : s=∅ := Finset.card_eq_zero.mp hs
+    subst s
+    simp
+  · let L := s.card
+    have hL : 0 < (L : ℝ) := Nat.cast_pos.mpr (Nat.pos_of_ne_zero hs)
+    let e : Fin L ↪o Fin n := s.orderEmbOfFin rfl
+    let v : Fin L → ℝ := fun i => c-(a+d*((e i).val : ℝ))
+    have hsum : (∑ j ∈ s, (c-(a+d*(j.val : ℝ)))^2) = ∑ i, (v i)^2 := by
+      rw [← s.map_orderEmbOfFin_univ rfl, Finset.sum_map]
+      rfl
+    have hdifference : ∀ i j, (v i-v j)^2 = d^2*(((e i).val : ℝ)-((e j).val : ℝ))^2 := by
+      intro i j
+      dsimp [v]
+      ring
+    have hpair : d^2*((L : ℝ)^2*((L : ℝ)^2-1)/6) ≤ ∑ i, ∑ j, (v i-v j)^2 := by
+      rw [← pairwise_index_square_sum L]
+      simp only [Finset.mul_sum]
+      apply Finset.sum_le_sum
+      intro i _
+      apply Finset.sum_le_sum
+      intro j _
+      rw [hdifference]
+      exact mul_le_mul_of_nonneg_left (increasing_square_distance e i j) (sq_nonneg d)
+    rw [pairwise_square_sum, Fintype.card_fin] at hpair
+    rw [hsum]
+    apply (mul_le_mul_iff_right₀ (show 0 < 2*(L : ℝ) by positivity)).mp
+    have hsq := sq_nonneg (∑ i, v i)
+    change 2*(L : ℝ)*(d^2*(L : ℝ)*((L : ℝ)^2-1)/12) ≤ 2*(L : ℝ)*∑ i, (v i)^2
+    nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportQuantization.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def activePrefix {m : ℕ} (q : Fin m → ℝ) (l : ℕ) : Finset (Fin m) := by
+  classical
+  exact (prefixSet l).filter fun j => q j ≠ 0
+
+def residualSupport {m : ℕ} (q : Fin m → ℝ) : Finset (Fin m) := by
+  classical
+  exact Finset.univ.filter fun j => q j ≠ 0
+
+def supportSize {m : ℕ} (q : Fin m → ℝ) : ℕ := (residualSupport q).card
+
+theorem activePrefix_subset {m : ℕ} (q : Fin m → ℝ) (l : ℕ) :
+    activePrefix q l ⊆ residualSupport q := by
+  classical
+  intro j hj
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ j, (Finset.mem_filter.mp hj).2⟩
+
+theorem activePrefix_mono {m : ℕ} (q : Fin m → ℝ) (l n : ℕ) (hln : l ≤ n) :
+    activePrefix q l ⊆ activePrefix q n := by
+  classical
+  intro j hj
+  obtain ⟨hjl,hq⟩ := Finset.mem_filter.mp hj
+  exact Finset.mem_filter.mpr ⟨Finset.mem_filter.mpr ⟨Finset.mem_univ j,
+    lt_of_lt_of_le (Finset.mem_filter.mp hjl).2 hln⟩,hq⟩
+
+theorem prefixMass_active_sum {m : ℕ} (q : Fin m → ℝ) (l : ℕ) :
+    prefixMass q l = ∑ j ∈ activePrefix q l, q j := by
+  classical
+  unfold prefixMass mass activePrefix
+  symm
+  apply Finset.sum_subset (Finset.filter_subset _ _)
+  intro j hj hn
+  by_contra hq
+  exact hn (Finset.mem_filter.mpr ⟨hj,hq⟩)
+
+theorem equal_active_card_prefixMass {m : ℕ} (q : Fin m → ℝ) (l n : ℕ)
+    (hcard : (activePrefix q l).card = (activePrefix q n).card) :
+    prefixMass q l = prefixMass q n := by
+  rcases le_total l n with hln | hnl
+  · have heq := Finset.eq_of_subset_of_card_le (activePrefix_mono q l n hln) (le_of_eq hcard.symm)
+    rw [prefixMass_active_sum, prefixMass_active_sum, heq]
+  · have heq := Finset.eq_of_subset_of_card_le (activePrefix_mono q n l hnl) (le_of_eq hcard)
+    rw [prefixMass_active_sum, prefixMass_active_sum, heq]
+
+def runLabel {m : ℕ} (q : Fin m → ℝ) (l : ℕ) : Fin (supportSize q+1) :=
+  ⟨(activePrefix q l).card, Nat.lt_succ_of_le (Finset.card_le_card (activePrefix_subset q l))⟩
+
+def runSet {m : ℕ} (q : Fin m → ℝ) (n : ℕ) (a : Fin (supportSize q+1)) : Finset (Fin n) := by
+  classical
+  exact Finset.univ.filter fun l => runLabel q l.val=a
+
+def runValue {m : ℕ} (q : Fin m → ℝ) (n : ℕ) (a : Fin (supportSize q+1)) : ℝ := by
+  classical
+  exact if hs : (runSet q n a).Nonempty then prefixMass q ((runSet q n a).min' hs).val else 0
+
+theorem prefixMass_on_run {m : ℕ} (q : Fin m → ℝ) (n : ℕ) (a : Fin (supportSize q+1))
+    (l : Fin n) (hl : l ∈ runSet q n a) : prefixMass q l.val = runValue q n a := by
+  classical
+  have hs : (runSet q n a).Nonempty := ⟨l,hl⟩
+  unfold runValue
+  rw [dite_eq_left hs]
+  apply equal_active_card_prefixMass
+  have hmin := Finset.min'_mem (runSet q n a) hs
+  have hh : runLabel q l.val = runLabel q ((runSet q n a).min' hs).val :=
+    (Finset.mem_filter.mp hl).2.trans (Finset.mem_filter.mp hmin).2.symm
+  exact congrArg Fin.val hh
+
+theorem run_card_sum {m : ℕ} (q : Fin m → ℝ) (n : ℕ) :
+    (∑ a : Fin (supportSize q+1), ((runSet q n a).card : ℝ)) = n := by
+  classical
+  have hh := Finset.sum_fiberwise (Finset.univ : Finset (Fin n)) (fun l => runLabel q l.val) (fun _ => (1 : ℝ))
+  simpa only [runSet, Finset.sum_const, nsmul_eq_mul, mul_one, Finset.card_univ, Fintype.card_fin] using hh
+
+theorem run_error_sum {m : ℕ} (q : Fin m → ℝ) (n : ℕ) (d : ℝ) :
+    (∑ l : Fin n, (prefixMass q l.val-d*(l.val : ℝ))^2) =
+      ∑ a : Fin (supportSize q+1), ∑ l ∈ runSet q n a,
+        (runValue q n a-d*(l.val : ℝ))^2 := by
+  classical
+  rw [← Finset.sum_fiberwise Finset.univ (fun l : Fin n => runLabel q l.val)]
+  apply Finset.sum_congr rfl
+  intro a _
+  apply Finset.sum_congr rfl
+  intro l hl
+  rw [prefixMass_on_run q n a l hl]
+
+/-- Quantization error for sparse cumulative mass. The candidate weights
+    may even have arbitrary signs; only the number of nonzero entries matters. -/
+theorem sparse_cumulative_quantization {m : ℕ} (q : Fin m → ℝ) (n : ℕ) (d : ℝ) :
+    d^2/12*((n : ℝ)^3/((supportSize q+1 : ℕ) : ℝ)^2-(n : ℝ)) ≤
+      ∑ l : Fin n, (prefixMass q l.val-d*(l.val : ℝ))^2 := by
+  classical
+  let L : Fin (supportSize q+1) → ℝ := fun a => (runSet q n a).card
+  have hN : (0 : ℝ) < (supportSize q+1 : ℕ) := by positivity
+  have hJ := cubic_run_bound L (fun a => Nat.cast_nonneg _)
+  have htotal : (∑ a, L a) = (n : ℝ) := run_card_sum q n
+  rw [htotal] at hJ
+  simp only [Fintype.card_fin] at hJ
+  have hdiv : (n : ℝ)^3/((supportSize q+1 : ℕ) : ℝ)^2 ≤ ∑ a, (L a)^3 := by
+    apply (div_le_iff₀ (sq_pos_of_pos hN)).mpr
+    calc
+      _ ≤ ((supportSize q+1 : ℕ) : ℝ)^2*∑ a, (L a)^3 := hJ
+      _ = _ := mul_comm _ _
+  calc
+    _ ≤ d^2/12*((∑ a, (L a)^3)-(n : ℝ)) :=
+      mul_le_mul_of_nonneg_left (sub_le_sub_right hdiv _) (by positivity)
+    _ = ∑ a : Fin (supportSize q+1), d^2*(L a)*((L a)^2-1)/12 := by
+      rw [← htotal]
+      rw [mul_sub, Finset.mul_sum, Finset.mul_sum, ← Finset.sum_sub_distrib]
+      apply Finset.sum_congr rfl
+      intro a _
+      ring
+    _ ≤ _ := by
+      rw [run_error_sum q n d]
+      apply Finset.sum_le_sum
+      intro a _
+      simpa only [zero_add, L] using finite_subset_quantization_bound (runSet q n a) 0 d (runValue q n a)
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportLowerBound.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem uniform_prefix_error_lower {m : ℕ} (hm : 0 < m) (q : Fin m → ℝ) (r : ℝ) :
+    r^2/12*(1/((supportSize q+1 : ℕ) : ℝ)^2-1/(m : ℝ)^2) ≤
+      prefixError q (uniformTarget m r) := by
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hN : (0 : ℝ) < (supportSize q+1 : ℕ) := by positivity
+  have hs := sparse_cumulative_quantization q m (r/(m : ℝ))
+  have heq : (∑ l : Fin m, (prefixMass q l.val-(r/(m : ℝ))*(l.val : ℝ))^2) =
+      ∑ l : Fin m, (prefixMass q l.val-prefixMass (uniformTarget m r) l.val)^2 := by
+    apply Finset.sum_congr rfl
+    intro l _
+    rw [uniform_prefix_mass]
+    ring
+  rw [heq] at hs
+  have halg : ((r/(m : ℝ))^2/12*((m : ℝ)^3/((supportSize q+1 : ℕ) : ℝ)^2-(m : ℝ)))/(m : ℝ) =
+      r^2/12*(1/((supportSize q+1 : ℕ) : ℝ)^2-1/(m : ℝ)^2) := by
+    field_simp
+  rw [← halg]
+  exact div_le_div_of_nonneg_right hs (le_of_lt hmR)
+
+theorem uniform_prefix_mass_le (m : ℕ) (hm : 0 < m) (r : ℝ) (l : ℕ) (hl : l ≤ m) :
+    prefixMass (uniformTarget m r) l = (l : ℝ)*(r/(m : ℝ)) := by
+  by_cases he : l=m
+  · subst l
+    rw [prefixMass_full, uniformTarget_mass m hm r]
+    field_simp
+  · exact uniform_prefix_mass m r ⟨l,by omega⟩
+
+theorem uniform_full_prefix_error_lower {m : ℕ} (hm : 0 < m) (q : Fin m → ℝ) (r : ℝ)
+    (hmass : ∑ j, q j = r) :
+    r^2/(12*(m : ℝ)^3)*(((m : ℝ)+1)^3/((supportSize q+1 : ℕ) : ℝ)^2-((m : ℝ)+1)) ≤
+      prefixError q (uniformTarget m r) := by
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hN : (0 : ℝ) < (supportSize q+1 : ℕ) := by positivity
+  have hs := sparse_cumulative_quantization q (m+1) (r/(m : ℝ))
+  have heq : (∑ l : Fin (m+1), (prefixMass q l.val-(r/(m : ℝ))*(l.val : ℝ))^2) =
+      ∑ l : Fin m, (prefixMass q l.val-prefixMass (uniformTarget m r) l.val)^2 := by
+    rw [Fin.sum_univ_castSucc]
+    have hend : prefixMass q m-(r/(m : ℝ))*(m : ℝ) = 0 := by
+      rw [prefixMass_full, hmass]
+      field_simp
+      ring
+    simp only [Fin.val_last, hend, zero_pow (by norm_num : 2 ≠ 0), add_zero, Fin.val_castSucc]
+    apply Finset.sum_congr rfl
+    intro l _
+    rw [uniform_prefix_mass]
+    ring
+  rw [heq] at hs
+  have halg : ((r/(m : ℝ))^2/12*(((m+1 : ℕ) : ℝ)^3/((supportSize q+1 : ℕ) : ℝ)^2-((m+1 : ℕ) : ℝ)))/(m : ℝ) =
+      r^2/(12*(m : ℝ)^3)*(((m : ℝ)+1)^3/((supportSize q+1 : ℕ) : ℝ)^2-((m : ℝ)+1)) := by
+    push_cast
+    field_simp
+  rw [← halg]
+  exact div_le_div_of_nonneg_right hs (le_of_lt hmR)
+
+/-- The full quantitative support lower bound for the uniform observed
+    game, specialized to the paper's p=3/4, r=1/4 constants. -/
+theorem uniform_fixed_share_support_lower {m : ℕ} (hm : 0 < m)
+    (q : Fin m → ℝ) (hq : ∀ j, 0 ≤ q j) (hqm : ∑ j, q j = 1/(4 : ℕ))
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (z : ℝ) (hz : 0 ≤ z)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) v ≤ z) :
+    (((m : ℝ)+1)^3/((supportSize q+1 : ℕ) : ℝ)^2-((m : ℝ)+1))/(304*(m : ℝ)^3) ≤ z := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hN : (0 : ℝ) < (supportSize q+1 : ℕ) := by positivity
+  have hlower := uniform_full_prefix_error_lower hm q (1/4) hqm
+  have hupper := two_anchor_fixed_share_stability hm (uniformTarget m (1/4)) q hq hqm
+    (uniformTarget_mass m hm (1/4)) B hB hb z hz hresp
+  have hsmall : (((m : ℝ)+1)^3/((supportSize q+1 : ℕ) : ℝ)^2-((m : ℝ)+1))/(192*(m : ℝ)^3) ≤
+      prefixError q (uniformTarget m (1/4)) := by convert hlower using 1; ring
+  calc
+    _ = ((((m : ℝ)+1)^3/((supportSize q+1 : ℕ) : ℝ)^2-((m : ℝ)+1))/(192*(m : ℝ)^3))/(19/12) := by
+      field_simp
+      ring
+    _ ≤ prefixError q (uniformTarget m (1/4))/(19/12) :=
+      div_le_div_of_nonneg_right hsmall (by norm_num)
+    _ ≤ z := (div_le_iff₀ (by norm_num : (0 : ℝ) < 19/12)).mpr (by nlinarith)
+
+/-- The variable-mass support obstruction under the two minimum shares. -/
+theorem uniform_minimum_share_support_lower {m : ℕ} (hm : 0 < m)
+    (q : Fin m → ℝ) (a : Fin 2 → ℝ) (hq : ∀ j, 0 ≤ q j) (ha : ∀ h, ((3 : ℕ) : ℝ)/(8 : ℕ) ≤ a h)
+    (hnorm : (∑ h, a h)+(∑ j, q j) = 1)
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (z : ℝ) (hz : 0 ≤ z)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights a q) v ≤ z) :
+    (1/((supportSize q+1 : ℕ) : ℝ)^2-1/(m : ℝ)^2)/304 ≤ z := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hlower := uniform_prefix_error_lower hm q (1/4)
+  have hupper := two_anchor_minimum_share_stability hm (uniformTarget m (1/4)) q a
+    (fun j => le_of_lt (uniformTarget_positive m (1/4) (by norm_num) j))
+    (uniformTarget_mass m hm (1/4)) ha hq hnorm B hB hb z hz hresp
+  have hsmall : (1/((supportSize q+1 : ℕ) : ℝ)^2-1/(m : ℝ)^2)/192 ≤
+      prefixError q (uniformTarget m (1/4)) := by convert hlower using 1; ring
+  calc
+    _ = ((1/((supportSize q+1 : ℕ) : ℝ)^2-1/(m : ℝ)^2)/192)/(19/12) := by ring
+    _ ≤ prefixError q (uniformTarget m (1/4))/(19/12) :=
+      div_le_div_of_nonneg_right hsmall (by norm_num)
+    _ ≤ z := (div_le_iff₀ (by norm_num : (0 : ℝ) < 19/12)).mpr (by nlinarith)
+
+theorem fixed_rate_simplification (m H : ℕ) (hm : 0 < m) (hdim : 2*H+1 ≤ m) :
+    3/(1216*((H+1 : ℕ) : ℝ)^2) ≤
+      (((m : ℝ)+1)^3/((H+1 : ℕ) : ℝ)^2-((m : ℝ)+1))/(304*(m : ℝ)^3) := by
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hN : (0 : ℝ) < (H+1 : ℕ) := by positivity
+  have hdimR : 2*((H+1 : ℕ) : ℝ) ≤ (m : ℝ)+1 := by exact_mod_cast (show 2*(H+1) ≤ m+1 by omega)
+  have hgap : 0 ≤ ((m : ℝ)+1)*(((m : ℝ)+1)-2*((H+1 : ℕ) : ℝ))*(((m : ℝ)+1)+2*((H+1 : ℕ) : ℝ)) := by
+    positivity
+  have hcubes : (m : ℝ)^3 ≤ ((m : ℝ)+1)^3 := by gcongr; linarith
+  have hscaled : 3*(m : ℝ)^3 ≤ 4*(((m : ℝ)+1)^3-((m : ℝ)+1)*((H+1 : ℕ) : ℝ)^2) := by
+    nlinarith
+  have hbracket : 3*(m : ℝ)^3/(4*((H+1 : ℕ) : ℝ)^2) ≤
+      ((m : ℝ)+1)^3/((H+1 : ℕ) : ℝ)^2-((m : ℝ)+1) := by
+    apply (div_le_iff₀ (show 0 < 4*((H+1 : ℕ) : ℝ)^2 by positivity)).mpr
+    have heq : (((m : ℝ)+1)^3/((H+1 : ℕ) : ℝ)^2-((m : ℝ)+1))*(4*((H+1 : ℕ) : ℝ)^2) =
+        4*(((m : ℝ)+1)^3-((m : ℝ)+1)*((H+1 : ℕ) : ℝ)^2) := by
+      field_simp
+    rw [heq]
+    exact hscaled
+  calc
+    _ = (3*(m : ℝ)^3/(4*((H+1 : ℕ) : ℝ)^2))/(304*(m : ℝ)^3) := by
+      field_simp
+      ring
+    _ ≤ _ := div_le_div_of_nonneg_right hbracket (by positivity)
+
+theorem minimum_rate_simplification (m H : ℕ) (hm : 0 < m) (hdim : 2*(H+1) ≤ m) :
+    3/(1216*((H+1 : ℕ) : ℝ)^2) ≤
+      (1/((H+1 : ℕ) : ℝ)^2-1/(m : ℝ)^2)/304 := by
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hN : (0 : ℝ) < (H+1 : ℕ) := by positivity
+  have hdimR : 2*((H+1 : ℕ) : ℝ) ≤ (m : ℝ) := by exact_mod_cast hdim
+  have hpow : 4*((H+1 : ℕ) : ℝ)^2 ≤ (m : ℝ)^2 := by nlinarith
+  have hinv : 1/(m : ℝ)^2 ≤ 1/(4*((H+1 : ℕ) : ℝ)^2) :=
+    one_div_le_one_div_of_le (by positivity) hpow
+  have heq : 1/(4*((H+1 : ℕ) : ℝ)^2) = (1/((H+1 : ℕ) : ℝ)^2)/4 := by ring
+  rw [heq] at hinv
+  have hconst : 3/(1216*((H+1 : ℕ) : ℝ)^2) = ((1/((H+1 : ℕ) : ℝ)^2)*3/4)/304 := by ring
+  rw [hconst]
+  nlinarith
+
+theorem uniform_fixed_share_inverse_square {m : ℕ} (hm : 0 < m)
+    (q : Fin m → ℝ) (hq : ∀ j, 0 ≤ q j) (hqm : ∑ j, q j = 1/(4 : ℕ))
+    (hdim : 2*supportSize q+1 ≤ m)
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (z : ℝ) (hz : 0 ≤ z)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) v ≤ z) :
+    3/(1216*((supportSize q+1 : ℕ) : ℝ)^2) ≤ z :=
+  le_trans (fixed_rate_simplification m (supportSize q) hm hdim)
+    (uniform_fixed_share_support_lower hm q hq hqm B hB hb z hz hresp)
+
+theorem uniform_minimum_share_inverse_square {m : ℕ} (hm : 0 < m)
+    (q : Fin m → ℝ) (a : Fin 2 → ℝ) (hq : ∀ j, 0 ≤ q j) (ha : ∀ h, ((3 : ℕ) : ℝ)/(8 : ℕ) ≤ a h)
+    (hnorm : (∑ h, a h)+(∑ j, q j) = 1) (hdim : 2*(supportSize q+1) ≤ m)
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (z : ℝ) (hz : 0 ≤ z)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights a q) v ≤ z) :
+    3/(1216*((supportSize q+1 : ℕ) : ℝ)^2) ≤ z :=
+  le_trans (minimum_rate_simplification m (supportSize q) hm hdim)
+    (uniform_minimum_share_support_lower hm q a hq ha hnorm B hB hb z hz hresp)
+
+/-- A witness-wise total support obstruction, valid for every positive
+    tolerance and every completion under the two minimum shares. -/
+theorem uniform_total_support_lower {m : ℕ} (hm : 0 < m)
+    (q : Fin m → ℝ) (a : Fin 2 → ℝ) (hq : ∀ j, 0 ≤ q j) (ha : ∀ h, ((3 : ℕ) : ℝ)/(8 : ℕ) ≤ a h)
+    (hnorm : (∑ h, a h)+(∑ j, q j) = 1)
+    (B : Fin m → Fin m → ℝ) (hB : IsSkew B) (hb : ∀ i j, -1 ≤ B i j)
+    (ε : ℝ) (hε : 0 < ε)
+    (hresp : ∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights a q) v ≤ ε) :
+    Real.sqrt (3/1216)*min ((m : ℝ)+2) (1/Real.sqrt ε) ≤ (supportSize q : ℝ)+2 := by
+  norm_num only [Nat.cast_ofNat] at *
+  let H := supportSize q
+  have hrootε : 0 < Real.sqrt ε := Real.sqrt_pos.mpr hε
+  have hC : (Real.sqrt (3/1216))^2 = (3/1216 : ℝ) := Real.sq_sqrt (by norm_num)
+  have hC0 : 0 ≤ Real.sqrt (3/1216) := Real.sqrt_nonneg _
+  have hChalf : Real.sqrt (3/1216) ≤ 1/2 := by nlinarith
+  by_cases hdim : 2*(H+1) ≤ m
+  · have hbound := uniform_minimum_share_inverse_square hm q a hq ha hnorm hdim B hB hb ε (le_of_lt hε) hresp
+    have hN : (0 : ℝ) < (H+1 : ℕ) := by positivity
+    have hc : (3/1216 : ℝ) ≤ ε*((H+1 : ℕ) : ℝ)^2 := by
+      have hh := (div_le_iff₀ (show 0 < 1216*((H+1 : ℕ) : ℝ)^2 by positivity)).mp hbound
+      nlinarith
+    have hsq : (Real.sqrt ε*((H+1 : ℕ) : ℝ))^2 = ε*((H+1 : ℕ) : ℝ)^2 := by
+      rw [mul_pow, Real.sq_sqrt (le_of_lt hε)]
+    have hs : Real.sqrt (3/1216) ≤ Real.sqrt ε*((H+1 : ℕ) : ℝ) := by
+      have hnonneg := mul_nonneg (le_of_lt hrootε) (le_of_lt hN)
+      nlinarith
+    have hdiv : Real.sqrt (3/1216)/Real.sqrt ε ≤ ((H+1 : ℕ) : ℝ) :=
+      (div_le_iff₀ hrootε).mpr (by nlinarith)
+    calc
+      _ ≤ Real.sqrt (3/1216)*(1/Real.sqrt ε) := mul_le_mul_of_nonneg_left (min_le_right _ _) hC0
+      _ = Real.sqrt (3/1216)/Real.sqrt ε := by ring
+      _ ≤ ((H+1 : ℕ) : ℝ) := hdiv
+      _ ≤ _ := by dsimp [H]; push_cast; linarith
+  · have hdimR : (m : ℝ)+2 ≤ 2*((H : ℝ)+2) := by exact_mod_cast (show m+2 ≤ 2*(H+2) by omega)
+    calc
+      _ ≤ Real.sqrt (3/1216)*((m : ℝ)+2) := mul_le_mul_of_nonneg_left (min_le_left _ _) hC0
+      _ ≤ (1/2)*((m : ℝ)+2) := mul_le_mul_of_nonneg_right hChalf (by positivity)
+      _ ≤ _ := by dsimp [H] at hdimR; linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportRate.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem supportSize_le_dimension {m : ℕ} (q : Fin m → ℝ) : supportSize q ≤ m := by
+  classical
+  unfold supportSize residualSupport
+  simpa only [Finset.card_univ, Fintype.card_fin] using
+    Finset.card_filter_le (Finset.univ : Finset (Fin m)) (fun j => q j ≠ 0)
+
+theorem two_anchor_total_support_card {m : ℕ} (a : Fin 2 → ℝ) (q : Fin m → ℝ)
+    (ha : ∀ h, 0 < a h) :
+    (Finset.univ.filter fun v => blockWeights a q v ≠ 0).card = supportSize q+2 := by
+  classical
+  rw [block_support_card]
+  have heq : (Finset.univ.filter fun h => a h ≠ 0) = Finset.univ := by
+    ext h
+    simp [ne_of_gt (ha h)]
+  rw [heq]
+  simp only [Finset.card_univ, Fintype.card_fin, supportSize, residualSupport]
+  omega
+
+theorem uniform_grid_support_upper (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1) :
+    ((2+gridSize 1 (1/4) ε : ℕ) : ℝ) ≤ 3/Real.sqrt ε := by
+  have hr : 0 < Real.sqrt ε := Real.sqrt_pos.mpr hε
+  have hr1 : Real.sqrt ε ≤ 1 := by
+    simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt hε1
+  have hquarter : Real.sqrt (1/4 : ℝ) = 1/2 := by norm_num
+  have hroot : Real.sqrt (1*(1/4)/ε) = 1/(2*Real.sqrt ε) := by
+    rw [one_mul, Real.sqrt_div (by norm_num), hquarter]
+    ring
+  by_cases he : 1/4 ≤ ε
+  · have hrhalf : 1/2 ≤ Real.sqrt ε := by
+      have hh := Real.sqrt_le_sqrt he
+      rw [hquarter] at hh
+      exact hh
+    have hceil : gridSize 1 (1/4) ε ≤ 1 := by
+      unfold gridSize
+      apply Nat.ceil_le.mpr
+      rw [hroot]
+      apply (div_le_iff₀ (show 0 < 2*Real.sqrt ε by positivity)).mpr
+      norm_num
+      linarith
+    have hc : ((2+gridSize 1 (1/4) ε : ℕ) : ℝ) ≤ 3 := by exact_mod_cast (show 2+gridSize 1 (1/4) ε ≤ 3 by omega)
+    exact le_trans hc ((le_div_iff₀ hr).mpr (by nlinarith))
+  · have hlt : ε < 1/4 := lt_of_not_ge he
+    have hrhalf : Real.sqrt ε < 1/2 := by
+      have hh := Real.sqrt_lt_sqrt (le_of_lt hε) hlt
+      rw [hquarter] at hh
+      exact hh
+    have hc := Nat.ceil_lt_add_one (Real.sqrt_nonneg (1*(1/4)/ε))
+    change (gridSize 1 (1/4) ε : ℝ) < Real.sqrt (1*(1/4)/ε)+1 at hc
+    rw [hroot] at hc
+    have hm := mul_lt_mul_of_pos_right hc hr
+    have hid : (1/(2*Real.sqrt ε))*Real.sqrt ε = 1/2 := by field_simp
+    rw [add_mul, hid] at hm
+    apply (le_div_iff₀ hr).mpr
+    push_cast
+    nlinarith
+
+/-- Matching existential support rate obtained directly from the main
+    sparse-witness theorem. It does not assert the paper's explicit bin
+    constructions or their exact exploitability formulas. -/
+theorem uniform_sparse_upper_rate {m : ℕ} (hm : 0 < m)
+    (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1) :
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ),
+      (∀ j, 0 ≤ q j) ∧ (∑ j, q j = 1/(4 : ℕ)) ∧
+      IsSkew B ∧ (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+      (∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+        (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) v ≤ ε) ∧
+      (supportSize q : ℝ) ≤ 3*min (m : ℝ) (1/Real.sqrt ε) ∧
+      (supportSize q : ℝ)+2 ≤ 5*min ((m : ℝ)+2) (1/Real.sqrt ε) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let qstar := uniformTarget m (1/4)
+  let K := rigidityCore qstar
+  let D := rigidityCross qstar
+  let p := twoShares (3/4)
+  have hqstar : ∀ j, 0 ≤ qstar j := fun j => le_of_lt (uniformTarget_positive m (1/4) (by norm_num) j)
+  have hmass : ∑ j, qstar j = 1/4 := uniformTarget_mass m hm (1/4)
+  have hresp0 : ∀ v, response (blockMatrix K D (orderedBlock 1)) (blockWeights p qstar) v ≤ 0 :=
+    fun v => le_of_eq (two_anchor_target_feasible qstar (3/4) (1/4) (by norm_num) hmass v)
+  obtain ⟨q,B,hq,hqm,_,hc,_,hB,hb,hresp⟩ := exact_game_sparse_completion 2 K D (orderedBlock 1)
+    p qstar 1 (1/4) ε (by norm_num) (by norm_num) hε
+    (fun _ => by norm_num [p,twoShares]) hqstar hmass (twoCore_skew _) (orderedBlock_skew 1)
+    (orderedBlock_bounds 1 (by norm_num)) hresp0
+  have hsupp : supportSize q ≤ 2+gridSize 1 (1/4) ε := by
+    simpa only [supportSize,residualSupport] using hc
+  have hdim : (supportSize q : ℝ) ≤ m := by exact_mod_cast supportSize_le_dimension q
+  have hcard : (supportSize q : ℝ) ≤ 3/Real.sqrt ε :=
+    le_trans (by exact_mod_cast hsupp) (uniform_grid_support_upper ε hε hε1)
+  have hcard' : (supportSize q : ℝ) ≤ 3*(1/Real.sqrt ε) := by
+    calc
+      _ ≤ 3/Real.sqrt ε := hcard
+      _ = _ := by ring
+  have hr : 0 < Real.sqrt ε := Real.sqrt_pos.mpr hε
+  have hr1 : Real.sqrt ε ≤ 1 := by
+    simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt hε1
+  have hresidual : (supportSize q : ℝ) ≤ 3*min (m : ℝ) (1/Real.sqrt ε) := by
+    rcases le_total (m : ℝ) (1/Real.sqrt ε) with hh | hh
+    · rw [min_eq_left hh]
+      have hm0 : (0 : ℝ) ≤ m := Nat.cast_nonneg _
+      linarith
+    · rw [min_eq_right hh]
+      nlinarith
+  have htotal : (supportSize q : ℝ)+2 ≤ 5*min ((m : ℝ)+2) (1/Real.sqrt ε) := by
+    rcases le_total ((m : ℝ)+2) (1/Real.sqrt ε) with hh | hh
+    · rw [min_eq_left hh]
+      have hm0 : (0 : ℝ) ≤ m := Nat.cast_nonneg _
+      linarith
+    · rw [min_eq_right hh]
+      have hinv : 1 ≤ 1/Real.sqrt ε := (le_div_iff₀ hr).mpr (by nlinarith)
+      nlinarith
+  refine ⟨q,B,hq,hqm,hB,hb,?_,hresidual,htotal⟩
+  simpa only [zero_add] using hresp
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportMinimum.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- Actual witnesses in the uniform observed game. `fixed=true` adds
+    exact anchor shares; both classes retain the two minimum shares. -/
+def UniformWitness (m : ℕ) (ε : ℝ) (fixed : Bool)
+    (a : Fin 2 → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) : Prop :=
+  (∀ j, 0 ≤ q j) ∧ (∀ h, ((3 : ℕ) : ℝ)/(8 : ℕ) ≤ a h) ∧
+    (fixed=true → a=twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) ∧
+    (∑ h, a h)+(∑ j, q j)=1 ∧
+    IsSkew B ∧ (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+    ∀ v, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights a q) v ≤ ε
+
+/-- The integer count minimized below is the actual support of the full strategy. -/
+theorem uniform_witness_total_support_card {m : ℕ} {ε : ℝ} {fixed : Bool}
+    {a : Fin 2 → ℝ} {q : Fin m → ℝ} {B : Fin m → Fin m → ℝ}
+    (hw : UniformWitness m ε fixed a q B) :
+    (Finset.univ.filter fun v => blockWeights a q v ≠ 0).card = supportSize q+2 := by
+  apply two_anchor_total_support_card
+  intro h
+  have hh := hw.2.1 h
+  norm_num only [Nat.cast_ofNat] at hh
+  linarith
+
+theorem uniform_witness_dense (m : ℕ) (hm : 0 < m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    UniformWitness m ε fixed (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) (uniformTarget m (1/(4 : ℕ))) (orderedBlock 1) := by
+  norm_num only [Nat.cast_ofNat] at *
+  unfold UniformWitness
+  norm_num only [Nat.cast_ofNat]
+  have hmass := uniformTarget_mass m hm (1/4)
+  refine ⟨fun j => le_of_lt (uniformTarget_positive m (1/4) (by norm_num) j),
+    fun _ => by norm_num [twoShares], (by simp), ?_, orderedBlock_skew 1,
+    orderedBlock_bounds 1 (by norm_num), ?_⟩
+  · rw [hmass, Fin.sum_univ_two]
+    norm_num [twoShares]
+  · intro v
+    exact le_trans (le_of_eq (two_anchor_target_feasible _ (3/4) (1/4) (by norm_num) hmass v)) hε
+
+theorem uniform_witness_support_exists (m : ℕ) (hm : 0 < m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    ∃ s : ℕ, ∃ (a : Fin 2 → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ),
+      UniformWitness m ε fixed a q B ∧ supportSize q+2=s := by
+  exact ⟨supportSize (uniformTarget m (1/4))+2, twoShares (3/4),uniformTarget m (1/4),
+    orderedBlock 1, uniform_witness_dense m hm ε hε fixed,rfl⟩
+
+/-- A genuine attained integer minimum over actual completions and
+    strategies. Nonemptiness is supplied by the dense exact witness. -/
+def uniformMinimumTotalSupport (m : ℕ) (hm : 0 < m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) : ℕ :=
+  by
+    classical
+    exact Nat.find (uniform_witness_support_exists m hm ε hε fixed)
+
+theorem uniformMinimumTotalSupport_attained (m : ℕ) (hm : 0 < m)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    ∃ (a : Fin 2 → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ),
+      UniformWitness m ε fixed a q B ∧
+      supportSize q+2=uniformMinimumTotalSupport m hm ε hε fixed :=
+  by
+    classical
+    exact Nat.find_spec (uniform_witness_support_exists m hm ε hε fixed)
+
+theorem uniformMinimumTotalSupport_le (m : ℕ) (hm : 0 < m)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool)
+    (a : Fin 2 → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (hw : UniformWitness m ε fixed a q B) :
+    uniformMinimumTotalSupport m hm ε hε fixed ≤ supportSize q+2 :=
+  by
+    classical
+    exact Nat.find_min' (uniform_witness_support_exists m hm ε hε fixed) ⟨a,q,B,hw,rfl⟩
+
+theorem uniformMinimumTotalSupport_zero (m : ℕ) (hm : 2 ≤ m) (fixed : Bool) :
+    uniformMinimumTotalSupport m (by omega) 0 (by norm_num) fixed = m+2 := by
+  obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m (by omega) 0 (by norm_num) fixed
+  simp only [UniformWitness,Nat.cast_ofNat] at hw
+  obtain ⟨hq,ha,_,hnorm,hB,hb,hresp⟩ := hw
+  have hrigid := bounded_two_anchor_minimum_share_rigidity hm (uniformTarget m (1/4)) q a
+    (uniformTarget_positive m (1/4) (by norm_num)) (uniformTarget_mass m (by omega) (1/4))
+    ha hq hnorm B hB hb hresp
+  have hcard : supportSize q=m := by
+    rw [hrigid.2.1]
+    exact positive_target_full_support _ (uniformTarget_positive m (1/4) (by norm_num))
+  omega
+
+/-- Sharp-order total support complexity with the paper's explicit
+    constants, for both minimum-share and fixed-share commitment classes. -/
+theorem uniformMinimumTotalSupport_sharp (m : ℕ) (hm : 2 ≤ m)
+    (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1) (fixed : Bool) :
+    Real.sqrt (3/1216)*min ((m : ℝ)+2) (1/Real.sqrt ε) ≤
+      (uniformMinimumTotalSupport m (by omega) ε (le_of_lt hε) fixed : ℝ) ∧
+    (uniformMinimumTotalSupport m (by omega) ε (le_of_lt hε) fixed : ℝ) ≤
+      5*min ((m : ℝ)+2) (1/Real.sqrt ε) := by
+  constructor
+  · obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m (by omega) ε (le_of_lt hε) fixed
+    simp only [UniformWitness,Nat.cast_ofNat] at hw
+    obtain ⟨hq,ha,_,hnorm,hB,hb,hresp⟩ := hw
+    have hh := uniform_total_support_lower (by omega) q a hq ha hnorm B hB
+      (fun i j => (hb i j).1) ε hε hresp
+    have heq : (supportSize q : ℝ)+2 = (uniformMinimumTotalSupport m (by omega) ε (le_of_lt hε) fixed : ℝ) := by
+      exact_mod_cast hcount
+    rw [← heq]
+    exact hh
+  · obtain ⟨q,B,hq,hqm,hB,hb,hresp,_,hcount⟩ := uniform_sparse_upper_rate (m := m) (by omega) ε hε hε1
+    have hw : UniformWitness m ε fixed (twoShares (3/4)) q B := by
+      unfold UniformWitness
+      norm_num only [Nat.cast_ofNat]
+      refine ⟨hq,fun _ => by norm_num [twoShares],(by simp),?_,hB,hb,hresp⟩
+      rw [hqm,Fin.sum_univ_two]
+      norm_num [twoShares]
+    have hle := uniformMinimumTotalSupport_le m (by omega) ε (le_of_lt hε) fixed (twoShares (3/4)) q B hw
+    have hleR : (uniformMinimumTotalSupport m (by omega) ε (le_of_lt hε) fixed : ℝ) ≤ (supportSize q : ℝ)+2 := by
+      exact_mod_cast hle
+    exact le_trans hleR hcount
 
 end
 end SparseCompletion

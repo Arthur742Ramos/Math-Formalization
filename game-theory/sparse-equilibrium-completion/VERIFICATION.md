@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact five local source bodies with
+Challenge is a deterministic assembly of the exact twenty local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -83,5 +83,24 @@ generated numeral-evidence sharing under protected assembly. Finite-ordinal
 source evidence is independently bound to the compiler's GitHub blob, with
 literal/field bridges compiled through both entrypoints. Full native exact-source
 results belong to the separate immutable receipt for the final commit, not the
-preceding reconstruction checkpoint. Quantitative support and uncertainty work
-remain open; no submission, canonical sandbox or rendering is claimed.
+preceding reconstruction checkpoint. At that tranche quantitative support and uncertainty work
+remained open; no submission, canonical sandbox or rendering is claimed.
+
+## Quantitative support follow-on
+
+Seven further modules prove prefix stability, finite-subset quantization, the
+actual support partition, inverse-square witness lower bounds, matching
+existential upper support order, and attained total-support minima for both
+commitment classes. The integrated development build passed 3168 jobs with
+172 source proof audit declarations and 62 selected contracts. New independent
+entrypoint bridges for sorted finite coverage, cubic power means and natural
+minimum attainment/minimality compiled separately. Nat.find is noncomputable
+for this real existential predicate; the dense witness proves nonemptiness.
+Upstream Nat.find definitions are unexposed, so the projection bridge is a
+proved equality from minimality and attainment, not a claimed literal unfolding.
+
+These development results do not inherit any earlier exact-source receipt.
+The external receipt for the frozen quantitative commit records the fresh native
+build, protected dependency comparison, altered-helper rejection, axioms and
+kernel outcomes. The explicit parity/bin constructions, residual-minimum law
+packaging, uncertainty theorem and other open rows in SCOPE.md remain unfinished.

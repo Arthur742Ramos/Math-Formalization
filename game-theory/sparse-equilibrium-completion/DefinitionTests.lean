@@ -132,5 +132,29 @@ theorem finite_prefix_cardinality {n : ℕ} (i : Fin n) : (Finset.Iio i).card = 
 theorem finite_sum_range_conversion (n : ℕ) (f : ℕ → ℝ) :
     (∑ i : Fin n, f i.val) = ∑ i ∈ Finset.range n, f i := Fin.sum_univ_eq_sum_range f n
 
+theorem relation_embedding_meaning {α β : Type*} [LE α] [LE β]
+    (e : α ↪o β) (i j : α) : e i ≤ e j ↔ i ≤ j := e.map_rel_iff'
+
+theorem sorted_finite_coverage {n : ℕ} (s : Finset (Fin n)) :
+    Finset.map (s.orderEmbOfFin rfl).toEmbedding Finset.univ = s :=
+  s.map_orderEmbOfFin_univ rfl
+
+theorem sorted_finite_membership {n : ℕ} (s : Finset (Fin n)) (i : Fin s.card) :
+    s.orderEmbOfFin rfl i ∈ s := s.orderEmbOfFin_mem rfl i
+
+theorem cubic_power_mean_contract {ι : Type*} [Fintype ι]
+    (f : ι → ℝ) (hf : ∀ i, 0 ≤ f i) :
+    (∑ i, f i)^3 ≤ (Fintype.card ι : ℝ)^2 * ∑ i, (f i)^3 := by
+  simpa using pow_sum_le_card_mul_sum_pow (s := Finset.univ) (by simpa using hf) 2
+
+theorem natural_minimum_contract (p : ℕ → Prop) [DecidablePred p] (hp : ∃ n, p n) :
+    p (Nat.find hp) ∧ ∀ n, p n → Nat.find hp ≤ n :=
+  ⟨Nat.find_spec hp, fun _ h => Nat.find_min' hp h⟩
+
+theorem natural_minimum_projection (p : ℕ → Prop) [DecidablePred p] (hp : ∃ n, p n) :
+    Nat.find hp = (Nat.findX hp).val := by
+  apply Nat.le_antisymm (Nat.find_min' hp (Nat.findX hp).2.1)
+  exact Nat.le_of_not_gt fun h => (Nat.findX hp).2.2 _ h (Nat.find_spec hp)
+
 end SECDefinitions
 -- END material-imported-definition audit
