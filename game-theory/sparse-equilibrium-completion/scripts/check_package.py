@@ -58,7 +58,7 @@ for evidence in bins['sources']:
     assert hashlib.sha256(excerpt).hexdigest() == evidence['excerpt_sha256']
     assert data.startswith(evidence['upstream_header'].encode())
     assert evidence['url'] == 'https://github.com/leanprover/lean4/blob/'+bins['compiler_commit']+'/'+evidence['path']
-assert {e['name'] for e in bins['sources']} == {'Sigma','Fin.rev'}
+assert {e['name'] for e in bins['sources']} == {'Sigma','Fin.rev','Function.Injective'}
 files = [p for p in root.rglob('*') if p.is_file() and '.lake' not in p.parts
          and p.suffix not in ['.olean', '.ilean', '.log'] and '__pycache__' not in p.parts]
 print(json.dumps({'check': 'sparse-equilibrium-completion-source-consistency', 'result': 'pass',

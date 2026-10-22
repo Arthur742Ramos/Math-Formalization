@@ -1967,3 +1967,127 @@ The retained Equiv inverse and ordinal-reversal contracts additionally support S
 The finSigmaFinEquiv offset/bijection and Finset.sigma membership/sum bridges are proved contracts from the pinned upstream theorems, not claimed generic definitional unfolding. Equiv field laws and the reversal value bridges are recorded separately.
 
 Nat.ceil and FloorSemiring provide the actual grid rounding in SparseCompletion.double_grid_support_upper, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp. The scalar double_grid_support_upper is excluded from finite-cardinality usage.
+
+## Exact midpoint and finite-correction refinements
+
+The following contracts additionally use finite enumeration, sums, cardinality and the canonical bin-label bijection: SparseCompletion.bin_error_finite_identity, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.balanced_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_odd_game_witness, SparseCompletion.odd_midpoint_error_identity, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_odd_support, SparseCompletion.binned_middle_positive, SparseCompletion.binned_middle_injective, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact, SparseCompletion.bin_middle_even_gap, SparseCompletion.bin_middle_odd_same, SparseCompletion.bin_quadratic_parity_identity, SparseCompletion.bin_odd_support. The ordinal middle-position and scalar rational identities do not add finite-set assumptions. Finset.image is used in exact odd-bin support: image membership supplies original labels, injectivity makes the h representatives distinct, and positive r makes every representative active. The support-upper theorem allows arbitrary real r; exact support requires r>0 and positive total size.
+
+### Finset.image pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean
+
+Whole-source SHA256: 215a8edc840c6972f66f6e1bcbec7db3b410efcde0ab91fbe9cd377b698a0593
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean#L277-L284
+
+```lean
+
+/-- `image f s` is the forward image of `s` under `f`. -/
+def image (f : α → β) (s : Finset α) : Finset β :=
+  (s.1.map f).toFinset
+
+@[simp]
+theorem image_val (f : α → β) (s : Finset α) : (image f s).1 = (s.1.map f).dedup :=
+  rfl
+```
+
+### finite-image-membership pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean
+
+Whole-source SHA256: 215a8edc840c6972f66f6e1bcbec7db3b410efcde0ab91fbe9cd377b698a0593
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean#L290-L294
+
+```lean
+variable {f g : α → β} {s : Finset α} {t : Finset β} {a : α} {b c : β}
+
+@[simp, grind =]
+theorem mem_image : b ∈ s.image f ↔ ∃ a ∈ s, f a = b := by
+  simp only [mem_def, image_val, mem_dedup, Multiset.mem_map]
+```
+
+### finite-image-cardinality pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean
+
+Whole-source SHA256: 901b74774650c909674c06dc8a78882db528af0b296cede9ef7b716079665e80
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L233-L234
+
+```lean
+theorem card_image_le [DecidableEq β] : #(s.image f) ≤ #s := by
+  simpa only [card_map] using! (s.1.map f).toFinset_card_le
+```
+
+### finite-injective-image-cardinality pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean
+
+Whole-source SHA256: 901b74774650c909674c06dc8a78882db528af0b296cede9ef7b716079665e80
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L257-L259
+
+```lean
+theorem card_image_of_injective [DecidableEq β] (s : Finset α) (H : Injective f) :
+    #(s.image f) = #s :=
+  card_image_of_injOn fun _ _ _ _ h => H h
+```
+
+### Compiler Function.Injective
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Function.lean
+
+Whole-source SHA256: 88217ed8ec91da1ec655c8a10f737b659a4570b4c05dbd6b084162a3157cf030
+
+GitHub exact-commit blob d3526ccde628989d0d4658dbec3c3f334bcb7a7f matches the installed compiler source. Distinct inputs have distinct outputs; equivalently equality of function values implies equality of inputs.
+
+```lean
+/-
+Copyright (c) 2024 Lean FRO. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison
+-/
+```
+
+```lean
+/-- A function `f : α → β` is called injective if `f x = f y` implies `x = y`. -/
+@[expose]
+def Injective (f : α → β) : Prop :=
+  ∀ ⦃a₁ a₂⦄, f a₁ = f a₂ → a₁ = a₂
+
+```
+
+Affected selected declarations: SparseCompletion.binned_middle_injective, SparseCompletion.binned_odd_game_witness, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact

@@ -192,5 +192,22 @@ theorem reversal_permutation_meaning {n : ℕ} (i : Fin n) : Fin.revPerm i=i.rev
 theorem equivalence_sum_contract {ι κ : Type*} [Fintype ι] [Fintype κ]
     (e : ι ≃ κ) (f : κ → ℝ) : (∑ i, f (e i))=∑ j, f j := Equiv.sum_comp e f
 
+
+theorem finite_image_literal {ι κ : Type*} [DecidableEq κ] (f : ι → κ) (s : Finset ι) :
+    (s.image f).val=(s.val.map f).dedup := rfl
+
+theorem finite_image_membership {ι κ : Type*} [DecidableEq κ] (f : ι → κ) (s : Finset ι) (y : κ) :
+    y ∈ s.image f ↔ ∃ x ∈ s, f x=y := Finset.mem_image
+
+theorem finite_image_card_le {ι κ : Type*} [DecidableEq κ] (f : ι → κ) (s : Finset ι) :
+    (s.image f).card ≤ s.card := Finset.card_image_le
+
+theorem finite_image_card_exact {ι κ : Type*} [DecidableEq κ] (f : ι → κ) (s : Finset ι)
+    (hf : Function.Injective f) : (s.image f).card=s.card := Finset.card_image_of_injective s hf
+
+theorem injectivity_literal {ι κ : Type*} (f : ι → κ) :
+    Function.Injective f ↔ ∀ ⦃x y⦄, f x=f y → x=y := Iff.rfl
+
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

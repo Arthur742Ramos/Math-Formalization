@@ -29,6 +29,28 @@
       "license": "Apache-2.0",
       "upstream_header": "/-\nCopyright (c) 2014 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n\nnotation, basic datatypes and type classes\n-/\n",
       "meaning": "Dependent pair has first component in alpha and second component in the fiber beta of that first component."
+    },
+    {
+      "name": "Function.Injective",
+      "path": "src/Init/Data/Function.lean",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Function.lean",
+      "source_sha256": "88217ed8ec91da1ec655c8a10f737b659a4570b4c05dbd6b084162a3157cf030",
+      "github_blob_sha1": "d3526ccde628989d0d4658dbec3c3f334bcb7a7f",
+      "first_line": 51,
+      "last_line": 55,
+      "excerpt": "/-- A function `f : \u03b1 \u2192 \u03b2` is called injective if `f x = f y` implies `x = y`. -/\n@[expose]\ndef Injective (f : \u03b1 \u2192 \u03b2) : Prop :=\n  \u2200 \u2983a\u2081 a\u2082\u2984, f a\u2081 = f a\u2082 \u2192 a\u2081 = a\u2082\n\n",
+      "excerpt_sha256": "7b03a9d1cbb228c7ae27b159acc31c9ef317e1e39584e98c9c9efa2d4cd9f680",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2024 Lean FRO. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison\n-/\n",
+      "meaning": "Distinct inputs have distinct outputs; equivalently equality of function values implies equality of inputs.",
+      "used_by": [
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
+      ]
     }
   ],
   "bridge_modules": [

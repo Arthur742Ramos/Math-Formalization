@@ -5048,3 +5048,442 @@ theorem uniformMinimumIntervalTotalSupport_sharp (m : ℕ) (hm : (2 : ℕ) ≤ m
 
 end
 end SparseCompletion
+
+/- Fixed source body: MidpointExact.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem bin_middle_even_gap (L : ℕ) (hL : 0 < L) (heven : L%(2 : ℕ)=0) :
+    (binLower L hL).val+1=(binUpper L hL).val := by
+  simp only [binLower,binUpper]
+  omega
+
+theorem bin_middle_odd_same (L : ℕ) (hL : 0 < L) (hodd : L%(2 : ℕ)≠0) :
+    binLower L hL=binUpper L hL := by
+  apply Fin.ext
+  simp only [binLower,binUpper]
+  omega
+
+theorem bin_quadratic_parity_identity (L : ℕ) (hL : 0 < L) (a d : ℝ) :
+    (∑ i : Fin L, (a+d*i.val)^(2 : ℕ))-
+      (∑ i, binCompressedWeights L hL i*(a+d*i.val)^(2 : ℕ))=
+      d^(2 : ℕ)*(L : ℝ)/(12 : ℕ)*((L : ℝ)^(2 : ℕ)-(if L%(2 : ℕ)=0 then (4 : ℕ) else 1)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  rw [bin_compressed_moment,bin_quadratic_loss_identity]
+  by_cases heven : L%2=0
+  · rw [ite_eq_left heven]
+    have hh : ((binUpper L hL).val : ℝ)=(binLower L hL).val+1 := by
+      exact_mod_cast (bin_middle_even_gap L hL heven).symm
+    rw [hh]
+    ring
+  · rw [ite_eq_right heven,bin_middle_odd_same L hL heven]
+    ring
+
+theorem bin_odd_support (L : ℕ) (hL : 0 < L) (hodd : L%(2 : ℕ)≠0) :
+    (Finset.univ.filter fun i => binCompressedWeights L hL i ≠ 0).card ≤ 1 := by
+  classical
+  have hsup : (Finset.univ.filter fun i => binCompressedWeights L hL i ≠ 0) ⊆
+      {binLower L hL} := by
+    intro i hi
+    have hn := (Finset.mem_filter.mp hi).2
+    by_contra he
+    have heq : ∀ b : Fin 2, binCompressedLabel L hL b=binLower L hL := by
+      intro b
+      simp only [binCompressedLabel,←bin_middle_odd_same L hL hodd,ite_self]
+    have hz : binCompressedWeights L hL i=0 := by
+      unfold binCompressedWeights pushWeights
+      apply Finset.sum_eq_zero
+      intro b _
+      have hne : binCompressedLabel L hL b ≠ i := by
+        rw [heq]
+        simpa only [Finset.mem_singleton,ne_comm] using he
+      simp only [ite_eq_right hne]
+    exact hn hz
+  exact le_trans (Finset.card_le_card hsup) (by simp)
+
+end
+end SparseCompletion
+
+/- Fixed source body: BinnedExact.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def binParityTerm (L : ℕ) : ℝ :=
+  (L : ℝ)*((L : ℝ)^2-(if L%2=0 then ((4 : ℕ) : ℝ) else 1))
+
+theorem binned_quadratic_loss_exact {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (r a d : ℝ) :
+    scoreMoment (uniformTarget (∑ b, L b) r) (fun j => (a+d*j.val)^(2 : ℕ))-
+      scoreMoment (binnedWeights L hL r) (fun j => (a+d*j.val)^(2 : ℕ)) =
+      (r/((∑ b, L b : ℕ) : ℝ))*d^(2 : ℕ)/(12 : ℕ)*∑ b, binParityTerm (L b) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let Δ := fun b : Fin h =>
+    (∑ i : Fin (L b), (a+d*(binIndex L b i).val)^2)-
+      ∑ i : Fin (L b), binCompressedWeights (L b) (hL b) i*(a+d*(binIndex L b i).val)^2
+  have hb : ∀ b, Δ b=d^2/12*binParityTerm (L b) := by
+    intro b
+    have hform : ∀ i : Fin (L b), a+d*(binIndex L b i).val=(a+d*binStart L b)+d*i.val := by
+      intro i
+      rw [binIndex_val]
+      push_cast
+      ring
+    dsimp only [Δ]
+    simp only [hform]
+    rw [bin_quadratic_parity_identity]
+    unfold binParityTerm
+    split_ifs <;> norm_num only [Nat.cast_ofNat] <;> ring
+  have he : scoreMoment (uniformTarget (∑ b, L b) r) (fun j => (a+d*j.val)^2)-
+      scoreMoment (binnedWeights L hL r) (fun j => (a+d*j.val)^2) =
+      (r/((∑ b, L b : ℕ) : ℝ))*∑ b, Δ b := by
+    unfold scoreMoment
+    rw [binned_moment]
+    simp only [uniformTarget,←Finset.mul_sum]
+    rw [sum_bin_partition L,←mul_sub,←Finset.sum_sub_distrib]
+  rw [he]
+  simp only [hb,←Finset.mul_sum]
+  ring
+
+theorem binned_exposing_loss_exact {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) :
+    let qstar := uniformTarget (∑ b, L b) r
+    let q := binnedWeights L hL r
+    let w := exposingWeight qstar r
+    scoreMoment qstar w-scoreMoment q w =
+      r^(2 : ℕ)/((12 : ℕ)*((∑ b, L b : ℕ) : ℝ)^(3 : ℕ))*∑ b, binParityTerm (L b) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let m := ∑ b, L b
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  let f := fun j : Fin m => (((m : ℝ)-1)/(m : ℝ)+(-1/(m : ℝ))*j.val)^2
+  have hw : exposingWeight (uniformTarget m r) r=(fun j => r*f j) := by
+    funext j
+    rw [uniform_exposing_weight]
+    dsimp only [f]
+    congr 1
+    congr 1
+    ring
+  have he : scoreMoment (uniformTarget m r) (exposingWeight (uniformTarget m r) r)-
+      scoreMoment (binnedWeights L hL r) (exposingWeight (uniformTarget m r) r)=
+      r*(scoreMoment (uniformTarget m r) f-scoreMoment (binnedWeights L hL r) f) := by
+    rw [hw]
+    simp only [scoreMoment,mul_left_comm _ r,←Finset.mul_sum]
+    ring
+  change scoreMoment (uniformTarget m r) (exposingWeight (uniformTarget m r) r)-
+      scoreMoment (binnedWeights L hL r) (exposingWeight (uniformTarget m r) r)=_
+  rw [he]
+  have hq := binned_quadratic_loss_exact L hL r (((m : ℝ)-1)/(m : ℝ)) (-1/(m : ℝ))
+  change scoreMoment (uniformTarget m r) f-scoreMoment (binnedWeights L hL r) f=_ at hq
+  norm_num only [Nat.cast_ofNat] at hq
+  rw [hq]
+  dsimp only [m]
+  field_simp
+
+theorem binned_odd_support {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hodd : ∀ b, L b%(2 : ℕ)≠0) (r : ℝ) : supportSize (binnedWeights L hL r) ≤ h := by
+  classical
+  let s := Finset.univ.image (fun b : Fin h => binIndex L b (binLower (L b) (hL b)))
+  have hs : ∀ k : Fin h × Fin 2, binnedLabel L hL k ∈ s := by
+    intro k
+    apply Finset.mem_image.mpr
+    refine ⟨k.1,Finset.mem_univ _,?_⟩
+    simp only [binnedLabel,binCompressedLabel,←bin_middle_odd_same (L k.1) (hL k.1) (hodd k.1),ite_self]
+  have hsup : residualSupport (binnedWeights L hL r) ⊆ s := by
+    intro i hi
+    by_contra he
+    have hz : binnedWeights L hL r i=0 := by
+      unfold binnedWeights
+      exact pushWeights_zero_outside _ _ s hs i he
+    exact (Finset.mem_filter.mp hi).2 hz
+  exact le_trans (Finset.card_le_card hsup)
+    (le_trans (Finset.card_image_le) (by simp))
+
+
+theorem binned_middle_positive {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) (hr : 0 < r) (b : Fin h) :
+    0 < binnedWeights L hL r (binIndex L b (binLower (L b) (hL b))) := by
+  have hmR : (0 : ℝ) < (∑ b, L b : ℕ) := Nat.cast_pos.mpr hm
+  have hLb : (0 : ℝ) < L b := Nat.cast_pos.mpr (hL b)
+  have hnonneg : ∀ k : Fin h × Fin 2,
+      0 ≤ (if binnedLabel L hL k=binIndex L b (binLower (L b) (hL b)) then
+        (r/((∑ b, L b : ℕ) : ℝ))*(L k.1 : ℝ)/(2 : ℕ) else 0) := by
+    intro k
+    split_ifs <;> positivity
+  have hsingle := Finset.single_le_sum
+    (fun k (_ : k ∈ (Finset.univ : Finset (Fin h × Fin 2))) => hnonneg k)
+    (Finset.mem_univ (b,(0 : Fin 2)))
+  have hlab : binnedLabel L hL (b,(0 : Fin 2))=binIndex L b (binLower (L b) (hL b)) := by
+    simp only [binnedLabel,binCompressedLabel,Fin.val_zero,ite_true]
+  simp only [hlab,ite_true] at hsingle
+  change 0 < ∑ k : Fin h × Fin 2, if binnedLabel L hL k=binIndex L b (binLower (L b) (hL b)) then
+    (r/((∑ b, L b : ℕ) : ℝ))*(L k.1 : ℝ)/(2 : ℕ) else 0
+  exact lt_of_lt_of_le (by positivity) hsingle
+
+theorem binned_middle_injective {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) :
+    Function.Injective (fun b => binIndex L b (binLower (L b) (hL b))) := by
+  intro b c he
+  change finSigmaFinEquiv ⟨b,binLower (L b) (hL b)⟩=
+    finSigmaFinEquiv ⟨c,binLower (L c) (hL c)⟩ at he
+  exact congrArg Sigma.fst (finSigmaFinEquiv.injective he)
+
+theorem binned_support_lower {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) (hr : 0 < r) : h ≤ supportSize (binnedWeights L hL r) := by
+  classical
+  let s := Finset.univ.image (fun b : Fin h => binIndex L b (binLower (L b) (hL b)))
+  have hs : s ⊆ residualSupport (binnedWeights L hL r) := by
+    intro i hi
+    obtain ⟨b,_,hb⟩ := Finset.mem_image.mp hi
+    subst i
+    exact Finset.mem_filter.mpr ⟨Finset.mem_univ _,ne_of_gt (binned_middle_positive L hL hm r hr b)⟩
+  have hcard : s.card=h := by
+    dsimp only [s]
+    rw [Finset.card_image_of_injective _ (binned_middle_injective L hL)]
+    simp
+  calc
+    h = s.card := hcard.symm
+    _ ≤ supportSize (binnedWeights L hL r) := Finset.card_le_card hs
+
+theorem binned_odd_support_exact {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (hodd : ∀ b, L b%(2 : ℕ)≠0) (r : ℝ) (hr : 0 < r) :
+    supportSize (binnedWeights L hL r)=h := by
+  exact le_antisymm (binned_odd_support L hL hodd r) (binned_support_lower L hL hm r hr)
+
+end
+end SparseCompletion
+
+/- Fixed source body: MidpointGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem binned_game_completion_exact {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) :
+    let m := ∑ b, L b
+    let qstar := uniformTarget m (1/(4 : ℕ))
+    let q := binnedWeights L hL (1/(4 : ℕ))
+    let d := scoreMoment qstar (exposingWeight qstar (1/(4 : ℕ)))-
+      scoreMoment q (exposingWeight qstar (1/(4 : ℕ)))
+    ∃ B : Fin m → Fin m → ℝ, IsSkew B ∧ (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inl 1)= -d ∧
+      ∀ j, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inr j) ≤ 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  let m := ∑ b, L b
+  let qstar := uniformTarget m (1/4)
+  let q := binnedWeights L hL (1/4)
+  let t := targetScore qstar (1/4)
+  let w := exposingWeight qstar (1/4)
+  let βstar := scoreMoment qstar w
+  let d := βstar-scoreMoment q w
+  have hmean : scoreMoment q t=0 := binned_uniform_score_mean L hL hm (1/4)
+  obtain ⟨B,hB,hb,hrows⟩ := binned_uniform_residual_completion L hL hm (1/4) (by norm_num)
+  refine ⟨B,hB,hb,?_,?_,?_⟩
+  · rw [block_response_anchor]
+    have ha := (two_anchor_responses t w q (3/4) βstar (by norm_num)).1
+    change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 0=d
+    rw [ha,hmean]
+    dsimp only [d]
+    ring
+  · rw [block_response_anchor]
+    have ha := (two_anchor_responses t w q (3/4) βstar (by norm_num)).2
+    change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 1= -d
+    rw [ha,hmean]
+    dsimp only [d]
+    ring
+  · intro j
+    rw [block_response_residual]
+    have hs : score (rigidityCross qstar) (twoShares (3/4))=t := two_score t w (3/4) (by norm_num)
+    rw [hs]
+    exact hrows j
+
+theorem binned_odd_game_witness {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (hodd : ∀ b, L b%(2 : ℕ)≠0) :
+    let m := ∑ b, L b
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      UniformWitness m d true (twoShares ((3 : ℕ)/(4 : ℕ))) q B ∧ supportSize q=h ∧
+      response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+        (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      d=(1/(4 : ℕ) : ℝ)^(2 : ℕ)/((12 : ℕ)*(m : ℝ)^(3 : ℕ))*∑ b, binParityTerm (L b) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let m := ∑ b, L b
+  let qstar := uniformTarget m (1/4)
+  let q := binnedWeights L hL (1/4)
+  let d := scoreMoment qstar (exposingWeight qstar (1/4))-
+    scoreMoment q (exposingWeight qstar (1/4))
+  have hq : ∀ j, 0 ≤ q j := binned_nonneg L hL (1/4) (by norm_num)
+  have hmass : ∑ j, q j=1/4 := binned_mass L hL (1/4) hm
+  have hd : 0 ≤ d := (binned_exposing_loss L hL hm (1/4) (by norm_num)).1
+  obtain ⟨B,hB,hb,h0,h1,hrows⟩ := binned_game_completion_exact L hL hm
+  refine ⟨q,B,d,?_,binned_odd_support_exact L hL hm hodd (1/4) (by norm_num),h0,?_⟩
+  · unfold UniformWitness
+    norm_num only [Nat.cast_ofNat]
+    refine ⟨hq,fun _ => by norm_num [twoShares],(by simp),?_,hB,hb,?_⟩
+    · rw [hmass,Fin.sum_univ_two]
+      norm_num [twoShares]
+    · intro v
+      cases v with
+      | inl a =>
+        fin_cases a
+        · exact le_of_eq h0
+        · exact le_of_eq_of_le h1 (by linarith)
+      | inr j => exact le_trans (hrows j) hd
+  · have he := binned_exposing_loss_exact L hL hm (1/4)
+    norm_num only [Nat.cast_ofNat] at he
+    exact he
+
+theorem odd_midpoint_error_identity (h s : ℕ) (hh : 0 < h) (hs : 0 < s) (r : ℝ) :
+    (r^(2 : ℕ)/((12 : ℕ)*((h*s : ℕ) : ℝ)^(3 : ℕ)))*(h : ℝ)*(s : ℝ)*((s : ℝ)^(2 : ℕ)-1)=
+      r^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)^(2 : ℕ)-1/((h*s : ℕ) : ℝ)^(2 : ℕ)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hhR : (0 : ℝ) < h := Nat.cast_pos.mpr hh
+  have hsR : (0 : ℝ) < s := Nat.cast_pos.mpr hs
+  push_cast
+  field_simp
+
+theorem uniform_odd_midpoint_witness (h s : ℕ) (hh : 0 < h) (hs : 0 < s) (hodd : s%(2 : ℕ)≠0) :
+    ∃ (q : Fin (h*s) → ℝ) (B : Fin (h*s) → Fin (h*s) → ℝ),
+      UniformWitness (h*s) ((1/(4 : ℕ) : ℝ)^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)^(2 : ℕ)-1/((h*s : ℕ) : ℝ)^(2 : ℕ))) true
+        (twoShares ((3 : ℕ)/(4 : ℕ))) q B ∧ supportSize q=h ∧
+      response (blockMatrix (rigidityCore (uniformTarget (h*s) (1/(4 : ℕ))))
+        (rigidityCross (uniformTarget (h*s) (1/(4 : ℕ)))) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inl 0)=
+          (1/(4 : ℕ) : ℝ)^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)^(2 : ℕ)-1/((h*s : ℕ) : ℝ)^(2 : ℕ)) := by
+  have hsum : (∑ _ : Fin h, s)=h*s := by simp
+  have hm : 0 < ∑ _ : Fin h, s := by rw [hsum]; exact Nat.mul_pos hh hs
+  obtain ⟨q,B,d,hw,hcard,hrow,hd⟩ := binned_odd_game_witness (fun _ : Fin h => s) (fun _ => hs) hm (fun _ => hodd)
+  have hparity : binParityTerm s=(s : ℝ)*((s : ℝ)^2-1) := by
+    simp only [binParityTerm,ite_eq_right hodd]
+  have herr : d=(1/(4 : ℕ) : ℝ)^2/12*(1/(h : ℝ)^2-1/((h*s : ℕ) : ℝ)^2) := by
+    rw [hd,hsum]
+    simp only [hparity,Finset.sum_const,Finset.card_univ,Fintype.card_fin,nsmul_eq_mul]
+    convert odd_midpoint_error_identity h s hh hs (1/4) using 1
+    ring
+  rw [herr] at hw hrow
+  have result : ∃ (q : Fin (∑ _ : Fin h, s) → ℝ)
+      (B : Fin (∑ _ : Fin h, s) → Fin (∑ _ : Fin h, s) → ℝ),
+      UniformWitness (∑ _ : Fin h, s) ((1/(4 : ℕ) : ℝ)^2/12*(1/(h : ℝ)^2-1/((h*s : ℕ) : ℝ)^2))
+        true (twoShares (3/4)) q B ∧ supportSize q=h ∧
+      response (blockMatrix (rigidityCore (uniformTarget (∑ _ : Fin h, s) (1/4)))
+        (rigidityCross (uniformTarget (∑ _ : Fin h, s) (1/4))) B)
+        (blockWeights (twoShares (3/4)) q) (.inl 0)=
+          (1/(4 : ℕ) : ℝ)^2/12*(1/(h : ℝ)^2-1/((h*s : ℕ) : ℝ)^2) := ⟨q,B,hw,hcard,hrow⟩
+  exact (congrArg (fun m : ℕ => ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ),
+    UniformWitness m ((1/(4 : ℕ) : ℝ)^2/12*(1/(h : ℝ)^2-1/((h*s : ℕ) : ℝ)^2))
+      true (twoShares (3/4)) q B ∧ supportSize q=h ∧
+    response (blockMatrix (rigidityCore (uniformTarget m (1/4)))
+      (rigidityCross (uniformTarget m (1/4))) B)
+      (blockWeights (twoShares (3/4)) q) (.inl 0)=
+        (1/(4 : ℕ) : ℝ)^2/12*(1/(h : ℝ)^2-1/((h*s : ℕ) : ℝ)^2)) hsum).mp result
+
+end
+end SparseCompletion
+
+/- Fixed source body: BalancedExact.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem bin_error_finite_identity (m h : ℕ) (hm : 0 < m) (hh : 0 < h) (r : ℝ) :
+    (r^(2 : ℕ)/((12 : ℕ)*(m : ℝ)^(3 : ℕ)))*(m : ℝ)*((m : ℝ)/(h : ℝ)+1)^(2 : ℕ) =
+      r^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)+1/(m : ℝ))^(2 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hhR : (0 : ℝ) < h := Nat.cast_pos.mpr hh
+  field_simp
+
+theorem binned_finite_correction {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (hh : 0 < h) (r : ℝ) (hr : 0 ≤ r)
+    (hcube : (∑ b : Fin h, (L b : ℝ)^(3 : ℕ)) ≤
+      (∑ b, L b : ℝ)*(((∑ b, L b : ℕ) : ℝ)/(h : ℝ)+1)^(2 : ℕ)) :
+    let m := ∑ b, L b
+    let qstar := uniformTarget m r
+    scoreMoment qstar (exposingWeight qstar r)-
+      scoreMoment (binnedWeights L hL r) (exposingWeight qstar r) ≤
+        r^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)+1/(m : ℝ))^(2 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hc : 0 ≤ r^2/(12*((∑ b, L b : ℕ) : ℝ)^3) := by positivity
+  have hbound := mul_le_mul_of_nonneg_left hcube hc
+  have hloss := (binned_exposing_loss L hL hm r hr).2
+  have hid := bin_error_finite_identity _ h hm hh r
+  norm_num only [Nat.cast_ofNat] at hid
+  refine le_trans hloss (le_trans ?_ (le_of_eq hid))
+  norm_num only [Nat.cast_ofNat] at *
+  simpa only [Nat.cast_sum,mul_assoc] using hbound
+
+
+theorem binned_finite_game_witness {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (hh : 0 < h)
+    (hcube : (∑ b : Fin h, (L b : ℝ)^(3 : ℕ)) ≤
+      (∑ b, L b : ℝ)*(((∑ b, L b : ℕ) : ℝ)/(h : ℝ)+1)^(2 : ℕ)) :
+    let m := ∑ b, L b
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      UniformWitness m d true (twoShares ((3 : ℕ)/(4 : ℕ))) q B ∧ supportSize q ≤ min m ((2 : ℕ)*h) ∧
+      0 ≤ d ∧ d ≤ (1/(4 : ℕ) : ℝ)^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)+1/(m : ℝ))^(2 : ℕ) ∧
+      response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+        (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inl 0)=d := by
+  norm_num only [Nat.cast_ofNat] at *
+  obtain ⟨q,B,d,hq,hmass,hB,hb,hcard,hd,_,hloss,h0,h1,hrows⟩ := binned_game_witness L hL hm
+  refine ⟨q,B,d,?_,hcard,hd,?_,h0⟩
+  · unfold UniformWitness
+    norm_num only [Nat.cast_ofNat]
+    refine ⟨hq,fun _ => by norm_num [twoShares],(by simp),?_,hB,hb,?_⟩
+    · rw [hmass,Fin.sum_univ_two]
+      norm_num [twoShares]
+    · intro v
+      cases v with
+      | inl a =>
+        fin_cases a
+        · exact le_of_eq h0
+        · exact le_of_eq_of_le h1 (by linarith)
+      | inr j => exact le_trans (hrows j) hd
+  · have hc : 0 ≤ (1/(4 : ℕ) : ℝ)^2/(12*((∑ b, L b : ℕ) : ℝ)^3) := by positivity
+    have hbound := mul_le_mul_of_nonneg_left hcube hc
+    have hid := bin_error_finite_identity _ h hm hh (1/4)
+    norm_num only [Nat.cast_ofNat] at hid
+    refine le_trans hloss (le_trans ?_ (le_of_eq hid))
+    norm_num only [Nat.cast_ofNat] at *
+    simpa only [Nat.cast_sum,mul_assoc] using hbound
+
+theorem balanced_finite_game_witness (m h : ℕ) (hm : 0 < m) (hh : 0 < h) (hhm : h ≤ m) :
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      UniformWitness m d true (twoShares ((3 : ℕ)/(4 : ℕ))) q B ∧ supportSize q ≤ min m ((2 : ℕ)*h) ∧
+      0 ≤ d ∧ d ≤ (1/(4 : ℕ) : ℝ)^(2 : ℕ)/(12 : ℕ)*(1/(h : ℝ)+1/(m : ℝ))^(2 : ℕ) ∧
+      response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+        (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B)
+        (blockWeights (twoShares ((3 : ℕ)/(4 : ℕ))) q) (.inl 0)=d := by
+  have hw := binned_finite_game_witness (balancedLength m h)
+    (balancedLength_positive m h hh hhm) (by rw [balancedLength_mass m h hh]; exact hm) hh
+  have hcube : (∑ b : Fin h, (balancedLength m h b : ℝ)^3) ≤
+      (∑ b, balancedLength m h b : ℝ)*(((∑ b, balancedLength m h b : ℕ) : ℝ)/(h : ℝ)+1)^2 := by
+    simpa only [←Nat.cast_sum,balancedLength_mass m h hh] using balancedLength_cube_sum m h hh
+  have result := hw hcube
+  exact (congrArg (fun n : ℕ => ∃ (q : Fin n → ℝ) (B : Fin n → Fin n → ℝ) (d : ℝ),
+    UniformWitness n d true (twoShares (3/4)) q B ∧ supportSize q ≤ min n (2*h) ∧
+      0 ≤ d ∧ d ≤ (1/(4 : ℕ) : ℝ)^2/12*(1/(h : ℝ)+1/(n : ℝ))^2 ∧
+      response (blockMatrix (rigidityCore (uniformTarget n (1/4)))
+        (rigidityCross (uniformTarget n (1/4))) B)
+        (blockWeights (twoShares (3/4)) q) (.inl 0)=d) (balancedLength_mass m h hh)).mp result
+
+end
+end SparseCompletion

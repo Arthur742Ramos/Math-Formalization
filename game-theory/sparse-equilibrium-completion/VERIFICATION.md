@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact thirty-three local source bodies with
+Challenge is a deterministic assembly of the exact thirty-seven local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -143,3 +143,27 @@ reviewed proofs and the final integrated source are separately identified. This
 tranche requires its own frozen-commit build/export/comparator/kernel receipt;
 it inherits no gate from the preceding lower-bound checkpoint. The source's
 explicit residual-payoff algorithm and exact global parity formula remain open.
+
+
+## Exact midpoint and finite correction follow-on
+
+The sharp-uncertainty checkpoint `2ea1b04d485ff500a4c75ed006c21aa717519873`
+is preserved with its complete 12-check native receipt (SHA256
+`1c9b614de2707a9020e325a5f918a97e943187f6373606c47dd2e142f558621b`),
+3194 build jobs, 259 source proof audits and 149 protected contracts. Both native
+kernel checks passed and the altered-helper negative control was rejected by
+the unchanged comparator. These are native macOS checks, not registry clearance.
+
+Four follow-on modules prove the exact global parity formula, positivity and
+injectivity of the original middle representatives, exactly h residual support
+for odd bins, and the equal odd-bin game witness with an anchor attaining its
+exact error. Balanced full-game witnesses satisfy the sharper finite correction.
+Source-fidelity review distinguishes real subtraction in the parity term from
+truncated natural subtraction, and verifies positive mass for the exact support
+claim. Finset.image and compiler Function.Injective have retained exact-source
+provenance and separately built entrypoint semantic bridges.
+
+These new bytes require their own frozen-commit native receipt, including all
+168 protected contracts and 278 source proof audits. The current tranche does
+not inherit a passing check from its predecessor. Whole-paper coverage,
+canonical Linux checks, rendering, intake and publication remain separate.

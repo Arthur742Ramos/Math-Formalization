@@ -45,7 +45,8 @@
     "Equiv",
     "finSigmaFinEquiv",
     "Finset.sigma",
-    "Fin.revPerm"
+    "Fin.revPerm",
+    "Finset.image"
   ],
   "material_declarations": [
     {
@@ -178,7 +179,22 @@
         "SparseCompletion.uniform_core_uncertainty_upper",
         "SparseCompletion.core_witness_interval",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
-        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.binned_finite_correction",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_game_completion_exact",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_quadratic_loss_exact",
+        "SparseCompletion.binned_exposing_loss_exact",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_middle_positive",
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.bin_quadratic_parity_identity",
+        "SparseCompletion.bin_odd_support"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -322,7 +338,22 @@
         "SparseCompletion.uniform_core_uncertainty_upper",
         "SparseCompletion.core_witness_interval",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
-        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.binned_finite_correction",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_game_completion_exact",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_quadratic_loss_exact",
+        "SparseCompletion.binned_exposing_loss_exact",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_middle_positive",
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.bin_quadratic_parity_identity",
+        "SparseCompletion.bin_odd_support"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -464,7 +495,22 @@
         "SparseCompletion.uniform_core_uncertainty_upper",
         "SparseCompletion.core_witness_interval",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
-        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.binned_finite_correction",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_game_completion_exact",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_quadratic_loss_exact",
+        "SparseCompletion.binned_exposing_loss_exact",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_middle_positive",
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.bin_quadratic_parity_identity",
+        "SparseCompletion.bin_odd_support"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -1001,7 +1047,15 @@
         "SparseCompletion.balanced_game_witness",
         "SparseCompletion.core_witness_interval",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
-        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.bin_odd_support"
       ],
       "meaning": "The number of elements in the underlying duplicate-free multiset.",
       "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
@@ -1088,7 +1142,15 @@
         "SparseCompletion.balanced_game_witness",
         "SparseCompletion.core_witness_interval",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
-        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.bin_odd_support"
       ],
       "meaning": "The cardinality of the finite universal enumeration.",
       "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
@@ -1491,7 +1553,20 @@
         "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
         "SparseCompletion.bin_call_compression",
         "SparseCompletion.bin_call_compression_nonneg",
-        "SparseCompletion.bin_compressed_calls"
+        "SparseCompletion.bin_compressed_calls",
+        "SparseCompletion.binned_finite_correction",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_game_completion_exact",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_quadratic_loss_exact",
+        "SparseCompletion.binned_exposing_loss_exact",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_middle_positive",
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
       ],
       "meaning": "A map equipped with a two-sided inverse.",
       "dependency_expansion": "Injectivity and surjectivity follow from the inverse laws; no omitted or duplicate original labels enter the canonical bin partition. Equiv.Perm is the self-equivalence abbreviation.",
@@ -1527,7 +1602,20 @@
         "SparseCompletion.uniform_binned_upper",
         "SparseCompletion.uniform_core_uncertainty_upper",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
-        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.binned_finite_correction",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_game_completion_exact",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_quadratic_loss_exact",
+        "SparseCompletion.binned_exposing_loss_exact",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_middle_positive",
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
       ],
       "meaning": "Bijection from disjoint finite fibers indexed by Fin h to the ordinal of their total length.",
       "dependency_expansion": "Its value is the sum of preceding bin lengths plus the local label. Dependent pairs record a bin and a label within that bin; the inverse covers each original label exactly once.",
@@ -1557,7 +1645,20 @@
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
         "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
         "SparseCompletion.uniform_binned_upper",
-        "SparseCompletion.uniform_core_uncertainty_upper"
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.binned_finite_correction",
+        "SparseCompletion.binned_finite_game_witness",
+        "SparseCompletion.balanced_finite_game_witness",
+        "SparseCompletion.binned_game_completion_exact",
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_quadratic_loss_exact",
+        "SparseCompletion.binned_exposing_loss_exact",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_middle_positive",
+        "SparseCompletion.binned_middle_injective",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
       ],
       "meaning": "Finite set of dependent pairs whose first label belongs to s and second label to the corresponding fiber.",
       "dependency_expansion": "The no-duplicates proof combines the outer and fiber no-duplicates laws. Sigma.instFintype enumerates all bins/fiber labels using univ.sigma univ, and the generated sum_sigma contract sums exactly once over each pair.",
@@ -1598,6 +1699,29 @@
         "finite-permutation-sum"
       ],
       "proof_status": "Independent Solution and Challenge bridge modules compile the inverse/offset/finite-enumeration and partition contracts. Exact-source receipts record mechanical outcomes; independent review assesses fidelity."
+    },
+    {
+      "name": "Finset.image",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
+      ],
+      "meaning": "The finite image maps every element and removes duplicate values.",
+      "dependency_expansion": "The mapped underlying multiset is converted to a finite set by deduplication; membership is existence of a preimage in the original set. Image cardinality never increases and equals the source cardinality when the function is injective.",
+      "definition_excerpt": "Finset.image",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.image",
+        "finite-image-membership",
+        "finite-image-cardinality",
+        "finite-injective-image-cardinality"
+      ],
+      "proof_status": "Independent entrypoint bridge proofs check literal multiset value, membership, cardinal monotonicity and exact cardinality under injectivity."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -1919,6 +2043,22 @@
           "text": "\n/-- `s.card` is the number of elements of `s`, aka its cardinality.\n\nThe notation `#s` can be accessed in the `Finset` locale. -/\ndef card (s : Finset \u03b1) : \u2115 :=\n  Multiset.card s.1\n\n@[inherit_doc] scoped prefix:arg \"#\" => Finset.card\n\ntheorem card_def (s : Finset \u03b1) : #s = Multiset.card s.1 :=\n  rfl\n",
           "sha256": "8c18fa0d55a08477b928d5955b55d36d561f651fa6b323ea9b52cb80e2127429",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L43-L53"
+        },
+        {
+          "name": "finite-image-cardinality",
+          "first_line": 233,
+          "last_line": 234,
+          "text": "theorem card_image_le [DecidableEq \u03b2] : #(s.image f) \u2264 #s := by\n  simpa only [card_map] using! (s.1.map f).toFinset_card_le\n",
+          "sha256": "d456c5a3eb6217263b25b2d0666b8694ed355a8be8745c1b494bc0d7837ca8ed",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L233-L234"
+        },
+        {
+          "name": "finite-injective-image-cardinality",
+          "first_line": 257,
+          "last_line": 259,
+          "text": "theorem card_image_of_injective [DecidableEq \u03b2] (s : Finset \u03b1) (H : Injective f) :\n    #(s.image f) = #s :=\n  card_image_of_injOn fun _ _ _ _ h => H h\n",
+          "sha256": "c871db6ef2dc2488e6874354408f42a18c8e4a2a59a2569ac5ceda7c1af04513",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L257-L259"
         }
       ]
     },
@@ -2451,18 +2591,44 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/Rev.lean#L32-L38"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Image.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean",
+      "sha256": "215a8edc840c6972f66f6e1bcbec7db3b410efcde0ab91fbe9cd377b698a0593",
+      "git_blob_sha1": "48d78c44e905aba3b989ce254d07c3fd65af80c1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.image",
+          "first_line": 277,
+          "last_line": 284,
+          "text": "\n/-- `image f s` is the forward image of `s` under `f`. -/\ndef image (f : \u03b1 \u2192 \u03b2) (s : Finset \u03b1) : Finset \u03b2 :=\n  (s.1.map f).toFinset\n\n@[simp]\ntheorem image_val (f : \u03b1 \u2192 \u03b2) (s : Finset \u03b1) : (image f s).1 = (s.1.map f).dedup :=\n  rfl\n",
+          "sha256": "ba88e70598c63cd7384c5d878496c3247e8142407b92c64e4e1d59c6d0248e19",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean#L277-L284"
+        },
+        {
+          "name": "finite-image-membership",
+          "first_line": 290,
+          "last_line": 294,
+          "text": "variable {f g : \u03b1 \u2192 \u03b2} {s : Finset \u03b1} {t : Finset \u03b2} {a : \u03b1} {b c : \u03b2}\n\n@[simp, grind =]\ntheorem mem_image : b \u2208 s.image f \u2194 \u2203 a \u2208 s, f a = b := by\n  simp only [mem_def, image_val, mem_dedup, Multiset.mem_map]\n",
+          "sha256": "bcf8fd543ef890cdcb49bcb669a662d7c94c778cdc06aaf96087e642f82abae3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Image.lean#L290-L294"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "e07bad1453bdb65f11688e26b2862805281c28ee82a55c6e19dde14f638a36c1"
+      "sha256": "48988b03d197874908bf8fe096394d5df3a815710cdd0f51a65c14404ee223b4"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "b7f8b65f00b2c9611c41744643e83ffb56b6d14d101cdcb868c8117e1ce8a65c"
+      "sha256": "3a6b88a5914a92ee7c441e74fbfa0295fcd0f6a08b43a4144d902372dce8f2f8"
     }
   ],
   "generated_declarations": [
@@ -2651,6 +2817,42 @@
         "SparseCompletion.uniform_core_uncertainty_upper",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
         "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+      ]
+    },
+    {
+      "name": "Finset.mem_image",
+      "excerpt": "finite-image-membership",
+      "bridge": "finite_image_membership",
+      "used_by": [
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
+      ]
+    },
+    {
+      "name": "Finset.card_image_le",
+      "excerpt": "finite-image-cardinality",
+      "bridge": "finite_image_card_le",
+      "used_by": [
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
+      ]
+    },
+    {
+      "name": "Finset.card_image_of_injective",
+      "excerpt": "finite-injective-image-cardinality",
+      "bridge": "finite_image_card_exact",
+      "used_by": [
+        "SparseCompletion.binned_odd_game_witness",
+        "SparseCompletion.uniform_odd_midpoint_witness",
+        "SparseCompletion.binned_odd_support",
+        "SparseCompletion.binned_support_lower",
+        "SparseCompletion.binned_odd_support_exact"
       ]
     }
   ]

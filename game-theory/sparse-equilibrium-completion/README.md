@@ -16,7 +16,7 @@ classical compact-convex separation. All original rows satisfy the resulting
 response bound. This is an existence proof over reals; executable rational
 reconstruction and complexity claims remain open. Definitions and all proof
 helpers have stable public exposed declaration names. The theorem map, including
-outstanding explicit upper constructions and uncertainty work, is in [SCOPE.md](SCOPE.md).
+completed results and outstanding algorithmic, graph, conic and joint-support work, is in [SCOPE.md](SCOPE.md).
 
 For `m≥2`, the two-anchor construction realizes every strictly positive residual
 target of mass `1/4` using bounded observations. Under the two minimum shares `3/8`,
@@ -42,8 +42,12 @@ completion and a clipped adjustment of only the core payoff. At
 `0<ε+δ≤1`, both commitment classes have interval-support constants
 `sqrt(3/1216)` and `5 sqrt(8/3)`. The fixed-share one-core model has constants
 `sqrt(3/1216)` and `5` at `0<ε+3δ/8≤1`. These are existential compatible
-witnesses. The source's explicit residual-payoff algorithm, exact global parity
-error formulas and separate odd-divisibility midpoint statement remain open.
+witnesses. Exact global odd/even bin-error formulas are also proved. For equal
+odd bins with m=h*s, the midpoint witness has exactly h residual actions and
+exploitability r²/12 (1/h²−1/m²), with r=1/4: every row is bounded and anchor 0
+attains that value. Balanced bins additionally satisfy the sharper finite bound
+d≤r²/12 (1/h+1/m)² with support≤min(m,2h). The source's explicit
+residual-payoff algorithm remains open.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`; its dependencies are package-owned.
