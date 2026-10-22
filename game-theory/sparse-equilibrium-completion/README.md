@@ -101,8 +101,8 @@ compact-class optimistic values and their support-budget restrictions attain
 actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
 games and universal sparse upper witnesses give the quantified joint-k order.
 Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
-The remaining total rational LP/flow solver, executable sorted separation,
-combined solver/grid execution and operation/bit-cost clauses are tracked in
+The remaining interval/grid execution, source-specific flow construction, executable sorted
+separation and operation/bit-cost clauses are tracked in
 SCOPE.md; whole-paper and submission readiness remain unestablished.
 
 The algorithm tranche proves an actual computable rational certificate checker,
@@ -112,8 +112,9 @@ at ρ+η, including zero-mass rows. Floor-preserving anchor round-down and trans
 to a specified residual action yield a finite allocation grid, exact normalization,
 L1 error≤2kδ and actual optimistic-value bound V≤Vgrid≤V+2Mkδ.
 Conditional rational bisection has exact halving, bracket and witness contracts;
-its feasibility decider remains an explicit input. These results do not establish
-a total rational LP/flow solver or the paper's polynomial bit-cost guarantees.
+the generic version retains an explicit decider input. The rational elimination
+tranche below supplies an actual decider for finite rational linear repertoires.
+Polynomial bit-cost guarantees remain open.
 
 Feasible gap points can also be sparsified without a second tolerance slack:
 the original anchor and H call moments are preserved, and actual normalized
@@ -126,6 +127,27 @@ proof of admissibility and H≤sqrt(Mr/η)+2 on nonnegative valid input. This H 
 differ from the canonical real grid count. Rational nodes, calls and envelope
 agree with the real definitions by proved cast contracts. A genuine finite
 rational checker validates a supplied gap point and acceptance yields an actual
-normalized bounded skew game under explicit premodel premises. Its completed
-matrix remains existential over reals; this is no LP solver or rational-flow
-output algorithm. The exact theorem map keeps these limits explicit.
+normalized bounded skew game under explicit premodel premises. The elimination tranche now strengthens this supplied-point theorem with actual
+rational strategy and payoff reconstruction, as described below.
+
+
+The rational elimination tranche supplies a total exact finite rational LP
+feasibility algorithm, including empty and inconsistent systems. Structural
+Fourier–Motzkin elimination returns rational coordinates, and its failure is
+proved equivalent to infeasibility over both rationals and reals. The literal
+gap matrix has 2m+2+k+H rows before the supplied rational linear repertoire is
+appended. A separate matrix LP returns actual rational bounded skew payoffs.
+Zero-weight residual rows retain their constraints.
+
+`rationalGapApproximation` combines this decider, bisection and payoff
+reconstruction. Under the explicit bounded rational premodel, M>0, η>0 and a
+nonempty residual repertoire, it returns rational q,B and a bracket [L,U].
+The actual compact-class value satisfies L≤V≤U+η, with U−L≤M/2^n after n
+steps. Upper feasibility at M is proved from the game premises; no LP oracle is
+supplied. Returned data also satisfy the normalized full-game reconstruction
+contracts and the declared repertoire. The resulting shifted enclosure has width
+at most η+M/2^n. Fourier–Motzkin elimination may be exponential: this does not
+prove the paper's polynomial LP/flow or bit-cost guarantee. Interval LP encoding,
+allocation-grid execution/selection, efficient separation and source-specific
+residual payoff algorithms remain tracked in SCOPE.md. Native exact-source
+verification must be tied to the frozen commit by its external receipt.

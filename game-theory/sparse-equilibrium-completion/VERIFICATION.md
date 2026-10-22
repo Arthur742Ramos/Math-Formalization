@@ -293,3 +293,24 @@ literal bridges through both entrypoints. Two executable controls test acceptanc
 of a valid zero-residual case and rejection of an offending zero-mass residual row.
 The grid and point checker are executable, but no existential LP feasibility
 solver, rational completed-matrix constructor or bit-cost theorem is asserted.
+
+
+## Rational elimination and reconstruction follow-on
+
+The new tranche has 17 mathematical modules and 85 theorem contracts. It adds
+actual rational LP feasibility, real/rational transfer, real-game exclusion,
+rational matrix reconstruction, finite linear repertoires and concrete
+bisection/value certificates. Independent internal mathematical review and
+scratch compilation precede integration. Three composition controls exercise
+successful reconstruction, true rejection and exact bisection width; the solver
+and residual controls additionally cover empty, inconsistent, one-sided and
+nonzero matrix cases. Both entrypoints retain literal elimination/index bridges.
+All selected source declarations enter the standard axiom audit and protected
+Comparator. The unchanged altered-envelope negative control must still reject.
+
+The immutable 95b5ea24578121fb4cb95faf2305c25f159bd522 checkpoint passed all 12
+native gates before this tranche. It does not verify these new bytes. A fresh
+exact-source receipt outside the frozen package records the follow-on outcome;
+no future commit identity or future PASS is embedded here. Polynomial cost,
+canonical Linux verification, registry rendering and editorial readiness are
+separate unestablished claims. No submission is authorized or attempted.

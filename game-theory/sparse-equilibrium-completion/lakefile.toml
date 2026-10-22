@@ -1,6 +1,6 @@
 name = "sparseEquilibriumCompletion"
 version = "0.1.0"
-defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "CompletionDual", "CompletionGeometry", "CompletionCriterion", "SparseCompletionWitness", "PaperWitness", "PrefixRigidity", "TwoAnchorRigidity", "MinimumShareRigidity", "PrefixStability", "MinimumShareStability", "Quantization", "SupportQuantization", "SupportLowerBound", "SupportRate", "SupportMinimum", "ResidualMinimum", "IntervalLower", "CoreLower", "BinCompression", "BinnedWitness", "BalancedBins", "BinnedCompletion", "BinnedMoments", "BinnedGame", "BalancedGame", "CoreAdjustment", "NoiseUpper", "NoiseSharp", "MidpointExact", "BinnedExact", "MidpointGame", "BalancedExact", "AllMassWitness", "ExtraMomentCuts", "ExtraMomentGameCertificates", "ExtraMomentCompletion", "ExtraMomentWitness", "ExtraMomentAllMass", "ScorePrefixes", "ConicCompletion", "ConicConvexity", "IntervalPerspective", "IntervalConic", "ObservationCover", "CoveredWitness", "IntervalProjection", "WeakCover", "WeakCoverWitness", "IntervalLossMaximum", "WeakCoverMaximum", "CoverRelabel", "ArbitraryCover", "ArbitraryWeakCover", "IntervalLossOrder", "IntervalConvexity", "GapCertificates", "GapFeasibility", "IntervalRepertoire", "IntervalStability", "OptimisticValue", "ValueStability", "SupportCompact", "OrderedStability", "ThresholdSeparation", "IntervalSeparation", "JointSupportFoundation", "JointSupportLower", "JointSupportUpper", "JointSupportTheorem", "JointSupportGeneral", "RationalCertificate", "RationalCertificateSoundness", "RationalCertificateChecks", "FixedValue", "GapCompact", "ValueBounds", "GapValue", "AllocationRounding", "AllocationGrid", "AllocationResponse", "AllocationValue", "AllocationApproximation", "IntervalGap", "IntervalGapGame", "Bisection", "BisectionChecks", "IntervalGapEpigraph", "GapSparse", "IntervalGapSparse", "RationalGrid", "RationalGridSizeBounds", "RationalGap", "RationalGapChecks", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests"]
+defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "CompletionDual", "CompletionGeometry", "CompletionCriterion", "SparseCompletionWitness", "PaperWitness", "PrefixRigidity", "TwoAnchorRigidity", "MinimumShareRigidity", "PrefixStability", "MinimumShareStability", "Quantization", "SupportQuantization", "SupportLowerBound", "SupportRate", "SupportMinimum", "ResidualMinimum", "IntervalLower", "CoreLower", "BinCompression", "BinnedWitness", "BalancedBins", "BinnedCompletion", "BinnedMoments", "BinnedGame", "BalancedGame", "CoreAdjustment", "NoiseUpper", "NoiseSharp", "MidpointExact", "BinnedExact", "MidpointGame", "BalancedExact", "AllMassWitness", "ExtraMomentCuts", "ExtraMomentGameCertificates", "ExtraMomentCompletion", "ExtraMomentWitness", "ExtraMomentAllMass", "ScorePrefixes", "ConicCompletion", "ConicConvexity", "IntervalPerspective", "IntervalConic", "ObservationCover", "CoveredWitness", "IntervalProjection", "WeakCover", "WeakCoverWitness", "IntervalLossMaximum", "WeakCoverMaximum", "CoverRelabel", "ArbitraryCover", "ArbitraryWeakCover", "IntervalLossOrder", "IntervalConvexity", "GapCertificates", "GapFeasibility", "IntervalRepertoire", "IntervalStability", "OptimisticValue", "ValueStability", "SupportCompact", "OrderedStability", "ThresholdSeparation", "IntervalSeparation", "JointSupportFoundation", "JointSupportLower", "JointSupportUpper", "JointSupportTheorem", "JointSupportGeneral", "RationalCertificate", "RationalCertificateSoundness", "RationalCertificateChecks", "FixedValue", "GapCompact", "ValueBounds", "GapValue", "AllocationRounding", "AllocationGrid", "AllocationResponse", "AllocationValue", "AllocationApproximation", "IntervalGap", "IntervalGapGame", "Bisection", "BisectionChecks", "IntervalGapEpigraph", "GapSparse", "IntervalGapSparse", "RationalGrid", "RationalGridSizeBounds", "RationalGap", "RationalGapChecks", "RationalGapEncoding", "RationalOneVariable", "RationalOneVariableFinite", "RationalOneVariableFintype", "RationalLinearSystem", "RationalLinearSolver", "RationalLinearReal", "RationalLinearTransfer", "RationalGapDecision", "RationalGapSearch", "RationalGapRealDecision", "RationalResidualCompletion", "RationalResidualSolver", "RationalResidualGap", "RationalRepertoire", "RationalGapAlgorithm", "RationalGapValue", "RationalOneVariableChecks", "RationalLinearSolverChecks", "RationalResidualChecks", "RationalResidualGapChecks", "RationalGapAlgorithmChecks", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests"]
 moreLeanArgs = ["-j2", "-M3072", "-DwarningAsError=true"]
 [[require]]
 name = "mathlib"
@@ -314,3 +314,69 @@ name = "RationalGap"
 
 [[lean_lib]]
 name = "RationalGapChecks"
+
+[[lean_lib]]
+name = "RationalGapEncoding"
+
+[[lean_lib]]
+name = "RationalOneVariable"
+
+[[lean_lib]]
+name = "RationalOneVariableFinite"
+
+[[lean_lib]]
+name = "RationalOneVariableFintype"
+
+[[lean_lib]]
+name = "RationalLinearSystem"
+
+[[lean_lib]]
+name = "RationalLinearSolver"
+
+[[lean_lib]]
+name = "RationalLinearReal"
+
+[[lean_lib]]
+name = "RationalLinearTransfer"
+
+[[lean_lib]]
+name = "RationalGapDecision"
+
+[[lean_lib]]
+name = "RationalGapSearch"
+
+[[lean_lib]]
+name = "RationalGapRealDecision"
+
+[[lean_lib]]
+name = "RationalResidualCompletion"
+
+[[lean_lib]]
+name = "RationalResidualSolver"
+
+[[lean_lib]]
+name = "RationalResidualGap"
+
+[[lean_lib]]
+name = "RationalRepertoire"
+
+[[lean_lib]]
+name = "RationalGapAlgorithm"
+
+[[lean_lib]]
+name = "RationalGapValue"
+
+[[lean_lib]]
+name = "RationalOneVariableChecks"
+
+[[lean_lib]]
+name = "RationalLinearSolverChecks"
+
+[[lean_lib]]
+name = "RationalResidualChecks"
+
+[[lean_lib]]
+name = "RationalResidualGapChecks"
+
+[[lean_lib]]
+name = "RationalGapAlgorithmChecks"

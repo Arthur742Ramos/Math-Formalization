@@ -13,6 +13,9 @@ public import Mathlib.Logic.Equiv.Set
 public import Mathlib.Data.Fintype.EquivFin
 public import Mathlib.Data.Rat.Floor
 public import Mathlib.Data.Nat.Sqrt
+public import Mathlib.Data.List.OfFn
+public import Mathlib.Data.Finset.Max
+public import Mathlib.Logic.Equiv.Fin.Basic
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -10757,5 +10760,1666 @@ theorem rational_gap_normalized_full_game {k m : ℕ}
   have hm : (∑ i, (q i : ℝ))=(r : ℝ) := by exact_mod_cast h.2.1
   rw [hm]
   exact_mod_cast hnorm
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapEncoding.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+abbrev RationalGapRow (k m H : ℕ) := Fin m ⊕ (Fin 2 ⊕ (Fin m ⊕ (Fin k ⊕ Fin H)))
+
+def rationalGapCoefficient {k m : ℕ}
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
+    RationalGapRow k m (rationalGridSize M r η) → Fin m → ℚ :=
+  Sum.elim (fun j i => if i=j then -1 else 0)
+    (Sum.elim (fun a _ => if a=0 then 1 else -1)
+      (Sum.elim (fun _ _ => 0)
+        (Sum.elim (fun h i => -D i h) (fun l i =>
+          max (rationalScore D p i-ρ-(M*r-rationalGridNode M r η (l.val+1))) 0))))
+
+def rationalGapRightSide {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
+    RationalGapRow k m (rationalGridSize M r η) → ℚ :=
+  Sum.elim (fun _ => 0)
+    (Sum.elim (fun a => if a=0 then r else -r)
+      (Sum.elim (fun i => ρ+M*r-rationalScore D p i)
+        (Sum.elim (fun h => ρ-∑ a, K h a*p a)
+          (fun l => rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))))))
+
+theorem rational_gap_encoding_rows (k m H : ℕ) :
+    Fintype.card (RationalGapRow k m H)=(2 : ℕ)*m+2+k+H := by
+  simp only [RationalGapRow,Fintype.card_sum,Fintype.card_fin]
+  omega
+
+
+theorem rational_gap_conditions_iff_linear {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) :
+    RationalGapConditions K D p q M r ρ η ↔
+      ∀ a, (∑ i, rationalGapCoefficient D p M r ρ η a i*q i) ≤
+        rationalGapRightSide K D p M r ρ η a := by
+  constructor
+  · rintro ⟨hq,hm,hg,ha,hc⟩ a
+    rcases a with i | a
+    · simp only [rationalGapCoefficient,Sum.elim_inl,ite_mul,neg_one_mul,zero_mul,
+        Finset.sum_ite_eq',Finset.mem_univ,ite_true,rationalGapRightSide]
+      linarith [hq i]
+    · rcases a with a | a
+      · by_cases hz : a=0
+        · simpa [rationalGapCoefficient,rationalGapRightSide,hz] using le_of_eq hm
+        · simpa [rationalGapCoefficient,rationalGapRightSide,hz] using neg_le_neg (le_of_eq hm.symm)
+      · rcases a with i | a
+        · simp only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inr,Sum.elim_inl,
+            zero_mul,Finset.sum_const_zero]
+          linarith [hg i]
+        · rcases a with a | l
+          · have hh := ha a
+            unfold rationalAnchorResponse at hh
+            simpa only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inr,Sum.elim_inl,
+              neg_mul,Finset.sum_neg_distrib] using (by linarith :
+                -(∑ i, D i a*q i) ≤ ρ-∑ b, K a b*p b)
+          · have hh := hc l
+            unfold rationalCall at hh
+            simpa only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inr,mul_comm] using hh
+  · intro h
+    refine ⟨?_,?_,?_,?_,?_⟩
+    · intro i
+      have hh := h (.inl i)
+      simp only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inl,ite_mul,
+        neg_one_mul,zero_mul,Finset.sum_ite_eq',Finset.mem_univ,ite_true] at hh
+      linarith
+    · have h1 := h (.inr (.inl 0))
+      have h2 := h (.inr (.inl 1))
+      simp [rationalGapCoefficient,rationalGapRightSide] at h1 h2
+      linarith
+    · intro i
+      have hh := h (.inr (.inr (.inl i)))
+      simp only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inr,Sum.elim_inl,
+        zero_mul,Finset.sum_const_zero] at hh
+      linarith
+    · intro a
+      have hh := h (.inr (.inr (.inr (.inl a))))
+      simp only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inr,Sum.elim_inl,
+        neg_mul,Finset.sum_neg_distrib] at hh
+      unfold rationalAnchorResponse
+      linarith
+    · intro l
+      have hh := h (.inr (.inr (.inr (.inr l))))
+      simpa only [rationalGapCoefficient,rationalGapRightSide,Sum.elim_inr,rationalCall,mul_comm] using hh
+
+
+theorem rational_gap_linear_acceptance_iff {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) :
+    checkRationalGap K D p q M r ρ η=true ↔
+      ∀ a, (∑ i, rationalGapCoefficient D p M r ρ η a i*q i) ≤
+        rationalGapRightSide K D p M r ρ η a :=
+  (rational_gap_check_iff K D p q M r ρ η).trans
+    (rational_gap_conditions_iff_linear K D p q M r ρ η)
+
+theorem rational_gap_nontrivial_rows (k H : ℕ) : Fintype.card (Fin k ⊕ Fin H)=k+H := by
+  simp only [Fintype.card_sum,Fintype.card_fin]
+
+end SparseCompletion
+
+/- Fixed source body: RationalOneVariable.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion.RationalElimination
+
+/-- Computable maximum, with none exactly for an empty list. -/
+def maximum? : List ℚ → Option ℚ
+  | [] => none
+  | x :: xs => match maximum? xs with
+    | none => some x
+    | some y => some (max x y)
+
+/-- Computable minimum, with none exactly for an empty list. -/
+def minimum? : List ℚ → Option ℚ
+  | [] => none
+  | x :: xs => match minimum? xs with
+    | none => some x
+    | some y => some (min x y)
+
+theorem maximum_none_iff (xs : List ℚ) : maximum? xs = none ↔ xs = [] := by
+  cases xs with
+  | nil => simp [maximum?]
+  | cons x xs =>
+    simp only [maximum?, List.cons_ne_nil, iff_false]
+    cases maximum? xs <;> simp
+
+theorem minimum_none_iff (xs : List ℚ) : minimum? xs = none ↔ xs = [] := by
+  cases xs with
+  | nil => simp [minimum?]
+  | cons x xs =>
+    simp only [minimum?, List.cons_ne_nil, iff_false]
+    cases minimum? xs <;> simp
+
+theorem maximum_spec {xs : List ℚ} {u : ℚ} (h : maximum? xs = some u) :
+    u ∈ xs ∧ ∀ x ∈ xs, x ≤ u := by
+  induction xs generalizing u with
+  | nil => simp [maximum?] at h
+  | cons x xs ih =>
+    cases he : maximum? xs with
+    | none =>
+      have hempty := (maximum_none_iff xs).mp he
+      subst xs
+      have heq : x = u := by simpa [maximum?] using h
+      subst u
+      simp
+    | some y =>
+      have hxy : max x y = u := by simpa [maximum?, he] using h
+      subst u
+      obtain ⟨hy, hall⟩ := ih he
+      constructor
+      · rcases le_total x y with hxy | hyx
+        · simp only [max_eq_right hxy]; exact List.mem_cons_of_mem x hy
+        · simp only [max_eq_left hyx]; exact List.mem_cons_self
+      · intro z hz
+        rcases List.mem_cons.mp hz with hz | hz
+        · rw [hz]; exact le_max_left x y
+        · exact le_trans (hall z hz) (le_max_right x y)
+
+theorem minimum_spec {xs : List ℚ} {u : ℚ} (h : minimum? xs = some u) :
+    u ∈ xs ∧ ∀ x ∈ xs, u ≤ x := by
+  induction xs generalizing u with
+  | nil => simp [minimum?] at h
+  | cons x xs ih =>
+    cases he : minimum? xs with
+    | none =>
+      have hempty := (minimum_none_iff xs).mp he
+      subst xs
+      have heq : x = u := by simpa [minimum?] using h
+      subst u
+      simp
+    | some y =>
+      have hxy : min x y = u := by simpa [minimum?, he] using h
+      subst u
+      obtain ⟨hy, hall⟩ := ih he
+      constructor
+      · rcases le_total x y with hxy | hyx
+        · simp only [min_eq_left hxy]; exact List.mem_cons_self
+        · simp only [min_eq_right hyx]; exact List.mem_cons_of_mem x hy
+      · intro z hz
+        rcases List.mem_cons.mp hz with hz | hz
+        · rw [hz]; exact min_le_left x y
+        · exact le_trans (min_le_right x y) (hall z hz)
+
+/-- Prefer the greatest lower bound; if absent use the least upper bound;
+if both lists are empty use zero. This is an executable rational value. -/
+def select (lower upper : List ℚ) : ℚ :=
+  match maximum? lower, minimum? upper with
+  | some l, _ => l
+  | none, some u => u
+  | none, none => 0
+
+theorem select_bounds (lower upper : List ℚ)
+    (hpairs : ∀ l ∈ lower, ∀ u ∈ upper, l ≤ u) :
+    (∀ l ∈ lower, l ≤ select lower upper) ∧
+    (∀ u ∈ upper, select lower upper ≤ u) := by
+  cases hl : maximum? lower with
+  | some l =>
+    obtain ⟨hmem, hall⟩ := maximum_spec hl
+    constructor
+    · simpa only [select, hl] using hall
+    · intro u hu
+      simpa only [select, hl] using hpairs l hmem u hu
+  | none =>
+    have hempty := (maximum_none_iff lower).mp hl
+    subst lower
+    cases hu : minimum? upper with
+    | none =>
+      have hempty := (minimum_none_iff upper).mp hu
+      subst upper
+      simp
+    | some u =>
+      obtain ⟨_, hall⟩ := minimum_spec hu
+      constructor
+      · simp
+      · simpa only [select, maximum?, hu] using hall
+
+/-- A row denotes a*x+b<=c. -/
+structure Row where
+  a : ℚ
+  b : ℚ
+  c : ℚ
+  deriving DecidableEq, Repr
+
+def Row.Holds (r : Row) (x : ℚ) : Prop := r.a*x+r.b ≤ r.c
+
+def Row.endpoint (r : Row) : ℚ := (r.c-r.b)/r.a
+
+def lowerBounds (rows : List Row) : List ℚ :=
+  (rows.filter (fun r => r.a < 0)).map Row.endpoint
+
+def upperBounds (rows : List Row) : List ℚ :=
+  (rows.filter (fun r => 0 < r.a)).map Row.endpoint
+
+def candidate (rows : List Row) : ℚ := select (lowerBounds rows) (upperBounds rows)
+
+/-- Precisely the one-variable Fourier--Motzkin residual conditions. -/
+def Eliminated (rows : List Row) : Prop :=
+  (∀ r ∈ rows, r.a = 0 → r.b ≤ r.c) ∧
+  ∀ l ∈ rows, l.a < 0 → ∀ u ∈ rows, 0 < u.a → l.endpoint ≤ u.endpoint
+
+theorem row_positive_iff (r : Row) (ha : 0 < r.a) (x : ℚ) :
+    r.Holds x ↔ x ≤ r.endpoint := by
+  unfold Row.Holds Row.endpoint
+  rw [le_div_iff₀ ha]
+  constructor <;> intro h <;> nlinarith
+
+theorem row_negative_iff (r : Row) (ha : r.a < 0) (x : ℚ) :
+    r.Holds x ↔ r.endpoint ≤ x := by
+  unfold Row.Holds Row.endpoint
+  rw [div_le_iff_of_neg ha]
+  constructor <;> intro h <;> nlinarith
+
+theorem feasible_implies_eliminated (rows : List Row) (x : ℚ)
+    (hx : ∀ r ∈ rows, r.Holds x) : Eliminated rows := by
+  constructor
+  · intro r hr ha
+    have hh := hx r hr
+    simpa only [Row.Holds,ha,zero_mul,zero_add] using hh
+  · intro l hl hla u hu hua
+    exact le_trans ((row_negative_iff l hla x).mp (hx l hl))
+      ((row_positive_iff u hua x).mp (hx u hu))
+
+theorem candidate_feasible (rows : List Row) (h : Eliminated rows) :
+    ∀ r ∈ rows, r.Holds (candidate rows) := by
+  have hpairs : ∀ l ∈ lowerBounds rows, ∀ u ∈ upperBounds rows, l ≤ u := by
+    intro l hl u hu
+    obtain ⟨rl, hrl, rfl⟩ := List.mem_map.mp hl
+    obtain ⟨ru, hru, rfl⟩ := List.mem_map.mp hu
+    have hrl' := List.mem_filter.mp hrl
+    have hru' := List.mem_filter.mp hru
+    exact h.2 rl hrl'.1 (by simpa using hrl'.2) ru hru'.1 (by simpa using hru'.2)
+  have hb := select_bounds (lowerBounds rows) (upperBounds rows) hpairs
+  intro r hr
+  rcases lt_trichotomy r.a 0 with ha | ha | ha
+  · apply (row_negative_iff r ha _).mpr
+    exact hb.1 r.endpoint (List.mem_map.mpr ⟨r,List.mem_filter.mpr ⟨hr,by simpa⟩,rfl⟩)
+  · have hh := h.1 r hr ha
+    simpa only [Row.Holds,ha,zero_mul,zero_add] using hh
+  · apply (row_positive_iff r ha _).mpr
+    exact hb.2 r.endpoint (List.mem_map.mpr ⟨r,List.mem_filter.mpr ⟨hr,by simpa⟩,rfl⟩)
+
+theorem eliminated_iff_exists (rows : List Row) :
+    Eliminated rows ↔ ∃ x : ℚ, ∀ r ∈ rows, r.Holds x :=
+  ⟨fun h => ⟨candidate rows,candidate_feasible rows h⟩,
+   fun ⟨x,hx⟩ => feasible_implies_eliminated rows x hx⟩
+
+end SparseCompletion.RationalElimination
+
+/- Fixed source body: RationalOneVariableFinite.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion.RationalElimination
+
+instance eliminatedDecidable (rows : List Row) : Decidable (Eliminated rows) := by
+  unfold Eliminated
+  infer_instance
+
+/-- Finite exact rational decision and reconstruction; no feasibility oracle. -/
+def solve (rows : List Row) : Option ℚ :=
+  if Eliminated rows then some (candidate rows) else none
+
+theorem solve_some_sound {rows : List Row} {x : ℚ} (h : solve rows = some x) :
+    ∀ r ∈ rows, r.Holds x := by
+  unfold solve at h
+  split at h
+  next he =>
+    have hx : candidate rows = x := Option.some.inj h
+    rw [←hx]
+    exact candidate_feasible rows he
+  next he => simp at h
+
+theorem solve_none_iff (rows : List Row) :
+    solve rows = none ↔ ¬ ∃ x : ℚ, ∀ r ∈ rows, r.Holds x := by
+  simp only [solve, ite_eq_right_iff, Option.some_ne_none, imp_false]
+  exact not_congr (eliminated_iff_exists rows)
+
+/-- Literal finite coefficient arrays are enumerated by List.ofFn. -/
+def finiteRows {n : ℕ} (a b c : Fin n → ℚ) : List Row :=
+  List.ofFn fun i => ⟨a i,b i,c i⟩
+
+def finiteCandidate {n : ℕ} (a b c : Fin n → ℚ) : ℚ := candidate (finiteRows a b c)
+
+def FiniteEliminated {n : ℕ} (a b c : Fin n → ℚ) : Prop :=
+  (∀ i, a i = 0 → b i ≤ c i) ∧
+  ∀ i, a i < 0 → ∀ j, 0 < a j → (c i-b i)/a i ≤ (c j-b j)/a j
+
+theorem finite_eliminated_iff {n : ℕ} (a b c : Fin n → ℚ) :
+    FiniteEliminated a b c ↔ Eliminated (finiteRows a b c) := by
+  unfold FiniteEliminated Eliminated finiteRows
+  constructor
+  · intro h
+    constructor
+    · intro r hr
+      obtain ⟨i, rfl⟩ := List.mem_ofFn.mp hr
+      exact h.1 i
+    · intro l hl hla u hu hua
+      obtain ⟨i, rfl⟩ := List.mem_ofFn.mp hl
+      obtain ⟨j, rfl⟩ := List.mem_ofFn.mp hu
+      exact h.2 i hla j hua
+  · intro h
+    constructor
+    · intro i hi
+      exact h.1 _ (List.mem_ofFn.mpr ⟨i,rfl⟩) hi
+    · intro i hi j hj
+      exact h.2 _ (List.mem_ofFn.mpr ⟨i,rfl⟩) hi _ (List.mem_ofFn.mpr ⟨j,rfl⟩) hj
+
+theorem finite_candidate_feasible {n : ℕ} (a b c : Fin n → ℚ)
+    (h : FiniteEliminated a b c) :
+    ∀ i, a i*finiteCandidate a b c+b i ≤ c i := by
+  intro i
+  exact candidate_feasible _ ((finite_eliminated_iff a b c).mp h) _
+    (List.mem_ofFn.mpr ⟨i,rfl⟩)
+
+theorem finite_eliminated_iff_exists {n : ℕ} (a b c : Fin n → ℚ) :
+    FiniteEliminated a b c ↔ ∃ x : ℚ, ∀ i, a i*x+b i ≤ c i := by
+  constructor
+  · intro h
+    exact ⟨finiteCandidate a b c,finite_candidate_feasible a b c h⟩
+  · rintro ⟨x,hx⟩
+    apply (finite_eliminated_iff a b c).mpr
+    apply feasible_implies_eliminated _ x
+    intro r hr
+    obtain ⟨i, rfl⟩ := List.mem_ofFn.mp hr
+    exact hx i
+
+instance finiteEliminatedDecidable {n : ℕ} (a b c : Fin n → ℚ) :
+    Decidable (FiniteEliminated a b c) := by
+  unfold FiniteEliminated
+  infer_instance
+
+def solveFinite {n : ℕ} (a b c : Fin n → ℚ) : Option ℚ :=
+  if FiniteEliminated a b c then some (finiteCandidate a b c) else none
+
+theorem solve_finite_some_sound {n : ℕ} {a b c : Fin n → ℚ} {x : ℚ}
+    (h : solveFinite a b c = some x) : ∀ i, a i*x+b i ≤ c i := by
+  unfold solveFinite at h
+  split at h
+  next he =>
+    have hx : finiteCandidate a b c = x := Option.some.inj h
+    rw [←hx]
+    exact finite_candidate_feasible a b c he
+  next he => simp at h
+
+theorem solve_finite_none_iff {n : ℕ} (a b c : Fin n → ℚ) :
+    solveFinite a b c = none ↔ ¬ ∃ x : ℚ, ∀ i, a i*x+b i ≤ c i := by
+  simp only [solveFinite, ite_eq_right_iff, Option.some_ne_none, imp_false]
+  exact not_congr (finite_eliminated_iff_exists a b c)
+
+end SparseCompletion.RationalElimination
+
+/- Fixed source body: RationalOneVariableFintype.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion.RationalElimination
+
+/-- Endpoint sets use invariant finite-set operations, without choosing a list
+or a noncomputable equivalence to a finite ordinal. -/
+def indexedLower {I : Type*} [Fintype I] (a b c : I → ℚ) : Finset ℚ :=
+  (Finset.univ.filter fun i => a i < 0).image fun i => (c i-b i)/a i
+
+def indexedUpper {I : Type*} [Fintype I] (a b c : I → ℚ) : Finset ℚ :=
+  (Finset.univ.filter fun i => 0 < a i).image fun i => (c i-b i)/a i
+
+/-- Actual computable rational extraction for arbitrary finite row types. -/
+def generalCandidate {I : Type*} [Fintype I] (a b c : I → ℚ) : ℚ :=
+  if hl : (indexedLower a b c).Nonempty then (indexedLower a b c).max' hl
+  else if hu : (indexedUpper a b c).Nonempty then (indexedUpper a b c).min' hu
+  else 0
+
+def FintypeEliminated {I : Type*} [Fintype I] (a b c : I → ℚ) : Prop :=
+  (∀ i, a i = 0 → b i ≤ c i) ∧
+  ∀ i, a i < 0 → ∀ j, 0 < a j → (c i-b i)/a i ≤ (c j-b j)/a j
+
+theorem indexed_lower_mem {I : Type*} [Fintype I] (a b c : I → ℚ) (x : ℚ) :
+    x ∈ indexedLower a b c ↔ ∃ i, a i < 0 ∧ (c i-b i)/a i=x := by
+  simp only [indexedLower,Finset.mem_image,Finset.mem_filter,Finset.mem_univ,true_and]
+
+theorem indexed_upper_mem {I : Type*} [Fintype I] (a b c : I → ℚ) (x : ℚ) :
+    x ∈ indexedUpper a b c ↔ ∃ i, 0 < a i ∧ (c i-b i)/a i=x := by
+  simp only [indexedUpper,Finset.mem_image,Finset.mem_filter,Finset.mem_univ,true_and]
+
+theorem indexed_candidate_bounds {I : Type*} [Fintype I] (a b c : I → ℚ)
+    (hpairs : ∀ i, a i < 0 → ∀ j, 0 < a j → (c i-b i)/a i ≤ (c j-b j)/a j) :
+    (∀ i, a i < 0 → (c i-b i)/a i ≤ generalCandidate a b c) ∧
+    (∀ j, 0 < a j → generalCandidate a b c ≤ (c j-b j)/a j) := by
+  by_cases hl : (indexedLower a b c).Nonempty
+  · have hmem := Finset.max'_mem (indexedLower a b c) hl
+    obtain ⟨i,hi,heq⟩ := (indexed_lower_mem a b c _).mp hmem
+    constructor
+    · intro j hj
+      simpa only [generalCandidate,dite_eq_left hl] using
+        Finset.le_max' (indexedLower a b c) ((c j-b j)/a j)
+          ((indexed_lower_mem a b c _).mpr ⟨j,hj,rfl⟩)
+    · intro j hj
+      simpa only [generalCandidate,dite_eq_left hl,←heq] using hpairs i hi j hj
+  · constructor
+    · intro i hi
+      exact (hl ⟨_,(indexed_lower_mem a b c _).mpr ⟨i,hi,rfl⟩⟩).elim
+    · intro j hj
+      have hu : (indexedUpper a b c).Nonempty :=
+        ⟨_,(indexed_upper_mem a b c _).mpr ⟨j,hj,rfl⟩⟩
+      simpa only [generalCandidate,dite_eq_right hl,dite_eq_left hu] using
+        Finset.min'_le (indexedUpper a b c) ((c j-b j)/a j)
+          ((indexed_upper_mem a b c _).mpr ⟨j,hj,rfl⟩)
+
+theorem fintype_candidate_feasible {I : Type*} [Fintype I] (a b c : I → ℚ)
+    (h : FintypeEliminated a b c) :
+    ∀ i, a i*generalCandidate a b c+b i ≤ c i := by
+  have hb := indexed_candidate_bounds a b c h.2
+  intro i
+  rcases lt_trichotomy (a i) 0 with ha | ha | ha
+  · exact (row_negative_iff ⟨a i,b i,c i⟩ ha _).mpr (hb.1 i ha)
+  · simpa only [ha,zero_mul,zero_add] using h.1 i ha
+  · exact (row_positive_iff ⟨a i,b i,c i⟩ ha _).mpr (hb.2 i ha)
+
+theorem fintype_eliminated_iff_exists {I : Type*} [Fintype I] (a b c : I → ℚ) :
+    FintypeEliminated a b c ↔ ∃ x : ℚ, ∀ i, a i*x+b i ≤ c i := by
+  constructor
+  · intro h
+    exact ⟨generalCandidate a b c,fintype_candidate_feasible a b c h⟩
+  · rintro ⟨x,hx⟩
+    constructor
+    · intro i hi
+      simpa only [hi,zero_mul,zero_add] using hx i
+    · intro i hi j hj
+      exact le_trans ((row_negative_iff ⟨a i,b i,c i⟩ hi x).mp (hx i))
+        ((row_positive_iff ⟨a j,b j,c j⟩ hj x).mp (hx j))
+
+instance fintypeEliminatedDecidable {I : Type*} [Fintype I] (a b c : I → ℚ) :
+    Decidable (FintypeEliminated a b c) := by
+  unfold FintypeEliminated
+  infer_instance
+
+def solveFintype {I : Type*} [Fintype I] (a b c : I → ℚ) : Option ℚ :=
+  if FintypeEliminated a b c then some (generalCandidate a b c) else none
+
+theorem solve_fintype_some_sound {I : Type*} [Fintype I] {a b c : I → ℚ} {x : ℚ}
+    (h : solveFintype a b c = some x) : ∀ i, a i*x+b i ≤ c i := by
+  unfold solveFintype at h
+  split at h
+  next he =>
+    have hx : generalCandidate a b c = x := Option.some.inj h
+    rw [←hx]
+    exact fintype_candidate_feasible a b c he
+  next he => simp at h
+
+theorem solve_fintype_none_iff {I : Type*} [Fintype I] (a b c : I → ℚ) :
+    solveFintype a b c = none ↔ ¬ ∃ x : ℚ, ∀ i, a i*x+b i ≤ c i := by
+  simp only [solveFintype,ite_eq_right_iff,Option.some_ne_none,imp_false]
+  exact not_congr (fintype_eliminated_iff_exists a b c)
+
+end SparseCompletion.RationalElimination
+
+/- Fixed source body: RationalLinearSystem.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Classical Fourier–Motzkin elimination; no polynomial complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+structure RationalLinearSystem (I : Type*) (n : ℕ) where
+  coefficient : I → Fin n → ℚ
+  rightSide : I → ℚ
+
+def RationalLinearSystem.Satisfies {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (q : Fin n → ℚ) : Prop :=
+  ∀ i, (∑ j, S.coefficient i j*q j) ≤ S.rightSide i
+
+instance rationalLinearSatisfiesDecidable {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (q : Fin n → ℚ) : Decidable (S.Satisfies q) := by
+  unfold RationalLinearSystem.Satisfies
+  infer_instance
+
+def RationalLinearSystem.slope {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (i : I) : ℚ := S.coefficient i 0
+
+def RationalLinearSystem.rest {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) (i : I) : ℚ :=
+  ∑ j, S.coefficient i j.succ*q j
+
+theorem rational_linear_cons_response {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) (x : ℚ) (i : I) :
+    (∑ j, S.coefficient i j*Fin.cons (α := fun _ => ℚ) x q j)=S.slope i*x+S.rest q i := by
+  rw [Fin.sum_univ_succ]
+  rfl
+
+theorem rational_linear_cons_iff {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) (x : ℚ) :
+    S.Satisfies (Fin.cons (α := fun _ => ℚ) x q) ↔ ∀ i, S.slope i*x+S.rest q i ≤ S.rightSide i := by
+  simp only [RationalLinearSystem.Satisfies,rational_linear_cons_response]
+
+abbrev RationalLinearSystem.ZeroRows {I : Type*} {n : ℕ} (S : RationalLinearSystem I (n+1)) :=
+  {i : I // S.slope i=0}
+
+abbrev RationalLinearSystem.LowerRows {I : Type*} {n : ℕ} (S : RationalLinearSystem I (n+1)) :=
+  {i : I // S.slope i < 0}
+
+abbrev RationalLinearSystem.UpperRows {I : Type*} {n : ℕ} (S : RationalLinearSystem I (n+1)) :=
+  {i : I // 0 < S.slope i}
+
+abbrev RationalLinearSystem.ReducedRows {I : Type*} {n : ℕ} (S : RationalLinearSystem I (n+1)) :=
+  S.ZeroRows ⊕ (S.LowerRows × S.UpperRows)
+
+def RationalLinearSystem.reduce {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) : RationalLinearSystem S.ReducedRows n where
+  coefficient := Sum.elim (fun i j => S.coefficient i.val j.succ)
+    (fun a j => S.coefficient a.1.val j.succ/(-S.slope a.1.val)+
+      S.coefficient a.2.val j.succ/S.slope a.2.val)
+  rightSide := Sum.elim (fun i => S.rightSide i.val)
+    (fun a => S.rightSide a.1.val/(-S.slope a.1.val)+S.rightSide a.2.val/S.slope a.2.val)
+
+theorem rational_linear_reduced_zero {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) (i : S.ZeroRows) :
+    (∑ j, S.reduce.coefficient (.inl i) j*q j)=S.rest q i.val := rfl
+
+theorem rational_linear_reduced_pair {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) (i : S.LowerRows) (h : S.UpperRows) :
+    (∑ j, S.reduce.coefficient (.inr (i,h)) j*q j)=
+      S.rest q i.val/(-S.slope i.val)+S.rest q h.val/S.slope h.val := by
+  change (∑ j, (S.coefficient i.val j.succ/(-S.slope i.val)+
+      S.coefficient h.val j.succ/S.slope h.val)*q j)=_
+  simp only [add_mul,Finset.sum_add_distrib,div_mul_eq_mul_div,←Finset.sum_div,
+    RationalLinearSystem.rest]
+
+
+def RationalLinearSystem.Eliminated {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) : Prop :=
+  (∀ i, S.slope i=0 → S.rest q i ≤ S.rightSide i) ∧
+    ∀ i, S.slope i < 0 → ∀ h, 0 < S.slope h →
+      (S.rightSide i-S.rest q i)/S.slope i ≤ (S.rightSide h-S.rest q h)/S.slope h
+
+theorem rational_linear_pair_inequality {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) (i : S.LowerRows) (h : S.UpperRows) :
+    (∑ j, S.reduce.coefficient (.inr (i,h)) j*q j) ≤ S.reduce.rightSide (.inr (i,h)) ↔
+      (S.rightSide i.val-S.rest q i.val)/S.slope i.val ≤
+        (S.rightSide h.val-S.rest q h.val)/S.slope h.val := by
+  rw [rational_linear_reduced_pair]
+  change S.rest q i.val/(-S.slope i.val)+S.rest q h.val/S.slope h.val ≤
+    S.rightSide i.val/(-S.slope i.val)+S.rightSide h.val/S.slope h.val ↔ _
+  have he : (S.rightSide i.val-S.rest q i.val)/S.slope i.val-
+      (S.rightSide h.val-S.rest q h.val)/S.slope h.val=
+      S.rest q i.val/(-S.slope i.val)+S.rest q h.val/S.slope h.val-
+      (S.rightSide i.val/(-S.slope i.val)+S.rightSide h.val/S.slope h.val) := by
+    simp only [div_neg]
+    ring
+  constructor <;> intro hh <;> linarith
+
+theorem rational_linear_reduce_iff {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) :
+    S.reduce.Satisfies q ↔ S.Eliminated q := by
+  constructor
+  · intro h
+    constructor
+    · intro i hi
+      exact h (.inl ⟨i,hi⟩)
+    · intro i hi j hj
+      exact (rational_linear_pair_inequality S q ⟨i,hi⟩ ⟨j,hj⟩).mp
+        (h (.inr (⟨i,hi⟩,⟨j,hj⟩)))
+  · rintro ⟨hz,hp⟩ a
+    rcases a with i | ⟨i,h⟩
+    · exact hz i.val i.property
+    · exact (rational_linear_pair_inequality S q i h).mpr (hp i.val i.property h.val h.property)
+
+end SparseCompletion
+
+/- Fixed source body: RationalLinearSolver.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Classical Fourier–Motzkin elimination; this can have exponential size. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+universe u
+
+/-- Exact rational feasibility by dimension recursion and genuine finite elimination.
+This is not a polynomial-time LP theorem. -/
+def rationalLPSolve : (n : ℕ) → {I : Type u} → [Fintype I] →
+    RationalLinearSystem I n → Option (Fin n → ℚ)
+  | 0, _, _, S => if ∀ i, 0 ≤ S.rightSide i then some Fin.elim0 else none
+  | n+1, _, _, S => match rationalLPSolve n S.reduce with
+    | none => none
+    | some q => some (Fin.cons (α := fun _ => ℚ)
+        (RationalElimination.generalCandidate S.slope (S.rest q) S.rightSide) q)
+
+theorem rational_linear_eliminated_exists {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (q : Fin n → ℚ) :
+    S.Eliminated q ↔ ∃ x : ℚ, S.Satisfies (Fin.cons (α := fun _ => ℚ) x q) := by
+  have he : S.Eliminated q ↔
+      RationalElimination.FintypeEliminated S.slope (S.rest q) S.rightSide := Iff.rfl
+  rw [he,RationalElimination.fintype_eliminated_iff_exists]
+  simp only [rational_linear_cons_iff]
+
+theorem rational_lp_solve_sound (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) (q : Fin n → ℚ) (h : rationalLPSolve n S=some q) :
+    S.Satisfies q := by
+  induction n generalizing I with
+  | zero =>
+    unfold rationalLPSolve at h
+    split at h
+    next hh =>
+      intro i
+      simpa using hh i
+    next hh => simp at h
+  | succ n ih =>
+    cases he : rationalLPSolve n S.reduce with
+    | none => simp [rationalLPSolve,he] at h
+    | some y =>
+      have hy := ih S.reduce y he
+      have hel := (rational_linear_reduce_iff S y).mp hy
+      have hx := RationalElimination.fintype_candidate_feasible S.slope (S.rest y) S.rightSide hel
+      have hq : Fin.cons (α := fun _ => ℚ)
+          (RationalElimination.generalCandidate S.slope (S.rest y) S.rightSide) y=q := by
+        exact Option.some.inj (by simpa only [rationalLPSolve,he] using h)
+      rw [←hq]
+      exact (rational_linear_cons_iff S y _).mpr hx
+
+
+theorem rational_linear_decomposition {n : ℕ} (q : Fin (n+1) → ℚ) :
+    Fin.cons (α := fun _ => ℚ) (q 0) (fun j => q j.succ)=q := by
+  funext i
+  refine Fin.cases ?_ (fun j => ?_) i <;> rfl
+
+theorem rational_lp_solve_complete (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) (h : ∃ q, S.Satisfies q) :
+    ∃ q, rationalLPSolve n S=some q := by
+  induction n generalizing I with
+  | zero =>
+    obtain ⟨q,hq⟩ := h
+    have hr : ∀ i, 0 ≤ S.rightSide i := by
+      intro i
+      simpa using hq i
+    exact ⟨Fin.elim0,by simp [rationalLPSolve,hr]⟩
+  | succ n ih =>
+    obtain ⟨q,hq⟩ := h
+    have hc : S.Satisfies (Fin.cons (α := fun _ => ℚ) (q 0) (fun j => q j.succ)) := by
+      rw [rational_linear_decomposition]
+      exact hq
+    have hel := (rational_linear_eliminated_exists S (fun j => q j.succ)).mpr ⟨q 0,hc⟩
+    have hr := (rational_linear_reduce_iff S (fun j => q j.succ)).mpr hel
+    obtain ⟨y,hy⟩ := ih S.reduce ⟨fun j => q j.succ,hr⟩
+    exact ⟨Fin.cons (α := fun _ => ℚ)
+      (RationalElimination.generalCandidate S.slope (S.rest y) S.rightSide) y,
+      by simp only [rationalLPSolve,hy]⟩
+
+theorem rational_lp_solve_none_iff (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) :
+    rationalLPSolve n S=none ↔ ¬∃ q, S.Satisfies q := by
+  constructor
+  · intro hn hf
+    obtain ⟨q,hq⟩ := rational_lp_solve_complete n S hf
+    rw [hn] at hq
+    cases hq
+  · intro hn
+    cases he : rationalLPSolve n S with
+    | none => rfl
+    | some q => exact False.elim (hn ⟨q,rational_lp_solve_sound n S q he⟩)
+
+/-- Genuine decidability proved from the total rational elimination algorithm. -/
+def rationalLPFeasibleDecidable (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) : Decidable (∃ q, S.Satisfies q) :=
+  match he : rationalLPSolve n S with
+  | none => isFalse ((rational_lp_solve_none_iff n S).mp he)
+  | some q => isTrue ⟨q,rational_lp_solve_sound n S q he⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalLinearReal.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Real soundness of rational Fourier--Motzkin reduction; no complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalLinearSystem.RealSatisfies {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (x : Fin n → ℝ) : Prop :=
+  ∀ i, (∑ j, (S.coefficient i j : ℝ)*x j) ≤ (S.rightSide i : ℝ)
+
+def RationalLinearSystem.realRest {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (x : Fin n → ℝ) (i : I) : ℝ :=
+  ∑ j, (S.coefficient i j.succ : ℝ)*x j
+
+theorem rational_linear_real_split {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (x : Fin (n+1) → ℝ) (i : I) :
+    (∑ j, (S.coefficient i j : ℝ)*x j) =
+      (S.slope i : ℝ)*x 0+S.realRest (fun j => x j.succ) i := by
+  rw [Fin.sum_univ_succ]
+  rfl
+
+theorem rational_linear_real_reduced_zero {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (x : Fin n → ℝ) (i : S.ZeroRows) :
+    (∑ j, (S.reduce.coefficient (.inl i) j : ℝ)*x j)=S.realRest x i.val := rfl
+
+theorem rational_linear_real_reduced_pair {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (x : Fin n → ℝ)
+    (i : S.LowerRows) (h : S.UpperRows) :
+    (∑ j, (S.reduce.coefficient (.inr (i,h)) j : ℝ)*x j)=
+      S.realRest x i.val/(-(S.slope i.val : ℝ))+
+      S.realRest x h.val/(S.slope h.val : ℝ) := by
+  change (∑ j, ((S.coefficient i.val j.succ/(-S.slope i.val)+
+    S.coefficient h.val j.succ/S.slope h.val : ℚ) : ℝ)*x j)=_
+  push_cast
+  simp only [add_mul,Finset.sum_add_distrib,div_mul_eq_mul_div,←Finset.sum_div,
+    RationalLinearSystem.realRest]
+
+theorem rational_linear_real_reduce_feasible {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I (n+1)) (x : Fin (n+1) → ℝ)
+    (hx : S.RealSatisfies x) :
+    S.reduce.RealSatisfies (fun j => x j.succ) := by
+  intro row
+  rcases row with i | ⟨i,h⟩
+  · have hi := hx i.val
+    rw [rational_linear_real_split] at hi
+    have hz : (S.slope i.val : ℝ)=0 := by exact_mod_cast i.property
+    rw [hz,zero_mul,zero_add] at hi
+    rw [rational_linear_real_reduced_zero]
+    exact hi
+  · have hi := hx i.val
+    have hh := hx h.val
+    rw [rational_linear_real_split] at hi hh
+    have hil : (S.slope i.val : ℝ)<0 := by exact_mod_cast i.property
+    have hhu : (0 : ℝ)<(S.slope h.val : ℝ) := by exact_mod_cast h.property
+    have hden : (0 : ℝ)< -(S.slope i.val : ℝ) := neg_pos.mpr hil
+    have hli := div_le_div_of_nonneg_right hi (le_of_lt hden)
+    have hhi := div_le_div_of_nonneg_right hh (le_of_lt hhu)
+    have hel : ((S.slope i.val : ℝ)*x 0+S.realRest (fun j => x j.succ) i.val)/
+        (-(S.slope i.val : ℝ)) =
+        -x 0+S.realRest (fun j => x j.succ) i.val/(-(S.slope i.val : ℝ)) := by
+      field_simp [ne_of_lt hil]
+      ring
+    have heu : ((S.slope h.val : ℝ)*x 0+S.realRest (fun j => x j.succ) h.val)/
+        (S.slope h.val : ℝ) =
+        x 0+S.realRest (fun j => x j.succ) h.val/(S.slope h.val : ℝ) := by
+      field_simp [ne_of_gt hhu]
+    rw [hel] at hli
+    rw [heu] at hhi
+    rw [rational_linear_real_reduced_pair]
+    change _ ≤ ((S.rightSide i.val/(-S.slope i.val)+S.rightSide h.val/S.slope h.val : ℚ) : ℝ)
+    push_cast
+    linarith
+
+theorem rational_linear_real_cast_iff {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (q : Fin n → ℚ) :
+    S.RealSatisfies (fun j => (q j : ℝ)) ↔ S.Satisfies q := by
+  constructor
+  · intro h i
+    have hi : ((∑ j, S.coefficient i j*q j : ℚ) : ℝ) ≤ (S.rightSide i : ℝ) := by
+      simpa only [Rat.cast_sum,Rat.cast_mul] using h i
+    exact_mod_cast hi
+  · intro h i
+    have hi := h i
+    have hR : ((∑ j, S.coefficient i j*q j : ℚ) : ℝ) ≤ (S.rightSide i : ℝ) := by
+      exact_mod_cast hi
+    simpa only [Rat.cast_sum,Rat.cast_mul] using hR
+
+theorem rational_linear_real_zero_iff {I : Type*}
+    (S : RationalLinearSystem I 0) (x : Fin 0 → ℝ) :
+    S.RealSatisfies x ↔ ∀ i, (0 : ℚ) ≤ S.rightSide i := by
+  simp only [RationalLinearSystem.RealSatisfies,Finset.univ_eq_empty,Finset.sum_empty,
+    Rat.cast_nonneg]
+
+end SparseCompletion
+
+/- Fixed source body: RationalLinearTransfer.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Rational Fourier–Motzkin completeness across the rational-to-real embedding. -/
+@[expose] public section
+namespace SparseCompletion
+universe u
+
+theorem rational_lp_real_complete (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) (h : ∃ x, S.RealSatisfies x) :
+    ∃ q, rationalLPSolve n S=some q := by
+  induction n generalizing I with
+  | zero =>
+    obtain ⟨x,hx⟩ := h
+    have hr := (rational_linear_real_zero_iff S x).mp hx
+    exact ⟨Fin.elim0,by simp [rationalLPSolve,hr]⟩
+  | succ n ih =>
+    obtain ⟨x,hx⟩ := h
+    have hr := rational_linear_real_reduce_feasible S x hx
+    obtain ⟨y,hy⟩ := ih S.reduce ⟨fun j => x j.succ,hr⟩
+    exact ⟨Fin.cons (α := fun _ => ℚ)
+      (RationalElimination.generalCandidate S.slope (S.rest y) S.rightSide) y,
+      by simp only [rationalLPSolve,hy]⟩
+
+theorem rational_linear_real_feasible_iff {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) :
+    (∃ x, S.RealSatisfies x) ↔ ∃ q, S.Satisfies q := by
+  constructor
+  · intro h
+    obtain ⟨q,hq⟩ := rational_lp_real_complete n S h
+    exact ⟨q,rational_lp_solve_sound n S q hq⟩
+  · rintro ⟨q,hq⟩
+    exact ⟨fun j => (q j : ℝ),(rational_linear_real_cast_iff S q).mpr hq⟩
+
+theorem rational_lp_solve_none_iff_real (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) :
+    rationalLPSolve n S=none ↔ ¬∃ x, S.RealSatisfies x := by
+  rw [rational_lp_solve_none_iff]
+  exact not_congr (rational_linear_real_feasible_iff S).symm
+
+/-- Computed from rational coefficients and the verified rational algorithm;
+no decision procedure for arbitrary real comparisons is assumed. -/
+def rationalLPRealFeasibleDecidable (n : ℕ) {I : Type u} [Fintype I]
+    (S : RationalLinearSystem I n) : Decidable (∃ x, S.RealSatisfies x) :=
+  match he : rationalLPSolve n S with
+  | none => isFalse ((rational_lp_solve_none_iff_real n S).mp he)
+  | some q => isTrue ⟨fun j => (q j : ℝ),(rational_linear_real_cast_iff S q).mpr
+      (rational_lp_solve_sound n S q he)⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapDecision.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+The exact rational solver uses Fourier–Motzkin elimination; no polynomial cost. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalLinearSystem.append {I J : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (T : RationalLinearSystem J n) : RationalLinearSystem (I ⊕ J) n :=
+  ⟨Sum.elim S.coefficient T.coefficient,Sum.elim S.rightSide T.rightSide⟩
+
+theorem rational_linear_append_iff {I J : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (T : RationalLinearSystem J n) (q : Fin n → ℚ) :
+    (S.append T).Satisfies q ↔ S.Satisfies q ∧ T.Satisfies q := by
+  constructor
+  · intro h
+    exact ⟨fun i => h (.inl i),fun j => h (.inr j)⟩
+  · rintro ⟨hS,hT⟩ a
+    rcases a with i | j
+    · exact hS i
+    · exact hT j
+
+def rationalGapSystem {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
+    RationalLinearSystem (RationalGapRow k m (rationalGridSize M r η)) m :=
+  ⟨rationalGapCoefficient D p M r ρ η,rationalGapRightSide K D p M r ρ η⟩
+
+def rationalGapSolve {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) : Option (Fin m → ℚ) :=
+  rationalLPSolve m ((rationalGapSystem K D p M r ρ η).append R)
+
+theorem rational_gap_solve_sound {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) (q : Fin m → ℚ)
+    (h : rationalGapSolve K D p M r ρ η R=some q) :
+    checkRationalGap K D p q M r ρ η=true ∧ R.Satisfies q := by
+  have hh := (rational_linear_append_iff (rationalGapSystem K D p M r ρ η) R q).mp
+    (rational_lp_solve_sound m _ q h)
+  exact ⟨(rational_gap_linear_acceptance_iff K D p q M r ρ η).mpr hh.1,hh.2⟩
+
+theorem rational_gap_solve_none_iff {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) :
+    rationalGapSolve K D p M r ρ η R=none ↔
+      ¬∃ q, RationalGapConditions K D p q M r ρ η ∧ R.Satisfies q := by
+  rw [rationalGapSolve,rational_lp_solve_none_iff]
+  apply not_congr
+  apply exists_congr
+  intro q
+  rw [rational_linear_append_iff]
+  exact and_congr (rational_gap_conditions_iff_linear K D p q M r ρ η).symm Iff.rfl
+
+theorem rational_gap_solve_completed_witness {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) (q : Fin m → ℚ) (hM : 0 < M) (hη : 0 < η)
+    (h : rationalGapSolve K D p M r ρ η R=some q) :
+    R.Satisfies q ∧ ∃ B : Fin m → Fin m → ℝ, IsSkew B ∧
+      (∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B)
+        (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  have hs := rational_gap_solve_sound K D p M r ρ η R q h
+  exact ⟨hs.2,rational_gap_completed_witness K D p q M r ρ η hM hη hs.1⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapSearch.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Uses verified rational elimination; no polynomial-time or bit-cost assertion. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_shifted_call_antitone {I : Type*} [Fintype I]
+    (q t : I → ℚ) (ρ ρ' z : ℚ) (hq : ∀ i, 0 ≤ q i) (hρ : ρ ≤ ρ') :
+    rationalCall q (fun i => t i-ρ') z ≤ rationalCall q (fun i => t i-ρ) z := by
+  unfold rationalCall
+  apply Finset.sum_le_sum
+  intro i _
+  exact mul_le_mul_of_nonneg_left (max_le_max (by linarith) (le_refl 0)) (hq i)
+
+theorem rational_gap_conditions_monotone {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ ρ' η : ℚ) (hρ : ρ ≤ ρ') (h : RationalGapConditions K D p q M r ρ η) :
+    RationalGapConditions K D p q M r ρ' η := by
+  rcases h with ⟨hq,hm,hg,ha,hc⟩
+  refine ⟨hq,hm,fun i => by linarith [hg i],fun a => le_trans (ha a) hρ,?_⟩
+  intro l
+  exact le_trans (rational_shifted_call_antitone q (rationalScore D p) ρ ρ' _ hq hρ) (hc l)
+
+def RationalGapExists {k m : ℕ} {I : Type*}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) : Prop :=
+  ∃ q, RationalGapConditions K D p q M r ρ η ∧ R.Satisfies q
+
+instance rationalGapExistsDecidable {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) : Decidable (RationalGapExists K D p M r ρ η R) :=
+  match he : rationalGapSolve K D p M r ρ η R with
+  | none => isFalse ((rational_gap_solve_none_iff K D p M r ρ η R).mp he)
+  | some q => isTrue ⟨q,(rational_gap_check_iff K D p q M r ρ η).mp
+      (rational_gap_solve_sound K D p M r ρ η R q he).1,
+      (rational_gap_solve_sound K D p M r ρ η R q he).2⟩
+
+theorem rational_gap_exists_monotone {k m : ℕ} {I : Type*}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r η : ℚ)
+    (R : RationalLinearSystem I m) : Monotone (fun ρ => RationalGapExists K D p M r ρ η R) := by
+  intro ρ ρ' hρ
+  rintro ⟨q,hq,hR⟩
+  exact ⟨q,rational_gap_conditions_monotone K D p q M r ρ ρ' η hρ hq,hR⟩
+
+def rationalGapSearch {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r η : ℚ) (R : RationalLinearSystem I m) (n : ℕ) : ℚ × ℚ :=
+  RationalBisection.search (fun ρ => RationalGapExists K D p M r ρ η R) n 0 M
+
+theorem rational_gap_search_bracket {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r η : ℚ) (R : RationalLinearSystem I m) (n : ℕ) (hM : 0 ≤ M)
+    (hupper : RationalGapExists K D p M r M η R) :
+    let z := rationalGapSearch K D p M r η R n
+    0 ≤ z.1 ∧ z.1 ≤ z.2 ∧ z.2 ≤ M ∧ RationalGapExists K D p M r z.2 η R ∧
+      (z.1=0 ∨ ¬RationalGapExists K D p M r z.1 η R) ∧
+      z.2-z.1 ≤ M/((2 : ℕ) : ℚ)^n := by
+  simpa only [rationalGapSearch,sub_zero] using
+    RationalBisection.search_spec (fun ρ => RationalGapExists K D p M r ρ η R) n 0 M hM hupper
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapRealDecision.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Exact rational elimination links real game feasibility to the supplied linear program. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_linear_real_append_iff {I J : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (T : RationalLinearSystem J n) (x : Fin n → ℝ) :
+    (S.append T).RealSatisfies x ↔ S.RealSatisfies x ∧ T.RealSatisfies x := by
+  constructor
+  · intro h
+    exact ⟨fun i => h (.inl i),fun j => h (.inr j)⟩
+  · rintro ⟨hS,hT⟩ a
+    rcases a with i | j
+    · exact hS i
+    · exact hT j
+
+theorem exact_game_rational_gap_system_real {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (x : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hq : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=(r : ℝ))
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B)
+      (blockWeights (fun h => (p h : ℝ)) x) a ≤ (ρ : ℝ)) :
+    (rationalGapSystem K D p M r ρ η).RealSatisfies x := by
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hh := (block_response_bounds_iff _ _ B _ x (ρ : ℝ)).mp hrows
+  have hc := (weighted_completion_iff x (score (fun i h => (D i h : ℝ)) (fun h => (p h : ℝ)))
+    (M : ℝ) (r : ℝ) (ρ : ℝ) (le_of_lt hMR) hq hm).mp ⟨B,hB,hb,hh.2⟩
+  have hcall := cuts_imply_call_bound x
+    (fun i => score (fun i h => (D i h : ℝ)) (fun h => (p h : ℝ)) i-(ρ : ℝ))
+    (M : ℝ) (r : ℝ) hMR hc.2
+  intro a
+  rcases a with i | a
+  · change (∑ j, ((if j=i then (-1 : ℚ) else 0 : ℚ) : ℝ)*x j) ≤ ((0 : ℚ) : ℝ)
+    have he : (∑ j, ((if j=i then (-1 : ℚ) else 0 : ℚ) : ℝ)*x j)= -x i := by
+      calc
+        _ = ∑ j, if j=i then -x j else 0 := by
+          apply Finset.sum_congr rfl
+          intro j _
+          by_cases hj : j=i <;> simp [hj]
+        _ = _ := by simp
+    rw [he,Rat.cast_zero]
+    exact neg_nonpos.mpr (hq i)
+  · rcases a with a | a
+    · by_cases hz : a=0
+      · subst a
+        change (∑ j, ((1 : ℚ) : ℝ)*x j) ≤ (r : ℝ)
+        simpa using le_of_eq hm
+      · change (∑ j, ((if a=0 then (1 : ℚ) else -1 : ℚ) : ℝ)*x j) ≤
+          ((if a=0 then r else -r : ℚ) : ℝ)
+        simpa [hz] using neg_le_neg (le_of_eq hm.symm)
+    · rcases a with i | a
+      · change (∑ j, ((0 : ℚ) : ℝ)*x j) ≤ ((ρ+M*r-rationalScore D p i : ℚ) : ℝ)
+        simp only [Rat.cast_zero,zero_mul,Finset.sum_const_zero]
+        push_cast
+        rw [rational_score_real]
+        linarith [hc.1 i]
+      · rcases a with a | l
+        · change (∑ i, ((-D i a : ℚ) : ℝ)*x i) ≤ ((ρ-∑ b, K a b*p b : ℚ) : ℝ)
+          push_cast
+          simp_rw [neg_mul,Finset.sum_neg_distrib]
+          have ha := hh.1 a
+          unfold anchorResponse at ha
+          linarith
+        · change (∑ i, ((max (rationalScore D p i-ρ-
+            (M*r-rationalGridNode M r η (l.val+1))) 0 : ℚ) : ℝ)*x i) ≤
+            (rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1)) : ℝ)
+          have ht := hcall ((M*r-rationalGridNode M r η (l.val+1) : ℚ) : ℝ)
+          rw [←rational_envelope_real M r (M*r-rationalGridNode M r η (l.val+1))] at ht
+          simpa only [call,Rat.cast_max,Rat.cast_sub,Rat.cast_zero,rational_score_real,mul_comm] using ht
+
+
+theorem exact_game_rational_gap_solve {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (x : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I m) (hR : R.RealSatisfies x)
+    (hM : 0 < M) (hq : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=(r : ℝ))
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B)
+      (blockWeights (fun h => (p h : ℝ)) x) a ≤ (ρ : ℝ)) :
+    ∃ q, rationalGapSolve K D p M r ρ η R=some q := by
+  apply rational_lp_real_complete m ((rationalGapSystem K D p M r ρ η).append R)
+  exact ⟨x,(rational_linear_real_append_iff _ R x).mpr
+    ⟨exact_game_rational_gap_system_real K D p x B M r ρ η hM hq hm hB hb hrows,hR⟩⟩
+
+theorem rational_gap_solve_none_excludes_real_completion {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (hM : 0 < M)
+    (hn : rationalGapSolve K D p M r ρ η R=none) :
+    ¬∃ (x : Fin m → ℝ) (B : Fin m → Fin m → ℝ),
+      R.RealSatisfies x ∧ (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=(r : ℝ) ∧ IsSkew B ∧
+      (∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B)
+        (blockWeights (fun h => (p h : ℝ)) x) a ≤ (ρ : ℝ) := by
+  rintro ⟨x,B,hR,hq,hm,hB,hb,hrows⟩
+  obtain ⟨q,hsol⟩ := exact_game_rational_gap_solve K D p x B M r ρ η R hR hM hq hm hB hb hrows
+  rw [hn] at hsol
+  cases hsol
+
+end SparseCompletion
+
+/- Fixed source body: RationalResidualCompletion.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Executable rational residual completion through finite Fourier--Motzkin LP;
+no polynomial complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+abbrev ResidualCompletionRows (m : ℕ) := (Fin 4 × (Fin m × Fin m)) ⊕ Fin m
+
+def residualDecode {α : Type*} {m : ℕ} (x : Fin (m*m) → α) (i j : Fin m) : α :=
+  x (finProdFinEquiv (i,j))
+
+def residualEncode {α : Type*} {m : ℕ} (B : Fin m → Fin m → α)
+    (u : Fin (m*m)) : α := B (finProdFinEquiv.symm u).1 (finProdFinEquiv.symm u).2
+
+theorem residual_decode_encode {α : Type*} {m : ℕ} (B : Fin m → Fin m → α) :
+    residualDecode (residualEncode B) = B := by
+  funext i j
+  simp only [residualDecode,residualEncode,Equiv.symm_apply_apply]
+
+def residualBasis {m : ℕ} (i j : Fin m) (u : Fin (m*m)) : ℚ :=
+  if u=finProdFinEquiv (i,j) then 1 else 0
+
+/-- Tags 0,1 impose upper/lower entry bounds; tags 2,3 impose both
+inequalities of skew symmetry. The remaining rows impose actual responses. -/
+def residualCompletionSystem {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ) :
+    RationalLinearSystem (ResidualCompletionRows m) (m*m) where
+  coefficient := Sum.elim
+    (fun row u => if row.1.val=0 then residualBasis row.2.1 row.2.2 u
+      else if row.1.val=1 then -residualBasis row.2.1 row.2.2 u
+      else if row.1.val=2 then residualBasis row.2.1 row.2.2 u+residualBasis row.2.2 row.2.1 u
+      else -(residualBasis row.2.1 row.2.2 u+residualBasis row.2.2 row.2.1 u))
+    (fun i u => ∑ j, residualBasis i j u*q j)
+  rightSide := Sum.elim (fun row => if row.1.val=0 ∨ row.1.val=1 then M else 0)
+    (fun i => σ-t i)
+
+def ResidualRealConditions {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (B : Fin m → Fin m → ℝ) : Prop :=
+  IsSkew B ∧ (∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ)) ∧
+    ∀ i, (t i : ℝ)+∑ j, B i j*(q j : ℝ) ≤ (σ : ℝ)
+
+def ResidualRatConditions {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (B : Fin m → Fin m → ℚ) : Prop :=
+  (∀ i j, B i j= -B j i) ∧ (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+    ∀ i, t i+∑ j, B i j*q j ≤ σ
+
+theorem residual_basis_real_sum {m : ℕ} (x : Fin (m*m) → ℝ) (i j : Fin m) :
+    (∑ u, (residualBasis i j u : ℝ)*x u)=residualDecode x i j := by
+  simp [residualBasis,residualDecode,apply_ite]
+
+theorem residual_response_real_sum {m : ℕ} (q : Fin m → ℚ)
+    (x : Fin (m*m) → ℝ) (i : Fin m) :
+    (∑ u, ((∑ j, residualBasis i j u*q j : ℚ) : ℝ)*x u)=
+      ∑ j, residualDecode x i j*(q j : ℝ) := by
+  push_cast
+  simp only [Finset.sum_mul]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro j _
+  simpa only [mul_right_comm,mul_comm (q j : ℝ),←Finset.sum_mul] using
+    congrArg (fun z => z*(q j : ℝ)) (residual_basis_real_sum x i j)
+
+theorem residual_completion_real_iff {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (x : Fin (m*m) → ℝ) :
+    (residualCompletionSystem q t M σ).RealSatisfies x ↔
+      ResidualRealConditions q t M σ (residualDecode x) := by
+  have h0 (i j : Fin m) :
+      (∑ u, ((residualCompletionSystem q t M σ).coefficient (.inl (0,i,j)) u : ℝ)*x u)=
+        residualDecode x i j := by
+    change (∑ u, (residualBasis i j u : ℝ)*x u)=_
+    exact residual_basis_real_sum x i j
+  have h1 (i j : Fin m) :
+      (∑ u, ((residualCompletionSystem q t M σ).coefficient (.inl (1,i,j)) u : ℝ)*x u)=
+        -residualDecode x i j := by
+    change (∑ u, ((-residualBasis i j u : ℚ) : ℝ)*x u)=_
+    simp only [Rat.cast_neg,neg_mul,Finset.sum_neg_distrib,residual_basis_real_sum]
+  have h2 (i j : Fin m) :
+      (∑ u, ((residualCompletionSystem q t M σ).coefficient (.inl (2,i,j)) u : ℝ)*x u)=
+        residualDecode x i j+residualDecode x j i := by
+    change (∑ u, ((residualBasis i j u+residualBasis j i u : ℚ) : ℝ)*x u)=_
+    simp only [Rat.cast_add,add_mul,Finset.sum_add_distrib,residual_basis_real_sum]
+  have h3 (i j : Fin m) :
+      (∑ u, ((residualCompletionSystem q t M σ).coefficient (.inl (3,i,j)) u : ℝ)*x u)=
+        -(residualDecode x i j+residualDecode x j i) := by
+    change (∑ u, ((-(residualBasis i j u+residualBasis j i u) : ℚ) : ℝ)*x u)=_
+    simp only [Rat.cast_neg,Rat.cast_add,neg_mul,add_mul,Finset.sum_neg_distrib,
+      Finset.sum_add_distrib,residual_basis_real_sum]
+  constructor
+  · intro h
+    have hub (i j : Fin m) : residualDecode x i j ≤ (M : ℝ) := by
+      have hh := h (.inl (0,i,j))
+      rw [h0] at hh
+      exact hh
+    have hlb (i j : Fin m) : -residualDecode x i j ≤ (M : ℝ) := by
+      have hh := h (.inl (1,i,j))
+      rw [h1] at hh
+      exact hh
+    have hsk1 (i j : Fin m) : residualDecode x i j+residualDecode x j i ≤ (0 : ℝ) := by
+      have hh := h (.inl (2,i,j))
+      rw [h2] at hh
+      simpa [residualCompletionSystem] using hh
+    have hsk2 (i j : Fin m) : -(residualDecode x i j+residualDecode x j i) ≤ (0 : ℝ) := by
+      have hh := h (.inl (3,i,j))
+      rw [h3] at hh
+      simpa [residualCompletionSystem] using hh
+    refine ⟨?_,?_,?_⟩
+    · intro i j
+      linarith [hsk1 i j,hsk2 i j]
+    · intro i j
+      exact ⟨by linarith [hlb i j],hub i j⟩
+    · intro i
+      have hi := h (.inr i)
+      change (∑ u, ((∑ j, residualBasis i j u*q j : ℚ) : ℝ)*x u) ≤ ((σ-t i : ℚ) : ℝ) at hi
+      rw [residual_response_real_sum,Rat.cast_sub] at hi
+      linarith
+  · rintro ⟨hsk,hb,hr⟩ row
+    rcases row with ⟨tag,i,j⟩ | i
+    · fin_cases tag
+      · change (∑ u, (residualBasis i j u : ℝ)*x u) ≤ (M : ℝ)
+        rw [residual_basis_real_sum]
+        exact (hb i j).2
+      · change (∑ u, ((-residualBasis i j u : ℚ) : ℝ)*x u) ≤ (M : ℝ)
+        simp only [Rat.cast_neg,neg_mul,Finset.sum_neg_distrib,residual_basis_real_sum]
+        linarith [(hb i j).1]
+      · change (∑ u, ((residualBasis i j u+residualBasis j i u : ℚ) : ℝ)*x u) ≤ ((0 : ℚ) : ℝ)
+        simp only [Rat.cast_add,add_mul,Finset.sum_add_distrib,residual_basis_real_sum,Rat.cast_zero]
+        rw [hsk i j]
+        linarith
+      · change (∑ u, ((-(residualBasis i j u+residualBasis j i u) : ℚ) : ℝ)*x u) ≤ ((0 : ℚ) : ℝ)
+        simp only [Rat.cast_neg,Rat.cast_add,neg_mul,add_mul,Finset.sum_neg_distrib,
+          Finset.sum_add_distrib,residual_basis_real_sum,Rat.cast_zero]
+        rw [hsk i j]
+        linarith
+    · change (∑ u, ((∑ j, residualBasis i j u*q j : ℚ) : ℝ)*x u) ≤ ((σ-t i : ℚ) : ℝ)
+      rw [residual_response_real_sum,Rat.cast_sub]
+      linarith [hr i]
+
+end SparseCompletion
+
+/- Fixed source body: RationalResidualSolver.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Executable rational residual completion through finite Fourier--Motzkin LP;
+no polynomial complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem residual_completion_row_count (m : ℕ) :
+    Fintype.card (ResidualCompletionRows m)=4*m*m+m := by
+  simp only [ResidualCompletionRows,Fintype.card_sum,Fintype.card_prod,Fintype.card_fin]
+  ring
+
+theorem residual_rat_real_iff {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (B : Fin m → Fin m → ℚ) :
+    ResidualRatConditions q t M σ B ↔
+      ResidualRealConditions q t M σ (fun i j => (B i j : ℝ)) := by
+  constructor
+  · rintro ⟨hsk,hb,hr⟩
+    refine ⟨?_,?_,?_⟩
+    · intro i j
+      change (B i j : ℝ)= -(B j i : ℝ)
+      exact_mod_cast hsk i j
+    · intro i j
+      change -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ)
+      exact_mod_cast hb i j
+    · intro i
+      have hi : ((t i+∑ j, B i j*q j : ℚ) : ℝ) ≤ (σ : ℝ) := by exact_mod_cast hr i
+      simpa only [Rat.cast_add,Rat.cast_sum,Rat.cast_mul] using hi
+  · rintro ⟨hsk,hb,hr⟩
+    refine ⟨?_,?_,?_⟩
+    · intro i j
+      have hi := hsk i j
+      change (B i j : ℝ)= -(B j i : ℝ) at hi
+      exact_mod_cast hi
+    · intro i j
+      have hi := hb i j
+      change -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) at hi
+      exact_mod_cast hi
+    · intro i
+      have hi : ((t i+∑ j, B i j*q j : ℚ) : ℝ) ≤ (σ : ℝ) := by
+        simpa only [Rat.cast_add,Rat.cast_sum,Rat.cast_mul] using hr i
+      exact_mod_cast hi
+
+theorem residual_completion_real_exists_iff {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ) :
+    (∃ x, (residualCompletionSystem q t M σ).RealSatisfies x) ↔
+      ∃ B, ResidualRealConditions q t M σ B := by
+  constructor
+  · rintro ⟨x,hx⟩
+    exact ⟨residualDecode x,(residual_completion_real_iff q t M σ x).mp hx⟩
+  · rintro ⟨B,hB⟩
+    refine ⟨residualEncode B,(residual_completion_real_iff q t M σ _).mpr ?_⟩
+    simpa only [residual_decode_encode] using hB
+
+/-- Total computable rational matrix reconstruction; none is genuine infeasibility.
+It uses the dimension-recursive rational solver, not a flow feasibility oracle. -/
+def rationalResidualCompletion {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ) :
+    Option (Fin m → Fin m → ℚ) :=
+  (rationalLPSolve (m*m) (residualCompletionSystem q t M σ)).map residualDecode
+
+theorem rational_residual_completion_complete {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (h : ∃ B, ResidualRealConditions q t M σ B) :
+    ∃ B, rationalResidualCompletion q t M σ=some B := by
+  obtain ⟨x,hx⟩ := rational_lp_real_complete (m*m) (residualCompletionSystem q t M σ)
+    ((residual_completion_real_exists_iff q t M σ).mpr h)
+  exact ⟨residualDecode x,by simp only [rationalResidualCompletion,hx,Option.map_some]⟩
+
+theorem rational_residual_completion_real_sound {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (B : Fin m → Fin m → ℚ) (h : rationalResidualCompletion q t M σ=some B) :
+    ResidualRealConditions q t M σ (fun i j => (B i j : ℝ)) := by
+  cases hx : rationalLPSolve (m*m) (residualCompletionSystem q t M σ) with
+  | none =>
+    simp only [rationalResidualCompletion,hx,Option.map_none] at h
+    cases h
+  | some x =>
+    have hB : residualDecode x=B := by
+      simpa only [rationalResidualCompletion,hx,Option.map_some,Option.some.injEq] using h
+    subst B
+    have hr := (rational_linear_real_cast_iff (residualCompletionSystem q t M σ) x).mpr
+      (rational_lp_solve_sound (m*m) (residualCompletionSystem q t M σ) x hx)
+    exact (residual_completion_real_iff q t M σ (fun u => (x u : ℝ))).mp hr
+
+theorem rational_residual_completion_rat_sound {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ)
+    (B : Fin m → Fin m → ℚ) (h : rationalResidualCompletion q t M σ=some B) :
+    ResidualRatConditions q t M σ B :=
+  (residual_rat_real_iff q t M σ B).mpr (rational_residual_completion_real_sound q t M σ B h)
+
+theorem rational_residual_completion_none_iff {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ) :
+    rationalResidualCompletion q t M σ=none ↔ ¬∃ B, ResidualRealConditions q t M σ B := by
+  rw [rationalResidualCompletion,Option.map_eq_none_iff,rational_lp_solve_none_iff_real]
+  exact not_congr (residual_completion_real_exists_iff q t M σ)
+
+theorem rational_residual_completion_rat_iff {m : ℕ} (q t : Fin m → ℚ) (M σ : ℚ) :
+    (∃ B, ResidualRatConditions q t M σ B) ↔ ∃ B, ResidualRealConditions q t M σ B := by
+  constructor
+  · rintro ⟨B,hB⟩
+    exact ⟨fun i j => (B i j : ℝ),(residual_rat_real_iff q t M σ B).mp hB⟩
+  · intro h
+    obtain ⟨B,hB⟩ := rational_residual_completion_complete q t M σ h
+    exact ⟨B,rational_residual_completion_rat_sound q t M σ B hB⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalResidualGap.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Actual rational residual reconstruction for an accepted rational gap point;
+no polynomial complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def reconstructRationalGap {k m : ℕ} (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (q : Fin m → ℚ) (M ρ η : ℚ) : Option (Fin m → Fin m → ℚ) :=
+  rationalResidualCompletion q (rationalScore D p) M (ρ+η)
+
+theorem rational_gap_reconstruction_complete {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hcheck : checkRationalGap K D p q M r ρ η=true) :
+    ∃ B, reconstructRationalGap D p q M ρ η=some B := by
+  obtain ⟨B,hsk,hb,hr⟩ := rational_gap_completed_witness K D p q M r ρ η hM hη hcheck
+  apply rational_residual_completion_complete q (rationalScore D p) M (ρ+η)
+  refine ⟨B,hsk,hb,?_⟩
+  intro i
+  have hi := hr (.inr i)
+  rw [block_response_residual] at hi
+  simpa only [response,←rational_score_real,Rat.cast_add] using hi
+
+theorem rational_gap_reconstruction_residual_sound {k m : ℕ}
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M ρ η : ℚ) (B : Fin m → Fin m → ℚ)
+    (h : reconstructRationalGap D p q M ρ η=some B) :
+    ResidualRatConditions q (rationalScore D p) M (ρ+η) B :=
+  rational_residual_completion_rat_sound q (rationalScore D p) M (ρ+η) B h
+
+theorem rational_gap_reconstruction_full_rows {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hη : 0 < η) (hcheck : checkRationalGap K D p q M r ρ η=true)
+    (B : Fin m → Fin m → ℚ) (h : reconstructRationalGap D p q M ρ η=some B) :
+    ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ))) (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤
+        (ρ : ℝ)+(η : ℝ) := by
+  have hc := (rational_gap_check_iff K D p q M r ρ η).mp hcheck
+  have hB := rational_residual_completion_real_sound q (rationalScore D p) M (ρ+η) B h
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    have hh : (rationalAnchorResponse K D p q a : ℝ) ≤ (ρ : ℝ) := by
+      exact_mod_cast hc.2.2.2.1 a
+    rw [rational_anchor_response_real] at hh
+    have hηR : (0 : ℝ)<(η : ℝ) := by exact_mod_cast hη
+    linarith
+  · intro i
+    have hi := hB.2.2 i
+    simpa only [response,←rational_score_real,Rat.cast_add] using hi
+
+theorem rational_gap_reconstruction_normalized_full_game {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hη : 0 < η) (hp : ∀ a, 0 ≤ p a) (hnorm : (∑ a, p a)+r=1)
+    (hK : ∀ a b, K a b= -K b a)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hcheck : checkRationalGap K D p q M r ρ η=true)
+    (B : Fin m → Fin m → ℚ) (h : reconstructRationalGap D p q M ρ η=some B) :
+    (∀ a, 0 ≤ blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) a) ∧
+    (∑ a, blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+    IsSkew (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ))) ∧
+    (∀ a b, -(M : ℝ) ≤ blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ)) a b ∧
+      blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+        (fun i j => (B i j : ℝ)) a b ≤ (M : ℝ)) ∧
+    ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+      (fun i j => (B i j : ℝ))) (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤
+        (ρ : ℝ)+(η : ℝ) := by
+  have hc := (rational_gap_check_iff K D p q M r ρ η).mp hcheck
+  have hB := rational_residual_completion_real_sound q (rationalScore D p) M (ρ+η) B h
+  have hKR : IsSkew (fun h a => (K h a : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a)
+    (fun i => by exact_mod_cast hc.1 i),?_,blockMatrix_skew _ _ _ hKR hB.1,
+    blockMatrix_bounds _ _ _ _ hKbR hDbR hB.2.1,
+    rational_gap_reconstruction_full_rows K D p q M r ρ η hη hcheck B h⟩
+  rw [blockWeights_mass]
+  have hm : (∑ i, (q i : ℝ))=(r : ℝ) := by exact_mod_cast hc.2.1
+  rw [hm]
+  exact_mod_cast hnorm
+
+end SparseCompletion
+
+/- Fixed source body: RationalRepertoire.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalRealRepertoire {I : Type*} {m : ℕ} (R : RationalLinearSystem I m) (r : ℚ) :
+    Set (Fin m → ℝ) := {x | R.RealSatisfies x ∧ (∀ i, 0 ≤ x i) ∧ (∑ i, x i)=(r : ℝ)}
+
+theorem rational_real_repertoire_closed {I : Type*} {m : ℕ}
+    (R : RationalLinearSystem I m) (r : ℚ) : IsClosed (rationalRealRepertoire R r) := by
+  have he : rationalRealRepertoire R r=
+      (⋂ i, {x : Fin m → ℝ | (∑ j, (R.coefficient i j : ℝ)*x j) ≤ (R.rightSide i : ℝ)}) ∩
+      ((⋂ j, {x | (0 : ℝ) ≤ x j}) ∩ {x | (∑ j, x j)=(r : ℝ)}) := by
+    ext x
+    simp only [rationalRealRepertoire,RationalLinearSystem.RealSatisfies,Set.mem_ofPred_eq,
+      Set.mem_inter_iff,Set.mem_iInter]
+  rw [he]
+  exact (isClosed_iInter fun i => isClosed_le (by fun_prop) continuous_const).inter
+    ((isClosed_iInter fun j => isClosed_le continuous_const (continuous_apply j)).inter
+      (isClosed_eq (by fun_prop) continuous_const))
+
+theorem rational_real_repertoire_compact {I : Type*} {m : ℕ}
+    (R : RationalLinearSystem I m) (r : ℚ) : IsCompact (rationalRealRepertoire R r) := by
+  have hc := rational_real_repertoire_closed R r
+  apply (show IsCompact (Set.Icc (fun _ : Fin m => (0 : ℝ)) (fun _ => (r : ℝ))) from isCompact_Icc).of_isClosed_subset hc
+  intro x hx
+  refine ⟨hx.2.1,?_⟩
+  intro i
+  have hh := Finset.single_le_sum (fun j (_h : j ∈ (Finset.univ : Finset (Fin m))) => hx.2.1 j)
+    (Finset.mem_univ i)
+  rwa [hx.2.2] at hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapAlgorithm.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Returns actual rational strategy/payoff data; Fourier–Motzkin cost may be exponential. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalGapAlgorithm {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) :
+    Option ((Fin m → ℚ) × (Fin m → Fin m → ℚ)) :=
+  match rationalGapSolve K D p M r ρ η R with
+  | none => none
+  | some q => (rationalResidualCompletion q (rationalScore D p) M (ρ+η)).map (fun B => (q,B))
+
+theorem rational_gap_algorithm_sound {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (h : rationalGapAlgorithm K D p M r ρ η R=some (q,B)) :
+    R.Satisfies q ∧ RationalGapConditions K D p q M r ρ η ∧
+      ResidualRatConditions q (rationalScore D p) M (ρ+η) B := by
+  cases hq : rationalGapSolve K D p M r ρ η R with
+  | none => simp only [rationalGapAlgorithm,hq] at h; cases h
+  | some y =>
+    cases hB : rationalResidualCompletion y (rationalScore D p) M (ρ+η) with
+    | none => simp only [rationalGapAlgorithm,hq,hB,Option.map_none] at h; cases h
+    | some C =>
+      have hp : (y,C)=(q,B) := Option.some.inj (by
+        simpa only [rationalGapAlgorithm,hq,hB,Option.map_some] using h)
+      obtain ⟨rfl,rfl⟩ := Prod.mk.inj hp
+      have hh := rational_gap_solve_sound K D p M r ρ η R y hq
+      exact ⟨hh.2,(rational_gap_check_iff K D p y M r ρ η).mp hh.1,
+        rational_residual_completion_rat_sound y (rationalScore D p) M (ρ+η) C hB⟩
+
+theorem rational_gap_algorithm_complete {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (hM : 0 < M) (hη : 0 < η)
+    (h : RationalGapExists K D p M r ρ η R) :
+    ∃ q B, rationalGapAlgorithm K D p M r ρ η R=some (q,B) := by
+  cases hq : rationalGapSolve K D p M r ρ η R with
+  | none => exact False.elim ((rational_gap_solve_none_iff K D p M r ρ η R).mp hq h)
+  | some q =>
+    have hc := (rational_gap_solve_sound K D p M r ρ η R q hq).1
+    obtain ⟨B,hB⟩ := rational_gap_reconstruction_complete K D p q M r ρ η hM hη hc
+    change rationalResidualCompletion q (rationalScore D p) M (ρ+η)=some B at hB
+    exact ⟨q,B,by simp only [rationalGapAlgorithm,hq,hB,Option.map_some]⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapValue.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Executable exact rational elimination, with no polynomial bit-cost assertion. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+structure RationalGapModel (k m : ℕ) (I : Type*) where
+  K : Fin k → Fin k → ℚ
+  D : Fin m → Fin k → ℚ
+  p : Fin k → ℚ
+  M : ℚ
+  r : ℚ
+  η : ℚ
+  R : RationalLinearSystem I m
+  positiveBound : 0 < M
+  positiveSlack : 0 < η
+  anchorNonneg : ∀ a, 0 ≤ p a
+  normalized : (∑ a, p a)+r=1
+  anchorSkew : ∀ a b, K a b= -K b a
+  anchorBounds : ∀ a b, -M ≤ K a b ∧ K a b ≤ M
+  crossBounds : ∀ i a, -M ≤ D i a ∧ D i a ≤ M
+  repertoireNonempty : (rationalRealRepertoire R r).Nonempty
+
+theorem rational_gap_model_value_bounds {k m : ℕ} {I : Type*}
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) :
+    let V := fixedGameValue (fun a b => (d.K a b : ℝ)) (fun i a => (d.D i a : ℝ))
+      (fun a => (d.p a : ℝ)) d.M (rationalRealRepertoire d.R d.r)
+    0 ≤ V ∧ V ≤ (d.M : ℝ) ∧
+      fixedAnchorFeasible (rationalRealRepertoire d.R d.r)
+        (fun a b => (d.K a b : ℝ)) (fun i a => (d.D i a : ℝ))
+        (fun a => (d.p a : ℝ)) d.M d.r V := by
+  apply fixed_game_value_bounds _ _ _ _ _ _ (by exact_mod_cast le_of_lt d.positiveBound)
+    (rational_real_repertoire_compact d.R d.r) d.repertoireNonempty
+    (fun a => by exact_mod_cast d.anchorNonneg a) (by exact_mod_cast d.normalized)
+    (fun _ h => h.2)
+  · intro a b
+    change (d.K a b : ℝ)= -(d.K b a : ℝ)
+    exact_mod_cast d.anchorSkew a b
+  · intro a b
+    exact_mod_cast d.anchorBounds a b
+  · intro i a
+    exact_mod_cast d.crossBounds i a
+
+theorem rational_gap_model_upper_feasible {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) :
+    RationalGapExists d.K d.D d.p d.M d.r d.M d.η d.R := by
+  obtain ⟨hV0,hVM,x,hx,hx0,hxm,B,hB,hb,hrows⟩ := rational_gap_model_value_bounds d
+  obtain ⟨q,hq⟩ := exact_game_rational_gap_solve d.K d.D d.p x B d.M d.r d.M d.η d.R hx.1
+    d.positiveBound hx0 hxm hB hb (fun a => le_trans (hrows a) hVM)
+  have hs := rational_gap_solve_sound d.K d.D d.p d.M d.r d.M d.η d.R q hq
+  exact ⟨q,(rational_gap_check_iff _ _ _ _ _ _ _ _).mp hs.1,hs.2⟩
+
+def rationalGapApproximation {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (n : ℕ) :
+    Option ((ℚ × ℚ) × ((Fin m → ℚ) × (Fin m → Fin m → ℚ))) :=
+  let z := rationalGapSearch d.K d.D d.p d.M d.r d.η d.R n
+  (rationalGapAlgorithm d.K d.D d.p d.M d.r z.2 d.η d.R).map (fun w => (z,w))
+
+theorem rational_gap_approximation_complete {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) (n : ℕ) :
+    ∃ z q B, rationalGapApproximation d n=some (z,(q,B)) := by
+  have hz := rational_gap_search_bracket d.K d.D d.p d.M d.r d.η d.R n
+    (le_of_lt d.positiveBound) (rational_gap_model_upper_feasible d)
+  obtain ⟨q,B,h⟩ := rational_gap_algorithm_complete d.K d.D d.p d.M d.r
+    (rationalGapSearch d.K d.D d.p d.M d.r d.η d.R n).2 d.η d.R
+    d.positiveBound d.positiveSlack hz.2.2.2.1
+  exact ⟨rationalGapSearch d.K d.D d.p d.M d.r d.η d.R n,q,B,by
+    simp only [rationalGapApproximation,h,Option.map_some]⟩
+
+theorem rational_gap_approximation_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (n : ℕ) (z : ℚ × ℚ)
+    (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (h : rationalGapApproximation d n=some (z,(q,B))) :
+    z=rationalGapSearch d.K d.D d.p d.M d.r d.η d.R n ∧
+    rationalGapAlgorithm d.K d.D d.p d.M d.r z.2 d.η d.R=some (q,B) := by
+  cases ha : rationalGapAlgorithm d.K d.D d.p d.M d.r
+    (rationalGapSearch d.K d.D d.p d.M d.r d.η d.R n).2 d.η d.R with
+  | none => simp only [rationalGapApproximation,ha,Option.map_none] at h; cases h
+  | some w =>
+    have he := Option.some.inj (by simpa only [rationalGapApproximation,ha,Option.map_some] using h)
+    obtain ⟨rfl,rfl⟩ := Prod.mk.inj he
+    exact ⟨rfl,ha⟩
+
+theorem rational_gap_approximation_value_enclosure {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) (n : ℕ) (z : ℚ × ℚ)
+    (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (hout : rationalGapApproximation d n=some (z,(q,B))) :
+    let V := fixedGameValue (fun a b => (d.K a b : ℝ)) (fun i a => (d.D i a : ℝ))
+      (fun a => (d.p a : ℝ)) d.M (rationalRealRepertoire d.R d.r)
+    (z.1 : ℝ) ≤ V ∧ V ≤ (z.2 : ℝ)+(d.η : ℝ) ∧
+      z.2-z.1 ≤ d.M/((2 : ℕ) : ℚ)^n := by
+  obtain ⟨hz,ha⟩ := rational_gap_approximation_output d n z q B hout
+  have hbr := rational_gap_search_bracket d.K d.D d.p d.M d.r d.η d.R n
+    (le_of_lt d.positiveBound) (rational_gap_model_upper_feasible d)
+  rw [←hz] at hbr
+  have hs := rational_gap_algorithm_sound d.K d.D d.p d.M d.r z.2 d.η d.R q B ha
+  have hcheck := (rational_gap_check_iff _ _ _ _ _ _ _ _).mpr hs.2.1
+  have hB : reconstructRationalGap d.D d.p q d.M z.2 d.η=some B := by
+    unfold rationalGapAlgorithm at ha
+    cases hq : rationalGapSolve d.K d.D d.p d.M d.r z.2 d.η d.R with
+    | none => simp only [hq] at ha; cases ha
+    | some y =>
+      cases hb : rationalResidualCompletion y (rationalScore d.D d.p) d.M (z.2+d.η) with
+      | none => simp only [hq,hb,Option.map_none] at ha; cases ha
+      | some C =>
+        have he : (y,C)=(q,B) := Option.some.inj (by simpa only [hq,hb,Option.map_some] using ha)
+        obtain ⟨rfl,rfl⟩ := Prod.mk.inj he
+        exact hb
+  have hn := rational_gap_reconstruction_normalized_full_game d.K d.D d.p q d.M d.r z.2 d.η
+    d.positiveSlack d.anchorNonneg d.normalized d.anchorSkew d.anchorBounds d.crossBounds hcheck B hB
+  have hbR := rational_residual_completion_real_sound q (rationalScore d.D d.p) d.M (z.2+d.η) B hB
+  have hqR : (fun i => (q i : ℝ)) ∈ rationalRealRepertoire d.R d.r := by
+    refine ⟨(rational_linear_real_cast_iff d.R q).mpr hs.1,?_,?_⟩
+    · intro i
+      change (0 : ℝ) ≤ (q i : ℝ)
+      exact_mod_cast hs.2.1.1 i
+    · change (∑ i, (q i : ℝ))=(d.r : ℝ)
+      exact_mod_cast hs.2.1.2.1
+  have hu := le_trans (fixed_game_value_le_witness _ _ _ _ _
+    (rational_real_repertoire_compact d.R d.r) _ _ ⟨hbR.1,hbR.2.1⟩ hqR)
+    ((exploitability_le_iff _ _ _).mpr hn.2.2.2.2)
+  refine ⟨?_,hu,hbr.2.2.2.2.2⟩
+  obtain ⟨hV0,_,x,hx,hx0,hxm,C,hC,hcb,hrows⟩ := rational_gap_model_value_bounds d
+  rcases hbr.2.2.2.2.1 with hzero | hno
+  · rw [hzero,Rat.cast_zero]; exact hV0
+  · by_contra hlow
+    have hvL := le_of_lt (lt_of_not_ge hlow)
+    obtain ⟨y,hy⟩ := exact_game_rational_gap_solve d.K d.D d.p x C d.M d.r z.1 d.η d.R hx.1
+      d.positiveBound hx0 hxm hC hcb (fun a => le_trans (hrows a) hvL)
+    have hh := rational_gap_solve_sound d.K d.D d.p d.M d.r z.1 d.η d.R y hy
+    exact hno ⟨y,(rational_gap_check_iff _ _ _ _ _ _ _ _).mp hh.1,hh.2⟩
 
 end SparseCompletion

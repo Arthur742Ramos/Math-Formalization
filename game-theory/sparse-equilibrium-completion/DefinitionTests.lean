@@ -415,5 +415,30 @@ theorem rational_ceil_strict_bound (q : ℚ) (hq : 0 ≤ q) : (Nat.ceil q : ℚ)
 
 theorem natural_sqrt_self_bound (n : ℕ) : Nat.sqrt n ≤ n := Nat.sqrt_le_self n
 
+
+example (s : Finset ℚ) (hs : s.Nonempty) : s.min' hs = s.inf' hs id := rfl
+example (s : Finset ℚ) (hs : s.Nonempty) :
+    s.inf' hs id = WithTop.untop (s.inf (fun x => (x : WithTop ℚ))) (by rcases hs with ⟨x,hx⟩; simp; exact ⟨x,hx⟩) := rfl
+example (s : Finset ℚ) (hs : s.Nonempty) : s.min' hs ∈ s := Finset.min'_mem s hs
+example (s : Finset ℚ) (x : ℚ) (hx : x ∈ s) : s.min' ⟨x,hx⟩ ≤ x := Finset.min'_le s x hx
+example (xs : List ℚ) : xs.filter (fun x => x < 0) = xs.filter (fun x => decide (x < 0)) := rfl
+example {n : ℕ} (f : Fin n → ℚ) (x : ℚ) : x ∈ List.ofFn f ↔ ∃ i, f i = x := List.mem_ofFn
+example {n : ℕ} (f : Fin n → ℚ) : (List.ofFn f).length=n := List.length_ofFn
+example {n : ℕ} (x : ℚ) (q : Fin n → ℚ) :
+    Fin.cons (α := fun _ => ℚ) x q = fun j => Fin.cases x q j := rfl
+example {n : ℕ} (x : ℚ) (q : Fin n → ℚ) : Fin.cons (α := fun _ => ℚ) x q 0=x := by simp
+example {n : ℕ} (x : ℚ) (q : Fin n → ℚ) (i : Fin n) :
+    Fin.cons (α := fun _ => ℚ) x q i.succ=q i := by simp
+example {n : ℕ} (f : Fin (n+1) → ℚ) : (∑ j, f j)=f 0+∑ j : Fin n, f j.succ := Fin.sum_univ_succ f
+
+example {m n : ℕ} (i : Fin m) (j : Fin n) :
+    (finProdFinEquiv (i,j)).val=j.val+n*i.val := rfl
+example {m n : ℕ} (u : Fin (m*n)) :
+    (finProdFinEquiv.symm u).1.val=u.val/n := rfl
+example {m n : ℕ} (u : Fin (m*n)) :
+    (finProdFinEquiv.symm u).2.val=u.val%n := rfl
+example {m n : ℕ} (u : Fin (m*n)) : u.divNat.val=u.val/n := rfl
+example {m n : ℕ} (u : Fin (m*n)) : u.modNat.val=u.val%n := rfl
+
 end SECDefinitions
 -- END material-imported-definition audit
