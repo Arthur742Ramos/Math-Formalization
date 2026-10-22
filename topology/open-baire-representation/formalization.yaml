@@ -1,0 +1,95 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Open Baire-space representation of Polish spaces",
+    "description": "Every nonempty Polish space is the image of Baire space, the product of countably many discrete natural-number spaces, under a continuous open surjection. The proof constructs a countably branching nonempty open scheme with nested closures, covering children and geometrically shrinking diameters. The image of each basic cylinder is proved exactly equal to its scheme open set. This yields openness and surjectivity of the limit map; existence is also characterized by nonemptiness. These are classical results, with no novelty or priority claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54C10",
+      "54E50",
+      "54E52",
+      "03E15"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Descriptive Set Theory, Fall 2002 lecture notes",
+      "authors": [
+        "David Marker"
+      ],
+      "type": "other",
+      "id": "https://homepages.math.uic.edu/~marker/math512/dst.pdf",
+      "relationship": "formalizes",
+      "note": "Lecture notes. Theorem1.17, printedp6, and supporting Lemmas1.5–1.6. The direct proof constructs an open continuous surjection. The formal statement explicitly adds the necessary nonempty hypothesis omitted from the informal theorem statement. Source PDF text consulted independently; no complete downloaded PDF digest is claimed."
+    },
+    {
+      "title": "Notes on quasi-Polish spaces, arXiv1809.07440v2",
+      "authors": [
+        "Ruiyuan Chen"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/1809.07440",
+      "relationship": "background",
+      "note": "Section10, printedp16, recalls classical Polish open representation and attributes it to Kechris Exercise7.14 before its quasi-Polish generalization. We do not formalize the quasi-Polish theorem. The original Kechris book pages were not independently consulted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/CantorScheme.lean",
+      "relationship": "builds-on",
+      "note": "Felix Weilacher’s generic limit, total-domain and continuity theorems are reused with attribution. New work constructs the open covering scheme and proves exact cylinder images, then openness/surjectivity."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Polish.lean",
+      "relationship": "builds-on",
+      "note": "Existing continuous-only Baire representation does not assert openness. Local exact-pin semantic audit found no equivalent open representation. This is not exhaustive global/private duplicate clearance."
+    }
+  ],
+  "status": {
+    "scope": "Six selected contracts: nonempty open small-diameter refinement, open covering scheme existence, exact cylinder-image equality, complete-metric representation, Polish representation, and equivalence of existence with nonemptiness.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "No mathematical gap claimed in the selected statements. Nonempty codomains are necessary. No injectivity, closedness, compact-fiber assertion, stationary strategy theorem, quasi-Polish extension or new classification is claimed. Exact-source mechanical/rendering receipts and private editorial/public registration status are separate evidence. Global/private overlap remains unconfirmed.",
+    "attribution_status": "Established campaign author and responsible-maintainer lists retained separately; substantive AI proof work and internal AI review disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored the new proof, semantic tests and packaging under user authorization. Independent internal AI reviewers assessed primary-source/research scope, mathematical implementation and imported meanings. No human mathematical proof contribution or external peer review is inferred."
+      }
+    ],
+    "notes": "Generic Mathlib scheme machinery is reused and credited, rather than presented as new local proof work."
+  },
+  "fidelity": {
+    "divergences": "The proof uses PiNat.res’s reversed finite-list convention. A branch is extended after a prescribed prefix while retaining a prescribed point, with arbitrary fallback only outside reachable membership. A compatible complete metric is introduced internally for the Polish theorem without changing the given topology."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal source/scope AI reviewer",
+      "Independent internal mathematical implementation AI reviewer"
+    ],
+    "notes": "Review receipts identify exact covered files/digests and scope. Imported-predicate, kernel, rendering, final-packet and registry stages have separate evidence; this field is not a public acceptance claim."
+  }
+}

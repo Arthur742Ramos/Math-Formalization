@@ -1,0 +1,23 @@
+{
+  ".gitignore": "2dbda161eaadab05b93b4b1269cfdd8c7a18f44b07d58bc2847513054b5c120d",
+  "AxiomAudit.lean": "393b5056aba3141717e5be1b7fa6ad80b472316710057f68a4230d8029ee0bcf",
+  "ChallengeTests.lean": "7928bfb8b2dfe304a1f7527ebc836f63b99e7b132ea3614083927dc9127d44d7",
+  "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+  "MATERIAL-DEFINITIONS.md": "8e05b579c91ac6755e1aece917b20ea7a66cc75b58c78832884133a392ff0426",
+  "OBChallenge.lean": "ad5509d62b67e9932e2b58233bbe2eba4fa586c162088af7c4ef11da906f4a76",
+  "OBSolution.lean": "181f7ae8b7e848e9b3108d9c758b7aed08df7af2f4ca2bbd7042b9d7e1cda818",
+  "OpenBaire.lean": "ad5509d62b67e9932e2b58233bbe2eba4fa586c162088af7c4ef11da906f4a76",
+  "README.md": "2d379e4796f508fc777b1cea59539ef176ddc51aa0fc2caa154db0c2e9a4170f",
+  "REVIEW.md": "a16235bf1fc780416715f0592acff894c89ac3054a2fdd51fb4a26e1a25469af",
+  "SemanticTests.lean": "544c3acfe661d49daf3b3decdda5dbe27c335c328d966238769fe857dd2f3ed0",
+  "VERIFICATION.md": "85d2e5bd835764d1f8365d7d9cc26209e96c8ad34d6b97defb7b2234627e366c",
+  "comparator.json": "9eba2830ba978392f7fe0885138feda7ba5896cc9fc2b7247edc5fd30689fe81",
+  "formalization.yaml": "f6691b7f9dcdb204f3fefdcdc4ad453c9b8a5ca286c0ebe1b7d77f3b3990119c",
+  "lake-manifest.json": "f089b14b07513753d84478187b32cb4c3507487fcb057b5f90dd2ee3e1671338",
+  "lakefile.toml": "ba94f1ea7efe480d16df64d9b827e2d271f9c954a45f333de8f9e582d4923ac8",
+  "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+  "scripts/check_export_comparison.py": "6081bd6427a41cdaefb969bcf661cf10189f8b3d0c407f7377e6bb1130d722d4",
+  "scripts/check_package.py": "6435d988384955f9b93651d0086a39b03c74cad25889f195a321029594413057",
+  "verification/core-imported-definitions.json": "9e1b89a9aa4d82f1e8b9eee6c70152c47a0c14d8db0688a9b1323b346cd9d1b7",
+  "verification/material-imported-definitions.json": "735242c6dbb03063fc77e13e1a2a9de4874dc2feb6b785d00053fa158eaf216a"
+}
