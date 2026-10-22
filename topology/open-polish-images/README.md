@@ -67,7 +67,7 @@ No editorial or registration result follows merely from these checks.
 Fresh global registry queries were refused with HTTP403 during selection; no
 access restriction was bypassed. No equivalent was found in the inspected local
 repository, active branches/PRs or pinned Mathlib, but current global registry
-nonduplication is not cleared. No registry submission is recorded for this package.
+nonduplication is not cleared. A previous source was submitted by the user and failed mechanical comparison; no registry acceptance is asserted.
 
 ## Attribution
 
@@ -82,7 +82,33 @@ Inherited source authorship, classical mathematics and Apache-2.0 notices are pr
 
 This packaging correction repairs the candidate-local import rejected at the canonical
 Challenge stage of full run39666845881 against source
-`7d0d6b456b49e373e6ac6083d3f2da54e00df1d3`. Both declaration bodies are preserved
+`7d0d6b456b49e373e6ac6083d3f2da54e00df1d3`. That import-closure correction preserved both declaration bodies
 verbatim under one module header. The original failed report remains historical evidence for that earlier source.
 Each ordinary/native check, independent review and separately approved exact-source
 canonical pair is established only by its own immutable external receipt.
+
+## Compared declaration identity repair
+
+Source `89b3c7ef2ea8b8bfc2c4327cac6d0dc0f344a6dd` compiled but failed
+[mechanical comparison](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39703002198)
+at `OpenPolish.imageStrategy`. Separate-module exports reproduced the failure:
+module-private lift helpers and generated proof constants had different names.
+The compared image-construction helpers now use stable public identities, and
+data definitions use `@[expose]`, following the passing foundation's pattern.
+Two small membership proofs use explicit equality transport to avoid generated
+module-private simplifier declarations. The same witnesses, five selected
+statements, full-history game definitions, empty cases and axiom allowlist remain.
+The inherited foundation body and reference file remain unchanged.
+
+The native regression is reproducible after dependencies are available:
+
+```sh
+python3 scripts/check_export_comparison.py --work-dir /absolute/fresh/work-directory
+```
+
+It compiles the Challenge under a different module name using only pinned
+dependency paths, exports both declaration closures, invokes the toolchain's
+unchanged `compareAt` and `checkAxioms`, and runs the native Lean export checker.
+It also requires rejection of an altered fixed-helper body. This is a native
+regression, with its own receipt; canonical Linux confinement, external kernels
+and rendering retain their separate exact-source requirements.

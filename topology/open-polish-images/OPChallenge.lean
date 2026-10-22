@@ -388,21 +388,21 @@ variable {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
 variable (f : X → Y) (hc : Continuous f) (ho : IsOpenMap f)
   (hs : Function.Surjective f) (σ : Strategy X)
 
-private def trap : List (Move X) → Set X
+@[expose] def trap : List (Move X) → Set X
   | [] => univ
   | b :: h => σ.move b h
 
-private theorem trap_open (h : List (Move X)) : IsOpen (trap σ h) := by
+theorem trap_open (h : List (Move X)) : IsOpen (trap σ h) := by
   cases h with
   | nil => exact isOpen_univ
   | cons b h => exact σ.isOpen b h
 
-private noncomputable def liftRegion (a : Move Y) (h : List (Move X)) : Set X := by
+@[expose] noncomputable def liftRegion (a : Move Y) (h : List (Move X)) : Set X := by
   classical
   exact f ⁻¹' a.region ∩ if a.point ∈ f '' trap σ h then trap σ h else univ
 
 include hc in
-private theorem liftRegion_open (a : Move Y) (h : List (Move X)) :
+theorem liftRegion_open (a : Move Y) (h : List (Move X)) :
     IsOpen (liftRegion f σ a h) := by
   unfold liftRegion
   apply (a.isOpen.preimage hc).inter
@@ -411,29 +411,31 @@ private theorem liftRegion_open (a : Move Y) (h : List (Move X)) :
   · exact isOpen_univ
 
 include hs in
-private theorem exists_lift (a : Move Y) (h : List (Move X)) :
+theorem exists_lift (a : Move Y) (h : List (Move X)) :
     ∃ x, x ∈ liftRegion f σ a h ∧ f x = a.point := by
   classical
   by_cases ha : a.point ∈ f '' trap σ h
   · have havail := ha
     obtain ⟨x, hx, he⟩ := ha
-    exact ⟨x, by simp only [liftRegion, ite_eq_left havail, mem_inter_iff, mem_preimage];
-                  exact ⟨he ▸ a.mem, hx⟩, he⟩
+    refine ⟨x, ?_, he⟩
+    change f x ∈ a.region ∧ x ∈ (if a.point ∈ f '' trap σ h then trap σ h else univ)
+    exact ⟨he ▸ a.mem, (ite_eq_left havail).symm ▸ hx⟩
   · obtain ⟨x, he⟩ := hs a.point
-    exact ⟨x, by simp only [liftRegion, ite_eq_right ha, inter_univ, mem_preimage];
-                  exact he ▸ a.mem, he⟩
+    refine ⟨x, ?_, he⟩
+    change f x ∈ a.region ∧ x ∈ (if a.point ∈ f '' trap σ h then trap σ h else univ)
+    exact ⟨he ▸ a.mem, (ite_eq_right ha).symm ▸ mem_univ x⟩
 
-private noncomputable def liftMove (a : Move Y) (h : List (Move X)) : Move X where
+@[expose] noncomputable def liftMove (a : Move Y) (h : List (Move X)) : Move X where
   point := (exists_lift f hs σ a h).choose
   region := liftRegion f σ a h
   isOpen := liftRegion_open f hc σ a h
   mem := (exists_lift f hs σ a h).choose_spec.1
 
-private theorem liftMove_point (a : Move Y) (h : List (Move X)) :
+theorem liftMove_point (a : Move Y) (h : List (Move X)) :
     f (liftMove f hc hs σ a h).point = a.point :=
   (exists_lift f hs σ a h).choose_spec.2
 
-private theorem liftMove_preimage (a : Move Y) (h : List (Move X)) :
+theorem liftMove_preimage (a : Move Y) (h : List (Move X)) :
     (liftMove f hc hs σ a h).region ⊆ f ⁻¹' a.region :=
   inter_subset_left
 
@@ -447,13 +449,13 @@ private theorem liftMove_trap (a : Move Y) (h : List (Move X))
 
 /-- Reconstruct the source history from oldest to newest. When a marked point cannot be lifted into the preceding source response, the
 lift falls back to the full preimage, making the strategy total on arbitrary histories. -/
-private noncomputable def liftHistory : List (Move Y) → List (Move X)
+@[expose] noncomputable def liftHistory : List (Move Y) → List (Move X)
   | [] => []
   | b :: h => liftMove f hc hs σ b (liftHistory h) :: liftHistory h
 
 /-- The image of the source response, with coherent lifts of all earlier moves.
 The image is open and retains the actual marked target point. -/
-noncomputable def imageStrategy : Strategy Y where
+@[expose] noncomputable def imageStrategy : Strategy Y where
   move a h := f '' σ.move (liftMove f hc hs σ a (liftHistory f hc hs σ h))
     (liftHistory f hc hs σ h)
   isOpen _ _ := ho _ (σ.isOpen _ _)

@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "scope": "Native Mac exact-toolchain regression; no canonical Linux sandbox, renderer or registry acceptance claim",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "baseline_source_commit": "89b3c7ef2ea8b8bfc2c4327cac6d0dc0f344a6dd",
+  "baseline_public_workflow": "https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39703002198",
+  "baseline_native_result": {
+    "exit_code": 1,
+    "error": "Const does not match between challenge and target 'OpenPolish.imageStrategy'",
+    "cause": "module-private lift helpers and generated imageStrategy proof names; a second compared closure reached module-private simplifier helpers in exists_lift"
+  },
+  "source_files_sha256": {
+    "OpenPolish.lean": "2072a34dfd38ea9181a5d8a3c2d374116cd3851bad1a1b92bb7247b4a26f3e0d",
+    "OPChallenge.lean": "2072a34dfd38ea9181a5d8a3c2d374116cd3851bad1a1b92bb7247b4a26f3e0d",
+    "OPSolution.lean": "e22042d3220b2a692da04594e38605dff74d64b5e8ffe952047410c021751a4a",
+    "comparator.json": "700a56702a25e1cbb64bb9ed06acf41741b4ac4938b0263ecbaa32d81bffb1a9",
+    "lake-manifest.json": "f089b14b07513753d84478187b32cb4c3507487fcb057b5f90dd2ee3e1671338",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "scripts/check_export_comparison.py": "4f01babfd6fb5a15bf9245b5e291398819e9633ed6c554074a419c4d61c24d78"
+  },
+  "pinned_api_sources_sha256": {
+    "Check/Compare.lean": "0281630a33b8f08a9f3f40f229cd843c02441a0cd4d8a6d8548dc2bb8ded4c68",
+    "Check/Axioms.lean": "261fa54494a6a17c23b8588d788ab1080e5c39af2143948f8e140cfa295560d1",
+    "CLI/Check.lean": "55daf430e5adea38453b21798cbdf4cd099f66ec969494022a566a8ae098c00b"
+  },
+  "theorem_names": [
+    "OpenPolish.imageStrategy_winning",
+    "OpenPolish.strong_image",
+    "OpenPolish.completelyMetrizable_image",
+    "OpenPolish.polish_image",
+    "OpenPolish.polish_image_of_t3"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "primitive_targets": [
+    "Nat.add",
+    "Nat.sub",
+    "Nat.mul",
+    "Nat.pow",
+    "Nat.gcd",
+    "Nat.div",
+    "Nat.mod",
+    "Nat.beq",
+    "Nat.ble",
+    "Nat.land",
+    "Nat.lor",
+    "Nat.xor",
+    "Nat.shiftLeft",
+    "Nat.shiftRight",
+    "String.ofList",
+    "Char.ofNat",
+    "List",
+    "eagerReduce",
+    "Nat",
+    "String",
+    "String.mk",
+    "Char",
+    "optParam",
+    "autoParam",
+    "semiOutParam",
+    "outParam"
+  ],
+  "native_checks": [
+    {
+      "name": "package-build",
+      "exit_code": 0,
+      "elapsed_seconds": 3.308
+    },
+    {
+      "name": "protected-compile",
+      "exit_code": 0,
+      "elapsed_seconds": 4.184
+    },
+    {
+      "name": "challenge-export",
+      "exit_code": 0,
+      "elapsed_seconds": 5.249
+    },
+    {
+      "name": "solution-export",
+      "exit_code": 0,
+      "elapsed_seconds": 5.825
+    },
+    {
+      "name": "pinned-comparator",
+      "exit_code": 0,
+      "elapsed_seconds": 17.557
+    },
+    {
+      "name": "export-native-kernel",
+      "exit_code": 0,
+      "elapsed_seconds": 4.708
+    },
+    {
+      "name": "native-nanoda",
+      "exit_code": 0,
+      "elapsed_seconds": 1.823
+    },
+    {
+      "name": "native-con-ron",
+      "exit_code": 0,
+      "elapsed_seconds": 6.886
+    }
+  ],
+  "negative_control": {
+    "status": "pass",
+    "test": "Insert a well-typed let wrapper around the fixed trap definition body in the in-memory solution export only",
+    "expected_error": "Const does not match between challenge and target 'OpenPolish.trap'"
+  },
+  "note": "The test leaves source and export files unchanged. Lean, NanoDa and con-ron accepted the native solution export. Native extra-kernel check uses two workers; canonical service policy remains separate."
+}

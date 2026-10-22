@@ -30,3 +30,11 @@ and reviews remain historical receipts for source7d0d6b456b49e373e6ac6083d3f2da5
 whose canonical full39666845881 failed at protected Challenge import resolution.
 This corrected source needs its own ordinary and canonical receipts; the original one-pair
 approval is consumed and grants no new runner exception. No trust boundary is changed.
+
+Compared declaration identity correction: the actual mechanical attempt against
+source89b3c7ef2ea8b8bfc2c4327cac6d0dc0f344a6dd failed at Comparator after
+compilation and both exports succeeded. Kernel verification was not reached.
+The public service report is run39703002198. The native regression script checks
+the same pinned comparison and axiom functions, all26 primitive targets, five
+selected statements and zero definition holes. A changed fixed-helper body must
+still be rejected. Local success is not a canonical workflow or rendering receipt.

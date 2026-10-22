@@ -17,8 +17,16 @@ Final packaging, exact printed contracts, imported-definition meanings and sourc
 commit verification require their own reviewed receipts. There is no inferred human
 review, external peer review, editorial approval, public registration or novelty.
 
-Packaging repair scope: the corrected source preserves both declaration bodies
+Earlier import-closure repair scope: that correction preserved both declaration bodies
 verbatim while replacing the candidate-local foundation import with an inline
 attributed body and the five existing Mathlib imports. Prior review receipts do
 not certify these new module bytes or successful compilation. Each independent layout review and affected exact-source verification gate is
 established by its own external receipt.
+
+Compared declaration identity repair: stable public helper names and exposed data
+definitions replace module-private references in the compared strategy closure.
+The existence lemma keeps its theorem kind, proposition and witnesses; two small
+simplifier proofs are replaced by explicit membership and equality transport.
+The selected signatures, game definitions, target set, definition-hole set,
+standard axiom allowlist and pinned verifier are unchanged. Exact reviewed
+files and completed native regression checks are bound by external receipts.
