@@ -363,3 +363,16 @@ automatic approximation and its computed width, and negative-tolerance rejection
 Precise imported usage, semantic/static reviews and a fresh exact-commit native
 run remain required for this tranche. No future PASS or commit is embedded. No
 submission or publication is authorized or attempted.
+
+
+## Physical consistency initializer follow-on
+
+The preserved416c2db8b46bbb2872935e3ef094105210817536 checkpoint passed all12
+native gates and independent exact-source authentication:145 math modules,680
+source axiom audits and570 protected contracts. It does not verify later bytes.
+The new5 mathematics modules add12 independently reviewed proofs, giving150
+math modules,692 source audits and582 protected contracts. Eleven executable
+controls cover feasible/infeasible floors, computed consistency and game
+initialization, actual bracket width, zero residual and fully empty cases.
+Fresh integrated consistency, protected comparison, kernel/export and exact-commit
+verification are required before claiming this tranche verified. No submission.

@@ -108,3 +108,8 @@ public import RationalIntervalValue
 public import RationalIntervalOutputClass
 public import RationalIntervalValueCertificate
 public import RationalIntervalAccurate
+public import RationalIntervalParameters
+public import RationalIntervalConsistency
+public import RationalIntervalInitialize
+public import RationalIntervalInitializedAlgorithm
+public import RationalIntervalInitializedSoundness

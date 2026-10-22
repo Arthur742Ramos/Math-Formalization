@@ -174,5 +174,16 @@ contains all original q,D,K,B satisfying intervals and R(q,qD,K); its actual
 exploitability optimum is attained. The returned rational game gives L≤V≤U+η
 and automatic shifted bracket width<η+ζ for ζ>0. Physical consistency assumes
 neither a tolerance bound nor solver success. Full action nonemptiness is
-explicit for exploitability/value. Sparse-output selection, raw-input consistency
-initialization, grid execution and polynomial operation/bit guarantees remain open.
+explicit for exploitability/value. Sparse-output selection, grid execution and polynomial operation/bit guarantees remain open.
+
+
+The initializer now computes physical consistency for admissible rational
+parameters: M,η>0, nonnegative anchors, normalization, bounded endpoints and
+ordered cross intervals are explicit proof fields; physical nonemptiness is not.
+Its actual rational solver determines the Boolean branch of a genuine Decidable
+instance for compatible real games. Initialization and the combined approximation
+return None exactly for incompatibility. Returned fixed-dimension rational
+q,K,D,B belong to the original class and have all responses at most U+η. With
+nonempty full action type and ζ>0, L≤V≤U+η and shifted width<η+ζ. This is not
+a parser validating arbitrary untrusted rational inputs. It supplies neither
+sparse output nor a polynomial-time bound.

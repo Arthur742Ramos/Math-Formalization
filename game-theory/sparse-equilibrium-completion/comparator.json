@@ -571,7 +571,19 @@
     "SparseCompletion.rational_interval_approximation_output",
     "SparseCompletion.rational_interval_approximation_value_enclosure",
     "SparseCompletion.rational_interval_accurate_complete",
-    "SparseCompletion.rational_interval_accurate_value_enclosure"
+    "SparseCompletion.rational_interval_accurate_value_enclosure",
+    "SparseCompletion.interval_pack_recovered_real",
+    "SparseCompletion.rational_interval_success_compatible",
+    "SparseCompletion.rational_interval_compatible_success",
+    "SparseCompletion.rational_interval_algorithm_none_incompatible",
+    "SparseCompletion.rational_interval_initialize_complete",
+    "SparseCompletion.rational_interval_initialize_sound",
+    "SparseCompletion.rational_interval_initialize_none_iff",
+    "SparseCompletion.rational_interval_initialized_output",
+    "SparseCompletion.rational_interval_initialized_complete",
+    "SparseCompletion.rational_interval_initialized_none_iff",
+    "SparseCompletion.rational_interval_initialized_game",
+    "SparseCompletion.rational_interval_initialized_value"
   ],
   "definition_names": [],
   "permitted_axioms": [

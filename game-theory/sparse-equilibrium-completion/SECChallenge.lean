@@ -14297,3 +14297,300 @@ theorem rational_interval_accurate_value_enclosure {k m : ℕ} {I : Type*} [Fint
   exact ⟨hb.1,hb.2.1,by linarith⟩
 
 end SparseCompletion
+
+/- Fixed source body: RationalIntervalParameters.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+structure RationalIntervalParameters (k m : ℕ) (I : Type*) where
+  loK : Fin k → Fin k → ℚ
+  hiK : Fin k → Fin k → ℚ
+  lo : Fin m → Fin k → ℚ
+  hi : Fin m → Fin k → ℚ
+  p : Fin k → ℚ
+  M : ℚ
+  r : ℚ
+  η : ℚ
+  R : RationalLinearSystem I (m+(m*k+(k*k+0*m)))
+  positiveBound : 0 < M
+  positiveSlack : 0 < η
+  anchorNonneg : ∀ a, 0 ≤ p a
+  normalized : (∑ a, p a)+r=1
+  coreLower : ∀ a b, -M ≤ loK a b
+  coreUpper : ∀ a b, hiK a b ≤ M
+  crossLower : ∀ i a, -M ≤ lo i a
+  crossUpper : ∀ i a, hi i a ≤ M
+  orderedCross : ∀ i a, lo i a ≤ hi i a
+
+def RationalIntervalParameters.Compatible {k m : ℕ} {I : Type*}
+    (d : RationalIntervalParameters k m I) : Prop :=
+  ∃ (q : Fin m → ℝ) (K : Fin k → Fin k → ℝ)
+      (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ),
+    (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=(d.r : ℝ) ∧ IsSkew K ∧
+    (∀ a b, (d.loK a b : ℝ) ≤ K a b ∧ K a b ≤ (d.hiK a b : ℝ)) ∧
+    (∀ i a, (d.lo i a : ℝ) ≤ D i a ∧ D i a ≤ (d.hi i a : ℝ)) ∧
+    IsSkew B ∧ (∀ i j, -(d.M : ℝ) ≤ B i j ∧ B i j ≤ (d.M : ℝ)) ∧
+    d.R.RealSatisfies (intervalPack q (fun i a => q i*D i a) K (H := 0) Fin.elim0)
+
+def RationalIntervalParameters.toModel {k m : ℕ} {I : Type*}
+    (d : RationalIntervalParameters k m I) (h : d.Compatible) : RationalIntervalModel k m I where
+  loK := d.loK
+  hiK := d.hiK
+  lo := d.lo
+  hi := d.hi
+  p := d.p
+  M := d.M
+  r := d.r
+  η := d.η
+  R := d.R
+  positiveBound := d.positiveBound
+  positiveSlack := d.positiveSlack
+  anchorNonneg := d.anchorNonneg
+  normalized := d.normalized
+  coreLower := d.coreLower
+  coreUpper := d.coreUpper
+  crossLower := d.crossLower
+  crossUpper := d.crossUpper
+  orderedCross := d.orderedCross
+  compatibleNonempty := h
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalConsistency.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem interval_pack_recovered_real {k m : ℕ} (lo hi V : Fin m → Fin k → ℚ)
+    (K : Fin k → Fin k → ℚ) (q : Fin m → ℚ)
+    (hV : ∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) :
+    intervalPack (fun i => (q i : ℝ))
+      (fun i a => (q i : ℝ)*(rationalIntervalRecover lo V q i a : ℝ))
+      (fun a b => (K a b : ℝ)) (H := 0) Fin.elim0=
+    fun j => (intervalPack (α := ℚ) q V K (H := 0) Fin.elim0 j : ℝ) := by
+  have hprod := rational_interval_recovered_product lo hi V q hV
+  funext j
+  unfold intervalPack intervalVariableEncode
+  generalize (rationalIntervalVariableEquiv k m 0).symm j=v
+  rcases v with i | v
+  · rfl
+  · rcases v with v | v
+    · change (q v.1 : ℝ)*(rationalIntervalRecover lo V q v.1 v.2 : ℝ)=(V v.1 v.2 : ℝ)
+      exact_mod_cast hprod v.1 v.2
+    · rcases v with v | v
+      · rfl
+      · exact Fin.elim0 v.1
+
+theorem rational_interval_success_compatible {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I)
+    (x : Fin (m+(m*k+(k*k+rationalGridSize d.M d.r d.η*m))) → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (hout : rationalIntervalRepertoireAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r d.M d.η d.R=some (x,B)) :
+    d.Compatible := by
+  obtain ⟨hpoint,hR,hB⟩ := rational_interval_repertoire_algorithm_output d.loK d.hiK d.lo d.hi
+    d.p d.M d.r d.M d.η d.R x B hout
+  have hsave := hpoint
+  obtain ⟨hq,hm,hV,hK,hKb,_⟩ := hsave
+  have hD := (rational_interval_gap_recovered _ d.lo d.hi _ d.p _ d.M d.r d.M d.η d.orderedCross
+    (rational_interval_point_gap d.loK d.hiK d.lo d.hi _ _ d.p _ d.M d.r d.M d.η _ hpoint).2.2).1
+  have hbR := rational_residual_completion_real_sound (intervalQ (α := ℚ) x)
+    (rationalScore (rationalIntervalRecover d.lo (intervalV (α := ℚ) x) (intervalQ (α := ℚ) x)) d.p) d.M (d.M+d.η) B hB
+  refine ⟨(fun i => (intervalQ (α := ℚ) x i : ℝ)),(fun a b => (intervalK (α := ℚ) x a b : ℝ)),
+    (fun i a => (rationalIntervalRecover d.lo (intervalV (α := ℚ) x) (intervalQ (α := ℚ) x) i a : ℝ)),
+    (fun i j => (B i j : ℝ)),?_,?_,?_,?_,?_,hbR.1,hbR.2.1,?_⟩
+  · intro i
+    change (0 : ℝ) ≤ (intervalQ (α := ℚ) x i : ℝ)
+    exact_mod_cast hq i
+  · change (∑ i, (intervalQ (α := ℚ) x i : ℝ))=(d.r : ℝ)
+    exact_mod_cast hm
+  · intro a b
+    change (intervalK (α := ℚ) x a b : ℝ)= -(intervalK (α := ℚ) x b a : ℝ)
+    exact_mod_cast hK a b
+  · intro a b
+    change (d.loK a b : ℝ) ≤ (intervalK (α := ℚ) x a b : ℝ) ∧
+      (intervalK (α := ℚ) x a b : ℝ) ≤ (d.hiK a b : ℝ)
+    exact_mod_cast hKb a b
+  · intro i a
+    change (d.lo i a : ℝ) ≤ (rationalIntervalRecover d.lo (intervalV (α := ℚ) x) (intervalQ (α := ℚ) x) i a : ℝ) ∧
+      (rationalIntervalRecover d.lo (intervalV (α := ℚ) x) (intervalQ (α := ℚ) x) i a : ℝ) ≤ (d.hi i a : ℝ)
+    exact_mod_cast hD i a
+  · rw [interval_pack_recovered_real d.lo d.hi (intervalV (α := ℚ) x) (intervalK (α := ℚ) x) (intervalQ (α := ℚ) x) hV]
+    have hr := (rational_linear_real_cast_iff d.R (intervalPhysicalVector (α := ℚ) x)).mpr hR
+    simpa only [interval_physical_projection] using hr
+
+theorem rational_interval_compatible_success {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (h : d.Compatible) :
+    ∃ x B, rationalIntervalRepertoireAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r d.M d.η d.R=some (x,B) := by
+  let model := d.toModel h
+  have hf := rational_interval_model_upper_feasible model
+  apply rational_interval_repertoire_algorithm_real_complete d.loK d.hiK d.lo d.hi d.p d.M d.r d.M d.η d.R
+    d.positiveBound d.positiveSlack d.orderedCross
+  exact (rational_linear_real_feasible_iff _).mpr hf
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalInitialize.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Physical consistency is computed by the verified rational program, not arbitrary Real comparison. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_interval_algorithm_none_incompatible {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I)
+    (h : rationalIntervalRepertoireAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r d.M d.η d.R=none) :
+    ¬d.Compatible := by
+  intro hc
+  obtain ⟨x,B,hout⟩ := rational_interval_compatible_success d hc
+  rw [h] at hout
+  cases hout
+
+instance rationalIntervalCompatibilityDecidable {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) : Decidable d.Compatible :=
+  (Option.rec
+    (motive := fun o => rationalIntervalRepertoireAlgorithm d.loK d.hiK d.lo d.hi d.p
+      d.M d.r d.M d.η d.R=o → Decidable d.Compatible)
+    (fun he => isFalse (rational_interval_algorithm_none_incompatible d he))
+    (fun w he => isTrue (rational_interval_success_compatible d w.1 w.2 he))
+    (rationalIntervalRepertoireAlgorithm d.loK d.hiK d.lo d.hi d.p d.M d.r d.M d.η d.R)) rfl
+
+def rationalIntervalInitialize {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) : Option (RationalIntervalModel k m I) :=
+  dite d.Compatible (fun hc => some (d.toModel hc)) (fun _ => none)
+
+theorem rational_interval_initialize_complete {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (h : d.Compatible) :
+    rationalIntervalInitialize d=some (d.toModel h) := by
+  simp only [rationalIntervalInitialize,dite_eq_left h]
+
+theorem rational_interval_initialize_sound {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (model : RationalIntervalModel k m I)
+    (h : rationalIntervalInitialize d=some model) :
+    ∃ hc : d.Compatible, model=d.toModel hc := by
+  by_cases hc : d.Compatible
+  · exact ⟨hc,(Option.some.inj (by simpa only [rationalIntervalInitialize,dite_eq_left hc] using h)).symm⟩
+  · simp only [rationalIntervalInitialize,dite_eq_right hc] at h
+    cases h
+
+theorem rational_interval_initialize_none_iff {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) : rationalIntervalInitialize d=none ↔ ¬d.Compatible := by
+  by_cases hc : d.Compatible <;> simp only [rationalIntervalInitialize,hc,dite_eq_left,dite_eq_right,
+    Option.some_ne_none,not_true_eq_false,not_false_eq_true]
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalInitializedAlgorithm.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+structure RationalIntervalRationalOutput (k m : ℕ) where
+  bracket : ℚ × ℚ
+  q : Fin m → ℚ
+  K : Fin k → Fin k → ℚ
+  D : Fin m → Fin k → ℚ
+  B : Fin m → Fin m → ℚ
+
+def rationalIntervalPackOutput {k m : ℕ} {I : Type*} (d : RationalIntervalModel k m I)
+    (w : (ℚ × ℚ) × ((Fin (m+(m*k+(k*k+rationalGridSize d.M d.r d.η*m))) → ℚ) ×
+      (Fin m → Fin m → ℚ))) : RationalIntervalRationalOutput k m where
+  bracket := w.1
+  q := intervalQ w.2.1
+  K := intervalK w.2.1
+  D := rationalIntervalRecover d.lo (intervalV w.2.1) (intervalQ w.2.1)
+  B := w.2.2
+
+def rationalIntervalInitializedApproximation {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) : Option (RationalIntervalRationalOutput k m) :=
+  (rationalIntervalInitialize d).bind (fun model =>
+    (rationalIntervalAccurateApproximation model ζ).map (rationalIntervalPackOutput model))
+
+theorem rational_interval_initialized_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalInitializedApproximation d ζ=some o) :
+    ∃ model, rationalIntervalInitialize d=some model ∧
+      ∃ z x B, rationalIntervalAccurateApproximation model ζ=some (z,(x,B)) ∧
+        o=rationalIntervalPackOutput model (z,(x,B)) := by
+  cases hm : rationalIntervalInitialize d with
+  | none => simp only [rationalIntervalInitializedApproximation,hm,Option.bind_none] at hout; cases hout
+  | some model =>
+    cases ha : rationalIntervalAccurateApproximation model ζ with
+    | none => simp only [rationalIntervalInitializedApproximation,hm,Option.bind_some,ha,Option.map_none] at hout; cases hout
+    | some w =>
+      have he : rationalIntervalPackOutput model w=o := Option.some.inj
+        (by simpa only [rationalIntervalInitializedApproximation,hm,Option.bind_some,ha,Option.map_some] using hout)
+      exact ⟨model,rfl,w.1,w.2.1,w.2.2,ha,he.symm⟩
+
+theorem rational_interval_initialized_complete {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) (hc : d.Compatible) :
+    ∃ o, rationalIntervalInitializedApproximation d ζ=some o := by
+  obtain ⟨z,x,B,hout⟩ := rational_interval_accurate_complete (d.toModel hc) ζ
+  exact ⟨rationalIntervalPackOutput (d.toModel hc) (z,(x,B)),by
+    simp only [rationalIntervalInitializedApproximation,rational_interval_initialize_complete d hc,
+      Option.bind_some,hout,Option.map_some]⟩
+
+theorem rational_interval_initialized_none_iff {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) :
+    rationalIntervalInitializedApproximation d ζ=none ↔ ¬d.Compatible := by
+  constructor
+  · intro hn hc
+    obtain ⟨o,ho⟩ := rational_interval_initialized_complete d ζ hc
+    rw [hn] at ho
+    cases ho
+  · intro hn
+    have hi := (rational_interval_initialize_none_iff d).mpr hn
+    simp only [rationalIntervalInitializedApproximation,hi,Option.bind_none]
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalInitializedSoundness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+noncomputable section
+
+def RationalIntervalRationalOutput.realData {k m : ℕ} (o : RationalIntervalRationalOutput k m) :
+    IntervalGameData k m :=
+  (fun i => (o.q i : ℝ),fun i a => (o.D i a : ℝ),
+    fun a b => (o.K a b : ℝ),fun i j => (o.B i j : ℝ))
+
+theorem rational_interval_initialized_game {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalIntervalParameters k m I) (ζ : ℚ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalInitializedApproximation d ζ=some o) :
+    ∃ hc : d.Compatible,
+      o.realData ∈ intervalGameClass (d.toModel hc) ∧
+      ∀ a, response (intervalGameMatrix o.realData) (intervalGameWeights (d.toModel hc) o.realData) a ≤
+        (o.bracket.2 : ℝ)+(d.η : ℝ) := by
+  obtain ⟨model,hm,z,x,B,ha,rfl⟩ := rational_interval_initialized_output d ζ o hout
+  obtain ⟨hc,he⟩ := rational_interval_initialize_sound d model hm
+  subst model
+  have hAlg := (rational_interval_approximation_output (d.toModel hc)
+    (rationalLogRounds d.M ζ) z x B ha).2
+  have hClass := rational_interval_algorithm_output_class (d.toModel hc) z.2 x B hAlg
+  have hGame := rational_interval_repertoire_algorithm_full_game d.loK d.hiK d.lo d.hi d.p
+    d.M d.r z.2 d.η d.R d.positiveSlack d.anchorNonneg d.normalized d.coreLower d.coreUpper
+    d.crossLower d.crossUpper d.orderedCross x B hAlg
+  rcases hGame with ⟨_,_,_,_,_,_,_,hrows⟩
+  exact ⟨hc,hClass,hrows⟩
+
+theorem rational_interval_initialized_value {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalIntervalParameters k m I)
+    (ζ : ℚ) (hζ : 0 < ζ) (o : RationalIntervalRationalOutput k m)
+    (hout : rationalIntervalInitializedApproximation d ζ=some o) :
+    ∃ hc : d.Compatible,
+      (o.bracket.1 : ℝ) ≤ intervalGameValue (d.toModel hc) ∧
+      intervalGameValue (d.toModel hc) ≤ (o.bracket.2 : ℝ)+(d.η : ℝ) ∧
+      (o.bracket.2 : ℝ)+(d.η : ℝ)-(o.bracket.1 : ℝ) < (d.η : ℝ)+(ζ : ℝ) := by
+  obtain ⟨model,hm,z,x,B,ha,rfl⟩ := rational_interval_initialized_output d ζ o hout
+  obtain ⟨hc,he⟩ := rational_interval_initialize_sound d model hm
+  subst model
+  exact ⟨hc,rational_interval_accurate_value_enclosure (d.toModel hc) ζ hζ z x B ha⟩
+
+end
+end SparseCompletion

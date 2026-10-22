@@ -134,11 +134,35 @@ Whole-paper submission readiness remains false.
 | Actual optimum | `interval_game_class_compact`, `interval_game_class_nonempty`, `interval_game_value_attained`, `interval_game_class_game_facts`, `interval_game_value_bounds` | The full original q,D,K,B class with physical R(q,qD,K) is compact by finite boxes and closed polynomial constraints. The q≤r box is derived from nonnegative mass. Actual exploitability attains its infimum V∈[0,M]. Class/value proofs allow arbitrary I intersections; algorithms require finite I. Nonempty full action type is explicit for finite row supremum/value. |
 | Output and value | `rational_interval_output_physical`, `rational_interval_algorithm_output_class`, `rational_interval_approximation_value_enclosure`, `rational_interval_accurate_complete`, `rational_interval_accurate_value_enclosure` | Every returned rational game belongs to the original physical class; qD=V includes zero q. True attained optimal witnesses contradict computed infeasible lower endpoints; returned all-row games certify the upper endpoint. Thus L≤V≤U+η, U−L≤M/2^n and automatic log2/ceil rounds give shifted width<η+ζ for ζ>0. One η slack; no optimum oracle or sparse-output bound. |
 
-Raw-input consistency initialization, allocation-grid enumeration/selection and
+Allocation-grid enumeration/selection and
 its zero-residual branch, sparse vertex selection, efficient sorted separation
 and flow, source-explicit within/across-bin payoff construction and operation/bit
-bounds remain open. The source fixedapprox result claims total bit-polynomial
-time. Fourier–Motzkin may be exponential; a bounded pinned-library audit found
+bounds remain open. For M=1, the source fixedapprox result claims time polynomial in input bit
+length, inverse η and log(1/ζ). Fourier–Motzkin may be exponential; a bounded pinned-library audit found
 no reusable object-level polynomial rational-LP proof. This is a formal
 foundation gap, not evidence against the paper's mathematical result. Whole-paper
 readiness remains false.
+
+
+The initializer now computes physical consistency for admissible rational
+parameters: M,η>0, nonnegative anchors, normalization, bounded endpoints and
+ordered cross intervals are explicit proof fields; physical nonemptiness is not.
+Its actual rational solver determines the Boolean branch of a genuine Decidable
+instance for compatible real games. Initialization and the combined approximation
+return None exactly for incompatibility. Returned fixed-dimension rational
+q,K,D,B belong to the original class and have all responses at most U+η. With
+nonempty full action type and ζ>0, L≤V≤U+η and shifted width<η+ζ. This is not
+a parser validating arbitrary untrusted rational inputs. It supplies neither
+sparse output nor a polynomial-time bound.
+
+Exact new contracts are `rational_interval_success_compatible`,
+`rational_interval_compatible_success`,
+`rational_interval_initialize_complete`, `rational_interval_initialize_sound`,
+`rational_interval_initialize_none_iff`,
+`rational_interval_initialized_complete`, `rational_interval_initialized_none_iff`,
+`rational_interval_initialized_game` and `rational_interval_initialized_value`.
+The proofs cover all dimensions; executable controls include zero residual
+actions and the fully empty incompatible case. Allocation execution,
+its whole-class approximation guarantee, sparse selection, efficient sorted
+separation/flow, explicit within/across-bin payoff construction, and polynomial
+cost bounds remain outside this integrated tranche. Whole-paper readiness is false.

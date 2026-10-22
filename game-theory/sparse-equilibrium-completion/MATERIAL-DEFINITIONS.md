@@ -8325,3 +8325,434 @@ Actual elaborated local type/value/proof dependencies and existing reviewed lite
 Exact generated continuous_add is retained through its to_additive source generator and compiled contracts; the actual Prop order in threshold Monotone is implication. No new imported material predicate or computation primitive is invented.
 
 Literal-expansion closure supplement preserves direct context and adds missing inherited consumers. Rat natural ceiling uses its retained FloorSemiring/Rat-floor route; finite-sum equivalence and sumCongr use actual Fin casts/addCases/Sum.map and genuine natural comparison. Finite decisions retain List constructor/membership context, and finite extrema retain nonemptiness. These are exact supporting dependency meanings, not new runtime or operation-count claims. Continuity of multiplication uses joint ContinuousMul; separate continuity alone is not asserted sufficient.
+
+
+## Computed physical consistency initialization
+
+The real compatible-game proposition is decided via the rational feasibility
+algorithm at the universal M response bound. Public Option.rec passes exact
+branch equality to proved success/failure contracts; Decidable carries the
+computed Bool and its reflection proof. Core dite uses that same instance.
+Parameters.toModel copies numerical data and inserts only the physical
+consistency proof. Public Option.bind/map preserve original data when composing
+initialization with approximation; the fixed-dimension payload contains actual
+rational game entries. No arbitrary real order/quantifier decider is supplied.
+
+
+### Exact conditional source expansion for physical initialization
+
+The existing Decidable record now retains Prelude1130–1348, preserving its
+original class/isTrue/isFalse excerpt and adding the actual dependent/nondependent
+conditionals. Earlier uses retain their original decision meaning; the newly
+added conditional expansion is material to the initializer consumers below.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1130-L1348
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; excerpt SHA256 ee2bc2ba3a2aa49b7d4176cb634cbf1d764f768a17681ee0445d149b85a9f9f3.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+
+/--
+A `Bool` (that is, `decide p`) paired with a proof of `p` if `decide p` is `true` or a proof of `¬p`
+if `decide p` is `false`. The easiest way to extract these proofs is to use `of_decide_eq_true` or
+`of_decide_eq_false`.
+
+`Decidable` instances are primarily used via `if`-expressions and the tactic `decide`. In
+conditional expressions, the `Decidable` instance for the proposition is used to select a branch. At
+run time, this case distinction code is identical to that which would be generated for a
+`Bool`-based conditional. In proofs, the tactic `decide` synthesizes an instance of `Decidable p`,
+attempts to reduce `decide p` to `true`, and then succeeds with the proof `of_decide_eq_true rfl`
+if it can.
+
+Because `Decidable` carries data, when writing `@[simp]` lemmas which include a `Decidable` instance
+on the LHS, it is best to use `{_ : Decidable p}` rather than `[Decidable p]` so that non-canonical
+instances can be found via unification rather than instance synthesis.
+-/
+class Decidable (p : Prop) where
+  /--
+  Introduces `Decidable p` using a boolean `decide` and a proof of `¬p` if `decide` is `false`
+  or `p` if `decide` is `true`.
+  -/
+  intro ::
+  /--
+  Converts a decidable proposition into a `Bool`.
+
+  If `p : Prop` is decidable, then `decide p : Bool` is the Boolean value
+  that is `true` if `p` is true and `false` if `p` is false.
+  -/
+  decide : Bool
+  /--
+  `decide p` reflects `p`, i.e. `decide p` is equivalent to `p`. Reduces to a proof of `p` or `¬p`
+  depending on the value of `decide p`.
+  -/
+  reflects_decide (p) : decide.Reflects p
+
+attribute [implicit_reducible] Decidable.decide
+
+/-- Proves that `p` is decidable by supplying a proof of `¬p` -/
+@[match_pattern] abbrev Decidable.isFalse (h : Not p) : Decidable p := ⟨false, h⟩
+
+/-- Proves that `p` is decidable by supplying a proof of `p` -/
+@[match_pattern] abbrev Decidable.isTrue (h : p) : Decidable p := ⟨true, h⟩
+
+/--
+The default eliminator for `Decidable`, using `isFalse` and `isTrue`.
+-/
+@[cases_eliminator, induction_eliminator, elab_as_elim]
+abbrev Decidable.falseTrueCases {p : Prop} {motive : Decidable p → Sort u}
+    (isFalse : ∀ h, motive (isFalse h)) (isTrue : ∀ h, motive (isTrue h))
+    (t : Decidable p) : motive t :=
+  t.casesOn fun x => x.casesOn isFalse isTrue
+
+export Decidable (isTrue isFalse decide)
+
+/--
+A decidable predicate.
+
+A predicate is decidable if the corresponding proposition is `Decidable` for each possible argument.
+-/
+abbrev DecidablePred {α : Sort u} (r : α → Prop) :=
+  (a : α) → Decidable (r a)
+
+/--
+A decidable relation.
+
+A relation is decidable if the corresponding proposition is `Decidable` for all possible arguments.
+-/
+abbrev DecidableRel {α : Sort u} {β : Sort v} (r : α → β → Prop) :=
+  (a : α) → (b : β) → Decidable (r a b)
+
+/--
+Propositional equality is `Decidable` for all elements of a type.
+
+In other words, an instance of `DecidableEq α` is a means of deciding the proposition `a = b` is
+for all `a b : α`.
+-/
+abbrev DecidableEq (α : Sort u) :=
+  (a b : α) → Decidable (Eq a b)
+
+/--
+Checks whether two terms of a type are equal using the type's `DecidableEq` instance.
+-/
+def decEq {α : Sort u} [inst : DecidableEq α] (a b : α) : Decidable (Eq a b) :=
+  inst a b
+
+set_option linter.unusedVariables false in
+theorem decide_eq_true : [inst : Decidable p] → p → Eq (decide p) true
+  | isTrue  _, _   => rfl
+  | isFalse h₁, h₂ => absurd h₂ h₁
+
+theorem decide_eq_false : [Decidable p] → Not p → Eq (decide p) false
+  | isTrue  h₁, h₂ => absurd h₁ h₂
+  | isFalse _, _   => rfl
+
+theorem of_decide_eq_true [inst : Decidable p] : Eq (decide p) true → p := fun h =>
+  match (generalizing := false) inst with
+  | isTrue  h₁ => h₁
+  | isFalse h₁ => absurd h (Bool.ne_true_of_eq_false (decide_eq_false h₁))
+
+theorem of_decide_eq_false [inst : Decidable p] : Eq (decide p) false → Not p := fun h =>
+  match (generalizing := false) inst with
+  | isTrue  h₁ => absurd h (Bool.ne_false_of_eq_true (decide_eq_true h₁))
+  | isFalse h₁ => h₁
+
+theorem of_decide_eq_self_eq_true [inst : DecidableEq α] (a : α) : Eq (decide (Eq a a)) true :=
+  match (generalizing := false) inst a a with
+  | isTrue  _  => rfl
+  | isFalse h₁ => absurd rfl h₁
+
+-- TODO: consider marking as `macro_inline` once the compiler supports it (#14859)
+@[inline] instance {p q} [dp : Decidable p] [dq : Decidable q] : Decidable (And p q) where
+  decide := and (decide p) (decide q)
+  reflects_decide :=
+    match dp, dq with
+    | isTrue  hp, isTrue  hq => ⟨hp, hq⟩
+    | isTrue   _, isFalse hq => fun h => hq h.2
+    | isFalse hp, _          => fun h => hp (And.left h)
+
+-- TODO: consider marking as `macro_inline` once the compiler supports it (#14859)
+@[inline] instance [dp : Decidable p] [dq : Decidable q] : Decidable (Or p q) where
+  decide := or (decide p) (decide q)
+  reflects_decide :=
+    match dp, dq with
+    | isTrue  hp, _          => .inl hp
+    | isFalse  _, isTrue  hq => .inr hq
+    | isFalse hp, isFalse hq => fun
+      | Or.inl h => hp h
+      | Or.inr h => hq h
+
+@[inline]
+instance [dp : Decidable p] : Decidable (Not p) where
+  decide := not (decide p)
+  reflects_decide :=
+    match dp with
+    | isTrue  hp => absurd hp
+    | isFalse hp => hp
+
+/--
+Decides whether two Booleans are equal.
+
+This function should normally be called via the `DecidableEq Bool` instance that it exists to
+support.
+-/
+@[inline, implicit_reducible] def Bool.decEq (a b : Bool) : Decidable (Eq a b) where
+  decide := a.beq b
+  reflects_decide :=
+    match a, b with
+    | false, false => rfl
+    | false, true => Bool.noConfusion
+    | true, false => Bool.noConfusion
+    | true, true => rfl
+
+@[macro_inline] instance : DecidableEq Bool :=
+  Bool.decEq
+
+/--
+`BEq α` is a typeclass for supplying a boolean-valued equality relation on
+`α`, notated as `a == b`. Unlike `DecidableEq α` (which uses `a = b`), this
+is `Bool` valued instead of `Prop` valued, and it also does not have any
+axioms like being reflexive or agreeing with `=`. It is mainly intended for
+programming applications. See `LawfulBEq` for a version that requires that
+`==` and `=` coincide.
+
+Typically we prefer to put the "more variable" term on the left,
+and the "more constant" term on the right.
+-/
+class BEq (α : Type u) where
+  /-- Boolean equality, notated as `a == b`. -/
+  beq : α → α → Bool
+
+open BEq (beq)
+
+instance (priority := 500) [DecidableEq α] : BEq α where
+  beq a b := decide (Eq a b)
+
+
+/--
+"Dependent" if-then-else, normally written via the notation `if h : c then t(h) else e(h)`,
+is sugar for `dite c (fun h => t(h)) (fun h => e(h))`, and it is the same as
+`if c then t else e` except that `t` is allowed to depend on a proof `h : c`,
+and `e` can depend on `h : ¬c`. (Both branches use the same name for the hypothesis,
+even though it has different types in the two cases.)
+
+We use this to be able to communicate the if-then-else condition to the branches.
+For example, `Array.get arr i h` expects a proof `h : i < arr.size` in order to
+avoid a bounds check, so you can write `if h : i < arr.size then arr.get i h else ...`
+to avoid the bounds check inside the if branch. (Of course in this case we have only
+lifted the check into an explicit `if`, but we could also use this proof multiple times
+or derive `i < arr.size` from some other proposition that we are checking in the `if`.)
+-/
+@[macro_inline, implicit_reducible]
+def dite {α : Sort u} (c : Prop) [h : Decidable c] (t : c → α) (e : Not c → α) : α :=
+  h.decide.casesOn e t h.reflects_decide
+
+/-! # if-then-else -/
+
+/--
+`if c then t else e` is notation for `ite c t e`, "if-then-else", which decides to
+return `t` or `e` depending on whether `c` is true or false. The explicit argument
+`c : Prop` does not have any actual computational content, but there is an additional
+`[Decidable c]` argument synthesized by typeclass inference which actually
+determines how to evaluate `c` to true or false. Write `if h : c then t else e`
+instead for a "dependent if-then-else" `dite`, which allows `t`/`e` to use the fact
+that `c` is true/false.
+-/
+/-
+Because Lean uses a strict (call-by-value) evaluation strategy, the signature of this
+function is problematic in that it would require `t` and `e` to be evaluated before
+calling the `ite` function, which would cause both sides of the `if` to be evaluated.
+Even if the result is discarded, this would be a big performance problem,
+and is undesirable for users in any case. To resolve this, `ite` is marked as
+`@[macro_inline]`, which means that it is unfolded during code generation, and
+the definition of the function uses `fun _ => t` and `fun _ => e` so this recovers
+the expected "lazy" behavior of `if`: the `t` and `e` arguments delay evaluation
+until `c` is known.
+-/
+@[macro_inline, implicit_reducible]
+def ite {α : Sort u} (c : Prop) [h : Decidable c] (t e : α) : α :=
+  dite c (fun _ => t) (fun _ => e)
+
+```
+
+### Precise compiled usage for the12-proof physical initializer tranche
+
+Actual elaborated local type/value/proof closure, existing literal expansions and exact conditional source determine these new uses. Every prior recorded assignment is retained. Actual product-set notation Set.instSProd additionally corrects three earlier omitted Set.prod consumers only in these future bytes: interval_game_class_nonempty, interval_game_class_game_facts and rational_interval_algorithm_output_class. Historical416 source and receipts remain immutable.
+
+**Fintype**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Finset**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Finset.prod**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Set.Icc**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Nat.ceil**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**FloorSemiring**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Convex**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**StarConvex**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Finset.card**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**IsCompact**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**IsClosed**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Continuous**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**LinearMap**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**ContinuousLinearMap**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Set.image**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Equiv**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Finset.image**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Finset.Nonempty**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Finset.max'**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Finset.sup'**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**LinearOrder**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**InfSet**: SparseCompletion.rational_interval_initialized_value.
+
+**ConditionallyCompleteLattice**: SparseCompletion.rational_interval_initialized_value.
+
+**ConditionallyCompleteLinearOrder**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Set.prod**: SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_value.
+
+**Rat.castRec**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Set.Nonempty**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Finset.filter**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Multiset.filter**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.cons**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**finProdFinEquiv**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**finSumFinEquiv**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Equiv.sumCongr**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Equiv.refl**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Equiv.symm**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Equiv.trans**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Subtype**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Bool.Reflects**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Decidable**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**DecidablePred**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**LE-and-LT**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Min-and-Max**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Prod-with-right-associated-tuple-convention**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Add-and-Mul-classes**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**SMul-class**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**self-scalar-action-from-multiplication**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**PUnit**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Unit**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Sum**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Sum.elim**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat rational constants**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat comparison and decidability**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat multiplication**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat addition and negation**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat subtraction**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Nonempty**: SparseCompletion.rational_interval_initialized_value.
+
+**Nat.sqrt and decreasing Newton iteration**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Nat.sqrt_le and Nat.lt_succ_sqrt**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Rat.floor**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat.neg**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat.le_floor_iff**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Option constructors**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**List constructors**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**List.Mem and Membership**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**List.decidableBAll**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.induction**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.cases and zero/successor contracts**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Option.map**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Rat inversion, natural powers and division**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Option.bind exact pinned computation and branch equations**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Option.rec generated eliminator**: SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Fin.castLT and castLE**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.castAdd**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.natAdd**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.subNat**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.addCases**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Fin.addCases left/right contracts**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Sum.map**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Nat.log2 exact definition and recursion**: SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value.
+
+**Nat.log2 power contracts including zero**: SparseCompletion.rational_interval_initialized_value.
+
+**Nat bounded universal decision logical model**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Nat bounded universal Bool runtime loop**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Nat bounded universal Bool correctness**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Nat bounded universal runtime decision and csimp replacement plus Fin wrapper**: SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Batteries/Classes/RatCast.lean**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.
+
+**Batteries/Data/Fin/Basic.lean**: SparseCompletion.interval_pack_recovered_real, SparseCompletion.rational_interval_algorithm_none_incompatible, SparseCompletion.rational_interval_compatible_success, SparseCompletion.rational_interval_initialize_complete, SparseCompletion.rational_interval_initialize_none_iff, SparseCompletion.rational_interval_initialize_sound, SparseCompletion.rational_interval_initialized_complete, SparseCompletion.rational_interval_initialized_game, SparseCompletion.rational_interval_initialized_none_iff, SparseCompletion.rational_interval_initialized_output, SparseCompletion.rational_interval_initialized_value, SparseCompletion.rational_interval_success_compatible.

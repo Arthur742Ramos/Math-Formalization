@@ -491,5 +491,12 @@ example (f g : ℝ → ℝ) (hf : Continuous f) (hg : Continuous g) :
 example : Continuous (fun p : ℝ × ℝ => p.1*p.2) := continuous_mul
 example (P Q : Prop) : P ≤ Q ↔ (P → Q) := Iff.rfl
 
+
+/- Exact core dependent-conditional laws for the computed initializer. -/
+example {α : Sort*} (c : Prop) [Decidable c] (h : c)
+    (t : c → α) (e : ¬c → α) : dite c t e=t h := dite_eq_left h
+example {α : Sort*} (c : Prop) [Decidable c] (h : ¬c)
+    (t : c → α) (e : ¬c → α) : dite c t e=e h := dite_eq_right h
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit
