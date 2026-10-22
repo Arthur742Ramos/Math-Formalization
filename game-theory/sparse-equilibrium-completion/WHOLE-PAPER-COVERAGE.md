@@ -6,11 +6,11 @@ counts 27 formal environments (26 labeled and one unlabeled) and 32 additional
 substantive claim groups. These tables distinguish mathematical existence,
 actual functional programs and arithmetic/bit-cost assertions.
 
-The 71-proof follow-on tranche has been integrated after strict local compilation
-and independent internal AI source/mathematical review. Its final integrated
-exact-source build, exports, protected comparison and kernel checks must be
-bound to a frozen commit in an external receipt. This document does not certify
-those checks or whole-paper readiness. The no-grid zero-block result assumes
+The 71-proof tranche passed all12 native gates at predecessor
+f3c300572e22fb88de71183aee09ccc66785c3da, with a historical retained-source
+completeness qualification. The current43 additions correct that inventory and
+require a new exact-source receipt; predecessor checks do not certify altered
+source or whole-paper readiness. The no-grid zero-block result assumes
 positive residual mass; earlier separate results cover zero-mass branches.
 
 ## All 27 formal result environments
@@ -31,9 +31,9 @@ positive residual mass; earlier separate results cover zero-mass branches.
 | `lb:cor:rate` — Sharp order of approximate support complexity (sections/rigidity.tex:220) | Actual attained residual-support minimum, zero=m and matching constants on0<epsilon<=1. `uniformMinimumResidualSupport_attained`, `uniformMinimumResidualSupport_zero`, `uniformMinimumResidualSupport_fixed_sharp`. | No infimum/surrogate replacement. |
 | `lb:thm:naturalapprox` — Robust support obstruction for two lower bounds (sections/rigidity.tex:236) | Actual minimum-share residual minimum and matching small-positive-tolerance law; exact origin rigidity. `uniformMinimumResidualSupport_natural_sharp`, `uniform_minimum_share_inverse_square`. | Tolerance restriction epsilon<=1/1024 is retained. |
 | `UNLABELED:uniform-total-support` — Uniform total-support law for two minimum shares (sections/rigidity.tex:267) | Actual attained total-support minimum, both commitment classes, origin=m+2 and constants sqrt(3/1216),5 for0<epsilon<=1. `uniformMinimumTotalSupport_sharp`, `uniformMinimumTotalSupport_zero`, `uniform_witness_total_support_card`. | This is the sole unlabeled theorem-like environment and must remain in the result count. |
-| `sp:cor:sharpk` — Sharp dependence on the number of anchors (sections/joint_support.tex:1) | Every exact-feasible normalized instance has the upper witness; actual mandatory-clone family forces source lower constant in both commitment classes for every k>=2. `joint_anchor_support_order_general`, `cloned_uniform_total_support_lower`, `normalized_joint_support_upper`. | No worst-case-of-attained-minima operator S has been constructed. Source corollary is M=1; introduction general-M rescaling/lower-family packaging is still absent. |
+| `sp:cor:sharpk` — Sharp dependence on the number of anchors (sections/joint_support.tex:1) | Every exact-feasible normalized instance has the upper witness; actual mandatory-clone family forces source lower constant in both commitment classes for every k>=2. `joint_anchor_support_order_general`, `cloned_uniform_total_support_lower`, `normalized_joint_support_upper`. | The integrated43 tranche constructs actual attained minima and their attained worst-case operator; general-M payoff rescaling and actual finite clone family prove `worstCaseSupport_sharp_general`. Exact-source verification remains external to this source. |
 | `sp:thm:gap` — Linear programming gap decision (sections/algorithms.tex:4) | Actual rational LP decision, true Real-to-Q necessity/completeness, rejection excludes true compatible games, and actual rational q,B returned at rho+eta. `rational_gap_solve_none_excludes_real_completion`, `rational_gap_algorithm_sound`, `rational_gap_algorithm_complete`, `rational_gap_encoding_rows`. | Fourier–Motzkin may be exponential; no polynomial LP or flow claim. Executed H is Nat.sqrt(ceil(Mr/eta))+1, not literal source H. Extra trivial guard/normalization rows are counted honestly. |
-| `sp:cor:certificate` — Compact witness and direct verification (sections/algorithms.tex:30) | Committed compact certificate iff/full-game checker. Integrated71 adds actual finite tables, connected Rat-operation ledger, fixed/floor commitments, selected interval checks, storage and accepted-input rates. Committed `compact_block_certificate_iff`, `RationalCertificate.accepted_full_game`; integrated `rational_counted_certificate_full_game`, `rational_counted_interval_fixed_bound`, `rational_counted_interval_fixed_valid_rate`. | Integrated unit-Rat arithmetic model only, not machine/bit/runtime-parser or arbitrary-R cost. The new proof/data/meaning bytes are integrated; their exact-commit protected/native gates remain pending. |
+| `sp:cor:certificate` — Compact witness and direct verification (sections/algorithms.tex:30) | Committed compact certificate iff/full-game checker. Integrated71 adds actual finite tables, connected Rat-operation ledger, fixed/floor commitments, selected interval checks, storage and accepted-input rates. Committed `compact_block_certificate_iff`, `RationalCertificate.accepted_full_game`; integrated `rational_counted_certificate_full_game`, `rational_counted_interval_fixed_bound`, `rational_counted_interval_fixed_valid_rate`. | Integrated unit-Rat arithmetic model only, not machine/bit/runtime-parser or arbitrary-R cost. The integrated71 passed all12 native gates at f3c300572e22fb88de71183aee09ccc66785c3da. Its historical retained-source completeness qualification is corrected in the current43 candidate; this candidate requires its own receipt. |
 | `sp:cor:fixedapprox` — Fixed-anchor additive approximation (sections/algorithms.tex:49) | Actual attained gap optimum W and game optimum V, W<=V<=W+eta, executable rational decision/bisection and logarithmic round choice, actual game/value bracket. `gap_original_infimum_eq`, `fixed_anchor_additive_value_enclosure`, `rational_certified_approximation_sound`, `rational_log_rounds_width`. | Polynomial coefficient encoding, LP/flow operations and end-to-end bit-time remain open. Round count alone is not polynomial total cost. |
 | `sp:prop:interval` — Interval-anchor LP gap decision (sections/algorithms.tex:86) | Actual q,V,K,aux finite rational matrix and exact Q/Real equivalence; zero-q lower-endpoint recovery; actual normalized compatible returned game with one eta. `interval_gap_epigraph_iff`, `rational_interval_system_point`, `rational_interval_system_real_point`, `rational_interval_algorithm_full_game`. | Physical finite-linear R extension/value search is proved beyond source residual-only R. No arbitrary nonlinear R solver or efficient LP claim. |
 | `sp:cor:gridp` — Additive approximation for a fixed number of anchors (sections/algorithms.tex:111) | Actual global floor class with varying p,q; rounding/L1/grid count; actual enumeration and selection; accurate tau. Integrated general-floor wrapper now returns actual global rational interval(tau−epsilon,tau). `optimistic_allocation_grid_bounds`, `rational_grid_tuples_length`, `rational_floor_approximation_global`; integrated `rational_floor_certified_value`, `rational_floor_certified_none_iff`. | Source FPTAS polynomial cost is unproved. Current step epsilon/(6M(k+1)) is more conservative than source cover step epsilon/(6Mk). No slice L is asserted globally valid. |
@@ -88,7 +88,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 | # | Source claim group | Current status after integrated71 |
 | --- | --- | --- |
 | 1 | Every finite nonempty skew game has a symmetric equilibrium; unrestricted compatibility is automatic. (main.tex:99-101) | No project equilibrium-existence/minimax statement found. This standard background claim is separate from the completed conditional compatibility theorems. |
-| 2 | General M sharp joint support law with sqrt(M/eta). (main.tex:119-125) | Formal clone/joint order theorem is normalized M=1; scalar payoff/tolerance rescaling has not been bundled. |
+| 2 | General M sharp joint support law with sqrt(M/eta). (main.tex:119-125) | Integrated43: `joint_anchor_support_scaled_order_general` and `worstCaseSupport_sharp_general` prove general-M bounds for all k≥2,m>0,M>0,0<eta≤M; actual physical game lower family and attained worst-case operator. |
 | 3 | x^T A x=0, nonnegative exploitability and symmetric epsilon-Nash interpretation. (main.tex:235-241) | Weighted skew cancellation, actual finite max exploitability and nonnegativity are formalized. No bimatrix Nash/deviation definition and equivalence theorem appears in the package. |
 | 4 | Partial-mass integrated-score curve Lambda and its call variational identities. (completion.tex:45-67) | Cuts/call conclusion proved directly. No need to report the absent Lambda definition as failure of the envelope theorem. |
 | 5 | Strictly increasing truncated quadratic nodes and terminal node. (sparsification.tex:8) | Grid interval coverage and terminal equality used in exact sparse endpoint proof; source r>0 assumptions matter. |
@@ -124,8 +124,8 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 
 ### Mathematical strengthening and direct-corollary packaging
 
-- General-M joint support order requires a payoff/tolerance rescaling wrapper and the corresponding scaled lower family. The current exact quantified joint law is normalized M=1; the abstract/introduction general-M formulation must not be claimed literally covered by that theorem alone.
-- The worst-case support operator S(k,m,eta), defined from actual per-instance attained support minima, is not constructed. Quantified universal upper plus actual clone lower statements already establish the normalized order mathematically; no unconstructed operator is assumed.
+- General-M quantified joint bounds and actual worst-case support law are integrated in43 proofs; their exact-source mechanical verification must be bound to the new candidate.
+- Actual per-instance attained minima and the attained worst-case maximum are constructed. Observation invariance and raw-input representation justify the feasibility-certificate packaging. Polynomial LP/flow/bit-cost assertions remain open.
 - The uniform family’s **minimum** constrained-edge cover number exactly2 is not an explicit graph theorem. The threshold-strong-edge cover implication for weak constraints is also an unbundled direct corollary.
 - An explicit interval all-subset rotated-cone/rational representation wrapper, sharper numerical observation margins, and the standard symmetric epsilon-Nash/deviation-definition bridge remain small separate formalization items. These are not missing central completion/rigidity proofs.
 - The source concrete245-action example (m243,h9,delta1/5000, error91/1417176, core change91/531441, exact11-support witness) is not instantiated or executed in the current Lean project. Generic explicit-bin/core formulas make this tractable. No claim that11 is minimal should be added.
@@ -152,7 +152,37 @@ Statistical coverage, time-uniform confidence guarantees, sample complexity, cau
 
 ## Readiness and attribution
 
-Whole-paper completion and submission readiness remain **false**. The integrated71 still require exact source/meaning/usage checks, independent entrypoint bridges, exact-commit builds and axiom audits, protected dependency identity comparison with deliberately altered-helper rejection, exports and kernel checks. No existing failed receipt may be relabeled as a pass, and an earlier baseline receipt does not verify this candidate.
+Whole-paper completion and submission readiness remain **false**. Predecessor f3c300572e22fb88de71183aee09ccc66785c3da passed all12 native gates, with the historical retained Nat.find/WF/Classical source-completeness qualification. The current43 candidate corrects that source inventory and adds general-M and actual worst-case proofs. It requires its own exact-source review and receipt for both entrypoint bridges, builds, axiom audits, protected dependency identities and altered-helper rejection, exports and kernels. Failed receipts remain failed; predecessor receipts certify only their own source.
 
 The authenticated manuscript retains its anonymous-draft authorship statement. The user separately supplied Arthur/David/Ruy paper attribution, which remains distinct from unconfirmed human Lean authors/maintainers. No coauthor approval, external peer review or publication authorization is inferred. No submission or external publication action was taken.
 
+
+## General payoff bounds and actual worst-case support
+
+The 43-proof follow-on adds payoff rescaling, general-M upper and hard-instance
+lower bounds, and actual attained per-instance support minima and their attained
+worst-case maximum. For every k≥2, m>0, M>0 and 0<η≤M, in both fixed-anchor and
+minimum-anchor-share classes, the maximum of those minima lies between
+`(sqrt(3/1216)/2) * min(k+m,k+sqrt(M/η))` and
+`2 * min(k+m,k+sqrt(M/η))`. The hard input is an actual finite-label scaled clone
+game; responses, anchor commitments and support cardinality are transported
+through an equivalence. The zero game only establishes nonemptiness.
+`worstCaseSupport_sharp_general` proves the two-sided bound.
+
+`PhysicalAnchoredWitness`, `AnchoredSupportProblem`, `physicalMinimumSupport` and
+`supportProblemMinimum` quantify over actual bounded skew completions and
+normalized strategies satisfying every response inequality. Existence of their
+least support is proved from original feasible data. `worstCaseSupport` takes
+the maximum over all such problems using the proved finite cardinality cap.
+`supportProblemMinimum_observation_invariant` proves that the original feasible
+certificate does not affect that minimum when observed K,D and floors agree;
+`anchored_support_problem_representation` represents every raw feasible input.
+These extrema use genuine classical predicates and do not provide an executable
+optimizer or a polynomial-time decision procedure.
+
+This candidate has246 mathematical modules,953 source theorem audits and843
+protected selected contracts. Strict scratch compilation and independent
+internal AI mathematical review cover the43 additions. Final integrated builds,
+separate protected identities, altered-helper rejection, exports and kernel
+checks require a new immutable exact-source receipt. Predecessor receipts
+remain evidence for their own source only.

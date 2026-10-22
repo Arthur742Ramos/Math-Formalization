@@ -19286,3 +19286,882 @@ theorem arbitrary_vertex_cover_uniform_exact {ν : Type*} [Fintype ν]
 
 end
 end SparseCompletion
+
+/- Fixed source body: PayoffScaling.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual payoff scaling, for extending unit-bound joint-support constructions. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem response_payoff_scale {ι : Type*} [Fintype ι]
+    (A : ι → ι → ℝ) (x : ι → ℝ) (c : ℝ) (i : ι) :
+    response (fun a b => c*A a b) x i=c*response A x i := by
+  simp only [response, mul_assoc, Finset.mul_sum]
+
+theorem block_payoff_scale {α ι : Type*}
+    (K : α → α → ℝ) (D : ι → α → ℝ) (B : ι → ι → ℝ) (c : ℝ) :
+    blockMatrix (fun a b => c*K a b) (fun i a => c*D i a) (fun i j => c*B i j)=
+      fun a b => c*blockMatrix K D B a b := by
+  funext a b
+  cases a <;> cases b <;> simp only [blockMatrix, mul_neg]
+
+theorem inverse_sqrt_tolerance_scale (M η : ℝ) :
+    1/Real.sqrt (η/M)=Real.sqrt (M/η) := by
+  rw [show η/M=(M/η)⁻¹ by simp only [inv_div], Real.sqrt_inv]
+  simp only [one_div, inv_inv]
+
+end
+end SparseCompletion
+
+/- Fixed source body: ScaledJointLower.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+General-M scaling of the actual mandatory-clone support obstruction. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def ScaledClonedUniformWitness (n m : ℕ) (M ε : ℝ) (fixed : Bool)
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) : Prop :=
+  (∀ j, 0 ≤ q j) ∧ (∀ h, cloneShares n h ≤ p h) ∧
+  (fixed=true → p=cloneShares n) ∧
+  (∑ h, p h)+(∑ j, q j)=1 ∧ IsSkew B ∧
+  (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+  ∀ v, response
+    (blockMatrix
+      (fun a b => M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b)
+      (fun i a => M*clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))) i a) B)
+    (blockWeights p q) v ≤ ε
+
+theorem scaled_cloned_witness_unit {n m : ℕ} (M ε : ℝ) (hM : 0 < M) (fixed : Bool)
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (h : ScaledClonedUniformWitness n m M ε fixed p q B) :
+    ClonedUniformWitness n m (ε/M) fixed p q (fun i j => B i j/M) := by
+  rcases h with ⟨hq,hp,hfix,hm,hsk,hb,hr⟩
+  refine ⟨hq,hp,hfix,hm,?_,?_,?_⟩
+  · intro i j
+    change B i j/M = -(B j i/M)
+    rw [hsk i j, neg_div]
+  · intro i j
+    constructor
+    · exact (le_div_iff₀ hM).mpr (by simpa only [neg_one_mul] using (hb i j).1)
+    · exact (div_le_iff₀ hM).mpr (by simpa only [one_mul] using (hb i j).2)
+  · intro v
+    have he : blockMatrix
+        (fun a b => M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b)
+        (fun i a => M*clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))) i a) B =
+        fun a b => M*blockMatrix
+          (clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))))
+          (clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))))
+          (fun i j => B i j/M) a b := by
+      funext a b
+      cases a <;> cases b <;> simp only [blockMatrix, mul_neg, mul_div_cancel₀ _ (ne_of_gt hM)]
+    have hv := hr v
+    rw [he,response_payoff_scale] at hv
+    apply (le_div_iff₀ hM).mpr
+    nlinarith
+
+theorem scaled_cloned_total_support_lower {n m : ℕ} (hm : 0 < m)
+    (M η : ℝ) (hM : 0 < M) (hη : 0 < η) (fixed : Bool)
+    (p : CloneAnchors n → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (h : ScaledClonedUniformWitness n m M η fixed p q B) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+      min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) ≤
+      ((Finset.univ.filter fun v => blockWeights p q v ≠ 0).card : ℝ) := by
+  have hw := scaled_cloned_witness_unit M η hM fixed p q B h
+  have hl := cloned_uniform_total_support_lower hm (η/M) (div_pos hη hM) fixed p q
+    (fun i j => B i j/M) hw
+  simpa only [inverse_sqrt_tolerance_scale] using hl
+
+
+theorem scaled_cloned_dense (n m : ℕ) (hm : 0 < m) (M ε : ℝ)
+    (hM : 0 ≤ M) (hε : 0 ≤ ε) (fixed : Bool) :
+    ScaledClonedUniformWitness n m M ε fixed (cloneShares n)
+      (uniformTarget m (1/((4 : ℕ) : ℝ))) (fun i j => M*orderedBlock 1 i j) := by
+  obtain ⟨hq,hp,hfix,hn,hsk,hb,hr⟩ := cloned_uniform_dense n m hm 0 (le_refl 0) fixed
+  refine ⟨hq,hp,hfix,hn,?_,?_,?_⟩
+  · intro i j
+    change M*orderedBlock 1 i j = -(M*orderedBlock 1 j i)
+    rw [hsk i j, mul_neg]
+  · intro i j
+    constructor
+    · have hh := mul_le_mul_of_nonneg_left (hb i j).1 hM
+      simpa only [mul_neg, mul_one] using hh
+    · have hh := mul_le_mul_of_nonneg_left (hb i j).2 hM
+      simpa only [mul_one] using hh
+  · intro v
+    rw [block_payoff_scale, response_payoff_scale]
+    exact le_trans (mul_nonpos_of_nonneg_of_nonpos hM (hr v)) hε
+
+theorem scaled_cloned_observations_bounded (n m : ℕ) (hm : 0 < m)
+    (M : ℝ) (hM : 0 ≤ M) :
+    IsSkew (fun a b => M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b) ∧
+    (∀ a b, -M ≤ M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b ∧
+      M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b ≤ M) ∧
+    (∀ i a, -M ≤ M*clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))) i a ∧
+      M*clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))) i a ≤ M) := by
+  obtain ⟨hsk,hK,hD⟩ := cloned_uniform_observations_bounded n m hm
+  refine ⟨?_,?_,?_⟩
+  · intro a b
+    change M*_ = -(M*_)
+    rw [hsk a b, mul_neg]
+  · intro a b
+    constructor
+    · simpa only [mul_neg,mul_one] using mul_le_mul_of_nonneg_left (hK a b).1 hM
+    · simpa only [mul_one] using mul_le_mul_of_nonneg_left (hK a b).2 hM
+  · intro i a
+    constructor
+    · simpa only [mul_neg,mul_one] using mul_le_mul_of_nonneg_left (hD i a).1 hM
+    · simpa only [mul_one] using mul_le_mul_of_nonneg_left (hD i a).2 hM
+
+end
+end SparseCompletion
+
+/- Fixed source body: ScaledJointUpper.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Universal joint-support upper bound at arbitrary positive payoff scale. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem bounded_mass_grid_bound (M r η : ℝ) (hM : 0 < M) (hr : r ≤ 1)
+    (hη : 0 < η) (hηM : η ≤ M) :
+    (gridSize M r η : ℝ) ≤ ((2 : ℕ) : ℝ)*Real.sqrt (M/η) := by
+  have hQ : 1 ≤ Real.sqrt (M/η) := by
+    have hd : (1 : ℝ) ≤ M/η := (le_div_iff₀ hη).mpr (by simpa only [one_mul] using hηM)
+    simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt hd
+  have hroot : Real.sqrt (M*r/η) ≤ Real.sqrt (M/η) := by
+    apply Real.sqrt_le_sqrt
+    exact (div_le_div_iff_of_pos_right hη).mpr (mul_le_of_le_one_right (le_of_lt hM) hr)
+  have hc := Nat.ceil_lt_add_one (Real.sqrt_nonneg (M*r/η))
+  change (gridSize M r η : ℝ) < Real.sqrt (M*r/η)+1 at hc
+  norm_num only [Nat.cast_ofNat]
+  linarith
+
+theorem normalized_scaled_joint_support_upper {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η) (hηM : η ≤ M)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r=1) (hqmass : ∑ i, q i=r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a)=1 ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (∀ h, (∑ i, q' i*D i h)=∑ i, q i*D i h) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) ∧
+      ((Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card : ℝ) ≤
+        (2 : ℕ)*min ((k : ℝ)+Fintype.card ι) ((k : ℝ)+Real.sqrt (M/η)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  classical
+  obtain ⟨q',B',hn,hm,_ha,hs,_hc,ht,hmo,hsk,hb,hrows⟩ :=
+    normalized_exact_sparse_witness_all_mass k K D B p q M r η hM hr hη
+      hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+  refine ⟨q',B',hn,hm,hs,hmo,hsk,hb,hrows,?_⟩
+  have hr1 : r ≤ 1 := by
+    have hsp := Finset.sum_nonneg (fun h (_ : h ∈ Finset.univ) => hp h)
+    linarith
+  have hgrid := bounded_mass_grid_bound M r η hM hr1 hη hηM
+  norm_num only [Nat.cast_ofNat] at hgrid
+  have hdim := le_trans ht (min_le_left _ _)
+  have hgridnat := le_trans ht (min_le_right _ _)
+  have hdimR : ((Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card : ℝ) ≤ k+Fintype.card ι := by exact_mod_cast hdim
+  have hgridR : ((Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card : ℝ) ≤ (2 : ℕ)*(k : ℝ)+(gridSize M r η : ℝ) := by exact_mod_cast hgridnat
+  exact joint_support_scalar_upper k (Fintype.card ι) _ (Real.sqrt (M/η))
+    (by positivity) (by positivity) hdimR (by
+      norm_num only [Nat.cast_ofNat] at hgridR ⊢
+      linarith)
+
+end
+end SparseCompletion
+
+/- Fixed source body: ScaledJointSupportTheorem.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+General payoff-scale quantified joint support order. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- An actual bounded normalized exact game, with supplied anchor allocation. -/
+structure ScaledExactAnchorInstance (M : ℝ) (k m : ℕ) where
+  K : Fin k → Fin k → ℝ
+  D : Fin m → Fin k → ℝ
+  B : Fin m → Fin m → ℝ
+  p : Fin k → ℝ
+  q : Fin m → ℝ
+  r : ℝ
+  residual_nonnegative : 0 ≤ r
+  anchors_nonnegative : ∀ h, 0 ≤ p h
+  residual_weights_nonnegative : ∀ i, 0 ≤ q i
+  normalized : (∑ h, p h)+r=1
+  residual_mass : ∑ i, q i=r
+  core_skew : IsSkew K
+  residual_skew : IsSkew B
+  core_bounds : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M
+  cross_bounds : ∀ i h, -M ≤ D i h ∧ D i h ≤ M
+  residual_bounds : ∀ i j, -M ≤ B i j ∧ B i j ≤ M
+  exact_responses : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0
+
+/-- The supplied allocation p is held fixed literally, so any originally satisfied
+    coordinatewise anchor floors remain satisfied as well. -/
+def ScaledJointUpperWitness {k m : ℕ} {M : ℝ} (I : ScaledExactAnchorInstance M k m) (η : ℝ)
+    (q' : Fin m → ℝ) (B' : Fin m → Fin m → ℝ) : Prop :=
+  (∀ a, 0 ≤ blockWeights I.p q' a) ∧ (∑ a, blockWeights I.p q' a)=1 ∧
+  (∀ i, I.q i=0 → q' i=0) ∧
+  (∀ h, (∑ i, q' i*I.D i h)=∑ i, I.q i*I.D i h) ∧
+  IsSkew (blockMatrix I.K I.D B') ∧
+  (∀ a b, -M ≤ blockMatrix I.K I.D B' a b ∧ blockMatrix I.K I.D B' a b ≤ M) ∧
+  (∀ a, response (blockMatrix I.K I.D B') (blockWeights I.p q') a ≤ η) ∧
+  ((Finset.univ.filter fun a => blockWeights I.p q' a ≠ 0).card : ℝ) ≤
+    (2 : ℕ)*min ((k : ℝ)+m) ((k : ℝ)+Real.sqrt (M/η))
+
+
+/-- Actual universal upper witnesses and actual lower families, at arbitrary
+positive payoff scale. No worst-case/supremum operator is assumed. -/
+theorem joint_anchor_support_scaled_order (n m : ℕ) (hm : 0 < m)
+    (M η : ℝ) (hM : 0 < M) (hη : 0 < η) (hηM : η ≤ M) :
+    (∀ I : ScaledExactAnchorInstance M (n+2) m,
+      ∃ q' B', ScaledJointUpperWitness I η q' B') ∧
+    (∀ fixed : Bool,
+      (∃ p q B, ScaledClonedUniformWitness n m M 0 fixed p q B) ∧
+      ∀ p q B, ScaledClonedUniformWitness n m M η fixed p q B →
+        Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+          min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) ≤
+          ((Finset.univ.filter fun v => blockWeights p q v ≠ 0).card : ℝ)) := by
+  constructor
+  · intro I
+    simpa only [ScaledJointUpperWitness,Fintype.card_fin] using normalized_scaled_joint_support_upper
+      (n+2) I.K I.D I.B I.p I.q M I.r η hM I.residual_nonnegative hη hηM
+      I.anchors_nonnegative I.residual_weights_nonnegative I.normalized I.residual_mass
+      I.core_skew I.residual_skew I.core_bounds I.cross_bounds I.residual_bounds I.exact_responses
+  · intro fixed
+    refine ⟨⟨cloneShares n,uniformTarget m (1/((4 : ℕ) : ℝ)),
+      (fun i j => M*orderedBlock 1 i j),
+      scaled_cloned_dense n m hm M 0 (le_of_lt hM) (le_refl 0) fixed⟩,?_⟩
+    intro p q B hw
+    exact scaled_cloned_total_support_lower hm M η hM hη fixed p q B hw
+
+end
+end SparseCompletion
+
+/- Fixed source body: ScaledJointAllK.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+General-scale joint order for every number of anchors at least two. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem joint_anchor_support_scaled_order_general (k m : ℕ) (hk : (2 : ℕ) ≤ k)
+    (hm : 0 < m) (M η : ℝ) (hM : 0 < M) (hη : 0 < η) (hηM : η ≤ M) :
+    (∀ I : ScaledExactAnchorInstance M k m,
+      ∃ q' B', ScaledJointUpperWitness I η q' B') ∧
+    (∀ fixed : Bool,
+      (∃ p q B, ScaledClonedUniformWitness (k-2) m M 0 fixed p q B) ∧
+      ∀ p q B, ScaledClonedUniformWitness (k-2) m M η fixed p q B →
+        Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+          min (k+(m : ℝ)) (k+Real.sqrt (M/η)) ≤
+          ((Finset.univ.filter fun v => blockWeights p q v ≠ 0).card : ℝ)) := by
+  have he : k-2+2=k := Nat.sub_add_cancel hk
+  generalize hn : k-2=n at *
+  subst k
+  exact joint_anchor_support_scaled_order n m hm M η hM hη hηM
+
+end
+end SparseCompletion
+
+/- Fixed source body: PhysicalSupportMinimum.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Attained minimum support for actual anchored completions and both commitments.
+This is a noncomputable integer minimum, not a sparse selection algorithm. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def PhysicalAnchoredWitness {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (M ε : ℝ) (fixed : Bool)
+    (p : Fin k → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) : Prop :=
+  (∀ a, 0 ≤ blockWeights p q a) ∧ (∑ a, blockWeights p q a)=1 ∧
+  (∀ h, p0 h ≤ p h) ∧ (fixed=true → p=p0) ∧
+  IsSkew (blockMatrix K D B) ∧
+  (∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M) ∧
+  (∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε)
+
+def physicalAnchoredSupportExists {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (M ε : ℝ) (fixed : Bool) : Prop :=
+  ∃ s : ℕ, ∃ p q B, PhysicalAnchoredWitness K D p0 M ε fixed p q B ∧
+    (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card=s
+
+theorem physical_anchored_original {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (q : Fin m → ℝ)
+    (B : Fin m → Fin m → ℝ) (M ε : ℝ) (fixed : Bool) (hε : 0 ≤ ε)
+    (hn : ∀ a, 0 ≤ blockWeights p0 q a) (hm : (∑ a, blockWeights p0 q a)=1)
+    (hsk : IsSkew (blockMatrix K D B))
+    (hb : ∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M)
+    (hr : ∀ a, response (blockMatrix K D B) (blockWeights p0 q) a ≤ 0) :
+    PhysicalAnchoredWitness K D p0 M ε fixed p0 q B := by
+  exact ⟨hn,hm,fun _ => le_refl _,fun _ => rfl,hsk,hb,fun a => le_trans (hr a) hε⟩
+
+theorem physical_anchored_support_exists {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 p : Fin k → ℝ) (q : Fin m → ℝ)
+    (B : Fin m → Fin m → ℝ) (M ε : ℝ) (fixed : Bool)
+    (hw : PhysicalAnchoredWitness K D p0 M ε fixed p q B) :
+    physicalAnchoredSupportExists K D p0 M ε fixed := by
+  exact ⟨_,p,q,B,hw,rfl⟩
+
+def physicalMinimumSupport {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (M ε : ℝ) (fixed : Bool)
+    (hne : physicalAnchoredSupportExists K D p0 M ε fixed) : ℕ := by
+  classical
+  exact Nat.find hne
+
+theorem physicalMinimumSupport_attained {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (M ε : ℝ) (fixed : Bool)
+    (hne : physicalAnchoredSupportExists K D p0 M ε fixed) :
+    ∃ p q B, PhysicalAnchoredWitness K D p0 M ε fixed p q B ∧
+      (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card=
+        physicalMinimumSupport K D p0 M ε fixed hne := by
+  classical
+  exact Nat.find_spec hne
+
+theorem physicalMinimumSupport_le {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (M ε : ℝ) (fixed : Bool)
+    (hne : physicalAnchoredSupportExists K D p0 M ε fixed)
+    (p : Fin k → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (hw : PhysicalAnchoredWitness K D p0 M ε fixed p q B) :
+    physicalMinimumSupport K D p0 M ε fixed hne ≤
+      (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card := by
+  classical
+  exact Nat.find_min' hne ⟨p,q,B,hw,rfl⟩
+
+theorem physicalMinimumSupport_finite_bound {k m : ℕ} (K : Fin k → Fin k → ℝ)
+    (D : Fin m → Fin k → ℝ) (p0 : Fin k → ℝ) (M ε : ℝ) (fixed : Bool)
+    (hne : physicalAnchoredSupportExists K D p0 M ε fixed) :
+    physicalMinimumSupport K D p0 M ε fixed hne ≤ k+m := by
+  classical
+  obtain ⟨p,q,B,_,hc⟩ := physicalMinimumSupport_attained K D p0 M ε fixed hne
+  rw [←hc]
+  exact le_trans (Finset.card_filter_le _ _) (by simp only [Finset.card_univ,Fintype.card_sum,Fintype.card_fin]; exact le_rfl)
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExactInstanceSupportMinimum.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual attained support minima for every bounded exact-feasible anchored input. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem exact_instance_support_exists {k m : ℕ} {M : ℝ}
+    (I : ScaledExactAnchorInstance M k m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    physicalAnchoredSupportExists I.K I.D I.p M ε fixed := by
+  apply physical_anchored_support_exists I.K I.D I.p I.p I.q I.B M ε fixed
+  apply physical_anchored_original I.K I.D I.p I.q I.B M ε fixed hε
+  · exact blockWeights_nonneg I.p I.q I.anchors_nonnegative I.residual_weights_nonnegative
+  · rw [blockWeights_mass,I.residual_mass]
+    exact I.normalized
+  · exact blockMatrix_skew I.K I.D I.B I.core_skew I.residual_skew
+  · exact blockMatrix_bounds I.K I.D I.B M I.core_bounds I.cross_bounds I.residual_bounds
+  · exact I.exact_responses
+
+def exactInstanceMinimumSupport {k m : ℕ} {M : ℝ}
+    (I : ScaledExactAnchorInstance M k m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) : ℕ :=
+  physicalMinimumSupport I.K I.D I.p M ε fixed (exact_instance_support_exists I ε hε fixed)
+
+theorem exactInstanceMinimumSupport_attained {k m : ℕ} {M : ℝ}
+    (I : ScaledExactAnchorInstance M k m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    ∃ p q B, PhysicalAnchoredWitness I.K I.D I.p M ε fixed p q B ∧
+      (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card=
+        exactInstanceMinimumSupport I ε hε fixed :=
+  physicalMinimumSupport_attained I.K I.D I.p M ε fixed _
+
+theorem exactInstanceMinimumSupport_finite {k m : ℕ} {M : ℝ}
+    (I : ScaledExactAnchorInstance M k m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    exactInstanceMinimumSupport I ε hε fixed ≤ k+m :=
+  physicalMinimumSupport_finite_bound I.K I.D I.p M ε fixed _
+
+theorem exactInstanceMinimumSupport_upper {k m : ℕ} {M : ℝ}
+    (I : ScaledExactAnchorInstance M k m) (η : ℝ) (hM : 0 < M)
+    (hη : 0 < η) (hηM : η ≤ M) (fixed : Bool) :
+    (exactInstanceMinimumSupport I η (le_of_lt hη) fixed : ℝ) ≤
+      ((2 : ℕ) : ℝ)*min ((k : ℝ)+m) ((k : ℝ)+Real.sqrt (M/η)) := by
+  classical
+  obtain ⟨q,B,hn,hm,_,_,hsk,hb,hr,hc⟩ := normalized_scaled_joint_support_upper
+    k I.K I.D I.B I.p I.q M I.r η hM I.residual_nonnegative hη hηM
+    I.anchors_nonnegative I.residual_weights_nonnegative I.normalized I.residual_mass
+    I.core_skew I.residual_skew I.core_bounds I.cross_bounds I.residual_bounds I.exact_responses
+  have hw : PhysicalAnchoredWitness I.K I.D I.p M η fixed I.p q B :=
+    ⟨hn,hm,fun _ => le_refl _,fun _ => rfl,hsk,hb,hr⟩
+  have hl := physicalMinimumSupport_le I.K I.D I.p M η fixed
+    (exact_instance_support_exists I η (le_of_lt hη) fixed) I.p q B hw
+  have hreal : (exactInstanceMinimumSupport I η (le_of_lt hη) fixed : ℝ) ≤
+      ((Finset.univ.filter fun a => blockWeights I.p q a ≠ 0).card : ℝ) := by
+    exact_mod_cast hl
+  exact le_trans hreal (by simpa only [Fintype.card_fin] using hc)
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportProblemMinimum.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Attained minima with arbitrary prescribed feasible anchor floors or fixed shares.
+Original exact game data earns nonemptiness; no optimum witness is assumed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+structure AnchoredSupportProblem (M : ℝ) (k m : ℕ) (fixed : Bool) where
+  original : ScaledExactAnchorInstance M k m
+  floors : Fin k → ℝ
+  floors_nonnegative : ∀ h, 0 ≤ floors h
+  floors_original : ∀ h, floors h ≤ original.p h
+  fixed_original : fixed=true → original.p=floors
+
+theorem support_problem_exists {M : ℝ} {k m : ℕ} {fixed : Bool}
+    (P : AnchoredSupportProblem M k m fixed) (ε : ℝ) (hε : 0 ≤ ε) :
+    physicalAnchoredSupportExists P.original.K P.original.D P.floors M ε fixed := by
+  refine ⟨_,P.original.p,P.original.q,P.original.B,?_,rfl⟩
+  refine ⟨blockWeights_nonneg _ _ P.original.anchors_nonnegative P.original.residual_weights_nonnegative,
+    ?_,P.floors_original,P.fixed_original,
+    blockMatrix_skew _ _ _ P.original.core_skew P.original.residual_skew,
+    blockMatrix_bounds _ _ _ M P.original.core_bounds P.original.cross_bounds P.original.residual_bounds,
+    fun a => le_trans (P.original.exact_responses a) hε⟩
+  rw [blockWeights_mass,P.original.residual_mass]
+  exact P.original.normalized
+
+def supportProblemMinimum {M : ℝ} {k m : ℕ} {fixed : Bool}
+    (P : AnchoredSupportProblem M k m fixed) (ε : ℝ) (hε : 0 ≤ ε) : ℕ :=
+  physicalMinimumSupport P.original.K P.original.D P.floors M ε fixed
+    (support_problem_exists P ε hε)
+
+theorem supportProblemMinimum_attained {M : ℝ} {k m : ℕ} {fixed : Bool}
+    (P : AnchoredSupportProblem M k m fixed) (ε : ℝ) (hε : 0 ≤ ε) :
+    ∃ p q B, PhysicalAnchoredWitness P.original.K P.original.D P.floors M ε fixed p q B ∧
+      (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card=supportProblemMinimum P ε hε :=
+  physicalMinimumSupport_attained _ _ _ M ε fixed _
+
+theorem supportProblemMinimum_finite {M : ℝ} {k m : ℕ} {fixed : Bool}
+    (P : AnchoredSupportProblem M k m fixed) (ε : ℝ) (hε : 0 ≤ ε) :
+    supportProblemMinimum P ε hε ≤ k+m :=
+  physicalMinimumSupport_finite_bound _ _ _ M ε fixed _
+
+theorem supportProblemMinimum_upper {M : ℝ} {k m : ℕ} {fixed : Bool}
+    (P : AnchoredSupportProblem M k m fixed) (η : ℝ) (hM : 0 < M)
+    (hη : 0 < η) (hηM : η ≤ M) :
+    (supportProblemMinimum P η (le_of_lt hη) : ℝ) ≤
+      ((2 : ℕ) : ℝ)*min ((k : ℝ)+m) ((k : ℝ)+Real.sqrt (M/η)) := by
+  classical
+  let I := P.original
+  obtain ⟨q,B,hn,hm,_,_,hsk,hb,hr,hc⟩ := normalized_scaled_joint_support_upper
+    k I.K I.D I.B I.p I.q M I.r η hM I.residual_nonnegative hη hηM
+    I.anchors_nonnegative I.residual_weights_nonnegative I.normalized I.residual_mass
+    I.core_skew I.residual_skew I.core_bounds I.cross_bounds I.residual_bounds I.exact_responses
+  have hw : PhysicalAnchoredWitness I.K I.D P.floors M η fixed I.p q B :=
+    ⟨hn,hm,P.floors_original,P.fixed_original,hsk,hb,hr⟩
+  have hl := physicalMinimumSupport_le I.K I.D P.floors M η fixed
+    (support_problem_exists P η (le_of_lt hη)) I.p q B hw
+  have hreal : (supportProblemMinimum P η (le_of_lt hη) : ℝ) ≤
+      ((Finset.univ.filter fun a => blockWeights I.p q a ≠ 0).card : ℝ) := by
+    exact_mod_cast hl
+  exact le_trans hreal (by simpa only [Fintype.card_fin] using hc)
+
+end
+end SparseCompletion
+
+/- Fixed source body: WorstCaseSupport.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+An attained worst-case operator over actual feasible observation/commitment data.
+The finite maximum and minima are noncomputable; no algorithmic cost claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def zeroExactAnchorInstance (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k) :
+    ScaledExactAnchorInstance M k m where
+  K := fun _ _ => 0
+  D := fun _ _ => 0
+  B := fun _ _ => 0
+  p := fun h => if h=(⟨0,hk⟩ : Fin k) then 1 else 0
+  q := fun _ => 0
+  r := 0
+  residual_nonnegative := le_refl 0
+  anchors_nonnegative := by intro h; split <;> norm_num
+  residual_weights_nonnegative := fun _ => le_refl 0
+  normalized := by simp
+  residual_mass := by simp only [Finset.sum_const_zero]
+  core_skew := by intro a b; simp only [neg_zero]
+  residual_skew := by intro a b; simp only [neg_zero]
+  core_bounds := fun _ _ => ⟨neg_nonpos.mpr hM,hM⟩
+  cross_bounds := fun _ _ => ⟨neg_nonpos.mpr hM,hM⟩
+  residual_bounds := fun _ _ => ⟨neg_nonpos.mpr hM,hM⟩
+  exact_responses := by
+    intro a
+    cases a <;> simp [response,blockMatrix]
+
+def zeroSupportProblem (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k) (fixed : Bool) :
+    AnchoredSupportProblem M k m fixed where
+  original := zeroExactAnchorInstance M hM k m hk
+  floors := (zeroExactAnchorInstance M hM k m hk).p
+  floors_nonnegative := (zeroExactAnchorInstance M hM k m hk).anchors_nonnegative
+  floors_original := fun _ => le_refl _
+  fixed_original := fun _ => rfl
+
+def supportProblemCounts (M : ℝ) (k m : ℕ) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) : Finset ℕ := by
+  classical
+  exact (Finset.range (k+m+1)).filter (fun s =>
+    ∃ P : AnchoredSupportProblem M k m fixed, supportProblemMinimum P ε hε=s)
+
+theorem supportProblemCounts_nonempty (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    (supportProblemCounts M k m ε hε fixed).Nonempty := by
+  classical
+  let P := zeroSupportProblem M hM k m hk fixed
+  refine ⟨supportProblemMinimum P ε hε,Finset.mem_filter.mpr ⟨?_,⟨P,rfl⟩⟩⟩
+  exact Finset.mem_range.mpr (by have hh := supportProblemMinimum_finite P ε hε; omega)
+
+def worstCaseSupport (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) : ℕ :=
+  (supportProblemCounts M k m ε hε fixed).max'
+    (supportProblemCounts_nonempty M hM k m hk ε hε fixed)
+
+theorem worstCaseSupport_attained (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    ∃ P : AnchoredSupportProblem M k m fixed,
+      supportProblemMinimum P ε hε=worstCaseSupport M hM k m hk ε hε fixed := by
+  classical
+  exact (Finset.mem_filter.mp (Finset.max'_mem _
+    (supportProblemCounts_nonempty M hM k m hk ε hε fixed))).2
+
+theorem supportProblemMinimum_le_worstCase (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) (P : AnchoredSupportProblem M k m fixed) :
+    supportProblemMinimum P ε hε ≤ worstCaseSupport M hM k m hk ε hε fixed := by
+  classical
+  apply Finset.le_max'
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_range.mpr ?_,⟨P,rfl⟩⟩
+  have hh := supportProblemMinimum_finite P ε hε
+  omega
+
+theorem worstCaseSupport_finite (M : ℝ) (hM : 0 ≤ M) (k m : ℕ) (hk : 0 < k)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    worstCaseSupport M hM k m hk ε hε fixed ≤ k+m := by
+  obtain ⟨P,hP⟩ := worstCaseSupport_attained M hM k m hk ε hε fixed
+  rw [←hP]
+  exact supportProblemMinimum_finite P ε hε
+
+theorem worstCaseSupport_upper (M : ℝ) (hM : 0 < M) (k m : ℕ) (hk : 0 < k)
+    (η : ℝ) (hη : 0 < η) (hηM : η ≤ M) (fixed : Bool) :
+    (worstCaseSupport M (le_of_lt hM) k m hk η (le_of_lt hη) fixed : ℝ) ≤
+      ((2 : ℕ) : ℝ)*min ((k : ℝ)+m) ((k : ℝ)+Real.sqrt (M/η)) := by
+  obtain ⟨P,hP⟩ := worstCaseSupport_attained M (le_of_lt hM) k m hk η (le_of_lt hη) fixed
+  rw [←hP]
+  exact supportProblemMinimum_upper P η hM hη hηM
+
+end
+end SparseCompletion
+
+/- Fixed source body: AnchorRelabel.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual finite anchor relabeling, retaining the residual labels literally. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def anchorPullCore {α β : Type*} (e : β ≃ α) (K : α → α → ℝ) : β → β → ℝ :=
+  fun h h' => K (e h) (e h')
+
+def anchorPullCross {α β ι : Type*} (e : β ≃ α) (D : ι → α → ℝ) : ι → β → ℝ :=
+  fun i h => D i (e h)
+
+theorem block_anchor_pull {α β ι : Type*} (e : β ≃ α)
+    (K : α → α → ℝ) (D : ι → α → ℝ) (B : ι → ι → ℝ) :
+    blockMatrix (anchorPullCore e K) (anchorPullCross e D) B =
+      relabelMatrix (Equiv.sumCongr e (Equiv.refl ι)).symm (blockMatrix K D B) := by
+  funext a b
+  cases a <;> cases b <;> rfl
+
+theorem weights_anchor_pull {α β ι : Type*} (e : β ≃ α)
+    (p : α → ℝ) (q : ι → ℝ) :
+    blockWeights (fun h => p (e h)) q =
+      relabelWeights (Equiv.sumCongr e (Equiv.refl ι)).symm (blockWeights p q) := by
+  funext a
+  cases a <;> rfl
+
+theorem response_anchor_pull {α β ι : Type*} [Fintype α] [Fintype β] [Fintype ι]
+    (e : β ≃ α) (K : α → α → ℝ) (D : ι → α → ℝ) (B : ι → ι → ℝ)
+    (p : α → ℝ) (q : ι → ℝ) (a : β ⊕ ι) :
+    response (blockMatrix (anchorPullCore e K) (anchorPullCross e D) B)
+      (blockWeights (fun h => p (e h)) q) a =
+      response (blockMatrix K D B) (blockWeights p q) ((Equiv.sumCongr e (Equiv.refl ι)) a) := by
+  rw [block_anchor_pull,weights_anchor_pull,relabel_response]
+  rfl
+
+theorem support_anchor_pull {α β ι : Type*} [Fintype α] [Fintype β] [Fintype ι]
+    (e : β ≃ α) (p : α → ℝ) (q : ι → ℝ) :
+    (Finset.univ.filter fun a => blockWeights (fun h => p (e h)) q a ≠ 0).card =
+      (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card := by
+  classical
+  rw [weights_anchor_pull,relabel_support_card]
+
+end
+end SparseCompletion
+
+/- Fixed source body: FiniteCloneInstance.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The actual sharp clone family on consecutive finite anchor labels. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem clone_anchor_count (n : ℕ) : Fintype.card (CloneAnchors n)=n+2 := by
+  simp [CloneAnchors]
+
+def cloneFinEquiv (n : ℕ) : Fin (n+2) ≃ CloneAnchors n :=
+  (Fintype.equivFinOfCardEq (α := CloneAnchors n) (clone_anchor_count n)).symm
+
+def finiteScaledCloneInstance (n m : ℕ) (hm : 0 < m) (M : ℝ) (hM : 0 ≤ M) :
+    ScaledExactAnchorInstance M (n+2) m where
+  K := anchorPullCore (cloneFinEquiv n)
+    (fun a b => M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b)
+  D := anchorPullCross (cloneFinEquiv n)
+    (fun i a => M*clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))) i a)
+  B := fun i j => M*orderedBlock 1 i j
+  p := fun h => cloneShares n (cloneFinEquiv n h)
+  q := uniformTarget m (1/((4 : ℕ) : ℝ))
+  r := 1/((4 : ℕ) : ℝ)
+  residual_nonnegative := by norm_num
+  anchors_nonnegative := fun h => le_of_lt (clone_shares_positive n _)
+  residual_weights_nonnegative := fun i =>
+    le_of_lt (uniformTarget_positive m (1/((4 : ℕ) : ℝ)) (by norm_num) i)
+  normalized := by
+    have hd := (scaled_cloned_dense n m hm M 0 hM (le_refl 0) false).2.2.2.1
+    rw [Equiv.sum_comp (cloneFinEquiv n) (cloneShares n)]
+    rw [uniformTarget_mass m hm (1/((4 : ℕ) : ℝ))] at hd
+    exact hd
+  residual_mass := uniformTarget_mass m hm (1/((4 : ℕ) : ℝ))
+  core_skew := by
+    intro a b
+    exact (scaled_cloned_observations_bounded n m hm M hM).1 _ _
+  residual_skew := by
+    intro i j
+    change M*orderedBlock 1 i j = -(M*orderedBlock 1 j i)
+    rw [orderedBlock_skew 1 i j,mul_neg]
+  core_bounds := fun a b => (scaled_cloned_observations_bounded n m hm M hM).2.1 _ _
+  cross_bounds := fun i a => (scaled_cloned_observations_bounded n m hm M hM).2.2 _ _
+  residual_bounds := (scaled_cloned_dense n m hm M 0 hM (le_refl 0) false).2.2.2.2.2.1
+  exact_responses := by
+    intro a
+    rw [response_anchor_pull]
+    exact (scaled_cloned_dense n m hm M 0 hM (le_refl 0) false).2.2.2.2.2.2 _
+
+end
+end SparseCompletion
+
+/- Fixed source body: FiniteCloneLower.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual clone obstruction transported to finite anchor labels and physical minima. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem finite_clone_physical_to_source (n m : ℕ) (hm : 0 < m) (M η : ℝ)
+    (hM : 0 ≤ M) (fixed : Bool) (p : Fin (n+2) → ℝ) (q : Fin m → ℝ)
+    (B : Fin m → Fin m → ℝ)
+    (hw : PhysicalAnchoredWitness (finiteScaledCloneInstance n m hm M hM).K
+      (finiteScaledCloneInstance n m hm M hM).D (finiteScaledCloneInstance n m hm M hM).p
+      M η fixed p q B) :
+    ScaledClonedUniformWitness n m M η fixed (fun h => p ((cloneFinEquiv n).symm h)) q B := by
+  rcases hw with ⟨hn,hnorm,hfloor,hfixed,hsk,hb,hrows⟩
+  let e := cloneFinEquiv n
+  refine ⟨fun i => hn (.inr i),?_,?_,?_,?_,?_,?_⟩
+  · intro h
+    have hh := hfloor (e.symm h)
+    change cloneShares n (e (e.symm h)) ≤ p (e.symm h) at hh
+    simpa only [Equiv.apply_symm_apply] using hh
+  · intro hf
+    funext h
+    rw [hfixed hf]
+    change cloneShares n (e (e.symm h))=cloneShares n h
+    rw [Equiv.apply_symm_apply]
+  · rw [Equiv.sum_comp e.symm p]
+    rw [blockWeights_mass] at hnorm
+    exact hnorm
+  · intro i j
+    exact hsk (.inr i) (.inr j)
+  · intro i j
+    exact hb (.inr i) (.inr j)
+  · intro a
+    let K := fun a b => M*clonedCore (n := n) (rigidityCore (uniformTarget m (1/((4 : ℕ) : ℝ)))) a b
+    let D := fun i a => M*clonedCross (n := n) (rigidityCross (uniformTarget m (1/((4 : ℕ) : ℝ)))) i a
+    have he := response_anchor_pull e K D B (fun h => p (e.symm h)) q
+      ((Equiv.sumCongr e (Equiv.refl (Fin m))).symm a)
+    simp only [Equiv.symm_apply_apply,Equiv.apply_symm_apply] at he
+    change response (blockMatrix K D B) (blockWeights (fun h => p (e.symm h)) q) a ≤ η
+    rw [←he]
+    exact hrows _
+
+theorem finite_clone_support_preserved (n m : ℕ)
+    (p : Fin (n+2) → ℝ) (q : Fin m → ℝ) :
+    (Finset.univ.filter fun a => blockWeights p q a ≠ 0).card =
+      (Finset.univ.filter fun a => blockWeights (fun h => p ((cloneFinEquiv n).symm h)) q a ≠ 0).card := by
+  classical
+  have he := support_anchor_pull (cloneFinEquiv n) (fun h => p ((cloneFinEquiv n).symm h)) q
+  simpa only [Equiv.symm_apply_apply] using he
+
+theorem finite_clone_physical_support_lower (n m : ℕ) (hm : 0 < m) (M η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (fixed : Bool) (p : Fin (n+2) → ℝ) (q : Fin m → ℝ)
+    (B : Fin m → Fin m → ℝ)
+    (hw : PhysicalAnchoredWitness (finiteScaledCloneInstance n m hm M (le_of_lt hM)).K
+      (finiteScaledCloneInstance n m hm M (le_of_lt hM)).D
+      (finiteScaledCloneInstance n m hm M (le_of_lt hM)).p M η fixed p q B) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+      min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) ≤
+      ((Finset.univ.filter fun a => blockWeights p q a ≠ 0).card : ℝ) := by
+  have hs := finite_clone_physical_to_source n m hm M η (le_of_lt hM) fixed p q B hw
+  have hl := scaled_cloned_total_support_lower hm M η hM hη fixed _ q B hs
+  rw [←finite_clone_support_preserved n m p q] at hl
+  exact hl
+
+def finiteCloneSupportProblem (n m : ℕ) (hm : 0 < m) (M : ℝ) (hM : 0 ≤ M) (fixed : Bool) :
+    AnchoredSupportProblem M (n+2) m fixed where
+  original := finiteScaledCloneInstance n m hm M hM
+  floors := (finiteScaledCloneInstance n m hm M hM).p
+  floors_nonnegative := (finiteScaledCloneInstance n m hm M hM).anchors_nonnegative
+  floors_original := fun _ => le_refl _
+  fixed_original := fun _ => rfl
+
+theorem finiteCloneSupportProblem_minimum_lower (n m : ℕ) (hm : 0 < m) (M η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (fixed : Bool) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+      min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) ≤
+      (supportProblemMinimum (finiteCloneSupportProblem n m hm M (le_of_lt hM) fixed)
+        η (le_of_lt hη) : ℝ) := by
+  obtain ⟨p,q,B,hw,hc⟩ := supportProblemMinimum_attained
+    (finiteCloneSupportProblem n m hm M (le_of_lt hM) fixed) η (le_of_lt hη)
+  have hl := finite_clone_physical_support_lower n m hm M η hM hη fixed p q B hw
+  rw [hc] at hl
+  exact hl
+
+end
+end SparseCompletion
+
+/- Fixed source body: WorstCaseSupportSharp.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Sharp order for the actual attained worst-case of attained support minima.
+Both lower-bound and fixed-share commitment classes, general positive M. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem worstCaseSupport_lower (n m : ℕ) (hm : 0 < m) (M η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (fixed : Bool) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+      min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) ≤
+      (worstCaseSupport M (le_of_lt hM) (n+2) m (Nat.zero_lt_succ (n+1))
+        η (le_of_lt hη) fixed : ℝ) := by
+  have hl := finiteCloneSupportProblem_minimum_lower n m hm M η hM hη fixed
+  have hb := supportProblemMinimum_le_worstCase M (le_of_lt hM) (n+2) m
+    (Nat.zero_lt_succ (n+1)) η (le_of_lt hη) fixed
+    (finiteCloneSupportProblem n m hm M (le_of_lt hM) fixed)
+  apply le_trans hl
+  exact_mod_cast hb
+
+theorem worstCaseSupport_sharp (n m : ℕ) (hm : 0 < m) (M η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hηM : η ≤ M) (fixed : Bool) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+      min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) ≤
+      (worstCaseSupport M (le_of_lt hM) (n+2) m (Nat.zero_lt_succ (n+1))
+        η (le_of_lt hη) fixed : ℝ) ∧
+    (worstCaseSupport M (le_of_lt hM) (n+2) m (Nat.zero_lt_succ (n+1))
+      η (le_of_lt hη) fixed : ℝ) ≤
+      ((2 : ℕ) : ℝ)*min ((n+2 : ℕ)+(m : ℝ)) ((n+2 : ℕ)+Real.sqrt (M/η)) := by
+  exact ⟨worstCaseSupport_lower n m hm M η hM hη fixed,
+    worstCaseSupport_upper M hM (n+2) m (Nat.zero_lt_succ (n+1)) η hη hηM fixed⟩
+
+theorem worstCaseSupport_sharp_general (k m : ℕ) (hk : (2 : ℕ) ≤ k) (hm : 0 < m)
+    (M η : ℝ) (hM : 0 < M) (hη : 0 < η) (hηM : η ≤ M) (fixed : Bool) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ) *
+      min (k+(m : ℝ)) (k+Real.sqrt (M/η)) ≤
+      (worstCaseSupport M (le_of_lt hM) k m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hk)
+        η (le_of_lt hη) fixed : ℝ) ∧
+    (worstCaseSupport M (le_of_lt hM) k m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hk)
+      η (le_of_lt hη) fixed : ℝ) ≤
+      ((2 : ℕ) : ℝ)*min (k+(m : ℝ)) (k+Real.sqrt (M/η)) := by
+  have he : k-2+2=k := Nat.sub_add_cancel hk
+  generalize hn : k-2=n at *
+  subst k
+  exact worstCaseSupport_sharp n m hm M η hM hη hηM fixed
+
+end
+end SparseCompletion
+
+/- Fixed source body: SupportObservationInvariance.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The attained support objective depends on observations and commitments only;
+original exact witnesses certify feasibility without changing that objective. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem supportProblemMinimum_observation_invariant {M : ℝ} {k m : ℕ} {fixed : Bool}
+    (P Q : AnchoredSupportProblem M k m fixed) (ε : ℝ) (hε : 0 ≤ ε)
+    (hK : P.original.K=Q.original.K) (hD : P.original.D=Q.original.D)
+    (hf : P.floors=Q.floors) : supportProblemMinimum P ε hε=supportProblemMinimum Q ε hε := by
+  classical
+  apply Nat.le_antisymm
+  · obtain ⟨p,q,B,hw,hc⟩ := supportProblemMinimum_attained Q ε hε
+    have hp : PhysicalAnchoredWitness P.original.K P.original.D P.floors M ε fixed p q B := by
+      simpa only [hK,hD,hf] using hw
+    have hl := physicalMinimumSupport_le P.original.K P.original.D P.floors M ε fixed
+      (support_problem_exists P ε hε) p q B hp
+    exact le_trans hl (le_of_eq hc)
+  · obtain ⟨p,q,B,hw,hc⟩ := supportProblemMinimum_attained P ε hε
+    have hq : PhysicalAnchoredWitness Q.original.K Q.original.D Q.floors M ε fixed p q B := by
+      simpa only [hK,hD,hf] using hw
+    have hl := physicalMinimumSupport_le Q.original.K Q.original.D Q.floors M ε fixed
+      (support_problem_exists Q ε hε) p q B hq
+    exact le_trans hl (le_of_eq hc)
+
+theorem anchored_support_problem_representation (k m : ℕ) (M : ℝ)
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℝ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℝ) (q : Fin m → ℝ) (floors : Fin k → ℝ) (fixed : Bool)
+    (hp : ∀ h,0 ≤ p h) (hq : ∀ i,0 ≤ q i) (hf : ∀ h,0 ≤ floors h)
+    (hfloor : ∀ h,floors h ≤ p h) (hfix : fixed=true → p=floors)
+    (hm : (∑ h,p h)+(∑ i,q i)=1) (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h',-M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h,-M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j,-M ≤ B i j ∧ B i j ≤ M)
+    (hr : ∀ a,response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ P : AnchoredSupportProblem M k m fixed,
+      P.original.K=K ∧ P.original.D=D ∧ P.floors=floors := by
+  let I : ScaledExactAnchorInstance M k m := {
+    K := K, D := D, B := B, p := p, q := q, r := ∑ i,q i,
+    residual_nonnegative := Finset.sum_nonneg fun i _ => hq i,
+    anchors_nonnegative := hp, residual_weights_nonnegative := hq,
+    normalized := hm, residual_mass := rfl,
+    core_skew := hK, residual_skew := hB, core_bounds := hKb,
+    cross_bounds := hDb, residual_bounds := hBb, exact_responses := hr }
+  exact ⟨⟨I,floors,hf,hfloor,hfix⟩,rfl,rfl,rfl⟩
+
+end
+end SparseCompletion

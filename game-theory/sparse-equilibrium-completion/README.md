@@ -313,6 +313,36 @@ program retains its own proved support guarantee.
 
 The complete original-source coverage table, including remaining algorithmic
 and mathematical packaging gaps, is in WHOLE-PAPER-COVERAGE.md. These additions
-have local proof and executable-control evidence; exact-source verification
-and final integrated review must identify the eventual frozen commit before
-any readiness claim. No registry or journal submission is authorized or made.
+passed all12 native gates at f3c300572e22fb88de71183aee09ccc66785c3da,
+with the retained-source qualification recorded in VERIFICATION.md. The current43
+candidate corrects that inventory and requires its own exact-source receipt. No registry or journal submission is authorized or made.
+
+## General payoff bounds and actual worst-case support
+
+The 43-proof follow-on adds payoff rescaling, general-M upper and hard-instance
+lower bounds, and actual attained per-instance support minima and their attained
+worst-case maximum. For every k≥2, m>0, M>0 and 0<η≤M, in both fixed-anchor and
+minimum-anchor-share classes, the maximum of those minima lies between
+`(sqrt(3/1216)/2) * min(k+m,k+sqrt(M/η))` and
+`2 * min(k+m,k+sqrt(M/η))`. The hard input is an actual finite-label scaled clone
+game; responses, anchor commitments and support cardinality are transported
+through an equivalence. The zero game only establishes nonemptiness.
+`worstCaseSupport_sharp_general` proves the two-sided bound.
+
+`PhysicalAnchoredWitness`, `AnchoredSupportProblem`, `physicalMinimumSupport` and
+`supportProblemMinimum` quantify over actual bounded skew completions and
+normalized strategies satisfying every response inequality. Existence of their
+least support is proved from original feasible data. `worstCaseSupport` takes
+the maximum over all such problems using the proved finite cardinality cap.
+`supportProblemMinimum_observation_invariant` proves that the original feasible
+certificate does not affect that minimum when observed K,D and floors agree;
+`anchored_support_problem_representation` represents every raw feasible input.
+These extrema use genuine classical predicates and do not provide an executable
+optimizer or a polynomial-time decision procedure.
+
+This candidate has246 mathematical modules,953 source theorem audits and843
+protected selected contracts. Strict scratch compilation and independent
+internal AI mathematical review cover the43 additions. Final integrated builds,
+separate protected identities, altered-helper rejection, exports and kernel
+checks require a new immutable exact-source receipt. Predecessor receipts
+remain evidence for their own source only.

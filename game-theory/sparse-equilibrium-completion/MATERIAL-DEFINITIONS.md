@@ -11588,3 +11588,379 @@ Actual new compiler-context users:
 `List.sum literal definition and contracts`: `SparseCompletion.rational_counted_all_calls`, `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_conjunction_calls`, `SparseCompletion.rational_counted_dot_value`, `SparseCompletion.rational_counted_fin_dot_value`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`.
 
 `List.get valid finite indexed read`: `SparseCompletion.rational_counted_certificate_check_iff`, `SparseCompletion.rational_counted_certificate_full_game`, `SparseCompletion.rational_counted_certificate_valid_rate`, `SparseCompletion.rational_counted_fixed_certificate_bound`, `SparseCompletion.rational_counted_fixed_certificate_calls`, `SparseCompletion.rational_counted_fixed_certificate_value`, `SparseCompletion.rational_counted_fixed_valid_rate`, `SparseCompletion.rational_counted_floor_certificate_bound`, `SparseCompletion.rational_counted_floor_certificate_calls`, `SparseCompletion.rational_counted_floor_certificate_value`, `SparseCompletion.rational_counted_floor_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_bound`, `SparseCompletion.rational_counted_interval_fixed_calls`, `SparseCompletion.rational_counted_interval_fixed_valid_rate`, `SparseCompletion.rational_counted_interval_fixed_value`, `SparseCompletion.rational_counted_interval_floor_bound`, `SparseCompletion.rational_counted_interval_floor_calls`, `SparseCompletion.rational_counted_interval_floor_valid_rate`, `SparseCompletion.rational_counted_interval_floor_value`, `SparseCompletion.rational_counted_observation_calls`, `SparseCompletion.rational_counted_observation_value`, `SparseCompletion.rational_counted_omitted_positive_cost`, `SparseCompletion.rational_counted_omitted_zero_cost`, `SparseCompletion.rational_counted_rows_exact_ledger`, `SparseCompletion.rational_counted_rows_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_ledger`, `SparseCompletion.rational_counted_table_certificate_quadratic_bound`, `SparseCompletion.rational_counted_table_certificate_value`, `SparseCompletion.rational_counted_table_omitted_value`, `SparseCompletion.rational_counted_table_rows_value`, `SparseCompletion.rational_observation_scalar_slots`, `SparseCompletion.rational_table_b_labels`, `SparseCompletion.rational_table_conditions_iff`, `SparseCompletion.rational_table_index_label`, `SparseCompletion.rational_table_label_index`, `SparseCompletion.rational_table_mass_sum`, `SparseCompletion.rational_table_omitted_exists`, `SparseCompletion.rational_table_q_label`, `SparseCompletion.rational_table_q_nonnegative`, `SparseCompletion.rational_table_q_off`, `SparseCompletion.rational_table_rows_iff`, `SparseCompletion.rational_table_scalar_slots`, `SparseCompletion.rational_table_scalar_slots_bound`, `SparseCompletion.rational_table_support_card`, `SparseCompletion.rational_table_support_forall`, `SparseCompletion.rational_table_support_mem`, `SparseCompletion.rational_table_supported_sum`, `SparseCompletion.rational_table_valid_dimensions`, `SparseCompletion.rational_table_valid_size`, `SparseCompletion.rational_table_weighted_sum`.
+
+## Minimum-support source-context correction and general payoff tranche
+
+The current inventory is66 material,89 compiler and2 auxiliary contexts,112 exact Mathlib sources and205 excerpts. Four narrow contexts are added below. Earlier literal-retention completeness claims are qualified: Nat.findX previously omitted its final line54, and the actual WellFounded recursion and Classical.propDecidable recipes were not retained. Historical build/comparator/axiom/kernel receipts remain unchanged. This correction does not infer blanket usage for every theorem; each context retains precise actual minimum-support users. Genuine classical feasibility decidability is noncomputable.
+
+Corrected complete Nat.findX excerpt, including final application:
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Find.lean#L25-L54
+```lean
+
+private def lbp (m n : ℕ) : Prop :=
+  m = n + 1 ∧ ∀ k ≤ n, ¬p k
+
+private theorem wf_lbp (H : ∃ n, p n) : WellFounded (@lbp p) :=
+  ⟨let ⟨n, pn⟩ := H
+    suffices ∀ m k, n ≤ k + m → Acc lbp k from fun _ => this _ _ (Nat.le_add_left _ _)
+    fun m =>
+    Nat.recOn m
+      (fun _ kn =>
+        ⟨_, fun y r =>
+          match y, r with
+          | _, ⟨rfl, a⟩ => absurd pn (a _ kn)⟩)
+      fun m IH k kn =>
+      ⟨_, fun y r =>
+        match y, r with
+        | _, ⟨rfl, _a⟩ => IH _ (by rw [Nat.add_right_comm]; exact kn)⟩⟩
+
+variable [DecidablePred p] (H : ∃ n, p n)
+
+/-- Find the smallest `n` satisfying `p n`. Returns a subtype. -/
+protected def findX : { n // p n ∧ ∀ m < n, ¬p m } :=
+  @WellFounded.fix _ (fun k => (∀ n < k, ¬p n) → { n // p n ∧ ∀ m < n, ¬p m }) lbp (wf_lbp H)
+    (fun m IH al =>
+      if pm : p m then ⟨m, pm, al⟩
+      else
+        have : ∀ n ≤ m, ¬p n := fun n h =>
+          Or.elim (Nat.lt_or_eq_of_le h) (al n) fun e => by rw [e]; exact pm
+        IH _ ⟨rfl, this⟩ fun n h => this n <| Nat.le_of_succ_le_succ h)
+    0 fun _ h => absurd h (Nat.not_lt_zero _)
+```
+
+Excerpt SHA256 fa4b0dba17b491e0eb74310724dc0179be1b70ab20e77685f5ea03f14010345e
+
+### Acc and WellFounded accessibility foundation
+
+Accessibility is the genuine inductive predicate closed under predecessors. WellFounded means all elements are accessible. Generated Acc.rec and WellFounded.rec come from these retained inductives, not invented handwritten declaration heads.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/WF.lean
+
+Source SHA256 fe7c0a49de4a9c4b4fac24493f40598a1374837b17a6c334fc1ed03e23646e01; Git blob 1d0216ed49d1250db35bc6b551fb03c0c7777293; excerpt SHA256 fe4a0fbef0c7c6a513f274836778f756b398a3248feed4e28ae1f23c56304d0b. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/```
+
+```lean
+inductive Acc {α : Sort u} (r : α → α → Prop) : α → Prop where
+  /--
+  A value is accessible if for all `y` such that `r y x`, `y` is also accessible.
+  Note that if there exists no `y` such that `r y x`, then `x` is accessible. Such an `x` is called a
+  _base case_.
+  -/
+  | intro (x : α) (h : (y : α) → r y x → Acc r y) : Acc r x
+
+noncomputable abbrev Acc.ndrec.{u1, u2} {α : Sort u2} {r : α → α → Prop} {C : α → Sort u1}
+    (m : (x : α) → ((y : α) → r y x → Acc r y) → ((y : α) → (a : r y x) → C y) → C x)
+    {a : α} (n : Acc r a) : C a :=
+  n.rec m
+
+noncomputable abbrev Acc.ndrecOn.{u1, u2} {α : Sort u2} {r : α → α → Prop} {C : α → Sort u1}
+    {a : α} (n : Acc r a)
+    (m : (x : α) → ((y : α) → r y x → Acc r y) → ((y : α) → (a : r y x) → C y) → C x)
+    : C a :=
+  n.rec m
+
+namespace Acc
+variable {α : Sort u} {r : α → α → Prop}
+
+theorem inv {x y : α} (h₁ : Acc r x) (h₂ : r y x) : Acc r y :=
+  h₁.recOn (fun _ ac₁ _ h₂ => ac₁ y h₂) h₂
+
+end Acc
+
+/--
+A relation `r` is `WellFounded` if all elements of `α` are accessible within `r`.
+If a relation is `WellFounded`, it does not allow for an infinite descent along the relation.
+
+If the arguments of the recursive calls in a function definition decrease according to
+a well founded relation, then the function terminates.
+Well-founded relations are sometimes called _Artinian_ or said to satisfy the “descending chain condition”.
+-/
+inductive WellFounded {α : Sort u} (r : α → α → Prop) : Prop where
+  /--
+  If all elements are accessible via `r`, then `r` is well-founded.
+  -/
+  | intro (h : ∀ a, Acc r a) : WellFounded r
+```
+
+Actual users: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+### WellFounded.apply and fixF recursion
+
+Actual apply projects accessibility from WellFounded. fixF recurses on the accessibility proof and fixF_eq provides its equation, using Acc.inv. Intervening recursion/induction declarations retained as supporting context, not claimed additional target algorithm.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/WF.lean
+
+Source SHA256 fe7c0a49de4a9c4b4fac24493f40598a1374837b17a6c334fc1ed03e23646e01; Git blob 1d0216ed49d1250db35bc6b551fb03c0c7777293; excerpt SHA256 9e4950bca2bab2504d1719b551c463c183763073df89b3523d50dd2f0a1fa835. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/```
+
+```lean
+theorem apply {α : Sort u} {r : α → α → Prop} (wf : WellFounded r) (a : α) : Acc r a :=
+  wf.rec (fun p => p) a
+
+section
+variable {α : Sort u} {r : α → α → Prop} (hwf : WellFounded r)
+
+noncomputable def recursion {C : α → Sort v} (a : α) (h : ∀ x, (∀ y, r y x → C y) → C x) : C a := by
+  induction (apply hwf a) with
+  | intro x₁ _ ih => exact h x₁ ih
+
+include hwf in
+theorem induction {C : α → Prop} (a : α) (h : ∀ x, (∀ y, r y x → C y) → C x) : C a :=
+  recursion hwf a h
+
+variable {C : α → Sort v}
+variable (F : ∀ x, (∀ y, r y x → C y) → C x)
+
+noncomputable def fixF (x : α) (a : Acc r x) : C x := by
+  induction a with
+  | intro x₁ _ ih => exact F x₁ ih
+
+theorem fixF_eq (x : α) (acx : Acc r x) : fixF F x acx = F x (fun (y : α) (p : r y x) => fixF F y (Acc.inv acx p)) := by
+  induction acx with
+  | intro x r _ => exact rfl
+```
+
+Actual users: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+### WellFounded.fix and fixpoint equation
+
+Actual noncomputable fix is fixF on the accessibility witness from apply. fix_eq is the proved recursive equation; well-foundedness comes from actual Nat.findX existence proof.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/WF.lean
+
+Source SHA256 fe7c0a49de4a9c4b4fac24493f40598a1374837b17a6c334fc1ed03e23646e01; Git blob 1d0216ed49d1250db35bc6b551fb03c0c7777293; excerpt SHA256 aec5db747150a4c55fdd4f3b9b2d5b63a653f0f05b540d1829e3b2e3934dc4b4. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/```
+
+```lean
+noncomputable def fix (hwf : WellFounded r) (F : ∀ x, (∀ y, r y x → C y) → C x) (x : α) : C x :=
+  fixF F x (apply hwf x)
+
+-- Well-founded fixpoint satisfies fixpoint equation
+theorem fix_eq (hwf : WellFounded r) (F : ∀ x, (∀ y, r y x → C y) → C x) (x : α) :
+    fix hwf F x = F x (fun y _ => fix hwf F y) :=
+  fixF_eq F x (apply hwf x)
+```
+
+Actual users: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+### Classical.propDecidable noncomputable instance
+
+Actual scoped noncomputable instance chooses proof-correct isTrue/isFalse from excluded middle. Supports noncomputable Nat.find predicates on real strategy/matrix existence; no executable Real decision or runtime cost claim. Actual typeDecidableEq is genuine pointwise proposition decidability. The seven cardinal-specific finite-equivalence wrappers use the retained Mathlib Classical.decEq adapter, not an executable equality enumerator.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Classical.lean
+
+Source SHA256 9217cf075cac15875b6fb5073ce5d150037953623fbfacac8a181214d42edd0b; Git blob d14cdb485afe5b127b844c5a9501d05528beb373; excerpt SHA256 197974c80518e51d2911abd7626f4b7049a6db8de68d8072a4fd38bc5de96cfd. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/```
+
+```lean
+noncomputable scoped instance (priority := low) propDecidable (a : Prop) : Decidable a :=
+  choice <| match em a with
+    | Or.inl h => ⟨isTrue h⟩
+    | Or.inr h => ⟨isFalse h⟩
+
+@[instance_reducible]
+noncomputable def decidableInhabited (a : Prop) : Inhabited (Decidable a) where
+  default := inferInstance
+
+instance (a : Prop) : Nonempty (Decidable a) := ⟨propDecidable a⟩
+
+noncomputable def typeDecidableEq (α : Sort u) : DecidableEq α :=
+  fun _ _ => inferInstance
+```
+
+Actual users: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_origin, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumTotalSupport_attained, SparseCompletion.uniformMinimumTotalSupport_le, SparseCompletion.uniformMinimumTotalSupport_sharp, SparseCompletion.uniformMinimumTotalSupport_zero, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+Four semantic bridge statements appear in both import contexts; their actual compilation is a separate verification gate. Finite maximum remains justified by the existing sup/fold, unbot, nonemptiness and membership/order contracts. No generic kernel-recursion or algorithm-complexity claim follows.
+
+### Precise added material and named-instance assignments
+
+**Fintype**: SparseCompletion.anchored_support_problem_representation, SparseCompletion.clone_anchor_count, SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_original, SparseCompletion.physical_anchored_support_exists, SparseCompletion.response_anchor_pull, SparseCompletion.response_payoff_scale, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset**: SparseCompletion.anchored_support_problem_representation, SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_original, SparseCompletion.physical_anchored_support_exists, SparseCompletion.response_anchor_pull, SparseCompletion.response_payoff_scale, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.prod**: SparseCompletion.anchored_support_problem_representation, SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_original, SparseCompletion.physical_anchored_support_exists, SparseCompletion.response_anchor_pull, SparseCompletion.response_payoff_scale, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Set.Icc**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Nat.ceil**: SparseCompletion.bounded_mass_grid_bound, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**FloorSemiring**: SparseCompletion.bounded_mass_grid_bound, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**NNReal.sqrt**: SparseCompletion.bounded_mass_grid_bound, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.inverse_sqrt_tolerance_scale, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Real.sqrt**: SparseCompletion.bounded_mass_grid_bound, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.inverse_sqrt_tolerance_scale, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Real.toNNReal**: SparseCompletion.bounded_mass_grid_bound, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.inverse_sqrt_tolerance_scale, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Convex**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**StarConvex**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**convexHull**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**AffineIndependent**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.weightedVSub**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.weightedVSubOfPoint**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**vectorSpan**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Submodule.span**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Module.finrank**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.card**: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_support_exists, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Fintype.card**: SparseCompletion.clone_anchor_count, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**IsCompact**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**IsClosed**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Continuous**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**LinearMap**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**ContinuousLinearMap**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Set.image**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.range**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**LocallyFiniteOrderBot**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Nat.find**: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Nat.findX**: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**RelEmbedding**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Finset.orderIsoOfFin**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Finset.orderEmbOfFin**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Equiv**: SparseCompletion.block_anchor_pull, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.response_anchor_pull, SparseCompletion.support_anchor_pull, SparseCompletion.weights_anchor_pull, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Finset.image**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.Nonempty**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.max'**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.sup'**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Fintype.equivFin**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**LinearOrder**: SparseCompletion.bounded_mass_grid_bound, SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**ConditionallyCompleteLinearOrder**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Set.Nonempty**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Finset.filter**: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_support_exists, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Multiset.filter**: SparseCompletion.exactInstanceMinimumSupport_attained, SparseCompletion.exactInstanceMinimumSupport_finite, SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.exact_instance_support_exists, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.physicalMinimumSupport_attained, SparseCompletion.physicalMinimumSupport_finite_bound, SparseCompletion.physicalMinimumSupport_le, SparseCompletion.physical_anchored_support_exists, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.scaled_cloned_witness_unit, SparseCompletion.supportProblemCounts_nonempty, SparseCompletion.supportProblemMinimum_attained, SparseCompletion.supportProblemMinimum_finite, SparseCompletion.supportProblemMinimum_le_worstCase, SparseCompletion.supportProblemMinimum_observation_invariant, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.support_anchor_pull, SparseCompletion.support_problem_exists, SparseCompletion.worstCaseSupport_attained, SparseCompletion.worstCaseSupport_finite, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+**Equiv.sumCongr**: SparseCompletion.block_anchor_pull, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.response_anchor_pull, SparseCompletion.support_anchor_pull, SparseCompletion.weights_anchor_pull, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Equiv.refl**: SparseCompletion.block_anchor_pull, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.response_anchor_pull, SparseCompletion.support_anchor_pull, SparseCompletion.weights_anchor_pull, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Equiv.symm**: SparseCompletion.block_anchor_pull, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.response_anchor_pull, SparseCompletion.support_anchor_pull, SparseCompletion.weights_anchor_pull, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**Equiv.trans**: SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.finite_clone_support_preserved, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general.
+
+**NeZero.one**: SparseCompletion.exactInstanceMinimumSupport_upper, SparseCompletion.finiteCloneSupportProblem_minimum_lower, SparseCompletion.finite_clone_physical_support_lower, SparseCompletion.finite_clone_physical_to_source, SparseCompletion.joint_anchor_support_scaled_order, SparseCompletion.joint_anchor_support_scaled_order_general, SparseCompletion.normalized_scaled_joint_support_upper, SparseCompletion.scaled_cloned_dense, SparseCompletion.scaled_cloned_observations_bounded, SparseCompletion.scaled_cloned_total_support_lower, SparseCompletion.supportProblemMinimum_upper, SparseCompletion.worstCaseSupport_lower, SparseCompletion.worstCaseSupport_sharp, SparseCompletion.worstCaseSupport_sharp_general, SparseCompletion.worstCaseSupport_upper.
+
+### Cardinality-specific equivalence and equality source context
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean
+
+Source SHA256 891fdb687fc067b1511701992301e28de0d4fd6ab53d74a96f51be39d5aa8f92; Git blob 80c4fd3f66ca34b754a300f1ac79312e7fcd920f. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean#L108-L126
+
+```lean
+
+variable [Fintype α] [Fintype β]
+
+/-- If the cardinality of `α` is `n`, there is computably a bijection between `α` and `Fin n`.
+
+See `Fintype.equivFinOfCardEq` for the noncomputable definition,
+and `Fintype.truncEquivFin` and `Fintype.equivFin` for the bijection `α ≃ Fin (card α)`.
+-/
+def truncEquivFinOfCardEq [DecidableEq α] {n : ℕ} (h : Fintype.card α = n) : Trunc (α ≃ Fin n) :=
+  (truncEquivFin α).map fun e => e.trans (finCongr h)
+
+/-- If the cardinality of `α` is `n`, there is noncomputably a bijection between `α` and `Fin n`.
+
+See `Fintype.truncEquivFinOfCardEq` for the computable definition,
+and `Fintype.truncEquivFin` and `Fintype.equivFin` for the bijection `α ≃ Fin (card α)`.
+-/
+noncomputable def equivFinOfCardEq {n : ℕ} (h : Fintype.card α = n) : α ≃ Fin n :=
+  letI := Classical.decEq α
+  (truncEquivFinOfCardEq h).out
+```
+
+Excerpt SHA256 8260d4438368e910ef7544fa80a33093de536ae384236a02161f940b4ecfb2f4
+
+### Cardinality-specific equivalence and equality source context
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Logic/Basic.lean
+
+Source SHA256 a9334173e1a8b994e995363725d6b333265114eb196b549d4750e6b9ee92b935; Git blob b3d2ad2f6dcedde4742658c60b74c3c97a6a3f74. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2016 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Leonardo de Moura
+-/
+module
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Logic/Basic.lean#L764-L767
+
+```lean
+
+/-- Any type `α` has decidable equality classically. -/
+@[instance_reducible]
+noncomputable def decEq (α : Sort*) : DecidableEq α := by infer_instance
+```
+
+Excerpt SHA256 3f0b314a4eaf6e917ff5797794f42f3db70c1f25fcdfba5309aa2118a19cbd66
+
+The cardinality-specific wrapper is distinct from equivFin; the retained bijectivity bridge states its mathematical contract. The decEq bridge proves genuine equality decision correctness, not an executable real decision algorithm. Six added semantic controls occur in both import contexts.

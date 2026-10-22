@@ -486,19 +486,19 @@ passing checkpoint. That corrected source subsequently passed as355 below.
 No registry or journal submission, canonical Linux sandbox or release clearance
 is claimed.
 
-## Instrumented-certificate and source-refinement follow-on freeze
+## Historical instrumented-certificate freeze
 
-The new candidate contains232 math modules,910 math-source theorem audits and800
+At that earlier freeze, the candidate contained232 math modules,910 math-source theorem audits and800
 protected selected contracts. Independent internal AI mathematical/source reviews
 cover71 added proofs; three control modules contain36 executable guards. The nine
 new compiler contexts retain authenticated exact source/excerpts, and literal
 NeZero/Fin.foldr expansions are assigned from actual declaration traces. The
 meaning inventory is66material/85compiler/2auxiliary,111Mathlib sources/203excerpts.
-Nine additional semantic bridges must compile separately through both import
-contexts. The exact source/commit build, axiom/kernel audits, fresh independent
-exports, unchanged protected comparator and deliberate altered-helper rejection
-are pending for this candidate at freeze. Prior checkpoint and failed-run
-evidence remain immutable history; no prior receipt certifies this candidate.
+At that freeze, nine additional semantic bridges and the exact build,
+axiom/kernel audits, exports, protected comparison and altered-helper rejection
+were pending. They subsequently passed at f3 as recorded below. The historical
+85-context inventory has the retained-source qualification described below.
+Prior checkpoint and failed-run evidence remain immutable history.
 Native macOS checks do not establish canonical Linux/registry/release clearance.
 
 ## Completed corrected-bin/global-sparse baseline
@@ -517,6 +517,59 @@ A local checkpoint tag and complete-history bundle are preserved; bundle SHA256:
 ebfbd6757d610679cb17d4359fa3b2c34533275a908adc2f24910a15f7451867.
 The bundle/tag authentication SHA256 is
 9be621d9e18be7601026b3931b26ed934837fc0b3ea6281babbe3b47acfd9d82.
-These receipts certify that baseline only. The later71-proof candidate requires
-its own exact-source gates; canonical Linux, registry and journal submission,
+These receipts certify that baseline only. The later71-proof tranche passed
+its own gates at f3 below; canonical Linux, registry and journal submission,
 release clearance and external human review are not asserted.
+
+## Completed instrumented-certificate checkpoint and current correction
+
+Commit f3c300572e22fb88de71183aee09ccc66785c3da, package tree
+6cb153a406832759141270f0f18eac8f67ceb05c, passed all12 native gates:
+3640-job clean build,910 source axiom audits, module kernel, separate protected
+compilation, both exports,800 protected contracts and permitted-axiom checks,
+deliberately altered-envelope rejection, and export kernel. All282 source
+hashes and nine exact clean dependency pins were independently authenticated.
+Receipt SHA256 c263f36095c64d3bda6b65a19125594ef9fac1598bf0b9621f9a0a0013b34984.
+Independent authentication SHA256
+a0d31c7b95c3e84719743406b993be857840809706c1ce457392ce2e77624ef8.
+The complete-history checkpoint bundle SHA256 is
+b72343d34ad6926a9ab9b46915c0a470b5dd8f7a2dfbdd6b871ed3231867d8e5;
+independent preservation review SHA256
+8d6583560637b5c269ab7d91f293d7cf815111c32769d01e2b1f1cc5efe308db.
+
+Those mechanical outcomes remain valid. Retained-source completeness is
+qualified: the old Nat.findX excerpt omitted its final application line54 and
+literal WellFounded/Classical recipes were not retained. The current43
+candidate corrects these contexts with exact affected-user assignments and
+includes the finite-equivalence/classical-equality wrappers. It requires its
+own exact-source receipt. No predecessor receipt verifies altered source.
+
+## General payoff bounds and actual worst-case support
+
+The 43-proof follow-on adds payoff rescaling, general-M upper and hard-instance
+lower bounds, and actual attained per-instance support minima and their attained
+worst-case maximum. For every k≥2, m>0, M>0 and 0<η≤M, in both fixed-anchor and
+minimum-anchor-share classes, the maximum of those minima lies between
+`(sqrt(3/1216)/2) * min(k+m,k+sqrt(M/η))` and
+`2 * min(k+m,k+sqrt(M/η))`. The hard input is an actual finite-label scaled clone
+game; responses, anchor commitments and support cardinality are transported
+through an equivalence. The zero game only establishes nonemptiness.
+`worstCaseSupport_sharp_general` proves the two-sided bound.
+
+`PhysicalAnchoredWitness`, `AnchoredSupportProblem`, `physicalMinimumSupport` and
+`supportProblemMinimum` quantify over actual bounded skew completions and
+normalized strategies satisfying every response inequality. Existence of their
+least support is proved from original feasible data. `worstCaseSupport` takes
+the maximum over all such problems using the proved finite cardinality cap.
+`supportProblemMinimum_observation_invariant` proves that the original feasible
+certificate does not affect that minimum when observed K,D and floors agree;
+`anchored_support_problem_representation` represents every raw feasible input.
+These extrema use genuine classical predicates and do not provide an executable
+optimizer or a polynomial-time decision procedure.
+
+This candidate has246 mathematical modules,953 source theorem audits and843
+protected selected contracts. Strict scratch compilation and independent
+internal AI mathematical review cover the43 additions. Final integrated builds,
+separate protected identities, altered-helper rejection, exports and kernel
+checks require a new immutable exact-source receipt. Predecessor receipts
+remain evidence for their own source only.

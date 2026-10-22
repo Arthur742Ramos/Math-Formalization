@@ -624,5 +624,22 @@ theorem counted_list_get_succ {α : Type*} (a : α) (xs : List α)
     (i : Fin xs.length) : (a :: xs).get i.succ = xs.get i := rfl
 
 
+-- Minimum-support retained foundation controls
+universe minimumU minimumV
+
+example {α : Sort minimumU} {r : α → α → Prop} {x y : α} (h : Acc r x) (hy : r y x) : Acc r y := Acc.inv h hy
+
+example {α : Sort minimumU} {r : α → α → Prop} {C : α → Sort minimumV} (F : ∀ x, (∀ y, r y x → C y) → C x) (x : α) (h : Acc r x) : WellFounded.fixF F x h = F x (fun y hy => WellFounded.fixF F y (Acc.inv h hy)) := WellFounded.fixF_eq F x h
+
+example {α : Sort minimumU} {r : α → α → Prop} {C : α → Sort minimumV} (hw : WellFounded r) (F : ∀ x, (∀ y, r y x → C y) → C x) (x : α) : WellFounded.fix hw F x = F x (fun y _ => WellFounded.fix hw F y) := WellFounded.fix_eq hw F x
+
+example (p : Prop) : (letI : Decidable p := Classical.propDecidable p; decide p = true) ↔ p := by
+  classical
+  simp
+
+theorem finite_equiv_card_bijective {α : Type*} [Fintype α] {n : ℕ} (h : Fintype.card α = n) : Function.Bijective (Fintype.equivFinOfCardEq h) := (Fintype.equivFinOfCardEq h).bijective
+
+theorem finite_classical_decEq {α : Sort*} (a b : α) : (@decide (a = b) (Classical.decEq α a b) = true) ↔ a = b := @decide_eq_true_iff (a = b) (Classical.decEq α a b)
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

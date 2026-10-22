@@ -195,3 +195,17 @@ public import LargeToleranceWitness
 public import PrefixViolation
 public import RationalFloorCertifiedGeneral
 public import CoverUniformBound
+public import PayoffScaling
+public import ScaledJointLower
+public import ScaledJointUpper
+public import ScaledJointSupportTheorem
+public import ScaledJointAllK
+public import PhysicalSupportMinimum
+public import ExactInstanceSupportMinimum
+public import SupportProblemMinimum
+public import WorstCaseSupport
+public import AnchorRelabel
+public import FiniteCloneInstance
+public import FiniteCloneLower
+public import WorstCaseSupportSharp
+public import SupportObservationInvariance
