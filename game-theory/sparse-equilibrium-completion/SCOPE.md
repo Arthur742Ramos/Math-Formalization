@@ -459,9 +459,11 @@ audits and1045 selected protected contracts. The six modules add48 proved
 statements, including the finite-vector getter coherence helper. All48 have
 strict pinned-toolchain development axiom reports,18 executable controls passed,
 and the prospective protected comparison, altered-helper rejection and export
-kernel checks passed. This source integration is a new candidate: the14 newly
-inserted semantic bridges and both canonical entrypoints have NOT been compiled
-for these bytes. The generated-definition validator source passed independent code review and
+kernel checks passed. The14 newly inserted semantic bridge statements and both canonical
+entrypoints passed strict pinned-toolchain compilation in the retained canonical
+preflight. The Pi.single bridge uses the explicit constant real-valued function
+type. Subsequent edits reconcile status comments and documentation; a fresh
+full exact-commit native report must bind this candidate before mechanical verification is claimed. The generated-definition validator source passed independent code review and
 14 portable Python regression methods; that establishes no Lean compilation.
 Its exact two reviewed root files are installed separately. Exact assembled
 source/dependency checks, final independent source review and full exact-commit
@@ -501,7 +503,7 @@ Pi.mulSingle→Pi.single separately from their actual generated declarations.
 Their inferred names are not accepted as fake literal source heads. The narrowly
 reviewed validator distinguishes the exact two generated source/target pairs. A retained
 dual-export attestation binds actual target presence, while separately named
-semantic bridges must still compile in BOTH entrypoints. Exact historical
+semantic bridges have now compiled in BOTH canonical entrypoints. Exact historical
 marker audits cover240 abs and184 Pi.single contexts. Cached-table construction
 retains Vector.ofFn→Array.ofFn and its coordinate contract; integer magnitude
 retains Int's signed constructors and natAbs's logical/extern boundary.

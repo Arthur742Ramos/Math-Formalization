@@ -878,7 +878,7 @@ open SparseCompletion
 #guard rationalResidualAdj (n:=2) (fun _ _ => 1/4) (fun i j => if i=0 ∧ j=1 then 1/4 else if i=1 ∧ j=0 then 1/8 else 0) 0 1 = false
 
 
--- SOURCE-ONLY candidate:14 new semantic bridges. NOT compiled for these bytes.
+-- Fourteen retained semantic bridges; exact compilation receipts are recorded separately.
 theorem finite_complement_universe_difference {α : Type*} [Fintype α] [DecidableEq α] (s : Finset α) : sᶜ = Finset.univ \ s := Finset.compl_eq_univ_sdiff s
 
 theorem finite_complement_membership {α : Type*} [Fintype α] [DecidableEq α] (a : α) (s : Finset α) : a ∈ sᶜ ↔ a ∉ s := Finset.mem_compl
@@ -895,7 +895,7 @@ theorem multiset_erasure_quotient {α : Type*} [DecidableEq α] (xs : List α) (
 
 theorem generated_abs_rational_semantics (q : ℚ) : |q| = max q (-q) := abs_eq_max_neg
 
-theorem generated_single_real_semantics {ι : Type*} [DecidableEq ι] (i j : ι) (x : ℝ) : Pi.single i x j = (if j = i then x else 0) := Pi.single_apply i x j
+theorem generated_single_real_semantics {ι : Type*} [DecidableEq ι] (i j : ι) (x : ℝ) : (Pi.single i x : ι → ℝ) j = (if j = i then x else 0) := Pi.single_apply i x j
 
 theorem finite_vector_constructor_array {α : Type*} {n : ℕ} (f : Fin n → α) : (Vector.ofFn f).toArray = Array.ofFn f := rfl
 

@@ -12888,7 +12888,7 @@
         "mabs_eq_max_inv additive maximum contract",
         "mabs additive absolute-value generator"
       ],
-      "proof_status": "Source-only candidate: actual generated target presence and source provenance retained. Named semantic theorem is inserted in BOTH entrypoints; its compilation and exact assembled-source consistency/native checks remain pending. The generated-validator source independently passed code review and14 portable Python regression methods, which are not Lean compilation."
+      "proof_status": "Actual generated target and pinned generator retained; the named semantic statement passed strict canonical Challenge and Solution preflight compilation. Full mechanical verification is determined by an exact frozen-commit receipt; canonical compilation alone is insufficient."
     },
     {
       "name": "Pi.single",
@@ -13107,7 +13107,7 @@
         "Function.update dependent conditional recipe",
         "Function.update_apply pointwise contract"
       ],
-      "proof_status": "Source-only candidate: actual generated target presence and source provenance retained. Named semantic theorem is inserted in BOTH entrypoints; its compilation and exact assembled-source consistency/native checks remain pending. The generated-validator source independently passed code review and14 portable Python regression methods, which are not Lean compilation."
+      "proof_status": "Actual generated target and pinned generator retained; the named semantic statement passed strict canonical Challenge and Solution preflight compilation. Full mechanical verification is determined by an exact frozen-commit receipt; canonical compilation alone is insufficient."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -16387,12 +16387,12 @@
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "dff457a5dd00acf84bfd1685d0b353f4fc0ba0d9e80dcc45d7a3bbb03765970c"
+      "sha256": "d33f62bee530a4a23434024c12a4393b09fe3fcfc984e83c0b57b143767515b1"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "bd486fc1f7d81c489aa77bbe914391e6956d88f503f6a4e438e21408447e5ae4"
+      "sha256": "3195a7a8f6df9ba4c388c2915dc50b8ddc34a9a8de40c3bca29c1a4aaca8edf3"
     }
   ],
   "generated_declarations": [
