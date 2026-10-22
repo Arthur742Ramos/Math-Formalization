@@ -80,8 +80,9 @@ in PREPARATIONS.json; browser/runtime visual review remains unestablished.
 
 ## New independent preparation
 
-Exactly one next target is under development. Its local source checks and
-independent internal AI reviews do not certify canonical or service outcomes.
+This section retains a historical preparation checkpoint. The current isolated
+next topology target is open Baire-space representation, recorded below. Local
+source checks and internal AI reviews do not certify canonical or service outcomes.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
@@ -134,7 +135,7 @@ This separately reviewed package proves complete-metric determinacy for
 Baire-property target sets, with both winner characterizations. It adds target
 payoffs, actual joint-play execution and residual target forcing beyond Oxtoby
 and Choquet. Ordinary compilation and semantic audits passed. Exact-source
-protected full and canonical rendering passed on attempt1; original reports are
+protected full and canonical rendering passed on attempt 1; original reports are
 bound in PREPARATIONS.json. Current private service state and browser-runtime
 visual inspection remain unconfirmed. No prior package or registered source is changed.
 
@@ -149,10 +150,41 @@ strong Choquet characterization of Polish spaces, including the difficult
 second-countable metrizable converse. Complete-metric winning strategies and
 complete-ambient Gδ-subspace completeness have their stated more general scope.
 Ordinary exact-source checks and independent internal review passed. Protected
-full and canonical rendering passed on attempt1 with original source-bound reports
+full and canonical rendering passed on attempt 1 with original source-bound reports
 in PREPARATIONS.json. Current service state and browser-runtime visual inspection
 remain separate. No prior frozen source, registration or package pin is changed.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Full/render passed; intake and registration unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
+
+## Open Baire-space representation verification
+
+| Project | Scope | Status | Frozen source |
+| --- | --- | --- | --- |
+| [Open Baire-space representation of Polish spaces](topology/open-baire-representation) | Nonempty Polish open Baire representation, genuine covering scheme and exact cylinder images. | Preparation; not submitted at historical checkpoint; canonical full/render passed; now [registered000041v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-22-000041&version=1) | [`87652c9`](https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation) |
+
+The initial native preparation checkpoint in PREPARATIONS.json is historical.
+The later exact-source [canonical results](catalog-evidence/open-baire-representation-2026-10-22/canonical-results.json)
+record full run 39811305855 and render run 39811305165, both successful on attempt 1 for
+source 87652c909a92afded15aad86a901d8c11dd75ed8. Lean, NanoDa and verified
+con-ron accepted; the final report/archive guard and 189 regressions passed.
+Browser visual inspection was not performed. That checkpoint predates intake.
+The user subsequently registered the exact frozen source as
+[PALOMAR-2026-10-22-000041 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-22-000041&version=1),
+confirmed by its public record at2026-10-22T17:49:54Z.
+Prior package trees and historical preparation records remain unchanged.
+
+## Alexandrov–Urysohn Baire characterization preparation
+
+| Project | Scope | Status | Frozen source |
+| --- | --- | --- | --- |
+| [Alexandrov–Urysohn characterization of Baire space](topology/baire-space-characterization) | Full homeomorphism iff nonempty, Polish, clopen basis and empty compact interiors; infinite clopen partitions. | Preparation; not submitted; canonical full/render passed; independent internal reviews passed | [`b77053b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/b77053ba8669ad046ec3c0d54d83a79724935a9f/topology/baire-space-characterization) |
+
+[Native evidence](catalog-evidence/baire-space-characterization-2026-10-22/native-summary.json)
+binds this source. The later [canonical results](catalog-evidence/baire-space-characterization-2026-10-22/canonical-results.json)
+record successful full39834601956 and rendering39834601494, attempt1, exactb77053b.
+The single approved pair is consumed; Lean, NanoDa and verified con-ron accepted
+all15,231 declarations. Complete rendering and final report/archive guard passed.
+The initial PREPARATIONS checkpoint remains historical. No registry submission,
+merge or browser visual inspection was performed; no rerun is authorized.

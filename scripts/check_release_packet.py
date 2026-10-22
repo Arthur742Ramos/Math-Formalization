@@ -28,6 +28,59 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def check_replayed_con_ron(report, protected):
+    """Require complete verified acceptance in the current canonical replay format.
+
+    This checks report consistency, not artifact provenance. The original report
+    and pinned workflow must independently authenticate the same-export replay.
+    Declines, including upstream-permitted capacity declines, do not pass here.
+    """
+    kernels = report.get('kernels')
+    require(isinstance(kernels, list) and len(kernels) == 2 and
+            all(isinstance(k, dict) for k in kernels) and
+            {k.get('name') for k in kernels} == {'nanoda', 'con-ron'},
+            'Missing or duplicate independent kernel')
+    commands = {k['name']: k.get('argv') for k in kernels}
+    require(commands['nanoda'] == protected['external_kernels']['nanoda'],
+            'NanoDa command differs from protected configuration')
+    attempts = report.get('kernel_attempts')
+    require(isinstance(attempts, list) and len(attempts) == 1 and
+            isinstance(attempts[0], dict), 'Missing or duplicate con-ron replay')
+    attempt = attempts[0]
+    require(attempt.get('name') == 'con-ron' and attempt.get('status') == 'accepted' and
+            attempt.get('reason') == 'complete' and type(attempt.get('exit_code')) is int and
+            attempt['exit_code'] == 0, 'No complete con-ron replay acceptance')
+    command = attempt.get('argv')
+    require(isinstance(command, list) and len(command) == 3 and
+            all(isinstance(a, str) for a in command) and
+            command[1:] == ['--jobs=2', '--verified'] and
+            pathlib.PurePosixPath(command[0]).is_absolute() and
+            '..' not in pathlib.PurePosixPath(command[0]).parts and
+            command[0].endswith('/trusted-checker-update/con-ron') and
+            command == commands['con-ron'], 'Wrong con-ron replay command')
+    require(type(attempt.get('budget_seconds')) is int and
+            0 < attempt['budget_seconds'] <= 1800, 'Invalid con-ron replay budget')
+    detail = attempt.get('detail')
+    require(isinstance(detail, str) and len(re.findall(
+        r'^con-ron: accepted [1-9][0-9]* declarations \(--verified\)$', detail, re.M)) == 1 and
+        not re.search(r'\b(?:rejected|declined|unsupported|timeout|error)\b|timed out', detail, re.I),
+        'Missing or conflicting verified con-ron verdict')
+    policy = ROOT / 'catalog-evidence/checker-policy-ad5db9e7/checker-revisions.json'
+    policy_bytes = policy.read_bytes()
+    require(sha(policy_bytes) == 'f8bf5d9df7e38fb16d667003b1b47dd28aaf4dc380ce01b50df3f8c36a79c6f3',
+            'Pinned checker policy digest mismatch')
+    expected = json.loads(policy_bytes)['con_ron'].get(report['lean_toolchain'])
+    require(expected is not None, 'Source toolchain has no reviewed replay checker policy')
+    release = expected['release_tag']
+    expected = dict(expected, kind='maintainer-pinned-release',
+                    source_toolchain=report['lean_toolchain'], archive_url=(
+        f'https://github.com/leanprover/lean4/releases/download/{release}/'
+        f'lean-{release.removeprefix("v")}-linux.tar.zst'))
+    require(report.get('con_ron_checker') == expected, 'Wrong con-ron checker provenance')
+    require(report.get('tool_digests', {}).get('con-ron') == expected['binary_sha256'],
+            'Wrong con-ron executable digest')
+
+
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
     require(re.fullmatch(r'topology/[a-z0-9-]+', project), 'Invalid project path')
@@ -89,11 +142,18 @@ def bind_full(report, fields, files):
             protected['challenge_module'].endswith('.Challenge'), 'Unprotected Challenge')
     for kind in ['challenge', 'solution']:
         require(report[kind]['module'] == config[kind + '_module'], kind + ' module mismatch')
-    require(set(protected['external_kernels']) == {'nanoda', 'con-ron'} and
-            {k['name'] for k in report['kernels']} == {'nanoda', 'con-ron'}, 'Missing independent kernel')
+    kernel_names = set(protected['external_kernels'])
+    if kernel_names == {'nanoda'}:
+        check_replayed_con_ron(report, protected)
+    else:
+        require(kernel_names == {'nanoda', 'con-ron'} and
+                {k['name'] for k in report['kernels']} == {'nanoda', 'con-ron'},
+                'Missing independent kernel')
+        require('con-ron kernel accepts the solution' in report['comparator_log_tail'],
+                'Missing actual kernel/comparison acceptance')
     require(report['challenge']['trust_level'] == 'high' and report['challenge']['untrusted_sources'] == [],
             'Challenge provenance is not high trust')
-    for message in ['con-ron kernel accepts the solution', 'nanoda kernel accepts the solution',
+    for message in ['nanoda kernel accepts the solution',
                     'Lean default kernel accepts the solution', 'Your solution is okay!']:
         require(message in report['comparator_log_tail'], 'Missing actual kernel/comparison acceptance')
 

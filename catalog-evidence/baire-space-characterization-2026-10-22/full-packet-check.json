@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+  "project_path": "topology/baire-space-characterization",
+  "metadata_sha256": "5f95f576b250fa70204410bf7813d4912465186b60e1918f4b97fbd54836e956",
+  "report_sha256": "105572dbbd59ec138e860af3facb3be0a39d32be8fde9b5ae8a0ac6af785ddf0",
+  "archive_sha256": "076b52379acf7e3018f4195abe954f0bbebbadeb799b979feec9c21108ac137c",
+  "intake_authorized": false,
+  "scope": "Exact-source status, full-report and source archive consistency. Independent artifact provenance, current attempts/duplicates, rendering and editorial/registration decisions remain separate."
+}

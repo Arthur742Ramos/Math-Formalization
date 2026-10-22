@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "source_commit": "87652c909a92afded15aad86a901d8c11dd75ed8",
+  "renderer_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "report_sha256": "892d2c79e37de710d97afc5af087765e65c00c91d93bdae95b7e63271d531ed4",
+  "artifact_zip_sha256": "59340020ee13a53b5854e189c82176375ca4b9d8a47abb9f33411ae759bd3fa4",
+  "artifact_tree_sha256": "ea939858cdd41549b4443b9d5418d6c42ca5221daf9ff4bee9c97bfd705c5db2",
+  "bundle_regular_files": 14,
+  "all_individual_manifest_hashes_and_sizes_match": true,
+  "six_selected_contracts_match": true,
+  "browser_visual_inspection": "not performed",
+  "registry_action": false,
+  "pinned_manifest_tree_digest_recomputed": true
+}

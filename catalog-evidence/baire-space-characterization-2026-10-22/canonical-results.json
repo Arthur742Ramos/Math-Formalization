@@ -1,0 +1,47 @@
+{
+  "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+  "package_tree": "3c0b57799f617929a98c27fff8b15065e1470601",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "caller_commit": "89abf39f3b9d7673e1e64bfe4c42944832e98f7c",
+  "canonical_dispatches": 1,
+  "reruns_authorized": false,
+  "registry_submission_authorized": false,
+  "full": {
+    "id": 39834601956,
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39834601956",
+    "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+    "report_file": "full-report.json",
+    "report_sha256": "105572dbbd59ec138e860af3facb3be0a39d32be8fde9b5ae8a0ac6af785ddf0",
+    "artifact_id": 12451440110,
+    "artifact_zip_sha256": "744495f7e18e7de05ab3b1615c7aa755537fc0a12b49f85e8874581d6a5de405",
+    "kernels": "Lean and NanoDa accepted; verified con-ron accepted15231 declarations"
+  },
+  "render": {
+    "id": 39834601494,
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39834601494",
+    "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+    "report_file": "render-report.json",
+    "report_sha256": "0f710a6bda845e8940d1ec7181fb3eee16de3e8e4f5cbdf72af8702858f030ac",
+    "artifact_id": 12450947314,
+    "artifact_zip_sha256": "4fdb14290db1894cfae0e1f39c079888768010d0d5c5b103aff93ca58dc28a07",
+    "artifact_tree_sha256": "8fbdbf3d0bd7389fc290c5412eb702e364bfe316111a3a4d65724719b4b203cb",
+    "bundle_files": 13,
+    "bundle_bytes": 4522557,
+    "browser_visual_inspection": "not performed"
+  },
+  "source_archive_sha256": "076b52379acf7e3018f4195abe954f0bbebbadeb799b979feec9c21108ac137c",
+  "metadata_sha256": "5f95f576b250fa70204410bf7813d4912465186b60e1918f4b97fbd54836e956",
+  "comparator_sha256": "f135763376a7ec84e7852a436c76e7d3a6979f15c47720c3dfae448e5eb3fe07",
+  "independent_reviews_sha256": {
+    "baire-characterization-full-independent-review.json": "a7aa44bd87f178834f1cb2c59ce454e3fb6629413bce5539f3239c8383ede413",
+    "baire-characterization-render-independent-review.json": "abd5292adff316c078c12e3d3d021590ee065e2a28f9879fd0fa5271c62669f0",
+    "baire-characterization-final-canonical-packet-independent-review.json": "195655d60fe8e58bfc11ba2649abc21b18faf7fb926b9c8948a69a3519e8f5e2"
+  },
+  "scope": "Exact frozen source canonical outcomes, independent internal reviews and packet/archive checks. No editorial, registration or merge outcome; no new intake authorized."
+}

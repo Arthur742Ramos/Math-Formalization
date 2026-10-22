@@ -1,0 +1,17 @@
+{
+  "kind": "Independent internal AI reviews; no human or external review claimed",
+  "source_commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+  "source_sha256": "38c095626a13c6f95b93073505acc49eae21957e373d0850ddf9f0177c35cd49",
+  "mathematical_scope": "pass",
+  "implementation": "pass",
+  "metadata_harness": "pass",
+  "material_meanings": "pass",
+  "receipts_sha256": {
+    "baire-homeomorphism-target-independent-review.json": "41c279630c299768c8d379e3a0c698b00f04b4e311550cbc65dc177c873c3a57",
+    "baire-homeomorphism-feasibility-audit.json": "72326d4e97ac234cd82594274669f731ecadc483fcb87e7f302dd2fb3b8aaa7b",
+    "baire-characterization-implementation-independent-review.json": "d87ad4a283169a81bf66798d67bcd9f0fe87de35d7642859286a29ffb07da4d3",
+    "baire-characterization-final-source-metadata-harness-independent-review.json": "d0a5c136ad9c994b60b73e0f916a2e83b67fc9550572da65a88e3d471f0ed3f4",
+    "baire-characterization-retained-material-independent-review.json": "6a4db4f232934f0bc37930f4c6e336658ca4af8c4cf15cdca6fd5a7e775fcf07"
+  },
+  "limits": "Canonical full/render and final packet qualification separate; global/private overlap not exhaustive."
+}

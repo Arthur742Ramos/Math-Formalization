@@ -1,0 +1,18 @@
+{
+  "challenge_module": "OBChallenge",
+  "solution_module": "OBSolution",
+  "theorem_names": [
+    "OpenBaire.exists_open_refinement",
+    "OpenBaire.exists_open_scheme",
+    "OpenBaire.OpenScheme.image_cylinder",
+    "OpenBaire.exists_continuous_open_surjective_of_completeSpace",
+    "OpenBaire.exists_continuous_open_surjective",
+    "OpenBaire.exists_continuous_open_surjective_iff_nonempty"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

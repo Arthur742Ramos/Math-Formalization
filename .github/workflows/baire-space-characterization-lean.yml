@@ -1,0 +1,63 @@
+name: Baire characterization Lean verification
+on:
+  pull_request:
+    paths: ['topology/baire-space-characterization/**', 'scripts/check_imported_definitions.py', '.github/workflows/baire-space-characterization-lean.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: topology/baire-space-characterization
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Check frozen package
+        run: python3 scripts/check_package.py
+      - name: Install checksum-pinned Elan in user space
+        run: |
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/elan.tar.gz" \
+            https://github.com/leanprover/elan/releases/download/v4.2.3/elan-x86_64-unknown-linux-gnu.tar.gz
+          echo "df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2  $RUNNER_TEMP/elan.tar.gz" | sha256sum --check
+          mkdir "$RUNNER_TEMP/elan-install"
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP/elan-install"
+          "$RUNNER_TEMP/elan-install/elan-init" -y --no-modify-path --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Install exact toolchain and scoped canonical cache
+        run: |
+          elan toolchain install "$(tr -d '\r\n' < lean-toolchain)"
+          lean --version | tee "$RUNNER_TEMP/baire-space-characterization-lean-version.txt"
+          lake --version | tee "$RUNNER_TEMP/baire-space-characterization-lake-version.txt"
+          lake exe cache get Mathlib.Topology.MetricSpace.Polish Mathlib.Topology.MetricSpace.CantorScheme Mathlib.Order.Disjointed Mathlib.Basic.Denumerable
+      - name: Authenticate material imported definitions at the exact dependency pin
+        run: python3 ../../scripts/check_imported_definitions.py --project-path topology/baire-space-characterization --dependency-root .lake/packages/mathlib
+      - name: Authenticate retained Lean-core meanings
+        run: python3 scripts/check_package.py --core-source-root "$(lean --print-prefix)/src/lean"
+      - name: Build proofs and both independent module contracts
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee "$RUNNER_TEMP/baire-space-characterization-build.log"
+      - name: Fresh transitive axiom audit and frozen-source check
+        run: |
+          lake env lean AxiomAudit.lean > "$RUNNER_TEMP/baire-space-characterization-axioms.txt"
+          python3 scripts/check_package.py --axiom-log "$RUNNER_TEMP/baire-space-characterization-axioms.txt"
+          git diff --exit-code
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: baire-space-characterization-lean
+          path: |
+            ${{ runner.temp }}/baire-space-characterization-lean-version.txt
+            ${{ runner.temp }}/baire-space-characterization-lake-version.txt
+            ${{ runner.temp }}/baire-space-characterization-build.log
+            ${{ runner.temp }}/baire-space-characterization-axioms.txt
+          if-no-files-found: warn
+          retention-days: 30

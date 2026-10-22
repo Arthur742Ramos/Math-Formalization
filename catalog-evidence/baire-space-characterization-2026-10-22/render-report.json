@@ -1,0 +1,102 @@
+{
+  "artifact_tree_sha256": "8fbdbf3d0bd7389fc290c5412eb702e364bfe316111a3a4d65724719b4b203cb",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-22T18:50:59Z",
+  "rendered_at": "2026-10-22T18:55:36Z",
+  "renderer_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "topology/baire-space-characterization/BCChallenge.lean",
+    "challenge_sha256": "38c095626a13c6f95b93073505acc49eae21957e373d0850ddf9f0177c35cd49",
+    "commit": "b77053ba8669ad046ec3c0d54d83a79724935a9f",
+    "comparator_config_path": "topology/baire-space-characterization/comparator.json",
+    "lakefile_path": "topology/baire-space-characterization/lakefile.toml",
+    "lean_toolchain_path": "topology/baire-space-characterization/lean-toolchain",
+    "project_path": "topology/baire-space-characterization",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "topology/baire-space-characterization/BCSolution.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem BaireCharacterization.exists_clopen_partition.{u_1} {X : Type u_1} [MetricSpace X] [CompleteSpace X]\n  [SecondCountableTopology X] (hB : BaireCharacterization.HasClopenBasis X)\n  (hK : BaireCharacterization.CompactInteriorEmpty X) {U : Set X} (hU : IsClopen U) (hne : Set.Nonempty U) {\u03b5 : Real}\n  (h\u03b5 : LT.lt 0 \u03b5) :\n  Exists fun V =>\n    And (Eq (Set.iUnion fun n => V n) U)\n      (And (Pairwise fun i j => Disjoint (V i) (V j))\n        (\u2200 (n : Nat),\n          And (IsClopen (V n))\n            (And (Set.Nonempty (V n)) (And (LE.le (V n) U) (LE.le (Metric.ediam (V n)) (ENNReal.ofReal \u03b5))))))",
+        "name": "BaireCharacterization.exists_clopen_partition"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.exists_clopen_scheme.{u_1} (X : Type u_1) [MetricSpace X] [CompleteSpace X]\n  [SecondCountableTopology X] [Nonempty X] (hB : BaireCharacterization.HasClopenBasis X)\n  (hK : BaireCharacterization.CompactInteriorEmpty X) : Nonempty (BaireCharacterization.ClopenScheme X)",
+        "name": "BaireCharacterization.exists_clopen_scheme"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.ClopenScheme.image_cylinder.{u_1} {X : Type u_1} [MetricSpace X]\n  (S : BaireCharacterization.ClopenScheme X) [CompleteSpace X] (x : Nat \u2192 Nat) (n : Nat) :\n  Eq (Set.image (BaireCharacterization.ClopenScheme.limit S) (PiNat.cylinder x n))\n    (BaireCharacterization.ClopenScheme.sets S (PiNat.res x n))",
+        "name": "BaireCharacterization.ClopenScheme.image_cylinder"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.nonempty_homeomorph_of_completeSpace.{u_1} (X : Type u_1) [MetricSpace X] [CompleteSpace X]\n  [SecondCountableTopology X] [Nonempty X] (hB : BaireCharacterization.HasClopenBasis X)\n  (hK : BaireCharacterization.CompactInteriorEmpty X) : Nonempty (Homeomorph X (Nat \u2192 Nat))",
+        "name": "BaireCharacterization.nonempty_homeomorph_of_completeSpace"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.nonempty_homeomorph.{u_1} (X : Type u_1) [TopologicalSpace X] [PolishSpace X] [Nonempty X]\n  (hB : BaireCharacterization.HasClopenBasis X) (hK : BaireCharacterization.CompactInteriorEmpty X) :\n  Nonempty (Homeomorph X (Nat \u2192 Nat))",
+        "name": "BaireCharacterization.nonempty_homeomorph"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.baire_hasClopenBasis : BaireCharacterization.HasClopenBasis (Nat \u2192 Nat)",
+        "name": "BaireCharacterization.baire_hasClopenBasis"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.baire_compactInteriorEmpty : BaireCharacterization.CompactInteriorEmpty (Nat \u2192 Nat)",
+        "name": "BaireCharacterization.baire_compactInteriorEmpty"
+      },
+      {
+        "declaration": "theorem BaireCharacterization.nonempty_homeomorph_iff.{u_1} (X : Type u_1) [TopologicalSpace X] :\n  Iff (Nonempty (Homeomorph X (Nat \u2192 Nat)))\n    (And (Nonempty X)\n      (And (PolishSpace X)\n        (And (BaireCharacterization.HasClopenBasis X) (BaireCharacterization.CompactInteriorEmpty X))))",
+        "name": "BaireCharacterization.nonempty_homeomorph_iff"
+      }
+    ],
+    "declarations": [
+      "BaireCharacterization.exists_clopen_partition",
+      "BaireCharacterization.exists_clopen_scheme",
+      "BaireCharacterization.ClopenScheme.image_cylinder",
+      "BaireCharacterization.nonempty_homeomorph_of_completeSpace",
+      "BaireCharacterization.nonempty_homeomorph",
+      "BaireCharacterization.baire_hasClopenBasis",
+      "BaireCharacterization.baire_compactInteriorEmpty",
+      "BaireCharacterization.nonempty_homeomorph_iff"
+    ],
+    "imports": [
+      "Mathlib.Basic.Denumerable",
+      "Mathlib.Order.Disjointed",
+      "Mathlib.Topology.MetricSpace.CantorScheme",
+      "Mathlib.Topology.MetricSpace.Polish"
+    ],
+    "module_doc": "# Alexandrov\u2013Urysohn characterization of Baire space\n\nClassical source: Anush Tserunyan, Introduction to descriptive set theory,\nTheorem 5.4 and the companion Problem 26 (retained PDF SHA256\nb9cf370dee86d3a1fa6f33bf32411f996eb3f7e3e80cac64bd8fb776f601dcd5). Generic scheme limits are from\nFelix Weilacher's Mathlib CantorScheme development. The limit, branch-extension\nand cylinder-image proofs are adapted from this campaign's OpenBaire package\n(frozen source 87652c909a92afded15aad86a901d8c11dd75ed8), with the new\ndisjoint clopen partition construction supplying injectivity and homeomorphism.",
+    "schema_version": 3,
+    "solution_imports": [
+      "BaireCharacterization"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39834601494"
+}
