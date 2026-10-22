@@ -30,8 +30,15 @@ zero tolerance; for `0<ε≤1` they lie between
 `sqrt(3/1216) min(m+2,1/sqrt ε)` and `5 min(m+2,1/sqrt ε)`.
 The minimum is noncomputable over actual strategies and completions, with
 nonemptiness, attainment, minimality and actual support-cardinality bridges.
-The upper proof uses the general sparse theorem. The paper's explicit midpoint/
-bin constructions, residual-minimum packaging and uncertainty laws remain open.
+Residual minima are also attained: their sharp-order constants are
+`sqrt(3/1216)/2` and `3`, for `0<ε≤1` under fixed shares and
+`0<ε≤1/1024` under minimum shares. Interval-compatible support minima have
+support-preserving restoration lower bounds at `ε+δ`; uncertainty in only the
+anchor-core entry has the sharper lower scale `ε+3δ/8`. Both models match the
+central exact-observation minimum at radius zero and have origin minimum `m+2`
+for `m≥2`. Their upper uncertainty laws remain open. The upper proof for exact
+observations uses the general sparse theorem; the paper's explicit midpoint/bin
+constructions remain open.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`; its dependencies are package-owned.

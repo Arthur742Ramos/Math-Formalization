@@ -156,5 +156,10 @@ theorem natural_minimum_projection (p : ℕ → Prop) [DecidablePred p] (hp : �
   apply Nat.le_antisymm (Nat.find_min' hp (Nat.findX hp).2.1)
   exact Nat.le_of_not_gt fun h => (Nat.findX hp).2.2 _ h (Nat.find_spec hp)
 
+theorem clipped_payoff_interval_meaning (a δ x : ℝ) :
+    SparseCompletion.ClippedObservation a δ x ↔
+      x ∈ Set.Icc (max (-1) (a-δ)) (min 1 (a+δ)) :=
+  SparseCompletion.clipped_observation_interval a δ x
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

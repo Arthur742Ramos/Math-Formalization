@@ -52,7 +52,7 @@ Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletio
 
 ## Real.sqrt
 
-The real square root applies NNReal.sqrt to Real.toNNReal. Negative inputs yield zero. Only nonnegative Mr/η is used; square_root_meaning proves the needed square and sign laws.
+The real square root applies NNReal.sqrt to Real.toNNReal. Negative inputs yield zero. Nonnegative radicands include Mr/η, ε, ε+δ, ε+3δ/8 and 3/1216 under the selected contracts' positivity hypotheses; square_root_meaning proves the needed square and sign laws.
 
 Affected selected declarations: SparseCompletion.gridSize_bound, SparseCompletion.canonical_grid_implication, SparseCompletion.canonical_sparse_cut_witness, SparseCompletion.game_sparse_cut_certificate, SparseCompletion.exact_game_sparse_cut_certificate, SparseCompletion.game_sparse_completion, SparseCompletion.exact_game_sparse_completion, SparseCompletion.normalized_sparse_witness, SparseCompletion.normalized_exact_sparse_witness
 
@@ -1616,3 +1616,11 @@ lemma pow_sum_le_card_mul_sum_pow (hf : ∀ i ∈ s, 0 ≤ f i) :
 
 
 Nat.find and Nat.findX are unexposed upstream definitions. The independent bridge modules prove their projection equality from minimality and attainment; this is a proved equality, not claimed cross-module definitional equality.
+
+## Residual minima and interval lower bounds
+
+The existing finite enumeration, sums and cardinality meanings support the new game and support contracts: SparseCompletion.uniform_witness_fixed_residual_positive, SparseCompletion.uniform_witness_small_residual_positive, SparseCompletion.uniform_witness_residual_lower, SparseCompletion.uniformMinimumResidualSupport_attained, SparseCompletion.uniformMinimumResidualSupport_le, SparseCompletion.uniformMinimumResidualSupport_zero, SparseCompletion.uniformMinimumResidualSupport_upper, SparseCompletion.uniformMinimumResidualSupport_fixed_sharp, SparseCompletion.uniformMinimumResidualSupport_natural_sharp, SparseCompletion.uniform_interval_restore, SparseCompletion.uniform_interval_total_support_card, SparseCompletion.uniform_interval_total_support_lower, SparseCompletion.uniform_interval_dense, SparseCompletion.uniform_interval_support_exists, SparseCompletion.uniformMinimumIntervalTotalSupport_attained, SparseCompletion.uniformMinimumIntervalTotalSupport_lower, SparseCompletion.uniform_exact_to_interval, SparseCompletion.uniformMinimumIntervalTotalSupport_le, SparseCompletion.uniformMinimumIntervalTotalSupport_radius_zero, SparseCompletion.uniformMinimumIntervalTotalSupport_origin, SparseCompletion.two_core_response_perturbation, SparseCompletion.uniform_core_restore, SparseCompletion.uniform_core_total_support_lower, SparseCompletion.uniform_core_dense, SparseCompletion.uniform_core_support_exists, SparseCompletion.uniformMinimumCoreTotalSupport_attained, SparseCompletion.uniformMinimumCoreTotalSupport_le, SparseCompletion.uniform_core_total_support_card, SparseCompletion.uniformMinimumCoreTotalSupport_lower, SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero, SparseCompletion.uniformMinimumCoreTotalSupport_origin.
+
+The scalar SparseCompletion.residual_rate_from_inverse_square uses the existing Real.sqrt, NNReal.sqrt and Real.toNNReal meanings. SparseCompletion.clipped_observation_interval uses Set.Icc and ordinary real order; both independent bridge modules check the clipped-interval equivalence. SparseCompletion.block_entry_perturbation uses arbitrary index types without finite enumeration.
+
+Nat.find/findX attainment and minimality additionally support the new interval/core support minima and residual minima inherited from the total minimum. The dense witness-existence lemmas uniform_interval_support_exists and uniform_core_support_exists precede Nat.find and do not themselves use a natural minimum. The existing square-root meanings apply to the new positive effective-tolerance rates. No uncertainty upper theorem is assumed.

@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact twenty local source bodies with
+Challenge is a deterministic assembly of the exact twenty-three local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -114,3 +114,14 @@ auxiliary theorem under different module identities. The correction uses direct
 public order proof terms in the minimum-zero and sharp theorem statements, plus
 reflexivity for zero tolerance. The fixed definitions and comparator are unchanged;
 the failed receipt remains immutable and the correction requires its own run.
+
+## Residual minima and uncertainty lower follow-on
+
+Three subsequent modules package attained residual minima with their distinct
+fixed/minimum-share tolerance ranges, and prove interval and one-core lower
+restoration, actual support-count meanings, attained minima, radius-zero
+correspondence and origin density. Statement proof arguments use direct public
+terms, with fixed rational literals expressed through natural casts. The prior
+quantitative checkpoint remains immutable with its own successful receipt.
+This new source requires separate exact-source native checks. It does not claim
+the matching uncertainty upper law or the paper's explicit bin construction.

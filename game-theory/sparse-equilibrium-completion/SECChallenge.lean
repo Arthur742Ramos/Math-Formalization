@@ -3480,3 +3480,529 @@ theorem uniformMinimumTotalSupport_sharp (m : ℕ) (hm : 2 ≤ m)
 
 end
 end SparseCompletion
+
+/- Fixed source body: ResidualMinimum.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem residual_rate_from_inverse_square (m H : ℕ) (hH : 1 ≤ H)
+    (ε : ℝ) (hε : 0 < ε)
+    (hbound : 2*(H+1) ≤ m → 3/(1216*((H+1 : ℕ) : ℝ)^2) ≤ ε) :
+    (Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ))*min (m : ℝ) (1/Real.sqrt ε) ≤ H := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hr : 0 < Real.sqrt ε := Real.sqrt_pos.mpr hε
+  have hc0 : 0 ≤ Real.sqrt (3/1216) := Real.sqrt_nonneg _
+  have hc2 : (Real.sqrt (3/1216))^2 = (3/1216 : ℝ) := Real.sq_sqrt (by norm_num)
+  have hc : Real.sqrt (3/1216)/2 ≤ 1/3 := by nlinarith
+  have hHR : (1 : ℝ) ≤ H := by exact_mod_cast hH
+  by_cases hdim : 2*(H+1) ≤ m
+  · have hh := hbound hdim
+    have hN : (0 : ℝ) < (H+1 : ℕ) := by positivity
+    have hs : (3/1216 : ℝ) ≤ ε*((H+1 : ℕ) : ℝ)^2 := by
+      have h := (div_le_iff₀ (show 0 < 1216*((H+1 : ℕ) : ℝ)^2 by positivity)).mp hh
+      nlinarith
+    have heq : (Real.sqrt ε*((H+1 : ℕ) : ℝ))^2 = ε*((H+1 : ℕ) : ℝ)^2 := by
+      rw [mul_pow,Real.sq_sqrt (le_of_lt hε)]
+    have hroot : Real.sqrt (3/1216) ≤ Real.sqrt ε*((H+1 : ℕ) : ℝ) := by
+      have hnn := mul_nonneg (le_of_lt hr) (le_of_lt hN)
+      nlinarith
+    have hdiv : Real.sqrt (3/1216)/(2*Real.sqrt ε) ≤ (H : ℝ) := by
+      apply (div_le_iff₀ (show 0 < 2*Real.sqrt ε by positivity)).mpr
+      norm_num only [Nat.cast_add,Nat.cast_one] at hroot
+      nlinarith
+    calc
+      _ ≤ (Real.sqrt (3/1216)/2)*(1/Real.sqrt ε) :=
+        mul_le_mul_of_nonneg_left (min_le_right _ _) (by positivity)
+      _ = Real.sqrt (3/1216)/(2*Real.sqrt ε) := by ring
+      _ ≤ _ := hdiv
+  · have hdimR : (m : ℝ) ≤ 3*(H : ℝ) := by
+      exact_mod_cast (show m ≤ 3*H by omega)
+    calc
+      _ ≤ (Real.sqrt (3/1216)/2)*(m : ℝ) :=
+        mul_le_mul_of_nonneg_left (min_le_left _ _) (by positivity)
+      _ ≤ (1/3)*(m : ℝ) := mul_le_mul_of_nonneg_right hc (Nat.cast_nonneg _)
+      _ ≤ _ := by linarith
+
+theorem uniform_witness_fixed_residual_positive {m : ℕ} {ε : ℝ}
+    {a : Fin 2 → ℝ} {q : Fin m → ℝ} {B : Fin m → Fin m → ℝ}
+    (hw : UniformWitness m ε true a q B) : 1 ≤ supportSize q := by
+  classical
+  simp only [UniformWitness,Nat.cast_ofNat] at hw
+  rcases hw with ⟨_,_,ha,hnorm,_⟩
+  have hmass : ∑ j, q j = 1/4 := by
+    rw [ha trivial,Fin.sum_univ_two] at hnorm
+    norm_num [twoShares] at hnorm
+    linarith
+  have hex : ∃ j, q j ≠ 0 := by
+    by_contra hh
+    push Not at hh
+    simp only [hh,Finset.sum_const_zero] at hmass
+    norm_num at hmass
+  obtain ⟨j,hj⟩ := hex
+  exact Finset.card_pos.mpr ⟨j,by simp [residualSupport,hj]⟩
+
+theorem uniform_witness_small_residual_positive {m : ℕ} (hm : 2 ≤ m) {ε : ℝ}
+    (hε : 0 ≤ ε) (hsmall : ε ≤ 1/(1024 : ℕ)) {fixed : Bool}
+    {a : Fin 2 → ℝ} {q : Fin m → ℝ} {B : Fin m → Fin m → ℝ}
+    (hw : UniformWitness m ε fixed a q B) : 1 ≤ supportSize q := by
+  norm_num only [Nat.cast_ofNat] at *
+  by_contra hh
+  have hzero : supportSize q=0 := by omega
+  simp only [UniformWitness,Nat.cast_ofNat] at hw
+  rcases hw with ⟨hq,ha,_,hnorm,hB,hb,hresp⟩
+  have hd : 2*(supportSize q+1) ≤ m := by omega
+  have hbound := uniform_minimum_share_inverse_square (by omega) q a hq ha hnorm hd B hB
+    (fun i j => (hb i j).1) ε hε hresp
+  norm_num [hzero] at hbound
+  linarith
+
+theorem uniform_witness_residual_lower {m : ℕ} (hm : 0 < m) {ε : ℝ}
+    (hε : 0 < ε) {fixed : Bool} {a : Fin 2 → ℝ} {q : Fin m → ℝ}
+    {B : Fin m → Fin m → ℝ} (hw : UniformWitness m ε fixed a q B)
+    (hpos : 1 ≤ supportSize q) :
+    (Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ))*min (m : ℝ) (1/Real.sqrt ε) ≤ supportSize q := by
+  norm_num only [Nat.cast_ofNat] at *
+  apply residual_rate_from_inverse_square m (supportSize q) hpos ε hε
+  intro hdim
+  simp only [UniformWitness,Nat.cast_ofNat] at hw
+  rcases hw with ⟨hq,ha,_,hnorm,hB,hb,hresp⟩
+  exact uniform_minimum_share_inverse_square hm q a hq ha hnorm hdim B hB
+    (fun i j => (hb i j).1) ε (le_of_lt hε) hresp
+
+/-- The residual count of the attained total minimum. Both anchors have
+    strictly positive mass, so subtracting two gives the residual minimum. -/
+def uniformMinimumResidualSupport (m : ℕ) (hm : 0 < m) (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) : ℕ :=
+  uniformMinimumTotalSupport m hm ε hε fixed-2
+
+theorem uniformMinimumResidualSupport_attained (m : ℕ) (hm : 0 < m)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) :
+    ∃ (a : Fin 2 → ℝ) (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ),
+      UniformWitness m ε fixed a q B ∧ supportSize q=uniformMinimumResidualSupport m hm ε hε fixed := by
+  obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m hm ε hε fixed
+  exact ⟨a,q,B,hw,by rw [uniformMinimumResidualSupport,←hcount]; omega⟩
+
+theorem uniformMinimumResidualSupport_le (m : ℕ) (hm : 0 < m)
+    (ε : ℝ) (hε : 0 ≤ ε) (fixed : Bool) (a : Fin 2 → ℝ) (q : Fin m → ℝ)
+    (B : Fin m → Fin m → ℝ) (hw : UniformWitness m ε fixed a q B) :
+    uniformMinimumResidualSupport m hm ε hε fixed ≤ supportSize q := by
+  have hh := uniformMinimumTotalSupport_le m hm ε hε fixed a q B hw
+  unfold uniformMinimumResidualSupport
+  omega
+
+theorem uniformMinimumResidualSupport_zero (m : ℕ) (hm : 2 ≤ m) (fixed : Bool) :
+    uniformMinimumResidualSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) 0 (le_refl 0) fixed=m := by
+  rw [uniformMinimumResidualSupport,uniformMinimumTotalSupport_zero m hm fixed]
+  omega
+
+theorem uniformMinimumResidualSupport_upper (m : ℕ) (hm : 0 < m)
+    (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1) (fixed : Bool) :
+    (uniformMinimumResidualSupport m hm ε (le_of_lt hε) fixed : ℝ) ≤
+      3*min (m : ℝ) (1/Real.sqrt ε) := by
+  obtain ⟨q,B,hq,hqm,hB,hb,hresp,hcount,_⟩ := uniform_sparse_upper_rate hm ε hε hε1
+  have hw : UniformWitness m ε fixed (twoShares (3/4)) q B := by
+    unfold UniformWitness
+    norm_num only [Nat.cast_ofNat]
+    refine ⟨hq,fun _ => by norm_num [twoShares],(by simp),?_,hB,hb,hresp⟩
+    rw [hqm,Fin.sum_univ_two]
+    norm_num [twoShares]
+  have hmin := uniformMinimumResidualSupport_le m hm ε (le_of_lt hε) fixed (twoShares (3/4)) q B hw
+  exact le_trans (by exact_mod_cast hmin) hcount
+
+theorem uniformMinimumResidualSupport_fixed_sharp (m : ℕ) (hm : 2 ≤ m)
+    (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1) :
+    (Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ))*min (m : ℝ) (1/Real.sqrt ε) ≤
+      (uniformMinimumResidualSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε (le_of_lt hε) true : ℝ) ∧
+    (uniformMinimumResidualSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε (le_of_lt hε) true : ℝ) ≤
+      3*min (m : ℝ) (1/Real.sqrt ε) := by
+  norm_num only [Nat.cast_ofNat] at *
+  constructor
+  · obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumResidualSupport_attained m (by omega) ε (le_of_lt hε) true
+    have hh := uniform_witness_residual_lower (by omega) hε hw (uniform_witness_fixed_residual_positive hw)
+    have heq : (supportSize q : ℝ) = (uniformMinimumResidualSupport m (by omega) ε (le_of_lt hε) true : ℝ) := by exact_mod_cast hcount
+    rwa [heq] at hh
+  · exact uniformMinimumResidualSupport_upper m (by omega) ε hε hε1 true
+
+theorem uniformMinimumResidualSupport_natural_sharp (m : ℕ) (hm : 2 ≤ m)
+    (ε : ℝ) (hε : 0 < ε) (hsmall : ε ≤ 1/(1024 : ℕ)) :
+    (Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))/(2 : ℕ))*min (m : ℝ) (1/Real.sqrt ε) ≤
+      (uniformMinimumResidualSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε (le_of_lt hε) false : ℝ) ∧
+    (uniformMinimumResidualSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε (le_of_lt hε) false : ℝ) ≤
+      3*min (m : ℝ) (1/Real.sqrt ε) := by
+  norm_num only [Nat.cast_ofNat] at *
+  constructor
+  · obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumResidualSupport_attained m (by omega) ε (le_of_lt hε) false
+    have hh := uniform_witness_residual_lower (by omega) hε hw
+      (uniform_witness_small_residual_positive hm (le_of_lt hε) hsmall hw)
+    have heq : (supportSize q : ℝ) = (uniformMinimumResidualSupport m (by omega) ε (le_of_lt hε) false : ℝ) := by exact_mod_cast hcount
+    rwa [heq] at hh
+  · exact uniformMinimumResidualSupport_upper m (by omega) ε hε (by linarith) false
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalLower.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem block_entry_perturbation {α ι : Type*}
+    (K K' : α → α → ℝ) (D D' : ι → α → ℝ) (B : ι → ι → ℝ)
+    (δ : ℝ) (hδ : 0 ≤ δ)
+    (hK : ∀ i j, |K i j-K' i j| ≤ δ)
+    (hD : ∀ j i, |D j i-D' j i| ≤ δ) :
+    ∀ i j, |blockMatrix K D B i j-blockMatrix K' D' B i j| ≤ δ := by
+  intro i j
+  cases i <;> cases j
+  · exact hK _ _
+  · simpa only [blockMatrix, neg_sub_neg, abs_sub_comm] using hD _ _
+  · exact hD _ _
+  · simpa only [blockMatrix, sub_self, abs_zero] using hδ
+
+/-- Closed clipped observation interval about a central bounded payoff. -/
+def ClippedObservation (a δ x : ℝ) : Prop := -1 ≤ x ∧ x ≤ 1 ∧ |x-a| ≤ δ
+
+theorem clipped_observation_interval (a δ x : ℝ) :
+    ClippedObservation a δ x ↔ x ∈ Set.Icc (max (-1) (a-δ)) (min 1 (a+δ)) := by
+  simp only [ClippedObservation, Set.mem_Icc, max_le_iff, le_min_iff, abs_le]
+  constructor
+  · rintro ⟨h1,h2,hlo,hup⟩
+    exact ⟨⟨h1, by linarith⟩, h2, by linarith⟩
+  · rintro ⟨⟨h1,hlo⟩,h2,hup⟩
+    exact ⟨h1,h2,by constructor <;> linarith⟩
+
+/-- The residual block is free; precisely the anchor-incident entries are
+    restricted to their clipped uncertainty intervals. -/
+def UniformIntervalWitness (m : ℕ) (ε δ : ℝ) (fixed : Bool)
+    (a : Fin 2 → ℝ) (q : Fin m → ℝ)
+    (K : Fin 2 → Fin 2 → ℝ) (D : Fin m → Fin 2 → ℝ)
+    (B : Fin m → Fin m → ℝ) : Prop :=
+  (∀ j, 0 ≤ q j) ∧ (∀ h, ((3 : ℕ) : ℝ)/(8 : ℕ) ≤ a h) ∧
+    (fixed=true → a=twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) ∧
+    (∑ h, a h)+(∑ j, q j)=1 ∧ IsSkew K ∧ IsSkew B ∧
+    (∀ i j, ClippedObservation (rigidityCore (uniformTarget m (1/(4 : ℕ))) i j) δ (K i j)) ∧
+    (∀ j h, ClippedObservation (rigidityCross (uniformTarget m (1/(4 : ℕ))) j h) δ (D j h)) ∧
+    (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+    ∀ v, response (blockMatrix K D B) (blockWeights a q) v ≤ ε
+
+theorem uniform_interval_restore {m : ℕ} {ε δ : ℝ} {fixed : Bool}
+    {a : Fin 2 → ℝ} {q : Fin m → ℝ}
+    {K : Fin 2 → Fin 2 → ℝ} {D : Fin m → Fin 2 → ℝ} {B : Fin m → Fin m → ℝ}
+    (hδ : 0 ≤ δ) (hw : UniformIntervalWitness m ε δ fixed a q K D B) :
+    UniformWitness m (ε+δ) fixed a q B := by
+  rcases hw with ⟨hq,ha,hfixed,hmass,_,hB,hK,hD,hb,hresp⟩
+  unfold UniformWitness
+  norm_num only [Nat.cast_ofNat]
+  refine ⟨hq,ha,hfixed,hmass,hB,hb,?_⟩
+  intro v
+  have hp : ∀ h, 0 ≤ a h := fun h => by linarith [ha h]
+  have hh := response_perturbation
+    (blockMatrix (rigidityCore (uniformTarget m (1/4))) (rigidityCross (uniformTarget m (1/4))) B)
+    (blockMatrix K D B) (blockWeights a q) δ 1
+    (blockWeights_nonneg a q hp hq)
+    (by rw [blockWeights_mass]; exact hmass)
+    (block_entry_perturbation _ _ _ _ _ δ hδ
+      (fun i j => by simpa only [abs_sub_comm,Nat.cast_ofNat] using (hK i j).2.2)
+      (fun j h => by simpa only [abs_sub_comm,Nat.cast_ofNat] using (hD j h).2.2)) v
+  have hup := (abs_le.mp hh).2
+  linarith [hresp v]
+
+
+theorem uniform_interval_total_support_card {m : ℕ} {ε δ : ℝ} {fixed : Bool}
+    {a : Fin 2 → ℝ} {q : Fin m → ℝ}
+    {K : Fin 2 → Fin 2 → ℝ} {D : Fin m → Fin 2 → ℝ} {B : Fin m → Fin m → ℝ}
+    (hδ : 0 ≤ δ) (hw : UniformIntervalWitness m ε δ fixed a q K D B) :
+    (Finset.univ.filter fun v => blockWeights a q v ≠ 0).card = supportSize q+2 := by
+  exact uniform_witness_total_support_card (uniform_interval_restore hδ hw)
+
+theorem uniform_interval_total_support_lower {m : ℕ} (hm : 0 < m)
+    {ε δ : ℝ} (heff : 0 < ε+δ) (hδ : 0 ≤ δ) {fixed : Bool}
+    {a : Fin 2 → ℝ} {q : Fin m → ℝ}
+    {K : Fin 2 → Fin 2 → ℝ} {D : Fin m → Fin 2 → ℝ} {B : Fin m → Fin m → ℝ}
+    (hw : UniformIntervalWitness m ε δ fixed a q K D B) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))*min ((m : ℝ)+2) (1/Real.sqrt (ε+δ)) ≤ (supportSize q : ℝ)+2 := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hr := uniform_interval_restore hδ hw
+  simp only [UniformWitness,Nat.cast_ofNat] at hr
+  rcases hr with ⟨hq,ha,_,hnorm,hB,hb,hresp⟩
+  exact uniform_total_support_lower hm q a hq ha hnorm B hB (fun i j => (hb i j).1)
+    (ε+δ) heff hresp
+
+
+theorem uniform_interval_dense (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (fixed : Bool) :
+    UniformIntervalWitness m ε δ fixed (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) (uniformTarget m (1/(4 : ℕ)))
+      (rigidityCore (uniformTarget m (1/(4 : ℕ)))) (rigidityCross (uniformTarget m (1/(4 : ℕ))))
+      (orderedBlock 1) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hdense := uniform_witness_dense m hm ε hε fixed
+  simp only [UniformWitness,Nat.cast_ofNat] at hdense
+  rcases hdense with ⟨hq,ha,hfixed,hmass,hB,hb,hresp⟩
+  have hobs := two_anchor_observed_bounds hm (uniformTarget m (1/4)) hq
+    (uniformTarget_mass m hm (1/4))
+  change (∀ i j, -1 ≤ rigidityCore (uniformTarget m (1/4)) i j ∧
+      rigidityCore (uniformTarget m (1/4)) i j ≤ 1) ∧
+    (∀ j h, -1 ≤ rigidityCross (uniformTarget m (1/4)) j h ∧
+      rigidityCross (uniformTarget m (1/4)) j h ≤ 1) at hobs
+  refine ⟨hq,ha,(by simp),hmass,twoCore_skew _,hB,?_,?_,hb,hresp⟩
+  · intro i j
+    exact ⟨(hobs.1 i j).1,(hobs.1 i j).2,by simpa using hδ⟩
+  · intro j h
+    exact ⟨(hobs.2 j h).1,(hobs.2 j h).2,by simpa using hδ⟩
+
+theorem uniform_interval_support_exists (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (fixed : Bool) :
+    ∃ s : ℕ, ∃ (a : Fin 2 → ℝ) (q : Fin m → ℝ)
+      (K : Fin 2 → Fin 2 → ℝ) (D : Fin m → Fin 2 → ℝ) (B : Fin m → Fin m → ℝ),
+      UniformIntervalWitness m ε δ fixed a q K D B ∧ supportSize q+2=s := by
+  exact ⟨supportSize (uniformTarget m (1/4))+2,twoShares (3/4),uniformTarget m (1/4),
+    rigidityCore _,rigidityCross _,orderedBlock 1,uniform_interval_dense m hm ε δ hε hδ fixed,rfl⟩
+
+def uniformMinimumIntervalTotalSupport (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (fixed : Bool) : ℕ := by
+  classical
+  exact Nat.find (uniform_interval_support_exists m hm ε δ hε hδ fixed)
+
+theorem uniformMinimumIntervalTotalSupport_attained (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (fixed : Bool) :
+    ∃ (a : Fin 2 → ℝ) (q : Fin m → ℝ)
+      (K : Fin 2 → Fin 2 → ℝ) (D : Fin m → Fin 2 → ℝ) (B : Fin m → Fin m → ℝ),
+      UniformIntervalWitness m ε δ fixed a q K D B ∧
+        supportSize q+2=uniformMinimumIntervalTotalSupport m hm ε δ hε hδ fixed := by
+  classical
+  exact Nat.find_spec (uniform_interval_support_exists m hm ε δ hε hδ fixed)
+
+theorem uniformMinimumIntervalTotalSupport_lower (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (heff : 0 < ε+δ) (fixed : Bool) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))*min ((m : ℝ)+2) (1/Real.sqrt (ε+δ)) ≤
+      (uniformMinimumIntervalTotalSupport m hm ε δ hε hδ fixed : ℝ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  obtain ⟨a,q,K,D,B,hw,hcount⟩ :=
+    uniformMinimumIntervalTotalSupport_attained m hm ε δ hε hδ fixed
+  have hlower := uniform_interval_total_support_lower hm heff hδ hw
+  have heq : (supportSize q : ℝ)+2 =
+      (uniformMinimumIntervalTotalSupport m hm ε δ hε hδ fixed : ℝ) := by exact_mod_cast hcount
+  rwa [heq] at hlower
+
+
+theorem uniform_exact_to_interval {m : ℕ} (hm : 0 < m) {ε δ : ℝ} (hδ : 0 ≤ δ)
+    {fixed : Bool} {a : Fin 2 → ℝ} {q : Fin m → ℝ} {B : Fin m → Fin m → ℝ}
+    (hw : UniformWitness m ε fixed a q B) :
+    UniformIntervalWitness m ε δ fixed a q (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B := by
+  norm_num only [Nat.cast_ofNat] at *
+  simp only [UniformWitness,Nat.cast_ofNat] at hw
+  rcases hw with ⟨hq,ha,hfixed,hmass,hB,hb,hresp⟩
+  have hobs := two_anchor_observed_bounds hm (uniformTarget m (1/4))
+    (fun j => le_of_lt (uniformTarget_positive m (1/4) (by norm_num) j))
+    (uniformTarget_mass m hm (1/4))
+  change (∀ i j, -1 ≤ rigidityCore (uniformTarget m (1/4)) i j ∧
+      rigidityCore (uniformTarget m (1/4)) i j ≤ 1) ∧
+    (∀ j h, -1 ≤ rigidityCross (uniformTarget m (1/4)) j h ∧
+      rigidityCross (uniformTarget m (1/4)) j h ≤ 1) at hobs
+  refine ⟨hq,ha,hfixed,hmass,twoCore_skew _,hB,?_,?_,hb,hresp⟩
+  · intro i j
+    exact ⟨(hobs.1 i j).1,(hobs.1 i j).2,by simpa using hδ⟩
+  · intro j h
+    exact ⟨(hobs.2 j h).1,(hobs.2 j h).2,by simpa using hδ⟩
+
+theorem uniformMinimumIntervalTotalSupport_le (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (fixed : Bool)
+    (a : Fin 2 → ℝ) (q : Fin m → ℝ)
+    (K : Fin 2 → Fin 2 → ℝ) (D : Fin m → Fin 2 → ℝ) (B : Fin m → Fin m → ℝ)
+    (hw : UniformIntervalWitness m ε δ fixed a q K D B) :
+    uniformMinimumIntervalTotalSupport m hm ε δ hε hδ fixed ≤ supportSize q+2 := by
+  classical
+  exact Nat.find_min' (uniform_interval_support_exists m hm ε δ hε hδ fixed) ⟨a,q,K,D,B,hw,rfl⟩
+
+theorem uniformMinimumIntervalTotalSupport_radius_zero (m : ℕ) (hm : 0 < m) (ε : ℝ)
+    (hε : 0 ≤ ε) (fixed : Bool) :
+    uniformMinimumIntervalTotalSupport m hm ε 0 hε (le_refl 0) fixed =
+      uniformMinimumTotalSupport m hm ε hε fixed := by
+  apply Nat.le_antisymm
+  · obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m hm ε hε fixed
+    have hle := uniformMinimumIntervalTotalSupport_le m hm ε 0 hε (by norm_num) fixed
+      a q _ _ B (uniform_exact_to_interval hm (by norm_num) hw)
+    rwa [hcount] at hle
+  · obtain ⟨a,q,K,D,B,hw,hcount⟩ :=
+      uniformMinimumIntervalTotalSupport_attained m hm ε 0 hε (by norm_num) fixed
+    have hcentral : UniformWitness m ε fixed a q B := by
+      simpa only [add_zero] using uniform_interval_restore (by norm_num : (0 : ℝ) ≤ 0) hw
+    have hle := uniformMinimumTotalSupport_le m hm ε hε fixed a q B hcentral
+    rwa [hcount] at hle
+
+theorem uniformMinimumIntervalTotalSupport_origin (m : ℕ) (hm : 2 ≤ m) (fixed : Bool) :
+    uniformMinimumIntervalTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) 0 0 (le_refl 0) (le_refl 0) fixed = m+2 := by
+  rw [uniformMinimumIntervalTotalSupport_radius_zero]
+  exact uniformMinimumTotalSupport_zero m hm fixed
+
+end
+end SparseCompletion
+
+/- Fixed source body: CoreLower.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem two_core_response_perturbation {ι : Type*} [Fintype ι]
+    (D : ι → Fin 2 → ℝ) (B : ι → ι → ℝ) (q : ι → ℝ)
+    (u v δ : ℝ) (hδ : 0 ≤ δ) (huv : |u-v| ≤ δ) :
+    ∀ i, |response (blockMatrix (twoCore u) D B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) i-
+      response (blockMatrix (twoCore v) D B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) i| ≤ (((3 : ℕ) : ℝ)/(8 : ℕ))*δ := by
+  norm_num only [Nat.cast_ofNat] at *
+  intro i
+  cases i with
+  | inl h =>
+    rw [block_response_anchor,block_response_anchor]
+    fin_cases h
+    · change |anchorResponse (twoCore u) D (twoShares (3/4)) q 0-
+        anchorResponse (twoCore v) D (twoShares (3/4)) q 0| ≤ (3/8)*δ
+      have heq : anchorResponse (twoCore u) D (twoShares (3/4)) q 0-
+          anchorResponse (twoCore v) D (twoShares (3/4)) q 0 = (u-v)*(3/8) := by
+        simp [anchorResponse,Fin.sum_univ_two,twoCore,twoShares]
+        ring
+      rw [heq,abs_mul,abs_of_nonneg (by norm_num : (0 : ℝ) ≤ 3/8)]
+      nlinarith
+    · change |anchorResponse (twoCore u) D (twoShares (3/4)) q 1-
+        anchorResponse (twoCore v) D (twoShares (3/4)) q 1| ≤ (3/8)*δ
+      have heq : anchorResponse (twoCore u) D (twoShares (3/4)) q 1-
+          anchorResponse (twoCore v) D (twoShares (3/4)) q 1 = -(u-v)*(3/8) := by
+        simp [anchorResponse,Fin.sum_univ_two,twoCore,twoShares]
+        ring
+      rw [heq,abs_mul,abs_neg,abs_of_nonneg (by norm_num : (0 : ℝ) ≤ 3/8)]
+      nlinarith
+  | inr j =>
+    rw [block_response_residual,block_response_residual,sub_self,abs_zero]
+    positivity
+
+/-- Exact cross observations, fixed anchor shares, and uncertainty solely
+    in the single unordered anchor-core entry. -/
+def UniformCoreWitness (m : ℕ) (ε δ : ℝ) (q : Fin m → ℝ) (u : ℝ)
+    (B : Fin m → Fin m → ℝ) : Prop :=
+  UniformIntervalWitness m ε δ true (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q (twoCore u)
+    (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B
+
+theorem uniform_core_restore {m : ℕ} {ε δ : ℝ} {q : Fin m → ℝ} {u : ℝ}
+    {B : Fin m → Fin m → ℝ} (hδ : 0 ≤ δ) (hw : UniformCoreWitness m ε δ q u B) :
+    UniformWitness m (ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ) true (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q B := by
+  norm_num only [Nat.cast_ofNat] at *
+  rcases hw with ⟨hq,ha,_,hmass,_,hB,hK,_,hb,hresp⟩
+  let c := (2 : ℕ)*scoreMoment (uniformTarget m (1/4))
+    (exposingWeight (uniformTarget m (1/4)) (1/4))/((3 : ℕ)/(4 : ℕ))
+  have hnear : |u-c| ≤ δ := by
+    simpa [rigidityCore,twoCore,c] using (hK 0 1).2.2
+  have hpert := two_core_response_perturbation (rigidityCross (uniformTarget m (1/4))) B q
+    c u δ hδ (by simpa only [abs_sub_comm] using hnear)
+  unfold UniformWitness
+  norm_num only [Nat.cast_ofNat]
+  refine ⟨hq,ha,(by simp),hmass,hB,hb,?_⟩
+  intro v
+  have hh := (abs_le.mp (hpert v)).2
+  change response (blockMatrix (twoCore c) (rigidityCross (uniformTarget m (1/4))) B)
+      (blockWeights (twoShares (3/4)) q) v ≤ ε+(3/8)*δ
+  linarith [hresp v]
+
+theorem uniform_core_total_support_lower {m : ℕ} (hm : 0 < m) {ε δ : ℝ}
+    (heff : 0 < ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ) (hδ : 0 ≤ δ) {q : Fin m → ℝ} {u : ℝ}
+    {B : Fin m → Fin m → ℝ} (hw : UniformCoreWitness m ε δ q u B) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))*min ((m : ℝ)+2) (1/Real.sqrt (ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ)) ≤ (supportSize q : ℝ)+2 := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hr := uniform_core_restore hδ hw
+  simp only [UniformWitness,Nat.cast_ofNat] at hr
+  rcases hr with ⟨hq,ha,_,hnorm,hB,hb,hresp⟩
+  exact uniform_total_support_lower hm q (twoShares (3/4)) hq ha hnorm B hB
+    (fun i j => (hb i j).1) (ε+(3/8)*δ) heff hresp
+
+
+/-- The central bounded anchor-core payoff of the uniform family. -/
+def uniformCoreValue (m : ℕ) : ℝ :=
+  (2 : ℕ)*scoreMoment (uniformTarget m (1/(4 : ℕ)))
+    (exposingWeight (uniformTarget m (1/(4 : ℕ))) (1/(4 : ℕ)))/((3 : ℕ)/(4 : ℕ))
+
+theorem uniform_core_dense (m : ℕ) (hm : 0 < m) (ε δ : ℝ) (hε : 0 ≤ ε) (hδ : 0 ≤ δ) :
+    UniformCoreWitness m ε δ (uniformTarget m (1/(4 : ℕ))) (uniformCoreValue m) (orderedBlock 1) := by
+  norm_num only [Nat.cast_ofNat] at *
+  exact uniform_interval_dense m hm ε δ hε hδ true
+
+theorem uniform_core_support_exists (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) :
+    ∃ s : ℕ, ∃ (q : Fin m → ℝ) (u : ℝ) (B : Fin m → Fin m → ℝ),
+      UniformCoreWitness m ε δ q u B ∧ supportSize q+2=s := by
+  exact ⟨supportSize (uniformTarget m (1/4))+2,uniformTarget m (1/4),uniformCoreValue m,
+    orderedBlock 1,uniform_core_dense m hm ε δ hε hδ,rfl⟩
+
+def uniformMinimumCoreTotalSupport (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) : ℕ := by
+  classical
+  exact Nat.find (uniform_core_support_exists m hm ε δ hε hδ)
+
+theorem uniformMinimumCoreTotalSupport_attained (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) :
+    ∃ (q : Fin m → ℝ) (u : ℝ) (B : Fin m → Fin m → ℝ),
+      UniformCoreWitness m ε δ q u B ∧
+        supportSize q+2=uniformMinimumCoreTotalSupport m hm ε δ hε hδ := by
+  classical
+  exact Nat.find_spec (uniform_core_support_exists m hm ε δ hε hδ)
+
+theorem uniformMinimumCoreTotalSupport_le (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (q : Fin m → ℝ) (u : ℝ) (B : Fin m → Fin m → ℝ)
+    (hw : UniformCoreWitness m ε δ q u B) :
+    uniformMinimumCoreTotalSupport m hm ε δ hε hδ ≤ supportSize q+2 := by
+  classical
+  exact Nat.find_min' (uniform_core_support_exists m hm ε δ hε hδ) ⟨q,u,B,hw,rfl⟩
+
+theorem uniform_core_total_support_card {m : ℕ} {ε δ : ℝ} {q : Fin m → ℝ} {u : ℝ}
+    {B : Fin m → Fin m → ℝ} (hδ : 0 ≤ δ) (hw : UniformCoreWitness m ε δ q u B) :
+    (Finset.univ.filter fun v => blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q v ≠ 0).card = supportSize q+2 := by
+  norm_num only [Nat.cast_ofNat] at *
+  exact uniform_witness_total_support_card (uniform_core_restore hδ hw)
+
+theorem uniformMinimumCoreTotalSupport_lower (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (heff : 0 < ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))*min ((m : ℝ)+2) (1/Real.sqrt (ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ)) ≤
+      (uniformMinimumCoreTotalSupport m hm ε δ hε hδ : ℝ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  obtain ⟨q,u,B,hw,hcount⟩ := uniformMinimumCoreTotalSupport_attained m hm ε δ hε hδ
+  have hh := uniform_core_total_support_lower hm heff hδ hw
+  have heq : (supportSize q : ℝ)+2 =
+      (uniformMinimumCoreTotalSupport m hm ε δ hε hδ : ℝ) := by exact_mod_cast hcount
+  rwa [heq] at hh
+
+theorem uniformMinimumCoreTotalSupport_radius_zero (m : ℕ) (hm : 0 < m) (ε : ℝ)
+    (hε : 0 ≤ ε) :
+    uniformMinimumCoreTotalSupport m hm ε 0 hε (le_refl 0) =
+      uniformMinimumTotalSupport m hm ε hε true := by
+  apply Nat.le_antisymm
+  · obtain ⟨a,q,B,hw,hcount⟩ := uniformMinimumTotalSupport_attained m hm ε hε true
+    have ha := hw.2.2.1 rfl
+    subst a
+    have hinterval := uniform_exact_to_interval hm (le_refl 0) hw
+    have hle := uniformMinimumCoreTotalSupport_le m hm ε 0 hε (le_refl 0) q
+      (uniformCoreValue m) B hinterval
+    rwa [hcount] at hle
+  · obtain ⟨q,u,B,hw,hcount⟩ := uniformMinimumCoreTotalSupport_attained m hm ε 0 hε (le_refl 0)
+    have hcentral : UniformWitness m ε true (twoShares (3/4)) q B := by
+      simpa only [mul_zero,add_zero,Nat.cast_ofNat] using uniform_core_restore (le_refl 0) hw
+    have hle := uniformMinimumTotalSupport_le m hm ε hε true (twoShares (3/4)) q B hcentral
+    rwa [hcount] at hle
+
+theorem uniformMinimumCoreTotalSupport_origin (m : ℕ) (hm : 2 ≤ m) :
+    uniformMinimumCoreTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) 0 0
+      (le_refl 0) (le_refl 0) = m+2 := by
+  rw [uniformMinimumCoreTotalSupport_radius_zero]
+  exact uniformMinimumTotalSupport_zero m hm true
+
+end
+end SparseCompletion
