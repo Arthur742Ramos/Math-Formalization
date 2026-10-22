@@ -1,0 +1,40 @@
+name: Palomar Open Baire Representation full mechanical preflight
+on:
+  push:
+    branches: ['verify/open-baire-preflight-2026-10-22']
+    paths: ['.github/workflows/palomar-open-baire-full-preflight.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 87652c909a92afded15aad86a901d8c11dd75ed8
+      pipeline_commit: ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+      request_id: obfull000001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/open-baire-representation","comparator_config_path":"topology/open-baire-representation/comparator.json","formalization_metadata_path":"topology/open-baire-representation/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
+  report:
+    needs: verify
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: mechanical-report-obfull000001
+          path: mechanical-evidence
+      - name: Publish bounded canonical report and digest
+        run: |
+          sha256sum mechanical-evidence/mechanical-report.json
+          python3 - <<'PYTHON'
+          import json, pathlib
+          p = pathlib.Path('mechanical-evidence/mechanical-report.json')
+          assert p.stat().st_size < 2 * 1024 * 1024
+          report = json.loads(p.read_text())
+          print('PALOMAR_MECHANICAL_REPORT_BEGIN')
+          print(json.dumps(report, sort_keys=True))
+          print('PALOMAR_MECHANICAL_REPORT_END')
+          assert report['status'] == 'pass', report.get('errors')
+          PYTHON
