@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact forty-six local source bodies with
+Challenge is a deterministic assembly of the exact fifty-nine local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -212,3 +212,27 @@ checker or protected comparator is changed.
 The new integrated source requires its own exact frozen-commit native receipt.
 These results do not certify an executable conic solver, rational exact-decision
 complexity, interval convexity/separation, or any publication readiness.
+
+
+## Interval and arbitrary-cover follow-on
+
+The conic checkpoint `33bd1d04598ebead90586dbf903538210ac45708` is
+preserved with receipt SHA256
+`5fce87be4dafc15f6bfc6225fc731ce48e912119cd640d1647329482f761217d`.
+All 12 native gates passed there: 307 source axiom reports, 197 protected
+contracts, both kernel checks, and rejection of a deliberately altered helper.
+Its independently authenticated complete-history bundle and review are retained.
+
+The current interval/cover source adds 13 modules and 57 theorems, for 59
+mathematics modules, 364 source axiom reports and 254 selected contracts.
+It requires a new frozen-source receipt; no predecessor receipt verifies these
+bytes. The root imported-definition checker now accepts exact identifiers ending
+in primes, with explicit negative identifier controls. The protected comparator
+is unchanged. The native verifier also binds its two root audit tools to the
+recorded clean Git commit and rechecks their hashes after execution.
+
+The exact interval-perspective and arbitrary-cover/weak-cover scope is recorded
+in SCOPE.md. Joint interval convexity/separation, general value stability, joint-k
+lower constructions and algorithmic guarantees remain unfinished. Native macOS
+verification is separate from canonical sandbox checks, intake and publication.
+No submission is authorized or attempted.

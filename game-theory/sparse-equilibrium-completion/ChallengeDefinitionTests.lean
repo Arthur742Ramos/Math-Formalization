@@ -221,5 +221,60 @@ theorem finite_maximum_contract {m : ℕ} (s : Finset (Fin m)) (hs : s.Nonempty)
   ⟨Finset.max'_mem s hs,fun i hi => Finset.le_max' s i hi⟩
 
 
+theorem finite_real_maximum_contract (s : Finset ℝ) (hs : s.Nonempty) :
+    s.max' hs ∈ s ∧ ∀ x ∈ s, x ≤ s.max' hs :=
+  ⟨Finset.max'_mem s hs,fun x hx => Finset.le_max' s x hx⟩
+
+theorem finite_maximum_supremum_literal {α : Type*} [LinearOrder α]
+    (s : Finset α) (hs : s.Nonempty) : s.max' hs=s.sup' hs id := rfl
+
+theorem insert_zero_membership (s : Finset ℝ) (x : ℝ) :
+    x ∈ insert 0 s ↔ x=0 ∨ x∈s := by
+  classical
+  exact Finset.mem_insert
+
+theorem singleton_maximum_zero :
+    ({0} : Finset ℝ).max' (Finset.singleton_nonempty 0)=0 := Finset.max'_singleton 0
+
+theorem complement_membership {α : Type*} (C : Set α) (x : α) :
+    x ∈ Cᶜ ↔ x ∉ C := Iff.rfl
+
+theorem subtype_property {α : Type*} {p : α → Prop} (x : Subtype p) : p x.val := x.property
+
+theorem subtype_finite_enumeration {α : Type*} [Fintype α] (C : Set α)
+    [DecidablePred (· ∈ C)] (x : C) : x ∈ (Finset.univ : Finset C) := Finset.mem_univ x
+
+theorem finite_type_equivalence {α : Type*} [Fintype α] :
+    Function.Bijective (Fintype.equivFin α) := (Fintype.equivFin α).bijective
+
+theorem subset_partition_forward {α : Type*} (C : Set α) [DecidablePred (· ∈ C)] :
+    (∀ x : C, Equiv.Set.sumCompl C (Sum.inl x)=x.val) ∧
+    (∀ x : ↥(Cᶜ), Equiv.Set.sumCompl C (Sum.inr x)=x.val) := ⟨fun _ => rfl,fun _ => rfl⟩
+
+theorem subset_partition_inverse {α : Type*} (C : Set α) [DecidablePred (· ∈ C)] (x : α) :
+    Equiv.Set.sumCompl C ((Equiv.Set.sumCompl C).symm x)=x := (Equiv.Set.sumCompl C).apply_symm_apply x
+
+theorem decidable_predicate_literal {α : Sort*} (p : α → Prop) :
+    DecidablePred p = ((x : α) → Decidable (p x)) := rfl
+
+theorem decidable_reflection (p : Prop) (d : Decidable p) : d.decide.Reflects p := @Decidable.reflects_decide p d
+
+theorem linear_order_contract {α : Type*} [LinearOrder α] (a b c : α) :
+    (a ≤ b ∨ b ≤ a) ∧ (a ≤ b → b ≤ c → a ≤ c) ∧
+    (a ≤ b → b ≤ a → a=b) ∧ (a < b ↔ a ≤ b ∧ ¬ b ≤ a) :=
+  ⟨le_total a b,fun h h' => le_trans h h',fun h h' => le_antisymm h h',lt_iff_le_not_ge⟩
+
+theorem finite_supremum_contract {α β : Type*} [SemilatticeSup α]
+    (s : Finset β) (hs : s.Nonempty) (f : β → α) (a : α) :
+    s.sup' hs f ≤ a ↔ ∀ b ∈ s, f b ≤ a := Finset.sup'_le_iff hs f
+
+theorem insert_zero_nonempty (s : Finset ℝ) : (insert 0 s).Nonempty := by
+  classical
+  exact Finset.insert_nonempty 0 s
+
+theorem insert_zero_literal (s : Finset ℝ) : (insert 0 s).val=Multiset.ndinsert 0 s.val := by
+  classical
+  rfl
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

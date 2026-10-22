@@ -48,13 +48,19 @@ for dep in json.loads((root/'lake-manifest.json').read_text())['packages']:
     assert actual == dep['rev'] and not dirty, 'Dependency pin/worktree mismatch: '+dep['name']
     dependency_receipts.append({'name': dep['name'], 'commit': actual, 'clean': True})
 targets = ['Quot', 'Quot.mk', 'Quot.lift', 'Quot.ind'] + cfg['theorem_names'] + cfg['permitted_axioms'] + primitive
+tool_paths = ['scripts/check_imported_definitions.py', 'scripts/test_imported_definition_identifiers.py']
+for name in tool_paths:
+    committed = subprocess.check_output(['git', 'show', commit+':'+name], cwd=repo)
+    assert (repo/name).read_bytes() == committed, 'Root verification tool differs from recorded commit: '+name
+assert not subprocess.check_output(['git', 'status', '--porcelain', '--', *tool_paths], cwd=repo, text=True)
+tool_hashes = {name: hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in tool_paths}
 files = subprocess.check_output(['git', 'ls-files', '--', str(root)], cwd=repo, text=True).splitlines()
 hashes = {f: hashlib.sha256((repo/f).read_bytes()).hexdigest() for f in files}
 receipt = {'scope': 'Native macOS exact-source builds, separate protected alias, pinned comparison/axiom APIs, native kernel checks. Not canonical Linux sandbox or registry clearance.',
     'commit': commit, 'package_tree': subprocess.check_output(['git', 'rev-parse', 'HEAD:game-theory/sparse-equilibrium-completion'], cwd=repo, text=True).strip(),
     'source_sha256': hashes, 'config': cfg, 'primitive_targets': primitive, 'checks': [],
     'compiler_version': compiler_version, 'compiler_sha256': hashlib.sha256((prefix/'bin/lean').read_bytes()).hexdigest(),
-    'dependency_receipts': dependency_receipts}
+    'dependency_receipts': dependency_receipts, 'verification_tools_sha256': tool_hashes}
 
 def run(name, argv, cwd=root, runenv=env, output=None):
     start = time.monotonic()
@@ -94,6 +100,8 @@ run('export-native-kernel', [str(prefix/'bin/leanchecker'), '--silent', '--from-
 for path in [ch, sol]:
     receipt.setdefault('exports', {})[path.name] = {'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'bytes': path.stat().st_size}
 assert hashes == {f:hashlib.sha256((repo/f).read_bytes()).hexdigest() for f in files}
+assert tool_hashes == {f:hashlib.sha256((repo/f).read_bytes()).hexdigest() for f in tool_paths}
+assert not subprocess.check_output(['git', 'status', '--porcelain', '--', *tool_paths], cwd=repo, text=True)
 assert not subprocess.check_output(['git', 'status', '--porcelain', '--', str(root)], cwd=repo, text=True)
 receipt['result']='pass'
 (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

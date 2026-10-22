@@ -48,7 +48,13 @@
     "Fin.revPerm",
     "Finset.image",
     "Antitone",
-    "Finset.Nonempty"
+    "Finset.Nonempty",
+    "Finset.max'",
+    "Finset.sup'",
+    "Set.compl",
+    "Fintype.equivFin",
+    "Equiv.Set.sumCompl",
+    "LinearOrder"
   ],
   "material_declarations": [
     {
@@ -222,10 +228,45 @@
         "SparseCompletion.known_anchor_conic_system_convex",
         "SparseCompletion.known_anchor_conic_system_iff",
         "SparseCompletion.linear_repertoire_convex",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.anchor_response_of_perspective",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_relabel_on_anchor",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.interval_recovered_score_moment",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.ordered_loss_values_nonempty",
+        "SparseCompletion.perspective_cuts_iff",
+        "SparseCompletion.relabel_mass",
+        "SparseCompletion.relabel_response",
+        "SparseCompletion.relabel_support_card",
+        "SparseCompletion.residual_loss_bound_le",
+        "SparseCompletion.residual_loss_bound_le_iff",
+        "SparseCompletion.residual_loss_bound_nonnegative",
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.residual_loss_bound_zero_iff",
+        "SparseCompletion.residual_loss_le_bound",
+        "SparseCompletion.residual_loss_values_nonempty",
+        "SparseCompletion.residual_loss_values_ordered",
+        "SparseCompletion.residual_projection_response_bound",
+        "SparseCompletion.score_lower_from_intervals"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
-      "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
+      "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.",
       "definition_excerpt": "Fintype",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
@@ -409,10 +450,45 @@
         "SparseCompletion.known_anchor_conic_system_convex",
         "SparseCompletion.known_anchor_conic_system_iff",
         "SparseCompletion.linear_repertoire_convex",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.anchor_response_of_perspective",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_relabel_on_anchor",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.interval_recovered_score_moment",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.ordered_loss_values_nonempty",
+        "SparseCompletion.perspective_cuts_iff",
+        "SparseCompletion.relabel_mass",
+        "SparseCompletion.relabel_response",
+        "SparseCompletion.relabel_support_card",
+        "SparseCompletion.residual_loss_bound_le",
+        "SparseCompletion.residual_loss_bound_le_iff",
+        "SparseCompletion.residual_loss_bound_nonnegative",
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.residual_loss_bound_zero_iff",
+        "SparseCompletion.residual_loss_le_bound",
+        "SparseCompletion.residual_loss_values_nonempty",
+        "SparseCompletion.residual_loss_values_ordered",
+        "SparseCompletion.residual_projection_response_bound",
+        "SparseCompletion.score_lower_from_intervals"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
-      "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
+      "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.",
       "definition_excerpt": "Finset",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
@@ -594,7 +670,27 @@
         "SparseCompletion.known_anchor_conic_system_convex",
         "SparseCompletion.known_anchor_conic_system_iff",
         "SparseCompletion.linear_repertoire_convex",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.anchor_response_of_perspective",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.interval_recovered_score_moment",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.perspective_cuts_iff",
+        "SparseCompletion.relabel_mass",
+        "SparseCompletion.relabel_response",
+        "SparseCompletion.relabel_support_card",
+        "SparseCompletion.residual_projection_response_bound",
+        "SparseCompletion.score_lower_from_intervals"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -632,10 +728,22 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_interval_perspective_iff"
       ],
       "meaning": "The closed interval consists of x with a \u2264 x and x \u2264 b.",
-      "dependency_expansion": "The grid/envelope domain includes both endpoints; interval_literal unfolds the actual predicate.",
+      "dependency_expansion": "The grid/envelope domain includes both endpoints; interval_literal unfolds the actual predicate. Compact completion reconstruction also uses the coordinatewise closed interval of matrices between constant bounds -M and M; the generic order-interval predicate retains the same literal conjunction meaning.",
       "definition_excerpt": "Set.Icc",
       "bridge_kind": "literal-unfolding",
       "bridge_excerpts": [
@@ -671,7 +779,17 @@
         "SparseCompletion.game_sparse_completion_extra_moments",
         "SparseCompletion.exact_game_sparse_completion_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
       "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
@@ -710,7 +828,17 @@
         "SparseCompletion.game_sparse_completion_extra_moments",
         "SparseCompletion.exact_game_sparse_completion_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
       "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
@@ -762,7 +890,17 @@
         "SparseCompletion.game_sparse_completion_extra_moments",
         "SparseCompletion.exact_game_sparse_completion_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
       "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
@@ -814,7 +952,17 @@
         "SparseCompletion.game_sparse_completion_extra_moments",
         "SparseCompletion.exact_game_sparse_completion_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
       "dependency_expansion": "Negative inputs yield zero. Nonnegative radicands include Mr/\u03b7, \u03b5, \u03b5+\u03b4, \u03b5+3\u03b4/8 and 3/1216 under the selected contracts' positivity hypotheses; square_root_meaning proves the needed square and sign laws.",
@@ -866,7 +1014,17 @@
         "SparseCompletion.game_sparse_completion_extra_moments",
         "SparseCompletion.exact_game_sparse_completion_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
       "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
@@ -910,7 +1068,19 @@
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.prefix_system_convex",
         "SparseCompletion.known_anchor_conic_system_convex",
-        "SparseCompletion.linear_repertoire_convex"
+        "SparseCompletion.linear_repertoire_convex",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_interval_perspective_iff"
       ],
       "meaning": "Every point of the set is a star center of the set.",
       "dependency_expansion": "Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.",
@@ -954,7 +1124,19 @@
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.prefix_system_convex",
         "SparseCompletion.known_anchor_conic_system_convex",
-        "SparseCompletion.linear_repertoire_convex"
+        "SparseCompletion.linear_repertoire_convex",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_interval_perspective_iff"
       ],
       "meaning": "All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.",
       "dependency_expansion": "Centers in the set quantify convexity. No topological closedness is assumed.",
@@ -992,7 +1174,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The closure operator generated by all convex supersets.",
       "dependency_expansion": "Membership means belonging to every convex superset, proved by convex_hull_meaning. It is algebraic convex hull, not topological closure.",
@@ -1030,7 +1222,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Zero-sum finite affine relations with zero weighted subtraction have all coefficients zero.",
       "dependency_expansion": "The point-subtraction base cancels when coefficient sum is zero. affine_independence_literal and weighted_subtraction_zero_sum audit the actual meaning.",
@@ -1068,7 +1270,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Finite weighted differences from a default affine base point.",
       "dependency_expansion": "This is used only with zero total weight, where the base is arbitrary and cancels. The checked bridge specializes to vector-space base zero.",
@@ -1106,7 +1318,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The linear map summing weights times differences from a specified base point.",
       "dependency_expansion": "Its application is the literal finite sum; the zero-sum bridge verifies the needed base-zero interpretation.",
@@ -1144,7 +1366,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The submodule spanned by all differences of two points in the set.",
       "dependency_expansion": "vector_span_literal unfolds the pairwise-difference image; the dimension is at most that of the ambient feature space.",
@@ -1182,7 +1414,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The infimum of all submodules containing the supplied generating set.",
       "dependency_expansion": "submodule_span_literal checks the precise intersection/infimum meaning; it is linear span, not an analytic closure.",
@@ -1220,7 +1462,17 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The natural-number conversion of the cardinal-valued module rank.",
       "dependency_expansion": "Cardinal.toNat is zero on infinite cardinals. Here the feature space is a finite real product and the checked finite_feature_dimension law gives its actual finite dimension; no infinite-dimensional rank is interpreted as a support bound.",
@@ -1327,10 +1579,27 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_relabel_on_anchor",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.relabel_support_card"
       ],
       "meaning": "The number of elements in the underlying duplicate-free multiset.",
-      "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
+      "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.",
       "definition_excerpt": "Finset.card",
       "bridge_kind": "literal-unfolding",
       "bridge_excerpts": [
@@ -1434,10 +1703,26 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments",
         "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
-        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
+        "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_relabel_on_anchor",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The cardinality of the finite universal enumeration.",
-      "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
+      "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.",
       "definition_excerpt": "Fintype.card",
       "bridge_kind": "literal-unfolding",
       "bridge_excerpts": [
@@ -1469,7 +1754,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Every nontrivial filter containing the set has a cluster point in the set.",
       "dependency_expansion": "The filter is finer than the principal filter of s. ClusterPt means the neighborhood filter and input filter have nontrivial infimum; in finite Euclidean space this gives ordinary compactness.",
@@ -1505,7 +1802,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The complement is open.",
       "dependency_expansion": "Closedness of the upper orthant is proved coordinatewise, rather than assumed. IsOpen is the given topology predicate.",
@@ -1540,7 +1849,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "Preimages of open sets are open.",
       "dependency_expansion": "Used for the image of a compact set under the weighted response linear map and for continuous separating functionals.",
@@ -1579,7 +1900,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "A bundled additive scalar-preserving map.",
       "dependency_expansion": "Specializing the scalar homomorphism to the identity on real numbers gives ordinary real linearity; weightedNegResponse is constructed with both laws.",
@@ -1614,7 +1947,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "A bundled linear map together with continuity.",
       "dependency_expansion": "StrongDual real E abbreviates E to real continuous linear maps. Only evaluation, linearity and continuity are used, not any topology on the dual itself.",
@@ -1654,7 +1999,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.interval_perspective_completion_iff",
+        "SparseCompletion.normalized_cover_witness",
+        "SparseCompletion.normalized_exact_cover_witness",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_witness",
+        "SparseCompletion.normalized_interval_perspective_iff",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_witness"
       ],
       "meaning": "The image comprises values of domain points in the specified set.",
       "dependency_expansion": "weightedScoreSet is the image of the full bounded skew box. Membership yields an actual skew matrix with entry bounds, rather than an abstract unrelated score vector.",
@@ -1936,10 +2293,27 @@
         "SparseCompletion.binned_middle_positive",
         "SparseCompletion.binned_middle_injective",
         "SparseCompletion.binned_support_lower",
-        "SparseCompletion.binned_odd_support_exact"
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_relabel_on_anchor",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.relabel_intervals",
+        "SparseCompletion.relabel_mass",
+        "SparseCompletion.relabel_response",
+        "SparseCompletion.relabel_skew",
+        "SparseCompletion.relabel_support_card",
+        "SparseCompletion.split_skew_matrix",
+        "SparseCompletion.split_weights"
       ],
       "meaning": "A map equipped with a two-sided inverse.",
-      "dependency_expansion": "Injectivity and surjectivity follow from the inverse laws; no omitted or duplicate original labels enter the canonical bin partition. Equiv.Perm is the self-equivalence abbreviation.",
+      "dependency_expansion": "Injectivity and surjectivity follow from the inverse laws; no omitted or duplicate original labels enter the canonical bin partition. Equiv.Perm is the self-equivalence abbreviation. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.",
       "definition_excerpt": "Equiv",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
@@ -2079,7 +2453,20 @@
         "SparseCompletion.uniform_odd_midpoint_witness",
         "SparseCompletion.binned_odd_support",
         "SparseCompletion.binned_support_lower",
-        "SparseCompletion.binned_odd_support_exact"
+        "SparseCompletion.binned_odd_support_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.ordered_loss_values_nonempty",
+        "SparseCompletion.residual_loss_bound_le",
+        "SparseCompletion.residual_loss_bound_le_iff",
+        "SparseCompletion.residual_loss_bound_nonnegative",
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.residual_loss_bound_zero_iff",
+        "SparseCompletion.residual_loss_le_bound",
+        "SparseCompletion.residual_loss_values_nonempty",
+        "SparseCompletion.residual_loss_values_ordered"
       ],
       "meaning": "The finite image maps every element and removes duplicate values.",
       "dependency_expansion": "The mapped underlying multiset is converted to a finite set by deduplication; membership is existence of a preimage in the original set. Image cardinality never increases and equals the source cardinality when the function is injective.",
@@ -2126,7 +2513,19 @@
         "SparseCompletion.weighted_completion_rotated_cones_iff",
         "SparseCompletion.known_anchor_prefix_characterization",
         "SparseCompletion.known_anchor_conic_system_iff",
-        "SparseCompletion.normalized_known_anchor_conic_iff"
+        "SparseCompletion.normalized_known_anchor_conic_iff",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.normalized_exact_weak_cover_maximum",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.ordered_loss_values_nonempty",
+        "SparseCompletion.residual_loss_bound_le",
+        "SparseCompletion.residual_loss_bound_le_iff",
+        "SparseCompletion.residual_loss_bound_nonnegative",
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.residual_loss_bound_zero_iff",
+        "SparseCompletion.residual_loss_le_bound",
+        "SparseCompletion.residual_loss_values_nonempty"
       ],
       "meaning": "A finite set contains an element.",
       "dependency_expansion": "This is an existential membership predicate; it supplies a genuine maximum only in the nonempty branch. The empty threshold set uses prefix0.",
@@ -2139,6 +2538,167 @@
         "nonempty-supremum-expansion"
       ],
       "proof_status": "Independent entrypoint bridges unfold the literal predicates and prove the maximum membership/order contract from upstream theorems. Empty sets never invoke the maximum."
+    },
+    {
+      "name": "Finset.max'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "SparseCompletion.residual_loss_bound_le_iff",
+        "SparseCompletion.residual_loss_bound_zero_iff",
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.residual_loss_bound_nonnegative",
+        "SparseCompletion.residual_loss_le_bound",
+        "SparseCompletion.residual_loss_bound_le",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_maximum"
+      ],
+      "meaning": "Maximum element of a genuinely nonempty finite set in a linear order.",
+      "dependency_expansion": "Definition is sup' of identity; nonemptiness is required. Maximum membership and order contracts establish result semantics, including for a set formed by inserting0.",
+      "definition_excerpt": "Finset.max'",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.max'",
+        "finite-maximum-result-contracts",
+        "Finset.sup'",
+        "nonempty-supremum-result-contracts"
+      ],
+      "proof_status": "Separate Challenge and Solution semantic bridge modules contain literal or proved contracts for the documented meaning. Actual successful compilation is recorded by the independent frozen-source native receipt, not certified by this inventory."
+    },
+    {
+      "name": "Finset.sup'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "SparseCompletion.residual_loss_bound_le_iff",
+        "SparseCompletion.residual_loss_bound_zero_iff",
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.residual_loss_bound_nonnegative",
+        "SparseCompletion.residual_loss_le_bound",
+        "SparseCompletion.residual_loss_bound_le",
+        "SparseCompletion.normalized_weak_cover_maximum",
+        "SparseCompletion.normalized_exact_weak_cover_maximum"
+      ],
+      "meaning": "Supremum of the image of a genuinely nonempty finite set in a join semilattice.",
+      "dependency_expansion": "Uses WithBot.unbot after finite sup of lifted values, with a proof the result is not bottom. Finset.sup folds supremum with bottom; it is not arbitrary choice or a supremum assumed attained in a general infinite set.",
+      "definition_excerpt": "Finset.sup'",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.sup'",
+        "nonempty-supremum-result-contracts",
+        "Finset.sup-fold-expansion",
+        "Finset.fold",
+        "WithBot.unbot",
+        "SemilatticeSup"
+      ],
+      "proof_status": "Separate Challenge and Solution semantic bridge modules contain literal or proved contracts for the documented meaning. Actual successful compilation is recorded by the independent frozen-source native receipt, not certified by this inventory."
+    },
+    {
+      "name": "Set.compl",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.cover_relabel_on_anchor"
+      ],
+      "meaning": "Set membership complement: x belongs exactly when x is not in the original set.",
+      "dependency_expansion": "Complement subtype is distinct from the chosen set subtype. Its enumeration uses actual decidable membership, potentially noncomputable classical evidence, with no executable algorithm inferred.",
+      "definition_excerpt": "Set.compl",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.compl",
+        "Set.Elem-and-coercion",
+        "finite-subtype-enumeration"
+      ],
+      "proof_status": "Separate Challenge and Solution semantic bridge modules contain literal or proved contracts for the documented meaning. Actual successful compilation is recorded by the independent frozen-source native receipt, not certified by this inventory."
+    },
+    {
+      "name": "Fintype.equivFin",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.cover_relabel_on_anchor"
+      ],
+      "meaning": "A noncomputable equivalence from a finite type to the ordinal of its cardinality.",
+      "dependency_expansion": "Chooses an equivalence from truncEquivFin using Classical.decEq and Trunc.out. It is a bijective relabeling; it does not impose score order or an algorithmic enumeration claim.",
+      "definition_excerpt": "Fintype.equivFin",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Fintype.equivFin",
+        "Fintype.truncEquivFin",
+        "Fintype.subtype",
+        "finite-subtype-enumeration"
+      ],
+      "proof_status": "Separate Challenge and Solution semantic bridge modules contain literal or proved contracts for the documented meaning. Actual successful compilation is recorded by the independent frozen-source native receipt, not certified by this inventory."
+    },
+    {
+      "name": "Equiv.Set.sumCompl",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "SparseCompletion.arbitrary_vertex_cover_sparse",
+        "SparseCompletion.arbitrary_vertex_cover_exact",
+        "SparseCompletion.arbitrary_vertex_subset_weak_sparse",
+        "SparseCompletion.arbitrary_vertex_subset_weak_exact",
+        "SparseCompletion.cover_equiv_anchor",
+        "SparseCompletion.cover_equiv_residual",
+        "SparseCompletion.cover_equiv_inverse_anchor",
+        "SparseCompletion.arbitrary_cover_free_residual",
+        "SparseCompletion.cover_relabel_on_residual",
+        "SparseCompletion.cover_relabel_on_anchor"
+      ],
+      "meaning": "The disjoint sum of a set subtype and its complement subtype is equivalent to the original type.",
+      "dependency_expansion": "Delegates to Equiv.sumCompl membership predicate. Forward map forgets subtype proofs; inverse branches on actual membership evidence. Both inverse laws are proved; every original label belongs exactly to one side.",
+      "definition_excerpt": "Equiv.Set.sumCompl",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Equiv.Set.sumCompl",
+        "Equiv.sumCompl",
+        "Set.compl",
+        "Set.Elem-and-coercion"
+      ],
+      "proof_status": "Separate Challenge and Solution semantic bridge modules contain literal or proved contracts for the documented meaning. Actual successful compilation is recorded by the independent frozen-source native receipt, not certified by this inventory."
+    },
+    {
+      "name": "LinearOrder",
+      "declaration_kind": "class",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "SparseCompletion.residual_loss_bound_ordered",
+        "SparseCompletion.ordered_loss_values_nonempty",
+        "SparseCompletion.residual_loss_values_ordered"
+      ],
+      "meaning": "A reflexive, transitive, antisymmetric and total ordering with decidable comparisons/equality and consistent min/max/comparison operations.",
+      "dependency_expansion": "Extends PartialOrder then Preorder then LE/LT. Preorder ties strict order to non-strict order and its asymmetric part; LinearOrder supplies totality, decidable instances, min/max definitions and comparison consistency. Finite maximum applies to its actual order, not an abstract numerical supremum assumption.",
+      "definition_excerpt": "LinearOrder",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearOrder",
+        "PartialOrder",
+        "Preorder"
+      ],
+      "proof_status": "Separate Challenge and Solution semantic bridge modules contain literal or proved contracts for the documented meaning. Actual successful compilation is recorded by the independent frozen-source native receipt, not certified by this inventory."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -2158,6 +2718,14 @@
           "text": "variable {\u03b1 \u03b2 : Type*}\n\n/-- `Fintype \u03b1` means that `\u03b1` is finite, i.e. there are only\n  finitely many distinct elements of type `\u03b1`. The evidence of this\n  is a finset `elems` (a list up to permutation without duplicates),\n  together with a proof that everything of type `\u03b1` is in the list. -/\nclass Fintype (\u03b1 : Type*) where\n  /-- The `Finset` containing all elements of a `Fintype` -/\n  elems : Finset \u03b1\n  /-- A proof that `elems` contains every element of the type -/\n  complete : \u2200 x : \u03b1, x \u2208 elems\n\n",
           "sha256": "ccc0167da005c12ce09e1e41af0a2ebbcda025a6f6d81a5ae5b97a10341ffd59",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L51-L62"
+        },
+        {
+          "name": "Fintype.subtype",
+          "first_line": 267,
+          "last_line": 273,
+          "text": "/-- Given a predicate that can be represented by a finset, the subtype\nassociated to the predicate is a fintype. -/\n@[instance_reducible]\nprotected def subtype {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 x : \u03b1, x \u2208 s \u2194 p x) :\n    Fintype { x // p x } :=\n  \u27e8\u27e8s.1.pmap Subtype.mk fun x => (H x).1, s.nodup.pmap fun _ _ _ _ => congr_arg Subtype.val\u27e9,\n    fun \u27e8x, px\u27e9 => Multiset.mem_pmap.2 \u27e8x, (H x).2 px, rfl\u27e9\u27e9\n",
+          "sha256": "281b7ecf80e2fce8f659a79886a2ab102382df38c75f14cb1bb84a3fe4392ebb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L267-L273"
         }
       ]
     },
@@ -2680,6 +3248,14 @@
           "text": "`f a = b` for some `a \u2208 s`. -/\ndef image {\u03b2 : Type v} (f : \u03b1 \u2192 \u03b2) (s : Set \u03b1) : Set \u03b2 := {f a | a \u2208 s}\n",
           "sha256": "f530b4544838c1c2d2cc39d40d2838c0ddd6f544e555cc48c69d09cb361f3e36",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L265-L266"
+        },
+        {
+          "name": "Set.compl",
+          "first_line": 246,
+          "last_line": 250,
+          "text": "/-- The complement of a set `s` is the set of elements not contained in `s`.\n\nNote that you should **not** use this definition directly, but instead write `s\u1d9c`. -/\nprotected def compl (s : Set \u03b1) : Set \u03b1 := {a | a \u2209 s}\n\n",
+          "sha256": "8627c4e384e1c16d17e43767b67f341f59e6d1ac8ccc1004b4200b3b3805b36f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L246-L250"
         }
       ]
     },
@@ -3094,6 +3670,14 @@
           "text": "@[to_dual]\ntheorem max'_mem : s.max' H \u2208 s :=\n  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]\n\n@[to_dual min'_le]\ntheorem le_max' (x) (H2 : x \u2208 s) : x \u2264 s.max' \u27e8x, H2\u27e9 :=\n  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm\n",
           "sha256": "4c1162b041754029e1092db0e81bb257c21c1d6ff8542afe07b62f21be20a225",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L146"
+        },
+        {
+          "name": "finite-maximum-result-contracts",
+          "first_line": 140,
+          "last_line": 159,
+          "text": "@[to_dual]\ntheorem max'_mem : s.max' H \u2208 s :=\n  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]\n\n@[to_dual min'_le]\ntheorem le_max' (x) (H2 : x \u2208 s) : x \u2264 s.max' \u27e8x, H2\u27e9 :=\n  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm\n\n@[to_dual le_min']\ntheorem max'_le (x) (H2 : \u2200 y \u2208 s, y \u2264 x) : s.max' H \u2264 x :=\n  H2 _ <| max'_mem _ _\n\n@[to_dual]\ntheorem isGreatest_max' : IsGreatest (\u2191s) (s.max' H) :=\n  \u27e8max'_mem _ _, le_max' _\u27e9\n\n@[to_dual (attr := simp) le_min'_iff]\ntheorem max'_le_iff {x} : s.max' H \u2264 x \u2194 \u2200 y \u2208 s, y \u2264 x :=\n  isLUB_le_iff (isGreatest_max' s H).isLUB\n\n",
+          "sha256": "026a718feadf38336cfca73368b15378ddc9615d840347a24aab3352a87ef31d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L159"
         }
       ]
     },
@@ -3112,6 +3696,270 @@
           "text": "/-- Given nonempty finset `s` then `s.sup' H f` is the supremum of its image under `f` in (possibly\nunbounded) join-semilattice `\u03b1`, where `H` is a proof of nonemptiness. If `\u03b1` has a bottom element\nyou may instead use `Finset.sup` which does not require `s` nonempty. -/\n@[to_dual\n/-- Given nonempty finset `s` then `s.inf' H f` is the infimum of its image under `f` in (possibly\nunbounded) meet-semilattice `\u03b1`, where `H` is a proof of nonemptiness. If `\u03b1` has a top element you\nmay instead use `Finset.inf` which does not require `s` nonempty. -/]\ndef sup' (s : Finset \u03b2) (H : s.Nonempty) (f : \u03b2 \u2192 \u03b1) : \u03b1 :=\n  WithBot.unbot (s.sup ((\u2191) \u2218 f)) (by simpa using! H)\n",
           "sha256": "580dac9cb6d41394de0f011a662a0f13191f25a1516e9c0a1bb5d4c17be14a4a",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L525-L533"
+        },
+        {
+          "name": "Finset.sup-fold-expansion",
+          "first_line": 37,
+          "last_line": 45,
+          "text": "section Sup\n\n-- TODO: define with just `[Bot \u03b1]` where some lemmas hold without requiring `[OrderBot \u03b1]`\nvariable [SemilatticeSup \u03b1] [OrderBot \u03b1]\n\n/-- Supremum of a finite set: `sup {a, b, c} f = f a \u2294 f b \u2294 f c` -/\n@[to_dual /-- Infimum of a finite set: `inf {a, b, c} f = f a \u2293 f b \u2293 f c` -/]\ndef sup (s : Finset \u03b2) (f : \u03b2 \u2192 \u03b1) : \u03b1 :=\n  s.fold (\u00b7 \u2294 \u00b7) \u22a5 f\n",
+          "sha256": "6e22adf894d812a233bf724c025e2be1bdd0d79ad3f113ad95f34abc95d13a20",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L37-L45"
+        },
+        {
+          "name": "Finset.sup'",
+          "first_line": 517,
+          "last_line": 540,
+          "text": "\nvariable [SemilatticeSup \u03b1]\n\n@[to_dual]\ntheorem sup_of_mem {s : Finset \u03b2} (f : \u03b2 \u2192 \u03b1) {b : \u03b2} (h : b \u2208 s) :\n    \u2203 a : \u03b1, s.sup ((\u2191) \u2218 f : \u03b2 \u2192 WithBot \u03b1) = \u2191a :=\n  (WithBot.le_iff_forall.1 (le_sup (\u03b1 := WithBot \u03b1) h) (f b) rfl).imp fun _ \u21a6 And.left\n\n/-- Given nonempty finset `s` then `s.sup' H f` is the supremum of its image under `f` in (possibly\nunbounded) join-semilattice `\u03b1`, where `H` is a proof of nonemptiness. If `\u03b1` has a bottom element\nyou may instead use `Finset.sup` which does not require `s` nonempty. -/\n@[to_dual\n/-- Given nonempty finset `s` then `s.inf' H f` is the infimum of its image under `f` in (possibly\nunbounded) meet-semilattice `\u03b1`, where `H` is a proof of nonemptiness. If `\u03b1` has a top element you\nmay instead use `Finset.inf` which does not require `s` nonempty. -/]\ndef sup' (s : Finset \u03b2) (H : s.Nonempty) (f : \u03b2 \u2192 \u03b1) : \u03b1 :=\n  WithBot.unbot (s.sup ((\u2191) \u2218 f)) (by simpa using! H)\n\nvariable {s : Finset \u03b2} (H : s.Nonempty) (f : \u03b2 \u2192 \u03b1)\n\n@[to_dual (attr := simp)]\ntheorem coe_sup' : ((s.sup' H f : \u03b1) : WithBot \u03b1) = s.sup ((\u2191) \u2218 f) := by\n  rw [sup', WithBot.coe_unbot]\n\n",
+          "sha256": "e42d625ce76f9f57cf76907415d1417096e353a1349581a2c502badb2481851c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L517-L540"
+        },
+        {
+          "name": "nonempty-supremum-result-contracts",
+          "first_line": 556,
+          "last_line": 569,
+          "text": "\n@[to_dual (attr := simp) le_inf'_iff]\ntheorem sup'_le_iff {a : \u03b1} : s.sup' H f \u2264 a \u2194 \u2200 b \u2208 s, f b \u2264 a := by\n  simp_rw [\u2190 @WithBot.coe_le_coe \u03b1, coe_sup', Finset.sup_le_iff]; rfl\n\n@[to_dual le_inf'] alias \u27e8_, sup'_le\u27e9 := sup'_le_iff\n\n@[to_dual inf'_le]\ntheorem le_sup' {b : \u03b2} (h : b \u2208 s) : f b \u2264 s.sup' \u27e8b, h\u27e9 f :=\n  (sup'_le_iff \u27e8b, h\u27e9 f).1 le_rfl b h\n\n@[to_dual]\ntheorem isLUB_sup' {s : Finset \u03b1} (hs : s.Nonempty) : IsLUB s (sup' s hs id) :=\n  \u27e8fun x h => id_eq x \u25b8 le_sup' id h, fun _ h => Finset.sup'_le hs id h\u27e9\n",
+          "sha256": "86a9a5e241ed42985afed75912ddf62a15f0d216d6acd164a6b8d964d5baea74",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L556-L569"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/WithBot.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/WithBot.lean",
+      "sha256": "04888dc906f21616c8fde024aa9ee2b6ac6431ae6fc071a74f7d686aad670c12",
+      "git_blob_sha1": "de15ef9e9d7f0b373aece021cd5ff3df999cf5e6",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "WithBot.unbot",
+          "first_line": 208,
+          "last_line": 220,
+          "text": "  simp [ne_bot_iff_exists]\n\n/-- Deconstruct a `x : WithBot \u03b1` to the underlying value in `\u03b1`, given a proof that `x \u2260 \u22a5`. -/\n@[to_dual\n/-- Deconstruct a `x : WithTop \u03b1` to the underlying value in `\u03b1`, given a proof that `x \u2260 \u22a4`. -/]\ndef unbot : \u2200 x : WithBot \u03b1, x \u2260 \u22a5 \u2192 \u03b1 | (x : \u03b1), _ => x\n\n@[to_dual (attr := simp)]\nlemma coe_unbot : \u2200 (x : WithBot \u03b1) hx, x.unbot hx = x | (x : \u03b1), _ => rfl\n\n@[to_dual (attr := simp)]\ntheorem unbot_coe (x : \u03b1) (h : (x : WithBot \u03b1) \u2260 \u22a5 := coe_ne_bot) : (x : WithBot \u03b1).unbot h = x :=\n  rfl\n",
+          "sha256": "4d7c6baa703450261a48a56bc7e032030ada26e7094940081dd8dad46f459ae5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/WithBot.lean#L208-L220"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Fold.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Fold.lean",
+      "sha256": "56f34b22259c3514109bfcc338371d6d0ce6e55e40d1b139f520c009cf8fb6d9",
+      "git_blob_sha1": "e14011ff5f84834f83bacc37a70cf48ab147cf7d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.fold",
+          "first_line": 31,
+          "last_line": 39,
+          "text": "\nvariable (op : \u03b2 \u2192 \u03b2 \u2192 \u03b2) [hc : Std.Commutative op] [ha : Std.Associative op]\n\nlocal notation a \" * \" b => op a b\n\n/-- `fold op b f s` folds the commutative associative operation `op` over the\n  `f`-image of `s`, i.e. `fold (+) b f {1,2,3} = f 1 + f 2 + f 3 + b`. -/\ndef fold (b : \u03b2) (f : \u03b1 \u2192 \u03b2) (s : Finset \u03b1) : \u03b2 :=\n  (s.1.map f).fold op b\n",
+          "sha256": "765c18516c56845c8a13da183fe603561eb704d9e00cb011da1a1b7d694118c8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Fold.lean#L31-L39"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Lattice.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice.lean",
+      "sha256": "848c632cb02ed8fedafbe876e8a609e8855a7acb66e604505431d5a7b5dd3e48",
+      "git_blob_sha1": "ff4c0a37cdb2b44c9fc40dc7c61fc086d89dc258",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "SemilatticeSup",
+          "first_line": 65,
+          "last_line": 77,
+          "text": "\n/-- A `SemilatticeSup` is a join-semilattice, that is, a partial order\n  with a join (a.k.a. lub / least upper bound, sup / supremum) operation\n  `\u2294` which is the least element larger than both factors. -/\nclass SemilatticeSup (\u03b1 : Type u) extends PartialOrder \u03b1 where\n  /-- The binary supremum, used to derive `Max \u03b1` -/\n  sup : \u03b1 \u2192 \u03b1 \u2192 \u03b1\n  /-- The supremum is an upper bound on the first argument -/\n  protected le_sup_left : \u2200 a b : \u03b1, a \u2264 sup a b\n  /-- The supremum is an upper bound on the second argument -/\n  protected le_sup_right : \u2200 a b : \u03b1, b \u2264 sup a b\n  /-- The supremum is the *least* upper bound -/\n  protected sup_le : \u2200 a b c : \u03b1, a \u2264 c \u2192 b \u2264 c \u2192 sup a b \u2264 c\n",
+          "sha256": "689be1b23dfb00717d386fcc0e265a2f2f47ea52229429277579817081fc07ad",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice.lean#L65-L77"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Defs/PartialOrder.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/PartialOrder.lean",
+      "sha256": "7af151b7c035aa9969999bd704a8820162900e4c0fdac65a97d64992bacaf0b8",
+      "git_blob_sha1": "364afe73f20b40324b61cca24689125fc04ed3e9",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "Preorder",
+          "first_line": 39,
+          "last_line": 50,
+          "text": "\n/--\nA preorder is a reflexive, transitive relation `\u2264`.\nIn a preorder, `a < b` means `a \u2264 b \u2227 \u00acb \u2264 a`, and `<` is defined this way by default.\nYou can override this definition to set a better def-eq.\n-/\nclass Preorder (\u03b1 : Type*) extends LE \u03b1, LT \u03b1 where\n  protected le_refl : \u2200 a : \u03b1, a \u2264 a\n  protected le_trans : \u2200 a b c : \u03b1, a \u2264 b \u2192 b \u2264 c \u2192 a \u2264 c\n  lt := fun a b => a \u2264 b \u2227 \u00acb \u2264 a\n  protected lt_iff_le_not_ge : \u2200 a b : \u03b1, a < b \u2194 a \u2264 b \u2227 \u00acb \u2264 a := by intros; rfl\n\n",
+          "sha256": "e2799c74d36dd653c67d47ce9376ffd65c3bd03f0f7320840ad872ce4e0ad994",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/PartialOrder.lean#L39-L50"
+        },
+        {
+          "name": "PartialOrder",
+          "first_line": 176,
+          "last_line": 179,
+          "text": "/-- A partial order is a reflexive, transitive, antisymmetric relation `\u2264`. -/\nclass PartialOrder (\u03b1 : Type*) extends Preorder \u03b1 where\n  protected le_antisymm : \u2200 a b : \u03b1, a \u2264 b \u2192 b \u2264 a \u2192 a = b\n\n",
+          "sha256": "ebb6e4737261771b96a51d332e895f2e98b7246b117352c660e1fcdcfd808799",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/PartialOrder.lean#L176-L179"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Defs/LinearOrder.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/LinearOrder.lean",
+      "sha256": "dd0130c240109d5bdd532d2b0bd72996941de49af84b4239fa0d1caae555106f",
+      "git_blob_sha1": "e96a831b3d94f29b1d2d790a66530f923ba810b1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearOrder",
+          "first_line": 59,
+          "last_line": 81,
+          "text": "/-- A linear order is reflexive, transitive, antisymmetric and total relation `\u2264`.\nWe assume that every linear ordered type has decidable `(\u2264)`, `(<)`, and `(=)`. -/\nclass LinearOrder (\u03b1 : Type*) extends PartialOrder \u03b1, Min \u03b1, Max \u03b1, Ord \u03b1 where\n  /-- A linear order is total. -/\n  protected le_total (a b : \u03b1) : a \u2264 b \u2228 b \u2264 a\n  /-- In a linearly ordered type, we assume the order relations are all decidable. -/\n  toDecidableLE : DecidableLE \u03b1\n  /-- In a linearly ordered type, we assume the order relations are all decidable. -/\n  toDecidableEq : DecidableEq \u03b1 := @decidableEqOfDecidableLE _ _ toDecidableLE\n  /-- In a linearly ordered type, we assume the order relations are all decidable. -/\n  toDecidableLT : DecidableLT \u03b1 := @decidableLTOfDecidableLE _ _ toDecidableLE\n  min := fun a b => if a \u2264 b then a else b\n  max := fun a b => if a \u2264 b then b else a\n  /-- The minimum function is equivalent to the one you get from `minOfLe`. -/\n  protected min_def : \u2200 a b, min a b = if a \u2264 b then a else b := by intros; rfl\n  /-- The minimum function is equivalent to the one you get from `maxOfLe`. -/\n  protected max_def : \u2200 a b, max a b = if a \u2264 b then b else a := by intros; rfl\n  compare a b := compareOfLessAndEq a b\n  /-- Comparison via `compare` is equal to the canonical comparison given decidable `<` and `=`. -/\n  compare_eq_compareOfLessAndEq : \u2200 a b, compare a b = compareOfLessAndEq a b := by\n    compareOfLessAndEq_rfl\n\nattribute [to_dual existing] LinearOrder.toMax\n",
+          "sha256": "c0553c89c4329c03d3366ecc264a410713c734d04266b2e1d6d155ed7bbc033a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/LinearOrder.lean#L59-L81"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/CoeSort.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/CoeSort.lean",
+      "sha256": "a6321ae732b4e66276846dbe00faf4bec0ef17eed151ca268d8d29845d47c3fc",
+      "git_blob_sha1": "e771858f6f587e75a10ba6fd34c8506283dff554",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes H\u00f6lzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Elem-and-coercion",
+          "first_line": 30,
+          "last_line": 40,
+          "text": "/-- Given the set `s`, `Elem s` is the `Type` of element of `s`.\n\nIt is currently an abbreviation so that instance coming from `Subtype` are available.\nIf you're interested in making it a `def`, as it probably should be,\nyou'll then need to create additional instances (and possibly prove lemmas about them).\nSee e.g. `Mathlib/Data/Set/Order.lean`.\n-/\n@[coe, reducible] def Elem (s : Set \u03b1) : Type u := {x // x \u2208 s}\n\n/-- Coercion from a set to the corresponding subtype. -/\ninstance : CoeSort (Set \u03b1) (Type u) := \u27e8Elem\u27e9\n",
+          "sha256": "404ebc51ae858a5118b303dfe5d24765e3e8ecf332fd673380447cadb68b6fd1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/CoeSort.lean#L30-L40"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/EquivFin.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean",
+      "sha256": "891fdb687fc067b1511701992301e28de0d4fd6ab53d74a96f51be39d5aa8f92",
+      "git_blob_sha1": "80c4fd3f66ca34b754a300f1ac79312e7fcd920f",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fintype.truncEquivFin",
+          "first_line": 51,
+          "last_line": 72,
+          "text": "\n/-- There is (computably) an equivalence between `\u03b1` and `Fin (card \u03b1)`.\n\nSince it is not unique and depends on which permutation\nof the universe list is used, the equivalence is wrapped in `Trunc` to\npreserve computability.\n\nSee `Fintype.equivFin` for the noncomputable version,\nand `Fintype.truncEquivFinOfCardEq` and `Fintype.equivFinOfCardEq`\nfor an equiv `\u03b1 \u2243 Fin n` given `Fintype.card \u03b1 = n`.\n\nSee `Fintype.truncFinBijection` for a version without `[DecidableEq \u03b1]`.\n-/\ndef truncEquivFin (\u03b1) [DecidableEq \u03b1] [Fintype \u03b1] : Trunc (\u03b1 \u2243 Fin (card \u03b1)) := by\n  unfold card Finset.card\n  exact\n    Quot.recOnSubsingleton\n      (motive := fun s : Multiset \u03b1 =>\n        (\u2200 x : \u03b1, x \u2208 s) \u2192 s.Nodup \u2192 Trunc (\u03b1 \u2243 Fin (Multiset.card s)))\n      univ.val\n      (fun l (h : \u2200 x : \u03b1, x \u2208 l) (nd : l.Nodup) => Trunc.mk (nd.getEquivOfForallMemList _ h).symm)\n      mem_univ_val univ.2\n",
+          "sha256": "a4b34501e4898cec86c16e080eaf904c1d2550ccff1d3dde47050518b36526a4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean#L51-L72"
+        },
+        {
+          "name": "Fintype.equivFin",
+          "first_line": 73,
+          "last_line": 82,
+          "text": "\n/-- There is (noncomputably) an equivalence between `\u03b1` and `Fin (card \u03b1)`.\n\nSee `Fintype.truncEquivFin` for the computable version,\nand `Fintype.truncEquivFinOfCardEq` and `Fintype.equivFinOfCardEq`\nfor an equiv `\u03b1 \u2243 Fin n` given `Fintype.card \u03b1 = n`.\n-/\nnoncomputable def equivFin (\u03b1) [Fintype \u03b1] : \u03b1 \u2243 Fin (card \u03b1) :=\n  letI := Classical.decEq \u03b1\n  (truncEquivFin \u03b1).out\n",
+          "sha256": "84260e23286cf7e6bcb17641927c3b0b0ea95187472bc153e5647e1295e510c2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean#L73-L82"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/Sets.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean",
+      "sha256": "87b401f8e6bf02de9250adba00dcb1de4157d55e286f6e627d01639fe2b2ef9a",
+      "git_blob_sha1": "81672c76f6ea0ec10b76b09a4422bdb9312e9e90",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "finite-subtype-enumeration",
+          "first_line": 245,
+          "last_line": 267,
+          "text": "instance Finset.Subtype.fintype (s : Finset \u03b1) : Fintype { x // x \u2208 s } :=\n  \u27e8s.attach, s.mem_attach\u27e9\n\ninstance FinsetCoe.fintype (s : Finset \u03b1) : Fintype (\u2191s : Set \u03b1) :=\n  Finset.Subtype.fintype s\n\ntheorem Finset.attach_eq_univ {s : Finset \u03b1} : s.attach = Finset.univ :=\n  rfl\n\ninstance Prop.fintype : Fintype Prop :=\n  \u27e8\u27e8{True, False}, by simp\u27e9, by simpa using em\u27e9\n\n@[simp]\ntheorem Fintype.univ_Prop [DecidableEq Prop] : (Finset.univ : Finset Prop) = {True, False} :=\n  Finset.eq_of_veq <| by simp; rfl\n\ninstance Subtype.fintype (p : \u03b1 \u2192 Prop) [DecidablePred p] [Fintype \u03b1] : Fintype { x // p x } :=\n  Fintype.subtype (univ.filter p) (by simp)\n\n/-- A set on a fintype, when coerced to a type, is a fintype. -/\n@[instance_reducible]\ndef setFintype [Fintype \u03b1] (s : Set \u03b1) [DecidablePred (\u00b7 \u2208 s)] : Fintype s :=\n  Subtype.fintype fun x => x \u2208 s\n",
+          "sha256": "92b6a44e1af6e87e2e87935da0086ba3cc9c2db5a23a10ced68577bde9bb81ad",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean#L245-L267"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Set.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Set.lean",
+      "sha256": "90eaaedccc63f81347c8918ffa50665fd01c8bca02585c104b3d3f484db673a7",
+      "git_blob_sha1": "4f925993ca721d0128819a2bf98f922708842507",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equiv.Set.sumCompl",
+          "first_line": 304,
+          "last_line": 328,
+          "text": "\n/-- If `s : Set \u03b1` is a set with decidable membership, then `s \u2295 s\u1d9c` is equivalent to `\u03b1`.\n\nSee also `Equiv.sumCompl`. -/\nprotected def sumCompl {\u03b1} (s : Set \u03b1) [DecidablePred (\u00b7 \u2208 s)] : s \u2295 (s\u1d9c : Set \u03b1) \u2243 \u03b1 :=\n  Equiv.sumCompl (\u00b7 \u2208 s)\n\n@[simp]\ntheorem sumCompl_apply_inl {\u03b1 : Type u} (s : Set \u03b1) [DecidablePred (\u00b7 \u2208 s)] (x : s) :\n    Equiv.Set.sumCompl s (Sum.inl x) = x :=\n  rfl\n\n@[simp]\ntheorem sumCompl_apply_inr {\u03b1 : Type u} (s : Set \u03b1) [DecidablePred (\u00b7 \u2208 s)] (x : (s\u1d9c : Set \u03b1)) :\n    Equiv.Set.sumCompl s (Sum.inr x) = x :=\n  rfl\n\ntheorem sumCompl_symm_apply_of_mem {\u03b1 : Type u} {s : Set \u03b1} [DecidablePred (\u00b7 \u2208 s)] {x : \u03b1}\n    (hx : x \u2208 s) : (Equiv.Set.sumCompl s).symm x = Sum.inl \u27e8x, hx\u27e9 :=\n  sumCompl_symm_apply_of_pos hx\n\ntheorem sumCompl_symm_apply_of_notMem {\u03b1 : Type u} {s : Set \u03b1} [DecidablePred (\u00b7 \u2208 s)] {x : \u03b1}\n    (hx : x \u2209 s) : (Equiv.Set.sumCompl s).symm x = Sum.inr \u27e8x, hx\u27e9 :=\n  sumCompl_symm_apply_of_neg hx\n\n",
+          "sha256": "a60a757bd979d6b69719b94624e9b37ef74934703f27639c67552136d49d9447",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Set.lean#L304-L328"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Sum.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean",
+      "sha256": "df604983467488d4bc91a59822530bc04cad0ec59a0ca7831e08c5932d9cb791",
+      "git_blob_sha1": "684c759195ec1f47d7fb18b156a10aa6aeabdd3c",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equiv.sumCompl",
+          "first_line": 254,
+          "last_line": 301,
+          "text": "\n/-- For any predicate `p` on `\u03b1`,\nthe sum of the two subtypes `{a // p a}` and its complement `{a // \u00ac p a}`\nis naturally equivalent to `\u03b1`.\n\nSee `subtypeOrEquiv` for sum types over subtypes `{x // p x}` and `{x // q x}`\nthat are not necessarily `IsCompl p q`. See also `Equiv.Set.sumCompl` for a version on sets. -/\ndef sumCompl {\u03b1 : Type*} (p : \u03b1 \u2192 Prop) [DecidablePred p] :\n    { a // p a } \u2295 { a // \u00acp a } \u2243 \u03b1 where\n  toFun := Sum.elim Subtype.val Subtype.val\n  invFun a := if h : p a then Sum.inl \u27e8a, h\u27e9 else Sum.inr \u27e8a, h\u27e9\n  left_inv := by\n    rintro (\u27e8x, hx\u27e9 | \u27e8x, hx\u27e9) <;> dsimp\n    \u00b7 rw [dite_eq_left]\n    \u00b7 rw [dite_eq_right]\n  right_inv a := by\n    dsimp\n    split_ifs <;> rfl\n\n@[simp]\ntheorem sumCompl_apply_inl {\u03b1} {p : \u03b1 \u2192 Prop} [DecidablePred p] (x : { a // p a }) :\n    sumCompl p (Sum.inl x) = x :=\n  rfl\n\n@[simp]\ntheorem sumCompl_apply_inr {\u03b1} {p : \u03b1 \u2192 Prop} [DecidablePred p] (x : { a // \u00acp a }) :\n    sumCompl p (Sum.inr x) = x :=\n  rfl\n\n@[simp]\ntheorem sumCompl_symm_apply_of_pos {\u03b1} {p : \u03b1 \u2192 Prop} [DecidablePred p] {a : \u03b1} (h : p a) :\n    (sumCompl p).symm a = Sum.inl \u27e8a, h\u27e9 :=\n  dite_eq_left h\n\n@[simp]\ntheorem sumCompl_symm_apply_of_neg {\u03b1} {p : \u03b1 \u2192 Prop} [DecidablePred p] {a : \u03b1} (h : \u00acp a) :\n    (sumCompl p).symm a = Sum.inr \u27e8a, h\u27e9 :=\n  dite_eq_right h\n\n@[simp]\ntheorem sumCompl_symm_apply_pos {\u03b1} {p : \u03b1 \u2192 Prop} [DecidablePred p] (x : {x // p x}) :\n    (sumCompl p).symm x = Sum.inl x :=\n  sumCompl_symm_apply_of_pos x.2\n\n@[simp]\ntheorem sumCompl_symm_apply_neg {\u03b1} {p : \u03b1 \u2192 Prop} [DecidablePred p] (x : {x // \u00ac p x}) :\n    (sumCompl p).symm x = Sum.inr x :=\n  sumCompl_symm_apply_of_neg x.2\n",
+          "sha256": "d63b06b74ee2e5d25d32b80a5a57d6277df885eb83bd1c78be3de81372b11b54",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean#L254-L301"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Insert.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Insert.lean",
+      "sha256": "9b5eb2047d48845dfff399259ddcf3b27fc760fdac9f704e4e641f771554ad35",
+      "git_blob_sha1": "fbaa3b4dc1037735d900896599ba613745b1445e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.insert-and-membership",
+          "first_line": 342,
+          "last_line": 369,
+          "text": "\nsection Insert\n\nvariable [DecidableEq \u03b1] {s t : Finset \u03b1} {a b : \u03b1} {f : \u03b1 \u2192 \u03b2}\n\n/-- `insert a s` is the set `{a} \u222a s` containing `a` and the elements of `s`. -/\ninstance : Insert \u03b1 (Finset \u03b1) :=\n  \u27e8fun a s => \u27e8_, s.2.ndinsert a\u27e9\u27e9\n\ntheorem insert_def (a : \u03b1) (s : Finset \u03b1) : insert a s = \u27e8_, s.2.ndinsert a\u27e9 :=\n  rfl\n\n@[simp]\ntheorem insert_val (a : \u03b1) (s : Finset \u03b1) : (insert a s).1 = ndinsert a s.1 :=\n  rfl\n\ntheorem insert_val' (a : \u03b1) (s : Finset \u03b1) : (insert a s).1 = dedup (a ::\u2098 s.1) := by\n  rw [dedup_cons, dedup_eq_self]; rfl\n\ntheorem insert_val_of_notMem {a : \u03b1} {s : Finset \u03b1} (h : a \u2209 s) : (insert a s).1 = a ::\u2098 s.1 := by\n  rw [insert_val, ndinsert_of_notMem h]\n\n@[simp, grind =]\ntheorem mem_insert : a \u2208 insert b s \u2194 a = b \u2228 a \u2208 s :=\n  mem_ndinsert\n\ntheorem mem_insert_self (a : \u03b1) (s : Finset \u03b1) : a \u2208 insert a s :=\n  mem_ndinsert_self a s.1\n",
+          "sha256": "5ef04fae4470e5d8ab8800ead96784b4551502396a7df8c13408358e62d667b9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Insert.lean#L342-L369"
+        },
+        {
+          "name": "Finset.insert_nonempty",
+          "first_line": 423,
+          "last_line": 426,
+          "text": "\n@[simp, aesop safe apply (rule_sets := [finsetNonempty])]\ntheorem insert_nonempty (a : \u03b1) (s : Finset \u03b1) : (insert a s).Nonempty :=\n  \u27e8a, mem_insert_self a s\u27e9\n",
+          "sha256": "cf22e50def8904b526e23c6aba17c187cd1011d5a00beed0fd2eb0874d86505d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Insert.lean#L423-L426"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Multiset/FinsetOps.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/FinsetOps.lean",
+      "sha256": "6f0955956933081804aa30ca9d96becdf112d46c1bf901e93b62792cdc4c1124",
+      "git_blob_sha1": "62da9592502b815041b21a8c0cfcdb2e07e51030",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Multiset.ndinsert",
+          "first_line": 31,
+          "last_line": 42,
+          "text": "/-! ### finset insert -/\n\n\n/-- `ndinsert a s` is the lift of the list `insert` operation. This operation\n  does not respect multiplicities, unlike `cons`, but it is suitable as\n  an insert operation on `Finset`. -/\ndef ndinsert (a : \u03b1) (s : Multiset \u03b1) : Multiset \u03b1 :=\n  Quot.liftOn s (fun l => (l.insert a : Multiset \u03b1)) fun _ _ p => Quot.sound (p.insert a)\n\n@[simp]\ntheorem coe_ndinsert (a : \u03b1) (l : List \u03b1) : ndinsert a l = (insert a l : List \u03b1) :=\n  rfl\n",
+          "sha256": "331701ac491a7570ab8716cbcc6a430b1cb2d2c3ee035eef7a525aef56472d82",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/FinsetOps.lean#L31-L42"
         }
       ]
     }
@@ -3120,12 +3968,12 @@
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "72822a7ac66e8b147a48b8125852e237700d39dfef0a0990c4cb6820e241c27c"
+      "sha256": "cb229d04b69d510b14f3e1af7784abccf4f8b19606ad8ec91fac4cb38b43d546"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "4bd739fdb7b198405e643d396384dd2d582d0b7f2187d485b403f53000d400af"
+      "sha256": "6fe9595b2e089be5e42b4af47f2183560c98a9f7a48456b577008b66d6977aa3"
     }
   ],
   "generated_declarations": [

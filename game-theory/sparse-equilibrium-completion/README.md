@@ -84,3 +84,13 @@ retain their own attribution. No paper copyright or authorship is reassigned.
 Local research and verification are authorized. This task performs no registry
 submission, publication, account changes, permission changes, or security changes.
 Current registry editorial eligibility and metadata acceptance are not established.
+
+The interval and graph-cover tranche proves exact perspective recovery at fixed
+q,K, arbitrary original-vertex cover sparsification, and weak-cover sparsification
+with the explicit maximum interval-loss penalty β_C r. The maximum has an
+inserted zero and agrees with the ordered-pair convention under reverse interval
+symmetry. Cover probabilities, incident entries and responses remain unchanged;
+original residual-support containment and declared extra moments are preserved. See SCOPE.md
+for hypotheses and the remaining interval, stability, joint-k and algorithmic gaps.
+These results extend the source mathematical coverage; integrated review and an
+exact-source receipt must identify the tested bytes before a verification claim.

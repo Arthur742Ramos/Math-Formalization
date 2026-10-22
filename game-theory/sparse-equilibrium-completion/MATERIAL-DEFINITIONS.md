@@ -2236,3 +2236,993 @@ def sup' (s : Finset β) (H : s.Nonempty) (f : β → α) : α :=
 
 
 The normalized full-game wrapper SparseCompletion.normalized_known_anchor_conic_iff adds literal nonnegative block weights of mass1 and full-matrix skew/bounds under the explicit fixed K/D/p premodel conditions. It uses the same prefix-order, finite-sum and completion meanings as SparseCompletion.known_anchor_prefix_characterization.
+
+
+## Interval and arbitrary-cover material meanings
+
+### Finset.max'
+
+Maximum element of a genuinely nonempty finite set in a linear order. Definition is sup' of identity; nonemptiness is required. Maximum membership and order contracts establish result semantics, including for a set formed by inserting0.
+
+Used by: SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact.
+
+### Finset.sup'
+
+Supremum of the image of a genuinely nonempty finite set in a join semilattice. Uses WithBot.unbot after finite sup of lifted values, with a proof the result is not bottom. Finset.sup folds supremum with bottom; it is not arbitrary choice or a supremum assumed attained in a general infinite set.
+
+Used by: SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact.
+
+### Set.compl
+
+Set membership complement: x belongs exactly when x is not in the original set. Complement subtype is distinct from the chosen set subtype. Its enumeration uses actual decidable membership, potentially noncomputable classical evidence, with no executable algorithm inferred.
+
+Used by: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact.
+
+### Fintype.equivFin
+
+A noncomputable equivalence from a finite type to the ordinal of its cardinality. Chooses an equivalence from truncEquivFin using Classical.decEq and Trunc.out. It is a bijective relabeling; it does not impose score order or an algorithmic enumeration claim.
+
+Used by: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact.
+
+### Equiv.Set.sumCompl
+
+The disjoint sum of a set subtype and its complement subtype is equivalent to the original type. Delegates to Equiv.sumCompl membership predicate. Forward map forgets subtype proofs; inverse branches on actual membership evidence. Both inverse laws are proved; every original label belongs exactly to one side.
+
+Used by: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact.
+
+### LinearOrder
+
+A reflexive, transitive, antisymmetric and total ordering with decidable comparisons/equality and consistent min/max/comparison operations. Extends PartialOrder then Preorder then LE/LT. Preorder ties strict order to non-strict order and its asymmetric part; LinearOrder supplies totality, decidable instances, min/max definitions and comparison consistency. Finite maximum applies to its actual order, not an abstract numerical supremum assumption.
+
+Used by: SparseCompletion.residual_loss_bound_ordered.
+
+Compiler-owned Subtype is value plus predicate proof. Decidable at this exact compiler is a Bool decision plus reflection proof, with pointwise DecidablePred; it is not the older inductive representation. Classical finite enumeration is noncomputable. Insert0 supplies an actual element and no multiplicity, including the empty case; no unconditional cardinality increment is asserted. LinearOrder supplies totality, transitivity, antisymmetry and coherent strict comparisons. The maximum result is an attained finite supremum with genuine nonemptiness, never an unguarded empty maximum.
+
+### Mathlib/Data/Finset/Max.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean
+
+Whole-source SHA256: f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L128-L136
+
+```lean
+/-- Given a nonempty finset `s` in a linear order `α`, then `s.max' H` is its maximum, as an
+element of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.max`,
+taking values in `WithBot α`. -/
+@[to_dual
+/-- Given a nonempty finset `s` in a linear order `α`, then `s.min' H` is its minimum, as an
+element of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.min`,
+taking values in `WithTop α`. -/]
+def max' (s : Finset α) (H : s.Nonempty) : α :=
+  sup' s H id
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L159
+
+```lean
+@[to_dual]
+theorem max'_mem : s.max' H ∈ s :=
+  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]
+
+@[to_dual min'_le]
+theorem le_max' (x) (H2 : x ∈ s) : x ≤ s.max' ⟨x, H2⟩ :=
+  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm
+
+@[to_dual le_min']
+theorem max'_le (x) (H2 : ∀ y ∈ s, y ≤ x) : s.max' H ≤ x :=
+  H2 _ <| max'_mem _ _
+
+@[to_dual]
+theorem isGreatest_max' : IsGreatest (↑s) (s.max' H) :=
+  ⟨max'_mem _ _, le_max' _⟩
+
+@[to_dual (attr := simp) le_min'_iff]
+theorem max'_le_iff {x} : s.max' H ≤ x ↔ ∀ y ∈ s, y ≤ x :=
+  isLUB_le_iff (isGreatest_max' s H).isLUB
+
+```
+
+### Mathlib/Data/Finset/Lattice/Fold.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean
+
+Whole-source SHA256: d8d50163e1990cd27cf072b38fb3c78f60af5eba53d657ff2afec18d4e3d505b
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L37-L45
+
+```lean
+section Sup
+
+-- TODO: define with just `[Bot α]` where some lemmas hold without requiring `[OrderBot α]`
+variable [SemilatticeSup α] [OrderBot α]
+
+/-- Supremum of a finite set: `sup {a, b, c} f = f a ⊔ f b ⊔ f c` -/
+@[to_dual /-- Infimum of a finite set: `inf {a, b, c} f = f a ⊓ f b ⊓ f c` -/]
+def sup (s : Finset β) (f : β → α) : α :=
+  s.fold (· ⊔ ·) ⊥ f
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L517-L540
+
+```lean
+
+variable [SemilatticeSup α]
+
+@[to_dual]
+theorem sup_of_mem {s : Finset β} (f : β → α) {b : β} (h : b ∈ s) :
+    ∃ a : α, s.sup ((↑) ∘ f : β → WithBot α) = ↑a :=
+  (WithBot.le_iff_forall.1 (le_sup (α := WithBot α) h) (f b) rfl).imp fun _ ↦ And.left
+
+/-- Given nonempty finset `s` then `s.sup' H f` is the supremum of its image under `f` in (possibly
+unbounded) join-semilattice `α`, where `H` is a proof of nonemptiness. If `α` has a bottom element
+you may instead use `Finset.sup` which does not require `s` nonempty. -/
+@[to_dual
+/-- Given nonempty finset `s` then `s.inf' H f` is the infimum of its image under `f` in (possibly
+unbounded) meet-semilattice `α`, where `H` is a proof of nonemptiness. If `α` has a top element you
+may instead use `Finset.inf` which does not require `s` nonempty. -/]
+def sup' (s : Finset β) (H : s.Nonempty) (f : β → α) : α :=
+  WithBot.unbot (s.sup ((↑) ∘ f)) (by simpa using! H)
+
+variable {s : Finset β} (H : s.Nonempty) (f : β → α)
+
+@[to_dual (attr := simp)]
+theorem coe_sup' : ((s.sup' H f : α) : WithBot α) = s.sup ((↑) ∘ f) := by
+  rw [sup', WithBot.coe_unbot]
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Lattice/Fold.lean#L556-L569
+
+```lean
+
+@[to_dual (attr := simp) le_inf'_iff]
+theorem sup'_le_iff {a : α} : s.sup' H f ≤ a ↔ ∀ b ∈ s, f b ≤ a := by
+  simp_rw [← @WithBot.coe_le_coe α, coe_sup', Finset.sup_le_iff]; rfl
+
+@[to_dual le_inf'] alias ⟨_, sup'_le⟩ := sup'_le_iff
+
+@[to_dual inf'_le]
+theorem le_sup' {b : β} (h : b ∈ s) : f b ≤ s.sup' ⟨b, h⟩ f :=
+  (sup'_le_iff ⟨b, h⟩ f).1 le_rfl b h
+
+@[to_dual]
+theorem isLUB_sup' {s : Finset α} (hs : s.Nonempty) : IsLUB s (sup' s hs id) :=
+  ⟨fun x h => id_eq x ▸ le_sup' id h, fun _ h => Finset.sup'_le hs id h⟩
+```
+
+### Mathlib/Order/WithBot.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/WithBot.lean
+
+Whole-source SHA256: 04888dc906f21616c8fde024aa9ee2b6ac6431ae6fc071a74f7d686aad670c12
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/WithBot.lean#L208-L220
+
+```lean
+  simp [ne_bot_iff_exists]
+
+/-- Deconstruct a `x : WithBot α` to the underlying value in `α`, given a proof that `x ≠ ⊥`. -/
+@[to_dual
+/-- Deconstruct a `x : WithTop α` to the underlying value in `α`, given a proof that `x ≠ ⊤`. -/]
+def unbot : ∀ x : WithBot α, x ≠ ⊥ → α | (x : α), _ => x
+
+@[to_dual (attr := simp)]
+lemma coe_unbot : ∀ (x : WithBot α) hx, x.unbot hx = x | (x : α), _ => rfl
+
+@[to_dual (attr := simp)]
+theorem unbot_coe (x : α) (h : (x : WithBot α) ≠ ⊥ := coe_ne_bot) : (x : WithBot α).unbot h = x :=
+  rfl
+```
+
+### Mathlib/Data/Finset/Fold.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Fold.lean
+
+Whole-source SHA256: 56f34b22259c3514109bfcc338371d6d0ce6e55e40d1b139f520c009cf8fb6d9
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Fold.lean#L31-L39
+
+```lean
+
+variable (op : β → β → β) [hc : Std.Commutative op] [ha : Std.Associative op]
+
+local notation a " * " b => op a b
+
+/-- `fold op b f s` folds the commutative associative operation `op` over the
+  `f`-image of `s`, i.e. `fold (+) b f {1,2,3} = f 1 + f 2 + f 3 + b`. -/
+def fold (b : β) (f : α → β) (s : Finset α) : β :=
+  (s.1.map f).fold op b
+```
+
+### Mathlib/Order/Lattice.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice.lean
+
+Whole-source SHA256: 848c632cb02ed8fedafbe876e8a609e8855a7acb66e604505431d5a7b5dd3e48
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice.lean#L65-L77
+
+```lean
+
+/-- A `SemilatticeSup` is a join-semilattice, that is, a partial order
+  with a join (a.k.a. lub / least upper bound, sup / supremum) operation
+  `⊔` which is the least element larger than both factors. -/
+class SemilatticeSup (α : Type u) extends PartialOrder α where
+  /-- The binary supremum, used to derive `Max α` -/
+  sup : α → α → α
+  /-- The supremum is an upper bound on the first argument -/
+  protected le_sup_left : ∀ a b : α, a ≤ sup a b
+  /-- The supremum is an upper bound on the second argument -/
+  protected le_sup_right : ∀ a b : α, b ≤ sup a b
+  /-- The supremum is the *least* upper bound -/
+  protected sup_le : ∀ a b c : α, a ≤ c → b ≤ c → sup a b ≤ c
+```
+
+### Mathlib/Order/Defs/PartialOrder.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/PartialOrder.lean
+
+Whole-source SHA256: 7af151b7c035aa9969999bd704a8820162900e4c0fdac65a97d64992bacaf0b8
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/PartialOrder.lean#L39-L50
+
+```lean
+
+/--
+A preorder is a reflexive, transitive relation `≤`.
+In a preorder, `a < b` means `a ≤ b ∧ ¬b ≤ a`, and `<` is defined this way by default.
+You can override this definition to set a better def-eq.
+-/
+class Preorder (α : Type*) extends LE α, LT α where
+  protected le_refl : ∀ a : α, a ≤ a
+  protected le_trans : ∀ a b c : α, a ≤ b → b ≤ c → a ≤ c
+  lt := fun a b => a ≤ b ∧ ¬b ≤ a
+  protected lt_iff_le_not_ge : ∀ a b : α, a < b ↔ a ≤ b ∧ ¬b ≤ a := by intros; rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/PartialOrder.lean#L176-L179
+
+```lean
+/-- A partial order is a reflexive, transitive, antisymmetric relation `≤`. -/
+class PartialOrder (α : Type*) extends Preorder α where
+  protected le_antisymm : ∀ a b : α, a ≤ b → b ≤ a → a = b
+
+```
+
+### Mathlib/Order/Defs/LinearOrder.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/LinearOrder.lean
+
+Whole-source SHA256: dd0130c240109d5bdd532d2b0bd72996941de49af84b4239fa0d1caae555106f
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Defs/LinearOrder.lean#L59-L81
+
+```lean
+/-- A linear order is reflexive, transitive, antisymmetric and total relation `≤`.
+We assume that every linear ordered type has decidable `(≤)`, `(<)`, and `(=)`. -/
+class LinearOrder (α : Type*) extends PartialOrder α, Min α, Max α, Ord α where
+  /-- A linear order is total. -/
+  protected le_total (a b : α) : a ≤ b ∨ b ≤ a
+  /-- In a linearly ordered type, we assume the order relations are all decidable. -/
+  toDecidableLE : DecidableLE α
+  /-- In a linearly ordered type, we assume the order relations are all decidable. -/
+  toDecidableEq : DecidableEq α := @decidableEqOfDecidableLE _ _ toDecidableLE
+  /-- In a linearly ordered type, we assume the order relations are all decidable. -/
+  toDecidableLT : DecidableLT α := @decidableLTOfDecidableLE _ _ toDecidableLE
+  min := fun a b => if a ≤ b then a else b
+  max := fun a b => if a ≤ b then b else a
+  /-- The minimum function is equivalent to the one you get from `minOfLe`. -/
+  protected min_def : ∀ a b, min a b = if a ≤ b then a else b := by intros; rfl
+  /-- The minimum function is equivalent to the one you get from `maxOfLe`. -/
+  protected max_def : ∀ a b, max a b = if a ≤ b then b else a := by intros; rfl
+  compare a b := compareOfLessAndEq a b
+  /-- Comparison via `compare` is equal to the canonical comparison given decidable `<` and `=`. -/
+  compare_eq_compareOfLessAndEq : ∀ a b, compare a b = compareOfLessAndEq a b := by
+    compareOfLessAndEq_rfl
+
+attribute [to_dual existing] LinearOrder.toMax
+```
+
+### Mathlib/Data/Set/Defs.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean
+
+Whole-source SHA256: 4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L246-L250
+
+```lean
+/-- The complement of a set `s` is the set of elements not contained in `s`.
+
+Note that you should **not** use this definition directly, but instead write `sᶜ`. -/
+protected def compl (s : Set α) : Set α := {a | a ∉ s}
+
+```
+
+### Mathlib/Data/Set/CoeSort.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/CoeSort.lean
+
+Whole-source SHA256: a6321ae732b4e66276846dbe00faf4bec0ef17eed151ca268d8d29845d47c3fc
+
+```lean
+/-
+Copyright (c) 2016 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,
+Minchao Wu, Yury Kudryashov, Floris van Doorn
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/CoeSort.lean#L30-L40
+
+```lean
+/-- Given the set `s`, `Elem s` is the `Type` of element of `s`.
+
+It is currently an abbreviation so that instance coming from `Subtype` are available.
+If you're interested in making it a `def`, as it probably should be,
+you'll then need to create additional instances (and possibly prove lemmas about them).
+See e.g. `Mathlib/Data/Set/Order.lean`.
+-/
+@[coe, reducible] def Elem (s : Set α) : Type u := {x // x ∈ s}
+
+/-- Coercion from a set to the corresponding subtype. -/
+instance : CoeSort (Set α) (Type u) := ⟨Elem⟩
+```
+
+### Mathlib/Data/Fintype/EquivFin.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean
+
+Whole-source SHA256: 891fdb687fc067b1511701992301e28de0d4fd6ab53d74a96f51be39d5aa8f92
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean#L51-L72
+
+```lean
+
+/-- There is (computably) an equivalence between `α` and `Fin (card α)`.
+
+Since it is not unique and depends on which permutation
+of the universe list is used, the equivalence is wrapped in `Trunc` to
+preserve computability.
+
+See `Fintype.equivFin` for the noncomputable version,
+and `Fintype.truncEquivFinOfCardEq` and `Fintype.equivFinOfCardEq`
+for an equiv `α ≃ Fin n` given `Fintype.card α = n`.
+
+See `Fintype.truncFinBijection` for a version without `[DecidableEq α]`.
+-/
+def truncEquivFin (α) [DecidableEq α] [Fintype α] : Trunc (α ≃ Fin (card α)) := by
+  unfold card Finset.card
+  exact
+    Quot.recOnSubsingleton
+      (motive := fun s : Multiset α =>
+        (∀ x : α, x ∈ s) → s.Nodup → Trunc (α ≃ Fin (Multiset.card s)))
+      univ.val
+      (fun l (h : ∀ x : α, x ∈ l) (nd : l.Nodup) => Trunc.mk (nd.getEquivOfForallMemList _ h).symm)
+      mem_univ_val univ.2
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/EquivFin.lean#L73-L82
+
+```lean
+
+/-- There is (noncomputably) an equivalence between `α` and `Fin (card α)`.
+
+See `Fintype.truncEquivFin` for the computable version,
+and `Fintype.truncEquivFinOfCardEq` and `Fintype.equivFinOfCardEq`
+for an equiv `α ≃ Fin n` given `Fintype.card α = n`.
+-/
+noncomputable def equivFin (α) [Fintype α] : α ≃ Fin (card α) :=
+  letI := Classical.decEq α
+  (truncEquivFin α).out
+```
+
+### Mathlib/Data/Fintype/Defs.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean
+
+Whole-source SHA256: e69e8e7a3605d293a7ef6c4a7aaefde3191da4f33b43b7be09963eec2e44965c
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L267-L273
+
+```lean
+/-- Given a predicate that can be represented by a finset, the subtype
+associated to the predicate is a fintype. -/
+@[instance_reducible]
+protected def subtype {p : α → Prop} (s : Finset α) (H : ∀ x : α, x ∈ s ↔ p x) :
+    Fintype { x // p x } :=
+  ⟨⟨s.1.pmap Subtype.mk fun x => (H x).1, s.nodup.pmap fun _ _ _ _ => congr_arg Subtype.val⟩,
+    fun ⟨x, px⟩ => Multiset.mem_pmap.2 ⟨x, (H x).2 px, rfl⟩⟩
+```
+
+### Mathlib/Data/Fintype/Sets.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean
+
+Whole-source SHA256: 87b401f8e6bf02de9250adba00dcb1de4157d55e286f6e627d01639fe2b2ef9a
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sets.lean#L245-L267
+
+```lean
+instance Finset.Subtype.fintype (s : Finset α) : Fintype { x // x ∈ s } :=
+  ⟨s.attach, s.mem_attach⟩
+
+instance FinsetCoe.fintype (s : Finset α) : Fintype (↑s : Set α) :=
+  Finset.Subtype.fintype s
+
+theorem Finset.attach_eq_univ {s : Finset α} : s.attach = Finset.univ :=
+  rfl
+
+instance Prop.fintype : Fintype Prop :=
+  ⟨⟨{True, False}, by simp⟩, by simpa using em⟩
+
+@[simp]
+theorem Fintype.univ_Prop [DecidableEq Prop] : (Finset.univ : Finset Prop) = {True, False} :=
+  Finset.eq_of_veq <| by simp; rfl
+
+instance Subtype.fintype (p : α → Prop) [DecidablePred p] [Fintype α] : Fintype { x // p x } :=
+  Fintype.subtype (univ.filter p) (by simp)
+
+/-- A set on a fintype, when coerced to a type, is a fintype. -/
+@[instance_reducible]
+def setFintype [Fintype α] (s : Set α) [DecidablePred (· ∈ s)] : Fintype s :=
+  Subtype.fintype fun x => x ∈ s
+```
+
+### Mathlib/Logic/Equiv/Set.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Set.lean
+
+Whole-source SHA256: 90eaaedccc63f81347c8918ffa50665fd01c8bca02585c104b3d3f484db673a7
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Set.lean#L304-L328
+
+```lean
+
+/-- If `s : Set α` is a set with decidable membership, then `s ⊕ sᶜ` is equivalent to `α`.
+
+See also `Equiv.sumCompl`. -/
+protected def sumCompl {α} (s : Set α) [DecidablePred (· ∈ s)] : s ⊕ (sᶜ : Set α) ≃ α :=
+  Equiv.sumCompl (· ∈ s)
+
+@[simp]
+theorem sumCompl_apply_inl {α : Type u} (s : Set α) [DecidablePred (· ∈ s)] (x : s) :
+    Equiv.Set.sumCompl s (Sum.inl x) = x :=
+  rfl
+
+@[simp]
+theorem sumCompl_apply_inr {α : Type u} (s : Set α) [DecidablePred (· ∈ s)] (x : (sᶜ : Set α)) :
+    Equiv.Set.sumCompl s (Sum.inr x) = x :=
+  rfl
+
+theorem sumCompl_symm_apply_of_mem {α : Type u} {s : Set α} [DecidablePred (· ∈ s)] {x : α}
+    (hx : x ∈ s) : (Equiv.Set.sumCompl s).symm x = Sum.inl ⟨x, hx⟩ :=
+  sumCompl_symm_apply_of_pos hx
+
+theorem sumCompl_symm_apply_of_notMem {α : Type u} {s : Set α} [DecidablePred (· ∈ s)] {x : α}
+    (hx : x ∉ s) : (Equiv.Set.sumCompl s).symm x = Sum.inr ⟨x, hx⟩ :=
+  sumCompl_symm_apply_of_neg hx
+
+```
+
+### Mathlib/Logic/Equiv/Sum.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean
+
+Whole-source SHA256: df604983467488d4bc91a59822530bc04cad0ec59a0ca7831e08c5932d9cb791
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean#L254-L301
+
+```lean
+
+/-- For any predicate `p` on `α`,
+the sum of the two subtypes `{a // p a}` and its complement `{a // ¬ p a}`
+is naturally equivalent to `α`.
+
+See `subtypeOrEquiv` for sum types over subtypes `{x // p x}` and `{x // q x}`
+that are not necessarily `IsCompl p q`. See also `Equiv.Set.sumCompl` for a version on sets. -/
+def sumCompl {α : Type*} (p : α → Prop) [DecidablePred p] :
+    { a // p a } ⊕ { a // ¬p a } ≃ α where
+  toFun := Sum.elim Subtype.val Subtype.val
+  invFun a := if h : p a then Sum.inl ⟨a, h⟩ else Sum.inr ⟨a, h⟩
+  left_inv := by
+    rintro (⟨x, hx⟩ | ⟨x, hx⟩) <;> dsimp
+    · rw [dite_eq_left]
+    · rw [dite_eq_right]
+  right_inv a := by
+    dsimp
+    split_ifs <;> rfl
+
+@[simp]
+theorem sumCompl_apply_inl {α} {p : α → Prop} [DecidablePred p] (x : { a // p a }) :
+    sumCompl p (Sum.inl x) = x :=
+  rfl
+
+@[simp]
+theorem sumCompl_apply_inr {α} {p : α → Prop} [DecidablePred p] (x : { a // ¬p a }) :
+    sumCompl p (Sum.inr x) = x :=
+  rfl
+
+@[simp]
+theorem sumCompl_symm_apply_of_pos {α} {p : α → Prop} [DecidablePred p] {a : α} (h : p a) :
+    (sumCompl p).symm a = Sum.inl ⟨a, h⟩ :=
+  dite_eq_left h
+
+@[simp]
+theorem sumCompl_symm_apply_of_neg {α} {p : α → Prop} [DecidablePred p] {a : α} (h : ¬p a) :
+    (sumCompl p).symm a = Sum.inr ⟨a, h⟩ :=
+  dite_eq_right h
+
+@[simp]
+theorem sumCompl_symm_apply_pos {α} {p : α → Prop} [DecidablePred p] (x : {x // p x}) :
+    (sumCompl p).symm x = Sum.inl x :=
+  sumCompl_symm_apply_of_pos x.2
+
+@[simp]
+theorem sumCompl_symm_apply_neg {α} {p : α → Prop} [DecidablePred p] (x : {x // ¬ p x}) :
+    (sumCompl p).symm x = Sum.inr x :=
+  sumCompl_symm_apply_of_neg x.2
+```
+
+### Mathlib/Data/Finset/Insert.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Insert.lean
+
+Whole-source SHA256: 9b5eb2047d48845dfff399259ddcf3b27fc760fdac9f704e4e641f771554ad35
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Insert.lean#L342-L369
+
+```lean
+
+section Insert
+
+variable [DecidableEq α] {s t : Finset α} {a b : α} {f : α → β}
+
+/-- `insert a s` is the set `{a} ∪ s` containing `a` and the elements of `s`. -/
+instance : Insert α (Finset α) :=
+  ⟨fun a s => ⟨_, s.2.ndinsert a⟩⟩
+
+theorem insert_def (a : α) (s : Finset α) : insert a s = ⟨_, s.2.ndinsert a⟩ :=
+  rfl
+
+@[simp]
+theorem insert_val (a : α) (s : Finset α) : (insert a s).1 = ndinsert a s.1 :=
+  rfl
+
+theorem insert_val' (a : α) (s : Finset α) : (insert a s).1 = dedup (a ::ₘ s.1) := by
+  rw [dedup_cons, dedup_eq_self]; rfl
+
+theorem insert_val_of_notMem {a : α} {s : Finset α} (h : a ∉ s) : (insert a s).1 = a ::ₘ s.1 := by
+  rw [insert_val, ndinsert_of_notMem h]
+
+@[simp, grind =]
+theorem mem_insert : a ∈ insert b s ↔ a = b ∨ a ∈ s :=
+  mem_ndinsert
+
+theorem mem_insert_self (a : α) (s : Finset α) : a ∈ insert a s :=
+  mem_ndinsert_self a s.1
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Insert.lean#L423-L426
+
+```lean
+
+@[simp, aesop safe apply (rule_sets := [finsetNonempty])]
+theorem insert_nonempty (a : α) (s : Finset α) : (insert a s).Nonempty :=
+  ⟨a, mem_insert_self a s⟩
+```
+
+### Mathlib/Data/Multiset/FinsetOps.lean retained expansion
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/FinsetOps.lean
+
+Whole-source SHA256: 6f0955956933081804aa30ca9d96becdf112d46c1bf901e93b62792cdc4c1124
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/FinsetOps.lean#L31-L42
+
+```lean
+/-! ### finset insert -/
+
+
+/-- `ndinsert a s` is the lift of the list `insert` operation. This operation
+  does not respect multiplicities, unlike `cons`, but it is suitable as
+  an insert operation on `Finset`. -/
+def ndinsert (a : α) (s : Multiset α) : Multiset α :=
+  Quot.liftOn s (fun l => (l.insert a : Multiset α)) fun _ _ p => Quot.sound (p.insert a)
+
+@[simp]
+theorem coe_ndinsert (a : α) (l : List α) : ndinsert a l = (insert a l : List α) :=
+  rfl
+```
+
+### Exact compiler expansions
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean
+
+Whole-source SHA256: cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; Git blob f87ee970af5149d74434f09a89aedff1a8fdb2d2.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L693-L721
+
+```lean
+theorem Or.neg_resolve_right (h : Or a (Not b)) (nb : b) : a := h.elim id (absurd nb)
+/--
+All the elements of a type that satisfy a predicate.
+
+`Subtype p`, usually written `{ x : α // p x }` or `{ x // p x }`, contains all elements `x : α` for
+which `p x` is true. Its constructor is a pair of the value and the proof that it satisfies the
+predicate. In run-time code, `{ x : α // p x }` is represented identically to `α`.
+
+There is a coercion from `{ x : α // p x }` to `α`, so elements of a subtype may be used where the
+underlying type is expected.
+
+Examples:
+ * `{ n : Nat // n % 2 = 0 }` is the type of even numbers.
+ * `{ xs : Array String // xs.size = 5 }` is the type of arrays with five `String`s.
+ * Given `xs : List α`, `List { x : α // x ∈ xs }` is the type of lists in which all elements are
+   contained in `xs`.
+-/
+@[pp_using_anonymous_constructor]
+structure Subtype {α : Sort u} (p : α → Prop) where
+  /--
+  The value in the underlying type that satisfies the predicate.
+  -/
+  val : α
+  /--
+  The proof that `val` satisfies the predicate `p`.
+  -/
+  property : p val
+
+grind_pattern Subtype.property => self.val
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1120-L1128
+
+```lean
+/--
+Equivalence between a boolean and a proposition.
+
+`b.Reflects p` is propositionally equivalent to `b = true ↔ p` but has the definitional equalities
+`true.Reflects p ↔ p` and `false.Reflects p ↔ ¬p`.
+-/
+abbrev Bool.Reflects : Bool → Prop → Prop
+  | false, p => Not p
+  | true, p => p
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1130-L1182
+
+```lean
+/--
+A `Bool` (that is, `decide p`) paired with a proof of `p` if `decide p` is `true` or a proof of `¬p`
+if `decide p` is `false`. The easiest way to extract these proofs is to use `of_decide_eq_true` or
+`of_decide_eq_false`.
+
+`Decidable` instances are primarily used via `if`-expressions and the tactic `decide`. In
+conditional expressions, the `Decidable` instance for the proposition is used to select a branch. At
+run time, this case distinction code is identical to that which would be generated for a
+`Bool`-based conditional. In proofs, the tactic `decide` synthesizes an instance of `Decidable p`,
+attempts to reduce `decide p` to `true`, and then succeeds with the proof `of_decide_eq_true rfl`
+if it can.
+
+Because `Decidable` carries data, when writing `@[simp]` lemmas which include a `Decidable` instance
+on the LHS, it is best to use `{_ : Decidable p}` rather than `[Decidable p]` so that non-canonical
+instances can be found via unification rather than instance synthesis.
+-/
+class Decidable (p : Prop) where
+  /--
+  Introduces `Decidable p` using a boolean `decide` and a proof of `¬p` if `decide` is `false`
+  or `p` if `decide` is `true`.
+  -/
+  intro ::
+  /--
+  Converts a decidable proposition into a `Bool`.
+
+  If `p : Prop` is decidable, then `decide p : Bool` is the Boolean value
+  that is `true` if `p` is true and `false` if `p` is false.
+  -/
+  decide : Bool
+  /--
+  `decide p` reflects `p`, i.e. `decide p` is equivalent to `p`. Reduces to a proof of `p` or `¬p`
+  depending on the value of `decide p`.
+  -/
+  reflects_decide (p) : decide.Reflects p
+
+attribute [implicit_reducible] Decidable.decide
+
+/-- Proves that `p` is decidable by supplying a proof of `¬p` -/
+@[match_pattern] abbrev Decidable.isFalse (h : Not p) : Decidable p := ⟨false, h⟩
+
+/-- Proves that `p` is decidable by supplying a proof of `p` -/
+@[match_pattern] abbrev Decidable.isTrue (h : p) : Decidable p := ⟨true, h⟩
+
+/--
+The default eliminator for `Decidable`, using `isFalse` and `isTrue`.
+-/
+@[cases_eliminator, induction_eliminator, elab_as_elim]
+abbrev Decidable.falseTrueCases {p : Prop} {motive : Decidable p → Sort u}
+    (isFalse : ∀ h, motive (isFalse h)) (isTrue : ∀ h, motive (isTrue h))
+    (t : Decidable p) : motive t :=
+  t.casesOn fun x => x.casesOn isFalse isTrue
+
+export Decidable (isTrue isFalse decide)
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1184-L1190
+
+```lean
+/--
+A decidable predicate.
+
+A predicate is decidable if the corresponding proposition is `Decidable` for each possible argument.
+-/
+abbrev DecidablePred {α : Sort u} (r : α → Prop) :=
+  (a : α) → Decidable (r a)
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1398-L1410
+
+```lean
+instance instOfNatNat (n : Nat) : OfNat Nat n where
+  ofNat := n
+
+/-- `LE α` is the typeclass which supports the notation `x ≤ y` where `x y : α`.-/
+class LE (α : Type u) where
+  /-- The less-equal relation: `x ≤ y` -/
+  le : α → α → Prop
+
+/-- `LT α` is the typeclass which supports the notation `x < y` where `x y : α`.-/
+class LT (α : Type u) where
+  /-- The less-than relation: `x < y` -/
+  lt : α → α → Prop
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1415-L1445
+
+```lean
+
+/-- Abbreviation for `DecidableRel (· < · : α → α → Prop)`. -/
+abbrev DecidableLT (α : Type u) [LT α] := DecidableRel (LT.lt : α → α → Prop)
+/-- Abbreviation for `DecidableRel (· ≤ · : α → α → Prop)`. -/
+abbrev DecidableLE (α : Type u) [LE α] := DecidableRel (LE.le : α → α → Prop)
+
+/--
+An overloaded operation to find the greater of two values of type `α`.
+-/
+class Max (α : Type u) where
+  /-- Returns the greater of its two arguments. -/
+  max : α → α → α
+
+export Max (max)
+
+/--
+Constructs a `Max` instance from a decidable `≤` operation.
+-/
+-- Marked inline so that `min x y + max x y` can be optimized to a single branch.
+@[inline, instance_reducible]
+def maxOfLe [LE α] [DecidableRel (@LE.le α _)] : Max α where
+  max x y := ite (LE.le x y) y x
+
+/--
+An overloaded operation to find the lesser of two values of type `α`.
+-/
+class Min (α : Type u) where
+  /-- Returns the lesser of its two arguments. -/
+  min : α → α → α
+
+export Min (min)
+```
+
+Both semantic entrypoints compile finite maximum/supremum contracts, insert-zero membership/nonemptiness/literal data, complement membership, subtype property/enumeration, finite-type equivalence and partition maps/inverse, literal DecidablePred and actual reflection, and the order contract. Their successful compilation belongs to the exact-source receipt.
+
+Additional selected coverage for Finset.max': SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_bound_le, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_maximum.
+
+Additional selected coverage for Finset.sup': SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_bound_le, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_maximum.
+
+Additional selected coverage for Set.compl: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_relabel_on_anchor.
+
+Additional selected coverage for Fintype.equivFin: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_relabel_on_anchor.
+
+Additional selected coverage for Equiv.Set.sumCompl: SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.cover_relabel_on_residual, SparseCompletion.cover_relabel_on_anchor.
+
+Additional selected coverage for LinearOrder: SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered.
+
+## Existing meanings in the interval/cover contracts
+
+The following usage expansion records actual new finite sums, enumeration, image/maxima, cardinality, relabeling, moment compression and completion dependencies. Scalar recovery and projection lemmas do not acquire unrelated geometric assumptions. Legacy coverage remains unchanged.
+
+Fintype: SparseCompletion.anchor_response_of_perspective, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_recovered_score_moment, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.perspective_cuts_iff, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_support_card, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered, SparseCompletion.residual_projection_response_bound, SparseCompletion.score_lower_from_intervals.
+
+Finset: SparseCompletion.anchor_response_of_perspective, SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_recovered_score_moment, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.perspective_cuts_iff, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_support_card, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered, SparseCompletion.residual_projection_response_bound, SparseCompletion.score_lower_from_intervals.
+
+Finset.prod: SparseCompletion.anchor_response_of_perspective, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.interval_recovered_score_moment, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.perspective_cuts_iff, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_support_card, SparseCompletion.residual_projection_response_bound, SparseCompletion.score_lower_from_intervals.
+
+Set.Icc: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Nat.ceil: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+FloorSemiring: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+NNReal.sqrt: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Real.sqrt: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Real.toNNReal: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Convex: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+StarConvex: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+convexHull: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+AffineIndependent: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Finset.weightedVSub: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Finset.weightedVSubOfPoint: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+vectorSpan: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Submodule.span: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Module.finrank: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Finset.card: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness, SparseCompletion.relabel_support_card.
+
+Fintype.card: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+IsCompact: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+IsClosed: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Continuous: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+LinearMap: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+ContinuousLinearMap: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Set.image: SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_cover_witness, SparseCompletion.normalized_exact_cover_witness, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_exact_weak_cover_witness, SparseCompletion.normalized_interval_perspective_iff, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.normalized_weak_cover_witness.
+
+Equiv: SparseCompletion.arbitrary_cover_free_residual, SparseCompletion.arbitrary_vertex_cover_exact, SparseCompletion.arbitrary_vertex_cover_sparse, SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.cover_equiv_anchor, SparseCompletion.cover_equiv_inverse_anchor, SparseCompletion.cover_equiv_residual, SparseCompletion.cover_relabel_on_anchor, SparseCompletion.cover_relabel_on_residual, SparseCompletion.relabel_intervals, SparseCompletion.relabel_mass, SparseCompletion.relabel_response, SparseCompletion.relabel_skew, SparseCompletion.relabel_support_card, SparseCompletion.split_skew_matrix, SparseCompletion.split_weights.
+
+Finset.image: SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty, SparseCompletion.residual_loss_values_ordered.
+
+Finset.Nonempty: SparseCompletion.arbitrary_vertex_subset_weak_exact, SparseCompletion.arbitrary_vertex_subset_weak_sparse, SparseCompletion.normalized_exact_weak_cover_maximum, SparseCompletion.normalized_weak_cover_maximum, SparseCompletion.ordered_loss_values_nonempty, SparseCompletion.residual_loss_bound_le, SparseCompletion.residual_loss_bound_le_iff, SparseCompletion.residual_loss_bound_nonnegative, SparseCompletion.residual_loss_bound_ordered, SparseCompletion.residual_loss_bound_zero_iff, SparseCompletion.residual_loss_le_bound, SparseCompletion.residual_loss_values_nonempty.
+
+
+Compact-convex completion coverage for Convex: SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_interval_perspective_iff.
+
+Compact-convex completion coverage for StarConvex: SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_interval_perspective_iff.
+
+Set.Icc also appears as the coordinatewise bounded matrix cube in compact completion reconstruction for SparseCompletion.interval_perspective_completion_iff, SparseCompletion.normalized_interval_perspective_iff. This uses the same literal closed order-interval predicate, with pointwise matrix order.

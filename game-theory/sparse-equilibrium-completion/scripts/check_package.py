@@ -58,10 +58,19 @@ for evidence in bins['sources']:
     assert hashlib.sha256(excerpt).hexdigest() == evidence['excerpt_sha256']
     assert data.startswith(evidence['upstream_header'].encode())
     assert evidence['url'] == 'https://github.com/leanprover/lean4/blob/'+bins['compiler_commit']+'/'+evidence['path']
-assert {e['name'] for e in bins['sources']} == {'Sigma','Fin.rev','Function.Injective'}
+assert {e['name'] for e in bins['sources']} == {'Sigma','Fin.rev','Function.Injective','Subtype','Bool.Reflects','Decidable','DecidablePred','LE-and-LT','Min-and-Max'}
+repo = root.parents[1]
+identifier_test = repo/'scripts/test_imported_definition_identifiers.py'
+identifier_run = subprocess.run([sys.executable, str(identifier_test)], cwd=repo,
+    text=True, capture_output=True, check=False)
+assert identifier_run.returncode == 0, identifier_run.stdout+identifier_run.stderr
+identifier_controls = {'returncode': identifier_run.returncode,
+    'stdout': identifier_run.stdout, 'stderr': identifier_run.stderr,
+    'test_sha256': hashlib.sha256(identifier_test.read_bytes()).hexdigest(),
+    'checker_sha256': hashlib.sha256((repo/'scripts/check_imported_definitions.py').read_bytes()).hexdigest()}
 files = [p for p in root.rglob('*') if p.is_file() and '.lake' not in p.parts
          and p.suffix not in ['.olean', '.ilean', '.log'] and '__pycache__' not in p.parts]
 print(json.dumps({'check': 'sparse-equilibrium-completion-source-consistency', 'result': 'pass',
-    'selected_theorems': cfg['theorem_names'],
+    'selected_theorems': cfg['theorem_names'], 'identifier_regression_controls': identifier_controls,
     'sha256': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)},
     'limits': 'Not a proof build, source-fidelity review, canonical verifier, or release clearance'}, indent=2))

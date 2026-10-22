@@ -9,3 +9,16 @@ public import MidpointGame
 public import BalancedExact
 public import ExtraMomentAllMass
 public import ConicConvexity
+public import IntervalPerspective
+public import IntervalConic
+public import ObservationCover
+public import CoveredWitness
+public import IntervalProjection
+public import WeakCover
+public import WeakCoverWitness
+public import IntervalLossMaximum
+public import WeakCoverMaximum
+public import CoverRelabel
+public import ArbitraryCover
+public import ArbitraryWeakCover
+public import IntervalLossOrder

@@ -9,6 +9,8 @@ public import Mathlib.LinearAlgebra.Dimension.Constructions
 public import Mathlib.Analysis.LocallyConvex.Separation
 public import Mathlib.Algebra.Order.Chebyshev
 public import Mathlib.Data.Finset.Sort
+public import Mathlib.Logic.Equiv.Set
+public import Mathlib.Data.Fintype.EquivFin
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -6364,6 +6366,1548 @@ theorem linear_repertoire_convex {m : ℕ} {β : Type*} (F : Fin m → β → �
     _ ≤ a*c j+b*c j := add_le_add
       (mul_le_mul_of_nonneg_left (hq j) ha) (mul_le_mul_of_nonneg_left (hq' j) hb)
     _ = c j := by rw [←add_mul,hab,one_mul]
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalPerspective.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def perspectiveRecover (lo V q : ℝ) : ℝ := if q=0 then lo else V/q
+
+theorem perspective_zero (lo hi V q : ℝ) (hq : q=0)
+    (hlo : lo*q ≤ V) (hhi : V ≤ hi*q) : V=0 := by
+  subst q
+  simp only [mul_zero] at hlo hhi
+  exact le_antisymm hhi hlo
+
+theorem perspective_recover_bounds (lo hi V q : ℝ) (hq : 0 ≤ q) (hlu : lo ≤ hi)
+    (hlo : lo*q ≤ V) (hhi : V ≤ hi*q) :
+    lo ≤ perspectiveRecover lo V q ∧ perspectiveRecover lo V q ≤ hi ∧
+      q*perspectiveRecover lo V q=V := by
+  by_cases hz : q=0
+  · have hv := perspective_zero lo hi V q hz hlo hhi
+    simp only [perspectiveRecover,hz,ite_true,zero_mul]
+    exact ⟨le_refl _,hlu,hv.symm⟩
+  · have hp : 0 < q := lt_of_le_of_ne hq (Ne.symm hz)
+    simp only [perspectiveRecover,ite_eq_right hz]
+    refine ⟨(le_div_iff₀ hp).mpr hlo,(div_le_iff₀ hp).mpr hhi,?_⟩
+    field_simp
+
+def intervalCrossRecover {ι α : Type*} (lo V : ι → α → ℝ) (q : ι → ℝ) : ι → α → ℝ :=
+  fun i h => perspectiveRecover (lo i h) (V i h) (q i)
+
+def intervalMomentScore {ι α : Type*} [Fintype α] (p : α → ℝ) (V : ι → α → ℝ) : ι → ℝ :=
+  fun i => ∑ h, p h*V i h
+
+theorem interval_recovered_cross_bounds {ι α : Type*} (lo hi V : ι → α → ℝ) (q : ι → ℝ)
+    (hq : ∀ i, 0 ≤ q i) (hlu : ∀ i h, lo i h ≤ hi i h)
+    (hlo : ∀ i h, lo i h*q i ≤ V i h) (hhi : ∀ i h, V i h ≤ hi i h*q i) :
+    (∀ i h, lo i h ≤ intervalCrossRecover lo V q i h ∧ intervalCrossRecover lo V q i h ≤ hi i h) ∧
+      ∀ i h, q i*intervalCrossRecover lo V q i h=V i h := by
+  constructor
+  · intro i h
+    exact ⟨(perspective_recover_bounds _ _ _ _ (hq i) (hlu i h) (hlo i h) (hhi i h)).1,
+      (perspective_recover_bounds _ _ _ _ (hq i) (hlu i h) (hlo i h) (hhi i h)).2.1⟩
+  · intro i h
+    exact (perspective_recover_bounds _ _ _ _ (hq i) (hlu i h) (hlo i h) (hhi i h)).2.2
+
+theorem interval_recovered_score_moment {ι α : Type*} [Fintype α]
+    (lo V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (hm : ∀ i h, q i*intervalCrossRecover lo V q i h=V i h) (i : ι) :
+    q i*score (intervalCrossRecover lo V q) p i=intervalMomentScore p V i := by
+  unfold score intervalMomentScore
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro h _
+  calc
+    _ = p h*(q i*intervalCrossRecover lo V q i h) := by ring
+    _ = _ := by rw [hm i h]
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalConic.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def perspectiveCuts {ι : Type*} [Fintype ι] (q H : ι → ℝ) (M r ε : ℝ) : Prop :=
+  ∀ S : Finset ι, M*(mass S q)^2-M*r*mass S q+(∑ i ∈ S, (H i-ε*q i)) ≤ 0
+
+theorem perspective_cuts_iff {ι : Type*} [Fintype ι] (q t H : ι → ℝ) (M r ε : ℝ)
+    (hH : ∀ i, q i*t i=H i) :
+    Cuts M r q (fun i => t i-ε) ↔ perspectiveCuts q H M r ε := by
+  have he : ∀ S : Finset ι, (∑ i ∈ S, q i*(t i-ε))=∑ i ∈ S, (H i-ε*q i) := by
+    intro S
+    apply Finset.sum_congr rfl
+    intro i _
+    rw [mul_sub,hH i,mul_comm (q i) ε]
+  constructor <;> intro h S
+  · have hc := h S
+    rw [he] at hc
+    nlinarith
+  · have hc := h S
+    rw [he]
+    nlinarith
+
+theorem anchor_response_of_perspective {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D V : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (hV : ∀ i h, q i*D i h=V i h) (h : α) :
+    anchorResponse K D p q h=(∑ a, K h a*p a)-∑ i, V i h := by
+  unfold anchorResponse
+  congr 1
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [mul_comm, hV i h]
+
+theorem score_lower_from_intervals {ι α : Type*} [Fintype α]
+    (lo D : ι → α → ℝ) (p : α → ℝ) (hp : ∀ h, 0 ≤ p h)
+    (hD : ∀ i h, lo i h ≤ D i h) (i : ι) : score lo p i ≤ score D p i := by
+  unfold score
+  exact Finset.sum_le_sum fun h _ => mul_le_mul_of_nonneg_right (hD i h) (hp h)
+
+theorem interval_perspective_completion_iff {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ε : ℝ) (hM : 0 < M) (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hr : ∑ i, q i=r) (hlu : ∀ i h, lo i h ≤ hi i h) :
+    (∃ (D : ι → α → ℝ) (B : ι → ι → ℝ),
+      (∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h) ∧ IsSkew B ∧
+      (∀ i j, -M ≤ B i j ∧ B i j ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε) ↔
+    ∃ V : ι → α → ℝ,
+      (∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) ∧
+      (∀ h, (∑ a, K h a*p a)-(∑ i, V i h) ≤ ε) ∧
+      (∀ i, score lo p i ≤ ε+M*r) ∧ perspectiveCuts q (intervalMomentScore p V) M r ε := by
+  classical
+  constructor
+  · rintro ⟨D,B,hD,hB,hb,hrows⟩
+    let V := fun i h => q i*D i h
+    have hV : ∀ i h, q i*D i h=V i h := fun _ _ => rfl
+    have hh := (block_response_bounds_iff K D B p q ε).mp hrows
+    have hc := (weighted_completion_iff q (score D p) M r ε (le_of_lt hM) hq hr).mp
+      ⟨B,hB,hb,hh.2⟩
+    refine ⟨V,?_,?_,?_,?_⟩
+    · intro i h
+      exact ⟨by dsimp only [V]; nlinarith [mul_nonneg (sub_nonneg.mpr (hD i h).1) (hq i)],
+        by dsimp only [V]; nlinarith [mul_nonneg (sub_nonneg.mpr (hD i h).2) (hq i)]⟩
+    · intro h
+      rw [←anchor_response_of_perspective K D V p q hV h]
+      exact hh.1 h
+    · intro i
+      exact le_trans (score_lower_from_intervals lo D p hp (fun i h => (hD i h).1) i) (hc.1 i)
+    · apply (perspective_cuts_iff q (score D p) (intervalMomentScore p V) M r ε ?_).mp hc.2
+      intro i
+      unfold score intervalMomentScore
+      rw [Finset.mul_sum]
+      exact Finset.sum_congr rfl fun h _ => by dsimp only [V]; ring
+  · rintro ⟨V,hV,ha,hg,hcuts⟩
+    let D := intervalCrossRecover lo V q
+    obtain ⟨hD,hprod⟩ := interval_recovered_cross_bounds lo hi V q hq hlu
+      (fun i h => (hV i h).1) (fun i h => (hV i h).2)
+    have hc : Cuts M r q (fun i => score D p i-ε) :=
+      (perspective_cuts_iff q (score D p) (intervalMomentScore p V) M r ε
+        (fun i => interval_recovered_score_moment lo V p q hprod i)).mpr hcuts
+    have hguard : ∀ i, score D p i ≤ ε+M*r := by
+      intro i
+      by_cases hz : q i=0
+      · have he : score D p i=score lo p i := by
+          simp only [D,score,intervalCrossRecover,perspectiveRecover,hz,ite_true]
+        rw [he]
+        exact hg i
+      · have ht := supported_score_cap q (fun i => score D p i-ε) M r hM hq hc i hz
+        linarith
+    obtain ⟨B,hB,hb,hrows⟩ :=
+      (weighted_completion_iff q (score D p) M r ε (le_of_lt hM) hq hr).mpr ⟨hguard,hc⟩
+    refine ⟨D,B,hD,hB,hb,?_⟩
+    apply (block_response_bounds_iff K D B p q ε).mpr
+    refine ⟨?_,hrows⟩
+    intro h
+    rw [anchor_response_of_perspective K D V p q hprod h]
+    exact ha h
+
+theorem normalized_interval_perspective_iff {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (lo hi : ι → α → ℝ) (p : α → ℝ) (q : ι → ℝ)
+    (M r ε : ℝ) (hM : 0 < M) (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hr : ∑ i, q i=r) (hpmass : (∑ h, p h)+r=1) (hK : IsSkew K)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hlo : ∀ i h, -M ≤ lo i h) (hhi : ∀ i h, hi i h ≤ M)
+    (hlu : ∀ i h, lo i h ≤ hi i h) :
+    (∃ (D : ι → α → ℝ) (B : ι → ι → ℝ),
+      (∀ i h, lo i h ≤ D i h ∧ D i h ≤ hi i h) ∧
+      (∀ a, 0 ≤ blockWeights p q a) ∧ (∑ a, blockWeights p q a)=1 ∧
+      IsSkew (blockMatrix K D B) ∧
+      (∀ a b, -M ≤ blockMatrix K D B a b ∧ blockMatrix K D B a b ≤ M) ∧
+      ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ε) ↔
+    ∃ V : ι → α → ℝ,
+      (∀ i h, lo i h*q i ≤ V i h ∧ V i h ≤ hi i h*q i) ∧
+      (∀ h, (∑ a, K h a*p a)-(∑ i, V i h) ≤ ε) ∧
+      (∀ i, score lo p i ≤ ε+M*r) ∧ perspectiveCuts q (intervalMomentScore p V) M r ε := by
+  constructor
+  · rintro ⟨D,B,hD,_,_,hsk,hb,hrows⟩
+    apply (interval_perspective_completion_iff K lo hi p q M r ε hM hp hq hr hlu).mp
+    refine ⟨D,B,hD,?_,?_,hrows⟩
+    · intro i j
+      exact hsk (.inr i) (.inr j)
+    · intro i j
+      exact hb (.inr i) (.inr j)
+  · intro h
+    obtain ⟨D,B,hD,hB,hb,hrows⟩ :=
+      (interval_perspective_completion_iff K lo hi p q M r ε hM hp hq hr hlu).mpr h
+    have hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M := fun i h =>
+      ⟨le_trans (hlo i h) (hD i h).1,le_trans (hD i h).2 (hhi i h)⟩
+    refine ⟨D,B,hD,blockWeights_nonneg p q hp hq,?_,blockMatrix_skew K D B hK hB,
+      blockMatrix_bounds K D B M hKb hDb hb,hrows⟩
+    rw [blockWeights_mass,hr]
+    exact hpmass
+
+end
+end SparseCompletion
+
+/- Fixed source body: ObservationCover.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def offDiagonalIntervals {ν : Type*} (lo hi A : ν → ν → ℝ) : Prop :=
+  ∀ a b, a ≠ b → lo a b ≤ A a b ∧ A a b ≤ hi a b
+
+def freeResidualIntervals {ι α : Type*} (lo hi : (α ⊕ ι) → (α ⊕ ι) → ℝ) (M : ℝ) : Prop :=
+  ∀ i j, i ≠ j → lo (.inr i) (.inr j)= -M ∧ hi (.inr i) (.inr j)=M
+
+def intervalConstraintEdge {ν : Type*} (lo hi : ν → ν → ℝ) (M : ℝ) (a b : ν) : Prop :=
+  a ≠ b ∧ (lo a b ≠ -M ∨ hi a b ≠ M)
+
+theorem free_residual_iff_anchor_cover {ι α : Type*}
+    (lo hi : (α ⊕ ι) → (α ⊕ ι) → ℝ) (M : ℝ) :
+    freeResidualIntervals lo hi M ↔
+      ∀ a b, intervalConstraintEdge lo hi M a b →
+        (∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h := by
+  constructor
+  · intro hc a b he
+    cases a with
+    | inl h => exact Or.inl ⟨h,rfl⟩
+    | inr i =>
+      cases b with
+      | inl h => exact Or.inr ⟨h,rfl⟩
+      | inr j =>
+        have hij : i ≠ j := fun hij => he.1 (congrArg Sum.inr hij)
+        have hh := hc i j hij
+        exact False.elim (he.2.elim (fun hn => hn hh.1) (fun hn => hn hh.2))
+  · intro hc i j hij
+    have he : Sum.inr i ≠ (Sum.inr j : α ⊕ ι) := fun he => hij (Sum.inr.inj he)
+    by_contra hn
+    have hbad : lo (.inr i) (.inr j) ≠ -M ∨ hi (.inr i) (.inr j) ≠ M := by
+      tauto
+    obtain (⟨h,hh⟩ | ⟨h,hh⟩) := hc (.inr i) (.inr j) ⟨he,hbad⟩ <;> cases hh
+
+theorem cover_intervals_preserved {ι α : Type*} (K : α → α → ℝ) (D : ι → α → ℝ)
+    (B B' : ι → ι → ℝ) (lo hi : (α ⊕ ι) → (α ⊕ ι) → ℝ) (M : ℝ)
+    (hc : freeResidualIntervals lo hi M) (hI : offDiagonalIntervals lo hi (blockMatrix K D B))
+    (hB' : ∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) :
+    offDiagonalIntervals lo hi (blockMatrix K D B') := by
+  intro a b hab
+  cases a with
+  | inl h =>
+    cases b with
+    | inl h' => exact hI (.inl h) (.inl h') hab
+    | inr j => exact hI (.inl h) (.inr j) hab
+  | inr i =>
+    cases b with
+    | inl h => exact hI (.inr i) (.inl h) hab
+    | inr j =>
+      have hij : i ≠ j := fun he => hab (congrArg Sum.inr he)
+      have hh := hc i j hij
+      change lo (.inr i) (.inr j) ≤ B' i j ∧ B' i j ≤ hi (.inr i) (.inr j)
+      rw [hh.1,hh.2]
+      exact hB' i j
+
+theorem anchor_incident_entries_preserved {ι α : Type*} (K : α → α → ℝ)
+    (D : ι → α → ℝ) (B B' : ι → ι → ℝ) (a b : α ⊕ ι)
+    (hc : (∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) :
+    blockMatrix K D B' a b=blockMatrix K D B a b := by
+  rcases hc with ⟨h,rfl⟩ | ⟨h,rfl⟩
+  · cases b <;> rfl
+  · cases a <;> rfl
+
+end
+end SparseCompletion
+
+/- Fixed source body: CoveredWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem normalized_cover_witness {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ)
+    (lo hi : (Fin k ⊕ ι) → (Fin k ⊕ ι) → ℝ)
+    (hcover : freeResidualIntervals lo hi M)
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B)) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η) ∧
+      offDiagonalIntervals lo hi (blockMatrix K D B') ∧
+      (∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+        blockMatrix K D B' a b=blockMatrix K D B a b) ∧
+      ∀ h, response (blockMatrix K D B') (blockWeights p q') (.inl h)=
+        response (blockMatrix K D B) (blockWeights p q) (.inl h) := by
+  obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hD,hF,hsk,hb,hrows⟩ :=
+    normalized_sparse_witness_extra_moments_all_mass k d K D F B p q M r ρ η hM hr hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+  refine ⟨q',B',hn,hm,ha,hs,hc,ht,hD,hF,hsk,hb,hrows,?_,?_,?_⟩
+  · exact cover_intervals_preserved K D B B' lo hi M hcover hI (fun i j => hb (.inr i) (.inr j))
+  · intro a b hab
+    exact anchor_incident_entries_preserved K D B B' a b hab
+  · intro h
+    rw [block_response_anchor,block_response_anchor]
+    exact anchor_response_of_moments k K D p q q' hD h
+
+theorem normalized_exact_cover_witness {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0)
+    (lo hi : (Fin k ⊕ ι) → (Fin k ⊕ ι) → ℝ)
+    (hcover : freeResidualIntervals lo hi M)
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B)) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) ∧
+      offDiagonalIntervals lo hi (blockMatrix K D B') ∧
+      (∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+        blockMatrix K D B' a b=blockMatrix K D B a b) ∧
+      ∀ h, response (blockMatrix K D B') (blockWeights p q') (.inl h)=
+        response (blockMatrix K D B) (blockWeights p q) (.inl h) := by
+  obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hD,hF,hsk,hb,hrows⟩ :=
+    normalized_exact_sparse_witness_extra_moments_all_mass k d K D F B p q M r η hM hr hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+  refine ⟨q',B',hn,hm,ha,hs,hc,ht,hD,hF,hsk,hb,hrows,?_,?_,?_⟩
+  · exact cover_intervals_preserved K D B B' lo hi M hcover hI (fun i j => hb (.inr i) (.inr j))
+  · intro a b hab
+    exact anchor_incident_entries_preserved K D B B' a b hab
+  · intro h
+    rw [block_response_anchor,block_response_anchor]
+    exact anchor_response_of_moments k K D p q q' hD h
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalProjection.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def intervalClip (lo hi x : ℝ) : ℝ := max lo (min hi x)
+
+def intervalLoss (M lo hi : ℝ) : ℝ := max (M+lo) (M-hi)
+
+theorem interval_clip_bounds (lo hi x : ℝ) (hlu : lo ≤ hi) :
+    lo ≤ intervalClip lo hi x ∧ intervalClip lo hi x ≤ hi := by
+  unfold intervalClip
+  exact ⟨le_max_left _ _,max_le hlu (min_le_left _ _)⟩
+
+theorem interval_clip_neg (lo hi x : ℝ) (hlu : lo ≤ hi) :
+    intervalClip (-hi) (-lo) (-x)= -intervalClip lo hi x := by
+  unfold intervalClip
+  by_cases hxl : x ≤ lo
+  · rw [min_eq_left (neg_le_neg hxl),max_eq_right (neg_le_neg hlu),
+      min_eq_right (le_trans hxl hlu),max_eq_left hxl]
+  · by_cases hxu : hi ≤ x
+    · rw [min_eq_right (neg_le_neg (le_trans hlu hxu)),max_eq_left (neg_le_neg hxu),
+        min_eq_left hxu,max_eq_right hlu]
+    · have hlx : lo ≤ x := le_of_not_ge hxl
+      have hxh : x ≤ hi := le_of_not_ge hxu
+      rw [min_eq_right (neg_le_neg hlx),max_eq_right (neg_le_neg hxh),
+        min_eq_right hxh,max_eq_right hlx]
+
+theorem interval_loss_nonnegative (M lo hi : ℝ) (hlo : -M ≤ lo) :
+    0 ≤ intervalLoss M lo hi := by
+  exact le_trans (by linarith) (le_max_left _ _)
+
+theorem interval_clip_distance (M lo hi x : ℝ) (hx : -M ≤ x ∧ x ≤ M) (hlu : lo ≤ hi) (hlo : -M ≤ lo) :
+    |intervalClip lo hi x-x| ≤ intervalLoss M lo hi := by
+  unfold intervalClip intervalLoss
+  by_cases hxl : x < lo
+  · rw [min_eq_right (le_trans (le_of_lt hxl) hlu),max_eq_left (le_of_lt hxl),abs_of_nonneg (by linarith)]
+    exact le_trans (by linarith [hx.1]) (le_max_left _ _)
+  · by_cases hxu : hi < x
+    · rw [min_eq_left (le_of_lt hxu),max_eq_right hlu,abs_of_nonpos (by linarith)]
+      exact le_trans (by linarith [hx.2]) (le_max_right _ _)
+    · rw [min_eq_right (le_of_not_gt hxu),max_eq_right (le_of_not_gt hxl),sub_self,abs_zero]
+      have h0 : 0 ≤ M+lo := by linarith
+      exact le_trans h0 (le_max_left _ _)
+
+def projectedResidual {ι : Type*} (lo hi B : ι → ι → ℝ) : ι → ι → ℝ := by
+  classical
+  exact fun i j => if i=j then 0 else intervalClip (lo i j) (hi i j) (B i j)
+
+theorem projected_residual_skew {ι : Type*} (lo hi B : ι → ι → ℝ)
+    (hB : IsSkew B) (hlu : ∀ i j, i ≠ j → lo i j ≤ hi i j) (hrev : ∀ i j, i ≠ j → lo i j= -hi j i ∧ hi i j= -lo j i) :
+    IsSkew (projectedResidual lo hi B) := by
+  intro i j
+  by_cases he : i=j
+  · subst j
+    simp only [projectedResidual,ite_true,neg_zero]
+  · simp only [projectedResidual,ite_eq_right he,ite_eq_right (Ne.symm he)]
+    rw [(hrev i j he).1,(hrev i j he).2,hB i j,interval_clip_neg _ _ _ (hlu j i (Ne.symm he))]
+
+theorem projected_residual_interval {ι : Type*} (lo hi B : ι → ι → ℝ)
+    (hlu : ∀ i j, i ≠ j → lo i j ≤ hi i j) :
+    offDiagonalIntervals lo hi (projectedResidual lo hi B) := by
+  intro i j he
+  simp only [projectedResidual,ite_eq_right he]
+  exact interval_clip_bounds _ _ _ (hlu i j he)
+
+theorem projected_residual_bounds {ι : Type*} (lo hi B : ι → ι → ℝ) (M : ℝ)
+    (hM : 0 ≤ M) (hlu : ∀ i j, i ≠ j → lo i j ≤ hi i j)
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo i j) (hhi : ∀ i j, i ≠ j → hi i j ≤ M) :
+    ∀ i j, -M ≤ projectedResidual lo hi B i j ∧ projectedResidual lo hi B i j ≤ M := by
+  intro i j
+  by_cases he : i=j
+  · simp only [projectedResidual,ite_eq_left he]
+    exact ⟨by linarith,hM⟩
+  · have hh := interval_clip_bounds (lo i j) (hi i j) (B i j) (hlu i j he)
+    simp only [projectedResidual,ite_eq_right he]
+    exact ⟨le_trans (hlo i j he) hh.1,le_trans hh.2 (hhi i j he)⟩
+
+theorem projected_residual_distance {ι : Type*} (lo hi B : ι → ι → ℝ) (M β : ℝ)
+    (hβ : 0 ≤ β) (hB : IsSkew B) (hb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hlu : ∀ i j, i ≠ j → lo i j ≤ hi i j)
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo i j)
+    (hloss : ∀ i j, i ≠ j → intervalLoss M (lo i j) (hi i j) ≤ β) :
+    ∀ i j, |projectedResidual lo hi B i j-B i j| ≤ β := by
+  intro i j
+  by_cases he : i=j
+  · subst j
+    have hz : B i i=0 := by linarith [hB i i]
+    simp only [projectedResidual,ite_true,hz,sub_self,abs_zero]
+    exact hβ
+  · simp only [projectedResidual,ite_eq_right he]
+    exact le_trans (interval_clip_distance M _ _ _ (hb i j) (hlu i j he) (hlo i j he)) (hloss i j he)
+
+end
+end SparseCompletion
+
+/- Fixed source body: WeakCover.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem projected_block_intervals {ι α : Type*} (K : α → α → ℝ) (D : ι → α → ℝ)
+    (B B' : ι → ι → ℝ) (lo hi : (α ⊕ ι) → (α ⊕ ι) → ℝ)
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B))
+    (hlu : ∀ i j, i ≠ j → lo (.inr i) (.inr j) ≤ hi (.inr i) (.inr j)) :
+    offDiagonalIntervals lo hi (blockMatrix K D
+      (projectedResidual (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) B')) := by
+  intro a b hab
+  cases a with
+  | inl h =>
+    cases b with
+    | inl h' => exact hI (.inl h) (.inl h') hab
+    | inr j => exact hI (.inl h) (.inr j) hab
+  | inr i =>
+    cases b with
+    | inl h => exact hI (.inr i) (.inl h) hab
+    | inr j =>
+      have hij : i ≠ j := fun he => hab (congrArg Sum.inr he)
+      exact projected_residual_interval _ _ B' hlu i j hij
+
+theorem residual_projection_response_bound {ι α : Type*} [Fintype ι] [Fintype α]
+    (K : α → α → ℝ) (D : ι → α → ℝ) (B lo hi : ι → ι → ℝ)
+    (p : α → ℝ) (q : ι → ℝ) (M β r τ : ℝ)
+    (hβ : 0 ≤ β) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hB : IsSkew B) (hb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hlu : ∀ i j, i ≠ j → lo i j ≤ hi i j)
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo i j)
+    (hloss : ∀ i j, i ≠ j → intervalLoss M (lo i j) (hi i j) ≤ β)
+    (hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ τ) :
+    ∀ a, response (blockMatrix K D (projectedResidual lo hi B)) (blockWeights p q) a ≤ τ+β*r := by
+  have hr : 0 ≤ r := by rw [←hm]; exact Finset.sum_nonneg fun i _ => hq i
+  intro a
+  cases a with
+  | inl h =>
+    rw [block_response_anchor]
+    have ha := hrows (.inl h)
+    rw [block_response_anchor] at ha
+    exact le_trans ha (by nlinarith)
+  | inr i =>
+    rw [block_response_residual]
+    have ha := hrows (.inr i)
+    rw [block_response_residual] at ha
+    have hp := response_perturbation (projectedResidual lo hi B) B q β r hq hm
+      (projected_residual_distance lo hi B M β hβ hB hb hlu hlo hloss) i
+    have hh := (abs_le.mp hp).2
+    linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: WeakCoverWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem normalized_weak_cover_witness {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η β : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ)
+    (lo hi : (Fin k ⊕ ι) → (Fin k ⊕ ι) → ℝ)
+    (hβ : 0 ≤ β)
+    (hlu : ∀ i j, i ≠ j → lo (.inr i) (.inr j) ≤ hi (.inr i) (.inr j))
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo (.inr i) (.inr j))
+    (hhi : ∀ i j, i ≠ j → hi (.inr i) (.inr j) ≤ M)
+    (hrev : ∀ i j, i ≠ j → lo (.inr i) (.inr j)= -hi (.inr j) (.inr i) ∧
+      hi (.inr i) (.inr j)= -lo (.inr j) (.inr i))
+    (hloss : ∀ i j, i ≠ j → intervalLoss M (lo (.inr i) (.inr j)) (hi (.inr i) (.inr j)) ≤ β)
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B)) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η+β*r) ∧
+      offDiagonalIntervals lo hi (blockMatrix K D B') ∧
+      (∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+        blockMatrix K D B' a b=blockMatrix K D B a b) ∧
+      ∀ h, response (blockMatrix K D B') (blockWeights p q') (.inl h)=
+        response (blockMatrix K D B) (blockWeights p q) (.inl h) := by
+  obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hD,hF,hsk,hb,hrows⟩ :=
+    normalized_sparse_witness_extra_moments_all_mass k d K D F B p q M r ρ η hM hr hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+  let loR := fun i j => lo (Sum.inr i) (Sum.inr j)
+  let hiR := fun i j => hi (Sum.inr i) (Sum.inr j)
+  let C := projectedResidual loR hiR B'
+  have hB' : IsSkew B' := fun i j => hsk (.inr i) (.inr j)
+  have hb' : ∀ i j, -M ≤ B' i j ∧ B' i j ≤ M := fun i j => hb (.inr i) (.inr j)
+  have hq'n : ∀ i, 0 ≤ q' i := fun i => hn (.inr i)
+  have hq'm : ∑ i, q' i=r := by
+    have hmass := blockWeights_mass p q'
+    rw [hm] at hmass
+    linarith
+  have hC : IsSkew C := projected_residual_skew loR hiR B' hB' hlu hrev
+  have hCb : ∀ i j, -M ≤ C i j ∧ C i j ≤ M :=
+    projected_residual_bounds loR hiR B' M (le_of_lt hM) hlu hlo hhi
+  have hCrows := residual_projection_response_bound K D B' loR hiR p q' M β r (ρ+η)
+    hβ hq'n hq'm hB' hb' hlu hlo hloss hrows
+  refine ⟨q',C,hn,hm,ha,hs,hc,ht,hD,hF,blockMatrix_skew K D C hK hC,
+    blockMatrix_bounds K D C M hKb hDb hCb,hCrows,?_,?_,?_⟩
+  · exact projected_block_intervals K D B B' lo hi hI hlu
+  · intro a b hab
+    exact anchor_incident_entries_preserved K D B C a b hab
+  · intro h
+    rw [block_response_anchor,block_response_anchor]
+    exact anchor_response_of_moments k K D p q q' hD h
+
+theorem normalized_exact_weak_cover_witness {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η β : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0)
+    (lo hi : (Fin k ⊕ ι) → (Fin k ⊕ ι) → ℝ)
+    (hβ : 0 ≤ β)
+    (hlu : ∀ i j, i ≠ j → lo (.inr i) (.inr j) ≤ hi (.inr i) (.inr j))
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo (.inr i) (.inr j))
+    (hhi : ∀ i j, i ≠ j → hi (.inr i) (.inr j) ≤ M)
+    (hrev : ∀ i j, i ≠ j → lo (.inr i) (.inr j)= -hi (.inr j) (.inr i) ∧
+      hi (.inr i) (.inr j)= -lo (.inr j) (.inr i))
+    (hloss : ∀ i j, i ≠ j → intervalLoss M (lo (.inr i) (.inr j)) (hi (.inr i) (.inr j)) ≤ β)
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B)) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η+β*r) ∧
+      offDiagonalIntervals lo hi (blockMatrix K D B') ∧
+      (∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+        blockMatrix K D B' a b=blockMatrix K D B a b) ∧
+      ∀ h, response (blockMatrix K D B') (blockWeights p q') (.inl h)=
+        response (blockMatrix K D B) (blockWeights p q) (.inl h) := by
+  obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hD,hF,hsk,hb,hrows⟩ :=
+    normalized_exact_sparse_witness_extra_moments_all_mass k d K D F B p q M r η hM hr hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+  let loR := fun i j => lo (Sum.inr i) (Sum.inr j)
+  let hiR := fun i j => hi (Sum.inr i) (Sum.inr j)
+  let C := projectedResidual loR hiR B'
+  have hB' : IsSkew B' := fun i j => hsk (.inr i) (.inr j)
+  have hb' : ∀ i j, -M ≤ B' i j ∧ B' i j ≤ M := fun i j => hb (.inr i) (.inr j)
+  have hq'n : ∀ i, 0 ≤ q' i := fun i => hn (.inr i)
+  have hq'm : ∑ i, q' i=r := by
+    have hmass := blockWeights_mass p q'
+    rw [hm] at hmass
+    linarith
+  have hC : IsSkew C := projected_residual_skew loR hiR B' hB' hlu hrev
+  have hCb : ∀ i j, -M ≤ C i j ∧ C i j ≤ M :=
+    projected_residual_bounds loR hiR B' M (le_of_lt hM) hlu hlo hhi
+  have hCrows := residual_projection_response_bound K D B' loR hiR p q' M β r η
+    hβ hq'n hq'm hB' hb' hlu hlo hloss hrows
+  refine ⟨q',C,hn,hm,ha,hs,hc,ht,hD,hF,blockMatrix_skew K D C hK hC,
+    blockMatrix_bounds K D C M hKb hDb hCb,hCrows,?_,?_,?_⟩
+  · exact projected_block_intervals K D B B' lo hi hI hlu
+  · intro a b hab
+    exact anchor_incident_entries_preserved K D B C a b hab
+  · intro h
+    rw [block_response_anchor,block_response_anchor]
+    exact anchor_response_of_moments k K D p q q' hD h
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalLossMaximum.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem interval_loss_bounds (M lo hi : ℝ) (hlo : -M ≤ lo) (hhi : hi ≤ M) (hlu : lo ≤ hi) :
+    0 ≤ intervalLoss M lo hi ∧ intervalLoss M lo hi ≤ (2 : ℕ)*M := by
+  refine ⟨interval_loss_nonnegative M lo hi hlo,?_⟩
+  unfold intervalLoss
+  norm_num only [Nat.cast_ofNat]
+  exact max_le (by nlinarith) (by nlinarith)
+
+theorem interval_loss_zero_iff (M lo hi : ℝ) (hlo : -M ≤ lo) (hhi : hi ≤ M) :
+    intervalLoss M lo hi=0 ↔ lo= -M ∧ hi=M := by
+  constructor
+  · intro h
+    have h0 : M+lo ≤ 0 := by rw [←h]; exact le_max_left _ _
+    have h1 : M-hi ≤ 0 := by rw [←h]; exact le_max_right _ _
+    constructor <;> linarith
+  · rintro ⟨rfl,rfl⟩
+    simp only [intervalLoss,add_neg_cancel,sub_self,max_self]
+
+def residualLossValues {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ) : Finset ℝ := by
+  classical
+  exact insert 0 ((Finset.univ.filter fun ij : ι × ι => ij.1 ≠ ij.2).image
+    fun ij => intervalLoss M (lo ij.1 ij.2) (hi ij.1 ij.2))
+
+theorem residual_loss_values_nonempty {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ) :
+    (residualLossValues lo hi M).Nonempty := by
+  classical
+  unfold residualLossValues
+  exact ⟨0,Finset.mem_insert_self _ _⟩
+
+def residualLossBound {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ) : ℝ :=
+  (residualLossValues lo hi M).max' (residual_loss_values_nonempty lo hi M)
+
+theorem residual_loss_bound_nonnegative {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ) :
+    0 ≤ residualLossBound lo hi M := by
+  classical
+  unfold residualLossBound
+  apply Finset.le_max'
+  unfold residualLossValues
+  exact Finset.mem_insert_self _ _
+
+theorem residual_loss_le_bound {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ)
+    (i j : ι) (hij : i ≠ j) : intervalLoss M (lo i j) (hi i j) ≤ residualLossBound lo hi M := by
+  classical
+  unfold residualLossBound
+  apply Finset.le_max'
+  unfold residualLossValues
+  apply Finset.mem_insert_of_mem
+  apply Finset.mem_image.mpr
+  exact ⟨(i,j),Finset.mem_filter.mpr ⟨Finset.mem_univ _,hij⟩,rfl⟩
+
+theorem residual_loss_bound_le {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ)
+    (hM : 0 ≤ M) (hlo : ∀ i j, i ≠ j → -M ≤ lo i j)
+    (hhi : ∀ i j, i ≠ j → hi i j ≤ M) (hlu : ∀ i j, i ≠ j → lo i j ≤ hi i j) :
+    residualLossBound lo hi M ≤ (2 : ℕ)*M := by
+  classical
+  unfold residualLossBound
+  apply Finset.max'_le
+  intro x hx
+  unfold residualLossValues at hx
+  rcases Finset.mem_insert.mp hx with rfl | hx
+  · positivity
+  · obtain ⟨⟨i,j⟩,hij,rfl⟩ := Finset.mem_image.mp hx
+    have he := (Finset.mem_filter.mp hij).2
+    exact (interval_loss_bounds M (lo i j) (hi i j) (hlo i j he) (hhi i j he) (hlu i j he)).2
+
+theorem residual_loss_bound_le_iff {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M β : ℝ) :
+    residualLossBound lo hi M ≤ β ↔ 0 ≤ β ∧
+      ∀ i j, i ≠ j → intervalLoss M (lo i j) (hi i j) ≤ β := by
+  classical
+  constructor
+  · intro h
+    exact ⟨le_trans (residual_loss_bound_nonnegative lo hi M) h,
+      fun i j hij => le_trans (residual_loss_le_bound lo hi M i j hij) h⟩
+  · rintro ⟨hβ,h⟩
+    unfold residualLossBound
+    apply Finset.max'_le
+    intro x hx
+    unfold residualLossValues at hx
+    rcases Finset.mem_insert.mp hx with rfl | hx
+    · exact hβ
+    · obtain ⟨⟨i,j⟩,hij,rfl⟩ := Finset.mem_image.mp hx
+      exact h i j (Finset.mem_filter.mp hij).2
+
+theorem residual_loss_bound_zero_iff {ι : Type*} [Fintype ι] (lo hi : ι → ι → ℝ) (M : ℝ)
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo i j) (hhi : ∀ i j, i ≠ j → hi i j ≤ M) :
+    residualLossBound lo hi M=0 ↔ ∀ i j, i ≠ j → lo i j= -M ∧ hi i j=M := by
+  constructor
+  · intro h i j hij
+    apply (interval_loss_zero_iff M _ _ (hlo i j hij) (hhi i j hij)).mp
+    apply le_antisymm
+    · rw [←h]
+      exact residual_loss_le_bound lo hi M i j hij
+    · exact interval_loss_nonnegative M _ _ (hlo i j hij)
+  · intro h
+    apply le_antisymm
+    · apply (residual_loss_bound_le_iff lo hi M 0).mpr
+      refine ⟨le_refl _,?_⟩
+      intro i j hij
+      have hz := (interval_loss_zero_iff M _ _ (hlo i j hij) (hhi i j hij)).mpr (h i j hij)
+      exact le_of_eq hz
+    · exact residual_loss_bound_nonnegative lo hi M
+
+end
+end SparseCompletion
+
+/- Fixed source body: WeakCoverMaximum.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem normalized_weak_cover_maximum {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ)
+    (lo hi : (Fin k ⊕ ι) → (Fin k ⊕ ι) → ℝ)
+    (hlu : ∀ i j, i ≠ j → lo (.inr i) (.inr j) ≤ hi (.inr i) (.inr j))
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo (.inr i) (.inr j))
+    (hhi : ∀ i j, i ≠ j → hi (.inr i) (.inr j) ≤ M)
+    (hrev : ∀ i j, i ≠ j → lo (.inr i) (.inr j)= -hi (.inr j) (.inr i) ∧
+      hi (.inr i) (.inr j)= -lo (.inr j) (.inr i))
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B)) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η+(residualLossBound (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) M)*r) ∧
+      offDiagonalIntervals lo hi (blockMatrix K D B') ∧
+      (∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+        blockMatrix K D B' a b=blockMatrix K D B a b) ∧
+      ∀ h, response (blockMatrix K D B') (blockWeights p q') (.inl h)=
+        response (blockMatrix K D B) (blockWeights p q) (.inl h) := by
+  exact normalized_weak_cover_witness k d K D F B p q M r ρ η
+    (residualLossBound (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) M) hM hr hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp lo hi
+    (residual_loss_bound_nonnegative _ _ M) hlu hlo hhi hrev
+    (fun i j hij => residual_loss_le_bound (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) M i j hij) hI
+
+theorem normalized_exact_weak_cover_maximum {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0)
+    (lo hi : (Fin k ⊕ ι) → (Fin k ⊕ ι) → ℝ)
+    (hlu : ∀ i j, i ≠ j → lo (.inr i) (.inr j) ≤ hi (.inr i) (.inr j))
+    (hlo : ∀ i j, i ≠ j → -M ≤ lo (.inr i) (.inr j))
+    (hhi : ∀ i j, i ≠ j → hi (.inr i) (.inr j) ≤ M)
+    (hrev : ∀ i j, i ≠ j → lo (.inr i) (.inr j)= -hi (.inr j) (.inr i) ∧
+      hi (.inr i) (.inr j)= -lo (.inr j) (.inr i))
+    (hI : offDiagonalIntervals lo hi (blockMatrix K D B)) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η+(residualLossBound (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) M)*r) ∧
+      offDiagonalIntervals lo hi (blockMatrix K D B') ∧
+      (∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+        blockMatrix K D B' a b=blockMatrix K D B a b) ∧
+      ∀ h, response (blockMatrix K D B') (blockWeights p q') (.inl h)=
+        response (blockMatrix K D B) (blockWeights p q) (.inl h) := by
+  exact normalized_exact_weak_cover_witness k d K D F B p q M r η
+    (residualLossBound (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) M) hM hr hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp lo hi
+    (residual_loss_bound_nonnegative _ _ M) hlu hlo hhi hrev
+    (fun i j hij => residual_loss_le_bound (fun i j => lo (.inr i) (.inr j)) (fun i j => hi (.inr i) (.inr j)) M i j hij) hI
+
+end
+end SparseCompletion
+
+/- Fixed source body: CoverRelabel.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def relabelWeights {ν μ : Type*} (e : ν ≃ μ) (q : ν → ℝ) : μ → ℝ := fun i => q (e.symm i)
+
+def relabelMatrix {ν μ : Type*} (e : ν ≃ μ) (A : ν → ν → ℝ) : μ → μ → ℝ :=
+  fun i j => A (e.symm i) (e.symm j)
+
+theorem relabel_mass {ν μ : Type*} [Fintype ν] [Fintype μ] (e : ν ≃ μ) (q : ν → ℝ) :
+    (∑ i, relabelWeights e q i)=∑ i, q i := Equiv.sum_comp e.symm q
+
+theorem relabel_response {ν μ : Type*} [Fintype ν] [Fintype μ] (e : ν ≃ μ)
+    (A : ν → ν → ℝ) (q : ν → ℝ) (i : μ) :
+    response (relabelMatrix e A) (relabelWeights e q) i=response A q (e.symm i) := by
+  exact Equiv.sum_comp e.symm (fun j => A (e.symm i) j*q j)
+
+theorem relabel_support_card {ν μ : Type*} [Fintype ν] [Fintype μ] (e : ν ≃ μ) (q : ν → ℝ) :
+    (Finset.univ.filter fun i => relabelWeights e q i ≠ 0).card=
+      (Finset.univ.filter fun i => q i ≠ 0).card := by
+  classical
+  simp only [Finset.card_eq_sum_ones,Finset.sum_filter]
+  exact Equiv.sum_comp e.symm (fun j => if q j ≠ 0 then (1 : ℕ) else 0)
+
+theorem relabel_skew {ν μ : Type*} (e : ν ≃ μ) (A : ν → ν → ℝ) (hA : IsSkew A) :
+    IsSkew (relabelMatrix e A) := fun i j => hA (e.symm i) (e.symm j)
+
+theorem relabel_intervals {ν μ : Type*} (e : ν ≃ μ) (lo hi A : ν → ν → ℝ) :
+    offDiagonalIntervals (relabelMatrix e lo) (relabelMatrix e hi) (relabelMatrix e A) ↔
+      offDiagonalIntervals lo hi A := by
+  constructor
+  · intro h i j hij
+    have hne : e i ≠ e j := fun he => hij (e.injective he)
+    simpa only [relabelMatrix,e.symm_apply_apply] using h (e i) (e j) hne
+  · intro h i j hij
+    exact h (e.symm i) (e.symm j) (fun he => hij (e.symm.injective he))
+
+def coverEquiv {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)] :
+    (Fin (Fintype.card C) ⊕ (Cᶜ : Set ν)) ≃ ν :=
+   (Equiv.sumCongr (Fintype.equivFin C).symm (Equiv.refl _)).trans (Equiv.Set.sumCompl C)
+
+theorem cover_equiv_anchor {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)] (h : Fin (Fintype.card C)) :
+    coverEquiv C (.inl h) ∈ C := by
+  change ((Fintype.equivFin C).symm h).val ∈ C
+  exact ((Fintype.equivFin C).symm h).property
+
+theorem cover_equiv_residual {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)] (i : (Cᶜ : Set ν)) :
+    coverEquiv C (.inr i)=i.val := rfl
+
+theorem cover_equiv_inverse_anchor {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)] (v : ν) (hv : v ∈ C) :
+    ∃ h, (coverEquiv C).symm v=Sum.inl h := by
+  classical
+  cases he : (coverEquiv C).symm v with
+  | inl h => exact ⟨h,rfl⟩
+  | inr i =>
+    have hh : v=i.val := by
+      have h0 := congrArg (coverEquiv C) he
+      simpa only [Equiv.apply_symm_apply,cover_equiv_residual] using h0
+    exact False.elim (i.property (hh ▸ hv))
+
+def intervalVertexCover {ν : Type*} (C : Set ν) (lo hi : ν → ν → ℝ) (M : ℝ) : Prop :=
+  ∀ i j, intervalConstraintEdge lo hi M i j → i ∈ C ∨ j ∈ C
+
+theorem arbitrary_cover_free_residual {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (lo hi : ν → ν → ℝ) (M : ℝ) (hc : intervalVertexCover C lo hi M) :
+    freeResidualIntervals (relabelMatrix (coverEquiv C).symm lo)
+      (relabelMatrix (coverEquiv C).symm hi) M := by
+  intro i j hij
+  have hv : i.val ≠ j.val := fun he => hij (Subtype.ext he)
+  by_contra hn
+  have hbad : lo i.val j.val ≠ -M ∨ hi i.val j.val ≠ M := by
+    change ¬(lo i.val j.val= -M ∧ hi i.val j.val=M) at hn
+    tauto
+  rcases hc i.val j.val ⟨hv,hbad⟩ with h | h
+  · exact i.property h
+  · exact j.property h
+
+theorem split_weights {ν α ι : Type*} (e : (α ⊕ ι) ≃ ν) (x : ν → ℝ) :
+    relabelWeights e.symm x=blockWeights (fun h => x (e (.inl h))) (fun i => x (e (.inr i))) := by
+  funext a
+  cases a <;> rfl
+
+theorem split_skew_matrix {ν α ι : Type*} (e : (α ⊕ ι) ≃ ν) (A : ν → ν → ℝ) (hA : IsSkew A) :
+    relabelMatrix e.symm A=blockMatrix (fun h h' => A (e (.inl h)) (e (.inl h')))
+      (fun i h => A (e (.inr i)) (e (.inl h))) (fun i j => A (e (.inr i)) (e (.inr j))) := by
+  funext a b
+  cases a with
+  | inl h =>
+    cases b with
+    | inl h' => rfl
+    | inr j => exact hA _ _
+  | inr i => cases b <;> rfl
+
+theorem cover_relabel_on_residual {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (p : Fin (Fintype.card C) → ℝ) (q : (Cᶜ : Set ν) → ℝ) (i : (Cᶜ : Set ν)) :
+    relabelWeights (coverEquiv C) (blockWeights p q) i.val=q i := by
+  rw [←cover_equiv_residual C i]
+  simp only [relabelWeights,Equiv.symm_apply_apply,blockWeights,Sum.elim_inr]
+
+theorem cover_relabel_on_anchor {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (x : ν → ℝ) (q : (Cᶜ : Set ν) → ℝ) (v : ν) (hv : v ∈ C) :
+    relabelWeights (coverEquiv C)
+      (blockWeights (fun h => x (coverEquiv C (.inl h))) q) v=x v := by
+  obtain ⟨h,he⟩ := cover_equiv_inverse_anchor C v hv
+  have hv' : v=coverEquiv C (.inl h) := by
+    have hh := congrArg (coverEquiv C) he
+    simpa only [Equiv.apply_symm_apply] using hh
+  rw [hv']
+  simp only [relabelWeights,Equiv.symm_apply_apply,blockWeights,Sum.elim_inl]
+
+end
+end SparseCompletion
+
+/- Fixed source body: ArbitraryCover.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem arbitrary_vertex_cover_sparse {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (d : ℕ) (F : ν → Fin d → ℝ) (A lo hi : ν → ν → ℝ) (x : ν → ℝ) (M ρ η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hcover : intervalVertexCover C lo hi M) (hresp : ∀ i, response A x i ≤ ρ) :
+    let k := Fintype.card C
+    let r := ∑ i : (Cᶜ : Set ν), x i
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ ρ+η) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i ≠ 0).card ≤
+        min (Fintype.card (Cᶜ : Set ν)) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ i : (Cᶜ : Set ν), x' i*F i g)=∑ i : (Cᶜ : Set ν), x i*F i g := by
+  classical
+  dsimp only
+  let e := coverEquiv C
+  let k := Fintype.card C
+  let p := fun h : Fin k => x (e (.inl h))
+  let q := fun i : (Cᶜ : Set ν) => x (e (.inr i))
+  let r := ∑ i, q i
+  let K := fun h h' : Fin k => A (e (.inl h)) (e (.inl h'))
+  let D := fun (i : (Cᶜ : Set ν)) (h : Fin k) => A (e (.inr i)) (e (.inl h))
+  let B := fun i j : (Cᶜ : Set ν) => A (e (.inr i)) (e (.inr j))
+  let lo' := relabelMatrix e.symm lo
+  let hi' := relabelMatrix e.symm hi
+  have hxsplit : relabelWeights e.symm x=blockWeights p q := split_weights e x
+  have hAsplit : relabelMatrix e.symm A=blockMatrix K D B := split_skew_matrix e A hA
+  have hp : ∀ h, 0 ≤ p h := fun h => hn _
+  have hq : ∀ i, 0 ≤ q i := fun i => hn _
+  have hr : 0 ≤ r := Finset.sum_nonneg fun i _ => hq i
+  have hpm : (∑ h, p h)+r=1 := by
+    change (∑ h, p h)+(∑ i, q i)=1
+    rw [←blockWeights_mass,←hxsplit,relabel_mass]
+    exact hm
+  have hK : IsSkew K := fun h h' => hA _ _
+  have hB : IsSkew B := fun i j => hA _ _
+  have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun _ _ => hb _ _
+  have hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M := fun _ _ => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun _ _ => hb _ _
+  have hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ := by
+    intro a
+    rw [←hAsplit,←hxsplit,relabel_response]
+    exact hresp _
+  have hIv : offDiagonalIntervals lo' hi' (blockMatrix K D B) := by
+    rw [←hAsplit]
+    exact (relabel_intervals e.symm lo hi A).mpr hI
+  obtain ⟨q',B',hqn,hqm,hpa,hs,hc,ht,_,hF,hsk,hbb,hresponse,hInt,hentries,hanchors⟩ :=
+    normalized_cover_witness k d K D (fun i g => F i.val g) B p q M r ρ η hM hr hη hp hq hpm rfl
+      hK hB hKb hDb hBb hrows lo' hi' (arbitrary_cover_free_residual C lo hi M hcover) hIv
+  let A' := relabelMatrix e (blockMatrix K D B')
+  let x' := relabelWeights e (blockWeights p q')
+  have hres : ∀ i : (Cᶜ : Set ν), x' i.val=q' i := cover_relabel_on_residual C p q'
+  have hdim : Fintype.card ν=k+Fintype.card (Cᶜ : Set ν) := by
+    have hh := Fintype.card_congr e
+    simpa only [Fintype.card_sum,Fintype.card_fin] using hh.symm
+  have hrform : r=∑ i : (Cᶜ : Set ν), x i := by
+    apply Finset.sum_congr rfl
+    intro i _
+    exact congrArg x (cover_equiv_residual C i)
+  refine ⟨A',x',?_,?_,relabel_skew e _ hsk,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_⟩
+  · exact fun i => hqn (e.symm i)
+  · rw [relabel_mass]
+    exact hqm
+  · exact fun i j => hbb (e.symm i) (e.symm j)
+  · intro i j hij
+    have he : e.symm i ≠ e.symm j := fun he => hij (e.symm.injective he)
+    simpa only [A',lo',hi',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hInt _ _ he
+  · intro i
+    rw [relabel_response]
+    exact hresponse _
+  · exact cover_relabel_on_anchor C x q'
+  · intro v hv hz
+    let i : (Cᶜ : Set ν) := ⟨v,hv⟩
+    have hqi : q i=0 := by change x (e (.inr i))=0; rw [cover_equiv_residual]; exact hz
+    exact (hres i).trans (hs i hqi)
+  · have hcard : (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i.val ≠ 0)=
+        Finset.univ.filter (fun i => q' i ≠ 0) := by
+      ext i
+      simp only [Finset.mem_filter,Finset.mem_univ,true_and,hres]
+    rw [hcard]
+    simpa only [←hrform] using hc
+  · rw [relabel_support_card]
+    simpa only [←hrform,hdim] using ht
+  · intro a b hab
+    have he : (∃ h, e.symm a=Sum.inl h) ∨ ∃ h, e.symm b=Sum.inl h := by
+      rcases hab with h | h
+      · exact Or.inl (cover_equiv_inverse_anchor C a h)
+      · exact Or.inr (cover_equiv_inverse_anchor C b h)
+    have hh := hentries (e.symm a) (e.symm b) he
+    rw [←hAsplit] at hh
+    simpa only [A',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hh
+  · intro v hv
+    obtain ⟨h,he⟩ := cover_equiv_inverse_anchor C v hv
+    have hh := hanchors h
+    rw [←hAsplit,←hxsplit,relabel_response] at hh
+    change response A' x' v=response A x v
+    rw [relabel_response,he]
+    have hv' : e (.inl h)=v := by rw [←he]; exact e.apply_symm_apply v
+    simpa only [Equiv.symm_symm,hv'] using hh
+  · intro g
+    simpa only [hres,q,e,cover_equiv_residual] using hF g
+
+theorem arbitrary_vertex_cover_exact {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (d : ℕ) (F : ν → Fin d → ℝ) (A lo hi : ν → ν → ℝ) (x : ν → ℝ) (M η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hcover : intervalVertexCover C lo hi M) (hresp : ∀ i, response A x i ≤ 0) :
+    let k := Fintype.card C
+    let r := ∑ i : (Cᶜ : Set ν), x i
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ η) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i ≠ 0).card ≤
+        min (Fintype.card (Cᶜ : Set ν)) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ i : (Cᶜ : Set ν), x' i*F i g)=∑ i : (Cᶜ : Set ν), x i*F i g := by
+  classical
+  dsimp only
+  let e := coverEquiv C
+  let k := Fintype.card C
+  let p := fun h : Fin k => x (e (.inl h))
+  let q := fun i : (Cᶜ : Set ν) => x (e (.inr i))
+  let r := ∑ i, q i
+  let K := fun h h' : Fin k => A (e (.inl h)) (e (.inl h'))
+  let D := fun (i : (Cᶜ : Set ν)) (h : Fin k) => A (e (.inr i)) (e (.inl h))
+  let B := fun i j : (Cᶜ : Set ν) => A (e (.inr i)) (e (.inr j))
+  let lo' := relabelMatrix e.symm lo
+  let hi' := relabelMatrix e.symm hi
+  have hxsplit : relabelWeights e.symm x=blockWeights p q := split_weights e x
+  have hAsplit : relabelMatrix e.symm A=blockMatrix K D B := split_skew_matrix e A hA
+  have hp : ∀ h, 0 ≤ p h := fun h => hn _
+  have hq : ∀ i, 0 ≤ q i := fun i => hn _
+  have hr : 0 ≤ r := Finset.sum_nonneg fun i _ => hq i
+  have hpm : (∑ h, p h)+r=1 := by
+    change (∑ h, p h)+(∑ i, q i)=1
+    rw [←blockWeights_mass,←hxsplit,relabel_mass]
+    exact hm
+  have hK : IsSkew K := fun h h' => hA _ _
+  have hB : IsSkew B := fun i j => hA _ _
+  have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun _ _ => hb _ _
+  have hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M := fun _ _ => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun _ _ => hb _ _
+  have hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0 := by
+    intro a
+    rw [←hAsplit,←hxsplit,relabel_response]
+    exact hresp _
+  have hIv : offDiagonalIntervals lo' hi' (blockMatrix K D B) := by
+    rw [←hAsplit]
+    exact (relabel_intervals e.symm lo hi A).mpr hI
+  obtain ⟨q',B',hqn,hqm,hpa,hs,hc,ht,_,hF,hsk,hbb,hresponse,hInt,hentries,hanchors⟩ :=
+    normalized_exact_cover_witness k d K D (fun i g => F i.val g) B p q M r η hM hr hη hp hq hpm rfl
+      hK hB hKb hDb hBb hrows lo' hi' (arbitrary_cover_free_residual C lo hi M hcover) hIv
+  let A' := relabelMatrix e (blockMatrix K D B')
+  let x' := relabelWeights e (blockWeights p q')
+  have hres : ∀ i : (Cᶜ : Set ν), x' i.val=q' i := cover_relabel_on_residual C p q'
+  have hdim : Fintype.card ν=k+Fintype.card (Cᶜ : Set ν) := by
+    have hh := Fintype.card_congr e
+    simpa only [Fintype.card_sum,Fintype.card_fin] using hh.symm
+  have hrform : r=∑ i : (Cᶜ : Set ν), x i := by
+    apply Finset.sum_congr rfl
+    intro i _
+    exact congrArg x (cover_equiv_residual C i)
+  refine ⟨A',x',?_,?_,relabel_skew e _ hsk,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_⟩
+  · exact fun i => hqn (e.symm i)
+  · rw [relabel_mass]
+    exact hqm
+  · exact fun i j => hbb (e.symm i) (e.symm j)
+  · intro i j hij
+    have he : e.symm i ≠ e.symm j := fun he => hij (e.symm.injective he)
+    simpa only [A',lo',hi',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hInt _ _ he
+  · intro i
+    rw [relabel_response]
+    exact hresponse _
+  · exact cover_relabel_on_anchor C x q'
+  · intro v hv hz
+    let i : (Cᶜ : Set ν) := ⟨v,hv⟩
+    have hqi : q i=0 := by change x (e (.inr i))=0; rw [cover_equiv_residual]; exact hz
+    exact (hres i).trans (hs i hqi)
+  · have hcard : (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i.val ≠ 0)=
+        Finset.univ.filter (fun i => q' i ≠ 0) := by
+      ext i
+      simp only [Finset.mem_filter,Finset.mem_univ,true_and,hres]
+    rw [hcard]
+    simpa only [←hrform] using hc
+  · rw [relabel_support_card]
+    simpa only [←hrform,hdim] using ht
+  · intro a b hab
+    have he : (∃ h, e.symm a=Sum.inl h) ∨ ∃ h, e.symm b=Sum.inl h := by
+      rcases hab with h | h
+      · exact Or.inl (cover_equiv_inverse_anchor C a h)
+      · exact Or.inr (cover_equiv_inverse_anchor C b h)
+    have hh := hentries (e.symm a) (e.symm b) he
+    rw [←hAsplit] at hh
+    simpa only [A',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hh
+  · intro v hv
+    obtain ⟨h,he⟩ := cover_equiv_inverse_anchor C v hv
+    have hh := hanchors h
+    rw [←hAsplit,←hxsplit,relabel_response] at hh
+    change response A' x' v=response A x v
+    rw [relabel_response,he]
+    have hv' : e (.inl h)=v := by rw [←he]; exact e.apply_symm_apply v
+    simpa only [Equiv.symm_symm,hv'] using hh
+  · intro g
+    simpa only [hres,q,e,cover_equiv_residual] using hF g
+
+end
+end SparseCompletion
+
+/- Fixed source body: ArbitraryWeakCover.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem arbitrary_vertex_subset_weak_sparse {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (d : ℕ) (F : ν → Fin d → ℝ) (A lo hi : ν → ν → ℝ) (x : ν → ℝ) (M ρ η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hlo : ∀ a b, a ≠ b → -M ≤ lo a b) (hhi : ∀ a b, a ≠ b → hi a b ≤ M)
+    (hlu : ∀ a b, a ≠ b → lo a b ≤ hi a b)
+    (hrev : ∀ a b, a ≠ b → lo a b= -hi b a ∧ hi a b= -lo b a) (hresp : ∀ i, response A x i ≤ ρ) :
+    let k := Fintype.card C
+    let r := ∑ i : (Cᶜ : Set ν), x i
+    let β := residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+      (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ ρ+η+β*r) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i ≠ 0).card ≤
+        min (Fintype.card (Cᶜ : Set ν)) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ i : (Cᶜ : Set ν), x' i*F i g)=∑ i : (Cᶜ : Set ν), x i*F i g := by
+  classical
+  dsimp only
+  let e := coverEquiv C
+  let k := Fintype.card C
+  let p := fun h : Fin k => x (e (.inl h))
+  let q := fun i : (Cᶜ : Set ν) => x (e (.inr i))
+  let r := ∑ i, q i
+  let K := fun h h' : Fin k => A (e (.inl h)) (e (.inl h'))
+  let D := fun (i : (Cᶜ : Set ν)) (h : Fin k) => A (e (.inr i)) (e (.inl h))
+  let B := fun i j : (Cᶜ : Set ν) => A (e (.inr i)) (e (.inr j))
+  let lo' := relabelMatrix e.symm lo
+  let hi' := relabelMatrix e.symm hi
+  have hxsplit : relabelWeights e.symm x=blockWeights p q := split_weights e x
+  have hAsplit : relabelMatrix e.symm A=blockMatrix K D B := split_skew_matrix e A hA
+  have hp : ∀ h, 0 ≤ p h := fun h => hn _
+  have hq : ∀ i, 0 ≤ q i := fun i => hn _
+  have hr : 0 ≤ r := Finset.sum_nonneg fun i _ => hq i
+  have hpm : (∑ h, p h)+r=1 := by
+    change (∑ h, p h)+(∑ i, q i)=1
+    rw [←blockWeights_mass,←hxsplit,relabel_mass]
+    exact hm
+  have hK : IsSkew K := fun h h' => hA _ _
+  have hB : IsSkew B := fun i j => hA _ _
+  have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun _ _ => hb _ _
+  have hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M := fun _ _ => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun _ _ => hb _ _
+  have hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ := by
+    intro a
+    rw [←hAsplit,←hxsplit,relabel_response]
+    exact hresp _
+  have hIv : offDiagonalIntervals lo' hi' (blockMatrix K D B) := by
+    rw [←hAsplit]
+    exact (relabel_intervals e.symm lo hi A).mpr hI
+  have heinj : ∀ i j : (Cᶜ : Set ν), i ≠ j → e (.inr i) ≠ e (.inr j) :=
+    fun i j hij he => hij (Sum.inr.inj (e.injective he))
+  have hrlu : ∀ i j, i ≠ j → lo' (.inr i) (.inr j) ≤ hi' (.inr i) (.inr j) :=
+    fun i j hij => hlu _ _ (heinj i j hij)
+  have hrlo : ∀ i j, i ≠ j → -M ≤ lo' (.inr i) (.inr j) :=
+    fun i j hij => hlo _ _ (heinj i j hij)
+  have hrhi : ∀ i j, i ≠ j → hi' (.inr i) (.inr j) ≤ M :=
+    fun i j hij => hhi _ _ (heinj i j hij)
+  have hrrev : ∀ i j, i ≠ j → lo' (.inr i) (.inr j)= -hi' (.inr j) (.inr i) ∧
+      hi' (.inr i) (.inr j)= -lo' (.inr j) (.inr i) :=
+    fun i j hij => hrev _ _ (heinj i j hij)
+  obtain ⟨q',B',hqn,hqm,hpa,hs,hc,ht,_,hF,hsk,hbb,hresponse,hInt,hentries,hanchors⟩ :=
+    normalized_weak_cover_maximum k d K D (fun i g => F i.val g) B p q M r ρ η hM hr hη hp hq hpm rfl
+      hK hB hKb hDb hBb hrows lo' hi' hrlu hrlo hrhi hrrev hIv
+  let A' := relabelMatrix e (blockMatrix K D B')
+  let x' := relabelWeights e (blockWeights p q')
+  have hres : ∀ i : (Cᶜ : Set ν), x' i.val=q' i := cover_relabel_on_residual C p q'
+  have hdim : Fintype.card ν=k+Fintype.card (Cᶜ : Set ν) := by
+    have hh := Fintype.card_congr e
+    simpa only [Fintype.card_sum,Fintype.card_fin] using hh.symm
+  have hrform : r=∑ i : (Cᶜ : Set ν), x i := by
+    apply Finset.sum_congr rfl
+    intro i _
+    exact congrArg x (cover_equiv_residual C i)
+  refine ⟨A',x',?_,?_,relabel_skew e _ hsk,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_⟩
+  · exact fun i => hqn (e.symm i)
+  · rw [relabel_mass]
+    exact hqm
+  · exact fun i j => hbb (e.symm i) (e.symm j)
+  · intro i j hij
+    have he : e.symm i ≠ e.symm j := fun he => hij (e.symm.injective he)
+    simpa only [A',lo',hi',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hInt _ _ he
+  · intro i
+    rw [relabel_response]
+    exact hresponse _
+  · exact cover_relabel_on_anchor C x q'
+  · intro v hv hz
+    let i : (Cᶜ : Set ν) := ⟨v,hv⟩
+    have hqi : q i=0 := by change x (e (.inr i))=0; rw [cover_equiv_residual]; exact hz
+    exact (hres i).trans (hs i hqi)
+  · have hcard : (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i.val ≠ 0)=
+        Finset.univ.filter (fun i => q' i ≠ 0) := by
+      ext i
+      simp only [Finset.mem_filter,Finset.mem_univ,true_and,hres]
+    rw [hcard]
+    simpa only [←hrform] using hc
+  · rw [relabel_support_card]
+    simpa only [←hrform,hdim] using ht
+  · intro a b hab
+    have he : (∃ h, e.symm a=Sum.inl h) ∨ ∃ h, e.symm b=Sum.inl h := by
+      rcases hab with h | h
+      · exact Or.inl (cover_equiv_inverse_anchor C a h)
+      · exact Or.inr (cover_equiv_inverse_anchor C b h)
+    have hh := hentries (e.symm a) (e.symm b) he
+    rw [←hAsplit] at hh
+    simpa only [A',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hh
+  · intro v hv
+    obtain ⟨h,he⟩ := cover_equiv_inverse_anchor C v hv
+    have hh := hanchors h
+    rw [←hAsplit,←hxsplit,relabel_response] at hh
+    change response A' x' v=response A x v
+    rw [relabel_response,he]
+    have hv' : e (.inl h)=v := by rw [←he]; exact e.apply_symm_apply v
+    simpa only [Equiv.symm_symm,hv'] using hh
+  · intro g
+    simpa only [hres,q,e,cover_equiv_residual] using hF g
+
+theorem arbitrary_vertex_subset_weak_exact {ν : Type*} [Fintype ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (d : ℕ) (F : ν → Fin d → ℝ) (A lo hi : ν → ν → ℝ) (x : ν → ℝ) (M η : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hlo : ∀ a b, a ≠ b → -M ≤ lo a b) (hhi : ∀ a b, a ≠ b → hi a b ≤ M)
+    (hlu : ∀ a b, a ≠ b → lo a b ≤ hi a b)
+    (hrev : ∀ a b, a ≠ b → lo a b= -hi b a ∧ hi a b= -lo b a) (hresp : ∀ i, response A x i ≤ 0) :
+    let k := Fintype.card C
+    let r := ∑ i : (Cᶜ : Set ν), x i
+    let β := residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+      (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ η+β*r) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i ≠ 0).card ≤
+        min (Fintype.card (Cᶜ : Set ν)) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ i : (Cᶜ : Set ν), x' i*F i g)=∑ i : (Cᶜ : Set ν), x i*F i g := by
+  classical
+  dsimp only
+  let e := coverEquiv C
+  let k := Fintype.card C
+  let p := fun h : Fin k => x (e (.inl h))
+  let q := fun i : (Cᶜ : Set ν) => x (e (.inr i))
+  let r := ∑ i, q i
+  let K := fun h h' : Fin k => A (e (.inl h)) (e (.inl h'))
+  let D := fun (i : (Cᶜ : Set ν)) (h : Fin k) => A (e (.inr i)) (e (.inl h))
+  let B := fun i j : (Cᶜ : Set ν) => A (e (.inr i)) (e (.inr j))
+  let lo' := relabelMatrix e.symm lo
+  let hi' := relabelMatrix e.symm hi
+  have hxsplit : relabelWeights e.symm x=blockWeights p q := split_weights e x
+  have hAsplit : relabelMatrix e.symm A=blockMatrix K D B := split_skew_matrix e A hA
+  have hp : ∀ h, 0 ≤ p h := fun h => hn _
+  have hq : ∀ i, 0 ≤ q i := fun i => hn _
+  have hr : 0 ≤ r := Finset.sum_nonneg fun i _ => hq i
+  have hpm : (∑ h, p h)+r=1 := by
+    change (∑ h, p h)+(∑ i, q i)=1
+    rw [←blockWeights_mass,←hxsplit,relabel_mass]
+    exact hm
+  have hK : IsSkew K := fun h h' => hA _ _
+  have hB : IsSkew B := fun i j => hA _ _
+  have hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M := fun _ _ => hb _ _
+  have hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M := fun _ _ => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun _ _ => hb _ _
+  have hrows : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0 := by
+    intro a
+    rw [←hAsplit,←hxsplit,relabel_response]
+    exact hresp _
+  have hIv : offDiagonalIntervals lo' hi' (blockMatrix K D B) := by
+    rw [←hAsplit]
+    exact (relabel_intervals e.symm lo hi A).mpr hI
+  have heinj : ∀ i j : (Cᶜ : Set ν), i ≠ j → e (.inr i) ≠ e (.inr j) :=
+    fun i j hij he => hij (Sum.inr.inj (e.injective he))
+  have hrlu : ∀ i j, i ≠ j → lo' (.inr i) (.inr j) ≤ hi' (.inr i) (.inr j) :=
+    fun i j hij => hlu _ _ (heinj i j hij)
+  have hrlo : ∀ i j, i ≠ j → -M ≤ lo' (.inr i) (.inr j) :=
+    fun i j hij => hlo _ _ (heinj i j hij)
+  have hrhi : ∀ i j, i ≠ j → hi' (.inr i) (.inr j) ≤ M :=
+    fun i j hij => hhi _ _ (heinj i j hij)
+  have hrrev : ∀ i j, i ≠ j → lo' (.inr i) (.inr j)= -hi' (.inr j) (.inr i) ∧
+      hi' (.inr i) (.inr j)= -lo' (.inr j) (.inr i) :=
+    fun i j hij => hrev _ _ (heinj i j hij)
+  obtain ⟨q',B',hqn,hqm,hpa,hs,hc,ht,_,hF,hsk,hbb,hresponse,hInt,hentries,hanchors⟩ :=
+    normalized_exact_weak_cover_maximum k d K D (fun i g => F i.val g) B p q M r η hM hr hη hp hq hpm rfl
+      hK hB hKb hDb hBb hrows lo' hi' hrlu hrlo hrhi hrrev hIv
+  let A' := relabelMatrix e (blockMatrix K D B')
+  let x' := relabelWeights e (blockWeights p q')
+  have hres : ∀ i : (Cᶜ : Set ν), x' i.val=q' i := cover_relabel_on_residual C p q'
+  have hdim : Fintype.card ν=k+Fintype.card (Cᶜ : Set ν) := by
+    have hh := Fintype.card_congr e
+    simpa only [Fintype.card_sum,Fintype.card_fin] using hh.symm
+  have hrform : r=∑ i : (Cᶜ : Set ν), x i := by
+    apply Finset.sum_congr rfl
+    intro i _
+    exact congrArg x (cover_equiv_residual C i)
+  refine ⟨A',x',?_,?_,relabel_skew e _ hsk,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_⟩
+  · exact fun i => hqn (e.symm i)
+  · rw [relabel_mass]
+    exact hqm
+  · exact fun i j => hbb (e.symm i) (e.symm j)
+  · intro i j hij
+    have he : e.symm i ≠ e.symm j := fun he => hij (e.symm.injective he)
+    simpa only [A',lo',hi',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hInt _ _ he
+  · intro i
+    rw [relabel_response]
+    exact hresponse _
+  · exact cover_relabel_on_anchor C x q'
+  · intro v hv hz
+    let i : (Cᶜ : Set ν) := ⟨v,hv⟩
+    have hqi : q i=0 := by change x (e (.inr i))=0; rw [cover_equiv_residual]; exact hz
+    exact (hres i).trans (hs i hqi)
+  · have hcard : (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i.val ≠ 0)=
+        Finset.univ.filter (fun i => q' i ≠ 0) := by
+      ext i
+      simp only [Finset.mem_filter,Finset.mem_univ,true_and,hres]
+    rw [hcard]
+    simpa only [←hrform] using hc
+  · rw [relabel_support_card]
+    simpa only [←hrform,hdim] using ht
+  · intro a b hab
+    have he : (∃ h, e.symm a=Sum.inl h) ∨ ∃ h, e.symm b=Sum.inl h := by
+      rcases hab with h | h
+      · exact Or.inl (cover_equiv_inverse_anchor C a h)
+      · exact Or.inr (cover_equiv_inverse_anchor C b h)
+    have hh := hentries (e.symm a) (e.symm b) he
+    rw [←hAsplit] at hh
+    simpa only [A',relabelMatrix,Equiv.symm_symm,Equiv.apply_symm_apply] using hh
+  · intro v hv
+    obtain ⟨h,he⟩ := cover_equiv_inverse_anchor C v hv
+    have hh := hanchors h
+    rw [←hAsplit,←hxsplit,relabel_response] at hh
+    change response A' x' v=response A x v
+    rw [relabel_response,he]
+    have hv' : e (.inl h)=v := by rw [←he]; exact e.apply_symm_apply v
+    simpa only [Equiv.symm_symm,hv'] using hh
+  · intro g
+    simpa only [hres,q,e,cover_equiv_residual] using hF g
+
+end
+end SparseCompletion
+
+/- Fixed source body: IntervalLossOrder.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem interval_loss_reverse (M lo hi : ℝ) :
+    intervalLoss M (-hi) (-lo)=intervalLoss M lo hi := by
+  unfold intervalLoss
+  have h1 : M- -lo=M+lo := by ring
+  have h2 : M+ -hi=M-hi := by ring
+  rw [h1,h2]
+  exact max_comm _ _
+
+def orderedResidualLossValues {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (lo hi : ι → ι → ℝ) (M : ℝ) : Finset ℝ := by
+  classical
+  exact insert 0 ((Finset.univ.filter fun ij : ι × ι => ij.1 < ij.2).image
+    fun ij => intervalLoss M (lo ij.1 ij.2) (hi ij.1 ij.2))
+
+theorem ordered_loss_values_nonempty {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (lo hi : ι → ι → ℝ) (M : ℝ) : (orderedResidualLossValues lo hi M).Nonempty := by
+  classical
+  unfold orderedResidualLossValues
+  exact ⟨0,Finset.mem_insert_self _ _⟩
+
+def orderedResidualLossBound {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (lo hi : ι → ι → ℝ) (M : ℝ) : ℝ :=
+  (orderedResidualLossValues lo hi M).max' (ordered_loss_values_nonempty lo hi M)
+
+theorem residual_loss_values_ordered {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (lo hi : ι → ι → ℝ) (M : ℝ)
+    (hrev : ∀ i j, i ≠ j → lo i j= -hi j i ∧ hi i j= -lo j i) :
+    residualLossValues lo hi M=orderedResidualLossValues lo hi M := by
+  classical
+  ext z
+  simp only [residualLossValues,orderedResidualLossValues,Finset.mem_insert,Finset.mem_image,
+    Finset.mem_filter,Finset.mem_univ,true_and]
+  constructor
+  · rintro (rfl | ⟨⟨i,j⟩,hij,hz⟩)
+    · exact Or.inl rfl
+    · apply Or.inr
+      rcases lt_or_gt_of_ne hij with h | h
+      · exact ⟨(i,j),h,hz⟩
+      · refine ⟨(j,i),h,?_⟩
+        have hs : intervalLoss M (lo i j) (hi i j)=intervalLoss M (lo j i) (hi j i) := by
+          rw [(hrev i j hij).1,(hrev i j hij).2,interval_loss_reverse]
+        exact hs.symm.trans hz
+  · rintro (rfl | ⟨⟨i,j⟩,hij,hz⟩)
+    · exact Or.inl rfl
+    · exact Or.inr ⟨(i,j),ne_of_lt hij,hz⟩
+
+theorem residual_loss_bound_ordered {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (lo hi : ι → ι → ℝ) (M : ℝ)
+    (hrev : ∀ i j, i ≠ j → lo i j= -hi j i ∧ hi i j= -lo j i) :
+    residualLossBound lo hi M=orderedResidualLossBound lo hi M := by
+  unfold residualLossBound orderedResidualLossBound
+  have hs := residual_loss_values_ordered lo hi M hrev
+  apply le_antisymm
+  · apply Finset.max'_le
+    intro x hx
+    exact Finset.le_max' _ _ (hs ▸ hx)
+  · apply Finset.max'_le
+    intro x hx
+    exact Finset.le_max' _ _ (hs.symm ▸ hx)
 
 end
 end SparseCompletion
