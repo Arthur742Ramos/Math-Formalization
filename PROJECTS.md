@@ -159,9 +159,10 @@ remain separate. No prior frozen source, registration or package pin is changed.
 
 ## Continuous open images of Polish spaces
 
-Dated ordinary preparation; protected canonical and rendering receipts remain separate.
-The existing strong Choquet project and its unknown intake are preserved.
+The repaired source passes native compilation, export comparison and three kernel checks.
+A prior user-submitted source failed mechanical comparison. This new repair is not submitted;
+protected canonical verification and rendering remain separate. Earlier packages are preserved.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Continuous open images of Polish spaces](topology/open-polish-images) | General full-history strong Choquet transfer and Polish continuous-open-image theorem, including regular Hausdorff targets. | Preparation; not submitted | [`7d0d6b4`](https://github.com/Arthur742Ramos/Math-Formalization/tree/7d0d6b456b49e373e6ac6083d3f2da54e00df1d3/topology/open-polish-images) |
+| [Continuous open images of Polish spaces](topology/open-polish-images) | General full-history strong Choquet transfer and Polish continuous-open-image theorem, including regular Hausdorff targets. | Preparation; not submitted (new repair); prior user source failed comparison | [`dfbeea7`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dfbeea7108d04be545185d5f868efbcd9c86c6e5/topology/open-polish-images) |
