@@ -80,8 +80,9 @@ in PREPARATIONS.json; browser/runtime visual review remains unestablished.
 
 ## New independent preparation
 
-Exactly one next target is under development. Its local source checks and
-independent internal AI reviews do not certify canonical or service outcomes.
+This section retains a historical preparation checkpoint. The current isolated
+next topology target is open Baire-space representation, recorded below. Local
+source checks and internal AI reviews do not certify canonical or service outcomes.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
@@ -156,3 +157,9 @@ remain separate. No prior frozen source, registration or package pin is changed.
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Full/render passed; intake and registration unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
+
+## Open Baire-space representation preparation
+
+| Project | Scope | Status | Frozen source |
+| --- | --- | --- | --- |
+| [Open Baire-space representation of Polish spaces](topology/open-baire-representation) | Nonempty Polish open Baire representation, genuine covering scheme and exact cylinder images. | Preparation; not submitted | [`87652c9`](https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation) |
