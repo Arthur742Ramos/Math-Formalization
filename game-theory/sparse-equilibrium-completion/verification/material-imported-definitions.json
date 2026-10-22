@@ -14034,12 +14034,12 @@
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "4bd14099610a97d75cd3a139102673c05b66e9f019a1102861ff2d25e16a2a4d"
+      "sha256": "e3b69174c2fff3207b2ef0978819e4cf5dfc0d0c384cb500775d148169d8deab"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "57e6aa1eb87351964733891f93764ada59274bffab0800a3535cefb2606eda99"
+      "sha256": "524db587478c5b40d04b275c139dd684484bbee36b77321b75360b6cc82c1085"
     }
   ],
   "generated_declarations": [

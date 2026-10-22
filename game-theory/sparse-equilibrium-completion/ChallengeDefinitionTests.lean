@@ -1,5 +1,6 @@
 module
 public import SECChallenge
+public meta import SECChallenge
 
 public section
 

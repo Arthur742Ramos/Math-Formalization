@@ -1,5 +1,6 @@
 module
 public import SECSolution
+public meta import SECSolution
 
 public section
 
