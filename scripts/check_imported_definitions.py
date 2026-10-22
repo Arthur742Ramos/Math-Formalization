@@ -38,6 +38,15 @@ def local_file(root, name):
     return file
 
 
+def declaration_head_matches(name, kind, body, *, legacy=False):
+    """Match the complete retained declaration name, including a trailing prime."""
+    terminal = re.escape(name.split('.')[-1]) + r"(?![\w'!?.])"
+    prefix = r'(?m)^def ' if legacy else (
+        r"(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?" + kind +
+        r" (?:[A-Za-z_][\w']*\.)*")
+    return bool(re.search(prefix + terminal, body))
+
+
 def check(project, dependency_root=None):
     project = pathlib.Path(project)
     manifest_file = local_file(project, 'verification/material-imported-definitions.json')
@@ -125,7 +134,7 @@ def check(project, dependency_root=None):
         require(all(n in document for n in usage), 'Document omits affected declarations')
         body = excerpts[declaration['definition_excerpt']]
         if version == 1:
-            require(re.search(r'(?m)^def ' + re.escape(name.split('.')[-1]) + r'\b', body),
+            require(declaration_head_matches(name, 'def', body, legacy=True),
                     'Definition evidence is not a definition')
             require(declaration['bridge_kind'] == 'proved-equivalence',
                     'Semantic bridge must not be claimed as definitional equality')
@@ -134,7 +143,7 @@ def check(project, dependency_root=None):
         else:
             kind = declaration['declaration_kind']
             require(kind in {'def', 'class', 'structure'}, 'Unknown declaration kind')
-            require(re.search(r'(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?' + kind + r" (?:[A-Za-z_][\w']*\.)*" + re.escape(name.split('.')[-1]) + r'\b', body),
+            require(declaration_head_matches(name, kind, body),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
             allowed = {'class-fields'} if kind in {'class', 'structure'} else {
