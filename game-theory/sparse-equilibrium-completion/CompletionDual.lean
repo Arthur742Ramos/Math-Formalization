@@ -19,7 +19,7 @@ def positiveSet {ι : Type*} [Fintype ι] (y : ι → ℝ) : Finset ι := by
   exact Finset.univ.filter fun i => 0 < y i
 
 def weightedVariation {ι : Type*} [Fintype ι] (q y : ι → ℝ) : ℝ :=
-  (∑ i, ∑ j, q i*q j*|y i-y j|)/2
+  (∑ i, ∑ j, q i*q j*|y i-y j|)/(2 : ℕ)
 
 theorem masked_sum {ι : Type*} [Fintype ι] [DecidableEq ι] (s : Finset ι) (f : ι → ℝ) :
     (∑ i, if i ∈ s then f i else 0) = mass s f := by

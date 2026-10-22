@@ -59,3 +59,14 @@ These edits do not inherit the preceding checkpoint's exact-source verification.
 A separate immutable external receipt will identify the final commit and all
 actual build/export/comparator/kernel outcomes. No canonical sandbox, rendering,
 registry eligibility or submission claim follows from native checks.
+
+The first reconstruction freeze, `16972876b887323868c7907a3be99c6875ff87a1`,
+passed native build, module kernel checking, protected compilation and both
+exports, then failed the protected comparator at fixed definition
+`weightedVariation`. Elaborated terms exposed generated numeric evidence:
+the Solution referenced `weightedVariation._proof_1`, while assembly shared the
+same evidence with `gridNode._proof_1`. The follow-on source uses an explicit
+natural-number cast for that denominator, preserving its real value while
+avoiding generated proof identity sharing. The comparator is unchanged. The
+failed immutable receipt is retained outside source; the correction needs its
+own exact-commit run and independent review.
