@@ -507,3 +507,18 @@ public import SECSolution
 #print axioms SparseCompletion.normalized_gap_sparse_completed_witness
 #print axioms SparseCompletion.interval_gap_sparse_completed_witness
 #print axioms SparseCompletion.normalized_interval_gap_sparse_completed_witness
+
+#print axioms SparseCompletion.rational_grid_size_bound
+#print axioms SparseCompletion.rational_grid_size_real_bound
+#print axioms SparseCompletion.rational_grid_node_real
+#print axioms SparseCompletion.rational_call_real
+#print axioms SparseCompletion.rational_envelope_real
+#print axioms SparseCompletion.rational_finite_grid_implication
+#print axioms SparseCompletion.rational_grid_size_positive
+#print axioms SparseCompletion.rational_grid_size_linear_bound
+#print axioms SparseCompletion.rational_grid_size_sqrt_bound
+#print axioms SparseCompletion.rational_gap_check_iff
+#print axioms SparseCompletion.rational_score_real
+#print axioms SparseCompletion.rational_anchor_response_real
+#print axioms SparseCompletion.rational_gap_completed_witness
+#print axioms SparseCompletion.rational_gap_normalized_full_game

@@ -281,6 +281,13 @@
         "SparseCompletion.prefix_exposing_identity",
         "SparseCompletion.prefix_quadratic_mix",
         "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.rational_anchor_response_real",
+        "SparseCompletion.rational_call_real",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_check_iff",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
+        "SparseCompletion.rational_score_real",
         "SparseCompletion.relabel_mass",
         "SparseCompletion.relabel_response",
         "SparseCompletion.relabel_support_card",
@@ -613,6 +620,13 @@
         "SparseCompletion.prefix_exposing_identity",
         "SparseCompletion.prefix_quadratic_mix",
         "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.rational_anchor_response_real",
+        "SparseCompletion.rational_call_real",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_check_iff",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
+        "SparseCompletion.rational_score_real",
         "SparseCompletion.relabel_mass",
         "SparseCompletion.relabel_response",
         "SparseCompletion.relabel_support_card",
@@ -929,6 +943,13 @@
         "SparseCompletion.prefix_exposing_identity",
         "SparseCompletion.prefix_quadratic_mix",
         "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.rational_anchor_response_real",
+        "SparseCompletion.rational_call_real",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_check_iff",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
+        "SparseCompletion.rational_score_real",
         "SparseCompletion.relabel_mass",
         "SparseCompletion.relabel_response",
         "SparseCompletion.relabel_support_card",
@@ -1101,6 +1122,9 @@
         "SparseCompletion.optimistic_value_ordered_interval_stability",
         "SparseCompletion.optimistic_value_projection_bound",
         "SparseCompletion.perspective_cuts_iff_candidate_thresholds",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.sparse_cut_witness",
         "SparseCompletion.sparse_cut_witness_extra_moments",
@@ -1178,6 +1202,15 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_check_iff",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
+        "SparseCompletion.rational_grid_size_bound",
+        "SparseCompletion.rational_grid_size_linear_bound",
+        "SparseCompletion.rational_grid_size_positive",
+        "SparseCompletion.rational_grid_size_real_bound",
+        "SparseCompletion.rational_grid_size_sqrt_bound",
         "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
         "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
         "SparseCompletion.uniform_binned_upper",
@@ -1185,11 +1218,21 @@
         "SparseCompletion.unit_mass_grid_bound"
       ],
       "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
-      "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
+      "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a. For the computable rational grid only, the actual Rat FloorRing uses ofFloor(Rat.floor), integer ceil=-Rat.floor(-q), and Nat truncation. It does not use the noncomputable Real floor choice.",
       "definition_excerpt": "Nat.ceil",
       "bridge_kind": "literal-unfolding",
       "bridge_excerpts": [
-        "Nat.ceil"
+        "Nat.ceil",
+        "Rat FloorRing actual selected instance",
+        "FloorSemiring-rational-grid",
+        "Nat.ceil selector",
+        "FloorRing class",
+        "FloorRing.ofFloor",
+        "FloorRing.toFloorSemiring",
+        "Nat.le_ceil",
+        "Nat.lt_succ_sqrt' and related contracts",
+        "Nat.ceil_lt_add_one",
+        "Nat.lt_succ_sqrt' and related contracts-size-bounds"
       ],
       "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
     },
@@ -1265,6 +1308,15 @@
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
         "SparseCompletion.optimistic_allocation_grid_bounds",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_check_iff",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
+        "SparseCompletion.rational_grid_size_bound",
+        "SparseCompletion.rational_grid_size_linear_bound",
+        "SparseCompletion.rational_grid_size_positive",
+        "SparseCompletion.rational_grid_size_real_bound",
+        "SparseCompletion.rational_grid_size_sqrt_bound",
         "SparseCompletion.removed_anchor_mass_bounds",
         "SparseCompletion.rounded_allocation_finite_grid",
         "SparseCompletion.rounded_anchor_bounds",
@@ -1276,11 +1328,21 @@
         "SparseCompletion.unit_mass_grid_bound"
       ],
       "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
-      "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
+      "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d. For the computable rational grid only, the actual Rat FloorRing uses ofFloor(Rat.floor), integer ceil=-Rat.floor(-q), and Nat truncation. It does not use the noncomputable Real floor choice.",
       "definition_excerpt": "FloorSemiring",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
-        "FloorSemiring"
+        "FloorSemiring",
+        "Rat FloorRing actual selected instance",
+        "FloorSemiring-rational-grid",
+        "Nat.ceil selector",
+        "FloorRing class",
+        "FloorRing.ofFloor",
+        "FloorRing.toFloorSemiring",
+        "Nat.le_ceil",
+        "Nat.lt_succ_sqrt' and related contracts",
+        "Nat.ceil_lt_add_one",
+        "Nat.lt_succ_sqrt' and related contracts-size-bounds"
       ],
       "proof_status": "Default build includes independent Challenge and Solution bridge modules; exact-source external receipts determine compilation. Internal review owns semantic fidelity."
     },
@@ -1348,6 +1410,7 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.rational_grid_size_sqrt_bound",
         "SparseCompletion.residual_rate_from_inverse_square",
         "SparseCompletion.uncertainty_rate_comparison",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
@@ -1440,6 +1503,7 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.rational_grid_size_sqrt_bound",
         "SparseCompletion.residual_rate_from_inverse_square",
         "SparseCompletion.uncertainty_rate_comparison",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
@@ -1532,6 +1596,7 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.rational_grid_size_sqrt_bound",
         "SparseCompletion.residual_rate_from_inverse_square",
         "SparseCompletion.uncertainty_rate_comparison",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
@@ -1625,6 +1690,8 @@
         "SparseCompletion.normalized_weak_cover_witness",
         "SparseCompletion.perspective_cut_system_convex",
         "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.residual_linear_repertoire_convex",
         "SparseCompletion.sparse_cut_witness",
@@ -1702,6 +1769,8 @@
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
         "SparseCompletion.prefix_system_convex",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.sparse_cut_witness",
         "SparseCompletion.sparse_cut_witness_extra_moments",
@@ -2208,6 +2277,8 @@
         "SparseCompletion.optimistic_support_value_stability",
         "SparseCompletion.partition_game_witness",
         "SparseCompletion.positive_target_full_support",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.relabel_support_card",
         "SparseCompletion.removed_anchor_mass_bounds",
         "SparseCompletion.repertoire_interval_completion_iff",
@@ -2492,6 +2563,8 @@
         "SparseCompletion.optimistic_value_le_witness",
         "SparseCompletion.optimistic_value_ordered_interval_stability",
         "SparseCompletion.optimistic_value_projection_bound",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.support_restricted_compact",
         "SparseCompletion.variable_core_interval_completion_iff",
@@ -2580,6 +2653,8 @@
         "SparseCompletion.optimistic_value_le_witness",
         "SparseCompletion.optimistic_value_ordered_interval_stability",
         "SparseCompletion.optimistic_value_projection_bound",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.support_budget_closed",
         "SparseCompletion.support_restricted_compact",
@@ -2670,6 +2745,8 @@
         "SparseCompletion.optimistic_value_le_witness",
         "SparseCompletion.optimistic_value_ordered_interval_stability",
         "SparseCompletion.optimistic_value_projection_bound",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.variable_core_interval_completion_iff",
         "SparseCompletion.weighted_completion_iff",
@@ -2738,6 +2815,8 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.sparse_cut_witness_extra_moments",
         "SparseCompletion.variable_core_interval_completion_iff",
@@ -2804,6 +2883,8 @@
         "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
         "SparseCompletion.normalized_weak_cover_maximum",
         "SparseCompletion.normalized_weak_cover_witness",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.variable_core_interval_completion_iff",
         "SparseCompletion.weighted_completion_iff",
@@ -2890,6 +2971,8 @@
         "SparseCompletion.optimistic_value_le_witness",
         "SparseCompletion.optimistic_value_ordered_interval_stability",
         "SparseCompletion.optimistic_value_projection_bound",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
         "SparseCompletion.repertoire_interval_completion_iff",
         "SparseCompletion.sparse_cut_witness_extra_moments",
         "SparseCompletion.variable_core_interval_completion_iff",
@@ -3803,7 +3886,17 @@
         "SparseCompletion.RationalCertificate.realB_stored",
         "SparseCompletion.RationalCertificate.realQ_off",
         "SparseCompletion.RationalCertificate.rows_iff",
-        "SparseCompletion.RationalCertificate.support_card_le"
+        "SparseCompletion.RationalCertificate.support_card_le",
+        "SparseCompletion.rational_anchor_response_real",
+        "SparseCompletion.rational_call_real",
+        "SparseCompletion.rational_envelope_real",
+        "SparseCompletion.rational_finite_grid_implication",
+        "SparseCompletion.rational_gap_completed_witness",
+        "SparseCompletion.rational_gap_normalized_full_game",
+        "SparseCompletion.rational_grid_node_real",
+        "SparseCompletion.rational_grid_size_real_bound",
+        "SparseCompletion.rational_grid_size_sqrt_bound",
+        "SparseCompletion.rational_score_real"
       ],
       "meaning": "Default rational-to-division-ring recipe is the integer numerator divided by its nonzero natural denominator.",
       "dependency_expansion": "Batteries RatCast supplies the selected map/coercions. Real overrides the default recipe with its Cauchy-real injection. The numerator/denominator formula, injectivity, order reflection and arithmetic preservation are proved contracts, not definitional equality of the Real constructor. Compiler Rat data, reduced arithmetic and lawful decidability are retained separately; finite support uses its actual attach enumeration.",
@@ -4064,6 +4157,38 @@
           "text": "\n-- see Note [lower instance priority]\ninstance (priority := 100) FloorRing.toFloorSemiring : FloorSemiring \u03b1 where\n  floor a := \u230aa\u230b.toNat\n  ceil a := \u2308a\u2309.toNat\n  floor_of_neg {_} ha := Int.toNat_of_nonpos (Int.floor_lt.mpr (ha.trans_eq Int.cast_zero.symm)).le\n  gc_floor {a n} ha := by rw [Int.le_toNat (Int.floor_nonneg.2 ha), Int.le_floor, Int.cast_natCast]\n  gc_ceil a n := by rw [Int.toNat_le, Int.ceil_le, Int.cast_natCast]\n\ntheorem Int.floor_toNat (a : \u03b1) : \u230aa\u230b.toNat = \u230aa\u230b\u208a :=\n  rfl\n",
           "sha256": "5ced852873d055097073a2c07f7a162dea477e6b60d433a4ac660f69d068a5c0",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L341-L351"
+        },
+        {
+          "name": "FloorSemiring-rational-grid",
+          "first_line": 56,
+          "last_line": 71,
+          "text": "\n/-- A `FloorSemiring` is an ordered semiring over `\u03b1` with a function\n`floor : \u03b1 \u2192 \u2115` satisfying `\u2200 (n : \u2115) (x : \u03b1), n \u2264 \u230ax\u230b \u2194 (n : \u03b1) \u2264 x)`.\nNote that many lemmas require a `LinearOrder`. Please see the above `TODO`. -/\nclass FloorSemiring (\u03b1) [Semiring \u03b1] [PartialOrder \u03b1] where\n  /-- `FloorSemiring.floor a` computes the greatest natural `n` such that `(n : \u03b1) \u2264 a`. -/\n  floor : \u03b1 \u2192 \u2115\n  /-- `FloorSemiring.ceil a` computes the least natural `n` such that `a \u2264 (n : \u03b1)`. -/\n  ceil : \u03b1 \u2192 \u2115\n  /-- `FloorSemiring.floor` of a negative element is zero. -/\n  floor_of_neg {a : \u03b1} (ha : a < 0) : floor a = 0\n  /-- A natural number `n` is smaller than `FloorSemiring.floor a` iff its coercion to `\u03b1` is\n  smaller than `a`. -/\n  gc_floor {a : \u03b1} {n : \u2115} (ha : 0 \u2264 a) : n \u2264 floor a \u2194 (n : \u03b1) \u2264 a\n  /-- `FloorSemiring.ceil` is the lower adjoint of the coercion `\u2191 : \u2115 \u2192 \u03b1`. -/\n  gc_ceil : GaloisConnection ceil (\u2191)\n",
+          "sha256": "dfba87457e6dbb995be1a8f3636ce73c953678b47810fda85feb7f03ee11e218",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L56-L71"
+        },
+        {
+          "name": "Nat.ceil selector",
+          "first_line": 120,
+          "last_line": 122,
+          "text": "/-- `\u2308a\u2309\u208a` is the least natural `n` such that `a \u2264 n` -/\ndef ceil : \u03b1 \u2192 \u2115 :=\n  FloorSemiring.ceil\n",
+          "sha256": "4cd52aacc3214c6d11175a1aa30a52d59c7f644443637f07ec0db5661c165dc0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L120-L122"
+        },
+        {
+          "name": "FloorRing class",
+          "first_line": 171,
+          "last_line": 180,
+          "text": "-/\nclass FloorRing (\u03b1) [Ring \u03b1] [LinearOrder \u03b1] where\n  /-- `FloorRing.floor a` computes the greatest integer `z` such that `(z : \u03b1) \u2264 a`. -/\n  floor : \u03b1 \u2192 \u2124\n  /-- `FloorRing.ceil a` computes the least integer `z` such that `a \u2264 (z : \u03b1)`. -/\n  ceil : \u03b1 \u2192 \u2124\n  /-- `FloorRing.ceil` is the upper adjoint of the coercion `\u2191 : \u2124 \u2192 \u03b1`. -/\n  gc_coe_floor : GaloisConnection (\u2191) floor\n  /-- `FloorRing.ceil` is the lower adjoint of the coercion `\u2191 : \u2124 \u2192 \u03b1`. -/\n  gc_ceil_coe : GaloisConnection ceil (\u2191)\n",
+          "sha256": "039819c1b58e0968f88100379c00e5c1b0ab4452a30fffc562e33b1259aaceb0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L171-L180"
+        },
+        {
+          "name": "FloorRing.ofFloor",
+          "first_line": 190,
+          "last_line": 198,
+          "text": "/-- A `FloorRing` constructor from the `floor` function alone. -/\n@[instance_reducible]\ndef FloorRing.ofFloor (\u03b1) [Ring \u03b1] [LinearOrder \u03b1] [IsOrderedRing \u03b1] (floor : \u03b1 \u2192 \u2124)\n    (gc_coe_floor : GaloisConnection (\u2191) floor) : FloorRing \u03b1 :=\n  { floor\n    ceil := fun a => -floor (-a)\n    gc_coe_floor\n    gc_ceil_coe := fun a z => by rw [neg_le, \u2190 gc_coe_floor, Int.cast_neg, neg_le_neg_iff] }\n\n",
+          "sha256": "2ecb5b68743bda49e83af80c78f789fc70cb50f4b9152ab2e4cf7ca828034569",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L190-L198"
         }
       ]
     },
@@ -5956,6 +6081,22 @@
           "text": "\ntheorem floor_of_nonpos (ha : a \u2264 0) : \u230aa\u230b\u208a = 0 :=\n  ha.lt_or_eq.elim FloorSemiring.floor_of_neg <| by\n    rintro rfl\n    exact floor_zero\n\n@[gcongr]\ntheorem floor_mono : Monotone (floor : R \u2192 \u2115) := fun a b h => by\n  obtain ha | ha := le_total a 0\n  \u00b7 rw [floor_of_nonpos ha]\n    exact Nat.zero_le _\n  \u00b7 exact le_floor ((floor_le ha).trans h)\n\n@[bound] lemma floor_le_floor (hab : a \u2264 b) : \u230aa\u230b\u208a \u2264 \u230ab\u230b\u208a := floor_mono hab\n",
           "sha256": "84fbc5b3f1ea6e94a97d24c9766d383393e115006a61f1afc18a0215f092c894",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L82-L95"
+        },
+        {
+          "name": "Nat.le_ceil",
+          "first_line": 177,
+          "last_line": 179,
+          "text": "@[bound]\ntheorem le_ceil (a : R) : a \u2264 \u2308a\u2309\u208a :=\n  ceil_le.1 le_rfl\n",
+          "sha256": "a584964ae3ecd602ae26f7a739af084b7c3261308bce03e268ac01475ad96b16",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L177-L179"
+        },
+        {
+          "name": "Nat.ceil_lt_add_one",
+          "first_line": 357,
+          "last_line": 358,
+          "text": "theorem ceil_lt_add_one (ha : 0 \u2264 a) : (\u2308a\u2309\u208a : R) < a + 1 :=\n  lt_ceil.1 <| (Nat.lt_succ_self _).trans_le (ceil_add_one ha).ge\n",
+          "sha256": "8da43481de7f0b8171c48c4736dbd3b43fb6ab68634fc21fa95502a28b408c72",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L357-L358"
         }
       ]
     },
@@ -6072,18 +6213,62 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Archimedean/Defs.lean#L73-L77"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Data/Rat/Floor.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Floor.lean",
+      "sha256": "e7ab2c6f3ed60c163295da29afc133d82041a8f1a7d50ecf65eda2a61a3617ac",
+      "git_blob_sha1": "613f5decc4b6b5dcf3388b4fc73d2f72ac691a2e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Kappelmann\n-/",
+      "excerpts": [
+        {
+          "name": "Rat FloorRing actual selected instance",
+          "first_line": 33,
+          "last_line": 50,
+          "text": "namespace Rat\n\nvariable {\u03b1 : Type*} [Field \u03b1] [LinearOrder \u03b1] [IsStrictOrderedRing \u03b1] [FloorRing \u03b1]\nvariable {R : Type*} [Ring R] [LinearOrder R] [IsStrictOrderedRing R] [FloorRing R]\n\ninstance : FloorRing \u211a :=\n  (FloorRing.ofFloor \u211a Rat.floor) fun _ _ => Rat.le_floor_iff.symm\n\n/--\nThis variant of `floor_def` uses the `Int.floor` (for any `FloorRing`) rather than `Rat.floor`.\n-/\nprotected theorem floor_def' {q : \u211a} : \u230aq\u230b = q.num / q.den := Rat.floor_def q\n\n/--\nThis variant of `ceil_def` uses the `Int.ceil` (for any `FloorRing`) rather than `Rat.ceil`.\n-/\nprotected theorem ceil_def' (q : \u211a) : \u2308q\u2309 = -(-q.num / \u2191q.den) := by\n  change -\u230a-q\u230b = _\n",
+          "sha256": "72ed70364d11013e2d8bf4e70aac4652a92b44598f50de51f23abd6841288722",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Floor.lean#L33-L50"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Nat/Sqrt.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean",
+      "sha256": "3ba3c0be75f7d9c912f8f74e24710d1ce771e692b79dd4cbb0dd6bf638ae1414",
+      "git_blob_sha1": "6e0e55b225761cc0112e2b1c8d1d394ef867bfec",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Floris van Doorn, Leonardo de Moura, Jeremy Avigad, Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "name": "Nat.lt_succ_sqrt' and related contracts",
+          "first_line": 29,
+          "last_line": 42,
+          "text": "\nlemma sqrt_le' (n : \u2115) : sqrt n ^ 2 \u2264 n := by simpa [Nat.pow_two] using sqrt_le n\n\nlemma lt_succ_sqrt' (n : \u2115) : n < succ (sqrt n) ^ 2 := by simpa [Nat.pow_two] using lt_succ_sqrt n\n\nlemma sqrt_le_add (n : \u2115) : n \u2264 sqrt n * sqrt n + sqrt n + sqrt n := by\n  rw [\u2190 succ_mul]; exact le_of_lt_succ (lt_succ_sqrt n)\n\nlemma le_sqrt : m \u2264 sqrt n \u2194 m * m \u2264 n :=\n  \u27e8fun h \u21a6 le_trans (mul_self_le_mul_self h) (sqrt_le n),\n    fun h \u21a6 le_of_lt_succ <| Nat.mul_self_lt_mul_self_iff.1 <| lt_of_le_of_lt h (lt_succ_sqrt n)\u27e9\n\nlemma le_sqrt' : m \u2264 sqrt n \u2194 m ^ 2 \u2264 n := by simpa only [Nat.pow_two] using le_sqrt\n\n",
+          "sha256": "35620e735d5f4f02cca42cc95347b4d5cfbee9acc133e844401a3493df7d2848",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean#L29-L42"
+        },
+        {
+          "name": "Nat.lt_succ_sqrt' and related contracts-size-bounds",
+          "first_line": 29,
+          "last_line": 47,
+          "text": "\nlemma sqrt_le' (n : \u2115) : sqrt n ^ 2 \u2264 n := by simpa [Nat.pow_two] using sqrt_le n\n\nlemma lt_succ_sqrt' (n : \u2115) : n < succ (sqrt n) ^ 2 := by simpa [Nat.pow_two] using lt_succ_sqrt n\n\nlemma sqrt_le_add (n : \u2115) : n \u2264 sqrt n * sqrt n + sqrt n + sqrt n := by\n  rw [\u2190 succ_mul]; exact le_of_lt_succ (lt_succ_sqrt n)\n\nlemma le_sqrt : m \u2264 sqrt n \u2194 m * m \u2264 n :=\n  \u27e8fun h \u21a6 le_trans (mul_self_le_mul_self h) (sqrt_le n),\n    fun h \u21a6 le_of_lt_succ <| Nat.mul_self_lt_mul_self_iff.1 <| lt_of_le_of_lt h (lt_succ_sqrt n)\u27e9\n\nlemma le_sqrt' : m \u2264 sqrt n \u2194 m ^ 2 \u2264 n := by simpa only [Nat.pow_two] using le_sqrt\n\nlemma sqrt_lt : sqrt m < n \u2194 m < n * n := by simp only [\u2190 not_le, le_sqrt]\n\nlemma sqrt_lt' : sqrt m < n \u2194 m < n ^ 2 := by simp only [\u2190 not_le, le_sqrt']\n\nlemma sqrt_le_self (n : \u2115) : sqrt n \u2264 n := le_trans (le_mul_self _) (sqrt_le n)\n",
+          "sha256": "51860295d6425c28adf119bc81d8e87c21253612bf5371cefb1ad4f35952fdcb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean#L29-L47"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "8486e9f170be8fe91e102bc773fff8a956da91d9205a8dd56ac9f52f45c2cfba"
+      "sha256": "0aa5f1bd9252cebdb6bab345a911bf6f69ed12ef9eca5148fc437a2fefc1f224"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "f61852aed49d2c874f18ec6aaad6cc64e360e1354ad45feffef7027ca45bb128"
+      "sha256": "dfadfd94bf860b1909701e95f2f27d3b9b592cd58a588500543be52f58fa9fe0"
     }
   ],
   "generated_declarations": [
@@ -6378,6 +6563,22 @@
       "bridge": "rational_archimedean_contract",
       "used_by": [
         "SparseCompletion.RationalBisection.exists_finite_width"
+      ]
+    },
+    {
+      "name": "Nat.ceil_lt_add_one",
+      "excerpt": "Nat.ceil_lt_add_one",
+      "bridge": "rational_ceil_strict_bound",
+      "used_by": [
+        "SparseCompletion.rational_grid_size_sqrt_bound"
+      ]
+    },
+    {
+      "name": "Nat.sqrt_le_self",
+      "excerpt": "Nat.lt_succ_sqrt' and related contracts-size-bounds",
+      "bridge": "natural_sqrt_self_bound",
+      "used_by": [
+        "SparseCompletion.rational_grid_size_linear_bound"
       ]
     }
   ]

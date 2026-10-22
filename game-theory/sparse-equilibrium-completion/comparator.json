@@ -390,7 +390,21 @@
     "SparseCompletion.gap_sparse_completed_witness",
     "SparseCompletion.normalized_gap_sparse_completed_witness",
     "SparseCompletion.interval_gap_sparse_completed_witness",
-    "SparseCompletion.normalized_interval_gap_sparse_completed_witness"
+    "SparseCompletion.normalized_interval_gap_sparse_completed_witness",
+    "SparseCompletion.rational_grid_size_bound",
+    "SparseCompletion.rational_grid_size_real_bound",
+    "SparseCompletion.rational_grid_node_real",
+    "SparseCompletion.rational_call_real",
+    "SparseCompletion.rational_envelope_real",
+    "SparseCompletion.rational_finite_grid_implication",
+    "SparseCompletion.rational_grid_size_positive",
+    "SparseCompletion.rational_grid_size_linear_bound",
+    "SparseCompletion.rational_grid_size_sqrt_bound",
+    "SparseCompletion.rational_gap_check_iff",
+    "SparseCompletion.rational_score_real",
+    "SparseCompletion.rational_anchor_response_real",
+    "SparseCompletion.rational_gap_completed_witness",
+    "SparseCompletion.rational_gap_normalized_full_game"
   ],
   "definition_names": [],
   "permitted_axioms": [

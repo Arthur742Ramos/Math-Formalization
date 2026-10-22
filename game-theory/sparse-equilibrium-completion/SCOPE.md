@@ -69,3 +69,19 @@ existence without a second slack; no vertex-selection algorithm is inferred.
 General repertoire/floor constraints need not survive compression and are not
 claimed to do so. `interval_gap_epigraph_iff` packages all H call constraints in
 one actual finite auxiliary family, including H=0 and empty residual types.
+
+
+`RationalGrid` and `RationalGridSizeBounds` provide a genuine computable integer
+count H=Nat.sqrt(Nat.ceil(Mr/η))+1, admissibility Mr≤ηH², and
+H≤sqrt(Mr/η)+2 for M,r≥0,η>0. This is not literally the canonical count (r=0
+uses H=1). Exact rational nodes/calls/envelope cast to the real coefficients,
+and `rational_finite_grid_implication` proves interpolation on this explicit
+grid. `rational_gap_check_iff`, `rational_gap_completed_witness` and
+`rational_gap_normalized_full_game` validate a supplied rational q with actual
+finite decidability and reconstruct an actual existential real completed game
+at ρ+η. They retain all zero-mass row guards. Skew/bounded observations,
+nonnegative p and normalization are explicit premodel premises. These results
+supply rational coefficients and point-checking soundness; they do not decide
+∃q feasibility, return rational B, encode arbitrary repertoire constraints,
+prove bit bounds, or integrate sparse compression for this alternate H.
+The canonical-H real sparse-gap theorem above remains separate.

@@ -397,5 +397,23 @@ theorem monotone_rational_predicate_literal (P : ℚ → Prop) :
 
 theorem rational_archimedean_contract (x : ℚ) : ∃ n : ℕ, x < n := exists_nat_gt x
 
+
+theorem rational_natural_ceil_literal (q : ℚ) : Nat.ceil q=(-Rat.floor (-q)).toNat := rfl
+
+theorem rational_integer_floor_literal (q : ℚ) : Int.floor q=Rat.floor q := rfl
+
+theorem natural_sqrt_lower (n : ℕ) : Nat.sqrt n*Nat.sqrt n ≤ n := Nat.sqrt_le n
+
+theorem natural_sqrt_upper (n : ℕ) : n < (Nat.sqrt n+1)^2 := by
+  simpa only [Nat.succ_eq_add_one] using Nat.lt_succ_sqrt' n
+
+theorem rational_ceil_bound (q : ℚ) : q ≤ (Nat.ceil q : ℚ) := Nat.le_ceil q
+
+
+theorem rational_ceil_strict_bound (q : ℚ) (hq : 0 ≤ q) : (Nat.ceil q : ℚ) < q+1 :=
+  Nat.ceil_lt_add_one hq
+
+theorem natural_sqrt_self_bound (n : ℕ) : Nat.sqrt n ≤ n := Nat.sqrt_le_self n
+
 end SECDefinitions
 -- END material-imported-definition audit

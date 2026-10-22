@@ -5871,3 +5871,424 @@ Literal uses and stated proof-dependency expansions; finite-function cardinality
 **Nat.floor**: SparseCompletion.allocation_grid_card, SparseCompletion.allocation_grid_nonempty, SparseCompletion.allocation_grid_strategies_compact, SparseCompletion.allocation_rounding_distance, SparseCompletion.allocation_rounding_in_grid, SparseCompletion.allocation_rounding_mass, SparseCompletion.allocation_rounding_preserves_floors, SparseCompletion.allocation_rounding_value_bound, SparseCompletion.optimistic_allocation_grid_bounds, SparseCompletion.removed_anchor_mass_bounds, SparseCompletion.rounded_allocation_finite_grid, SparseCompletion.rounded_anchor_bounds, SparseCompletion.rounded_anchor_grid_index.
 
 **Monotone**: SparseCompletion.RationalBisection.excludes_below.
+
+
+## Computable rational grid and supplied-point checking
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Sqrt/Basic.lean
+
+Source SHA256 f57f88ba1daaa0db650ad5f2386681f17d2ee01bf33213581f2530946c829df6; Git blob e4048032b1086463ef16e44daee49df978ba5da3.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Sqrt/Basic.lean#L18-L36
+
+```lean
+/--
+Integer square root function. Implemented via Newton's method.
+-/
+@[expose]
+def sqrt (n : Nat) : Nat :=
+  if n ≤ 1 then n else
+  iter n (1 <<< ((n.log2 / 2) + 1))
+where
+  /-- Auxiliary for `sqrt`. If `guess` is greater than the integer square root of `n`,
+  returns the integer square root of `n`. -/
+  iter (n guess : Nat) : Nat :=
+    let next := (guess + n / guess) / 2
+    if _h : next < guess then
+      iter n next
+    else
+      guess
+  termination_by guess
+
+end Nat
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Sqrt/Lemmas.lean
+
+Source SHA256 e0527b1ac296129fc01678ef43aef51a170e31f728f1d5747cdb8092a3b6ecdb; Git blob 6e00a150b7f57fd2fd44aa28d648ab25c879be68.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Sqrt/Lemmas.lean#L97-L99
+
+```lean
+theorem sqrt_le (n : Nat) : sqrt n * sqrt n ≤ n := (sqrt_isSqrt n).left
+
+theorem lt_succ_sqrt (n : Nat) : n < succ (sqrt n) * succ (sqrt n) := (sqrt_isSqrt n).right
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean
+
+Source SHA256 30b77ea0918aa986f6617bef4ad99a8d79cd538a714c9f05134bcb6a5e490cc8; Git blob 9722e2373e6d49b7ec3e635a6125af895c9940b0.
+
+```lean
+/-
+Copyright (c) 2022 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L313-L318
+
+```lean
+/-- The floor of a rational number `a` is the largest integer less than or equal to `a`. -/
+protected def floor (a : Rat) : Int :=
+  if a.den = 1 then
+    a.num
+  else
+    a.num / a.den
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Basic.lean#L277-L282
+
+```lean
+/-- Negation of rational numbers. -/
+@[implicit_reducible]
+protected def neg (a : Rat) : Rat :=
+  { a with num := -a.num, reduced := by rw [Int.natAbs_neg]; exact a.reduced }
+
+instance : Neg Rat := ⟨Rat.neg⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Lemmas.lean
+
+Source SHA256 fb4134a5287f2ece513f686633599ecfcab42e78893fd32f3c9a721b1346b401; Git blob 200e880e1d859af402a800d560013dd45f30cb63.
+
+```lean
+/-
+Copyright (c) 2022 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Johannes Hölzl, Robin Arnez
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Rat/Lemmas.lean#L1170-L1176
+
+```lean
+theorem le_floor_iff {x : Int} {a : Rat} : x ≤ a.floor ↔ (x : Rat) ≤ a := by
+  constructor
+  · intro h
+    rw [← intCast_le_intCast] at h
+    exact Rat.le_trans h (floor_le a)
+  · intro h
+    simpa using floor_monotone h
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Floor.lean
+
+Source SHA256 e7ab2c6f3ed60c163295da29afc133d82041a8f1a7d50ecf65eda2a61a3617ac; Git blob 613f5decc4b6b5dcf3388b4fc73d2f72ac691a2e.
+
+```lean
+/-
+Copyright (c) 2019 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Rat/Floor.lean#L33-L50
+
+```lean
+namespace Rat
+
+variable {α : Type*} [Field α] [LinearOrder α] [IsStrictOrderedRing α] [FloorRing α]
+variable {R : Type*} [Ring R] [LinearOrder R] [IsStrictOrderedRing R] [FloorRing R]
+
+instance : FloorRing ℚ :=
+  (FloorRing.ofFloor ℚ Rat.floor) fun _ _ => Rat.le_floor_iff.symm
+
+/--
+This variant of `floor_def` uses the `Int.floor` (for any `FloorRing`) rather than `Rat.floor`.
+-/
+protected theorem floor_def' {q : ℚ} : ⌊q⌋ = q.num / q.den := Rat.floor_def q
+
+/--
+This variant of `ceil_def` uses the `Int.ceil` (for any `FloorRing`) rather than `Rat.ceil`.
+-/
+protected theorem ceil_def' (q : ℚ) : ⌈q⌉ = -(-q.num / ↑q.den) := by
+  change -⌊-q⌋ = _
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean
+
+Source SHA256 f6cc4cbab72e40e7afadb67d625a720359c26b32b9293a72255df2018a7876f7; Git blob e38bd9356445865e98d15633af5bef1161b4f7df.
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L56-L71
+
+```lean
+
+/-- A `FloorSemiring` is an ordered semiring over `α` with a function
+`floor : α → ℕ` satisfying `∀ (n : ℕ) (x : α), n ≤ ⌊x⌋ ↔ (n : α) ≤ x)`.
+Note that many lemmas require a `LinearOrder`. Please see the above `TODO`. -/
+class FloorSemiring (α) [Semiring α] [PartialOrder α] where
+  /-- `FloorSemiring.floor a` computes the greatest natural `n` such that `(n : α) ≤ a`. -/
+  floor : α → ℕ
+  /-- `FloorSemiring.ceil a` computes the least natural `n` such that `a ≤ (n : α)`. -/
+  ceil : α → ℕ
+  /-- `FloorSemiring.floor` of a negative element is zero. -/
+  floor_of_neg {a : α} (ha : a < 0) : floor a = 0
+  /-- A natural number `n` is smaller than `FloorSemiring.floor a` iff its coercion to `α` is
+  smaller than `a`. -/
+  gc_floor {a : α} {n : ℕ} (ha : 0 ≤ a) : n ≤ floor a ↔ (n : α) ≤ a
+  /-- `FloorSemiring.ceil` is the lower adjoint of the coercion `↑ : ℕ → α`. -/
+  gc_ceil : GaloisConnection ceil (↑)
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L120-L122
+
+```lean
+/-- `⌈a⌉₊` is the least natural `n` such that `a ≤ n` -/
+def ceil : α → ℕ :=
+  FloorSemiring.ceil
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L171-L180
+
+```lean
+-/
+class FloorRing (α) [Ring α] [LinearOrder α] where
+  /-- `FloorRing.floor a` computes the greatest integer `z` such that `(z : α) ≤ a`. -/
+  floor : α → ℤ
+  /-- `FloorRing.ceil a` computes the least integer `z` such that `a ≤ (z : α)`. -/
+  ceil : α → ℤ
+  /-- `FloorRing.ceil` is the upper adjoint of the coercion `↑ : ℤ → α`. -/
+  gc_coe_floor : GaloisConnection (↑) floor
+  /-- `FloorRing.ceil` is the lower adjoint of the coercion `↑ : ℤ → α`. -/
+  gc_ceil_coe : GaloisConnection ceil (↑)
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L190-L198
+
+```lean
+/-- A `FloorRing` constructor from the `floor` function alone. -/
+@[instance_reducible]
+def FloorRing.ofFloor (α) [Ring α] [LinearOrder α] [IsOrderedRing α] (floor : α → ℤ)
+    (gc_coe_floor : GaloisConnection (↑) floor) : FloorRing α :=
+  { floor
+    ceil := fun a => -floor (-a)
+    gc_coe_floor
+    gc_ceil_coe := fun a z => by rw [neg_le, ← gc_coe_floor, Int.cast_neg, neg_le_neg_iff] }
+
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L341-L351
+
+```lean
+
+-- see Note [lower instance priority]
+instance (priority := 100) FloorRing.toFloorSemiring : FloorSemiring α where
+  floor a := ⌊a⌋.toNat
+  ceil a := ⌈a⌉.toNat
+  floor_of_neg {_} ha := Int.toNat_of_nonpos (Int.floor_lt.mpr (ha.trans_eq Int.cast_zero.symm)).le
+  gc_floor {a n} ha := by rw [Int.le_toNat (Int.floor_nonneg.2 ha), Int.le_floor, Int.cast_natCast]
+  gc_ceil a n := by rw [Int.toNat_le, Int.ceil_le, Int.cast_natCast]
+
+theorem Int.floor_toNat (a : α) : ⌊a⌋.toNat = ⌊a⌋₊ :=
+  rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean
+
+Source SHA256 1b0e45f02a914287979a2f39feb3f5b4808bff05f49e5a998e718168c4e36efb; Git blob 871c8ed11d3cd4edd89b375ef073edbab566229a.
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L177-L179
+
+```lean
+@[bound]
+theorem le_ceil (a : R) : a ≤ ⌈a⌉₊ :=
+  ceil_le.1 le_rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean
+
+Source SHA256 3ba3c0be75f7d9c912f8f74e24710d1ce771e692b79dd4cbb0dd6bf638ae1414; Git blob 6e0e55b225761cc0112e2b1c8d1d394ef867bfec.
+
+```lean
+/-
+Copyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean#L29-L42
+
+```lean
+
+lemma sqrt_le' (n : ℕ) : sqrt n ^ 2 ≤ n := by simpa [Nat.pow_two] using sqrt_le n
+
+lemma lt_succ_sqrt' (n : ℕ) : n < succ (sqrt n) ^ 2 := by simpa [Nat.pow_two] using lt_succ_sqrt n
+
+lemma sqrt_le_add (n : ℕ) : n ≤ sqrt n * sqrt n + sqrt n + sqrt n := by
+  rw [← succ_mul]; exact le_of_lt_succ (lt_succ_sqrt n)
+
+lemma le_sqrt : m ≤ sqrt n ↔ m * m ≤ n :=
+  ⟨fun h ↦ le_trans (mul_self_le_mul_self h) (sqrt_le n),
+    fun h ↦ le_of_lt_succ <| Nat.mul_self_lt_mul_self_iff.1 <| lt_of_le_of_lt h (lt_succ_sqrt n)⟩
+
+lemma le_sqrt' : m ≤ sqrt n ↔ m ^ 2 ≤ n := by simpa only [Nat.pow_two] using le_sqrt
+
+
+```
+
+### Algorithm scope and literal routes
+
+Nat.sqrt is the actual computable natural integer floor-square-root implemented by decreasing Newton iteration, not Real.sqrt or a classical existence choice. Core contracts give sqrt(n)^2<=n<(sqrt(n)+1)^2.
+
+Nat.ceil on Rat selects FloorSemiring.ceil, through FloorRing.toFloorSemiring to Int.ceil(q).toNat. The actual Rat FloorRing is computably constructed by ofFloor using Rat.floor. ofFloor computes integer ceil as -Rat.floor(-q); it does not call the noncomputable Archimedean floorRing used for Real.
+
+The primitive Rat.ceil is extensionally related but is not the literal selected instance path here. The evidence follows the actual -floor(-q) route and Nat truncation.
+
+The chosen H=sqrt(ceil(Mr/eta))+1 is an admissible explicit integer grid. It is not asserted equal to canonical ceil(Real.sqrt(Mr/eta)); H=1 when r0 and parameters otherwise valid, and perfect-square ratios may have one additional node.
+
+Rational grid nodes, calls and envelope are finite exact rational operations. Their equalities to the existing Real definitions are proved cast-coherence contracts. Definitions remain total on invalid parameters; interpolation/soundness require explicit M>0,r>=0,eta>0.
+
+There is no runtime or bit-complexity theorem supplied by these contracts.
+
+The separate size-bound module additionally proves H≤sqrt(Mr/η)+2 for M,r≥0,η>0. It remains a mathematical count bound, not a bit-cost theorem. The point checker checks a supplied rational q; it does not decide existential feasibility or construct rational B. Completed B is an actual existential Real matrix.
+
+### Rational-grid affected declarations
+
+**Fintype**: SparseCompletion.rational_anchor_response_real, SparseCompletion.rational_call_real, SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_check_iff, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game, SparseCompletion.rational_score_real.
+
+**Finset**: SparseCompletion.rational_anchor_response_real, SparseCompletion.rational_call_real, SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_check_iff, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game, SparseCompletion.rational_score_real.
+
+**Finset.prod**: SparseCompletion.rational_anchor_response_real, SparseCompletion.rational_call_real, SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_check_iff, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game, SparseCompletion.rational_score_real.
+
+**Set.Icc**: SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**Nat.ceil**: SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_check_iff, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game, SparseCompletion.rational_grid_size_bound, SparseCompletion.rational_grid_size_linear_bound, SparseCompletion.rational_grid_size_positive, SparseCompletion.rational_grid_size_real_bound, SparseCompletion.rational_grid_size_sqrt_bound.
+
+**FloorSemiring**: SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_check_iff, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game, SparseCompletion.rational_grid_size_bound, SparseCompletion.rational_grid_size_linear_bound, SparseCompletion.rational_grid_size_positive, SparseCompletion.rational_grid_size_real_bound, SparseCompletion.rational_grid_size_sqrt_bound.
+
+**NNReal.sqrt**: SparseCompletion.rational_grid_size_sqrt_bound.
+
+**Real.sqrt**: SparseCompletion.rational_grid_size_sqrt_bound.
+
+**Real.toNNReal**: SparseCompletion.rational_grid_size_sqrt_bound.
+
+**Convex**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**StarConvex**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**Finset.card**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**IsCompact**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**IsClosed**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**Continuous**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**LinearMap**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**ContinuousLinearMap**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**Set.image**: SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game.
+
+**Rat.castRec**: SparseCompletion.rational_anchor_response_real, SparseCompletion.rational_call_real, SparseCompletion.rational_envelope_real, SparseCompletion.rational_finite_grid_implication, SparseCompletion.rational_gap_completed_witness, SparseCompletion.rational_gap_normalized_full_game, SparseCompletion.rational_grid_node_real, SparseCompletion.rational_grid_size_real_bound, SparseCompletion.rational_grid_size_sqrt_bound, SparseCompletion.rational_score_real.
+
+
+### Exact rational grid size proof contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean
+
+Source SHA256 1b0e45f02a914287979a2f39feb3f5b4808bff05f49e5a998e718168c4e36efb
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Semiring.lean#L357-L358
+
+```lean
+theorem ceil_lt_add_one (ha : 0 ≤ a) : (⌈a⌉₊ : R) < a + 1 :=
+  lt_ceil.1 <| (Nat.lt_succ_self _).trans_le (ceil_add_one ha).ge
+
+```
+
+
+### Exact rational grid size proof contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean
+
+Source SHA256 3ba3c0be75f7d9c912f8f74e24710d1ce771e692b79dd4cbb0dd6bf638ae1414
+
+```lean
+/-
+Copyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean#L29-L47
+
+```lean
+
+lemma sqrt_le' (n : ℕ) : sqrt n ^ 2 ≤ n := by simpa [Nat.pow_two] using sqrt_le n
+
+lemma lt_succ_sqrt' (n : ℕ) : n < succ (sqrt n) ^ 2 := by simpa [Nat.pow_two] using lt_succ_sqrt n
+
+lemma sqrt_le_add (n : ℕ) : n ≤ sqrt n * sqrt n + sqrt n + sqrt n := by
+  rw [← succ_mul]; exact le_of_lt_succ (lt_succ_sqrt n)
+
+lemma le_sqrt : m ≤ sqrt n ↔ m * m ≤ n :=
+  ⟨fun h ↦ le_trans (mul_self_le_mul_self h) (sqrt_le n),
+    fun h ↦ le_of_lt_succ <| Nat.mul_self_lt_mul_self_iff.1 <| lt_of_le_of_lt h (lt_succ_sqrt n)⟩
+
+lemma le_sqrt' : m ≤ sqrt n ↔ m ^ 2 ≤ n := by simpa only [Nat.pow_two] using le_sqrt
+
+lemma sqrt_lt : sqrt m < n ↔ m < n * n := by simp only [← not_le, le_sqrt]
+
+lemma sqrt_lt' : sqrt m < n ↔ m < n ^ 2 := by simp only [← not_le, le_sqrt']
+
+lemma sqrt_le_self (n : ℕ) : sqrt n ≤ n := le_trans (le_mul_self _) (sqrt_le n)
+
+```

@@ -1,7 +1,7 @@
 Historical scope statements in the checkpoint sections below describe that
 checkpoint's source at the time recorded. They do not describe the latest scope.
-The final “Joint geometry, stability, gap correctness and cloned-anchor follow-on”
-section and SCOPE.md describe the expanded development. Exact-source verification
+The joint/algorithm and rational-grid sections, together with SCOPE.md, describe
+the expanded development. Exact-source verification
 is recorded by an external immutable receipt naming the complete commit and tree.
 
 # Reproducible verification boundaries
@@ -273,3 +273,23 @@ and finite-support enumeration meanings, with Batteries RatCast authenticated
 separately at its own dependency pin. RatCast supplies a bare map; Real cast laws
 are proved contracts. Native verification remains separate from canonical Linux,
 registry rendering, editorial eligibility, human role confirmation and submission.
+
+
+## Computable rational grid and supplied-point follow-on
+
+The preceding joint/algorithm source was verified at
+`c21990c76e3b70395b56fa9f4d826c75b002509a`, with native receipt SHA256
+`27852b6b8acd67384aef9e2fa9c1ada466d30f4f31b92f9b97cb4eb127391c00`.
+All12 native gates passed there: 3316 build jobs,499 audited proofs,389 protected
+contracts, both kernel checks and altered-helper rejection. Independent source,
+static and receipt/bundle authentication reviews bind all119 source files.
+
+The rational-grid addition gives95 mathematics modules,513 source proof audits
+and403 protected contracts. Exact-source results for this expanded source belong
+to an external receipt identifying its complete frozen commit/tree; a predecessor
+receipt does not verify altered bytes. The genuine computable Rat ceil route and
+integer Nat.sqrt algorithm have separate pinned compiler/Mathlib evidence and
+literal bridges through both entrypoints. Two executable controls test acceptance
+of a valid zero-residual case and rejection of an offending zero-mass residual row.
+The grid and point checker are executable, but no existential LP feasibility
+solver, rational completed-matrix constructor or bit-cost theorem is asserted.

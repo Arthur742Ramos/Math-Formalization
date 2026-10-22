@@ -11,6 +11,8 @@ public import Mathlib.Algebra.Order.Chebyshev
 public import Mathlib.Data.Finset.Sort
 public import Mathlib.Logic.Equiv.Set
 public import Mathlib.Data.Fintype.EquivFin
+public import Mathlib.Data.Rat.Floor
+public import Mathlib.Data.Nat.Sqrt
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -10500,4 +10502,260 @@ theorem normalized_interval_gap_sparse_completed_witness {ι : Type*} [Fintype �
   exact ⟨q',B',hD,hn,hm,hs,hc,ht,hmo,ha,hB,hb,hrows⟩
 
 end
+end SparseCompletion
+
+/- Fixed source body: RationalGrid.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalGridSize (M r η : ℚ) : ℕ := Nat.sqrt (Nat.ceil (M*r/η))+1
+
+def rationalGridNode (M r η : ℚ) (l : ℕ) : ℚ :=
+  min ((2 : ℕ)*η*(l : ℚ)^2) ((2 : ℕ)*M*r)
+
+
+theorem rational_grid_size_bound (M r η : ℚ) (hη : 0 < η) :
+    M*r ≤ η*(rationalGridSize M r η : ℚ)^2 := by
+  have h1 := Nat.le_ceil (M*r/η)
+  have h2 : (Nat.ceil (M*r/η) : ℚ) < (rationalGridSize M r η : ℚ)^2 := by
+    unfold rationalGridSize
+    exact_mod_cast Nat.lt_succ_sqrt' (Nat.ceil (M*r/η))
+  have hh := (div_lt_iff₀ hη).mp (lt_of_le_of_lt h1 h2)
+  nlinarith
+
+theorem rational_grid_size_real_bound (M r η : ℚ) (hη : 0 < η) :
+    (M : ℝ)*(r : ℝ) ≤ (η : ℝ)*(rationalGridSize M r η : ℝ)^2 := by
+  exact_mod_cast rational_grid_size_bound M r η hη
+
+theorem rational_grid_node_real (M r η : ℚ) (l : ℕ) :
+    (rationalGridNode M r η l : ℝ)=gridNode (M : ℝ) (r : ℝ) (η : ℝ) l := by
+  unfold rationalGridNode gridNode
+  push_cast
+  rfl
+
+def rationalCall {ι : Type*} [Fintype ι] (q v : ι → ℚ) (z : ℚ) : ℚ :=
+  ∑ i, q i*max (v i-z) 0
+
+def rationalEnvelope (M r z : ℚ) : ℚ := (M*r-z)^2/((4 : ℕ)*M)
+
+theorem rational_call_real {ι : Type*} [Fintype ι] (q v : ι → ℚ) (z : ℚ) :
+    (rationalCall q v z : ℝ)=call (fun i => (q i : ℝ)) (fun i => (v i : ℝ)) (z : ℝ) := by
+  unfold rationalCall call
+  push_cast
+  rfl
+
+theorem rational_envelope_real (M r z : ℚ) :
+    (rationalEnvelope M r z : ℝ)=envelope (M : ℝ) (r : ℝ) (z : ℝ) := by
+  unfold rationalEnvelope envelope
+  push_cast
+  rfl
+
+
+theorem rational_finite_grid_implication {ι : Type*} [Fintype ι]
+    (q v : ι → ℚ) (M r η : ℚ) (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hq : ∀ i, 0 ≤ q i) (hcap : ∀ i, q i ≠ 0 → v i ≤ M*r)
+    (hgrid : ∀ l : ℕ, 1 ≤ l → l ≤ rationalGridSize M r η →
+      rationalCall q v (M*r-rationalGridNode M r η l) ≤
+        rationalEnvelope M r (M*r-rationalGridNode M r η l)) :
+    ∀ z ∈ Set.Icc (-(M : ℝ)*(r : ℝ)) ((M : ℝ)*(r : ℝ)),
+      call (fun i => (q i : ℝ)) (fun i => (v i : ℝ)-(η : ℝ)) z ≤
+        envelope (M : ℝ) (r : ℝ) z := by
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) ≤ (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  apply finite_grid_implication (fun i => (q i : ℝ)) (fun i => (v i : ℝ))
+    (M : ℝ) (r : ℝ) (η : ℝ) (rationalGridSize M r η) hMR hrR hηR
+    (rational_grid_size_real_bound M r η hη)
+    (fun i => by exact_mod_cast hq i)
+  · intro i hi
+    have hqi : q i ≠ 0 := by intro h; simp only [h,Rat.cast_zero] at hi; exact hi rfl
+    exact_mod_cast hcap i hqi
+  · intro l hl hL
+    have hh : (rationalCall q v (M*r-rationalGridNode M r η l) : ℝ) ≤
+        (rationalEnvelope M r (M*r-rationalGridNode M r η l) : ℝ) := by
+      exact_mod_cast hgrid l hl hL
+    simpa only [rational_call_real,rational_envelope_real,Rat.cast_sub,Rat.cast_mul,
+      rational_grid_node_real] using hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalGridSizeBounds.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_grid_size_positive (M r η : ℚ) : 0 < rationalGridSize M r η := by
+  unfold rationalGridSize
+  omega
+
+theorem rational_grid_size_linear_bound (M r η : ℚ) :
+    rationalGridSize M r η ≤ Nat.ceil (M*r/η)+1 :=
+  Nat.add_le_add_right (Nat.sqrt_le_self _) 1
+
+theorem rational_grid_size_sqrt_bound (M r η : ℚ)
+    (hM : 0 ≤ M) (hr : 0 ≤ r) (hη : 0 < η) :
+    (rationalGridSize M r η : ℝ) ≤
+      Real.sqrt ((M : ℝ)*(r : ℝ)/(η : ℝ))+(2 : ℕ) := by
+  let a := M*r/η
+  have ha : 0 ≤ a := div_nonneg (mul_nonneg hM hr) (le_of_lt hη)
+  have haR : (0 : ℝ) ≤ (a : ℝ) := by exact_mod_cast ha
+  have hceil : (Nat.ceil a : ℝ) < (a : ℝ)+1 := by exact_mod_cast Nat.ceil_lt_add_one ha
+  have hs : (Nat.sqrt (Nat.ceil a) : ℝ)^2 ≤ (Nat.ceil a : ℝ) := by
+    exact_mod_cast Nat.sqrt_le' (Nat.ceil a)
+  have hroot := Real.sq_sqrt haR
+  have hroot0 := Real.sqrt_nonneg (a : ℝ)
+  have hn : (0 : ℝ) ≤ (Nat.sqrt (Nat.ceil a) : ℝ) := Nat.cast_nonneg _
+  have hh : (Nat.sqrt (Nat.ceil a) : ℝ) ≤ Real.sqrt (a : ℝ)+1 := by nlinarith
+  have he : (a : ℝ)=(M : ℝ)*(r : ℝ)/(η : ℝ) := by dsimp only [a]; push_cast; rfl
+  unfold rationalGridSize
+  change ((Nat.sqrt (Nat.ceil a)+1 : ℕ) : ℝ) ≤ _
+  rw [Nat.cast_add,Nat.cast_one,←he]
+  norm_num only [Nat.cast_ofNat]
+  linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalGap.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalScore {α ι : Type*} [Fintype α] (D : ι → α → ℚ) (p : α → ℚ) (i : ι) : ℚ :=
+  ∑ h, D i h*p h
+
+def rationalAnchorResponse {α ι : Type*} [Fintype α] [Fintype ι]
+    (K : α → α → ℚ) (D : ι → α → ℚ) (p : α → ℚ) (q : ι → ℚ) (h : α) : ℚ :=
+  (∑ a, K h a*p a)-∑ i, D i h*q i
+
+def RationalGapConditions {k m : ℕ} (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i, rationalScore D p i ≤ ρ+M*r) ∧
+  (∀ h, rationalAnchorResponse K D p q h ≤ ρ) ∧
+  ∀ l : Fin (rationalGridSize M r η),
+    rationalCall q (fun i => rationalScore D p i-ρ) (M*r-rationalGridNode M r η (l.val+1)) ≤
+      rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))
+
+instance rationalGapConditionsDecidable {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) :
+    Decidable (RationalGapConditions K D p q M r ρ η) := by
+  unfold RationalGapConditions
+  infer_instance
+
+def checkRationalGap {k m : ℕ} (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) : Bool :=
+  decide (RationalGapConditions K D p q M r ρ η)
+
+theorem rational_gap_check_iff {k m : ℕ} (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) :
+    checkRationalGap K D p q M r ρ η=true ↔ RationalGapConditions K D p q M r ρ η := by
+  simp only [checkRationalGap,decide_eq_true_eq]
+
+theorem rational_score_real {α ι : Type*} [Fintype α] (D : ι → α → ℚ) (p : α → ℚ) (i : ι) :
+    (rationalScore D p i : ℝ)=score (fun i h => (D i h : ℝ)) (fun h => (p h : ℝ)) i := by
+  unfold rationalScore score
+  push_cast
+  rfl
+
+theorem rational_anchor_response_real {α ι : Type*} [Fintype α] [Fintype ι]
+    (K : α → α → ℚ) (D : ι → α → ℚ) (p : α → ℚ) (q : ι → ℚ) (h : α) :
+    (rationalAnchorResponse K D p q h : ℝ)=
+      anchorResponse (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ))
+        (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) h := by
+  unfold rationalAnchorResponse anchorResponse
+  push_cast
+  rfl
+
+
+theorem rational_gap_completed_witness {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hcheck : checkRationalGap K D p q M r ρ η=true) :
+    ∃ B : Fin m → Fin m → ℝ, IsSkew B ∧
+      (∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B)
+        (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  have h := (rational_gap_check_iff K D p q M r ρ η).mp hcheck
+  have hr : 0 ≤ r := by rw [←h.2.1]; exact Finset.sum_nonneg fun i _ => h.1 i
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hqr : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := fun i => by exact_mod_cast h.1 i
+  have hm : (∑ i, (q i : ℝ))=(r : ℝ) := by exact_mod_cast h.2.1
+  have hg : ∀ i, score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i ≤
+      (ρ : ℝ)+(M : ℝ)*(r : ℝ) := by
+    intro i
+    have hh : (rationalScore D p i : ℝ) ≤ ((ρ+M*r : ℚ) : ℝ) := by exact_mod_cast h.2.2.1 i
+    simpa only [rational_score_real,Rat.cast_add,Rat.cast_mul] using hh
+  have hc := rational_finite_grid_implication q (fun i => rationalScore D p i-ρ) M r η hM hr hη h.1
+    (fun i _ => by linarith [h.2.2.1 i]) (by
+      intro l hl hL
+      let u : Fin (rationalGridSize M r η) := ⟨l-1,by omega⟩
+      have he : u.val+1=l := by dsimp only [u]; omega
+      simpa only [he] using h.2.2.2.2 u)
+  have hcuts := call_bound_implies_cuts (fun i => (q i : ℝ))
+    (fun i => ((rationalScore D p i-ρ : ℚ) : ℝ)-(η : ℝ)) (M : ℝ) (r : ℝ) hMR hqr hm hc
+  have he : (fun i => ((rationalScore D p i-ρ : ℚ) : ℝ)-(η : ℝ))=
+      (fun i => score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-((ρ : ℝ)+(η : ℝ))) := by
+    funext i
+    rw [Rat.cast_sub,rational_score_real]
+    ring
+  rw [he] at hcuts
+  obtain ⟨B,hB,hb,hrows⟩ := (weighted_completion_iff (fun i => (q i : ℝ))
+    (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))) (M : ℝ) (r : ℝ)
+    ((ρ : ℝ)+(η : ℝ)) (le_of_lt hMR) hqr hm).mpr
+      ⟨fun i => by
+        have hh : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+        linarith [hg i],hcuts⟩
+  refine ⟨B,hB,hb,?_⟩
+  apply (block_response_bounds_iff _ _ B _ _ _).mpr
+  refine ⟨?_,hrows⟩
+  intro a
+  have hh : (rationalAnchorResponse K D p q a : ℝ) ≤ (ρ : ℝ) := by exact_mod_cast h.2.2.2.1 a
+  rw [rational_anchor_response_real] at hh
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  linarith
+
+
+theorem rational_gap_normalized_full_game {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hp : ∀ a, 0 ≤ p a) (hnorm : (∑ a, p a)+r=1)
+    (hK : ∀ a b, K a b= -K b a)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hcheck : checkRationalGap K D p q M r ρ η=true) :
+    ∃ B : Fin m → Fin m → ℝ,
+      (∀ a, 0 ≤ blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+      IsSkew (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B a b ∧
+        blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun h a => (K h a : ℝ)) (fun i h => (D i h : ℝ)) B)
+        (blockWeights (fun h => (p h : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  have h := (rational_gap_check_iff K D p q M r ρ η).mp hcheck
+  obtain ⟨B,hB,hb,hrows⟩ := rational_gap_completed_witness K D p q M r ρ η hM hη hcheck
+  have hKR : IsSkew (fun h a => (K h a : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    rw [hK a b,Rat.cast_neg]
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  refine ⟨B,blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a)
+    (fun i => by exact_mod_cast h.1 i),?_,blockMatrix_skew _ _ B hKR hB,
+    blockMatrix_bounds _ _ B (M : ℝ) hKbR hDbR hb,hrows⟩
+  rw [blockWeights_mass]
+  have hm : (∑ i, (q i : ℝ))=(r : ℝ) := by exact_mod_cast h.2.1
+  rw [hm]
+  exact_mod_cast hnorm
+
 end SparseCompletion

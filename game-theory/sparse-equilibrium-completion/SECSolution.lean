@@ -55,3 +55,6 @@ public import Bisection
 public import IntervalGapEpigraph
 public import GapSparse
 public import IntervalGapSparse
+public import RationalGrid
+public import RationalGridSizeBounds
+public import RationalGap

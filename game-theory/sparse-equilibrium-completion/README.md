@@ -120,3 +120,12 @@ the original anchor and H call moments are preserved, and actual normalized
 completed witnesses have residual support≤min(m,k+1+H) at ρ+η. The interval
 version freezes the recovered anchor data first. Arbitrary extra repertoire
 constraints are not asserted to survive this compression.
+
+The computable rational grid uses H=Nat.sqrt(Nat.ceil(Mr/η))+1, with an exact
+proof of admissibility and H≤sqrt(Mr/η)+2 on nonnegative valid input. This H can
+differ from the canonical real grid count. Rational nodes, calls and envelope
+agree with the real definitions by proved cast contracts. A genuine finite
+rational checker validates a supplied gap point and acceptance yields an actual
+normalized bounded skew game under explicit premodel premises. Its completed
+matrix remains existential over reals; this is no LP solver or rational-flow
+output algorithm. The exact theorem map keeps these limits explicit.

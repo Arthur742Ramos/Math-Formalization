@@ -58,7 +58,7 @@ for evidence in bins['sources']:
     assert hashlib.sha256(excerpt).hexdigest() == evidence['excerpt_sha256']
     assert data.startswith(evidence['upstream_header'].encode())
     assert evidence['url'] == 'https://github.com/leanprover/lean4/blob/'+bins['compiler_commit']+'/'+evidence['path']
-assert {e['name'] for e in bins['sources']} == {'Min-and-Max', 'Rat', 'Subtype', 'Bool.Reflects', 'Rat subtraction', 'Prod-with-right-associated-tuple-convention', 'Unit', 'DecidablePred', 'Nonempty', 'SMul-class', 'self-scalar-action-from-multiplication', 'LE-and-LT', 'Rat multiplication', 'Decidable', 'Add-and-Mul-classes', 'Rat comparison and decidability', 'Sigma', 'Rat addition and negation', 'Sum', 'PUnit', 'Function.Injective', 'Fin.rev', 'Sum.elim', 'Rat rational constants'}
+assert {e['name'] for e in bins['sources']} == {'Sum.elim', 'Nonempty', 'PUnit', 'Subtype', 'Nat.sqrt_le and Nat.lt_succ_sqrt', 'Sum', 'Rat subtraction', 'Rat.neg', 'Min-and-Max', 'Rat.floor', 'self-scalar-action-from-multiplication', 'Rat addition and negation', 'Add-and-Mul-classes', 'Unit', 'Rat', 'Nat.sqrt and decreasing Newton iteration', 'SMul-class', 'LE-and-LT', 'Rat rational constants', 'Prod-with-right-associated-tuple-convention', 'Rat comparison and decidability', 'Rat.le_floor_iff', 'DecidablePred', 'Function.Injective', 'Bool.Reflects', 'Sigma', 'Decidable', 'Fin.rev', 'Rat multiplication'}
 aux = json.loads((root/'verification/auxiliary-imported-definitions.json').read_text())
 aux_pin = next(p for p in manifest['packages'] if p['name'] == 'batteries')
 assert aux['dependency'] == aux_pin
