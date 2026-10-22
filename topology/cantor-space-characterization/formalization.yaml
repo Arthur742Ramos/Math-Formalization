@@ -1,0 +1,105 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Brouwer characterization of Cantor space",
+    "description": "A topological space is homeomorphic to Cantor space, the countable product of discrete Boolean spaces, if and only if it is nonempty, compact, metrizable, has a basis of clopen sets, and has no isolated points. A full binary clopen scheme decides an enumerated basis one element at each depth. Its point-address map is continuous; compact nested intersections realize every binary branch, and basis decisions separate points. A continuous bijection from a compact space to the Hausdorff Cantor space is a homeomorphism. This formalizes a classical theorem of Brouwer; no mathematical novelty or priority claim is made.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN",
+      "math.LO"
+    ],
+    "msc2020": [
+      "54F65",
+      "54D30",
+      "03E15"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Introduction to descriptive set theory",
+      "authors": [
+        "Anush Tserunyan"
+      ],
+      "type": "other",
+      "id": "https://www.math.mcgill.ca/atserunyan/Teaching_notes/dst_lectures.pdf",
+      "relationship": "formalizes",
+      "note": "Theorem5.3, Section5.B, printedp18; retained October21,2026 PDF SHA256523e7872328aa6136054effbcc194dbe4ff2da7f177257f5d317475540acab61. Statement uses nonempty zero-dimensional perfect compact metrizable spaces. Source snapshot retained outside this package; proof here uses basis decisions instead of diameter bounds."
+    },
+    {
+      "title": "Two Topological Uniqueness Theorems for Spaces of Real Numbers",
+      "authors": [
+        "Michael Francis"
+      ],
+      "type": "arxiv",
+      "id": "1210.1008",
+      "relationship": "background",
+      "note": "Theorem1 and Example1 consulted through author exposition web text. It states the compact totally disconnected formulation and applications; this package does not separately formalize the total-disconnectedness bridge. Original1910paper not consulted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean",
+      "relationship": "builds-on",
+      "note": "Felix Weilacher PerfectSpace, Preperfect and accumulation-point definitions are reused; exact semantic expansions and equivalent punctured-neighborhood formulation are retained."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/PiNat.lean",
+      "relationship": "builds-on",
+      "note": "Sebastien Gouezel finite-prefix/cylinder and product-topology APIs reused. The new full covering binary scheme and basis-decision address map are local, not an invocation of an existing homeomorphism characterization."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean",
+      "relationship": "builds-on",
+      "note": "Countable subfamily extraction and basis-neighborhood API reused, together with pinned compact nested-intersection and compact-to-Hausdorff inverse-continuity results. File-level attribution is retained in the definition inventory."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b77053ba8669ad046ec3c0d54d83a79724935a9f/topology/baire-space-characterization",
+      "relationship": "builds-on",
+      "note": "Clopen-cylinder, clopen-basis and homeomorphism-pullback proof code adapted with attribution. The earlier theorem concerns Baire space and infinite branching; it does not supply this Cantor homeomorphism."
+    }
+  ],
+  "status": {
+    "scope": "Eleven selected theorem contracts: genuine clopen split, basis-deciding split, full binary scheme, continuous/surjective/injective point coding, compact Hausdorff second-countable sufficiency, Cantor clopen basis and perfectness, compact-metrizable sufficiency, and the unrestricted intrinsic iff.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "No mathematical gap claimed in the selected contracts. Nonempty, compact, metrizable, clopen basis and perfectness are all explicit. No general total-disconnectedness bridge, rational-space characterization, middle-thirds-set corollary, uncountable-weight extension or new classification result is claimed. Exact-source mechanical, semantic compilation, rendering and registration observations belong to separate release evidence. Global/private overlap is not exhaustively cleared.",
+    "attribution_status": "Established campaign author and responsible-maintainer lists retained separately; substantive AI proof work and internal AI review disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored the binary coding proof, semantic tests, retained-definition evidence and package preparation under user authorization. Separate internal AI reviewers assessed mathematical sources/research scope and implementation. Inventory authoring is distinguished from separate inventory review. No human proof contribution or external peer review is inferred."
+      }
+    ],
+    "notes": "The new decision-tree route uses topological compactness rather than metric shrinking. Prior campaign cylinder/clopen-pullback helpers and pinned Mathlib basis/compactness APIs are credited. All later checks must bind the exact candidate source and original reports."
+  },
+  "fidelity": {
+    "divergences": "PiNat.res uses reversed lists with children b::l, where b:Bool. Both children are genuinely nonempty, disjoint and cover the parent. Basis enumeration may repeat but branching is exactly binary. A basis element already constant on a cell is preserved by an arbitrary genuine clopen split. Compactness, rather than a diameter rate, realizes every branch; basis decisions provide uniqueness. Fixed predicates, scheme and address functions are compared unchanged; definition_names is empty."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal source/scope AI reviewer",
+      "Independent internal mathematical implementation AI reviewer"
+    ],
+    "notes": "Pre-development source/scope and mathematical implementation reviews cover the theorem and proof route. Imported-meaning, semantic compilation, protected comparison, kernels, rendering, metadata and final-packet evidence have separate scopes and exact source bindings; this field is not a public acceptance claim."
+  }
+}

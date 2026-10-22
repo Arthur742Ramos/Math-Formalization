@@ -1,0 +1,14 @@
+module
+public import CSSolution
+
+#print axioms CantorCharacterization.exists_clopen_split
+#print axioms CantorCharacterization.exists_deciding_split
+#print axioms CantorCharacterization.exists_binary_scheme
+#print axioms CantorCharacterization.BinaryScheme.continuous_code
+#print axioms CantorCharacterization.BinaryScheme.surjective_code
+#print axioms CantorCharacterization.BinaryScheme.injective_code
+#print axioms CantorCharacterization.nonempty_homeomorph_of_secondCountable
+#print axioms CantorCharacterization.cantor_hasClopenBasis
+#print axioms CantorCharacterization.cantor_perfectSpace
+#print axioms CantorCharacterization.nonempty_homeomorph
+#print axioms CantorCharacterization.nonempty_homeomorph_iff
