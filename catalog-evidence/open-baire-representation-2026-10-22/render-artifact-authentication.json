@@ -1,0 +1,14 @@
+{
+  "run_id": 39811305165,
+  "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39811305165",
+  "status": "completed",
+  "conclusion": "success",
+  "head_sha": "bd5c522367f64c871c2cc3c5b5b21551b81217a7",
+  "attempt": 1,
+  "renderer_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "artifact_id": 12440487857,
+  "artifact_bytes": 137030,
+  "artifact_sha256": "sha256:59340020ee13a53b5854e189c82176375ca4b9d8a47abb9f33411ae759bd3fa4",
+  "report_sha256": "892d2c79e37de710d97afc5af087765e65c00c91d93bdae95b7e63271d531ed4",
+  "method": "Authenticated GitHub run and artifact API plus original artifact download, no rerun."
+}

@@ -1,0 +1,51 @@
+{
+  "source_commit": "87652c909a92afded15aad86a901d8c11dd75ed8",
+  "source_package_tree": "8a233f6d76e86f877c61c20af15e337daa9d6bd2",
+  "caller_commit": "bd5c522367f64c871c2cc3c5b5b21551b81217a7",
+  "draft_head_at_verification": "13ed7eca4116ded0b6563bca9d2df0978bcbdf18",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "full": {
+    "run_id": 39811305855,
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39811305855",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "report": "full-report.json",
+    "report_sha256": "fc19165cc6399b40e3de0f4158c269c8ff4698932a5f0b20ba04008992a7cd84",
+    "artifact_zip_sha256": "f85edb77b2936e78302596a6ebd51742c3980fd745f3a79712e7bba81c71f648",
+    "kernels": {
+      "Lean": "accepted",
+      "NanoDa": "accepted",
+      "con-ron": "accepted12676declarations--verified"
+    }
+  },
+  "render": {
+    "run_id": 39811305165,
+    "url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39811305165",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "report": "render-report.json",
+    "report_sha256": "892d2c79e37de710d97afc5af087765e65c00c91d93bdae95b7e63271d531ed4",
+    "artifact_zip_sha256": "59340020ee13a53b5854e189c82176375ca4b9d8a47abb9f33411ae759bd3fa4",
+    "artifact_tree_sha256": "ea939858cdd41549b4443b9d5418d6c42ca5221daf9ff4bee9c97bfd705c5db2",
+    "entrypoint": "Challenge/index.html"
+  },
+  "source_archive": {
+    "regular_files": 22,
+    "bytes": 69844,
+    "sha256": "82d0fba5a704dbbabf05f8b25e2bcebbdd2a4c6f0428cb28ed63ce2fed061f60"
+  },
+  "regressions": {
+    "passed": 189,
+    "log_sha256": "2ccf4d77efc8a6c9e9474df6ec6e104eadee661a18024d6ce4c009d84bd2002b"
+  },
+  "source_unchanged_after_verification": true,
+  "security_pair_approval": "consumed; one pair only",
+  "reruns_authorized": false,
+  "browser_visual_inspection": "not performed",
+  "intake_authorized": false,
+  "registry_actions": 0,
+  "registration": "unconfirmed",
+  "scope": "Canonical verification is mechanical evidence; internal independent AI reviews are not human or editorial review."
+}

@@ -6,6 +6,7 @@ import io
 import json
 import pathlib
 import tarfile
+import tempfile
 import unittest
 import sys
 from unittest import mock
@@ -172,6 +173,87 @@ class ReleasePacketTests(unittest.TestCase):
             if extra:files['unrelated.txt'] = b'not source'
             else:files.pop('README.md')
             with self.assertRaisesRegex(ValueError, 'Wrong archive source file set'):self.check_fixture(data=archive(files))
+
+
+class VerifiedReplayReportTests(unittest.TestCase):
+    """Authentic current-format positive plus explicitly synthetic mutations."""
+    @classmethod
+    def setUpClass(cls):
+        body = (ROOT / 'catalog-evidence/open-baire-representation-2026-10-22/full-report.json').read_bytes()
+        assert guard.sha(body) == 'fc19165cc6399b40e3de0f4158c269c8ff4698932a5f0b20ba04008992a7cd84'
+        cls.original = json.loads(body)
+        project = 'topology/open-baire-representation'
+        commit = '87652c909a92afded15aad86a901d8c11dd75ed8'
+        cls.files = guard.snapshot(ROOT, commit, project)
+        cls.fields = dict(repository=guard.REPOSITORY, commit=commit, project_path=project,
+                          comparator_config_path=project + '/comparator.json',
+                          formalization_metadata_path=project + '/formalization.yaml')
+
+    def test_original_complete_verified_replay_passes(self):
+        guard.bind_full(self.original, self.fields, self.files)
+
+    def test_declined_missing_duplicate_or_incomplete_replay_fails(self):
+        changes = {
+            'decline': lambda r: r['kernel_attempts'][0].update(status='declined', reason='capacity'),
+            'unsupported': lambda r: r['kernel_attempts'][0].update(reason='unsupported'),
+            'failed exit': lambda r: r['kernel_attempts'][0].update(exit_code=1),
+            'boolean exit': lambda r: r['kernel_attempts'][0].update(exit_code=False),
+            'missing replay': lambda r: r.update(kernel_attempts=[]),
+            'duplicate replay': lambda r: r['kernel_attempts'].append(copy.deepcopy(r['kernel_attempts'][0])),
+            'missing accepted kernel': lambda r: r['kernels'].pop(),
+            'duplicate accepted kernel': lambda r: r['kernels'].append(copy.deepcopy(r['kernels'][0])),
+            'zero declarations': lambda r: r['kernel_attempts'][0].update(detail='con-ron: accepted 0 declarations (--verified)'),
+            'conflicting verdict': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail'] + '\ncon-ron: rejected'),
+            'missing verified verdict': lambda r: r['kernel_attempts'][0].update(detail='success'),
+            'timeout': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail'] + '\ntimeout'),
+            'excess budget': lambda r: r['kernel_attempts'][0].update(budget_seconds=1801),
+        }
+        for name, change in changes.items():
+            with self.subTest(change=name):
+                report = copy.deepcopy(self.original);change(report)
+                with self.assertRaises(ValueError):guard.bind_full(report, self.fields, self.files)
+
+    def test_wrong_commands_and_checker_provenance_fail(self):
+        changes = {
+            'wrong accepted command': lambda r: r['kernels'][1]['argv'].append('--other'),
+            'unverified command': lambda r: r['kernel_attempts'][0]['argv'].pop(),
+            'candidate checker': lambda r: r['kernel_attempts'][0]['argv'].__setitem__(0, '/candidate/con-ron'),
+            'wrong NanoDa': lambda r: r['kernels'][0].update(argv=['/candidate/nanoda_bin']),
+            'wrong source toolchain': lambda r: r['con_ron_checker'].update(source_toolchain='leanprover/lean4:v4.0.0'),
+            'wrong checker release': lambda r: r['con_ron_checker'].update(release_tag='v4.0.0'),
+            'wrong checker commit': lambda r: r['con_ron_checker'].update(release_commit='0' * 40),
+            'wrong archive digest': lambda r: r['con_ron_checker'].update(archive_sha256='0' * 64),
+            'wrong download host': lambda r: r['con_ron_checker'].update(archive_url='https://candidate.invalid/checker'),
+            'wrong executable digest': lambda r: r['tool_digests'].update({'con-ron': '0' * 64}),
+            'missing checker provenance': lambda r: r.pop('con_ron_checker'),
+        }
+        for name, change in changes.items():
+            with self.subTest(change=name):
+                report = copy.deepcopy(self.original);change(report)
+                with self.assertRaises(ValueError):guard.bind_full(report, self.fields, self.files)
+
+    def test_replay_never_replaces_mandatory_comparison_or_source_trust(self):
+        changes = {
+            'missing mandatory acceptance': lambda r: r.update(comparator_log_tail='con-ron: accepted 12676 declarations (--verified)'),
+            'wrong source': lambda r: r['source'].update(commit='0' * 40),
+            'wrong metadata': lambda r: r['formalization'].update(sha256='0' * 64),
+            'wrong configuration': lambda r: r['comparator'].update(sha256='0' * 64),
+            'low trust': lambda r: r['challenge'].update(trust_level='low'),
+            'untrusted dependency': lambda r: r['challenge'].update(untrusted_sources=['candidate']),
+        }
+        for name, change in changes.items():
+            with self.subTest(change=name):
+                report = copy.deepcopy(self.original);change(report)
+                with self.assertRaises(ValueError):guard.bind_full(report, self.fields, self.files)
+
+    def test_modified_checker_policy_snapshot_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            policy = pathlib.Path(directory) / 'catalog-evidence/checker-policy-ad5db9e7/checker-revisions.json'
+            policy.parent.mkdir(parents=True)
+            policy.write_text('{}\n')
+            with mock.patch.object(guard, 'ROOT', pathlib.Path(directory)):
+                with self.assertRaisesRegex(ValueError, 'policy digest'):
+                    guard.bind_full(self.original, self.fields, self.files)
 
 
 if __name__ == '__main__':

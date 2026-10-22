@@ -135,7 +135,7 @@ This separately reviewed package proves complete-metric determinacy for
 Baire-property target sets, with both winner characterizations. It adds target
 payoffs, actual joint-play execution and residual target forcing beyond Oxtoby
 and Choquet. Ordinary compilation and semantic audits passed. Exact-source
-protected full and canonical rendering passed on attempt1; original reports are
+protected full and canonical rendering passed on attempt 1; original reports are
 bound in PREPARATIONS.json. Current private service state and browser-runtime
 visual inspection remain unconfirmed. No prior package or registered source is changed.
 
@@ -150,7 +150,7 @@ strong Choquet characterization of Polish spaces, including the difficult
 second-countable metrizable converse. Complete-metric winning strategies and
 complete-ambient Gδ-subspace completeness have their stated more general scope.
 Ordinary exact-source checks and independent internal review passed. Protected
-full and canonical rendering passed on attempt1 with original source-bound reports
+full and canonical rendering passed on attempt 1 with original source-bound reports
 in PREPARATIONS.json. Current service state and browser-runtime visual inspection
 remain separate. No prior frozen source, registration or package pin is changed.
 
@@ -158,8 +158,16 @@ remain separate. No prior frozen source, registration or package pin is changed.
 | --- | --- | --- | --- |
 | [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Full/render passed; intake and registration unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
 
-## Open Baire-space representation preparation
+## Open Baire-space representation verification
 
 | Project | Scope | Status | Frozen source |
 | --- | --- | --- | --- |
-| [Open Baire-space representation of Polish spaces](topology/open-baire-representation) | Nonempty Polish open Baire representation, genuine covering scheme and exact cylinder images. | Preparation; not submitted | [`87652c9`](https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation) |
+| [Open Baire-space representation of Polish spaces](topology/open-baire-representation) | Nonempty Polish open Baire representation, genuine covering scheme and exact cylinder images. | Preparation; not submitted; canonical full/render passed | [`87652c9`](https://github.com/Arthur742Ramos/Math-Formalization/tree/87652c909a92afded15aad86a901d8c11dd75ed8/topology/open-baire-representation) |
+
+The initial native preparation checkpoint in PREPARATIONS.json is historical.
+The later exact-source [canonical results](catalog-evidence/open-baire-representation-2026-10-22/canonical-results.json)
+record full run 39811305855 and render run 39811305165, both successful on attempt 1 for
+source 87652c909a92afded15aad86a901d8c11dd75ed8. Lean, NanoDa and verified
+con-ron accepted; the final report/archive guard and 189 regressions passed.
+Browser visual inspection has not been performed. No registry action or merge
+was performed; editorial status and public registration remain unconfirmed.

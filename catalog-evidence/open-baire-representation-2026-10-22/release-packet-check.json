@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "commit": "87652c909a92afded15aad86a901d8c11dd75ed8",
+  "project_path": "topology/open-baire-representation",
+  "metadata_sha256": "f6691b7f9dcdb204f3fefdcdc4ad453c9b8a5ca286c0ebe1b7d77f3b3990119c",
+  "report_sha256": "fc19165cc6399b40e3de0f4158c269c8ff4698932a5f0b20ba04008992a7cd84",
+  "archive_sha256": "82d0fba5a704dbbabf05f8b25e2bcebbdd2a4c6f0428cb28ed63ce2fed061f60",
+  "intake_authorized": false,
+  "scope": "Exact-source status, full-report and source archive consistency. Independent artifact provenance, current attempts/duplicates, rendering and editorial/registration decisions remain separate."
+}
