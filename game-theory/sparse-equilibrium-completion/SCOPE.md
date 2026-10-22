@@ -28,7 +28,7 @@ the actual declarations; unfinished targets have no placeholder Lean theorem.
 | `ext:prop:weakcover`, graph_noise.tex | `arbitrary_vertex_subset_weak_sparse`, `arbitrary_vertex_subset_weak_exact`, `residual_loss_bound_ordered` | Proved on arbitrary original subsets: project the residual block into nonempty bounded intervals with reverse consistency. All original constraints, cover data, residual-support containment and d extra moments are preserved, with final tolerance ρ+η+β_C r (η+β_C r for exact input). β_C is the least nonnegative bound on residual-pair losses, lies in [0,2M], and equals the source i<j maximum under a linear order and reverse interval symmetry. Empty/singleton residual types give zero. |
 | `ext:cor:algorithm`, graph_noise.tex | Cover/weak-cover witness reductions and allocation-rounding mathematics in preceding rows | Supplied-cover mathematical reductions are proved; general allocation-floor grid/value bounds are proved for an explicitly nonempty residual action. Still open: end-to-end executable supplied-cover enumeration/selection and zero-residual branch, interval/cover-specific solver and grid integration, arithmetic and polynomial bit-complexity guarantees. Fixed-anchor finite rational linear repertoires now have an actual solver and bisection composition below. |
 | `cv:lem:prefix`, `cv:thm:soc`, conic.tex | `threshold_is_score_prefix`, `cuts_iff_score_prefixes`, `prefix_cut_quadratic`, `quadratic_rotated_cone`, `weighted_completion_prefix_quadratic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_prefix_characterization`, `normalized_known_anchor_conic_iff`, `known_anchor_conic_system_iff`, `prefix_system_convex`, `known_anchor_conic_system_convex`, `linear_repertoire_convex` | Proved: every strict threshold set is a genuine nonincreasing-score prefix, including ties, zero masses and empty types; all cuts iff the prefixes. The empty prefix is included as a tautology. Exact bounded skew residual completion and every original row are equivalent to the linear guards/anchor constraints and explicit rotated-cone constraints (2uv≥w², v=1/2). The full displayed q-system is convex at fixed tolerance for M≥0 and arbitrary convex repertoire; completion equivalence uses M>0 and fixed sorted scores. Literal linear-inequality repertoires are proved convex rather than assumed. `normalized_known_anchor_conic_iff` additionally proves the literal nonnegative mass-one, bounded skew full-game equivalence under explicit fixed K/D/p premodel premises. Quantified prefixes are l≤m (m+1 including empty), so this is a finite linear-size mathematical representation; no solver implementation, operation count, bit-complexity or exact-decision theorem is claimed. |
-| `cv:thm:interval`, conic.tex | `interval_perspective_completion_iff`, `normalized_interval_perspective_iff`, `interval_perspective_system_convex`, `repertoire_interval_completion_iff`, `interval_system_repertoire_convex`, `residual_linear_repertoire_convex`, `perspective_cuts_iff_candidate_thresholds`, `interval_system_iff_threshold_system` | Proved exact normalized full-game characterization with jointly variable q,V,K and arbitrary declared residual repertoire R. The displayed perspective/core/anchor/cut system is jointly convex for M≥0; exact completion equivalence uses M>0, nonnegative fixed p and explicit normalization/interval premises. Convex repertoires preserve convexity; literal linear repertoires are proved convex. Zero-mass rows force V and H to zero, recovering D at the lower endpoint while retaining the explicit guard. All subset quadratics are equivalent to candidate-dependent upper-score threshold tests indexed only by positive-mass rows, with ties grouped. No globally fixed interval-score ordering is asserted. Mathematical finite separation and executable sorted Boolean cut checking are proved; violating-cut output, full candidate guards, O(m log m) arithmetic cost, rational conic solving and bit-complexity remain open. |
+| `cv:thm:interval`, conic.tex | `interval_perspective_completion_iff`, `normalized_interval_perspective_iff`, `interval_perspective_system_convex`, `repertoire_interval_completion_iff`, `interval_system_repertoire_convex`, `residual_linear_repertoire_convex`, `perspective_cuts_iff_candidate_thresholds`, `interval_system_iff_threshold_system` | Proved exact normalized full-game characterization with jointly variable q,V,K and arbitrary declared residual repertoire R. The displayed perspective/core/anchor/cut system is jointly convex for M≥0; exact completion equivalence uses M>0, nonnegative fixed p and explicit normalization/interval premises. Convex repertoires preserve convexity; literal linear repertoires are proved convex. Zero-mass rows force V and H to zero, recovering D at the lower endpoint while retaining the explicit guard. All subset quadratics are equivalent to candidate-dependent upper-score threshold tests indexed only by positive-mass rows, with ties grouped. No globally fixed interval-score ordering is asserted. Mathematical finite separation, actual original-label quadratic violation output and affine separation, and exact finite-linear candidate-guard composition are proved. Full interval repertoire separation beyond the finite-linear class, O(m log m) arithmetic/bit costs, rational conic solving and polynomial guarantees remain open. |
 
 The central result concerns existence of a compatible completion and strategy.
 Compression may change the residual payoff block, retains original action labels,
@@ -44,7 +44,7 @@ family-specific uncertainty law. Completion existence, the sparse upper count,
 the two-anchor exact realization and the total-support sharp order are now proved. The family-specific
 uncertainty sharp laws are now proved. Later sections prove actual rational
 algorithms, Boolean cut checking and the source-explicit residual-payoff
-construction. Whole-paper coverage remains unfinished: full candidate separation,
+construction. Whole-paper coverage remains unfinished: full interval repertoire separation beyond the finite-linear guards,
 arithmetic and bit complexity, polynomial LP/flow and the other explicit gaps
 remain open.
 Pinned Mathlib filename and term searches found no existing development of this
@@ -58,7 +58,7 @@ of grid size (`finite_feature_compression`, `finite_grid_implication`). Rational
 executable full-game certificate checking with repertoire constraints is proved
 below; row-specific perturbation bounds remain an extension to prove.
 
-Generic certificate checking and conditional bisection are strengthened by the total rational elimination and reconstruction tranche below. Its computed q,B are distinct from the prior existential Real completion. The algorithm does not supply polynomial encoding bounds. Later sections prove the source-explicit within/across-bin residual-payoff construction and executable sorted Boolean cut checking. Violating-cut output, full candidate guards, arithmetic and bit cost, and polynomial LP/flow guarantees remain tracked gaps.
+Generic certificate checking and conditional bisection are strengthened by the total rational elimination and reconstruction tranche below. Its computed q,B are distinct from the prior existential Real completion. The algorithm does not supply polynomial encoding bounds. Later sections prove the source-explicit within/across-bin residual-payoff construction and executable sorted Boolean cut checking. Actual original-label violating cuts, affine separation and exact finite-linear candidate guards are supplied by the later tranches. Full arithmetic and bit cost and polynomial LP/flow guarantees remain tracked gaps.
 
 The finite-gap sparsification results `gap_sparse_point`,
 `normalized_gap_sparse_completed_witness` and
@@ -339,8 +339,7 @@ No blanket assignment to all1012 targets is
 made, and the generic comparator, permitted axioms and dependency pins are
 unchanged.
 
-Whole-paper readiness remains false. Remaining work includes explicit violating
-cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
+Whole-paper readiness remains false. Remaining work includes general repertoire separation, full arithmetic and bit complexity, polynomial rational
 LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
 cover transport. Native macOS checks do not establish canonical Linux sandbox,
 rendering, release-role or editorial readiness. No submission is authorized.
@@ -387,8 +386,68 @@ covers the mathematics, proof repairs and receipt authentication. These narrow
 checks are not a clean exact-commit whole-package verification. All completed
 mechanical gates for the integrated candidate are bound by immutable evidence
 outside the frozen source; predecessor836ab90 passed all12 native gates for its
-own bytes. Whole-paper and submission readiness remain false. Still open are
-perspective violating-cut output and affine separation, complete arithmetic/bit
-costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection
-and executable arbitrary-cover transport. Native macOS checks do not establish
+own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and executed supplied-cover encode/decode transport remain open. Native macOS checks do not establish
 canonical Linux, rendering or editorial readiness. No submission is authorized.
+
+## Computed violating cuts, separation and flow foundations
+
+This follow-on adds52 proofs in10 modules to predecessor273fb8c. The resulting
+source has281 mathematical modules,1107 source theorem audits and997 selected
+protected contracts. These counts describe scope, not whole-paper completion.
+Its exact-source verification and independent receipts are recorded outside the
+frozen package; predecessor receipts certify only their own source bytes.
+
+RationalPerspectiveViolation and RationalIntervalViolation connect actual
+rational prefix search to an original-label violating quadratic cut. None is
+equivalent to the corresponding cut checker, under the stated M≥0 and q≥0 premises, with H=0 at zero q
+or the interval perspective bounds that imply it. RationalPerspectiveSeparator computes an
+affine functional from the returned cut and the candidate mass. The exact gap
+is M times a squared mass difference. For M≥0 the functional separates the
+violating candidate from every real point satisfying the perspective cuts.
+This is a separation certificate, not a polynomial LP implementation.
+
+RationalFlowDemandCuts proves the signed-demand network cut identity.
+RationalSaturatedFlow decodes a supplied nonnegative source-saturated arc-flow
+certificate to a bounded skew payoff table when the unknown masses are positive.
+RationalFlowZeroRows handles zero masses by an explicit piecewise table; the
+original global row guard is essential. RationalFlowCertificateCheck checks the
+physical premises and supplied certificate and returns the actual decoded table.
+Some is sound. None means that supplied certificate failed; it does not establish
+infeasibility. Zero total mass, zero capacity and empty unknown index sets are
+covered where the theorem premises allow them.
+
+RationalResidualReach executes finite flood layers on a Boolean adjacency
+function. After n layers the reachable set is closed and equals finite
+reflexive/transitive reachability. This input is a function, with no array-cache
+or access-cost theorem. RationalNetFlow converts nonnegative arc flow F to skew
+net flow F(u,v)−F(v,u), proving capacity, divergence and residual identities.
+Residual capacity includes cancellable reverse flow. Applying C−F directly to
+raw nonnegative arc data would use the wrong convention.
+
+FiniteSkewEquilibrium proves that every finite nonempty real skew game has a
+normalized nonnegative mixture with all row responses nonpositive. Its proof
+uses compact convex separation, normalization of a nonnegative separating
+functional and the zero self-payoff identity. The simplex is defined locally;
+this is a classical existence foundation, not a computable optimizer or a
+novelty claim.
+
+Source retention adds the literal Relation.ReflTransGen declaration and exact
+compiler routes for Nat's generated recursor and finite existential decision.
+Nat.rec is compiler-generated from the retained Nat inductive; there is no
+literal def Nat.rec. This also repairs62 precisely identified historical
+WellFounded.Nat.fix source contexts. Predecessor273fb8c's native checks remain
+valid, while its retained-source completeness was qualified by that omission.
+The new finite-existential route is retained separately from finite universal
+decision. Exact declaration usage follows actual compiled local dependency
+closures, with no assignment merely from module membership. Both import
+contexts retain executable controls and semantic bridges.
+
+The following remain open: residual path recovery and augmentation, a maximum
+flow finder and its correctness, polynomial flow and rational LP guarantees,
+primitive arithmetic/bit costs and full runtime, efficient canonical sparse
+selection and executed supplied-cover encode/decode transport. Existing comparison counts,
+supplied-score unit arithmetic ledgers and denominator bounds do not prove
+those runtime claims. Canonical Linux/rendering and release-role confirmation
+also remain separate. Formalization authors and maintainers are unconfirmed;
+internal AI reviews are distinguished from human or external review.
+No registry or journal submission is authorized or performed.

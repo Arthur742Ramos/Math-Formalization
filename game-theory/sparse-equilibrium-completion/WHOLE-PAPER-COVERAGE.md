@@ -39,14 +39,14 @@ positive residual mass; earlier separate results cover zero-mass branches.
 | `sp:prop:interval` — Interval-anchor LP gap decision (sections/algorithms.tex:86) | Actual q,V,K,aux finite rational matrix and exact Q/Real equivalence; zero-q lower-endpoint recovery; actual normalized compatible returned game with one eta. `interval_gap_epigraph_iff`, `rational_interval_system_point`, `rational_interval_system_real_point`, `rational_interval_algorithm_full_game`. | Physical finite-linear R extension/value search is proved beyond source residual-only R. No arbitrary nonlinear R solver or efficient LP claim. |
 | `sp:cor:gridp` — Additive approximation for a fixed number of anchors (sections/algorithms.tex:111) | Actual global floor class with varying p,q; rounding/L1/grid count; actual enumeration and selection; accurate tau. Integrated general-floor wrapper now returns actual global rational interval(tau−epsilon,tau). `optimistic_allocation_grid_bounds`, `rational_grid_tuples_length`, `rational_floor_approximation_global`; integrated `rational_floor_certified_value`, `rational_floor_certified_none_iff`. | Source FPTAS polynomial cost is unproved. The new dense source-floor variant uses epsilon/(6Mk) for k>0 with an explicit k=0 branch and actual all-node count; the older sparse variant remains conservative. No slice L is asserted globally valid. |
 | `ext:thm:cover` — Sparse witnesses from a cover of the observation graph (sections/graph_noise.tex:22) | Arbitrary original finite vertices, actual cover predicate including constrained zeros; same shares/incident entries/responses, canonical support caps, extra moments and r=0 branch. Integrated uniform-ceiling corollary removes residual r. `arbitrary_vertex_cover_sparse`, `arbitrary_vertex_cover_exact`; integrated `arbitrary_vertex_cover_uniform_exact`. | Uniform corollary applies any supplied cover and hence a supplied minimum one, without minimum-cover finding. Its current public signature has d=0; extra-d uniform wrapper is still optional packaging. |
-| `ext:cor:algorithm` — An additive algorithm for a supplied small cover (sections/graph_noise.tex:81) | Block-labelled actual interval/floor solver, enumeration, genuine physical decision, both residual/nonresidual branches. Integrated general-floor wrapper returns requested-width rational value interval. `rational_floor_approximation_none_iff`, `rational_floor_approximation_global`; integrated `rational_floor_certified_complete`, `rational_floor_certified_value`. | Computable arbitrary original supplied-C encode/decode adapter remains absent. Exact source(1+floor(6Mk/epsilon))^k slice bound differs from current k+1 rule. Polynomial per-slice/bit and FPTAS cost unproved. |
+| `ext:cor:algorithm` — An additive algorithm for a supplied small cover (sections/graph_noise.tex:81) | Block-labelled actual interval/floor solver, enumeration, genuine physical decision, both residual/nonresidual branches. Integrated general-floor wrapper returns requested-width rational value interval. `rational_floor_approximation_none_iff`, `rational_floor_approximation_global`; integrated `rational_floor_certified_complete`, `rational_floor_certified_value`. | Computable arbitrary original supplied-C encode/decode adapter remains absent. The older sparse grid uses the conservative k+1 rule; the positive-k dense source-mesh variant proves the source(1+floor(6Mk/epsilon))^k slice bound, with an explicit k=0 branch. Polynomial per-slice/bit and FPTAS cost unproved. |
 | `ext:prop:weakcover` — Sparsification with uncovered interval restrictions (sections/graph_noise.tex:131) | Actual arbitrary-C clipping, beta_C source ordered maximum with empty max0, same cover data/support/moments and rho+eta+beta_C*r. `arbitrary_vertex_subset_weak_sparse`, `arbitrary_vertex_subset_weak_exact`, `residual_loss_bound_ordered`. | Final strong-edge-threshold-cover corollary is a direct missing wrapper from least-upper-bound contracts; no new sparsification principle needed. |
 | `ext:prop:stability` — Stability under interval perturbations (sections/graph_noise.tex:159) | Actual attained optimistic interval minimum and support-restricted minimum; ordered endpoint proximity yields both-direction delta stability. `optimistic_value_ordered_interval_stability`, `optimistic_support_value_ordered_stability`. | Nonempty compact strategy class/nonempty finite action type hypotheses remain explicit. |
 | `ext:thm:noise` — Sharp support law with uncertain observations (sections/graph_noise.tex:205) | Both actual attained commitment-class support minima, sharp constants and origin; actual bin/core witnesses. `uniformMinimumIntervalTotalSupport_sharp`, `uniformMinimumIntervalTotalSupport_origin`, `explicit_binned_core_witness`. | Family-specific deterministic information theorem. Literal source h-selection differs from valid implemented selection; stated constants are proved. |
 | `ext:cor:corenoise` — Uncertainty in only the anchor-core entry (sections/graph_noise.tex:297) | One clipped actual core entry, exact cross observations, e=epsilon+3delta/8, actual attained minima with c and5. `uniformMinimumCoreTotalSupport_sharp`, `uniform_core_adjust`, `explicit_binned_core_witness`. | Concrete m243/h9 exact11-support instantiation is not yet a theorem/control. |
 | `cv:lem:prefix` — Only score prefixes are needed (sections/conic.tex:4) | All cuts iff score prefixes; integrated quantitative strengthening dominates every subset numerical violation by a prefix, and certifies arbitrary delta bounds. `cuts_iff_score_prefixes`, `threshold_is_score_prefix`; integrated `score_prefix_violation_dominates`, `cut_violation_bound_iff_prefix_bound`. | The new RationalSortedCutCheck computes a labelled rational order and a cached prefix Boolean check, with exact all-cut equivalence. Its same-program comparison bound excludes arithmetic/bit/getter cost and does not return a violated cut. |
-| `cv:thm:soc` — Exact conic completion characterization (sections/conic.tex:19) | Exact bounded normalized game iff linear guards/anchors and literal rotated-cone prefix system; fixed-tolerance convexity. `normalized_known_anchor_conic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_conic_system_convex`. | Executed rational sorting/permutation and Boolean cut checking are now proved separately. Encoded rational SOC solving, explicit cut output and flow programs remain open. Source explicitly does not promise exact boundary-conic polynomial bit complexity. |
-| `cv:thm:interval` — Convex interval-anchor completion (sections/conic.tex:54) | Joint q,V,K convex exact interval system and finite candidate-dependent positive-score threshold characterization; zero-q cases included. `variable_core_interval_completion_iff`, `interval_perspective_system_convex`, `interval_system_iff_threshold_system`. | Actual candidate-dependent sorted-prefix Boolean cut checking is proved for rational perspective variables; zero-mass moments follow from linear bounds. Explicit separating-cut output, full guard composition and O(m log m) arithmetic/bit proofs remain open. Literal interval all-subset rotated-cone rewrite is an easy missing wrapper of scalar identity, not a missing convexity/completion theorem. |
+| `cv:thm:soc` — Exact conic completion characterization (sections/conic.tex:19) | Exact bounded normalized game iff linear guards/anchors and literal rotated-cone prefix system; fixed-tolerance convexity. `normalized_known_anchor_conic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_conic_system_convex`. | Executed rational sorting/permutation and Boolean cut checking are now proved separately. Actual quadratic cut output and affine separating certificates are now supplied; encoded rational SOC solving and a flow finder remain open. Source explicitly does not promise exact boundary-conic polynomial bit complexity. |
+| `cv:thm:interval` — Convex interval-anchor completion (sections/conic.tex:54) | Joint q,V,K convex exact interval system and finite candidate-dependent positive-score threshold characterization; zero-q cases included. `variable_core_interval_completion_iff`, `interval_perspective_system_convex`, `interval_system_iff_threshold_system`. | Actual candidate-dependent sorted-prefix Boolean cut checking is proved for rational perspective variables; zero-mass moments follow from linear bounds. Actual quadratic/affine separating output and finite-linear candidate-guard composition are proved in the later tranches. General repertoire separation and O(m log m) arithmetic/bit proofs remain open. Literal interval all-subset rotated-cone rewrite is an easy missing wrapper of scalar identity, not a missing convexity/completion theorem. |
 
 ## What the integrated additions close
 
@@ -88,7 +88,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 
 | # | Source claim group | Current status after integrated71 |
 | --- | --- | --- |
-| 1 | Every finite nonempty skew game has a symmetric equilibrium; unrestricted compatibility is automatic. (main.tex:99-101) | No project equilibrium-existence/minimax statement found. This standard background claim is separate from the completed conditional compatibility theorems. |
+| 1 | Every finite nonempty skew game has a symmetric equilibrium; unrestricted compatibility is automatic. (main.tex:99-101) | FiniteSkewEquilibrium now proves finite_skew_equilibrium_exists for every finite nonempty real skew game, with an actual normalized nonnegative mixture and all row responses nonpositive. This is a classical existence foundation, with no computable optimizer claim. |
 | 2 | General M sharp joint support law with sqrt(M/eta). (main.tex:119-125) | Integrated43: `joint_anchor_support_scaled_order_general` and `worstCaseSupport_sharp_general` prove general-M bounds for all k≥2,m>0,M>0,0<eta≤M; actual physical game lower family and attained worst-case operator. |
 | 3 | x^T A x=0, nonnegative exploitability and symmetric epsilon-Nash interpretation. (main.tex:235-241) | Weighted skew cancellation, actual finite max exploitability and nonnegativity are formalized. No bimatrix Nash/deviation definition and equivalence theorem appears in the package. |
 | 4 | Partial-mass integrated-score curve Lambda and its call variational identities. (completion.tex:45-67) | Cuts/call conclusion proved directly. No need to report the absent Lambda definition as failure of the envelope theorem. |
@@ -247,8 +247,7 @@ No blanket assignment to all1012 targets is
 made, and the generic comparator, permitted axioms and dependency pins are
 unchanged.
 
-Whole-paper readiness remains false. Remaining work includes explicit violating
-cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
+Whole-paper readiness remains false. Remaining work includes general repertoire separation, full arithmetic and bit complexity, polynomial rational
 LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
 cover transport. Native macOS checks do not establish canonical Linux sandbox,
 rendering, release-role or editorial readiness. No submission is authorized.
@@ -295,8 +294,68 @@ covers the mathematics, proof repairs and receipt authentication. These narrow
 checks are not a clean exact-commit whole-package verification. All completed
 mechanical gates for the integrated candidate are bound by immutable evidence
 outside the frozen source; predecessor836ab90 passed all12 native gates for its
-own bytes. Whole-paper and submission readiness remain false. Still open are
-perspective violating-cut output and affine separation, complete arithmetic/bit
-costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection
-and executable arbitrary-cover transport. Native macOS checks do not establish
+own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and executed supplied-cover encode/decode transport remain open. Native macOS checks do not establish
 canonical Linux, rendering or editorial readiness. No submission is authorized.
+
+## Computed violating cuts, separation and flow foundations
+
+This follow-on adds52 proofs in10 modules to predecessor273fb8c. The resulting
+source has281 mathematical modules,1107 source theorem audits and997 selected
+protected contracts. These counts describe scope, not whole-paper completion.
+Its exact-source verification and independent receipts are recorded outside the
+frozen package; predecessor receipts certify only their own source bytes.
+
+RationalPerspectiveViolation and RationalIntervalViolation connect actual
+rational prefix search to an original-label violating quadratic cut. None is
+equivalent to the corresponding cut checker, under the stated M≥0 and q≥0 premises, with H=0 at zero q
+or the interval perspective bounds that imply it. RationalPerspectiveSeparator computes an
+affine functional from the returned cut and the candidate mass. The exact gap
+is M times a squared mass difference. For M≥0 the functional separates the
+violating candidate from every real point satisfying the perspective cuts.
+This is a separation certificate, not a polynomial LP implementation.
+
+RationalFlowDemandCuts proves the signed-demand network cut identity.
+RationalSaturatedFlow decodes a supplied nonnegative source-saturated arc-flow
+certificate to a bounded skew payoff table when the unknown masses are positive.
+RationalFlowZeroRows handles zero masses by an explicit piecewise table; the
+original global row guard is essential. RationalFlowCertificateCheck checks the
+physical premises and supplied certificate and returns the actual decoded table.
+Some is sound. None means that supplied certificate failed; it does not establish
+infeasibility. Zero total mass, zero capacity and empty unknown index sets are
+covered where the theorem premises allow them.
+
+RationalResidualReach executes finite flood layers on a Boolean adjacency
+function. After n layers the reachable set is closed and equals finite
+reflexive/transitive reachability. This input is a function, with no array-cache
+or access-cost theorem. RationalNetFlow converts nonnegative arc flow F to skew
+net flow F(u,v)−F(v,u), proving capacity, divergence and residual identities.
+Residual capacity includes cancellable reverse flow. Applying C−F directly to
+raw nonnegative arc data would use the wrong convention.
+
+FiniteSkewEquilibrium proves that every finite nonempty real skew game has a
+normalized nonnegative mixture with all row responses nonpositive. Its proof
+uses compact convex separation, normalization of a nonnegative separating
+functional and the zero self-payoff identity. The simplex is defined locally;
+this is a classical existence foundation, not a computable optimizer or a
+novelty claim.
+
+Source retention adds the literal Relation.ReflTransGen declaration and exact
+compiler routes for Nat's generated recursor and finite existential decision.
+Nat.rec is compiler-generated from the retained Nat inductive; there is no
+literal def Nat.rec. This also repairs62 precisely identified historical
+WellFounded.Nat.fix source contexts. Predecessor273fb8c's native checks remain
+valid, while its retained-source completeness was qualified by that omission.
+The new finite-existential route is retained separately from finite universal
+decision. Exact declaration usage follows actual compiled local dependency
+closures, with no assignment merely from module membership. Both import
+contexts retain executable controls and semantic bridges.
+
+The following remain open: residual path recovery and augmentation, a maximum
+flow finder and its correctness, polynomial flow and rational LP guarantees,
+primitive arithmetic/bit costs and full runtime, efficient canonical sparse
+selection and executed supplied-cover encode/decode transport. Existing comparison counts,
+supplied-score unit arithmetic ledgers and denominator bounds do not prove
+those runtime claims. Canonical Linux/rendering and release-role confirmation
+also remain separate. Formalization authors and maintainers are unconfirmed;
+internal AI reviews are distinguished from human or external review.
+No registry or journal submission is authorized or performed.

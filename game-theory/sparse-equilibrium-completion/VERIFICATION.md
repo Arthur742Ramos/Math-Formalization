@@ -630,8 +630,7 @@ No blanket assignment to all1012 targets is
 made, and the generic comparator, permitted axioms and dependency pins are
 unchanged.
 
-Whole-paper readiness remains false. Remaining work includes explicit violating
-cuts, full candidate guards, arithmetic and bit complexity, polynomial rational
+Whole-paper readiness remains false. Remaining work includes general repertoire separation, full arithmetic and bit complexity, polynomial rational
 LP/flow guarantees, efficient sparse vertex selection and executable arbitrary
 cover transport. Native macOS checks do not establish canonical Linux sandbox,
 rendering, release-role or editorial readiness. No submission is authorized.
@@ -678,8 +677,68 @@ covers the mathematics, proof repairs and receipt authentication. These narrow
 checks are not a clean exact-commit whole-package verification. All completed
 mechanical gates for the integrated candidate are bound by immutable evidence
 outside the frozen source; predecessor836ab90 passed all12 native gates for its
-own bytes. Whole-paper and submission readiness remain false. Still open are
-perspective violating-cut output and affine separation, complete arithmetic/bit
-costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection
-and executable arbitrary-cover transport. Native macOS checks do not establish
+own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and executed supplied-cover encode/decode transport remain open. Native macOS checks do not establish
 canonical Linux, rendering or editorial readiness. No submission is authorized.
+
+## Computed violating cuts, separation and flow foundations
+
+This follow-on adds52 proofs in10 modules to predecessor273fb8c. The resulting
+source has281 mathematical modules,1107 source theorem audits and997 selected
+protected contracts. These counts describe scope, not whole-paper completion.
+Its exact-source verification and independent receipts are recorded outside the
+frozen package; predecessor receipts certify only their own source bytes.
+
+RationalPerspectiveViolation and RationalIntervalViolation connect actual
+rational prefix search to an original-label violating quadratic cut. None is
+equivalent to the corresponding cut checker, under the stated M≥0 and q≥0 premises, with H=0 at zero q
+or the interval perspective bounds that imply it. RationalPerspectiveSeparator computes an
+affine functional from the returned cut and the candidate mass. The exact gap
+is M times a squared mass difference. For M≥0 the functional separates the
+violating candidate from every real point satisfying the perspective cuts.
+This is a separation certificate, not a polynomial LP implementation.
+
+RationalFlowDemandCuts proves the signed-demand network cut identity.
+RationalSaturatedFlow decodes a supplied nonnegative source-saturated arc-flow
+certificate to a bounded skew payoff table when the unknown masses are positive.
+RationalFlowZeroRows handles zero masses by an explicit piecewise table; the
+original global row guard is essential. RationalFlowCertificateCheck checks the
+physical premises and supplied certificate and returns the actual decoded table.
+Some is sound. None means that supplied certificate failed; it does not establish
+infeasibility. Zero total mass, zero capacity and empty unknown index sets are
+covered where the theorem premises allow them.
+
+RationalResidualReach executes finite flood layers on a Boolean adjacency
+function. After n layers the reachable set is closed and equals finite
+reflexive/transitive reachability. This input is a function, with no array-cache
+or access-cost theorem. RationalNetFlow converts nonnegative arc flow F to skew
+net flow F(u,v)−F(v,u), proving capacity, divergence and residual identities.
+Residual capacity includes cancellable reverse flow. Applying C−F directly to
+raw nonnegative arc data would use the wrong convention.
+
+FiniteSkewEquilibrium proves that every finite nonempty real skew game has a
+normalized nonnegative mixture with all row responses nonpositive. Its proof
+uses compact convex separation, normalization of a nonnegative separating
+functional and the zero self-payoff identity. The simplex is defined locally;
+this is a classical existence foundation, not a computable optimizer or a
+novelty claim.
+
+Source retention adds the literal Relation.ReflTransGen declaration and exact
+compiler routes for Nat's generated recursor and finite existential decision.
+Nat.rec is compiler-generated from the retained Nat inductive; there is no
+literal def Nat.rec. This also repairs62 precisely identified historical
+WellFounded.Nat.fix source contexts. Predecessor273fb8c's native checks remain
+valid, while its retained-source completeness was qualified by that omission.
+The new finite-existential route is retained separately from finite universal
+decision. Exact declaration usage follows actual compiled local dependency
+closures, with no assignment merely from module membership. Both import
+contexts retain executable controls and semantic bridges.
+
+The following remain open: residual path recovery and augmentation, a maximum
+flow finder and its correctness, polynomial flow and rational LP guarantees,
+primitive arithmetic/bit costs and full runtime, efficient canonical sparse
+selection and executed supplied-cover encode/decode transport. Existing comparison counts,
+supplied-score unit arithmetic ledgers and denominator bounds do not prove
+those runtime claims. Canonical Linux/rendering and release-role confirmation
+also remain separate. Formalization authors and maintainers are unconfirmed;
+internal AI reviews are distinguished from human or external review.
+No registry or journal submission is authorized or performed.

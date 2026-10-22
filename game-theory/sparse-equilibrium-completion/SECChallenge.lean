@@ -21,6 +21,7 @@ public import Mathlib.Data.List.Sort
 public import Mathlib.Algebra.Order.Ring.Rat
 public import Mathlib.Algebra.BigOperators.Group.List.Basic
 public import Mathlib.Data.Rat.Lemmas
+public import Mathlib.Logic.Relation
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -21932,4 +21933,799 @@ theorem rational_interval_exact_reconstruction_normalized_game {k m : ℕ}
   have hh : (∑ a, p a)+(∑ i, q i)=1 := by rw [hr]; exact hpmass
   exact_mod_cast hh
 
+end SparseCompletion
+
+/- Fixed source body: RationalPerspectiveViolation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual original-label violating cuts for raw perspective moments. Comparison
+counts exclude score formation, rational division and payload allocation. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalPerspectiveViolation {m : ℕ} (M r ε : ℚ) (q H : Fin m → ℚ) :
+    Option (Finset (Fin m)) × ℕ :=
+  rationalNodupSortedViolation M r 0 q (fun i => rationalEffectiveScore q H i-ε)
+
+theorem rational_perspective_violation_none_iff_check {m : ℕ}
+    (M r ε : ℚ) (q H : Fin m → ℚ) :
+    (rationalPerspectiveViolation M r ε q H).1 = none ↔
+      (rationalPerspectiveCutCheck M r ε q H).1 = true := by
+  unfold rationalPerspectiveViolation rationalPerspectiveCutCheck
+  rw [rational_nodup_sorted_violation_eq]
+  exact rational_sorted_violation_none_iff_check _ _ _ _ _
+
+theorem rational_perspective_violation_none_iff_cuts {m : ℕ}
+    (M r ε : ℚ) (q H : Fin m → ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hz : ∀ i, q i=0 → H i=0) :
+    (rationalPerspectiveViolation M r ε q H).1 = none ↔
+      perspectiveCuts (fun i => (q i : ℝ)) (fun i => (H i : ℝ))
+        (M : ℝ) (r : ℝ) (ε : ℝ) :=
+  (rational_perspective_violation_none_iff_check M r ε q H).trans
+    (rational_perspective_cut_check_iff M r ε q H hM hq hz)
+
+theorem rational_perspective_violation_some_sound {m : ℕ}
+    (M r ε : ℚ) (q H : Fin m → ℚ) (hz : ∀ i, q i=0 → H i=0)
+    (S : Finset (Fin m)) (hout : (rationalPerspectiveViolation M r ε q H).1 = some S) :
+    0 < (M : ℝ)*(mass S (fun i => (q i : ℝ)))^2-
+      (M : ℝ)*(r : ℝ)*mass S (fun i => (q i : ℝ))+
+      (∑ i ∈ S, ((H i : ℝ)-(ε : ℝ)*(q i : ℝ))) := by
+  have hh := rational_nodup_sorted_violation_some_sound M r 0 q
+    (fun i => rationalEffectiveScore q H i-ε) S hout
+  have he : (∑ i ∈ S, (q i : ℝ)*((rationalEffectiveScore q H i-ε : ℚ) : ℝ)) =
+      ∑ i ∈ S, ((H i : ℝ)-(ε : ℝ)*(q i : ℝ)) := by
+    apply Finset.sum_congr rfl
+    intro i _
+    have hp : (q i : ℝ)*(rationalEffectiveScore q H i : ℝ) = (H i : ℝ) := by
+      exact_mod_cast rational_effective_score_product q H hz i
+    rw [Rat.cast_sub,mul_sub,hp,mul_comm (q i : ℝ) (ε : ℝ)]
+  rw [he] at hh
+  norm_num only [Rat.cast_zero] at hh
+  nlinarith
+
+theorem rational_perspective_violation_comparisons {m : ℕ}
+    (M r ε : ℚ) (q H : Fin m → ℚ) :
+    (rationalPerspectiveViolation M r ε q H).2 ≤ m*(Nat.log2 m+2)+1 :=
+  rational_nodup_sorted_violation_comparisons _ _ _ _ _
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalViolation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Actual interval-candidate cut output. Linear/core/global guards remain separate;
+a missing cut alone is not a valid complete candidate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalIntervalViolation {k m : ℕ} (M r ε : ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (V : Fin m → Fin k → ℚ) :
+    Option (Finset (Fin m)) × ℕ :=
+  rationalPerspectiveViolation M r ε q (fun i => ∑ a, p a*V i a)
+
+theorem rational_interval_violation_none_iff_check {k m : ℕ} (M r ε : ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (V : Fin m → Fin k → ℚ) :
+    (rationalIntervalViolation M r ε p q V).1 = none ↔
+      (rationalIntervalCutCheck M r ε p q V).1 = true :=
+  rational_perspective_violation_none_iff_check _ _ _ _ _
+
+theorem rational_interval_violation_none_iff_cuts {k m : ℕ} (M r ε : ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i)
+    (hb : ∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) :
+    (rationalIntervalViolation M r ε p q V).1 = none ↔
+      perspectiveCuts (fun i => (q i : ℝ))
+        (intervalMomentScore (fun a => (p a : ℝ)) (fun i a => (V i a : ℝ)))
+        (M : ℝ) (r : ℝ) (ε : ℝ) :=
+  (rational_interval_violation_none_iff_check M r ε p q V).trans
+    (rational_interval_cut_check_iff M r ε lo hi V p q hM hq hb)
+
+theorem rational_interval_violation_some_sound {k m : ℕ} (M r ε : ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (hb : ∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i)
+    (S : Finset (Fin m)) (ho : (rationalIntervalViolation M r ε p q V).1 = some S) :
+    0 < (M : ℝ)*(mass S (fun i => (q i : ℝ)))^2-
+      (M : ℝ)*(r : ℝ)*mass S (fun i => (q i : ℝ))+
+      (∑ i ∈ S, (intervalMomentScore (fun a => (p a : ℝ))
+        (fun i a => (V i a : ℝ)) i-(ε : ℝ)*(q i : ℝ))) := by
+  have hh := rational_perspective_violation_some_sound M r ε q
+    (fun i => ∑ a, p a*V i a) (rational_perspective_moment_zero lo hi V p q hb) S ho
+  simpa only [Rat.cast_sum,Rat.cast_mul,intervalMomentScore] using hh
+
+theorem rational_interval_violation_comparisons {k m : ℕ} (M r ε : ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (V : Fin m → Fin k → ℚ) :
+    (rationalIntervalViolation M r ε p q V).2 ≤ m*(Nat.log2 m+2)+1 :=
+  rational_perspective_violation_comparisons _ _ _ _ _
+
+end SparseCompletion
+
+/- Fixed source body: RationalFlowDemandCuts.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Exact rational demand-network cut formula. No max-flow existence or polynomial
+solver is assumed or asserted. The source/sink capacities are positive and
+negative parts of the signed demand. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalDemandNetworkCut {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (S : Finset (Fin m)) : ℚ :=
+  (∑ i ∈ Sᶜ, max (d i) 0)+(∑ i ∈ S, max (-d i) 0)+
+    ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j
+
+theorem rational_demand_parts (d : ℚ) : max d 0-max (-d) 0=d := by
+  by_cases h : 0 ≤ d
+  · rw [max_eq_left h,max_eq_right (neg_nonpos.mpr h)]
+    ring
+  · have hh := le_of_not_ge h
+    rw [max_eq_right hh,max_eq_left (neg_nonneg.mpr hh)]
+    ring
+
+theorem rational_demand_network_cut_identity {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (S : Finset (Fin m)) :
+    rationalDemandNetworkCut d c S =
+      (∑ i, max (d i) 0)-(∑ i ∈ S, d i)+∑ i ∈ S, ∑ j ∈ Sᶜ, c i j := by
+  have hp := Finset.sum_add_sum_compl S (fun i => max (d i) 0)
+  have hd : (∑ i ∈ S, max (d i) 0)-(∑ i ∈ S, max (-d i) 0) = ∑ i ∈ S, d i := by
+    rw [← Finset.sum_sub_distrib]
+    exact Finset.sum_congr rfl (fun i _ => rational_demand_parts (d i))
+  unfold rationalDemandNetworkCut
+  linarith
+
+theorem rational_demand_network_cuts_iff {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) :
+    (∀ S : Finset (Fin m), (∑ i, max (d i) 0) ≤ rationalDemandNetworkCut d c S) ↔
+      ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j := by
+  constructor <;> intro h S
+  · have hh := h S
+    rw [rational_demand_network_cut_identity] at hh
+    linarith
+  · rw [rational_demand_network_cut_identity]
+    have hh := h S
+    linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalSaturatedFlow.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+An explicitly checkable saturated-source flow certificate. This is not an
+existence theorem, a flow finder, or a polynomial algorithm guarantee. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalSaturatedFlow {m : ℕ} (d : Fin m → ℚ) (c F : Fin m → Fin m → ℚ)
+    (y : Fin m → ℚ) : Prop :=
+  (∀ i, 0 ≤ y i ∧ y i ≤ max (-d i) 0) ∧
+  (∀ i j, 0 ≤ F i j ∧ F i j ≤ c i j) ∧
+  ∀ i, max (d i) 0+(∑ j, F j i) = y i+(∑ j, F i j)
+
+instance rationalSaturatedFlowDecidable {m : ℕ} (d : Fin m → ℚ)
+    (c F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) :
+    Decidable (RationalSaturatedFlow d c F y) := by
+  unfold RationalSaturatedFlow
+  infer_instance
+
+theorem rational_saturated_flow_divergence {m : ℕ} (d : Fin m → ℚ)
+    (c F : Fin m → Fin m → ℚ) (y : Fin m → ℚ)
+    (hf : RationalSaturatedFlow d c F y) (i : Fin m) :
+    d i ≤ (∑ j, F i j)-(∑ j, F j i) := by
+  have hh := hf.2.2 i
+  have hy := (hf.1 i).2
+  have hd := rational_demand_parts (d i)
+  linarith
+
+def rationalFlowDecode {m : ℕ} (q : Fin m → ℚ) (F : Fin m → Fin m → ℚ) :
+    Fin m → Fin m → ℚ := fun i j => -(F i j-F j i)/(q i*q j)
+
+theorem rational_flow_decode_skew {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (i j : Fin m) :
+    rationalFlowDecode q F i j= -rationalFlowDecode q F j i := by
+  unfold rationalFlowDecode
+  rw [mul_comm (q j) (q i)]
+  ring
+
+theorem rational_flow_decode_bounds {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M : ℚ) (hq : ∀ i, 0 < q i)
+    (hf : ∀ i j, 0 ≤ F i j ∧ F i j ≤ M*q i*q j) (i j : Fin m) :
+    -M ≤ rationalFlowDecode q F i j ∧ rationalFlowDecode q F i j ≤ M := by
+  have hqq := mul_pos (hq i) (hq j)
+  have hij := hf i j
+  have hji := hf j i
+  unfold rationalFlowDecode
+  constructor
+  · apply (le_div_iff₀ hqq).mpr
+    nlinarith
+  · apply (div_le_iff₀ hqq).mpr
+    nlinarith
+
+theorem rational_flow_decode_response_identity {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (hq : ∀ i, 0 < q i) (i : Fin m) :
+    q i*(∑ j, rationalFlowDecode q F i j*q j) =
+      -((∑ j, F i j)-(∑ j, F j i)) := by
+  rw [Finset.mul_sum,← Finset.sum_sub_distrib,← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro j _
+  unfold rationalFlowDecode
+  field_simp [ne_of_gt (hq i),ne_of_gt (hq j)]
+
+theorem rational_saturated_flow_completion {m : ℕ} (q t : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) (M ε : ℚ)
+    (hq : ∀ i, 0 < q i)
+    (hf : RationalSaturatedFlow (fun i => q i*(t i-ε))
+      (fun i j => M*q i*q j) F y) :
+    ResidualRatConditions q t M ε (rationalFlowDecode q F) := by
+  refine ⟨rational_flow_decode_skew q F, rational_flow_decode_bounds q F M hq hf.2.1,?_⟩
+  intro i
+  have hd := rational_saturated_flow_divergence _ _ F y hf i
+  have he := rational_flow_decode_response_identity q F hq i
+  have hqi := hq i
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalPerspectiveSeparator.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Explicit rational affine coefficients from an actual violated perspective cut.
+The tangent inequality is proved by an exact nonnegative square, without a
+separation oracle or polynomial LP algorithm assumption. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalPerspectiveSeparator {m : ℕ} (M r ε : ℚ) (S : Finset (Fin m))
+    (q : Fin m → ℚ) : (Fin m → ℚ) × (Fin m → ℚ) × ℚ :=
+  let Q := ∑ i ∈ S, q i
+  (fun i => if i ∈ S then ((2 : ℕ) : ℚ)*M*Q-M*r-ε else 0,
+   fun i => if i ∈ S then 1 else 0,
+   -M*Q^2)
+
+noncomputable section
+
+def perspectiveAffineEval {m : ℕ}
+    (a : (Fin m → ℚ) × (Fin m → ℚ) × ℚ) (q H : Fin m → ℝ) : ℝ :=
+  (∑ i, (a.1 i : ℝ)*q i)+(∑ i, (a.2.1 i : ℝ)*H i)+(a.2.2 : ℝ)
+
+theorem perspective_separator_evaluation {m : ℕ} (M r ε : ℚ)
+    (S : Finset (Fin m)) (q0 : Fin m → ℚ) (q H : Fin m → ℝ) :
+    perspectiveAffineEval (rationalPerspectiveSeparator M r ε S q0) q H =
+      (((2 : ℕ) : ℝ)*(M : ℝ)*(∑ i ∈ S, (q0 i : ℝ))-(M : ℝ)*(r : ℝ)-(ε : ℝ))*mass S q+
+        (∑ i ∈ S, H i)-(M : ℝ)*(∑ i ∈ S, (q0 i : ℝ))^2 := by
+  classical
+  let a : ℚ := ((2 : ℕ) : ℚ)*M*(∑ i ∈ S, q0 i)-M*r-ε
+  have hq : (∑ i, ((rationalPerspectiveSeparator M r ε S q0).1 i : ℝ)*q i) =
+      (a : ℝ)*mass S q := by
+    change (∑ i, ((if i ∈ S then a else 0 : ℚ) : ℝ)*q i) = _
+    calc
+      _ = ∑ i, if i ∈ S then (a : ℝ)*q i else 0 := by
+        apply Finset.sum_congr rfl
+        intro i _
+        split_ifs <;> simp
+      _ = mass S (fun i => (a : ℝ)*q i) := masked_sum S _
+      _ = (a : ℝ)*mass S q := by simp only [mass,Finset.mul_sum]
+  have hH : (∑ i, ((rationalPerspectiveSeparator M r ε S q0).2.1 i : ℝ)*H i) =
+      ∑ i ∈ S, H i := by
+    change (∑ i, ((if i ∈ S then 1 else 0 : ℚ) : ℝ)*H i) = _
+    calc
+      _ = ∑ i, if i ∈ S then H i else 0 := by
+        apply Finset.sum_congr rfl
+        intro i _
+        split_ifs <;> simp
+      _ = _ := masked_sum S H
+  unfold perspectiveAffineEval
+  rw [hq,hH]
+  change (a : ℝ)*mass S q+(∑ i ∈ S, H i)+((-M*(∑ i ∈ S, q0 i)^2 : ℚ) : ℝ) = _
+  dsimp only [a]
+  push_cast
+  ring
+
+theorem perspective_separator_square_gap {m : ℕ} (M r ε : ℚ)
+    (S : Finset (Fin m)) (q0 : Fin m → ℚ) (q H : Fin m → ℝ) :
+    (M : ℝ)*(mass S q)^2-(M : ℝ)*(r : ℝ)*mass S q+
+      (∑ i ∈ S, (H i-(ε : ℝ)*q i))-
+      perspectiveAffineEval (rationalPerspectiveSeparator M r ε S q0) q H =
+    (M : ℝ)*(mass S q-(∑ i ∈ S, (q0 i : ℝ)))^2 := by
+  rw [perspective_separator_evaluation,Finset.sum_sub_distrib,← Finset.mul_sum]
+  unfold mass
+  ring
+
+theorem perspective_separator_feasible {m : ℕ} (M r ε : ℚ)
+    (S : Finset (Fin m)) (q0 : Fin m → ℚ) (q H : Fin m → ℝ)
+    (hM : 0 ≤ M) (hc : perspectiveCuts q H (M : ℝ) (r : ℝ) (ε : ℝ)) :
+    perspectiveAffineEval (rationalPerspectiveSeparator M r ε S q0) q H ≤ 0 := by
+  have hh := perspective_separator_square_gap M r ε S q0 q H
+  have hMr : (0 : ℝ) ≤ (M : ℝ) := by exact_mod_cast hM
+  have hn := mul_nonneg hMr (sq_nonneg (mass S q-(∑ i ∈ S, (q0 i : ℝ))))
+  have hcut := hc S
+  linarith
+
+theorem rational_perspective_separator_sound {m : ℕ} (M r ε : ℚ)
+    (q0 H0 : Fin m → ℚ) (hM : 0 ≤ M) (hz : ∀ i, q0 i=0 → H0 i=0)
+    (S : Finset (Fin m)) (ho : (rationalPerspectiveViolation M r ε q0 H0).1 = some S) :
+    0 < perspectiveAffineEval (rationalPerspectiveSeparator M r ε S q0)
+      (fun i => (q0 i : ℝ)) (fun i => (H0 i : ℝ)) ∧
+    ∀ q H : Fin m → ℝ, perspectiveCuts q H (M : ℝ) (r : ℝ) (ε : ℝ) →
+      perspectiveAffineEval (rationalPerspectiveSeparator M r ε S q0) q H ≤ 0 := by
+  constructor
+  · have hh := perspective_separator_square_gap M r ε S q0
+      (fun i => (q0 i : ℝ)) (fun i => (H0 i : ℝ))
+    have hb := rational_perspective_violation_some_sound M r ε q0 H0 hz S ho
+    dsimp only [mass] at hb
+    simp only [mass,sub_self,zero_pow (by decide : 2 ≠ 0),mul_zero] at hh
+    linarith
+  · intro q H hc
+    exact perspective_separator_feasible M r ε S q0 q H hM hc
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalFlowZeroRows.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Reconstruct zero-weight rows explicitly from a supplied saturated-flow
+certificate and the global row guard. Flow existence/search is still separate. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalFlowDecodeWithZeros {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M : ℚ) (i j : Fin m) : ℚ :=
+  if q i=0 then if q j=0 then 0 else -M
+  else if q j=0 then M else rationalFlowDecode q F i j
+
+theorem rational_flow_zero_edge {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M : ℚ)
+    (hf : ∀ i j, 0 ≤ F i j ∧ F i j ≤ M*q i*q j)
+    (i j : Fin m) (hz : q i=0 ∨ q j=0) : F i j=0 := by
+  apply le_antisymm _ (hf i j).1
+  calc
+    F i j ≤ M*q i*q j := (hf i j).2
+    _ = 0 := by
+      rcases hz with hi | hj
+      · simp only [hi,mul_zero,zero_mul]
+      · simp only [hj,mul_zero]
+
+theorem rational_flow_zero_decode_skew {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M : ℚ) (i j : Fin m) :
+    rationalFlowDecodeWithZeros q F M i j= -rationalFlowDecodeWithZeros q F M j i := by
+  by_cases hi : q i=0 <;> by_cases hj : q j=0
+  · simp [rationalFlowDecodeWithZeros,hi,hj]
+  · simp [rationalFlowDecodeWithZeros,hi,hj]
+  · simp [rationalFlowDecodeWithZeros,hi,hj]
+  · simpa only [rationalFlowDecodeWithZeros,hi,hj,ite_false] using rational_flow_decode_skew q F i j
+
+theorem rational_flow_zero_decode_bounds {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M : ℚ) (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i)
+    (hf : ∀ i j, 0 ≤ F i j ∧ F i j ≤ M*q i*q j) (i j : Fin m) :
+    -M ≤ rationalFlowDecodeWithZeros q F M i j ∧ rationalFlowDecodeWithZeros q F M i j ≤ M := by
+  by_cases hi : q i=0 <;> by_cases hj : q j=0
+  · simp only [rationalFlowDecodeWithZeros,hi,hj,ite_true]
+    constructor <;> linarith
+  · simp only [rationalFlowDecodeWithZeros,hi,hj,ite_true,ite_false]
+    constructor <;> linarith
+  · simp only [rationalFlowDecodeWithZeros,hi,hj,ite_true,ite_false]
+    constructor <;> linarith
+  · simp only [rationalFlowDecodeWithZeros,hi,hj,ite_false,rationalFlowDecode]
+    have hqq := mul_pos (lt_of_le_of_ne (hq i) (Ne.symm hi)) (lt_of_le_of_ne (hq j) (Ne.symm hj))
+    have hij := hf i j
+    have hji := hf j i
+    constructor
+    · apply (le_div_iff₀ hqq).mpr
+      nlinarith
+    · apply (div_le_iff₀ hqq).mpr
+      nlinarith
+
+theorem rational_flow_zero_decode_supported_response {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M : ℚ)
+    (hf : ∀ i j, 0 ≤ F i j ∧ F i j ≤ M*q i*q j)
+    (i : Fin m) (hi : q i ≠ 0) :
+    q i*(∑ j, rationalFlowDecodeWithZeros q F M i j*q j) =
+      -((∑ j, F i j)-(∑ j, F j i)) := by
+  rw [Finset.mul_sum,← Finset.sum_sub_distrib,← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro j _
+  by_cases hj : q j=0
+  · have hij := rational_flow_zero_edge q F M hf i j (Or.inr hj)
+    have hji := rational_flow_zero_edge q F M hf j i (Or.inl hj)
+    simp only [rationalFlowDecodeWithZeros,hi,hj,ite_false,ite_true,hij,hji,mul_zero,sub_self,neg_zero]
+  · simp only [rationalFlowDecodeWithZeros,hi,hj,ite_false,rationalFlowDecode]
+    field_simp [hi,hj]
+
+theorem rational_flow_zero_decode_zero_response {m : ℕ} (q : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (M r : ℚ) (hr : (∑ j, q j)=r)
+    (i : Fin m) (hi : q i=0) :
+    (∑ j, rationalFlowDecodeWithZeros q F M i j*q j)= -M*r := by
+  have hh : ∀ j, rationalFlowDecodeWithZeros q F M i j*q j= -M*q j := by
+    intro j
+    by_cases hj : q j=0 <;> simp [rationalFlowDecodeWithZeros,hi,hj]
+  simp only [hh,← Finset.mul_sum,hr]
+
+theorem rational_saturated_flow_completion_with_zeros {m : ℕ} (q t : Fin m → ℚ)
+    (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hr : (∑ j, q j)=r)
+    (hg : ∀ i, t i ≤ ε+M*r)
+    (hf : RationalSaturatedFlow (fun i => q i*(t i-ε))
+      (fun i j => M*q i*q j) F y) :
+    ResidualRatConditions q t M ε (rationalFlowDecodeWithZeros q F M) := by
+  refine ⟨rational_flow_zero_decode_skew q F M,rational_flow_zero_decode_bounds q F M hM hq hf.2.1,?_⟩
+  intro i
+  by_cases hi : q i=0
+  · rw [rational_flow_zero_decode_zero_response q F M r hr i hi]
+    have hh := hg i
+    linarith
+  · have hd := rational_saturated_flow_divergence _ _ F y hf i
+    have he := rational_flow_zero_decode_supported_response q F M hf.2.1 i hi
+    have hqi := lt_of_le_of_ne (hq i) (Ne.symm hi)
+    nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalFlowCertificateCheck.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Check a supplied rational flow certificate and compute every residual entry,
+including zero-weight rows. Rejection does not certify infeasibility: the
+certificate may be wrong even when some other flow exists. No flow finder or
+polynomial-time guarantee is asserted. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalFlowCertificateCheck {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) : Bool :=
+  decide ((0 ≤ M) ∧ (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+    (∀ i, t i ≤ ε+M*r) ∧
+    RationalSaturatedFlow (fun i => q i*(t i-ε)) (fun i j => M*q i*q j) F y)
+
+def rationalFlowCompletionFromCertificate {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) : Option (Fin m → Fin m → ℚ) :=
+  if rationalFlowCertificateCheck q t M r ε F y then some (rationalFlowDecodeWithZeros q F M)
+  else none
+
+theorem rational_flow_certificate_check_iff {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) :
+    rationalFlowCertificateCheck q t M r ε F y = true ↔
+      (0 ≤ M) ∧ (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+      (∀ i, t i ≤ ε+M*r) ∧
+      RationalSaturatedFlow (fun i => q i*(t i-ε)) (fun i j => M*q i*q j) F y := by
+  simp only [rationalFlowCertificateCheck,decide_eq_true_eq]
+
+theorem rational_flow_certificate_completion_sound {m : ℕ} (q t : Fin m → ℚ)
+    (M r ε : ℚ) (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (ho : rationalFlowCompletionFromCertificate q t M r ε F y = some B) :
+    B = rationalFlowDecodeWithZeros q F M ∧ ResidualRatConditions q t M ε B := by
+  unfold rationalFlowCompletionFromCertificate at ho
+  split at ho
+  · rename_i hc
+    have hB := Option.some.inj ho
+    subst B
+    rcases (rational_flow_certificate_check_iff q t M r ε F y).mp hc with ⟨hM,hq,hr,hg,hf⟩
+    exact ⟨rfl,rational_saturated_flow_completion_with_zeros q t F y M r ε hM hq hr hg hf⟩
+  · cases ho
+
+theorem rational_flow_certificate_completion_none_iff {m : ℕ} (q t : Fin m → ℚ)
+    (M r ε : ℚ) (F : Fin m → Fin m → ℚ) (y : Fin m → ℚ) :
+    rationalFlowCompletionFromCertificate q t M r ε F y = none ↔
+      rationalFlowCertificateCheck q t M r ε F y ≠ true := by
+  unfold rationalFlowCompletionFromCertificate
+  split <;> simp_all
+
+end SparseCompletion
+
+/- Fixed source body: RationalResidualReach.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Finite executable reachability layers on a Boolean adjacency function.
+No stored-array representation or access-cost theorem is asserted. Correctness does not assume a reachability oracle. Predecessor/path
+recovery and max-flow augmentation/complexity remain separate. -/
+@[expose] public section
+namespace SparseCompletion
+
+/-- C-F is the residual bound for a net-flow representation. A raw nonnegative
+arc-flow matrix must first be antisymmetrized; that bridge is separate. -/
+def rationalResidualAdj {n : ℕ} (C F : Fin n → Fin n → ℚ) (u v : Fin n) : Bool :=
+  decide (0 < C u v-F u v)
+
+def residualReachStep {n : ℕ} (A : Fin n → Fin n → Bool)
+    (S : Finset (Fin n)) : Finset (Fin n) :=
+  S ∪ Finset.univ.filter (fun v => ∃ u ∈ S, A u v=true)
+
+def residualReachLayers {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n)
+    (k : ℕ) : Finset (Fin n) :=
+  Nat.rec {s} (fun _ seen => residualReachStep A seen) k
+
+theorem residual_reach_layers_zero {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n) :
+    residualReachLayers A s 0={s} := rfl
+
+theorem residual_reach_layers_succ {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n) (k : ℕ) :
+    residualReachLayers A s (k+1)=residualReachStep A (residualReachLayers A s k) := rfl
+
+theorem residual_reach_step_extensive {n : ℕ} (A : Fin n → Fin n → Bool)
+    (S : Finset (Fin n)) : S ⊆ residualReachStep A S := Finset.subset_union_left
+
+theorem residual_reach_layers_mono {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n)
+    {k l : ℕ} (hkl : k ≤ l) : residualReachLayers A s k ⊆ residualReachLayers A s l := by
+  induction hkl with
+  | refl => exact Finset.Subset.refl _
+  | @step l h ih =>
+    exact ih.trans (residual_reach_step_extensive A (residualReachLayers A s l))
+
+theorem residual_reach_stable_or_large {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n)
+    (k : ℕ) : residualReachStep A (residualReachLayers A s k)=residualReachLayers A s k ∨
+      k+1 ≤ (residualReachLayers A s k).card := by
+  induction k with
+  | zero =>
+    right
+    simpa only [residual_reach_layers_zero,Finset.card_singleton] using (Nat.le_refl 1)
+  | succ k ih =>
+    by_cases hstable : residualReachStep A (residualReachLayers A s (k+1))=residualReachLayers A s (k+1)
+    · exact Or.inl hstable
+    · right
+      have hprev : residualReachStep A (residualReachLayers A s k) ≠ residualReachLayers A s k := by
+        intro he
+        apply hstable
+        rw [residual_reach_layers_succ,he]
+        exact he
+      have hlarge : k+1 ≤ (residualReachLayers A s k).card := ih.resolve_left hprev
+      have hsub : residualReachLayers A s k ⊆ residualReachLayers A s (k+1) :=
+        residual_reach_step_extensive A _
+      have hne : residualReachLayers A s k ≠ residualReachLayers A s (k+1) := by
+        intro he
+        apply hprev
+        exact he.symm
+      have hcard := Finset.card_lt_card (Finset.ssubset_iff_subset_ne.mpr ⟨hsub,hne⟩)
+      omega
+
+theorem residual_reach_layers_stable {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n) :
+    residualReachStep A (residualReachLayers A s n)=residualReachLayers A s n := by
+  rcases residual_reach_stable_or_large A s n with hs | hl
+  · exact hs
+  · have hb := (residualReachLayers A s n).card_le_univ
+    simp only [Fintype.card_fin] at hb
+    omega
+
+theorem residual_reach_layers_closed {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n)
+    (u v : Fin n) (hu : u ∈ residualReachLayers A s n) (he : A u v=true) :
+    v ∈ residualReachLayers A s n := by
+  rw [← residual_reach_layers_stable A s]
+  apply Finset.mem_union_right
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _,u,hu,he⟩
+
+theorem residual_reach_layers_sound {n : ℕ} (A : Fin n → Fin n → Bool) (s : Fin n)
+    (k : ℕ) (v : Fin n) (hv : v ∈ residualReachLayers A s k) :
+    Relation.ReflTransGen (fun u v => A u v=true) s v := by
+  induction k generalizing v with
+  | zero =>
+    have he := Finset.mem_singleton.mp hv
+    subst v
+    exact Relation.ReflTransGen.refl
+  | succ k ih =>
+    rcases Finset.mem_union.mp hv with hold | hnew
+    · exact ih v hold
+    · rcases (Finset.mem_filter.mp hnew).2 with ⟨u,hu,he⟩
+      exact Relation.ReflTransGen.tail (ih u hu) he
+
+theorem residual_reach_layers_complete {n : ℕ} (A : Fin n → Fin n → Bool) (s v : Fin n)
+    (hv : Relation.ReflTransGen (fun u v => A u v=true) s v) :
+    v ∈ residualReachLayers A s n := by
+  have hs : s ∈ residualReachLayers A s n :=
+    residual_reach_layers_mono A s (Nat.zero_le n) (Finset.mem_singleton_self s)
+  induction hv with
+  | refl => exact hs
+  | @tail u v _ he ih => exact residual_reach_layers_closed A s u v ih he
+
+theorem residual_reach_layers_iff {n : ℕ} (A : Fin n → Fin n → Bool) (s v : Fin n) :
+    v ∈ residualReachLayers A s n ↔ Relation.ReflTransGen (fun u v => A u v=true) s v :=
+  ⟨residual_reach_layers_sound A s n v,residual_reach_layers_complete A s v⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalNetFlow.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Bridge raw nonnegative arc flows to skew net flows. Residual capacity C-netF
+includes both unused forward capacity and cancellable reverse flow. No
+augmentation algorithm or polynomial bound is asserted. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalNetFlow {n : ℕ} (F : Fin n → Fin n → ℚ) (u v : Fin n) : ℚ :=
+  F u v-F v u
+
+theorem rational_net_flow_skew {n : ℕ} (F : Fin n → Fin n → ℚ) (u v : Fin n) :
+    rationalNetFlow F u v= -rationalNetFlow F v u := by
+  unfold rationalNetFlow
+  ring
+
+theorem rational_net_flow_capacity {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (hf : ∀ u v, 0 ≤ F u v ∧ F u v ≤ C u v) (u v : Fin n) :
+    rationalNetFlow F u v ≤ C u v := by
+  have hh := (hf u v).2
+  have hr := (hf v u).1
+  unfold rationalNetFlow
+  linarith
+
+theorem rational_net_flow_residual_identity {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (u v : Fin n) : C u v-rationalNetFlow F u v = C u v-F u v+F v u := by
+  unfold rationalNetFlow
+  ring
+
+theorem rational_net_flow_residual_nonnegative {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (hf : ∀ u v, 0 ≤ F u v ∧ F u v ≤ C u v) (u v : Fin n) :
+    0 ≤ C u v-rationalNetFlow F u v :=
+  sub_nonneg.mpr (rational_net_flow_capacity C F hf u v)
+
+theorem rational_net_flow_divergence {n : ℕ} (F : Fin n → Fin n → ℚ) (u : Fin n) :
+    (∑ v, rationalNetFlow F u v)=(∑ v, F u v)-(∑ v, F v u) := by
+  simp only [rationalNetFlow,Finset.sum_sub_distrib]
+
+theorem rational_saturated_net_flow_demand {n : ℕ} (d : Fin n → ℚ)
+    (C F : Fin n → Fin n → ℚ) (y : Fin n → ℚ)
+    (hf : RationalSaturatedFlow d C F y) (u : Fin n) :
+    d u ≤ ∑ v, rationalNetFlow F u v := by
+  rw [rational_net_flow_divergence]
+  exact rational_saturated_flow_divergence d C F y hf u
+
+theorem rational_net_flow_decode_identity {n : ℕ} (q : Fin n → ℚ)
+    (F : Fin n → Fin n → ℚ) (u v : Fin n) :
+    rationalFlowDecode q F u v= -rationalNetFlow F u v/(q u*q v) := rfl
+
+end SparseCompletion
+
+/- Fixed source body: FiniteSkewEquilibrium.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Existence for arbitrary finite nonempty real skew games,
+using genuine compact/closed separation, without a minimax or LP oracle. -/
+
+@[expose] public section
+open scoped BigOperators
+open Set
+
+namespace SparseCompletion
+noncomputable section
+
+/-- The literal probability simplex; avoids deprecated `stdSimplex` APIs. -/
+def finiteGameSimplex {ι : Type*} [Fintype ι] : Set (ι → ℝ) :=
+  {q | (∀ i, 0 ≤ q i) ∧ ∑ i, q i = 1}
+
+theorem finite_game_simplex_closed {ι : Type*} [Fintype ι] :
+    IsClosed (finiteGameSimplex (ι := ι)) := by
+  have he : finiteGameSimplex (ι := ι) =
+      (⋂ i, {q : ι → ℝ | 0 ≤ q i}) ∩ {q | ∑ i, q i = 1} := by
+    ext q
+    simp only [finiteGameSimplex, Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_iInter]
+  rw [he]
+  apply IsClosed.inter
+  · exact isClosed_iInter fun i => isClosed_le continuous_const (continuous_apply i)
+  · exact isClosed_eq (by fun_prop) continuous_const
+
+theorem finite_game_simplex_compact {ι : Type*} [Fintype ι] :
+    IsCompact (finiteGameSimplex (ι := ι)) := by
+  apply IsCompact.of_isClosed_subset (s := Set.Icc (0 : ι → ℝ) 1)
+    isCompact_Icc finite_game_simplex_closed
+  intro q hq
+  refine ⟨hq.1, ?_⟩
+  intro i
+  calc
+    q i ≤ ∑ j, q j := Finset.single_le_sum (fun j _ => hq.1 j) (Finset.mem_univ i)
+    _ = 1 := hq.2
+
+theorem finite_game_simplex_convex {ι : Type*} [Fintype ι] :
+    Convex ℝ (finiteGameSimplex (ι := ι)) := by
+  intro q hq w hw a b ha hb hab
+  constructor
+  · intro i
+    change 0 ≤ a*q i+b*w i
+    exact add_nonneg (mul_nonneg ha (hq.1 i)) (mul_nonneg hb (hw.1 i))
+  · change (∑ i, (a*q i+b*w i)) = 1
+    rw [Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.mul_sum, hq.2, hw.2]
+    simpa only [mul_one] using hab
+
+theorem finite_game_simplex_nonempty {ι : Type*} [Fintype ι] [Nonempty ι] :
+    (finiteGameSimplex (ι := ι)).Nonempty := by
+  classical
+  let i : ι := Classical.choice inferInstance
+  refine ⟨Pi.single i 1, ?_, ?_⟩
+  · intro j
+    simp only [Pi.single_apply]
+    split <;> norm_num
+  · simp
+
+/-- Linear map to the negated vector of all original responses. -/
+def finiteNegGameResponse {ι : Type*} [Fintype ι] (A : ι → ι → ℝ) :
+    (ι → ℝ) →ₗ[ℝ] (ι → ℝ) where
+  toFun q i := -response A q i
+  map_add' q w := by
+    ext i
+    simp only [response, Pi.add_apply, mul_add, Finset.sum_add_distrib, neg_add]
+  map_smul' a q := by
+    ext i
+    change -(∑ j, A i j*(a*q j)) = a*(-∑ j, A i j*q j)
+    rw [mul_neg, Finset.mul_sum]
+    congr 1
+    apply Finset.sum_congr rfl
+    intro j _
+    ring
+
+/-- Skewness alone cancels the self-payoff; no sign or normalization assumption. -/
+theorem finite_skew_self_response_zero {ι : Type*} [Fintype ι]
+    (A : ι → ι → ℝ) (hA : IsSkew A) (q : ι → ℝ) :
+    (∑ i, q i*response A q i) = 0 := by
+  simpa only [response, Finset.mul_sum, mul_assoc] using
+    skew_weighted_sum Finset.univ q A hA
+
+/-- Every finite nonempty real skew-symmetric game has an exact mixed strategy
+    whose every original action response is nonpositive. No payoff bound needed. -/
+theorem finite_skew_equilibrium_exists {ι : Type*} [Fintype ι] [Nonempty ι]
+    (A : ι → ι → ℝ) (hA : IsSkew A) :
+    ∃ q : ι → ℝ, (∀ i, 0 ≤ q i) ∧ (∑ i, q i = 1) ∧
+      ∀ i, response A q i ≤ 0 := by
+  classical
+  let T : Set (ι → ℝ) := finiteNegGameResponse A '' finiteGameSimplex
+  have hTcompact : IsCompact T :=
+    finite_game_simplex_compact.image (finiteNegGameResponse A).continuous_of_finiteDimensional
+  have hTconvex : Convex ℝ T :=
+    finite_game_simplex_convex.linear_image (finiteNegGameResponse A)
+  have hinter : (T ∩ upperOrthant (0 : ι → ℝ)).Nonempty := by
+    by_contra hn
+    have hdisj : Disjoint T (upperOrthant (0 : ι → ℝ)) := by
+      rw [Set.disjoint_iff_inter_eq_empty]
+      exact Set.not_nonempty_iff_eq_empty.mp hn
+    obtain ⟨f, u, w, hleft, huw, hright⟩ :=
+      geometric_hahn_banach_compact_closed hTconvex hTcompact
+        (upperOrthant_convex (0 : ι → ℝ)) (upperOrthant_closed (0 : ι → ℝ)) hdisj
+    let y : ι → ℝ := fun i => f (Pi.single i 1)
+    have hy : ∀ i, 0 ≤ y i :=
+      separator_coefficients_nonnegative (0 : ι → ℝ) f w hright
+    let S : ℝ := ∑ i, y i
+    have hSnonneg : 0 ≤ S := Finset.sum_nonneg (fun i _ => hy i)
+    have hS : 0 < S := by
+      by_contra hnS
+      have hSzero : S = 0 := le_antisymm (le_of_not_gt hnS) hSnonneg
+      have hyzero : ∀ i, y i = 0 := by
+        intro i
+        apply le_antisymm _ (hy i)
+        calc
+          y i ≤ ∑ j, y j := Finset.single_le_sum (fun j _ => hy j) (Finset.mem_univ i)
+          _ = 0 := hSzero
+      have hfzero : ∀ z : ι → ℝ, f z = 0 := by
+        intro z
+        rw [dual_evaluation]
+        change (∑ i, y i*z i) = 0
+        simp only [hyzero, zero_mul, Finset.sum_const_zero]
+      obtain ⟨q0, hq0⟩ := finite_game_simplex_nonempty (ι := ι)
+      have hl := hleft (finiteNegGameResponse A q0) ⟨q0, hq0, rfl⟩
+      have hr := hright (0 : ι → ℝ) (fun _ => le_rfl)
+      rw [hfzero] at hl hr
+      linarith
+    let q : ι → ℝ := fun i => y i/S
+    have hq : q ∈ finiteGameSimplex := by
+      constructor
+      · intro i
+        exact div_nonneg (hy i) (le_of_lt hS)
+      · change (∑ i, y i/S) = 1
+        rw [← Finset.sum_div]
+        exact div_self (ne_of_gt hS)
+    have hweighted := finite_skew_self_response_zero A hA q
+    have hfq : f (finiteNegGameResponse A q) = 0 := by
+      rw [dual_evaluation]
+      change (∑ i, y i*(-response A q i)) = 0
+      have he : ∀ i, y i*(-response A q i) = -S*(q i*response A q i) := by
+        intro i
+        dsimp [q]
+        field_simp [ne_of_gt hS]
+      simp only [he, ← Finset.mul_sum, hweighted, mul_zero]
+    have hl := hleft (finiteNegGameResponse A q) ⟨q, hq, rfl⟩
+    have hr := hright (0 : ι → ℝ) (fun _ => le_rfl)
+    rw [hfq] at hl
+    rw [map_zero] at hr
+    linarith
+  obtain ⟨z, ⟨q, hq, hz⟩, hnonneg⟩ := hinter
+  refine ⟨q, hq.1, hq.2, ?_⟩
+  intro i
+  have hi := hnonneg i
+  rw [← hz] at hi
+  change 0 ≤ -response A q i at hi
+  linarith
+
+end
 end SparseCompletion

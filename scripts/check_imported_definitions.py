@@ -142,7 +142,7 @@ def check(project, dependency_root=None):
                 require(declaration[key] in excerpts, 'Missing semantic/complement bridge')
         else:
             kind = declaration['declaration_kind']
-            require(kind in {'def', 'class', 'structure'}, 'Unknown declaration kind')
+            require(kind in {'def', 'class', 'structure', 'inductive'}, 'Unknown declaration kind')
             require(declaration_head_matches(name, kind, body),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']

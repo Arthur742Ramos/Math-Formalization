@@ -27,6 +27,16 @@ class DeclarationIdentifierTests(unittest.TestCase):
             self.assertFalse(declaration_head_matches('Finset.max', 'def',
                 "def max' (s : Finset α) := value\n", legacy=legacy))
 
+    def test_exact_inductive_and_wrong_kind(self):
+        body = ('inductive ReflTransGen (r : α → α → Prop) (a : α) : α → Prop\n'
+                '  | refl : ReflTransGen r a a\n')
+        self.assertTrue(declaration_head_matches('Relation.ReflTransGen', 'inductive', body))
+        self.assertFalse(declaration_head_matches('Relation.ReflTransGen', 'def', body))
+        self.assertFalse(declaration_head_matches('Relation.ReflTransGen', 'inductive',
+            body.replace('inductive ReflTransGen ', 'inductive ReflTransGen_other ')))
+        self.assertFalse(declaration_head_matches('Relation.ReflTransGen', 'inductive',
+            body.replace('inductive ReflTransGen ', '-- inductive ReflTransGen ')))
+
     def test_wrong_kind_or_commented_declaration(self):
         self.assertFalse(declaration_head_matches("Finset.max'", 'def',
             "theorem max' : True := trivial\n"))

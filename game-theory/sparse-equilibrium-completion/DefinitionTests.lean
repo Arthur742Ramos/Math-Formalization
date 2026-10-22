@@ -811,5 +811,71 @@ open SparseCompletion
 #guard ((rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => -1) (fun _ _ => 1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1) (fun _ => 0) 1 0 0).map (fun out => out.1 0 0)) = some (-1)
 #guard (rationalIntervalExactReconstruction (k:=1) (m:=1) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ _ => 0) (fun _ => 1/2) (fun _ => 1/2) 0 (1/2) 0).isSome
 
+
+-- Exact relation, generated-recursor and finite-existential semantics
+theorem future52_relation_refl_trans_refl {α : Type*} (R : α → α → Prop) (a : α) : Relation.ReflTransGen R a a := .refl
+
+theorem future52_relation_refl_trans_tail {α : Type*} {R : α → α → Prop} {a b c : α}
+    (h : Relation.ReflTransGen R a b) (e : R b c) : Relation.ReflTransGen R a c := .tail h e
+
+theorem future52_natural_recursor_zero {α : Sort*} (z : α) (step : Nat → α → α) : Nat.rec z step 0 = z := rfl
+
+theorem future52_natural_recursor_succ {α : Sort*} (z : α) (step : Nat → α → α) (n : Nat) :
+    Nat.rec z step (Nat.succ n) = step n (Nat.rec z step n) := rfl
+
+theorem future52_finite_exists_runtime_semantics {n : Nat} {f : (i : Nat) → i < n → Bool} :
+    Nat.anyLTTR n f = true ↔ ∃ i, ∃ h : i < n, f i h = true := Nat.anyLTTR_eq_true
+
+theorem future52_finite_exists_csimp_equality : @Nat.decidableExistsLT = @Nat.decidableExistsLTTR :=
+  Nat.decidableExistsLT_eq_decidableExistsLTTR
+
+theorem future52_finite_exists_decide_true {n : Nat} (P : Fin n → Prop) [DecidablePred P] :
+    decide (∃ i, P i) = true ↔ ∃ i, P i := by simp only [decide_eq_true_eq]
+
+theorem future52_bool_disjunction_false (b : Bool) : Bool.or false b = b := rfl
+
+theorem future52_bool_disjunction_true (b : Bool) : Bool.or true b = true := rfl
+
+theorem future52_bool_disjunction_runtime_equality : Bool.or = Bool.Internal.or := Bool.or_eq_internalOr
+
+open SparseCompletion
+#guard rationalPerspectiveViolation 0 1 0 (fun _ : Fin 1 => 1) (fun _ => 1) = (some {0},2)
+#guard rationalPerspectiveViolation 0 1 1 (fun _ : Fin 1 => 1) (fun _ => 1) = (none,2)
+#guard rationalPerspectiveViolation 1 0 0 (fun _ : Fin 1 => 0) (fun _ => 0) = (none,2)
+#guard rationalPerspectiveViolation 0 1 (-1) (fun _ : Fin 0 => 0) (fun _ => 0) = (none,1)
+#guard rationalIntervalViolation 0 1 0 (fun _ : Fin 1 => 1) (fun _ : Fin 1 => 1) (fun _ _ => 1) = (some {0},2)
+#guard rationalIntervalViolation 0 1 1 (fun _ : Fin 1 => 1) (fun _ : Fin 1 => 1) (fun _ _ => 1) = (none,2)
+#guard rationalIntervalViolation 1 0 0 (fun _ : Fin 1 => 1) (fun _ : Fin 1 => 0) (fun _ _ => 0) = (none,2)
+#guard rationalDemandNetworkCut (fun _ : Fin 0 => 0) (fun _ _ => 0) ∅ = 0
+#guard rationalDemandNetworkCut (fun i : Fin 2 => if i=0 then 1 else -1) (fun i j => if i=j then 0 else 1) {0} = 1
+#guard rationalDemandNetworkCut (fun i : Fin 2 => if i=0 then 1 else -1) (fun i j => if i=j then 0 else 1) ∅ = 1
+#guard rationalDemandNetworkCut (fun i : Fin 2 => if i=0 then 1 else -1) (fun i j => if i=j then 0 else 1) Finset.univ = 1
+#guard (rationalPerspectiveSeparator (m:=1) 1 1 0 {0} (fun _ => 1)).1 0 = 1
+#guard (rationalPerspectiveSeparator (m:=1) 1 1 0 {0} (fun _ => 1)).2.1 0 = 1
+#guard (rationalPerspectiveSeparator (m:=1) 1 1 0 {0} (fun _ => 1)).2.2 = -1
+#guard (rationalPerspectiveSeparator (m:=1) 1 1 0 {0} (fun _ => 1/2)).1 0 = 0
+#guard (rationalPerspectiveSeparator (m:=1) 1 1 0 {0} (fun _ => 1/2)).2.2 = -(1/4)
+#guard rationalFlowCertificateCheck (m:=0) (fun _ => 0) (fun _ => 0) 1 0 0 (fun _ _ => 0) (fun _ => 0) = true
+#guard rationalFlowCertificateCheck (m:=1) (fun _ => 0) (fun _ => 0) 1 0 0 (fun _ _ => 0) (fun _ => 0) = true
+#guard rationalFlowCertificateCheck (m:=1) (fun _ => 0) (fun _ => 1) 1 0 0 (fun _ _ => 0) (fun _ => 0) = false
+#guard rationalFlowCertificateCheck (m:=1) (fun _ => 1/2) (fun _ => 0) 0 (1/2) 0 (fun _ _ => 0) (fun _ => 0) = true
+#guard rationalFlowCertificateCheck (m:=1) (fun _ => 1/2) (fun _ => 0) 0 (1/2) 0 (fun _ _ => 1) (fun _ => 0) = false
+#guard rationalFlowCertificateCheck (m:=0) (fun _ => 0) (fun _ => 0) (-1) 0 0 (fun _ _ => 0) (fun _ => 0) = false
+#guard ((rationalFlowCompletionFromCertificate (m:=2) (fun _ => 1/2) (fun i => if i=0 then 1/2 else -1/2) 1 1 0 (fun i j => if i=0 ∧ j=1 then 1/4 else 0) (fun i => if i=1 then 1/4 else 0)).map (fun B => (B 0 1,B 1 0))) = some (-1,1)
+#guard ((rationalFlowCompletionFromCertificate (m:=2) (fun i => if i=0 then 0 else 1/2) (fun i => if i=0 then 1/2 else 0) 1 (1/2) 0 (fun _ _ => 0) (fun _ => 0)).map (fun B => (B 0 1,B 1 0))) = some (-1,1)
+#guard (rationalFlowCompletionFromCertificate (m:=2) (fun i => if i=0 then 0 else 1/2) (fun i => if i=0 then 1 else 0) 1 (1/2) 0 (fun _ _ => 0) (fun _ => 0)).isNone
+#guard rationalFlowCertificateCheck (m:=2) (fun _ => 1/2) (fun i => if i=0 then 1/2 else -1/2) 1 1 0 (fun _ _ => 0) (fun _ => 0) = false
+#guard 3 ∈ residualReachLayers (fun i j : Fin 4 => decide (j.val=i.val+1)) 0 3
+#guard 3 ∉ residualReachLayers (fun i j : Fin 4 => decide (j.val=i.val+1)) 0 2
+#guard residualReachLayers (fun i j : Fin 4 => decide (j.val=i.val+1)) 0 4 = Finset.univ
+#guard 0 ∉ residualReachLayers (fun i j : Fin 3 => decide (j.val=i.val+1)) 2 3
+#guard residualReachLayers (fun _ _ : Fin 1 => false) 0 1 = {0}
+#guard residualReachLayers (fun i j : Fin 2 => decide (i ≠ j)) 0 2 = Finset.univ
+#guard rationalResidualAdj (n:=1) (fun _ _ => 1) (fun _ _ => 1) 0 0 = false
+#guard rationalResidualAdj (n:=1) (fun _ _ => 0) (fun _ _ => -1) 0 0 = true
+#guard rationalNetFlow (n:=2) (fun i j => if i=0 ∧ j=1 then 1/4 else if i=1 ∧ j=0 then 1/8 else 0) 0 1 = 1/8
+#guard rationalResidualAdj (n:=2) (fun _ _ => 1/4) (rationalNetFlow (fun i j => if i=0 ∧ j=1 then 1/4 else if i=1 ∧ j=0 then 1/8 else 0)) 0 1 = true
+#guard rationalResidualAdj (n:=2) (fun _ _ => 1/4) (fun i j => if i=0 ∧ j=1 then 1/4 else if i=1 ∧ j=0 then 1/8 else 0) 0 1 = false
+
 end SECDefinitions
 -- END material-imported-definition audit
