@@ -1,0 +1,70 @@
+{
+  "status": "pass",
+  "scope": "Native exact-pinned-source qualification only; canonical full/render not established",
+  "source_commit": "ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f",
+  "project_path": "topology/cantor-space-characterization",
+  "source_files_sha256": {
+    ".gitignore": "2dbda161eaadab05b93b4b1269cfdd8c7a18f44b07d58bc2847513054b5c120d",
+    "AxiomAudit.lean": "d31ac7708f8246558ace0aeb5bf2807fc0a118a96a4eea619ea3fbc9b70c2d56",
+    "CSChallenge.lean": "676431e045145be9c98ba69acb5293a605cd2c4ad1aaed55f6f7d612b957eaf1",
+    "CSSolution.lean": "1b1ec8cbcb3d55e88685c76fb9d42018482133bed09b0461495e18188e9d7c94",
+    "CantorCharacterization.lean": "676431e045145be9c98ba69acb5293a605cd2c4ad1aaed55f6f7d612b957eaf1",
+    "ChallengeTests.lean": "ba7cb3946d2da5e19cc7076d532f012178f1b8549015c30b3cb3b90942c85d49",
+    "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+    "MATERIAL-DEFINITIONS.md": "ac7ea776a7d9dc52120adf6585b4628be5de7869b3052b5cf259acda41718e9d",
+    "README.md": "5b49c6a1b2f84e3ec82783fa12599c5b49757402878c1a6fb78b7315c44f409d",
+    "REVIEW.md": "b012bf4d7b7177a1313ee49ff4c934242820aff4186c4cf64eabf4f3c72d7e7b",
+    "SOURCE-MAPPING.md": "9bad5528d9dd85ce50a4d7e3888fe69c224245d3e4c2829dc4b22bb7aa355eb1",
+    "SemanticTests.lean": "1c74f6c9d325eebce324475f43d7d94af3cd507f743a8c37e464e571a5f05c21",
+    "VERIFICATION.md": "76a2a42f0da3081c369d3b1f540f51d89a5724cf2c439731131837a1d956f7c0",
+    "comparator.json": "570f08730629267af58d9e4a675fa59b78cf08f6a234fb2940cdc3beb7af9eec",
+    "formalization.yaml": "6a6245d7a08f2e80260dc9621f9479eec329ea004d59bbc6559560e6c9c3d68e",
+    "lake-manifest.json": "9840ca556a7abe2d6e6f44c490b554b4b9581ab2e98b27fdbc5ccc0a2b524343",
+    "lakefile.toml": "f4e94f5bf2211826485a94bd3b562a59e97501a15e025fbb7e0f6ca5cb16a71b",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "scripts/check_package.py": "b49bac32e57f842e0955ba4e0b18b8e0b572671ef66b932ad5baa1f7452a7460",
+    "verification/core-imported-definitions.json": "3089012f0626af6511c5e4f9403cd5c0016284c8104958c298f7001845d2fb9a",
+    "verification/material-imported-definitions.json": "726325ff808d785d886f607e32a444159b416fdd37ac808a2cf1ff469816640e",
+    "verification/source-hashes.json": "49947eae3e04e1749812c680cb857e09ba503bd681cee3763165b4bfee1acae7"
+  },
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "theorem_targets": 11,
+  "definition_holes": [],
+  "kernel_declarations": 14096,
+  "regressions": 189,
+  "negative_controls": [
+    "CantorCharacterization.BinaryScheme.code",
+    "CantorCharacterization.HasClopenBasis",
+    "CantorCharacterization.BinaryScheme.next"
+  ],
+  "native_record_sha256": "05c3da5ce8d8935ffb1f447a413c9f9c2a6a943332f675811c5e3944ff2df8fc",
+  "evidence_sha256": {
+    "cantor-evidence/semantic-build.log": "b42ffcb753749045facc5f862bdd4657f3bce12b9dccb347a933ff262ffb5afd",
+    "cantor-evidence/axioms.log": "ae909ccdcd529ac00d89f07b961a161472c8eb3c00630776d5b7ce6a3ab2f3c1",
+    "cantor-evidence/package-consistency.json": "58291ac364925382cca2380230544705805c731cb8bd16bcfec121c0060a3ff2",
+    "cantor-evidence/metadata-schema-check.json": "99ebf50af701ded9f940cfa27dc0687885c5c2c8477c80551dd62ad5eb4bc44a",
+    "cantor-evidence/imported-definition-origin-check.json": "c6694e9f8e42adb21a106a76d909cdd07bf4b85b2639f119bfcf882324fee152",
+    "cantor-evidence/regressions.log": "db6658ef0cc7d575942bccc18f28dd109be90b9e0aa85465dbd49cd063f5c779",
+    "cantor-native.py": "a6aa3c2434101a0008449c8851475d376fca4d7b702f503ac7fa6c4c17c9ce5e",
+    "cantor-native/CompareCantor.lean": "80656c30fab6731e839332d99806ab7480de3c475832260dc3c212f3c584a06a"
+  },
+  "export_sha256": {
+    "challenge.ndjson": "3bbd0f87228fffa8befc6ea12aad53af2bacda3df3455fe1ff60a36ad4e15afc",
+    "solution.ndjson": "2be693a4e799e6acbe41992e709ad768b41469e666757277d58b6543dab36a58"
+  },
+  "export_sizes": {
+    "challenge.ndjson": 60581483,
+    "solution.ndjson": 60581131
+  },
+  "canonical_pair_authorized": false,
+  "registry_intakes": 0,
+  "package_tree": "067518cc78b6bc84d82930d0e07a09ee74a906f8",
+  "independent_review_sha256": {
+    "cantor-characterization-target-independent-review.json": "3dd227458a1035fde6d4a39b7a850f9c509041d9607a618f14b630972e530a95",
+    "cantor-characterization-implementation-independent-review.json": "f75a1543c4868971c9f76c2ebfb3f6bd8180d78c26e5a3cb044353cf449d4f47",
+    "cantor-characterization-material-and-metadata-independent-review.json": "b3aa62189dd80fe4224c8306e4ca5b299482a2b88ae6303cea015feb4dc3404a",
+    "cantor-characterization-native-independent-review.json": "894898d7250ef18e59d2c8cb938456fd5de481a35ae390a6199458064d5f02ed"
+  }
+}
