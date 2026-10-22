@@ -422,3 +422,28 @@ Integrated imported-meaning review and a fresh frozen-commit native build,
 protected dependency comparison, altered-helper rejection, exports and both
 kernels remain required for the new candidate. Scratch compile successes do
 not substitute for those gates. No registry or journal submission occurred.
+
+
+## Source-explicit bin follow-on
+
+Preserved91afffed2205d48ed60214ef7370c5a98ed5c362 passed all12 exact native
+gates and independent authentication:191 math modules,783 actual math-source
+audits,673 protected contracts and233 files. Its suspected closed support-index
+helpers passed actual protected identity comparison; altered-helper rejection
+remained active. Tag and complete-history bundle are retained externally.
+
+Fourteen new mathematics modules add39 independently reviewed compiled proofs,
+bringing the current candidate to205 math modules,822 math-source audits and
+712 protected contracts. Two new executable control modules add22 passing
+guards for actual[4,1] bins, central/cross/omitted signs, exact rational weights,
+normalization, all5 response identities, skew/bounds and zero residual mass.
+Two genuine finite-index/positive-length test helpers are outside these39
+selected math contracts and compiled with the controls.
+
+The new candidate retains expanded constructive indexing evidence with
+66 material meanings,76 compiler contexts,2 auxiliary records and110 Mathlib
+source files containing202 exact excerpts. Local source/provenance checks
+and9 fresh optimization-mode rejection controls passed. The ten new semantic
+contracts require separate protected-entrypoint bridge builds; final integrated
+reviews and fresh immutable-commit build/axiom/protected/export/kernel gates remain. Prior receipt
+history does not verify the new bytes. No registry or journal submission.

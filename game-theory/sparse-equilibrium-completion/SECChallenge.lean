@@ -16899,3 +16899,763 @@ theorem rational_interval_sparse_initialized_value {k m : ℕ} {I : Type*} [Fint
   exact ⟨hc,rational_interval_sparse_accurate_value_enclosure (d.toModel hc) ζ hζ z w ha⟩
 
 end SparseCompletion
+
+/- Fixed source body: RationalCentralPayoff.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source explicit even-bin payoff: two central representatives exchange opposite 2/L payoffs. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalCentralPayoff {L : ℕ} (i j : Fin L) : ℚ :=
+  if i.val < j.val then -(((2 : ℕ) : ℚ)/(L : ℚ))
+  else if j.val < i.val then ((2 : ℕ) : ℚ)/(L : ℚ) else 0
+
+theorem rational_central_payoff_diagonal {L : ℕ} (i : Fin L) :
+    rationalCentralPayoff i i=0 := by
+  simp only [rationalCentralPayoff,lt_self_iff_false,ite_false]
+
+theorem rational_central_payoff_skew {L : ℕ} (i j : Fin L) :
+    rationalCentralPayoff i j= -rationalCentralPayoff j i := by
+  by_cases hij : i.val < j.val
+  · have hji : ¬j.val < i.val := by omega
+    simp only [rationalCentralPayoff,hij,hji,ite_true,ite_false]
+  · by_cases hji : j.val < i.val
+    · simp only [rationalCentralPayoff,hij,hji,ite_true,ite_false,neg_neg]
+    · simp only [rationalCentralPayoff,hij,hji,ite_false,neg_zero]
+
+theorem rational_central_payoff_bounds {L : ℕ} (i j : Fin L) :
+    -1 ≤ rationalCentralPayoff i j ∧ rationalCentralPayoff i j ≤ 1 := by
+  by_cases hij : i.val=j.val
+  · have he : i=j := Fin.ext hij
+    subst j
+    rw [rational_central_payoff_diagonal]
+    norm_num
+  · have hL : (2 : ℕ) ≤ L := by have hi := i.isLt; have hj := j.isLt; omega
+    have hLQ : ((2 : ℕ) : ℚ) ≤ (L : ℚ) := by exact_mod_cast hL
+    have hpos : (0 : ℚ) < (L : ℚ) := by exact_mod_cast (lt_of_lt_of_le (by decide : (0 : ℕ) < 2) hL)
+    have hb : (0 : ℚ) ≤ ((2 : ℕ) : ℚ)/(L : ℚ) ∧ ((2 : ℕ) : ℚ)/(L : ℚ) ≤ 1 :=
+      ⟨div_nonneg (by norm_num) hpos.le,(div_le_one hpos).mpr hLQ⟩
+    unfold rationalCentralPayoff
+    split_ifs <;> constructor <;> linarith
+
+/-- The odd-bin duplicate is one label and has zero diagonal. Distinct central
+representatives exchange exactly the source payoff, rather than unit payoff. -/
+theorem rational_central_pair_response (L : ℕ) (hL : 0 < L) (i : Fin L)
+    (hi : i=binLower L hL ∨ i=binUpper L hL) :
+    ((L : ℚ)/((2 : ℕ) : ℚ))*
+      (rationalCentralPayoff i (binLower L hL)+rationalCentralPayoff i (binUpper L hL))=
+        ((2 : ℕ) : ℚ)*(i.val : ℚ)+1-(L : ℚ) := by
+  have hsum := bin_middle_sum L hL
+  have hord := bin_middle_order L hL
+  have hLQ : (L : ℚ) ≠ 0 := by exact_mod_cast (ne_of_gt hL)
+  by_cases he : binLower L hL=binUpper L hL
+  · have hcenter : (2 : ℕ)*(binLower L hL).val+1=L := by
+      have hp := congrArg Fin.val he
+      simp only [binLower,binUpper] at hp ⊢
+      omega
+    rcases hi with rfl | rfl
+    · rw [←he,rational_central_payoff_diagonal]
+      have hQ : ((2 : ℕ) : ℚ)*((binLower L hL).val : ℚ)+1=(L : ℚ) := by exact_mod_cast hcenter
+      simp only [add_zero,mul_zero]
+      linarith
+    · rw [←he,rational_central_payoff_diagonal]
+      have hQ : ((2 : ℕ) : ℚ)*((binLower L hL).val : ℚ)+1=(L : ℚ) := by exact_mod_cast hcenter
+      simp only [add_zero,mul_zero]
+      linarith
+  · have hlt : (binLower L hL).val < (binUpper L hL).val := by
+      have hn : (binLower L hL).val ≠ (binUpper L hL).val := fun h => he (Fin.ext h)
+      exact lt_of_le_of_ne hord hn
+    have hnot : ¬(binUpper L hL).val < (binLower L hL).val := by omega
+    have hl : (2 : ℕ)*(binLower L hL).val+2=L := by simp only [binLower,binUpper] at hlt ⊢; omega
+    have hu : (2 : ℕ)*(binUpper L hL).val=L := by simp only [binLower,binUpper] at hlt ⊢; omega
+    rcases hi with rfl | rfl
+    · have hQ : ((2 : ℕ) : ℚ)*((binLower L hL).val : ℚ)+2=(L : ℚ) := by exact_mod_cast hl
+      simp only [rationalCentralPayoff,lt_self_iff_false,hlt,hnot,ite_true,ite_false,zero_add]
+      field_simp [hLQ]
+      nlinarith
+    · have hQ : ((2 : ℕ) : ℚ)*((binUpper L hL).val : ℚ)=(L : ℚ) := by exact_mod_cast hu
+      simp only [rationalCentralPayoff,lt_self_iff_false,hlt,hnot,ite_true,ite_false,add_zero]
+      field_simp [hLQ]
+      nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalExplicitBinPayoff.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source explicit bin payoffs; this module does not yet prove global responses. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalBinDecode {h : ℕ} (L : Fin h → ℕ) (j : Fin (∑ b,L b)) :
+    (b : Fin h) × Fin (L b) := finSigmaFinEquiv.symm j
+
+def rationalBinRepresentative {h : ℕ} (L : Fin h → ℕ) (j : Fin (∑ b,L b)) : Bool :=
+  decide ((rationalBinDecode L j).2.val=(L (rationalBinDecode L j).1-1)/2 ∨
+    (rationalBinDecode L j).2.val=L (rationalBinDecode L j).1/2)
+
+def rationalOmittedCoefficient {m : ℕ} (j : Fin m) : ℚ :=
+  -((m : ℚ)-((2 : ℕ) : ℚ)*(j.val : ℚ)-1)/(m : ℚ)
+
+def rationalSupportedBinPayoff {h : ℕ} (L : Fin h → ℕ) (i j : Fin (∑ b,L b)) : ℚ :=
+  if (rationalBinDecode L i).1.val < (rationalBinDecode L j).1.val then -1
+  else if (rationalBinDecode L j).1.val < (rationalBinDecode L i).1.val then 1
+  else if i.val < j.val then -(((2 : ℕ) : ℚ)/(L (rationalBinDecode L i).1 : ℚ))
+  else if j.val < i.val then ((2 : ℕ) : ℚ)/(L (rationalBinDecode L i).1 : ℚ) else 0
+
+def rationalExplicitBinPayoff {h : ℕ} (L : Fin h → ℕ) (i j : Fin (∑ b,L b)) : ℚ :=
+  if rationalBinRepresentative L i then
+    if rationalBinRepresentative L j then rationalSupportedBinPayoff L i j
+    else -rationalOmittedCoefficient j
+  else if rationalBinRepresentative L j then rationalOmittedCoefficient i else 0
+
+theorem rational_supported_bin_payoff_skew {h : ℕ} (L : Fin h → ℕ)
+    (i j : Fin (∑ b,L b)) : rationalSupportedBinPayoff L i j= -rationalSupportedBinPayoff L j i := by
+  by_cases hij : (rationalBinDecode L i).1.val < (rationalBinDecode L j).1.val
+  · have hji : ¬(rationalBinDecode L j).1.val < (rationalBinDecode L i).1.val := by omega
+    simp only [rationalSupportedBinPayoff,hij,hji,ite_true,ite_false]
+  · by_cases hji : (rationalBinDecode L j).1.val < (rationalBinDecode L i).1.val
+    · simp only [rationalSupportedBinPayoff,hij,hji,ite_true,ite_false,neg_neg]
+    · have he : (rationalBinDecode L i).1=(rationalBinDecode L j).1 :=
+        Fin.ext (by omega)
+      by_cases hi : i.val < j.val
+      · have hj : ¬j.val < i.val := by omega
+        simp only [rationalSupportedBinPayoff,he,lt_self_iff_false,hi,hj,ite_false,ite_true]
+      · by_cases hj : j.val < i.val
+        · simp only [rationalSupportedBinPayoff,he,lt_self_iff_false,hi,hj,ite_false,ite_true,neg_neg]
+        · simp only [rationalSupportedBinPayoff,hij,hji,hi,hj,ite_false,neg_zero]
+
+theorem rational_explicit_bin_payoff_skew {h : ℕ} (L : Fin h → ℕ)
+    (i j : Fin (∑ b,L b)) : rationalExplicitBinPayoff L i j= -rationalExplicitBinPayoff L j i := by
+  cases hi : rationalBinRepresentative L i <;> cases hj : rationalBinRepresentative L j <;>
+    simp only [rationalExplicitBinPayoff,hi,hj,Bool.false_eq_true,ite_false,ite_true,neg_zero,neg_neg]
+  exact rational_supported_bin_payoff_skew L i j
+
+theorem rational_explicit_bin_payoff_diagonal {h : ℕ} (L : Fin h → ℕ)
+    (i : Fin (∑ b,L b)) : rationalExplicitBinPayoff L i i=0 := by
+  have h := rational_explicit_bin_payoff_skew L i i
+  linarith
+
+theorem rational_omitted_coefficient_bounds {m : ℕ} (j : Fin m) :
+    -1 ≤ rationalOmittedCoefficient j ∧ rationalOmittedCoefficient j ≤ 1 := by
+  have hm : 0 < m := lt_of_le_of_lt (Nat.zero_le j.val) j.isLt
+  have hmQ : (0 : ℚ)<(m : ℚ) := by exact_mod_cast hm
+  have hi : (j.val : ℚ)+1 ≤ (m : ℚ) := by exact_mod_cast j.isLt
+  have hj : (0 : ℚ) ≤ (j.val : ℚ) := Nat.cast_nonneg _
+  unfold rationalOmittedCoefficient
+  norm_num only [Nat.cast_ofNat]
+  constructor
+  · apply (le_div_iff₀ hmQ).mpr
+    linarith
+  · apply (div_le_iff₀ hmQ).mpr
+    linarith
+
+theorem rational_bin_decode_val {h : ℕ} (L : Fin h → ℕ) (j : Fin (∑ b,L b)) :
+    j.val=binStart L (rationalBinDecode L j).1+(rationalBinDecode L j).2.val := by
+  have hh := binIndex_val L (rationalBinDecode L j).1 (rationalBinDecode L j).2
+  have he : binIndex L (rationalBinDecode L j).1 (rationalBinDecode L j).2=j :=
+    finSigmaFinEquiv.apply_symm_apply j
+  rw [he] at hh
+  exact hh
+
+theorem rational_same_bin_length_two {h : ℕ} (L : Fin h → ℕ)
+    (i j : Fin (∑ b,L b))
+    (hb : (rationalBinDecode L i).1=(rationalBinDecode L j).1) (hij : i.val ≠ j.val) :
+    (2 : ℕ) ≤ L (rationalBinDecode L i).1 := by
+  have hi := (rationalBinDecode L i).2.isLt
+  have hj := (rationalBinDecode L j).2.isLt
+  have hvi := rational_bin_decode_val L i
+  have hvj := rational_bin_decode_val L j
+  have hlen : L (rationalBinDecode L j).1=L (rationalBinDecode L i).1 := congrArg L hb.symm
+  have hj' : (rationalBinDecode L j).2.val < L (rationalBinDecode L i).1 :=
+    lt_of_lt_of_eq hj hlen
+  have hstart : binStart L (rationalBinDecode L j).1=binStart L (rationalBinDecode L i).1 :=
+    congrArg (binStart L) hb.symm
+  have hvj' : j.val=binStart L (rationalBinDecode L i).1+(rationalBinDecode L j).2.val :=
+    hvj.trans (congrArg (fun n => n+(rationalBinDecode L j).2.val) hstart)
+  omega
+
+theorem rational_supported_bin_payoff_bounds {h : ℕ} (L : Fin h → ℕ)
+    (i j : Fin (∑ b,L b)) :
+    -1 ≤ rationalSupportedBinPayoff L i j ∧ rationalSupportedBinPayoff L i j ≤ 1 := by
+  by_cases hij : (rationalBinDecode L i).1.val < (rationalBinDecode L j).1.val
+  · simp only [rationalSupportedBinPayoff,hij,ite_true]
+    norm_num
+  · by_cases hji : (rationalBinDecode L j).1.val < (rationalBinDecode L i).1.val
+    · simp only [rationalSupportedBinPayoff,hij,hji,ite_false,ite_true]
+      norm_num
+    · have hb : (rationalBinDecode L i).1=(rationalBinDecode L j).1 := Fin.ext (by omega)
+      by_cases hi : i.val=j.val
+      · have hi' : i=j := Fin.ext hi
+        subst j
+        simp only [rationalSupportedBinPayoff,lt_self_iff_false,ite_false]
+        norm_num
+      · have hL := rational_same_bin_length_two L i j hb hi
+        have hLQ : ((2 : ℕ) : ℚ) ≤ (L (rationalBinDecode L i).1 : ℚ) := by exact_mod_cast hL
+        have hpos : (0 : ℚ)<(L (rationalBinDecode L i).1 : ℚ) := by
+          exact_mod_cast (lt_of_lt_of_le (by decide : (0 : ℕ)<2) hL)
+        have hq : (0 : ℚ) ≤ ((2 : ℕ) : ℚ)/(L (rationalBinDecode L i).1 : ℚ) ∧
+            ((2 : ℕ) : ℚ)/(L (rationalBinDecode L i).1 : ℚ) ≤ 1 :=
+          ⟨div_nonneg (by norm_num) hpos.le,(div_le_one hpos).mpr hLQ⟩
+        simp only [rationalSupportedBinPayoff,hij,hji,ite_false]
+        split_ifs <;> constructor <;> linarith
+
+theorem rational_explicit_bin_payoff_bounds {h : ℕ} (L : Fin h → ℕ)
+    (i j : Fin (∑ b,L b)) :
+    -1 ≤ rationalExplicitBinPayoff L i j ∧ rationalExplicitBinPayoff L i j ≤ 1 := by
+  have hi := rational_omitted_coefficient_bounds i
+  have hj := rational_omitted_coefficient_bounds j
+  have hs := rational_supported_bin_payoff_bounds L i j
+  unfold rationalExplicitBinPayoff
+  split_ifs <;> constructor <;> linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinnedWeights.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Executable rational weights for the source's original-label two-center bins. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalBinSlotLabel (L : ℕ) (hL : 0 < L) (b : Fin 2) : Fin L :=
+  if b.val=0 then
+    ⟨(L-1)/2,lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.sub_lt hL (Nat.zero_lt_succ 0))⟩
+  else ⟨L/2,Nat.div_lt_self hL (Nat.lt_succ_self 1)⟩
+
+def rationalBinnedLabel {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (b : Fin h × Fin 2) :
+    Fin (∑ b,L b) := finSigmaFinEquiv ⟨b.1,rationalBinSlotLabel (L b.1) (hL b.1) b.2⟩
+
+def rationalBinnedWeights {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℚ)
+    (j : Fin (∑ b,L b)) : ℚ :=
+  ∑ b : Fin h × Fin 2, if rationalBinnedLabel L hL b=j then
+    (r/((∑ b,L b : ℕ) : ℚ))*(L b.1 : ℚ)/((2 : ℕ) : ℚ) else 0
+
+theorem rational_binned_label_eq {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (b : Fin h × Fin 2) : rationalBinnedLabel L hL b=binnedLabel L hL b := rfl
+
+theorem rational_binned_weights_real {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℚ)
+    (j : Fin (∑ b,L b)) :
+    (rationalBinnedWeights L hL r j : ℝ)=binnedWeights L hL (r : ℝ) j := by
+  simp only [rationalBinnedWeights,binnedWeights,pushWeights,Rat.cast_sum]
+  apply Finset.sum_congr rfl
+  intro b _
+  rw [rational_binned_label_eq]
+  by_cases hb : binnedLabel L hL b=j
+  · simp only [hb,ite_true,Rat.cast_div,Rat.cast_mul,Rat.cast_natCast]
+  · simp only [hb,ite_false,Rat.cast_zero]
+
+theorem rational_binned_weights_nonnegative {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (r : ℚ) (hr : 0 ≤ r) : ∀ j, 0 ≤ rationalBinnedWeights L hL r j := by
+  intro j
+  have hh := binned_nonneg L hL (r : ℝ) (by exact_mod_cast hr) j
+  rw [←rational_binned_weights_real] at hh
+  exact_mod_cast hh
+
+theorem rational_binned_weights_mass {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (r : ℚ) (hm : 0 < ∑ b,L b) : (∑ j,rationalBinnedWeights L hL r j)=r := by
+  have hh := binned_mass L hL (r : ℝ) hm
+  simp_rw [←rational_binned_weights_real] at hh
+  exact_mod_cast hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinnedOmitted.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The source's omitted rows have exactly zero residual response. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalUniformScore {m : ℕ} (r : ℚ) (j : Fin m) : ℚ :=
+  r*((m : ℚ)-((2 : ℕ) : ℚ)*(j.val : ℚ)-1)/(m : ℚ)
+
+theorem rational_binned_label_representative {h : ℕ}
+    (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (b : Fin h × Fin 2) :
+    rationalBinRepresentative L (rationalBinnedLabel L hL b)=true := by
+  simp only [rationalBinRepresentative,decide_eq_true_eq]
+  unfold rationalBinDecode rationalBinnedLabel
+  rw [Equiv.symm_apply_apply]
+  by_cases hb : b.2.val=0
+  · simp only [rationalBinSlotLabel,hb,ite_true]
+    exact Or.inl trivial
+  · simp only [rationalBinSlotLabel,hb,ite_false]
+    exact Or.inr trivial
+
+theorem rational_binned_nonrepresentative_zero {h : ℕ}
+    (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ) (j : Fin (∑ b,L b))
+    (hj : rationalBinRepresentative L j=false) : rationalBinnedWeights L hL r j=0 := by
+  apply Finset.sum_eq_zero
+  intro b _
+  have hne : rationalBinnedLabel L hL b ≠ j := by
+    intro he
+    have hh := rational_binned_label_representative L hL b
+    rw [he,hj] at hh
+    cases hh
+  simp only [hne,ite_false]
+
+theorem rational_binned_omitted_response {h : ℕ}
+    (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ) (hm : 0 < ∑ b,L b)
+    (i : Fin (∑ b,L b)) (hi : rationalBinRepresentative L i=false) :
+    rationalUniformScore r i+
+      (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j)=0 := by
+  have he : (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j)=
+      rationalOmittedCoefficient i*(∑ j,rationalBinnedWeights L hL r j) := by
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro j _
+    cases hj : rationalBinRepresentative L j
+    · rw [rational_binned_nonrepresentative_zero L hL r j hj,mul_zero,mul_zero]
+    · simp only [rationalExplicitBinPayoff,hi,hj,Bool.false_eq_true,ite_false,ite_true]
+  rw [he,rational_binned_weights_mass L hL r hm]
+  unfold rationalUniformScore rationalOmittedCoefficient
+  ring
+
+end SparseCompletion
+
+/- Fixed source body: BinPrefixResponse.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source explicit cross-bin response on the original ordered partition. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem bin_prefix_mass (h : ℕ) (L : Fin h → ℕ) (b : Fin h) :
+    prefixMass (fun c => (L c : ℝ)) b.val=(binStart L b : ℝ) := by
+  unfold prefixMass binStart
+  rw [Nat.cast_sum]
+  apply Finset.sum_bij (fun i hi =>
+    (⟨i.val,(Finset.mem_filter.mp hi).2⟩ : Fin b.val))
+  · intro i _
+    exact Finset.mem_univ _
+  · intro i hi j hj he
+    exact Fin.ext (congrArg (fun a : Fin b.val => a.val) he)
+  · intro j _
+    refine ⟨Fin.castLE b.isLt.le j,?_,rfl⟩
+    exact Finset.mem_filter.mpr ⟨Finset.mem_univ _,j.isLt⟩
+  · intro i hi
+    have he : Fin.castLE b.isLt.le
+        (⟨i.val,(Finset.mem_filter.mp hi).2⟩ : Fin b.val)=i := Fin.ext rfl
+    rw [he]
+
+theorem bin_ordered_response (h : ℕ) (L : Fin h → ℕ) (b : Fin h) :
+    response (orderedBlock 1) (fun c => (L c : ℝ)) b=
+      ((2 : ℕ) : ℝ)*(binStart L b : ℝ)+(L b : ℝ)-((∑ c,L c : ℕ) : ℝ) := by
+  rw [orderedBlock_response _ ((∑ c,L c : ℕ) : ℝ) (by simp only [Nat.cast_sum])]
+  unfold targetScore
+  rw [bin_prefix_mass]
+  ring
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalUniformScore.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_uniform_score_real {m : ℕ} (hm : 0 < m) (r : ℚ) (j : Fin m) :
+    (rationalUniformScore r j : ℝ)=targetScore (uniformTarget m (r : ℝ)) (r : ℝ) j := by
+  rw [uniform_target_score]
+  unfold rationalUniformScore
+  push_cast
+  have hmR : (m : ℝ) ≠ 0 := ne_of_gt (Nat.cast_pos.mpr hm)
+  field_simp [hmR]
+  ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinLocalResponse.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Same-bin source payoffs agree with the central-pair calculation. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_binned_label_decode {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (b : Fin h × Fin 2) :
+    rationalBinDecode L (rationalBinnedLabel L hL b)=
+      ⟨b.1,rationalBinSlotLabel (L b.1) (hL b.1) b.2⟩ :=
+  finSigmaFinEquiv.symm_apply_apply _
+
+theorem rational_supported_bin_payoff_local {h : ℕ} (L : Fin h → ℕ)
+    (i : Fin (∑ b,L b)) (j : Fin (L (rationalBinDecode L i).1)) :
+    rationalSupportedBinPayoff L i (finSigmaFinEquiv ⟨(rationalBinDecode L i).1,j⟩)=
+      rationalCentralPayoff (rationalBinDecode L i).2 j := by
+  have hd : rationalBinDecode L (finSigmaFinEquiv ⟨(rationalBinDecode L i).1,j⟩)=
+      ⟨(rationalBinDecode L i).1,j⟩ := finSigmaFinEquiv.symm_apply_apply _
+  have hv := rational_bin_decode_val L i
+  have hj := finSigmaFinEquiv_apply (⟨(rationalBinDecode L i).1,j⟩ : (b : Fin h) × Fin (L b))
+  change (finSigmaFinEquiv ⟨(rationalBinDecode L i).1,j⟩).val=
+    binStart L (rationalBinDecode L i).1+j.val at hj
+  have hlo : i.val < (finSigmaFinEquiv ⟨(rationalBinDecode L i).1,j⟩).val ↔
+      (rationalBinDecode L i).2.val < j.val := by omega
+  have hhi : (finSigmaFinEquiv ⟨(rationalBinDecode L i).1,j⟩).val < i.val ↔
+      j.val < (rationalBinDecode L i).2.val := by omega
+  simp only [rationalSupportedBinPayoff,hd,lt_self_iff_false,ite_false,hlo,hhi,rationalCentralPayoff]
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinnedMoment.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_binned_moment {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (r : ℚ) (f : Fin (∑ b,L b) → ℚ) :
+    (∑ j,rationalBinnedWeights L hL r j*f j)=
+      (r/((∑ b,L b : ℕ) : ℚ))*∑ b,
+        ((L b : ℚ)/((2 : ℕ) : ℚ))*(∑ s : Fin 2,f (rationalBinnedLabel L hL (b,s))) := by
+  simp only [rationalBinnedWeights,Finset.sum_mul]
+  rw [Finset.sum_comm]
+  have he : (∑ b : Fin h × Fin 2,
+      ∑ j,(if rationalBinnedLabel L hL b=j then
+        (r/((∑ b,L b : ℕ) : ℚ))*(L b.1 : ℚ)/((2 : ℕ) : ℚ) else 0)*f j)=
+      ∑ b : Fin h × Fin 2,
+        ((r/((∑ b,L b : ℕ) : ℚ))*(L b.1 : ℚ)/((2 : ℕ) : ℚ))*f (rationalBinnedLabel L hL b) := by
+    apply Finset.sum_congr rfl
+    intro b _
+    simp only [ite_mul,zero_mul,Finset.sum_ite_eq,Finset.mem_univ,ite_true]
+  rw [he,Fintype.sum_prod_type,Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro b _
+  simp only [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro s _
+  ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinPairResponse.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The explicit same-bin weighted response on the actual original-label program. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_bin_pair_response {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (i : Fin (∑ b,L b)) (hi : rationalBinRepresentative L i=true) :
+    ((L (rationalBinDecode L i).1 : ℚ)/((2 : ℕ) : ℚ))*
+      (∑ s : Fin 2,rationalExplicitBinPayoff L i
+        (rationalBinnedLabel L hL ((rationalBinDecode L i).1,s)))=
+      ((2 : ℕ) : ℚ)*((rationalBinDecode L i).2.val : ℚ)+1-
+        (L (rationalBinDecode L i).1 : ℚ) := by
+  have hi' : (rationalBinDecode L i).2.val=(L (rationalBinDecode L i).1-1)/2 ∨
+      (rationalBinDecode L i).2.val=L (rationalBinDecode L i).1/2 :=
+    of_decide_eq_true hi
+  have hlocal : (rationalBinDecode L i).2=binLower _ (hL _) ∨
+      (rationalBinDecode L i).2=binUpper _ (hL _) := by
+    rcases hi' with he | he
+    · exact Or.inl (Fin.ext he)
+    · exact Or.inr (Fin.ext he)
+  have he (s : Fin 2) : rationalExplicitBinPayoff L i
+        (rationalBinnedLabel L hL ((rationalBinDecode L i).1,s))=
+      rationalCentralPayoff (rationalBinDecode L i).2
+        (rationalBinSlotLabel _ (hL _) s) := by
+    rw [rationalExplicitBinPayoff,hi,
+      rational_binned_label_representative L hL ((rationalBinDecode L i).1,s)]
+    simp only [ite_true]
+    exact rational_supported_bin_payoff_local L i _
+  simp_rw [he]
+  rw [Fin.sum_univ_two]
+  change ((L (rationalBinDecode L i).1 : ℚ)/((2 : ℕ) : ℚ))*
+    (rationalCentralPayoff (rationalBinDecode L i).2 (binLower _ (hL _))+
+      rationalCentralPayoff (rationalBinDecode L i).2 (binUpper _ (hL _)))=_
+  exact rational_central_pair_response _ (hL _) _ hlocal
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinCrossResponse.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalBinSign {h : ℕ} (b c : Fin h) : ℚ :=
+  if b.val < c.val then -1 else if c.val < b.val then 1 else 0
+
+theorem rational_bin_sign_real {h : ℕ} (b c : Fin h) :
+    (rationalBinSign b c : ℝ)=orderedBlock 1 b c := by
+  unfold rationalBinSign orderedBlock
+  by_cases hb : b.val < c.val
+  · have hh : b < c := hb
+    simp only [hb,hh,ite_true,Rat.cast_neg,Rat.cast_one]
+  · have hh : ¬b < c := hb
+    by_cases hc : c.val < b.val
+    · have hc' : c < b := hc
+      simp only [hb,hh,hc,hc',ite_false,ite_true,Rat.cast_one]
+    · have hc' : ¬c < b := hc
+      simp only [hb,hh,hc,hc',ite_false,Rat.cast_zero]
+
+theorem rational_bin_cross_response {h : ℕ} (L : Fin h → ℕ) (b : Fin h) :
+    (∑ c,rationalBinSign b c*(L c : ℚ))=
+      ((2 : ℕ) : ℚ)*(binStart L b : ℚ)+(L b : ℚ)-((∑ c,L c : ℕ) : ℚ) := by
+  have hh := bin_ordered_response h L b
+  have he : (∑ c, (rationalBinSign b c : ℝ)*(L c : ℝ))=
+      response (orderedBlock 1) (fun c => (L c : ℝ)) b := by
+    simp_rw [rational_bin_sign_real]
+    rfl
+  rw [←he] at hh
+  exact_mod_cast hh
+
+theorem rational_bin_other_payoff {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (i : Fin (∑ b,L b)) (hi : rationalBinRepresentative L i=true)
+    (b : Fin h) (hb : b ≠ (rationalBinDecode L i).1) (s : Fin 2) :
+    rationalExplicitBinPayoff L i (rationalBinnedLabel L hL (b,s))=
+      rationalBinSign (rationalBinDecode L i).1 b := by
+  rw [rationalExplicitBinPayoff,hi,rational_binned_label_representative L hL (b,s)]
+  simp only [ite_true]
+  unfold rationalSupportedBinPayoff rationalBinSign
+  rw [rational_binned_label_decode]
+  by_cases hlo : (rationalBinDecode L i).1.val < b.val
+  · simp only [hlo,ite_true]
+  · have hhi : b.val < (rationalBinDecode L i).1.val := by
+      have he : b.val ≠ (rationalBinDecode L i).1.val := fun he => hb (Fin.ext he)
+      omega
+    simp only [hlo,hhi,ite_false,ite_true]
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinnedResponse.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Exact responses of the source-explicit rational bin payoff program. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_binned_supported_response {h : ℕ}
+    (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ)
+    (i : Fin (∑ b,L b)) (hi : rationalBinRepresentative L i=true) :
+    rationalUniformScore r i+
+      (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j)=0 := by
+  let a := (rationalBinDecode L i).1
+  let C := ((2 : ℕ) : ℚ)*((rationalBinDecode L i).2.val : ℚ)+1-(L a : ℚ)
+  have hbin (b : Fin h) : ((L b : ℚ)/((2 : ℕ) : ℚ))*
+      (∑ s : Fin 2,rationalExplicitBinPayoff L i (rationalBinnedLabel L hL (b,s)))=
+      rationalBinSign a b*(L b : ℚ)+(if b=a then C else 0) := by
+    by_cases hb : b=a
+    · subst b
+      rw [rational_bin_pair_response L hL i hi]
+      simp only [rationalBinSign,lt_self_iff_false,ite_false,ite_true,zero_mul,zero_add]
+      rfl
+    · have he (s : Fin 2) := rational_bin_other_payoff L hL i hi b hb s
+      simp_rw [he]
+      simp only [Finset.sum_const,Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,hb,ite_false,add_zero]
+      ring
+  have hresp : (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j)=
+      (r/((∑ b,L b : ℕ) : ℚ))*∑ b,
+        ((L b : ℚ)/((2 : ℕ) : ℚ))*(∑ s : Fin 2,
+          rationalExplicitBinPayoff L i (rationalBinnedLabel L hL (b,s))) := by
+    simpa only [mul_comm] using rational_binned_moment L hL r (rationalExplicitBinPayoff L i)
+  rw [hresp]
+  simp_rw [hbin]
+  rw [Finset.sum_add_distrib]
+  simp only [Finset.sum_ite_eq',Finset.mem_univ,ite_true]
+  rw [rational_bin_cross_response]
+  have hv : (i.val : ℚ)=(binStart L a : ℚ)+((rationalBinDecode L i).2.val : ℚ) := by
+    exact_mod_cast rational_bin_decode_val L i
+  unfold rationalUniformScore
+  dsimp only [C]
+  rw [hv]
+  ring
+
+theorem rational_binned_residual_response {h : ℕ}
+    (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ) (hm : 0 < ∑ b,L b)
+    (i : Fin (∑ b,L b)) :
+    rationalUniformScore r i+
+      (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j)=0 := by
+  cases hi : rationalBinRepresentative L i
+  · exact rational_binned_omitted_response L hL r hm i hi
+  · exact rational_binned_supported_response L hL r i hi
+
+theorem rational_binned_explicit_completion {h : ℕ}
+    (L : Fin h → ℕ) (hL : ∀ b,0 < L b) (r : ℚ) (hr : 0 ≤ r) (hm : 0 < ∑ b,L b) :
+    (∀ i,0 ≤ rationalBinnedWeights L hL r i) ∧ (∑ i,rationalBinnedWeights L hL r i)=r ∧
+    (∀ i j,rationalExplicitBinPayoff L i j= -rationalExplicitBinPayoff L j i) ∧
+    (∀ i j,-1 ≤ rationalExplicitBinPayoff L i j ∧ rationalExplicitBinPayoff L i j ≤ 1) ∧
+    ∀ i,rationalUniformScore r i+
+      (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j)=0 :=
+  ⟨rational_binned_weights_nonnegative L hL r hr,rational_binned_weights_mass L hL r hm,
+    rational_explicit_bin_payoff_skew L,rational_explicit_bin_payoff_bounds L,
+    rational_binned_residual_response L hL r hm⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalBinnedRealResponse.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The executed rational matrix is a literal real completion for all real masses. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def explicitBinnedMatrix {h : ℕ} (L : Fin h → ℕ) (i j : Fin (∑ b,L b)) : ℝ :=
+  (rationalExplicitBinPayoff L i j : ℝ)
+
+theorem explicit_binned_matrix_skew {h : ℕ} (L : Fin h → ℕ) :
+    IsSkew (explicitBinnedMatrix L) := by
+  intro i j
+  change (rationalExplicitBinPayoff L i j : ℝ)= -(rationalExplicitBinPayoff L j i : ℝ)
+  exact_mod_cast rational_explicit_bin_payoff_skew L i j
+
+theorem explicit_binned_matrix_bounds {h : ℕ} (L : Fin h → ℕ)
+    (i j : Fin (∑ b,L b)) : -1 ≤ explicitBinnedMatrix L i j ∧ explicitBinnedMatrix L i j ≤ 1 := by
+  change -(1 : ℝ) ≤ (rationalExplicitBinPayoff L i j : ℝ) ∧
+    (rationalExplicitBinPayoff L i j : ℝ) ≤ 1
+  exact_mod_cast rational_explicit_bin_payoff_bounds L i j
+
+theorem rational_binned_response_real {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (r : ℚ) (hm : 0 < ∑ b,L b) (i : Fin (∑ b,L b)) :
+    targetScore (uniformTarget (∑ b,L b) (r : ℝ)) (r : ℝ) i+
+      response (explicitBinnedMatrix L) (binnedWeights L hL (r : ℝ)) i=0 := by
+  have hh : ((rationalUniformScore r i+
+      (∑ j,rationalExplicitBinPayoff L i j*rationalBinnedWeights L hL r j) : ℚ) : ℝ)=0 := by
+    exact_mod_cast rational_binned_residual_response L hL r hm i
+  simp only [Rat.cast_add,Rat.cast_sum,Rat.cast_mul,rational_uniform_score_real hm,
+    rational_binned_weights_real] at hh
+  exact hh
+
+theorem binned_weights_linear {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (r : ℝ) (j : Fin (∑ b,L b)) : binnedWeights L hL r j=r*binnedWeights L hL 1 j := by
+  unfold binnedWeights pushWeights
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro b _
+  by_cases hb : binnedLabel L hL b=j
+  · simp only [hb,ite_true]
+    ring
+  · simp only [hb,ite_false,mul_zero]
+
+theorem explicit_binned_residual_response {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (r : ℝ) (hm : 0 < ∑ b,L b) (i : Fin (∑ b,L b)) :
+    targetScore (uniformTarget (∑ b,L b) r) r i+
+      response (explicitBinnedMatrix L) (binnedWeights L hL r) i=0 := by
+  have hunit := rational_binned_response_real L hL 1 hm i
+  simp only [Rat.cast_one] at hunit
+  have ht : targetScore (uniformTarget (∑ b,L b) r) r i=
+      r*targetScore (uniformTarget (∑ b,L b) 1) 1 i := by
+    rw [uniform_target_score,uniform_target_score]
+    ring
+  rw [ht]
+  simp only [response]
+  simp_rw [binned_weights_linear L hL r]
+  have he : (∑ j,explicitBinnedMatrix L i j*(r*binnedWeights L hL 1 j))=
+      r*∑ j,explicitBinnedMatrix L i j*binnedWeights L hL 1 j := by
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro j _
+    ring
+  rw [he,←mul_add]
+  change r*(targetScore (uniformTarget (∑ b,L b) 1) 1 i+
+    response (explicitBinnedMatrix L) (binnedWeights L hL 1) i)=0
+  rw [hunit,mul_zero]
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExplicitBinnedGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem explicit_binned_game_witness {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) :
+    let m := ∑ b, L b
+    let qstar := uniformTarget m (1/(4 : ℕ))
+    let q := binnedWeights L hL (1/(4 : ℕ))
+    let B := explicitBinnedMatrix L
+    ∃ d : ℝ,
+      (∀ j, 0 ≤ q j) ∧ (∑ j, q j=1/(4 : ℕ)) ∧ IsSkew B ∧
+      (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧ supportSize q ≤ min m ((2 : ℕ)*h) ∧
+      0 ≤ d ∧ d ≤ scoreMoment qstar (exposingWeight qstar (1/(4 : ℕ))) ∧
+      d ≤ (1/(4 : ℕ) : ℝ)^(2 : ℕ)/((12 : ℕ)*(m : ℝ)^(3 : ℕ))*∑ b, (L b : ℝ)^(3 : ℕ) ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)= -d ∧
+      (∀ j, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inr j)=0) ∧
+      d=(1/(4 : ℕ) : ℝ)^(2 : ℕ)/((12 : ℕ)*(m : ℝ)^(3 : ℕ))*∑ b,binParityTerm (L b) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let m := ∑ b, L b
+  let qstar := uniformTarget m (1/4)
+  let q := binnedWeights L hL (1/4)
+  let t := targetScore qstar (1/4)
+  let w := exposingWeight qstar (1/4)
+  let βstar := scoreMoment qstar w
+  let d := βstar-scoreMoment q w
+  have hq : ∀ j, 0 ≤ q j := binned_nonneg L hL (1/4) (by norm_num)
+  have hmass : ∑ j, q j=1/4 := binned_mass L hL (1/4) hm
+  have hmean : scoreMoment q t=0 := binned_uniform_score_mean L hL hm (1/4)
+  have hloss := binned_exposing_loss L hL hm (1/4) (by norm_num)
+  norm_num only [Nat.cast_ofNat] at hloss
+  change 0 ≤ d ∧ d ≤ (1/16 : ℝ)/(12*(m : ℝ)^3)*∑ b, (L b : ℝ)^3 at hloss
+  have hw : ∀ j, 0 ≤ w j := fun j =>
+    (exposingWeight_bounds hm qstar (fun _ => div_nonneg (by norm_num) (Nat.cast_nonneg _)) (1/4)
+      (uniformTarget_mass _ hm (1/4)) j).1
+  have hβ : 0 ≤ scoreMoment q w := Finset.sum_nonneg fun j _ => mul_nonneg (hq j) (hw j)
+  let B := explicitBinnedMatrix L
+  have hB := explicit_binned_matrix_skew L
+  have hb := explicit_binned_matrix_bounds L
+  have hrows := explicit_binned_residual_response L hL (1/4) hm
+  refine ⟨d,hq,hmass,hB,hb,binned_support L hL (1/4),hloss.1,?_,hloss.2,?_,?_,?_,?_⟩
+  · dsimp only [d]
+    linarith
+  · rw [block_response_anchor]
+    have ha := (two_anchor_responses t w q (3/4) βstar (by norm_num)).1
+    change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 0=d
+    rw [ha,hmean]
+    dsimp only [d]
+    ring
+  · rw [block_response_anchor]
+    have ha := (two_anchor_responses t w q (3/4) βstar (by norm_num)).2
+    change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 1= -d
+    rw [ha,hmean]
+    dsimp only [d]
+    ring
+  · intro j
+    rw [block_response_residual]
+    have hs : score (rigidityCross qstar) (twoShares (3/4))=t :=
+      two_score t w (3/4) (by norm_num)
+    rw [hs]
+    exact hrows j
+  · convert binned_exposing_loss_exact L hL hm (1/4) using 1
+    norm_num
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExplicitBinnedCore.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+The source-explicit residual matrix is retained through core-only uncertainty. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def explicitBinnedError {h : ℕ} (L : Fin h → ℕ) : ℝ :=
+  (1/(4 : ℕ) : ℝ)^(2 : ℕ)/((12 : ℕ)*((∑ b,L b : ℕ) : ℝ)^(3 : ℕ))*
+    ∑ b,binParityTerm (L b)
+
+theorem explicit_binned_core_witness {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b,0 < L b)
+    (hm : 0 < ∑ b,L b) (ε δ : ℝ) (hε : 0 ≤ ε) (hδ : 0 ≤ δ)
+    (heff : explicitBinnedError L ≤ ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ) :
+    ∃ u, UniformCoreWitness (∑ b,L b) ε δ
+      (binnedWeights L hL (1/(4 : ℕ))) u (explicitBinnedMatrix L) := by
+  obtain ⟨d,hq,hmass,hB,hb,_,hd,hβ,_,h0,h1,hrows,he⟩ := explicit_binned_game_witness L hL hm
+  apply uniform_core_adjust hm (binnedWeights L hL (1/(4 : ℕ))) (explicitBinnedMatrix L)
+    d ε δ hq hmass hB hb hd hβ hε hδ
+  · rw [he]
+    exact heff
+  · exact h0
+  · exact h1
+  · intro j
+    exact le_of_eq (hrows j)
+
+end
+end SparseCompletion

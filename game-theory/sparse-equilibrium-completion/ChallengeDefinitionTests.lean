@@ -550,5 +550,35 @@ theorem finite_list_fold_nil {α β : Type*} (f : α → β → α) (z : α) :
 theorem finite_list_fold_cons {α β : Type*} (f : α → β → α) (z : α) (a : β) (l : List β) :
     (a::l).foldl f z=l.foldl f (f z a) := rfl
 
+
+theorem finite_sigma_empty_roundtrip {a b : Type*} [IsEmpty a] [IsEmpty b] (x : a) :
+    (Equiv.equivOfIsEmpty a b).symm ((Equiv.equivOfIsEmpty a b) x) = x :=
+  (Equiv.equivOfIsEmpty a b).symm_apply_apply x
+
+theorem finite_sigma_congr_literal {a b : Type*} {f : b → Type*} (e : a ≃ b)
+    (x : Sigma (fun a => f (e a))) : (e.sigmaCongrLeft) x = ⟨e x.1, x.2⟩ := rfl
+
+theorem finite_sigma_unique_inverse {a : Type*} (f : a → Type*) [Unique a] (y : f default) :
+    (Equiv.uniqueSigma f).symm y = ⟨default, y⟩ := Equiv.uniqueSigma_symm_apply y
+
+theorem finite_sigma_fin_congr {m n : Nat} (h : m = n) (i : Fin m) :
+    ((finCongr h) i).val = i.val := finCongr_apply_coe h i
+
+theorem finite_sigma_cast_literal {n : Nat} (i : Fin n) : (Fin.cast rfl i).val = i.val := rfl
+
+theorem finite_sigma_default_zero : (default : Fin 1).val = 0 := rfl
+
+
+theorem finite_sigma_nonzero {n : Nat} [NeZero n] : n ≠ 0 := NeZero.ne n
+
+theorem finite_sigma_positive {n : Nat} [NeZero n] : 0 < n := Nat.pos_of_neZero n
+
+theorem finite_sigma_successor_nonzero (n : Nat) : NeZero (n+1) := inferInstance
+
+
+theorem finite_floorsemiring_nat_cast {α : Type*} [Semiring α] [PartialOrder α]
+    [FloorSemiring α] : Function.Injective (Nat.cast : ℕ → α) :=
+  FloorSemiring.natCast_strictMono.injective
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

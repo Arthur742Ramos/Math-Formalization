@@ -18,14 +18,14 @@
       "url": "https://github.com/leanprover-community/batteries/blob/ed9b316aabe389fec1ef43c3326ab48c7e59be42/Batteries/Classes/RatCast.lean",
       "github_blob_sha1": "b2df7c7304c219d3b812a2b800154d03007f9110",
       "source_sha256": "2d2f0265802ab69e891924f62d1ddca1b82c303027dfa0ef3453bea37577e7b9",
-      "upstream_header": "/-\nCopyright (c) 2014 Robert Lewis. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert Lewis, Leonardo de Moura, Johannes H\u00f6lzl, Mario Carneiro, Gabriel Ebner\n-/",
+      "upstream_header": "/-\nCopyright (c) 2014 Robert Lewis. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert Lewis, Leonardo de Moura, Johannes Hölzl, Mario Carneiro, Gabriel Ebner\n-/",
       "license": "Apache-2.0",
       "excerpts": [
         {
           "name": "RatCast and rational identity instance",
           "first_line": 10,
           "last_line": 15,
-          "excerpt": "/-- Type class for the canonical homomorphism `Rat \u2192 K`. -/\nclass RatCast (K : Type u) where\n  /-- The canonical homomorphism `Rat \u2192 K`. -/\n  protected ratCast : Rat \u2192 K\n\ninstance : RatCast Rat where ratCast n := n\n",
+          "excerpt": "/-- Type class for the canonical homomorphism `Rat → K`. -/\nclass RatCast (K : Type u) where\n  /-- The canonical homomorphism `Rat → K`. -/\n  protected ratCast : Rat → K\n\ninstance : RatCast Rat where ratCast n := n\n",
           "excerpt_sha256": "a69e623239916e7d8264ae91a4f5fdd2454dfd44e14a514eb0bb14c6841632c1",
           "kind": "literal class and instance"
         },
@@ -33,7 +33,7 @@
           "name": "Rat.cast and coercion selectors",
           "first_line": 17,
           "last_line": 26,
-          "excerpt": "/-- Canonical homomorphism from `Rat` to a division ring `K`.\nThis is just the bare function in order to aid in creating instances of `DivisionRing`. -/\n@[coe, reducible, match_pattern] protected def Rat.cast {K : Type u} [RatCast K] : Rat \u2192 K :=\n  RatCast.ratCast\n\n-- see note [coercion into rings]\ninstance [RatCast K] : CoeTail Rat K where coe := Rat.cast\n\n-- see note [coercion into rings]\ninstance [RatCast K] : CoeHTCT Rat K where coe := Rat.cast\n",
+          "excerpt": "/-- Canonical homomorphism from `Rat` to a division ring `K`.\nThis is just the bare function in order to aid in creating instances of `DivisionRing`. -/\n@[coe, reducible, match_pattern] protected def Rat.cast {K : Type u} [RatCast K] : Rat → K :=\n  RatCast.ratCast\n\n-- see note [coercion into rings]\ninstance [RatCast K] : CoeTail Rat K where coe := Rat.cast\n\n-- see note [coercion into rings]\ninstance [RatCast K] : CoeHTCT Rat K where coe := Rat.cast\n",
           "excerpt_sha256": "024e00aa2e1dea3abf727589cdd7171b65c5d853bf07f271baf60f545569e9d2",
           "kind": "literal selector and CoeTail/CoeHTCT instances"
         }
@@ -41,6 +41,11 @@
       "used_by": [
         "SparseCompletion.exact_game_rational_gap_solve",
         "SparseCompletion.exact_game_rational_gap_system_real",
+        "SparseCompletion.explicit_binned_core_witness",
+        "SparseCompletion.explicit_binned_game_witness",
+        "SparseCompletion.explicit_binned_matrix_bounds",
+        "SparseCompletion.explicit_binned_matrix_skew",
+        "SparseCompletion.explicit_binned_residual_response",
         "SparseCompletion.floor_interval_class_nonempty_actions",
         "SparseCompletion.floor_interval_game_class_compact",
         "SparseCompletion.floor_interval_game_class_of_fixed",
@@ -68,6 +73,16 @@
         "SparseCompletion.rational_allocation_search_output",
         "SparseCompletion.rational_allocation_search_success_iff",
         "SparseCompletion.rational_anchor_rounding_enumerated",
+        "SparseCompletion.rational_bin_cross_response",
+        "SparseCompletion.rational_bin_sign_real",
+        "SparseCompletion.rational_binned_explicit_completion",
+        "SparseCompletion.rational_binned_omitted_response",
+        "SparseCompletion.rational_binned_residual_response",
+        "SparseCompletion.rational_binned_response_real",
+        "SparseCompletion.rational_binned_supported_response",
+        "SparseCompletion.rational_binned_weights_mass",
+        "SparseCompletion.rational_binned_weights_nonnegative",
+        "SparseCompletion.rational_binned_weights_real",
         "SparseCompletion.rational_certified_approximation_complete",
         "SparseCompletion.rational_certified_approximation_output",
         "SparseCompletion.rational_certified_approximation_sound",
@@ -183,6 +198,7 @@
         "SparseCompletion.rational_sparse_gap_algorithm_sound",
         "SparseCompletion.rational_sparse_gap_search_complete",
         "SparseCompletion.rational_support_zeros_real",
+        "SparseCompletion.rational_uniform_score_real",
         "SparseCompletion.real_interval_completion_algorithm_success",
         "SparseCompletion.real_interval_completion_physical_point",
         "SparseCompletion.real_interval_completion_rational_lp",
@@ -200,13 +216,13 @@
       "source_sha256": "61bb9c31070ad95f5c685fd0e9d0568b034fa0204163810f599c9eb3b381be39",
       "github_blob_sha1": "6b141de87c65795fe4d60cc029bc97f1842ad24c",
       "license": "Apache-2.0",
-      "upstream_header": "/-\nCopyright (c) 2017 Robert Y. Lewis. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert Y. Lewis, Keeley Hoek, Mario Carneiro, Fran\u00e7ois G. Dorais, Quang Dao\n-/",
+      "upstream_header": "/-\nCopyright (c) 2017 Robert Y. Lewis. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert Y. Lewis, Keeley Hoek, Mario Carneiro, François G. Dorais, Quang Dao\n-/",
       "excerpts": [
         {
           "name": "Fin.divNat and Fin.modNat",
           "first_line": 132,
           "last_line": 138,
-          "excerpt": "/-- Compute `i / n`, where `n` is a `Nat` and inferred the type of `i`. -/\ndef divNat (i : Fin (m * n)) : Fin m :=\n  \u27e8i / n, Nat.div_lt_of_lt_mul <| Nat.mul_comm m n \u25b8 i.is_lt\u27e9\n\n/-- Compute `i % n`, where `n` is a `Nat` and inferred the type of `i`. -/\ndef modNat (i : Fin (m * n)) : Fin n :=\n  \u27e8i % n, Nat.mod_lt _ <| Nat.pos_of_mul_pos_left i.pos\u27e9\n",
+          "excerpt": "/-- Compute `i / n`, where `n` is a `Nat` and inferred the type of `i`. -/\ndef divNat (i : Fin (m * n)) : Fin m :=\n  ⟨i / n, Nat.div_lt_of_lt_mul <| Nat.mul_comm m n ▸ i.is_lt⟩\n\n/-- Compute `i % n`, where `n` is a `Nat` and inferred the type of `i`. -/\ndef modNat (i : Fin (m * n)) : Fin n :=\n  ⟨i % n, Nat.mod_lt _ <| Nat.pos_of_mul_pos_left i.pos⟩\n",
           "excerpt_sha256": "ccb041bcf586aab6419b5b1bf78a3cf5e8c2185b44e5e3a457f34b00812ce322"
         }
       ],

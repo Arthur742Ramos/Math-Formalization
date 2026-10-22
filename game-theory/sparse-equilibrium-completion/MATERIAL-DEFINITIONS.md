@@ -9917,3 +9917,860 @@ Batteries/Classes/RatCast.lean: SparseCompletion.rational_gap_real_compression, 
 
 Batteries/Data/Fin/Basic.lean: SparseCompletion.interval_physical_recovered_pack, SparseCompletion.rational_frozen_physical_eval, SparseCompletion.rational_frozen_physical_system_iff, SparseCompletion.rational_interval_sparse_accurate_complete, SparseCompletion.rational_interval_sparse_accurate_value_enclosure, SparseCompletion.rational_interval_sparse_algorithm_conditions, SparseCompletion.rational_interval_sparse_algorithm_game, SparseCompletion.rational_interval_sparse_algorithm_origin, SparseCompletion.rational_interval_sparse_algorithm_real_complete, SparseCompletion.rational_interval_sparse_approximation_complete, SparseCompletion.rational_interval_sparse_approximation_origin, SparseCompletion.rational_interval_sparse_approximation_value_enclosure, SparseCompletion.rational_interval_sparse_initialized_complete, SparseCompletion.rational_interval_sparse_initialized_game, SparseCompletion.rational_interval_sparse_initialized_none_iff, SparseCompletion.rational_interval_sparse_initialized_origin, SparseCompletion.rational_interval_sparse_initialized_value, SparseCompletion.rational_interval_sparse_reduction, SparseCompletion.rational_sparse_gap_algorithm_complete, SparseCompletion.rational_sparse_gap_algorithm_full_game, SparseCompletion.rational_sparse_gap_algorithm_full_support, SparseCompletion.rational_sparse_gap_algorithm_sound.
 
+
+
+## Source-explicit rational bin algorithm
+
+Original labels use the actual constructive finSigmaFinEquiv and its inverse,
+with exact roundtrip/offset contracts. Finite rational pushforward weights
+coalesce equal central labels; odd-bin duplicate slots are not treated as
+injective. Matrix branches use genuine natural comparisons and exact rational
+coefficients. The omitted coefficient is independent of residual mass, so the
+implementation divides by positive action count rather than by r. Exact finite
+sums prove every residual row identity, and real casts plus homogeneity identify
+that actual rational matrix with a bounded skew completion for every real r.
+Source parity error and clipped-core adjustment reuse the established real
+weights and preserve the same constructed B. Literal constructive indexing
+helper expansions are retained in the following supporting evidence.
+
+## Explicit-bin constructive indexing evidence supplement
+
+The 39 new proof contracts use the actual recursive finite-Sigma encoder and decoder. The retained constructive helpers include singleton defaults, empty elimination and value-preserving Fin transports. They do not choose an enumeration through Classical.choice. This version expands supporting contexts for the 33 earlier actual generator users; historical verification receipts are preserved. Fifteen new targets use FloorSemiring natural-cast CharZero proof context, without invoking a floor or ceiling in the bin program. Separate compiled bridges cover both protected entrypoints.
+
+
+### Mathlib/Logic/Equiv/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean
+
+Source SHA256 c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8; Git blob 7821cb864d27388f46fd335a5f2fbc5d3be358ff.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+
+Equiv.equivOfIsEmpty
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L408-L410
+
+Excerpt SHA256 33990df14bc63d9ccc47844fafe354beea5ae8b41dd1b71da763622b25d01cc1.
+
+```lean
+/-- Two empty types are equivalent. -/
+def equivOfIsEmpty (α β : Sort*) [IsEmpty α] [IsEmpty β] : α ≃ β :=
+  ⟨isEmptyElim, isEmptyElim, isEmptyElim, isEmptyElim⟩
+```
+
+
+Equiv.sigmaCongrLeft
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L700-L707
+
+Excerpt SHA256 becb271286b35ac219ef4f52a4ddaba5fc2bc1570075229bf83143e014d7bd01.
+
+```lean
+/-- An equivalence `f : α₁ ≃ α₂` generates an equivalence between `Σ a, β (f a)` and `Σ a, β a`. -/
+@[simps (attr := grind =) apply]
+def sigmaCongrLeft {α₁ α₂ : Type*} {β : α₂ → Sort _} (e : α₁ ≃ α₂) :
+    (Σ a : α₁, β (e a)) ≃ Σ a : α₂, β a where
+  toFun a := ⟨e a.1, a.2⟩
+  invFun a := ⟨e.symm a.1, (e.right_inv' a.1).symm ▸ a.2⟩
+  left_inv := fun ⟨a, b⟩ => by simp
+  right_inv := fun ⟨a, b⟩ => by simp
+```
+
+
+### Mathlib/Logic/Equiv/Sum.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean
+
+Source SHA256 df604983467488d4bc91a59822530bc04cad0ec59a0ca7831e08c5932d9cb791; Git blob 684c759195ec1f47d7fb18b156a10aa6aeabdd3c.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+
+Equiv.sumSigmaDistrib
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean#L345-L355
+
+Excerpt SHA256 7fd8182cd5ff6d5e7e094a5836e031b6290c5b7b8cb9eeba88bb7d54063aba5c.
+
+```lean
+/-- A type indexed by disjoint sums of types is equivalent to the sum of the sums. Compare with
+`Equiv.sigmaSumDistrib` which has the sums as the output type. -/
+@[simps]
+def sumSigmaDistrib {α β} (t : α ⊕ β → Type*) :
+    (Σ i, t i) ≃ (Σ i, t (.inl i)) ⊕ (Σ i, t (.inr i)) :=
+  ⟨(match · with
+    | .mk (.inl x) y => .inl ⟨x, y⟩
+    | .mk (.inr x) y => .inr ⟨x, y⟩),
+  Sum.elim (fun a ↦ ⟨.inl a.1, a.2⟩) (fun b ↦ ⟨.inr b.1, b.2⟩),
+  by rintro ⟨x|x,y⟩ <;> simp,
+  by rintro (⟨x,y⟩|⟨x,y⟩) <;> simp⟩
+```
+
+
+### Mathlib/Logic/Equiv/Prod.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Prod.lean
+
+Source SHA256 83c65d8314df5f64e2cef87179e52b9bdeed2301629307425330bb8b6656dfc8; Git blob 4b38d95cc773c89d71be9075d3815834d1cd9c98.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+
+Equiv.uniqueSigma and public apply contracts
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Prod.lean#L196-L210
+
+Excerpt SHA256 277cf2493afcbf1d43b30acc54dc1bde08a9404a56bd266fc8f05ce25c7b9bc0.
+
+```lean
+/-- Any `Unique` type is a left identity for type sigma up to equivalence. Compare with `uniqueProd`
+which is non-dependent. -/
+def uniqueSigma {α} (β : α → Type*) [Unique α] : (i : α) × β i ≃ β default where
+  toFun := fun p ↦ (Unique.eq_default _).rec p.2
+  invFun := fun b ↦ ⟨default, b⟩
+  left_inv := fun _ ↦ Sigma.ext (Unique.default_eq _) (eqRec_heq _ _)
+
+theorem uniqueSigma_apply {α} {β : α → Type*} [Unique α] (x : (a : α) × β a) :
+    uniqueSigma β x = (Unique.eq_default _).rec x.2 :=
+  rfl
+
+@[simp]
+theorem uniqueSigma_symm_apply {α} {β : α → Type*} [Unique α] (y : β default) :
+    (uniqueSigma β).symm y = ⟨default, y⟩ :=
+  rfl
+```
+
+
+### Mathlib/Basic/Unique.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Unique.lean
+
+Source SHA256 346d5f7779c4ff1865627161e51e6797270556efc90789272406de98dc640fb1; Git blob 16c851553b352aba81178700ff13e21d66907d90.
+
+```lean
+/-
+Copyright (c) 2019 Johan Commelin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johan Commelin
+-/
+```
+
+
+Unique structure with explicit default
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Unique.lean#L48-L59
+
+Excerpt SHA256 4f90d943d51a9f2859f9eb0846d680578ba336e4ecb3b0593b3ee56c7910145a.
+
+```lean
+-- Don't generate injectivity lemmas, which the `simpNF` linter will complain about.
+set_option genInjectivity false in
+/-- `Unique α` expresses that `α` is a type with a unique term `default`.
+
+This is implemented as a type, rather than a `Prop`-valued predicate,
+for good definitional properties of the default term. -/
+@[ext]
+structure Unique (α : Sort u) extends Inhabited α where
+  /-- In a `Unique` type, every term is equal to the default element (from `Inhabited`). -/
+  uniq : ∀ a : α, a = default
+
+attribute [class] Unique
+```
+
+
+Unique inherited default and equality contracts
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Unique.lean#L99-L113
+
+Excerpt SHA256 1b5a00abf7d6ed96b33169df3c891d0e7b3dc68bef729056373ad5cbe754bbb8.
+
+```lean
+namespace Unique
+
+section
+
+variable {α : Sort*} [Unique α]
+
+-- see Note [lower instance priority]
+instance (priority := 100) : Inhabited α :=
+  toInhabited ‹Unique α›
+
+theorem eq_default (a : α) : a = default :=
+  uniq _ a
+
+theorem default_eq (a : α) : default = a :=
+  (uniq _ a).symm
+```
+
+
+Fin.instUnique singleton
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Unique.lean#L267-L267
+
+Excerpt SHA256 b386ec69dbaa343ea3024da9f632bb15c7999039d295827c91a1a2aaf8d797e0.
+
+```lean
+instance Fin.instUnique : Unique (Fin 1) where uniq _ := Subsingleton.elim _ _
+```
+
+
+### Mathlib/Basic/IsEmpty/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean
+
+Source SHA256 4cc13389d971b07836334b2c9b2a1d979fa1f0043ea9e37a5ba08a9214765399; Git blob 8cddc87f06c29a7e02b57c48e725d0725febde92.
+
+```lean
+/-
+Copyright (c) 2021 Floris van Doorn. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn
+-/
+```
+
+
+IsEmpty class
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean#L26-L28
+
+Excerpt SHA256 91cda3d147caf0690894eb7e775e12d73d277418a3818042a138e40d5cf7579e.
+
+```lean
+/-- `IsEmpty α` expresses that `α` is empty. -/
+class IsEmpty (α : Sort u) : Prop where
+  protected false : α → False
+```
+
+
+Fin zero emptiness
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean#L39-L43
+
+Excerpt SHA256 91a3a5cd68e0e0a74f5148d471467bfd36b4f769be7b51a86650819b9e46d4f6.
+
+```lean
+instance Fin.isEmpty : IsEmpty (Fin 0) :=
+  ⟨fun n ↦ Nat.not_lt_zero n.1 n.2⟩
+
+instance Fin.isEmpty' : IsEmpty (Fin Nat.zero) :=
+  Fin.isEmpty
+```
+
+
+Function.isEmpty transport
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean#L45-L46
+
+Excerpt SHA256 d93f3033fc8d361d6669b1a819e122ab8019d2e5a7ca990899deba97795d16de.
+
+```lean
+protected theorem Function.isEmpty [IsEmpty β] (f : α → β) : IsEmpty α :=
+  ⟨fun x ↦ IsEmpty.false (f x)⟩
+```
+
+
+Sigma emptiness and isEmptyElim
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/IsEmpty/Defs.lean#L91-L102
+
+Excerpt SHA256 523fefbe1971cbb5ff328b1b3987c8d9aacfe771cc67d66e4ba03f395f87c352.
+
+```lean
+instance Sigma.isEmpty_left {α} [IsEmpty α] {E : α → Type v} : IsEmpty (Sigma E) :=
+  Function.isEmpty Sigma.fst
+
+instance Sigma.isEmpty_fibers {α} {E : α → Type v} [∀ a, IsEmpty (E a)] : IsEmpty (Sigma E) :=
+  ⟨fun x ↦ IsEmpty.false x.2⟩
+
+example [h : Nonempty α] [IsEmpty β] : IsEmpty (α → β) := by infer_instance
+
+/-- Eliminate out of a type that `IsEmpty` (without using projection notation). -/
+@[elab_as_elim]
+def isEmptyElim [IsEmpty α] {p : α → Sort v} (a : α) : p a :=
+  (IsEmpty.false a).elim
+```
+
+
+### Mathlib/Data/Fin/SuccPred.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/SuccPred.lean
+
+Source SHA256 bd06c01ee2b146f6f90d5c90b8ce2f81291c8ee2e0fc7b31672fefe0b496c27a; Git blob 25a960243cc9bc2cfb7c59662de33e40e3ede29c.
+
+```lean
+/-
+Copyright (c) 2022 Eric Rodriguez. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Eric Rodriguez
+-/
+```
+
+
+finCongr and value-preserving public contracts
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/SuccPred.lean#L130-L151
+
+Excerpt SHA256 454330f28b5ea1c3d605fac89416fc24a9293068c97f66b047b3da4e40df0278.
+
+```lean
+/-- The 'identity' equivalence between `Fin m` and `Fin n` when `m = n`. -/
+@[simps apply]
+def _root_.finCongr (eq : n = m) : Fin n ≃ Fin m where
+  toFun := Fin.cast eq
+  invFun := Fin.cast eq.symm
+  left_inv := leftInverse_cast eq
+  right_inv := rightInverse_cast eq
+
+theorem _root_.finCongr_symm_apply (eq : n = m) (a : Fin m) :
+    (finCongr eq).symm a = a.cast eq.symm := rfl
+
+@[simp] lemma _root_.finCongr_apply_mk (h : m = n) (k : ℕ) (hk : k < m) :
+    finCongr h ⟨k, hk⟩ = ⟨k, h ▸ hk⟩ := rfl
+
+@[simp]
+lemma _root_.finCongr_refl (h : n = n := rfl) : finCongr h = Equiv.refl (Fin n) := by ext; simp
+
+@[simp] lemma _root_.finCongr_symm (h : m = n) : (finCongr h).symm = finCongr h.symm := rfl
+
+@[simp] lemma _root_.finCongr_apply_coe (h : m = n) (k : Fin m) : (finCongr h k : ℕ) = k := rfl
+
+lemma _root_.finCongr_symm_apply_coe (h : m = n) (k : Fin n) : ((finCongr h).symm k : ℕ) = k := rfl
+```
+
+
+### Mathlib/Algebra/Order/Floor/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean
+
+Source SHA256 f6cc4cbab72e40e7afadb67d625a720359c26b32b9293a72255df2018a7876f7; Git blob e38bd9356445865e98d15633af5bef1161b4f7df.
+
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Kevin Kappelmann
+-/
+```
+
+
+FloorSemiring natural-cast CharZero instance generator
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L82-L106
+
+Excerpt SHA256 743d15822271290dc05c9c71acc34ba93ba3e31c9198b3d7daf143379f70bcae.
+
+```lean
+namespace FloorSemiring
+
+variable [Semiring α] [PartialOrder α] [FloorSemiring α]
+
+/-- A version of `Nat.mono_cast` for floor semirings, whose addition is not necessarily monotone. -/
+theorem natCast_mono : Monotone (Nat.cast : ℕ → α) :=
+  fun _ _ h ↦ (gc_ceil _ _).mp <| h.trans' <| (gc_ceil _ _).mpr (le_refl _)
+
+/-- A version of `Nat.cast_nonneg'` for floor semirings, whose addition is not necessarily
+  monotone. -/
+theorem natCast_nonneg (n : ℕ) : 0 ≤ (n : α) := by
+  simpa using natCast_mono n.zero_le
+
+/-- A version of `Nat.strictMono_cast` for floor semirings, whose addition is not necessarily
+  monotone. -/
+theorem natCast_strictMono : StrictMono (Nat.cast : ℕ → α) := by
+  refine strictMono_nat_of_lt_succ fun n => (natCast_mono (Nat.le_succ n)).lt_of_ne fun hn => ?_
+  replace hn (k : ℕ) : ((n + k : ℕ) : α) = n := by
+    induction k with | zero => rfl | succ k k_ih => grind
+  have h : n + (floor (n : α) + 1) ≤ floor (n : α) := (gc_floor (natCast_nonneg n)).mpr (hn _).le
+  grind
+
+instance : ZeroLEOneClass α := ⟨by simpa only [Nat.cast_one] using natCast_nonneg 1⟩
+
+instance : CharZero α := ⟨natCast_strictMono.injective⟩
+```
+
+
+### Inhabited explicit default data
+
+Constructive data field default, distinct from Prop Nonempty and from Classical.choice. Used by the singleton Unique Fin 1 branch of the actual finite-Sigma decoder.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L823-L829
+
+Source SHA256 cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39; excerpt SHA256 84209c944d81d92c631b3b038ea1afc5efe92070594042cac95b3313ba3f7ad7.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+class Inhabited (α : Sort u) where
+  /-- `default` is a function that produces a "default" element of any
+  `Inhabited` type. This element does not have any particular specified
+  properties, but it is often an all-zeroes value. -/
+  default : α
+
+export Inhabited (default)
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Fin.ofNat bounded numeral
+
+Actual bounded natural numeral is modulo positive n; Fin 1 default zero is constructive and no arbitrary-choice inhabitant is used.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L49-L55
+
+Source SHA256 bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4; excerpt SHA256 bd09b681a73ec660a8ba37fc5e428ea58c47699c562a8c5ec1824431ee50bf89.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+Returns `a` modulo `n` as a `Fin n`.
+
+The assumption `NeZero n` ensures that `Fin n` is nonempty.
+-/
+@[implicit_reducible]
+protected def ofNat (n : Nat) [NeZero n] (a : Nat) : Fin n :=
+  ⟨a % n, Nat.mod_lt _ (pos_of_neZero n)⟩
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Fin numeral and inhabited singleton context
+
+Actual Fin.instOfNat delegates Fin.ofNat; Fin.instInhabited supplies zero. Intervening negation declarations retained as source context, not claimed additional usages.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L245-L267
+
+Source SHA256 bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4; excerpt SHA256 4b56ced4dce15cde0c9235c170dfa3974c5769cc556e948244a00b573a974b92.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+instance instOfNat {n : Nat} [NeZero n] {i : Nat} : OfNat (Fin n) i where
+  ofNat := Fin.ofNat n i
+
+/-- If you actually have an element of `Fin n`, then the `n` is always positive -/
+protected theorem pos (i : Fin n) : 0 < n :=
+  Nat.lt_of_le_of_lt (Nat.zero_le _) i.2
+
+/-- Negation on `Fin n` -/
+instance neg (n : Nat) : Neg (Fin n) :=
+  ⟨fun a => ⟨(n - a) % n, Nat.mod_lt _ a.pos⟩⟩
+
+theorem neg_def (a : Fin n) : -a = ⟨(n - a) % n, Nat.mod_lt _ a.pos⟩ := rfl
+
+-- Later we give another version called `Fin.val_neg` that splits on `a = 0`.
+protected theorem val_neg' (a : Fin n) : ((-a : Fin n) : Nat) = (n - a) % n :=
+  rfl
+
+@[deprecated Fin.val_neg' (since := "2025-11-21")]
+protected theorem coe_neg (a : Fin n) : ((-a : Fin n) : Nat) = (n - a) % n :=
+  rfl
+
+instance instInhabited {n : Nat} [NeZero n] : Inhabited (Fin n) where
+  default := 0
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Fin.castLT and castLE
+
+Value-preserving Fin.castLT, castLE and proof-equality Fin.cast. Actual finCongr uses the latter; no arithmetic decision is synthesized from proof assumptions.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L308-L324
+
+Source SHA256 bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4; excerpt SHA256 7ccf0129a339813699edb05d86d8d896769abacf63c682fdf049a1d8029dd13a.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+@[inline, implicit_reducible] def castLT (i : Fin m) (h : i.1 < n) : Fin n := ⟨i.1, h⟩
+
+/--
+Coarsens a bound to one at least as large.
+
+See also `Fin.castAdd` for a version that represents the larger bound with addition rather than an
+explicit inequality proof.
+-/
+@[inline, implicit_reducible] def castLE (h : n ≤ m) (i : Fin n) : Fin m := ⟨i, Nat.lt_of_lt_of_le i.2 h⟩
+
+/--
+Uses a proof that two bounds are equal to allow a value bounded by one to be used with the other.
+
+In other words, when `eq : n = m`, `Fin.cast eq i` converts `i : Fin n` into a `Fin m`.
+-/
+@[inline, implicit_reducible] protected def cast (eq : n = m) (i : Fin n) : Fin m := ⟨i, eq ▸ i.2⟩
+
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Material meanings precise additions
+
+
+Fintype: SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_prefix_mass, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.prod: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_prefix_mass, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+FloorSemiring: SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.card: SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fintype.card: SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.range: SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+LocallyFiniteOrderBot: SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+LocallyFiniteOrderTop: SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.Ioi: SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Equiv: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+finSigmaFinEquiv: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.sigma: SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.image: SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+LinearOrder: SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.bin_ordered_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat.castRec: SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Finset.filter: SparseCompletion.bin_prefix_mass, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Multiset.filter: SparseCompletion.bin_prefix_mass, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+finSumFinEquiv: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Equiv.sumCongr: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Equiv.symm: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Equiv.trans: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+### Compiler contexts precise additions
+
+
+Sigma: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Bool.Reflects: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_ordered_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Decidable: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_ordered_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+DecidablePred: SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+LE-and-LT: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_prefix_mass, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Min-and-Max: SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Prod-with-right-associated-tuple-convention: SparseCompletion.rational_central_pair_response, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Add-and-Mul-classes: SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_ordered_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Sum: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Sum.elim: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat rational constants: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat comparison and decidability: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat multiplication: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat addition and negation: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat subtraction: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Rat.neg: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Option constructors: SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+List constructors: SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+List.Mem and Membership: SparseCompletion.rational_central_pair_response, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+List.decidableBAll: SparseCompletion.rational_central_pair_response, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+List.ofFn: SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.foldr: SparseCompletion.explicit_binned_core_witness.
+
+
+Rat inversion, natural powers and division: SparseCompletion.rational_central_payoff_diagonal, SparseCompletion.rational_central_payoff_skew, SparseCompletion.rational_central_payoff_bounds, SparseCompletion.rational_central_pair_response, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_omitted_coefficient_bounds, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.castLT and castLE: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.bin_prefix_mass, SparseCompletion.bin_ordered_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.castAdd: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.natAdd: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.subNat: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.addCases: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.addCases left/right contracts: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Sum.map: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+List.finRange: SparseCompletion.explicit_binned_core_witness.
+
+
+Inhabited explicit default data: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin.ofNat bounded numeral: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+Fin numeral and inhabited singleton context: SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_binned_moment, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+### Auxiliary contexts precise additions
+
+
+Batteries/Classes/RatCast.lean: SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_uniform_score_real, SparseCompletion.rational_bin_sign_real, SparseCompletion.rational_bin_cross_response, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.rational_binned_response_real, SparseCompletion.explicit_binned_residual_response, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_core_witness.
+
+
+### Earlier actual generator users: material
+
+
+Equiv.symm: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Equiv.trans: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Equiv.sumCongr: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+finSumFinEquiv: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Earlier actual generator users: core
+
+
+Sigma: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Sum: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Sum.elim: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Sum.map: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.castLT and castLE: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.castAdd: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.natAdd: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.subNat: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.addCases: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.addCases left/right contracts: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Decidable: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+LE-and-LT: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Earlier actual generator users: new_core_records
+
+
+Inhabited explicit default data: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin.ofNat bounded numeral: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+Fin numeral and inhabited singleton context: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+## Finite-Sigma nonzero prerequisites
+
+The concrete singleton inhabitant requires the actual NeZero premise, supplied constructively by the natural successor instance. These three narrow compiler contexts retain its class field, the positivity consequence and the actual instance. They are assigned only to the same29new and33earlier actual finite-Sigma generator users. Counts are66material/76compiler/2auxiliary; historical73 proposals and receipts remain immutable.
+
+
+### NeZero actual nonzero premise
+
+Literal Prop class carries n≠0 in its out field; NeZero.ne and neZero_iff expose it. This is a genuine checked premise, not fake decidability or a fabricated positive bound.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/NeZero.lean#L29-L41
+
+Source SHA256 94e1883fd4fd9c5612da4a24a0cbc9bd6a656d31ce9a0123b9833175c5964df3; Git blob 6f8af227938d755885187cd670c62766859bea20; excerpt SHA256 395c5d6fa8f2a508856ef7662598ad6ad405fa818f7ee7eca482496a4d9d4f1e.
+
+```lean
+/-
+Copyright (c) 2021 Eric Rodriguez. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Eric Rodriguez
+-/
+class NeZero (n : R) : Prop where
+  /-- The proposition that `n` is not zero. -/
+  out : n ≠ 0
+
+theorem NeZero.ne (n : R) [h : NeZero n] : n ≠ 0 :=
+  h.out
+
+theorem NeZero.ne' (n : R) [h : NeZero n] : 0 ≠ n :=
+  h.out.symm
+
+theorem neZero_iff {n : R} : NeZero n ↔ n ≠ 0 :=
+  ⟨fun h ↦ h.out, NeZero.mk⟩
+
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Nat positivity from NeZero
+
+Actual Nat.pos_of_neZero obtains 0<n from the nonzero premise, using the preceding zero-or-positive and positive-from-nonzero contracts. Used by Fin.ofNat modulus bound proof.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Basic.lean#L326-L334
+
+Source SHA256 e26b5a54eab922f6b650cfe9032fe23172fa8cc0b63c75cff0c8bf99f6175289; Git blob 9d952894c7d70b881bcb1c82151a1d8889499013; excerpt SHA256 8ec4512261818feebe68806f9e754292bd7403a507847304bf52870d921b77b8.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Leonardo de Moura
+-/
+theorem succ_le_iff : succ m ≤ n ↔ m < n := ⟨lt_of_succ_le, succ_le_of_lt⟩
+
+theorem eq_zero_or_pos : ∀ (n : Nat), n = 0 ∨ n > 0
+  | 0   => Or.inl rfl
+  | _+1 => Or.inr (succ_pos _)
+
+protected theorem pos_of_ne_zero {n : Nat} : n ≠ 0 → 0 < n := (eq_zero_or_pos n).resolve_left
+
+theorem pos_of_neZero (n : Nat) [NeZero n] : 0 < n := Nat.pos_of_ne_zero (NeZero.ne _)
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.
+
+
+### Nat successor NeZero instance
+
+Actual Nat.instNeZeroSucc supplies NeZero(n+1), including n=0 and hence Fin1 inhabited/default. It is an ordinary proposition proof, not an arbitrary-choice inhabitant.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Basic.lean#L739-L745
+
+Source SHA256 e26b5a54eab922f6b650cfe9032fe23172fa8cc0b63c75cff0c8bf99f6175289; Git blob 9d952894c7d70b881bcb1c82151a1d8889499013; excerpt SHA256 4ecb5e083ea0859969d12c3c25258bb7301f1934d4b4b7d367c5404d67834919.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Leonardo de Moura
+-/
+
+@[simp] protected theorem zero_ne_one : 0 ≠ (1 : Nat) :=
+  fun h => Nat.noConfusion h
+
+theorem succ_ne_zero (n : Nat) : succ n ≠ 0 := by simp
+
+instance instNeZeroSucc {n : Nat} : NeZero (n + 1) := ⟨succ_ne_zero n⟩
+```
+
+Affected declarations: SparseCompletion.balanced_finite_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.binIndex_val, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_exposing_loss_exact, SparseCompletion.binned_finite_correction, SparseCompletion.binned_finite_game_witness, SparseCompletion.binned_game_completion_exact, SparseCompletion.binned_game_witness, SparseCompletion.binned_mass, SparseCompletion.binned_middle_injective, SparseCompletion.binned_middle_positive, SparseCompletion.binned_moment, SparseCompletion.binned_nonneg, SparseCompletion.binned_odd_game_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_odd_support_exact, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_quadratic_loss_exact, SparseCompletion.binned_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_weights_linear, SparseCompletion.explicit_binned_core_witness, SparseCompletion.explicit_binned_game_witness, SparseCompletion.explicit_binned_matrix_bounds, SparseCompletion.explicit_binned_matrix_skew, SparseCompletion.explicit_binned_residual_response, SparseCompletion.partition_game_witness, SparseCompletion.rational_bin_decode_val, SparseCompletion.rational_bin_other_payoff, SparseCompletion.rational_bin_pair_response, SparseCompletion.rational_binned_explicit_completion, SparseCompletion.rational_binned_label_decode, SparseCompletion.rational_binned_label_eq, SparseCompletion.rational_binned_label_representative, SparseCompletion.rational_binned_moment, SparseCompletion.rational_binned_nonrepresentative_zero, SparseCompletion.rational_binned_omitted_response, SparseCompletion.rational_binned_residual_response, SparseCompletion.rational_binned_response_real, SparseCompletion.rational_binned_supported_response, SparseCompletion.rational_binned_weights_mass, SparseCompletion.rational_binned_weights_nonnegative, SparseCompletion.rational_binned_weights_real, SparseCompletion.rational_explicit_bin_payoff_bounds, SparseCompletion.rational_explicit_bin_payoff_diagonal, SparseCompletion.rational_explicit_bin_payoff_skew, SparseCompletion.rational_same_bin_length_two, SparseCompletion.rational_supported_bin_payoff_bounds, SparseCompletion.rational_supported_bin_payoff_local, SparseCompletion.rational_supported_bin_payoff_skew, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniform_odd_midpoint_witness.

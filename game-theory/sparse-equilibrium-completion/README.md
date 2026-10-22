@@ -49,8 +49,7 @@ witnesses. Exact global odd/even bin-error formulas are also proved. For equal
 odd bins with m=h*s, the midpoint witness has exactly h residual actions and
 exploitability r²/12 (1/h²−1/m²), with r=1/4: every row is bounded and anchor 0
 attains that value. Balanced bins additionally satisfy the sharper finite bound
-d≤r²/12 (1/h+1/m)² with support≤min(m,2h). The source's explicit
-residual-payoff algorithm remains open.
+d≤r²/12 (1/h+1/m)² with support≤min(m,2h). The source's explicit within/across-bin residual-payoff construction is now proved in the source-explicit bin tranche below; its same matrix and exact rows are verified directly.
 
 The score-prefix reduction and fixed-tolerance conic characterization are proved.
 For nonincreasing scores, every strict score threshold is an actual prefix, including ties and the empty
@@ -101,7 +100,7 @@ compact-class optimistic values and their support-budget restrictions attain
 actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
 games and universal sparse upper witnesses give the quantified joint-k order.
 Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
-The remaining global sparse-output composition, source-specific flow construction, executable sorted
+The remaining global sparse-output composition, efficient flow reconstruction, executable sorted
 separation and operation/bit-cost clauses are tracked in
 SCOPE.md; whole-paper and submission readiness remain unestablished.
 
@@ -148,7 +147,7 @@ supplied. Returned data also satisfy the normalized full-game reconstruction
 contracts and the declared repertoire. The resulting shifted enclosure has width
 at most η+M/2^n. Fourier–Motzkin elimination may be exponential: this does not
 prove the paper's polynomial LP/flow or bit-cost guarantee. Efficient separation, polynomial sparse selection and source-specific
-residual payoff algorithms remain tracked in SCOPE.md. Native exact-source
+polynomial payoff reconstruction remain tracked in SCOPE.md. Native exact-source
 verification must be tied to the frozen commit by its external receipt.
 
 
@@ -206,7 +205,7 @@ These are functional correctness results. Explicit lists contain
 (1+floor(1/δ))^k nodes; Fourier–Motzkin may grow exponentially. No FPTAS
 running-time guarantee is inferred. Efficient sorted
 separation/flow, polynomial arithmetic/bit bounds, global sparse-output composition and
-the paper's explicit within/across-bin payoff construction remain unformalized.
+the canonical release gates remain open; the explicit bin construction is covered below.
 
 
 An actual finite-support algorithm now handles fixed-anchor rational games and
@@ -231,3 +230,22 @@ above still returns its original possibly dense output; composition with this
 sparse interval program remains separate. The final rational LP point preserves
 feasibility and support bounds; equality to an arbitrary original real witness's
 individual moments or support is not claimed for that final point.
+
+
+The source-explicit bin construction is now a literal rational program. It
+decodes original action labels, coalesces the two central labels in odd bins,
+uses cross-bin payoffs of opposite unit signs, and uses opposite 2/L payoffs
+for the distinct centers within an even bin. Omitted rows use the closed
+coefficient -(m-2j-1)/m; its equivalence to -t_j/r requires nonzero r, while
+the implemented formula remains valid at r=0. Every actual rational residual
+row has exactly zero response under the computed bin weights. The cast of
+that same rational matrix has exactly zero response for all real r, by proved
+homogeneity. Its entries are bounded and it is skew, including singleton bins.
+
+For arbitrary positive bin lengths and total m>0, the actual same matrix with
+r=1/4 gives residual support<=min(m,2h), anchor responses d and -d, and exact
+error d=r^2/(12m^3)*sum_b L_b*(L_b^2-c_b), with c_b=4 for even lengths and
+c_b=1 for odd lengths. The clipped core-only uncertainty theorem retains that
+q and residual matrix whenever d<=epsilon+3delta/8. This replaces existential
+residual completion in this construction; it does not supply a polynomial
+generic flow/LP algorithm or change the still-dense global allocation output.

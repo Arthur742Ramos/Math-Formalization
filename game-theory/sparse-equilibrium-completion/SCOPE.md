@@ -103,7 +103,7 @@ solver/bisection composition. It does not close polynomial complexity:
 Fourier–Motzkin elimination can grow exponentially. The paper's efficient
 flow-based reconstruction, encoded bit bounds, executable sorted separation,
 global sparse-output composition remain explicit work.
-The source-explicit within/across-bin payoff construction is also still open.
+The source-explicit within/across-bin payoff construction is implemented in the later section below.
 Whole-paper submission readiness remains false.
 
 
@@ -117,8 +117,8 @@ Whole-paper submission readiness remains false.
 
 These are functional rational algorithms. The source's polynomial sparse vertex-selection
 program, efficient sorted separation/flow construction, polynomial operation and
-bit bounds, and explicit within/across-bin residual payoff algorithm remain
-unformalized. Fourier–Motzkin may be exponential. The canonical-grid sparse
+bit bounds remain unformalized. The explicit within/across-bin residual payoff
+construction is proved in the source-explicit bin section below. Fourier–Motzkin may be exponential. The canonical-grid sparse
 existence theorem remains distinct from this computable alternate-H program.
 Whole-paper submission readiness remains false.
 
@@ -133,7 +133,7 @@ Whole-paper submission readiness remains false.
 | Output and value | `rational_interval_output_physical`, `rational_interval_algorithm_output_class`, `rational_interval_approximation_value_enclosure`, `rational_interval_accurate_complete`, `rational_interval_accurate_value_enclosure` | Every returned rational game belongs to the original physical class; qD=V includes zero q. True attained optimal witnesses contradict computed infeasible lower endpoints; returned all-row games certify the upper endpoint. Thus L≤V≤U+η, U−L≤M/2^n and automatic log2/ceil rounds give shifted width<η+ζ for ζ>0. One η slack; no optimum oracle or sparse-output bound. |
 
 Polynomial sparse vertex selection, efficient sorted separation
-and flow, source-explicit within/across-bin payoff construction and operation/bit
+and flow, and operation/bit
 bounds remain open. For M=1, the source fixedapprox result claims time polynomial in input bit
 length, inverse η and log(1/ζ). Fourier–Motzkin may be exponential; a bounded pinned-library audit found
 no reusable object-level polynomial rational-LP proof. This is a formal
@@ -159,7 +159,7 @@ Exact new contracts are `rational_interval_success_compatible`,
 `rational_interval_initialized_game` and `rational_interval_initialized_value`.
 The proofs cover all dimensions; executable controls include zero residual
 actions and the fully empty incompatible case. Global sparse-output composition, efficient sorted
-separation/flow, explicit within/across-bin payoff construction, and polynomial
+separation/flow and polynomial
 cost bounds remain outside this integrated tranche. Whole-paper readiness is false.
 
 
@@ -181,8 +181,7 @@ nonnegative template anchors and normalization are input fields, not an
 untrusted-data parser. The returned game may have dense residual support.
 The finite node-count theorem is not a machine/bit-cost bound. The source's
 polynomial-time guarantee, efficient sorted separation and max-flow
-reconstruction, global sparse-output composition, explicit within/across-bin
-payoff construction and canonical release verification remain open. No
+reconstruction, global sparse-output composition and canonical release verification remain open. No
 whole-paper or submission readiness is claimed.
 
 
@@ -200,5 +199,22 @@ This is an exhaustive functional algorithm. It does not prove polynomial
 operation or bit complexity, sorted separation or efficient flow reconstruction.
 It does not yet replace the dense global floor-grid output. Arbitrary extra
 physical rows contribute card(I) to the support bound; no sparsity independent
-of positive residual floors is claimed. Source-explicit bin payoffs, global
+of positive residual floors is claimed. Global
 sparse-output composition and canonical release checks remain open.
+
+
+## Source-explicit original-label bin payoff construction
+
+| Scope | Lean contracts | Exact result and limits |
+| --- | --- | --- |
+| Executed payoffs and index semantics | `rational_central_pair_response`, `rational_explicit_bin_payoff_skew`, `rational_explicit_bin_payoff_bounds`, `rational_binned_label_decode`, `rational_supported_bin_payoff_local` | Rational payoff program uses actual original labels through finSigmaFinEquiv. Earlier supported bins lose to later bins by1; distinct same-bin centers exchange2/L; omitted rows use -(m-2j-1)/m and the reverse entry is skew. Odd duplicated slots are coalesced. Distinct same-bin labels force L>=2; the proof does not infer2/L<=1 from positivity alone. |
+| Actual strategy and all exact rows | `rational_binned_weights_real`, `rational_binned_weights_mass`, `rational_binned_omitted_response`, `rational_bin_cross_response`, `rational_bin_pair_response`, `rational_binned_residual_response`, `rational_binned_explicit_completion` | Computed rational weights coincide exactly with the existing real binned weights. Direct finite sums prove every supported and omitted original residual row has response0. Cross-bin contribution2start+L-m and local2offset+1-L cancel the literal uniform score; no existential cut/flow witness substitutes for this matrix. Nonnegative probabilities require r>=0; exact algebra covers r=0. |
+| Same matrix over the reals | `rational_uniform_score_real`, `rational_binned_response_real`, `explicit_binned_residual_response` | Unit-mass rational correctness and proved homogeneity extend the cast of the same actual matrix to every real r. Division by r is not used at r=0. Total m>0 is explicit when asserting mass/probability/completion. |
+| Error and uncertainty composition | `explicit_binned_game_witness`, `explicit_binned_core_witness` | With r=1/4 and arbitrary positive lengths, the same actual matrix has min(m,2h) residual support, exactly zero residual rows, two anchor responses+/-d and exact parity error r^2/(12m^3)*sum L(L^2-c), c=4 even/1 odd. Existing proved loss/support laws provide the cubic upper bound. The clipped core observation adjustment retains the same q,B under d<=epsilon+3delta/8. This is not an assumed new coauthor proof or a generic polynomial LP algorithm. |
+
+This closes the previously missing explicit within/across-bin payoff route for
+the source mathematics. The global floor-grid sparse-output composition,
+efficient sorted separation and generic flow reconstruction, polynomial
+operation/bit-cost foundations, untrusted raw-input validation and canonical
+release requirements remain distinct. No whole-paper submission readiness is
+claimed.
