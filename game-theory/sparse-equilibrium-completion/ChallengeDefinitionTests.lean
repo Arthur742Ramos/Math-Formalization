@@ -450,5 +450,34 @@ example {α : Type uOptionAudit} {motive : Option α → Sort vOptionAudit}
 example {α : Type uOptionAudit} {motive : Option α → Sort vOptionAudit}
     (hn : motive none) (hs : ∀ a, motive (some a)) (a : α) : Option.rec hn hs (some a)=hs a := rfl
 
+
+/- Explicit finite-sum indexing and natural logarithm contracts. -/
+example {m n : ℕ} (i : Fin m) : (finSumFinEquiv (Sum.inl i) : Fin (m+n)).val=i.val := rfl
+example {m n : ℕ} (j : Fin n) : (finSumFinEquiv (Sum.inr j) : Fin (m+n)).val=m+j.val := rfl
+example {m n : ℕ} (i : Fin m) :
+    (finSumFinEquiv : Fin m ⊕ Fin n ≃ Fin (m+n)).symm (Fin.castAdd n i)=Sum.inl i :=
+  finSumFinEquiv.symm_apply_apply (Sum.inl i)
+example {m n : ℕ} (j : Fin n) :
+    (finSumFinEquiv : Fin m ⊕ Fin n ≃ Fin (m+n)).symm (Fin.natAdd m j)=Sum.inr j :=
+  finSumFinEquiv.symm_apply_apply (Sum.inr j)
+example {α β γ δ : Type*} (e : α ≃ β) (f : γ ≃ δ) (a : α) :
+    Equiv.sumCongr e f (Sum.inl a)=Sum.inl (e a) := rfl
+example {α β γ δ : Type*} (e : α ≃ β) (f : γ ≃ δ) (c : γ) :
+    Equiv.sumCongr e f (Sum.inr c)=Sum.inr (f c) := rfl
+example {α : Type*} (a : α) : Equiv.refl α a=a := rfl
+example {α β : Type*} (e : α ≃ β) (b : β) : e.symm b=e.invFun b := rfl
+example {α β γ : Type*} (e : α ≃ β) (f : β ≃ γ) (a : α) : e.trans f a=f (e a) := rfl
+example (N : ℕ) : N < 2^(Nat.log2 N+1) := Nat.lt_log2_self
+example (N : ℕ) : Nat.log2 N=(if 2 ≤ N then Nat.log2 (N/2)+1 else 0) := Nat.log2_def N
+example : Nat.log2 0=0 := Nat.log2_zero
+example (q : ℚ) : q ≤ (Nat.ceil q : ℚ) := Nat.le_ceil q
+
+
+example {n : ℕ} (f g : Fin n → ℚ) : decide (f=g)=true ↔ ∀ i, f i=g i := by
+  rw [decide_eq_true_eq]
+  exact ⟨fun h i => congrFun h i,fun h => funext h⟩
+example (P : Fin 0 → Prop) [DecidablePred P] : decide (∀ i, P i)=true := by simp
+example (P : Fin 1 → Prop) [DecidablePred P] : decide (∀ i, P i)=true ↔ P 0 := by simp
+
 end SECChallengeDefinitions
 -- END material-imported-definition audit

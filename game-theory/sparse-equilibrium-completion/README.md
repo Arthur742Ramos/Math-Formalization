@@ -16,8 +16,8 @@ The d-extra-moment wrappers preserve arbitrary specified linear measurements
 with d added to the support bound, while the number of anchors remains k.
 Their total-support bounds also include the full finite-cardinality cap k+m. The skew completion is reconstructed by finite layer-cake duality and
 classical compact-convex separation. All original rows satisfy the resulting
-response bound. This is an existence proof over reals; executable rational
-reconstruction and complexity claims remain open. Definitions and all proof
+response bound. The central geometric proof is existential over reals. The rational algorithm
+below now computes completions; polynomial complexity remains open. Definitions and all proof
 helpers have stable public exposed declaration names. The theorem map, including
 completed results and remaining rational algorithm and operation/bit-cost work, is in [SCOPE.md](SCOPE.md).
 
@@ -147,7 +147,21 @@ steps. Upper feasibility at M is proved from the game premises; no LP oracle is
 supplied. Returned data also satisfy the normalized full-game reconstruction
 contracts and the declared repertoire. The resulting shifted enclosure has width
 at most η+M/2^n. Fourier–Motzkin elimination may be exponential: this does not
-prove the paper's polynomial LP/flow or bit-cost guarantee. Interval LP encoding,
+prove the paper's polynomial LP/flow or bit-cost guarantee. Interval repertoire/value integration,
 allocation-grid execution/selection, efficient separation and source-specific
 residual payoff algorithms remain tracked in SCOPE.md. Native exact-source
 verification must be tied to the frozen commit by its external receipt.
+
+
+The actual rational interval program now encodes q,V,K and finite call epigraph
+variables. Its matrix is proved equivalent over both Q and Real to the intended
+constraints. For M,η>0 and p≥0, any compatible real completion at ρ forces rational program success;
+with explicit endpoint containment and normalization, its returned game obeys
+the original intervals and all response bounds at ρ+η. Extra interval repertoire
+constraints and interval value search are still to be integrated.
+
+For fixed observations and finite rational linear repertoires, automatic rounds
+n=Nat.log2(Nat.ceil(M/ζ))+1 yield an actual returned certificate and value bracket
+of shifted width<η+ζ for ζ>0. The Boolean checker validates original anchors and
+repertoire membership. This full support container may include zero weights;
+it does not certify the paper's sparse-output algorithm or polynomial cost.

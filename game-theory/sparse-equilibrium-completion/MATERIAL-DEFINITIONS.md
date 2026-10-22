@@ -7303,3 +7303,670 @@ compiler-generated inductive recursor; no literal recursor def head claimed. Opt
 Used by: SparseCompletion.rational_gap_search_bracket, SparseCompletion.rational_gap_approximation_complete, SparseCompletion.rational_gap_approximation_output, SparseCompletion.rational_gap_approximation_value_enclosure.
 
 The Option recursor is generated from the authenticated inductive declaration. Its dependent motive carries the exact solve-result equality and the genuine existential-feasibility decision. Constructor branch laws are checked independently through both entrypoints. No literal recursor def head, new axiom or arbitrary Real decider is introduced. The two model value/upper-feasibility contracts do not depend on these new operations. Closed Fin2 numeral selectors in the coefficient/right-side definitions are also replaced by explicit value-zero tests, preserving both mass rows and avoiding synthesized proof-helper dependencies.
+
+
+## Interval rational encoding and automatic accuracy
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean
+
+Source SHA256 bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4; Git blob 6fee3ab2eaacf1b76de02ea7f7880f29fbac8294.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L308-L317
+
+```lean
+@[inline, implicit_reducible] def castLT (i : Fin m) (h : i.1 < n) : Fin n := ⟨i.1, h⟩
+
+/--
+Coarsens a bound to one at least as large.
+
+See also `Fin.castAdd` for a version that represents the larger bound with addition rather than an
+explicit inequality proof.
+-/
+@[inline, implicit_reducible] def castLE (h : n ≤ m) (i : Fin n) : Fin m := ⟨i, Nat.lt_of_lt_of_le i.2 h⟩
+
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L331-L332
+
+```lean
+@[inline, implicit_reducible] def castAdd (m) : Fin n → Fin (n + m) :=
+  castLE <| Nat.le_add_right n m
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L367-L368
+
+```lean
+@[implicit_reducible]
+def natAdd (n) (i : Fin m) : Fin (n + m) := ⟨n + i, Nat.add_lt_add_left i.2 _⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L394-L395
+
+```lean
+@[inline, implicit_reducible] def subNat (m) (i : Fin (n + m)) (h : m ≤ i) : Fin n :=
+  ⟨i - m, Nat.sub_lt_right_of_lt_add h i.2⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Lemmas.lean
+
+Source SHA256 f00755157b6915ad4ff73f0ff86143576dcf9d89a0d0a31a8f0d9401b0a45bd0; Git blob 91a6ba1e65e76a33c5729ba6c40204a8ae99226c.
+
+```lean
+/-
+Copyright (c) 2022 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Leonardo de Moura
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Lemmas.lean#L1066-L1070
+
+```lean
+@[elab_as_elim] def addCases {m n : Nat} {motive : Fin (m + n) → Sort u}
+    (left : ∀ i, motive (castAdd n i)) (right : ∀ i, motive (natAdd m i))
+    (i : Fin (m + n)) : motive i :=
+  if hi : (i : Nat) < m then (castAdd_castLT n i hi) ▸ (left (castLT i hi))
+  else (natAdd_subNat_cast (Nat.le_of_not_lt hi)) ▸ (right _)
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Lemmas.lean#L1072-L1080
+
+```lean
+@[simp, grind =] theorem addCases_left {m n : Nat} {motive : Fin (m + n) → Sort _} {left right} (i : Fin m) :
+    addCases (motive := motive) left right (Fin.castAdd n i) = left i := by
+  rw [addCases, dite_eq_left (castAdd_lt _ _)]; rfl
+
+@[simp, grind =]
+theorem addCases_right {m n : Nat} {motive : Fin (m + n) → Sort _} {left right} (i : Fin n) :
+    addCases (motive := motive) left right (natAdd m i) = right i := by
+  have : ¬(natAdd m i : Nat) < m := Nat.not_lt.2 (le_coe_natAdd ..)
+  rw [addCases, dite_eq_right this]; exact eq_of_heq <| (eqRec_heq _ _).trans (by congr 1; simp)
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Sum/Basic.lean
+
+Source SHA256 c58e4b1ef684fdb842d6ae50fff0501fadd58dc8121773b00630e9e25ee1ac51; Git blob 7179f792183250f7947a7718abd04fcb7b725c98.
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Yury G. Kudryashov
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Sum/Basic.lean#L117-L122
+
+```lean
+@[expose] protected def map (f : α → α') (g : β → β') : α ⊕ β → α' ⊕ β' :=
+  Sum.elim (inl ∘ f) (inr ∘ g)
+
+@[simp, grind =] theorem map_inl (f : α → α') (g : β → β') (x : α) : (inl x).map f g = inl (f x) := rfl
+
+@[simp, grind =] theorem map_inr (f : α → α') (g : β → β') (x : β) : (inr x).map f g = inr (g x) := rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Fin/Basic.lean
+
+Source SHA256 2ac0956bbd9efbccdb576d4ba271575add94db22b8952f2e51304b18e7cd83ed; Git blob 2b22dc76cd496d37f99e823a6eb6626e5e68c503.
+
+```lean
+/-
+Copyright (c) 2018 Kenny Lau. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kenny Lau
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Fin/Basic.lean#L225-L240
+
+```lean
+/-- Equivalence between `Fin m ⊕ Fin n` and `Fin (m + n)` -/
+def finSumFinEquiv : Fin m ⊕ Fin n ≃ Fin (m + n) where
+  toFun := Sum.elim (Fin.castAdd n) (Fin.natAdd m)
+  invFun i := @Fin.addCases m n (fun _ => Fin m ⊕ Fin n) Sum.inl Sum.inr i
+  left_inv x := by rcases x with y | y <;> simp
+  right_inv x := by refine Fin.addCases (fun i => ?_) (fun i => ?_) x <;> simp
+
+@[simp]
+theorem finSumFinEquiv_apply_left (i : Fin m) :
+    (finSumFinEquiv (Sum.inl i) : Fin (m + n)) = Fin.castAdd n i :=
+  rfl
+
+@[simp]
+theorem finSumFinEquiv_apply_right (i : Fin n) :
+    (finSumFinEquiv (Sum.inr i) : Fin (m + n)) = Fin.natAdd m i :=
+  rfl
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean
+
+Source SHA256 df604983467488d4bc91a59822530bc04cad0ec59a0ca7831e08c5932d9cb791; Git blob 684c759195ec1f47d7fb18b156a10aa6aeabdd3c.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Sum.lean#L58-L61
+
+```lean
+/-- If `α ≃ α'` and `β ≃ β'`, then `α ⊕ β ≃ α' ⊕ β'`. This is `Sum.map` as an equivalence. -/
+@[simps (attr := grind =) apply]
+def sumCongr {α₁ α₂ β₁ β₂} (ea : α₁ ≃ α₂) (eb : β₁ ≃ β₂) : α₁ ⊕ β₁ ≃ α₂ ⊕ β₂ :=
+  ⟨Sum.map ea eb, Sum.map ea.symm eb.symm, fun x => by simp, fun x => by simp⟩
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean
+
+Source SHA256 c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8; Git blob 7821cb864d27388f46fd335a5f2fbc5d3be358ff.
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L139-L148
+
+```lean
+/-- Any type is equivalent to itself. -/
+@[refl] protected def refl (α : Sort*) : α ≃ α := ⟨id, id, fun _ => rfl, fun _ => rfl⟩
+
+instance inhabited' : Inhabited (α ≃ α) := ⟨Equiv.refl α⟩
+
+/-- Inverse of an equivalence `e : α ≃ β`. -/
+@[symm, implicit_reducible]
+protected def symm (e : α ≃ β) : β ≃ α := ⟨e.invFun, e.toFun, e.right_inv, e.left_inv⟩
+
+/-- See Note [custom simps projection] -/
+
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L160-L163
+
+```lean
+/-- Composition of equivalences `e₁ : α ≃ β` and `e₂ : β ≃ γ`. -/
+@[trans]
+protected def trans (e₁ : α ≃ β) (e₂ : β ≃ γ) : α ≃ γ :=
+  ⟨e₂ ∘ e₁, e₁.symm ∘ e₂.symm, e₂.left_inv.comp e₁.left_inv, e₂.right_inv.comp e₁.right_inv⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Log2.lean
+
+Source SHA256 8a4f220b2ef46bf434e0bafd4274e9a897674d665f1863024c77e74ae16766d4; Git blob 8646b9a7b3e41692dbad123b762d49401b2eb07b.
+
+```lean
+/-
+Copyright (c) 2021 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Gabriel Ebner, Robin Arnez
+-/
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Log2.lean#L18-L78
+
+```lean
+theorem log2_terminates : ∀ n, n ≥ 2 → n / 2 < n
+  | 2, _ => by decide
+  | 3, _ => by decide
+  | n+4, _ => by
+    rw [div_eq_ite, ite_eq_left]
+    refine succ_lt_succ (Nat.lt_trans ?_ (lt_succ_self _))
+    exact log2_terminates (n+2) (by simp)
+    simp
+
+/--
+Base-two logarithm of natural numbers. Returns `⌊max 0 (log₂ n)⌋`.
+
+This function is overridden at runtime with an efficient implementation. This definition is
+the logical model.
+
+Examples:
+ * `Nat.log2 0 = 0`
+ * `Nat.log2 1 = 0`
+ * `Nat.log2 2 = 1`
+ * `Nat.log2 4 = 2`
+ * `Nat.log2 7 = 2`
+ * `Nat.log2 8 = 3`
+-/
+@[expose, extern "lean_nat_log2"]
+def log2 (n : @& Nat) : Nat :=
+  -- Lean "assembly"
+  n.rec (fun _ => nat_lit 0) (fun _ ih n =>
+    ((nat_lit 2).ble n).rec (nat_lit 0) ((ih (n.div (nat_lit 2))).succ)) n
+
+private theorem log2_rec_irrel {n k k' : Nat} (hk : n ≤ k) (hk' : n ≤ k') :
+    (k.rec (fun _ => 0) (fun _ ih n => ((2).ble n).rec 0 ((ih (n / 2)).succ)) n : Nat) =
+      k'.rec (fun _ => 0) (fun _ ih n => ((2).ble n).rec 0 ((ih (n / 2)).succ)) n := by
+  induction k generalizing n k' with
+  | zero => cases hk; cases k' <;> rfl
+  | succ k ih =>
+    cases k'
+    · cases hk'; rfl
+    · dsimp only
+      cases h : ble 2 n
+      · rfl
+      · have hn : n / 2 < n := log2_terminates n (Nat.le_of_ble_eq_true h)
+        exact congrArg Nat.succ (ih (Nat.le_of_lt_add_one (Nat.lt_of_lt_of_le hn hk))
+          (Nat.le_of_lt_add_one (Nat.lt_of_lt_of_le hn hk')))
+
+theorem log2_def (n : Nat) : n.log2 = if 2 ≤ n then (n / 2).log2 + 1 else 0 := by
+  rw [Nat.log2, Nat.log2]
+  cases n
+  · rfl
+  split
+  · rename_i n h
+    simp only [ble_eq_true_of_le h]
+    exact congrArg Nat.succ
+      (log2_rec_irrel (Nat.le_of_lt_add_one (log2_terminates _ h)) (Nat.le_refl _))
+  · simp only [mt le_of_ble_eq_true ‹_›]
+
+theorem log2_le_self (n : Nat) : Nat.log2 n ≤ n := by
+  rw [log2_def]; split
+  next h =>
+    have := log2_le_self (n / 2)
+    exact Nat.lt_of_le_of_lt this (Nat.div_lt_self (Nat.le_of_lt h) (by decide))
+  · apply Nat.zero_le
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean
+
+Source SHA256 c4530be5c96b507c13823378db43912a3ba577a2a23944ce222aaa7d193d2581; Git blob 0111c39744128c6d54f437d982a22ec321900a71.
+
+```lean
+/-
+Copyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro, Floris van Doorn
+-/
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean#L1318-L1366
+
+```lean
+@[simp]
+theorem log2_zero : Nat.log2 0 = 0 := by
+  simp [Nat.log2_def]
+
+theorem le_log2 (h : n ≠ 0) : k ≤ n.log2 ↔ 2 ^ k ≤ n := by
+  match k with
+  | 0 => simp [show 1 ≤ n from Nat.pos_of_ne_zero h]
+  | k+1 =>
+    rw [log2_def]; split
+    · have n0 : 0 < n / 2 := (Nat.le_div_iff_mul_le (by decide)).2 ‹_›
+      simp only [Nat.add_le_add_iff_right, le_log2 (Nat.ne_of_gt n0),
+        Nat.pow_succ]
+      exact Nat.le_div_iff_mul_le (by decide)
+    · simp only [le_zero_eq, succ_ne_zero, false_iff]
+      refine mt (Nat.le_trans ?_) ‹_›
+      exact Nat.pow_le_pow_right Nat.zero_lt_two (Nat.le_add_left 1 k)
+
+theorem log2_lt (h : n ≠ 0) : n.log2 < k ↔ n < 2 ^ k := by
+  rw [← Nat.not_le, ← Nat.not_le, le_log2 h]
+
+theorem log2_eq_iff (h : n ≠ 0) : n.log2 = k ↔ 2 ^ k ≤ n ∧ n < 2 ^ (k + 1) := by
+  constructor
+  · intro w
+    exact ⟨(le_log2 h).mp (Nat.le_of_eq w.symm), (log2_lt h).mp (by subst w; apply lt_succ_self)⟩
+  · intro w
+    apply Nat.le_antisymm
+    · apply Nat.le_of_lt_add_one
+      exact (log2_lt h).mpr w.2
+    · exact (le_log2 h).mpr w.1
+
+theorem log2_two_mul (h : n ≠ 0) : (2 * n).log2 = n.log2 + 1 := by
+  obtain ⟨h₁, h₂⟩ := (log2_eq_iff h).mp rfl
+  rw [log2_eq_iff (Nat.mul_ne_zero (by decide) h)]
+  constructor
+  · rw [Nat.pow_succ, Nat.mul_comm]
+    exact mul_le_mul_left 2 h₁
+  · rw [Nat.pow_succ, Nat.mul_comm]
+    rwa [Nat.mul_lt_mul_right (by decide)]
+
+@[simp]
+theorem log2_two_pow : (2 ^ n).log2 = n := by
+  apply Nat.eq_of_le_of_lt_succ <;> simp [le_log2, log2_lt, NeZero.ne, Nat.pow_lt_pow_iff_right]
+
+theorem log2_self_le (h : n ≠ 0) : 2 ^ n.log2 ≤ n := (le_log2 h).1 (Nat.le_refl _)
+
+theorem lt_log2_self : n < 2 ^ (n.log2 + 1) :=
+  match n with
+  | 0 => by simp
+  | n+1 => (log2_lt n.succ_ne_zero).1 (Nat.le_refl _)
+
+```
+
+The interval matrix has q,V,K and epigraph blocks, dimension m+mk+k²+Hm and 3m+2+2mk+4k²+k+2Hm+H rows. Actual Q and Real matrix satisfaction matches all decoded constraints, including every zero-weight lower-score guard. True compatible real games imply actual rational program success; returned data obey original intervals and normalized bounded full-game response≤ρ+η. No extra linear repertoire is encoded by this interval program yet.
+
+Nat.log2 gives n=log2(ceil(M/ζ))+1 and M/2^n<ζ for ζ>0. The actual fixed-anchor program returns a full-container rational certificate with checked repertoire/anchors and actual value enclosure width<η+ζ. The container may include zero weights and does not certify the source sparse-output algorithm. Fourier–Motzkin may be exponential; no polynomial cost/bit or efficient flow claim follows.
+
+### Reviewed precise usages for the50-proof tranche
+
+All current provisional new-name uses must be replaced by these exact intersections, not appended to the broad placeholders. Preserve old598-name uses.
+
+Derived against immutable425 inventory; in-progress broad50 placeholders were not used as seeds.
+
+Each per-target record contains actual compiled local dependencies and direct external constants. Previously independently reviewed old target usages provide inherited semantic seeds; literal expansion closes finite indexing and rational ceiling implementation.
+
+Generic core algebra/order/product/subtype contexts are explicit supporting contexts; source Rat43 shares scalar implementation context, not a claim every primitive is invoked by every theorem.
+
+List/PUnit/Unit entries are actual compiled proof dependency context only, including constructed proof data. They do not claim a list-based generic LP program, unit-valued inputs, added source algorithm or operation count.
+
+No Real.sqrt, geometric-compression, Nat.find, interval cover enumeration or unrelated source-module blanket attribution introduced.
+
+New finite-function equality and finite-quantifier supporting implementation evidence is proposed separately; existing56 core/65 material usage keys remain stable here.
+
+**Fintype**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_row_count, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.prod**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Set.Icc**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Nat.ceil**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**FloorSemiring**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Convex**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**StarConvex**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.card**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fintype.card**: SparseCompletion.rational_interval_row_count.
+
+**IsCompact**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**IsClosed**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Continuous**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**LinearMap**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**ContinuousLinearMap**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Set.image**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Equiv**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.image**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.Nonempty**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.max'**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.sup'**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**LinearOrder**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**InfSet**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure.
+
+**ConditionallyCompleteLattice**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure.
+
+**ConditionallyCompleteLinearOrder**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure.
+
+**Set.prod**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure.
+
+**Rat.castRec**: SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Set.Nonempty**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Finset.filter**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Multiset.filter**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fin.cons**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**finProdFinEquiv**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**finSumFinEquiv**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Equiv.sumCongr**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Equiv.refl**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Equiv.symm**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Equiv.trans**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Subtype**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Decidable**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**DecidablePred**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**LE-and-LT**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Min-and-Max**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_perspective_call_identity, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Prod-with-right-associated-tuple-convention**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_row_count, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Add-and-Mul-classes**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_row_count, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**SMul-class**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**self-scalar-action-from-multiplication**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**PUnit**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Unit**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Sum**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_row_count, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Sum.elim**: SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat rational constants**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat comparison and decidability**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat multiplication**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat addition and negation**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat subtraction**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Nonempty**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure.
+
+**Nat.sqrt and decreasing Newton iteration**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Nat.sqrt_le and Nat.lt_succ_sqrt**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Rat.floor**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat.neg**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Rat.le_floor_iff**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Option constructors**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**List constructors**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_recovered_product, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**List.Mem and Membership**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Fin.induction**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Fin.cases and zero/successor contracts**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Option.map**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Rat inversion, natural powers and division**: SparseCompletion.full_rational_certificate_b, SparseCompletion.full_rational_certificate_q, SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_eval_add, SparseCompletion.rational_form_eval_scale, SparseCompletion.rational_form_eval_sum, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_gap_recovered, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_point_epigraph_iff, SparseCompletion.rational_interval_point_gap, SparseCompletion.rational_interval_recovered_bounds, SparseCompletion.rational_interval_recovered_product, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.rational_log_rounds_width, SparseCompletion.rational_perspective_call_identity, SparseCompletion.rational_recovered_score_moment, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Option.bind exact pinned computation and branch equations**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Option.rec generated eliminator**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure.
+
+**Fin.castLT and castLE**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fin.castAdd**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fin.natAdd**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fin.subNat**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fin.addCases**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Fin.addCases left/right contracts**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Sum.map**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Nat.log2 exact definition and recursion**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_log_rounds_width.
+
+**Nat.log2 power contracts including zero**: SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_log_rounds_width.
+
+**Batteries/Classes/RatCast.lean**: SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_form_real_eval_add, SparseCompletion.rational_form_real_eval_scale, SparseCompletion.rational_form_real_eval_sum, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+**Batteries/Data/Fin/Basic.lean**: SparseCompletion.interval_aux_form_eval, SparseCompletion.interval_aux_real_form_eval, SparseCompletion.interval_basis_eval, SparseCompletion.interval_basis_real_eval, SparseCompletion.interval_k_form_eval, SparseCompletion.interval_k_real_form_eval, SparseCompletion.interval_pack_aux, SparseCompletion.interval_pack_k, SparseCompletion.interval_pack_q, SparseCompletion.interval_pack_v, SparseCompletion.interval_q_form_eval, SparseCompletion.interval_q_real_form_eval, SparseCompletion.interval_v_form_eval, SparseCompletion.interval_v_real_form_eval, SparseCompletion.interval_variable_decode_encode, SparseCompletion.interval_variable_encode_decode, SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.rational_interval_lp_feasible_iff, SparseCompletion.rational_interval_system_point, SparseCompletion.rational_interval_system_real_point, SparseCompletion.real_interval_completion_algorithm_success, SparseCompletion.real_interval_completion_rational_lp.
+
+
+### Genuine finite quantifier and anchor-function equality decisions
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean
+
+Source SHA256 e69e8e7a3605d293a7ef6c4a7aaefde3191da4f33b43b7be09963eec2e44965c; Git blob ee6ad77ee3befe5863cc58c91f784b0aa0564e07.
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L204-L215
+
+```lean
+instance decidablePiFintype {α} {β : α → Type*} [∀ a, DecidableEq (β a)] [Fintype α] :
+    DecidableEq (∀ a, β a) := fun f g =>
+  decidable_of_iff (∀ a ∈ @univ α _, f a = g a)
+    (by simp [funext_iff])
+
+instance decidableForallFintype {p : α → Prop} [DecidablePred p] [Fintype α] :
+    Decidable (∀ a, p a) :=
+  decidable_of_iff (∀ a ∈ @univ α _, p a) (by simp)
+
+instance decidableExistsFintype {p : α → Prop} [DecidablePred p] [Fintype α] :
+    Decidable (∃ a, p a) :=
+  decidable_of_iff (∃ a ∈ @univ α _, p a) (by simp)
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean
+
+Source SHA256 c4530be5c96b507c13823378db43912a3ba577a2a23944ce222aaa7d193d2581; Git blob 0111c39744128c6d54f437d982a22ec321900a71.
+
+```lean
+/-
+Copyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro, Floris van Doorn
+-/
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean#L1761-L1773
+
+```lean
+
+-- `noncomputable` so the non-tail-recursive code is never compiled; the tail-recursive
+-- `@[csimp]` replacement `decidableBallLTTR` below is the only version used at runtime.
+noncomputable instance decidableBallLT :
+  ∀ (n : Nat) (P : ∀ k, k < n → Prop) [∀ n h, Decidable (P n h)], Decidable (∀ n h, P n h)
+| 0, _, _ => isTrue fun _ => (by cases ·)
+| n + 1, P, H =>
+  match decidableBallLT n (P · <| lt_succ_of_lt ·) with
+  | isFalse h => isFalse (h fun _ _ => · _ _)
+  | isTrue h =>
+    match H n Nat.le.refl with
+    | isFalse p => isFalse (p <| · _ _)
+    | isTrue p => isTrue fun _ h' => (Nat.lt_succ_iff_lt_or_eq.1 h').elim (h _) fun hn => hn ▸ p
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean#L1790-L1798
+
+```lean
+/-- Tail-recursive `Bool` loop: `true` iff `f i h` holds for every `i < n`
+(short-circuits on the first `false`). Used at runtime by `decidableBallLT` via `@[csimp]`. -/
+@[inline] def allLTTR (n : Nat) (f : (i : Nat) → i < n → Bool) : Bool :=
+  let rec @[specialize] loop : (i : Nat) → i ≤ n → Bool
+    | 0,      _ => true
+    | i + 1, h => f (n - (i + 1)) (by omega) && loop i (by omega)
+  loop n (Nat.le_refl n)
+
+private theorem allLTTR_loop_eq_true {n : Nat} {f : (i : Nat) → i < n → Bool} :
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean#L1821-L1824
+
+```lean
+theorem allLTTR_eq_true {n : Nat} {f : (i : Nat) → i < n → Bool} :
+    allLTTR n f = true ↔ ∀ i (h : i < n), f i h = true := by
+  rw [allLTTR, allLTTR_loop_eq_true n (Nat.le_refl n)]
+  exact ⟨fun w i h => w i (by omega) h, fun w i _ h => w i h⟩
+
+```
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lemmas.lean#L1864-L1880
+
+```lean
+/-- Tail-recursive runtime replacement for `decidableBallLT`. -/
+def decidableBallLTTR (n : Nat) (P : ∀ k, k < n → Prop) [∀ n h, Decidable (P n h)] :
+    Decidable (∀ n h, P n h) :=
+  decidable_of_iff (allLTTR n (fun i h => decide (P i h)) = true) <| by
+    rw [allLTTR_eq_true]
+    exact ⟨fun w i h => of_decide_eq_true (w i h), fun w i h => decide_eq_true (w i h)⟩
+
+-- Keep this `@[csimp]` *before* the `Fin`/`≤` wrappers below: they reduce to `decidableBallLT`,
+-- which is `noncomputable`, so they only compile once this tail-recursive replacement is
+-- registered. Moving it later turns a wrapper into a "compiler IR check failed" / noncomputable
+-- error rather than a silent regression.
+@[csimp] theorem decidableBallLT_eq_decidableBallLTTR :
+    @decidableBallLT = @decidableBallLTTR := by
+  funext n P H; exact Subsingleton.elim _ _
+
+instance decidableForallFin (P : Fin n → Prop) [DecidablePred P] : Decidable (∀ i, P i) :=
+  decidable_of_iff (∀ k h, P ⟨k, h⟩) ⟨fun m ⟨k, h⟩ => m k h, fun m k h => m ⟨k, h⟩⟩
+
+```
+
+**Fintype.decidablePiFintype**: Equality of finite dependent functions reduces by a proved iff (funext) to checking every element of actual univ. With Rat codomain and finite supplied domain, this is a genuine computed decision, including empty domains. Selected uses: SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_algorithm_checked_output.
+
+**Fintype.decidableForallFintype**: Universal predicate reduces by proved iff to the finite univ membership-guarded predicate. Existing retained Finset/Multiset/List finite decision implementation supports the finite traversal. Selected uses: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+**Nat.decidableForallFin**: Universal Fin n predicate reduces by proved iff to bounded natural universal predicate. Logical decidableBallLT is marked noncomputable upstream solely to avoid compiling its non-tail-recursive model; an earlier authenticated csimp theorem replaces it with decidableBallLTTR, which computes allLTTR and reflects Boolean truth into a Decidable result. Retain BOTH logical and runtime replacement semantics, not just the noncomputable wrapper. Selected uses: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+Literal expansion supplement: real_interval_completion_rational_lp uses generated dual finite minima; Finset.sup', Multiset.filter and LinearOrder include this target through exact retained dependency expansion. Original compiled trace and base usage delta are preserved externally.
+
+**List.decidableBAll**: SparseCompletion.rational_certified_approximation_complete, SparseCompletion.rational_certified_approximation_output, SparseCompletion.rational_certified_approximation_sound, SparseCompletion.rational_gap_accurate_complete, SparseCompletion.rational_gap_accurate_value_enclosure, SparseCompletion.rational_gap_algorithm_certificate, SparseCompletion.rational_gap_algorithm_checked_output, SparseCompletion.rational_interval_algorithm_complete, SparseCompletion.rational_interval_algorithm_full_game, SparseCompletion.rational_interval_algorithm_output, SparseCompletion.rational_interval_algorithm_real_lp_complete, SparseCompletion.rational_interval_gap_rational_completion, SparseCompletion.real_interval_completion_algorithm_success.
+
+Finite-decision literal closure: Fintype universal/function equality decisions traverse Finset.decidableDforall and Multiset.decidableDforall, then quotient-lift List.decidableBAll. Selected uses above include these literal implementation consumers. This is supporting finite-quantifier computation context, not a list-based Fourier–Motzkin program or an operation-cost bound.

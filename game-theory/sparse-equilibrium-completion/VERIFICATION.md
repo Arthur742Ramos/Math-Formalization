@@ -329,3 +329,23 @@ explicit natural values. The five affected module revisions preserve all19 theor
 headers and have independent internal semantic review. The Comparator, negative
 helper control, definition-hole policy, root tools and dependency pins are
 unchanged. A fresh exact-commit receipt is required for the corrected bytes.
+
+
+## Interval rational program and automatic-round follow-on
+
+The preserved425fba69adc05271b51de96be1a326cdda948670 checkpoint passed all12
+native gates, including488 protected contracts and598 source axiom audits. It
+does not verify this altered tranche. The addition has18 mathematical modules
+and50 source proofs, taking the package to130 mathematics modules,648 source
+proof audits and538 protected contracts. Nine executable controls cover
+automatic rounds, compatible/inconsistent core intervals, empty systems, invalid
+residual mass and certificate skew rejection. Exact finite index and Nat.log2
+evidence is pinned and bridges compile independently under both entrypoints.
+
+Independent internal mathematical reviews cover all50 new proof declarations;
+exact hashes and scope limits are retained externally. A fresh frozen-commit
+receipt, separate kernels/exports, protected comparison and altered-helper
+rejection are required before describing the integrated bytes as verified.
+Protected comparator behavior, dependency pins and root verification tools are
+unchanged. Whole-paper, polynomial-cost and canonical-release readiness remain
+unestablished. No submission or publication is authorized or attempted.

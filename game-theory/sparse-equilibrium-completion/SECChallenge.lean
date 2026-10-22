@@ -12425,3 +12425,1043 @@ theorem rational_gap_approximation_value_enclosure {k m : ℕ} {I : Type*} [Fint
     exact hno ⟨y,(rational_gap_check_iff _ _ _ _ _ _ _ _).mp hh.1,hh.2⟩
 
 end SparseCompletion
+
+/- Fixed source body: RationalLogRounds.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Logarithmic bisection rounds; no polynomial LP or bit-cost assertion. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalLogRounds (M ζ : ℚ) : ℕ := Nat.log2 (Nat.ceil (M/ζ))+1
+
+theorem rational_log_rounds_width (M ζ : ℚ) (hζ : 0 < ζ) :
+    M/((2 : ℕ) : ℚ)^rationalLogRounds M ζ < ζ := by
+  have hc : M/ζ ≤ (Nat.ceil (M/ζ) : ℚ) := Nat.le_ceil (M/ζ)
+  have hn : (Nat.ceil (M/ζ) : ℚ) < ((2 : ℕ) : ℚ)^rationalLogRounds M ζ := by
+    unfold rationalLogRounds
+    exact_mod_cast Nat.lt_log2_self (n := Nat.ceil (M/ζ))
+  have hp : (0 : ℚ) < ((2 : ℕ) : ℚ)^rationalLogRounds M ζ := pow_pos (by norm_num) _
+  have hm := (div_lt_iff₀ hζ).mp (lt_of_le_of_lt hc hn)
+  exact (div_lt_iff₀ hp).mpr (by simpa only [mul_comm] using hm)
+
+def rationalGapAccurateApproximation {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (ζ : ℚ) :
+    Option ((ℚ × ℚ) × ((Fin m → ℚ) × (Fin m → Fin m → ℚ))) :=
+  rationalGapApproximation d (rationalLogRounds d.M ζ)
+
+theorem rational_gap_accurate_complete {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) (ζ : ℚ) :
+    ∃ z q B, rationalGapAccurateApproximation d ζ=some (z,(q,B)) :=
+  rational_gap_approximation_complete d (rationalLogRounds d.M ζ)
+
+theorem rational_gap_accurate_value_enclosure {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) (ζ : ℚ) (hζ : 0 < ζ)
+    (z : ℚ × ℚ) (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (hout : rationalGapAccurateApproximation d ζ=some (z,(q,B))) :
+    let V := fixedGameValue (fun a b => (d.K a b : ℝ)) (fun i a => (d.D i a : ℝ))
+      (fun a => (d.p a : ℝ)) d.M (rationalRealRepertoire d.R d.r)
+    (z.1 : ℝ) ≤ V ∧ V ≤ (z.2 : ℝ)+(d.η : ℝ) ∧
+      (z.2 : ℝ)+(d.η : ℝ)-(z.1 : ℝ) < (d.η : ℝ)+(ζ : ℝ) := by
+  have hb := rational_gap_approximation_value_enclosure d (rationalLogRounds d.M ζ) z q B hout
+  have hw : z.2-z.1 < ζ := lt_of_le_of_lt hb.2.2 (rational_log_rounds_width d.M ζ hζ)
+  have hwR : (z.2 : ℝ)-(z.1 : ℝ) < (ζ : ℝ) := by exact_mod_cast hw
+  exact ⟨hb.1,hb.2.1,by linarith⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalAlgorithmCertificate.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Actual finite rational certificate output; the container may include zero weights. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def fullRationalCertificate {k m : ℕ} (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (B : Fin m → Fin m → ℚ) : RationalCertificate k m where
+  support := Finset.univ
+  anchors := p
+  weights := fun i => q i
+  residual := fun i j => B i j
+
+theorem full_rational_certificate_q {k m : ℕ} (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (B : Fin m → Fin m → ℚ) (i : Fin m) : (fullRationalCertificate p q B).q i=q i := by
+  simp [fullRationalCertificate,RationalCertificate.q]
+
+theorem full_rational_certificate_b {k m : ℕ} (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (B : Fin m → Fin m → ℚ) (i j : Fin m) : (fullRationalCertificate p q B).b i j=B i j := by
+  simp [fullRationalCertificate,RationalCertificate.b]
+
+theorem rational_gap_algorithm_certificate {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (ρ : ℚ) (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (h : rationalGapAlgorithm d.K d.D d.p d.M d.r ρ d.η d.R=some (q,B)) :
+    (fullRationalCertificate d.p q B).check d.K d.D d.M (ρ+d.η)=true := by
+  have hs := rational_gap_algorithm_sound d.K d.D d.p d.M d.r ρ d.η d.R q B h
+  apply (RationalCertificate.check_iff _ _ _ _ _).mpr
+  refine ⟨le_of_lt d.positiveBound,d.anchorNonneg,?_,?_,d.anchorSkew,d.anchorBounds,
+    d.crossBounds,?_,?_,?_⟩
+  · intro i
+    rw [full_rational_certificate_q]
+    exact hs.2.1.1 i
+  · simp_rw [full_rational_certificate_q]
+    rw [hs.2.1.2.1]
+    exact d.normalized
+  · intro i _ j _
+    simpa only [full_rational_certificate_b] using hs.2.2.1 i j
+  · intro i _ j _
+    simpa only [full_rational_certificate_b] using hs.2.2.2.1 i j
+  · refine ⟨?_,?_,?_⟩
+    · intro a
+      change (∑ b, d.K a b*d.p b)-(∑ i, d.D i a*(fullRationalCertificate d.p q B).q i) ≤ ρ+d.η
+      simp_rw [full_rational_certificate_q]
+      have ha := hs.2.1.2.2.2.1 a
+      unfold rationalAnchorResponse at ha
+      linarith [d.positiveSlack]
+    · intro i _
+      change (∑ a, d.D i a*d.p a)+(∑ j, (fullRationalCertificate d.p q B).b i j*
+        (fullRationalCertificate d.p q B).q j) ≤ ρ+d.η
+      simp_rw [full_rational_certificate_b,full_rational_certificate_q]
+      simpa only [rationalScore] using hs.2.2.2.2 i
+    · intro i hi
+      exact False.elim (hi (Finset.mem_univ i))
+
+def checkRationalGapOutput {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (σ : ℚ) (c : RationalCertificate k m) : Bool :=
+  c.check d.K d.D d.M σ && decide (d.R.Satisfies c.q) && decide (c.anchors=d.p)
+
+theorem rational_gap_algorithm_checked_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (ρ : ℚ) (q : Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (h : rationalGapAlgorithm d.K d.D d.p d.M d.r ρ d.η d.R=some (q,B)) :
+    checkRationalGapOutput d (ρ+d.η) (fullRationalCertificate d.p q B)=true := by
+  have hc := rational_gap_algorithm_certificate d ρ q B h
+  have hs := (rational_gap_algorithm_sound d.K d.D d.p d.M d.r ρ d.η d.R q B h).1
+  have he : (fullRationalCertificate d.p q B).q=q := by
+    funext i
+    exact full_rational_certificate_q d.p q B i
+  unfold checkRationalGapOutput
+  rw [hc,he]
+  have ha : (fullRationalCertificate d.p q B).anchors=d.p := rfl
+  rw [decide_eq_true hs,decide_eq_true ha]
+  rfl
+
+end SparseCompletion
+
+/- Fixed source body: RationalCertifiedApproximation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Actual executable certificate payload and automatic accuracy bound. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalCertifiedApproximation {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (ζ : ℚ) : Option ((ℚ × ℚ) × RationalCertificate k m) :=
+  (rationalGapAccurateApproximation d ζ).map
+    (fun w => (w.1,fullRationalCertificate d.p w.2.1 w.2.2))
+
+theorem rational_certified_approximation_complete {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) (ζ : ℚ) :
+    ∃ z c, rationalCertifiedApproximation d ζ=some (z,c) := by
+  obtain ⟨z,q,B,h⟩ := rational_gap_accurate_complete d ζ
+  exact ⟨z,fullRationalCertificate d.p q B,by
+    simp only [rationalCertifiedApproximation,h,Option.map_some]⟩
+
+theorem rational_certified_approximation_output {k m : ℕ} {I : Type*} [Fintype I]
+    (d : RationalGapModel k m I) (ζ : ℚ) (z : ℚ × ℚ) (c : RationalCertificate k m)
+    (h : rationalCertifiedApproximation d ζ=some (z,c)) :
+    ∃ q B, rationalGapAccurateApproximation d ζ=some (z,(q,B)) ∧
+      c=fullRationalCertificate d.p q B := by
+  cases ha : rationalGapAccurateApproximation d ζ with
+  | none => simp only [rationalCertifiedApproximation,ha,Option.map_none] at h; cases h
+  | some w =>
+    have he := Option.some.inj (by simpa only [rationalCertifiedApproximation,ha,Option.map_some] using h)
+    obtain ⟨hz,hc⟩ := Prod.mk.inj he
+    exact ⟨w.2.1,w.2.2,by simp only [←hz],hc.symm⟩
+
+theorem rational_certified_approximation_sound {k m : ℕ} {I : Type*} [Fintype I]
+    [Nonempty (Fin k ⊕ Fin m)] (d : RationalGapModel k m I) (ζ : ℚ) (hζ : 0 < ζ)
+    (z : ℚ × ℚ) (c : RationalCertificate k m)
+    (h : rationalCertifiedApproximation d ζ=some (z,c)) :
+    let V := fixedGameValue (fun a b => (d.K a b : ℝ)) (fun i a => (d.D i a : ℝ))
+      (fun a => (d.p a : ℝ)) d.M (rationalRealRepertoire d.R d.r)
+    checkRationalGapOutput d (z.2+d.η) c=true ∧
+      (z.1 : ℝ) ≤ V ∧ V ≤ (z.2 : ℝ)+(d.η : ℝ) ∧
+      (z.2 : ℝ)+(d.η : ℝ)-(z.1 : ℝ) < (d.η : ℝ)+(ζ : ℝ) := by
+  obtain ⟨q,B,hout,rfl⟩ := rational_certified_approximation_output d ζ z c h
+  have ha := (rational_gap_approximation_output d (rationalLogRounds d.M ζ) z q B hout).2
+  exact ⟨rational_gap_algorithm_checked_output d z.2 q B ha,
+    rational_gap_accurate_value_enclosure d ζ hζ z q B hout⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalRecovery.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalIntervalRecover {k m : ℕ} (lo V : Fin m → Fin k → ℚ) (q : Fin m → ℚ)
+    (i : Fin m) (a : Fin k) : ℚ := if q i=0 then lo i a else V i a/q i
+
+def rationalMomentScore {k m : ℕ} (p : Fin k → ℚ) (V : Fin m → Fin k → ℚ) (i : Fin m) : ℚ :=
+  ∑ a, V i a*p a
+
+def rationalPerspectiveCall {m : ℕ} (q H : Fin m → ℚ) (ρ z : ℚ) : ℚ :=
+  ∑ i, max (H i-(ρ+z)*q i) 0
+
+theorem rational_interval_recovered_product {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (q : Fin m → ℚ)
+    (hV : ∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) :
+    ∀ i a, q i*rationalIntervalRecover lo V q i a=V i a := by
+  intro i a
+  by_cases hz : q i=0
+  · have hzero : V i a=0 := by
+      have hbounds := hV i a
+      simp only [hz,mul_zero] at hbounds
+      exact le_antisymm hbounds.2 hbounds.1
+    simp only [rationalIntervalRecover,hz,ite_true,zero_mul,hzero]
+  · simp only [rationalIntervalRecover,hz,ite_false]
+    field_simp
+
+theorem rational_interval_recovered_bounds {k m : ℕ}
+    (lo hi V : Fin m → Fin k → ℚ) (q : Fin m → ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hV : ∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) :
+    ∀ i a, lo i a ≤ rationalIntervalRecover lo V q i a ∧
+      rationalIntervalRecover lo V q i a ≤ hi i a := by
+  intro i a
+  by_cases hz : q i=0
+  · simp only [rationalIntervalRecover,hz,ite_true]
+    exact ⟨le_refl _,hlu i a⟩
+  · have hp : 0 < q i := lt_of_le_of_ne (hq i) (Ne.symm hz)
+    simp only [rationalIntervalRecover,hz,ite_false]
+    exact ⟨(le_div_iff₀ hp).mpr (hV i a).1,(div_le_iff₀ hp).mpr (hV i a).2⟩
+
+theorem rational_recovered_score_moment {k m : ℕ}
+    (lo V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (hprod : ∀ i a, q i*rationalIntervalRecover lo V q i a=V i a) :
+    ∀ i, q i*rationalScore (rationalIntervalRecover lo V q) p i=rationalMomentScore p V i := by
+  intro i
+  unfold rationalScore rationalMomentScore
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro a _
+  rw [←mul_assoc,hprod i a]
+
+theorem rational_perspective_call_identity {m : ℕ} (q t H : Fin m → ℚ) (ρ z : ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hH : ∀ i, q i*t i=H i) :
+    rationalCall q (fun i => t i-ρ) z=rationalPerspectiveCall q H ρ z := by
+  unfold rationalCall rationalPerspectiveCall
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [mul_max_of_nonneg _ _ (hq i),mul_zero]
+  congr 1
+  linear_combination hH i
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalGap.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalIntervalGapConditions {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) ∧
+  (∀ a, (∑ b, K a b*p b)-(∑ i, V i a) ≤ ρ) ∧
+  (∀ i, rationalScore lo p i ≤ ρ+M*r) ∧
+  (∀ i, rationalMomentScore p V i ≤ (ρ+M*r)*q i) ∧
+  ∀ l : Fin (rationalGridSize M r η),
+    rationalPerspectiveCall q (rationalMomentScore p V) ρ
+      (M*r-rationalGridNode M r η (l.val+1)) ≤
+      rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))
+
+instance rationalIntervalGapConditionsDecidable {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : Decidable (RationalIntervalGapConditions K lo hi V p q M r ρ η) := by
+  unfold RationalIntervalGapConditions
+  infer_instance
+
+theorem rational_interval_gap_recovered {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (h : RationalIntervalGapConditions K lo hi V p q M r ρ η) :
+    (∀ i a, lo i a ≤ rationalIntervalRecover lo V q i a ∧
+      rationalIntervalRecover lo V q i a ≤ hi i a) ∧
+    RationalGapConditions K (rationalIntervalRecover lo V q) p q M r ρ η := by
+  rcases h with ⟨hq,hm,hV,ha,hlo,hcap,hcall⟩
+  have hprod := rational_interval_recovered_product lo hi V q hV
+  have hH := rational_recovered_score_moment lo V p q hprod
+  refine ⟨rational_interval_recovered_bounds lo hi V q hq hlu hV,hq,hm,?_,?_,?_⟩
+  · intro i
+    by_cases hz : q i=0
+    · simpa only [rationalScore,rationalIntervalRecover,hz,ite_true] using hlo i
+    · have hp : 0 < q i := lt_of_le_of_ne (hq i) (Ne.symm hz)
+      have hc := hcap i
+      rw [←hH i] at hc
+      nlinarith
+  · intro a
+    unfold rationalAnchorResponse
+    have he : (∑ i, rationalIntervalRecover lo V q i a*q i)=∑ i, V i a := by
+      apply Finset.sum_congr rfl
+      intro i _
+      rw [mul_comm,hprod i a]
+    rw [he]
+    exact ha a
+  · intro l
+    rw [rational_perspective_call_identity q _ _ ρ _ hq hH]
+    exact hcall l
+
+theorem rational_interval_gap_rational_completion {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (h : RationalIntervalGapConditions K lo hi V p q M r ρ η) :
+    ∃ B, reconstructRationalGap (rationalIntervalRecover lo V q) p q M ρ η=some B := by
+  have hg := (rational_interval_gap_recovered K lo hi V p q M r ρ η hlu h).2
+  exact rational_gap_reconstruction_complete K _ p q M r ρ η hM hη
+    ((rational_gap_check_iff _ _ _ _ _ _ _ _).mpr hg)
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalVariables.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalIntervalVariable (k m H : ℕ) :=
+  Fin m ⊕ ((Fin m × Fin k) ⊕ ((Fin k × Fin k) ⊕ (Fin H × Fin m)))
+
+def rationalIntervalVariableEquiv (k m H : ℕ) :
+    RationalIntervalVariable k m H ≃ Fin (m+(m*k+(k*k+H*m))) :=
+  (Equiv.sumCongr (Equiv.refl (Fin m))
+    ((Equiv.sumCongr (finProdFinEquiv (m := m) (n := k))
+      ((Equiv.sumCongr (finProdFinEquiv (m := k) (n := k))
+        (finProdFinEquiv (m := H) (n := m))).trans finSumFinEquiv)).trans finSumFinEquiv)).trans
+          finSumFinEquiv
+
+def intervalVariableDecode {α : Type*} {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → α) (v : RationalIntervalVariable k m H) : α :=
+  x (rationalIntervalVariableEquiv k m H v)
+
+def intervalVariableEncode {α : Type*} {k m H : ℕ}
+    (f : RationalIntervalVariable k m H → α) (u : Fin (m+(m*k+(k*k+H*m)))) : α :=
+  f ((rationalIntervalVariableEquiv k m H).symm u)
+
+theorem interval_variable_decode_encode {α : Type*} {k m H : ℕ}
+    (f : RationalIntervalVariable k m H → α) :
+    intervalVariableDecode (intervalVariableEncode f)=f := by
+  funext v
+  exact congrArg f ((rationalIntervalVariableEquiv k m H).symm_apply_apply v)
+
+theorem interval_variable_encode_decode {α : Type*} {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → α) :
+    intervalVariableEncode (intervalVariableDecode x)=x := by
+  funext u
+  exact congrArg x ((rationalIntervalVariableEquiv k m H).apply_symm_apply u)
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalForms.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def intervalBasis {k m H : ℕ} (v : RationalIntervalVariable k m H)
+    (u : Fin (m+(m*k+(k*k+H*m)))) : ℚ :=
+  if u=rationalIntervalVariableEquiv k m H v then 1 else 0
+
+def intervalQ {α : Type*} {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → α) (i : Fin m) : α := intervalVariableDecode x (.inl i)
+def intervalV {α : Type*} {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → α) (i : Fin m) (a : Fin k) : α :=
+  intervalVariableDecode x (.inr (.inl (i,a)))
+def intervalK {α : Type*} {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → α) (a b : Fin k) : α :=
+  intervalVariableDecode x (.inr (.inr (.inl (a,b))))
+def intervalAux {α : Type*} {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → α) (l : Fin H) (i : Fin m) : α :=
+  intervalVariableDecode x (.inr (.inr (.inr (l,i))))
+
+theorem interval_basis_eval {k m H : ℕ} (v : RationalIntervalVariable k m H)
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℚ) :
+    (∑ u, intervalBasis v u*x u)=intervalVariableDecode x v := by
+  simp only [intervalBasis,ite_mul,one_mul,zero_mul,Finset.sum_ite_eq',Finset.mem_univ,ite_true,
+    intervalVariableDecode]
+
+theorem interval_basis_real_eval {k m H : ℕ} (v : RationalIntervalVariable k m H)
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℝ) :
+    (∑ u, (intervalBasis v u : ℝ)*x u)=intervalVariableDecode x v := by
+  calc
+    _ = ∑ u, if u=rationalIntervalVariableEquiv k m H v then x u else 0 := by
+      apply Finset.sum_congr rfl
+      intro u _
+      by_cases h : u=rationalIntervalVariableEquiv k m H v <;> simp [intervalBasis,h]
+    _ = _ := by
+      simp only [Finset.sum_ite_eq',Finset.mem_univ,ite_true,intervalVariableDecode]
+
+end SparseCompletion
+
+/- Fixed source body: RationalLinearForms.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalFormAdd {n : ℕ} (c d : Fin n → ℚ) : Fin n → ℚ := fun u => c u+d u
+def rationalFormScale {n : ℕ} (a : ℚ) (c : Fin n → ℚ) : Fin n → ℚ := fun u => a*c u
+def rationalFormSum {n : ℕ} {I : Type*} [Fintype I] (c : I → Fin n → ℚ) : Fin n → ℚ :=
+  fun u => ∑ i, c i u
+
+def rationalFormEval {n : ℕ} (c x : Fin n → ℚ) : ℚ := ∑ u, c u*x u
+def rationalFormRealEval {n : ℕ} (c : Fin n → ℚ) (x : Fin n → ℝ) : ℝ :=
+  ∑ u, (c u : ℝ)*x u
+
+theorem rational_form_eval_add {n : ℕ} (c d x : Fin n → ℚ) :
+    rationalFormEval (rationalFormAdd c d) x=rationalFormEval c x+rationalFormEval d x := by
+  simp only [rationalFormEval,rationalFormAdd,add_mul,Finset.sum_add_distrib]
+
+theorem rational_form_eval_scale {n : ℕ} (a : ℚ) (c x : Fin n → ℚ) :
+    rationalFormEval (rationalFormScale a c) x=a*rationalFormEval c x := by
+  simp only [rationalFormEval,rationalFormScale,mul_assoc,Finset.mul_sum]
+
+theorem rational_form_eval_sum {n : ℕ} {I : Type*} [Fintype I]
+    (c : I → Fin n → ℚ) (x : Fin n → ℚ) :
+    rationalFormEval (rationalFormSum c) x=∑ i, rationalFormEval (c i) x := by
+  simp only [rationalFormEval,rationalFormSum,Finset.sum_mul]
+  exact Finset.sum_comm
+
+theorem rational_form_real_eval_add {n : ℕ} (c d : Fin n → ℚ) (x : Fin n → ℝ) :
+    rationalFormRealEval (rationalFormAdd c d) x=
+      rationalFormRealEval c x+rationalFormRealEval d x := by
+  simp only [rationalFormRealEval,rationalFormAdd,Rat.cast_add,add_mul,Finset.sum_add_distrib]
+
+theorem rational_form_real_eval_scale {n : ℕ} (a : ℚ) (c : Fin n → ℚ) (x : Fin n → ℝ) :
+    rationalFormRealEval (rationalFormScale a c) x=(a : ℝ)*rationalFormRealEval c x := by
+  simp only [rationalFormRealEval,rationalFormScale,Rat.cast_mul,mul_assoc,Finset.mul_sum]
+
+theorem rational_form_real_eval_sum {n : ℕ} {I : Type*} [Fintype I]
+    (c : I → Fin n → ℚ) (x : Fin n → ℝ) :
+    rationalFormRealEval (rationalFormSum c) x=∑ i, rationalFormRealEval (c i) x := by
+  simp only [rationalFormRealEval,rationalFormSum,Rat.cast_sum,Finset.sum_mul]
+  exact Finset.sum_comm
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalEncoding.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+abbrev RationalIntervalTailRows (m H : ℕ) :=
+  Fin m ⊕ (Fin m ⊕ ((Fin 2 × (Fin H × Fin m)) ⊕ Fin H))
+abbrev RationalIntervalRows (k m H : ℕ) :=
+  Fin m ⊕ (Fin 2 ⊕ ((Fin 2 × (Fin m × Fin k)) ⊕
+    ((Fin 4 × (Fin k × Fin k)) ⊕ (Fin k ⊕ RationalIntervalTailRows m H))))
+
+def intervalQForm (k m H : ℕ) (i : Fin m) : Fin (m+(m*k+(k*k+H*m))) → ℚ :=
+  intervalBasis (k := k) (m := m) (H := H) (.inl i)
+def intervalVForm (k m H : ℕ) (i : Fin m) (a : Fin k) : Fin (m+(m*k+(k*k+H*m))) → ℚ :=
+  intervalBasis (k := k) (m := m) (H := H) (.inr (.inl (i,a)))
+def intervalKForm (k m H : ℕ) (a b : Fin k) : Fin (m+(m*k+(k*k+H*m))) → ℚ :=
+  intervalBasis (k := k) (m := m) (H := H) (.inr (.inr (.inl (a,b))))
+def intervalAuxForm (k m H : ℕ) (l : Fin H) (i : Fin m) : Fin (m+(m*k+(k*k+H*m))) → ℚ :=
+  intervalBasis (k := k) (m := m) (H := H) (.inr (.inr (.inr (l,i))))
+
+def rationalIntervalCoefficient {k m : ℕ} (H : ℕ)
+    (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ) :
+    RationalIntervalRows k m H → Fin (m+(m*k+(k*k+H*m))) → ℚ :=
+  let Q := intervalQForm k m H
+  let V := intervalVForm k m H
+  let K := intervalKForm k m H
+  let A := intervalAuxForm k m H
+  let scoreV := fun i => rationalFormSum (fun a => rationalFormScale (p a) (V i a))
+  Sum.elim (fun i => rationalFormScale (-1) (Q i))
+    (Sum.elim (fun s => rationalFormScale (if s.val=0 then 1 else -1) (rationalFormSum Q))
+      (Sum.elim (fun row =>
+        if row.1.val=0 then
+          rationalFormAdd (rationalFormScale (lo row.2.1 row.2.2) (Q row.2.1))
+            (rationalFormScale (-1) (V row.2.1 row.2.2))
+        else rationalFormAdd (V row.2.1 row.2.2)
+          (rationalFormScale (-hi row.2.1 row.2.2) (Q row.2.1)))
+        (Sum.elim (fun row =>
+          if row.1.val=0 then rationalFormAdd (K row.2.1 row.2.2) (K row.2.2 row.2.1)
+          else if row.1.val=1 then rationalFormScale (-1)
+            (rationalFormAdd (K row.2.1 row.2.2) (K row.2.2 row.2.1))
+          else if row.1.val=2 then rationalFormScale (-1) (K row.2.1 row.2.2)
+          else K row.2.1 row.2.2)
+          (Sum.elim (fun a =>
+            rationalFormAdd (rationalFormSum (fun b => rationalFormScale (p b) (K a b)))
+              (rationalFormScale (-1) (rationalFormSum (fun i => V i a))))
+            (Sum.elim (fun _ => fun _ => 0)
+              (Sum.elim (fun i => rationalFormAdd (scoreV i) (rationalFormScale (-(ρ+M*r)) (Q i)))
+                (Sum.elim (fun row =>
+                  if row.1.val=0 then rationalFormScale (-1) (A row.2.1 row.2.2)
+                  else rationalFormAdd
+                    (rationalFormAdd (scoreV row.2.2)
+                      (rationalFormScale (-(ρ+(M*r-rationalGridNode M r η (row.2.1.val+1))))
+                        (Q row.2.2)))
+                    (rationalFormScale (-1) (A row.2.1 row.2.2)))
+                  (fun l => rationalFormSum (A l)))))))))
+
+def rationalIntervalRightSide {k m : ℕ} (H : ℕ)
+    (loK hiK : Fin k → Fin k → ℚ) (lo : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) : RationalIntervalRows k m H → ℚ :=
+  Sum.elim (fun _ => 0)
+    (Sum.elim (fun s => if s.val=0 then r else -r)
+      (Sum.elim (fun _ => 0)
+        (Sum.elim (fun row =>
+          if row.1.val=0 then 0 else if row.1.val=1 then 0
+          else if row.1.val=2 then -loK row.2.1 row.2.2 else hiK row.2.1 row.2.2)
+          (Sum.elim (fun _ => ρ)
+            (Sum.elim (fun i => ρ+M*r-rationalScore lo p i)
+              (Sum.elim (fun _ => 0)
+                (Sum.elim (fun _ => 0) (fun l =>
+                  rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))))))))))
+
+def rationalIntervalSystem {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) :
+    RationalLinearSystem (RationalIntervalRows k m (rationalGridSize M r η))
+      (m+(m*k+(k*k+rationalGridSize M r η*m))) :=
+  ⟨rationalIntervalCoefficient (rationalGridSize M r η) lo hi p M r ρ η,
+    rationalIntervalRightSide (rationalGridSize M r η) loK hiK lo p M r ρ η⟩
+
+theorem rational_interval_row_count (k m H : ℕ) :
+    Fintype.card (RationalIntervalRows k m H)=
+      3*m+2+2*m*k+4*k*k+k+2*H*m+H := by
+  simp only [RationalIntervalRows,RationalIntervalTailRows,Fintype.card_sum,
+    Fintype.card_prod,Fintype.card_fin]
+  ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalPoint.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalIntervalPoint {k m : ℕ} (loK hiK : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (A : Fin (rationalGridSize M r η) → Fin m → ℚ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=r ∧
+  (∀ i a, lo i a*q i ≤ V i a ∧ V i a ≤ hi i a*q i) ∧
+  (∀ a b, K a b= -K b a) ∧ (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+  (∀ a, (∑ b, K a b*p b)-(∑ i, V i a) ≤ ρ) ∧
+  (∀ i, rationalScore lo p i ≤ ρ+M*r) ∧
+  (∀ i, rationalMomentScore p V i ≤ (ρ+M*r)*q i) ∧
+  ∀ l : Fin (rationalGridSize M r η),
+    (∀ i, 0 ≤ A l i) ∧
+    (∀ i, rationalMomentScore p V i-
+      (ρ+(M*r-rationalGridNode M r η (l.val+1)))*q i ≤ A l i) ∧
+    (∑ i, A l i) ≤ rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1))
+
+instance rationalIntervalPointDecidable {k m : ℕ} (loK hiK : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (A : Fin (rationalGridSize M r η) → Fin m → ℚ) :
+    Decidable (RationalIntervalPoint loK hiK lo hi V K p q M r ρ η A) := by
+  unfold RationalIntervalPoint
+  infer_instance
+
+theorem rational_interval_point_gap {k m : ℕ} (loK hiK : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (A : Fin (rationalGridSize M r η) → Fin m → ℚ)
+    (h : RationalIntervalPoint loK hiK lo hi V K p q M r ρ η A) :
+    (∀ a b, K a b= -K b a) ∧ (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+      RationalIntervalGapConditions K lo hi V p q M r ρ η := by
+  rcases h with ⟨hq,hm,hV,hK,hKb,ha,hlo,hcap,hA⟩
+  refine ⟨hK,hKb,hq,hm,hV,ha,hlo,hcap,?_⟩
+  intro l
+  exact le_trans (Finset.sum_le_sum fun i _ => max_le ((hA l).2.1 i) ((hA l).1 i)) (hA l).2.2
+
+theorem rational_interval_point_epigraph_iff {k m : ℕ} (loK hiK : Fin k → Fin k → ℚ)
+    (lo hi V : Fin m → Fin k → ℚ) (K : Fin k → Fin k → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ) :
+    ((∀ a b, K a b= -K b a) ∧ (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+      RationalIntervalGapConditions K lo hi V p q M r ρ η) ↔
+    ∃ A, RationalIntervalPoint loK hiK lo hi V K p q M r ρ η A := by
+  constructor
+  · rintro ⟨hK,hKb,hq,hm,hV,ha,hlo,hcap,hcall⟩
+    let A := fun (l : Fin (rationalGridSize M r η)) i =>
+      max (rationalMomentScore p V i-(ρ+(M*r-rationalGridNode M r η (l.val+1)))*q i) 0
+    refine ⟨A,hq,hm,hV,hK,hKb,ha,hlo,hcap,?_⟩
+    intro l
+    exact ⟨fun i => le_max_right _ _,fun i => le_max_left _ _,hcall l⟩
+  · rintro ⟨A,h⟩
+    exact rational_interval_point_gap loK hiK lo hi V K p q M r ρ η A h
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalEvaluation.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem interval_q_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℚ) (i : Fin m) :
+    rationalFormEval (intervalQForm k m H i) x=intervalQ x i := by
+  exact interval_basis_eval _ x
+
+theorem interval_q_real_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℝ) (i : Fin m) :
+    rationalFormRealEval (intervalQForm k m H i) x=intervalQ x i := by
+  exact interval_basis_real_eval _ x
+
+theorem interval_v_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℚ) (i : Fin m) (a : Fin k) :
+    rationalFormEval (intervalVForm k m H i a) x=intervalV x i a := by
+  exact interval_basis_eval _ x
+
+theorem interval_v_real_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℝ) (i : Fin m) (a : Fin k) :
+    rationalFormRealEval (intervalVForm k m H i a) x=intervalV x i a := by
+  exact interval_basis_real_eval _ x
+
+theorem interval_k_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℚ) (a b : Fin k) :
+    rationalFormEval (intervalKForm k m H a b) x=intervalK x a b := by
+  exact interval_basis_eval _ x
+
+theorem interval_k_real_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℝ) (a b : Fin k) :
+    rationalFormRealEval (intervalKForm k m H a b) x=intervalK x a b := by
+  exact interval_basis_real_eval _ x
+
+theorem interval_aux_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℚ) (l : Fin H) (i : Fin m) :
+    rationalFormEval (intervalAuxForm k m H l i) x=intervalAux x l i := by
+  exact interval_basis_eval _ x
+
+theorem interval_aux_real_form_eval {k m H : ℕ}
+    (x : Fin (m+(m*k+(k*k+H*m))) → ℝ) (l : Fin H) (i : Fin m) :
+    rationalFormRealEval (intervalAuxForm k m H l i) x=intervalAux x l i := by
+  exact interval_basis_real_eval _ x
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSystemPoint.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+set_option maxRecDepth 4096 in
+set_option maxHeartbeats 800000 in
+theorem rational_interval_system_point {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℚ) :
+    (rationalIntervalSystem loK hiK lo hi p M r ρ η).Satisfies x ↔
+      RationalIntervalPoint loK hiK lo hi (intervalV x) (intervalK x) p (intervalQ x)
+        M r ρ η (intervalAux x) := by
+  change (∀ row, rationalFormEval
+    (rationalIntervalCoefficient (rationalGridSize M r η) lo hi p M r ρ η row) x ≤
+    rationalIntervalRightSide (rationalGridSize M r η) loK hiK lo p M r ρ η row) ↔ _
+  simp only [RationalIntervalRows,RationalIntervalTailRows,Sum.forall,Prod.forall,
+    rationalIntervalCoefficient,rationalIntervalRightSide,Sum.elim_inl,Sum.elim_inr]
+  simp only [Fin.forall_fin_succ,Fin.forall_fin_zero,Fin.val_zero,Fin.val_succ]
+  simp only [Nat.reduceAdd,Nat.reduceEqDiff,ite_true,ite_false,
+    rational_form_eval_add,rational_form_eval_scale,rational_form_eval_sum,
+    interval_q_form_eval,interval_v_form_eval,interval_k_form_eval,interval_aux_form_eval]
+  unfold RationalIntervalPoint rationalMomentScore
+  simp only [rationalFormEval,zero_mul,Finset.sum_const_zero,neg_one_mul,one_mul]
+  simp only [and_true,neg_nonpos,neg_le_neg_iff,neg_mul,←sub_eq_add_neg,
+    sub_nonpos,sub_nonneg,mul_comm]
+  constructor
+  · rintro ⟨hq,hm,hV,hK,ha,hlo,hcap,hA,hcall⟩
+    refine ⟨hq,le_antisymm hm.1 hm.2,?_,?_,?_,ha,hlo,hcap,?_⟩
+    · intro i a
+      exact ⟨hV.1 i a,hV.2 i a⟩
+    · intro a b
+      have hl := hK.1 a b
+      have hu := hK.2.1 a b
+      linarith
+    · intro a b
+      exact ⟨hK.2.2.1 a b,hK.2.2.2 a b⟩
+    · intro l
+      exact ⟨hA.1 l,hA.2 l,hcall l⟩
+  · rintro ⟨hq,hm,hV,hK,hKb,ha,hlo,hcap,hA⟩
+    refine ⟨hq,⟨le_of_eq hm,le_of_eq hm.symm⟩,⟨?_,?_⟩,⟨?_,?_,?_,?_⟩,ha,hlo,hcap,⟨?_,?_⟩,?_⟩
+    · intro i a
+      exact (hV i a).1
+    · intro i a
+      exact (hV i a).2
+    · intro a b
+      have he := hK a b
+      linarith
+    · intro a b
+      have he := hK a b
+      linarith
+    · intro a b
+      exact (hKb a b).1
+    · intro a b
+      exact (hKb a b).2
+    · intro l
+      exact (hA l).1
+    · intro l
+      exact (hA l).2.1
+    · intro l
+      exact (hA l).2.2
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalPack.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+namespace SparseCompletion
+
+def intervalPack {α : Type*} {k m H : ℕ} (q : Fin m → α)
+    (V : Fin m → Fin k → α) (K : Fin k → Fin k → α) (A : Fin H → Fin m → α) :
+    Fin (m+(m*k+(k*k+H*m))) → α :=
+  intervalVariableEncode (Sum.elim q (Sum.elim (fun v => V v.1 v.2)
+    (Sum.elim (fun v => K v.1 v.2) (fun v => A v.1 v.2))))
+
+theorem interval_pack_q {α : Type*} {k m H : ℕ} (q : Fin m → α)
+    (V : Fin m → Fin k → α) (K : Fin k → Fin k → α) (A : Fin H → Fin m → α) :
+    intervalQ (intervalPack q V K A)=q := by
+  funext i
+  exact congrArg
+    (fun v : RationalIntervalVariable k m H =>
+      Sum.elim q (Sum.elim (fun v => V v.1 v.2)
+        (Sum.elim (fun v => K v.1 v.2) (fun v => A v.1 v.2))) v)
+    ((rationalIntervalVariableEquiv k m H).symm_apply_apply _)
+
+theorem interval_pack_v {α : Type*} {k m H : ℕ} (q : Fin m → α)
+    (V : Fin m → Fin k → α) (K : Fin k → Fin k → α) (A : Fin H → Fin m → α) :
+    intervalV (intervalPack q V K A)=V := by
+  funext i a
+  exact congrArg
+    (fun v : RationalIntervalVariable k m H =>
+      Sum.elim q (Sum.elim (fun v => V v.1 v.2)
+        (Sum.elim (fun v => K v.1 v.2) (fun v => A v.1 v.2))) v)
+    ((rationalIntervalVariableEquiv k m H).symm_apply_apply _)
+
+theorem interval_pack_k {α : Type*} {k m H : ℕ} (q : Fin m → α)
+    (V : Fin m → Fin k → α) (K : Fin k → Fin k → α) (A : Fin H → Fin m → α) :
+    intervalK (intervalPack q V K A)=K := by
+  funext a b
+  exact congrArg
+    (fun v : RationalIntervalVariable k m H =>
+      Sum.elim q (Sum.elim (fun v => V v.1 v.2)
+        (Sum.elim (fun v => K v.1 v.2) (fun v => A v.1 v.2))) v)
+    ((rationalIntervalVariableEquiv k m H).symm_apply_apply _)
+
+theorem interval_pack_aux {α : Type*} {k m H : ℕ} (q : Fin m → α)
+    (V : Fin m → Fin k → α) (K : Fin k → Fin k → α) (A : Fin H → Fin m → α) :
+    intervalAux (intervalPack q V K A)=A := by
+  funext l i
+  exact congrArg
+    (fun v : RationalIntervalVariable k m H =>
+      Sum.elim q (Sum.elim (fun v => V v.1 v.2)
+        (Sum.elim (fun v => K v.1 v.2) (fun v => A v.1 v.2))) v)
+    ((rationalIntervalVariableEquiv k m H).symm_apply_apply _)
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalSolver.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed.
+Total rational Fourier–Motzkin solve plus explicit residual reconstruction. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalIntervalAlgorithm {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) : Option ((Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℚ) ×
+      (Fin m → Fin m → ℚ)) :=
+  (rationalLPSolve _ (rationalIntervalSystem loK hiK lo hi p M r ρ η)).bind (fun x =>
+    (reconstructRationalGap (rationalIntervalRecover lo (intervalV x) (intervalQ x))
+      p (intervalQ x) M ρ η).map (fun B => (x,B)))
+
+theorem rational_interval_lp_feasible_iff {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) :
+    (∃ x, (rationalIntervalSystem loK hiK lo hi p M r ρ η).Satisfies x) ↔
+    ∃ q V K, (∀ a b, K a b= -K b a) ∧
+      (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+      RationalIntervalGapConditions K lo hi V p q M r ρ η := by
+  constructor
+  · rintro ⟨x,hx⟩
+    exact ⟨intervalQ x,intervalV x,intervalK x,
+      rational_interval_point_gap loK hiK lo hi _ _ p _ M r ρ η _
+        ((rational_interval_system_point loK hiK lo hi p M r ρ η x).mp hx)⟩
+  · rintro ⟨q,V,K,h⟩
+    obtain ⟨A,hA⟩ := (rational_interval_point_epigraph_iff loK hiK lo hi V K p q M r ρ η).mp h
+    refine ⟨intervalPack q V K A,(rational_interval_system_point loK hiK lo hi p M r ρ η _).mpr ?_⟩
+    simpa only [interval_pack_q,interval_pack_v,interval_pack_k,interval_pack_aux] using hA
+
+theorem rational_interval_algorithm_output {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (h : rationalIntervalAlgorithm loK hiK lo hi p M r ρ η=some (x,B)) :
+    RationalIntervalPoint loK hiK lo hi (intervalV x) (intervalK x) p (intervalQ x)
+      M r ρ η (intervalAux x) ∧
+    reconstructRationalGap (rationalIntervalRecover lo (intervalV x) (intervalQ x))
+      p (intervalQ x) M ρ η=some B := by
+  unfold rationalIntervalAlgorithm at h
+  cases hs : rationalLPSolve _ (rationalIntervalSystem loK hiK lo hi p M r ρ η) with
+  | none => simp only [hs,Option.bind_none] at h; cases h
+  | some y =>
+    cases hb : reconstructRationalGap (rationalIntervalRecover lo (intervalV y) (intervalQ y))
+      p (intervalQ y) M ρ η with
+    | none => simp only [hs,Option.bind_some,hb,Option.map_none] at h; cases h
+    | some C =>
+      have he : (y,C)=(x,B) := Option.some.inj
+        (by simpa only [hs,Option.bind_some,hb,Option.map_some] using h)
+      obtain ⟨rfl,rfl⟩ := Prod.mk.inj he
+      exact ⟨(rational_interval_system_point loK hiK lo hi p M r ρ η y).mp
+        (rational_lp_solve_sound _ _ y hs),hb⟩
+
+theorem rational_interval_algorithm_complete {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hf : ∃ q V K, (∀ a b, K a b= -K b a) ∧
+      (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+      RationalIntervalGapConditions K lo hi V p q M r ρ η) :
+    ∃ x B, rationalIntervalAlgorithm loK hiK lo hi p M r ρ η=some (x,B) := by
+  obtain ⟨x,hx⟩ := rational_lp_solve_complete _ _
+    ((rational_interval_lp_feasible_iff loK hiK lo hi p M r ρ η).mpr hf)
+  have hp := (rational_interval_system_point loK hiK lo hi p M r ρ η x).mp
+    (rational_lp_solve_sound _ _ x hx)
+  have hg := (rational_interval_point_gap loK hiK lo hi _ _ p _ M r ρ η _ hp).2.2
+  obtain ⟨B,hB⟩ := rational_interval_gap_rational_completion _ lo hi _ p _ M r ρ η hM hη hlu hg
+  exact ⟨x,B,by simp only [rationalIntervalAlgorithm,hx,Option.bind_some,hB,Option.map_some]⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalGameOutput.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_interval_algorithm_full_game {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (hη : 0 < η) (hp : ∀ a, 0 ≤ p a) (hnorm : (∑ a, p a)+r=1)
+    (hloK : ∀ a b, -M ≤ loK a b) (hhiK : ∀ a b, hiK a b ≤ M)
+    (hlo : ∀ i a, -M ≤ lo i a) (hhi : ∀ i a, hi i a ≤ M)
+    (hlu : ∀ i a, lo i a ≤ hi i a)
+    (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℚ)
+    (B : Fin m → Fin m → ℚ)
+    (hout : rationalIntervalAlgorithm loK hiK lo hi p M r ρ η=some (x,B)) :
+    let q := intervalQ x
+    let K := intervalK x
+    let D := rationalIntervalRecover lo (intervalV x) q
+    (∀ a b, loK a b ≤ K a b ∧ K a b ≤ hiK a b) ∧
+    (∀ i a, lo i a ≤ D i a ∧ D i a ≤ hi i a) ∧
+    (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a) ∧
+    (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+    IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ))) ∧
+    (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ)) a b ∧
+      blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ)) a b ≤ (M : ℝ)) ∧
+    ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ))) (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤
+        (ρ : ℝ)+(η : ℝ) := by
+  obtain ⟨hpoint,hB⟩ := rational_interval_algorithm_output loK hiK lo hi p M r ρ η x B hout
+  obtain ⟨hK,hKb,hgap⟩ := rational_interval_point_gap loK hiK lo hi _ _ p _ M r ρ η _ hpoint
+  obtain ⟨hD,hG⟩ := rational_interval_gap_recovered _ lo hi _ p _ M r ρ η hlu hgap
+  refine ⟨hKb,hD,?_⟩
+  apply rational_gap_reconstruction_normalized_full_game _ _ p _ M r ρ η hη hp hnorm hK
+    (fun a b => ⟨le_trans (hloK a b) (hKb a b).1,le_trans (hKb a b).2 (hhiK a b)⟩)
+    (fun i a => ⟨le_trans (hlo i a) (hD i a).1,le_trans (hD i a).2 (hhi i a)⟩)
+    ((rational_gap_check_iff _ _ _ _ _ _ _ _).mpr hG) B hB
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalRealPoint.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalIntervalRealPoint {k m : ℕ} (loK hiK : Fin k → Fin k → ℚ)
+    (lo hi : Fin m → Fin k → ℚ) (V : Fin m → Fin k → ℝ) (K : Fin k → Fin k → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℝ) (M r ρ η : ℚ)
+    (A : Fin (rationalGridSize M r η) → Fin m → ℝ) : Prop :=
+  (∀ i, 0 ≤ q i) ∧ (∑ i, q i)=(r : ℝ) ∧
+  (∀ i a, (lo i a : ℝ)*q i ≤ V i a ∧ V i a ≤ (hi i a : ℝ)*q i) ∧
+  (∀ a b, K a b= -K b a) ∧ (∀ a b, (loK a b : ℝ) ≤ K a b ∧ K a b ≤ (hiK a b : ℝ)) ∧
+  (∀ a, (∑ b, K a b*(p b : ℝ))-(∑ i, V i a) ≤ (ρ : ℝ)) ∧
+  (∀ i, (rationalScore lo p i : ℝ) ≤ ((ρ+M*r : ℚ) : ℝ)) ∧
+  (∀ i, (∑ a, V i a*(p a : ℝ)) ≤ ((ρ+M*r : ℚ) : ℝ)*q i) ∧
+  ∀ l : Fin (rationalGridSize M r η),
+    (∀ i, 0 ≤ A l i) ∧
+    (∀ i, (∑ a, V i a*(p a : ℝ))-
+      ((ρ+(M*r-rationalGridNode M r η (l.val+1)) : ℚ) : ℝ)*q i ≤ A l i) ∧
+    (∑ i, A l i) ≤ (rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1)) : ℝ)
+
+set_option maxRecDepth 4096 in
+set_option maxHeartbeats 800000 in
+theorem rational_interval_system_real_point {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℝ) :
+    (rationalIntervalSystem loK hiK lo hi p M r ρ η).RealSatisfies x ↔
+      RationalIntervalRealPoint loK hiK lo hi (intervalV x) (intervalK x) p (intervalQ x)
+        M r ρ η (intervalAux x) := by
+  change (∀ row, rationalFormRealEval
+    (rationalIntervalCoefficient (rationalGridSize M r η) lo hi p M r ρ η row) x ≤
+    (rationalIntervalRightSide (rationalGridSize M r η) loK hiK lo p M r ρ η row : ℝ)) ↔ _
+  simp only [RationalIntervalRows,RationalIntervalTailRows,Sum.forall,Prod.forall,
+    rationalIntervalCoefficient,rationalIntervalRightSide,Sum.elim_inl,Sum.elim_inr]
+  simp only [Fin.forall_fin_succ,Fin.forall_fin_zero,Fin.val_zero,Fin.val_succ]
+  simp only [Nat.reduceAdd,Nat.reduceEqDiff,ite_true,ite_false,
+    rational_form_real_eval_add,rational_form_real_eval_scale,rational_form_real_eval_sum,
+    interval_q_real_form_eval,interval_v_real_form_eval,interval_k_real_form_eval,interval_aux_real_form_eval]
+  unfold RationalIntervalRealPoint
+  push_cast
+  simp only [rationalFormRealEval,Rat.cast_zero,zero_mul,Finset.sum_const_zero,neg_one_mul,one_mul]
+  simp only [and_true,neg_nonpos,neg_le_neg_iff,neg_mul,←sub_eq_add_neg,
+    sub_nonpos,sub_nonneg,mul_comm]
+  constructor
+  · rintro ⟨hq,hm,hV,hK,ha,hlo,hcap,hA,hcall⟩
+    refine ⟨hq,le_antisymm hm.1 hm.2,?_,?_,?_,ha,hlo,hcap,?_⟩
+    · intro i a
+      exact ⟨hV.1 i a,hV.2 i a⟩
+    · intro a b
+      have hl := hK.1 a b
+      have hu := hK.2.1 a b
+      linarith
+    · intro a b
+      exact ⟨hK.2.2.1 a b,hK.2.2.2 a b⟩
+    · intro l
+      exact ⟨hA.1 l,hA.2 l,hcall l⟩
+  · rintro ⟨hq,hm,hV,hK,hKb,ha,hlo,hcap,hA⟩
+    refine ⟨hq,⟨le_of_eq hm,le_of_eq hm.symm⟩,⟨?_,?_⟩,⟨?_,?_,?_,?_⟩,ha,hlo,hcap,⟨?_,?_⟩,?_⟩
+    · intro i a
+      exact (hV i a).1
+    · intro i a
+      exact (hV i a).2
+    · intro a b
+      have he := hK a b
+      linarith
+    · intro a b
+      have he := hK a b
+      linarith
+    · intro a b
+      exact (hKb a b).1
+    · intro a b
+      exact (hKb a b).2
+    · intro l
+      exact (hA l).1
+    · intro l
+      exact (hA l).2.1
+    · intro l
+      exact (hA l).2.2
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalRealNecessity.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem real_interval_completion_rational_lp {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℝ)
+    (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (hM : 0 < M) (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=(r : ℝ))
+    (hK : IsSkew K) (hKb : ∀ a b, (loK a b : ℝ) ≤ K a b ∧ K a b ≤ (hiK a b : ℝ))
+    (hD : ∀ i a, (lo i a : ℝ) ≤ D i a ∧ D i a ≤ (hi i a : ℝ))
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K D B) (blockWeights (fun a => (p a : ℝ)) q) a ≤ (ρ : ℝ)) :
+    ∃ x, (rationalIntervalSystem loK hiK lo hi p M r ρ η).RealSatisfies x := by
+  have hMR : (0 : ℝ)<(M : ℝ) := by exact_mod_cast hM
+  have hh := (block_response_bounds_iff K D B (fun a => (p a : ℝ)) q (ρ : ℝ)).mp hrows
+  have hc := (weighted_completion_iff q (score D (fun a => (p a : ℝ))) M r ρ
+    (le_of_lt hMR) hq hr).mp ⟨B,hB,hb,hh.2⟩
+  let V := fun i a => q i*D i a
+  let A := fun (l : Fin (rationalGridSize M r η)) i =>
+    max ((∑ a, V i a*(p a : ℝ))-
+      ((ρ+(M*r-rationalGridNode M r η (l.val+1)) : ℚ) : ℝ)*q i) 0
+  have hprod : ∀ i a, q i*D i a=V i a := fun _ _ => rfl
+  have hH : ∀ i, q i*score D (fun a => (p a : ℝ)) i=∑ a, V i a*(p a : ℝ) := by
+    intro i
+    unfold score
+    rw [Finset.mul_sum]
+    exact Finset.sum_congr rfl fun a _ => by dsimp only [V]; ring
+  have hpoint : RationalIntervalRealPoint loK hiK lo hi V K p q M r ρ η A := by
+    refine ⟨hq,hr,?_,hK,hKb,?_,?_,?_,?_⟩
+    · intro i a
+      exact ⟨mul_le_mul_of_nonneg_right (hD i a).1 (hq i) |>.trans_eq (mul_comm _ _),
+        (mul_comm (q i) (D i a)).le.trans (mul_le_mul_of_nonneg_right (hD i a).2 (hq i))⟩
+    · intro a
+      rw [←anchor_response_of_perspective K D V (fun a => (p a : ℝ)) q hprod a]
+      exact hh.1 a
+    · intro i
+      have hs := score_lower_from_intervals (fun i a => (lo i a : ℝ)) D (fun a => (p a : ℝ))
+        (fun a => by exact_mod_cast hp a) (fun i a => (hD i a).1) i
+      have ht := le_trans hs (hc.1 i)
+      simpa only [←rational_score_real,Rat.cast_add,Rat.cast_mul] using ht
+    · intro i
+      rw [←hH i]
+      have ht := mul_le_mul_of_nonneg_right (hc.1 i) (hq i)
+      simpa only [mul_comm (q i),Rat.cast_add,Rat.cast_mul] using ht
+    · intro l
+      refine ⟨fun i => le_max_right _ _,fun i => le_max_left _ _,?_⟩
+      have ht := cuts_imply_call_bound q (fun i => score D (fun a => (p a : ℝ)) i-(ρ : ℝ))
+        M r hMR hc.2 ((M*r-rationalGridNode M r η (l.val+1) : ℚ) : ℝ)
+      rw [perspective_call_identity q _ _ _ _ hq hH] at ht
+      simpa only [perspectiveCall,A,rational_envelope_real,Rat.cast_add] using ht
+  refine ⟨intervalPack q V K A,(rational_interval_system_real_point loK hiK lo hi p M r ρ η _).mpr ?_⟩
+  simpa only [interval_pack_q,interval_pack_v,interval_pack_k,interval_pack_aux] using hpoint
+
+end
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalRealSolver.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_interval_algorithm_real_lp_complete {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hf : ∃ x, (rationalIntervalSystem loK hiK lo hi p M r ρ η).RealSatisfies x) :
+    ∃ x B, rationalIntervalAlgorithm loK hiK lo hi p M r ρ η=some (x,B) := by
+  apply rational_interval_algorithm_complete loK hiK lo hi p M r ρ η hM hη hlu
+  exact (rational_interval_lp_feasible_iff loK hiK lo hi p M r ρ η).mp
+    ((rational_linear_real_feasible_iff _).mp hf)
+
+theorem real_interval_completion_algorithm_success {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℝ)
+    (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hlu : ∀ i a, lo i a ≤ hi i a)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=(r : ℝ))
+    (hK : IsSkew K) (hKb : ∀ a b, (loK a b : ℝ) ≤ K a b ∧ K a b ≤ (hiK a b : ℝ))
+    (hD : ∀ i a, (lo i a : ℝ) ≤ D i a ∧ D i a ≤ (hi i a : ℝ))
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K D B) (blockWeights (fun a => (p a : ℝ)) q) a ≤ (ρ : ℝ)) :
+    ∃ x C, rationalIntervalAlgorithm loK hiK lo hi p M r ρ η=some (x,C) := by
+  exact rational_interval_algorithm_real_lp_complete loK hiK lo hi p M r ρ η hM hη hlu
+    (real_interval_completion_rational_lp loK hiK lo hi p M r ρ η K D q B hM hp hq hr hK hKb hD hB hb hrows)
+
+end SparseCompletion
