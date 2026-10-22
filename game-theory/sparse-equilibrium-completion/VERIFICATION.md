@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact twenty-three local source bodies with
+Challenge is a deterministic assembly of the exact thirty-three local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -125,3 +125,21 @@ terms, with fixed rational literals expressed through natural casts. The prior
 quantitative checkpoint remains immutable with its own successful receipt.
 This new source requires separate exact-source native checks. It does not claim
 the matching uncertainty upper law or the paper's explicit bin construction.
+
+## Balanced bins and sharp uncertainty follow-on
+
+Ten further modules prove explicit central-label bin compression, canonical
+exhaustive partitioning, balanced-bin size bounds, call contraction, moment-loss
+bounds, bounded skew completion, and the clipped single-core adjustment. These
+combine with the attained minima to prove both sharp uncertainty laws, with the
+paper's constants and parameter ranges. The integrated development build passed
+3194 jobs with 259 source proof audits and 149 selected contracts. Retained source
+and independent entrypoint bridges cover the bin equivalence, dependent finite
+enumeration and reversal used in pairing.
+
+The cast-stabilization pass was corrected to keep divided powers as natural
+exponents; failed development logs are retained outside source. The standalone
+reviewed proofs and the final integrated source are separately identified. This
+tranche requires its own frozen-commit build/export/comparator/kernel receipt;
+it inherits no gate from the preceding lower-bound checkpoint. The source's
+explicit residual-payoff algorithm and exact global parity formula remain open.

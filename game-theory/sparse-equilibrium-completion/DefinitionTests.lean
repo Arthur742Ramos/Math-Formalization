@@ -161,5 +161,36 @@ theorem clipped_payoff_interval_meaning (a δ x : ℝ) :
       x ∈ Set.Icc (max (-1) (a-δ)) (min 1 (a+δ)) :=
   SparseCompletion.clipped_observation_interval a δ x
 
+theorem equivalence_inverse_meaning {α β : Type*} (e : α ≃ β) (a : α) (b : β) :
+    e.symm (e a)=a ∧ e (e.symm b)=b := ⟨e.symm_apply_apply a,e.apply_symm_apply b⟩
+
+theorem dependent_pair_meaning {α : Type*} {β : α → Type*} (i : α) (j : β i) :
+    (Sigma.mk i j).fst=i ∧ (Sigma.mk i j).snd=j := ⟨rfl,rfl⟩
+
+theorem dependent_finite_membership {ι : Type*} {κ : ι → Type*}
+    (s : Finset ι) (t : ∀ i, Finset (κ i)) (x : Sigma κ) :
+    x ∈ s.sigma t ↔ x.1 ∈ s ∧ x.2 ∈ t x.1 := Finset.mem_sigma
+
+theorem dependent_sum_contract {ι : Type*} {κ : ι → Type*}
+    [Fintype ι] [∀ i, Fintype (κ i)] (f : Sigma κ → ℝ) :
+    (∑ x, f x)=∑ i, ∑ j, f ⟨i,j⟩ := Fintype.sum_sigma f
+
+theorem bin_offset_contract {h : ℕ} (L : Fin h → ℕ) (b : Fin h) (i : Fin (L b)) :
+    (finSigmaFinEquiv ⟨b,i⟩).val=(∑ j : Fin b.val, L (Fin.castLE b.isLt.le j))+i.val :=
+  finSigmaFinEquiv_apply ⟨b,i⟩
+
+theorem bin_partition_bijection {h : ℕ} (L : Fin h → ℕ) :
+    Function.Bijective (finSigmaFinEquiv : ((b : Fin h) × Fin (L b)) → Fin (∑ b, L b)) :=
+  finSigmaFinEquiv.bijective
+
+theorem ordinal_reversal_value {n : ℕ} (i : Fin n) : i.rev.val=n-(i.val+1) := rfl
+
+theorem ordinal_reversal_involution {n : ℕ} (i : Fin n) : i.rev.rev=i := Fin.rev_rev i
+
+theorem reversal_permutation_meaning {n : ℕ} (i : Fin n) : Fin.revPerm i=i.rev := rfl
+
+theorem equivalence_sum_contract {ι κ : Type*} [Fintype ι] [Fintype κ]
+    (e : ι ≃ κ) (f : κ → ℝ) : (∑ i, f (e i))=∑ j, f j := Equiv.sum_comp e f
+
 end SECDefinitions
 -- END material-imported-definition audit

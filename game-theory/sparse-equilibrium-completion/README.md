@@ -36,9 +36,14 @@ Residual minima are also attained: their sharp-order constants are
 support-preserving restoration lower bounds at `ε+δ`; uncertainty in only the
 anchor-core entry has the sharper lower scale `ε+3δ/8`. Both models match the
 central exact-observation minimum at radius zero and have origin minimum `m+2`
-for `m≥2`. Their upper uncertainty laws remain open. The upper proof for exact
-observations uses the general sparse theorem; the paper's explicit midpoint/bin
-constructions remain open.
+for `m≥2`. Matching upper uncertainty laws are proved by original-label
+middle-action compression of balanced consecutive bins, followed by bounded skew
+completion and a clipped adjustment of only the core payoff. At
+`0<ε+δ≤1`, both commitment classes have interval-support constants
+`sqrt(3/1216)` and `5 sqrt(8/3)`. The fixed-share one-core model has constants
+`sqrt(3/1216)` and `5` at `0<ε+3δ/8≤1`. These are existential compatible
+witnesses. The source's explicit residual-payoff algorithm, exact global parity
+error formulas and separate odd-divisibility midpoint statement remain open.
 
 The project pins Lean `v4.35.0-rc2` and Mathlib commit
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`; its dependencies are package-owned.

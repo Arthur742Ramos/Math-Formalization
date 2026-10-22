@@ -46,9 +46,22 @@ assert core_excerpt == core['excerpt'].encode()
 assert hashlib.sha256(core_excerpt).hexdigest() == core['excerpt_sha256']
 assert core['url'] == 'https://github.com/leanprover/lean4/blob/'+core['compiler_commit']+'/'+core['path']
 assert 'structure Fin (n : Nat) where' in core['excerpt'] and 'isLt : LT.lt val n' in core['excerpt']
+bins = json.loads((root/'verification/lean-core-bin-definitions.json').read_text())
+assert bins['compiler_commit'] == core['compiler_commit']
+for evidence in bins['sources']:
+    relative = evidence['path'].removeprefix('src/')
+    data = (prefix/'src/lean'/relative).read_bytes()
+    assert hashlib.sha256(data).hexdigest() == evidence['source_sha256']
+    assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest() == evidence['github_blob_sha1']
+    excerpt = b''.join(data.splitlines(keepends=True)[evidence['first_line']-1:evidence['last_line']])
+    assert excerpt == evidence['excerpt'].encode()
+    assert hashlib.sha256(excerpt).hexdigest() == evidence['excerpt_sha256']
+    assert data.startswith(evidence['upstream_header'].encode())
+    assert evidence['url'] == 'https://github.com/leanprover/lean4/blob/'+bins['compiler_commit']+'/'+evidence['path']
+assert {e['name'] for e in bins['sources']} == {'Sigma','Fin.rev'}
 files = [p for p in root.rglob('*') if p.is_file() and '.lake' not in p.parts
          and p.suffix not in ['.olean', '.ilean', '.log'] and '__pycache__' not in p.parts]
-print(json.dumps({'check': 'sparse-witness-and-two-anchor-rigidity-source-consistency', 'result': 'pass',
+print(json.dumps({'check': 'sparse-equilibrium-completion-source-consistency', 'result': 'pass',
     'selected_theorems': cfg['theorem_names'],
     'sha256': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)},
     'limits': 'Not a proof build, source-fidelity review, canonical verifier, or release clearance'}, indent=2))

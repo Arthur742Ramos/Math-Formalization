@@ -1,0 +1,38 @@
+{
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "provenance": "Direct authorized GitHub fetch_file at exact compiler commit returned these whole-file blob hashes; installed source matches.",
+  "sources": [
+    {
+      "name": "Fin.rev",
+      "path": "src/Init/Data/Fin/Basic.lean",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean",
+      "source_sha256": "bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4",
+      "github_blob_sha1": "6fee3ab2eaacf1b76de02ea7f7880f29fbac8294",
+      "first_line": 371,
+      "last_line": 382,
+      "excerpt": "Replaces a value with its difference from the largest value in the type.\n\nConsidering the values of `Fin n` as a sequence `0`, `1`, \u2026, `n-2`, `n-1`, `Fin.rev` finds the\ncorresponding element of the reversed sequence. In other words, it maps `0` to `n-1`, `1` to `n-2`,\n..., and `n-1` to `0`.\n\nExamples:\n * `(5 : Fin 6).rev = (0 : Fin 6)`\n * `(0 : Fin 6).rev = (5 : Fin 6)`\n * `(2 : Fin 5).rev = (2 : Fin 5)`\n-/\n@[inline, implicit_reducible] def rev (i : Fin n) : Fin n := \u27e8n - (i + 1), Nat.sub_lt i.pos (Nat.succ_pos _)\u27e9\n",
+      "excerpt_sha256": "67128a1e6a8903ed0d7236a14f434674073d1cf3f75277128b9ff2ab597436fc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthor: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro\n-/\n",
+      "meaning": "Reversal of ordinal i has natural value n-(i+1), remains within n and is involutive."
+    },
+    {
+      "name": "Sigma",
+      "path": "src/Init/Core.lean",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean",
+      "source_sha256": "264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99",
+      "github_blob_sha1": "23e784c3806badcabd1e8f19c50946d66bc3c87a",
+      "first_line": 259,
+      "last_line": 284,
+      "excerpt": "Dependent pairs, in which the second element's type depends on the value of the first element. The\ntype `Sigma \u03b2` is typically written `\u03a3 a : \u03b1, \u03b2 a` or `(a : \u03b1) \u00d7 \u03b2 a`.\n\nAlthough its values are pairs, `Sigma` is sometimes known as the *dependent sum type*, since it is\nthe type level version of an indexed summation.\n-/\n@[pp_using_anonymous_constructor]\nstructure Sigma {\u03b1 : Type u} (\u03b2 : \u03b1 \u2192 Type v) where\n  /--\n  Constructs a dependent pair.\n\n  Using this constructor in a context in which the type is not known usually requires a type\n  ascription to determine `\u03b2`. This is because the desired relationship between the two values can't\n  generally be determined automatically.\n  -/\n  mk ::\n  /--\n  The first component of a dependent pair.\n  -/\n  fst : \u03b1\n  /--\n  The second component of a dependent pair. Its type depends on the first component.\n  -/\n  snd : \u03b2 fst\n\nattribute [unbox] Sigma\n",
+      "excerpt_sha256": "09c0ed7033473b1822328799c36cf20751e1fe25bd5dd487bc33e95a49d8d967",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n\nnotation, basic datatypes and type classes\n-/\n",
+      "meaning": "Dependent pair has first component in alpha and second component in the fiber beta of that first component."
+    }
+  ],
+  "bridge_modules": [
+    "DefinitionTests",
+    "ChallengeDefinitionTests"
+  ]
+}

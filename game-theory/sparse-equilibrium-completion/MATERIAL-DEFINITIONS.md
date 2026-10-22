@@ -1624,3 +1624,346 @@ The existing finite enumeration, sums and cardinality meanings support the new g
 The scalar SparseCompletion.residual_rate_from_inverse_square uses the existing Real.sqrt, NNReal.sqrt and Real.toNNReal meanings. SparseCompletion.clipped_observation_interval uses Set.Icc and ordinary real order; both independent bridge modules check the clipped-interval equivalence. SparseCompletion.block_entry_perturbation uses arbitrary index types without finite enumeration.
 
 Nat.find/findX attainment and minimality additionally support the new interval/core support minima and residual minima inherited from the total minimum. The dense witness-existence lemmas uniform_interval_support_exists and uniform_core_support_exists precede Nat.find and do not themselves use a natural minimum. The existing square-root meanings apply to the new positive effective-tolerance rates. No uncertainty upper theorem is assumed.
+
+## Explicit bin construction and sharp uncertainty laws
+
+### Equiv
+
+A map equipped with a two-sided inverse. Injectivity and surjectivity follow from the inverse laws; no omitted or duplicate original labels enter the canonical bin partition. Equiv.Perm is the self-equivalence abbreviation.
+
+Affected selected declarations: SparseCompletion.binIndex_val, SparseCompletion.sum_bin_partition, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp
+
+### finSigmaFinEquiv
+
+Bijection from disjoint finite fibers indexed by Fin h to the ordinal of their total length. Its value is the sum of preceding bin lengths plus the local label. Dependent pairs record a bin and a label within that bin; the inverse covers each original label exactly once.
+
+Affected selected declarations: SparseCompletion.binIndex_val, SparseCompletion.sum_bin_partition, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp
+
+### Finset.sigma
+
+Finite set of dependent pairs whose first label belongs to s and second label to the corresponding fiber. The no-duplicates proof combines the outer and fiber no-duplicates laws. Sigma.instFintype enumerates all bins/fiber labels using univ.sigma univ, and the generated sum_sigma contract sums exactly once over each pair.
+
+Affected selected declarations: SparseCompletion.binIndex_val, SparseCompletion.sum_bin_partition, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp
+
+### Fin.revPerm
+
+The reversal permutation of a finite ordinal. Fin.rev maps i to n-(i+1). It is an involution. The exact compiler source for this value is separately authenticated; reversal only pairs uniform-bin terms and never changes the original-label repertoire.
+
+Affected selected declarations: SparseCompletion.bin_pair_call_le, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_call_compression, SparseCompletion.bin_compressed_nonneg, SparseCompletion.bin_compressed_mass, SparseCompletion.bin_compressed_support, SparseCompletion.bin_compressed_moment, SparseCompletion.bin_compressed_affine_moment, SparseCompletion.bin_compressed_calls, SparseCompletion.bin_compressed_quadratic_loss, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp
+
+Existing finite enumeration/sums/cardinality and real square-root meanings additionally support these bin/support/uncertainty contracts: SparseCompletion.inner_pair_call_le, SparseCompletion.bin_middle_sum, SparseCompletion.bin_middle_order, SparseCompletion.bin_middle_outer, SparseCompletion.bin_pair_call_le, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.negative_call_identity, SparseCompletion.bin_call_compression, SparseCompletion.bin_middle_sum_real, SparseCompletion.bin_affine_mean, SparseCompletion.bin_quadratic_loss_identity, SparseCompletion.bin_middle_gap_bound, SparseCompletion.bin_quadratic_loss_bounds, SparseCompletion.bin_compressed_nonneg, SparseCompletion.bin_compressed_mass, SparseCompletion.bin_compressed_support, SparseCompletion.bin_compressed_moment, SparseCompletion.bin_compressed_affine_moment, SparseCompletion.bin_compressed_calls, SparseCompletion.bin_compressed_quadratic_loss, SparseCompletion.binIndex_val, SparseCompletion.sum_bin_partition, SparseCompletion.binned_nonneg, SparseCompletion.binned_support, SparseCompletion.binned_moment, SparseCompletion.binned_mass, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.balancedLength_positive, SparseCompletion.balancedLength_mass, SparseCompletion.balancedLength_bound, SparseCompletion.balancedLength_cube_sum, SparseCompletion.uniform_score_affine, SparseCompletion.uniform_target_cuts, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_score_mean, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.bin_error_scale, SparseCompletion.partition_game_witness, SparseCompletion.balanced_game_witness, SparseCompletion.two_core_anchor_shift, SparseCompletion.core_observation_adjustment, SparseCompletion.uniform_core_adjust, SparseCompletion.double_grid_support_upper, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.core_witness_interval, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uncertainty_rate_comparison, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp. Scalar inner_pair_call_le, negative_call_identity, bin_error_scale, core_observation_adjustment and uncertainty_rate_comparison have no finite-index assumptions; the last comparison uses real square roots. Nat.find is used only by attained support-minimum sharp laws in this tranche.
+
+### Equiv pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean
+
+Whole-source SHA256: c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L65-L78
+
+```lean
+
+/-- `α ≃ β` is the type of functions from `α → β` with a two-sided inverse. -/
+structure Equiv (α β : Sort*) where
+  /-- The forward map of an equivalence.
+
+  Do NOT use directly. Use the coercion instead. -/
+  protected toFun : α → β
+  /-- The backward map of an equivalence.
+
+  Do NOT use `e.invFun` directly. Use the coercion of `e.symm` instead. -/
+  protected invFun : β → α
+  protected left_inv : LeftInverse invFun toFun := by intro; first | rfl | ext <;> rfl
+  protected right_inv : RightInverse invFun toFun := by intro; first | rfl | ext <;> rfl
+
+```
+
+### Equiv.Perm-abbreviation pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean
+
+Whole-source SHA256: c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8
+
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L95-L97
+
+```lean
+/-- `Perm α` is the type of bijections from `α` to itself. -/
+abbrev Equiv.Perm (α : Sort*) :=
+  Equiv α α
+```
+
+### finSigmaFinEquiv pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Fin.lean
+
+Whole-source SHA256: 7f5fb55b9f917df705f1861452ada2108b4dbaac92e7368aaf2f9ade293812d6
+
+```lean
+/-
+Copyright (c) 2020 Yury Kudryashov, Anne Baanen. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yury Kudryashov, Anne Baanen
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Fin.lean#L678-L692
+
+```lean
+/-- Equivalence between the Sigma type `(i : Fin m) × Fin (n i)` and `Fin (∑ i : Fin m, n i)`. -/
+def finSigmaFinEquiv {m : ℕ} {n : Fin m → ℕ} : (i : Fin m) × Fin (n i) ≃ Fin (∑ i : Fin m, n i) :=
+  match m with
+  | 0 => @Equiv.equivOfIsEmpty _ _ _ (by simp)
+  | Nat.succ m =>
+    calc _ ≃ _ := (@finSumFinEquiv m 1).sigmaCongrLeft.symm
+      _ ≃ _ := Equiv.sumSigmaDistrib _
+      _ ≃ _ := finSigmaFinEquiv.sumCongr (Equiv.uniqueSigma _)
+      _ ≃ _ := finSumFinEquiv
+      _ ≃ _ := finCongr (Fin.sum_univ_castSucc n).symm
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp]
+theorem finSigmaFinEquiv_apply {m : ℕ} {n : Fin m → ℕ} (k : (i : Fin m) × Fin (n i)) :
+    (finSigmaFinEquiv k : ℕ) = ∑ i : Fin k.1, n (Fin.castLE k.1.2.le i) + k.2 := by
+```
+
+### Finset.sigma pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sigma.lean
+
+Whole-source SHA256: 20fcd45319167bd06399a6e801084cf1673b36d66a8a4242017ccb892d05a185
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Yaël Dillies, Bhavik Mehta
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sigma.lean#L44-L52
+
+```lean
+/-- `s.sigma t` is the finset of dependent pairs `⟨i, a⟩` such that `i ∈ s` and `a ∈ t i`. -/
+protected def sigma : Finset (Σ i, α i) :=
+  ⟨_, s.nodup.sigma fun i => (t i).nodup⟩
+
+variable {s s₁ s₂ t t₁ t₂}
+
+@[simp, grind =]
+theorem mem_sigma {a : Σ i, α i} : a ∈ s.sigma t ↔ a.1 ∈ s ∧ a.2 ∈ t a.1 :=
+  Multiset.mem_sigma
+```
+
+### finite-dependent-enumeration pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sigma.lean
+
+Whole-source SHA256: bcdc1fabf19ac926c1b614c8b16cf6f58813f38ef865a4da51e717bc96da8045
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sigma.lean#L37-L41
+
+```lean
+
+instance Sigma.instFintype : Fintype (Σ i, κ i) := ⟨univ.sigma fun _ ↦ univ, by simp⟩
+instance PSigma.instFintype : Fintype (Σ' i, κ i) := .ofEquiv _ (Equiv.psigmaEquivSigma _).symm
+
+@[simp] lemma Finset.univ_sigma_univ : univ.sigma (fun _ ↦ univ) = (univ : Finset (Σ i, κ i)) := rfl
+```
+
+### finite-dependent-sum pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean
+
+Whole-source SHA256: b9a6354ebff5fcd22fb1ddb7992682a404ec44c8ee42d519177f17d1d5a239e9
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L142-L159
+
+```lean
+/-- Product over a sigma type equals the repeated product.
+
+This is a version of `Finset.prod_sigma` specialized to the case
+of multiplication over `Finset.univ`. -/
+@[to_additive /-- Sum over a sigma type equals the repeated sum.
+
+This is a version of `Finset.sum_sigma` specialized to the case of summation over `Finset.univ`. -/]
+theorem prod_sigma {ι} {α : ι → Type*} {M : Type*} [Fintype ι] [∀ i, Fintype (α i)] [CommMonoid M]
+    (f : Sigma α → M) : ∏ x, f x = ∏ x, ∏ y, f ⟨x, y⟩ :=
+  Finset.prod_sigma ..
+
+/-- Product over a sigma type equals the repeated product, curried version.
+This version is useful to rewrite from right to left. -/
+@[to_additive /-- Sum over a sigma type equals the repeated sum, curried version.
+This version is useful to rewrite from right to left. -/]
+theorem prod_sigma' {ι} {α : ι → Type*} {M : Type*} [Fintype ι] [∀ i, Fintype (α i)] [CommMonoid M]
+    (f : (i : ι) → α i → M) : ∏ x : Sigma α, f x.1 x.2 = ∏ x, ∏ y, f x y :=
+  prod_sigma ..
+```
+
+### Fin.revPerm pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/Rev.lean
+
+Whole-source SHA256: d4633da3d0c9050d365ee369fbc414ee2be342d7963f9d84b71f4a9863a18a1e
+
+```lean
+/-
+Copyright (c) 2022 Eric Rodriguez. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Eric Rodriguez, Joel Riou, Yury Kudryashov
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/Rev.lean#L32-L38
+
+```lean
+theorem rev_involutive : Involutive (rev : Fin n → Fin n) := rev_rev
+
+/-- `Fin.rev` as an `Equiv.Perm`, the antitone involution `Fin n → Fin n` given by
+`i ↦ n-(i+1)`. -/
+@[simps! apply]
+def revPerm : Equiv.Perm (Fin n) :=
+  Involutive.toPerm rev rev_involutive
+```
+
+### finite-permutation-sum pinned source
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean
+
+Whole-source SHA256: e935efa96ad9381658f3158f900d04589c46d7e933cab15f4d8632e1af85527f
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean#L745-L751
+
+```lean
+@[to_additive]
+lemma _root_.Function.Bijective.prod_comp {e : ι → κ} (he : e.Bijective) (g : κ → M) :
+    ∏ i, g (e i) = ∏ i, g i := prod_bijective _ he _ _ fun _ ↦ rfl
+
+@[to_additive]
+lemma _root_.Equiv.prod_comp (e : ι ≃ κ) (g : κ → M) : ∏ i, g (e i) = ∏ i, g i :=
+  prod_equiv e _ _ fun _ ↦ rfl
+```
+
+### Compiler Fin.rev
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean
+
+Whole-source SHA256: bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4
+
+GitHub returned this exact whole-file blob at the pinned compiler commit: 6fee3ab2eaacf1b76de02ea7f7880f29fbac8294. Reversal of ordinal i has natural value n-(i+1), remains within n and is involutive.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+```
+
+```lean
+Replaces a value with its difference from the largest value in the type.
+
+Considering the values of `Fin n` as a sequence `0`, `1`, …, `n-2`, `n-1`, `Fin.rev` finds the
+corresponding element of the reversed sequence. In other words, it maps `0` to `n-1`, `1` to `n-2`,
+..., and `n-1` to `0`.
+
+Examples:
+ * `(5 : Fin 6).rev = (0 : Fin 6)`
+ * `(0 : Fin 6).rev = (5 : Fin 6)`
+ * `(2 : Fin 5).rev = (2 : Fin 5)`
+-/
+@[inline, implicit_reducible] def rev (i : Fin n) : Fin n := ⟨n - (i + 1), Nat.sub_lt i.pos (Nat.succ_pos _)⟩
+```
+
+### Compiler Sigma
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean
+
+Whole-source SHA256: 264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99
+
+GitHub returned this exact whole-file blob at the pinned compiler commit: 23e784c3806badcabd1e8f19c50946d66bc3c87a. Dependent pair has first component in alpha and second component in the fiber beta of that first component.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+
+notation, basic datatypes and type classes
+-/
+```
+
+```lean
+Dependent pairs, in which the second element's type depends on the value of the first element. The
+type `Sigma β` is typically written `Σ a : α, β a` or `(a : α) × β a`.
+
+Although its values are pairs, `Sigma` is sometimes known as the *dependent sum type*, since it is
+the type level version of an indexed summation.
+-/
+@[pp_using_anonymous_constructor]
+structure Sigma {α : Type u} (β : α → Type v) where
+  /--
+  Constructs a dependent pair.
+
+  Using this constructor in a context in which the type is not known usually requires a type
+  ascription to determine `β`. This is because the desired relationship between the two values can't
+  generally be determined automatically.
+  -/
+  mk ::
+  /--
+  The first component of a dependent pair.
+  -/
+  fst : α
+  /--
+  The second component of a dependent pair. Its type depends on the first component.
+  -/
+  snd : β fst
+
+attribute [unbox] Sigma
+```
+
+
+The retained Equiv inverse and ordinal-reversal contracts additionally support SparseCompletion.balanced_game_witness, SparseCompletion.bin_call_compression, SparseCompletion.bin_call_compression_nonneg, SparseCompletion.bin_compressed_calls, SparseCompletion.binned_call_contraction, SparseCompletion.binned_game_witness, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.partition_game_witness, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper. The finite dependent enumeration contract is used in SparseCompletion.balanced_game_witness, SparseCompletion.binned_affine_moment, SparseCompletion.binned_call_contraction, SparseCompletion.binned_exposing_loss, SparseCompletion.binned_game_witness, SparseCompletion.binned_quadratic_loss, SparseCompletion.binned_uniform_cuts, SparseCompletion.binned_uniform_residual_completion, SparseCompletion.binned_uniform_score_mean, SparseCompletion.partition_game_witness, SparseCompletion.sum_bin_partition, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper. Pure scalar and ordinal-arithmetic helpers are excluded from finite-enumeration coverage.
+
+The finSigmaFinEquiv offset/bijection and Finset.sigma membership/sum bridges are proved contracts from the pinned upstream theorems, not claimed generic definitional unfolding. Equiv field laws and the reversal value bridges are recorded separately.
+
+Nat.ceil and FloorSemiring provide the actual grid rounding in SparseCompletion.double_grid_support_upper, SparseCompletion.uniform_binned_upper, SparseCompletion.uniform_core_uncertainty_upper, SparseCompletion.uniformMinimumCoreTotalSupport_sharp, SparseCompletion.uniformMinimumIntervalTotalSupport_sharp. The scalar double_grid_support_upper is excluded from finite-cardinality usage.

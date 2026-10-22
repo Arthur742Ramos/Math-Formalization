@@ -41,7 +41,11 @@
     "Nat.findX",
     "RelEmbedding",
     "Finset.orderIsoOfFin",
-    "Finset.orderEmbOfFin"
+    "Finset.orderEmbOfFin",
+    "Equiv",
+    "finSigmaFinEquiv",
+    "Finset.sigma",
+    "Fin.revPerm"
   ],
   "material_declarations": [
     {
@@ -135,7 +139,46 @@
         "SparseCompletion.uniform_core_total_support_card",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.bin_call_compression_nonneg",
+        "SparseCompletion.bin_call_compression",
+        "SparseCompletion.bin_affine_mean",
+        "SparseCompletion.bin_quadratic_loss_identity",
+        "SparseCompletion.bin_quadratic_loss_bounds",
+        "SparseCompletion.bin_compressed_nonneg",
+        "SparseCompletion.bin_compressed_mass",
+        "SparseCompletion.bin_compressed_support",
+        "SparseCompletion.bin_compressed_moment",
+        "SparseCompletion.bin_compressed_affine_moment",
+        "SparseCompletion.bin_compressed_calls",
+        "SparseCompletion.bin_compressed_quadratic_loss",
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.balancedLength_mass",
+        "SparseCompletion.balancedLength_cube_sum",
+        "SparseCompletion.uniform_score_affine",
+        "SparseCompletion.uniform_target_cuts",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.two_core_anchor_shift",
+        "SparseCompletion.uniform_core_adjust",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.core_witness_interval",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "A finite type has a finite duplicate-free enumeration containing every element.",
       "dependency_expansion": "Finite sums range over that enumeration. Empty types are allowed.",
@@ -240,7 +283,46 @@
         "SparseCompletion.uniform_core_total_support_card",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.bin_call_compression_nonneg",
+        "SparseCompletion.bin_call_compression",
+        "SparseCompletion.bin_affine_mean",
+        "SparseCompletion.bin_quadratic_loss_identity",
+        "SparseCompletion.bin_quadratic_loss_bounds",
+        "SparseCompletion.bin_compressed_nonneg",
+        "SparseCompletion.bin_compressed_mass",
+        "SparseCompletion.bin_compressed_support",
+        "SparseCompletion.bin_compressed_moment",
+        "SparseCompletion.bin_compressed_affine_moment",
+        "SparseCompletion.bin_compressed_calls",
+        "SparseCompletion.bin_compressed_quadratic_loss",
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.balancedLength_mass",
+        "SparseCompletion.balancedLength_cube_sum",
+        "SparseCompletion.uniform_score_affine",
+        "SparseCompletion.uniform_target_cuts",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.two_core_anchor_shift",
+        "SparseCompletion.uniform_core_adjust",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.core_witness_interval",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "A finite set is a multiset with no duplicate entries.",
       "dependency_expansion": "Membership, complement and subset sums refer to the finite indexing set, without multiplicities.",
@@ -343,7 +425,46 @@
         "SparseCompletion.uniform_core_total_support_card",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.bin_call_compression_nonneg",
+        "SparseCompletion.bin_call_compression",
+        "SparseCompletion.bin_affine_mean",
+        "SparseCompletion.bin_quadratic_loss_identity",
+        "SparseCompletion.bin_quadratic_loss_bounds",
+        "SparseCompletion.bin_compressed_nonneg",
+        "SparseCompletion.bin_compressed_mass",
+        "SparseCompletion.bin_compressed_support",
+        "SparseCompletion.bin_compressed_moment",
+        "SparseCompletion.bin_compressed_affine_moment",
+        "SparseCompletion.bin_compressed_calls",
+        "SparseCompletion.bin_compressed_quadratic_loss",
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.balancedLength_mass",
+        "SparseCompletion.balancedLength_cube_sum",
+        "SparseCompletion.uniform_score_affine",
+        "SparseCompletion.uniform_target_cuts",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.two_core_anchor_shift",
+        "SparseCompletion.uniform_core_adjust",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.core_witness_interval",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "Multiplicative source for the generated additive Finset.sum definition.",
       "dependency_expansion": "The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.",
@@ -393,7 +514,12 @@
         "SparseCompletion.game_sparse_completion",
         "SparseCompletion.exact_game_sparse_completion",
         "SparseCompletion.normalized_sparse_witness",
-        "SparseCompletion.normalized_exact_sparse_witness"
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.double_grid_support_upper",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "The natural ceiling delegates to FloorSemiring.ceil.",
       "dependency_expansion": "FloorSemiring.gc_ceil says ceil a \u2264 n iff a \u2264 (n:\u211d); the natural ceiling is zero for negative a.",
@@ -417,7 +543,12 @@
         "SparseCompletion.game_sparse_completion",
         "SparseCompletion.exact_game_sparse_completion",
         "SparseCompletion.normalized_sparse_witness",
-        "SparseCompletion.normalized_exact_sparse_witness"
+        "SparseCompletion.normalized_exact_sparse_witness",
+        "SparseCompletion.double_grid_support_upper",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "Floor and ceiling operations with their natural-cast adjunction laws.",
       "dependency_expansion": "The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at \u211d.",
@@ -453,7 +584,13 @@
         "SparseCompletion.uniformMinimumIntervalTotalSupport_lower",
         "SparseCompletion.uniform_core_total_support_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
-        "SparseCompletion.residual_rate_from_inverse_square"
+        "SparseCompletion.residual_rate_from_inverse_square",
+        "SparseCompletion.double_grid_support_upper",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uncertainty_rate_comparison",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.",
       "dependency_expansion": "powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.",
@@ -489,7 +626,13 @@
         "SparseCompletion.uniformMinimumIntervalTotalSupport_lower",
         "SparseCompletion.uniform_core_total_support_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
-        "SparseCompletion.residual_rate_from_inverse_square"
+        "SparseCompletion.residual_rate_from_inverse_square",
+        "SparseCompletion.double_grid_support_upper",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uncertainty_rate_comparison",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "The real square root applies NNReal.sqrt to Real.toNNReal.",
       "dependency_expansion": "Negative inputs yield zero. Nonnegative radicands include Mr/\u03b7, \u03b5, \u03b5+\u03b4, \u03b5+3\u03b4/8 and 3/1216 under the selected contracts' positivity hypotheses; square_root_meaning proves the needed square and sign laws.",
@@ -525,7 +668,13 @@
         "SparseCompletion.uniformMinimumIntervalTotalSupport_lower",
         "SparseCompletion.uniform_core_total_support_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
-        "SparseCompletion.residual_rate_from_inverse_square"
+        "SparseCompletion.residual_rate_from_inverse_square",
+        "SparseCompletion.double_grid_support_upper",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uncertainty_rate_comparison",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "Real-to-nonnegative-real conversion clips a real input below at zero.",
       "dependency_expansion": "The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.",
@@ -842,7 +991,17 @@
         "SparseCompletion.uniform_core_total_support_card",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.bin_compressed_support",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.core_witness_interval",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "The number of elements in the underlying duplicate-free multiset.",
       "dependency_expansion": "finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values.",
@@ -919,7 +1078,17 @@
         "SparseCompletion.uniform_core_total_support_card",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.bin_compressed_support",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.core_witness_interval",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "The cardinality of the finite universal enumeration.",
       "dependency_expansion": "type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case.",
@@ -1173,7 +1342,9 @@
         "SparseCompletion.uniformMinimumCoreTotalSupport_le",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "Least natural satisfying a predicate known to have a witness.",
       "dependency_expansion": "Projects Nat.findX. Our support predicate uses actual real strategies and matrices; classical decidability is noncomputable, with no claimed executable decision algorithm. The dense exact witness proves nonemptiness for nonnegative tolerance.",
@@ -1209,7 +1380,9 @@
         "SparseCompletion.uniformMinimumCoreTotalSupport_le",
         "SparseCompletion.uniformMinimumCoreTotalSupport_lower",
         "SparseCompletion.uniformMinimumCoreTotalSupport_radius_zero",
-        "SparseCompletion.uniformMinimumCoreTotalSupport_origin"
+        "SparseCompletion.uniformMinimumCoreTotalSupport_origin",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ],
       "meaning": "Witness of the predicate together with failure at every smaller natural.",
       "dependency_expansion": "WellFounded.fix scans successive naturals under the decreasing relation lbp, whose well-foundedness follows from the supplied existential witness. The DecidablePred parameter is genuine standard classical choice in this noncomputable use.",
@@ -1290,6 +1463,141 @@
         "sorted-enumeration-coverage"
       ],
       "proof_status": "Independent Challenge and Solution bridge builds check these literal/field and theorem contracts; the exact-source receipt records outcomes. Internal review assesses interpretation."
+    },
+    {
+      "name": "Equiv",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.bin_call_compression",
+        "SparseCompletion.bin_call_compression_nonneg",
+        "SparseCompletion.bin_compressed_calls"
+      ],
+      "meaning": "A map equipped with a two-sided inverse.",
+      "dependency_expansion": "Injectivity and surjectivity follow from the inverse laws; no omitted or duplicate original labels enter the canonical bin partition. Equiv.Perm is the self-equivalence abbreviation.",
+      "definition_excerpt": "Equiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Equiv",
+        "Equiv.Perm-abbreviation"
+      ],
+      "proof_status": "Independent Solution and Challenge bridge modules compile the inverse/offset/finite-enumeration and partition contracts. Exact-source receipts record mechanical outcomes; independent review assesses fidelity."
+    },
+    {
+      "name": "finSigmaFinEquiv",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+      ],
+      "meaning": "Bijection from disjoint finite fibers indexed by Fin h to the ordinal of their total length.",
+      "dependency_expansion": "Its value is the sum of preceding bin lengths plus the local label. Dependent pairs record a bin and a label within that bin; the inverse covers each original label exactly once.",
+      "definition_excerpt": "finSigmaFinEquiv",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "finSigmaFinEquiv"
+      ],
+      "proof_status": "Separately compiled entrypoint bridges prove the exact offset/bijection or membership/sum contracts from upstream checked theorems. They do not claim generic literal unfolding of these definitions."
+    },
+    {
+      "name": "Finset.sigma",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper"
+      ],
+      "meaning": "Finite set of dependent pairs whose first label belongs to s and second label to the corresponding fiber.",
+      "dependency_expansion": "The no-duplicates proof combines the outer and fiber no-duplicates laws. Sigma.instFintype enumerates all bins/fiber labels using univ.sigma univ, and the generated sum_sigma contract sums exactly once over each pair.",
+      "definition_excerpt": "Finset.sigma",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.sigma",
+        "finite-dependent-enumeration",
+        "finite-dependent-sum"
+      ],
+      "proof_status": "Separately compiled entrypoint bridges prove the exact offset/bijection or membership/sum contracts from upstream checked theorems. They do not claim generic literal unfolding of these definitions."
+    },
+    {
+      "name": "Fin.revPerm",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.bin_call_compression",
+        "SparseCompletion.bin_call_compression_nonneg",
+        "SparseCompletion.bin_compressed_calls",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper"
+      ],
+      "meaning": "The reversal permutation of a finite ordinal.",
+      "dependency_expansion": "Fin.rev maps i to n-(i+1). It is an involution. The exact compiler source for this value is separately authenticated; reversal only pairs uniform-bin terms and never changes the original-label repertoire.",
+      "definition_excerpt": "Fin.revPerm",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Fin.revPerm",
+        "finite-permutation-sum"
+      ],
+      "proof_status": "Independent Solution and Challenge bridge modules compile the inverse/offset/finite-enumeration and partition contracts. Exact-source receipts record mechanical outcomes; independent review assesses fidelity."
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -1345,6 +1653,14 @@
           "text": "/-- `\u220f x \u2208 s, f x` is the product of `f x` as `x` ranges over the elements of the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `\u220f x, f x`, is a shorthand for\n`\u220f x \u2208 Finset.univ, f x`. -/\n@[to_additive /-- `\u2211 x \u2208 s, f x` is the sum of `f x` as `x` ranges over the elements\nof the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `\u2211 x, f x`, is a shorthand for\n`\u2211 x \u2208 Finset.univ, f x`. -/]\nprotected def prod [CommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M) : M :=\n  (s.1.map f).prod\n",
           "sha256": "26d8fa821bd539acece2d861933171554c86d441fbb32266ecc2ebc472639de1",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean#L59-L69"
+        },
+        {
+          "name": "finite-permutation-sum",
+          "first_line": 745,
+          "last_line": 751,
+          "text": "@[to_additive]\nlemma _root_.Function.Bijective.prod_comp {e : \u03b9 \u2192 \u03ba} (he : e.Bijective) (g : \u03ba \u2192 M) :\n    \u220f i, g (e i) = \u220f i, g i := prod_bijective _ he _ _ fun _ \u21a6 rfl\n\n@[to_additive]\nlemma _root_.Equiv.prod_comp (e : \u03b9 \u2243 \u03ba) (g : \u03ba \u2192 M) : \u220f i, g (e i) = \u220f i, g i :=\n  prod_equiv e _ _ fun _ \u21a6 rfl\n",
+          "sha256": "ba799f606e8490f3496aa222a920ebd0ad6ec49cdc85bcf7d3ebc2516aa0393b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean#L745-L751"
         }
       ]
     },
@@ -1913,6 +2229,14 @@
           "text": "/-- It is equivalent to compute the product of a function over `Fin n` or `Finset.range n`. -/\n@[to_additive /-- It is equivalent to sum a function over `fin n` or `finset.range n`. -/]\ntheorem Fin.prod_univ_eq_prod_range [CommMonoid \u03b1] (f : \u2115 \u2192 \u03b1) (n : \u2115) :\n    \u220f i : Fin n, f i = \u220f i \u2208 range n, f i :=\n  calc\n    \u220f i : Fin n, f i = \u220f i : { x // x \u2208 range n }, f i :=\n      Fintype.prod_equiv (Fin.equivSubtype.trans (Equiv.subtypeEquivRight (by simp))) _ _ (by simp)\n    _ = \u220f i \u2208 range n, f i := by rw [\u2190 attach_eq_univ, prod_attach]\n",
           "sha256": "994b6aed5928d2457ffda9796532e9462a9619c6dd0db5eb35b5292a13220582",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L225-L232"
+        },
+        {
+          "name": "finite-dependent-sum",
+          "first_line": 142,
+          "last_line": 159,
+          "text": "/-- Product over a sigma type equals the repeated product.\n\nThis is a version of `Finset.prod_sigma` specialized to the case\nof multiplication over `Finset.univ`. -/\n@[to_additive /-- Sum over a sigma type equals the repeated sum.\n\nThis is a version of `Finset.sum_sigma` specialized to the case of summation over `Finset.univ`. -/]\ntheorem prod_sigma {\u03b9} {\u03b1 : \u03b9 \u2192 Type*} {M : Type*} [Fintype \u03b9] [\u2200 i, Fintype (\u03b1 i)] [CommMonoid M]\n    (f : Sigma \u03b1 \u2192 M) : \u220f x, f x = \u220f x, \u220f y, f \u27e8x, y\u27e9 :=\n  Finset.prod_sigma ..\n\n/-- Product over a sigma type equals the repeated product, curried version.\nThis version is useful to rewrite from right to left. -/\n@[to_additive /-- Sum over a sigma type equals the repeated sum, curried version.\nThis version is useful to rewrite from right to left. -/]\ntheorem prod_sigma' {\u03b9} {\u03b1 : \u03b9 \u2192 Type*} {M : Type*} [Fintype \u03b9] [\u2200 i, Fintype (\u03b1 i)] [CommMonoid M]\n    (f : (i : \u03b9) \u2192 \u03b1 i \u2192 M) : \u220f x : Sigma \u03b1, f x.1 x.2 = \u220f x, \u220f y, f x y :=\n  prod_sigma ..\n",
+          "sha256": "7c5b8018adeba77381bd6573c3840791906482c229c4c6e706b7347e2150541c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/BigOperators.lean#L142-L159"
         }
       ]
     },
@@ -2029,18 +2353,116 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Chebyshev.lean#L126-L128"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean",
+      "sha256": "c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8",
+      "git_blob_sha1": "7821cb864d27388f46fd335a5f2fbc5d3be358ff",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equiv",
+          "first_line": 65,
+          "last_line": 78,
+          "text": "\n/-- `\u03b1 \u2243 \u03b2` is the type of functions from `\u03b1 \u2192 \u03b2` with a two-sided inverse. -/\nstructure Equiv (\u03b1 \u03b2 : Sort*) where\n  /-- The forward map of an equivalence.\n\n  Do NOT use directly. Use the coercion instead. -/\n  protected toFun : \u03b1 \u2192 \u03b2\n  /-- The backward map of an equivalence.\n\n  Do NOT use `e.invFun` directly. Use the coercion of `e.symm` instead. -/\n  protected invFun : \u03b2 \u2192 \u03b1\n  protected left_inv : LeftInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n  protected right_inv : RightInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n\n",
+          "sha256": "0451e0e6f22ff8ea33b06a1c41136963932f95f8581aaa6e5be7d60c85449aab",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L65-L78"
+        },
+        {
+          "name": "Equiv.Perm-abbreviation",
+          "first_line": 95,
+          "last_line": 97,
+          "text": "/-- `Perm \u03b1` is the type of bijections from `\u03b1` to itself. -/\nabbrev Equiv.Perm (\u03b1 : Sort*) :=\n  Equiv \u03b1 \u03b1\n",
+          "sha256": "f69bfaf3d662bf455b3815449d1371abac35f1bab2165041e4f2744a81676a0d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L95-L97"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/BigOperators/Fin.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Fin.lean",
+      "sha256": "7f5fb55b9f917df705f1861452ada2108b4dbaac92e7368aaf2f9ade293812d6",
+      "git_blob_sha1": "a5d6c44f5a2dc12f92083a83926489ec7dc37934",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov, Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov, Anne Baanen\n-/\n",
+      "excerpts": [
+        {
+          "name": "finSigmaFinEquiv",
+          "first_line": 678,
+          "last_line": 692,
+          "text": "/-- Equivalence between the Sigma type `(i : Fin m) \u00d7 Fin (n i)` and `Fin (\u2211 i : Fin m, n i)`. -/\ndef finSigmaFinEquiv {m : \u2115} {n : Fin m \u2192 \u2115} : (i : Fin m) \u00d7 Fin (n i) \u2243 Fin (\u2211 i : Fin m, n i) :=\n  match m with\n  | 0 => @Equiv.equivOfIsEmpty _ _ _ (by simp)\n  | Nat.succ m =>\n    calc _ \u2243 _ := (@finSumFinEquiv m 1).sigmaCongrLeft.symm\n      _ \u2243 _ := Equiv.sumSigmaDistrib _\n      _ \u2243 _ := finSigmaFinEquiv.sumCongr (Equiv.uniqueSigma _)\n      _ \u2243 _ := finSumFinEquiv\n      _ \u2243 _ := finCongr (Fin.sum_univ_castSucc n).symm\n\nset_option backward.isDefEq.respectTransparency false in\n@[simp]\ntheorem finSigmaFinEquiv_apply {m : \u2115} {n : Fin m \u2192 \u2115} (k : (i : Fin m) \u00d7 Fin (n i)) :\n    (finSigmaFinEquiv k : \u2115) = \u2211 i : Fin k.1, n (Fin.castLE k.1.2.le i) + k.2 := by\n",
+          "sha256": "832b63569f665562a7b6e1f59af907cb3083d459d0878c05b3a0f1d2d99202b8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Fin.lean#L678-L692"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Sigma.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sigma.lean",
+      "sha256": "20fcd45319167bd06399a6e801084cf1673b36d66a8a4242017ccb892d05a185",
+      "git_blob_sha1": "90c97fec4127e236a652309c041a6c5d2fbb12cf",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Ya\u00ebl Dillies, Bhavik Mehta\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.sigma",
+          "first_line": 44,
+          "last_line": 52,
+          "text": "/-- `s.sigma t` is the finset of dependent pairs `\u27e8i, a\u27e9` such that `i \u2208 s` and `a \u2208 t i`. -/\nprotected def sigma : Finset (\u03a3 i, \u03b1 i) :=\n  \u27e8_, s.nodup.sigma fun i => (t i).nodup\u27e9\n\nvariable {s s\u2081 s\u2082 t t\u2081 t\u2082}\n\n@[simp, grind =]\ntheorem mem_sigma {a : \u03a3 i, \u03b1 i} : a \u2208 s.sigma t \u2194 a.1 \u2208 s \u2227 a.2 \u2208 t a.1 :=\n  Multiset.mem_sigma\n",
+          "sha256": "070614971c743f4de9b3bd8e534d122a1d2b2cec92690ff5cd61da6e61bb726d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Sigma.lean#L44-L52"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/Sigma.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sigma.lean",
+      "sha256": "bcdc1fabf19ac926c1b614c8b16cf6f58813f38ef865a4da51e717bc96da8045",
+      "git_blob_sha1": "82b0379cbcbdd44f22ab7562e410f6e7134d28fd",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "finite-dependent-enumeration",
+          "first_line": 37,
+          "last_line": 41,
+          "text": "\ninstance Sigma.instFintype : Fintype (\u03a3 i, \u03ba i) := \u27e8univ.sigma fun _ \u21a6 univ, by simp\u27e9\ninstance PSigma.instFintype : Fintype (\u03a3' i, \u03ba i) := .ofEquiv _ (Equiv.psigmaEquivSigma _).symm\n\n@[simp] lemma Finset.univ_sigma_univ : univ.sigma (fun _ \u21a6 univ) = (univ : Finset (\u03a3 i, \u03ba i)) := rfl\n",
+          "sha256": "3425583c722c10409b2955802087904ec8f53d0d1917b02e3991150d71defab1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Sigma.lean#L37-L41"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fin/Rev.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/Rev.lean",
+      "sha256": "d4633da3d0c9050d365ee369fbc414ee2be342d7963f9d84b71f4a9863a18a1e",
+      "git_blob_sha1": "3fa03b6ce3f5d4ea40ceb5e40c7ee2986075c040",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Eric Rodriguez. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Eric Rodriguez, Joel Riou, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fin.revPerm",
+          "first_line": 32,
+          "last_line": 38,
+          "text": "theorem rev_involutive : Involutive (rev : Fin n \u2192 Fin n) := rev_rev\n\n/-- `Fin.rev` as an `Equiv.Perm`, the antitone involution `Fin n \u2192 Fin n` given by\n`i \u21a6 n-(i+1)`. -/\n@[simps! apply]\ndef revPerm : Equiv.Perm (Fin n) :=\n  Involutive.toPerm rev rev_involutive\n",
+          "sha256": "d6c754ef519ebb0892495c25289c3a5a416e9b4cfa5b7e76e4b5b117cf44faf9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/Rev.lean#L32-L38"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "DefinitionTests",
       "path": "DefinitionTests.lean",
-      "sha256": "2652894d54c5e98c999ba300e5b1d92635d5bd71fb4cb843fa8aa04495e214ce"
+      "sha256": "e07bad1453bdb65f11688e26b2862805281c28ee82a55c6e19dde14f638a36c1"
     },
     {
       "module": "ChallengeDefinitionTests",
       "path": "ChallengeDefinitionTests.lean",
-      "sha256": "c31adf2aa5928587d33ac8c00d74e967445684aea915ad97b82ad3a20282359a"
+      "sha256": "b7f8b65f00b2c9611c41744643e83ffb56b6d14d101cdcb868c8117e1ce8a65c"
     }
   ],
   "generated_declarations": [
@@ -2140,6 +2562,95 @@
         "SparseCompletion.uniform_minimum_share_inverse_square",
         "SparseCompletion.uniform_total_support_lower",
         "SparseCompletion.uniformMinimumTotalSupport_sharp"
+      ]
+    },
+    {
+      "name": "finSigmaFinEquiv_apply",
+      "excerpt": "finSigmaFinEquiv",
+      "bridge": "bin_offset_contract",
+      "used_by": [
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+      ]
+    },
+    {
+      "name": "Fintype.sum_sigma",
+      "excerpt": "finite-dependent-sum",
+      "bridge": "dependent_sum_contract",
+      "used_by": [
+        "SparseCompletion.binIndex_val",
+        "SparseCompletion.sum_bin_partition",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
+      ]
+    },
+    {
+      "name": "Equiv.sum_comp",
+      "excerpt": "finite-permutation-sum",
+      "bridge": "equivalence_sum_contract",
+      "used_by": [
+        "SparseCompletion.bin_pair_call_le",
+        "SparseCompletion.bin_call_compression_nonneg",
+        "SparseCompletion.bin_call_compression",
+        "SparseCompletion.bin_compressed_nonneg",
+        "SparseCompletion.bin_compressed_mass",
+        "SparseCompletion.bin_compressed_support",
+        "SparseCompletion.bin_compressed_moment",
+        "SparseCompletion.bin_compressed_affine_moment",
+        "SparseCompletion.bin_compressed_calls",
+        "SparseCompletion.bin_compressed_quadratic_loss",
+        "SparseCompletion.binned_nonneg",
+        "SparseCompletion.binned_support",
+        "SparseCompletion.binned_moment",
+        "SparseCompletion.binned_mass",
+        "SparseCompletion.binned_affine_moment",
+        "SparseCompletion.binned_call_contraction",
+        "SparseCompletion.binned_uniform_cuts",
+        "SparseCompletion.binned_uniform_score_mean",
+        "SparseCompletion.binned_uniform_residual_completion",
+        "SparseCompletion.binned_quadratic_loss",
+        "SparseCompletion.binned_exposing_loss",
+        "SparseCompletion.binned_game_witness",
+        "SparseCompletion.partition_game_witness",
+        "SparseCompletion.balanced_game_witness",
+        "SparseCompletion.uniform_binned_upper",
+        "SparseCompletion.uniform_core_uncertainty_upper",
+        "SparseCompletion.uniformMinimumCoreTotalSupport_sharp",
+        "SparseCompletion.uniformMinimumIntervalTotalSupport_sharp"
       ]
     }
   ]

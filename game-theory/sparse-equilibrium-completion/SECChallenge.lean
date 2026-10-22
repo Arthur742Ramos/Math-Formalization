@@ -4006,3 +4006,1045 @@ theorem uniformMinimumCoreTotalSupport_origin (m : ℕ) (hm : 2 ≤ m) :
 
 end
 end SparseCompletion
+
+/- Fixed source body: BinCompression.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- Moving a symmetric pair inward decreases every call payoff. -/
+theorem inner_pair_call_le (a u v b z : ℝ) (hau : a ≤ u) (huv : u ≤ v)
+    (hvb : v ≤ b) (hsum : a+b=u+v) :
+    max (u-z) 0+max (v-z) 0 ≤ max (a-z) 0+max (b-z) 0 := by
+  simp only [max_def]
+  split_ifs <;> linarith
+
+/-- The two central original labels, coalescing when the bin has odd size. -/
+def binLower (L : ℕ) (hL : 0 < L) : Fin L := ⟨(L-1)/2,lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.sub_lt hL (Nat.zero_lt_succ 0))⟩
+def binUpper (L : ℕ) (hL : 0 < L) : Fin L := ⟨L/2,Nat.div_lt_self hL (Nat.lt_succ_self 1)⟩
+
+theorem bin_middle_sum (L : ℕ) (hL : 0 < L) :
+    (binLower L hL).val+(binUpper L hL).val=L-1 := by
+  simp only [binLower,binUpper]
+  omega
+
+theorem bin_middle_order (L : ℕ) (hL : 0 < L) : binLower L hL ≤ binUpper L hL := by
+  simp only [Fin.le_def,binLower,binUpper]
+  omega
+
+theorem bin_middle_outer (L : ℕ) (hL : 0 < L) (i : Fin L) :
+    min i.val (L-1-i.val) ≤ (binLower L hL).val ∧
+      (binUpper L hL).val ≤ max i.val (L-1-i.val) := by
+  simp only [binLower,binUpper]
+  omega
+
+theorem bin_pair_call_le (L : ℕ) (hL : 0 < L) (a d z : ℝ) (hd : 0 ≤ d) (i : Fin L) :
+    max (a+d*(binLower L hL).val-z) 0+max (a+d*(binUpper L hL).val-z) 0 ≤
+      max (a+d*i.val-z) 0+max (a+d*(L-1-i.val : ℕ)-z) 0 := by
+  have houter := bin_middle_outer L hL i
+  have hmiddle := bin_middle_order L hL
+  have hsum := bin_middle_sum L hL
+  have hi : i.val ≤ L-1 := by omega
+  by_cases hii : i.val ≤ L-1-i.val
+  · have hlo : i.val ≤ (binLower L hL).val := by simpa only [min_eq_left hii] using houter.1
+    have hhi : (binUpper L hL).val ≤ L-1-i.val := by simpa only [max_eq_right hii] using houter.2
+    apply inner_pair_call_le
+    · have hh : (i.val : ℝ) ≤ (binLower L hL).val := by exact_mod_cast hlo
+      nlinarith [mul_nonneg hd (sub_nonneg.mpr hh)]
+    · have hh : ((binLower L hL).val : ℝ) ≤ (binUpper L hL).val := by exact_mod_cast hmiddle
+      nlinarith [mul_nonneg hd (sub_nonneg.mpr hh)]
+    · have hh : ((binUpper L hL).val : ℝ) ≤ (L-1-i.val : ℕ) := by exact_mod_cast hhi
+      nlinarith [mul_nonneg hd (sub_nonneg.mpr hh)]
+    · have hh : (i.val : ℝ)+(L-1-i.val : ℕ) =
+          (binLower L hL).val+(binUpper L hL).val := by
+        exact_mod_cast (show i.val+(L-1-i.val)= (binLower L hL).val+(binUpper L hL).val by omega)
+      nlinarith
+  · have hii' : L-1-i.val ≤ i.val := by omega
+    have hlo : L-1-i.val ≤ (binLower L hL).val := by simpa only [min_eq_right hii'] using houter.1
+    have hhi : (binUpper L hL).val ≤ i.val := by simpa only [max_eq_left hii'] using houter.2
+    rw [add_comm (max (a+d*(i.val : ℝ)-z) 0)]
+    apply inner_pair_call_le
+    · have hh : ((L-1-i.val : ℕ) : ℝ) ≤ (binLower L hL).val := by exact_mod_cast hlo
+      nlinarith [mul_nonneg hd (sub_nonneg.mpr hh)]
+    · have hh : ((binLower L hL).val : ℝ) ≤ (binUpper L hL).val := by exact_mod_cast hmiddle
+      nlinarith [mul_nonneg hd (sub_nonneg.mpr hh)]
+    · have hh : ((binUpper L hL).val : ℝ) ≤ i.val := by exact_mod_cast hhi
+      nlinarith [mul_nonneg hd (sub_nonneg.mpr hh)]
+    · have hh : (i.val : ℝ)+(L-1-i.val : ℕ) =
+          (binLower L hL).val+(binUpper L hL).val := by
+        exact_mod_cast (show i.val+(L-1-i.val)= (binLower L hL).val+(binUpper L hL).val by omega)
+      nlinarith
+
+
+theorem bin_call_compression_nonneg (L : ℕ) (hL : 0 < L) (a d z : ℝ) (hd : 0 ≤ d) :
+    (L : ℝ)*(max (a+d*(binLower L hL).val-z) 0+
+      max (a+d*(binUpper L hL).val-z) 0) ≤
+      (2 : ℕ)*∑ i : Fin L, max (a+d*i.val-z) 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hs := Finset.sum_le_sum (s := (Finset.univ : Finset (Fin L)))
+    (fun i _ => bin_pair_call_le L hL a d z hd i)
+  have hrev : (∑ i : Fin L, max (a+d*(L-1-i.val : ℕ)-z) 0) =
+      ∑ i : Fin L, max (a+d*i.val-z) 0 := by
+    simpa only [Fin.revPerm_apply,Fin.val_rev,Nat.sub_sub,Nat.add_comm] using
+      (Equiv.sum_comp (Fin.revPerm : Equiv.Perm (Fin L)) (fun i => max (a+d*i.val-z) 0))
+  simp only [Finset.sum_const,Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,
+    Finset.sum_add_distrib,hrev] at hs
+  linarith
+
+theorem negative_call_identity (x : ℝ) : max (-x) 0=max x 0-x := by
+  simp only [max_def]
+  split_ifs <;> linarith
+
+theorem bin_call_compression (L : ℕ) (hL : 0 < L) (a d z : ℝ) :
+    (L : ℝ)*(max (a+d*(binLower L hL).val-z) 0+
+      max (a+d*(binUpper L hL).val-z) 0) ≤
+      (2 : ℕ)*∑ i : Fin L, max (a+d*i.val-z) 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  by_cases hd : 0 ≤ d
+  · exact bin_call_compression_nonneg L hL a d z hd
+  · have hh := bin_call_compression_nonneg L hL (-a) (-d) (-z) (by linarith)
+    have heq : ∀ i : Fin L, max (-a+-d*i.val- -z) 0 = max (a+d*i.val-z) 0-(a+d*i.val-z) := by
+      intro i
+      convert negative_call_identity (a+d*i.val-z) using 1
+      congr 1
+      ring
+    simp only [heq] at hh
+    have hsum : (∑ i : Fin L, (a+d*i.val-z)) =
+        (L : ℝ)*((a+d*(binLower L hL).val-z)+(a+d*(binUpper L hL).val-z))/2 := by
+      have hidx : (∑ i : Fin L, (i.val : ℝ)) = (L : ℝ)*((L : ℝ)-1)/2 := by
+        rw [Fin.sum_univ_eq_sum_range]
+        exact first_index_moment L
+      have hmid := bin_middle_sum L hL
+      have hmidR : ((binLower L hL).val : ℝ)+(binUpper L hL).val=(L : ℝ)-1 := by
+        have hcast : ((L-1 : ℕ) : ℝ)=(L : ℝ)-1 := by
+          have hh : ((L-1 : ℕ) : ℝ)+1=(L : ℝ) := by exact_mod_cast (show (L-1)+1=L by omega)
+          linarith
+        rw [←hcast]
+        exact_mod_cast hmid
+      simp only [Finset.sum_sub_distrib,Finset.sum_add_distrib,Finset.sum_const,
+        Finset.card_univ,Fintype.card_fin,nsmul_eq_mul,←Finset.mul_sum,hidx]
+      nlinarith [congrArg (fun x : ℝ => (L : ℝ)*d*x) hmidR]
+    rw [Finset.sum_sub_distrib,hsum] at hh
+    nlinarith
+
+
+theorem bin_middle_sum_real (L : ℕ) (hL : 0 < L) :
+    ((binLower L hL).val : ℝ)+(binUpper L hL).val=(L : ℝ)-1 := by
+  have hh : ((L-1 : ℕ) : ℝ)+1=(L : ℝ) := by exact_mod_cast (show (L-1)+1=L by omega)
+  have hs : ((binLower L hL).val : ℝ)+(binUpper L hL).val=((L-1 : ℕ) : ℝ) :=
+    by exact_mod_cast bin_middle_sum L hL
+  linarith
+
+theorem bin_affine_mean (L : ℕ) (hL : 0 < L) (a d : ℝ) :
+    (∑ i : Fin L, (a+d*i.val)) =
+      (L : ℝ)*((a+d*(binLower L hL).val)+(a+d*(binUpper L hL).val))/(2 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hidx : (∑ i : Fin L, (i.val : ℝ)) = (L : ℝ)*((L : ℝ)-1)/2 := by
+    rw [Fin.sum_univ_eq_sum_range]
+    exact first_index_moment L
+  have hm := bin_middle_sum_real L hL
+  simp only [Finset.sum_add_distrib,Finset.sum_const,Finset.card_univ,Fintype.card_fin,
+    nsmul_eq_mul,←Finset.mul_sum,hidx]
+  nlinarith [congrArg (fun x : ℝ => (L : ℝ)*d*x) hm]
+
+theorem bin_quadratic_loss_identity (L : ℕ) (hL : 0 < L) (a d : ℝ) :
+    (∑ i : Fin L, (a+d*i.val)^(2 : ℕ))-
+      (L : ℝ)/(2 : ℕ)*((a+d*(binLower L hL).val)^(2 : ℕ)+(a+d*(binUpper L hL).val)^(2 : ℕ)) =
+      d^(2 : ℕ)*(L : ℝ)/(12 : ℕ)*((L : ℝ)^(2 : ℕ)-1-((3 : ℕ) : ℝ)*((binLower L hL).val-(binUpper L hL).val : ℝ)^(2 : ℕ)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hidx : (∑ i : Fin L, (i.val : ℝ)) = (L : ℝ)*((L : ℝ)-1)/2 := by
+    rw [Fin.sum_univ_eq_sum_range]
+    exact first_index_moment L
+  have hsq : (∑ i : Fin L, (i.val : ℝ)^2) =
+      (L : ℝ)*(((L : ℝ)-1)/2)^2+(L : ℝ)*((L : ℝ)^2-1)/12 := by
+    rw [Fin.sum_univ_eq_sum_range (fun i : ℕ => (i : ℝ)^2)]
+    simpa only [zero_add,one_mul,zero_sub,neg_sq,one_pow,mul_one,sub_zero] using
+      constant_run_error_identity L 0 1 0
+  have hm := bin_middle_sum_real L hL
+  have hv : ((binUpper L hL).val : ℝ)=(L : ℝ)-1-(binLower L hL).val := by linarith
+  have he : (∑ i : Fin L, (a+d*i.val)^2) =
+      (L : ℝ)*a^2+2*a*d*(∑ i : Fin L, (i.val : ℝ))+d^2*(∑ i : Fin L, (i.val : ℝ)^2) := by
+    simp only [add_sq,mul_pow,Finset.sum_add_distrib,Finset.sum_const,Finset.card_univ,
+      Fintype.card_fin,nsmul_eq_mul,←Finset.mul_sum]
+    ring
+  rw [he,hidx,hsq,hv]
+  ring
+
+theorem bin_middle_gap_bound (L : ℕ) (hL : 0 < L) :
+    ((binLower L hL).val-(binUpper L hL).val : ℝ)^(2 : ℕ) ≤ 1 := by
+  have hh : (binLower L hL).val ≤ (binUpper L hL).val ∧
+      (binUpper L hL).val ≤ (binLower L hL).val+1 := by
+    simp only [binLower,binUpper]
+    omega
+  have h1 : ((binLower L hL).val : ℝ) ≤ (binUpper L hL).val := by exact_mod_cast hh.1
+  have h2 : ((binUpper L hL).val : ℝ) ≤ (binLower L hL).val+1 := by exact_mod_cast hh.2
+  nlinarith
+
+theorem bin_quadratic_loss_bounds (L : ℕ) (hL : 0 < L) (a d : ℝ) :
+    0 ≤ (∑ i : Fin L, (a+d*i.val)^(2 : ℕ))-
+      (L : ℝ)/(2 : ℕ)*((a+d*(binLower L hL).val)^(2 : ℕ)+(a+d*(binUpper L hL).val)^(2 : ℕ)) ∧
+    (∑ i : Fin L, (a+d*i.val)^(2 : ℕ))-
+      (L : ℝ)/(2 : ℕ)*((a+d*(binLower L hL).val)^(2 : ℕ)+(a+d*(binUpper L hL).val)^(2 : ℕ)) ≤
+      d^(2 : ℕ)*(L : ℝ)^(3 : ℕ)/(12 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hid := bin_quadratic_loss_identity L hL a d
+  norm_num only [Nat.cast_ofNat] at hid
+  rw [hid]
+  have hL0 : (0 : ℝ) < L := Nat.cast_pos.mpr hL
+  have hcoef : 0 ≤ d^2*(L : ℝ)/12 := by positivity
+  have hgap := bin_middle_gap_bound L hL
+  constructor
+  · apply mul_nonneg hcoef
+    by_cases he : L=1
+    · subst L
+      norm_num [binLower,binUpper]
+    · have hL2 : (2 : ℝ) ≤ L := by exact_mod_cast (show 2 ≤ L by omega)
+      nlinarith
+  · have hsq : 0 ≤ ((binLower L hL).val-(binUpper L hL).val : ℝ)^2 := sq_nonneg _
+    have hp := mul_nonneg hcoef (show 0 ≤ 1+3*((binLower L hL).val-(binUpper L hL).val : ℝ)^2 by positivity)
+    nlinarith
+
+
+/-- Coalescing labels retain a single middle action in an odd bin. -/
+def binCompressedLabel (L : ℕ) (hL : 0 < L) (b : Fin 2) : Fin L :=
+  if b.val=0 then binLower L hL else binUpper L hL
+
+def binCompressedWeights (L : ℕ) (hL : 0 < L) : Fin L → ℝ :=
+  pushWeights (binCompressedLabel L hL) (fun _ => (L : ℝ)/(2 : ℕ))
+
+theorem bin_compressed_nonneg (L : ℕ) (hL : 0 < L) :
+    ∀ i, 0 ≤ binCompressedWeights L hL i := by
+  exact pushWeights_nonneg _ _ (fun _ => by positivity)
+
+theorem bin_compressed_mass (L : ℕ) (hL : 0 < L) :
+    (∑ i, binCompressedWeights L hL i)=(L : ℝ) := by
+  rw [binCompressedWeights,pushWeights_mass,Fin.sum_univ_two]
+  norm_num
+
+theorem bin_compressed_support (L : ℕ) (hL : 0 < L) :
+    (Finset.univ.filter fun i => binCompressedWeights L hL i ≠ 0).card ≤ min L (2 : ℕ) := by
+  classical
+  apply le_min
+  · exact le_trans (Finset.card_filter_le _ _) (by simp)
+  · exact le_trans (pushWeights_support_card _ _) (by simp)
+
+theorem bin_compressed_moment (L : ℕ) (hL : 0 < L) (f : Fin L → ℝ) :
+    (∑ i, binCompressedWeights L hL i*f i)=
+      (L : ℝ)/(2 : ℕ)*(f (binLower L hL)+f (binUpper L hL)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  rw [binCompressedWeights,pushWeights_moment,Fin.sum_univ_two]
+  simp only [binCompressedLabel,Fin.val_zero,Fin.val_one,ite_true,one_ne_zero,ite_false,Nat.cast_ofNat]
+  ring
+
+theorem bin_compressed_affine_moment (L : ℕ) (hL : 0 < L) (a d : ℝ) :
+    (∑ i, binCompressedWeights L hL i*(a+d*i.val))=∑ i : Fin L, (a+d*i.val) := by
+  rw [bin_compressed_moment,bin_affine_mean L hL a d]
+  ring
+
+theorem bin_compressed_calls (L : ℕ) (hL : 0 < L) (a d z : ℝ) :
+    (∑ i, binCompressedWeights L hL i*max (a+d*i.val-z) 0) ≤
+      ∑ i : Fin L, max (a+d*i.val-z) 0 := by
+  rw [bin_compressed_moment]
+  have hh := bin_call_compression L hL a d z
+  norm_num only [Nat.cast_ofNat] at *
+  linarith
+
+theorem bin_compressed_quadratic_loss (L : ℕ) (hL : 0 < L) (a d : ℝ) :
+    0 ≤ (∑ i : Fin L, (a+d*i.val)^(2 : ℕ))-
+      (∑ i, binCompressedWeights L hL i*(a+d*i.val)^(2 : ℕ)) ∧
+    (∑ i : Fin L, (a+d*i.val)^(2 : ℕ))-
+      (∑ i, binCompressedWeights L hL i*(a+d*i.val)^(2 : ℕ)) ≤ d^(2 : ℕ)*(L : ℝ)^(3 : ℕ)/(12 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  rw [bin_compressed_moment]
+  exact bin_quadratic_loss_bounds L hL a d
+
+end
+end SparseCompletion
+
+/- Fixed source body: BinnedWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def binIndex {h : ℕ} (L : Fin h → ℕ) (b : Fin h) (i : Fin (L b)) : Fin (∑ b, L b) :=
+  finSigmaFinEquiv ⟨b,i⟩
+
+def binStart {h : ℕ} (L : Fin h → ℕ) (b : Fin h) : ℕ :=
+  ∑ i : Fin b.val, L (Fin.castLE b.isLt.le i)
+
+theorem binIndex_val {h : ℕ} (L : Fin h → ℕ) (b : Fin h) (i : Fin (L b)) :
+    (binIndex L b i).val=binStart L b+i.val := finSigmaFinEquiv_apply ⟨b,i⟩
+
+theorem sum_bin_partition {h : ℕ} (L : Fin h → ℕ) (f : Fin (∑ b, L b) → ℝ) :
+    (∑ j, f j)=∑ b, ∑ i : Fin (L b), f (binIndex L b i) := by
+  simpa only [Fintype.sum_sigma,binIndex] using (Equiv.sum_comp finSigmaFinEquiv f).symm
+
+def binnedLabel {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (b : Fin h × Fin 2) :
+    Fin (∑ b, L b) := binIndex L b.1 (binCompressedLabel (L b.1) (hL b.1) b.2)
+
+def binnedWeights {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℝ) :
+    Fin (∑ b, L b) → ℝ :=
+  pushWeights (binnedLabel L hL) (fun b => (r/((∑ b, L b : ℕ) : ℝ))*(L b.1 : ℝ)/(2 : ℕ))
+
+theorem binned_nonneg {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℝ) (hr : 0 ≤ r) :
+    ∀ j, 0 ≤ binnedWeights L hL r j := by
+  exact pushWeights_nonneg _ _ (fun _ => by positivity)
+
+theorem binned_support {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℝ) :
+    supportSize (binnedWeights L hL r) ≤ min (∑ b, L b) ((2 : ℕ)*h) := by
+  classical
+  have hdim := supportSize_le_dimension (binnedWeights L hL r)
+  have hc : supportSize (binnedWeights L hL r) ≤ 2*h := by
+    unfold supportSize residualSupport binnedWeights
+    exact le_trans (pushWeights_support_card _ _) (by simp [mul_comm])
+  omega
+
+theorem binned_moment {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℝ)
+    (f : Fin (∑ b, L b) → ℝ) :
+    (∑ j, binnedWeights L hL r j*f j)=
+      (r/((∑ b, L b : ℕ) : ℝ))*∑ b, ∑ i : Fin (L b),
+        binCompressedWeights (L b) (hL b) i*f (binIndex L b i) := by
+  rw [binnedWeights,pushWeights_moment,Finset.mul_sum]
+  simp only [Fintype.sum_prod_type,Fin.sum_univ_two]
+  apply Finset.sum_congr rfl
+  intro b _
+  rw [bin_compressed_moment]
+  simp only [binnedLabel,binCompressedLabel,Fin.val_zero,Fin.val_one,ite_true,one_ne_zero,ite_false,Nat.cast_ofNat]
+  ring
+
+theorem binned_mass {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r : ℝ)
+    (hm : 0 < ∑ b, L b) : (∑ j, binnedWeights L hL r j)=r := by
+  have hh := binned_moment L hL r (fun _ => 1)
+  simp only [mul_one,bin_compressed_mass,←Nat.cast_sum] at hh
+  have hne : ((∑ b, L b : ℕ) : ℝ) ≠ 0 := ne_of_gt (Nat.cast_pos.mpr hm)
+  rw [hh]
+  field_simp
+
+theorem binned_affine_moment {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b) (r a d : ℝ) :
+    (∑ j, binnedWeights L hL r j*(a+d*j.val))=
+      (r/((∑ b, L b : ℕ) : ℝ))*∑ j : Fin (∑ b, L b), (a+d*j.val) := by
+  rw [binned_moment,sum_bin_partition L]
+  congr 1
+  apply Finset.sum_congr rfl
+  intro b _
+  have hform : ∀ i : Fin (L b), a+d*(binIndex L b i).val = (a+d*binStart L b)+d*i.val := by
+    intro i
+    rw [binIndex_val]
+    push_cast
+    ring
+  simp only [hform]
+  exact bin_compressed_affine_moment (L b) (hL b) _ _
+
+theorem binned_call_contraction {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (r : ℝ) (hr : 0 ≤ r) (a d z : ℝ) :
+    call (binnedWeights L hL r) (fun j => a+d*j.val) z ≤
+      call (uniformTarget (∑ b, L b) r) (fun j => a+d*j.val) z := by
+  unfold call
+  rw [binned_moment]
+  have hright : (∑ j : Fin (∑ b, L b), uniformTarget (∑ b, L b) r j*max (a+d*j.val-z) 0) =
+      (r/((∑ b, L b : ℕ) : ℝ))*∑ j : Fin (∑ b, L b), max (a+d*j.val-z) 0 := by
+    simp only [uniformTarget,Finset.mul_sum]
+  rw [hright,sum_bin_partition L]
+  apply mul_le_mul_of_nonneg_left _ (by positivity)
+  apply Finset.sum_le_sum
+  intro b _
+  have hform : ∀ i : Fin (L b), a+d*(binIndex L b i).val-z = (a+d*binStart L b)+d*i.val-z := by
+    intro i
+    rw [binIndex_val]
+    push_cast
+    ring
+  simp only [hform]
+  exact bin_compressed_calls (L b) (hL b) _ _ _
+
+end
+end SparseCompletion
+
+/- Fixed source body: BalancedBins.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def balancedLength (m h : ℕ) (b : Fin h) : ℕ :=
+  m/h+if b.val<m%h then 1 else 0
+
+theorem balancedLength_positive (m h : ℕ) (hh : 0 < h) (hhm : h ≤ m) :
+    ∀ b, 0 < balancedLength m h b := by
+  have hq : 0 < m/h := Nat.div_pos hhm hh
+  intro b
+  unfold balancedLength
+  split_ifs <;> omega
+
+theorem balancedLength_mass (m h : ℕ) (hh : 0 < h) : ∑ b, balancedLength m h b=m := by
+  classical
+  have hr : m%h<h := Nat.mod_lt m hh
+  have hf : (Finset.univ.filter fun b : Fin h => b.val<m%h) = Finset.Iio ⟨m%h,hr⟩ := by
+    ext b
+    simp only [Finset.mem_filter,Finset.mem_univ,true_and,Finset.mem_Iio,Fin.lt_def]
+  have hrem : (∑ b : Fin h, if b.val<m%h then (1 : ℕ) else 0)=m%h := by
+    rw [←Finset.sum_filter,hf]
+    simp only [Finset.sum_const,smul_eq_mul,mul_one,Fin.card_Iio]
+  simp only [balancedLength,Finset.sum_add_distrib,Finset.sum_const,Finset.card_univ,
+    Fintype.card_fin,smul_eq_mul,hrem]
+  have hdiv := Nat.mod_add_div m h
+  omega
+
+theorem balancedLength_bound (m h : ℕ) (hh : 0 < h) (b : Fin h) :
+    (balancedLength m h b : ℝ) ≤ (m : ℝ)/(h : ℝ)+1 := by
+  have hhR : (0 : ℝ) < h := Nat.cast_pos.mpr hh
+  have hq : ((m/h : ℕ) : ℝ) ≤ (m : ℝ)/(h : ℝ) := by
+    apply (le_div_iff₀ hhR).mpr
+    exact_mod_cast Nat.div_mul_le_self m h
+  have hb : balancedLength m h b ≤ m/h+1 := by
+    unfold balancedLength
+    split_ifs <;> omega
+  have hbR : (balancedLength m h b : ℝ) ≤ ((m/h : ℕ) : ℝ)+1 := by exact_mod_cast hb
+  linarith
+
+theorem balancedLength_cube_sum (m h : ℕ) (hh : 0 < h) :
+    (∑ b : Fin h, (balancedLength m h b : ℝ)^(3 : ℕ)) ≤
+      (m : ℝ)*((m : ℝ)/(h : ℝ)+1)^(2 : ℕ) := by
+  have hc : ∀ b : Fin h, (balancedLength m h b : ℝ)^3 ≤
+      ((m : ℝ)/(h : ℝ)+1)^2*(balancedLength m h b : ℝ) := by
+    intro b
+    have hb := balancedLength_bound m h hh b
+    have hn : (0 : ℝ) ≤ balancedLength m h b := Nat.cast_nonneg _
+    have hh0 : (0 : ℝ) ≤ (m : ℝ)/(h : ℝ)+1 := by positivity
+    have hs : (balancedLength m h b : ℝ)^2 ≤ ((m : ℝ)/(h : ℝ)+1)^2 := by nlinarith
+    have hp := mul_le_mul_of_nonneg_right hs hn
+    nlinarith
+  have hs := Finset.sum_le_sum (s := (Finset.univ : Finset (Fin h))) (fun b _ => hc b)
+  rw [←Finset.mul_sum,←Nat.cast_sum,balancedLength_mass m h hh] at hs
+  nlinarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: BinnedCompletion.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem uniform_score_affine (m : ℕ) (r : ℝ) :
+    targetScore (uniformTarget m r) r =
+      (fun j => r*(1-1/(m : ℝ))+(-((2 : ℕ) : ℝ)*r/(m : ℝ))*j.val) := by
+  norm_num only [Nat.cast_ofNat] at *
+  funext j
+  rw [uniform_target_score]
+  ring
+
+theorem uniform_target_cuts (m : ℕ) (hm : 0 < m) (r : ℝ) (hr : 0 ≤ r) :
+    Cuts 1 r (uniformTarget m r) (targetScore (uniformTarget m r) r) := by
+  have hq : ∀ j, 0 ≤ uniformTarget m r j := fun _ => div_nonneg hr (Nat.cast_nonneg _)
+  have hmass := uniformTarget_mass m hm r
+  have hh := completion_cuts_necessary (uniformTarget m r) (targetScore (uniformTarget m r) r)
+    (orderedBlock 1) 1 r 0 hq hmass (orderedBlock_skew 1)
+    (fun i j => (orderedBlock_bounds 1 (by norm_num) i j).1)
+    (fun j => by rw [orderedBlock_response _ r hmass]; linarith)
+  simpa only [sub_zero] using hh
+
+theorem binned_uniform_cuts {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) (hr : 0 ≤ r) :
+    Cuts 1 r (binnedWeights L hL r) (targetScore (uniformTarget (∑ b, L b) r) r) := by
+  apply call_bound_implies_cuts _ _ 1 r (by norm_num) (binned_nonneg L hL r hr)
+    (binned_mass L hL r hm)
+  intro z _
+  have hc := binned_call_contraction L hL r hr (r*(1-1/((∑ b, L b : ℕ) : ℝ)))
+    (-2*r/((∑ b, L b : ℕ) : ℝ)) z
+  have hform := uniform_score_affine (∑ b, L b) r
+  norm_num only [Nat.cast_ofNat] at hform
+  rw [← hform] at hc
+  exact le_trans hc (cuts_imply_call_bound _ _ 1 r (by norm_num)
+    (uniform_target_cuts _ hm r hr) z)
+
+theorem binned_uniform_score_mean {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) :
+    scoreMoment (binnedWeights L hL r) (targetScore (uniformTarget (∑ b, L b) r) r)=0 := by
+  have hh := binned_affine_moment L hL r (r*(1-1/((∑ b, L b : ℕ) : ℝ)))
+    (-2*r/((∑ b, L b : ℕ) : ℝ))
+  have hform := uniform_score_affine (∑ b, L b) r
+  norm_num only [Nat.cast_ofNat] at hform
+  rw [← hform] at hh
+  change (∑ j, binnedWeights L hL r j*targetScore (uniformTarget (∑ b, L b) r) r j)=0
+  rw [hform,hh]
+  have ht := target_score_moment_zero (uniformTarget (∑ b, L b) r) r
+    (uniformTarget_mass _ hm r)
+  simpa only [scoreMoment,uniformTarget,←Finset.mul_sum] using ht
+
+theorem binned_uniform_residual_completion {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) (hr : 0 ≤ r) :
+    ∃ B : Fin (∑ b, L b) → Fin (∑ b, L b) → ℝ,
+      IsSkew B ∧ (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+      ∀ i, targetScore (uniformTarget (∑ b, L b) r) r i+
+        response B (binnedWeights L hL r) i ≤ 0 := by
+  apply completion_of_cuts_and_guards _ _ 1 r 0 (by norm_num)
+    (binned_nonneg L hL r hr) (binned_mass L hL r hm)
+  · simpa only [sub_zero] using binned_uniform_cuts L hL hm r hr
+  · intro j
+    simpa only [zero_add,one_mul] using
+      (targetScore_bounds (uniformTarget (∑ b, L b) r)
+        (fun _ => div_nonneg hr (Nat.cast_nonneg _)) r (uniformTarget_mass _ hm r) j).2
+
+end
+end SparseCompletion
+
+/- Fixed source body: BinnedMoments.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem binned_quadratic_loss {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (r : ℝ) (hr : 0 ≤ r) (a d : ℝ) :
+    let qstar := uniformTarget (∑ b, L b) r
+    let q := binnedWeights L hL r
+    let f := fun j : Fin (∑ b, L b) => (a+d*j.val)^(2 : ℕ)
+    0 ≤ scoreMoment qstar f-scoreMoment q f ∧
+    scoreMoment qstar f-scoreMoment q f ≤
+      (r/((∑ b, L b : ℕ) : ℝ))*d^(2 : ℕ)/(12 : ℕ)*∑ b, (L b : ℝ)^(3 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let Δ := fun b : Fin h =>
+    (∑ i : Fin (L b), (a+d*(binIndex L b i).val)^2)-
+      ∑ i : Fin (L b), binCompressedWeights (L b) (hL b) i*(a+d*(binIndex L b i).val)^2
+  have hb : ∀ b, 0 ≤ Δ b ∧ Δ b ≤ d^2*(L b : ℝ)^3/12 := by
+    intro b
+    have hform : ∀ i : Fin (L b), a+d*(binIndex L b i).val=(a+d*binStart L b)+d*i.val := by
+      intro i
+      rw [binIndex_val]
+      push_cast
+      ring
+    dsimp only [Δ]
+    simp only [hform]
+    have hh := bin_compressed_quadratic_loss (L b) (hL b) (a+d*binStart L b) d
+    norm_num only [Nat.cast_ofNat] at hh
+    exact hh
+  have he : scoreMoment (uniformTarget (∑ b, L b) r) (fun j => (a+d*j.val)^2)-
+      scoreMoment (binnedWeights L hL r) (fun j => (a+d*j.val)^2) =
+      (r/((∑ b, L b : ℕ) : ℝ))*∑ b, Δ b := by
+    unfold scoreMoment
+    rw [binned_moment]
+    simp only [uniformTarget,←Finset.mul_sum]
+    rw [sum_bin_partition L,←mul_sub,←Finset.sum_sub_distrib]
+  rw [he]
+  have hc : 0 ≤ r/((∑ b, L b : ℕ) : ℝ) := by positivity
+  constructor
+  · exact mul_nonneg hc (Finset.sum_nonneg fun b _ => (hb b).1)
+  · have hs := Finset.sum_le_sum (s := (Finset.univ : Finset (Fin h))) (fun b _ => (hb b).2)
+    have heq : (∑ b : Fin h, d^2*(L b : ℝ)^3/12)=d^2/12*∑ b, (L b : ℝ)^3 := by
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro b _
+      ring
+    rw [heq] at hs
+    have hh := mul_le_mul_of_nonneg_left hs hc
+    nlinarith
+
+theorem binned_exposing_loss {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) (r : ℝ) (hr : 0 ≤ r) :
+    let qstar := uniformTarget (∑ b, L b) r
+    let q := binnedWeights L hL r
+    let w := exposingWeight qstar r
+    0 ≤ scoreMoment qstar w-scoreMoment q w ∧
+    scoreMoment qstar w-scoreMoment q w ≤
+      r^(2 : ℕ)/((12 : ℕ)*((∑ b, L b : ℕ) : ℝ)^(3 : ℕ))*∑ b, (L b : ℝ)^(3 : ℕ) := by
+  norm_num only [Nat.cast_ofNat] at *
+  let m := ∑ b, L b
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  let f := fun j : Fin m => (((m : ℝ)-1)/(m : ℝ)+(-1/(m : ℝ))*j.val)^2
+  have hw : exposingWeight (uniformTarget m r) r=(fun j => r*f j) := by
+    funext j
+    rw [uniform_exposing_weight]
+    dsimp only [f]
+    congr 1
+    congr 1
+    ring
+  have he : scoreMoment (uniformTarget m r) (exposingWeight (uniformTarget m r) r)-
+      scoreMoment (binnedWeights L hL r) (exposingWeight (uniformTarget m r) r)=
+      r*(scoreMoment (uniformTarget m r) f-scoreMoment (binnedWeights L hL r) f) := by
+    rw [hw]
+    simp only [scoreMoment,mul_left_comm _ r,←Finset.mul_sum]
+    ring
+  change 0 ≤ scoreMoment (uniformTarget m r) (exposingWeight (uniformTarget m r) r)-
+      scoreMoment (binnedWeights L hL r) (exposingWeight (uniformTarget m r) r) ∧ _
+  rw [he]
+  have hq := binned_quadratic_loss L hL r hr (((m : ℝ)-1)/(m : ℝ)) (-1/(m : ℝ))
+  norm_num only [Nat.cast_ofNat] at hq
+  change 0 ≤ scoreMoment (uniformTarget m r) f-scoreMoment (binnedWeights L hL r) f ∧ _ at hq
+  constructor
+  · exact mul_nonneg hr hq.1
+  · have hh := mul_le_mul_of_nonneg_left hq.2 hr
+    convert hh using 1
+    dsimp only [m]
+    field_simp
+
+end
+end SparseCompletion
+
+/- Fixed source body: BinnedGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem binned_game_witness {h : ℕ} (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hm : 0 < ∑ b, L b) :
+    let m := ∑ b, L b
+    let qstar := uniformTarget m (1/(4 : ℕ))
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      (∀ j, 0 ≤ q j) ∧ (∑ j, q j=1/(4 : ℕ)) ∧ IsSkew B ∧
+      (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧ supportSize q ≤ min m ((2 : ℕ)*h) ∧
+      0 ≤ d ∧ d ≤ scoreMoment qstar (exposingWeight qstar (1/(4 : ℕ))) ∧
+      d ≤ (1/(4 : ℕ) : ℝ)^(2 : ℕ)/((12 : ℕ)*(m : ℝ)^(3 : ℕ))*∑ b, (L b : ℝ)^(3 : ℕ) ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)= -d ∧
+      ∀ j, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inr j) ≤ 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  let m := ∑ b, L b
+  let qstar := uniformTarget m (1/4)
+  let q := binnedWeights L hL (1/4)
+  let t := targetScore qstar (1/4)
+  let w := exposingWeight qstar (1/4)
+  let βstar := scoreMoment qstar w
+  let d := βstar-scoreMoment q w
+  have hq : ∀ j, 0 ≤ q j := binned_nonneg L hL (1/4) (by norm_num)
+  have hmass : ∑ j, q j=1/4 := binned_mass L hL (1/4) hm
+  have hmean : scoreMoment q t=0 := binned_uniform_score_mean L hL hm (1/4)
+  have hloss := binned_exposing_loss L hL hm (1/4) (by norm_num)
+  norm_num only [Nat.cast_ofNat] at hloss
+  change 0 ≤ d ∧ d ≤ (1/16 : ℝ)/(12*(m : ℝ)^3)*∑ b, (L b : ℝ)^3 at hloss
+  have hw : ∀ j, 0 ≤ w j := fun j =>
+    (exposingWeight_bounds hm qstar (fun _ => div_nonneg (by norm_num) (Nat.cast_nonneg _)) (1/4)
+      (uniformTarget_mass _ hm (1/4)) j).1
+  have hβ : 0 ≤ scoreMoment q w := Finset.sum_nonneg fun j _ => mul_nonneg (hq j) (hw j)
+  obtain ⟨B,hB,hb,hrows⟩ := binned_uniform_residual_completion L hL hm (1/4) (by norm_num)
+  refine ⟨q,B,d,hq,hmass,hB,hb,binned_support L hL (1/4),hloss.1,?_,hloss.2,?_,?_,?_⟩
+  · dsimp only [d]
+    linarith
+  · rw [block_response_anchor]
+    have ha := (two_anchor_responses t w q (3/4) βstar (by norm_num)).1
+    change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 0=d
+    rw [ha,hmean]
+    dsimp only [d]
+    ring
+  · rw [block_response_anchor]
+    have ha := (two_anchor_responses t w q (3/4) βstar (by norm_num)).2
+    change anchorResponse (twoCore (2*βstar/(3/4))) (twoCross t w (3/4)) (twoShares (3/4)) q 1= -d
+    rw [ha,hmean]
+    dsimp only [d]
+    ring
+  · intro j
+    rw [block_response_residual]
+    have hs : score (rigidityCross qstar) (twoShares (3/4))=t :=
+      two_score t w (3/4) (by norm_num)
+    rw [hs]
+    exact hrows j
+
+end
+end SparseCompletion
+
+/- Fixed source body: BalancedGame.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem bin_error_scale (m h : ℕ) (hm : 0 < m) (hh : 0 < h) (hhm : h ≤ m) (r : ℝ) :
+    (r^(2 : ℕ)/((12 : ℕ)*(m : ℝ)^(3 : ℕ)))*(m : ℝ)*((m : ℝ)/(h : ℝ)+1)^(2 : ℕ) ≤ r^(2 : ℕ)/((3 : ℕ)*(h : ℝ)^(2 : ℕ)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hmR : (0 : ℝ) < m := Nat.cast_pos.mpr hm
+  have hhR : (0 : ℝ) < h := Nat.cast_pos.mpr hh
+  have hdim : (h : ℝ) ≤ m := by exact_mod_cast hhm
+  have hsq : ((m : ℝ)+(h : ℝ))^2 ≤ 4*(m : ℝ)^2 := by nlinarith
+  have heq : (r^2/(12*(m : ℝ)^3))*(m : ℝ)*((m : ℝ)/(h : ℝ)+1)^2 =
+      (r^2/(12*(m : ℝ)^2*(h : ℝ)^2))*((m : ℝ)+(h : ℝ))^2 := by
+    field_simp
+  rw [heq]
+  calc
+    _ ≤ (r^2/(12*(m : ℝ)^2*(h : ℝ)^2))*(4*(m : ℝ)^2) :=
+      mul_le_mul_of_nonneg_left hsq (by positivity)
+    _ = _ := by field_simp; ring
+
+theorem partition_game_witness (m h : ℕ) (L : Fin h → ℕ) (hL : ∀ b, 0 < L b)
+    (hsum : ∑ b, L b=m) (hm : 0 < m) (hh : 0 < h) (hhm : h ≤ m)
+    (hcube : (∑ b : Fin h, (L b : ℝ)^(3 : ℕ)) ≤ (m : ℝ)*((m : ℝ)/(h : ℝ)+1)^(2 : ℕ)) :
+    let qstar := uniformTarget m (1/(4 : ℕ))
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      (∀ j, 0 ≤ q j) ∧ (∑ j, q j=1/(4 : ℕ)) ∧ IsSkew B ∧
+      (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧ supportSize q ≤ min m ((2 : ℕ)*h) ∧
+      0 ≤ d ∧ d ≤ scoreMoment qstar (exposingWeight qstar (1/(4 : ℕ))) ∧
+      d ≤ (1/(4 : ℕ) : ℝ)^(2 : ℕ)/((3 : ℕ)*(h : ℝ)^(2 : ℕ)) ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)= -d ∧
+      ∀ j, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inr j) ≤ 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  subst m
+  obtain ⟨q,B,d,hq,hmass,hB,hb,hcard,hd,hβ,hloss,h0,h1,hrows⟩ := binned_game_witness L hL hm
+  refine ⟨q,B,d,hq,hmass,hB,hb,hcard,hd,hβ,?_,h0,h1,hrows⟩
+  norm_num only [Nat.cast_ofNat] at hloss
+  have hc : 0 ≤ (1/16 : ℝ)/(12*((∑ b, L b : ℕ) : ℝ)^3) := by positivity
+  have hbound := mul_le_mul_of_nonneg_left hcube hc
+  exact le_trans hloss (le_trans hbound (by
+    have hh := bin_error_scale _ h hm hh hhm (1/4)
+    norm_num only [Nat.cast_ofNat] at hh
+    simpa only [mul_assoc] using hh))
+
+theorem balanced_game_witness (m h : ℕ) (hm : 0 < m) (hh : 0 < h) (hhm : h ≤ m) :
+    let qstar := uniformTarget m (1/(4 : ℕ))
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      (∀ j, 0 ≤ q j) ∧ (∑ j, q j=1/(4 : ℕ)) ∧ IsSkew B ∧
+      (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧ supportSize q ≤ min m ((2 : ℕ)*h) ∧
+      0 ≤ d ∧ d ≤ scoreMoment qstar (exposingWeight qstar (1/(4 : ℕ))) ∧
+      d ≤ (1/(4 : ℕ) : ℝ)^(2 : ℕ)/((3 : ℕ)*(h : ℝ)^(2 : ℕ)) ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)= -d ∧
+      ∀ j, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inr j) ≤ 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hc := partition_game_witness m h (balancedLength m h) (balancedLength_positive m h hh hhm)
+    (balancedLength_mass m h hh) hm hh hhm (balancedLength_cube_sum m h hh)
+  norm_num only [Nat.cast_ofNat] at hc
+  exact hc
+
+end
+end SparseCompletion
+
+/- Fixed source body: CoreAdjustment.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem two_core_anchor_shift {ι : Type*} [Fintype ι] (D : ι → Fin (2 : ℕ) → ℝ)
+    (B : ι → ι → ℝ) (q : ι → ℝ) (u τ : ℝ) :
+    response (blockMatrix (twoCore (u-(((8 : ℕ) : ℝ)/(3 : ℕ))*τ)) D B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=
+      response (blockMatrix (twoCore u) D B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)-τ ∧
+    response (blockMatrix (twoCore (u-(((8 : ℕ) : ℝ)/(3 : ℕ))*τ)) D B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)=
+      response (blockMatrix (twoCore u) D B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)+τ := by
+  norm_num only [Nat.cast_ofNat] at *
+  constructor <;> rw [block_response_anchor,block_response_anchor] <;>
+    simp only [anchorResponse,Fin.sum_univ_two,twoCore,twoShares] <;> norm_num <;> ring
+
+theorem core_observation_adjustment (u d δ : ℝ) (hu1 : u ≤ 1)
+    (hd : 0 ≤ d) (hdu : (((8 : ℕ) : ℝ)/(3 : ℕ))*d ≤ u) (hδ : 0 ≤ δ) :
+    let u' := u-(((8 : ℕ) : ℝ)/(3 : ℕ))*min d ((((3 : ℕ) : ℝ)/(8 : ℕ))*δ)
+    ∀ i j, ClippedObservation (twoCore u i j) δ (twoCore u' i j) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hτ0 : 0 ≤ min d ((3/8)*δ) := le_min hd (by positivity)
+  have hτd := min_le_left d ((3/8)*δ)
+  have hτδ := min_le_right d ((3/8)*δ)
+  have hnew0 : 0 ≤ u-(8/3)*min d ((3/8)*δ) := by nlinarith
+  have hnew1 : u-(8/3)*min d ((3/8)*δ) ≤ 1 := by nlinarith
+  intro i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [twoCore,ClippedObservation,abs_le] <;>
+    (repeat' constructor) <;> linarith [abs_of_nonneg hτ0]
+
+/-- A nonnegative anchor error can be absorbed by moving only the bounded
+    anchor-core observation inside its clipped interval. -/
+theorem uniform_core_adjust {m : ℕ} (hm : 0 < m) (q : Fin m → ℝ)
+    (B : Fin m → Fin m → ℝ) (d ε δ : ℝ)
+    (hq : ∀ j, 0 ≤ q j) (hmass : ∑ j, q j=1/(4 : ℕ)) (hB : IsSkew B)
+    (hb : ∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) (hd : 0 ≤ d)
+    (hβ : d ≤ scoreMoment (uniformTarget m (1/(4 : ℕ))) (exposingWeight (uniformTarget m (1/(4 : ℕ))) (1/(4 : ℕ))))
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (heff : d ≤ ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ)
+    (h0 : response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=d)
+    (h1 : response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)= -d)
+    (hrows : ∀ j, response (blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B) (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inr j) ≤ 0) :
+    ∃ u, UniformCoreWitness m ε δ q u B := by
+  norm_num only [Nat.cast_ofNat] at *
+  let qstar := uniformTarget m (1/4)
+  let u := uniformCoreValue m
+  let τ := min d ((3/8)*δ)
+  have hobs := two_anchor_observed_bounds hm qstar
+    (fun _ => div_nonneg (by norm_num) (Nat.cast_nonneg _)) (uniformTarget_mass m hm (1/4))
+  have hu1 : u ≤ 1 := by simpa [u,uniformCoreValue,twoCore,qstar] using (hobs.1 0 1).2
+  have hdu : (8/3)*d ≤ u := by
+    dsimp [u,uniformCoreValue]
+    norm_num only [Nat.cast_ofNat]
+    nlinarith
+  have hclip := core_observation_adjustment u d δ hu1 hd hdu hδ
+  norm_num only [Nat.cast_ofNat] at hclip
+  refine ⟨u-(8/3)*τ,?_⟩
+  unfold UniformCoreWitness UniformIntervalWitness
+  norm_num only [Nat.cast_ofNat]
+  refine ⟨hq,fun _ => by norm_num [twoShares],(by simp),?_,twoCore_skew _,hB,hclip,?_,hb,?_⟩
+  · rw [hmass,Fin.sum_univ_two]
+    norm_num [twoShares]
+  · intro j h
+    exact ⟨(hobs.2 j h).1,(hobs.2 j h).2,by simpa using hδ⟩
+  · intro v
+    cases v with
+    | inl h =>
+      have hshift := two_core_anchor_shift (rigidityCross qstar) B q u τ
+      norm_num only [Nat.cast_ofNat] at hshift
+      change response (blockMatrix (twoCore u) (rigidityCross qstar) B)
+        (blockWeights (twoShares (3/4)) q) (.inl 0)=d at h0
+      change response (blockMatrix (twoCore u) (rigidityCross qstar) B)
+        (blockWeights (twoShares (3/4)) q) (.inl 1)= -d at h1
+      rw [h0,h1] at hshift
+      have hτd : τ ≤ d := min_le_left _ _
+      have hτ : d-τ ≤ ε := by
+        dsimp only [τ]
+        rcases le_total d ((3/8)*δ) with hh | hh
+        · rw [min_eq_left hh]
+          linarith
+        · rw [min_eq_right hh]
+          linarith
+      fin_cases h
+      · exact le_of_eq_of_le hshift.1 hτ
+      · exact le_of_eq_of_le hshift.2 (by linarith)
+    | inr j =>
+      rw [block_response_residual]
+      have hh := hrows j
+      rw [block_response_residual] at hh
+      linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: NoiseUpper.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem double_grid_support_upper (e : ℝ) (he : 0 < e) (he1 : e ≤ 1) :
+    (((2 : ℕ)+(2 : ℕ)*gridSize 1 (1/(4 : ℕ)) e : ℕ) : ℝ) ≤ (5 : ℕ)/Real.sqrt e := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hs : 0 < Real.sqrt e := Real.sqrt_pos.mpr he
+  have hs1 : Real.sqrt e ≤ 1 := by simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt he1
+  have hroot : Real.sqrt (1*(1/4)/e) = 1/(2*Real.sqrt e) := by
+    rw [one_mul,Real.sqrt_div (by norm_num)]
+    norm_num
+    ring
+  have hc := Nat.ceil_lt_add_one (Real.sqrt_nonneg (1*(1/4)/e))
+  change (gridSize 1 (1/4) e : ℝ) < Real.sqrt (1*(1/4)/e)+1 at hc
+  rw [hroot] at hc
+  have hm := mul_lt_mul_of_pos_right hc hs
+  have hid : (1/(2*Real.sqrt e))*Real.sqrt e=1/2 := by field_simp
+  rw [add_mul,hid] at hm
+  apply (le_div_iff₀ hs).mpr
+  push_cast
+  nlinarith
+
+/-- A sparse central witness with its entire error in the two anchor
+    responses, ready for the single-core uncertainty adjustment. -/
+theorem uniform_binned_upper (m : ℕ) (hm : 0 < m) (e : ℝ) (he : 0 < e) (he1 : e ≤ 1) :
+    let qstar := uniformTarget m (1/(4 : ℕ))
+    ∃ (q : Fin m → ℝ) (B : Fin m → Fin m → ℝ) (d : ℝ),
+      (∀ j, 0 ≤ q j) ∧ (∑ j, q j=1/(4 : ℕ)) ∧ IsSkew B ∧
+      (∀ i j, -1 ≤ B i j ∧ B i j ≤ 1) ∧
+      (supportSize q : ℝ)+(2 : ℕ) ≤ (5 : ℕ)*min ((m : ℝ)+(2 : ℕ)) (1/Real.sqrt e) ∧
+      0 ≤ d ∧ d ≤ scoreMoment qstar (exposingWeight qstar (1/(4 : ℕ))) ∧ d ≤ e ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 0)=d ∧
+      response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inl 1)= -d ∧
+      ∀ j, response (blockMatrix (rigidityCore qstar) (rigidityCross qstar) B)
+        (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q) (.inr j) ≤ 0 := by
+  norm_num only [Nat.cast_ofNat] at *
+  let H := gridSize 1 (1/4) e
+  have hgrid := gridSize_bound 1 (1/4) e (by norm_num) (by norm_num) he
+  have hH : 0 < H := by
+    by_contra hh
+    have hz : H=0 := by omega
+    change 1*(1/4 : ℝ) ≤ e*(H : ℝ)^2 at hgrid
+    rw [hz] at hgrid
+    norm_num at hgrid
+  have hr : 0 < Real.sqrt e := Real.sqrt_pos.mpr he
+  have hr1 : Real.sqrt e ≤ 1 := by simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt he1
+  by_cases hdim : m ≤ H
+  · let qstar := uniformTarget m (1/4)
+    have hq : ∀ j, 0 ≤ qstar j := fun _ => div_nonneg (by norm_num) (Nat.cast_nonneg _)
+    have hmass : ∑ j, qstar j=1/4 := uniformTarget_mass m hm (1/4)
+    have hresp := two_anchor_target_feasible qstar (3/4) (1/4) (by norm_num) hmass
+    have hcard : (supportSize qstar : ℝ)+2 ≤ 5*min ((m : ℝ)+2) (1/Real.sqrt e) := by
+      have hqcard : (supportSize qstar : ℝ) ≤ m := by exact_mod_cast supportSize_le_dimension qstar
+      have hsmall : (supportSize qstar : ℝ)+2 ≤ 5/Real.sqrt e := by
+        have hc : (supportSize qstar : ℝ)+2 ≤ ((2+2*H : ℕ) : ℝ) := by
+          have hh := supportSize_le_dimension qstar
+          exact_mod_cast (show supportSize qstar+2 ≤ 2+2*H by omega)
+        exact le_trans hc (double_grid_support_upper e he he1)
+      rcases le_total ((m : ℝ)+2) (1/Real.sqrt e) with hh | hh
+      · rw [min_eq_left hh]
+        have hm0 : (0 : ℝ) ≤ m := Nat.cast_nonneg _
+        linarith
+      · rw [min_eq_right hh]
+        calc
+          _ ≤ 5/Real.sqrt e := hsmall
+          _ = _ := by ring
+    refine ⟨qstar,orderedBlock 1,0,hq,hmass,orderedBlock_skew 1,
+      orderedBlock_bounds 1 (by norm_num),hcard,le_refl 0,?_,le_of_lt he,?_,?_,?_⟩
+    · exact Finset.sum_nonneg fun j _ => mul_nonneg (hq j)
+        (exposingWeight_bounds hm qstar hq (1/4) hmass j).1
+    · exact hresp _
+    · simpa only [neg_zero,rigidityCore,rigidityCross,qstar,Nat.cast_ofNat] using hresp (.inl 1)
+    · intro j
+      exact le_of_eq (hresp (.inr j))
+  · have hHm : H ≤ m := by omega
+    obtain ⟨q,B,d,hq,hmass,hB,hb,hcard,hd,hβ,herr,h0,h1,hrows⟩ := balanced_game_witness m H hm hH hHm
+    norm_num only [Nat.cast_ofNat] at herr
+    have hdH : d ≤ e := by
+      have hHR : (0 : ℝ) < H := Nat.cast_pos.mpr hH
+      have heq : (1/16 : ℝ)/(3*(H : ℝ)^2)=1/(48*(H : ℝ)^2) := by ring
+      rw [heq] at herr
+      have hg : (1/4 : ℝ) ≤ e*(H : ℝ)^2 := by simpa only [one_mul] using hgrid
+      have hbound : 1/(48*(H : ℝ)^2) ≤ e := by
+        apply (div_le_iff₀ (show 0 < 48*(H : ℝ)^2 by positivity)).mpr
+        nlinarith
+      exact le_trans herr hbound
+    have hdimq : (supportSize q : ℝ) ≤ m := by exact_mod_cast le_trans hcard (min_le_left _ _)
+    have hcount : (supportSize q : ℝ)+2 ≤ 5/Real.sqrt e := by
+      have hh : (supportSize q : ℝ)+2 ≤ ((2+2*H : ℕ) : ℝ) := by
+        have hc := le_trans hcard (min_le_right _ _)
+        exact_mod_cast (show supportSize q+2 ≤ 2+2*H by omega)
+      exact le_trans hh (double_grid_support_upper e he he1)
+    have htotal : (supportSize q : ℝ)+2 ≤ 5*min ((m : ℝ)+2) (1/Real.sqrt e) := by
+      rcases le_total ((m : ℝ)+2) (1/Real.sqrt e) with hh | hh
+      · rw [min_eq_left hh]
+        have hm0 : (0 : ℝ) ≤ m := Nat.cast_nonneg _
+        linarith
+      · rw [min_eq_right hh]
+        calc
+          _ ≤ 5/Real.sqrt e := hcount
+          _ = _ := by ring
+    exact ⟨q,B,d,hq,hmass,hB,hb,htotal,hd,hβ,hdH,h0,h1,hrows⟩
+
+theorem uniform_core_uncertainty_upper (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (he : 0 < ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ) (he1 : ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ ≤ 1) :
+    ∃ (q : Fin m → ℝ) (u : ℝ) (B : Fin m → Fin m → ℝ),
+      UniformCoreWitness m ε δ q u B ∧
+      (supportSize q : ℝ)+(2 : ℕ) ≤ (5 : ℕ)*min ((m : ℝ)+(2 : ℕ)) (1/Real.sqrt (ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  obtain ⟨q,B,d,hq,hmass,hB,hb,hcard,hd,hβ,hde,h0,h1,hrows⟩ :=
+    uniform_binned_upper m hm (ε+(3/8)*δ) he he1
+  obtain ⟨u,hu⟩ := uniform_core_adjust hm q B d ε δ hq hmass hB hb hd hβ hε hδ hde h0 h1 hrows
+  exact ⟨q,u,B,hu,hcard⟩
+
+end
+end SparseCompletion
+
+/- Fixed source body: NoiseSharp.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem core_witness_interval {m : ℕ} {ε δ : ℝ} {q : Fin m → ℝ} {u : ℝ}
+    {B : Fin m → Fin m → ℝ} (fixed : Bool) (hw : UniformCoreWitness m ε δ q u B) :
+    UniformIntervalWitness m ε δ fixed (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) q (twoCore u)
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) B := by
+  norm_num only [Nat.cast_ofNat] at *
+  rcases hw with ⟨hq,ha,_,hmass,hK,hB,hobsK,hobsD,hb,hresp⟩
+  exact ⟨hq,ha,fun _ => rfl,hmass,hK,hB,hobsK,hobsD,hb,hresp⟩
+
+theorem uniformMinimumCoreTotalSupport_sharp (m : ℕ) (hm : 0 < m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (he : 0 < ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ) (he1 : ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ ≤ 1) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))*min ((m : ℝ)+(2 : ℕ)) (1/Real.sqrt (ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ)) ≤
+      (uniformMinimumCoreTotalSupport m hm ε δ hε hδ : ℝ) ∧
+    (uniformMinimumCoreTotalSupport m hm ε δ hε hδ : ℝ) ≤
+      (5 : ℕ)*min ((m : ℝ)+(2 : ℕ)) (1/Real.sqrt (ε+(((3 : ℕ) : ℝ)/(8 : ℕ))*δ)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  refine ⟨uniformMinimumCoreTotalSupport_lower m hm ε δ hε hδ he,?_⟩
+  obtain ⟨q,u,B,hw,hcount⟩ := uniform_core_uncertainty_upper m hm ε δ hε hδ he he1
+  have hmin := uniformMinimumCoreTotalSupport_le m hm ε δ hε hδ q u B hw
+  have hminR : (uniformMinimumCoreTotalSupport m hm ε δ hε hδ : ℝ) ≤ (supportSize q : ℝ)+2 :=
+    by exact_mod_cast hmin
+  exact le_trans hminR hcount
+
+theorem uncertainty_rate_comparison (N e s : ℝ) (hN : 0 ≤ N) (he : 0 < e) (hs : 0 < s)
+    (hcmp : (((3 : ℕ) : ℝ)/(8 : ℕ))*s ≤ e) :
+    (5 : ℕ)*min N (1/Real.sqrt e) ≤ ((5 : ℕ)*Real.sqrt (((8 : ℕ) : ℝ)/(3 : ℕ)))*min N (1/Real.sqrt s) := by
+  norm_num only [Nat.cast_ofNat] at *
+  have hre : 0 < Real.sqrt e := Real.sqrt_pos.mpr he
+  have hrs : 0 < Real.sqrt s := Real.sqrt_pos.mpr hs
+  have hC : 1 ≤ Real.sqrt (8/3) := by
+    simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt (show (1 : ℝ) ≤ 8/3 by norm_num)
+  have hC0 : 0 ≤ Real.sqrt (8/3) := Real.sqrt_nonneg _
+  have hCsq : (Real.sqrt (8/3))^2=(8/3 : ℝ) := Real.sq_sqrt (by norm_num)
+  have heq : (Real.sqrt (8/3)*Real.sqrt e)^2=(8/3 : ℝ)*e := by
+    rw [mul_pow,hCsq,Real.sq_sqrt (le_of_lt he)]
+  have hroots : Real.sqrt s ≤ Real.sqrt (8/3)*Real.sqrt e := by
+    have hnn := mul_nonneg hC0 (le_of_lt hre)
+    nlinarith [Real.sq_sqrt (le_of_lt hs)]
+  have hfrac : 1/Real.sqrt e ≤ Real.sqrt (8/3)/Real.sqrt s :=
+    (div_le_div_iff₀ hre hrs).mpr (by simpa only [one_mul] using hroots)
+  rcases le_total N (1/Real.sqrt s) with hh | hh
+  · rw [min_eq_left hh]
+    calc
+      _ ≤ 5*N := mul_le_mul_of_nonneg_left (min_le_left _ _) (by norm_num)
+      _ ≤ (5*Real.sqrt (8/3))*N := mul_le_mul_of_nonneg_right (by nlinarith) hN
+  · rw [min_eq_right hh]
+    calc
+      _ ≤ 5*(1/Real.sqrt e) := mul_le_mul_of_nonneg_left (min_le_right _ _) (by norm_num)
+      _ ≤ 5*(Real.sqrt (8/3)/Real.sqrt s) := mul_le_mul_of_nonneg_left hfrac (by norm_num)
+      _ = _ := by ring
+
+/-- The paper's family-specific sharp support law under clipped interval
+    uncertainty, for both fixed and minimum anchor shares. -/
+theorem uniformMinimumIntervalTotalSupport_sharp (m : ℕ) (hm : (2 : ℕ) ≤ m) (ε δ : ℝ)
+    (hε : 0 ≤ ε) (hδ : 0 ≤ δ) (he : 0 < ε+δ) (he1 : ε+δ ≤ 1) (fixed : Bool) :
+    Real.sqrt (((3 : ℕ) : ℝ)/(1216 : ℕ))*min ((m : ℝ)+(2 : ℕ)) (1/Real.sqrt (ε+δ)) ≤
+      (uniformMinimumIntervalTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε δ hε hδ fixed : ℝ) ∧
+    (uniformMinimumIntervalTotalSupport m (lt_of_lt_of_le (Nat.zero_lt_succ 1) hm) ε δ hε hδ fixed : ℝ) ≤
+      ((5 : ℕ)*Real.sqrt (((8 : ℕ) : ℝ)/(3 : ℕ)))*min ((m : ℝ)+(2 : ℕ)) (1/Real.sqrt (ε+δ)) := by
+  norm_num only [Nat.cast_ofNat] at *
+  refine ⟨uniformMinimumIntervalTotalSupport_lower m (by omega) ε δ hε hδ he fixed,?_⟩
+  have heff : 0 < ε+(3/8)*δ := by nlinarith
+  have heff1 : ε+(3/8)*δ ≤ 1 := by nlinarith
+  obtain ⟨q,u,B,hw,hcount⟩ := uniform_core_uncertainty_upper m (by omega) ε δ hε hδ heff heff1
+  have hi := core_witness_interval fixed hw
+  have hmin := uniformMinimumIntervalTotalSupport_le m (by omega) ε δ hε hδ fixed
+    (twoShares (3/4)) q (twoCore u) (rigidityCross (uniformTarget m (1/4))) B hi
+  have hminR : (uniformMinimumIntervalTotalSupport m (by omega) ε δ hε hδ fixed : ℝ) ≤
+      (supportSize q : ℝ)+2 := by exact_mod_cast hmin
+  apply le_trans hminR
+  exact le_trans hcount (uncertainty_rate_comparison ((m : ℝ)+2) (ε+(3/8)*δ) (ε+δ)
+    (by positivity) heff he (by nlinarith))
+
+end
+end SparseCompletion
