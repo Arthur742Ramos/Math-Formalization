@@ -1,0 +1,12 @@
+'OpenPolish.imageStrategy_winning' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OpenPolish.strong_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OpenPolish.completelyMetrizable_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OpenPolish.polish_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OpenPolish.polish_image_of_t3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OpenPolish.imageStrategy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'StrongChoquet.Move' does not depend on any axioms
+'StrongChoquet.Strategy' does not depend on any axioms
+'StrongChoquet.history' does not depend on any axioms
+'StrongChoquet.Follows' does not depend on any axioms
+'StrongChoquet.Winning' does not depend on any axioms
+'StrongChoquet.Strong' does not depend on any axioms

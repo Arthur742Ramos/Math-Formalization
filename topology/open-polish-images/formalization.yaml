@@ -1,0 +1,96 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Continuous open images of Polish spaces",
+    "description": "Continuous open surjections preserve the strong Choquet property in arbitrary topological spaces. An explicit full-history strategy lifts each legal target play coherently, keeps the marked point, and maps an actual common source point. Consequently a continuous open metrizable image of a Polish space is Polish. A second-countable completely metrizable source gives a completely metrizable metrizable image. A regular Hausdorff codomain also suffices, by inherited second countability and Urysohn metrizability. These are classical results; no novelty or priority is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54C10",
+      "54E50",
+      "54E52",
+      "91A44"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Stationary and convergent strategies in Choquet games, arXiv:0907.4126v2",
+      "authors": [
+        "François G. Dorais",
+        "Carl Mummert"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/pdf/0907.4126v2",
+      "relationship": "formalizes",
+      "note": "Proposition3.2, printedpp15–16, is the general marked-point Choquet transfer along continuous open surjections. We formalize this proposition, with a total fallback on arbitrary finite histories. No novelty or priority is claimed. No stationary/convergent classification, compact-fiber representation or other new theorem from this paper is claimed. Directly consulted PDF SHA256 a893db766555c41b9401e6e481629e68cdbb8e6c84e15501c6d8ec86a56b4902."
+    },
+    {
+      "title": "Notes on quasi-Polish spaces",
+      "authors": [
+        "Ruiyuan Chen"
+      ],
+      "type": "notes",
+      "id": "https://rynchn.github.io/math/qpol.pdf",
+      "relationship": "formalizes",
+      "note": "Opening of Section10, printedp15, states the classical continuous-open-metrizable-image theorem for Polish spaces, citing Kechris8.19. Our package formalizes this classical Polish special case, not the subsequent quasi-Polish Theorem10.1. Kechris book not directly consulted. PDF SHA256 bd17b18fd94e353002b650e984376d094bb3ff2be9085017c2cbc172934d7637."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish",
+      "relationship": "builds-on",
+      "note": "StrongChoquetFoundation.lean copies the Apache-2.0 prior verified StrongChoquet.lean byte-for-byte, including attribution, full-history game and second-countable criterion. No cross-project imports, prior registration assumption or new authorship claim for this inherited proof. New work is coherent image strategy and image theorems. The retained reference file stays byte-identical; the repaired proof and protected Challenge inline its attributed declaration body verbatim, with only pinned Mathlib imports. These restructured modules are not claimed byte-identical to the historical module."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses canonical continuous/open/surjective predicates, open-quotient countable-basis transport, Urysohn metrizability and Polish metric infrastructure. Local exact-pin search found no equivalent open-image Polish theorem or strong Choquet transfer. This is not a claim about all external formalizations."
+    }
+  ],
+  "status": {
+    "scope": "Five selected theorem contracts: imageStrategy_winning, strong_image, completelyMetrizable_image with second-countable source and metrizable target, polish_image with metrizable target, and polish_image_of_t3. The core transfer has no separation, metric, countability or nonemptiness assumptions.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No mathematical gap in the selected statements. Source surjectivity, continuity and openness are all explicit. Image completeness means existence of a compatible complete metric; an arbitrary original metric need not be complete. The T3 corollary uses regularity plus T0, which implies Hausdorffness; Hausdorffness alone is not substituted. General nonseparable complete-metrizable image preservation, stationary/convergent classification and quasi-Polish spaces are outside this scope. Verification stages require their own exact-source receipts; public registration, current private attempts and browser-runtime inspection are separate. Protected import closure correction: the original frozen source failed canonical Challenge compilation because its candidate-local foundation import was unavailable in the protected closure. The corrected modules inline the inherited declaration body without changing its mathematical content. Verification outcomes require exact-source receipts outside the frozen package; prior-source reports do not certify these bytes.",
+    "attribution_status": "Established campaign author and responsible-maintainer lists preserved separately; substantive AI contribution and independent internal AI review disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored the new coherent lifting and image proofs, tests and packaging under campaign authorization; the foundation is explicitly reused. Independent internal AI reviewers check mathematical/source scope, implementation and imported meanings. No human mathematical proof contribution or external peer review is inferred."
+      }
+    ],
+    "notes": "Material AI proof authorship disclosed. Costs and human peer review not independently attested."
+  },
+  "fidelity": {
+    "divergences": "Reverse opponent histories are reconstructed oldest-to-newest. A move is trapped inside the preceding reconstructed source response when its marked point lies in that response image; otherwise the total strategy falls back to the full preimage. On every legal target play, the trap is available and the source play is legal. One actual common source point is projected; arbitrary infinite images and intersections are not commuted. The open-image Polish theorem is obtained through the explicitly attributed strong Choquet criterion."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal source/scope AI reviewer",
+      "Independent internal implementation AI reviewer"
+    ],
+    "notes": "Receipt scopes and hashes determine which exact bytes were reviewed. No human or external peer review is claimed."
+  }
+}

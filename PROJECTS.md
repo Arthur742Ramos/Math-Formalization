@@ -156,3 +156,13 @@ remain separate. No prior frozen source, registration or package pin is changed.
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Full/render passed; intake and registration unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
+
+## Continuous open images of Polish spaces
+
+The repaired source passes native compilation, export comparison and three kernel checks.
+A prior user-submitted source failed mechanical comparison. This new repair is not submitted;
+protected canonical verification and rendering remain separate. Earlier packages are preserved.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Continuous open images of Polish spaces](topology/open-polish-images) | General full-history strong Choquet transfer and Polish continuous-open-image theorem, including regular Hausdorff targets. | Preparation; not submitted (new repair); prior user source failed comparison | [`dfbeea7`](https://github.com/Arthur742Ramos/Math-Formalization/tree/dfbeea7108d04be545185d5f868efbcd9c86c6e5/topology/open-polish-images) |

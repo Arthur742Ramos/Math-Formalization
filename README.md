@@ -174,3 +174,16 @@ preserve their attribution and license headers. Existing standalone repositories
 remain available. Authorship, maintenance, material AI contributions and review
 limits are recorded separately in each package.
 
+
+The new [continuous open Polish images preparation](topology/open-polish-images) proves general
+strong Choquet preservation by continuous open surjections and its classical
+Polish-image consequence. The dated preparation checkpoint is recorded in
+[PREPARATIONS.json](PREPARATIONS.json); exact-source canonical/rendering stages
+and current registry clearance require separate receipts. The previous strong
+Choquet source and its unknown private intake remain unchanged.
+
+The open Polish image correction now passes native separate-module export comparison,
+including rejection of an altered fixed helper, plus native Lean, NanoDa and con-ron checks.
+The frozen repaired source is `dfbeea7108d04be545185d5f868efbcd9c86c6e5`. A prior user-submitted source failed
+Comparator after compilation. This repair is not submitted; exact-source canonical
+verification/rendering and final required review remain pending. No registry acceptance is inferred.
