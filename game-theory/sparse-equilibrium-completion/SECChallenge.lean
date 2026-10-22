@@ -5487,3 +5487,551 @@ theorem balanced_finite_game_witness (m h : ℕ) (hm : 0 < m) (hh : 0 < h) (hhm 
 
 end
 end SparseCompletion
+
+/- Fixed source body: AllMassWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem nonnegative_mass_zero {ι : Type*} [Fintype ι] (q : ι → ℝ)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0) : q=fun _ => 0 := by
+  classical
+  funext i
+  have hi := Finset.single_le_sum (fun j (_ : j ∈ (Finset.univ : Finset ι)) => hq j) (Finset.mem_univ i)
+  rw [hm] at hi
+  exact le_antisymm hi (hq i)
+
+theorem normalized_sparse_witness_all_mass {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+1+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  by_cases hz : r=0
+  · have hzero : q=fun _ => 0 := nonnegative_mass_zero q hq (by simpa only [hz] using hqmass)
+    have hc : (Finset.univ.filter fun i => q i ≠ 0).card=0 := by simp [hzero]
+    have ha : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    refine ⟨q,B,blockWeights_nonneg p q hp hq,?_,fun _ => rfl,fun _ hi => hi,?_,?_,
+      fun _ => rfl,blockMatrix_skew K D B hK hB,blockMatrix_bounds K D B M hKb hDb hBb,?_⟩
+    · rw [blockWeights_mass,hqmass]
+      exact hpmass
+    · rw [hc]
+      exact Nat.zero_le _
+    · rw [block_support_card,hc]
+      omega
+    · intro a
+      exact le_trans (hresp a) (by linarith)
+  · obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hmo,hsk,hb,hrows⟩ :=
+      normalized_sparse_witness k K D B p q M r ρ η hM (lt_of_le_of_ne hr (Ne.symm hz)) hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+    refine ⟨q',B',hn,hm,ha,hs,Nat.le_min.mpr ⟨?_,hc⟩,Nat.le_min.mpr ⟨?_,ht⟩,hmo,hsk,hb,hrows⟩
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+
+theorem normalized_exact_sparse_witness_all_mass {ι : Type*} [Fintype ι]
+    (k : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) := by
+  classical
+  by_cases hz : r=0
+  · have hzero : q=fun _ => 0 := nonnegative_mass_zero q hq (by simpa only [hz] using hqmass)
+    have hc : (Finset.univ.filter fun i => q i ≠ 0).card=0 := by simp [hzero]
+    have ha : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    refine ⟨q,B,blockWeights_nonneg p q hp hq,?_,fun _ => rfl,fun _ hi => hi,?_,?_,
+      fun _ => rfl,blockMatrix_skew K D B hK hB,blockMatrix_bounds K D B M hKb hDb hBb,?_⟩
+    · rw [blockWeights_mass,hqmass]
+      exact hpmass
+    · rw [hc]
+      exact Nat.zero_le _
+    · rw [block_support_card,hc]
+      omega
+    · intro a
+      exact le_trans (hresp a) (by linarith)
+  · obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hmo,hsk,hb,hrows⟩ :=
+      normalized_exact_sparse_witness k K D B p q M r η hM (lt_of_le_of_ne hr (Ne.symm hz)) hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+    refine ⟨q',B',hn,hm,ha,hs,Nat.le_min.mpr ⟨?_,hc⟩,Nat.le_min.mpr ⟨?_,ht⟩,hmo,hsk,hb,hrows⟩
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExtraMomentCuts.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+def extraSparseFeatures {ι : Type*} (k d H : ℕ) (D : ι → Fin k → ℝ)
+    (F : ι → Fin d → ℝ) (v : ι → ℝ) (M r η : ℝ) (i : ι) :
+    ((Fin k ⊕ Fin d) ⊕ Fin H) → ℝ :=
+  Sum.elim (Sum.elim (D i) (F i))
+    (fun l => max (v i-(M*r-gridNode M r η (l.val+1))) 0)
+
+theorem sparse_cut_witness_extra_moments {ι : Type*} [Fintype ι]
+    (k d H : ℕ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (q v : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hH : M*r ≤ η*(H:ℝ)^2) (hq : ∀ i, 0 ≤ q i)
+    (hmass : ∑ i, q i = r) (hcuts : Cuts M r q v) :
+    ∃ q' : ι → ℝ, (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+1+H ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      Cuts M r q' (fun i => v i-η) := by
+  classical
+  obtain ⟨q', hq', hmass', hsupp, hcard, hmom⟩ :=
+    finite_feature_compression ((Fin k ⊕ Fin d) ⊕ Fin H) q (extraSparseFeatures k d H D F v M r η) r hq hmass hr
+  refine ⟨q', hq', hmass', hsupp, ?_, ?_, (fun g => hmom (Sum.inl (Sum.inr g))), ?_⟩
+  · simpa only [Fintype.card_sum, Fintype.card_fin, Nat.add_right_comm (k+d) H 1] using hcard
+  · intro h
+    exact hmom (Sum.inl (Sum.inl h))
+  · apply call_bound_implies_cuts q' (fun i => v i-η) M r hM hq' hmass'
+    apply finite_grid_implication q' v M r η H hM (le_of_lt hr) hη hH hq'
+    · intro i hi
+      exact supported_score_cap q v M r hM hq hcuts i (fun hzero => hi (hsupp i hzero))
+    · intro l hl hlH
+      let j : Fin H := ⟨l-1, by omega⟩
+      have hj : j.val+1 = l := by dsimp [j]; omega
+      have hm := hmom (Sum.inr j)
+      change (∑ i, q' i*max (v i-(M*r-gridNode M r η (j.val+1))) 0) =
+        ∑ i, q i*max (v i-(M*r-gridNode M r η (j.val+1))) 0 at hm
+      rw [hj] at hm
+      change (∑ i, q' i*max (v i-(M*r-gridNode M r η l)) 0) ≤ _
+      rw [hm]
+      exact cuts_imply_call_bound q v M r hM hcuts _
+
+theorem exact_sparse_cut_witness_extra_moments {ι : Type*} [Fintype ι]
+    (k d H : ℕ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (p : Fin k → ℝ) (q v : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hH : M*r ≤ η*(H:ℝ)^2) (hq : ∀ i, 0 ≤ q i)
+    (hmass : ∑ i, q i = r) (hcuts : Cuts M r q v)
+    (hv : ∀ i, v i = ∑ h, D i h*p h) (hmean : ∑ i, q i*v i = 0)
+    (hlow : ∀ i, q i ≠ 0 → -M*r ≤ v i) :
+    ∃ q' : ι → ℝ, (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+H ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      Cuts M r q' (fun i => v i-η) := by
+  classical
+  have hHpos : 0 < H := by
+    by_contra hn
+    have hzero : H = 0 := by omega
+    subst H
+    norm_num at hH
+    nlinarith [mul_pos hM hr]
+  obtain ⟨q', hq', hmass', hsupp, hcard, hmom⟩ :=
+    finite_feature_compression ((Fin k ⊕ Fin d) ⊕ Fin (H-1)) q (extraSparseFeatures k d (H-1) D F v M r η) r hq hmass hr
+  have hanchor : ∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h := fun h => hmom (Sum.inl (Sum.inl h))
+  refine ⟨q', hq', hmass', hsupp, ?_, hanchor, (fun g => hmom (Sum.inl (Sum.inr g))), ?_⟩
+  · simp only [Fintype.card_sum, Fintype.card_fin] at hcard
+    omega
+  · apply call_bound_implies_cuts q' (fun i => v i-η) M r hM hq' hmass'
+    apply finite_grid_implication q' v M r η H hM (le_of_lt hr) hη hH hq'
+    · intro i hi
+      exact supported_score_cap q v M r hM hq hcuts i (fun hzero => hi (hsupp i hzero))
+    · intro l hl hlH
+      by_cases hlast : l = H
+      · subst l
+        have hnode : gridNode M r η H = 2*M*r := min_eq_right (by nlinarith)
+        rw [hnode]
+        have harg : M*r-2*M*r = -M*r := by ring
+        rw [harg]
+        have hmean' : ∑ i, q' i*v i = 0 :=
+          (linear_score_moment_preserved k D p q q' v hv hanchor).trans hmean
+        rw [bottom_call_of_zero_mean q' v M r hmass' hmean'
+          (fun i hi => hlow i (fun hzero => hi (hsupp i hzero)))]
+        have heq : envelope M r (-M*r) = M*r^2 := by
+          unfold envelope
+          field_simp
+          ring
+        rw [heq]
+      · have hlt : l < H := lt_of_le_of_ne hlH hlast
+        let j : Fin (H-1) := ⟨l-1, by omega⟩
+        have hj : j.val+1 = l := by dsimp [j]; omega
+        have hm := hmom (Sum.inr j)
+        change (∑ i, q' i*max (v i-(M*r-gridNode M r η (j.val+1))) 0) =
+          ∑ i, q i*max (v i-(M*r-gridNode M r η (j.val+1))) 0 at hm
+        rw [hj] at hm
+        change (∑ i, q' i*max (v i-(M*r-gridNode M r η l)) 0) ≤ _
+        rw [hm]
+        exact cuts_imply_call_bound q v M r hM hcuts _
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExtraMomentGameCertificates.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem game_sparse_cut_certificate_extra_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hB : IsSkew B) (hbound : ∀ i j, -M ≤ B i j)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ q' : ι → ℝ, (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+1+gridSize M r η ∧
+      (∀ h, anchorResponse K D p q' h = anchorResponse K D p q h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      (∀ i, score D p i ≤ (ρ+η)+M*r) ∧
+      Cuts M r q' (fun i => score D p i-(ρ+η)) := by
+  classical
+  have hres := ((block_response_bounds_iff K D B p q ρ).mp hresp).2
+  have hcuts := completion_cuts_necessary q (score D p) B M r ρ hq hmass hB hbound hres
+  obtain ⟨q', hq', hmass', hsupp, hcard, hfeatures, hextra, hc⟩ :=
+    sparse_cut_witness_extra_moments k d (gridSize M r η) D F q (fun i => score D p i-ρ) M r η hM hr hη (gridSize_bound M r η hM (le_of_lt hr) hη) hq hmass hcuts
+  refine ⟨q', hq', hmass', hsupp, hcard, anchor_response_of_moments k K D p q q' hfeatures, hextra, ?_, ?_⟩
+  · intro i
+    have hg := response_guard q (score D p) B M r ρ hq hmass hbound hres i
+    linarith
+  · convert hc using 1
+    funext i
+    ring
+
+theorem exact_game_sparse_cut_certificate_extra_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B) (hbound : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ q' : ι → ℝ, (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+gridSize M r η ∧
+      (∀ h, anchorResponse K D p q' h = anchorResponse K D p q h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      (∀ i, score D p i ≤ η+M*r) ∧
+      Cuts M r q' (fun i => score D p i-η) := by
+  classical
+  have hres := ((block_response_bounds_iff K D B p q 0).mp hresp).2
+  have hcuts0 := completion_cuts_necessary q (score D p) B M r 0 hq hmass hB
+    (fun i j => (hbound i j).1) hres
+  have hcuts : Cuts M r q (score D p) := by simpa only [sub_zero] using hcuts0
+  have hmean := exact_score_mean_zero K D B p q hp hq hK hB hresp
+  have hlow : ∀ i, q i ≠ 0 → -M*r ≤ score D p i := by
+    intro i hi
+    simpa only [neg_mul] using
+      (abs_le.mp (exact_score_bounds K D B p q M r hp hq hmass hK hB hbound hresp i hi)).1
+  obtain ⟨q', hq', hmass', hsupp, hcard, hfeatures, hextra, hc⟩ :=
+    exact_sparse_cut_witness_extra_moments k d (gridSize M r η) D F p q (score D p) M r η hM hr hη
+      (gridSize_bound M r η hM (le_of_lt hr) hη) hq hmass hcuts (fun _ => rfl) hmean hlow
+  refine ⟨q', hq', hmass', hsupp, hcard, anchor_response_of_moments k K D p q q' hfeatures, hextra, ?_, hc⟩
+  intro i
+  have hg := response_guard q (score D p) B M r 0 hq hmass
+    (fun i j => (hbound i j).1) hres i
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExtraMomentCompletion.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem game_sparse_completion_extra_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hB : IsSkew B) (hbound : ∀ i j, -M ≤ B i j)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+1+gridSize M r η ∧
+      (∀ h, anchorResponse K D p q' h = anchorResponse K D p q h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew B' ∧ (∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  obtain ⟨q', hq', hm', hs, hn, ha, hextra, hg, hc⟩ :=
+    game_sparse_cut_certificate_extra_moments k d K D F B p q M r ρ η hM hr hη hq hmass hB hbound hresp
+  obtain ⟨B', hsk', hb', hres'⟩ := completion_of_cuts_and_guards q' (score D p)
+    M r (ρ+η) (le_of_lt hM) hq' hm' hc hg
+  refine ⟨q', B', hq', hm', hs, hn, ha, hextra, hsk', hb', ?_⟩
+  apply (block_response_bounds_iff K D B' p q' (ρ+η)).mpr
+  refine ⟨?_, hres'⟩
+  intro h
+  rw [ha h]
+  have hh := ((block_response_bounds_iff K D B p q ρ).mp hresp).1 h
+  linarith
+
+/-- Exact equilibria save the bottom hinge constraint, hence one support
+    point, while still producing an actual completion on all original rows. -/
+theorem exact_game_sparse_completion_extra_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i) (hmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B) (hbound : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i = r) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+gridSize M r η ∧
+      (∀ h, anchorResponse K D p q' h = anchorResponse K D p q h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew B' ∧ (∀ i j, -M ≤ B' i j ∧ B' i j ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) := by
+  classical
+  obtain ⟨q', hq', hm', hs, hn, ha, hextra, hg, hc⟩ :=
+    exact_game_sparse_cut_certificate_extra_moments k d K D F B p q M r η hM hr hη hp hq hmass hK hB hbound hresp
+  obtain ⟨B', hsk', hb', hres'⟩ := completion_of_cuts_and_guards q' (score D p)
+    M r η (le_of_lt hM) hq' hm' hc hg
+  refine ⟨q', B', hq', hm', hs, hn, ha, hextra, hsk', hb', ?_⟩
+  apply (block_response_bounds_iff K D B' p q' η).mpr
+  refine ⟨?_, hres'⟩
+  intro h
+  rw [ha h]
+  have hh := ((block_response_bounds_iff K D B p q 0).mp hresp).1 h
+  linarith
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExtraMomentWitness.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem normalized_sparse_witness_extra_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+1+gridSize M r η ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ (2 : ℕ)*k+d+1+gridSize M r η ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  obtain ⟨q', B', hn, hm, hs, hc, ha, hextra, hsk, hb, he⟩ :=
+    game_sparse_completion_extra_moments k d K D F B p q M r ρ η hM hr hη hq hqmass hB
+      (fun i j => (hBb i j).1) hresp
+  refine ⟨q', B', blockWeights_nonneg p q' hp hn, ?_, fun _ => rfl, hs, hc, ?_, ?_, hextra,
+    blockMatrix_skew K D B' hK hsk, blockMatrix_bounds K D B' M hKb hDb hb, he⟩
+  · rw [blockWeights_mass, hm]
+    exact hpmass
+  · rw [block_support_card]
+    have hanchor : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k := by
+      exact le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+  · intro h
+    have hh := ha h
+    unfold anchorResponse at hh
+    have hsums : (∑ i, D i h*q' i) = ∑ i, D i h*q i := by linarith
+    simpa only [mul_comm] using hsums
+/-- Normalized, bounded whole-game specialization of the sparse witness.
+    The conclusion preserves the prescribed anchor shares literally. -/
+theorem normalized_exact_sparse_witness_extra_moments {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ k+d+gridSize M r η ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ (2 : ℕ)*k+d+gridSize M r η ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) := by
+  classical
+  obtain ⟨q', B', hn, hm, hs, hc, ha, hextra, hsk, hb, he⟩ :=
+    exact_game_sparse_completion_extra_moments k d K D F B p q M r η hM hr hη hp hq hqmass hK hB hBb hresp
+  refine ⟨q', B', blockWeights_nonneg p q' hp hn, ?_, fun _ => rfl, hs, hc, ?_, ?_, hextra,
+    blockMatrix_skew K D B' hK hsk, blockMatrix_bounds K D B' M hKb hDb hb, he⟩
+  · rw [blockWeights_mass, hm]
+    exact hpmass
+  · rw [block_support_card]
+    have hanchor : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k := by
+      exact le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+  · intro h
+    have hh := ha h
+    unfold anchorResponse at hh
+    have hsums : (∑ i, D i h*q' i) = ∑ i, D i h*q i := by linarith
+    simpa only [mul_comm] using hsums
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExtraMomentAllMass.lean -/
+/- AI-assisted formalization. Released under the repository Apache-2.0 license.
+Human formalization authorship and maintainer membership remain unconfirmed. -/
+
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+theorem normalized_sparse_witness_extra_moments_all_mass {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r ρ η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ ρ) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ ρ+η) := by
+  classical
+  by_cases hz : r=0
+  · have hzero : q=fun _ => 0 := nonnegative_mass_zero q hq (by simpa only [hz] using hqmass)
+    have hc : (Finset.univ.filter fun i => q i ≠ 0).card=0 := by simp [hzero]
+    have ha : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    refine ⟨q,B,blockWeights_nonneg p q hp hq,?_,fun _ => rfl,fun _ hi => hi,?_,?_,
+      fun _ => rfl,fun _ => rfl,blockMatrix_skew K D B hK hB,blockMatrix_bounds K D B M hKb hDb hBb,?_⟩
+    · rw [blockWeights_mass,hqmass]
+      exact hpmass
+    · rw [hc]
+      exact Nat.zero_le _
+    · rw [block_support_card,hc]
+      omega
+    · intro a
+      exact le_trans (hresp a) (by linarith)
+  · obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hmo,hf,hsk,hb,hrows⟩ :=
+      normalized_sparse_witness_extra_moments k d K D F B p q M r ρ η hM (lt_of_le_of_ne hr (Ne.symm hz)) hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+    refine ⟨q',B',hn,hm,ha,hs,Nat.le_min.mpr ⟨?_,hc⟩,Nat.le_min.mpr ⟨?_,ht⟩,hmo,hf,hsk,hb,hrows⟩
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+
+theorem normalized_exact_sparse_witness_extra_moments_all_mass {ι : Type*} [Fintype ι]
+    (k d : ℕ) (K : Fin k → Fin k → ℝ) (D : ι → Fin k → ℝ) (F : ι → Fin d → ℝ) (B : ι → ι → ℝ)
+    (p : Fin k → ℝ) (q : ι → ℝ) (M r η : ℝ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hp : ∀ h, 0 ≤ p h) (hq : ∀ i, 0 ≤ q i)
+    (hpmass : (∑ h, p h)+r = 1) (hqmass : ∑ i, q i = r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ h h', -M ≤ K h h' ∧ K h h' ≤ M)
+    (hDb : ∀ i h, -M ≤ D i h ∧ D i h ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hresp : ∀ a, response (blockMatrix K D B) (blockWeights p q) a ≤ 0) :
+    ∃ (q' : ι → ℝ) (B' : ι → ι → ℝ),
+      (∀ a, 0 ≤ blockWeights p q' a) ∧ (∑ a, blockWeights p q' a) = 1 ∧
+      (∀ h, blockWeights p q' (.inl h) = p h) ∧
+      (∀ i, q i = 0 → q' i = 0) ∧
+      (Finset.univ.filter fun i => q' i ≠ 0).card ≤ min (Fintype.card ι) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun a => blockWeights p q' a ≠ 0).card ≤ min (k+Fintype.card ι) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ h, (∑ i, q' i*D i h) = ∑ i, q i*D i h) ∧
+      (∀ g, (∑ i, q' i*F i g) = ∑ i, q i*F i g) ∧
+      IsSkew (blockMatrix K D B') ∧
+      (∀ a b, -M ≤ blockMatrix K D B' a b ∧ blockMatrix K D B' a b ≤ M) ∧
+      (∀ a, response (blockMatrix K D B') (blockWeights p q') a ≤ η) := by
+  classical
+  by_cases hz : r=0
+  · have hzero : q=fun _ => 0 := nonnegative_mass_zero q hq (by simpa only [hz] using hqmass)
+    have hc : (Finset.univ.filter fun i => q i ≠ 0).card=0 := by simp [hzero]
+    have ha : (Finset.univ.filter fun h => p h ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    refine ⟨q,B,blockWeights_nonneg p q hp hq,?_,fun _ => rfl,fun _ hi => hi,?_,?_,
+      fun _ => rfl,fun _ => rfl,blockMatrix_skew K D B hK hB,blockMatrix_bounds K D B M hKb hDb hBb,?_⟩
+    · rw [blockWeights_mass,hqmass]
+      exact hpmass
+    · rw [hc]
+      exact Nat.zero_le _
+    · rw [block_support_card,hc]
+      omega
+    · intro a
+      exact le_trans (hresp a) (by linarith)
+  · obtain ⟨q',B',hn,hm,ha,hs,hc,ht,hmo,hf,hsk,hb,hrows⟩ :=
+      normalized_exact_sparse_witness_extra_moments k d K D F B p q M r η hM (lt_of_le_of_ne hr (Ne.symm hz)) hη hp hq hpmass hqmass hK hB hKb hDb hBb hresp
+    refine ⟨q',B',hn,hm,ha,hs,Nat.le_min.mpr ⟨?_,hc⟩,Nat.le_min.mpr ⟨?_,ht⟩,hmo,hf,hsk,hb,hrows⟩
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+    · exact le_trans (Finset.card_filter_le _ _) (by simp)
+
+end
+end SparseCompletion

@@ -10,8 +10,11 @@ The development proves the weighted completion criterion in both directions,
 including zero-weight row guards, the quadratic call-envelope equivalence and the
 finite quadratic grid implication. Finite-feature recombination gives actual
 original-label sparse completed-game witnesses with exact anchor responses and
-residual support at most `k+1+ceil(sqrt(Mr/η))`, improved to `k+ceil(sqrt(Mr/η))` for exact
-equilibria. The skew completion is reconstructed by finite layer-cake duality and
+residual support at most `min(m,k+1+ceil(sqrt(Mr/η)))`, improved to
+`min(m,k+ceil(sqrt(Mr/η)))` for exact equilibria, for every residual mass r≥0.
+The d-extra-moment wrappers preserve arbitrary specified linear measurements
+with d added to the support bound, while the number of anchors remains k.
+Their total-support bounds also include the full finite-cardinality cap k+m. The skew completion is reconstructed by finite layer-cake duality and
 classical compact-convex separation. All original rows satisfy the resulting
 response bound. This is an existence proof over reals; executable rational
 reconstruction and complexity claims remain open. Definitions and all proof

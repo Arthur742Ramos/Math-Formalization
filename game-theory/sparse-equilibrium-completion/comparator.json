@@ -169,7 +169,20 @@
     "SparseCompletion.bin_middle_even_gap",
     "SparseCompletion.bin_middle_odd_same",
     "SparseCompletion.bin_quadratic_parity_identity",
-    "SparseCompletion.bin_odd_support"
+    "SparseCompletion.bin_odd_support",
+    "SparseCompletion.nonnegative_mass_zero",
+    "SparseCompletion.normalized_sparse_witness_all_mass",
+    "SparseCompletion.normalized_exact_sparse_witness_all_mass",
+    "SparseCompletion.sparse_cut_witness_extra_moments",
+    "SparseCompletion.exact_sparse_cut_witness_extra_moments",
+    "SparseCompletion.game_sparse_cut_certificate_extra_moments",
+    "SparseCompletion.exact_game_sparse_cut_certificate_extra_moments",
+    "SparseCompletion.game_sparse_completion_extra_moments",
+    "SparseCompletion.exact_game_sparse_completion_extra_moments",
+    "SparseCompletion.normalized_sparse_witness_extra_moments",
+    "SparseCompletion.normalized_exact_sparse_witness_extra_moments",
+    "SparseCompletion.normalized_sparse_witness_extra_moments_all_mass",
+    "SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass"
   ],
   "definition_names": [],
   "permitted_axioms": [

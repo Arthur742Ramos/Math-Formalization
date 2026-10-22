@@ -2091,3 +2091,9 @@ def Injective (f : α → β) : Prop :=
 ```
 
 Affected selected declarations: SparseCompletion.binned_middle_injective, SparseCompletion.binned_odd_game_witness, SparseCompletion.uniform_odd_midpoint_witness, SparseCompletion.binned_odd_support, SparseCompletion.binned_support_lower, SparseCompletion.binned_odd_support_exact
+
+## Additional moments and all residual masses
+
+The finite-feature compression works on ((Fin k ⊕ Fin d) ⊕ Fin H), preserving both the actual anchor columns and arbitrary d extra linear measurements. The exact case uses H−1 hinge values and obtains its endpoint from the original score mean, with no extra game anchors. Existing finite sum, coproduct cardinality, convex recombination, interval-grid and reconstruction meanings apply. At r=0, nonnegative_mass_zero proves every residual coordinate vanishes; all observations and measurements are retained. The all-mass wrappers add literal finite-cardinality minima without assuming support positivity.
+
+Additional affected contracts: SparseCompletion.nonnegative_mass_zero, SparseCompletion.normalized_sparse_witness_all_mass, SparseCompletion.normalized_exact_sparse_witness_all_mass, SparseCompletion.sparse_cut_witness_extra_moments, SparseCompletion.exact_sparse_cut_witness_extra_moments, SparseCompletion.game_sparse_cut_certificate_extra_moments, SparseCompletion.exact_game_sparse_cut_certificate_extra_moments, SparseCompletion.game_sparse_completion_extra_moments, SparseCompletion.exact_game_sparse_completion_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments, SparseCompletion.normalized_exact_sparse_witness_extra_moments, SparseCompletion.normalized_sparse_witness_extra_moments_all_mass, SparseCompletion.normalized_exact_sparse_witness_extra_moments_all_mass.

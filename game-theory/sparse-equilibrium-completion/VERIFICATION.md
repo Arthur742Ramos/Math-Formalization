@@ -20,7 +20,7 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact thirty-seven local source bodies with
+Challenge is a deterministic assembly of the exact forty-three local source bodies with
 full proofs, zero definition holes, and exposed public declarations; it is
 compiled under a different module alias
 without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
@@ -167,3 +167,26 @@ These new bytes require their own frozen-commit native receipt, including all
 168 protected contracts and 278 source proof audits. The current tranche does
 not inherit a passing check from its predecessor. Whole-paper coverage,
 canonical Linux checks, rendering, intake and publication remain separate.
+
+
+## All masses and extra linear moments follow-on
+
+The exact midpoint checkpoint `ced929e5132058ef4575d7273d2ff1a226627cac`
+is preserved with native receipt SHA256
+`7ea68f5e6e14e78140438318e86be0dadfcd8c77c46029f36416f509832ee610`:
+all 12 checks passed, including 168 protected contracts, 278 axiom reports,
+both kernel checks and rejection of the altered fixed helper. Its independently
+authenticated tag and bundle preserve the complete history.
+
+Six follow-on modules cover every nonnegative residual mass and make the finite
+cardinality minima explicit. They also preserve d arbitrary additional linear
+measurements, including the sharper exact-equilibrium count, while retaining the
+original k-anchor game. Zero mass is proved to force every residual weight to
+vanish; no positivity or nonempty-type assumption is smuggled into that branch.
+The actual original-row guards and bounded skew reconstruction remain proved.
+Existing imported-definition meanings and provenance apply to these wrappers.
+
+This new source has 291 actual source proof audits and 181 selected contracts.
+Its full frozen-source checks require a separate native receipt. It inherits no
+verification gate from the preceding midpoint checkpoint. Algorithmic, graph,
+conic and joint-k construction clauses in SCOPE.md remain unfinished.
