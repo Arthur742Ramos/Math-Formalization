@@ -392,7 +392,7 @@ canonical Linux, rendering or editorial readiness. No submission is authorized.
 ## Computed violating cuts, separation and flow foundations
 
 This follow-on adds52 proofs in10 modules to predecessor273fb8c. The resulting
-source has281 mathematical modules,1107 source theorem audits and997 selected
+source at predecessor dd34 had281 mathematical modules,1107 source theorem audits and997 selected
 protected contracts. These counts describe scope, not whole-paper completion.
 Its exact-source verification and independent receipts are recorded outside the
 frozen package; predecessor receipts certify only their own source bytes.
@@ -451,3 +451,72 @@ those runtime claims. Canonical Linux/rendering and release-role confirmation
 also remain separate. Formalization authors and maintainers are unconfirmed;
 internal AI reviews are distinguished from human or external review.
 No registry or journal submission is authorized or performed.
+
+## Cached paths, net-flow cuts, numerator bounds and Nash interpretation — source-only candidate
+
+The current proposed source has287 mathematical modules,1155 source theorem
+audits and1045 selected protected contracts. The six modules add48 proved
+statements, including the finite-vector getter coherence helper. All48 have
+strict pinned-toolchain development axiom reports,18 executable controls passed,
+and the prospective protected comparison, altered-helper rejection and export
+kernel checks passed. This source integration is a new candidate: the14 newly
+inserted semantic bridges and both canonical entrypoints have NOT been compiled
+for these bytes. The generated-definition validator source passed independent code review and
+14 portable Python regression methods; that establishes no Lean compilation.
+Its exact two reviewed root files are installed separately. Exact assembled
+source/dependency checks, final independent source review and full exact-commit
+native verification remain required. Earlier stage counts and open-item paragraphs are
+historical; the following account states this candidate's scope.
+
+`RationalPositiveNetFlow` reconstructs nonnegative arc flows from skew net flow.
+`RationalReachCut` and `RationalNetCut` prove saturation of the actual residual
+reachable cut, cut/divergence identities, weak duality and a maximum certificate
+when the target is unreachable. They do not find a feasible flow or implement an
+augmentation loop.
+
+`CachedResidualBFS` stores a finite Boolean adjacency table and, per layer, a
+vector of discovered complete walks. Its actual Option result is None exactly
+when the target is unreachable. A Some result is a genuine walk with the stated
+endpoints, at most n edges and shortest length among genuine walks. Predecessor
+extraction uses that returned path. This is not a predecessor-forest/linear-space
+implementation, and no table-access, allocation, traversal-operation or machine
+cost theorem is claimed. For zero vertices there are no source/target Fin labels;
+the zero-size cache construction is executable. The rational residual graph uses
+C−F for NET flow. Raw positive arc flows require the proved antisymmetrization
+bridge; reverse residual capacity can arise from a negative net-flow entry.
+
+`RationalNumeratorGrowth` adds actual magnitude, numerator-product, binary-power
+and numerator bit-length bounds for rational LIST SUMS. These supplement the
+existing denominator bounds. They do not bound intermediate sizes of arbitrary
+LP elimination, normalization/gcd primitives or end-to-end rational bit time.
+
+`FiniteSkewNash` gives an actual both-player mixed-deviation predicate for the
+zero-sum game and proves its equivalence to the symmetric row-response criterion
+for skew games. Finite nonempty skew games therefore have an actual symmetric
+zero-tolerance mixed equilibrium. This is an existence/interpretation result,
+not a computable optimization algorithm or a generic non-zero-sum Nash theorem.
+
+Source retention records the genuine to_additive generators mabs→abs and
+Pi.mulSingle→Pi.single separately from their actual generated declarations.
+Their inferred names are not accepted as fake literal source heads. The narrowly
+reviewed validator distinguishes the exact two generated source/target pairs. A retained
+dual-export attestation binds actual target presence, while separately named
+semantic bridges must still compile in BOTH entrypoints. Exact historical
+marker audits cover240 abs and184 Pi.single contexts. Cached-table construction
+retains Vector.ofFn→Array.ofFn and its coordinate contract; integer magnitude
+retains Int's signed constructors and natAbs's logical/extern boundary.
+
+The finite-complement source correction is operation-specific:223 contexts use
+element search/difference,226 use shared erasure/runtime support, and183 older
+contexts use the explicit Finset.erase→Multiset.erase wrappers. Three historical
+erasure users do not require List.elem. These audits stop at the established
+project-local/external-definition boundary; they do not claim exhaustive
+expansion of every upstream theorem body. Frozen predecessor receipts remain
+unchanged and mechanically valid, with the discovered retention qualification
+preserved in this new candidate.
+
+Whole-paper completion and submission readiness remain false. Open work includes
+a genuine complete capacitated-flow finder/augmentation algorithm, its operation
+and bit bounds, polynomial rational LP guarantees, complete arithmetic/encoding
+costs beyond the proved components, efficient sparse selection and the remaining
+source-specific algorithm compositions. No publication or submission is made.

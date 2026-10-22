@@ -47,6 +47,115 @@ def declaration_head_matches(name, kind, body, *, legacy=False):
     return bool(re.search(prefix + terminal, body))
 
 
+GENERATED_PAIRS = {
+    ('mabs', 'abs'): 'Mathlib/Algebra/Order/Group/Unbundled/Abs.lean',
+    ('Pi.mulSingle', 'Pi.single'): 'Mathlib/Algebra/Notation/Pi/Basic.lean',
+}
+GENERATED_BRIDGES = {
+    ('mabs', 'abs'): 'generated_abs_rational_semantics',
+    ('Pi.mulSingle', 'Pi.single'): 'generated_single_real_semantics',
+}
+
+
+def strip_lean_comments_and_strings(text):
+    """Mask nested comments and strings, preserving offsets and line boundaries."""
+    result = list(text)
+    i, depth, string, raw_end = 0, 0, False, None
+    while i < len(text):
+        if depth:
+            if text.startswith('/-', i):
+                result[i:i+2] = '  '; depth += 1; i += 2
+            elif text.startswith('-/', i):
+                result[i:i+2] = '  '; depth -= 1; i += 2
+            else:
+                if text[i] != '\n': result[i] = ' '
+                i += 1
+        elif raw_end:
+            if text.startswith(raw_end, i):
+                result[i:i+len(raw_end)] = ' ' * len(raw_end)
+                i += len(raw_end); raw_end = None
+            else:
+                if text[i] != '\n': result[i] = ' '
+                i += 1
+        elif string:
+            char = text[i]
+            if char != '\n': result[i] = ' '
+            if char == '\\' and i+1 < len(text):
+                if text[i+1] != '\n': result[i+1] = ' '
+                i += 2
+            else:
+                if char == '"': string = False
+                i += 1
+        elif text.startswith('/-', i):
+            result[i:i+2] = '  '; depth = 1; i += 2
+        elif text.startswith('--', i):
+            while i < len(text) and text[i] != '\n':
+                result[i] = ' '; i += 1
+        elif text[i] == '"':
+            result[i] = ' '; string = True; i += 1
+        elif text[i] == 'r' and (i == 0 or not (text[i-1].isalnum() or text[i-1] == '_')):
+            match = re.match(r'r(#+)?"', text[i:])
+            if match:
+                raw_end = '"' + (match.group(1) or '')
+                result[i:i+len(match[0])] = ' ' * len(match[0]); i += len(match[0])
+            else:
+                i += 1
+        else:
+            i += 1
+    if depth or string or raw_end:
+        raise ValueError('Unterminated retained Lean comment/string')
+    return ''.join(result)
+
+
+def generated_definition_bridge(declaration, body, source_path, attestation,
+                                compiler_commit, mathlib_commit):
+    def require(condition, message):
+        if not condition: raise ValueError(message)
+    target = declaration['name']
+    generated = declaration['generated_from']
+    generator = generated['generator_name']
+    require((generator, target) in GENERATED_PAIRS and
+            source_path == GENERATED_PAIRS[(generator, target)],
+            'Unapproved generated source/target/path')
+    require(declaration['declaration_kind'] == 'def' and
+            generated['generator_declaration_kind'] == 'def' and
+            generated['producer_attribute'] == 'to_additive' and
+            generated['expected_target_name'] == target and
+            generated['generator_excerpt'] == declaration['definition_excerpt'] and
+            declaration['bridge_kind'] == 'proved-equivalence',
+            'Generated definition metadata mismatch')
+    clean = strip_lean_comments_and_strings(body)
+    terminal = (r"(?:" + re.escape(generator) + "|" +
+                re.escape(generator.split('.')[-1]) + r")(?![\w'!?.])")
+    # These exact producers use unnamed output and only this retained attr option.
+    # Reject other producer identifiers, explicit target arguments and options.
+    head = (r'(?m)^\s*@\[\s*to_additive\s*(?:\(attr\s*:=\s*grind\))?\s*\]\s*'
+            r'(?:protected )?(?:noncomputable )?def ' + terminal)
+    require(bool(re.search(head, clean)), 'Missing attached to_additive generator head')
+    evidence = generated['generated_declaration_evidence']
+    require(evidence['exact_exported_name'] == target and
+            evidence['declaration_kind'] == 'def', 'Generated target evidence mismatch')
+    require(type(attestation['schema_version']) is int and attestation['schema_version'] == 1 and
+            attestation['compiler_commit'] == compiler_commit and
+            attestation['mathlib_commit'] == mathlib_commit,
+            'Generated target evidence pin mismatch')
+    for entry in ['challenge.ndjson', 'solution.ndjson']:
+        export = attestation['exports'][entry]
+        require(bool(re.fullmatch(r'[0-9a-f]{64}', export['sha256'])) and
+                type(export['bytes']) is int and export['bytes'] > 0,
+                'Invalid generated declaration export binding')
+        record = export['declarations'][target]
+        require(record['kind'] == 'def' and record['resolved_name'] == target and
+                bool(re.fullmatch(r'[0-9a-f]{64}', record['raw_record_sha256'])) and
+                all(type(record[k]) is int and record[k] >= 0 for k in
+                    ['name_id', 'type_expression_root', 'value_expression_root']),
+                'Missing generated definition in pinned dual export evidence')
+    bridge = generated['checked_semantic_bridge']
+    require(bridge == GENERATED_BRIDGES[(generator, target)],
+            'Invalid generated semantic bridge name')
+    return bridge
+
+
 def check(project, dependency_root=None):
     project = pathlib.Path(project)
     manifest_file = local_file(project, 'verification/material-imported-definitions.json')
@@ -74,6 +183,8 @@ def check(project, dependency_root=None):
             'Missing or duplicate material definition evidence')
     document = local_file(project, data['documentation']).read_text()
     excerpts = {}
+    excerpt_paths = {}
+    generated_bridges = []
     paths = set()
     source_count = 0
     for source in data['source_files']:
@@ -120,6 +231,7 @@ def check(project, dependency_root=None):
                 expected = b''.join(origin.splitlines(keepends=True)[first - 1:last])
                 require(expected == text.encode(), 'Excerpt differs from exact pinned source')
             excerpts[name] = text
+            excerpt_paths[name] = path
     require(paths, 'Missing upstream sources')
     for declaration in declarations:
         name = declaration['name']
@@ -143,8 +255,25 @@ def check(project, dependency_root=None):
         else:
             kind = declaration['declaration_kind']
             require(kind in {'def', 'class', 'structure', 'inductive'}, 'Unknown declaration kind')
-            require(declaration_head_matches(name, kind, body),
-                    'Pinned declaration kind/name mismatch')
+            if 'generated_from' in declaration:
+                generated = declaration['generated_from']
+                evidence = generated['generated_declaration_evidence']
+                evidence_file = local_file(project, evidence['path'])
+                require(sha(evidence_file.read_bytes()) == evidence['sha256'],
+                        'Generated target attestation digest mismatch')
+                core = json.loads(local_file(project, 'verification/lean-core-definitions.json').read_text())
+                generated_bridges.append(generated_definition_bridge(
+                    declaration, body, excerpt_paths[declaration['definition_excerpt']],
+                    json.loads(evidence_file.read_text()), core['compiler_commit'], pin))
+                linked = [x for x in data.get('generated_declarations', []) if x['name'] == name]
+                require(len(linked) == 1 and linked[0]['source'] == generated['generator_excerpt'] and
+                        linked[0]['mechanism'] == 'to_additive' and
+                        linked[0]['generator_name'] == generated['generator_name'] and
+                        linked[0]['checked_bridge'] == generated['checked_semantic_bridge'],
+                        'Generated declaration mechanism linkage mismatch')
+            else:
+                require(declaration_head_matches(name, kind, body),
+                        'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
             allowed = {'class-fields'} if kind in {'class', 'structure'} else {
                 'literal-unfolding', 'proved-equivalence'}
@@ -165,6 +294,9 @@ def check(project, dependency_root=None):
         b = local_file(project, module['path']).read_bytes()
         require(sha(b) == module['sha256'], 'Bridge module digest mismatch')
         body = b.decode()
+        for bridge in generated_bridges:
+            require(declaration_head_matches(bridge, 'theorem', strip_lean_comments_and_strings(body)),
+                    'Missing named generated semantic bridge in checked module')
         for field in ['challenge_module', 'solution_module']:
             if re.search(r'(?m)^public import ' + re.escape(config[field]) + r'$', body):
                 entrypoints.add(field)

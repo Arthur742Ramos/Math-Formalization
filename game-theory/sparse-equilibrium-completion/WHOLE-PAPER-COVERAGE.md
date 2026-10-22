@@ -90,7 +90,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 | --- | --- | --- |
 | 1 | Every finite nonempty skew game has a symmetric equilibrium; unrestricted compatibility is automatic. (main.tex:99-101) | FiniteSkewEquilibrium now proves finite_skew_equilibrium_exists for every finite nonempty real skew game, with an actual normalized nonnegative mixture and all row responses nonpositive. This is a classical existence foundation, with no computable optimizer claim. |
 | 2 | General M sharp joint support law with sqrt(M/eta). (main.tex:119-125) | Integrated43: `joint_anchor_support_scaled_order_general` and `worstCaseSupport_sharp_general` prove general-M bounds for all k≥2,m>0,M>0,0<eta≤M; actual physical game lower family and attained worst-case operator. |
-| 3 | x^T A x=0, nonnegative exploitability and symmetric epsilon-Nash interpretation. (main.tex:235-241) | Weighted skew cancellation, actual finite max exploitability and nonnegativity are formalized. No bimatrix Nash/deviation definition and equivalence theorem appears in the package. |
+| 3 | x^T A x=0, nonnegative exploitability and symmetric epsilon-Nash interpretation. (main.tex:235-241) | Weighted skew cancellation, actual finite max exploitability and nonnegativity are formalized. FiniteSkewNash now defines actual both-player mixed deviations for the skew zero-sum game and proves symmetricApproximateNash equivalent to the row-response condition; this is not a generic non-zero-sum Nash theorem. |
 | 4 | Partial-mass integrated-score curve Lambda and its call variational identities. (completion.tex:45-67) | Cuts/call conclusion proved directly. No need to report the absent Lambda definition as failure of the envelope theorem. |
 | 5 | Strictly increasing truncated quadratic nodes and terminal node. (sparsification.tex:8) | Grid interval coverage and terminal equality used in exact sparse endpoint proof; source r>0 assumptions matter. |
 | 6 | Quadratic chord identity, truncation and shifted-call interpolation. (sparsification.tex:30-53) | quadratic_grid_identity, truncated_grid_error, call_secant and finite_grid_implication. |
@@ -103,7 +103,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 | 13 | Constant-run quantization and cubic Jensen. (rigidity.tex:163-169) | finite_subset_quantization_bound, sparse_cumulative_quantization; no assumed contiguous support. |
 | 14 | Source explicit odd/even bin payoffs, original-label weights and parity error. (rigidity.tex:207-218;graph_noise.tex:244-269) | Computed rational matrix, same-bin +/-2/L, cross-bin orientation and omitted scores; all rows exactly zero, exact parity moment loss. Not an existential substitute anymore. |
 | 15 | Simplex gap LP has a sparse vertex, general constraints/floors affect bound. (algorithms.tex:28) | GapSparse and RationalSparseGapSearch prove sparse completion at original rho+eta, with extra feature/row counts. Executed search enumerates2^m supports; no vertex selection or polynomial claim. |
-| 16 | Rational grid coefficient polynomial bit length; rational flow. (algorithms.tex:66-69) | Actual grid is an alternative valid computable H. Rational arithmetic output exists, but no encoding-height/bit-cost/flow complexity theorem. |
+| 16 | Rational grid coefficient polynomial bit length; rational flow. (algorithms.tex:66-69) | Actual grid is an alternative valid computable H. Rational arithmetic output and list-sum numerator/denominator encoding-size bounds exist; complete LP coefficient-height, normalization/primitive bit-cost and flow complexity remain open. |
 | 17 | O(mH+mk+k^2) interval LP variables/rows. (algorithms.tex:103) | rational_interval_row_count plus explicit finite variable equivalence give stronger literal finite formulas. No matrix construction/runtime bit bound inferred. |
 | 18 | Freeze recovered D,K; sparse final tolerance uses only one eta. (algorithms.tex:105-107) | IntervalGapSparse and actual RationalIntervalSparseReduction/Algorithm preserve physical linear R and original intervals. |
 | 19 | Min slice upper and lower endpoints yield a global value bracket; zero-residual slice treatment. (algorithms.tex:137-144) | **Integrated closed**: actual arbitrary-floor returned global bracket from General4; no reuse of old slice L. Zero-residual slice treatment already functional. |
@@ -128,7 +128,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 - General-M quantified joint bounds and actual worst-case support law are integrated in43 proofs; their exact-source mechanical verification must be bound to the new candidate.
 - Actual per-instance attained minima and the attained worst-case maximum are constructed. Observation invariance and raw-input representation justify the feasibility-certificate packaging. Polynomial LP/flow/bit-cost assertions remain open.
 - The uniform family’s **minimum** constrained-edge cover number exactly2 is not an explicit graph theorem. The threshold-strong-edge cover implication for weak constraints is also an unbundled direct corollary.
-- An explicit interval all-subset rotated-cone/rational representation wrapper, sharper numerical observation margins, and the standard symmetric epsilon-Nash/deviation-definition bridge remain small separate formalization items. These are not missing central completion/rigidity proofs.
+- An explicit interval all-subset rotated-cone/rational representation wrapper, sharper numerical observation margins, remain separate formalization items. The symmetric epsilon-Nash/deviation bridge is supplied by FiniteSkewNash in the new48 source-only candidate. These are not missing central completion/rigidity proofs.
 - The source concrete245-action example (m243,h9,delta1/5000, error91/1417176, core change91/531441, exact11-support witness) is not instantiated or executed in the current Lean project. Generic explicit-bin/core formulas make this tractable. No claim that11 is minimal should be added.
 
 ### Functional algorithms and exact source constants
@@ -300,7 +300,7 @@ canonical Linux, rendering or editorial readiness. No submission is authorized.
 ## Computed violating cuts, separation and flow foundations
 
 This follow-on adds52 proofs in10 modules to predecessor273fb8c. The resulting
-source has281 mathematical modules,1107 source theorem audits and997 selected
+source at predecessor dd34 had281 mathematical modules,1107 source theorem audits and997 selected
 protected contracts. These counts describe scope, not whole-paper completion.
 Its exact-source verification and independent receipts are recorded outside the
 frozen package; predecessor receipts certify only their own source bytes.
@@ -359,3 +359,72 @@ those runtime claims. Canonical Linux/rendering and release-role confirmation
 also remain separate. Formalization authors and maintainers are unconfirmed;
 internal AI reviews are distinguished from human or external review.
 No registry or journal submission is authorized or performed.
+
+## Cached paths, net-flow cuts, numerator bounds and Nash interpretation — source-only candidate
+
+The current proposed source has287 mathematical modules,1155 source theorem
+audits and1045 selected protected contracts. The six modules add48 proved
+statements, including the finite-vector getter coherence helper. All48 have
+strict pinned-toolchain development axiom reports,18 executable controls passed,
+and the prospective protected comparison, altered-helper rejection and export
+kernel checks passed. This source integration is a new candidate: the14 newly
+inserted semantic bridges and both canonical entrypoints have NOT been compiled
+for these bytes. The generated-definition validator source passed independent code review and
+14 portable Python regression methods; that establishes no Lean compilation.
+Its exact two reviewed root files are installed separately. Exact assembled
+source/dependency checks, final independent source review and full exact-commit
+native verification remain required. Earlier stage counts and open-item paragraphs are
+historical; the following account states this candidate's scope.
+
+`RationalPositiveNetFlow` reconstructs nonnegative arc flows from skew net flow.
+`RationalReachCut` and `RationalNetCut` prove saturation of the actual residual
+reachable cut, cut/divergence identities, weak duality and a maximum certificate
+when the target is unreachable. They do not find a feasible flow or implement an
+augmentation loop.
+
+`CachedResidualBFS` stores a finite Boolean adjacency table and, per layer, a
+vector of discovered complete walks. Its actual Option result is None exactly
+when the target is unreachable. A Some result is a genuine walk with the stated
+endpoints, at most n edges and shortest length among genuine walks. Predecessor
+extraction uses that returned path. This is not a predecessor-forest/linear-space
+implementation, and no table-access, allocation, traversal-operation or machine
+cost theorem is claimed. For zero vertices there are no source/target Fin labels;
+the zero-size cache construction is executable. The rational residual graph uses
+C−F for NET flow. Raw positive arc flows require the proved antisymmetrization
+bridge; reverse residual capacity can arise from a negative net-flow entry.
+
+`RationalNumeratorGrowth` adds actual magnitude, numerator-product, binary-power
+and numerator bit-length bounds for rational LIST SUMS. These supplement the
+existing denominator bounds. They do not bound intermediate sizes of arbitrary
+LP elimination, normalization/gcd primitives or end-to-end rational bit time.
+
+`FiniteSkewNash` gives an actual both-player mixed-deviation predicate for the
+zero-sum game and proves its equivalence to the symmetric row-response criterion
+for skew games. Finite nonempty skew games therefore have an actual symmetric
+zero-tolerance mixed equilibrium. This is an existence/interpretation result,
+not a computable optimization algorithm or a generic non-zero-sum Nash theorem.
+
+Source retention records the genuine to_additive generators mabs→abs and
+Pi.mulSingle→Pi.single separately from their actual generated declarations.
+Their inferred names are not accepted as fake literal source heads. The narrowly
+reviewed validator distinguishes the exact two generated source/target pairs. A retained
+dual-export attestation binds actual target presence, while separately named
+semantic bridges must still compile in BOTH entrypoints. Exact historical
+marker audits cover240 abs and184 Pi.single contexts. Cached-table construction
+retains Vector.ofFn→Array.ofFn and its coordinate contract; integer magnitude
+retains Int's signed constructors and natAbs's logical/extern boundary.
+
+The finite-complement source correction is operation-specific:223 contexts use
+element search/difference,226 use shared erasure/runtime support, and183 older
+contexts use the explicit Finset.erase→Multiset.erase wrappers. Three historical
+erasure users do not require List.elem. These audits stop at the established
+project-local/external-definition boundary; they do not claim exhaustive
+expansion of every upstream theorem body. Frozen predecessor receipts remain
+unchanged and mechanically valid, with the discovered retention qualification
+preserved in this new candidate.
+
+Whole-paper completion and submission readiness remain false. Open work includes
+a genuine complete capacitated-flow finder/augmentation algorithm, its operation
+and bit bounds, polynomial rational LP guarantees, complete arithmetic/encoding
+costs beyond the proved components, efficient sparse selection and the remaining
+source-specific algorithm compositions. No publication or submission is made.

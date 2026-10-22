@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "exports": {
+    "solution.ndjson": {
+      "sha256": "e785fb4130851de7be7adc810f918d878532933bba6065fd53f597f5bd045143",
+      "bytes": 200180869,
+      "declarations": {
+        "abs": {
+          "kind": "def",
+          "resolved_name": "abs",
+          "name_id": 22196,
+          "type_expression_root": 232727,
+          "value_expression_root": 232744,
+          "raw_record_sha256": "42636e847be8cff1fcd89186d203a8add7d2641155348fd38df11f9b25aec10e"
+        },
+        "Pi.single": {
+          "kind": "def",
+          "resolved_name": "Pi.single",
+          "name_id": 83963,
+          "type_expression_root": 1084419,
+          "value_expression_root": 1084439,
+          "raw_record_sha256": "378f3f76ba1f942e701f724f0e31268b3160d125190e2e87d05feb6b920d8e2b"
+        }
+      }
+    },
+    "challenge.ndjson": {
+      "sha256": "e48ff49131366877578d2a3106b50a7bf80ba8f2ee568dda3156aca8626cdf99",
+      "bytes": 200108552,
+      "declarations": {
+        "abs": {
+          "kind": "def",
+          "resolved_name": "abs",
+          "name_id": 22196,
+          "type_expression_root": 232727,
+          "value_expression_root": 232744,
+          "raw_record_sha256": "42636e847be8cff1fcd89186d203a8add7d2641155348fd38df11f9b25aec10e"
+        },
+        "Pi.single": {
+          "kind": "def",
+          "resolved_name": "Pi.single",
+          "name_id": 83969,
+          "type_expression_root": 1084419,
+          "value_expression_root": 1084439,
+          "raw_record_sha256": "a47d17b9f4221be0fd9fe5bdd85a56f92ced95b7327c0c7bf10889cd3f57a57f"
+        }
+      }
+    }
+  },
+  "limits": [
+    "Raw indexed record hashes and expression roots bind exact exported bytes, not a standalone canonical semantic type/value digest.",
+    "Actual declaration presence does not prove the producer-generated name translation from source syntax. Retain pinned literal generator, actual to_additive producer/registered pair and compiled semantic bridge separately.",
+    "Protected comparator/kernel result authentication is separate; no full exact-commit/integration claim."
+  ]
+}

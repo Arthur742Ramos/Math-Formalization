@@ -877,5 +877,83 @@ open SparseCompletion
 #guard rationalResidualAdj (n:=2) (fun _ _ => 1/4) (rationalNetFlow (fun i j => if i=0 ∧ j=1 then 1/4 else if i=1 ∧ j=0 then 1/8 else 0)) 0 1 = true
 #guard rationalResidualAdj (n:=2) (fun _ _ => 1/4) (fun i j => if i=0 ∧ j=1 then 1/4 else if i=1 ∧ j=0 then 1/8 else 0) 0 1 = false
 
+
+-- SOURCE-ONLY candidate:14 new semantic bridges. NOT compiled for these bytes.
+theorem finite_complement_universe_difference {α : Type*} [Fintype α] [DecidableEq α] (s : Finset α) : sᶜ = Finset.univ \ s := Finset.compl_eq_univ_sdiff s
+
+theorem finite_complement_membership {α : Type*} [Fintype α] [DecidableEq α] (a : α) (s : Finset α) : a ∈ sᶜ ↔ a ∉ s := Finset.mem_compl
+
+theorem finite_difference_data {α : Type*} [DecidableEq α] (s t : Finset α) : (s \ t).val = s.val - t.val := Finset.sdiff_val s t
+
+theorem list_difference_nil {α : Type*} [BEq α] (xs : List α) : xs.diff [] = xs := rfl
+
+theorem list_erasure_runtime_equality : @List.erase = @List.eraseTR := List.erase_eq_eraseTR
+
+theorem finite_erasure_data {α : Type*} [DecidableEq α] (s : Finset α) (a : α) : (s.erase a).val = s.val.erase a := Finset.erase_val s a
+
+theorem multiset_erasure_quotient {α : Type*} [DecidableEq α] (xs : List α) (a : α) : (xs : Multiset α).erase a = (xs.erase a : Multiset α) := Multiset.coe_erase xs a
+
+theorem generated_abs_rational_semantics (q : ℚ) : |q| = max q (-q) := abs_eq_max_neg
+
+theorem generated_single_real_semantics {ι : Type*} [DecidableEq ι] (i j : ι) (x : ℝ) : Pi.single i x j = (if j = i then x else 0) := Pi.single_apply i x j
+
+theorem finite_vector_constructor_array {α : Type*} {n : ℕ} (f : Fin n → α) : (Vector.ofFn f).toArray = Array.ofFn f := rfl
+
+theorem finite_vector_constructor_coordinate {α : Type*} {n : ℕ} (f : Fin n → α) (i : Fin n) : (Vector.ofFn f).get i = f i := by
+  change (Vector.ofFn f)[i.val] = f i
+  simp only [Vector.getElem_ofFn]
+
+theorem integer_magnitude_nonnegative_constructor (n : ℕ) : (Int.ofNat n).natAbs = n := rfl
+
+theorem integer_magnitude_negative_constructor (n : ℕ) : (Int.negSucc n).natAbs = n+1 := rfl
+
+theorem integer_magnitude_rational_cast (z : ℤ) : (z.natAbs : ℚ) = |(z : ℚ)| := by
+  rw [Nat.cast_natAbs,Int.cast_abs]
+
+open SparseCompletion
+
+def cachedBFSTestChain : CachedBFSAdj 4 :=
+  Vector.ofFn (fun u => Vector.ofFn (fun v => decide (v.val=u.val+1)))
+def cachedBFSTestShortcut : CachedBFSAdj 4 :=
+  Vector.ofFn (fun u => Vector.ofFn (fun v => decide
+    (v.val=u.val+1 ∨ (u.val=0 ∧ v.val=3))))
+def cachedBFSTestCycle : CachedBFSAdj 3 :=
+  Vector.ofFn (fun u => Vector.ofFn (fun v => decide
+    (v.val=(u.val+1)%3)))
+def cachedBFSTestDisconnected : CachedBFSAdj 3 :=
+  Vector.ofFn (fun u => Vector.ofFn (fun v => decide (u.val=0 ∧ v.val=1)))
+def cachedBFSTestSingleton : CachedBFSAdj 1 :=
+  Vector.ofFn (fun _ => Vector.ofFn (fun _ => false))
+
+#guard (cachedBFSPath cachedBFSTestChain 0 3).map (List.map Fin.val)=some [0,1,2,3]
+#guard (cachedBFSResult cachedBFSTestChain 0 3).map (fun z => z.2.map Fin.val)=some (some 2)
+#guard (cachedBFSPath cachedBFSTestChain 3 0)=none
+#guard (cachedBFSPath cachedBFSTestShortcut 0 3).map (List.map Fin.val)=some [0,3]
+#guard (cachedBFSPath cachedBFSTestCycle 2 1).map (List.map Fin.val)=some [2,0,1]
+#guard (cachedBFSPath cachedBFSTestCycle 1 1).map (List.map Fin.val)=some [1]
+#guard (cachedBFSPath cachedBFSTestDisconnected 0 2)=none
+#guard (cachedBFSPath cachedBFSTestDisconnected 0 1).map (List.map Fin.val)=some [0,1]
+#guard (cachedBFSResult cachedBFSTestSingleton 0 0).map
+  (fun z => (z.1.map Fin.val,z.2.map Fin.val))=some ([0],none)
+#guard (cachedBFSResult cachedBFSTestChain 2 2).map (fun z => z.2)=some none
+
+def cachedBFSTestCapacity : Fin 2 → Fin 2 → ℚ :=
+  fun u v => if u.val=0 ∧ v.val=1 then 1 else 0
+/-- Net flow includes the negative reverse entry. -/
+def cachedBFSTestNetFlow : Fin 2 → Fin 2 → ℚ :=
+  fun u v => if u.val=0 ∧ v.val=1 then 1 else
+    if u.val=1 ∧ v.val=0 then -1 else 0
+
+#guard ((cacheResidualAdj cachedBFSTestCapacity cachedBFSTestNetFlow).get 0).get 1=false
+#guard ((cacheResidualAdj cachedBFSTestCapacity cachedBFSTestNetFlow).get 1).get 0=true
+#guard (cachedRationalResidualPath cachedBFSTestCapacity cachedBFSTestNetFlow 1 0).map
+  (fun z => z.1.map Fin.val)=some [1,0]
+#guard cachedRationalResidualPath cachedBFSTestCapacity cachedBFSTestNetFlow 0 1=none
+#guard (cacheResidualAdj (n:=0) (fun _ _ => 0) (fun _ _ => 0)).size=0
+
+#guard rationalPositiveNetFlow (n:=1) (fun _ _ => -(3/4)) 0 0 = 0
+#guard rationalPositiveNetFlow (n:=1) (fun _ _ => 3/4) 0 0 = 3/4
+#guard rationalNetFlow (rationalPositiveNetFlow (n:=2) (fun i j => if i=0 ∧ j=1 then 3/4 else if i=1 ∧ j=0 then -(3/4) else 0)) 0 1 = 3/4
+
 end SECDefinitions
 -- END material-imported-definition audit
