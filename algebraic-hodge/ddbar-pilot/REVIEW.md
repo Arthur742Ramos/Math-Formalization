@@ -69,3 +69,6 @@ Challenge, and no release-packet review. The material imported-definition
 inventory is preliminary; its completeness and future entrypoint bridges must
 be independently re-reviewed before release. Documentation was checked
 against the listed declarations and the explicit unproved milestones.
+The separate reviewer checked the retained excerpt-to-declaration associations;
+two initial bicomplex excerpt ranges and a theorem/definition distinction in
+the Chen–Ho–Teh source account were corrected before final verification.

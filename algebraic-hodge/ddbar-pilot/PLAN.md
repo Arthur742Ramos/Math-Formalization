@@ -69,8 +69,11 @@ DGMS (Inventiones 29, 1975), §§5.15–5.17 gives the identities, cohomology
 comparisons, and bounded double-complex degeneration/decomposition theorem.
 The local proof formalizes its correction mechanism. Chen–Ho–Teh,
 arXiv:1506.06451v2 supplies a direct algebraic degeneration argument; its
-phrase "degenerates at E1" excludes already degenerating at E0, whereas the
-planned statement "all d_r vanish for r≥1" should include that harmless case.
+theorem includes an extra hypothesis that the sequence does not degenerate
+at E0. Its definition of degeneration permits earlier degeneration. The
+planned statement "all d_r vanish for r≥1" includes the E0-degenerate case;
+that case must be handled directly rather than silently using their theorem
+without its extra hypothesis.
 Stelzig, arXiv:1812.00865v3 supplies squares/zigzags as a longer alternative.
 These are classical results. A reusable formal bridge from bicomplex
 representatives to the genuine filtered spectral-sequence API could interest

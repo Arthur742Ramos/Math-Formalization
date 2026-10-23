@@ -36,24 +36,24 @@
       "upstream_header": "/-\nCopyright (c) 2021 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison, Jo\u00ebl Riou\n-/\n",
       "excerpts": [
         {
-          "first_line": 39,
+          "first_line": 37,
           "last_line": 49,
           "declarations": [
             "HomologicalComplex\u2082"
           ],
           "meaning": "An iterated homological complex; its horizontal maps are chain maps, hence the squares commute.",
-          "sha256": "e9fdc93d2939740435821730e4a8e938de63c3d2145dddaeb4a84dd3973b6710",
-          "text": "  HomologicalComplex (HomologicalComplex C c\u2082) c\u2081\n\nnamespace HomologicalComplex\u2082\n\nopen HomologicalComplex\n\nvariable {C c\u2081 c\u2082}\n\n/-- The graded object indexed by `I\u2081 \u00d7 I\u2082` induced by a bicomplex. -/\ndef toGradedObject (K : HomologicalComplex\u2082 C c\u2081 c\u2082) :\n    GradedObject (I\u2081 \u00d7 I\u2082) C :=\n"
+          "sha256": "ca1ec8863037b14fa5ca6f6587c2393de9dadf2b8371fa0dbc093415d4da19df",
+          "text": "position `\u27e8i\u2081, i\u2082\u27e9` can be obtained as `(K.X i\u2081).X i\u2082`. -/\nabbrev HomologicalComplex\u2082 :=\n  HomologicalComplex (HomologicalComplex C c\u2082) c\u2081\n\nnamespace HomologicalComplex\u2082\n\nopen HomologicalComplex\n\nvariable {C c\u2081 c\u2082}\n\n/-- The graded object indexed by `I\u2081 \u00d7 I\u2082` induced by a bicomplex. -/\ndef toGradedObject (K : HomologicalComplex\u2082 C c\u2081 c\u2082) :\n    GradedObject (I\u2081 \u00d7 I\u2082) C :=\n"
         },
         {
-          "first_line": 150,
-          "last_line": 163,
+          "first_line": 138,
+          "last_line": 143,
           "declarations": [
             "HomologicalComplex\u2082.d_comm"
           ],
           "meaning": "Actual commuting-square law used to show h(x) is vertically closed.",
-          "sha256": "f6247b4ab827af2f61bf1f7c9d080b507c52837527fbbc6aa7be3a5ed4f6e3d8",
-          "text": "-/\n@[simps]\ndef flip (K : HomologicalComplex\u2082 C c\u2081 c\u2082) : HomologicalComplex\u2082 C c\u2082 c\u2081 where\n  X i :=\n    { X := fun j => (K.X j).X i\n      d := fun j j' => (K.d j j').f i\n      shape := fun _ _ w => K.shape_f _ _ w i }\n  d i i' := { f := fun j => (K.X j).d i i' }\n  shape i i' w := by\n    ext j\n    exact (K.X j).shape i i' w\n\n@[simp]\nlemma flip_flip (K : HomologicalComplex\u2082 C c\u2081 c\u2082) : K.flip.flip = K := rfl\n"
+          "sha256": "f81056ec3624f906b92776f525b0288da6430778c6b3d3c7a56162c2e71c1a91",
+          "text": "@[reassoc]\nlemma d_comm (K : HomologicalComplex\u2082 C c\u2081 c\u2082) (i\u2081 i\u2081' : I\u2081) (i\u2082 i\u2082' : I\u2082) :\n    (K.d i\u2081 i\u2081').f i\u2082 \u226b (K.X i\u2081').d i\u2082 i\u2082' = (K.X i\u2081).d i\u2082 i\u2082' \u226b (K.d i\u2081 i\u2081').f i\u2082' := by\n  simp\n\n@[reassoc (attr := simp)]\n"
         }
       ]
     },
