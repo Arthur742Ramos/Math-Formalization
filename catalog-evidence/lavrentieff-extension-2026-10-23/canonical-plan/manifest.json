@@ -1,0 +1,75 @@
+{
+  "scope": "Inert planning artifacts only; no authorization or verification result",
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "files": {
+    "render-size-risk.json": {
+      "sha256": "c0a3136a92fa792c3fd69aef3dbdede0bd9ddd797a8e70869db33d781bc9c9e6",
+      "bytes": 1813
+    },
+    "source-status-audit.json": {
+      "sha256": "44539e6883d6eacde92dd05d42b6b10034d9b9d52c4d0be8c8f03f23d332724e",
+      "bytes": 6608
+    },
+    "report_gate.py": {
+      "sha256": "2f62c6ba738df663125f7a568273a0e823a575498b747c1c2b7cb25114de2628",
+      "bytes": 8618
+    },
+    "README.md": {
+      "sha256": "65ae7a8e81e3bc9701a722bb52e1f80254498d65de6df9d153b2ff39e868852a",
+      "bytes": 12042
+    },
+    "synthetic-gate-tests.log": {
+      "sha256": "4311a4288c1f453b0527f3758edf8751d054b21017126bbf5ef7aa50cfbb758a",
+      "bytes": 526
+    },
+    "test_report_gate.py": {
+      "sha256": "5b3288bad674a9fc032593dbd3f0af76a6c56da8895e0a6be83346f2f756d951",
+      "bytes": 5322
+    },
+    "plan.json": {
+      "sha256": "99934dbc8848402ec8a9aab09431e732db933a7ceee583dbbdcd911a4780758f",
+      "bytes": 6556
+    },
+    "canonical-pair.yml.inert": {
+      "sha256": "db5207911f3ea5dc3533b396f04d9dcc6cb6dfacad545f58539de82bfb40d8f8",
+      "bytes": 13117
+    },
+    "upstream/execution-profiles.json": {
+      "sha256": "6a940ec74ac122f3989f2468d479982472d928764a57646cbcb81f0dbf6b5e7b",
+      "bytes": 594
+    },
+    "upstream/verification-profile.json": {
+      "sha256": "94fcd7906a1b6c076c0036d742e1c5add8625e49bb474818ec8924576dbf0caa",
+      "bytes": 703
+    },
+    "upstream/scripts/submission_contract.py": {
+      "sha256": "724f82211ef702e2d1b4e5012183e532bd8f8ba03ba676022e4722a420c5be75",
+      "bytes": 50708
+    },
+    "upstream/scripts/verify_submission.py": {
+      "sha256": "ccf2a0faeb78a047216b51e5378de5532994de2a965e05351dbc7adc271c0a9a",
+      "bytes": 275663
+    },
+    "upstream/scripts/render_challenge.py": {
+      "sha256": "bd0e82e9a21b3995ed182ef956e3d30640d8a38e28a6edc018462004d47c481a",
+      "bytes": 141279
+    },
+    "upstream/scripts/cgroup_delegate.py": {
+      "sha256": "c8a44ea58ed9a94db2caf21c66cee3f664c86370fabd50ba56e22fa9d9345824",
+      "bytes": 8303
+    },
+    "upstream/scripts/verification_profile.py": {
+      "sha256": "5990b4da4074cabb79dfb5c9c8c4dc75d8d409553b3e023627ec3b485e2d26e4",
+      "bytes": 10971
+    },
+    "upstream/scripts/install_bwrap.sh": {
+      "sha256": "c290df6cebdf1cb26edb69ed4164d9551062bfeb65243b93d1d1d3b77eac0a35",
+      "bytes": 2501
+    },
+    "upstream/.github/workflows/submission.yml": {
+      "sha256": "a116f9a84bf5287e8ed9cda55b98d3023c3c4215fe084b61ce7988e9bc9dc2f0",
+      "bytes": 12402
+    }
+  }
+}

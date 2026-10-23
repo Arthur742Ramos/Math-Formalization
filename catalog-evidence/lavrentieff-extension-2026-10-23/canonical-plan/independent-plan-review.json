@@ -1,0 +1,48 @@
+{
+  "status": "pass for inert-plan review; not approval or canonical verification",
+  "review_type": "independent internal AI full and supplemental read-only reviews",
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
+  "source_package_tree": "7b387d9479cd6b5bf8427e8f085f46c64a776f11",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "reviewed_sha256": {
+    "README.md": "65ae7a8e81e3bc9701a722bb52e1f80254498d65de6df9d153b2ff39e868852a",
+    "plan.json": "99934dbc8848402ec8a9aab09431e732db933a7ceee583dbbdcd911a4780758f",
+    "canonical-pair.yml.inert": "db5207911f3ea5dc3533b396f04d9dcc6cb6dfacad545f58539de82bfb40d8f8",
+    "report_gate.py": "2f62c6ba738df663125f7a568273a0e823a575498b747c1c2b7cb25114de2628",
+    "test_report_gate.py": "5b3288bad674a9fc032593dbd3f0af76a6c56da8895e0a6be83346f2f756d951",
+    "source-status-audit.json": "44539e6883d6eacde92dd05d42b6b10034d9b9d52c4d0be8c8f03f23d332724e",
+    "render-size-risk.json": "c0a3136a92fa792c3fd69aef3dbdede0bd9ddd797a8e70869db33d781bc9c9e6"
+  },
+  "manifest_sha256": "5490808b3d67611da15a79de43fafb4274af4d4d91ddd01f0ccb0f0a268f81f0",
+  "checks": {
+    "source_hashes": 20,
+    "pipeline_file_hashes": 9,
+    "source_archive_bytes": 256000,
+    "source_archive_sha256": "bbddf0303f9b9b9221002b0c342605ba7124e2a930580c508436f99b96d4fe5c",
+    "yaml": "parsed",
+    "shell_blocks_syntax_checked": 13,
+    "inline_python_syntax_checked": 3,
+    "synthetic_test_groups": 4,
+    "wrong_evidence_mutation_cases": 20,
+    "source_status_audit": "no stale source-contained canonical-not-run claim",
+    "render_size_risk": "modest but unmeasured; linear comparison is not a bound or pass"
+  },
+  "findings": [
+    "No source binding, workflow gate, status, security disclosure or size-risk blocker found.",
+    "Raw standard profile report digest94fcd790 and resolver canonical digesteb97b7 are correctly distinguished.",
+    "The renderer capacity guard runs before verifier-dependency,elan,Lean,bubblewrap installation; preceding Python setup is accurately disclosed.",
+    "Bounded raw-size diagnostic rejects symlink ancestors, limits scan/records/paths, asserts512KiB serialization, never copies oversized HTML and does not change the verdict.",
+    "Exactly one canonical-pair workflow and one ancillary static catalog workflow may start on approved activation: at most five physical jobs,two protected.",
+    "No other automatic workflow matched the planned activation and PRdiff; planning-only publication uses skip-ci and preserves required gates as unsatisfied.",
+    "Frozen source, report gate and pipeline are unchanged; no proof or package status edit is required merely to retain later exact-source success."
+  ],
+  "reviewer_actions": {
+    "source_edits": 0,
+    "builds": 0,
+    "installers": 0,
+    "renderers": 0,
+    "hosted_runs": 0
+  },
+  "approval": "specific parent-coordinated bundled approval still required; no separate user request",
+  "merge_and_registry": "remain gated; no action performed"
+}

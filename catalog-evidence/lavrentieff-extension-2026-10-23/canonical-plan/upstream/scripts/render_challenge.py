@@ -1,0 +1,3411 @@
+#!/usr/bin/env python3
+"""Build one immutable, browser-confined Verso rendering of an accepted Challenge source."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import html
+import json
+import os
+import re
+import shutil
+import stat
+import subprocess
+import sys
+import tarfile
+import tempfile
+from dataclasses import dataclass
+from html.parser import HTMLParser
+from pathlib import Path, PurePosixPath
+from typing import Any
+
+ROOT = Path(__file__).resolve().parent.parent
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.render_report import (  # noqa: E402
+    AcceptedRenderPaths,
+    PreparedRenderReport,
+    RenderReportError,
+    RenderSource,
+    intake_report,
+    parse_prepared_report,
+)
+from scripts.render_styles import RENDER_STYLES, SURFACE_STYLES  # noqa: E402
+from scripts.submission_contract import GITHUB_RE, SHA_RE, lake_package_name  # noqa: E402
+from scripts.verification_errors import VerificationError  # noqa: E402
+from scripts.verify_submission import (  # noqa: E402
+    BWRAP_SOURCE_TAG_RE,
+    DIAGNOSTICS_SCHEMA_VERSION,
+    MAX_DIAGNOSTICS,
+    MAX_SOURCE_BYTES,
+    TOOLCHAIN_RE,
+    LeanHeader,
+    allowed_roots,
+    bwrap_source_tag_from_installer,
+    canonical_repository,
+    clone_commit,
+    comparator_failure_excerpt,
+    configure_bwrap,
+    ensure_lake_manifest,
+    github_repository,
+    isolated_python,
+    lake_environment_value,
+    load_comparator_config,
+    manifest_packages,
+    materialize_packages,
+    module_root_shadowed,
+    module_source_suffix,
+    normalized_repository_path,
+    now,
+    package_checkout,
+    parse_lean_header,
+    parse_lean_version,
+    promote_staged_lake_state,
+    require_protected_paths,
+    reset_trusted_lake_state,
+    resolve_release_commit,
+    resolve_repository_path,
+    run,
+    sandboxed_run,
+    sha256,
+    shadowing_dependency,
+    stage_trusted_closure,
+    system_readable_paths,
+    tool_snapshot,
+    toolchain_release_tag,
+    tree_size,
+    validate_staged_lake_promotions,
+    validate_trusted_source_snapshots,
+    verify_sandbox_confinement,
+    write_json,
+)
+
+VERSO_REPOSITORY = "leanprover/verso"
+# Upstream verso#1043 landed after these releases. Authenticate each released
+# file before backporting its conditional module/server import level.
+VERSO_MODULE_IMPORT_BACKPORT_SOURCES = {
+    "01a09f320122475119588526857a07d218aef600":
+        "87f5acecca083d83edb8302bec588afacc47832459c5370323c813208530e608",
+    "304b8561790c50222551c937ce02928df0d5b445":
+        "87f5acecca083d83edb8302bec588afacc47832459c5370323c813208530e608",
+    "f7a4dc6867f8df27778b2b320763ec9e3b7be070":
+        "4cf5328851f57d3d9b13a00247f9857a7261b69f544a29851dcecf99fead8db1",
+}
+VERSO_MODULE_IMPORT_BACKPORT_UPSTREAM = "cb7dc84d54b69269254bf4390a2e53db49a0e26f"
+# Only CI workflow changes separate these immutable revisions. Preserve the
+# submitted revision because Mathlib's cache checks shared-dependency pins.
+SOURCE_IDENTICAL_PLAUSIBLE_REVISIONS = frozenset({
+    "afc2695efcb6855264d85a45632db1ddc56c8774",
+    "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+    "b7fb2b866d25bd937a2069931f9733197521cb27",
+})
+PROOFWIDGETS_REPOSITORY = "leanprover-community/proofwidgets4"
+PROOFWIDGETS_RELEASE_ARCHIVE = "ProofWidgets4.tar.gz"
+LEGACY_MATHLIB_CACHE_TOOL_ARCHIVE_SHA256 = {
+    "0.1.16": "2cbc40ca214227a0e536721c021bad719a802dd86b1f2d8989571efafbfbd3d1",
+    "0.1.17": "46564c5a15b0a5919dee06b246ac1297399968c828269f675212104d7d1ac445",
+}
+MISSING_DECLARATION_CODE = "challenge.declaration_not_rendered"
+MISSING_DECLARATION_EXIT = 3
+MAX_REPORTED_DECLARATIONS = 50
+MAX_REPORTED_DECLARATION_LENGTH = 400
+MAX_SANITIZE_DIAGNOSTIC_BYTES = 512 * 1024
+
+MAX_RENDER_FILES = 2_000
+MAX_RENDER_NODES = 4_000
+MAX_RENDER_FILE_BYTES = 8 * 1024 * 1024
+MAX_RENDER_BYTES = 25 * 1024 * 1024
+MAX_RENDER_WORK_BYTES = 12 * 1024 * 1024 * 1024
+MAX_BUILD_FILE_BYTES = 2 * 1024 * 1024 * 1024
+MAX_CACHE_ARCHIVES = 10_000
+MAX_CACHE_ARCHIVE_BYTES = 256 * 1024 * 1024
+MAX_CACHE_BYTES = 8 * 1024 * 1024 * 1024
+MAX_CACHE_TOOL_ARCHIVE_BYTES = 16 * 1024 * 1024
+MAX_CACHE_TOOL_BYTES = 32 * 1024 * 1024
+# GitHub-hosted Actions jobs may run for at most six hours. Keep the confined
+# build's own deadline at that ceiling too; the workflow job remains the final
+# authority if setup time means it reaches GitHub's limit first.
+BUILD_TIMEOUT_SECONDS = 6 * 60 * 60
+HTML_TIMEOUT_SECONDS = 10 * 60
+SANITIZE_TIMEOUT_SECONDS = 2 * 60
+MAX_AUDIT_DECLARATIONS_BYTES = 512 * 1024
+CORE_NOTATION_AUDIT_SOURCE = ROOT / "scripts" / "core_notation_audit.lean"
+TRUSTED_TOOLCHAIN_MODULE_ROOTS = ("Init", "Lake", "Lean", "Std")
+RESOURCE_PROPERTIES = (
+    "MemoryMax=12G",
+    "TasksMax=512",
+    "LimitNOFILE=4096",
+    f"LimitFSIZE={MAX_BUILD_FILE_BYTES}",
+    f"RuntimeMaxSec={BUILD_TIMEOUT_SECONDS}",
+    "CPUQuota=400%",
+)
+CACHE_DOWNLOAD_PROPERTIES = (
+    "MemoryMax=2G",
+    "TasksMax=256",
+    "LimitNOFILE=16384",
+    f"LimitFSIZE={MAX_CACHE_ARCHIVE_BYTES}",
+    "RuntimeMaxSec=1800",
+)
+CACHE_TOOL_DOWNLOAD_PROPERTIES = (
+    "MemoryMax=1G",
+    "TasksMax=64",
+    "LimitNOFILE=1024",
+    f"LimitFSIZE={MAX_CACHE_TOOL_ARCHIVE_BYTES}",
+)
+
+# Mathlib's canonical cache moved new master-built artifacts to the
+# ``mathlib4-master`` container. The old flat ``mathlib4`` container remains a
+# read-only legacy fallback for artifacts from before the cutover. Keep this
+# fixed, trusted chain local rather than executing submitted cache policy; in
+# particular, do not read fork containers whose writers are not trusted.
+MATHLIB_CACHE_BASE_URLS = (
+    "https://lakecache.blob.core.windows.net/mathlib4-master",
+    "https://lakecache.blob.core.windows.net/mathlib4",
+)
+
+ALLOWED_EXTENSIONS = {
+    ".css",
+    ".gif",
+    ".html",
+    ".ico",
+    ".jpeg",
+    ".jpg",
+    ".js",
+    ".json",
+    ".md",
+    ".png",
+    ".ts",
+    ".txt",
+    ".webp",
+    ".woff",
+    ".woff2",
+}
+
+RUNTIME_SANITIZER = r'''(() => {
+  "use strict";
+  // SVG and MathML carry their own presentation and geometry attributes, and a
+  // `dialog` draws itself over the document without needing any. The
+  // literate-code genre emits none of the three, so their subtrees go rather
+  // than being filtered attribute by attribute. Foreign tag names keep their
+  // own case, so match on the folded one.
+  const blocked = new Set([
+    "APPLET", "BASE", "DIALOG", "EMBED", "FORM", "FRAME", "FRAMESET", "IFRAME",
+    "LINK", "MATH", "META", "OBJECT", "SCRIPT", "STYLE", "SVG"
+  ]);
+  // Static sanitization drops every input stylesheet and injects only our own.
+  // Keep those exact nodes, never a later tooltip node with matching attributes.
+  // This script is deferred, so the complete sanitized head is already parsed.
+  const expectedSurface = __PALOMAR_SURFACE_STYLE__;
+  const runtimeUrl = document.currentScript?.src;
+  const expectedCss = runtimeUrl ? new URL("palomar-render.css", runtimeUrl).href : null;
+  const trustedStyles = new WeakSet();
+  for (const element of document.head?.querySelectorAll("style,link") ?? []) {
+    const style = element.tagName.toUpperCase() === "STYLE"
+      && element.attributes.length === 1
+      && element.getAttribute("id") === "palomar-declaration-style"
+      && element.textContent === expectedSurface;
+    let link = false;
+    if (element.tagName.toUpperCase() === "LINK" && element.attributes.length === 2
+        && element.getAttribute("rel") === "stylesheet") {
+      try {
+        link = expectedCss !== null
+          && new URL(element.getAttribute("href"), document.baseURI).href === expectedCss;
+      } catch (_) {}
+    }
+    if (style || link) trustedStyles.add(element);
+    else element.remove();
+  }
+  const activeAttributes = new Set([
+    "action", "formaction", "ping", "srcdoc"
+  ]);
+  // Presentation and visibility without a stylesheet: the legacy colour
+  // attributes, the sizing pair, the top-layer controls, and the one that
+  // hides honest content so that dishonest content can stand in for it. Verso
+  // emits none of them here, `<meta name="viewport">` being a meta element and
+  // dropped whole.
+  const presentationAttributes = new Set([
+    "alink", "background", "bgcolor", "height", "hidden", "link", "popover",
+    "popovertarget", "popovertargetaction", "text", "vlink", "width"
+  ]);
+  // Verso's literate-code output needs one inline declaration, the indent
+  // custom property its stylesheet reads, whose value is the source column the
+  // documentation starts at. Any other one is enough to reposition or repaint
+  // a page served with `style-src 'unsafe-inline'`. The whitespace is spelled
+  // out because `\s` does not mean the same thing here as it does in Python.
+  const allowedStyle = /^[ \t\r\n\f]*--indent:[ \t\r\n\f]*[0-9]{1,2}[ \t\r\n\f]*;?[ \t\r\n\f]*$/;
+
+  function safeUrl(value, attribute) {
+    const trimmed = value.trim();
+    if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("./")) return true;
+    if (trimmed.startsWith("../")) {
+      if (trimmed.includes("\\")) return false;
+      try {
+        return !trimmed.slice(3).split("/")
+          .map((part) => decodeURIComponent(part).toLowerCase())
+          .some((part) => part === "." || part === "..");
+      } catch (_) {
+        return false;
+      }
+    }
+    return attribute === "src" && /^data:image\/(?:gif|jpeg|png|webp);/i.test(trimmed);
+  }
+
+  function sanitize(root) {
+    for (const element of Array.from(root.querySelectorAll("*"))) {
+      // Renderer-owned nodes already have trusted attributes, including the
+      // relative CSS URL on root and deeply nested auxiliary pages.
+      if (trustedStyles.has(element)) continue;
+      if (blocked.has(element.tagName.toUpperCase())) {
+        element.remove();
+        continue;
+      }
+      for (const attribute of Array.from(element.attributes)) {
+        const name = attribute.name.toLowerCase();
+        if (name.startsWith("on") || activeAttributes.has(name)
+            || presentationAttributes.has(name)) {
+          element.removeAttribute(attribute.name);
+        } else if (name === "open" && element.tagName.toUpperCase() !== "DETAILS") {
+          // Verso emits `open` only on `<details>`: the module tree's, and the
+          // trace ones it leaves expanded.
+          element.removeAttribute(attribute.name);
+        } else if (name === "src" && !safeUrl(attribute.value, name)) {
+          element.removeAttribute(attribute.name);
+        } else if (name === "href" && !safeUrl(attribute.value, name)) {
+          element.removeAttribute(attribute.name);
+        } else if (name === "style" && !allowedStyle.test(attribute.value)) {
+          element.removeAttribute(attribute.name);
+        } else if (name === "target") {
+          element.removeAttribute(attribute.name);
+        }
+      }
+    }
+  }
+
+  if (typeof marked !== "undefined" && typeof marked.parse === "function") {
+    const parse = marked.parse.bind(marked);
+    marked.parse = (...args) => {
+      const template = document.createElement("template");
+      template.innerHTML = parse(...args);
+      sanitize(template.content);
+      return template.innerHTML;
+    };
+  }
+  window.palomarSanitize = sanitize;
+  document.addEventListener("DOMContentLoaded", () => sanitize(document), {once: true});
+})();
+'''.replace("__PALOMAR_SURFACE_STYLE__", json.dumps(SURFACE_STYLES))
+
+
+VERSO_RUNTIME = r'''(() => {
+  "use strict";
+  const runtimeUrl = document.currentScript?.src;
+  const sanitize = (root) => window.palomarSanitize && window.palomarSanitize(root);
+
+  function isolateComparedDeclarations() {
+    let declarations;
+    try {
+      declarations = JSON.parse(document.body.dataset.palomarDeclarations || "[]");
+    } catch (_) {
+      declarations = [];
+    }
+    if (!Array.isArray(declarations) || declarations.length === 0) return true;
+    const source = document.querySelector("section.code-content");
+    if (!source) return false;
+
+    const selected = [];
+    for (const name of declarations) {
+      const marker = Array.from(source.querySelectorAll(".const[data-binding]"))
+        .find((element) => element.dataset.binding === `const-${name}` && element.id);
+      const block = marker?.closest("code.hl.lean.block");
+      if (!block) return false;
+      const docstring = block.previousElementSibling;
+      if (docstring?.matches(".md-text:not(.mod-doc)")) selected.push(docstring);
+      selected.push(block);
+    }
+
+    const main = document.createElement("main");
+    main.id = "main-content";
+    main.className = "palomar-declaration-surface";
+    const content = document.createElement("section");
+    content.className = "code-content";
+    for (const element of selected) content.append(element);
+    for (const anchor of content.querySelectorAll("a[href]")) {
+      let fragment = "";
+      try {
+        fragment = new URL(anchor.href, location.href).hash.slice(1);
+      } catch (_) {
+        fragment = "";
+      }
+      if (fragment && !content.querySelector(`#${CSS.escape(fragment)}`)) {
+        anchor.replaceWith(...anchor.childNodes);
+      }
+    }
+    main.append(content);
+    document.body.replaceChildren(main);
+    document.title = "Compared Challenge declaration";
+    return true;
+  }
+
+  function renderDocstrings(root) {
+    if (typeof marked === "undefined" || typeof marked.parse !== "function") return;
+    for (const source of root.querySelectorAll("code.docstring, pre.docstring")) {
+      const template = document.createElement("template");
+      template.innerHTML = marked.parse(source.innerText);
+      sanitize(template.content);
+      const rendered = document.createElement("div");
+      rendered.className = "docstring";
+      rendered.append(template.content.cloneNode(true));
+      source.replaceWith(rendered);
+    }
+  }
+
+  function installBindingHighlights() {
+    let highlighted = [];
+    for (const container of document.querySelectorAll(".hl.lean")) {
+      container.addEventListener("mouseover", (event) => {
+        const token = event.target.closest(".token[data-binding]");
+        if (!token || !container.contains(token) || !token.dataset.binding) return;
+        highlighted = Array.from(document.querySelectorAll(".hl.lean .token[data-binding]"))
+          .filter((candidate) => candidate.dataset.binding === token.dataset.binding &&
+            candidate.closest(".hl.lean")?.dataset.leanContext === container.dataset.leanContext);
+        highlighted.forEach((candidate) => candidate.classList.add("binding-hl"));
+      });
+      container.addEventListener("mouseout", () => {
+        highlighted.forEach((candidate) => candidate.classList.remove("binding-hl"));
+        highlighted = [];
+      });
+    }
+  }
+
+  function popupContent(target, docs) {
+    const content = document.createElement("span");
+    content.className = "hl lean popup";
+    if (target.classList.contains("tactic")) {
+      const state = target.querySelector(":scope > .tactic-state");
+      if (!state) return null;
+      content.append(state.cloneNode(true));
+      return content;
+    }
+    const inline = target.querySelector(".hover-info");
+    if (inline) {
+      content.append(inline.cloneNode(true));
+      sanitize(content);
+      return content;
+    }
+    const value = docs[String(target.dataset.versoHover || "")];
+    if (typeof value !== "string") return null;
+    const template = document.createElement("template");
+    template.innerHTML = value;
+    sanitize(template.content);
+    content.append(template.content.cloneNode(true));
+    renderDocstrings(content);
+    return content;
+  }
+
+  const MARGIN = 8;
+  const GAP = 6;
+
+  /**
+   * Put the popup beside the thing it describes, never on top of it.
+   *
+   * The old placement clamped the top to `innerHeight - 160`, which for any
+   * token in the lower part of the view put the box over the token and so
+   * under the pointer. The pointer then left the token, the popup hid, the
+   * pointer was over the token again, and it flickered. Choosing the roomier
+   * side removes the cause; `pointer-events: none` in the stylesheet removes
+   * the possibility.
+   */
+  function place(popup, box) {
+    popup.style.position = "fixed";
+    popup.style.maxWidth = `${Math.max(320, innerWidth - 2 * MARGIN)}px`;
+    popup.style.maxHeight = "none";
+    popup.style.overflow = "visible";
+    popup.style.zIndex = "2147483647";
+    // Measured after the width is set and before a side is chosen: how tall it
+    // wants to be depends on how wide it is allowed to be.
+    popup.style.left = `${MARGIN}px`;
+    popup.style.top = `${MARGIN}px`;
+    const wanted = popup.getBoundingClientRect();
+
+    const below = innerHeight - box.bottom - GAP - MARGIN;
+    const above = box.top - GAP - MARGIN;
+    const under = wanted.height <= below || below >= above;
+    const height = Math.max(64, Math.min(wanted.height, under ? below : above));
+    popup.style.maxHeight = `${height}px`;
+    popup.style.overflow = "auto";
+    popup.style.top = under
+      ? `${box.bottom + GAP}px`
+      : `${Math.max(MARGIN, box.top - GAP - height)}px`;
+    popup.style.left =
+      `${Math.max(MARGIN, Math.min(box.left, innerWidth - wanted.width - MARGIN))}px`;
+  }
+
+  function installHovers(docs) {
+    const popup = document.createElement("div");
+    popup.className = "palomar-hover hl lean";
+    popup.hidden = true;
+    document.body.append(popup);
+    const selector = ".hl.lean .token[data-verso-hover], .hl.lean .has-info, .hl.lean .tactic";
+    for (const target of document.querySelectorAll(selector)) {
+      target.addEventListener("mouseenter", () => {
+        const content = popupContent(target, docs);
+        if (!content) return;
+        popup.replaceChildren(content);
+        popup.hidden = false;
+        place(popup, target.getBoundingClientRect());
+      });
+      target.addEventListener("mouseleave", () => { popup.hidden = true; });
+    }
+  }
+
+  function reportSurfaceHeight() {
+    const surface = document.querySelector(".palomar-declaration-surface");
+    if (!surface || parent === window) return;
+    const send = () => {
+      const height = Math.ceil(surface.getBoundingClientRect().height);
+      if (Number.isSafeInteger(height) && height > 0) {
+        parent.postMessage({type: "palomar-render-height", height}, "*");
+      }
+    };
+    requestAnimationFrame(send);
+    if (typeof ResizeObserver === "function") new ResizeObserver(send).observe(surface);
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    sanitize(document);
+    if (!isolateComparedDeclarations()) {
+      const error = document.createElement("p");
+      error.className = "palomar-render-error";
+      error.textContent = "The compared declaration is missing from this rendering.";
+      document.body.replaceChildren(error);
+      return;
+    }
+    renderDocstrings(document);
+    installBindingHighlights();
+    let docs = {};
+    try {
+      const root = runtimeUrl ? new URL(".", runtimeUrl) : new URL("../", location.href);
+      const response = await fetch(new URL("-verso-docs.json", root), {credentials: "omit"});
+      if (response.ok) docs = await response.json();
+    } catch (_) {
+      docs = {};
+    }
+    installHovers(docs);
+    reportSurfaceHeight();
+  }, {once: true});
+})();
+'''
+
+
+def sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def extract_module_doc(text: str) -> str | None:
+    """Return the first Lean module doc comment outside strings and other comments."""
+    index = 0
+    while index < len(text):
+        if text.startswith("--", index):
+            newline = text.find("\n", index + 2)
+            index = len(text) if newline < 0 else newline + 1
+            continue
+        if text.startswith("/-", index):
+            is_module_doc = text.startswith("/-!", index)
+            content_start = index + 3
+            depth = 1
+            cursor = index + 2
+            while cursor < len(text) and depth:
+                if text.startswith("/-", cursor):
+                    depth += 1
+                    cursor += 2
+                elif text.startswith("-/", cursor):
+                    depth -= 1
+                    if depth == 0:
+                        if is_module_doc:
+                            return text[content_start:cursor].strip()
+                        cursor += 2
+                        break
+                    cursor += 2
+                else:
+                    cursor += 1
+            if depth:
+                raise VerificationError("unterminated Lean block comment")
+            index = cursor
+            continue
+        if text[index] == '"':
+            index += 1
+            escaped = False
+            while index < len(text):
+                character = text[index]
+                index += 1
+                if escaped:
+                    escaped = False
+                elif character == "\\":
+                    escaped = True
+                elif character == '"':
+                    break
+            continue
+        index += 1
+    return None
+
+
+def parsed_challenge_metadata(
+    challenge: Path,
+    solution: Path,
+    comparator: Path,
+    *,
+    challenge_module: str,
+    lean: Path,
+    environment: dict[str, str],
+    audit_declarations: Any,
+) -> dict[str, Any]:
+    for path in (challenge, solution, comparator):
+        if path.is_symlink() or not path.is_file():
+            raise VerificationError(f"render metadata input is missing or invalid: {path.name}")
+    source = challenge.read_text(encoding="utf-8")
+    config = load_comparator_config(comparator)
+    if config["challenge_module"] != challenge_module:
+        raise VerificationError("rendered Challenge module does not match its comparator config")
+    declarations = [*config["theorem_names"], *config.get("definition_names", [])]
+    if len(declarations) != len(set(declarations)):
+        raise VerificationError("comparator declaration names must be unique")
+    audit_declarations = validated_audit_declarations(audit_declarations, declarations)
+    # The header is read by Lean rather than by a parser of our own, so the
+    # rendered page lists what the compiler sees. This step already runs inside
+    # the render sandbox, which permits the toolchain.
+    return {
+        "schema_version": 3,
+        "imports": list(source_header(challenge, lean=lean, environment=environment).imports),
+        "module_doc": extract_module_doc(source),
+        "declarations": declarations,
+        "audit_declarations": audit_declarations,
+        "solution_imports": list(
+            source_header(solution, lean=lean, environment=environment).imports
+        ),
+    }
+
+
+def validated_audit_declarations(value: Any, declarations: list[str]) -> list[dict[str, str]]:
+    if not isinstance(value, list) or len(value) != len(declarations):
+        raise VerificationError("audit declarations must correspond to comparator declarations")
+    result: list[dict[str, str]] = []
+    total_bytes = 0
+    for expected_name, row in zip(declarations, value, strict=True):
+        if not isinstance(row, dict) or set(row) != {"name", "declaration"}:
+            raise VerificationError("audit declaration rows must contain exactly name and declaration")
+        name = row["name"]
+        declaration = row["declaration"]
+        if name != expected_name or not isinstance(declaration, str) or not declaration.strip():
+            raise VerificationError("audit declarations must correspond to comparator declarations")
+        total_bytes += len(declaration.encode("utf-8"))
+        if total_bytes > MAX_AUDIT_DECLARATIONS_BYTES:
+            raise VerificationError("audit declarations exceed the 512 KiB limit")
+        result.append({"name": name, "declaration": declaration})
+    return result
+
+
+def source_header(lean_source: Path, *, lean: Path, environment: dict[str, str]) -> LeanHeader:
+    """Read one Lean source header with the compiler's own parser."""
+    proc = run(
+        [str(lean), "--deps-json", str(lean_source)],
+        cwd=lean_source.parent,
+        env=environment,
+        check=False,
+    )
+    if proc.returncode:
+        raise VerificationError(f"Lean could not read the header of {lean_source.name}")
+    return parse_lean_header(proc.stdout)
+
+
+def load_json_object(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise VerificationError(f"{path.name} must contain a JSON object")
+    return value
+
+
+class ComparedDeclarationsNotRendered(VerificationError):
+    """Trusted sanitizer result for compared declarations with no HTML anchor."""
+
+    def __init__(self, declarations: list[str], *, total: int | None = None) -> None:
+        bounded = [
+            declaration[:MAX_REPORTED_DECLARATION_LENGTH]
+            for declaration in declarations[:MAX_REPORTED_DECLARATIONS]
+        ]
+        count = total if total is not None else len(declarations)
+        preview = ", ".join(bounded[:5])
+        remainder = count - len(bounded[:5])
+        if remainder > 0:
+            preview += f" (+{remainder} more)"
+        noun = "declaration" if count == 1 else "declarations"
+        verb = "has" if count == 1 else "have"
+        super().__init__(
+            f"{count} compared {noun} {verb} no rendered anchor: {preview}",
+            code=MISSING_DECLARATION_CODE,
+            owner="submitter",
+            field="comparator.declarations",
+            detail=(
+                "Compared declarations without an anchor (bounded): "
+                + json.dumps(bounded[:10], ensure_ascii=False, separators=(",", ":"))
+                + "\n\nEach theorem, definition, or instance selected by comparator.json must "
+                "have a compiler-backed declaration anchor in the rendered Challenge. "
+                "Anonymous instances currently have no such Verso anchor."
+            ),
+            next_action=(
+                "Give every listed declaration an explicit source-level name in Challenge.lean, "
+                "update comparator.json if its generated name changes, commit the correction, "
+                "and make a new submission using that commit SHA."
+            ),
+        )
+        self.declarations = tuple(bounded)
+        self.total = count
+
+
+def literate_failure(proc: subprocess.CompletedProcess[str]) -> VerificationError:
+    """Say why Verso's literate build stopped, in the lines that say so.
+
+    A failed `lake build Challenge:literate` can end its output with several
+    kilobytes of search-path listing, which is what a bounded tail of the log
+    shows and the one line that matters does not; the lines that name an
+    error are carried instead, each bounded.
+    """
+    log = (proc.stdout + "\n" + proc.stderr).strip()
+    return VerificationError(
+        f"lake build Challenge:literate failed ({proc.returncode})",
+        code="palomar.render_failed",
+        owner="palomar",
+        next_action=(
+            "Do not change the repository. Report the render workflow URL to Palomar "
+            "so its operators can inspect the quoted rendering error."
+        ),
+        retryable=True,
+        detail=comparator_failure_excerpt(log),
+    )
+
+
+def compared_declarations_not_rendered(declarations: list[str]) -> VerificationError:
+    """Describe a publication-contract failure without guessing an HTML anchor.
+
+    Verso only emits declaration bindings for names backed by source tokens.
+    Comparator may also select compiler-generated declarations, notably
+    anonymous instances. Those declarations are valid Lean but cannot be an
+    unambiguous publication target, so the submitter has to name them in the
+    immutable Challenge source.
+    """
+    return ComparedDeclarationsNotRendered(declarations)
+
+
+def sanitize_diagnostic_document(error: ComparedDeclarationsNotRendered) -> dict[str, Any]:
+    return {
+        "schema_version": 1,
+        "code": MISSING_DECLARATION_CODE,
+        "declarations": list(error.declarations),
+        "total": error.total,
+    }
+
+
+def read_sanitize_diagnostic(path: Path) -> ComparedDeclarationsNotRendered:
+    if path.is_symlink() or not path.is_file() or path.stat().st_size > MAX_SANITIZE_DIAGNOSTIC_BYTES:
+        raise VerificationError("sanitizer diagnostic channel is missing or invalid")
+    value = load_json_object(path)
+    if set(value) != {"schema_version", "code", "declarations", "total"}:
+        raise VerificationError("sanitizer diagnostic channel has an unsupported shape")
+    declarations = value.get("declarations")
+    total = value.get("total")
+    if (
+        value.get("schema_version") != 1
+        or value.get("code") != MISSING_DECLARATION_CODE
+        or not isinstance(declarations, list)
+        or not 1 <= len(declarations) <= MAX_REPORTED_DECLARATIONS
+        or not all(
+            isinstance(item, str) and 1 <= len(item) <= MAX_REPORTED_DECLARATION_LENGTH
+            for item in declarations
+        )
+        or type(total) is not int
+        or not len(declarations) <= total <= 1_000_000
+        or not (total == len(declarations) or len(declarations) == MAX_REPORTED_DECLARATIONS)
+    ):
+        raise VerificationError("sanitizer diagnostic channel has invalid values")
+    return ComparedDeclarationsNotRendered(declarations, total=total)
+
+
+def render_failure_diagnostic(error: BaseException, stage: str) -> dict[str, Any]:
+    """Classify renderer failures from typed, trusted process boundaries."""
+    message = str(error)
+    if isinstance(error, ComparedDeclarationsNotRendered):
+        return error.diagnostic(stage)
+    if isinstance(error, subprocess.TimeoutExpired):
+        return VerificationError(
+            "Challenge rendering timed out.",
+            code="provider.render_timeout",
+            owner="provider",
+            next_action="Do not change the repository. Retry the same commit later.",
+            retryable=True,
+        ).diagnostic(stage)
+    if isinstance(error, VerificationError) and error.owner != "submitter":
+        return error.diagnostic(stage)
+    return VerificationError(
+        "Palomar could not render the accepted Challenge.",
+        code="palomar.render_failed",
+        owner="palomar",
+        next_action=(
+            "Do not change the repository. Retry the same commit later and report the "
+            "render workflow URL if this happens again."
+        ),
+        retryable=True,
+        detail=(
+            f"{type(error).__name__}: {message[:1_500]}"
+            + (f"\n\n{error.detail[:1_500]}" if isinstance(error, VerificationError) and error.detail else "")
+        ),
+    ).diagnostic(stage)
+
+
+def append_render_failure(report: dict[str, Any], error: BaseException) -> None:
+    report["diagnostics_schema_version"] = DIAGNOSTICS_SCHEMA_VERSION
+    diagnostics = report.setdefault("diagnostics", [])
+    if isinstance(diagnostics, list) and len(diagnostics) < MAX_DIAGNOSTICS:
+        diagnostic = render_failure_diagnostic(error, str(report.get("stage") or "render"))
+        diagnostics.append(diagnostic)
+        if diagnostic["owner"] == "submitter":
+            report["status"] = "fail"
+
+
+def render_toolchain_tag(toolchain: str) -> str:
+    """Render accepted historical editions independently of today's intake floor.
+
+    Rendering does not admit or mechanically verify a submission. Registration
+    binds its result to the existing verified source and review; new intake
+    continues to use supported_toolchain and the current toolchains.json floor.
+    Lean 4.28 is the oldest renderer covered by the legacy compatibility path.
+    """
+    if parse_lean_version(toolchain, TOOLCHAIN_RE) < (4, 28, 0, 1, 0):
+        raise VerificationError(
+            f"Lean toolchain {toolchain} is older than the minimum historical renderer supports (v4.28.0)",
+            code="palomar.renderer_toolchain_unsupported",
+            owner="palomar",
+            next_action=(
+                "Palomar must arrange rendering for this historical edition; do not change its source."
+            ),
+        )
+    return toolchain_release_tag(toolchain)
+
+
+def toolchain_verso_commit(toolchain: str) -> str:
+    """The compatible Verso release for this toolchain, resolved to a commit.
+
+    Prefer an exact tag. Stable Lean patch releases may fall back to the
+    release line's patch-zero Verso tag, whose source is then rebuilt with the
+    submission's exact toolchain. Release candidates remain exact. The
+    resolved commit is what gets recorded, so no compatibility table or
+    mutable tag is part of the render report's provenance.
+    """
+    tag = render_toolchain_tag(toolchain)
+    try:
+        return resolve_release_commit(VERSO_REPOSITORY, tag)
+    except VerificationError as error:
+        if error.code != "palomar.toolchain_release_missing":
+            raise
+        match = TOOLCHAIN_RE.fullmatch(toolchain.strip())
+        if match is None or match.group("rc") is not None or int(match.group("patch")) == 0:
+            raise
+        release_line_tag = f"v{match.group('major')}.{match.group('minor')}.0"
+        try:
+            return resolve_release_commit(VERSO_REPOSITORY, release_line_tag)
+        except VerificationError as fallback_error:
+            if fallback_error.code != "palomar.toolchain_release_missing":
+                raise
+            raise VerificationError(
+                f"{VERSO_REPOSITORY} has published neither {tag} nor "
+                f"{release_line_tag} for this Lean release line",
+                code="palomar.toolchain_release_missing",
+                owner="palomar",
+                next_action=(
+                    "Do not change the repository. Palomar must add support for this Lean release."
+                ),
+            ) from None
+
+
+def compatible_verso_toolchain(source_toolchain: str, verso_toolchain: str) -> bool:
+    """Whether a selected Verso source release may build with the source Lean.
+
+    Exact toolchains always match. The sole relaxation is from a stable
+    positive patch release to patch zero on the same major/minor release line;
+    it deliberately does not cross release lines or prerelease boundaries.
+    """
+    source = TOOLCHAIN_RE.fullmatch(source_toolchain.strip())
+    verso = TOOLCHAIN_RE.fullmatch(verso_toolchain.strip())
+    if source is None or verso is None:
+        return False
+    if source_toolchain.strip() == verso_toolchain.strip():
+        return True
+    return (
+        source.group("rc") is None
+        and verso.group("rc") is None
+        and int(source.group("major")) == int(verso.group("major"))
+        and int(source.group("minor")) == int(verso.group("minor"))
+        and int(source.group("patch")) > 0
+        and int(verso.group("patch")) == 0
+    )
+
+
+def normalized_repository(value: str) -> tuple[str, str]:
+    candidate = value.strip().removesuffix(".git").strip("/")
+    match = GITHUB_RE.fullmatch(f"https://github.com/{candidate}")
+    if not match:
+        raise VerificationError("repository must have the form owner/name")
+    repository = f"{match.group('owner')}/{match.group('repo')}"
+    return repository, f"https://github.com/{repository}"
+
+
+def prepare(args: argparse.Namespace) -> int:
+    work = Path(args.work_dir).resolve()
+    output = Path(args.output).resolve()
+    report = intake_report(now())
+    try:
+        repository, repository_url = normalized_repository(args.repository)
+        commit = args.commit.strip().lower()
+        challenge_sha256 = args.challenge_sha256.strip().lower()
+        if not SHA_RE.fullmatch(commit):
+            raise VerificationError("commit must be 40 lowercase hexadecimal characters")
+        if not re.fullmatch(r"[0-9a-f]{64}", challenge_sha256):
+            raise VerificationError("challenge_sha256 must be 64 lowercase hexadecimal characters")
+        supplied_paths = AcceptedRenderPaths(
+            project_path=args.project_path.strip(),
+            challenge_path=args.challenge_path.strip(),
+            solution_path=args.solution_path.strip(),
+            comparator_config_path=args.comparator_config_path.strip(),
+            lakefile_path=args.lakefile_path.strip(),
+            lean_toolchain_path=args.lean_toolchain_path.strip(),
+        )
+        source = work / "source"
+        clone_commit(repository_url, commit, source)
+        if tree_size(source) > MAX_SOURCE_BYTES:
+            raise VerificationError("checked-out source exceeds the 500 MiB cap")
+        project_relative = (
+            normalized_repository_path(supplied_paths.project_path, "project_path")
+            if supplied_paths.project_path
+            else None
+        )
+        project = (
+            resolve_repository_path(source, project_relative, "project_path", kind="directory")
+            if project_relative is not None
+            else source.resolve()
+        )
+        challenge_relative = normalized_repository_path(
+            supplied_paths.challenge_path, "challenge_path"
+        )
+        solution_relative = normalized_repository_path(
+            supplied_paths.solution_path, "solution_path"
+        )
+        comparator_relative = normalized_repository_path(
+            supplied_paths.comparator_config_path, "comparator_config_path"
+        )
+        lakefile_relative = normalized_repository_path(
+            supplied_paths.lakefile_path, "lakefile_path"
+        )
+        toolchain_relative = normalized_repository_path(
+            supplied_paths.lean_toolchain_path, "lean_toolchain_path"
+        )
+        challenge = resolve_repository_path(source, challenge_relative, "challenge_path", kind="file")
+        solution = resolve_repository_path(source, solution_relative, "solution_path", kind="file")
+        comparator = resolve_repository_path(
+            source, comparator_relative, "comparator_config_path", kind="file"
+        )
+        lakefile = resolve_repository_path(source, lakefile_relative, "lakefile_path", kind="file")
+        toolchain_file = resolve_repository_path(
+            source, toolchain_relative, "lean_toolchain_path", kind="file"
+        )
+        if lakefile.parent != project or lakefile.name not in {"lakefile.toml", "lakefile.lean"}:
+            raise VerificationError("accepted Lakefile is not the selected project's Lakefile")
+        for path, field in (
+            (challenge, "Challenge source"),
+            (solution, "Solution source"),
+            (comparator, "Comparator configuration"),
+        ):
+            try:
+                path.relative_to(project)
+            except ValueError as error:
+                raise VerificationError(f"accepted {field} is outside the selected project") from error
+        if toolchain_file.name != "lean-toolchain" or toolchain_file.parent not in {
+            project,
+            source,
+        }:
+            raise VerificationError("accepted lean-toolchain is outside its supported locations")
+        manifest_file = project / "lake-manifest.json"
+        if manifest_file.is_symlink() or (
+            lakefile.name == "lakefile.lean" and not manifest_file.is_file()
+        ):
+            raise VerificationError("lakefile.lean projects require a committed lake-manifest.json")
+        load_comparator_config(comparator)
+        actual_challenge_sha256 = sha256(challenge)
+        if actual_challenge_sha256 != challenge_sha256:
+            raise VerificationError("Challenge source does not match the accepted mechanical report")
+        toolchain = toolchain_file.read_text(encoding="utf-8").strip()
+        verso_commit = toolchain_verso_commit(toolchain)
+        accepted_paths = AcceptedRenderPaths(
+            project_path=project_relative.as_posix() if project_relative else "",
+            challenge_path=challenge_relative.as_posix(),
+            solution_path=solution_relative.as_posix(),
+            comparator_config_path=comparator_relative.as_posix(),
+            lakefile_path=lakefile_relative.as_posix(),
+            lean_toolchain_path=toolchain_relative.as_posix(),
+        )
+        report = PreparedRenderReport(
+            source=RenderSource(
+                repository=repository,
+                repository_url=repository_url,
+                commit=commit,
+                challenge_sha256=challenge_sha256,
+                paths=accepted_paths,
+            ),
+            lean_toolchain=toolchain,
+            verso_commit=verso_commit,
+            prepared_at=report["prepared_at"],
+        ).as_dict()
+        write_json(output, report)
+        workflow_output = os.environ.get("GITHUB_OUTPUT")
+        if workflow_output:
+            with open(workflow_output, "a", encoding="utf-8") as handle:
+                handle.write("ready=true\n")
+                handle.write(f"lean_toolchain={toolchain}\n")
+                handle.write(f"verso_commit={verso_commit}\n")
+    except Exception as error:  # noqa: BLE001 - workflow failures become a bounded report
+        report["errors"].append(str(error))
+        write_json(output, report)
+        workflow_output = os.environ.get("GITHUB_OUTPUT")
+        if workflow_output:
+            with open(workflow_output, "a", encoding="utf-8") as handle:
+                handle.write("ready=false\nlean_toolchain=\nverso_commit=\n")
+    return 0
+
+
+def contained_manifest_paths(manifest: dict[str, Any], project: Path, repository: Path) -> dict[str, Any]:
+    """Canonicalize local dependencies while retaining the repository layout."""
+    root = repository.resolve(strict=True)
+    owner = project.resolve(strict=True)
+    if not owner.is_relative_to(root):
+        raise VerificationError("renderer project escapes its repository")
+    packages = manifest.get("packages")
+    if not isinstance(packages, list):
+        raise VerificationError("Lake manifest packages must be arrays")
+    result = []
+    for package in packages:
+        if not isinstance(package, dict):
+            raise VerificationError("Lake manifest package entries must be objects")
+        candidate = dict(package)
+        if candidate.get("type") == "path":
+            directory = candidate.get("dir")
+            if (
+                not isinstance(directory, str) or not directory
+                or Path(directory).is_absolute() or "\\" in directory
+            ):
+                raise VerificationError("renderer manifest has an invalid path package")
+            try:
+                target = (owner / directory).resolve(strict=True)
+            except (OSError, RuntimeError, ValueError) as error:
+                raise VerificationError("renderer path package cannot be resolved") from error
+            if not target.is_relative_to(root) or not target.is_dir():
+                raise VerificationError("renderer path package escapes its repository or is not a directory")
+            # Canonical relative paths also rebase contained absolute symlinks.
+            candidate["dir"] = Path(os.path.relpath(target, owner)).as_posix()
+        result.append(candidate)
+    return {**manifest, "packages": result}
+
+
+def manifest_package_key(package: dict[str, Any], *, contained_paths: bool = False) -> tuple[str, str, str]:
+    package_type = str(package.get("type") or "")
+    if package_type == "git":
+        repository = github_repository(str(package.get("url") or ""))
+        revision = str(package.get("rev") or "")
+        if repository is None or not SHA_RE.fullmatch(revision):
+            raise VerificationError(f"renderer manifest has an invalid Git package: {package.get('name')!r}")
+        return package_type, repository.lower(), revision
+    if package_type == "path":
+        directory = str(package.get("dir") or "")
+        if (
+            not directory or Path(directory).is_absolute()
+            or (not contained_paths and ".." in Path(directory).parts)
+        ):
+            raise VerificationError(f"renderer manifest has an invalid path package: {package.get('name')!r}")
+        return package_type, directory, ""
+    raise VerificationError(f"renderer manifest has an unsupported package type: {package_type!r}")
+
+
+class RendererDependencyConflict(VerificationError):
+    """A proof dependency conflicts with the renderer's own tool closure."""
+
+    def __init__(self, message: str, *, detail: str = "") -> None:
+        super().__init__(
+            message, code="palomar.renderer_dependency_conflict", owner="palomar",
+            retryable=False, detail=detail,
+            next_action="Palomar must select a compatible renderer; do not change the accepted source.",
+        )
+
+
+def challenge_only_manifest(
+    source_manifest: dict[str, Any], work: Path,
+) -> tuple[dict[str, Any], tuple[str, ...]]:
+    """Retain canonical Challenge libraries and their exact pinned closures.
+
+    Mechanical verification permits Challenge imports only from these roots
+    and their closures. Solution-only packages need not enter the renderer.
+    This fallback never substitutes a package required by a trusted root.
+    """
+    packages = source_manifest["packages"]
+    by_name = {lake_package_name(package.get("name")): package for package in packages}
+    if None in by_name or len(by_name) != len(packages):
+        raise RendererDependencyConflict("invalid or duplicate source package in renderer manifest")
+    _roots, aliases = allowed_roots()
+    selected = {}
+    for package in packages:
+        kind, repository, revision = manifest_package_key(package, contained_paths=True)
+        root = aliases.get(repository) if kind == "git" else None
+        if root is None:
+            continue
+        selected[lake_package_name(package["name"])] = {**package, "inherited": False}
+        # Read the exact canonical root's manifest as data; no submitted Lake
+        # configuration executes to choose dependencies. clone_commit checks
+        # that the fetched object is the requested immutable revision.
+        with tempfile.TemporaryDirectory(prefix="challenge-library-", dir=work) as raw:
+            checkout = Path(raw) / "source"
+            try:
+                clone_commit(f"https://github.com/{root['repository']}", revision, checkout)
+            except VerificationError as error:
+                raise VerificationError(
+                    "Palomar could not fetch the canonical Challenge library manifest",
+                    code="provider.renderer_dependency_lookup_failed", owner="provider",
+                    retryable=True, detail=str(error)[:1500],
+                    next_action="Do not change the repository. Retry the same commit later.",
+                ) from error
+            # Use the verifier's normal name/repository/revision parser and
+            # its empty-closure behavior when the pinned root has no manifest.
+            expected_packages = manifest_packages(checkout)
+        for expected in expected_packages:
+            name = expected["name"]
+            actual = by_name.get(name)
+            actual_key = manifest_package_key(actual) if actual is not None else None
+            if actual_key is not None and actual_key[0] == "git":
+                actual_key = ("git", canonical_repository(actual_key[1], aliases).lower(), actual_key[2])
+            expected_key = (
+                "git", canonical_repository(expected["repository"], aliases).lower(), expected["revision"]
+            )
+            if actual_key != expected_key:
+                raise RendererDependencyConflict(
+                    f"renderer source substitutes a pinned Challenge dependency: {name!r}"
+                )
+            selected.setdefault(name, actual)
+    # An accepted Challenge with no canonical library can use only the
+    # toolchain. Its Solution-only dependency set is entirely unnecessary.
+    excluded = tuple(sorted(set(by_name) - set(selected)))
+    return {**source_manifest, "packages": [selected[name] for name in sorted(selected)]}, excluded
+
+
+def merge_renderer_manifest(
+    source_manifest: dict[str, Any],
+    verso_manifest: dict[str, Any],
+    verso_commit: str,
+    *,
+    source_project: Path | None = None,
+    source_repository: Path | None = None,
+) -> dict[str, Any]:
+    if source_project is not None and source_repository is not None:
+        source_manifest = contained_manifest_paths(source_manifest, source_project, source_repository)
+    source_packages = source_manifest.get("packages")
+    verso_packages = verso_manifest.get("packages")
+    if not isinstance(source_packages, list) or not isinstance(verso_packages, list):
+        raise VerificationError("Lake manifest packages must be arrays")
+    merged: dict[str, dict[str, Any]] = {}
+
+    def add(package: dict[str, Any], *, inherited: bool, contained_paths: bool = False) -> None:
+        if not isinstance(package, dict):
+            raise VerificationError("Lake manifest package entries must be objects")
+        name = lake_package_name(package.get("name"))
+        if name is None:
+            raise VerificationError(f"invalid Lake package name: {package.get('name')!r}")
+        candidate = dict(package)
+        candidate["inherited"] = inherited
+        identity = manifest_package_key(candidate, contained_paths=contained_paths)
+        previous = merged.get(name)
+        if (previous is not None
+            and manifest_package_key(previous, contained_paths=source_project is not None) != identity
+        ):
+            same_plausible_sources = (
+                name == "plausible"
+                and manifest_package_key(previous)[:2] == identity[:2]
+                == ("git", "leanprover-community/plausible")
+                and {previous["rev"], candidate["rev"]} <= SOURCE_IDENTICAL_PLAUSIBLE_REVISIONS
+                and all(
+                    (entry.get("subDir"), entry.get("configFile"), entry.get("manifestFile"))
+                    == (None, "lakefile.toml", "lake-manifest.json")
+                    for entry in (previous, candidate)
+                )
+            )
+            if not same_plausible_sources:
+                raise RendererDependencyConflict(
+                    f"Verso dependency conflicts with submitted package {name!r}"
+                )
+        if previous is None:
+            merged[name] = candidate
+
+    for package in source_packages:
+        add(
+            package, inherited=bool(package.get("inherited")),
+            contained_paths=source_project is not None and source_repository is not None,
+        )
+    for package in verso_packages:
+        add(package, inherited=True)
+    add(
+        {
+            "url": f"https://github.com/{VERSO_REPOSITORY}.git",
+            "type": "git",
+            "subDir": None,
+            "scope": "",
+            "rev": verso_commit,
+            "name": "verso",
+            "manifestFile": "lake-manifest.json",
+            "inputRev": verso_commit,
+            "inherited": False,
+            "configFile": "lakefile.lean",
+        },
+        inherited=False,
+    )
+    return {
+        "version": str(source_manifest.get("version") or verso_manifest.get("version") or "1.1.0"),
+        "packagesDir": ".lake/packages",
+        "packages": [merged[name] for name in sorted(merged)],
+        "name": "PalomarChallengeRender",
+        "lakeDir": ".lake",
+        "fixedToolchain": False,
+    }
+
+
+def toml_string(value: str) -> str:
+    return json.dumps(value, ensure_ascii=False)
+
+
+def trusted_lakefile(
+    source_manifest: dict[str, Any],
+    verso_commit: str,
+    *,
+    challenge_module: str,
+    challenge_source_root: PurePosixPath,
+) -> str:
+    packages = source_manifest.get("packages")
+    if not isinstance(packages, list):
+        raise VerificationError("submitted Lake manifest packages must be an array")
+    direct = [
+        package
+        for package in packages
+        if not bool(package.get("inherited")) and lake_package_name(package.get("name")) != "verso"
+    ]
+    lines = ['name = "PalomarChallengeRender"', 'defaultTargets = ["Challenge"]', ""]
+    seen: set[str] = set()
+    for package in [*direct, {
+        "name": "verso",
+        "type": "git",
+        "url": f"https://github.com/{VERSO_REPOSITORY}",
+        "rev": verso_commit,
+    }]:
+        if not isinstance(package, dict):
+            raise VerificationError("submitted Lake manifest package entries must be objects")
+        name = lake_package_name(package.get("name"))
+        if name is None or name in seen:
+            raise VerificationError(
+                f"invalid or duplicate direct Lake package: {package.get('name')!r}"
+            )
+        seen.add(name)
+        lines.extend(["[[require]]", f"name = {toml_string(package['name'])}"])
+        if package.get("type") == "git":
+            repository = github_repository(str(package.get("url") or ""))
+            revision = str(package.get("rev") or "")
+            if repository is None or not SHA_RE.fullmatch(revision):
+                raise VerificationError(f"invalid direct Git package: {name!r}")
+            lines.extend(
+                [
+                    f"git = {toml_string(f'https://github.com/{repository}.git')}",
+                    f"rev = {toml_string(revision)}",
+                    "",
+                ]
+            )
+        elif package.get("type") == "path":
+            directory = str(package.get("dir") or "")
+            if not directory or Path(directory).is_absolute() or "\\" in directory:
+                raise VerificationError(f"invalid direct path package: {name!r}")
+            lines.extend([f"path = {toml_string(directory)}", ""])
+        else:
+            raise VerificationError(f"unsupported direct package type for {name!r}")
+    module_source_suffix(challenge_module)
+    if (
+        challenge_source_root.is_absolute()
+        or ".." in challenge_source_root.parts
+        or "\\" in challenge_source_root.as_posix()
+    ):
+        raise VerificationError("configured Challenge source root is unsafe")
+    lines.extend(
+        [
+            "[[lean_lib]]",
+            'name = "Challenge"',
+            f"srcDir = {toml_string(challenge_source_root.as_posix())}",
+            f"roots = [{toml_string(challenge_module)}]",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def replace_workspace_file(path: Path, content: bytes) -> None:
+    """Replace one hostile workspace path without following its final symlink."""
+    if path.is_symlink() or path.exists():
+        if path.is_dir() and not path.is_symlink():
+            shutil.rmtree(path)
+        else:
+            path.unlink()
+    path.write_bytes(content)
+
+
+def configured_module_source_root(
+    project: Path,
+    source: Path,
+    module: str,
+    field: str,
+) -> PurePosixPath:
+    """Bind one accepted source path to its configured dotted module identity."""
+
+    suffix = module_source_suffix(module)
+    try:
+        relative = source.relative_to(project)
+    except ValueError as error:
+        raise VerificationError(f"accepted {field} is outside the selected project") from error
+    if len(relative.parts) < len(suffix.parts) or relative.parts[-len(suffix.parts) :] != suffix.parts:
+        raise VerificationError(
+            f"accepted {field} path does not match configured module {module!r}"
+        )
+    root_parts = relative.parts[: -len(suffix.parts)]
+    return PurePosixPath(*root_parts) if root_parts else PurePosixPath(".")
+
+
+def module_html_entrypoint(module: str) -> PurePosixPath:
+    """Return Verso's output path for the original configured Lean module."""
+
+    return module_source_suffix(module).with_suffix("") / "index.html"
+
+
+@dataclass(frozen=True, slots=True)
+class RenderWorkspace:
+    project: Path
+    challenge: Path
+    solution: Path
+    comparator: Path
+    challenge_module: str
+    excluded_proof_packages: tuple[str, ...] = ()
+
+
+def prepare_workspace(
+    source: Path,
+    workspace: Path,
+    verso_commit: str,
+    work: Path,
+    accepted_paths: AcceptedRenderPaths,
+) -> RenderWorkspace:
+    if workspace.exists():
+        raise VerificationError("render workspace already exists")
+    project_relative = (
+        normalized_repository_path(accepted_paths.project_path, "render project_path")
+        if accepted_paths.project_path
+        else None
+    )
+    source_project = (
+        resolve_repository_path(
+            source,
+            project_relative,
+            "render project_path",
+            kind="directory",
+        )
+        if project_relative
+        else source.resolve()
+    )
+    ensure_lake_manifest(source_project, source)
+    source_manifest = contained_manifest_paths(
+        load_json_object(source_project / "lake-manifest.json"), source_project, source
+    )
+    challenge_relative = normalized_repository_path(
+        accepted_paths.challenge_path, "render challenge_path"
+    )
+    solution_relative = normalized_repository_path(
+        accepted_paths.solution_path, "render solution_path"
+    )
+    comparator_relative = normalized_repository_path(
+        accepted_paths.comparator_config_path,
+        "render comparator_config_path",
+    )
+    toolchain_relative = normalized_repository_path(
+        accepted_paths.lean_toolchain_path,
+        "render lean_toolchain_path",
+    )
+    accepted_challenge_path = resolve_repository_path(
+        source, challenge_relative, "render challenge_path", kind="file"
+    )
+    accepted_solution_path = resolve_repository_path(
+        source, solution_relative, "render solution_path", kind="file"
+    )
+    accepted_comparator_path = resolve_repository_path(
+        source, comparator_relative, "render comparator_config_path", kind="file"
+    )
+    accepted_challenge = accepted_challenge_path.read_bytes()
+    accepted_solution = accepted_solution_path.read_bytes()
+    accepted_comparator = accepted_comparator_path.read_bytes()
+    comparator_config = load_comparator_config(accepted_comparator_path)
+    challenge_module = comparator_config["challenge_module"]
+    configured_module_source_root(
+        source_project,
+        accepted_solution_path,
+        comparator_config["solution_module"],
+        "Solution source",
+    )
+    challenge_source_root = configured_module_source_root(
+        source_project,
+        accepted_challenge_path,
+        challenge_module,
+        "Challenge source",
+    )
+    source_toolchain_path = resolve_repository_path(
+        source, toolchain_relative, "render lean_toolchain_path", kind="file"
+    )
+    verso_probe = work / "verso-manifest"
+    excluded_proof_packages: tuple[str, ...] = ()
+    clone_commit(f"https://github.com/{VERSO_REPOSITORY}", verso_commit, verso_probe)
+    try:
+        verso_toolchain = (verso_probe / "lean-toolchain").read_text(encoding="utf-8").strip()
+        source_toolchain = source_toolchain_path.read_text(encoding="utf-8").strip()
+        if not compatible_verso_toolchain(source_toolchain, verso_toolchain):
+            raise VerificationError(
+                "pinned Verso commit does not match the submission Lean toolchain",
+                code="palomar.renderer_toolchain_mismatch",
+                owner="palomar",
+                next_action=(
+                    "Do not change the repository. Palomar must select a compatible Verso release."
+                ),
+            )
+        verso_manifest = load_json_object(verso_probe / "lake-manifest.json")
+        try:
+            merged_manifest = merge_renderer_manifest(
+                source_manifest, verso_manifest, verso_commit,
+                source_project=source_project, source_repository=source,
+            )
+        except RendererDependencyConflict as conflict:
+            try:
+                source_manifest, excluded_proof_packages = challenge_only_manifest(source_manifest, work)
+                # Any conflict inside the canonical Challenge closure still fails.
+                merged_manifest = merge_renderer_manifest(
+                    source_manifest, verso_manifest, verso_commit,
+                    source_project=source_project, source_repository=source,
+                )
+            except VerificationError as error:
+                raise VerificationError(
+                    str(error), code=error.code, owner=error.owner, retryable=error.retryable,
+                    next_action=error.next_action,
+                    detail=f"Original conflict: {conflict}\n\n{error.detail or error}"[:2000],
+                ) from error
+    finally:
+        shutil.rmtree(verso_probe, ignore_errors=True)
+    # Preserve hostile symlinks rather than dereferencing them in the trusted
+    # process. The sandbox then has nothing to offer an attempt to follow them.
+    shutil.copytree(
+        source,
+        workspace,
+        symlinks=True,
+        ignore=shutil.ignore_patterns(".git", ".lake"),
+    )
+    workspace_project = (
+        resolve_repository_path(
+            workspace,
+            project_relative,
+            "render workspace project_path",
+            kind="directory",
+        )
+        if project_relative
+        else workspace.resolve()
+    )
+    for lakefile_name in ("lakefile.lean", "lakefile.toml"):
+        submitted_lakefile = workspace_project / lakefile_name
+        if submitted_lakefile.exists() or submitted_lakefile.is_symlink():
+            if submitted_lakefile.is_dir() and not submitted_lakefile.is_symlink():
+                shutil.rmtree(submitted_lakefile)
+            else:
+                submitted_lakefile.unlink()
+    replace_workspace_file(
+        workspace_project / "lakefile.toml",
+        trusted_lakefile(
+            source_manifest,
+            verso_commit,
+            challenge_module=challenge_module,
+            challenge_source_root=challenge_source_root,
+        ).encode("utf-8"),
+    )
+    write_json(workspace_project / "lake-manifest.json", merged_manifest)
+    workspace_challenge = resolve_repository_path(
+        workspace, challenge_relative, "render workspace challenge_path", kind="file"
+    )
+    workspace_solution = resolve_repository_path(
+        workspace, solution_relative, "render workspace solution_path", kind="file"
+    )
+    workspace_comparator = resolve_repository_path(
+        workspace,
+        comparator_relative,
+        "render workspace comparator_config_path",
+        kind="file",
+    )
+    if (
+        workspace_challenge.read_bytes() != accepted_challenge
+        or workspace_solution.read_bytes() != accepted_solution
+        or workspace_comparator.read_bytes() != accepted_comparator
+    ):
+        raise VerificationError("render workspace changed an accepted source file")
+    return RenderWorkspace(
+        project=workspace_project.resolve(),
+        challenge=workspace_challenge,
+        solution=workspace_solution,
+        comparator=workspace_comparator,
+        challenge_module=challenge_module,
+        excluded_proof_packages=excluded_proof_packages,
+    )
+
+
+def apply_verso_module_import_backport(
+    project: Path, checkout: Path, revision: str
+) -> dict[str, str] | None:
+    """Backport upstream's module/server import fix to authenticated releases."""
+    expected_source = VERSO_MODULE_IMPORT_BACKPORT_SOURCES.get(revision)
+    if expected_source is None:
+        return None
+    package = next(item for item in manifest_packages(project) if item["name"] == "verso")
+    if package["revision"] != revision or github_repository(package["url"]) != VERSO_REPOSITORY:
+        raise VerificationError("Verso backport package identity does not match the selected release")
+    package_dir = package_checkout(project, package, checkout=checkout)
+    relative = PurePosixPath("src/verso-literate/VersoLiterateMain.lean")
+    source = resolve_repository_path(package_dir, relative, "Verso backport source", kind="file")
+    original = source.read_bytes()
+    if hashlib.sha256(original).hexdigest() != expected_source:
+        raise VerificationError("Verso backport source differs from the authenticated release")
+    before = (
+        "    let env ← importModules (extraImports.map ({module := ·}) ++ imports) {} "
+        "(loadExts := true) (arts := importArts)\n"
+    ).encode()
+    after = (
+        "    let level := if HeaderSyntax.isModule headerStx then .server else .private\n"
+        "    let env ← importModules (extraImports.map ({module := ·}) ++ imports) {} "
+        "(loadExts := true) (level := level) (arts := importArts)\n"
+    ).encode()
+    if original.count(before) != 1:
+        raise VerificationError("Verso backport import call is not unique")
+    patched = original.replace(before, after)
+    replace_workspace_file(source, patched)
+    return {
+        "upstream_commit": VERSO_MODULE_IMPORT_BACKPORT_UPSTREAM,
+        "path": relative.as_posix(),
+        "before_sha256": expected_source,
+        "after_sha256": hashlib.sha256(patched).hexdigest(),
+    }
+
+
+def tree_bytes(root: Path, *, stop_after: int | None = None) -> int:
+    total = 0
+    for path in root.rglob("*"):
+        if path.is_symlink() or not path.is_file():
+            continue
+        total += path.stat().st_size
+        if stop_after is not None and total > stop_after:
+            return total
+    return total
+
+
+class _StaticHTMLSanitizer(HTMLParser):
+    """Serialize generated HTML while removing executable/navigation attributes.
+
+    Attribute rewriting must be parser-based: whole-document regular
+    expressions also see words inside quoted attribute values (including valid
+    Lean identifiers) and can corrupt them.
+    """
+
+    _STRIPPED_ATTRIBUTES = {
+        "srcdoc",
+        "action",
+        "formaction",
+        "ping",
+        "target",
+        # Presentation and visibility without a stylesheet: the legacy colour
+        # attributes, the sizing pair, the top-layer controls, and the one that
+        # hides honest content so that dishonest content can stand in for it.
+        # Verso emits none of these here. Its only `width` and `height` are in
+        # `<meta name="viewport">`, and meta elements are dropped whole.
+        "alink",
+        "background",
+        "bgcolor",
+        "height",
+        "hidden",
+        "link",
+        "popover",
+        "popovertarget",
+        "popovertargetaction",
+        "text",
+        "vlink",
+        "width",
+    }
+
+    # Verso emits `open` only on `<details>`, both in the module tree and on
+    # the `<details class="trace">` it leaves expanded, so the attribute is
+    # kept there and stripped everywhere else.
+    _OPEN_ELEMENT = "details"
+
+    # SVG and MathML give presentation and geometry their own attributes, so a
+    # single `<rect>` covers the page as effectively as a positioned `style`
+    # does, and a `dialog` draws itself over the document without needing any.
+    # The literate-code genre Verso builds here emits none of the three (its
+    # only SVG is the manual genre's diagram files, `latexMath` renders to
+    # nothing, and no genre emits a dialog), so their subtrees are dropped
+    # whole.
+    # Every input stylesheet is untrusted, including Verso's own emitted style:
+    # we inject fixed renderer-owned CSS after parsing. LINK is void and is
+    # dropped separately without opening a suppressed subtree.
+    _DROPPED_ELEMENTS = {"dialog", "math", "style", "svg"}
+
+    # `style-src` has to keep `'unsafe-inline'`, so any inline declaration a
+    # submitter reaches is a free hand over the rendered page: fixed position,
+    # colour and size are enough to cover the surrounding text with a
+    # convincing imitation of it. Verso's literate-code output needs exactly
+    # one declaration, since `code.css` indents prose with
+    # `calc(var(--indent, 0) * 1ch)`, so the attribute is filtered down to that
+    # custom property rather than dropped outright. Its value is the source
+    # column the documentation starts at, which two digits already covers with
+    # room to spare, and an unbounded one would be a shove off the page. The
+    # whitespace is spelled out because `\s` does not mean the same thing in
+    # the browser sanitizer as it does here.
+    _ALLOWED_STYLE = re.compile(
+        r"[ \t\r\n\f]*--indent:[ \t\r\n\f]*[0-9]{1,2}[ \t\r\n\f]*;?[ \t\r\n\f]*"
+    )
+
+    def __init__(self, declarations: list[str]) -> None:
+        super().__init__(convert_charrefs=False)
+        self.parts: list[str] = []
+        self.bases: list[str | None] = []
+        self.declarations = set(declarations)
+        self.found_declarations: set[str] = set()
+        self.script_depth = 0
+        # The dropped elements this position is inside, innermost last. A stack
+        # rather than a depth: `<svg></math>` must not be read as closing
+        # anything, or serialization resumes inside a subtree that is still
+        # open and the drop is only apparent.
+        self.dropped: list[str] = []
+        self.mismatched_drop = False
+        self.head_start: int | None = None
+
+    @property
+    def _suppressed(self) -> bool:
+        return bool(self.script_depth or self.dropped)
+
+    @staticmethod
+    def _rewrite_url(attribute: str, raw: str) -> str:
+        value = raw.strip()
+        if not value or value.startswith("#"):
+            return value
+        if value.startswith("data:"):
+            safe_data = attribute == "src" and re.match(
+                r"^data:image/(?:gif|jpeg|png|webp);", value, flags=re.IGNORECASE
+            )
+            return value if safe_data else "#"
+        if (
+            value.startswith(("/", "../"))
+            or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", value)
+            or any(part == ".." for part in value.split("/"))
+        ):
+            return "#"
+        return f"../{value.removeprefix('./')}"
+
+    def _start_tag(
+        self, tag: str, attrs: list[tuple[str, str | None]], *, closed: bool
+    ) -> None:
+        tag = tag.lower()
+        if self.dropped:
+            if tag in self._DROPPED_ELEMENTS and not closed:
+                self.dropped.append(tag)
+            return
+        if self.script_depth:
+            return
+        if tag in self._DROPPED_ELEMENTS:
+            if not closed:
+                self.dropped.append(tag)
+            return
+        if tag == "script":
+            if not closed:
+                self.script_depth = 1
+            return
+        if tag in {"link", "meta"}:
+            return
+        if tag == "base":
+            self.bases.append(dict(attrs).get("href"))
+            return
+        if tag == "head":
+            if self.head_start is not None:
+                raise VerificationError("generated HTML nests head elements")
+            self.parts.append("<head>")
+            self.head_start = len(self.parts)
+            return
+
+        attr_names = {name.lower() for name, _value in attrs}
+        binding = next(
+            (value for name, value in attrs if name.lower() == "data-binding"), None
+        )
+        if self.head_start is None and binding and binding.startswith("const-") and "id" in attr_names:
+            declaration = binding.removeprefix("const-")
+            if declaration in self.declarations:
+                self.found_declarations.add(declaration)
+
+        rendered: list[str] = []
+        for name, value in attrs:
+            name = name.lower()
+            if name.startswith("on") or name in self._STRIPPED_ATTRIBUTES:
+                continue
+            if name == "open" and tag != self._OPEN_ELEMENT:
+                continue
+            if name == "style" and (
+                value is None or not self._ALLOWED_STYLE.fullmatch(value)
+            ):
+                continue
+            if value is None:
+                rendered.append(name)
+                continue
+            if name in {"href", "src", "xlink:href"}:
+                value = self._rewrite_url(name, value)
+            rendered.append(f'{name}="{html.escape(value, quote=True)}"')
+        suffix = " /" if closed else ""
+        attributes = f" {' '.join(rendered)}" if rendered else ""
+        self.parts.append(f"<{tag}{attributes}{suffix}>")
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._start_tag(tag, attrs, closed=False)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._start_tag(tag, attrs, closed=True)
+
+    def handle_endtag(self, tag: str) -> None:
+        tag = tag.lower()
+        if tag in self._DROPPED_ELEMENTS:
+            if self.dropped and self.dropped[-1] == tag:
+                self.dropped.pop()
+            else:
+                # Either nothing opened this, or it closes across a subtree
+                # that is still open. Refuse the document instead of guessing
+                # what it ends, and stay inside the drop until it is refused.
+                self.mismatched_drop = True
+            return
+        if self.dropped:
+            return
+        if self.script_depth:
+            if tag == "script":
+                self.script_depth = 0
+            return
+        if tag == "head":
+            if self.head_start is None:
+                raise VerificationError("generated HTML closes a head it did not open")
+            # The emitted head is entirely renderer-owned. Titles and other
+            # generated input metadata do not enter the frozen stylesheet head.
+            del self.parts[self.head_start:]
+            self.head_start = None
+            self.parts.append("</head>")
+            return
+        if tag not in {"base", "link", "meta", "script"}:
+            self.parts.append(f"</{tag}>")
+
+    def handle_data(self, data: str) -> None:
+        if not self._suppressed:
+            self.parts.append(data)
+
+    def handle_entityref(self, name: str) -> None:
+        if not self._suppressed:
+            self.parts.append(f"&{name};")
+
+    def handle_charref(self, name: str) -> None:
+        if not self._suppressed:
+            self.parts.append(f"&#{name};")
+
+    def handle_comment(self, data: str) -> None:
+        # Python and HTML5 accept different comment endings. Never round-trip
+        # an input comment into markup a browser might tokenize differently.
+        pass
+
+    def handle_decl(self, decl: str) -> None:
+        if not self._suppressed:
+            if decl.lower() != "doctype html":
+                raise VerificationError("generated HTML contains an unsupported declaration")
+            self.parts.append("<!doctype html>")
+
+    def handle_pi(self, data: str) -> None:
+        if not self._suppressed:
+            raise VerificationError("generated HTML contains a processing instruction")
+
+    def unknown_decl(self, data: str) -> None:
+        raise VerificationError("generated HTML contains a marked section")
+
+
+def static_html_sanitize(
+    text: str,
+    sanitizer_src: str,
+    runtime_src: str,
+    declarations: list[str] | None = None,
+    *,
+    expected_base: str = "../",
+) -> str:
+    sanitizer = _StaticHTMLSanitizer(declarations or [])
+    sanitizer.feed(text)
+    if sanitizer.rawdata:
+        raise VerificationError("generated HTML ends with incomplete markup")
+    sanitizer.close()
+    if sanitizer.mismatched_drop:
+        raise VerificationError("generated HTML closes a subtree it did not open")
+    if sanitizer.dropped:
+        raise VerificationError("generated HTML leaves a dropped subtree unclosed")
+    if sanitizer.bases != [expected_base]:
+        raise VerificationError("generated HTML has an unexpected base URL")
+    text = "".join(sanitizer.parts)
+    declaration_json = json.dumps(declarations or [], ensure_ascii=False, separators=(",", ":"))
+    missing_declarations = [
+        declaration
+        for declaration in declarations or []
+        if declaration not in sanitizer.found_declarations
+    ]
+    if missing_declarations:
+        raise compared_declarations_not_rendered(missing_declarations)
+
+    # Inject trusted declaration metadata only after every whole-document regex
+    # pass. Otherwise an escaped Lean identifier containing text such as
+    # `` href=x`` can be mistaken for markup by a later URL rewrite.
+    def annotate_body(match: re.Match[str]) -> str:
+        attributes = match.group(1) or ""
+        if re.search(r"\bdata-palomar-declarations\b", attributes, flags=re.IGNORECASE):
+            raise VerificationError("generated HTML contains reserved Palomar metadata")
+        value = html.escape(declaration_json, quote=True)
+        return f'<body{attributes} data-palomar-declarations="{value}">'
+
+    # Count before substituting: `count=1` stops at the first match, so a
+    # replacement count of one only says there was at least one body. A second
+    # one matters, because the browser folds its attributes into the first.
+    body_pattern = r"<body(\s[^>]*)?>"
+    if len(re.findall(body_pattern, text, flags=re.IGNORECASE)) != 1:
+        raise VerificationError("generated HTML does not contain exactly one body element")
+    text = re.sub(body_pattern, annotate_body, text, count=1, flags=re.IGNORECASE)
+
+    policy = "; ".join(
+        [
+            "default-src 'none'",
+            "script-src 'self'",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data:",
+            "connect-src 'self'",
+            "font-src 'self'",
+            "object-src 'none'",
+            "frame-src 'none'",
+            "child-src 'none'",
+            "worker-src 'none'",
+            "manifest-src 'none'",
+            "base-uri 'none'",
+            "form-action 'none'",
+            "navigate-to 'self'",
+        ]
+    )
+    meta = (
+        f'<meta http-equiv="Content-Security-Policy" content="{policy}">\n    '
+        '<meta charset="utf-8">\n    '
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n    '
+    )
+    scripts = (
+        f'<script defer src="{sanitizer_src}"></script>\n'
+        f'    <script defer src="{runtime_src}"></script>'
+    )
+    stylesheet_src = str(PurePosixPath(sanitizer_src).with_name("palomar-render.css"))
+    stylesheet = f'<link rel="stylesheet" href="{html.escape(stylesheet_src, quote=True)}">'
+    head_pattern = r"(<head\b[^>]*>)"
+    if len(re.findall(head_pattern, text, flags=re.IGNORECASE)) != 1:
+        raise VerificationError("generated HTML does not contain exactly one head element")
+    head_start = re.search(head_pattern, text, flags=re.IGNORECASE).start()
+    if not re.fullmatch(
+        r"[ \t\r\n\f]*(?:<!doctype html>[ \t\r\n\f]*)?"
+        r"<html(?:[ \t\r\n\f]+[^<>]*)?>[ \t\r\n\f]*", text[:head_start],
+    ):
+        raise VerificationError("generated HTML has a noncanonical document prefix")
+    text = re.sub(
+        head_pattern,
+        rf"\1\n    {meta}\n    {stylesheet}\n    {scripts}",
+        text,
+        count=1,
+        flags=re.IGNORECASE,
+    )
+    surface_style = f'<style id="palomar-declaration-style">{SURFACE_STYLES}</style>'
+    text, closed_heads = re.subn(
+        r"(</head\s*>)", lambda match: f"    {surface_style}\n  {match[1]}",
+        text, count=1, flags=re.IGNORECASE
+    )
+    if closed_heads != 1:
+        raise VerificationError("generated HTML does not close its head element")
+    return text
+
+
+def validate_output_file(path: Path, root: Path) -> tuple[str, int, str]:
+    if path.is_symlink():
+        raise VerificationError(f"render output contains a symbolic link: {path}")
+    mode = path.lstat().st_mode
+    if not stat.S_ISREG(mode):
+        raise VerificationError(f"render output contains a non-regular file: {path}")
+    relative = path.relative_to(root).as_posix()
+    if not relative or any(part in {"", ".", ".."} for part in Path(relative).parts):
+        raise VerificationError(f"render output has an invalid path: {relative!r}")
+    if path.suffix.lower() not in ALLOWED_EXTENSIONS:
+        raise VerificationError(f"render output has an unexpected file type: {relative}")
+    size = path.stat().st_size
+    if size > MAX_RENDER_FILE_BYTES:
+        raise VerificationError(f"render output file exceeds the per-file cap: {relative}")
+    return relative, size, sha256(path)
+
+
+def bounded_output_paths(bundle: Path) -> list[Path]:
+    paths: list[Path] = []
+    for path in bundle.rglob("*"):
+        paths.append(path)
+        if len(paths) > MAX_RENDER_NODES:
+            raise VerificationError("render output exceeds the filesystem-node cap")
+    return sorted(paths)
+
+
+def artifact_manifest(bundle: Path) -> tuple[list[dict[str, Any]], str]:
+    files: list[dict[str, Any]] = []
+    total = 0
+    for path in bounded_output_paths(bundle):
+        if path.is_dir() and not path.is_symlink():
+            continue
+        if path.relative_to(bundle).as_posix() == "artifact-manifest.json":
+            continue
+        relative, size, digest = validate_output_file(path, bundle)
+        files.append({"path": relative, "bytes": size, "sha256": digest})
+        total += size
+        if len(files) > MAX_RENDER_FILES:
+            raise VerificationError("render output exceeds the file-count cap")
+        if total > MAX_RENDER_BYTES:
+            raise VerificationError("render output exceeds the total-size cap")
+    if not files:
+        raise VerificationError("render output is empty")
+    canonical = json.dumps(files, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return files, sha256_bytes(canonical)
+
+
+def sanitize_bundle(
+    input_dir: Path,
+    output_dir: Path,
+    *,
+    challenge_module: str,
+    metadata: dict[str, Any] | None = None,
+) -> str:
+    if not input_dir.is_dir() or input_dir.is_symlink():
+        raise VerificationError("Verso output directory is missing or invalid")
+    if output_dir.is_symlink() or not output_dir.is_dir():
+        raise VerificationError("sanitized output directory is missing or invalid")
+    if any(output_dir.iterdir()):
+        raise VerificationError("sanitized output directory is not empty")
+    source_files = []
+    total = 0
+    for path in bounded_output_paths(input_dir):
+        if path.is_dir() and not path.is_symlink():
+            continue
+        relative, size, _ = validate_output_file(path, input_dir)
+        source_files.append((path, relative))
+        total += size
+        if len(source_files) > MAX_RENDER_FILES or total > MAX_RENDER_BYTES:
+            raise VerificationError("raw Verso output exceeds the artifact limits")
+    metadata = metadata or {
+        "schema_version": 1,
+        "imports": [],
+        "module_doc": None,
+        "declarations": [],
+    }
+    declarations = metadata.get("declarations")
+    if not isinstance(declarations, list) or not all(isinstance(item, str) for item in declarations):
+        raise VerificationError("render metadata declarations must be an array of strings")
+    source_entrypoint = module_html_entrypoint(challenge_module)
+    source_base = "../" * (len(source_entrypoint.parts) - 1)
+    found_entrypoint = False
+    (output_dir / "palomar-sanitize.js").write_text(RUNTIME_SANITIZER, encoding="utf-8")
+    (output_dir / "palomar-verso.js").write_text(VERSO_RUNTIME, encoding="utf-8")
+    (output_dir / "palomar-render.css").write_text(RENDER_STYLES, encoding="utf-8")
+    write_json(output_dir / "challenge-metadata.json", metadata)
+    for source, relative in source_files:
+        if source.suffix.lower() in {".css", ".js"}:
+            continue
+        relative_path = PurePosixPath(relative)
+        is_entrypoint = relative_path == source_entrypoint
+        if is_entrypoint:
+            found_entrypoint = True
+        destination_relative = "Challenge/index.html" if is_entrypoint else relative
+        destination = output_dir / destination_relative
+        if destination.exists():
+            raise VerificationError(
+                f"render output paths collide after entrypoint mapping: {destination_relative}"
+            )
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if source.suffix.lower() == ".html":
+            sanitizer_src = os.path.relpath(
+                output_dir / "palomar-sanitize.js", destination.parent
+            ).replace(os.sep, "/")
+            runtime_src = os.path.relpath(
+                output_dir / "palomar-verso.js", destination.parent
+            ).replace(os.sep, "/")
+            destination.write_text(
+                static_html_sanitize(
+                    source.read_text(encoding="utf-8"),
+                    sanitizer_src,
+                    runtime_src,
+                    declarations if is_entrypoint else [],
+                    expected_base=(
+                        source_base
+                        if is_entrypoint
+                        else "../"
+                    ),
+                ),
+                encoding="utf-8",
+            )
+        else:
+            shutil.copyfile(source, destination)
+    if not found_entrypoint:
+        raise VerificationError(
+            f"Verso output does not contain configured module {challenge_module!r}"
+        )
+    entrypoint = output_dir / "Challenge" / "index.html"
+    if not entrypoint.is_file():
+        raise VerificationError("sanitized render entrypoint is missing")
+    files, tree_hash = artifact_manifest(output_dir)
+    write_json(
+        output_dir / "artifact-manifest.json",
+        {"schema_version": 1, "artifact_tree_sha256": tree_hash, "files": files},
+    )
+    return tree_hash
+
+
+def sanitize_command(args: argparse.Namespace) -> int:
+    diagnostic_out = Path(args.diagnostic_out).resolve()
+    diagnostic_out.unlink(missing_ok=True)
+    audit_declarations = json.loads(Path(args.audit_declarations).read_text(encoding="utf-8"))
+    try:
+        metadata = parsed_challenge_metadata(
+            Path(args.challenge).resolve(),
+            Path(args.solution).resolve(),
+            Path(args.comparator).resolve(),
+            challenge_module=args.challenge_module,
+            lean=Path(args.lean).resolve(strict=True),
+            environment=os.environ.copy(),
+            audit_declarations=audit_declarations,
+        )
+        sanitize_bundle(
+            Path(args.input_dir).resolve(),
+            Path(args.output_dir).resolve(),
+            challenge_module=args.challenge_module,
+            metadata=metadata,
+        )
+    except ComparedDeclarationsNotRendered as error:
+        write_json(diagnostic_out, sanitize_diagnostic_document(error))
+        return MISSING_DECLARATION_EXIT
+    return 0
+
+
+def executable_paths(lean_prefix: Path, extra: list[Path]) -> list[Path]:
+    result = [lean_prefix, Path(sys.executable).resolve().parent.parent, *extra]
+    for path in extra:
+        resolved = path.resolve(strict=True)
+        if resolved.is_file():
+            # Nix packages keep helper executables (for example git-remote-https)
+            # beside the requested binary under the same immutable store root.
+            result.append(resolved.parent.parent)
+            linkage = run(["ldd", str(resolved)], check=False)
+            for match in re.finditer(r"(?:=>\s+)?(/[^\s()]+)", linkage.stdout):
+                library = Path(match.group(1)).resolve(strict=True)
+                if library.parts[:3] == ("/", "nix", "store") and len(library.parts) >= 4:
+                    result.append(Path("/nix/store") / library.parts[3])
+                else:
+                    result.append(library.parent)
+    for system_path in (Path("/usr"), Path("/bin"), Path("/lib"), Path("/lib64")):
+        if system_path.exists():
+            result.append(system_path.resolve())
+    nix_store = Path("/nix/store")
+    if nix_store.is_dir():
+        # Nix compiler wrappers can reference sibling immutable store paths
+        # that are not discoverable through ldd (for example ld-wrapper.sh).
+        # The store is globally readable and contains no per-user credentials.
+        result.append(nix_store)
+    return sorted(set(result))
+
+
+def required_executable(name: str, environment: dict[str, str]) -> Path:
+    value = shutil.which(name, path=environment["PATH"])
+    if not value:
+        raise VerificationError(f"trusted executable is unavailable: {name}")
+    # Preserve the invoked basename.  On NixOS, utilities such as ``touch``
+    # and ``printenv`` are symlinks to a multicall ``coreutils`` binary whose
+    # behavior is selected through argv[0].  ``tool_snapshot`` still resolves
+    # and hashes the final target before and after confined execution.
+    executable = Path(value).absolute()
+    executable.resolve(strict=True)
+    return executable
+
+
+def discover_mathlib_cache_hashes(
+    workspace: Path,
+    *,
+    environment: dict[str, str],
+    lake: Path,
+    writable_directories: list[Path],
+    readable_paths: list[Path],
+    executable_paths: list[Path],
+    tools: dict[Path, str],
+    cache_dir: Path | None = None,
+    empty_cache: Path | None = None,
+) -> tuple[set[str], Path]:
+    """Compute cache keys without giving Lake, Lean, or cache code network access."""
+    default_cache = workspace / ".lake" / "config" / "mathlib-cache"
+    default_empty = workspace / ".lake" / "config" / "empty-mathlib-cache"
+    if (cache_dir is None) != (empty_cache is None):
+        raise VerificationError("Mathlib cache discovery directories are incomplete")
+    if cache_dir is None:
+        cache_dir, empty_cache = default_cache, default_empty
+        prepare_mathlib_cache_discovery_directories(cache_dir, empty_cache)
+    elif cache_dir != default_cache or empty_cache != default_empty:
+        raise VerificationError("Mathlib cache discovery directories are unexpected")
+    assert empty_cache is not None
+
+    cache_env = environment.copy()
+    cache_env["MATHLIB_CACHE_DIR"] = str(cache_dir.resolve())
+    cache_env["MATHLIB_CACHE_GET_URL"] = f"file://{empty_cache.resolve()}"
+    proc = sandboxed_run(
+        [str(lake), "exe", "cache", "get-"],
+        cwd=workspace,
+        environment=cache_env,
+        writable_directories=writable_directories,
+        readable_paths=readable_paths,
+        executable_paths=executable_paths,
+        tools=tools,
+        timeout=1800,
+        check=False,
+        resource_properties=RESOURCE_PROPERTIES,
+    )
+    transcript = f"{proc.stdout}\n{proc.stderr}"
+    attempted = re.search(r"Attempting to download ([0-9]+) file", transcript)
+    hashes = set(re.findall(r"\b([0-9a-f]{16})\.ltar(?:\.part)?\b", transcript))
+    expected = int(attempted.group(1)) if attempted else 0
+    if expected == 0 or expected != len(hashes):
+        detail = transcript.strip().replace("\n", " ")
+        if len(detail) > 1_000:
+            detail = f"...{detail[-997:]}"
+        diagnostic = f"; cache command exited {proc.returncode}"
+        if detail:
+            diagnostic += f": {detail}"
+        raise VerificationError(
+            f"Mathlib cache discovery was incomplete ({len(hashes)} of {expected} keys){diagnostic}"
+        )
+    if expected > MAX_CACHE_ARCHIVES:
+        raise VerificationError("Mathlib cache request exceeds the archive-count cap")
+    return hashes, cache_dir
+
+
+def prepare_mathlib_cache_discovery_directories(
+    cache_dir: Path, empty_cache: Path
+) -> None:
+    """Create the two fresh renderer-owned cache directories."""
+    for directory in (cache_dir, empty_cache):
+        if directory.is_symlink():
+            directory.unlink()
+        elif directory.exists():
+            shutil.rmtree(directory)
+    cache_dir.mkdir()
+    (empty_cache / "f").mkdir(parents=True)
+
+
+@dataclass(frozen=True)
+class PreparedMathlibCacheTool:
+    path: Path
+    sha256: str
+
+
+def download_mathlib_cache(
+    hashes: set[str],
+    cache_dir: Path,
+    *,
+    trusted_work: Path,
+    environment: dict[str, str],
+    curl: Path,
+    env_tool: Path,
+    executable_paths: list[Path],
+    tools: dict[Path, str],
+    preserved_tool: PreparedMathlibCacheTool | None = None,
+) -> tuple[int, int]:
+    """Fetch any available fixed-host cache bytes without requiring a cache hit.
+
+    Cache archives are an optimization.  A newly released Lean or Mathlib
+    revision may legitimately have no published archives yet; the confined
+    build below can compile the required target from source in that case.
+    """
+    held_tool = trusted_work / "mathlib-cache-preserved-tool"
+    if held_tool.exists() or held_tool.is_symlink():
+        raise VerificationError("Mathlib cache preserved-tool path is not fresh")
+    try:
+        if preserved_tool is not None:
+            tool = preserved_tool.path
+            if (
+                tool.parent != cache_dir.resolve()
+                or tool.is_symlink()
+                or not tool.is_file()
+                or tool.stat().st_size > MAX_CACHE_TOOL_BYTES
+                or sha256(tool) != preserved_tool.sha256
+            ):
+                raise VerificationError("prepared Mathlib cache tool changed during discovery")
+            os.replace(tool, held_tool)
+        if cache_dir.is_symlink():
+            cache_dir.unlink()
+        elif cache_dir.exists():
+            shutil.rmtree(cache_dir)
+        cache_dir.mkdir()
+        if preserved_tool is not None:
+            os.replace(held_tool, cache_dir / preserved_tool.path.name)
+    except Exception:
+        held_tool.unlink(missing_ok=True)
+        raise
+    # curl runs from a fresh directory holding only its configuration, so the
+    # download policy exposes nothing else of the trusted work tree.
+    download_dir = trusted_work / "mathlib-cache-download"
+    if download_dir.is_symlink() or (download_dir.exists() and not download_dir.is_dir()):
+        raise VerificationError("invalid Mathlib cache download directory")
+    if download_dir.exists():
+        shutil.rmtree(download_dir)
+    download_dir.mkdir()
+    config = download_dir / "download.conf"
+    clean_path = "/usr/bin:/bin"
+    clean_env = {
+        "HOME": environment["HOME"],
+        "PATH": clean_path,
+        "TMPDIR": environment["TMPDIR"],
+        "LANG": "C.UTF-8",
+    }
+    downloaded: set[str] = set()
+    total = 0
+    try:
+        for base_url in MATHLIB_CACHE_BASE_URLS:
+            remaining = sorted(hashes - downloaded)
+            if not remaining:
+                break
+            lines: list[str] = []
+            for digest in remaining:
+                url = f"{base_url}/f/{digest}.ltar"
+                destination = cache_dir / f"{digest}.ltar"
+                lines.extend(
+                    [f"url = {json.dumps(url)}", f"output = {json.dumps(str(destination))}"]
+                )
+            config.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            command = [
+                str(env_tool),
+                "-i",
+                *(f"{name}={value}" for name, value in clean_env.items()),
+                str(curl),
+                "--disable",
+                "--fail",
+                "--silent",
+                "--show-error",
+                "--remove-on-error",
+                "--proto",
+                "=https",
+                "--proto-redir",
+                "=https",
+                "--parallel",
+                "--parallel-immediate",
+                "--parallel-max",
+                "32",
+                "--retry",
+                "3",
+                "--max-filesize",
+                str(MAX_CACHE_ARCHIVE_BYTES),
+                "--config",
+                str(config),
+            ]
+            # Trusted curl, fixed hosts, but still the full boundary: only the
+            # cache directory is writable and only the download configuration
+            # and the certificate and name-service files are readable.
+            sandboxed_run(
+                command,
+                cwd=download_dir,
+                environment=environment,
+                writable_directories=[cache_dir],
+                readable_paths=list(system_readable_paths()),
+                executable_paths=executable_paths,
+                tools=tools,
+                timeout=1800,
+                check=False,
+                unrestricted_network=True,
+                resource_properties=CACHE_DOWNLOAD_PROPERTIES,
+            )
+            downloaded = set()
+            total = 0
+            for path in cache_dir.iterdir():
+                if preserved_tool is not None and path == cache_dir / preserved_tool.path.name:
+                    if (
+                        path.is_symlink()
+                        or not path.is_file()
+                        or path.stat().st_size > MAX_CACHE_TOOL_BYTES
+                        or sha256(path) != preserved_tool.sha256
+                    ):
+                        raise VerificationError("prepared Mathlib cache tool changed during download")
+                    continue
+                if (
+                    path.is_symlink()
+                    or not path.is_file()
+                    or not re.fullmatch(r"[0-9a-f]{16}\.ltar", path.name)
+                ):
+                    raise VerificationError(f"unexpected Mathlib cache download: {path.name!r}")
+                if path.stem not in hashes:
+                    raise VerificationError(f"unrequested Mathlib cache download: {path.name!r}")
+                size = path.stat().st_size
+                if size == 0 or size > MAX_CACHE_ARCHIVE_BYTES:
+                    raise VerificationError(f"invalid Mathlib cache archive size: {path.name}")
+                downloaded.add(path.stem)
+                total += size
+                if total > MAX_CACHE_BYTES:
+                    raise VerificationError("Mathlib cache downloads exceed the byte cap")
+    finally:
+        config.unlink(missing_ok=True)
+        held_tool.unlink(missing_ok=True)
+    return len(downloaded), total
+
+
+def validate_materialized_git_package(
+    package_dir: Path,
+    package: dict[str, str],
+    *,
+    git: Path,
+    environment: dict[str, str],
+) -> None:
+    """Bind a network-enabled package action to its materialized Git identity."""
+    git_env = environment.copy()
+    git_env.update(
+        {
+            "GIT_CONFIG_GLOBAL": "/dev/null",
+            "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_TERMINAL_PROMPT": "0",
+        }
+    )
+    command = [
+        str(git),
+        "-c",
+        "core.fsmonitor=false",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "protocol.file.allow=never",
+        "-C",
+        str(package_dir),
+    ]
+    head = run([*command, "rev-parse", "HEAD"], env=git_env).stdout.strip()
+    if head != package["revision"]:
+        raise VerificationError(
+            f"materialized {package['name']} checkout does not match lake-manifest.json"
+        )
+    origin = run([*command, "remote", "get-url", "origin"], env=git_env).stdout.strip()
+    if (github_repository(origin) or "").lower() != package["repository"].lower():
+        raise VerificationError(f"materialized {package['name']} checkout has an unexpected origin")
+    changes = run(
+        [*command, "status", "--porcelain=v1", "--untracked-files=all"],
+        env=git_env,
+    ).stdout.strip()
+    if changes:
+        raise VerificationError(
+            f"materialized {package['name']} source changed before trusted release staging"
+        )
+
+
+def proofwidgets_source_layout(
+    package_dir: Path,
+    *,
+    git: Path,
+    environment: dict[str, str],
+) -> str:
+    """Classify canonical ProofWidgets source, failing closed on mixed layouts."""
+    lakefiles = [
+        path
+        for path in (package_dir / "lakefile.lean", package_dir / "lakefile.toml")
+        if path.exists() or path.is_symlink()
+    ]
+    if (
+        len(lakefiles) != 1
+        or lakefiles[0].is_symlink()
+        or not lakefiles[0].is_file()
+        or lakefiles[0].stat().st_size > 1024 * 1024
+    ):
+        raise VerificationError("ProofWidgets has an ambiguous or invalid Lake configuration")
+    lakefile = lakefiles[0].read_text(encoding="utf-8")
+    legacy_markers = (
+        re.search(r"\bpreferReleaseBuild\s*:=\s*true\b", lakefile) is not None,
+        re.search(
+            rf'\bbuildArchive\?\s*:=\s*"{re.escape(PROOFWIDGETS_RELEASE_ARCHIVE)}"',
+            lakefile,
+        )
+        is not None,
+        re.search(
+            r'\breleaseRepo\s*:=\s*"https://github\.com/'
+            r'leanprover-community/ProofWidgets4"',
+            lakefile,
+        )
+        is not None,
+    )
+    if any(legacy_markers) and not all(legacy_markers):
+        raise VerificationError("ProofWidgets has an incomplete legacy release configuration")
+
+    git_env = environment.copy()
+    git_env.update(
+        {
+            "GIT_CONFIG_GLOBAL": "/dev/null",
+            "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_TERMINAL_PROMPT": "0",
+        }
+    )
+    tracked = run(
+        [
+            str(git),
+            "-c",
+            "core.fsmonitor=false",
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-c",
+            "protocol.file.allow=never",
+            "-C",
+            str(package_dir),
+            "ls-files",
+            "-z",
+            "--",
+            "widget/js",
+        ],
+        env=git_env,
+    ).stdout
+    tracked_js = bool(tracked.rstrip("\0"))
+    widget_js = package_dir / "widget" / "js"
+    real_widget_js = widget_js.is_dir() and not widget_js.is_symlink()
+    if tracked_js != real_widget_js:
+        raise VerificationError("ProofWidgets tracked widget layout does not match its checkout")
+    if tracked_js:
+        if any(legacy_markers):
+            raise VerificationError("ProofWidgets mixes tracked widgets with legacy release policy")
+        return "modern"
+    if widget_js.exists() or widget_js.is_symlink() or not all(legacy_markers):
+        raise VerificationError("ProofWidgets has an unsupported widget release layout")
+    return "legacy"
+
+
+def legacy_mathlib_leantar_version(mathlib_dir: Path) -> str | None:
+    """Read the legacy cache tool pin from authenticated Mathlib source."""
+    source = mathlib_dir / "Cache" / "IO.lean"
+    if source.is_symlink() or not source.is_file() or source.stat().st_size > 1024 * 1024:
+        raise VerificationError("Mathlib cache tool source is missing or invalid")
+    text = source.read_text(encoding="utf-8")
+    match = re.search(
+        r'\bdef\s+LEANTARVERSION\s*:=\s*\n\s*"([0-9]+\.[0-9]+\.[0-9]+)"',
+        text,
+    )
+    if match is None:
+        if "LEANTARVERSION" in text or "leangz/releases/download" in text:
+            raise VerificationError("Mathlib has an unsupported legacy cache tool policy")
+        return None
+    required = (
+        'IO.CACHEDIR / s!"leantar-{LEANTARVERSION}{EXE}"',
+        's!"https://github.com/digama0/leangz/releases/download/'
+        'v{LEANTARVERSION}/leantar-v{LEANTARVERSION}-{target}.{ext}"',
+    )
+    if not all(marker in text for marker in required):
+        raise VerificationError("Mathlib has an unsupported legacy cache tool policy")
+    return match.group(1)
+
+
+def prepare_legacy_mathlib_cache_tool(
+    workspace: Path,
+    cache_dir: Path,
+    *,
+    checkout: Path,
+    trusted_work: Path,
+    environment: dict[str, str],
+    curl: Path,
+    env_tool: Path,
+    git: Path,
+    executable_paths: list[Path],
+    tools: dict[Path, str],
+) -> PreparedMathlibCacheTool | None:
+    """Install a bounded, source-pinned legacy leantar before offline discovery."""
+    packages = manifest_packages(workspace)
+    mathlib = next(
+        (
+            package
+            for package in packages
+            if package["repository"].lower() == "leanprover-community/mathlib4"
+        ),
+        None,
+    )
+    if mathlib is None:
+        return None
+    mathlib_dir = package_checkout(workspace, mathlib, checkout=checkout)
+    validate_materialized_git_package(
+        mathlib_dir,
+        mathlib,
+        git=git,
+        environment=environment,
+    )
+    version = legacy_mathlib_leantar_version(mathlib_dir)
+    if version is None:
+        return None
+    expected_archive_digest = LEGACY_MATHLIB_CACHE_TOOL_ARCHIVE_SHA256.get(version)
+    if expected_archive_digest is None:
+        raise VerificationError("legacy Mathlib cache tool version is not allowlisted")
+
+    target = f"leantar-v{version}-x86_64-unknown-linux-musl"
+    # The archive lands in a fresh directory of its own: it is the only thing
+    # the download policy can write, and the only thing beside the certificate
+    # and name-service files it can read.
+    download_dir = trusted_work / "mathlib-cache-tool-download"
+    if download_dir.exists() or download_dir.is_symlink():
+        raise VerificationError("legacy Mathlib cache tool download directory is not fresh")
+    download_dir.mkdir()
+    archive = download_dir / f"{target}.tar.gz"
+    binary = cache_dir / f"leantar-{version}"
+    if archive.exists() or archive.is_symlink() or binary.exists() or binary.is_symlink():
+        raise VerificationError("legacy Mathlib cache tool path is not fresh")
+    clean_env = {
+        "HOME": environment["HOME"],
+        "PATH": "/usr/bin:/bin",
+        "TMPDIR": environment["TMPDIR"],
+        "LANG": "C.UTF-8",
+    }
+    command = [
+        str(env_tool),
+        "-i",
+        *(f"{name}={value}" for name, value in clean_env.items()),
+        str(curl),
+        "--disable",
+        "--fail",
+        "--silent",
+        "--show-error",
+        "--remove-on-error",
+        "--proto",
+        "=https",
+        "--proto-redir",
+        "=https",
+        "--location",
+        "--max-filesize",
+        str(MAX_CACHE_TOOL_ARCHIVE_BYTES),
+        "--output",
+        str(archive),
+        f"https://github.com/digama0/leangz/releases/download/v{version}/{target}.tar.gz",
+    ]
+    try:
+        sandboxed_run(
+            command,
+            cwd=download_dir,
+            environment=environment,
+            writable_directories=[download_dir],
+            readable_paths=list(system_readable_paths()),
+            executable_paths=executable_paths,
+            tools=tools,
+            timeout=300,
+            unrestricted_network=True,
+            resource_properties=CACHE_TOOL_DOWNLOAD_PROPERTIES,
+        )
+        if (
+            archive.is_symlink()
+            or not archive.is_file()
+            or archive.stat().st_size == 0
+            or archive.stat().st_size > MAX_CACHE_TOOL_ARCHIVE_BYTES
+        ):
+            raise VerificationError("legacy Mathlib cache tool archive is invalid")
+        if sha256(archive) != expected_archive_digest:
+            raise VerificationError("legacy Mathlib cache tool archive digest does not match its pin")
+        with tarfile.open(archive, mode="r|gz") as bundle:
+            directory_member = bundle.next()
+            binary_member = bundle.next()
+            expected_directory = f"{target}/"
+            expected_binary = f"{target}/leantar"
+            if (
+                directory_member is None
+                or binary_member is None
+                or directory_member.name.rstrip("/") + "/" != expected_directory
+                or not directory_member.isdir()
+                or binary_member.name != expected_binary
+                or not binary_member.isfile()
+                or binary_member.size <= 0
+                or binary_member.size > MAX_CACHE_TOOL_BYTES
+            ):
+                raise VerificationError("legacy Mathlib cache tool archive has unexpected contents")
+            extracted = bundle.extractfile(binary_member)
+            if extracted is None:
+                raise VerificationError("legacy Mathlib cache tool archive has no executable")
+            content = extracted.read(MAX_CACHE_TOOL_BYTES + 1)
+            if len(content) != binary_member.size:
+                raise VerificationError("legacy Mathlib cache tool archive has an invalid executable")
+            if bundle.next() is not None:
+                raise VerificationError("legacy Mathlib cache tool archive has unexpected contents")
+        replace_workspace_file(binary, content)
+        binary.chmod(stat.S_IRUSR | stat.S_IXUSR)
+        digest = sha256(binary)
+        validation_tools = {**tools, binary.resolve(): digest}
+        validated = sandboxed_run(
+            [str(binary.resolve()), "--version"],
+            cwd=cache_dir,
+            environment=environment,
+            writable_directories=[cache_dir.resolve()],
+            readable_paths=[],
+            executable_paths=sorted({*executable_paths, binary.resolve()}),
+            tools=validation_tools,
+            timeout=60,
+            resource_properties=CACHE_TOOL_DOWNLOAD_PROPERTIES,
+        )
+        if validated.stdout.strip() != f"leantar {version}":
+            raise VerificationError("legacy Mathlib cache tool reports an unexpected version")
+        return PreparedMathlibCacheTool(binary.resolve(), digest)
+    finally:
+        archive.unlink(missing_ok=True)
+
+
+def _validate_legacy_proofwidgets_promotion(promotions: tuple[Any, ...]) -> None:
+    """Narrow generic Lake promotion to ProofWidgets' one official archive pair."""
+    if len(promotions) != 1 or promotions[0].name != "proofwidgets":
+        raise VerificationError("legacy ProofWidgets staging produced an unexpected package set")
+    promotion = promotions[0]
+    expected = {
+        promotion.canonical_build.parent / PROOFWIDGETS_RELEASE_ARCHIVE,
+        promotion.canonical_build.parent / f"{PROOFWIDGETS_RELEASE_ARCHIVE}.trace",
+    }
+    if {destination for _source, destination in promotion.metadata} != expected:
+        raise VerificationError("legacy ProofWidgets staging produced unexpected release metadata")
+    staged_js = promotion.staged_build / "js"
+    if staged_js.is_symlink() or not staged_js.is_dir():
+        raise VerificationError("legacy ProofWidgets release contains no generated widget directory")
+
+
+def stage_legacy_proofwidgets_release(
+    workspace: Path,
+    *,
+    checkout: Path,
+    environment: dict[str, str],
+    lake: Path,
+    git: Path,
+    executable_paths: list[Path],
+    tools: dict[Path, str],
+) -> str | None:
+    """Fetch one accepted-manifest-bound ProofWidgets release in disposable state."""
+    packages = manifest_packages(workspace)
+    proofwidgets = next(
+        (package for package in packages if package["name"] == "proofwidgets"),
+        None,
+    )
+    if proofwidgets is None:
+        return None
+    if proofwidgets["repository"].lower() != PROOFWIDGETS_REPOSITORY:
+        raise VerificationError("renderer requires the canonical pinned ProofWidgets package")
+    package_dir = package_checkout(workspace, proofwidgets, checkout=checkout)
+    validate_materialized_git_package(
+        package_dir,
+        proofwidgets,
+        git=git,
+        environment=environment,
+    )
+    layout = proofwidgets_source_layout(package_dir, git=git, environment=environment)
+    if layout == "modern":
+        return layout
+
+    mathlib = next(
+        (
+            package
+            for package in packages
+            if package["repository"].lower() == "leanprover-community/mathlib4"
+        ),
+        None,
+    )
+    if mathlib is None:
+        raise VerificationError(
+            "legacy ProofWidgets release is not authenticated by a pinned Mathlib manifest"
+        )
+    mathlib_dir = package_checkout(workspace, mathlib, checkout=checkout)
+    validate_materialized_git_package(
+        mathlib_dir,
+        mathlib,
+        git=git,
+        environment=environment,
+    )
+    authoritative = [
+        package
+        for package in manifest_packages(mathlib_dir)
+        if package["name"] == "proofwidgets"
+    ]
+    if (
+        len(authoritative) != 1
+        or authoritative[0]["repository"].lower() != PROOFWIDGETS_REPOSITORY
+        or authoritative[0]["revision"] != proofwidgets["revision"]
+    ):
+        raise VerificationError(
+            "ProofWidgets revision does not match the authenticated Mathlib manifest"
+        )
+
+    reset_trusted_lake_state(
+        workspace,
+        {"proofwidgets"},
+        packages=packages,
+        checkout=checkout,
+    )
+    with tempfile.TemporaryDirectory(
+        prefix=".palomar-proofwidgets-release-", dir=checkout.parent
+    ) as staging_directory:
+        staged = stage_trusted_closure(
+            workspace,
+            checkout=checkout,
+            packages=packages,
+            closure={"proofwidgets"},
+            root_name="proofwidgets",
+            destination=Path(staging_directory),
+        )
+        staged_home = staged.root_package / ".lake" / "config" / "home"
+        staged_temporary = staged.root_package / ".lake" / "config" / "tmp"
+        staged_home.mkdir()
+        staged_temporary.mkdir()
+        staged_env = environment.copy()
+        staged_env.update(
+            {
+                "HOME": str(staged_home.resolve()),
+                "TMPDIR": str(staged_temporary.resolve()),
+                "LEAN_ABORT_ON_PANIC": "1",
+            }
+        )
+        sandboxed_run(
+            [str(lake), "build", "proofwidgets:release"],
+            cwd=staged.root_package,
+            environment=staged_env,
+            writable_directories=list(staged.lake_roots),
+            readable_paths=sorted({staged.source, *system_readable_paths()}),
+            executable_paths=executable_paths,
+            tools=tools,
+            timeout=1800,
+            unrestricted_network=True,
+            resource_properties=CACHE_DOWNLOAD_PROPERTIES,
+        )
+        validate_trusted_source_snapshots(staged.source_snapshots)
+        promotions = validate_staged_lake_promotions(
+            workspace,
+            staged.source,
+            checkout=checkout,
+            packages=packages,
+            closure={"proofwidgets"},
+            root_name="proofwidgets",
+        )
+        _validate_legacy_proofwidgets_promotion(promotions)
+        promote_staged_lake_state(promotions)
+    return layout
+
+
+def hydrate_mathlib_cache(
+    workspace: Path,
+    *,
+    checkout: Path,
+    trusted_work: Path,
+    environment: dict[str, str],
+    lake: Path,
+    curl: Path,
+    env_tool: Path,
+    git: Path,
+    writable_directories: list[Path],
+    readable_paths: list[Path],
+    executable_paths: list[Path],
+    tools: dict[Path, str],
+) -> dict[str, int]:
+    # Standalone Lean projects do not provide Mathlib's ``cache`` executable.
+    # The merged renderer manifest is already validated and records the full
+    # package graph, so avoid running submitted Lake code merely to discover
+    # that there is no Mathlib cache to hydrate.
+    if not any(package["name"] == "mathlib" for package in manifest_packages(workspace)):
+        return {"requested": 0, "downloaded": 0, "bytes": 0}
+    cache_dir = workspace / ".lake" / "config" / "mathlib-cache"
+    empty_cache = workspace / ".lake" / "config" / "empty-mathlib-cache"
+    prepare_mathlib_cache_discovery_directories(cache_dir, empty_cache)
+    prepared_tool = prepare_legacy_mathlib_cache_tool(
+        workspace,
+        cache_dir,
+        checkout=checkout,
+        trusted_work=trusted_work,
+        environment=environment,
+        curl=curl,
+        env_tool=env_tool,
+        git=git,
+        executable_paths=executable_paths,
+        tools=tools,
+    )
+    hashes, cache_dir = discover_mathlib_cache_hashes(
+        workspace,
+        environment=environment,
+        lake=lake,
+        writable_directories=writable_directories,
+        readable_paths=readable_paths,
+        executable_paths=executable_paths,
+        tools=tools,
+        cache_dir=cache_dir,
+        empty_cache=empty_cache,
+    )
+    downloaded, total = download_mathlib_cache(
+        hashes,
+        cache_dir,
+        trusted_work=trusted_work,
+        environment=environment,
+        curl=curl,
+        env_tool=env_tool,
+        executable_paths=executable_paths,
+        tools=tools,
+        preserved_tool=prepared_tool,
+    )
+    cache_env = environment.copy()
+    cache_env["MATHLIB_CACHE_DIR"] = str(cache_dir.resolve())
+    if downloaded:
+        sandboxed_run(
+            [str(lake), "exe", "cache", "unpack"],
+            cwd=workspace,
+            environment=cache_env,
+            writable_directories=writable_directories,
+            readable_paths=readable_paths,
+            executable_paths=executable_paths,
+            tools=tools,
+            timeout=1800,
+            resource_properties=RESOURCE_PROPERTIES,
+        )
+    shutil.rmtree(cache_dir)
+    return {"requested": len(hashes), "downloaded": downloaded, "bytes": total}
+
+
+def prepare_build_metadata_files(
+    workspace: Path, proofwidgets_layout: str | None = None
+) -> tuple[Path, ...]:
+    """Create only the sidecars Lake must update beside tracked ProofWidgets assets."""
+    proofwidgets = next(
+        (
+            package
+            for package in manifest_packages(workspace)
+            if package["name"] == "proofwidgets"
+        ),
+        None,
+    )
+    # A Challenge that depends on neither Mathlib nor ProofWidgets has no
+    # widget assets for Lake to rebuild, so it needs no sidecars granted.
+    if proofwidgets is None:
+        return ()
+    if proofwidgets["repository"].lower() != PROOFWIDGETS_REPOSITORY:
+        raise VerificationError("renderer requires the canonical pinned ProofWidgets package")
+    package_dir = workspace / ".lake" / "packages" / "proofwidgets"
+    if proofwidgets_layout is None:
+        widget_js = package_dir / "widget" / "js"
+        proofwidgets_layout = (
+            "modern" if widget_js.is_dir() and not widget_js.is_symlink() else "legacy"
+        )
+    if proofwidgets_layout not in {"legacy", "modern"}:
+        raise VerificationError("renderer received an invalid ProofWidgets source layout")
+    relative_paths = [Path("widget/package-lock.json.hash")]
+    if proofwidgets_layout == "modern":
+        relative_paths.append(Path("widget/js/lake.trace.hash"))
+    result: list[Path] = []
+    for relative in relative_paths:
+        path = package_dir / relative
+        if path.exists() or path.is_symlink() or not path.parent.is_dir():
+            raise VerificationError(f"unexpected ProofWidgets build sidecar: {relative}")
+        path.write_bytes(b"")
+        result.append(path.resolve())
+    return tuple(result)
+
+
+def build_core_notation_audit(
+    work: Path,
+    *,
+    environment: dict[str, str],
+    lake: Path,
+    writable_directories: list[Path],
+    readable_paths: list[Path],
+    executable_paths: list[Path],
+    tools: dict[Path, str],
+) -> Path:
+    """Build the trusted audit executable away from candidate-writable state."""
+
+    if CORE_NOTATION_AUDIT_SOURCE.is_symlink() or not CORE_NOTATION_AUDIT_SOURCE.is_file():
+        raise VerificationError("trusted core-notation audit source is missing or invalid")
+    project = work / "core-notation-audit-build"
+    executable = work / "palomar-core-notation-audit"
+    if project.exists() or project.is_symlink() or executable.exists() or executable.is_symlink():
+        raise VerificationError("core-notation audit build path already exists")
+    project.mkdir()
+    replace_workspace_file(project / "PalomarAudit.lean", CORE_NOTATION_AUDIT_SOURCE.read_bytes())
+    replace_workspace_file(
+        project / "lakefile.toml",
+        b'''name = "PalomarCoreNotationAudit"
+defaultTargets = ["palomar-audit"]
+
+[[lean_exe]]
+name = "palomar-audit"
+root = "PalomarAudit"
+supportInterpreter = true
+''',
+    )
+    write_json(
+        project / "lake-manifest.json",
+        {
+            "version": "1.1.0",
+            "packagesDir": ".lake/packages",
+            "packages": [],
+            "name": "PalomarCoreNotationAudit",
+            "lakeDir": ".lake",
+            "fixedToolchain": False,
+        },
+    )
+    audit_build = project / ".lake" / "build"
+    audit_config = project / ".lake" / "config"
+    audit_build.mkdir(parents=True)
+    audit_config.mkdir()
+    try:
+        sandboxed_run(
+            [str(lake), "build", "palomar-audit"],
+            cwd=project,
+            environment=environment,
+            writable_directories=[*writable_directories, audit_build, audit_config],
+            readable_paths=readable_paths,
+            executable_paths=executable_paths,
+            tools=tools,
+            timeout=10 * 60,
+            resource_properties=RESOURCE_PROPERTIES,
+        )
+        built = audit_build / "bin" / "palomar-audit"
+        if built.is_symlink() or not built.is_file():
+            raise VerificationError("trusted core-notation audit executable was not built")
+        replace_workspace_file(executable, built.read_bytes())
+        executable.chmod(stat.S_IRUSR | stat.S_IXUSR)
+    finally:
+        shutil.rmtree(project, ignore_errors=True)
+    require_protected_paths([executable], writable_directories)
+    return executable.resolve(strict=True)
+
+
+def core_notation_audit_lean_path(
+    lake_environment: str,
+    *,
+    workspace: Path,
+    challenge_module: str,
+    lean_prefix: Path,
+) -> str:
+    """Put the rendered root module first and reject toolchain shadow modules."""
+
+    module_suffix = module_source_suffix(challenge_module).with_suffix(".olean")
+    module_root = challenge_module.split(".", 1)[0]
+    if module_root in TRUSTED_TOOLCHAIN_MODULE_ROOTS:
+        raise VerificationError("Challenge module may not use a trusted toolchain namespace")
+
+    root_lib_path = workspace / ".lake" / "build" / "lib" / "lean"
+    if root_lib_path.resolve() != root_lib_path.absolute():
+        raise VerificationError("Challenge build library path is redirected")
+    root_lib = root_lib_path.resolve(strict=True)
+    challenge_olean = root_lib.joinpath(*module_suffix.parts)
+    if challenge_olean.is_symlink() or not challenge_olean.is_file():
+        raise VerificationError("rendered Challenge module is missing from its root build")
+
+    paths = [Path(value).resolve() for value in lake_environment.split(os.pathsep)]
+    if root_lib not in paths:
+        raise VerificationError("Lake omitted the root Challenge build from LEAN_PATH")
+    for path in paths:
+        try:
+            path.relative_to(lean_prefix.resolve())
+            continue
+        except ValueError:
+            pass
+        for root in TRUSTED_TOOLCHAIN_MODULE_ROOTS:
+            directory = path / root
+            olean = (path / root).with_suffix(".olean")
+            if directory.exists() or directory.is_symlink() or olean.exists() or olean.is_symlink():
+                raise VerificationError(
+                    f"candidate build shadows trusted Lean module namespace {root}"
+                )
+    return os.pathsep.join(str(path) for path in dict.fromkeys([root_lib, *paths]))
+
+
+def write_core_notation_audit_handoff(
+    work: Path,
+    audit_declarations: list[dict[str, str]],
+    writable_directories: list[Path],
+) -> Path:
+    """Store trusted audit text where no later candidate phase can replace it."""
+
+    path = work / "palomar-core-notation-audit.json"
+    if path.exists() or path.is_symlink():
+        raise VerificationError("core-notation audit handoff path already exists")
+    require_protected_paths([path], writable_directories)
+    replace_workspace_file(
+        path,
+        (json.dumps(audit_declarations, ensure_ascii=False) + "\n").encode("utf-8"),
+    )
+    return path.resolve(strict=True)
+
+
+def validate_build_metadata_files(paths: tuple[Path, ...]) -> None:
+    for path in paths:
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > 1024:
+            raise VerificationError(f"invalid dependency build sidecar: {path.name}")
+
+
+def execute(args: argparse.Namespace) -> int:
+    work = Path(args.work_dir).resolve()
+    output = Path(args.output).resolve()
+    report = load_json_object(output)
+    try:
+        prepared = parse_prepared_report(report)
+    except RenderReportError as error:
+        previous_errors = report.get("errors")
+        failure = intake_report(now())
+        failure["stage"] = "contract"
+        failure["errors"] = [
+            *(
+                item
+                for item in (previous_errors if isinstance(previous_errors, list) else [])
+                if isinstance(item, str)
+            ),
+            str(error),
+        ]
+        write_json(output, failure)
+        return 1
+    report = prepared.as_dict()
+    report.update(
+        {
+            "status": "error",
+            "stage": "workspace",
+            "renderer_commit": args.renderer_commit,
+            "bwrap_source_tag": args.bwrap_source_tag,
+            "workflow_url": args.workflow_url,
+        }
+    )
+    tools: dict[Path, str] = {}
+    try:
+        if not SHA_RE.fullmatch(args.renderer_commit):
+            raise VerificationError("renderer commit must be an immutable SHA")
+        if not BWRAP_SOURCE_TAG_RE.fullmatch(args.bwrap_source_tag):
+            raise VerificationError("bubblewrap source tag must be a release tag")
+        if args.bwrap_source_tag != bwrap_source_tag_from_installer():
+            raise VerificationError(
+                "bubblewrap source tag does not match the release scripts/install_bwrap.sh builds"
+            )
+        source = work / "source"
+        challenge_relative = normalized_repository_path(
+            prepared.source.paths.challenge_path,
+            "render challenge_path",
+        )
+        accepted_challenge = resolve_repository_path(
+            source, challenge_relative, "render challenge_path", kind="file"
+        )
+        if sha256(accepted_challenge) != prepared.source.challenge_sha256:
+            raise VerificationError("accepted Challenge source changed after render intake")
+        workspace_checkout = work / "workspace"
+        render_workspace = prepare_workspace(
+            source,
+            workspace_checkout,
+            prepared.verso_commit,
+            work,
+            prepared.source.paths,
+        )
+        workspace = render_workspace.project
+        if render_workspace.excluded_proof_packages:
+            report["excluded_proof_packages"] = list(render_workspace.excluded_proof_packages)
+
+        bwrap = configure_bwrap(Path(args.bwrap))
+        renderer = Path(__file__).resolve(strict=True)
+        env = os.environ.copy()
+        env.pop("LAKE_PKG_URL_MAP", None)
+        env.update(
+            {
+                "GIT_CONFIG_GLOBAL": "/dev/null",
+                "GIT_CONFIG_NOSYSTEM": "1",
+                "GIT_TERMINAL_PROMPT": "0",
+            }
+        )
+        env["LEAN_ABORT_ON_PANIC"] = "1"
+        env["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        env["GIT_CONFIG_NOSYSTEM"] = "1"
+        env["GIT_TERMINAL_PROMPT"] = "0"
+        elan_command = shutil.which("elan", path=env["PATH"])
+        if not elan_command:
+            raise VerificationError("trusted elan executable is unavailable")
+        toolchain_env = env.copy()
+        toolchain_env["ELAN_TOOLCHAIN"] = prepared.lean_toolchain
+        lean = Path(
+            run([elan_command, "which", "lean"], cwd=work, env=toolchain_env).stdout.strip()
+        ).resolve(strict=True)
+        lean_prefix = lean.parent.parent
+        lake = (lean_prefix / "bin" / "lake").resolve(strict=True)
+        if lean != (lean_prefix / "bin" / "lean").resolve(strict=True):
+            raise VerificationError("elan returned an unexpected Lean executable path")
+        python = Path(sys.executable).resolve(strict=True)
+        printenv = required_executable("printenv", env)
+        touch = required_executable("touch", env)
+        curl = required_executable("curl", env)
+        git = required_executable("git", env)
+        env_tool = required_executable("env", env)
+        env["PATH"] = f"{lean_prefix / 'bin'}:{env['PATH']}"
+
+        writable_directories = materialize_packages(
+            workspace, checkout=workspace_checkout, base_env=env
+        )
+        verso_backport = apply_verso_module_import_backport(
+            workspace, workspace_checkout, prepared.verso_commit
+        )
+        if verso_backport is not None:
+            report["verso_backport"] = verso_backport
+        readable_paths = [workspace_checkout.resolve()]
+        sandbox_home = workspace / ".lake" / "config" / "home"
+        sandbox_tmp = workspace / ".lake" / "config" / "tmp"
+        sandbox_home.mkdir()
+        sandbox_tmp.mkdir()
+        env["HOME"] = str(sandbox_home.resolve())
+        env["TMPDIR"] = str(sandbox_tmp.resolve())
+        allowed_exec = executable_paths(
+            lean_prefix,
+            [renderer, lake, lean, python, printenv, touch, curl, git, env_tool],
+        )
+        require_protected_paths(
+            [
+                output,
+                bwrap,
+                renderer,
+                lake,
+                lean,
+                python,
+                printenv,
+                touch,
+                curl,
+                git,
+                env_tool,
+                lean_prefix,
+            ],
+            writable_directories,
+        )
+        tools = tool_snapshot(
+            [bwrap, renderer, lake, lean, python, printenv, touch, curl, git, env_tool]
+        )
+        # The render build is where untrusted compile-time Lean runs, so it
+        # gets the verifier's whole probe set rather than a write-only subset.
+        # Candidate phases represented by this probe are network-disabled.
+        # The only confined exception below is a legacy ProofWidgets checkout
+        # bound to the already accepted Mathlib manifest in a disposable
+        # one-package workspace;
+        # it has a separate, narrower filesystem policy. Trusted `curl` also
+        # fetches fixed-host Mathlib cache archives outside candidate execution.
+        verify_sandbox_confinement(
+            work / "render-write-denial-probe",
+            work / "render-read-denial-probe",
+            positive_read=render_workspace.challenge,
+            python=python,
+            touch=touch,
+            cwd=workspace,
+            environment=env,
+            writable_directories=writable_directories,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+        )
+        proofwidgets_layout = stage_legacy_proofwidgets_release(
+            workspace,
+            checkout=workspace_checkout,
+            environment=env,
+            lake=lake,
+            git=git,
+            executable_paths=allowed_exec,
+            tools=tools,
+        )
+        audit_executable = build_core_notation_audit(
+            work,
+            environment=env,
+            lake=lake,
+            writable_directories=writable_directories,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+        )
+        allowed_exec = sorted({*allowed_exec, audit_executable})
+        tools[audit_executable] = sha256(audit_executable)
+        report["mathlib_cache"] = hydrate_mathlib_cache(
+            workspace,
+            checkout=workspace_checkout,
+            trusted_work=work,
+            environment=env,
+            lake=lake,
+            curl=curl,
+            env_tool=env_tool,
+            git=git,
+            writable_directories=writable_directories,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+        )
+        writable_files = prepare_build_metadata_files(workspace, proofwidgets_layout)
+
+        report["stage"] = "literate"
+        write_json(output, report)
+        # The verifier refuses this at verification; the renderer repeats the
+        # check because a render reaches here from older reports too, and the
+        # failure it prevents would otherwise read as Palomar's.
+        shadow = shadowing_dependency(
+            render_workspace.challenge_module,
+            manifest_packages(workspace),
+            source=workspace,
+            checkout=workspace_checkout,
+        )
+        if shadow is not None:
+            raise module_root_shadowed(render_workspace.challenge_module, shadow)
+        literate = sandboxed_run(
+            [str(lake), "build", "Challenge:literate"],
+            cwd=workspace,
+            environment=env,
+            writable_directories=writable_directories,
+            writable_files=writable_files,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+            timeout=BUILD_TIMEOUT_SECONDS,
+            resource_properties=RESOURCE_PROPERTIES,
+            check=False,
+        )
+        if literate.returncode:
+            raise literate_failure(literate)
+        if tree_bytes(workspace / ".lake", stop_after=MAX_RENDER_WORK_BYTES) > MAX_RENDER_WORK_BYTES:
+            raise VerificationError("render workspace exceeds the disk cap")
+        validate_build_metadata_files(writable_files)
+
+        lake_environment = lake_environment_value(
+            "LEAN_PATH",
+            source=workspace,
+            lake=lake,
+            printenv=printenv,
+            environment=env,
+            writable_directories=writable_directories,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+            allowed_roots=[workspace_checkout, lean_prefix],
+        )
+        audit_environment = env.copy()
+        audit_environment["LEAN_PATH"] = core_notation_audit_lean_path(
+            lake_environment,
+            workspace=workspace,
+            challenge_module=render_workspace.challenge_module,
+            lean_prefix=lean_prefix,
+        )
+        comparator_config = load_comparator_config(render_workspace.comparator)
+        declaration_kinds = [
+            *(("theorem", name) for name in comparator_config["theorem_names"]),
+            *(("def", name) for name in comparator_config.get("definition_names", [])),
+        ]
+        audit_command = [
+            str(audit_executable),
+            render_workspace.challenge_module,
+            *(item for pair in declaration_kinds for item in pair),
+        ]
+        audit_result = sandboxed_run(
+            audit_command,
+            cwd=workspace,
+            environment=audit_environment,
+            writable_directories=writable_directories,
+            writable_files=writable_files,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+            timeout=SANITIZE_TIMEOUT_SECONDS,
+            resource_properties=RESOURCE_PROPERTIES,
+        )
+        declarations = [name for _kind, name in declaration_kinds]
+        audit_declarations = validated_audit_declarations(
+            json.loads(audit_result.stdout), declarations
+        )
+        audit_declarations_path = write_core_notation_audit_handoff(
+            work,
+            audit_declarations,
+            writable_directories,
+        )
+
+        raw_output = workspace / ".lake" / "build" / "palomar-render-raw"
+        clean_output = work / "palomar-render-clean"
+        raw_output.mkdir()
+        report["stage"] = "verso-html"
+        write_json(output, report)
+        sandboxed_run(
+            [
+                str(lake),
+                "exe",
+                "verso-html",
+                str(workspace / ".lake" / "build" / "literate"),
+                str(raw_output),
+            ],
+            cwd=workspace,
+            environment=env,
+            writable_directories=writable_directories,
+            writable_files=writable_files,
+            readable_paths=readable_paths,
+            executable_paths=allowed_exec,
+            tools=tools,
+            timeout=HTML_TIMEOUT_SECONDS,
+            resource_properties=RESOURCE_PROPERTIES,
+        )
+
+        report["stage"] = "sanitize"
+        write_json(output, report)
+        clean_output.mkdir()
+        sanitize_state = Path(tempfile.mkdtemp(prefix="sanitize-state-", dir=work))
+        sanitize_home = sanitize_state / "home"
+        sanitize_tmp = sanitize_state / "tmp"
+        sanitize_home.mkdir()
+        sanitize_tmp.mkdir()
+        require_protected_paths([clean_output, sanitize_state], writable_directories)
+        sanitize_env = {**env, "HOME": str(sanitize_home), "TMPDIR": str(sanitize_tmp)}
+        sanitize_diagnostic = clean_output / ".palomar-sanitize-diagnostic.json"
+        sanitize_diagnostic.unlink(missing_ok=True)
+        sanitized = sandboxed_run(
+            [
+                *isolated_python(python, str(renderer)),
+                "sanitize",
+                "--input-dir",
+                str(raw_output),
+                "--output-dir",
+                str(clean_output),
+                "--challenge",
+                str(render_workspace.challenge),
+                "--solution",
+                str(render_workspace.solution),
+                "--comparator",
+                str(render_workspace.comparator),
+                "--challenge-module",
+                render_workspace.challenge_module,
+                "--lean",
+                str(lean),
+                "--diagnostic-out",
+                str(sanitize_diagnostic),
+                "--audit-declarations",
+                str(audit_declarations_path),
+            ],
+            cwd=workspace,
+            environment=sanitize_env,
+            writable_directories=[clean_output, sanitize_home, sanitize_tmp],
+            readable_paths=[*readable_paths, audit_declarations_path],
+            executable_paths=allowed_exec,
+            tools=tools,
+            timeout=SANITIZE_TIMEOUT_SECONDS,
+            check=False,
+            resource_properties=RESOURCE_PROPERTIES,
+        )
+        if sanitized.returncode == MISSING_DECLARATION_EXIT:
+            raise read_sanitize_diagnostic(sanitize_diagnostic)
+        if sanitized.returncode:
+            detail = (sanitized.stderr or sanitized.stdout).strip()[-8000:]
+            raise VerificationError(
+                f"{python} {renderer} sanitize failed ({sanitized.returncode}): {detail}"
+            )
+        if sanitize_diagnostic.exists() or sanitize_diagnostic.is_symlink():
+            raise VerificationError("sanitizer wrote a diagnostic while reporting success")
+        files, tree_hash = artifact_manifest(clean_output)
+        validate_build_metadata_files(writable_files)
+        embedded_manifest = load_json_object(clean_output / "artifact-manifest.json")
+        if (
+            embedded_manifest.get("files") != files
+            or embedded_manifest.get("artifact_tree_sha256") != tree_hash
+        ):
+            raise VerificationError("sanitized artifact manifest is inconsistent")
+        surface = load_json_object(clean_output / "challenge-metadata.json")
+        result_dir = work / "result"
+        if result_dir.exists():
+            raise VerificationError("render result directory already exists")
+        result_dir.mkdir()
+        shutil.copytree(clean_output, result_dir / "bundle")
+        report.update(
+            {
+                "status": "pass",
+                "stage": "complete",
+                "format": "verso-html",
+                "entrypoint": "Challenge/index.html",
+                "artifact_tree_sha256": tree_hash,
+                "surface": surface,
+                "rendered_at": now(),
+                "limits": {
+                    "wall_seconds": BUILD_TIMEOUT_SECONDS,
+                    "memory_bytes": 12 * 1024 * 1024 * 1024,
+                    "tasks": 512,
+                    "open_files": 4096,
+                    "per_file_bytes": MAX_RENDER_FILE_BYTES,
+                    "build_file_bytes": MAX_BUILD_FILE_BYTES,
+                    "artifact_files": MAX_RENDER_FILES,
+                    "artifact_nodes": MAX_RENDER_NODES,
+                    "artifact_bytes": MAX_RENDER_BYTES,
+                    "workspace_bytes": MAX_RENDER_WORK_BYTES,
+                },
+            }
+        )
+        write_json(result_dir / "challenge-render.json", report)
+        write_json(output, report)
+        return 0
+    except subprocess.TimeoutExpired as error:
+        report["errors"].append("Challenge rendering timed out")
+        append_render_failure(report, error)
+    except Exception as error:  # noqa: BLE001 - workflow failures become a bounded report
+        report["errors"].append(str(error))
+        append_render_failure(report, error)
+    write_json(output, report)
+    return 1
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser()
+    commands = result.add_subparsers(dest="command", required=True)
+    prepare_parser = commands.add_parser("prepare")
+    prepare_parser.add_argument("--repository", required=True)
+    prepare_parser.add_argument("--commit", required=True)
+    prepare_parser.add_argument("--challenge-sha256", required=True)
+    prepare_parser.add_argument("--project-path", required=True)
+    prepare_parser.add_argument("--challenge-path", required=True)
+    prepare_parser.add_argument("--solution-path", required=True)
+    prepare_parser.add_argument("--comparator-config-path", required=True)
+    prepare_parser.add_argument("--lakefile-path", required=True)
+    prepare_parser.add_argument("--lean-toolchain-path", required=True)
+    prepare_parser.add_argument("--work-dir", required=True)
+    prepare_parser.add_argument("--output", required=True)
+    prepare_parser.set_defaults(func=prepare)
+    execute_parser = commands.add_parser("execute")
+    execute_parser.add_argument("--work-dir", required=True)
+    execute_parser.add_argument("--output", required=True)
+    execute_parser.add_argument("--bwrap", required=True)
+    execute_parser.add_argument("--renderer-commit", required=True)
+    execute_parser.add_argument("--bwrap-source-tag", required=True)
+    execute_parser.add_argument("--workflow-url", required=True)
+    execute_parser.set_defaults(func=execute)
+    sanitize_parser = commands.add_parser("sanitize")
+    sanitize_parser.add_argument("--input-dir", required=True)
+    sanitize_parser.add_argument("--output-dir", required=True)
+    sanitize_parser.add_argument("--challenge", required=True)
+    sanitize_parser.add_argument("--solution", required=True)
+    sanitize_parser.add_argument("--comparator", required=True)
+    sanitize_parser.add_argument("--challenge-module", required=True)
+    sanitize_parser.add_argument("--lean", required=True)
+    sanitize_parser.add_argument("--diagnostic-out", required=True)
+    sanitize_parser.add_argument("--audit-declarations", required=True)
+    sanitize_parser.set_defaults(func=sanitize_command)
+    return result
+
+
+def main() -> int:
+    try:
+        args = parser().parse_args()
+        return args.func(args)
+    except (OSError, ValueError, VerificationError, json.JSONDecodeError) as error:
+        print(f"render challenge: {error}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
