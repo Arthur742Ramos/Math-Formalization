@@ -1364,14 +1364,14 @@
       "scope": "Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "c30136f1334e2c13ad7ebcd4429a4ef7586b68a9",
-        "tree": "30c89d6f95db5121246b592a29b8d9c5cca69d6d"
+        "commit": "c76514bddb9a5d20dfce2b71c7cfb090667b4ad6",
+        "tree": "ec1cb2af011327dbcd948ad3ce9ce139d1c22822"
       },
       "source_files_sha256": {
         "SemanticTests.lean": "55c1e220bea22518f92f489e47bbd9eb4af9593eeb89680459915b551e38b442",
         "KRSolution.lean": "7afc8ad6c3f31c9774aadbc4486d745e66b940b5d8556943097e2c56358156dc",
         "AxiomAudit.lean": "1c6eb5f3b9991f9da83bb9075d688b6ff8e9769d71b81b9e53fbeb8c5d7754ed",
-        "KRChallenge.lean": "edf5a20f1751bdfaf2c17fbcead16185cd90151139eaf49bb399bf0874220c1a",
+        "KRChallenge.lean": "bbabea7d33edbb587381e48e4fb5d3f6abc67f750d602f88c27560e079fa9930",
         "KnasterReichbach.lean": "aa63aac4b360ef2b238a3c69a36b6d8f39eff1fed885110e785fdaeabe7af643",
         "ChallengeTests.lean": "00e4b83737cafdae3789e34166474a06ca91fad1e8d5e6d8d64136aeeb18ecbc",
         "formalization.yaml": "cb914935f5a86429db48032aaffad90b79c81b80a29d97a2501a98a8a38126f9",

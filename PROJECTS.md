@@ -194,4 +194,4 @@ The full mathematical proof is implemented and internally reviewed. Exact-source
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`c30136f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c30136f1334e2c13ad7ebcd4429a4ef7586b68a9/topology/knaster-reichbach) (local candidate) |
+| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`c76514b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c76514bddb9a5d20dfce2b71c7cfb090667b4ad6/topology/knaster-reichbach) (local candidate) |
