@@ -1,0 +1,20 @@
+{
+  "scope": "Immutable local validation history of the named predecessor; later commits require their own exact-source external receipts. No hosted workflow or registry intake.",
+  "source_commit": "320b363a9b8ea37f7b2176689040668b19eb21e8",
+  "package_tree": "d79a4493b8210f19117d94bb02dbeff569c12d2f",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "full": {
+    "status": "pass",
+    "report_sha256": "e840f4cbdeed98752855293dc0e16f7de79eed9480e7fd8f44f57638af652bcc",
+    "adapter_receipt_sha256": "a85414d85ddab0f65839ab931e5781633451ff119489743b5d957121c432aa21"
+  },
+  "rendering": {
+    "status": "pass",
+    "report_sha256": "2430a72cf9c1b548b07f7c7ef3c9c69eccf36033d2182b6cf9a4c3c577a1989f",
+    "adapter_receipt_sha256": "9ff55936b0faa851442dff9904d47a2689e5011de244d27035e9e24b6c9537c4",
+    "artifact_tree_sha256": "852e040adb291a087d9862c9f6a6e23c1b2a3d32e66270cdcec26f529448f5c3"
+  },
+  "independent_full_review_sha256": "f78694d49e0de84d462c68237b243a7c4a67c98a3260df9859237948765320de",
+  "native_receipt_sha256": "39d06815403140ec41f1f5ae9ccbb95957dea3bc35320a11f9851da99606858b",
+  "limits": "Internal AI review and machine verification; no human mathematical or external editorial review asserted. The Challenge review-surface warning is retained."
+}

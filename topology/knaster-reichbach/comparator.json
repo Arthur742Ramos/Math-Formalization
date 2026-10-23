@@ -1,0 +1,13 @@
+{
+  "challenge_module": "KRChallenge",
+  "solution_module": "KRSolution",
+  "theorem_names": [
+    "KnasterReichbach.exists_homeomorph_extension"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

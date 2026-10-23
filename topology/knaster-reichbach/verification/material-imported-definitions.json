@@ -1,0 +1,498 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "IsClosed",
+    "closure",
+    "Continuous",
+    "Homeomorph",
+    "TopologicalSpace.induced",
+    "Filter",
+    "Equiv",
+    "IsNowhereDense",
+    "IsClopen",
+    "interior",
+    "IsCompact",
+    "CompactSpace"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "The supplied open-set topology; all homeomorphism conclusions use this same topology.",
+      "dependency_expansion": "The supplied open-set topology; all extension conclusions use this same topology. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "The open-set predicate of the supplied topology.",
+      "dependency_expansion": "The open-set predicate of the supplied topology. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "A set whose complement is open; used for closure and Gδ facts.",
+      "dependency_expansion": "A set whose complement is open; used for closure and Gδ facts. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Intersection of all closed supersets; equivalently every neighborhood intersects the original set.",
+      "dependency_expansion": "Intersection of all closed supersets; equivalently every neighborhood intersects the original set. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Preimages of open sets are open; both directions are required by a homeomorphism.",
+      "dependency_expansion": "Preimages of open sets are open; both directions are required by a homeomorphism. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "Homeomorph",
+      "declaration_kind": "structure",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "An equivalence with continuous forward and inverse maps. It gives a bijection of the actual subspaces.",
+      "dependency_expansion": "An equivalence with continuous forward and inverse maps. It gives a bijection of the actual subspaces. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "characterization-Homeomorph",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "characterization-Homeomorph"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Preimages of ambient opens define the topology; the subtype instance uses the inclusion.",
+      "dependency_expansion": "Preimages of ambient opens define the topology; the subtype instance uses the inclusion. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "induced",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "induced",
+        "Pi.product-topology",
+        "cantor-Bool-topology",
+        "subtype-topology"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "Filter",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "An upward-closed collection of sets containing univ and closed under finite intersections; bottom is allowed until NeBot is supplied.",
+      "dependency_expansion": "An upward-closed collection of sets containing univ and closed under finite intersections; bottom is allowed until NeBot is supplied.",
+      "definition_excerpt": "Filter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Filter"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "Equiv",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Forward and inverse maps with left and right inverse laws; Homeomorph adds continuity.",
+      "dependency_expansion": "Forward and inverse maps with left and right inverse laws; Homeomorph adds continuity.",
+      "definition_excerpt": "Equiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Equiv"
+      ],
+      "proof_status": "Literal statement and definition bridges compile separately through KRChallenge and KRSolution; machine checks do not establish inventory completeness."
+    },
+    {
+      "name": "IsNowhereDense",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "The interior of the ambient closure is empty; for closed A this means A has empty interior.",
+      "dependency_expansion": "The interior of the ambient closure is empty; for closed A this means A has empty interior. Exact pinned dependencies and source excerpts are retained; standard logical syntax and Set operations are not separate mathematical assumptions.",
+      "definition_excerpt": "KR-IsNowhereDense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsNowhereDense"
+      ],
+      "proof_status": "SemanticTests and ChallengeTests check literal definitions on both isolated entrypoints. Source-fidelity review remains independent of compilation."
+    },
+    {
+      "name": "IsClopen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Both closed and open in the ambient topology, used for finite partition cells.",
+      "dependency_expansion": "Both closed and open in the ambient topology, used for finite partition cells. Exact pinned dependencies and source excerpts are retained; standard logical syntax and Set operations are not separate mathematical assumptions.",
+      "definition_excerpt": "KR-IsClopen",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsClopen"
+      ],
+      "proof_status": "SemanticTests and ChallengeTests check literal definitions on both isolated entrypoints. Source-fidelity review remains independent of compilation."
+    },
+    {
+      "name": "interior",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Union of the open sets contained in the set.",
+      "dependency_expansion": "Union of the open sets contained in the set. Exact pinned dependencies and source excerpts are retained; standard logical syntax and Set operations are not separate mathematical assumptions.",
+      "definition_excerpt": "KR-interior",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-interior"
+      ],
+      "proof_status": "SemanticTests and ChallengeTests check literal definitions on both isolated entrypoints. Source-fidelity review remains independent of compilation."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "Every nonbottom filter on the set admits a cluster point in it; used to obtain nonempty nested fiber intersections.",
+      "dependency_expansion": "Every nonbottom filter on the set admits a cluster point in it; used to obtain nonempty nested fiber intersections. Exact pinned dependencies and source excerpts are retained; standard logical syntax and Set operations are not separate mathematical assumptions.",
+      "definition_excerpt": "KR-IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsCompact"
+      ],
+      "proof_status": "Used by the compiled compatible-limit construction. The entrypoint bridges check the final literal theorem, not an unfolding of this compactness predicate. Retained pinned definitions and their mathematical interpretation require independent fidelity review."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "meaning": "The whole ambient space is compact. Cantor space uses the standard compact product topology.",
+      "dependency_expansion": "The whole ambient space is compact. Cantor space uses the standard compact product topology. Exact pinned dependencies and source excerpts are retained; standard logical syntax and Set operations are not separate mathematical assumptions.",
+      "definition_excerpt": "KR-CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "KR-CompactSpace"
+      ],
+      "proof_status": "Used by the compiled compatible-limit construction. The entrypoint bridges check the final literal theorem, not an unfolding of this compactness predicate. Retained pinned definitions and their mathematical interpretation require independent fidelity review."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "IsClosed",
+          "first_line": 107,
+          "last_line": 109,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n",
+          "sha256": "b781df1f94b7e9a0b16791daa67c0bad5d4446809fc5e63093140999f5ae536a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L109"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "name": "KR-IsClopen",
+          "first_line": 107,
+          "last_line": 128,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n/-- A set is clopen if it is both closed and open. -/\ndef IsClopen (s : Set X) : Prop :=\n  IsClosed s ∧ IsOpen s\n\n/--\nA set is locally closed if it is the intersection of some open set and some closed set.\nAlso see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n\n",
+          "sha256": "8a72b06cf891fafa013b869483315af987edc828296e80b6c2352137e87f4855",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L128"
+        },
+        {
+          "name": "KR-interior",
+          "first_line": 112,
+          "last_line": 128,
+          "text": "def IsClopen (s : Set X) : Prop :=\n  IsClosed s ∧ IsOpen s\n\n/--\nA set is locally closed if it is the intersection of some open set and some closed set.\nAlso see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n\n",
+          "sha256": "1ed8f54be20e509b4bfcae3f0793fd70de22792b0aff94e184114f5fa374d57f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L112-L128"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-Bool-topology",
+          "first_line": 572,
+          "last_line": 576,
+          "text": "instance : DiscreteTopology PUnit := ⟨rfl⟩\ninstance : IndiscreteTopology PUnit := inferInstance\n\ninstance : TopologicalSpace Bool := ⊥\ninstance : DiscreteTopology Bool := ⟨rfl⟩\n",
+          "sha256": "2d8bbbaa7265a7f44dd244c394855aa4f2fccb8128ba008672e414bc4393a5d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homeomorph/Defs.lean",
+      "sha256": "4d27914014d20e4b9a6af97ebd7e7bea7451cc37a96dbd102b6d21c9a3f0eb72",
+      "git_blob_sha1": "7c7e9c3c815eb873ab5e637aaac83e4cdf80f39d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Reid Barton. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Sébastien Gouëzel, Zhouhang Zhou, Reid Barton\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Homeomorph",
+          "first_line": 42,
+          "last_line": 50,
+          "text": "/-- Homeomorphism between `X` and `Y`, also called topological isomorphism -/\nstructure Homeomorph (X : Type*) (Y : Type*) [TopologicalSpace X] [TopologicalSpace Y]\n    extends X ≃ Y where\n  /-- The forward map of a homeomorphism is a continuous function. -/\n  continuous_toFun : Continuous toFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n  /-- The inverse map of a homeomorphism is a continuous function. -/\n  continuous_invFun : Continuous invFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n",
+          "sha256": "0b946359899cb78e8004065cc44729b505a4bff977bbf44444b74f5da935a5d4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean#L42-L50"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Defs.lean",
+      "sha256": "c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8",
+      "git_blob_sha1": "7821cb864d27388f46fd335a5f2fbc5d3be358ff",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equiv",
+          "first_line": 62,
+          "last_line": 77,
+          "text": "universe u v w z\n\nvariable {α : Sort u} {β : Sort v} {γ : Sort w}\n\n/-- `α ≃ β` is the type of functions from `α → β` with a two-sided inverse. -/\nstructure Equiv (α β : Sort*) where\n  /-- The forward map of an equivalence.\n\n  Do NOT use directly. Use the coercion instead. -/\n  protected toFun : α → β\n  /-- The backward map of an equivalence.\n\n  Do NOT use `e.invFun` directly. Use the coercion of `e.symm` instead. -/\n  protected invFun : β → α\n  protected left_inv : LeftInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n  protected right_inv : RightInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n",
+          "sha256": "c7e7f6bc3d3c61f2670e8d068ee61fd95c4d4affb63eb44970e73def8333fbd0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L62-L77"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "induced",
+          "first_line": 64,
+          "last_line": 67,
+          "text": "def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n",
+          "sha256": "878b69c8488a10bac25ce164587ebbe29156ddb4fddd3fe1e9a3911d8bdd8110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67"
+        },
+        {
+          "name": "subtype-topology",
+          "first_line": 76,
+          "last_line": 79,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n\n",
+          "sha256": "eca619b73151480553afac7b4bb4246ad51da55154961c48653ddd5f3074b012",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pi.product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "KR-IsCompact",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "KR-CompactSpace",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/GDelta/Basic.lean",
+      "sha256": "839130eb18758aa2bfcbe3ef40c98fcf9e0827458293fbdb5d04a5ec43b2d08a",
+      "git_blob_sha1": "feae671419368d0d284d9ed57c536b6b54afba33",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "KR-IsNowhereDense",
+          "first_line": 195,
+          "last_line": 203,
+          "text": "section IsMeagre\nopen Function TopologicalSpace Set\nvariable [TopologicalSpace X]\n\n/-- A set is called **nowhere dense** iff its closure has empty interior. -/\ndef IsNowhereDense (s : Set X) := interior (closure s) = ∅\n\n/-- The empty set is nowhere dense. -/\n@[simp]\n",
+          "sha256": "c5b71a313201b36a2d1db9faca9c7457e5b0f9161d24fe6d08a96123fee5eecf",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L195-L203"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "SemanticTests",
+      "path": "SemanticTests.lean",
+      "sha256": "55c1e220bea22518f92f489e47bbd9eb4af9593eeb89680459915b551e38b442"
+    },
+    {
+      "module": "ChallengeTests",
+      "path": "ChallengeTests.lean",
+      "sha256": "00e4b83737cafdae3789e34166474a06ca91fad1e8d5e6d8d64136aeeb18ecbc"
+    }
+  ],
+  "scope": "Material mathematical definitions and their dependencies, not an inventory of logical syntax or every proof tactic. Completeness/fidelity independently reviewed."
+}
