@@ -1,0 +1,2619 @@
+{
+  "schema": "protected-canonical-source-pins-v1",
+  "canonical_commit": "89f353b412f612555265cf902844107522d595b3",
+  "canonical_module_count": 373,
+  "transformation": "Only own import module tokens receive ProtectedSources. prefix. All other UTF-8 bytes are retained.",
+  "modules": [
+    {
+      "module": "SparseCompletion",
+      "source": "SparseCompletion.lean",
+      "protected_module": "ProtectedSources.SparseCompletion",
+      "protected_source": "ProtectedSources/SparseCompletion.lean",
+      "canonical_sha256": "b3fc687ad301a35bba605690af9e6ca73bdacc58a5d407b2d199d702b19d662b"
+    },
+    {
+      "module": "MomentCompression",
+      "source": "MomentCompression.lean",
+      "protected_module": "ProtectedSources.MomentCompression",
+      "protected_source": "ProtectedSources/MomentCompression.lean",
+      "canonical_sha256": "99b67a52e6f710e557d54ec01b43fbf108685f6f5ada13b50991a38c4d8a0fcc"
+    },
+    {
+      "module": "GameModel",
+      "source": "GameModel.lean",
+      "protected_module": "ProtectedSources.GameModel",
+      "protected_source": "ProtectedSources/GameModel.lean",
+      "canonical_sha256": "89b486f8217739ce564638f67eccb0b421190128ea8904efd390b26950c4c33b"
+    },
+    {
+      "module": "SparseWitness",
+      "source": "SparseWitness.lean",
+      "protected_module": "ProtectedSources.SparseWitness",
+      "protected_source": "ProtectedSources/SparseWitness.lean",
+      "canonical_sha256": "0cee4974a14475bcc7454df1cd9e257162950bfadfb76e1585eeda4c33d49210"
+    },
+    {
+      "module": "GameSparseWitness",
+      "source": "GameSparseWitness.lean",
+      "protected_module": "ProtectedSources.GameSparseWitness",
+      "protected_source": "ProtectedSources/GameSparseWitness.lean",
+      "canonical_sha256": "1cddcb7adea46d09b90b33859bce17e789b2e77db48d11ac25cfee815431fb86"
+    },
+    {
+      "module": "CompletionDual",
+      "source": "CompletionDual.lean",
+      "protected_module": "ProtectedSources.CompletionDual",
+      "protected_source": "ProtectedSources/CompletionDual.lean",
+      "canonical_sha256": "99b3cf7d1d9d318fe1947312a48eaf553e6b0da9d06b5ad5af6b33b11c45c3ea"
+    },
+    {
+      "module": "CompletionGeometry",
+      "source": "CompletionGeometry.lean",
+      "protected_module": "ProtectedSources.CompletionGeometry",
+      "protected_source": "ProtectedSources/CompletionGeometry.lean",
+      "canonical_sha256": "cd2b6c8ac67d2184db31dad8c37dd6e7fffc6a3fadb0815998c9b31857985dc4"
+    },
+    {
+      "module": "CompletionCriterion",
+      "source": "CompletionCriterion.lean",
+      "protected_module": "ProtectedSources.CompletionCriterion",
+      "protected_source": "ProtectedSources/CompletionCriterion.lean",
+      "canonical_sha256": "413b835b1f7f5d2cde30c5e65159895b783392050fedcded1d6b9532cbe75b5a"
+    },
+    {
+      "module": "SparseCompletionWitness",
+      "source": "SparseCompletionWitness.lean",
+      "protected_module": "ProtectedSources.SparseCompletionWitness",
+      "protected_source": "ProtectedSources/SparseCompletionWitness.lean",
+      "canonical_sha256": "af8d9bc4fde216a6635efa77ca3984cde5bcd5890aadc432eafbed2bd681cda8"
+    },
+    {
+      "module": "PaperWitness",
+      "source": "PaperWitness.lean",
+      "protected_module": "ProtectedSources.PaperWitness",
+      "protected_source": "ProtectedSources/PaperWitness.lean",
+      "canonical_sha256": "6a1fdeb05033826b90013005407f27783e01858e982474d8288217c205323487"
+    },
+    {
+      "module": "PrefixRigidity",
+      "source": "PrefixRigidity.lean",
+      "protected_module": "ProtectedSources.PrefixRigidity",
+      "protected_source": "ProtectedSources/PrefixRigidity.lean",
+      "canonical_sha256": "6d1efd91bc44e24ab7c7f5f183794287dfcdb388c2f4aca8e6ca61e1798080d6"
+    },
+    {
+      "module": "TwoAnchorRigidity",
+      "source": "TwoAnchorRigidity.lean",
+      "protected_module": "ProtectedSources.TwoAnchorRigidity",
+      "protected_source": "ProtectedSources/TwoAnchorRigidity.lean",
+      "canonical_sha256": "66aa1216468d07d06a84bdf904e5b7f50bbe40ea3c3277b67f9e0f22fef22072"
+    },
+    {
+      "module": "MinimumShareRigidity",
+      "source": "MinimumShareRigidity.lean",
+      "protected_module": "ProtectedSources.MinimumShareRigidity",
+      "protected_source": "ProtectedSources/MinimumShareRigidity.lean",
+      "canonical_sha256": "4491407814883e39813d35b5b6c22f596f7f96f8951b2c5b39b9919437610aa6"
+    },
+    {
+      "module": "PrefixStability",
+      "source": "PrefixStability.lean",
+      "protected_module": "ProtectedSources.PrefixStability",
+      "protected_source": "ProtectedSources/PrefixStability.lean",
+      "canonical_sha256": "ae8672c2644b980f1143f2bae0b024a5ac640b0b0cd36415e0496246da4478ac"
+    },
+    {
+      "module": "MinimumShareStability",
+      "source": "MinimumShareStability.lean",
+      "protected_module": "ProtectedSources.MinimumShareStability",
+      "protected_source": "ProtectedSources/MinimumShareStability.lean",
+      "canonical_sha256": "452875006ec3119dccb84b49ac1766eaa47d7aa05cdb28ab738164c01cbde578"
+    },
+    {
+      "module": "Quantization",
+      "source": "Quantization.lean",
+      "protected_module": "ProtectedSources.Quantization",
+      "protected_source": "ProtectedSources/Quantization.lean",
+      "canonical_sha256": "e937851a3e236241c19bf18e4cf3e9f472a51da412d63a0057f4025f0c2b2053"
+    },
+    {
+      "module": "SupportQuantization",
+      "source": "SupportQuantization.lean",
+      "protected_module": "ProtectedSources.SupportQuantization",
+      "protected_source": "ProtectedSources/SupportQuantization.lean",
+      "canonical_sha256": "f805cc0f067c801ff3d780ab3563bc23902ae187a791720a65a66da27978cba7"
+    },
+    {
+      "module": "SupportLowerBound",
+      "source": "SupportLowerBound.lean",
+      "protected_module": "ProtectedSources.SupportLowerBound",
+      "protected_source": "ProtectedSources/SupportLowerBound.lean",
+      "canonical_sha256": "c07d3ca165796a5bbad6aa2f6d70af78873c6ca9973c807d23472d67b5ca89e3"
+    },
+    {
+      "module": "SupportRate",
+      "source": "SupportRate.lean",
+      "protected_module": "ProtectedSources.SupportRate",
+      "protected_source": "ProtectedSources/SupportRate.lean",
+      "canonical_sha256": "3a585662645257f58fc10643eae8a8399e144eedc99f4628fca9400d66d0ade1"
+    },
+    {
+      "module": "SupportMinimum",
+      "source": "SupportMinimum.lean",
+      "protected_module": "ProtectedSources.SupportMinimum",
+      "protected_source": "ProtectedSources/SupportMinimum.lean",
+      "canonical_sha256": "220e7e47b723ec9f4ddfbad596b2e1a1d7856feeccdf51596efb693b757d0ce0"
+    },
+    {
+      "module": "ResidualMinimum",
+      "source": "ResidualMinimum.lean",
+      "protected_module": "ProtectedSources.ResidualMinimum",
+      "protected_source": "ProtectedSources/ResidualMinimum.lean",
+      "canonical_sha256": "17ee9daa67acd7027c098d25aa9d2776d31993c139d217b000d8cb64da033603"
+    },
+    {
+      "module": "IntervalLower",
+      "source": "IntervalLower.lean",
+      "protected_module": "ProtectedSources.IntervalLower",
+      "protected_source": "ProtectedSources/IntervalLower.lean",
+      "canonical_sha256": "c73c5daebb25788b30e0d717f75fb856b68a76f11338d0ba7188ff4b7b62f93e"
+    },
+    {
+      "module": "CoreLower",
+      "source": "CoreLower.lean",
+      "protected_module": "ProtectedSources.CoreLower",
+      "protected_source": "ProtectedSources/CoreLower.lean",
+      "canonical_sha256": "72b49b7fca67c8725d4c1da970413e71ec8537d557bb782fb043cb7c86e9dc6a"
+    },
+    {
+      "module": "BinCompression",
+      "source": "BinCompression.lean",
+      "protected_module": "ProtectedSources.BinCompression",
+      "protected_source": "ProtectedSources/BinCompression.lean",
+      "canonical_sha256": "7e3e639a6520ca18c9264aaf1c167da628eda6ab47eb3c5b2bd30ff5ca912f20"
+    },
+    {
+      "module": "BinnedWitness",
+      "source": "BinnedWitness.lean",
+      "protected_module": "ProtectedSources.BinnedWitness",
+      "protected_source": "ProtectedSources/BinnedWitness.lean",
+      "canonical_sha256": "81c4a6915cef1d1aa330275814fd8ccbfd08688cf7e5811d63fb8f6dcc528c1d"
+    },
+    {
+      "module": "BalancedBins",
+      "source": "BalancedBins.lean",
+      "protected_module": "ProtectedSources.BalancedBins",
+      "protected_source": "ProtectedSources/BalancedBins.lean",
+      "canonical_sha256": "9a77bdb806764c5a3c1d651f6f4a9d6c0cb840c0950c875379ca454833322a55"
+    },
+    {
+      "module": "BinnedCompletion",
+      "source": "BinnedCompletion.lean",
+      "protected_module": "ProtectedSources.BinnedCompletion",
+      "protected_source": "ProtectedSources/BinnedCompletion.lean",
+      "canonical_sha256": "2e98724e1fe78ff9f8fa9fc0658ec744154ee23cb4b2c4931c01e813e2c8ef75"
+    },
+    {
+      "module": "BinnedMoments",
+      "source": "BinnedMoments.lean",
+      "protected_module": "ProtectedSources.BinnedMoments",
+      "protected_source": "ProtectedSources/BinnedMoments.lean",
+      "canonical_sha256": "ecd5c805a0ce50f190b66e3f66c6fa55f968e40e4d0dc87d43da33f05b032ebd"
+    },
+    {
+      "module": "BinnedGame",
+      "source": "BinnedGame.lean",
+      "protected_module": "ProtectedSources.BinnedGame",
+      "protected_source": "ProtectedSources/BinnedGame.lean",
+      "canonical_sha256": "d3e155e4217a47989f6629daf4faa3df8731d51c342e1fb8fdce6528454a5d93"
+    },
+    {
+      "module": "BalancedGame",
+      "source": "BalancedGame.lean",
+      "protected_module": "ProtectedSources.BalancedGame",
+      "protected_source": "ProtectedSources/BalancedGame.lean",
+      "canonical_sha256": "e49bab0b7080775bbd78ea87e269eeef20cea76ea8e7e6432859cca0b7d9437d"
+    },
+    {
+      "module": "CoreAdjustment",
+      "source": "CoreAdjustment.lean",
+      "protected_module": "ProtectedSources.CoreAdjustment",
+      "protected_source": "ProtectedSources/CoreAdjustment.lean",
+      "canonical_sha256": "dfbb913a84fec1cc089abc0210cbfa2e9fe77a176f03d2cdf24ba829de919b0d"
+    },
+    {
+      "module": "NoiseUpper",
+      "source": "NoiseUpper.lean",
+      "protected_module": "ProtectedSources.NoiseUpper",
+      "protected_source": "ProtectedSources/NoiseUpper.lean",
+      "canonical_sha256": "21350a353fefdda5bf1b4cd8fae6f4c82825f1accfba0b81ae70930dc6a1e1c8"
+    },
+    {
+      "module": "NoiseSharp",
+      "source": "NoiseSharp.lean",
+      "protected_module": "ProtectedSources.NoiseSharp",
+      "protected_source": "ProtectedSources/NoiseSharp.lean",
+      "canonical_sha256": "e80150132325a58fc7fdf8b8b56855ac87108a413f14ebb7d84583c18cc817cd"
+    },
+    {
+      "module": "MidpointExact",
+      "source": "MidpointExact.lean",
+      "protected_module": "ProtectedSources.MidpointExact",
+      "protected_source": "ProtectedSources/MidpointExact.lean",
+      "canonical_sha256": "bb462065052ea527bf5ed47cbb1d201b8ea3fd65f8b208478c5b27acee85c3dc"
+    },
+    {
+      "module": "BinnedExact",
+      "source": "BinnedExact.lean",
+      "protected_module": "ProtectedSources.BinnedExact",
+      "protected_source": "ProtectedSources/BinnedExact.lean",
+      "canonical_sha256": "de5c46bb4450bbc3b7ad07de6efa9f09e40b1c8ab0ccef482aeb4e651cc2a54f"
+    },
+    {
+      "module": "MidpointGame",
+      "source": "MidpointGame.lean",
+      "protected_module": "ProtectedSources.MidpointGame",
+      "protected_source": "ProtectedSources/MidpointGame.lean",
+      "canonical_sha256": "2b3c03a2f5980efc3bf8aba69561448decc65579a16cc08c988b35b8905a63f5"
+    },
+    {
+      "module": "BalancedExact",
+      "source": "BalancedExact.lean",
+      "protected_module": "ProtectedSources.BalancedExact",
+      "protected_source": "ProtectedSources/BalancedExact.lean",
+      "canonical_sha256": "008979f36eac981b23414e786630c58e58ff459b965efece613150a9bef3f36d"
+    },
+    {
+      "module": "AllMassWitness",
+      "source": "AllMassWitness.lean",
+      "protected_module": "ProtectedSources.AllMassWitness",
+      "protected_source": "ProtectedSources/AllMassWitness.lean",
+      "canonical_sha256": "82301f0f7f62ac2ee8b56e3a45003d5ef78ff510088116814eaad0ebe2742240"
+    },
+    {
+      "module": "ExtraMomentCuts",
+      "source": "ExtraMomentCuts.lean",
+      "protected_module": "ProtectedSources.ExtraMomentCuts",
+      "protected_source": "ProtectedSources/ExtraMomentCuts.lean",
+      "canonical_sha256": "380eabda3af84f7714bb0b5366c487a337abcad83a48e335f8d3d484ca0b0817"
+    },
+    {
+      "module": "ExtraMomentGameCertificates",
+      "source": "ExtraMomentGameCertificates.lean",
+      "protected_module": "ProtectedSources.ExtraMomentGameCertificates",
+      "protected_source": "ProtectedSources/ExtraMomentGameCertificates.lean",
+      "canonical_sha256": "9d6e7488cd1ba4327f0d4399136878545e31368cf643e0799cdb1211b8c01847"
+    },
+    {
+      "module": "ExtraMomentCompletion",
+      "source": "ExtraMomentCompletion.lean",
+      "protected_module": "ProtectedSources.ExtraMomentCompletion",
+      "protected_source": "ProtectedSources/ExtraMomentCompletion.lean",
+      "canonical_sha256": "797089483b63f3611ecb3ee6a7e8b4428e037e524601115c161968618f2bcf24"
+    },
+    {
+      "module": "ExtraMomentWitness",
+      "source": "ExtraMomentWitness.lean",
+      "protected_module": "ProtectedSources.ExtraMomentWitness",
+      "protected_source": "ProtectedSources/ExtraMomentWitness.lean",
+      "canonical_sha256": "63e71dff53eb3bb85055f6e8affd94dfd6de4b68a7d27428b1d500ffd87fa924"
+    },
+    {
+      "module": "ExtraMomentAllMass",
+      "source": "ExtraMomentAllMass.lean",
+      "protected_module": "ProtectedSources.ExtraMomentAllMass",
+      "protected_source": "ProtectedSources/ExtraMomentAllMass.lean",
+      "canonical_sha256": "042571dfbce64f36af13a610c6449f715317d37c925c7f70155e7eeeda431273"
+    },
+    {
+      "module": "ScorePrefixes",
+      "source": "ScorePrefixes.lean",
+      "protected_module": "ProtectedSources.ScorePrefixes",
+      "protected_source": "ProtectedSources/ScorePrefixes.lean",
+      "canonical_sha256": "82cdb8621c13705c065f78bace0400ed50585fef713a2bb1666ff1bfb4ba6658"
+    },
+    {
+      "module": "ConicCompletion",
+      "source": "ConicCompletion.lean",
+      "protected_module": "ProtectedSources.ConicCompletion",
+      "protected_source": "ProtectedSources/ConicCompletion.lean",
+      "canonical_sha256": "13ca1c7de8652cbf36a90af9094d13a3e7e5644c23c804b67de45b4284a5a3c6"
+    },
+    {
+      "module": "ConicConvexity",
+      "source": "ConicConvexity.lean",
+      "protected_module": "ProtectedSources.ConicConvexity",
+      "protected_source": "ProtectedSources/ConicConvexity.lean",
+      "canonical_sha256": "5e2d22c2d75df92afa4eeb1bba3f39e37b40c2527d32fb3ed64e4effe9c6a9ac"
+    },
+    {
+      "module": "IntervalPerspective",
+      "source": "IntervalPerspective.lean",
+      "protected_module": "ProtectedSources.IntervalPerspective",
+      "protected_source": "ProtectedSources/IntervalPerspective.lean",
+      "canonical_sha256": "a1b2ce88a2dac7a98ef26e0df8c286898fc148c307a386eae7d902bed24f1947"
+    },
+    {
+      "module": "IntervalConic",
+      "source": "IntervalConic.lean",
+      "protected_module": "ProtectedSources.IntervalConic",
+      "protected_source": "ProtectedSources/IntervalConic.lean",
+      "canonical_sha256": "a3f7ac1e6100fb2e44de6856bed5d7281ea1bf76afa7a2a52fcd578f41c55387"
+    },
+    {
+      "module": "ObservationCover",
+      "source": "ObservationCover.lean",
+      "protected_module": "ProtectedSources.ObservationCover",
+      "protected_source": "ProtectedSources/ObservationCover.lean",
+      "canonical_sha256": "3003afa157652fdab726ce512e82d92de171f9fc1c8448182b8712e5d853cfb1"
+    },
+    {
+      "module": "CoveredWitness",
+      "source": "CoveredWitness.lean",
+      "protected_module": "ProtectedSources.CoveredWitness",
+      "protected_source": "ProtectedSources/CoveredWitness.lean",
+      "canonical_sha256": "6a9533d9fad90cf256e62214d95e85646b4531c75510ff7d8a3af5ce7f0ea4be"
+    },
+    {
+      "module": "IntervalProjection",
+      "source": "IntervalProjection.lean",
+      "protected_module": "ProtectedSources.IntervalProjection",
+      "protected_source": "ProtectedSources/IntervalProjection.lean",
+      "canonical_sha256": "7e5991bbb1f45af0db2166892db9fe809e535f5799288a827743b9f3d1a291ea"
+    },
+    {
+      "module": "WeakCover",
+      "source": "WeakCover.lean",
+      "protected_module": "ProtectedSources.WeakCover",
+      "protected_source": "ProtectedSources/WeakCover.lean",
+      "canonical_sha256": "0a5e9055f205aaa4522c62155d05501d395f5bdced17e0b83b500128ee8f4aa1"
+    },
+    {
+      "module": "WeakCoverWitness",
+      "source": "WeakCoverWitness.lean",
+      "protected_module": "ProtectedSources.WeakCoverWitness",
+      "protected_source": "ProtectedSources/WeakCoverWitness.lean",
+      "canonical_sha256": "01ce27ce3fc123fd7a1700f82fca017c4d65ed58aa3189f4da8ea209a6eb1fbc"
+    },
+    {
+      "module": "IntervalLossMaximum",
+      "source": "IntervalLossMaximum.lean",
+      "protected_module": "ProtectedSources.IntervalLossMaximum",
+      "protected_source": "ProtectedSources/IntervalLossMaximum.lean",
+      "canonical_sha256": "15e4209caa3ff872a93eefdbf22c7a6cd24dfa344582e472e0d3f2ee3c8f9b96"
+    },
+    {
+      "module": "WeakCoverMaximum",
+      "source": "WeakCoverMaximum.lean",
+      "protected_module": "ProtectedSources.WeakCoverMaximum",
+      "protected_source": "ProtectedSources/WeakCoverMaximum.lean",
+      "canonical_sha256": "740126acc6363454ac6e55811a92739b9462341fbbc583340429d2cc820188c1"
+    },
+    {
+      "module": "CoverRelabel",
+      "source": "CoverRelabel.lean",
+      "protected_module": "ProtectedSources.CoverRelabel",
+      "protected_source": "ProtectedSources/CoverRelabel.lean",
+      "canonical_sha256": "4d40a80ecd722012ac44503f2c446cd228c2650773cf1b60b0671555b9f3f30a"
+    },
+    {
+      "module": "ArbitraryCover",
+      "source": "ArbitraryCover.lean",
+      "protected_module": "ProtectedSources.ArbitraryCover",
+      "protected_source": "ProtectedSources/ArbitraryCover.lean",
+      "canonical_sha256": "eabea26e80beaade54911df1541c156bc4c515fa1262ecf11f46b1b44b036378"
+    },
+    {
+      "module": "ArbitraryWeakCover",
+      "source": "ArbitraryWeakCover.lean",
+      "protected_module": "ProtectedSources.ArbitraryWeakCover",
+      "protected_source": "ProtectedSources/ArbitraryWeakCover.lean",
+      "canonical_sha256": "efa475d1b66a39cf3e949727c876e9fb337909d236372a16b494ff43eece9102"
+    },
+    {
+      "module": "IntervalLossOrder",
+      "source": "IntervalLossOrder.lean",
+      "protected_module": "ProtectedSources.IntervalLossOrder",
+      "protected_source": "ProtectedSources/IntervalLossOrder.lean",
+      "canonical_sha256": "8dd93e99f7b1129fe7ad0ee770647d880e1dda4042a9e6717b3691ca95371f8c"
+    },
+    {
+      "module": "IntervalConvexity",
+      "source": "IntervalConvexity.lean",
+      "protected_module": "ProtectedSources.IntervalConvexity",
+      "protected_source": "ProtectedSources/IntervalConvexity.lean",
+      "canonical_sha256": "a12eac0ef7c1414387896bb2240665929ad291864ae0cd0379cc5045f6c7ce57"
+    },
+    {
+      "module": "GapCertificates",
+      "source": "GapCertificates.lean",
+      "protected_module": "ProtectedSources.GapCertificates",
+      "protected_source": "ProtectedSources/GapCertificates.lean",
+      "canonical_sha256": "8c60648b4c972cc41fcf9e4d2c566c4339bd66e1e8b9a6ace3d91fe6d416f5ab"
+    },
+    {
+      "module": "GapFeasibility",
+      "source": "GapFeasibility.lean",
+      "protected_module": "ProtectedSources.GapFeasibility",
+      "protected_source": "ProtectedSources/GapFeasibility.lean",
+      "canonical_sha256": "8ad8ac8831d87cc1c8d83bca94e0bf5915261fc446addcfda4ec29f8c3d24b33"
+    },
+    {
+      "module": "IntervalRepertoire",
+      "source": "IntervalRepertoire.lean",
+      "protected_module": "ProtectedSources.IntervalRepertoire",
+      "protected_source": "ProtectedSources/IntervalRepertoire.lean",
+      "canonical_sha256": "8ad337130554f10aee4272375c33c5ce20d0652e97540f2cf95dd7ce6e5e162d"
+    },
+    {
+      "module": "IntervalStability",
+      "source": "IntervalStability.lean",
+      "protected_module": "ProtectedSources.IntervalStability",
+      "protected_source": "ProtectedSources/IntervalStability.lean",
+      "canonical_sha256": "b4861c32835658c7333a533f3b88a102a743e645ab30cb4ca780b144fda5f1b2"
+    },
+    {
+      "module": "OptimisticValue",
+      "source": "OptimisticValue.lean",
+      "protected_module": "ProtectedSources.OptimisticValue",
+      "protected_source": "ProtectedSources/OptimisticValue.lean",
+      "canonical_sha256": "aaca5a5370b1afd57bdf324e4050ed46535cf9db7d0a5b1dd179c65ef5a0c933"
+    },
+    {
+      "module": "ValueStability",
+      "source": "ValueStability.lean",
+      "protected_module": "ProtectedSources.ValueStability",
+      "protected_source": "ProtectedSources/ValueStability.lean",
+      "canonical_sha256": "8093263e7e7d617e814d72f1d57933cf81688cf51ebf9f64e1fb8c37b1558cad"
+    },
+    {
+      "module": "SupportCompact",
+      "source": "SupportCompact.lean",
+      "protected_module": "ProtectedSources.SupportCompact",
+      "protected_source": "ProtectedSources/SupportCompact.lean",
+      "canonical_sha256": "8c54f79d7e7056fefb0f9a68a05202ec4259032b84bf485b23ceb31eac341c65"
+    },
+    {
+      "module": "OrderedStability",
+      "source": "OrderedStability.lean",
+      "protected_module": "ProtectedSources.OrderedStability",
+      "protected_source": "ProtectedSources/OrderedStability.lean",
+      "canonical_sha256": "125bf8cdbfa5af9ea2367446bcc30cfd74c134cc02bd73b205695d93d1c56f52"
+    },
+    {
+      "module": "ThresholdSeparation",
+      "source": "ThresholdSeparation.lean",
+      "protected_module": "ProtectedSources.ThresholdSeparation",
+      "protected_source": "ProtectedSources/ThresholdSeparation.lean",
+      "canonical_sha256": "5ab76e7c36a4a013417b9cdb0adefc3698e01312a81fb18acf4537984f86dfcc"
+    },
+    {
+      "module": "IntervalSeparation",
+      "source": "IntervalSeparation.lean",
+      "protected_module": "ProtectedSources.IntervalSeparation",
+      "protected_source": "ProtectedSources/IntervalSeparation.lean",
+      "canonical_sha256": "3b544418e2503f35b8a6804a5e6fbce370efd33453318189623f0fc1ca762226"
+    },
+    {
+      "module": "JointSupportFoundation",
+      "source": "JointSupportFoundation.lean",
+      "protected_module": "ProtectedSources.JointSupportFoundation",
+      "protected_source": "ProtectedSources/JointSupportFoundation.lean",
+      "canonical_sha256": "c7a7dadda8982de04d594764c9e4804319fc044e1c07e97f5e83059417b65cdf"
+    },
+    {
+      "module": "JointSupportLower",
+      "source": "JointSupportLower.lean",
+      "protected_module": "ProtectedSources.JointSupportLower",
+      "protected_source": "ProtectedSources/JointSupportLower.lean",
+      "canonical_sha256": "f1bab649b2898d4c7291bdb53f61041e33982b845f3840f069da276ef02b3821"
+    },
+    {
+      "module": "JointSupportUpper",
+      "source": "JointSupportUpper.lean",
+      "protected_module": "ProtectedSources.JointSupportUpper",
+      "protected_source": "ProtectedSources/JointSupportUpper.lean",
+      "canonical_sha256": "d1f65a183051d424057232a67fee75b8964b1def0a00b13e3161409caf361956"
+    },
+    {
+      "module": "JointSupportTheorem",
+      "source": "JointSupportTheorem.lean",
+      "protected_module": "ProtectedSources.JointSupportTheorem",
+      "protected_source": "ProtectedSources/JointSupportTheorem.lean",
+      "canonical_sha256": "81905bcda03289e7b3db742d633e33de9a8e0a6b96ca29dc270e4330bb3685cf"
+    },
+    {
+      "module": "JointSupportGeneral",
+      "source": "JointSupportGeneral.lean",
+      "protected_module": "ProtectedSources.JointSupportGeneral",
+      "protected_source": "ProtectedSources/JointSupportGeneral.lean",
+      "canonical_sha256": "ae8399241ffbaf7eb755b690d9de0235689ca375a4280e3ca6a0859f22d8eda2"
+    },
+    {
+      "module": "RationalCertificate",
+      "source": "RationalCertificate.lean",
+      "protected_module": "ProtectedSources.RationalCertificate",
+      "protected_source": "ProtectedSources/RationalCertificate.lean",
+      "canonical_sha256": "a62881716f29481b610363ffa5e88cf7d6afb001011d784df18cd2889f08bd45"
+    },
+    {
+      "module": "RationalCertificateSoundness",
+      "source": "RationalCertificateSoundness.lean",
+      "protected_module": "ProtectedSources.RationalCertificateSoundness",
+      "protected_source": "ProtectedSources/RationalCertificateSoundness.lean",
+      "canonical_sha256": "647772ea6f98da44de900351701111abd9aa44c605287fd98626ddea784e4107"
+    },
+    {
+      "module": "FixedValue",
+      "source": "FixedValue.lean",
+      "protected_module": "ProtectedSources.FixedValue",
+      "protected_source": "ProtectedSources/FixedValue.lean",
+      "canonical_sha256": "0b5dba130a7d5e9941ccd269ba8cad2ef3d0d0b427b92cbbff26e1324cc9cb62"
+    },
+    {
+      "module": "GapCompact",
+      "source": "GapCompact.lean",
+      "protected_module": "ProtectedSources.GapCompact",
+      "protected_source": "ProtectedSources/GapCompact.lean",
+      "canonical_sha256": "e89af3f5ff213770724f92c6a54763dba9faf0e96c3cb534414879dd402ac308"
+    },
+    {
+      "module": "ValueBounds",
+      "source": "ValueBounds.lean",
+      "protected_module": "ProtectedSources.ValueBounds",
+      "protected_source": "ProtectedSources/ValueBounds.lean",
+      "canonical_sha256": "6de390fd6431d6cdc4533102bbaac10d65fa9455987e8bf1edd1756805efbddc"
+    },
+    {
+      "module": "GapValue",
+      "source": "GapValue.lean",
+      "protected_module": "ProtectedSources.GapValue",
+      "protected_source": "ProtectedSources/GapValue.lean",
+      "canonical_sha256": "b82e88f4e714ba90d45fec82494eaf6f0600ade674cd8afc44da10e5fca0602d"
+    },
+    {
+      "module": "AllocationRounding",
+      "source": "AllocationRounding.lean",
+      "protected_module": "ProtectedSources.AllocationRounding",
+      "protected_source": "ProtectedSources/AllocationRounding.lean",
+      "canonical_sha256": "55a2892bb7dd076f5010f13200bc478fbd78d864fcc5f8bab0c197ab3c38b994"
+    },
+    {
+      "module": "AllocationGrid",
+      "source": "AllocationGrid.lean",
+      "protected_module": "ProtectedSources.AllocationGrid",
+      "protected_source": "ProtectedSources/AllocationGrid.lean",
+      "canonical_sha256": "5b59a015bc2cd9ac156c52a4a0f6714c8b8313e314383a2b37e2931c88877ca3"
+    },
+    {
+      "module": "AllocationResponse",
+      "source": "AllocationResponse.lean",
+      "protected_module": "ProtectedSources.AllocationResponse",
+      "protected_source": "ProtectedSources/AllocationResponse.lean",
+      "canonical_sha256": "4b9e45383ddbe165c5daf2185e21582d9765696c0710d1c2e0ac410822775cef"
+    },
+    {
+      "module": "AllocationValue",
+      "source": "AllocationValue.lean",
+      "protected_module": "ProtectedSources.AllocationValue",
+      "protected_source": "ProtectedSources/AllocationValue.lean",
+      "canonical_sha256": "106f6ec3a2173a18b210643184e3d7551a8e61a1e47a31fbffe65c04663c99f0"
+    },
+    {
+      "module": "AllocationApproximation",
+      "source": "AllocationApproximation.lean",
+      "protected_module": "ProtectedSources.AllocationApproximation",
+      "protected_source": "ProtectedSources/AllocationApproximation.lean",
+      "canonical_sha256": "395ae147d77f200ca56bb2763e659f18cb082d2241f832c5147027c5046c522d"
+    },
+    {
+      "module": "IntervalGap",
+      "source": "IntervalGap.lean",
+      "protected_module": "ProtectedSources.IntervalGap",
+      "protected_source": "ProtectedSources/IntervalGap.lean",
+      "canonical_sha256": "f1269079394865798975784144036b4771c333d34121ea5056a1f4703b7bf7dd"
+    },
+    {
+      "module": "IntervalGapGame",
+      "source": "IntervalGapGame.lean",
+      "protected_module": "ProtectedSources.IntervalGapGame",
+      "protected_source": "ProtectedSources/IntervalGapGame.lean",
+      "canonical_sha256": "49f9a01e7cccbea1340c2431f467163e27bc36ea659a2ad1f8893e80e5ec3391"
+    },
+    {
+      "module": "Bisection",
+      "source": "Bisection.lean",
+      "protected_module": "ProtectedSources.Bisection",
+      "protected_source": "ProtectedSources/Bisection.lean",
+      "canonical_sha256": "65eae65455e73c177129cdb11b3756b994f33268b3f3adfd5dd49ed6fe539674"
+    },
+    {
+      "module": "IntervalGapEpigraph",
+      "source": "IntervalGapEpigraph.lean",
+      "protected_module": "ProtectedSources.IntervalGapEpigraph",
+      "protected_source": "ProtectedSources/IntervalGapEpigraph.lean",
+      "canonical_sha256": "7475b5f02d9ecd25393db85cc69b107f09c65481b7ccd5bc6fa3d6d16a5a8406"
+    },
+    {
+      "module": "GapSparse",
+      "source": "GapSparse.lean",
+      "protected_module": "ProtectedSources.GapSparse",
+      "protected_source": "ProtectedSources/GapSparse.lean",
+      "canonical_sha256": "a43afc94c22436938baa5ca913ec32b31584fb0a92ffada79b40bbb7fe57dc67"
+    },
+    {
+      "module": "IntervalGapSparse",
+      "source": "IntervalGapSparse.lean",
+      "protected_module": "ProtectedSources.IntervalGapSparse",
+      "protected_source": "ProtectedSources/IntervalGapSparse.lean",
+      "canonical_sha256": "98d0d9d7ba238e7964b8a6c32d7b04df775e054b05b7fb5c8c3df4d7f791275b"
+    },
+    {
+      "module": "RationalGrid",
+      "source": "RationalGrid.lean",
+      "protected_module": "ProtectedSources.RationalGrid",
+      "protected_source": "ProtectedSources/RationalGrid.lean",
+      "canonical_sha256": "725b16055d041d7461b3153b978fb2d0d858453695496f592d3115c5f5ccb74f"
+    },
+    {
+      "module": "RationalGridSizeBounds",
+      "source": "RationalGridSizeBounds.lean",
+      "protected_module": "ProtectedSources.RationalGridSizeBounds",
+      "protected_source": "ProtectedSources/RationalGridSizeBounds.lean",
+      "canonical_sha256": "3e2fac9b4d65434a9dcea78df7e3dc3eb0ae44bde8762871769abdb47ed18b12"
+    },
+    {
+      "module": "RationalGap",
+      "source": "RationalGap.lean",
+      "protected_module": "ProtectedSources.RationalGap",
+      "protected_source": "ProtectedSources/RationalGap.lean",
+      "canonical_sha256": "da66af9d091483dddebaf69698386eacbbd4ddbbdbb2ed46a0773c1e3adb644d"
+    },
+    {
+      "module": "RationalGapEncoding",
+      "source": "RationalGapEncoding.lean",
+      "protected_module": "ProtectedSources.RationalGapEncoding",
+      "protected_source": "ProtectedSources/RationalGapEncoding.lean",
+      "canonical_sha256": "92fa770b0199bf36a2237c61a776226733c4b893764d1ae927087029908ee402"
+    },
+    {
+      "module": "RationalOneVariable",
+      "source": "RationalOneVariable.lean",
+      "protected_module": "ProtectedSources.RationalOneVariable",
+      "protected_source": "ProtectedSources/RationalOneVariable.lean",
+      "canonical_sha256": "9c4763506131bd3c2878a887079c155a45e69483aa2624edf17ea819a2d55d26"
+    },
+    {
+      "module": "RationalOneVariableFinite",
+      "source": "RationalOneVariableFinite.lean",
+      "protected_module": "ProtectedSources.RationalOneVariableFinite",
+      "protected_source": "ProtectedSources/RationalOneVariableFinite.lean",
+      "canonical_sha256": "25874e05156c672ecd608f306e0aae18c71f88edad5798f28e824a4405ff2ac3"
+    },
+    {
+      "module": "RationalOneVariableFintype",
+      "source": "RationalOneVariableFintype.lean",
+      "protected_module": "ProtectedSources.RationalOneVariableFintype",
+      "protected_source": "ProtectedSources/RationalOneVariableFintype.lean",
+      "canonical_sha256": "171e9049bdd9f09b02d8b9c7256363c34e26cf0ace88c4c31cae58d58eefb247"
+    },
+    {
+      "module": "RationalLinearSystem",
+      "source": "RationalLinearSystem.lean",
+      "protected_module": "ProtectedSources.RationalLinearSystem",
+      "protected_source": "ProtectedSources/RationalLinearSystem.lean",
+      "canonical_sha256": "1be85b6cbfe7ca682d36e3470133d17c45a2c2ec52c49b760b36f06cabb2abf8"
+    },
+    {
+      "module": "RationalLinearSolver",
+      "source": "RationalLinearSolver.lean",
+      "protected_module": "ProtectedSources.RationalLinearSolver",
+      "protected_source": "ProtectedSources/RationalLinearSolver.lean",
+      "canonical_sha256": "aad93f0b5069f690bf00d291fa56342c679577245e77f2af225e1f75b3057161"
+    },
+    {
+      "module": "RationalLinearReal",
+      "source": "RationalLinearReal.lean",
+      "protected_module": "ProtectedSources.RationalLinearReal",
+      "protected_source": "ProtectedSources/RationalLinearReal.lean",
+      "canonical_sha256": "586527fb7de9bae81f05858ff5971678fc4a3de086765093429df18ee153f341"
+    },
+    {
+      "module": "RationalLinearTransfer",
+      "source": "RationalLinearTransfer.lean",
+      "protected_module": "ProtectedSources.RationalLinearTransfer",
+      "protected_source": "ProtectedSources/RationalLinearTransfer.lean",
+      "canonical_sha256": "03ced12ffff42fc83d75fe96b5230f3a77d29c078173d6d7aa8ffd5df41e6dc5"
+    },
+    {
+      "module": "RationalGapDecision",
+      "source": "RationalGapDecision.lean",
+      "protected_module": "ProtectedSources.RationalGapDecision",
+      "protected_source": "ProtectedSources/RationalGapDecision.lean",
+      "canonical_sha256": "9952455979848c562444f18d098452d2823ec8f4a7b768616c610134e236a046"
+    },
+    {
+      "module": "RationalGapSearch",
+      "source": "RationalGapSearch.lean",
+      "protected_module": "ProtectedSources.RationalGapSearch",
+      "protected_source": "ProtectedSources/RationalGapSearch.lean",
+      "canonical_sha256": "680761a329b448a422647d22c07cab8b2222241a69ec2edc70b7956185d68e7e"
+    },
+    {
+      "module": "RationalGapRealDecision",
+      "source": "RationalGapRealDecision.lean",
+      "protected_module": "ProtectedSources.RationalGapRealDecision",
+      "protected_source": "ProtectedSources/RationalGapRealDecision.lean",
+      "canonical_sha256": "22d8ef254b0c91536621894b9d2a08b697951b70684e7e3dc8adb90fe46c0654"
+    },
+    {
+      "module": "RationalResidualCompletion",
+      "source": "RationalResidualCompletion.lean",
+      "protected_module": "ProtectedSources.RationalResidualCompletion",
+      "protected_source": "ProtectedSources/RationalResidualCompletion.lean",
+      "canonical_sha256": "1c6f74a162f015ead1dca7fdfd74d470f4ce7b339905dae415dd092207a57d6f"
+    },
+    {
+      "module": "RationalResidualSolver",
+      "source": "RationalResidualSolver.lean",
+      "protected_module": "ProtectedSources.RationalResidualSolver",
+      "protected_source": "ProtectedSources/RationalResidualSolver.lean",
+      "canonical_sha256": "b3937136f50001d1c1eb752c86e288a63e6c76875fff6efd3219da473ec14ddd"
+    },
+    {
+      "module": "RationalResidualGap",
+      "source": "RationalResidualGap.lean",
+      "protected_module": "ProtectedSources.RationalResidualGap",
+      "protected_source": "ProtectedSources/RationalResidualGap.lean",
+      "canonical_sha256": "46bad9826d7195b9084ee4d77d04095d32940957422ef46152b3213b9a8df84d"
+    },
+    {
+      "module": "RationalRepertoire",
+      "source": "RationalRepertoire.lean",
+      "protected_module": "ProtectedSources.RationalRepertoire",
+      "protected_source": "ProtectedSources/RationalRepertoire.lean",
+      "canonical_sha256": "ceb46b466a1ba5770590c1eb19403c4f3e369ac5a63d4cb43a67d83fb2ef010d"
+    },
+    {
+      "module": "RationalGapAlgorithm",
+      "source": "RationalGapAlgorithm.lean",
+      "protected_module": "ProtectedSources.RationalGapAlgorithm",
+      "protected_source": "ProtectedSources/RationalGapAlgorithm.lean",
+      "canonical_sha256": "64aad99ef19e73c2d940610f7fca266a4548f53ad63eb4dd274cb2916b6c16b3"
+    },
+    {
+      "module": "RationalGapValue",
+      "source": "RationalGapValue.lean",
+      "protected_module": "ProtectedSources.RationalGapValue",
+      "protected_source": "ProtectedSources/RationalGapValue.lean",
+      "canonical_sha256": "4d103291b17d219bd2b1ccfd0b5b6f34bbecd6ba85f41614617f705153c78f25"
+    },
+    {
+      "module": "RationalLogRounds",
+      "source": "RationalLogRounds.lean",
+      "protected_module": "ProtectedSources.RationalLogRounds",
+      "protected_source": "ProtectedSources/RationalLogRounds.lean",
+      "canonical_sha256": "40204949b89d648f82f112c42d8e14c24e2dc607c0e8c9902f7786d97b9e8d94"
+    },
+    {
+      "module": "RationalAlgorithmCertificate",
+      "source": "RationalAlgorithmCertificate.lean",
+      "protected_module": "ProtectedSources.RationalAlgorithmCertificate",
+      "protected_source": "ProtectedSources/RationalAlgorithmCertificate.lean",
+      "canonical_sha256": "0966b17eff938234e270c906c7b0c1db88f9add7d91a3acc23f09e538775345d"
+    },
+    {
+      "module": "RationalCertifiedApproximation",
+      "source": "RationalCertifiedApproximation.lean",
+      "protected_module": "ProtectedSources.RationalCertifiedApproximation",
+      "protected_source": "ProtectedSources/RationalCertifiedApproximation.lean",
+      "canonical_sha256": "05ebc822eccb0bded6c7f5de125d6e97c71da872bbcf72169b4670255fc7b3c6"
+    },
+    {
+      "module": "RationalIntervalRecovery",
+      "source": "RationalIntervalRecovery.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRecovery",
+      "protected_source": "ProtectedSources/RationalIntervalRecovery.lean",
+      "canonical_sha256": "568cb1ef2e51f48971bf778f2f3d7731dd7fdadfa83deede00dff058f324ae6e"
+    },
+    {
+      "module": "RationalIntervalGap",
+      "source": "RationalIntervalGap.lean",
+      "protected_module": "ProtectedSources.RationalIntervalGap",
+      "protected_source": "ProtectedSources/RationalIntervalGap.lean",
+      "canonical_sha256": "32326a004d55af6ed765146d1d1ec60f9b6aa2990fbdccafa7d502c37cf34e02"
+    },
+    {
+      "module": "RationalIntervalVariables",
+      "source": "RationalIntervalVariables.lean",
+      "protected_module": "ProtectedSources.RationalIntervalVariables",
+      "protected_source": "ProtectedSources/RationalIntervalVariables.lean",
+      "canonical_sha256": "24b4ff268f9eb7a66115d197337e1d84ef41a7b2ef491415bb0dac46f0d17a67"
+    },
+    {
+      "module": "RationalIntervalForms",
+      "source": "RationalIntervalForms.lean",
+      "protected_module": "ProtectedSources.RationalIntervalForms",
+      "protected_source": "ProtectedSources/RationalIntervalForms.lean",
+      "canonical_sha256": "a4dd65554376b203250849c76f3fc790d7c490d1e30719b0ba388feca451d589"
+    },
+    {
+      "module": "RationalLinearForms",
+      "source": "RationalLinearForms.lean",
+      "protected_module": "ProtectedSources.RationalLinearForms",
+      "protected_source": "ProtectedSources/RationalLinearForms.lean",
+      "canonical_sha256": "67ca6749c06bcb98948ee1e5608223c84c2eeb278d9d13245946408b9ab52c84"
+    },
+    {
+      "module": "RationalIntervalEncoding",
+      "source": "RationalIntervalEncoding.lean",
+      "protected_module": "ProtectedSources.RationalIntervalEncoding",
+      "protected_source": "ProtectedSources/RationalIntervalEncoding.lean",
+      "canonical_sha256": "26f77c83ba27e375a596560c25e917ab47b6c7b1e8fdcfff8478e8ee3725587c"
+    },
+    {
+      "module": "RationalIntervalPoint",
+      "source": "RationalIntervalPoint.lean",
+      "protected_module": "ProtectedSources.RationalIntervalPoint",
+      "protected_source": "ProtectedSources/RationalIntervalPoint.lean",
+      "canonical_sha256": "bb0ad540a5bb95e2dc94f02e75c8922a0155cee18445b7d01ae8b3102d0c6de4"
+    },
+    {
+      "module": "RationalIntervalEvaluation",
+      "source": "RationalIntervalEvaluation.lean",
+      "protected_module": "ProtectedSources.RationalIntervalEvaluation",
+      "protected_source": "ProtectedSources/RationalIntervalEvaluation.lean",
+      "canonical_sha256": "60fc470ad24c4e9b839a2f1bee069efb7cb04aff86ef932c5ade7157f6706761"
+    },
+    {
+      "module": "RationalIntervalSystemPoint",
+      "source": "RationalIntervalSystemPoint.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSystemPoint",
+      "protected_source": "ProtectedSources/RationalIntervalSystemPoint.lean",
+      "canonical_sha256": "7a01bcaf63fe67edc09e9181da35e16d2811738f323b3fffb859ee4119581e5c"
+    },
+    {
+      "module": "RationalIntervalPack",
+      "source": "RationalIntervalPack.lean",
+      "protected_module": "ProtectedSources.RationalIntervalPack",
+      "protected_source": "ProtectedSources/RationalIntervalPack.lean",
+      "canonical_sha256": "bd5d68c827b67f983daaefdaed148c2a6aad190538779e4a444434f545e08c18"
+    },
+    {
+      "module": "RationalIntervalSolver",
+      "source": "RationalIntervalSolver.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSolver",
+      "protected_source": "ProtectedSources/RationalIntervalSolver.lean",
+      "canonical_sha256": "e511eb11af7aa9eef5a1e13f6821571c0e4998adcd8b054c1771ef6c1f1676a5"
+    },
+    {
+      "module": "RationalIntervalGameOutput",
+      "source": "RationalIntervalGameOutput.lean",
+      "protected_module": "ProtectedSources.RationalIntervalGameOutput",
+      "protected_source": "ProtectedSources/RationalIntervalGameOutput.lean",
+      "canonical_sha256": "be4dd64c3b60a47653bc3f54d16785c077cbfebf57621c3649cdc589a7abe021"
+    },
+    {
+      "module": "RationalIntervalRealPoint",
+      "source": "RationalIntervalRealPoint.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRealPoint",
+      "protected_source": "ProtectedSources/RationalIntervalRealPoint.lean",
+      "canonical_sha256": "0c5149c61162085ec67df019c72b95f0333868e1792ac508ce589abff1b8613d"
+    },
+    {
+      "module": "RationalIntervalRealNecessity",
+      "source": "RationalIntervalRealNecessity.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRealNecessity",
+      "protected_source": "ProtectedSources/RationalIntervalRealNecessity.lean",
+      "canonical_sha256": "ce3c997f85697eae49cf6954c1c30f56bec221312778e165290aad165bc03633"
+    },
+    {
+      "module": "RationalIntervalRealSolver",
+      "source": "RationalIntervalRealSolver.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRealSolver",
+      "protected_source": "ProtectedSources/RationalIntervalRealSolver.lean",
+      "canonical_sha256": "c92dbdb25871a2461737d65d58ad113278948b0386dc180f35507e603aba5fef"
+    },
+    {
+      "module": "RationalIntervalPhysical",
+      "source": "RationalIntervalPhysical.lean",
+      "protected_module": "ProtectedSources.RationalIntervalPhysical",
+      "protected_source": "ProtectedSources/RationalIntervalPhysical.lean",
+      "canonical_sha256": "72c0135327f6d9d09eed106d2f63756ae0ff8dd6fe2afb9bc40631914eba8234"
+    },
+    {
+      "module": "RationalIntervalRepertoire",
+      "source": "RationalIntervalRepertoire.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRepertoire",
+      "protected_source": "ProtectedSources/RationalIntervalRepertoire.lean",
+      "canonical_sha256": "30b0bf6499de7adb10dd8f7992048813030562c07550c4926eeaae5799845417"
+    },
+    {
+      "module": "RationalIntervalPhysicalNecessity",
+      "source": "RationalIntervalPhysicalNecessity.lean",
+      "protected_module": "ProtectedSources.RationalIntervalPhysicalNecessity",
+      "protected_source": "ProtectedSources/RationalIntervalPhysicalNecessity.lean",
+      "canonical_sha256": "feedada465cc91306b2e02a00fde8f9c89b7cfd8c5bb03a5d64f35b77c601e6d"
+    },
+    {
+      "module": "RationalIntervalRepertoireSolver",
+      "source": "RationalIntervalRepertoireSolver.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRepertoireSolver",
+      "protected_source": "ProtectedSources/RationalIntervalRepertoireSolver.lean",
+      "canonical_sha256": "1cf9b2709c13d2e49198c847397412be935f7b19d3b8073410eca40474662eb2"
+    },
+    {
+      "module": "RationalIntervalRepertoireReal",
+      "source": "RationalIntervalRepertoireReal.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRepertoireReal",
+      "protected_source": "ProtectedSources/RationalIntervalRepertoireReal.lean",
+      "canonical_sha256": "88253e87aed1613b7b7daaf996f9463f98bfe8c6fe9c8e9681419c6cc0c2a508"
+    },
+    {
+      "module": "RationalIntervalRepertoireGame",
+      "source": "RationalIntervalRepertoireGame.lean",
+      "protected_module": "ProtectedSources.RationalIntervalRepertoireGame",
+      "protected_source": "ProtectedSources/RationalIntervalRepertoireGame.lean",
+      "canonical_sha256": "d84220e5076a56e511a2b14039fefc84f2e5f85fe515520aaa6fc2f47e3e8d84"
+    },
+    {
+      "module": "RationalIntervalPhysicalProjection",
+      "source": "RationalIntervalPhysicalProjection.lean",
+      "protected_module": "ProtectedSources.RationalIntervalPhysicalProjection",
+      "protected_source": "ProtectedSources/RationalIntervalPhysicalProjection.lean",
+      "canonical_sha256": "2fcef3d4e1cc59886af73cf01ebce1c7347cb7071d56dc78ed9714c54dd1653b"
+    },
+    {
+      "module": "RationalIntervalMonotone",
+      "source": "RationalIntervalMonotone.lean",
+      "protected_module": "ProtectedSources.RationalIntervalMonotone",
+      "protected_source": "ProtectedSources/RationalIntervalMonotone.lean",
+      "canonical_sha256": "3286bfb27d18356aedc3a6286fbeae4c298e4ec29088885fde08aa8e075ebc4b"
+    },
+    {
+      "module": "RationalIntervalSearch",
+      "source": "RationalIntervalSearch.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSearch",
+      "protected_source": "ProtectedSources/RationalIntervalSearch.lean",
+      "canonical_sha256": "c2369d310cb36d0c1035b9d6a0d151a11ecfa241409d7870b5239f0193b246ea"
+    },
+    {
+      "module": "RationalIntervalModel",
+      "source": "RationalIntervalModel.lean",
+      "protected_module": "ProtectedSources.RationalIntervalModel",
+      "protected_source": "ProtectedSources/RationalIntervalModel.lean",
+      "canonical_sha256": "0c5269d9cf3e9f9574404b91afbab94fdf76518c497fc4385298507d614f567e"
+    },
+    {
+      "module": "RationalIntervalClass",
+      "source": "RationalIntervalClass.lean",
+      "protected_module": "ProtectedSources.RationalIntervalClass",
+      "protected_source": "ProtectedSources/RationalIntervalClass.lean",
+      "canonical_sha256": "baea09f6cc2ec5e4a29b7cd79b959143a0d7ce2353fd34efe5eaed85b07009f2"
+    },
+    {
+      "module": "RationalIntervalValue",
+      "source": "RationalIntervalValue.lean",
+      "protected_module": "ProtectedSources.RationalIntervalValue",
+      "protected_source": "ProtectedSources/RationalIntervalValue.lean",
+      "canonical_sha256": "d1c6385413ecbea6112679bdefbd8370e9c04eb7cce041356873ebcedd70a96e"
+    },
+    {
+      "module": "RationalIntervalOutputClass",
+      "source": "RationalIntervalOutputClass.lean",
+      "protected_module": "ProtectedSources.RationalIntervalOutputClass",
+      "protected_source": "ProtectedSources/RationalIntervalOutputClass.lean",
+      "canonical_sha256": "9cb3c458499d13399491165511c2e082121092cf09239b4caa23e44a50f20384"
+    },
+    {
+      "module": "RationalIntervalValueCertificate",
+      "source": "RationalIntervalValueCertificate.lean",
+      "protected_module": "ProtectedSources.RationalIntervalValueCertificate",
+      "protected_source": "ProtectedSources/RationalIntervalValueCertificate.lean",
+      "canonical_sha256": "5ceaedde16502154effd39d25c29701e59427c52106ffcfdad5af19ef6827923"
+    },
+    {
+      "module": "RationalIntervalAccurate",
+      "source": "RationalIntervalAccurate.lean",
+      "protected_module": "ProtectedSources.RationalIntervalAccurate",
+      "protected_source": "ProtectedSources/RationalIntervalAccurate.lean",
+      "canonical_sha256": "922131b3f172b68cd8d6dc03d2c1cb88219f5d782d408b7a8da638d8c6ba8226"
+    },
+    {
+      "module": "RationalIntervalParameters",
+      "source": "RationalIntervalParameters.lean",
+      "protected_module": "ProtectedSources.RationalIntervalParameters",
+      "protected_source": "ProtectedSources/RationalIntervalParameters.lean",
+      "canonical_sha256": "1d8351c2e937cd0036b052334a8938d4d3d3b1e952d0b30a172f81e566c901ad"
+    },
+    {
+      "module": "RationalIntervalConsistency",
+      "source": "RationalIntervalConsistency.lean",
+      "protected_module": "ProtectedSources.RationalIntervalConsistency",
+      "protected_source": "ProtectedSources/RationalIntervalConsistency.lean",
+      "canonical_sha256": "9a448cea66556746ba4573dbf889d2eea2ff2de12d1a4277100cecaf089df609"
+    },
+    {
+      "module": "RationalIntervalInitialize",
+      "source": "RationalIntervalInitialize.lean",
+      "protected_module": "ProtectedSources.RationalIntervalInitialize",
+      "protected_source": "ProtectedSources/RationalIntervalInitialize.lean",
+      "canonical_sha256": "74fe6ad6bc5a2828402adf27ff679291d06c31db51a380a2596a5f9eac634812"
+    },
+    {
+      "module": "RationalIntervalInitializedAlgorithm",
+      "source": "RationalIntervalInitializedAlgorithm.lean",
+      "protected_module": "ProtectedSources.RationalIntervalInitializedAlgorithm",
+      "protected_source": "ProtectedSources/RationalIntervalInitializedAlgorithm.lean",
+      "canonical_sha256": "f894a281c9fca3d242d469be5c63e47ebef4c99d94364a54c44ab340044e05e9"
+    },
+    {
+      "module": "RationalIntervalInitializedSoundness",
+      "source": "RationalIntervalInitializedSoundness.lean",
+      "protected_module": "ProtectedSources.RationalIntervalInitializedSoundness",
+      "protected_source": "ProtectedSources/RationalIntervalInitializedSoundness.lean",
+      "canonical_sha256": "a9042d712d99beb1f92217e147d4d1facab0e37b69289b6d12b098db80de1b6f"
+    },
+    {
+      "module": "AllocationReservoir",
+      "source": "AllocationReservoir.lean",
+      "protected_module": "ProtectedSources.AllocationReservoir",
+      "protected_source": "ProtectedSources/AllocationReservoir.lean",
+      "canonical_sha256": "6f0f7dd5f2aa9dbb407fd426ddf88f61acf8a0779669e526c421bb7d1a81db59"
+    },
+    {
+      "module": "AllocationReservoirValue",
+      "source": "AllocationReservoirValue.lean",
+      "protected_module": "ProtectedSources.AllocationReservoirValue",
+      "protected_source": "ProtectedSources/AllocationReservoirValue.lean",
+      "canonical_sha256": "161193638bc5ee0c6d39a0ac1383d88dbacb09baf2368d66c8bff81d60c40238"
+    },
+    {
+      "module": "RationalFiniteSelection",
+      "source": "RationalFiniteSelection.lean",
+      "protected_module": "ProtectedSources.RationalFiniteSelection",
+      "protected_source": "ProtectedSources/RationalFiniteSelection.lean",
+      "canonical_sha256": "560a42e35b0ee3506085ba008a3060afc672ed4e372063eccfacdca0cef81c76"
+    },
+    {
+      "module": "RationalAllocationGrid",
+      "source": "RationalAllocationGrid.lean",
+      "protected_module": "ProtectedSources.RationalAllocationGrid",
+      "protected_source": "ProtectedSources/RationalAllocationGrid.lean",
+      "canonical_sha256": "987f4d266e06bd28a8538843cd66fd125caf215c620ce925471f0f83c739eef5"
+    },
+    {
+      "module": "RationalAllocationRun",
+      "source": "RationalAllocationRun.lean",
+      "protected_module": "ProtectedSources.RationalAllocationRun",
+      "protected_source": "ProtectedSources/RationalAllocationRun.lean",
+      "canonical_sha256": "f58f80c95b93314964466b9743e2447c5786ffcfa6537898b8af483e2a926314"
+    },
+    {
+      "module": "RationalAllocationSearchSoundness",
+      "source": "RationalAllocationSearchSoundness.lean",
+      "protected_module": "ProtectedSources.RationalAllocationSearchSoundness",
+      "protected_source": "ProtectedSources/RationalAllocationSearchSoundness.lean",
+      "canonical_sha256": "8e5b900fd3a264d99694d8e29d537afff138857bdc8d63a882b8cb4d83a93a12"
+    },
+    {
+      "module": "RationalReservoirApproximation",
+      "source": "RationalReservoirApproximation.lean",
+      "protected_module": "ProtectedSources.RationalReservoirApproximation",
+      "protected_source": "ProtectedSources/RationalReservoirApproximation.lean",
+      "canonical_sha256": "1b05dda8238e82f32c70492a30f16d1976b4c1c6c3de3105d8d16093f8c3a845"
+    },
+    {
+      "module": "RationalFloorRepertoire",
+      "source": "RationalFloorRepertoire.lean",
+      "protected_module": "ProtectedSources.RationalFloorRepertoire",
+      "protected_source": "ProtectedSources/RationalFloorRepertoire.lean",
+      "canonical_sha256": "3957306acde2b9d8de83ef0678f8f3d9ba921e67ef3caf2cd6aa1d6eb74459ab"
+    },
+    {
+      "module": "RationalAllocationCompleteness",
+      "source": "RationalAllocationCompleteness.lean",
+      "protected_module": "ProtectedSources.RationalAllocationCompleteness",
+      "protected_source": "ProtectedSources/RationalAllocationCompleteness.lean",
+      "canonical_sha256": "63b86332c5164e5ab3f4b0e08d2f5f85ce4c9e45a5dc81572c0602dd6ebcee4f"
+    },
+    {
+      "module": "RationalAnchorApproximation",
+      "source": "RationalAnchorApproximation.lean",
+      "protected_module": "ProtectedSources.RationalAnchorApproximation",
+      "protected_source": "ProtectedSources/RationalAnchorApproximation.lean",
+      "canonical_sha256": "71fd2db8205c909c6b984f239c346fccb78551d9fc710c3b92f8beaacf9f241a"
+    },
+    {
+      "module": "RationalFloorGridPhysical",
+      "source": "RationalFloorGridPhysical.lean",
+      "protected_module": "ProtectedSources.RationalFloorGridPhysical",
+      "protected_source": "ProtectedSources/RationalFloorGridPhysical.lean",
+      "canonical_sha256": "6360ff84e12ca2260942f547db58f187c1650e1ecab0091c01236ec06e8fbcf7"
+    },
+    {
+      "module": "RationalIntervalWitnessClass",
+      "source": "RationalIntervalWitnessClass.lean",
+      "protected_module": "ProtectedSources.RationalIntervalWitnessClass",
+      "protected_source": "ProtectedSources/RationalIntervalWitnessClass.lean",
+      "canonical_sha256": "417c75f66402425d317d748a45713bac47c6121c125b3e1078fdf5c8fe0b7545"
+    },
+    {
+      "module": "RationalFloorGridGame",
+      "source": "RationalFloorGridGame.lean",
+      "protected_module": "ProtectedSources.RationalFloorGridGame",
+      "protected_source": "ProtectedSources/RationalFloorGridGame.lean",
+      "canonical_sha256": "3441accff7ab37b38b606ff2fb247ae60a4b26fc0e326fd2bb14fec29ed4b926"
+    },
+    {
+      "module": "RationalFloorGridAccuracy",
+      "source": "RationalFloorGridAccuracy.lean",
+      "protected_module": "ProtectedSources.RationalFloorGridAccuracy",
+      "protected_source": "ProtectedSources/RationalFloorGridAccuracy.lean",
+      "canonical_sha256": "4138a6945d512915cbcb43e42ef3c580f617abff062b714484a1757344551dc4"
+    },
+    {
+      "module": "RationalFloorClass",
+      "source": "RationalFloorClass.lean",
+      "protected_module": "ProtectedSources.RationalFloorClass",
+      "protected_source": "ProtectedSources/RationalFloorClass.lean",
+      "canonical_sha256": "95cd0ae9adf94705d91c0474ed786050c82df8856c32563026d34f04a288da15"
+    },
+    {
+      "module": "RationalFloorGlobalAccuracy",
+      "source": "RationalFloorGlobalAccuracy.lean",
+      "protected_module": "ProtectedSources.RationalFloorGlobalAccuracy",
+      "protected_source": "ProtectedSources/RationalFloorGlobalAccuracy.lean",
+      "canonical_sha256": "fbc0f637f28030f645d4592b7aac8f05321e33499efa1ad5d9d73b789bf0ecdd"
+    },
+    {
+      "module": "RationalReservoirRepresentation",
+      "source": "RationalReservoirRepresentation.lean",
+      "protected_module": "ProtectedSources.RationalReservoirRepresentation",
+      "protected_source": "ProtectedSources/RationalReservoirRepresentation.lean",
+      "canonical_sha256": "f7a533dc029e1aa44f77a1abf1872a900016974a4b2be4189ff19836041bd3d7"
+    },
+    {
+      "module": "RationalNoResidualGame",
+      "source": "RationalNoResidualGame.lean",
+      "protected_module": "ProtectedSources.RationalNoResidualGame",
+      "protected_source": "ProtectedSources/RationalNoResidualGame.lean",
+      "canonical_sha256": "28ffbc67e81312ee9233159d0061207aa4175522ad17dcfbdb4d9b1c283aee82"
+    },
+    {
+      "module": "RationalNoResidualAccuracy",
+      "source": "RationalNoResidualAccuracy.lean",
+      "protected_module": "ProtectedSources.RationalNoResidualAccuracy",
+      "protected_source": "ProtectedSources/RationalNoResidualAccuracy.lean",
+      "canonical_sha256": "c0f235a7e4b366aafda80ff9da4d640ac5b55b3c5be7c0738ec378a400673d27"
+    },
+    {
+      "module": "RationalInitializedUpperWitness",
+      "source": "RationalInitializedUpperWitness.lean",
+      "protected_module": "ProtectedSources.RationalInitializedUpperWitness",
+      "protected_source": "ProtectedSources/RationalInitializedUpperWitness.lean",
+      "canonical_sha256": "fe8efb1e4375018c04a44321ec78890c153004b6f0ae49904e4532d607b1df8e"
+    },
+    {
+      "module": "RationalFloorClassWitness",
+      "source": "RationalFloorClassWitness.lean",
+      "protected_module": "ProtectedSources.RationalFloorClassWitness",
+      "protected_source": "ProtectedSources/RationalFloorClassWitness.lean",
+      "canonical_sha256": "3415820673bc1878afcb6672c1bd3b313945428f2f27cb5a185c4e9f25a6775b"
+    },
+    {
+      "module": "RationalFloorValueCertificate",
+      "source": "RationalFloorValueCertificate.lean",
+      "protected_module": "ProtectedSources.RationalFloorValueCertificate",
+      "protected_source": "ProtectedSources/RationalFloorValueCertificate.lean",
+      "canonical_sha256": "d67d4398ac1d4e5883a1c18e540284c201747bdcff005edc04818a7c886b2e9e"
+    },
+    {
+      "module": "RationalReservoirClass",
+      "source": "RationalReservoirClass.lean",
+      "protected_module": "ProtectedSources.RationalReservoirClass",
+      "protected_source": "ProtectedSources/RationalReservoirClass.lean",
+      "canonical_sha256": "ba4d24f62fdfa826a24a0584e3d2011cc074cb48f09c880195a81ea6944f458f"
+    },
+    {
+      "module": "RationalNoResidualGlobal",
+      "source": "RationalNoResidualGlobal.lean",
+      "protected_module": "ProtectedSources.RationalNoResidualGlobal",
+      "protected_source": "ProtectedSources/RationalNoResidualGlobal.lean",
+      "canonical_sha256": "956083f336e41491ceefdb2c04a2a883fe8b5b2391be63319e51e606aec8b0cc"
+    },
+    {
+      "module": "RationalFloorSearch",
+      "source": "RationalFloorSearch.lean",
+      "protected_module": "ProtectedSources.RationalFloorSearch",
+      "protected_source": "ProtectedSources/RationalFloorSearch.lean",
+      "canonical_sha256": "c2c7de679c929017eedf5e6c46e13645ac72bab7a1201b34f90dbc7013bf0b82"
+    },
+    {
+      "module": "RationalFloorAccuracyParameters",
+      "source": "RationalFloorAccuracyParameters.lean",
+      "protected_module": "ProtectedSources.RationalFloorAccuracyParameters",
+      "protected_source": "ProtectedSources/RationalFloorAccuracyParameters.lean",
+      "canonical_sha256": "ecca9851c976fa734f19a633a35099e87952d26711a2553c0df7d4b3fd6e2943"
+    },
+    {
+      "module": "RationalFloorAutomatic",
+      "source": "RationalFloorAutomatic.lean",
+      "protected_module": "ProtectedSources.RationalFloorAutomatic",
+      "protected_source": "ProtectedSources/RationalFloorAutomatic.lean",
+      "canonical_sha256": "bb8e694105fd03f4c8efc2bcbdfe428942baa9d2217ad769305b604622af72c1"
+    },
+    {
+      "module": "RationalFloorTotalClass",
+      "source": "RationalFloorTotalClass.lean",
+      "protected_module": "ProtectedSources.RationalFloorTotalClass",
+      "protected_source": "ProtectedSources/RationalFloorTotalClass.lean",
+      "canonical_sha256": "0db5e0929f02ce82f3668ce74e075374b6d4b61c78026c1f71a1d592ee2d7abb"
+    },
+    {
+      "module": "RationalFloorDecision",
+      "source": "RationalFloorDecision.lean",
+      "protected_module": "ProtectedSources.RationalFloorDecision",
+      "protected_source": "ProtectedSources/RationalFloorDecision.lean",
+      "canonical_sha256": "d07e58f21e6563726f673673de9af1cfb8b48f2a2ed0dc5c3f7ea826b0c274ee"
+    },
+    {
+      "module": "RationalGapCompression",
+      "source": "RationalGapCompression.lean",
+      "protected_module": "ProtectedSources.RationalGapCompression",
+      "protected_source": "ProtectedSources/RationalGapCompression.lean",
+      "canonical_sha256": "9666a6b7cc20fb17abea20ba70ed8c78ac6eb06e9613579281bcf5b54a329852"
+    },
+    {
+      "module": "RationalSparseSupport",
+      "source": "RationalSparseSupport.lean",
+      "protected_module": "ProtectedSources.RationalSparseSupport",
+      "protected_source": "ProtectedSources/RationalSparseSupport.lean",
+      "canonical_sha256": "bd4150a6f1a40cdc4e7fef95849151f5ce0fd2028e025125ba3762a4773c41e1"
+    },
+    {
+      "module": "RationalSparseGapSearch",
+      "source": "RationalSparseGapSearch.lean",
+      "protected_module": "ProtectedSources.RationalSparseGapSearch",
+      "protected_source": "ProtectedSources/RationalSparseGapSearch.lean",
+      "canonical_sha256": "c57de36892bd6572c4e9666004a5c7645cdc265a6576bc11ece193fd9af41d53"
+    },
+    {
+      "module": "RationalSparseGapAlgorithm",
+      "source": "RationalSparseGapAlgorithm.lean",
+      "protected_module": "ProtectedSources.RationalSparseGapAlgorithm",
+      "protected_source": "ProtectedSources/RationalSparseGapAlgorithm.lean",
+      "canonical_sha256": "afa20db73e6c3ef2cb0f5ccfc6ef3d877957da775a6df0f862c435bda4fe27a2"
+    },
+    {
+      "module": "RationalSparseGapGame",
+      "source": "RationalSparseGapGame.lean",
+      "protected_module": "ProtectedSources.RationalSparseGapGame",
+      "protected_source": "ProtectedSources/RationalSparseGapGame.lean",
+      "canonical_sha256": "c1338736ba9f21fbcdc0a6a3ea64d2bc43349cd978038ada1abc0de26a3fa298"
+    },
+    {
+      "module": "RationalFrozenPhysical",
+      "source": "RationalFrozenPhysical.lean",
+      "protected_module": "ProtectedSources.RationalFrozenPhysical",
+      "protected_source": "ProtectedSources/RationalFrozenPhysical.lean",
+      "canonical_sha256": "2d93d95f337da03360575c21bdeaa234cb9fb1b3b4245f0f037536781d6e12e7"
+    },
+    {
+      "module": "RationalIntervalSparseReduction",
+      "source": "RationalIntervalSparseReduction.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSparseReduction",
+      "protected_source": "ProtectedSources/RationalIntervalSparseReduction.lean",
+      "canonical_sha256": "ac2d144b076b4dacf84e3acf0f242a6d257dfbb663973a6b268280416678dff9"
+    },
+    {
+      "module": "RationalIntervalSparseAlgorithm",
+      "source": "RationalIntervalSparseAlgorithm.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSparseAlgorithm",
+      "protected_source": "ProtectedSources/RationalIntervalSparseAlgorithm.lean",
+      "canonical_sha256": "51773c10afba4fb3a5d80b3f7cd61d9a7ee4801ef6d5c1d233554f187185ea34"
+    },
+    {
+      "module": "RationalIntervalSparseConditions",
+      "source": "RationalIntervalSparseConditions.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSparseConditions",
+      "protected_source": "ProtectedSources/RationalIntervalSparseConditions.lean",
+      "canonical_sha256": "ba47a25505c78c932d7acd8f7d3899ea70ac62f0b4eb95baa7f8fccc5586fda2"
+    },
+    {
+      "module": "RationalIntervalSparseGame",
+      "source": "RationalIntervalSparseGame.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSparseGame",
+      "protected_source": "ProtectedSources/RationalIntervalSparseGame.lean",
+      "canonical_sha256": "0978d4a27642c9863640c677edf9b514d6181279f847875dec6dd77ebd412c7a"
+    },
+    {
+      "module": "RationalIntervalSparseApproximation",
+      "source": "RationalIntervalSparseApproximation.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSparseApproximation",
+      "protected_source": "ProtectedSources/RationalIntervalSparseApproximation.lean",
+      "canonical_sha256": "820c9a74bfc39ead603955e12a3558d485ee258b3cac88f57c1fbb2b1408a520"
+    },
+    {
+      "module": "RationalIntervalSparseInitialized",
+      "source": "RationalIntervalSparseInitialized.lean",
+      "protected_module": "ProtectedSources.RationalIntervalSparseInitialized",
+      "protected_source": "ProtectedSources/RationalIntervalSparseInitialized.lean",
+      "canonical_sha256": "d2c639d59453b6fbc6613b605373553255386b2c7a1a13f2a471aa2e0c82fe1d"
+    },
+    {
+      "module": "RationalCentralPayoff",
+      "source": "RationalCentralPayoff.lean",
+      "protected_module": "ProtectedSources.RationalCentralPayoff",
+      "protected_source": "ProtectedSources/RationalCentralPayoff.lean",
+      "canonical_sha256": "dbf9ce7ff632d24e6528d2fa185530a0da634a04294ed8a355bd8323e6cbe9b6"
+    },
+    {
+      "module": "RationalExplicitBinPayoff",
+      "source": "RationalExplicitBinPayoff.lean",
+      "protected_module": "ProtectedSources.RationalExplicitBinPayoff",
+      "protected_source": "ProtectedSources/RationalExplicitBinPayoff.lean",
+      "canonical_sha256": "0fe19a4918f5247c9d140326981bc676b410a2f9864e54a7b865ab9b13356d3f"
+    },
+    {
+      "module": "RationalBinnedWeights",
+      "source": "RationalBinnedWeights.lean",
+      "protected_module": "ProtectedSources.RationalBinnedWeights",
+      "protected_source": "ProtectedSources/RationalBinnedWeights.lean",
+      "canonical_sha256": "23e1bba19b01764f2a5fe603c0afc340e5e363ee3f9353f6bb0028b6c6c793d0"
+    },
+    {
+      "module": "RationalBinnedOmitted",
+      "source": "RationalBinnedOmitted.lean",
+      "protected_module": "ProtectedSources.RationalBinnedOmitted",
+      "protected_source": "ProtectedSources/RationalBinnedOmitted.lean",
+      "canonical_sha256": "0b77abe7d122cce72e75f6480c0e815ed2554736ba66eed43bceeb9e9bba9f57"
+    },
+    {
+      "module": "BinPrefixResponse",
+      "source": "BinPrefixResponse.lean",
+      "protected_module": "ProtectedSources.BinPrefixResponse",
+      "protected_source": "ProtectedSources/BinPrefixResponse.lean",
+      "canonical_sha256": "9f4bc51071125016e047cad5215d8ba4578d277ed307bc13f33afc53f05ab852"
+    },
+    {
+      "module": "RationalUniformScore",
+      "source": "RationalUniformScore.lean",
+      "protected_module": "ProtectedSources.RationalUniformScore",
+      "protected_source": "ProtectedSources/RationalUniformScore.lean",
+      "canonical_sha256": "8465239c3ca3297897f33ee4787a93a5f532531e2ace22dc23dd9a454ae36e39"
+    },
+    {
+      "module": "RationalBinLocalResponse",
+      "source": "RationalBinLocalResponse.lean",
+      "protected_module": "ProtectedSources.RationalBinLocalResponse",
+      "protected_source": "ProtectedSources/RationalBinLocalResponse.lean",
+      "canonical_sha256": "b3e575a9dcec9e7aceef59718e164b097889d7e4942230e50b2a1b427b27c58f"
+    },
+    {
+      "module": "RationalBinnedMoment",
+      "source": "RationalBinnedMoment.lean",
+      "protected_module": "ProtectedSources.RationalBinnedMoment",
+      "protected_source": "ProtectedSources/RationalBinnedMoment.lean",
+      "canonical_sha256": "3be0b28895ad40e619362789a37e5f0f7271d45580bd34b6b8dd518be9ead422"
+    },
+    {
+      "module": "RationalBinPairResponse",
+      "source": "RationalBinPairResponse.lean",
+      "protected_module": "ProtectedSources.RationalBinPairResponse",
+      "protected_source": "ProtectedSources/RationalBinPairResponse.lean",
+      "canonical_sha256": "4740983b55484027a249c435ed6ffa5e513a300e6bc788c1298bb80aa589857e"
+    },
+    {
+      "module": "RationalBinCrossResponse",
+      "source": "RationalBinCrossResponse.lean",
+      "protected_module": "ProtectedSources.RationalBinCrossResponse",
+      "protected_source": "ProtectedSources/RationalBinCrossResponse.lean",
+      "canonical_sha256": "d9af7ce5375954d46ccde626f11830c01bf362a4b870386cb7fff2bbfdbd8135"
+    },
+    {
+      "module": "RationalBinnedResponse",
+      "source": "RationalBinnedResponse.lean",
+      "protected_module": "ProtectedSources.RationalBinnedResponse",
+      "protected_source": "ProtectedSources/RationalBinnedResponse.lean",
+      "canonical_sha256": "8922b2a1d96d64aeca8417838edb9cc7c72cf7576f29b076a6dc11123d7bc3d7"
+    },
+    {
+      "module": "RationalBinnedRealResponse",
+      "source": "RationalBinnedRealResponse.lean",
+      "protected_module": "ProtectedSources.RationalBinnedRealResponse",
+      "protected_source": "ProtectedSources/RationalBinnedRealResponse.lean",
+      "canonical_sha256": "49305636b8178ce487214ab74566c3306f5b98a009dcb6cd4a2e4b78d629736c"
+    },
+    {
+      "module": "ExplicitBinnedGame",
+      "source": "ExplicitBinnedGame.lean",
+      "protected_module": "ProtectedSources.ExplicitBinnedGame",
+      "protected_source": "ProtectedSources/ExplicitBinnedGame.lean",
+      "canonical_sha256": "990900f769b3ded232c69cc23544d941a22983a809331b8585813d3e716228d7"
+    },
+    {
+      "module": "ExplicitBinnedCore",
+      "source": "ExplicitBinnedCore.lean",
+      "protected_module": "ProtectedSources.ExplicitBinnedCore",
+      "protected_source": "ProtectedSources/ExplicitBinnedCore.lean",
+      "canonical_sha256": "0a9c5e9b3451b01bfe4ea6b355dade3a869387968bd92980a0527557f1bbe49d"
+    },
+    {
+      "module": "RationalFloorOutputRows",
+      "source": "RationalFloorOutputRows.lean",
+      "protected_module": "ProtectedSources.RationalFloorOutputRows",
+      "protected_source": "ProtectedSources/RationalFloorOutputRows.lean",
+      "canonical_sha256": "4a6186dc2039f23c12936a790e5ec62afd3cbeee1646b02996770ed67cf12494"
+    },
+    {
+      "module": "RationalFloorSparsify",
+      "source": "RationalFloorSparsify.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparsify",
+      "protected_source": "ProtectedSources/RationalFloorSparsify.lean",
+      "canonical_sha256": "ea7c0864abbd2bf4019ee1b52f63e5eab80272dbb7ebaab7121dc6510a2ff6b7"
+    },
+    {
+      "module": "RationalFloorSparsifyComplete",
+      "source": "RationalFloorSparsifyComplete.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparsifyComplete",
+      "protected_source": "ProtectedSources/RationalFloorSparsifyComplete.lean",
+      "canonical_sha256": "3b1d862f2c73ccc64fc9888258006b00d0538164778009052a167ca55738be06"
+    },
+    {
+      "module": "RationalFloorSparsifyClass",
+      "source": "RationalFloorSparsifyClass.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparsifyClass",
+      "protected_source": "ProtectedSources/RationalFloorSparsifyClass.lean",
+      "canonical_sha256": "fc1c64bc5a2f4bf2f216d647545636233c6406f6add3107ea528d53a8fd8a98c"
+    },
+    {
+      "module": "RationalFloorSparseValue",
+      "source": "RationalFloorSparseValue.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparseValue",
+      "protected_source": "ProtectedSources/RationalFloorSparseValue.lean",
+      "canonical_sha256": "2a98370caa04382bed436d1d8f8b4787ac44d4a67d8f132b5c713532ee0503cf"
+    },
+    {
+      "module": "RationalFloorSparseSupport",
+      "source": "RationalFloorSparseSupport.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparseSupport",
+      "protected_source": "ProtectedSources/RationalFloorSparseSupport.lean",
+      "canonical_sha256": "20afa7ebafc35d0a4c504f60f3474eb95669a10a26cea2fa8ba4a919537c2940"
+    },
+    {
+      "module": "RationalFloorSparseDecision",
+      "source": "RationalFloorSparseDecision.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparseDecision",
+      "protected_source": "ProtectedSources/RationalFloorSparseDecision.lean",
+      "canonical_sha256": "048887abc8a6ecbef5279fafe0dd40f9f7468c484b81241cbec0a0f26c90db9a"
+    },
+    {
+      "module": "RationalFloorSparseCertified",
+      "source": "RationalFloorSparseCertified.lean",
+      "protected_module": "ProtectedSources.RationalFloorSparseCertified",
+      "protected_source": "ProtectedSources/RationalFloorSparseCertified.lean",
+      "canonical_sha256": "cbbbb6caf812645444be8d815e4cc2f30c51f92a5aa1fe1bad298db179192423"
+    },
+    {
+      "module": "RationalCountedDot",
+      "source": "RationalCountedDot.lean",
+      "protected_module": "ProtectedSources.RationalCountedDot",
+      "protected_source": "ProtectedSources/RationalCountedDot.lean",
+      "canonical_sha256": "bb3baf3dd9dcec07e1ad5058ec83f1df6b1a2e036472abbfb55f287c31c5ef27"
+    },
+    {
+      "module": "RationalTableCertificate",
+      "source": "RationalTableCertificate.lean",
+      "protected_module": "ProtectedSources.RationalTableCertificate",
+      "protected_source": "ProtectedSources/RationalTableCertificate.lean",
+      "canonical_sha256": "1440c0ee6722735ddde4b3349be3bac4aed8ba838564cb862784846f5182ab82"
+    },
+    {
+      "module": "RationalTableSums",
+      "source": "RationalTableSums.lean",
+      "protected_module": "ProtectedSources.RationalTableSums",
+      "protected_source": "ProtectedSources/RationalTableSums.lean",
+      "canonical_sha256": "87d16781697e45789fc8ad8e580046fea4c2057fd3581589fa5e765663e2ee3a"
+    },
+    {
+      "module": "RationalTableRows",
+      "source": "RationalTableRows.lean",
+      "protected_module": "ProtectedSources.RationalTableRows",
+      "protected_source": "ProtectedSources/RationalTableRows.lean",
+      "canonical_sha256": "e8abce9a7fb919de13cc2187d52fc4f445a2764e8da87dc335146fe3b99e6ebf"
+    },
+    {
+      "module": "RationalTableOmitted",
+      "source": "RationalTableOmitted.lean",
+      "protected_module": "ProtectedSources.RationalTableOmitted",
+      "protected_source": "ProtectedSources/RationalTableOmitted.lean",
+      "canonical_sha256": "44a2d68c6107ceac787860dcf8929535c0b7253a9d405bf8d5a639a0633e35d0"
+    },
+    {
+      "module": "RationalCountedAll",
+      "source": "RationalCountedAll.lean",
+      "protected_module": "ProtectedSources.RationalCountedAll",
+      "protected_source": "ProtectedSources/RationalCountedAll.lean",
+      "canonical_sha256": "9389d5abbcaa7b614e9d410d15ca066cefa19ab326d3ea3eab5d1a3d63f372fd"
+    },
+    {
+      "module": "RationalCountedTableRows",
+      "source": "RationalCountedTableRows.lean",
+      "protected_module": "ProtectedSources.RationalCountedTableRows",
+      "protected_source": "ProtectedSources/RationalCountedTableRows.lean",
+      "canonical_sha256": "3a466c21f1c574a98054eea249d3afbff99108fb5f5471f94df047fc188da508"
+    },
+    {
+      "module": "RationalCountedRowCost",
+      "source": "RationalCountedRowCost.lean",
+      "protected_module": "ProtectedSources.RationalCountedRowCost",
+      "protected_source": "ProtectedSources/RationalCountedRowCost.lean",
+      "canonical_sha256": "e937a62ac4d4f924175d1b0cdffe02a7f936c411d958bf89326b69a20a6a0422"
+    },
+    {
+      "module": "RationalTableConditions",
+      "source": "RationalTableConditions.lean",
+      "protected_module": "ProtectedSources.RationalTableConditions",
+      "protected_source": "ProtectedSources/RationalTableConditions.lean",
+      "canonical_sha256": "25c4aaadd049680c928ec4d0e49e77ec808f60bcd421dd702d53bc279308f4c4"
+    },
+    {
+      "module": "RationalCountedTableCertificate",
+      "source": "RationalCountedTableCertificate.lean",
+      "protected_module": "ProtectedSources.RationalCountedTableCertificate",
+      "protected_source": "ProtectedSources/RationalCountedTableCertificate.lean",
+      "canonical_sha256": "e73ad631d801c4935371168cc5529ff604a3d9abc16621f13c587abbc27313d8"
+    },
+    {
+      "module": "RationalCountedCertificateSoundness",
+      "source": "RationalCountedCertificateSoundness.lean",
+      "protected_module": "ProtectedSources.RationalCountedCertificateSoundness",
+      "protected_source": "ProtectedSources/RationalCountedCertificateSoundness.lean",
+      "canonical_sha256": "8647a6bb7bab458f82ae5b47d7f4a4c3e366c6649b6d542df394587194202f56"
+    },
+    {
+      "module": "RationalTableStorage",
+      "source": "RationalTableStorage.lean",
+      "protected_module": "ProtectedSources.RationalTableStorage",
+      "protected_source": "ProtectedSources/RationalTableStorage.lean",
+      "canonical_sha256": "cecae403b9a16fae9622168d7203d6237815e30041a7f05d8ebc402caabab8a4"
+    },
+    {
+      "module": "RationalCountedCommitments",
+      "source": "RationalCountedCommitments.lean",
+      "protected_module": "ProtectedSources.RationalCountedCommitments",
+      "protected_source": "ProtectedSources/RationalCountedCommitments.lean",
+      "canonical_sha256": "3463bbba71bc09e82cc2fed87d35fc7c9b40ce30fbdbf7a7ab0d72e944f0a756"
+    },
+    {
+      "module": "RationalCountedIntervalObservations",
+      "source": "RationalCountedIntervalObservations.lean",
+      "protected_module": "ProtectedSources.RationalCountedIntervalObservations",
+      "protected_source": "ProtectedSources/RationalCountedIntervalObservations.lean",
+      "canonical_sha256": "345168bebba8b032c633e76f682d4f5861f9b95fd929a78d1e45d42bf9c2dcfc"
+    },
+    {
+      "module": "RationalCountedCertificateRate",
+      "source": "RationalCountedCertificateRate.lean",
+      "protected_module": "ProtectedSources.RationalCountedCertificateRate",
+      "protected_source": "ProtectedSources/RationalCountedCertificateRate.lean",
+      "canonical_sha256": "faf02c5b9b414dc095887f08d1a33881065c4f1cc907a2224a58a2db14807f08"
+    },
+    {
+      "module": "LargeToleranceWitness",
+      "source": "LargeToleranceWitness.lean",
+      "protected_module": "ProtectedSources.LargeToleranceWitness",
+      "protected_source": "ProtectedSources/LargeToleranceWitness.lean",
+      "canonical_sha256": "3dbe61df70f7aaa023b89f73575c713827305a41a2d2d0a1bab93d0f5d1da094"
+    },
+    {
+      "module": "PrefixViolation",
+      "source": "PrefixViolation.lean",
+      "protected_module": "ProtectedSources.PrefixViolation",
+      "protected_source": "ProtectedSources/PrefixViolation.lean",
+      "canonical_sha256": "f3e0f9786700a433fea6f89e2cb6e095f8b0faa2a22ef9ee56acfac50cb03f6d"
+    },
+    {
+      "module": "RationalFloorCertifiedGeneral",
+      "source": "RationalFloorCertifiedGeneral.lean",
+      "protected_module": "ProtectedSources.RationalFloorCertifiedGeneral",
+      "protected_source": "ProtectedSources/RationalFloorCertifiedGeneral.lean",
+      "canonical_sha256": "4fa2e20dbc9dca47268b835fd3eeaa421cdd6b9d09ddab5dc130a7b506174490"
+    },
+    {
+      "module": "CoverUniformBound",
+      "source": "CoverUniformBound.lean",
+      "protected_module": "ProtectedSources.CoverUniformBound",
+      "protected_source": "ProtectedSources/CoverUniformBound.lean",
+      "canonical_sha256": "615684c6403fc3bb0478eed160f6d1b744109d526845bd9e9e8e9d59dca7796c"
+    },
+    {
+      "module": "PayoffScaling",
+      "source": "PayoffScaling.lean",
+      "protected_module": "ProtectedSources.PayoffScaling",
+      "protected_source": "ProtectedSources/PayoffScaling.lean",
+      "canonical_sha256": "5fc41db92034cd5ce827c744cf69f22da444f98559b58eb889c88639968efde5"
+    },
+    {
+      "module": "ScaledJointLower",
+      "source": "ScaledJointLower.lean",
+      "protected_module": "ProtectedSources.ScaledJointLower",
+      "protected_source": "ProtectedSources/ScaledJointLower.lean",
+      "canonical_sha256": "f7a24d9ada4fa8b76aa52f568aabc161cc22ae1516008ca9dcc4b0a6ef0f657a"
+    },
+    {
+      "module": "ScaledJointUpper",
+      "source": "ScaledJointUpper.lean",
+      "protected_module": "ProtectedSources.ScaledJointUpper",
+      "protected_source": "ProtectedSources/ScaledJointUpper.lean",
+      "canonical_sha256": "3f0176bd8b12b1dc5cf110d9f40eccd3593899d1a915578c0e1518e1e8ce4772"
+    },
+    {
+      "module": "ScaledJointSupportTheorem",
+      "source": "ScaledJointSupportTheorem.lean",
+      "protected_module": "ProtectedSources.ScaledJointSupportTheorem",
+      "protected_source": "ProtectedSources/ScaledJointSupportTheorem.lean",
+      "canonical_sha256": "0aadf777c9e8c1250e478a6922d457055c0357f4bb4f3df44b3e0d34e6f48ad8"
+    },
+    {
+      "module": "ScaledJointAllK",
+      "source": "ScaledJointAllK.lean",
+      "protected_module": "ProtectedSources.ScaledJointAllK",
+      "protected_source": "ProtectedSources/ScaledJointAllK.lean",
+      "canonical_sha256": "ae4de6e60c0ac9cf4659737215fead8adbd4178762c507f00b8a9e7918d6e369"
+    },
+    {
+      "module": "PhysicalSupportMinimum",
+      "source": "PhysicalSupportMinimum.lean",
+      "protected_module": "ProtectedSources.PhysicalSupportMinimum",
+      "protected_source": "ProtectedSources/PhysicalSupportMinimum.lean",
+      "canonical_sha256": "375b328f9b547c97eaef2e7fe1f659b071dbb703260bbbdffde0fd40acecc13a"
+    },
+    {
+      "module": "ExactInstanceSupportMinimum",
+      "source": "ExactInstanceSupportMinimum.lean",
+      "protected_module": "ProtectedSources.ExactInstanceSupportMinimum",
+      "protected_source": "ProtectedSources/ExactInstanceSupportMinimum.lean",
+      "canonical_sha256": "7047304e05328763904b5b2cbb48fc7bca4a52013219ac14191f0c19eb4206c3"
+    },
+    {
+      "module": "SupportProblemMinimum",
+      "source": "SupportProblemMinimum.lean",
+      "protected_module": "ProtectedSources.SupportProblemMinimum",
+      "protected_source": "ProtectedSources/SupportProblemMinimum.lean",
+      "canonical_sha256": "b17ceb068c60974db06ab0306431d1e277820dc0a130e9630841e2105e97b12f"
+    },
+    {
+      "module": "WorstCaseSupport",
+      "source": "WorstCaseSupport.lean",
+      "protected_module": "ProtectedSources.WorstCaseSupport",
+      "protected_source": "ProtectedSources/WorstCaseSupport.lean",
+      "canonical_sha256": "7427b5460e7383080c2975ff16d07cc82cd9a05178e559fe1a102730378bcc0d"
+    },
+    {
+      "module": "AnchorRelabel",
+      "source": "AnchorRelabel.lean",
+      "protected_module": "ProtectedSources.AnchorRelabel",
+      "protected_source": "ProtectedSources/AnchorRelabel.lean",
+      "canonical_sha256": "927fd354c3a6c3458ccf6edef5103a42ee06ba9d8b4450e1ee6d0a12eac9c20d"
+    },
+    {
+      "module": "FiniteCloneInstance",
+      "source": "FiniteCloneInstance.lean",
+      "protected_module": "ProtectedSources.FiniteCloneInstance",
+      "protected_source": "ProtectedSources/FiniteCloneInstance.lean",
+      "canonical_sha256": "81c871a895295ae9a5b134d573eccd6af71f9aa34efab1dbdc2445a53647c2ed"
+    },
+    {
+      "module": "FiniteCloneLower",
+      "source": "FiniteCloneLower.lean",
+      "protected_module": "ProtectedSources.FiniteCloneLower",
+      "protected_source": "ProtectedSources/FiniteCloneLower.lean",
+      "canonical_sha256": "5dcc051eebab0acd019ae3cd9f2e2f0ec7389d19a0a83647a35ec55cbf68bc65"
+    },
+    {
+      "module": "WorstCaseSupportSharp",
+      "source": "WorstCaseSupportSharp.lean",
+      "protected_module": "ProtectedSources.WorstCaseSupportSharp",
+      "protected_source": "ProtectedSources/WorstCaseSupportSharp.lean",
+      "canonical_sha256": "9f4cf6c3fbf8aac24068b13abcc21e56f9181791249d704e86389d77c7ec2dab"
+    },
+    {
+      "module": "SupportObservationInvariance",
+      "source": "SupportObservationInvariance.lean",
+      "protected_module": "ProtectedSources.SupportObservationInvariance",
+      "protected_source": "ProtectedSources/SupportObservationInvariance.lean",
+      "canonical_sha256": "ed07d97ff658305535047f06182eaf7e00369907e195e6a32bc2c7983729b791"
+    },
+    {
+      "module": "CountedMerge",
+      "source": "CountedMerge.lean",
+      "protected_module": "ProtectedSources.CountedMerge",
+      "protected_source": "ProtectedSources/CountedMerge.lean",
+      "canonical_sha256": "dd0321defad500ee6490a93ad8592070851a5e50d3bf559e35c4c3c9df65098c"
+    },
+    {
+      "module": "CountedMergeSort",
+      "source": "CountedMergeSort.lean",
+      "protected_module": "ProtectedSources.CountedMergeSort",
+      "protected_source": "ProtectedSources/CountedMergeSort.lean",
+      "canonical_sha256": "4edc4b2ec918d08a82e466615fa3add1a50d0418864985a8254a730f5883c64d"
+    },
+    {
+      "module": "RationalScoreSort",
+      "source": "RationalScoreSort.lean",
+      "protected_module": "ProtectedSources.RationalScoreSort",
+      "protected_source": "ProtectedSources/RationalScoreSort.lean",
+      "canonical_sha256": "7840afa8c451c9e553cc19e1c5706f66c20b0620d7f0a63de9afb8c816516d74"
+    },
+    {
+      "module": "RationalLabelSort",
+      "source": "RationalLabelSort.lean",
+      "protected_module": "ProtectedSources.RationalLabelSort",
+      "protected_source": "ProtectedSources/RationalLabelSort.lean",
+      "canonical_sha256": "1354a20987833f0ca3ea01487cf8c865d83f29dda65c5ef8fdf674656dfd84fc"
+    },
+    {
+      "module": "RationalSortedIndex",
+      "source": "RationalSortedIndex.lean",
+      "protected_module": "ProtectedSources.RationalSortedIndex",
+      "protected_source": "ProtectedSources/RationalSortedIndex.lean",
+      "canonical_sha256": "0d8a0c411f10442317d335011d159aa33488f4c7a367194fcd546266b38d8b66"
+    },
+    {
+      "module": "RationalSortedPrefixes",
+      "source": "RationalSortedPrefixes.lean",
+      "protected_module": "ProtectedSources.RationalSortedPrefixes",
+      "protected_source": "ProtectedSources/RationalSortedPrefixes.lean",
+      "canonical_sha256": "f0a93c142586e7b41032b363ee786b7aabe98c3e3116c4a965426a0aaa0e1e5e"
+    },
+    {
+      "module": "RationalPrefixScan",
+      "source": "RationalPrefixScan.lean",
+      "protected_module": "ProtectedSources.RationalPrefixScan",
+      "protected_source": "ProtectedSources/RationalPrefixScan.lean",
+      "canonical_sha256": "d601e33f9cac60c21d6c078193fcc92317a0054e7716aeb5d73beed5cafbcd5f"
+    },
+    {
+      "module": "ListPrefixSum",
+      "source": "ListPrefixSum.lean",
+      "protected_module": "ProtectedSources.ListPrefixSum",
+      "protected_source": "ProtectedSources/ListPrefixSum.lean",
+      "canonical_sha256": "1f6c4771c878f50ba182933ca3b41e75f9aba9bc5823977d3c72d47c180783e7"
+    },
+    {
+      "module": "RationalSortedCutCheck",
+      "source": "RationalSortedCutCheck.lean",
+      "protected_module": "ProtectedSources.RationalSortedCutCheck",
+      "protected_source": "ProtectedSources/RationalSortedCutCheck.lean",
+      "canonical_sha256": "22075777b257bd89b430a8547859300a8b4ea8fddc4971757b49397e90cdc19b"
+    },
+    {
+      "module": "RationalPerspectiveCutCheck",
+      "source": "RationalPerspectiveCutCheck.lean",
+      "protected_module": "ProtectedSources.RationalPerspectiveCutCheck",
+      "protected_source": "ProtectedSources/RationalPerspectiveCutCheck.lean",
+      "canonical_sha256": "4c9b9a9def44c12c01c34ce57e17850f584ea1e68d65f4f6fb32ef76f7bf0915"
+    },
+    {
+      "module": "RationalIntervalCutCheck",
+      "source": "RationalIntervalCutCheck.lean",
+      "protected_module": "ProtectedSources.RationalIntervalCutCheck",
+      "protected_source": "ProtectedSources/RationalIntervalCutCheck.lean",
+      "canonical_sha256": "f796614a2039d452580b6dea6f00e123af11ef8ef50c2782874e6d9aeaa53f12"
+    },
+    {
+      "module": "SourceAllocationStepNormalized",
+      "source": "SourceAllocationStepNormalized.lean",
+      "protected_module": "ProtectedSources.SourceAllocationStepNormalized",
+      "protected_source": "ProtectedSources/SourceAllocationStepNormalized.lean",
+      "canonical_sha256": "a4d81468f96ce9ab9e4b87462aa034caf1bf4dd4c12d56a18e302fc9dbb558ed"
+    },
+    {
+      "module": "RationalSourceFloorParameters",
+      "source": "RationalSourceFloorParameters.lean",
+      "protected_module": "ProtectedSources.RationalSourceFloorParameters",
+      "protected_source": "ProtectedSources/RationalSourceFloorParameters.lean",
+      "canonical_sha256": "a19aee6ab306afb9eb7dc71663962fb5f50c99d0c0b1ceaa05b6360b87575213"
+    },
+    {
+      "module": "RationalSourceFloorAutomatic",
+      "source": "RationalSourceFloorAutomatic.lean",
+      "protected_module": "ProtectedSources.RationalSourceFloorAutomatic",
+      "protected_source": "ProtectedSources/RationalSourceFloorAutomatic.lean",
+      "canonical_sha256": "1a2798bdcf7b6f978c73069ce134ceb62c92e8e60b7d4021e580d7e4f50b9699"
+    },
+    {
+      "module": "RationalSourceFloorClass",
+      "source": "RationalSourceFloorClass.lean",
+      "protected_module": "ProtectedSources.RationalSourceFloorClass",
+      "protected_source": "ProtectedSources/RationalSourceFloorClass.lean",
+      "canonical_sha256": "1682f75010409094070714b77f78542b60fb6980371d02c8ac526b28ac0594fe"
+    },
+    {
+      "module": "RationalSourceFloorRows",
+      "source": "RationalSourceFloorRows.lean",
+      "protected_module": "ProtectedSources.RationalSourceFloorRows",
+      "protected_source": "ProtectedSources/RationalSourceFloorRows.lean",
+      "canonical_sha256": "72f40454e5b135ec867c8c9cafc37be2b10c7a821ba26d99a3951b1a265717d1"
+    },
+    {
+      "module": "RationalSourceFloorCertified",
+      "source": "RationalSourceFloorCertified.lean",
+      "protected_module": "ProtectedSources.RationalSourceFloorCertified",
+      "protected_source": "ProtectedSources/RationalSourceFloorCertified.lean",
+      "canonical_sha256": "cab8027703652cb0d0dfab90c29ebab37cb3e02ababdbac6eea2ead062cb2ef6"
+    },
+    {
+      "module": "RationalViolationSearch",
+      "source": "RationalViolationSearch.lean",
+      "protected_module": "ProtectedSources.RationalViolationSearch",
+      "protected_source": "ProtectedSources/RationalViolationSearch.lean",
+      "canonical_sha256": "86de0bff494c00608c1a9bf84944a250ac3015775815c153c3c20a64ffb2ce26"
+    },
+    {
+      "module": "RationalViolationPayload",
+      "source": "RationalViolationPayload.lean",
+      "protected_module": "ProtectedSources.RationalViolationPayload",
+      "protected_source": "ProtectedSources/RationalViolationPayload.lean",
+      "canonical_sha256": "7d83188c46da72107bb2f01aebe3210ffab6bdfba6a3bd29feab3f81ba8d3b81"
+    },
+    {
+      "module": "RationalPrefixArithmetic",
+      "source": "RationalPrefixArithmetic.lean",
+      "protected_module": "ProtectedSources.RationalPrefixArithmetic",
+      "protected_source": "ProtectedSources/RationalPrefixArithmetic.lean",
+      "canonical_sha256": "1f9fc20f9e0189e99c9ff603875d1a43f311fc9188c82c07fc4866e3b74ae0df"
+    },
+    {
+      "module": "RationalSortedArithmetic",
+      "source": "RationalSortedArithmetic.lean",
+      "protected_module": "ProtectedSources.RationalSortedArithmetic",
+      "protected_source": "ProtectedSources/RationalSortedArithmetic.lean",
+      "canonical_sha256": "8d880b7067f88fc3dbeab644b400e7613defb0a9feb9bf585e3362fe3a6677c5"
+    },
+    {
+      "module": "RationalNodupCutPayload",
+      "source": "RationalNodupCutPayload.lean",
+      "protected_module": "ProtectedSources.RationalNodupCutPayload",
+      "protected_source": "ProtectedSources/RationalNodupCutPayload.lean",
+      "canonical_sha256": "cfa270f9f13550e4e3f04504a0400ce8ce63a17e7e17f3921c780495eef5047a"
+    },
+    {
+      "module": "RationalDenominatorGrowth",
+      "source": "RationalDenominatorGrowth.lean",
+      "protected_module": "ProtectedSources.RationalDenominatorGrowth",
+      "protected_source": "ProtectedSources/RationalDenominatorGrowth.lean",
+      "canonical_sha256": "f79c8bbd45065959420a5a97fc2b8d802352d9bb41e7f67d48674825f69b1109"
+    },
+    {
+      "module": "RationalIntervalExactGuards",
+      "source": "RationalIntervalExactGuards.lean",
+      "protected_module": "ProtectedSources.RationalIntervalExactGuards",
+      "protected_source": "ProtectedSources/RationalIntervalExactGuards.lean",
+      "canonical_sha256": "32392341a55456b442569c60a52595687077f20eef8bac1395785e64764279d8"
+    },
+    {
+      "module": "RationalIntervalExactReconstruction",
+      "source": "RationalIntervalExactReconstruction.lean",
+      "protected_module": "ProtectedSources.RationalIntervalExactReconstruction",
+      "protected_source": "ProtectedSources/RationalIntervalExactReconstruction.lean",
+      "canonical_sha256": "5be1b3a34704b10efb5f6b9e708c0f72fe423888a6632139b1bec82a0a6ec733"
+    },
+    {
+      "module": "RationalPerspectiveViolation",
+      "source": "RationalPerspectiveViolation.lean",
+      "protected_module": "ProtectedSources.RationalPerspectiveViolation",
+      "protected_source": "ProtectedSources/RationalPerspectiveViolation.lean",
+      "canonical_sha256": "b7498b605be550cf2bc10f31d31a5bc57b51377e8b003c4b468f3089119acfbf"
+    },
+    {
+      "module": "RationalIntervalViolation",
+      "source": "RationalIntervalViolation.lean",
+      "protected_module": "ProtectedSources.RationalIntervalViolation",
+      "protected_source": "ProtectedSources/RationalIntervalViolation.lean",
+      "canonical_sha256": "f32418136ffb1959cd1cbb674b4f47315ded5e48c1cd75229bc9c0ea4f594ef1"
+    },
+    {
+      "module": "RationalFlowDemandCuts",
+      "source": "RationalFlowDemandCuts.lean",
+      "protected_module": "ProtectedSources.RationalFlowDemandCuts",
+      "protected_source": "ProtectedSources/RationalFlowDemandCuts.lean",
+      "canonical_sha256": "d8d2c1bedf1efdf8221a976a1f1d3f6abb663644c574d32b65839ed6997f730b"
+    },
+    {
+      "module": "RationalSaturatedFlow",
+      "source": "RationalSaturatedFlow.lean",
+      "protected_module": "ProtectedSources.RationalSaturatedFlow",
+      "protected_source": "ProtectedSources/RationalSaturatedFlow.lean",
+      "canonical_sha256": "a57313712e7132fa39d72709acbabb7eb9ab16e6587c54f8d641dc5923308dcf"
+    },
+    {
+      "module": "RationalPerspectiveSeparator",
+      "source": "RationalPerspectiveSeparator.lean",
+      "protected_module": "ProtectedSources.RationalPerspectiveSeparator",
+      "protected_source": "ProtectedSources/RationalPerspectiveSeparator.lean",
+      "canonical_sha256": "eabb473e862d155f545b4452e2b7ab2c4db090cae5cb9141d54dfdf1b8373766"
+    },
+    {
+      "module": "RationalFlowZeroRows",
+      "source": "RationalFlowZeroRows.lean",
+      "protected_module": "ProtectedSources.RationalFlowZeroRows",
+      "protected_source": "ProtectedSources/RationalFlowZeroRows.lean",
+      "canonical_sha256": "b3b302f42f8821b897331f5949a01fbc1ca6138c0b2e682e9a0787a9c9a652f5"
+    },
+    {
+      "module": "RationalFlowCertificateCheck",
+      "source": "RationalFlowCertificateCheck.lean",
+      "protected_module": "ProtectedSources.RationalFlowCertificateCheck",
+      "protected_source": "ProtectedSources/RationalFlowCertificateCheck.lean",
+      "canonical_sha256": "1874937b2761147abb359af6227b2bcb53d85a8e4a671b4a31f9b7e40182dcd0"
+    },
+    {
+      "module": "RationalResidualReach",
+      "source": "RationalResidualReach.lean",
+      "protected_module": "ProtectedSources.RationalResidualReach",
+      "protected_source": "ProtectedSources/RationalResidualReach.lean",
+      "canonical_sha256": "dfe3e297ced7573d62ba91a2b3de273beea1872c57adcbcc093f56a057c02c4b"
+    },
+    {
+      "module": "RationalNetFlow",
+      "source": "RationalNetFlow.lean",
+      "protected_module": "ProtectedSources.RationalNetFlow",
+      "protected_source": "ProtectedSources/RationalNetFlow.lean",
+      "canonical_sha256": "9e09e32d727e7bfacb8074ee9961d90a0e38e590e24315c12691a3772a17f749"
+    },
+    {
+      "module": "FiniteSkewEquilibrium",
+      "source": "FiniteSkewEquilibrium.lean",
+      "protected_module": "ProtectedSources.FiniteSkewEquilibrium",
+      "protected_source": "ProtectedSources/FiniteSkewEquilibrium.lean",
+      "canonical_sha256": "0218358b9c44d92c5ac6e404c305d132805491f68979978dd4c809baf1075f89"
+    },
+    {
+      "module": "RationalPositiveNetFlow",
+      "source": "RationalPositiveNetFlow.lean",
+      "protected_module": "ProtectedSources.RationalPositiveNetFlow",
+      "protected_source": "ProtectedSources/RationalPositiveNetFlow.lean",
+      "canonical_sha256": "899f46d183a2f838771c09aeae0b2203190c69afa6df6307eba62c2388755df8"
+    },
+    {
+      "module": "RationalReachCut",
+      "source": "RationalReachCut.lean",
+      "protected_module": "ProtectedSources.RationalReachCut",
+      "protected_source": "ProtectedSources/RationalReachCut.lean",
+      "canonical_sha256": "af8694162cacb37d062324dd3787ca377b437eba892616162c8f7b76dd735bb2"
+    },
+    {
+      "module": "RationalNetCut",
+      "source": "RationalNetCut.lean",
+      "protected_module": "ProtectedSources.RationalNetCut",
+      "protected_source": "ProtectedSources/RationalNetCut.lean",
+      "canonical_sha256": "1c7f7c48c7cb1967045a3e43a76d88991e03a7ebba281d2f0485978b1be67094"
+    },
+    {
+      "module": "RationalNumeratorGrowth",
+      "source": "RationalNumeratorGrowth.lean",
+      "protected_module": "ProtectedSources.RationalNumeratorGrowth",
+      "protected_source": "ProtectedSources/RationalNumeratorGrowth.lean",
+      "canonical_sha256": "040f05ea4e432e7dde54fa78da22468ed95600da54850f998c27bf5669e86114"
+    },
+    {
+      "module": "FiniteSkewNash",
+      "source": "FiniteSkewNash.lean",
+      "protected_module": "ProtectedSources.FiniteSkewNash",
+      "protected_source": "ProtectedSources/FiniteSkewNash.lean",
+      "canonical_sha256": "36bad974b3423d1bd337ddab606cf6fd13ac2cdad902317311a844b5b1eb7c07"
+    },
+    {
+      "module": "CachedResidualBFS",
+      "source": "CachedResidualBFS.lean",
+      "protected_module": "ProtectedSources.CachedResidualBFS",
+      "protected_source": "ProtectedSources/CachedResidualBFS.lean",
+      "canonical_sha256": "c1d9af45fe95e885cbf7ab1b8a924d66421df2f8b1319cad8ec105815a846363"
+    },
+    {
+      "module": "RationalEdgePush",
+      "source": "RationalEdgePush.lean",
+      "protected_module": "ProtectedSources.RationalEdgePush",
+      "protected_source": "ProtectedSources/RationalEdgePush.lean",
+      "canonical_sha256": "4c9fc84491caf121540da83696c1fa09c18b36bf90496c491f8597f83992ea57"
+    },
+    {
+      "module": "CachedResidualSimplePaths",
+      "source": "CachedResidualSimplePaths.lean",
+      "protected_module": "ProtectedSources.CachedResidualSimplePaths",
+      "protected_source": "ProtectedSources/CachedResidualSimplePaths.lean",
+      "canonical_sha256": "dfc32606fbd790b59addf1b3431469c222484ac06ebf33220c00d3ceafcc07c4"
+    },
+    {
+      "module": "RationalPathAugmentation",
+      "source": "RationalPathAugmentation.lean",
+      "protected_module": "ProtectedSources.RationalPathAugmentation",
+      "protected_source": "ProtectedSources/RationalPathAugmentation.lean",
+      "canonical_sha256": "2a885f34c20185e305e059627e1af514cc9b4c14fc79bb5881c166ed4f5a5944"
+    },
+    {
+      "module": "RationalCachedPathAugmentation",
+      "source": "RationalCachedPathAugmentation.lean",
+      "protected_module": "ProtectedSources.RationalCachedPathAugmentation",
+      "protected_source": "ProtectedSources/RationalCachedPathAugmentation.lean",
+      "canonical_sha256": "18e3b1849119045c40e06296b968f00d9f45f131d7adaccf02b0bbd88e948945"
+    },
+    {
+      "module": "RationalPathSaturation",
+      "source": "RationalPathSaturation.lean",
+      "protected_module": "ProtectedSources.RationalPathSaturation",
+      "protected_source": "ProtectedSources/RationalPathSaturation.lean",
+      "canonical_sha256": "845999f03686546b183774027995108ef3cc7de8fbb412a1045e052ccd031d50"
+    },
+    {
+      "module": "RationalFlowLattice",
+      "source": "RationalFlowLattice.lean",
+      "protected_module": "ProtectedSources.RationalFlowLattice",
+      "protected_source": "ProtectedSources/RationalFlowLattice.lean",
+      "canonical_sha256": "5b95b3c660506c9419a3952fbf5e897b35de01e3f6d90b3abc302f55e7ffb1a4"
+    },
+    {
+      "module": "RationalFlowEncodingBounds",
+      "source": "RationalFlowEncodingBounds.lean",
+      "protected_module": "ProtectedSources.RationalFlowEncodingBounds",
+      "protected_source": "ProtectedSources/RationalFlowEncodingBounds.lean",
+      "canonical_sha256": "b85b9e0f1d64cd9d4f30d083d6a73353d585f1bedaef4ae4eb3d3f7fe1fd14a6"
+    },
+    {
+      "module": "RationalFeatureDeletion",
+      "source": "RationalFeatureDeletion.lean",
+      "protected_module": "ProtectedSources.RationalFeatureDeletion",
+      "protected_source": "ProtectedSources/RationalFeatureDeletion.lean",
+      "canonical_sha256": "b30190e4afa5e4660a7867cef8e8e8b2d8b4631d7fd62f9d3b15fb8e7f2d89bb"
+    },
+    {
+      "module": "RationalFeatureKernel",
+      "source": "RationalFeatureKernel.lean",
+      "protected_module": "ProtectedSources.RationalFeatureKernel",
+      "protected_source": "ProtectedSources/RationalFeatureKernel.lean",
+      "canonical_sha256": "a823028134bb1e51ac04424ced3430b1e4f59ff65930794d74d88a0cfa11cdea"
+    },
+    {
+      "module": "RationalFeatureDimension",
+      "source": "RationalFeatureDimension.lean",
+      "protected_module": "ProtectedSources.RationalFeatureDimension",
+      "protected_source": "ProtectedSources/RationalFeatureDimension.lean",
+      "canonical_sha256": "42adbad5c2aff4ad0e9fa2893f8ffc99b5983216fb1b612199410bc1b375a1fa"
+    },
+    {
+      "module": "CachedResidualDistance",
+      "source": "CachedResidualDistance.lean",
+      "protected_module": "ProtectedSources.CachedResidualDistance",
+      "protected_source": "ProtectedSources/CachedResidualDistance.lean",
+      "canonical_sha256": "600bdfdc9d5fb914416882fce8726b7bf481e9e45d8d2a411087ab61e9fb6236"
+    },
+    {
+      "module": "RationalFeatureIterate",
+      "source": "RationalFeatureIterate.lean",
+      "protected_module": "ProtectedSources.RationalFeatureIterate",
+      "protected_source": "ProtectedSources/RationalFeatureIterate.lean",
+      "canonical_sha256": "c9cda4334c9d8bebb2d4f0e0ca223d4cbdcd324d1593a8bd7c62a23889535965"
+    },
+    {
+      "module": "RationalTableAugmentation",
+      "source": "RationalTableAugmentation.lean",
+      "protected_module": "ProtectedSources.RationalTableAugmentation",
+      "protected_source": "ProtectedSources/RationalTableAugmentation.lean",
+      "canonical_sha256": "a35c0c0b43ad43e5e85fa729f03b4f2df9d014818db52476a1ecfcb55e54805d"
+    },
+    {
+      "module": "RationalTableFlowFuel",
+      "source": "RationalTableFlowFuel.lean",
+      "protected_module": "ProtectedSources.RationalTableFlowFuel",
+      "protected_source": "ProtectedSources/RationalTableFlowFuel.lean",
+      "canonical_sha256": "04a977ef9e781158209f68b5cbf4cd3c3397ca8e403e39af263a4071914c55e9"
+    },
+    {
+      "module": "RationalTableAugmentationComplete",
+      "source": "RationalTableAugmentationComplete.lean",
+      "protected_module": "ProtectedSources.RationalTableAugmentationComplete",
+      "protected_source": "ProtectedSources/RationalTableAugmentationComplete.lean",
+      "canonical_sha256": "b56c38968e20655bccac1b8840989d53726657a623681d3dbc16124da9489756"
+    },
+    {
+      "module": "RationalTableMaximumFlow",
+      "source": "RationalTableMaximumFlow.lean",
+      "protected_module": "ProtectedSources.RationalTableMaximumFlow",
+      "protected_source": "ProtectedSources/RationalTableMaximumFlow.lean",
+      "canonical_sha256": "3257fa8fa6b3c3cab54a7fa43bf2604b6b44607d1a102aa55193ef346b58c93d"
+    },
+    {
+      "module": "RationalTableFlowDirect",
+      "source": "RationalTableFlowDirect.lean",
+      "protected_module": "ProtectedSources.RationalTableFlowDirect",
+      "protected_source": "ProtectedSources/RationalTableFlowDirect.lean",
+      "canonical_sha256": "a57269b2a3a4cb4f5c404515de070a5b1e9208e02e6aad72fcc1c04b8c8ec762"
+    },
+    {
+      "module": "RationalResidualDistanceMono",
+      "source": "RationalResidualDistanceMono.lean",
+      "protected_module": "ProtectedSources.RationalResidualDistanceMono",
+      "protected_source": "ProtectedSources/RationalResidualDistanceMono.lean",
+      "canonical_sha256": "4acf14d73e9cf7f8a7d9298de591a60340bf90b72a475d25a7e17e9ec62362a7"
+    },
+    {
+      "module": "RationalCriticalArc",
+      "source": "RationalCriticalArc.lean",
+      "protected_module": "ProtectedSources.RationalCriticalArc",
+      "protected_source": "ProtectedSources/RationalCriticalArc.lean",
+      "canonical_sha256": "63f1199b2820859de76096c9ea36b933cdbd07b0190f1c94d72e3dc353761e3c"
+    },
+    {
+      "module": "RationalAugmentationCount",
+      "source": "RationalAugmentationCount.lean",
+      "protected_module": "ProtectedSources.RationalAugmentationCount",
+      "protected_source": "ProtectedSources/RationalAugmentationCount.lean",
+      "canonical_sha256": "c55a4f380987e45c79865c0b29242a6f6399addf07facf34b61c9e9abbf49769"
+    },
+    {
+      "module": "RationalTableFlowPolynomial",
+      "source": "RationalTableFlowPolynomial.lean",
+      "protected_module": "ProtectedSources.RationalTableFlowPolynomial",
+      "protected_source": "ProtectedSources/RationalTableFlowPolynomial.lean",
+      "canonical_sha256": "c6786755efd6aa5af7f1ba26fe09fbc15d6b96f689cf06132fdb8377290c241b"
+    },
+    {
+      "module": "RationalDemandNetwork",
+      "source": "RationalDemandNetwork.lean",
+      "protected_module": "ProtectedSources.RationalDemandNetwork",
+      "protected_source": "ProtectedSources/RationalDemandNetwork.lean",
+      "canonical_sha256": "2148ed89e1c5db154ca0fff7549446b27fa28c1a4c84b5782d8907a29248e97d"
+    },
+    {
+      "module": "RationalCanonicalGrid",
+      "source": "RationalCanonicalGrid.lean",
+      "protected_module": "ProtectedSources.RationalCanonicalGrid",
+      "protected_source": "ProtectedSources/RationalCanonicalGrid.lean",
+      "canonical_sha256": "61a508a7502f3023887a4efdfaf7df14eca06242e95d875e980947b0977571ba"
+    },
+    {
+      "module": "RationalPaperFeatures",
+      "source": "RationalPaperFeatures.lean",
+      "protected_module": "ProtectedSources.RationalPaperFeatures",
+      "protected_source": "ProtectedSources/RationalPaperFeatures.lean",
+      "canonical_sha256": "fe035bb4cf4e283df3648656f7b01171a5f07347d7e4f1279847711bb8cb9c41"
+    },
+    {
+      "module": "RationalPaperCuts",
+      "source": "RationalPaperCuts.lean",
+      "protected_module": "ProtectedSources.RationalPaperCuts",
+      "protected_source": "ProtectedSources/RationalPaperCuts.lean",
+      "canonical_sha256": "fa16bf6fa2677736b1efcb2d0d0e836fa4427dac33dcc07db4b9f61fc623028f"
+    },
+    {
+      "module": "RationalPaperWitness",
+      "source": "RationalPaperWitness.lean",
+      "protected_module": "ProtectedSources.RationalPaperWitness",
+      "protected_source": "ProtectedSources/RationalPaperWitness.lean",
+      "canonical_sha256": "021697dca77c11ea2954dcc6306c3c2def36194bd91409748b42dd6c66e129ac"
+    },
+    {
+      "module": "RationalPaperFlow",
+      "source": "RationalPaperFlow.lean",
+      "protected_module": "ProtectedSources.RationalPaperFlow",
+      "protected_source": "ProtectedSources/RationalPaperFlow.lean",
+      "canonical_sha256": "0c2878d3b9d8e6cecd175bdfd88186f5414d50a391a83b020bda37f53eca4461"
+    },
+    {
+      "module": "RationalDemandGraphNetwork",
+      "source": "RationalDemandGraphNetwork.lean",
+      "protected_module": "ProtectedSources.RationalDemandGraphNetwork",
+      "protected_source": "ProtectedSources/RationalDemandGraphNetwork.lean",
+      "canonical_sha256": "886a5cdfe8953836e26abbcb6f3473737cd39aaa5162753976ca0ea401b5f59e"
+    },
+    {
+      "module": "RationalPaperGraphFlow",
+      "source": "RationalPaperGraphFlow.lean",
+      "protected_module": "ProtectedSources.RationalPaperGraphFlow",
+      "protected_source": "ProtectedSources/RationalPaperGraphFlow.lean",
+      "canonical_sha256": "0c0c3135011b92dbe1e04fcfac2e87bdad1dce29cdfea98de13aab0cc21d5ccf"
+    },
+    {
+      "module": "FlowComputationCost",
+      "source": "FlowComputationCost.lean",
+      "protected_module": "ProtectedSources.FlowComputationCost",
+      "protected_source": "ProtectedSources/FlowComputationCost.lean",
+      "canonical_sha256": "34990397bf435caff3236069f9353521e91f861330ea94f5ab15534a60505bd8"
+    },
+    {
+      "module": "CountedCachedBFS",
+      "source": "CountedCachedBFS.lean",
+      "protected_module": "ProtectedSources.CountedCachedBFS",
+      "protected_source": "ProtectedSources/CountedCachedBFS.lean",
+      "canonical_sha256": "ba727cbead86f36e2e944d4fa4481fab6e50cddcb18138e77f5ba72abf9f23a6"
+    },
+    {
+      "module": "CountedRationalPathOps",
+      "source": "CountedRationalPathOps.lean",
+      "protected_module": "ProtectedSources.CountedRationalPathOps",
+      "protected_source": "ProtectedSources/CountedRationalPathOps.lean",
+      "canonical_sha256": "a270a1ad1d129118b957984d9159478339b34b649ad8546e63c13c53f26e3ce8"
+    },
+    {
+      "module": "CountedAugmentCandidate",
+      "source": "CountedAugmentCandidate.lean",
+      "protected_module": "ProtectedSources.CountedAugmentCandidate",
+      "protected_source": "ProtectedSources/CountedAugmentCandidate.lean",
+      "canonical_sha256": "48df1e4116f73d266e1401f2c48303139ac6f45574e85b5013b77e4333a7699d"
+    },
+    {
+      "module": "CountedRationalAugmentation",
+      "source": "CountedRationalAugmentation.lean",
+      "protected_module": "ProtectedSources.CountedRationalAugmentation",
+      "protected_source": "ProtectedSources/CountedRationalAugmentation.lean",
+      "canonical_sha256": "311694d6927a732340ed9d0bc5a50cd79718cb42740d3bec195b64f8deda3e58"
+    },
+    {
+      "module": "CountedFlowInitialization",
+      "source": "CountedFlowInitialization.lean",
+      "protected_module": "ProtectedSources.CountedFlowInitialization",
+      "protected_source": "ProtectedSources/CountedFlowInitialization.lean",
+      "canonical_sha256": "3d01e80052fa4f3494e4b15df345e3d2ce23adc12bb3848f93ce5002fe7c9691"
+    },
+    {
+      "module": "RationalGaussianKernel",
+      "source": "RationalGaussianKernel.lean",
+      "protected_module": "ProtectedSources.RationalGaussianKernel",
+      "protected_source": "ProtectedSources/RationalGaussianKernel.lean",
+      "canonical_sha256": "a91f05b971ec119bd6b6818df8cd86a569c24522cf027b34439f4244de8e0aa0"
+    },
+    {
+      "module": "CountedGaussianPrimitives",
+      "source": "CountedGaussianPrimitives.lean",
+      "protected_module": "ProtectedSources.CountedGaussianPrimitives",
+      "protected_source": "ProtectedSources/CountedGaussianPrimitives.lean",
+      "canonical_sha256": "a1ca98debaa4cabc84e95e1cf5b1e1b42213de45f5fa9b034f4c44d7899c64c6"
+    },
+    {
+      "module": "CountedGaussianKernel",
+      "source": "CountedGaussianKernel.lean",
+      "protected_module": "ProtectedSources.CountedGaussianKernel",
+      "protected_source": "ProtectedSources/CountedGaussianKernel.lean",
+      "canonical_sha256": "3ae629ecd919b9b4abf6e53a78211cfe9b6f6f3ca9c396074ebf70554e3b875d"
+    },
+    {
+      "module": "Example243",
+      "source": "Example243.lean",
+      "protected_module": "ProtectedSources.Example243",
+      "protected_source": "ProtectedSources/Example243.lean",
+      "canonical_sha256": "83767ef42bac8a21ea7289af53bb226e5153968ac4ba707ab1ab11438efc4442"
+    },
+    {
+      "module": "ExecutableCoverIndex",
+      "source": "ExecutableCoverIndex.lean",
+      "protected_module": "ProtectedSources.ExecutableCoverIndex",
+      "protected_source": "ProtectedSources/ExecutableCoverIndex.lean",
+      "canonical_sha256": "ce63d242dca991b4dcc93f07a2cce25e70577af4cc43717b038bc10d93c0de88"
+    },
+    {
+      "module": "ExecutableCoverWitness",
+      "source": "ExecutableCoverWitness.lean",
+      "protected_module": "ProtectedSources.ExecutableCoverWitness",
+      "protected_source": "ProtectedSources/ExecutableCoverWitness.lean",
+      "canonical_sha256": "8c8ca10e4fe9f5a96581b9ba5fa90c905e34b9c6a5fc7fcfbc5b7ad6aa2202b7"
+    },
+    {
+      "module": "FiniteConstraintCover",
+      "source": "FiniteConstraintCover.lean",
+      "protected_module": "ProtectedSources.FiniteConstraintCover",
+      "protected_source": "ProtectedSources/FiniteConstraintCover.lean",
+      "canonical_sha256": "6b9287b4675e77ea04ffbc8583e5ec049c686366052db590636a1be571d25e49"
+    },
+    {
+      "module": "IntegerMinorHeight",
+      "source": "IntegerMinorHeight.lean",
+      "protected_module": "ProtectedSources.IntegerMinorHeight",
+      "protected_source": "ProtectedSources/IntegerMinorHeight.lean",
+      "canonical_sha256": "95874de7a54acb3a234983d7712204f4d9e434ce17fc7ae66e729ec4931a57d4"
+    },
+    {
+      "module": "GaussianScale",
+      "source": "GaussianScale.lean",
+      "protected_module": "ProtectedSources.GaussianScale",
+      "protected_source": "ProtectedSources/GaussianScale.lean",
+      "canonical_sha256": "ebd3cd819f4909f4b970cbae68040e2bfcdf87395cfbe8dbbfe2f8bfab2dd654"
+    },
+    {
+      "module": "GaussianSchurSylvester",
+      "source": "GaussianSchurSylvester.lean",
+      "protected_module": "ProtectedSources.GaussianSchurSylvester",
+      "protected_source": "ProtectedSources/GaussianSchurSylvester.lean",
+      "canonical_sha256": "3cb0812f0cc47a122897ad9886f350155f8ccaeae7cebe51555253ef9b6b5dec"
+    },
+    {
+      "module": "GaussianActualMinors",
+      "source": "GaussianActualMinors.lean",
+      "protected_module": "ProtectedSources.GaussianActualMinors",
+      "protected_source": "ProtectedSources/GaussianActualMinors.lean",
+      "canonical_sha256": "48efdebf59aa08367c19704447979d2924f741f148c08f2fe118c656a3a9d395"
+    },
+    {
+      "module": "GaussianTerminalTrace",
+      "source": "GaussianTerminalTrace.lean",
+      "protected_module": "ProtectedSources.GaussianTerminalTrace",
+      "protected_source": "ProtectedSources/GaussianTerminalTrace.lean",
+      "canonical_sha256": "712898bf75b963e342bb8a0b437cd26461c61c7fc6f4b17999763ac9d53ad8c2"
+    },
+    {
+      "module": "GaussianCramerOutput",
+      "source": "GaussianCramerOutput.lean",
+      "protected_module": "ProtectedSources.GaussianCramerOutput",
+      "protected_source": "ProtectedSources/GaussianCramerOutput.lean",
+      "canonical_sha256": "79c378a83e8c067f24c94e627a9a2ed9f958f8f01208440dbed8cd3012d88aba"
+    },
+    {
+      "module": "GaussianInputEncoding",
+      "source": "GaussianInputEncoding.lean",
+      "protected_module": "ProtectedSources.GaussianInputEncoding",
+      "protected_source": "ProtectedSources/GaussianInputEncoding.lean",
+      "canonical_sha256": "0f1f0ae6acb1b8c4489fb0f22a9484f5cb6fd71ab3096d2687e768161efb4d14"
+    },
+    {
+      "module": "GaussianOutputBits",
+      "source": "GaussianOutputBits.lean",
+      "protected_module": "ProtectedSources.GaussianOutputBits",
+      "protected_source": "ProtectedSources/GaussianOutputBits.lean",
+      "canonical_sha256": "566a264907bf344ca357510197a942bd16cd1e3c4d1ff71eb88a35edb1081cba"
+    },
+    {
+      "module": "RationalGaussianFeature",
+      "source": "RationalGaussianFeature.lean",
+      "protected_module": "ProtectedSources.RationalGaussianFeature",
+      "protected_source": "ProtectedSources/RationalGaussianFeature.lean",
+      "canonical_sha256": "935d62abbe628319a0253ec6d0ee7040f4f4e21bbb19e9bdaaf6ce91c95c3cad"
+    },
+    {
+      "module": "GaussianFeatureBits",
+      "source": "GaussianFeatureBits.lean",
+      "protected_module": "ProtectedSources.GaussianFeatureBits",
+      "protected_source": "ProtectedSources/GaussianFeatureBits.lean",
+      "canonical_sha256": "ab236d93a8d048db59de148eb2902d9657eab799f1903fbe9744c1ad97297253"
+    },
+    {
+      "module": "GaussianRecursiveReturns",
+      "source": "GaussianRecursiveReturns.lean",
+      "protected_module": "ProtectedSources.GaussianRecursiveReturns",
+      "protected_source": "ProtectedSources/GaussianRecursiveReturns.lean",
+      "canonical_sha256": "4bbdcd9c03d1cd64285fb3397b5b6718429c58fd0fd03d801318b884aac8c17b"
+    },
+    {
+      "module": "GaussianTransientStage",
+      "source": "GaussianTransientStage.lean",
+      "protected_module": "ProtectedSources.GaussianTransientStage",
+      "protected_source": "ProtectedSources/GaussianTransientStage.lean",
+      "canonical_sha256": "4b5e19dd32538cadd1932104a40494046d79ec1e8142e01684336ce2df75b746"
+    },
+    {
+      "module": "GaussianTransientArithmetic",
+      "source": "GaussianTransientArithmetic.lean",
+      "protected_module": "ProtectedSources.GaussianTransientArithmetic",
+      "protected_source": "ProtectedSources/GaussianTransientArithmetic.lean",
+      "canonical_sha256": "9ed07d5b82ea71ec20fed9edf5dc803315c4fa91afca437d3aaa8a405759917e"
+    },
+    {
+      "module": "RationalConeEncoding",
+      "source": "RationalConeEncoding.lean",
+      "protected_module": "ProtectedSources.RationalConeEncoding",
+      "protected_source": "ProtectedSources/RationalConeEncoding.lean",
+      "canonical_sha256": "a4149789fad6a3caea35c6a59e27b272c488f5e7e2fadb123e5522de55a125b3"
+    },
+    {
+      "module": "RationalLPBoxDomain",
+      "source": "RationalLPBoxDomain.lean",
+      "protected_module": "ProtectedSources.RationalLPBoxDomain",
+      "protected_source": "ProtectedSources/RationalLPBoxDomain.lean",
+      "canonical_sha256": "e9f04f54f02ae623ed57e8262340dbd6cc023ac72d7a14ed80a63cd48ac001a0"
+    },
+    {
+      "module": "RationalLPActiveRows",
+      "source": "RationalLPActiveRows.lean",
+      "protected_module": "ProtectedSources.RationalLPActiveRows",
+      "protected_source": "ProtectedSources/RationalLPActiveRows.lean",
+      "canonical_sha256": "268675f9787ea89eac4ffdcbe91eda4a76b65ebaef9cf5befc74efaa958ad07f"
+    },
+    {
+      "module": "RationalLPActiveBasis",
+      "source": "RationalLPActiveBasis.lean",
+      "protected_module": "ProtectedSources.RationalLPActiveBasis",
+      "protected_source": "ProtectedSources/RationalLPActiveBasis.lean",
+      "canonical_sha256": "ca997abfa62a830a3657bde236280ee029d0458dc0e334b08749148a8703e932"
+    },
+    {
+      "module": "RationalInputHeight",
+      "source": "RationalInputHeight.lean",
+      "protected_module": "ProtectedSources.RationalInputHeight",
+      "protected_source": "ProtectedSources/RationalInputHeight.lean",
+      "canonical_sha256": "43f0d51586ad8f2aed526b71d616a1e695ebbbae8599207e730fb3f1da607f39"
+    },
+    {
+      "module": "RationalLPIntegerInput",
+      "source": "RationalLPIntegerInput.lean",
+      "protected_module": "ProtectedSources.RationalLPIntegerInput",
+      "protected_source": "ProtectedSources/RationalLPIntegerInput.lean",
+      "canonical_sha256": "0d73a3266f5173ea3b786d2d3b3d5c18b6424b802f8427d703c4176e9556d87f"
+    },
+    {
+      "module": "RationalLPCramerHeight",
+      "source": "RationalLPCramerHeight.lean",
+      "protected_module": "ProtectedSources.RationalLPCramerHeight",
+      "protected_source": "ProtectedSources/RationalLPCramerHeight.lean",
+      "canonical_sha256": "8008e6872fca142f2fbda70e9fa229c5450cd82bcb8a617e13d3f37c7db6f052"
+    },
+    {
+      "module": "RationalLPSmallWitness",
+      "source": "RationalLPSmallWitness.lean",
+      "protected_module": "ProtectedSources.RationalLPSmallWitness",
+      "protected_source": "ProtectedSources/RationalLPSmallWitness.lean",
+      "canonical_sha256": "22279b91831ec8ca9f9890d62271c32279b351cd96f4b5b83e82e02eb28e0225"
+    },
+    {
+      "module": "RationalGridInputHeight",
+      "source": "RationalGridInputHeight.lean",
+      "protected_module": "ProtectedSources.RationalGridInputHeight",
+      "protected_source": "ProtectedSources/RationalGridInputHeight.lean",
+      "canonical_sha256": "ea08909253980d1a7f41cd1e67ba3b64700a04eeb6b1a6a422f792852d17fe55"
+    },
+    {
+      "module": "RationalGapInputHeight",
+      "source": "RationalGapInputHeight.lean",
+      "protected_module": "ProtectedSources.RationalGapInputHeight",
+      "protected_source": "ProtectedSources/RationalGapInputHeight.lean",
+      "canonical_sha256": "b0bffd29f6852c65880c0ad1164e8cf856068057bf5f62432496851810abcc6d"
+    },
+    {
+      "module": "RationalLinearInputEncoding",
+      "source": "RationalLinearInputEncoding.lean",
+      "protected_module": "ProtectedSources.RationalLinearInputEncoding",
+      "protected_source": "ProtectedSources/RationalLinearInputEncoding.lean",
+      "canonical_sha256": "d2095ddeb13f82a5533ffa1c1901e272282700aece917cee2ce3b562fbd98d5f"
+    },
+    {
+      "module": "RationalIntervalInputHeight",
+      "source": "RationalIntervalInputHeight.lean",
+      "protected_module": "ProtectedSources.RationalIntervalInputHeight",
+      "protected_source": "ProtectedSources/RationalIntervalInputHeight.lean",
+      "canonical_sha256": "64c32c752fe0121fba638185afc0607e25d500c5c89d92d09deaeb3635e675c4"
+    },
+    {
+      "module": "RationalRepertoireInputHeight",
+      "source": "RationalRepertoireInputHeight.lean",
+      "protected_module": "ProtectedSources.RationalRepertoireInputHeight",
+      "protected_source": "ProtectedSources/RationalRepertoireInputHeight.lean",
+      "canonical_sha256": "ffa58413fc7c01e19f244f50510af501e70a26a73af33f966c99abb65800c114"
+    },
+    {
+      "module": "RationalConstructedLPSmallWitness",
+      "source": "RationalConstructedLPSmallWitness.lean",
+      "protected_module": "ProtectedSources.RationalConstructedLPSmallWitness",
+      "protected_source": "ProtectedSources/RationalConstructedLPSmallWitness.lean",
+      "canonical_sha256": "a9318986bafbbe06347b26b5624ceb215a1c67d7092807ba7bfd4130af5cb1b3"
+    },
+    {
+      "module": "RationalGaussianCompress",
+      "source": "RationalGaussianCompress.lean",
+      "protected_module": "ProtectedSources.RationalGaussianCompress",
+      "protected_source": "ProtectedSources/RationalGaussianCompress.lean",
+      "canonical_sha256": "7f854836cd49f71931ea7f6a7fbe8d5d610246ff68e0542d011673a603348ba9"
+    },
+    {
+      "module": "RationalGaussianPaperFeatures",
+      "source": "RationalGaussianPaperFeatures.lean",
+      "protected_module": "ProtectedSources.RationalGaussianPaperFeatures",
+      "protected_source": "ProtectedSources/RationalGaussianPaperFeatures.lean",
+      "canonical_sha256": "749aceaa54d3195bc7612e266d3650c7bc9d757894c647fe9003055ee43ab2d1"
+    },
+    {
+      "module": "RationalGaussianPaperCuts",
+      "source": "RationalGaussianPaperCuts.lean",
+      "protected_module": "ProtectedSources.RationalGaussianPaperCuts",
+      "protected_source": "ProtectedSources/RationalGaussianPaperCuts.lean",
+      "canonical_sha256": "290581289ea2b62cfdc78932f11efe3ce88b78c52332c15224be8d3f8f612491"
+    },
+    {
+      "module": "RationalGaussianPaperWitness",
+      "source": "RationalGaussianPaperWitness.lean",
+      "protected_module": "ProtectedSources.RationalGaussianPaperWitness",
+      "protected_source": "ProtectedSources/RationalGaussianPaperWitness.lean",
+      "canonical_sha256": "9879ad7d9403ee65edcbafd82d372d13a11d28bd0d7ed316969dfec714783fa7"
+    },
+    {
+      "module": "RationalGaussianPaperFlow",
+      "source": "RationalGaussianPaperFlow.lean",
+      "protected_module": "ProtectedSources.RationalGaussianPaperFlow",
+      "protected_source": "ProtectedSources/RationalGaussianPaperFlow.lean",
+      "canonical_sha256": "d097422fbe7f643f953126af4a82db82dfc3f0c7d9ba23c4646652283efc1785"
+    },
+    {
+      "module": "RationalCoveredGaussian",
+      "source": "RationalCoveredGaussian.lean",
+      "protected_module": "ProtectedSources.RationalCoveredGaussian",
+      "protected_source": "ProtectedSources/RationalCoveredGaussian.lean",
+      "canonical_sha256": "a2e68e0418b68f3628927fa3788817f14a0c2346d3a6491a399ad210f55732c5"
+    },
+    {
+      "module": "RationalCoveredGaussianWitness",
+      "source": "RationalCoveredGaussianWitness.lean",
+      "protected_module": "ProtectedSources.RationalCoveredGaussianWitness",
+      "protected_source": "ProtectedSources/RationalCoveredGaussianWitness.lean",
+      "canonical_sha256": "dcab68d75ef18bd58973b7eb55f4a2261028a1992407dcab817a3460e0b0a430"
+    },
+    {
+      "module": "RationalDeletionLattice",
+      "source": "RationalDeletionLattice.lean",
+      "protected_module": "ProtectedSources.RationalDeletionLattice",
+      "protected_source": "ProtectedSources/RationalDeletionLattice.lean",
+      "canonical_sha256": "cb8157860347ffa614f7f88717b4e60fbde7f75ffe8db968484e8bcc0a8f1b32"
+    },
+    {
+      "module": "RationalGraphFlowOutputHeight",
+      "source": "RationalGraphFlowOutputHeight.lean",
+      "protected_module": "ProtectedSources.RationalGraphFlowOutputHeight",
+      "protected_source": "ProtectedSources/RationalGraphFlowOutputHeight.lean",
+      "canonical_sha256": "c28e8b3a1f8990a0351fbe19754684a0ec51f9071ca46bb4f682387d4387df58"
+    },
+    {
+      "module": "RationalDemandGraphOutputHeight",
+      "source": "RationalDemandGraphOutputHeight.lean",
+      "protected_module": "ProtectedSources.RationalDemandGraphOutputHeight",
+      "protected_source": "ProtectedSources/RationalDemandGraphOutputHeight.lean",
+      "canonical_sha256": "8080aa1a05fb1df4037cc337f05bf5c9ec4c3759997f709077d353a301c1f10f"
+    },
+    {
+      "module": "RationalGaussianCompressionEncoding",
+      "source": "RationalGaussianCompressionEncoding.lean",
+      "protected_module": "ProtectedSources.RationalGaussianCompressionEncoding",
+      "protected_source": "ProtectedSources/RationalGaussianCompressionEncoding.lean",
+      "canonical_sha256": "62507a8835a5bd02f21e455ae7ed33e0a79be22349a5ca402cb0876fbc0dae58"
+    },
+    {
+      "module": "RationalGaussianGraphOutputHeight",
+      "source": "RationalGaussianGraphOutputHeight.lean",
+      "protected_module": "ProtectedSources.RationalGaussianGraphOutputHeight",
+      "protected_source": "ProtectedSources/RationalGaussianGraphOutputHeight.lean",
+      "canonical_sha256": "4bbbbd2d8cd20ee849e08e257baff6a0f0f0eaef9466784f36422d4348cad218"
+    },
+    {
+      "module": "RationalPaperLPInputHeight",
+      "source": "RationalPaperLPInputHeight.lean",
+      "protected_module": "ProtectedSources.RationalPaperLPInputHeight",
+      "protected_source": "ProtectedSources/RationalPaperLPInputHeight.lean",
+      "canonical_sha256": "c131c585f4fbad67a8d3c16c11fb3e825f8cbe9452d08dd051fb70fbb10240b1"
+    },
+    {
+      "module": "RationalGaussianPaperEncoding",
+      "source": "RationalGaussianPaperEncoding.lean",
+      "protected_module": "ProtectedSources.RationalGaussianPaperEncoding",
+      "protected_source": "ProtectedSources/RationalGaussianPaperEncoding.lean",
+      "canonical_sha256": "6386eeb3f5c38c74d747acc09ad337f63c98e1dd936e2cbf621fce8d4c761e7c"
+    },
+    {
+      "module": "RationalGaussianPaperTableEncoding",
+      "source": "RationalGaussianPaperTableEncoding.lean",
+      "protected_module": "ProtectedSources.RationalGaussianPaperTableEncoding",
+      "protected_source": "ProtectedSources/RationalGaussianPaperTableEncoding.lean",
+      "canonical_sha256": "c475a10a90f203b46e99f7eedb9bbefc81f3489644b6a98dd62df96beeea2f46"
+    },
+    {
+      "module": "ThresholdStrongLossCover",
+      "source": "ThresholdStrongLossCover.lean",
+      "protected_module": "ProtectedSources.ThresholdStrongLossCover",
+      "protected_source": "ProtectedSources/ThresholdStrongLossCover.lean",
+      "canonical_sha256": "4c5b9d469f584b9cc31de9b1666c45ae29396f11d82e6ac7b016b00fed3a95f8"
+    },
+    {
+      "module": "UniformObservationCover",
+      "source": "UniformObservationCover.lean",
+      "protected_module": "ProtectedSources.UniformObservationCover",
+      "protected_source": "ProtectedSources/UniformObservationCover.lean",
+      "canonical_sha256": "effa5e7949351b78789a3d90e648b5b695534da22ac6f60d64dc346d88c588df"
+    }
+  ]
+}

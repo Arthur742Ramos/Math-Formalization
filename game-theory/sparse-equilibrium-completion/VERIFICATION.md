@@ -26,17 +26,20 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact seventy-four local source bodies with
-full proofs, zero definition holes, and exposed public declarations; it is
-compiled under a different module alias
-without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
+Challenge imports 373 protected source modules that preserve the canonical
+module boundaries, full proofs, exposed public declarations and zero definition
+holes. Each protected copy changes only project import tokens to protected
+aliases, without importing the canonical modules or the solution. The 432 default
+targets reach 805 local modules; a separate isolated phase compiles the 373
+protected copies and one aggregator. The unchanged pinned `Lake.Check.compareAt` API
 compares dependency identities. A modified fixed `envelope` definition must be
 rejected. `Lake.Check.checkAxioms`, native module checking and independent checking
 of the solution export provide separately logged checks. No custom comparison
 normalization is introduced.
 
-`scripts/assemble_challenge.py --check` authenticates this assembly. Source module
-imports are replaced by their fixed bodies; external Mathlib imports are retained.
+`scripts/assemble_challenge.py --check` authenticates the protected import
+aggregator and exact source-copy mapping. Project import tokens refer to the
+protected copies; declaration bodies and external imports are retained unchanged.
 The immutable first foundation checkpoint remains tagged separately with its own
 exact-source receipt; later development never inherits that receipt automatically.
 
@@ -733,8 +736,9 @@ decision. Exact declaration usage follows actual compiled local dependency
 closures, with no assignment merely from module membership. Both import
 contexts retain executable controls and semantic bridges.
 
-The following remain open: residual path recovery and augmentation, a maximum
-flow finder and its correctness, polynomial flow and rational LP guarantees,
+At that historical stage, residual path recovery, augmentation and a maximum
+flow finder were still open; the cloud integration below supplies their functional
+correctness. Polynomial flow and rational LP guarantees,
 primitive arithmetic/bit costs and full runtime, efficient canonical sparse
 selection and executed supplied-cover encode/decode transport. Existing comparison counts,
 supplied-score unit arithmetic ledgers and denominator bounds do not prove
@@ -743,23 +747,19 @@ also remain separate. Formalization authors and maintainers are unconfirmed;
 internal AI reviews are distinguished from human or external review.
 No registry or journal submission is authorized or performed.
 
-## Cached paths, net-flow cuts, numerator bounds and Nash interpretation — source-only candidate
+## Historical cached-path checkpoint438b4ac
 
-The current proposed source has287 mathematical modules,1155 source theorem
-audits and1045 selected protected contracts. The six modules add48 proved
-statements, including the finite-vector getter coherence helper. All48 have
-strict pinned-toolchain development axiom reports,18 executable controls passed,
-and the prospective protected comparison, altered-helper rejection and export
-kernel checks passed. The14 newly inserted semantic bridge statements and both canonical
-entrypoints passed strict pinned-toolchain compilation in the retained canonical
-preflight. The Pi.single bridge uses the explicit constant real-valued function
-type. Subsequent edits reconcile status comments and documentation; a fresh
-full exact-commit native report must bind this candidate before mechanical verification is claimed. The generated-definition validator source passed independent code review and
-14 portable Python regression methods; that establishes no Lean compilation.
-Its exact two reviewed root files are installed separately. Exact assembled
-source/dependency checks, final independent source review and full exact-commit
-native verification remain required. Earlier stage counts and open-item paragraphs are
-historical; the following account states this candidate's scope.
+Checkpoint438b4ac had287 mathematical modules,1155 source theorem audits
+and1045 selected protected contracts. Its exact-source12-gate native report
+passed, including the pinned protected comparison, altered-helper negative
+control and explicit kernel checks. The migrated report's source hashes were
+authenticated against that unchanged commit. Its six new modules supplied48
+proofs and18 executable controls, with14 imported-definition semantic bridges
+checked through both canonical contexts. These historical results apply to
+checkpoint438b4ac; the cloud integration described below requires its own
+complete frozen-source receipt. The generated-definition validator and its14
+portable Python regression methods establish retained-evidence consistency,
+with mathematical source fidelity reviewed separately.
 
 `RationalPositiveNetFlow` reconstructs nonnegative arc flows from skew net flow.
 `RationalReachCut` and `RationalNetCut` prove saturation of the actual residual
@@ -808,8 +808,108 @@ expansion of every upstream theorem body. Frozen predecessor receipts remain
 unchanged and mechanically valid, with the discovered retention qualification
 preserved in this new candidate.
 
-Whole-paper completion and submission readiness remain false. Open work includes
-a genuine complete capacitated-flow finder/augmentation algorithm, its operation
-and bit bounds, polynomial rational LP guarantees, complete arithmetic/encoding
+Whole-paper completion and submission readiness remain false. The cloud
+integration below supplies a complete finite capacitated-flow finder and
+augmentation correctness. Open work includes their operation and bit bounds,
+polynomial rational LP guarantees, complete arithmetic/encoding
 costs beyond the proved components, efficient sparse selection and the remaining
-source-specific algorithm compositions. No publication or submission is made.
+source-specific algorithm compositions. No registry or journal submission is made.
+
+
+## Historical155 integration of augmentation, finite flow and feature compression
+
+The historical f3daca0 development integrated149 preserved follow-on proofs and
+six proofs for an equivalent directly recursive flow loop. That source had304
+mathematical modules,1310 theorem audit targets and1200 protected contracts.
+These counts describe the code under review; complete mechanical verification
+is established by an immutable exact-source receipt outside the frozen package.
+The earlier checkpoint sections retain their historical source state and do
+not determine the current source's mechanical verification status.
+
+`rationalAugmentOnce` uses the actual cached shortest path, checks its finite
+safety conditions, computes an attained positive bottleneck and materializes
+the updated table. For distinct source/sink labels, the checks are earned from
+the path and None is equivalent to actual residual unreachability.
+`rationalTableFindFlow` has finite input-derived denominator-lattice fuel.
+Its returned table is feasible, has no residual source-to-sink path and
+maximizes source value among feasible skew net flows; its actual reachable
+cut supplies primal/dual equality. Source-equals-target is intentionally
+excluded from the maximum/cut statements.
+
+The fuel magnitude can be exponential in the input's binary encoding. The
+preserved Nat.rec implementation constructs a state transformer for that fuel.
+`rationalTableFindFlowDirect` returns exactly the same table using recursion
+only after an actual successful augmentation; its equality, stopping, maximum
+and computed-cut statements are proved. This change removes an avoidable
+continuation-construction cost. A capacity-independent augmentation bound and
+a complete program/bit-cost theorem remain separate obligations.
+
+`rationalFeatureCompress` computes repeated rational kernel/deletion steps,
+preserves nonnegativity, mass, every declared feature moment and original zero
+coordinates, and bounds support by the feature dimension when mass is already
+a feature. Explicitly adjoining mass gives one additional dimension. Its
+kernel search currently uses Fourier--Motzkin elimination. The generic
+compressor therefore establishes functional correctness; paper-specific
+canonical-grid composition and polynomial kernel/bit bounds remain separate.
+
+The retained narrow Linux checks cover the preserved149 proofs,149 axiom
+reports and44 guards. The direct-loop development has six further allowed-axiom
+reports and two large-fuel immediate-stop guards, plus independent internal AI
+source review. These are distinct from protected identity comparison, altered
+helper rejection, exports and independent kernel checking of an integrated
+commit. Independent internal AI review does not assert human or external
+peer review. The pins and permitted standard axioms are unchanged.
+
+Whole-paper completion remains false. Demand-network/game composition,
+capacity-independent flow runtime, efficient paper-specific compression,
+polynomial exact rational LP and complete arithmetic/encoding/bit costs are
+tracked separately. No registry or journal submission is authorized.
+
+
+## Graph-bounded flow and canonical paper compression
+
+The current source extends the historical155 integration with100 mathematical
+proofs across12 modules:316 mathematical modules,1410 theorem audit targets
+and1300 selected protected contracts in total. The earlier integrated commit
+`f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` passed all12 native gates;
+its immutable external receipt has SHA256
+`550205def6d34828d33a514e9d4a8a379f3542f6894234f16a563986241ea0f6`.
+That result applies to that historical commit. Mechanical status of this
+extended source is determined by its own exact-source receipts.
+
+Actual shortest residual paths earn monotone levels and a two-level increase
+between recurring critical arcs. Successful augmentation traces have length
+at most `E*(n+2)`, where E is the cardinality of the oriented support
+`{(u,v) | 0 < C u v + C v u}`, including possible reverse residual orientations.
+`rationalTableFindFlowPolynomial` uses graph-derived direct-loop fuel, earns
+stopping and a maximum-flow/computed-cut certificate for distinct terminals.
+This bound is independent of capacity magnitude. It bounds augmentations and
+fuel; primitive arithmetic and full bit-runtime guarantees remain open.
+
+The finite demand network is built from the original rational weights,
+scores, payoff bound and response threshold. Its computed maximum and cut earn
+source saturation when the original residual completion is feasible. The
+returned materialized table decodes to rational skew bounded payoffs, including
+zero-weight original labels. Graph-sized fuel replaces numeric capacity fuel
+in `rationalDemandGraphCompletionTable`.
+
+The actual canonical rational grid agrees with the paper's ceil-square-root
+count. Paper feature rows preserve mass, anchor and extra moments, original
+zero labels, and all required hinge values. The general residual support bound
+is `k+d+1+H`; the exact-equilibrium endpoint identity earns `k+d+H` when the
+stated positive-parameter hypotheses hold, with zero residual mass handled
+separately. Graph-flow wrappers produce an actual rational residual payoff
+completion and prove full normalized compatible-game response bounds on the
+original labels, with one additive eta.
+
+The kernel search in this integrated source uses Fourier--Motzkin elimination.
+Some returned weight functions may recompute their search when read; no
+operational sharing or polynomial kernel runtime is inferred. Separate newer
+Gaussian, input-height and source-event developments are outside this source.
+The100 additions have strict narrow audits and66 asserted controls, independent
+internal AI source reviews, and an expanded reviewed imported-definition
+inventory with22 bridges checked in both historical entrypoint contexts.
+Those checks do not replace this source's integrated protected/native gates.
+Whole-paper completion remains false: polynomial rational LP, arithmetic,
+intermediate heights, bit costs and the remaining source-specific algorithm
+composition still require proofs. No registry or journal submission is authorized.

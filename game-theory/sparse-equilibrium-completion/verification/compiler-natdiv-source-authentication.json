@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checked_at_utc": "2026-10-23T01:07:59.280858+00:00",
+  "repository": "leanprover/lean4",
+  "commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "repository_path": "src/Init/Data/Nat/Div/Basic.lean",
+  "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Nat/Div/Basic.lean",
+  "upstream_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Div/Basic.lean",
+  "method": "GitHub connected fetch_file base64; full bytes compared to installed toolchain source; independently recomputed Git blob identity",
+  "size_bytes": 17794,
+  "sha256": "0c8fc51180b0d4fb6319e8a44acd7999f3a1b3aad21d8da5c0ad575914f9d120",
+  "git_blob_sha1": "de984fa8bcba0e0324b6d236a54b1637f471705d"
+}

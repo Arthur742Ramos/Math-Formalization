@@ -6,6 +6,35 @@ counts 27 formal environments (26 labeled and one unlabeled) and 32 additional
 substantive claim groups. These tables distinguish mathematical existence,
 actual functional programs and arithmetic/bit-cost assertions.
 
+The current integration draft assembles the closed cohort of 57 new mathematical
+modules, 442 theorem proofs and 627 named APIs over historical b5. Its draft
+configuration has 373 mathematical modules, 1852 theorem audit targets and 185
+non-theorem audit targets (2037 named reports), 1742 selected protected contracts,
+and 432 default targets. These are source/configuration counts. Integrated verification requires an
+external receipt bound to the exact commit and tree, covering source consistency,
+build, protected comparison, exports and kernels. The constituent cohorts have separate bounded
+checks and internal AI reviews; those receipts do not verify the assembled tree.
+
+The protected context preserves the same 373 source-module boundaries in
+`ProtectedSources/`. Each copy changes only project import tokens to protected
+aliases; declaration bodies, public names and canonical mathematical sources
+remain fixed. `SECChallenge` imports these copies, while `SECSolution` imports
+the canonical modules. The 432 default targets reach 805 local modules; the
+independent protected phase compiles 373 copies and one aggregator in a fresh
+isolated directory. These verification copies add no mathematical results.
+The earlier monolithic integration at `89f353b412f612555265cf902844107522d595b3`
+passed its first ten native gates but failed exact protected-value comparison
+because compiler-generated helper references differed; its final export-kernel
+gate did not run. That failed source and evidence are retained. This changed
+protected layout requires its own fresh exact-commit comparison and kernel
+checks with the unchanged pinned comparator and no definition holes.
+
+Historical commit `b5a0fbfd6968db1bda7aae252660bac2236a2b68` passed all 12
+native verification gates, with external receipt SHA256
+`bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.
+That result applies to b5's exact bytes. Whole-paper completion and submission
+readiness remain false.
+
 The 71-proof tranche passed all12 native gates at predecessor
 f3c300572e22fb88de71183aee09ccc66785c3da, with a historical retained-source
 completeness qualification. The later878941b source corrected its Find/WF/Classical contexts and passed
@@ -20,10 +49,10 @@ positive residual mass; earlier separate results cover zero-mass branches.
 
 | Source result | Actual coverage and declarations | Precise remaining scope |
 | --- | --- | --- |
-| `sp:thm:sparse` — Sparse approximate completion (sections/main_theorem.tex:1) | Canonical-H mathematical theorem, all mass branches, original support and anchor moments, d extra moments, general k+d+1+H and exact k+d+H; total finite-cardinality caps. `normalized_sparse_witness_extra_moments_all_mass`, `normalized_exact_sparse_witness_extra_moments_all_mass`. Integrated `large_tolerance_sparse_moments` improves arbitrary starting tolerance to k+d+1 when r>0 and eta>=Mr. | No source-faithful executed supplied-input compression wrapper with canonical sharp counts and returned original moments/zeros. Generic executed gap support search is a different correct contract. Polynomial LP-vertex/flow construction remains open. |
-| `sp:lem:flow` — Residual completion criterion (sections/completion.tex:4) | Exact bounded-skew completion iff global guards and all weighted cuts, including zero-mass rows; stronger zero-total-mass/M=0 cases. `weighted_completion_iff`, `cuts_dual_bound`, `cuts_weighted_completion`; actual rational matrix reconstruction in `rational_residual_completion_complete`. | Existence and rational reconstruction are proved; no executed capacitated-flow algorithm/complexity. The source proof itself already includes separation and level-set duality. |
+| `sp:thm:sparse` — Sparse approximate completion (sections/main_theorem.tex:1) | Canonical-H mathematical theorem, all mass branches, original support and anchor moments, d extra moments, general k+d+1+H and exact k+d+H; total finite-cardinality caps. `normalized_sparse_witness_extra_moments_all_mass`, `normalized_exact_sparse_witness_extra_moments_all_mass`. Integrated `large_tolerance_sparse_moments` improves arbitrary starting tolerance to k+d+1 when r>0 and eta>=Mr. | The supplied-input canonical wrapper is now executed: `rational_paper_general_witness`, `rational_paper_exact_witness` and zero-mass wrappers preserve original zeros/moments with literal sharp counts. `rational_paper_normalized_general_graph_flow`, `rational_paper_normalized_exact_graph_flow` and the zero wrapper reconstruct actual rational full-game data. The draft also includes `rational_gaussian_paper_general_algorithm` and `rational_gaussian_paper_exact_algorithm`, with actual materialized q and graph-decoded B and proved returned-value encoding. Full polynomial LP and operational/bit costs remain open. |
+| `sp:lem:flow` — Residual completion criterion (sections/completion.tex:4) | Exact bounded-skew completion iff global guards and all weighted cuts, including zero-mass rows; stronger zero-total-mass/M=0 cases. `weighted_completion_iff`, `cuts_dual_bound`, `cuts_weighted_completion`; actual rational matrix reconstruction in `rational_residual_completion_complete`. | Existence, rational reconstruction and actual demand-network/game composition are proved. `rational_demand_graph_completion_table_sound` earns the returned rational table through graph-sized maximum-flow and source-saturation proofs. Polynomial total operation/bit complexity remains open. The source proof itself already includes separation and level-set duality. |
 | `sp:lem:call` — Quadratic call envelope (sections/completion.tex:35) | Exact quadratic call-envelope equivalence and positive-support score cap. `cuts_iff_call_bound`, `supported_score_cap`. | The source integrated-score curve Lambda is an unused alternate proof ingredient, not a missing envelope conclusion. |
-| `sp:lem:grid` — Finite-grid implication (sections/sparsification.tex:11) | Actual quadratic interpolation, truncated last interval and canonical ceiling-root bridge. `finite_grid_implication`, `canonical_grid_implication`, `quadratic_grid_identity`, `truncated_grid_error`. | Executed rational programs use a different valid computable H; do not identify that H with canonical ceiling sqrt. |
+| `sp:lem:grid` — Finite-grid implication (sections/sparsification.tex:11) | Actual quadratic interpolation, truncated last interval and canonical ceiling-root bridge. `finite_grid_implication`, `canonical_grid_implication`, `quadratic_grid_identity`, `truncated_grid_error`. | The older gap-decision grid retains its different valid H. The new `rational_canonical_grid_size_real` proves the actual canonical rational-grid value equals the paper ceiling-root grid; canonical paper compression uses that value. |
 | `lb:thm:dense` — Unique dense equilibrium-compatible completion (sections/rigidity.tex:25) | Uniform and arbitrary-positive-target fixed-share strategy/completion rigidity. `uniform_two_anchor_dense`, `bounded_two_anchor_fixed_share_rigidity`, `tight_prefix_completion_unique`. | No central mathematical conclusion missing; stronger numerical observation margins are not separate contracts. |
 | `lb:thm:universalrigidity` — Two-anchor inverse rigidity (sections/rigidity.tex:97) | Any positive target of mass1/4, two minimum shares forced tight, unique strategy and transitive residual block. `bounded_two_anchor_minimum_share_rigidity`, `two_anchor_target_feasible`. | Actual construction bounded in[-1,1]; literal finer margins5/6 and1/3 are not packaged separately. |
 | `lb:thm:support` — Support lower bound (sections/rigidity.tex:151) | Exact finite m,h lower bound and 3/1216 inverse-square specialization from genuine cumulative quantization. `uniform_fixed_share_support_lower`, `uniform_fixed_share_inverse_square`, `finite_subset_quantization_bound`, `sparse_cumulative_quantization`. | No central mathematical gap; variable-share endpoint partition is handled separately. |
@@ -39,13 +68,13 @@ positive residual mass; earlier separate results cover zero-mass branches.
 | `sp:prop:interval` — Interval-anchor LP gap decision (sections/algorithms.tex:86) | Actual q,V,K,aux finite rational matrix and exact Q/Real equivalence; zero-q lower-endpoint recovery; actual normalized compatible returned game with one eta. `interval_gap_epigraph_iff`, `rational_interval_system_point`, `rational_interval_system_real_point`, `rational_interval_algorithm_full_game`. | Physical finite-linear R extension/value search is proved beyond source residual-only R. No arbitrary nonlinear R solver or efficient LP claim. |
 | `sp:cor:gridp` — Additive approximation for a fixed number of anchors (sections/algorithms.tex:111) | Actual global floor class with varying p,q; rounding/L1/grid count; actual enumeration and selection; accurate tau. Integrated general-floor wrapper now returns actual global rational interval(tau−epsilon,tau). `optimistic_allocation_grid_bounds`, `rational_grid_tuples_length`, `rational_floor_approximation_global`; integrated `rational_floor_certified_value`, `rational_floor_certified_none_iff`. | Source FPTAS polynomial cost is unproved. The new dense source-floor variant uses epsilon/(6Mk) for k>0 with an explicit k=0 branch and actual all-node count; the older sparse variant remains conservative. No slice L is asserted globally valid. |
 | `ext:thm:cover` — Sparse witnesses from a cover of the observation graph (sections/graph_noise.tex:22) | Arbitrary original finite vertices, actual cover predicate including constrained zeros; same shares/incident entries/responses, canonical support caps, extra moments and r=0 branch. Integrated uniform-ceiling corollary removes residual r. `arbitrary_vertex_cover_sparse`, `arbitrary_vertex_cover_exact`; integrated `arbitrary_vertex_cover_uniform_exact`. | Uniform corollary applies any supplied cover and hence a supplied minimum one, without minimum-cover finding. Its current public signature has d=0; extra-d uniform wrapper is still optional packaging. |
-| `ext:cor:algorithm` — An additive algorithm for a supplied small cover (sections/graph_noise.tex:81) | Block-labelled actual interval/floor solver, enumeration, genuine physical decision, both residual/nonresidual branches. Integrated general-floor wrapper returns requested-width rational value interval. `rational_floor_approximation_none_iff`, `rational_floor_approximation_global`; integrated `rational_floor_certified_complete`, `rational_floor_certified_value`. | Computable arbitrary original supplied-C encode/decode adapter remains absent. The older sparse grid uses the conservative k+1 rule; the positive-k dense source-mesh variant proves the source(1+floor(6Mk/epsilon))^k slice bound, with an explicit k=0 branch. Polynomial per-slice/bit and FPTAS cost unproved. |
-| `ext:prop:weakcover` — Sparsification with uncovered interval restrictions (sections/graph_noise.tex:131) | Actual arbitrary-C clipping, beta_C source ordered maximum with empty max0, same cover data/support/moments and rho+eta+beta_C*r. `arbitrary_vertex_subset_weak_sparse`, `arbitrary_vertex_subset_weak_exact`, `residual_loss_bound_ordered`. | Final strong-edge-threshold-cover corollary is a direct missing wrapper from least-upper-bound contracts; no new sparsification principle needed. |
+| `ext:cor:algorithm` — An additive algorithm for a supplied small cover (sections/graph_noise.tex:81) | Block-labelled actual interval/floor solver, enumeration, genuine physical decision, both residual/nonresidual branches. Integrated general-floor wrapper returns requested-width rational value interval. `rational_floor_approximation_none_iff`, `rational_floor_approximation_global`; integrated `rational_floor_certified_complete`, `rational_floor_certified_value`. | The finite supplied-cover encode/decode adapter is supplied by `ExecutableCoverIndex` and `RationalCoveredGaussianWitness`. Full allocation-grid solver integration and polynomial per-slice cost remain open. The older sparse grid uses the conservative k+1 rule; the positive-k dense source-mesh variant proves the source(1+floor(6Mk/epsilon))^k slice bound, with an explicit k=0 branch. Polynomial per-slice/bit and FPTAS cost unproved. |
+| `ext:prop:weakcover` — Sparsification with uncovered interval restrictions (sections/graph_noise.tex:131) | Actual arbitrary-C clipping, beta_C source ordered maximum with empty max0, same cover data/support/moments and rho+eta+beta_C*r. `arbitrary_vertex_subset_weak_sparse`, `arbitrary_vertex_subset_weak_exact`, `residual_loss_bound_ordered`. | `threshold_vertex_subset_weak_sparse` and `threshold_vertex_subset_weak_exact` supply the strict-threshold corollaries under their bounded reverse-interval and beta in [0,2M] hypotheses. Efficient cover selection, polynomial solving and bit costs remain open. |
 | `ext:prop:stability` — Stability under interval perturbations (sections/graph_noise.tex:159) | Actual attained optimistic interval minimum and support-restricted minimum; ordered endpoint proximity yields both-direction delta stability. `optimistic_value_ordered_interval_stability`, `optimistic_support_value_ordered_stability`. | Nonempty compact strategy class/nonempty finite action type hypotheses remain explicit. |
 | `ext:thm:noise` — Sharp support law with uncertain observations (sections/graph_noise.tex:205) | Both actual attained commitment-class support minima, sharp constants and origin; actual bin/core witnesses. `uniformMinimumIntervalTotalSupport_sharp`, `uniformMinimumIntervalTotalSupport_origin`, `explicit_binned_core_witness`. | Family-specific deterministic information theorem. Literal source h-selection differs from valid implemented selection; stated constants are proved. |
-| `ext:cor:corenoise` — Uncertainty in only the anchor-core entry (sections/graph_noise.tex:297) | One clipped actual core entry, exact cross observations, e=epsilon+3delta/8, actual attained minima with c and5. `uniformMinimumCoreTotalSupport_sharp`, `uniform_core_adjust`, `explicit_binned_core_witness`. | Concrete m243/h9 exact11-support instantiation is not yet a theorem/control. |
+| `ext:cor:corenoise` — Uncertainty in only the anchor-core entry (sections/graph_noise.tex:297) | One clipped actual core entry, exact cross observations, e=epsilon+3delta/8, actual attained minima with c and5. `uniformMinimumCoreTotalSupport_sharp`, `uniform_core_adjust`, `explicit_binned_core_witness`. | `Example243` supplies the literal m243/h9, 245-action/eleven-support witness with narrow checked assertions; integrated evidence must be bound to the exact source. |
 | `cv:lem:prefix` — Only score prefixes are needed (sections/conic.tex:4) | All cuts iff score prefixes; integrated quantitative strengthening dominates every subset numerical violation by a prefix, and certifies arbitrary delta bounds. `cuts_iff_score_prefixes`, `threshold_is_score_prefix`; integrated `score_prefix_violation_dominates`, `cut_violation_bound_iff_prefix_bound`. | The new RationalSortedCutCheck computes a labelled rational order and a cached prefix Boolean check, with exact all-cut equivalence. Its same-program comparison bound excludes arithmetic/bit/getter cost and does not return a violated cut. |
-| `cv:thm:soc` — Exact conic completion characterization (sections/conic.tex:19) | Exact bounded normalized game iff linear guards/anchors and literal rotated-cone prefix system; fixed-tolerance convexity. `normalized_known_anchor_conic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_conic_system_convex`. | Executed rational sorting/permutation and Boolean cut checking are now proved separately. Actual quadratic cut output and affine separating certificates are now supplied; encoded rational SOC solving and a flow finder remain open. Source explicitly does not promise exact boundary-conic polynomial bit complexity. |
+| `cv:thm:soc` — Exact conic completion characterization (sections/conic.tex:19) | Exact bounded normalized game iff linear guards/anchors and literal rotated-cone prefix system; fixed-tolerance convexity. `normalized_known_anchor_conic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_conic_system_convex`. | Executed rational sorting/permutation and Boolean cut checking are now proved separately. Actual quadratic cut output and affine separating certificates are supplied. The draft adds explicit rational affine m-prefix cone rows and rational/real satisfaction bridges in `RationalConeEncoding`; encoded rational SOC solving remains open. An actual finite capacitated-flow finder with maximum/cut correctness is integrated below; polynomial total runtime remains open. Source explicitly does not promise exact boundary-conic polynomial bit complexity. |
 | `cv:thm:interval` — Convex interval-anchor completion (sections/conic.tex:54) | Joint q,V,K convex exact interval system and finite candidate-dependent positive-score threshold characterization; zero-q cases included. `variable_core_interval_completion_iff`, `interval_perspective_system_convex`, `interval_system_iff_threshold_system`. | Actual candidate-dependent sorted-prefix Boolean cut checking is proved for rational perspective variables; zero-mass moments follow from linear bounds. Actual quadratic/affine separating output and finite-linear candidate-guard composition are proved in the later tranches. General repertoire separation and O(m log m) arithmetic/bit proofs remain open. Literal interval all-subset rotated-cone rewrite is an easy missing wrapper of scalar identity, not a missing convexity/completion theorem. |
 
 ## What the integrated additions close
@@ -102,20 +131,20 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 | 12 | Quantitative prefix energy E<=z(r+1/p). (rigidity.tex:144-148) | Fixed-share and minimum-share stability; both derive from actual full-game responses. |
 | 13 | Constant-run quantization and cubic Jensen. (rigidity.tex:163-169) | finite_subset_quantization_bound, sparse_cumulative_quantization; no assumed contiguous support. |
 | 14 | Source explicit odd/even bin payoffs, original-label weights and parity error. (rigidity.tex:207-218;graph_noise.tex:244-269) | Computed rational matrix, same-bin +/-2/L, cross-bin orientation and omitted scores; all rows exactly zero, exact parity moment loss. Not an existential substitute anymore. |
-| 15 | Simplex gap LP has a sparse vertex, general constraints/floors affect bound. (algorithms.tex:28) | GapSparse and RationalSparseGapSearch prove sparse completion at original rho+eta, with extra feature/row counts. Executed search enumerates2^m supports; no vertex selection or polynomial claim. |
-| 16 | Rational grid coefficient polynomial bit length; rational flow. (algorithms.tex:66-69) | Actual grid is an alternative valid computable H. Rational arithmetic output and list-sum numerator/denominator encoding-size bounds exist; complete LP coefficient-height, normalization/primitive bit-cost and flow complexity remain open. |
+| 15 | Simplex gap LP has a sparse vertex, general constraints/floors affect bound. (algorithms.tex:28) | GapSparse and RationalSparseGapSearch prove sparse completion at original rho+eta, with extra feature/row counts; that search enumerates2^m supports. Actual Gaussian feature deletion supplies the paper-specific materialized sparse weights. LP35 separately proves classical bounded-feasible-set small-point existence; efficient general sparse vertex selection remains open. |
+| 16 | Rational grid coefficient polynomial bit length; rational flow. (algorithms.tex:66-69) | The literal canonical rational grid and actual gap/interval/repertoire coefficient-height bounds are included. Original-input Gaussian direction/weight and graph-decoded table encoding bounds are included, as is classical small feasible-point existence. Full FM-output/intermediate growth, normalization/primitive bit costs and whole-program runtime remain open. |
 | 17 | O(mH+mk+k^2) interval LP variables/rows. (algorithms.tex:103) | rational_interval_row_count plus explicit finite variable equivalence give stronger literal finite formulas. No matrix construction/runtime bit bound inferred. |
 | 18 | Freeze recovered D,K; sparse final tolerance uses only one eta. (algorithms.tex:105-107) | IntervalGapSparse and actual RationalIntervalSparseReduction/Algorithm preserve physical linear R and original intervals. |
 | 19 | Min slice upper and lower endpoints yield a global value bracket; zero-residual slice treatment. (algorithms.tex:137-144) | **Integrated closed**: actual arbitrary-floor returned global bracket from General4; no reuse of old slice L. Zero-residual slice treatment already functional. |
-| 20 | Minimum-cover number tau gives min(n,2tau+ceil sqrt(M/eta)), extra d. (graph_noise.tex:68-76) | **Integrated closed for d=0 and any supplied C** by CoverUniformBound3. Minimum-cover finder/operator and explicit extra-d uniform wrapper remain separate. |
-| 21 | Uniform two-anchor observation graph has minimum constraint cover number exactly2. (graph_noise.tex:77-78) | Two-anchor observation model and lower-bound family are proved; no explicit minimum-cover-number2 theorem found. |
+| 20 | Minimum-cover number tau gives min(n,2tau+ceil sqrt(M/eta)), extra d. (graph_noise.tex:68-76) | **Integrated closed for d=0 and any supplied C** by CoverUniformBound3. A finite attained minimum-cover operator is now included; efficient cover finding and the explicit extra-d uniform wrapper remain separate. |
+| 21 | Uniform two-anchor observation graph has minimum constraint cover number exactly2. (graph_noise.tex:77-78) | `uniform_constraint_cover_minimum_two` and `uniform_interval_cover_minimum_two` state the exact value two for positive residual count, with literal observed-interval/edge bridges. |
 | 22 | d_ij is maximal distance from interval, beta_C lies[0,2M], empty max0. (graph_noise.tex:125-129) | IntervalProjection and IntervalLossMaximum/Order provide actual bounds, least upper bound and ordered/unordered equality. |
-| 23 | Cover strong-loss graph d_ij>beta implies extra loss<=beta*r. (graph_noise.tex:134-135) | Actual weak-cover theorem and loss-bound universal property suffice; graph-specific implication not yet bundled. |
+| 23 | Cover strong-loss graph d_ij>beta implies extra loss<=beta*r. (graph_noise.tex:134-135) | `strong_loss_cover_residual_bound` and the threshold weak sparse/exact wrappers bundle the graph-specific implication under the stated reverse-interval and nonnegative-threshold premises. |
 | 24 | Concrete bin count choice and clipped one-core adjustment. (graph_noise.tex:273-288) | Source exact h selection is not required by theorem; available upper proof uses a valid alternative grid size achieving C5 and C5sqrt(8/3). |
-| 25 | m243,h9,delta1/5000: d91/1417176, corechange91/531441, exact11-action/245-row witness. (graph_noise.tex:313-320;main.tex:387-396) | Generic explicit bin/core theorem can instantiate this exactly; no current project theorem or executable guard includes these constants. No minimality11 claim should be added. |
+| 25 | m243,h9,delta1/5000: d91/1417176, corechange91/531441, exact11-action/245-row witness. (graph_noise.tex:313-320;main.tex:387-396) | `Example243` instantiates the exact rational constants, core-radius inequality and actual 245-label/eleven-support witness; its asserted controls passed in the bounded cohort. Integrated exact-source verification is established only by an external receipt. No minimality11 claim is made. |
 | 26 | Every prescribed subset violation is dominated by some score prefix. (conic.tex:9-16) | **Integrated closed** by PrefixViolation3 for M>=0 without normalization. |
-| 27 | Rational SOC coefficients preserved and tolerance must be fixed for convexity. (conic.tex:37-44) | Fixed-tolerance convexity and known-anchor scalar rotated-cone identity proved. Rational encoded-SOC object/count remains a direct wrapper; no conic bit-cost claim. |
-| 28 | Joint interval SOC and candidate-dependent separation with positive q sorted by H/q. (conic.tex:68-87) | Threshold tests are exact finite geometry. Actual rational sorting/permutation and early-exit prefix cut checking are proved, including H/q and derived zero-mass moments. An explicit violating subset, complete guard composition and arithmetic/bit complexity remain open. |
+| 27 | Rational SOC coefficients preserved and tolerance must be fixed for convexity. (conic.tex:37-44) | Fixed-tolerance convexity and the scalar rotated-cone identity are proved. `RationalConeEncoding` constructs rational affine prefix rows, their literal satisfaction semantics and a dense coordinate count. General conic solving and conic bit costs remain open. |
+| 28 | Joint interval SOC and candidate-dependent separation with positive q sorted by H/q. (conic.tex:68-87) | Threshold tests are exact finite geometry. Actual rational sorting/permutation and early-exit prefix cut checking are proved, including H/q and derived zero-mass moments. Actual violating subsets, exact finite guard composition and affine separating output are proved by RationalPerspectiveViolation, RationalIntervalExactGuards, RationalIntervalViolation and RationalPerspectiveSeparator in the later52 tranche. Full arithmetic/bit complexity remains open. |
 | 29 | Positive floors on every residual probability force full support. (main.tex:332-333;graph_noise.tex:137-143) | Sparse theorems correctly exclude floor-independent compression; value algorithms retain floors. A direct cardinality lemma is optional bookkeeping. |
 | 30 | Figure m729 deterministic formula evaluations and support comparisons. (main.tex:280-291) | Generic theorems certify mathematical formulas. No figure data/plot byte audit performed from the nine TeX files. |
 | 31 | Statistical coverage, causal identification, exact optimal constants, improved cover dependence and degenerate conic bit complexity. (main.tex:301-309,343-354,360-367;conic.tex:90-92) | Not missing proved paper results; do not manufacture proofs/criticism or add statistical/computational promises. |
@@ -125,24 +154,24 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 
 ### Mathematical strengthening and direct-corollary packaging
 
-- General-M quantified joint bounds and actual worst-case support law are integrated in43 proofs; their exact-source mechanical verification must be bound to the new candidate.
+- General-M joint bounds and actual worst-case support laws belong to the historically verified base. Exact-commit evidence for the assembled draft must be bound by an external receipt.
 - Actual per-instance attained minima and the attained worst-case maximum are constructed. Observation invariance and raw-input representation justify the feasibility-certificate packaging. Polynomial LP/flow/bit-cost assertions remain open.
-- The uniform family’s **minimum** constrained-edge cover number exactly2 is not an explicit graph theorem. The threshold-strong-edge cover implication for weak constraints is also an unbundled direct corollary.
-- An explicit interval all-subset rotated-cone/rational representation wrapper, sharper numerical observation margins, remain separate formalization items. The symmetric epsilon-Nash/deviation bridge is supplied by FiniteSkewNash in the new48 source-only candidate. These are not missing central completion/rigidity proofs.
-- The source concrete245-action example (m243,h9,delta1/5000, error91/1417176, core change91/531441, exact11-support witness) is not instantiated or executed in the current Lean project. Generic explicit-bin/core formulas make this tractable. No claim that11 is minimal should be added.
+- The current closed cohort supplies the uniform minimum-cover value two and strict-threshold strong-loss cover corollaries. Efficient general cover finding and improved cover dependence remain separate.
+- An explicit interval all-subset rotated-cone/rational representation wrapper, sharper numerical observation margins, remain separate formalization items. The symmetric epsilon-Nash/deviation bridge is supplied by FiniteSkewNash in the historical base. These are not missing central completion/rigidity proofs.
+- The literal245-action example is present with narrow checked proofs and assertions. The separate figure/prototype byte audit remains unperformed, and support-eleven minimality is not asserted.
 
 ### Functional algorithms and exact source constants
 
-- A specialized executed **supplied feasible input** compression routine should preserve its original support, anchor/extra moments and the literal canonical k+1+H/general or k+H/exact count. The current rational finite-mask gap algorithm correctly preserves its declared linear constraints but uses an alternative actualH and counts extra rows; its returned output contract is not the original-input theorem’s full preservation contract.
-- The supplied arbitrary original vertex subset C still needs an executed finite relabel/encode/decode adapter to the block-labelled solver and returned game. Classical geometric coverEquiv proofs are not that runtime adapter.
-- Source exact cover-grid slice count uses spacing epsilon/(6Mk) for k>=1; the existing automatic program uses epsilon/(6M(k+1)). Its accuracy is proved but its larger count must not be silently identified with the source constant.
-- Rational positive-effective-score sorting, tie grouping and prefix scan are not executed/formally costed. The candidate-dependent finite threshold characterization and integrated quantitative prefix theorem are geometric correctness foundations.
-- Returning rational Farkas multiplier data would enable an external checker for rejection. Current exact None iffReal-infeasible and true-game exclusion theorems are genuine and do not assume an LP oracle; the paper specifies no particular Farkas payload API. Treat such an output as a useful extension, not a missing feasibility theorem.
+- The specialized supplied-input canonical compression and rational graph-flow reconstruction now preserve original zeros, anchor/extra moments and the literal canonical general/exact support counts. The older finite-mask gap algorithm remains a separate correct contract with an alternative H and extra rows. The draft adds deterministic materialized Gaussian kernel/deletion and literal actual q,B paper wrappers, while retaining the older FM entrypoints. Complete operational and bit-cost bounds remain open.
+- The draft supplies executable finite supplied-cover encode/decode and actual rational original-label game restoration, including zero mass. Full cover-specific solver/allocation-grid and cost composition remains open.
+- The dense source-floor program now uses literal epsilon/(6Mk) for positive k, proves its exact node count and global value guarantee in RationalSourceFloorParameters/Automatic. The separate sparse-output allocation wrapper uses epsilon/(6M(k+1)); its larger count must not be identified with the dense source constant.
+- Rational score sorting, tie-compatible prefix scanning, actual violating-subset output and finite guard composition are executed with proved correctness. The connected comparison/arithmetic ledgers cover their stated models; a full O(m log m) machine/bit-runtime theorem remains open.
+- Rational rejection multiplier payloads are outside this closed627 integration; the later Farkas13 cohort is excluded. The integrated exact None iff Real-infeasible and true-game exclusion contracts remain valid without an LP oracle. The paper specifies no particular multiplier payload API.
 
 ### Operation, bit and solver complexity
 
-- No polynomial rational LP solver, coefficient-height/encoding-growth analysis, polynomial bit bound or end-to-end fixed-anchor/fixed-k additive-FPTAS running-time theorem. Fourier–Motzkin and exhaustive2^m support enumeration can be exponential.
-- No actual efficient capacitated-flow reconstruction or proved flow operation/bit bound. The m²-variable rational payoff LP is a real construction, but it is not a max-flow implementation.
+- A full polynomial rational LP solver and end-to-end fixed-anchor/fixed-k additive-FPTAS runtime theorem remain open. The draft includes coefficient-height, classical small-point and actual Gaussian/graph-output bit bounds, with dimensions and grid count explicit. Those bounds do not control every unreduced arithmetic intermediate or the actual FM solver output. Fourier–Motzkin and exhaustive2^m support enumeration can be exponential.
+- The actual graph-fuel finder now computes feasible maximum skew net flow and a matching residual cut with a capacity-independent successful-augmentation bound. The demand network and rational game-completion decoder are integrated. The bound counts oriented support {(u,v) | 0<Cuv+Cvu}; it is not a full primitive operation/bit-runtime theorem.
 - No polynomial sparse LP-vertex selection algorithm. Geometric Caratheodory existence and exhaustive support search do not imply one.
 - No O(m logm) executed sorted-separation cost proof. Finite exact constraints and an explicit logarithmic threshold-round count do not supply the missing per-call costs.
 - The integrated connected unit-Rat compact checker closes that declared **arithmetic-model** claim once exact-source verification passes. It supplies no machine/bit-cost or arbitrary-R-checking theorem.
@@ -155,7 +184,7 @@ Statistical coverage, time-uniform confidence guarantees, sample complexity, cau
 
 Whole-paper completion and submission readiness remain **false**. Predecessor f3c300572e22fb88de71183aee09ccc66785c3da passed all12 native gates, with the historical retained Nat.find/WF/Classical source-completeness qualification. The later878941b source corrected that inventory and passed all12 native gates for its general-M and attained worst-case results. The later59 source corrected those list and finite-equivalence recipe findings and passed all12 native gates at836ab90 for both entrypoints, builds, axiom audits, protected comparison/negative controls, exports and kernels. Failed receipts remain failed; predecessor receipts certify only their own source.
 
-The authenticated manuscript retains its anonymous-draft authorship statement. The user separately supplied Arthur/David/Ruy paper attribution, which remains distinct from unconfirmed human Lean authors/maintainers. No coauthor approval, external peer review or publication authorization is inferred. No submission or external publication action was taken.
+The authenticated manuscript retains its anonymous-draft authorship statement. The user separately supplied Arthur/David/Ruy paper attribution, which remains distinct from unconfirmed human Lean authors/maintainers. No coauthor approval, external peer review or publication authorization is inferred. No registry or journal submission was made.
 
 
 ## General payoff bounds and actual worst-case support
@@ -294,7 +323,7 @@ covers the mathematics, proof repairs and receipt authentication. These narrow
 checks are not a clean exact-commit whole-package verification. All completed
 mechanical gates for the integrated candidate are bound by immutable evidence
 outside the frozen source; predecessor836ab90 passed all12 native gates for its
-own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and executed supplied-cover encode/decode transport remain open. Native macOS checks do not establish
+own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and complete supplied-cover solver/cost composition remain open. The new draft supplies the finite supplied-cover encode/decode adapter described below. Native macOS checks do not establish
 canonical Linux, rendering or editorial readiness. No submission is authorized.
 
 ## Computed violating cuts, separation and flow foundations
@@ -350,8 +379,9 @@ decision. Exact declaration usage follows actual compiled local dependency
 closures, with no assignment merely from module membership. Both import
 contexts retain executable controls and semantic bridges.
 
-The following remain open: residual path recovery and augmentation, a maximum
-flow finder and its correctness, polynomial flow and rational LP guarantees,
+At that historical stage, residual path recovery, augmentation and a maximum
+flow finder were still open; the cloud integration below supplies their functional
+correctness. Polynomial flow and rational LP guarantees,
 primitive arithmetic/bit costs and full runtime, efficient canonical sparse
 selection and executed supplied-cover encode/decode transport. Existing comparison counts,
 supplied-score unit arithmetic ledgers and denominator bounds do not prove
@@ -360,23 +390,19 @@ also remain separate. Formalization authors and maintainers are unconfirmed;
 internal AI reviews are distinguished from human or external review.
 No registry or journal submission is authorized or performed.
 
-## Cached paths, net-flow cuts, numerator bounds and Nash interpretation — source-only candidate
+## Historical cached-path checkpoint438b4ac
 
-The current proposed source has287 mathematical modules,1155 source theorem
-audits and1045 selected protected contracts. The six modules add48 proved
-statements, including the finite-vector getter coherence helper. All48 have
-strict pinned-toolchain development axiom reports,18 executable controls passed,
-and the prospective protected comparison, altered-helper rejection and export
-kernel checks passed. The14 newly inserted semantic bridge statements and both canonical
-entrypoints passed strict pinned-toolchain compilation in the retained canonical
-preflight. The Pi.single bridge uses the explicit constant real-valued function
-type. Subsequent edits reconcile status comments and documentation; a fresh
-full exact-commit native report must bind this candidate before mechanical verification is claimed. The generated-definition validator source passed independent code review and
-14 portable Python regression methods; that establishes no Lean compilation.
-Its exact two reviewed root files are installed separately. Exact assembled
-source/dependency checks, final independent source review and full exact-commit
-native verification remain required. Earlier stage counts and open-item paragraphs are
-historical; the following account states this candidate's scope.
+Checkpoint438b4ac had287 mathematical modules,1155 source theorem audits
+and1045 selected protected contracts. Its exact-source12-gate native report
+passed, including the pinned protected comparison, altered-helper negative
+control and explicit kernel checks. The migrated report's source hashes were
+authenticated against that unchanged commit. Its six new modules supplied48
+proofs and18 executable controls, with14 imported-definition semantic bridges
+checked through both canonical contexts. These historical results apply to
+checkpoint438b4ac; the cloud integration described below requires its own
+complete frozen-source receipt. The generated-definition validator and its14
+portable Python regression methods establish retained-evidence consistency,
+with mathematical source fidelity reviewed separately.
 
 `RationalPositiveNetFlow` reconstructs nonnegative arc flows from skew net flow.
 `RationalReachCut` and `RationalNetCut` prove saturation of the actual residual
@@ -425,8 +451,142 @@ expansion of every upstream theorem body. Frozen predecessor receipts remain
 unchanged and mechanically valid, with the discovered retention qualification
 preserved in this new candidate.
 
-Whole-paper completion and submission readiness remain false. Open work includes
-a genuine complete capacitated-flow finder/augmentation algorithm, its operation
-and bit bounds, polynomial rational LP guarantees, complete arithmetic/encoding
+Whole-paper completion and submission readiness remain false. The cloud
+integration below supplies a complete finite capacitated-flow finder and
+augmentation correctness. Open work includes their operation and bit bounds,
+polynomial rational LP guarantees, complete arithmetic/encoding
 costs beyond the proved components, efficient sparse selection and the remaining
-source-specific algorithm compositions. No publication or submission is made.
+source-specific algorithm compositions. No registry or journal submission is made.
+
+
+## Historical155 integration of augmentation, finite flow and feature compression
+
+The historical f3daca0 development integrated149 preserved follow-on proofs and
+six proofs for an equivalent directly recursive flow loop. That source had304
+mathematical modules,1310 theorem audit targets and1200 protected contracts.
+These counts describe the code under review; complete mechanical verification
+is established by an immutable exact-source receipt outside the frozen package.
+The earlier checkpoint sections retain their historical source state and do
+not determine the current source's mechanical verification status.
+
+`rationalAugmentOnce` uses the actual cached shortest path, checks its finite
+safety conditions, computes an attained positive bottleneck and materializes
+the updated table. For distinct source/sink labels, the checks are earned from
+the path and None is equivalent to actual residual unreachability.
+`rationalTableFindFlow` has finite input-derived denominator-lattice fuel.
+Its returned table is feasible, has no residual source-to-sink path and
+maximizes source value among feasible skew net flows; its actual reachable
+cut supplies primal/dual equality. Source-equals-target is intentionally
+excluded from the maximum/cut statements.
+
+The fuel magnitude can be exponential in the input's binary encoding. The
+preserved Nat.rec implementation constructs a state transformer for that fuel.
+`rationalTableFindFlowDirect` returns exactly the same table using recursion
+only after an actual successful augmentation; its equality, stopping, maximum
+and computed-cut statements are proved. This change removes an avoidable
+continuation-construction cost. A capacity-independent augmentation bound and
+a complete program/bit-cost theorem remain separate obligations.
+
+`rationalFeatureCompress` computes repeated rational kernel/deletion steps,
+preserves nonnegativity, mass, every declared feature moment and original zero
+coordinates, and bounds support by the feature dimension when mass is already
+a feature. Explicitly adjoining mass gives one additional dimension. Its
+kernel search currently uses Fourier--Motzkin elimination. The generic
+compressor therefore establishes functional correctness; paper-specific
+canonical-grid composition and polynomial kernel/bit bounds remain separate.
+
+The retained narrow Linux checks cover the preserved149 proofs,149 axiom
+reports and44 guards. The direct-loop development has six further allowed-axiom
+reports and two large-fuel immediate-stop guards, plus independent internal AI
+source review. These are distinct from protected identity comparison, altered
+helper rejection, exports and independent kernel checking of an integrated
+commit. Independent internal AI review does not assert human or external
+peer review. The pins and permitted standard axioms are unchanged.
+
+Whole-paper completion remains false. Demand-network/game composition,
+capacity-independent flow runtime, efficient paper-specific compression,
+polynomial exact rational LP and complete arithmetic/encoding/bit costs are
+tracked separately. No registry or journal submission is authorized.
+
+
+## Historical b5: graph-bounded flow and canonical FM compression
+
+The historical b5 source extended the155 integration with100 mathematical
+proofs across12 modules:316 mathematical modules,1410 theorem audit targets
+and1300 selected protected contracts in total. The earlier integrated commit
+`f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` passed all12 native gates;
+its immutable external receipt has SHA256
+`550205def6d34828d33a514e9d4a8a379f3542f6894234f16a563986241ea0f6`.
+That result applies to f3daca0. The later b5 commit
+`b5a0fbfd6968db1bda7aae252660bac2236a2b68` also passed all12 native gates,
+with external receipt SHA256
+`bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.
+Neither historical receipt verifies the new assembled draft.
+
+Actual shortest residual paths earn monotone levels and a two-level increase
+between recurring critical arcs. Successful augmentation traces have length
+at most `E*(n+2)`, where E is the cardinality of the oriented support
+`{(u,v) | 0 < C u v + C v u}`, including possible reverse residual orientations.
+`rationalTableFindFlowPolynomial` uses graph-derived direct-loop fuel, earns
+stopping and a maximum-flow/computed-cut certificate for distinct terminals.
+This bound is independent of capacity magnitude. It bounds augmentations and
+fuel; primitive arithmetic and full bit-runtime guarantees remain open.
+
+The finite demand network is built from the original rational weights,
+scores, payoff bound and response threshold. Its computed maximum and cut earn
+source saturation when the original residual completion is feasible. The
+returned materialized table decodes to rational skew bounded payoffs, including
+zero-weight original labels. Graph-sized fuel replaces numeric capacity fuel
+in `rationalDemandGraphCompletionTable`.
+
+The actual canonical rational grid agrees with the paper's ceil-square-root
+count. Paper feature rows preserve mass, anchor and extra moments, original
+zero labels, and all required hinge values. The general residual support bound
+is `k+d+1+H`; the exact-equilibrium endpoint identity earns `k+d+H` when the
+stated positive-parameter hypotheses hold, with zero residual mass handled
+separately. Graph-flow wrappers produce an actual rational residual payoff
+completion and prove full normalized compatible-game response bounds on the
+original labels, with one additive eta.
+
+The kernel search at b5 uses Fourier--Motzkin elimination. Some returned
+weight functions may recompute their search when read; no operational sharing
+or polynomial kernel runtime follows. The current draft additionally assembles
+the materialized Gaussian, input-height and source-event cohorts described below.
+The100 additions have strict narrow audits and66 asserted controls, independent
+internal AI source reviews, and an expanded reviewed imported-definition
+inventory with22 bridges checked in both historical entrypoint contexts.
+Those bounded checks are distinct from b5's completed integrated gates and
+from the exact-source evidence required for the combined draft.
+Whole-paper completion remains false: polynomial rational LP, arithmetic,
+intermediate heights, bit costs and the remaining source-specific algorithm
+composition still require proofs. No registry or journal submission is authorized.
+
+
+## Current closed627 source assembly and verification boundary
+
+The 57 new mathematical modules add 442 theorem proofs and 185 other named APIs.
+They assemble materialized deterministic Gaussian compression and actual
+original-label graph-game reconstruction, earned input/minor/direction/weight/
+returned-table encoding bounds, connected designated source-event ledgers,
+classical bounded-LP small rational witness existence, rational affine prefix
+cone encoding, supplied-cover original-label correctness and the graph/example
+corollaries identified above. These statements retain their actual feasibility,
+coordinate boundedness, positivity, sorted-score, normalization and repertoire
+premises. In particular, LP35 proves classical point existence, and Cone17
+encodes fixed-tolerance prefix rows; neither is a polynomial solver.
+
+The draft's 373 mathematical modules have 1852 theorem and 185 non-theorem audit
+targets, 2037 named reports in total, 1742 selected protected contracts and 432
+default targets. Its constituent bounded source checks and internal AI reviews
+are retained separately. An external exact-commit report must bind the assembled source,
+metadata, controls, protected identities, exports and kernel checks.
+Historical b5's 12-gate verification certifies only b5. Finite evaluator guards
+and printed observations also have separate scopes; they do not prove runtime.
+
+The later Farkas13, Vertex20, Gap17 and storedcost59 developments are excluded
+from this source assembly. The source-event bounds cover their specified
+aggregate models. Primitive rational/integer/gcd/allocation bit costs and a
+complete operational cost bridge remain open, and the canonical-grid dependence
+has not been eliminated to obtain a full original-binary-input runtime theorem.
+Whole-paper completion, full polynomial LP solving and submission readiness
+remain false.

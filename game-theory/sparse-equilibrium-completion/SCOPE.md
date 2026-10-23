@@ -1,17 +1,46 @@
 # Theorem-to-Lean scope map
 
-The source is the verified sparse-equilibrium-completion paper revision
+The source manuscript is the pinned sparse-equilibrium-completion paper revision
 `1a424f297925294ae5818ff1ee7512304af1d460`, not the earlier variance-design work.
 All labels below refer to `paper/sections/` at that revision. Source blobs are
 bound in `verification/paper-source-manifest.json`. Proof status is confined to
 the actual declarations; unfinished targets have no placeholder Lean theorem.
+
+The current integration draft assembles the closed cohort of 57 new mathematical
+modules, 442 theorem proofs and 627 named APIs over historical b5. Its draft
+configuration has 373 mathematical modules, 1852 theorem audit targets and 185
+non-theorem audit targets (2037 named reports), 1742 selected protected contracts,
+and 432 default targets. These are source/configuration counts. Integrated verification requires an
+external receipt bound to the exact commit and tree, covering source consistency,
+build, protected comparison, exports and kernels. The constituent cohorts have separate bounded
+checks and internal AI reviews; those receipts do not verify the assembled tree.
+
+The protected context preserves the same 373 source-module boundaries in
+`ProtectedSources/`. Each copy changes only project import tokens to protected
+aliases; declaration bodies, public names and canonical mathematical sources
+remain fixed. `SECChallenge` imports these copies, while `SECSolution` imports
+the canonical modules. The 432 default targets reach 805 local modules; the
+independent protected phase compiles 373 copies and one aggregator in a fresh
+isolated directory. These verification copies add no mathematical results.
+The earlier monolithic integration at `89f353b412f612555265cf902844107522d595b3`
+passed its first ten native gates but failed exact protected-value comparison
+because compiler-generated helper references differed; its final export-kernel
+gate did not run. That failed source and evidence are retained. This changed
+protected layout requires its own fresh exact-commit comparison and kernel
+checks with the unchanged pinned comparator and no definition holes.
+
+Historical commit `b5a0fbfd6968db1bda7aae252660bac2236a2b68` passed all 12
+native verification gates, with external receipt SHA256
+`bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.
+That result applies to b5's exact bytes. Whole-paper completion and submission
+readiness remain false.
 
 | Paper result | Lean correspondence | Scope and remaining work |
 |---|---|---|
 | `sp:lem:flow`, completion.tex | `skew_weighted_sum`, `response_guard`, `completion_cuts_necessary`, `cuts_dual_bound`, `cuts_weighted_completion`, `completion_of_cuts_and_guards`, `weighted_completion_iff` | Exact necessity and sufficiency for arbitrary finite index types, nonnegative weights and arbitrary total mass, including zero weights and M=0. Finite layer-cake duality and compact-convex separation replace the source flow argument; compactCompletion handles every zero-weight row. This proves existence, not an executable flow algorithm. |
 | `sp:lem:call`, completion.tex | `quadratic_duality`, `cuts_imply_call_bound`, `call_bound_implies_cuts`, `cuts_iff_call_bound`, `supported_score_cap` | Exact cut/call equivalence for `M>0`, nonnegative weights of mass `r`; forward bound even holds for every real argument. Direct positive-score subset and square completion replace the source's sorted partial-mass proof. Singleton cuts also prove the supported-score cap. |
 | `sp:lem:grid`, sparsification.tex | `quadratic_grid_identity`, `truncated_grid_error`, `call_convex`, `call_secant`, `grid_interval_cover`, `finite_grid_implication` | Full shifted-call implication for any natural `H` with `Mr ≤ η H²`, `M>0`, `r≥0`, `η>0`. Support cap applies only at nonzero coordinates. This generalizes the source grid parameter; `gridSize_bound` and `canonical_grid_implication` prove the explicit `H=ceil(sqrt(Mr/η))` bridge. No mass assumption is needed for this interpolation implication. |
-| `sp:thm:sparse`, main_theorem.tex | `finite_moment_recombination`, `finite_feature_compression`, `sparse_cut_witness`, `exact_sparse_cut_witness`, `canonical_sparse_cut_witness`, `game_sparse_cut_certificate`, `exact_game_sparse_cut_certificate`, `game_sparse_completion`, `exact_game_sparse_completion` | Proved: nonnegative mass on original labels, original-support containment, exact anchor moments/responses, support `k+1+H` generally and `k+H` at exact equilibrium, all relaxed cuts and global guards, from actual original block-game data. Caratheodory preserves all selected hinge values exactly, replacing the source's inequality/vertex argument at the same support count. The exact case preserves only `H-1` hinge values; the full skew-game bridge supplies the missing endpoint equality. The completed-game theorems reconstruct an entry-bounded skew residual block and prove all original block-game response inequalities. `normalized_sparse_witness` and `normalized_exact_sparse_witness` specialize to fully bounded normalized skew games, preserve literal anchor shares and moments, and bound total support by `2k+1+H`/`2k+H`. The paper-facing `normalized_sparse_witness_all_mass` and `normalized_exact_sparse_witness_all_mass` handle every r≥0, including the zero-mass and empty-residual cases, and state the finite minima explicitly: residual min(m,k+1+H)/min(m,k+H), total min(k+m,2k+1+H)/min(k+m,2k+H). `sparse_cut_witness_extra_moments`, `exact_sparse_cut_witness_extra_moments`, their game-certificate/completion and normalized wrappers preserve d arbitrary extra linear quantities without adding game anchors. `normalized_sparse_witness_extra_moments_all_mass` and `normalized_exact_sparse_witness_extra_moments_all_mass` combine all r≥0 with residual min(m,k+d+1+H)/min(m,k+d+H) and total min(k+m,2k+d+1+H)/min(k+m,2k+d+H). Algorithmic clauses remain open. No residual floors are imposed. |
+| `sp:thm:sparse`, main_theorem.tex | `finite_moment_recombination`, `finite_feature_compression`, `sparse_cut_witness`, `exact_sparse_cut_witness`, `canonical_sparse_cut_witness`, `game_sparse_cut_certificate`, `exact_game_sparse_cut_certificate`, `game_sparse_completion`, `exact_game_sparse_completion` | Proved: nonnegative mass on original labels, original-support containment, exact anchor moments/responses, support `k+1+H` generally and `k+H` at exact equilibrium, all relaxed cuts and global guards, from actual original block-game data. Caratheodory preserves all selected hinge values exactly, replacing the source's inequality/vertex argument at the same support count. The exact case preserves only `H-1` hinge values; the full skew-game bridge supplies the missing endpoint equality. The completed-game theorems reconstruct an entry-bounded skew residual block and prove all original block-game response inequalities. `normalized_sparse_witness` and `normalized_exact_sparse_witness` specialize to fully bounded normalized skew games, preserve literal anchor shares and moments, and bound total support by `2k+1+H`/`2k+H`. The paper-facing `normalized_sparse_witness_all_mass` and `normalized_exact_sparse_witness_all_mass` handle every r≥0, including the zero-mass and empty-residual cases, and state the finite minima explicitly: residual min(m,k+1+H)/min(m,k+H), total min(k+m,2k+1+H)/min(k+m,2k+H). `sparse_cut_witness_extra_moments`, `exact_sparse_cut_witness_extra_moments`, their game-certificate/completion and normalized wrappers preserve d arbitrary extra linear quantities without adding game anchors. `normalized_sparse_witness_extra_moments_all_mass` and `normalized_exact_sparse_witness_extra_moments_all_mass` combine all r≥0 with residual min(m,k+d+1+H)/min(m,k+d+H) and total min(k+m,2k+d+1+H)/min(k+m,2k+d+H). The materialized Gaussian/graph-flow functional and returned-value encoding contracts are assembled below; complete operational and bit-cost clauses remain open. No residual floors are imposed. |
 | `lb:thm:dense`, rigidity.tex | `prefix_exposing_identity`, `strict_prefix_rigidity`, `tight_prefix_completion_unique`, `two_anchor_fixed_share_uniqueness`, `bounded_two_anchor_fixed_share_rigidity`, `uniform_target_score`, `uniform_exposing_weight`, `uniform_two_anchor_dense`, `positive_target_full_support` | Proved: bounded normalized two-anchor construction, target feasibility, all residual strategy coordinates and all missing residual edges uniquely forced under fixed shares. Uniform t/w formulas match the paper with zero-based residual labels. The arbitrary positive-target fixed-share theorem strengthens the uniform case. Compatibility premise is explicit and essential. |
 | `lb:thm:universalrigidity`, rigidity.tex | `exposing_moment_positive`, `cuts_exposing_moment_le`, `bounded_two_anchor_minimum_share_rigidity`, together with `bounded_two_anchor_fixed_share_rigidity` for canonical feasibility/bounds | Proved: every strictly positive target of mass `1/4`, `m≥2`; minimum shares `3/8` are forced tight. Candidate residual mass is initially variable; transfer of actual cuts to target mass precedes the exposing-moment comparison. Both residual distribution and completion are unique. The canonical witness is normalized, bounded and feasible. |
 | `lb:thm:support`, rigidity.tex | `two_anchor_fixed_share_stability`, `two_anchor_minimum_share_stability`, `finite_subset_quantization_bound`, `sparse_cumulative_quantization`, `uniform_fixed_share_support_lower`, `uniform_minimum_share_support_lower`, `uniform_fixed_share_inverse_square`, `uniform_minimum_share_inverse_square` | Proved: exact finite subset variance bound, genuine H+1 cumulative-mass partition, cubic power-mean inequality and quantitative support lower bounds. Fixed shares use all m+1 prefix endpoints and require `m≥2H+1` for the simplified bound `3/(1216(H+1)²)≤ε`. Minimum shares use m endpoints before residual mass is forced and require `m≥2(H+1)` for the same simplified bound. Both apply to actual bounded completions and all original response inequalities. |
@@ -26,7 +55,7 @@ the actual declarations; unfinished targets have no placeholder Lean theorem.
 | `sp:prop:interval`, `sp:cor:gridp`, algorithms.tex | `perspective_call_epigraph_iff`, `exact_interval_completion_gap_point`, `interval_gap_recovered_exact_point`, `normalized_interval_gap_completed_witness`, `rounded_anchor_bounds`, `allocation_rounding_mass`, `allocation_rounding_distance`, `rounded_allocation_finite_grid`, `allocation_grid_card`, `allocation_rounding_in_grid`, `optimistic_allocation_grid_bounds` | Proved finite-grid perspective call/epigraph equivalence, necessary compatible-game lift and sufficient actual normalized bounded compatible completion at ρ+η, including zero-mass rows and unchanged q/K. Repertoire membership and core constraints are preserved by that literal identity. For nonnegative floors, nonempty feasible strategies, δ>0 and a specified residual action, round-down transfers removed mass to that action, preserves all floors/mass, has L1 distance≤2kδ, and lies in a finite grid with (1+floor(1/δ))^k index vectors. Compactness/attainment for actual floor classes and grid subclasses prove V≤Vgrid≤V+2Mkδ over actual compatible interval games. The rational implementation below handles the zero-residual case and returns an epsilon value approximation for the literal floor-only repertoire. Later sections prove actual sparse output for the zero-residual-floor class; polynomial execution/bit cost remains open, and no complete FPTAS implementation theorem is claimed. The literal interval LP and actual rational compatible-game output are proved below. |
 | `ext:thm:cover`, graph_noise.tex | `free_residual_iff_anchor_cover`, `arbitrary_vertex_cover_sparse`, `arbitrary_vertex_cover_exact` (see ArbitraryCover.lean) | Proved on arbitrary original finite vertex sets: a constraint edge is an off-diagonal interval differing from the full interval, including an observed zero. A vertex cover frees the entire residual block. Nonnegative normalized actual witnesses are compressed with cover probabilities, all cover-incident entries and responses unchanged, original residual-support containment, all interval constraints and d specified linear moments preserved. General/exact residual and total finite-cardinality caps hold, including r=0, empty/full covers. The theorem uses H=gridSize M r η=ceil(sqrt(Mr/η)) directly, including the zero-mass branch. Decidable cover membership is genuine; the coordinate equivalence uses classical enumeration and asserts no efficient cover-finding algorithm. |
 | `ext:prop:weakcover`, graph_noise.tex | `arbitrary_vertex_subset_weak_sparse`, `arbitrary_vertex_subset_weak_exact`, `residual_loss_bound_ordered` | Proved on arbitrary original subsets: project the residual block into nonempty bounded intervals with reverse consistency. All original constraints, cover data, residual-support containment and d extra moments are preserved, with final tolerance ρ+η+β_C r (η+β_C r for exact input). β_C is the least nonnegative bound on residual-pair losses, lies in [0,2M], and equals the source i<j maximum under a linear order and reverse interval symmetry. Empty/singleton residual types give zero. |
-| `ext:cor:algorithm`, graph_noise.tex | Cover/weak-cover witness reductions and allocation-rounding mathematics in preceding rows | Supplied-cover mathematical reductions are proved; general allocation-floor grid/value bounds are proved for an explicitly nonempty residual action. Still open: end-to-end executable supplied-cover enumeration/selection and zero-residual branch, interval/cover-specific solver and grid integration, arithmetic and polynomial bit-complexity guarantees. Fixed-anchor finite rational linear repertoires now have an actual solver and bisection composition below. |
+| `ext:cor:algorithm`, graph_noise.tex | Cover/weak-cover witness reductions and allocation-rounding mathematics in preceding rows | Supplied-cover mathematical reductions and a finite original-label encode/decode adapter with actual rational Gaussian/game output are included, with a zero-residual branch. General allocation-floor grid/value bounds are proved for an explicitly nonempty residual action. Interval/cover-specific solver/grid composition, efficient cover selection and complete operational/bit-cost guarantees remain open. Fixed-anchor finite rational linear repertoires have the separate exact FM solver and bisection composition below. |
 | `cv:lem:prefix`, `cv:thm:soc`, conic.tex | `threshold_is_score_prefix`, `cuts_iff_score_prefixes`, `prefix_cut_quadratic`, `quadratic_rotated_cone`, `weighted_completion_prefix_quadratic_iff`, `weighted_completion_rotated_cones_iff`, `known_anchor_prefix_characterization`, `normalized_known_anchor_conic_iff`, `known_anchor_conic_system_iff`, `prefix_system_convex`, `known_anchor_conic_system_convex`, `linear_repertoire_convex` | Proved: every strict threshold set is a genuine nonincreasing-score prefix, including ties, zero masses and empty types; all cuts iff the prefixes. The empty prefix is included as a tautology. Exact bounded skew residual completion and every original row are equivalent to the linear guards/anchor constraints and explicit rotated-cone constraints (2uv≥w², v=1/2). The full displayed q-system is convex at fixed tolerance for M≥0 and arbitrary convex repertoire; completion equivalence uses M>0 and fixed sorted scores. Literal linear-inequality repertoires are proved convex rather than assumed. `normalized_known_anchor_conic_iff` additionally proves the literal nonnegative mass-one, bounded skew full-game equivalence under explicit fixed K/D/p premodel premises. Quantified prefixes are l≤m (m+1 including empty), so this is a finite linear-size mathematical representation; no solver implementation, operation count, bit-complexity or exact-decision theorem is claimed. |
 | `cv:thm:interval`, conic.tex | `interval_perspective_completion_iff`, `normalized_interval_perspective_iff`, `interval_perspective_system_convex`, `repertoire_interval_completion_iff`, `interval_system_repertoire_convex`, `residual_linear_repertoire_convex`, `perspective_cuts_iff_candidate_thresholds`, `interval_system_iff_threshold_system` | Proved exact normalized full-game characterization with jointly variable q,V,K and arbitrary declared residual repertoire R. The displayed perspective/core/anchor/cut system is jointly convex for M≥0; exact completion equivalence uses M>0, nonnegative fixed p and explicit normalization/interval premises. Convex repertoires preserve convexity; literal linear repertoires are proved convex. Zero-mass rows force V and H to zero, recovering D at the lower endpoint while retaining the explicit guard. All subset quadratics are equivalent to candidate-dependent upper-score threshold tests indexed only by positive-mass rows, with ties grouped. No globally fixed interval-score ordering is asserted. Mathematical finite separation, actual original-label quadratic violation output and affine separation, and exact finite-linear candidate-guard composition are proved. Full interval repertoire separation beyond the finite-linear class, O(m log m) arithmetic/bit costs, rational conic solving and polynomial guarantees remain open. |
 
@@ -386,7 +415,7 @@ covers the mathematics, proof repairs and receipt authentication. These narrow
 checks are not a clean exact-commit whole-package verification. All completed
 mechanical gates for the integrated candidate are bound by immutable evidence
 outside the frozen source; predecessor836ab90 passed all12 native gates for its
-own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and executed supplied-cover encode/decode transport remain open. Native macOS checks do not establish
+own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and complete supplied-cover solver/cost composition remain open. The new draft supplies the finite supplied-cover encode/decode adapter described below. Native macOS checks do not establish
 canonical Linux, rendering or editorial readiness. No submission is authorized.
 
 ## Computed violating cuts, separation and flow foundations
@@ -442,8 +471,9 @@ decision. Exact declaration usage follows actual compiled local dependency
 closures, with no assignment merely from module membership. Both import
 contexts retain executable controls and semantic bridges.
 
-The following remain open: residual path recovery and augmentation, a maximum
-flow finder and its correctness, polynomial flow and rational LP guarantees,
+At that historical stage, residual path recovery, augmentation and a maximum
+flow finder were still open; the cloud integration below supplies their functional
+correctness. Polynomial flow and rational LP guarantees,
 primitive arithmetic/bit costs and full runtime, efficient canonical sparse
 selection and executed supplied-cover encode/decode transport. Existing comparison counts,
 supplied-score unit arithmetic ledgers and denominator bounds do not prove
@@ -452,23 +482,19 @@ also remain separate. Formalization authors and maintainers are unconfirmed;
 internal AI reviews are distinguished from human or external review.
 No registry or journal submission is authorized or performed.
 
-## Cached paths, net-flow cuts, numerator bounds and Nash interpretation — source-only candidate
+## Historical cached-path checkpoint438b4ac
 
-The current proposed source has287 mathematical modules,1155 source theorem
-audits and1045 selected protected contracts. The six modules add48 proved
-statements, including the finite-vector getter coherence helper. All48 have
-strict pinned-toolchain development axiom reports,18 executable controls passed,
-and the prospective protected comparison, altered-helper rejection and export
-kernel checks passed. The14 newly inserted semantic bridge statements and both canonical
-entrypoints passed strict pinned-toolchain compilation in the retained canonical
-preflight. The Pi.single bridge uses the explicit constant real-valued function
-type. Subsequent edits reconcile status comments and documentation; a fresh
-full exact-commit native report must bind this candidate before mechanical verification is claimed. The generated-definition validator source passed independent code review and
-14 portable Python regression methods; that establishes no Lean compilation.
-Its exact two reviewed root files are installed separately. Exact assembled
-source/dependency checks, final independent source review and full exact-commit
-native verification remain required. Earlier stage counts and open-item paragraphs are
-historical; the following account states this candidate's scope.
+Checkpoint438b4ac had287 mathematical modules,1155 source theorem audits
+and1045 selected protected contracts. Its exact-source12-gate native report
+passed, including the pinned protected comparison, altered-helper negative
+control and explicit kernel checks. The migrated report's source hashes were
+authenticated against that unchanged commit. Its six new modules supplied48
+proofs and18 executable controls, with14 imported-definition semantic bridges
+checked through both canonical contexts. These historical results apply to
+checkpoint438b4ac; the cloud integration described below requires its own
+complete frozen-source receipt. The generated-definition validator and its14
+portable Python regression methods establish retained-evidence consistency,
+with mathematical source fidelity reviewed separately.
 
 `RationalPositiveNetFlow` reconstructs nonnegative arc flows from skew net flow.
 `RationalReachCut` and `RationalNetCut` prove saturation of the actual residual
@@ -517,8 +543,137 @@ expansion of every upstream theorem body. Frozen predecessor receipts remain
 unchanged and mechanically valid, with the discovered retention qualification
 preserved in this new candidate.
 
-Whole-paper completion and submission readiness remain false. Open work includes
-a genuine complete capacitated-flow finder/augmentation algorithm, its operation
-and bit bounds, polynomial rational LP guarantees, complete arithmetic/encoding
+Whole-paper completion and submission readiness remain false. The cloud
+integration below supplies a complete finite capacitated-flow finder and
+augmentation correctness. Open work includes their operation and bit bounds,
+polynomial rational LP guarantees, complete arithmetic/encoding
 costs beyond the proved components, efficient sparse selection and the remaining
-source-specific algorithm compositions. No publication or submission is made.
+source-specific algorithm compositions. No registry or journal submission is made.
+
+
+## Historical155 integration of augmentation, finite flow and feature compression
+
+The historical f3daca0 development integrated149 preserved follow-on proofs and
+six proofs for an equivalent directly recursive flow loop. That source had304
+mathematical modules,1310 theorem audit targets and1200 protected contracts.
+These counts describe the code under review; complete mechanical verification
+is established by an immutable exact-source receipt outside the frozen package.
+The earlier checkpoint sections retain their historical source state and do
+not determine the current source's mechanical verification status.
+
+`rationalAugmentOnce` uses the actual cached shortest path, checks its finite
+safety conditions, computes an attained positive bottleneck and materializes
+the updated table. For distinct source/sink labels, the checks are earned from
+the path and None is equivalent to actual residual unreachability.
+`rationalTableFindFlow` has finite input-derived denominator-lattice fuel.
+Its returned table is feasible, has no residual source-to-sink path and
+maximizes source value among feasible skew net flows; its actual reachable
+cut supplies primal/dual equality. Source-equals-target is intentionally
+excluded from the maximum/cut statements.
+
+The fuel magnitude can be exponential in the input's binary encoding. The
+preserved Nat.rec implementation constructs a state transformer for that fuel.
+`rationalTableFindFlowDirect` returns exactly the same table using recursion
+only after an actual successful augmentation; its equality, stopping, maximum
+and computed-cut statements are proved. This change removes an avoidable
+continuation-construction cost. A capacity-independent augmentation bound and
+a complete program/bit-cost theorem remain separate obligations.
+
+`rationalFeatureCompress` computes repeated rational kernel/deletion steps,
+preserves nonnegativity, mass, every declared feature moment and original zero
+coordinates, and bounds support by the feature dimension when mass is already
+a feature. Explicitly adjoining mass gives one additional dimension. Its
+kernel search currently uses Fourier--Motzkin elimination. The generic
+compressor therefore establishes functional correctness; paper-specific
+canonical-grid composition and polynomial kernel/bit bounds remain separate.
+
+The retained narrow Linux checks cover the preserved149 proofs,149 axiom
+reports and44 guards. The direct-loop development has six further allowed-axiom
+reports and two large-fuel immediate-stop guards, plus independent internal AI
+source review. These are distinct from protected identity comparison, altered
+helper rejection, exports and independent kernel checking of an integrated
+commit. Independent internal AI review does not assert human or external
+peer review. The pins and permitted standard axioms are unchanged.
+
+Whole-paper completion remains false. Demand-network/game composition,
+capacity-independent flow runtime, efficient paper-specific compression,
+polynomial exact rational LP and complete arithmetic/encoding/bit costs are
+tracked separately. No registry or journal submission is authorized.
+
+
+## Historical b5: graph-bounded flow and canonical FM compression
+
+The historical b5 source extended the155 integration with100 mathematical
+proofs across12 modules:316 mathematical modules,1410 theorem audit targets
+and1300 selected protected contracts in total. The earlier integrated commit
+`f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` passed all12 native gates;
+its immutable external receipt has SHA256
+`550205def6d34828d33a514e9d4a8a379f3542f6894234f16a563986241ea0f6`.
+That result applies to f3daca0. The later b5 commit
+`b5a0fbfd6968db1bda7aae252660bac2236a2b68` also passed all12 native gates,
+with external receipt SHA256
+`bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.
+Neither historical receipt verifies the new assembled draft.
+
+Actual shortest residual paths earn monotone levels and a two-level increase
+between recurring critical arcs. Successful augmentation traces have length
+at most `E*(n+2)`, where E is the cardinality of the oriented support
+`{(u,v) | 0 < C u v + C v u}`, including possible reverse residual orientations.
+`rationalTableFindFlowPolynomial` uses graph-derived direct-loop fuel, earns
+stopping and a maximum-flow/computed-cut certificate for distinct terminals.
+This bound is independent of capacity magnitude. It bounds augmentations and
+fuel; primitive arithmetic and full bit-runtime guarantees remain open.
+
+The finite demand network is built from the original rational weights,
+scores, payoff bound and response threshold. Its computed maximum and cut earn
+source saturation when the original residual completion is feasible. The
+returned materialized table decodes to rational skew bounded payoffs, including
+zero-weight original labels. Graph-sized fuel replaces numeric capacity fuel
+in `rationalDemandGraphCompletionTable`.
+
+The actual canonical rational grid agrees with the paper's ceil-square-root
+count. Paper feature rows preserve mass, anchor and extra moments, original
+zero labels, and all required hinge values. The general residual support bound
+is `k+d+1+H`; the exact-equilibrium endpoint identity earns `k+d+H` when the
+stated positive-parameter hypotheses hold, with zero residual mass handled
+separately. Graph-flow wrappers produce an actual rational residual payoff
+completion and prove full normalized compatible-game response bounds on the
+original labels, with one additive eta.
+
+The kernel search at b5 uses Fourier--Motzkin elimination. Some returned
+weight functions may recompute their search when read; no operational sharing
+or polynomial kernel runtime follows. The current draft additionally assembles
+the materialized Gaussian, input-height and source-event cohorts described below.
+The100 additions have strict narrow audits and66 asserted controls, independent
+internal AI source reviews, and an expanded reviewed imported-definition
+inventory with22 bridges checked in both historical entrypoint contexts.
+Those bounded checks are distinct from b5's completed integrated gates and
+from the exact-source evidence required for the combined draft.
+Whole-paper completion remains false: polynomial rational LP, arithmetic,
+intermediate heights, bit costs and the remaining source-specific algorithm
+composition still require proofs. No registry or journal submission is authorized.
+
+
+## Current closed627 integration: actual contracts and remaining cost work
+
+The following sources are assembled in the current draft. Their bounded
+source checks and reviews precede this integration and do not certify the combined
+package; its verification status belongs to the exact-commit external receipt.
+
+| Source/API group | Earned contract | Remaining boundary |
+|---|---|---|
+| `RationalGaussianKernel`; `kernel_sound`, `kernel_complete`, `kernel_none_iff` | Actual finite rational kernel search is sound/complete; successful vectors have a unit coordinate. Residual tables and output vectors are materialized. | Proof axiom closures and runtime implementation have distinct scopes; no compiler-operational or primitive bit-cost theorem. |
+| `RationalGaussianCompress`, `RationalGaussianPaperFlow`; `rational_gaussian_paper_general_algorithm`, `rational_gaussian_paper_exact_algorithm`, zero algorithm | Actual original-label weights and graph-decoded payoff table; mass, zeros, moments, canonical support and normalized game/response correctness under the literal hypotheses. | General/exact positivity premises remain explicit; arbitrary repertoire constraints and positive residual floors are not silently preserved. |
+| `GaussianActualMinors`, `GaussianTerminalTrace`, `GaussianCramerOutput`, input/transient modules | Actual pivot traces earn global bordered minors; original input heights give output direction and selected transient value bounds. | No supplied desired invariant replaces the actual execution trace. Unreduced integer/gcd/allocation costs and full operational accounting remain open. |
+| `RationalGaussianCompressionEncoding`, `RationalGaussianPaperEncoding`, `RationalGaussianPaperTableEncoding`, graph output-height modules | Original data earn actual returned weight and literal public-pair table numerator/denominator and canonical-bit budgets, including zero-weight decoder branches. | Canonical grid count stays explicit. Complete polynomial bit time in the original binary input is unproved. |
+| Flow cost82 and Gaussian cost29 modules | Executable designated source-event ledgers, erasure to the actual value programs, and polynomial bounds in their declared aggregate models. | Whole-program operational semantics, every administration/allocation event and rational primitive bit costs remain open. Storedcost59 is excluded. |
+| `RationalLPSmallWitness`, `RationalConstructedLPSmallWitness` | Classical small rational point in a nonempty bounded feasible set; active original rows and Cramer heights earned. Gap/interval wrappers derive coordinate and coefficient bounds from input data. | No executable point/vertex finder, FM-output height theorem or polynomial LP solver. Vertex20 and Gap17 are excluded. |
+| `RationalConeEncoding`; `rational_prefix_cone_completion_iff` | Explicit rational affine three-coordinate cone rows, rational-point cast equivalence, m-prefix completion characterization and dense coordinate count, with positive M, sorted scores and nonnegative weights of the stated mass. | Fixed tolerance; no byte serializer, complete joint interval-cone solver or conic bit-runtime bound. |
+| `ExecutableCoverIndex`, `RationalCoveredGaussianWitness` | Computed supplied finite-cover relabel tables and actual original-label full-game output, preserving cover observations and responses with the stated input premises; empty/full covers and zero mass included. | No efficient minimum-cover finder or complete cover/allocation-grid solver/cost composition. |
+| `UniformObservationCover`, `ThresholdStrongLossCover`, `Example243` | Uniform minimum constraint-cover value two for positive residual count; strict-threshold loss-cover corollaries; exact 245-action/eleven-support example and rational constants. | No minimum support-eleven claim or general improved cover dependence. |
+
+Farkas13, Vertex20, Gap17 and storedcost59 are outside this closed 57-module,
+442-proof, 627-API source boundary. Full polynomial rational LP solving and
+complete operational/bit costs remain substantive open foundations. No
+whole-paper or submission readiness follows from the assembled declarations,
+source-event bounds, finite controls or historical b5 verification.

@@ -2,6 +2,31 @@ module
 public import SECSolution
 public meta import SECSolution
 
+public import Mathlib.LinearAlgebra.Dimension.Finite
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.NumberTheory.NumberField.Basic
+
+public import Mathlib.Data.Fin.Tuple.Basic
+public import Mathlib.Data.Nat.Sqrt
+public import Mathlib.Analysis.Real.Sqrt
+public import Mathlib.Data.Fintype.Card
+
+public import Mathlib.Data.Vector.Basic
+public import Mathlib.LinearAlgebra.Matrix.Integer
+public import Mathlib.LinearAlgebra.Matrix.Adjugate
+public import Mathlib.LinearAlgebra.Matrix.AbsoluteValue
+public import Mathlib.LinearAlgebra.Matrix.ToLin
+public import Mathlib.LinearAlgebra.Matrix.SchurComplement
+public import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
+public import Mathlib.LinearAlgebra.Dimension.StrongRankCondition
+public import Mathlib.Data.Finset.Powerset
+public import Mathlib.Data.Nat.Size
+public import Mathlib.Data.Nat.Factorial.Basic
+public import Mathlib.Data.Int.NatAbs
+public import Mathlib.Algebra.Module.Submodule.Ker
+public import Batteries.Data.List.Basic
+
+public import Init.Data.Nat.Bitwise.Lemmas
 public section
 
 -- BEGIN material-imported-definition audit
@@ -956,4 +981,478 @@ def cachedBFSTestNetFlow : Fin 2 → Fin 2 → ℚ :=
 #guard rationalNetFlow (rationalPositiveNetFlow (n:=2) (fun i j => if i=0 ∧ j=1 then 3/4 else if i=1 ∧ j=0 then -(3/4) else 0)) 0 1 = 3/4
 
 end SECDefinitions
+-- BEGIN follow-on149 imported-definition semantic bridges
+namespace SECFollowOnDefinitions
+open scoped BigOperators
+
+theorem integer_divisibility_literal (a b : ℤ) :
+    a ∣ b ↔ ∃ c : ℤ, b = a * c := Iff.rfl
+
+theorem natural_divisibility_literal (a b : ℕ) :
+    a ∣ b ↔ ∃ c : ℕ, b = a * c := Iff.rfl
+
+theorem rational_denominator_divides_input (a b : ℤ) :
+    ((Rat.divInt a b).den : ℤ) ∣ b := Rat.den_dvd a b
+
+theorem list_nodup_decision_literal {α : Type*} [DecidableEq α] (l : List α) :
+    @decide l.Nodup (List.nodupDecidable l) =
+      @decide (List.Pairwise (fun a b : α => a ≠ b) l) (List.instDecidablePairwise l) := rfl
+
+theorem finite_support_type_card {α : Type*} (s : Finset α) :
+    Fintype.card s = s.card := Fintype.card_coe s
+
+theorem rational_number_field_finite : Module.Finite ℚ ℚ :=
+  NumberField.to_finiteDimensional
+
+theorem rational_feature_finite_generation (ν : Type*) [Fintype ν] :
+    (⊤ : Submodule ℚ (ν → ℚ)).FG := Module.Finite.fg_top
+
+theorem option_orElse_some_literal {α : Type*} (a : α) (f : Unit → Option α) :
+    Option.orElse (some a) f = some a := rfl
+
+theorem option_orElse_none_literal {α : Type*} (f : Unit → Option α) :
+    Option.orElse none f = f () := rfl
+
+theorem list_last_nonempty_literal {α : Type*} (a : α) (l : List α) :
+    (a :: l).getLast? = some ((a :: l).getLast (by simp)) := rfl
+
+theorem list_last_empty_literal {α : Type*} : ([] : List α).getLast? = none := rfl
+
+theorem list_head_literal {α : Type*} (a : α) (l : List α) :
+    (a :: l).head? = some a := rfl
+
+theorem list_tail_literal {α : Type*} (a : α) (l : List α) :
+    (a :: l).tail = l := rfl
+
+theorem rational_divInt_meaning (n d : ℤ) :
+    Rat.divInt n d = (n : ℚ) / (d : ℚ) := Rat.divInt_eq_div n d
+
+theorem rational_canonical_reconstruction (q : ℚ) :
+    (q.num : ℚ) / (q.den : ℚ) = q := Rat.num_div_den q
+
+theorem rational_divInt_zero (n : ℤ) : Rat.divInt n 0 = 0 := Rat.divInt_zero n
+
+theorem finite_subset_literal {α : Type*} (s t : Finset α) :
+    s ⊆ t ↔ ∀ ⦃a⦄, a ∈ s → a ∈ t := Iff.rfl
+
+theorem finite_strict_subset_meaning {α : Type*} (s t : Finset α) :
+    s ⊂ t ↔ s ⊆ t ∧ s ≠ t := Finset.ssubset_iff_subset_ne
+
+theorem finite_strict_subset_card {α : Type*} {s t : Finset α} (h : s ⊂ t) :
+    s.card < t.card := Finset.card_lt_card h
+
+theorem rational_linear_independence_literal {ι ν : Type*} (v : ι → ν → ℚ) :
+    LinearIndependent ℚ v ↔ Function.Injective (Finsupp.linearCombination ℚ v) := Iff.rfl
+
+theorem rational_finite_linear_combination_literal {ι ν : Type*}
+    (v : ι → ν → ℚ) (l : ι →₀ ℚ) :
+    Finsupp.linearCombination ℚ v l = ∑ i ∈ l.support, l i • v i := rfl
+
+theorem rational_linear_independence_finite {ι ν : Type*} [Fintype ι]
+    (v : ι → ν → ℚ) : LinearIndependent ℚ v ↔
+    ∀ g : ι → ℚ, ∑ i, g i • v i = 0 → ∀ i, g i = 0 :=
+  Fintype.linearIndependent_iff
+
+theorem rational_linear_dependence_finite {ι ν : Type*} [Fintype ι]
+    (v : ι → ν → ℚ) : ¬ LinearIndependent ℚ v ↔
+    ∃ g : ι → ℚ, ∑ i, g i • v i = 0 ∧ ∃ i, g i ≠ 0 :=
+  Fintype.not_linearIndependent_iff
+
+theorem rational_feature_dimension (ν : Type*) [Fintype ν] :
+    Module.finrank ℚ (ν → ℚ) = Fintype.card ν := Module.finrank_fintype_fun_eq_card ℚ
+
+theorem rational_independent_card_le_dimension {ι ν : Type*} [Fintype ι] [Fintype ν]
+    {v : ι → ν → ℚ} (h : LinearIndependent ℚ v) :
+    Fintype.card ι ≤ Module.finrank ℚ (ν → ℚ) := h.fintype_card_le_finrank
+
+end SECFollowOnDefinitions
+-- END follow-on149 imported-definition semantic bridges
+
+-- BEGIN next100 imported-definition semantic bridges
+namespace SECNext100Definitions
+
+theorem tuple_append_literal {α : Sort*} {m n : ℕ}
+    (a : Fin m → α) (b : Fin n → α) :
+    Fin.append a b = @Fin.addCases _ _ (fun _ => α) a b := rfl
+
+theorem tuple_append_left {α : Sort*} {m n : ℕ}
+    (a : Fin m → α) (b : Fin n → α) (i : Fin m) :
+    Fin.append a b (Fin.castAdd n i) = a i := Fin.append_left a b i
+
+theorem tuple_append_right {α : Sort*} {m n : ℕ}
+    (a : Fin m → α) (b : Fin n → α) (i : Fin n) :
+    Fin.append a b (Fin.natAdd m i) = b i := Fin.append_right a b i
+
+theorem list_append_literal {α : Type*} (a : α) (xs ys : List α) :
+    ([] : List α) ++ ys = ys ∧ (a :: xs) ++ ys = a :: (xs ++ ys) := ⟨rfl, rfl⟩
+
+theorem list_append_runtime_literal {α : Type*} (xs ys : List α) :
+    xs ++ ys = List.reverseAux xs.reverse ys := by
+  exact congrFun (congrFun (congrFun List.append_eq_appendTR α) xs) ys
+
+theorem option_getD_literal {α : Type*} (a fallback : α) :
+    (some a).getD fallback = a ∧ (none : Option α).getD fallback = fallback := ⟨rfl, rfl⟩
+
+theorem option_membership_literal {α : Type*} (a : α) (o : Option α) :
+    a ∈ o ↔ o = some a := Iff.rfl
+
+theorem option_none_decision_literal {α : Type*} (o : Option α) :
+    @decide (o = none) (Option.decidableEqNone o) = o.isNone := by
+  cases o <;> rfl
+
+theorem option_some_equality_decision {α : Type*} [DecidableEq α] (a b : α) :
+    decide ((some a : Option α) = some b) = decide (a = b) := by
+  apply Bool.eq_iff_iff.mpr
+  simp only [decide_eq_true_eq, Option.some.injEq]
+
+theorem product_boolean_equality_literal {α β : Type*} [BEq α] [BEq β]
+    (a a' : α) (b b' : β) :
+    ((a, b) == (a', b')) = ((a == a') && (b == b')) := rfl
+
+theorem lawful_boolean_equality {α : Type*} [BEq α] [LawfulBEq α] (a b : α) :
+    (a == b) = true ↔ a = b := ⟨eq_of_beq, fun h => h ▸ BEq.rfl⟩
+
+theorem finite_product_boolean_equality {m n : ℕ}
+    (a a' : Fin m) (b b' : Fin n) :
+    ((a, b) == (a', b')) = true ↔ (a, b) = (a', b') :=
+  lawful_boolean_equality (a, b) (a', b')
+
+theorem finite_order_boolean_equality {n : ℕ} (a b : Fin n) :
+    (a == b) = true ↔ a ≤ b ∧ b ≤ a := Std.LawfulOrderBEq.beq_iff_le_and_ge a b
+
+theorem lawful_list_membership_decision {α : Type*} [BEq α] [LawfulBEq α]
+    (a : α) (xs : List α) :
+    @decide (a ∈ xs) (List.instDecidableMemOfLawfulBEq a xs) = List.elem a xs := by
+  apply Bool.eq_iff_iff.mpr
+  rw [decide_eq_true_eq]
+  exact ⟨List.elem_eq_true_of_mem, List.mem_of_elem_eq_true⟩
+
+theorem fin_endpoint_values {n : ℕ} (i : Fin n) :
+    (Fin.last n).val = n ∧ (Fin.castSucc i).val = i.val := ⟨rfl, rfl⟩
+
+theorem fin_last_cases_literal {n : ℕ} {motive : Fin (n+1) → Sort*}
+    (last : motive (Fin.last n)) (cast : ∀ i : Fin n, motive (Fin.castSucc i))
+    (i : Fin (n+1)) :
+    Fin.lastCases (motive := motive) last cast i =
+      Fin.reverseInduction (motive := motive) last (fun j _ => cast j) i := rfl
+
+theorem fin_last_cases_last {α : Sort*} {n : ℕ} (last : α) (cast : Fin n → α) :
+    Fin.lastCases last cast (Fin.last n) = last := Fin.lastCases_last
+
+theorem fin_last_cases_prefix {α : Sort*} {n : ℕ} (last : α) (cast : Fin n → α)
+    (i : Fin n) : Fin.lastCases last cast (Fin.castSucc i) = cast i := Fin.lastCases_castSucc i
+
+theorem finite_injective_card_bound {α β : Type*} [Fintype α] [Fintype β]
+    (f : α → β) (hf : Function.Injective f) : Fintype.card α ≤ Fintype.card β :=
+  Fintype.card_le_of_injective f hf
+
+theorem natural_sqrt_monotone {m n : ℕ} (h : m ≤ n) : Nat.sqrt m ≤ Nat.sqrt n :=
+  Nat.sqrt_le_sqrt h
+
+theorem natural_sqrt_square (n : ℕ) : Nat.sqrt (n^2) = n := Nat.sqrt_eq' n
+
+theorem real_sqrt_upper_iff_square (x y : ℝ) (hy : 0 ≤ y) :
+    Real.sqrt x ≤ y ↔ x ≤ y^2 := Real.sqrt_le_left hy
+
+end SECNext100Definitions
+-- END next100 imported-definition semantic bridges
+
+-- Reviewed post100 recipe semantic bridges; exact check status is recorded in separate receipts.
+-- BEGIN post100 recipe semantic bridges
+namespace SECPost100Recipes
+open scoped BigOperators Matrix
+
+theorem list_vector_storage (α : Type*) (n : ℕ) :
+    List.Vector α n = {l : List α // l.length = n} := rfl
+
+theorem list_vector_read {α : Type*} {n : ℕ} (v : List.Vector α n) (i : Fin n) :
+    v.get i = v.toList.get (i.cast v.2.symm) := rfl
+
+theorem list_vector_ofFn_read {α : Type*} {n : ℕ} (f : Fin n → α) (i : Fin n) :
+    (List.Vector.ofFn f).get i = f i := List.Vector.get_ofFn f i
+
+theorem matrix_storage (m n α : Type*) : Matrix m n α = (m → n → α) := rfl
+
+theorem matrix_reindex {l m n o α : Type*} (A : Matrix m n α)
+    (r : l → m) (c : o → n) (i : l) (j : o) : A.submatrix r c i j = A (r i) (c j) := rfl
+
+theorem matrix_map_entry {m n α β : Type*} (A : Matrix m n α) (f : α → β) (i : m) (j : n) :
+    A.map f i j = f (A i j) := rfl
+
+theorem matrix_vector_product {m n : Type*} [Fintype n] (A : Matrix m n ℚ) (x : n → ℚ) (i : m) :
+    (A *ᵥ x) i = ∑ j, A i j * x j := rfl
+
+theorem matrix_determinant_leibniz {n : Type*} [Fintype n] [DecidableEq n]
+    (A : Matrix n n ℚ) : A.det = ∑ σ : Equiv.Perm n,
+      Equiv.Perm.sign σ • ∏ i, A (σ i) i := Matrix.det_apply A
+
+theorem matrix_determinant_empty {n : Type*} [Fintype n] [DecidableEq n] [IsEmpty n]
+    (A : Matrix n n ℚ) : A.det = 1 := Matrix.det_isEmpty
+
+theorem matrix_cramer_coordinate {n : Type*} [Fintype n] [DecidableEq n]
+    (A : Matrix n n ℚ) (b : n → ℚ) (i : n) :
+    A.cramer b i = (A.updateCol i b).det := Matrix.cramer_apply A b i
+
+theorem matrix_adjugate_coordinate {n : Type*} [Fintype n] [DecidableEq n]
+    (A : Matrix n n ℚ) (i j : n) :
+    A.adjugate i j = (A.updateRow j (Pi.single i 1)).det := Matrix.adjugate_apply A i j
+
+theorem matrix_denominator_literal {m n : Type*} [Fintype m] [Fintype n]
+    (A : Matrix m n ℚ) :
+    A.den = Finset.univ.lcm (fun p : m × n => (A p.1 p.2).den) := rfl
+
+theorem matrix_numerator_literal {m n : Type*} [Fintype m] [Fintype n]
+    (A : Matrix m n ℚ) (i : m) (j : n) :
+    A.num i j = Rat.num ((A.den : ℚ) * A i j) := rfl
+
+theorem matrix_fraction_reconstruction {m n : Type*} [Fintype m] [Fintype n]
+    (A : Matrix m n ℚ) (i : m) (j : n) :
+    (A.num i j : ℚ) / (A.den : ℚ) = A i j := Matrix.num_div_den A i j
+
+theorem matrix_denominator_nonzero {m n : Type*} [Fintype m] [Fintype n]
+    (A : Matrix m n ℚ) : A.den ≠ 0 := Matrix.den_ne_zero A
+
+theorem matrix_denominator_empty_rows {n : Type*} [Fintype n]
+    (A : Matrix (Fin 0) n ℚ) : A.den = 1 := by simp [Matrix.den]
+
+theorem natural_lcm_literal (m n : ℕ) : Nat.lcm m n = m * n / Nat.gcd m n := rfl
+
+theorem natural_gcd_logical_step (m n : ℕ) :
+    Nat.gcd m n = if m = 0 then n else Nat.gcd (n % m) m := Nat.gcd_def m n
+
+theorem integer_magnitude_constructors (n : ℕ) :
+    (Int.ofNat n).natAbs = n ∧ (Int.negSucc n).natAbs = n+1 := ⟨rfl, rfl⟩
+
+theorem natural_binary_size_zero : Nat.size 0 = 0 := rfl
+
+theorem natural_binary_size_bound (n E : ℕ) : Nat.size n ≤ E ↔ n < 2^E := Nat.size_le
+
+theorem natural_binary_size_weak_bound (n E : ℕ) (h : n ≤ 2^E) : Nat.size n ≤ E+1 := by
+  simpa only [Nat.size_pow] using Nat.size_le_size h
+
+theorem natural_factorial_equations (n : ℕ) :
+    Nat.factorial 0 = 1 ∧ Nat.factorial (n+1) = (n+1)*Nat.factorial n := ⟨rfl, rfl⟩
+
+theorem natural_factorial_runtime_equality (n : ℕ) :
+    Nat.factorial n = Nat.factorialBinarySplitting n :=
+  congrFun Nat.factorial_eq_factorialBinarySplitting n
+
+theorem finite_powerset_membership {α : Type*} (s t : Finset α) :
+    s ∈ t.powerset ↔ s ⊆ t := Finset.mem_powerset
+
+theorem generated_finite_minimum {α : Type*} [LinearOrder α]
+    (s : Finset α) (h : s.Nonempty) :
+    s.min' h ∈ s ∧ ∀ a ∈ s, s.min' h ≤ a := by
+  exact ⟨Finset.min'_mem s h, fun a ha => Finset.min'_le s a ha⟩
+
+theorem powerset_sublists_runtime {α : Type*} (l : List α) :
+    List.sublists l = List.sublistsFast l := congrFun (congrFun List.sublists_eq_sublistsFast α) l
+
+theorem invertible_real_fields {n : Type*} [Fintype n] [DecidableEq n]
+    (A : Matrix n n ℚ) [Invertible A] : ⅟A * A = 1 ∧ A * ⅟A = 1 :=
+  ⟨invOf_mul_self A, mul_invOf_self A⟩
+
+theorem isUnit_literal {α : Type*} [Monoid α] (a : α) :
+    IsUnit a ↔ ∃ u : αˣ, (u : α) = a := Iff.rfl
+
+theorem schur_determinant_contract {m n : Type*} [Fintype m] [DecidableEq m]
+    [Fintype n] [DecidableEq n] (A : Matrix m m ℚ) [Invertible A]
+    (B : Matrix m n ℚ) (C : Matrix n m ℚ) (D : Matrix n n ℚ) :
+    (Matrix.fromBlocks A B C D).det = A.det * (D-C*⅟A*B).det :=
+  Matrix.det_fromBlocks₁₁ A B C D
+
+end SECPost100Recipes
+-- END post100 recipe semantic bridges
+
+-- Additional actual627 semantic bridges; exact check status is recorded in separate receipts.
+-- BEGIN post627 additional semantic bridges
+namespace SECPost627Recipes
+open scoped BigOperators Matrix Nat
+
+theorem list_vector_head_cons {α : Type*} {n : ℕ} (a : α) (v : List.Vector α n) :
+    (List.Vector.cons a v).head = a := List.Vector.head_cons a v
+
+theorem matrix_product_entries {l m n : Type*} [Fintype m]
+    (A : Matrix l m ℚ) (B : Matrix m n ℚ) (i : l) (j : n) :
+    (A * B) i j = ∑ k, A i k * B k j := rfl
+
+theorem matrix_identity_entries {n : Type*} [DecidableEq n] (i j : n) :
+    (1 : Matrix n n ℚ) i j = if i = j then 1 else 0 := rfl
+
+theorem matrix_pointwise_sub_scalar {m n : Type*} (A B : Matrix m n ℚ)
+    (c : ℚ) (i : m) (j : n) :
+    (A - B) i j = A i j - B i j ∧ (c • A) i j = c * A i j := ⟨rfl, rfl⟩
+
+theorem matrix_row_literal {m n : Type*} (A : Matrix m n ℚ) : A.row = A := rfl
+
+theorem matrix_linear_product {m n : Type*} [Fintype n]
+    (A : Matrix m n ℚ) (v : n → ℚ) : A.mulVecLin v = A *ᵥ v := rfl
+
+theorem absolute_value_fields (f : AbsoluteValue ℚ ℚ) (x y : ℚ) :
+    0 ≤ f x ∧ (f x = 0 ↔ x = 0) ∧ f (x * y) = f x * f y ∧
+      f (x + y) ≤ f x + f y :=
+  ⟨f.nonneg' x, f.eq_zero' x, f.map_mul' x y, f.add_le' x y⟩
+
+theorem bundled_abs_evaluates (q : ℚ) : AbsoluteValue.abs q = |q| := rfl
+
+theorem integer_magnitude_hom (z : ℤ) : Int.natAbsHom z = z.natAbs := rfl
+
+theorem zero_monoid_hom_fields (f : ℤ →*₀ ℕ) (a b : ℤ) :
+    f 0 = 0 ∧ f 1 = 1 ∧ f (a * b) = f a * f b :=
+  ⟨map_zero f, map_one f, map_mul f a b⟩
+
+theorem finite_genuine_equivalence (α : Type*) :
+    Finite α ↔ ∃ n, Nonempty (α ≃ Fin n) := finite_iff_exists_equiv_fin
+
+theorem finite_of_actual_injection {α β : Type*} [Finite β]
+    (f : α → β) (hf : Function.Injective f) : Finite α := Finite.of_injective f hf
+
+theorem unique_genuine_inhabitant {α : Type*} [Unique α] (a : α) :
+    a = (default : α) := Unique.uniq (inferInstance : Unique α) a
+
+theorem empty_has_no_element {α : Type*} [IsEmpty α] (a : α) : False := IsEmpty.false a
+
+theorem pempty_elimination (a : PEmpty) : False := PEmpty.elim a
+
+theorem finite_set_enumeration {α : Type*} (s : Set α) [Fintype s] (a : α) :
+    a ∈ s.toFinset ↔ a ∈ s := Set.mem_toFinset
+
+theorem finite_set_enumeration_card {α : Type*} (s : Set α) [Fintype s] :
+    s.toFinset.card = Fintype.card s := Set.toFinset_card s
+
+theorem genuine_linear_kernel {m n : Type*}
+    (f : (m → ℚ) →ₗ[ℚ] (n → ℚ)) (v : m → ℚ) :
+    v ∈ LinearMap.ker f ↔ f v = 0 := LinearMap.mem_ker
+
+theorem list_map_certified_runtime {α β : Type*} (f : α → β) (l : List α) :
+    l.map f = List.mapTR f l := by rw [List.map_eq_mapTR]
+
+theorem list_filter_certified_runtime {α : Type*} (p : α → Bool) (l : List α) :
+    l.filter p = List.filterTR p l := by rw [List.filter_eq_filterTR]
+
+theorem list_flatten_certified_runtime {α : Type*} (l : List (List α)) :
+    l.flatten = List.flattenTR l := by rw [List.flatten_eq_flattenTR]
+
+theorem array_fold_logical_model {α β : Type*} (f : β → α → β) (b : β)
+    (a : Array α) (start stop : ℕ) :
+    a.foldl f b start stop = Id.run (a.foldlM (pure <| f · ·) b start stop) := rfl
+
+theorem binary_shift_equations (n k : ℕ) :
+    Nat.shiftRight n 0 = n ∧ Nat.shiftRight n (k+1) = Nat.shiftRight n k / 2 := ⟨rfl, rfl⟩
+
+theorem binary_and_logical_model (m n : ℕ) :
+    Nat.land m n = Nat.bitwise and m n := by
+  apply Nat.eq_of_testBit_eq
+  intro i
+  rw [Nat.land_eq, Nat.testBit_and, Nat.testBit_bitwise (by rfl)]
+
+theorem missing_bit_literal (m n : ℕ) :
+    Nat.hasNotBit m n ↔ Nat.land 1 (Nat.shiftRight m n) ≠ 1 := Iff.rfl
+
+theorem list_cartesian_product_literal {α β : Type*} (l : List α) (r : List β) :
+    List.product l r = l.flatMap (fun a => r.map (Prod.mk a)) := rfl
+
+theorem list_cartesian_product_runtime {α β : Type*} (l : List α) (r : List β) :
+    List.product l r = List.productTR l r := by rw [List.product_eq_productTR]
+
+theorem multiset_cartesian_product_literal {α β : Type*} (l : Multiset α) (r : Multiset β) :
+    l ×ˢ r = l.bind (fun a => r.map (Prod.mk a)) := rfl
+
+theorem multiset_map_literal {α β : Type*} (f : α → β) (l : List α) :
+    Multiset.map f (l : Multiset α) = (l.map f : Multiset β) := rfl
+
+theorem multiset_fold_literal {α β : Type*} (f : α → β → β) [LeftCommutative f]
+    (b : β) (l : List α) : Multiset.foldr f b (l : Multiset α) = l.foldr f b := rfl
+
+theorem dependent_list_map_runtime {α β : Type*} {P : α → Prop}
+    (f : ∀ a, P a → β) (l : List α) (h : ∀ a ∈ l, P a) :
+    List.pmap f l h = List.pmapImpl f l h := by rw [List.pmap_eq_pmapImpl]
+
+theorem dependent_multiset_map_literal {α β : Type*} {P : α → Prop}
+    (f : ∀ a, P a → β) (l : List α) (h : ∀ a ∈ l, P a) :
+    Multiset.pmap f (l : Multiset α) h = (List.pmap f l h : Multiset β) := rfl
+
+theorem finite_embedding_map_data {α β : Type*} (f : α ↪ β) (s : Finset α) :
+    (s.map f).val = s.val.map f := rfl
+
+theorem actual_determinant_bound {n : Type*} [Fintype n] [DecidableEq n]
+    (A : Matrix n n ℚ) (x : ℚ) (h : ∀ i j, |A i j| ≤ x) :
+    |A.det| ≤ (Fintype.card n)! • x ^ Fintype.card n :=
+  Matrix.det_le (abv := AbsoluteValue.abs) h
+
+theorem rational_inverse_numerator (q : ℚ) :
+    (q⁻¹).num = q.num.sign * q.den := Rat.num_inv q
+
+theorem rational_inverse_denominator (q : ℚ) :
+    (q⁻¹).den = if q.num = 0 then 1 else q.num.natAbs := Rat.den_inv q
+
+theorem rational_product_denominator_divides (q r : ℚ) :
+    (q * r).den ∣ q.den * r.den := Rat.mul_den_dvd q r
+
+theorem rational_nonzero_fraction_common_multiplier (n d : ℤ) (hd : d ≠ 0) :
+    ∃ c : ℤ, n = c * ((n : ℚ) / d).num ∧ d = c * ((n : ℚ) / d).den :=
+  Rat.exists_eq_mul_div_num_and_eq_mul_div_den n hd
+
+theorem rational_numerator_zero (q : ℚ) (h : q.num = 0) : q = 0 := Rat.zero_of_num_zero h
+
+theorem rational_multiply_canonical_denominator (q : ℚ) :
+    q * (q.den : ℚ) = (q.num : ℚ) := Rat.mul_den_eq_num q
+
+theorem finite_attained_function_minimum {α β : Type*} [LinearOrder β]
+    (s : Finset α) (f : α → β) (h : s.Nonempty) :
+    ∃ a ∈ s, ∀ b ∈ s, f a ≤ f b := Finset.exists_min_image s f h
+
+theorem actual_independent_rows_are_units {n : Type*} [Fintype n] [DecidableEq n]
+    (A : Matrix n n ℚ) : LinearIndependent ℚ A.row ↔ IsUnit A :=
+  Matrix.linearIndependent_rows_iff_isUnit
+
+
+theorem rational_fraction_numerator_divides (n d : ℤ) (hd : d ≠ 0) :
+    (Rat.divInt n d).num ∣ n := Rat.num_dvd n hd
+
+theorem finite_domain_rank_bound {m n : Type*} [Fintype m] [Fintype n]
+    (f : (m → ℚ) →ₗ[ℚ] (n → ℚ)) (hf : Function.Injective f) :
+    Module.finrank ℚ (m → ℚ) ≤ Module.finrank ℚ (n → ℚ) :=
+  LinearMap.finrank_le_finrank_of_injective hf
+
+universe u
+
+theorem genuine_independent_spanning_subfamily {ι : Type u} {n : Type*}
+    (v : ι → (n → ℚ)) :
+    ∃ (κ : Type u) (a : κ → ι), Function.Injective a ∧
+      Submodule.span ℚ (Set.range (v ∘ a)) = Submodule.span ℚ (Set.range v) ∧
+      LinearIndependent ℚ (v ∘ a) := exists_linearIndependent' ℚ v
+
+
+theorem boolean_complement_runtime (b : Bool) : Bool.not b = Bool.Internal.not b :=
+  congrFun Bool.not_eq_internalNot b
+
+theorem option_elimination_branches {α β : Type*} (b : β) (f : α → β) (a : α) :
+    Option.elim none b f = b ∧ Option.elim (some a) b f = f a := ⟨rfl, rfl⟩
+
+theorem signed_integer_sign_branches (n : ℕ) :
+    Int.sign 0 = 0 ∧ Int.sign (Int.ofNat (n+1)) = 1 ∧ Int.sign (Int.negSucc n) = -1 :=
+  ⟨rfl, rfl, rfl⟩
+
+theorem multiset_card_counts_multiplicity {α : Type*} (l : List α) :
+    (l : Multiset α).card = l.length := rfl
+
+theorem generated_multiset_sum_is_list_fold (l : List ℚ) :
+    (l : Multiset ℚ).sum = l.foldr (· + ·) 0 := rfl
+
+theorem sum_reassociation_preserves_labels {α β γ : Type*} (a : α) (b : β) (c : γ) :
+    Equiv.sumAssoc α β γ (Sum.inl (Sum.inl a)) = Sum.inl a ∧
+    Equiv.sumAssoc α β γ (Sum.inl (Sum.inr b)) = Sum.inr (Sum.inl b) ∧
+    Equiv.sumAssoc α β γ (Sum.inr c) = Sum.inr (Sum.inr c) := ⟨rfl, rfl, rfl⟩
+
+
+theorem natural_coprime_literal (m n : ℕ) :
+    Nat.Coprime m n ↔ Nat.gcd m n = 1 := Iff.rfl
+
+theorem rational_reduced_gcd_certificate (q : ℚ) :
+    Nat.gcd q.num.natAbs q.den = 1 := q.reduced
+
+end SECPost627Recipes
+-- END post627 additional semantic bridges
+
 -- END material-imported-definition audit

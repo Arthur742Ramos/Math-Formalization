@@ -37,6 +37,19 @@ class DeclarationIdentifierTests(unittest.TestCase):
         self.assertFalse(declaration_head_matches('Relation.ReflTransGen', 'inductive',
             body.replace('inductive ReflTransGen ', '-- inductive ReflTransGen ')))
 
+    def test_class_inductive_exact_kind_and_name(self):
+        body = 'class inductive Finite (α : Sort*) : Prop\n  | intro {n : ℕ} : α ≃ Fin n → Finite _\n'
+        self.assertTrue(declaration_head_matches('Finite', 'inductive', body))
+        for kind in ('def', 'structure', 'class', 'theorem'):
+            self.assertFalse(declaration_head_matches('Finite', kind, body))
+        for suffix in ("'", '!', '?', '.helper', '_other', 'other', '₀'):
+            self.assertFalse(declaration_head_matches('Finite', 'inductive',
+                body.replace('Finite (', 'Finite'+suffix+' (')))
+        self.assertFalse(declaration_head_matches('Finite', 'inductive', '-- '+body))
+        self.assertFalse(declaration_head_matches('Finite', 'inductive', body.replace('class inductive', 'class structure')))
+        for invalid in ('class def', 'class theorem', 'class class inductive'):
+            self.assertFalse(declaration_head_matches('Finite', 'inductive', body.replace('class inductive', invalid)))
+
     def test_wrong_kind_or_commented_declaration(self):
         self.assertFalse(declaration_head_matches("Finset.max'", 'def',
             "theorem max' : True := trivial\n"))

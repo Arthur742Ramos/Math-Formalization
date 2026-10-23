@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "checked_at_utc": "2026-10-23T03:01:51.480221+00:00",
+  "repository": "leanprover/lean4",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "method": "Connected Github fetch_file full base64 bytes compared independently to installed compiler source, recomputed sourceSHA256 and Git blobSHA1",
+  "fetch_payload_sha256": "ce3101a83f297087e97f542b181173d16210d61ffe4046b777e97f5248723346",
+  "files": [
+    {
+      "path": "src/Init/Data/Nat/Gcd.lean",
+      "bytes": 20329,
+      "source_sha256": "672c96102205b59a47742be74c959ed780ba319713baaa8a2eeede2cdc46cbea",
+      "github_blob_sha1": "6b3ac409cc1ed8775644c5c6a00a1a59f96fac2b",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Nat/Gcd.lean",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Gcd.lean",
+      "exact_bytes_match": true
+    },
+    {
+      "path": "src/Init/Data/Nat/Lcm.lean",
+      "bytes": 10816,
+      "source_sha256": "c4accc5e10306750e0c990d43eebf4b02bf8444bb3a56be6c4aef663bcf5018c",
+      "github_blob_sha1": "72a9d77088daa17488ea0de6ad074229f85303e1",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Nat/Lcm.lean",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Lcm.lean",
+      "exact_bytes_match": true
+    }
+  ],
+  "scope_limit": "Source provenance only; gcd external runtime implementation/bit complexity not authenticated or proved by logical source identity"
+}
