@@ -1,0 +1,24 @@
+{
+  "reviewer": "Independent internal AI reviewer /root/source_review",
+  "review_type": "Terminal evidence and source/pipeline binding; read-only",
+  "evidence_review": "pass",
+  "verification_outcome": "fail",
+  "findings": [
+    "Source c3107f8, caller4b8bbff, pipeline07a02, run39894330468 attempt1, request/execution IDs and config/source hashes match.",
+    "ZIP contains exactly the byte-identical retained report.",
+    "Protected Solution build completed1700jobs; Comparator rejected boundedStableGradedIso_closed statement; status fail/stage comparator/kernels empty.",
+    "Active caller absent locally; no retry, rendering or intake; PR41 approval hold retained."
+  ],
+  "limits": [
+    "Root cause unresolved; no proof refutation inferred.",
+    "Artifact ID authentication relies on primary agent connector acquisition record, not local report alone.",
+    "No human review or external-kernel acceptance inferred."
+  ],
+  "reviewed_hashes": {
+    "original-artifact.zip": "9c28dd7c5c68b79f0a373b85e3e17c729bc6e115caf7472c809044ff809d489f",
+    "mechanical-report.json": "48a3a3c326d9905915e383ce00a52fc7d28a8db45a2bd8939f0a711496723cbd",
+    "terminal-receipt.json": "6d81eeb42477874966b0d48900b3ea176445f9d1e13fe7339e79bd4d3f637307",
+    "README.md": "3100b5302cc0854801830e27cf93e810e0499590a907428e6719d390d8dd8469",
+    "workflow-receipt.json": "8caf9d594f3a3ab5898b99e89e842b50065b2c56fc23ef23ff9bfc00744e4211"
+  }
+}
