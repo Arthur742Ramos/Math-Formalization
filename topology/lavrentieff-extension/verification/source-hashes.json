@@ -17,7 +17,7 @@
     "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
     "formalization.yaml": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166",
     "scripts/check_package.py": "edad951a50171db1080d6b235ed8ad47af2be95c3b33ab8f976a34d5d24ec2b0",
-    "scripts/verify_native.py": "fd5f8e1e9b3bf2694e218703da200369ac19a76e2ef10ffd3ba298cc6918f8fa",
+    "scripts/verify_native.py": "bbc293564f36de5b623ac12b05069545b353c4a87a6abd80381639a1ae53c0fe",
     "verification/material-imported-definitions.json": "b149693586c7e0889fedeba8a2ddeb8b94ca44c2ce04e32f624e27c4e31899c5"
   }
 }

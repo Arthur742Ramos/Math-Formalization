@@ -52,6 +52,7 @@ for label,old,new,constant in [
  assert old in proof
  mod='Negative'+label.title().replace('-','')
  variant=proof.replace(old,new,1)
+ if label=='changed-small-oscillation': variant=variant.replace('simp only [smallOscillation, mem_iUnion]', 'simp only [smallOscillation, id_eq, mem_iUnion]')
  (A/(mod+'.lean')).write_text(variant)
  run(label+'-build',[str(T/'bin/lean'),'-DwarningAsError=true','-o',str(A/(mod+'.olean')),str(A/(mod+'.lean'))])
  export(label,mod)
