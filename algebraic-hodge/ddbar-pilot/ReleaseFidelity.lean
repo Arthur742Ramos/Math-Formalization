@@ -16,7 +16,7 @@ variable {k : Type} [Field k] {C : CochainComplex (ModuleCat k) ℤ} (F : Filtra
 
 theorem cycles_succ_le (r p n : ℤ) : cycles F (r + 1) p n ≤ cycles F r p n := by
   intro x hx
-  exact ⟨hx.1, F.antitone (n + 1) (show p + r ≤ p + (r + 1) by lia) hx.2⟩
+  exact ⟨hx.1, F.antitone (n + 1) (show p + r ≤ p + (r + 1) by lia -abstractProof) hx.2⟩
 
 theorem cohomologyFiltration_eq_top_of_top (p n : ℤ) (hF : F.F p n = ⊤) :
     cohomologyFiltration F p n = ⊤ := by
@@ -99,7 +99,7 @@ theorem cohomologyFiltration_exhaustive_separated (L U : ℤ) (hs : HorizontalSu
       (⨅ p : ℤ, Filtered.cohomologyFiltration (filtered K) p n) ≤
           Filtered.cohomologyFiltration (filtered K) (U + 1) n :=
         iInf_le (fun p : ℤ => Filtered.cohomologyFiltration (filtered K) p n) (U + 1)
-      _ = ⊥ := cohomologyFiltration_eq_bot K L U hs (U + 1) n (by lia)
+      _ = ⊥ := cohomologyFiltration_eq_bot K L U hs (U + 1) n (by lia -abstractProof)
 
 /-- Transport along proved equality of numerator and denominator preserves the
 class of each actual representative. This generic lemma keeps transport opaque. -/

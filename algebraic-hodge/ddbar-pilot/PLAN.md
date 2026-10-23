@@ -118,8 +118,7 @@ new legal acceptance occur here. PR40 remains a draft.
 
 The selected surface now consists of eight theorems and seventeen literal
 definitions/constructions in comparator.json. HodgeChallenge has complete
-proofs, 995 lines, and only Mathlib imports; HodgeSolution imports the modular
-development. A source map and reproducible generator retain 135 declarations
+proofs, 995 lines, and only Mathlib imports; HodgeSolution has the same generated proof-complete body and compiles separately; the modular development remains its source. This shares one proof implementation. A source map and reproducible generator retain 135 declarations
 without changing mathematical commands/contracts. The hard size cap is met,
 but the readability warning remains an editorial consideration.
 

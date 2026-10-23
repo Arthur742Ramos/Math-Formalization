@@ -1,3 +1,14 @@
+> Execution history: the single approved run for source `c3107f8`, pipeline
+> `07a02bae1e85c75ae349d0e75195162d16d41e21`, is
+> [39894330468](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39894330468).
+> It failed exact Comparator statement equality after the Solution build; no
+> independent-kernel replay was reached. Its original receipts are preserved.
+> Budget/workflow/storage confirmation and the exact disposable-runner security
+> approval were given and consumed; do not ask for those settled facts again.
+> The corrected source requires a fresh exact-source plan and run authorization.
+> No retry, rendering or intake is authorized. PR41 Palomar-approval HOLD remains.
+> The caller proposals below are historical and must not be activated as a retry.
+
 # Protected execution and rendering plan
 
 No protected run is authorized by this document. The candidate source, selected

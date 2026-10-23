@@ -23,7 +23,7 @@ noncomputable def differentialTo (r : ℤ) (pq pq' : ℤ × ℤ)
     eqToHom (by
       have hp : pq.1 + r = pq'.1 := congrArg Prod.fst h
       have hq : pq.2 + (1 - r) = pq'.2 := congrArg Prod.snd h
-      have hn : pq.1 + pq.2 + 1 = pq'.1 + pq'.2 := by lia
+      have hn : pq.1 + pq.2 + 1 = pq'.1 + pq'.2 := by lia -abstractProof
       change ModuleCat.of k (Filtered.Page (filtered K) r (pq.1 + r) (pq.1 + pq.2 + 1)) = _
       rw [hp, hn])
 
@@ -64,7 +64,7 @@ noncomputable def associatedSequence (hdd : ∀ p q : ℤ, ImageKernel K p q) :
     zeroPageHomologyIso K hdd r hr pq ≪≫
       pageIso K r pq.1 pq.2 (pq.1 + pq.2) rfl hr
         (hdd (pq.1 - 1) pq.2) (hdd pq.1 pq.2) ≪≫
-      (pageIso K r' pq.1 pq.2 (pq.1 + pq.2) rfl (by lia)
+      (pageIso K r' pq.1 pq.2 (pq.1 + pq.2) rfl (by lia -abstractProof)
         (hdd (pq.1 - 1) pq.2) (hdd pq.1 pq.2)).symm
 
 theorem associatedSequence_d_zero (hdd : ∀ p q : ℤ, ImageKernel K p q)

@@ -6,9 +6,12 @@ import pathlib
 import re
 import subprocess
 import datetime
+import os
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-OUT = ROOT / 'verification/package-local'
+EVIDENCE_ROOT = ROOT / 'verification/package-local'
+OUT = pathlib.Path(os.environ.get('HODGE_EVIDENCE_DIR', str(EVIDENCE_ROOT))).resolve()
+assert OUT.is_relative_to(EVIDENCE_ROOT.resolve()), 'Evidence output must stay in package-local history'
 PIN = '065356127b1dc0016f66b7283ce0ce2c4055aa55'
 ALLOWED = {'propext', 'Classical.choice', 'Quot.sound'}
 
@@ -26,7 +29,7 @@ def snapshot():
     paths = sorted(p for p in ROOT.rglob('*') if p.is_file()
                    and '.lake' not in p.relative_to(ROOT).parts
                    and '__pycache__' not in p.relative_to(ROOT).parts
-                   and not p.is_relative_to(OUT)
+                   and not p.is_relative_to(EVIDENCE_ROOT)
                    and not p.is_relative_to(ROOT / 'verification/continuation')
                    and p.suffix not in {'.log', '.olean', '.ilean'}
                    and p.name != 'local-report.json')
@@ -50,6 +53,7 @@ def parse_audit(output, expected):
 
 
 def main():
+    assert not (OUT / 'local-report.json').exists(), 'Refusing to overwrite an existing immutable local receipt; choose a fresh HODGE_EVIDENCE_DIR'
     before = snapshot()
     prefix = run('git', 'rev-parse', '--show-prefix').strip()
     source_commit = run('git', 'rev-parse', 'HEAD').strip()
@@ -137,7 +141,7 @@ def main():
     (OUT / 'local-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({'status': 'pass', 'audited_declarations': len(seen),
                       'source_commit': report['source_commit'],
-                      'report': 'verification/package-local/local-report.json'}))
+                      'report': str(OUT / 'local-report.json')}))
 
 
 if __name__ == '__main__':

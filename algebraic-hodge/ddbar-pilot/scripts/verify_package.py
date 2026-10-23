@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Exact-source LOCAL package checks; does not execute protected verification."""
-import argparse, datetime, hashlib, json, pathlib, subprocess, sys
+import argparse, datetime, hashlib, json, pathlib, subprocess, sys, tempfile
 import verify
 from check_interfaces import inspect
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-OUT = ROOT / 'verification/package-local'
-PIPELINE_PIN = 'ad5db9e7ff8b17523d73aeb244aaeabcde810c64'
+OUT = verify.OUT
+PIPELINE_PIN = '07a02bae1e85c75ae349d0e75195162d16d41e21'
 
 
 def sha(data):
@@ -41,6 +41,7 @@ def authenticated_pipeline_files(pipeline):
 
 
 def main(pipeline):
+    assert not (OUT / 'local-report.json').exists(), 'Refusing to overwrite an existing immutable local receipt; choose a fresh HODGE_EVIDENCE_DIR'
     head = command(['git', 'rev-parse', 'HEAD']).strip()
     tools = {}
     for path in ['scripts/check_imported_definitions.py', 'tests/test_imported_definitions.py']:
@@ -61,6 +62,8 @@ def main(pipeline):
     assert not issues, [str(issue) for issue in issues]
     verify.main()
     report = json.loads((OUT / 'local-report.json').read_text())
+    report.update(status='incomplete', stage='remaining-local-package-checks')
+    (OUT / 'local-report.json').write_text(json.dumps(report, indent=2) + '\n')
     initial = dict(report['source_sha256'])
     regeneration = command(['python3', 'scripts/make_challenge.py', '--check'])
     (OUT / 'challenge-regeneration.log').write_text(regeneration)
@@ -75,12 +78,20 @@ def main(pipeline):
     (OUT / 'challenge-axioms.log').write_text(audit)
     selected = config['theorem_names'] + config['definition_names']
     selected_axioms = verify.parse_audit(audit, selected)
+    with tempfile.TemporaryDirectory(prefix='hodge-solution-audit-') as tmp:
+        probe = pathlib.Path(tmp) / 'SolutionAudit.lean'
+        probe.write_text((ROOT / 'HodgeChallengeAudit.lean').read_text().replace('import HodgeChallenge', 'import HodgeSolution'))
+        solution_audit = command(['lake', 'env', 'lean', '-DwarningAsError=true', str(probe)])
+    (OUT / 'solution-axioms.log').write_text(solution_audit)
+    solution_axioms = verify.parse_audit(solution_audit, selected)
     interface = inspect()
     (OUT / 'interfaces-and-source-closure.json').write_text(json.dumps(interface, indent=2) + '\n')
     assert verify.snapshot() == initial and command(['git', 'rev-parse', 'HEAD']).strip() == head
     assert report['source_commit'] == head
     assert authenticated_pipeline_files(pipeline) == pipeline_files
     report.update({
+        'status': 'pass',
+        'stage': 'local-package-complete',
         'scope': 'Exact-source LOCAL Challenge/Solution package build, selected and modular axiom audits, metadata/config validation, material-definition consistency and pinned source closure. No protected Comparator or external kernel replay.',
         'repository_tool_sha256': tools,
         'canonical_pipeline_validation_commit': PIPELINE_PIN,
@@ -90,10 +101,12 @@ def main(pipeline):
         'selected_theorem_count': len(config['theorem_names']),
         'selected_definition_count': len(config['definition_names']),
         'selected_challenge_axioms': selected_axioms,
+        'selected_solution_axioms': solution_axioms,
         'material_inventory': inventory[-1],
         'compiled_challenge_module_count': len(interface['source_modules']),
         'local_interface_types_kernel_defeq_in_solution_environment': True,
-        'local_interface_limit': 'Writable local environments and source graph; does not establish protected proof/definition acceptance.',
+        'local_exact_pinned_compareAt_and_literal_definition_values': True,
+        'local_interface_limit': 'Actual pinned comparison function over writable local environments, including random Challenge alias and in-memory rejection controls; no protected canonical run or external-kernel replay.',
         'challenge_bytes': (ROOT / 'HodgeChallenge.lean').stat().st_size,
         'challenge_lines': len((ROOT / 'HodgeChallenge.lean').read_text().splitlines()),
         'challenge_readability_warning': True,
@@ -103,7 +116,7 @@ def main(pipeline):
         'challenge_rendered': False,
         'browser_visual_inspection_run': False,
         'release_packet_guard_run': False,
-        'canonical_execution_blocker': 'Observed harmless namespace probe: bwrap: setting up uid map: Read-only file system. No host workaround attempted; exact one-run approval and suitable zero-cost disposable runner required.',
+        'canonical_execution_blocker': 'Corrected source has not had a canonical run. Original source c3107f8 failed in approved run39894330468; that approval is consumed. No new hosted run is authorized. Local namespace restrictions remain; no security workaround attempted.',
         'completed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
     })
     (OUT / 'local-report.json').write_text(json.dumps(report, indent=2) + '\n')

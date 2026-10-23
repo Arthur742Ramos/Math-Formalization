@@ -40,7 +40,7 @@ theorem closedDenominator_le_closedCycles (p n : ℤ) :
     closedDenominator F p n ≤ closedCycles F p n := by
   apply sup_le
   · intro x hx
-    exact ⟨F.antitone n (show p ≤ p + 1 by lia) hx.1, hx.2⟩
+    exact ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) hx.1, hx.2⟩
   · intro x hx
     refine ⟨hx.1, ?_⟩
     obtain ⟨u, hu⟩ := hx.2

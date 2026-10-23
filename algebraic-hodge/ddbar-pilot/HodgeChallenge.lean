@@ -110,8 +110,8 @@ theorem boundary_closed (r p n : ℤ) {x : C.X n} (hx : x ∈ boundaries F r p n
 theorem denominator_le_cycles (r p n : ℤ) : denominator F r p n ≤ cycles F r p n := by
   apply sup_le
   · intro x hx
-    refine ⟨F.antitone n (by lia) hx.1, ?_⟩
-    have h : (p + 1) + (r - 1) = p + r := by lia
+    refine ⟨F.antitone n (by lia -abstractProof) hx.1, ?_⟩
+    have h : (p + 1) + (r - 1) = p + r := by lia -abstractProof
     simpa only [h] using hx.2
   · intro x hx
     exact ⟨hx.1, by change (C.d n (n + 1)).hom x ∈ F.F (p + r) (n + 1)
@@ -135,12 +135,12 @@ theorem differential_denominator (r p n : ℤ) (x : cycles F r p n) (hx : x ∈ 
     denominator F r (p + r) (n + 1))
   change (C.d n (n + 1)).hom a ∈ boundaries F (r - 1) (p + r) (n + 1)
   refine ⟨?_, ?_⟩
-  · have h : p + 1 + (r - 1) = p + r := by lia
+  · have h : p + 1 + (r - 1) = p + r := by lia -abstractProof
     have hh : (C.d n (n + 1)).hom a ∈ F.F (p + 1 + (r - 1)) (n + 1) := ha.2
     rw [h] at hh
     exact hh
-  · have h : p + r - (r - 1) = p + 1 := by lia
-    rw [show n + 1 - 1 = n by lia, h]
+  · have h : p + r - (r - 1) = p + 1 := by lia -abstractProof
+    rw [show n + 1 - 1 = n by lia -abstractProof, h]
     exact ⟨a, ha.1, rfl⟩
 def differential (r p n : ℤ) : Page F r p n →ₗ[k] Page F r (p + r) (n + 1) :=
   (denominator F r p n).comap (cycles F r p n).subtype |>.liftQ
@@ -193,22 +193,22 @@ theorem filtration_antitone (n : ℤ) : Antitone (fun p => filtration K p n) := 
 theorem projection_kills_next (p q n : ℤ) : filtration K (p + 1) n ≤ LinearMap.ker (projection K p q n).hom := by
   refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp => ?_
   rintro _ ⟨x, rfl⟩
-  have h := inclusion_projection_ne K a b p q n hab (by intro he; lia)
+  have h := inclusion_projection_ne K a b p q n hab (by intro he; lia -abstractProof)
   exact congrArg (fun f => f.hom x) h
 theorem filtration_split (p q n : ℤ) (h : p + q = n) : filtration K p n = LinearMap.range (inclusion K p q n h).hom ⊔ filtration K (p + 1) n := by
   apply le_antisymm
   · refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp => ?_
     by_cases ha : a = p
-    · have hb : b = q := by lia
+    · have hb : b = q := by lia -abstractProof
       subst a b
       exact le_sup_left
     · rintro _ ⟨x, rfl⟩
       exact Submodule.mem_sup.mpr ⟨0, Submodule.zero_mem _, _,
-        inclusion_mem_filtration K (p + 1) a b n hab (by lia) x, zero_add _⟩
+        inclusion_mem_filtration K (p + 1) a b n hab (by lia -abstractProof) x, zero_add _⟩
   · apply sup_le
     · rintro _ ⟨x, rfl⟩
       exact inclusion_mem_filtration K p p q n h (le_refl p) x
-    · exact filtration_antitone K n (by lia)
+    · exact filtration_antitone K n (by lia -abstractProof)
 theorem mem_next_of_projection_zero (p q n : ℤ) (h : p + q = n) (x : (total K).X n) (hx : x ∈ filtration K p n) (hz : (projection K p q n).hom x = 0) : x ∈ filtration K (p + 1) n := by
   rw [filtration_split K p q n h] at hx
   obtain ⟨a, ⟨u, rfl⟩, b, hb, hab⟩ := Submodule.mem_sup.mp hx
@@ -244,7 +244,7 @@ theorem differential_preserves_filtration (p n m : ℤ) : filtration K p n ≤ (
   · have hs : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ)
         (ComplexShape.up ℤ) (a, b) = 1 := rfl
     rw [hs, one_smul]
-    exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia)
+    exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia -abstractProof)
       (((K.d a (a + 1)).f b).hom x)
   · exact (filtration K p m).toAddSubgroup.zsmul_mem
       (inclusionOrZero_mem_filtration K p a (b + 1) m hp (((K.X a).d b (b + 1)).hom x))
@@ -278,25 +278,25 @@ theorem d_projection (p q n : ℤ) (hn : p + q = n + 1) : (total K).d n (n + 1) 
     Linear.units_smul_comp]
   simp only [Preadditive.comp_add, Linear.comp_units_smul, Category.assoc]
   by_cases ha : a = p - 1
-  · have hb : b = q := by lia
+  · have hb : b = q := by lia -abstractProof
     subst a b
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     rw [inclusionOrZero_projection_eq K p q (n + 1) hn,
-      inclusionOrZero_projection_ne K (p - 1) (q + 1) p q (n + 1) (by intro h; lia),
+      inclusionOrZero_projection_ne K (p - 1) (q + 1) p q (n + 1) (by intro h; lia -abstractProof),
       inclusion_projection_eq_assoc K (p - 1) q n hab,
-      inclusion_projection_ne_assoc K (p - 1) q p (q - 1) n hab (by intro h; lia)]
+      inclusion_projection_ne_assoc K (p - 1) q p (q - 1) n hab (by intro h; lia -abstractProof)]
     simp
   · by_cases ha' : a = p
-    · have hb : b = q - 1 := by lia
+    · have hb : b = q - 1 := by lia -abstractProof
       subst a b
-      rw [show q - 1 + 1 = q by lia]
-      rw [inclusionOrZero_projection_ne K (p + 1) (q - 1) p q (n + 1) (by intro h; lia),
+      rw [show q - 1 + 1 = q by lia -abstractProof]
+      rw [inclusionOrZero_projection_ne K (p + 1) (q - 1) p q (n + 1) (by intro h; lia -abstractProof),
         inclusionOrZero_projection_eq K p q (n + 1) hn,
-        inclusion_projection_ne_assoc K p (q - 1) (p - 1) q n hab (by intro h; lia),
+        inclusion_projection_ne_assoc K p (q - 1) (p - 1) q n hab (by intro h; lia -abstractProof),
         inclusion_projection_eq_assoc K p (q - 1) n hab]
       simp
-    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1) (by intro h; lia),
-        inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (by intro h; lia),
+    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1) (by intro h; lia -abstractProof),
+        inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (by intro h; lia -abstractProof),
         inclusion_projection_ne_assoc K a b (p - 1) q n hab (by intro h; exact ha h.1),
         inclusion_projection_ne_assoc K a b p (q - 1) n hab (by intro h; exact ha' h.1)]
       simp
@@ -350,14 +350,14 @@ variable {k : Type} [Field k] (K : Bicomplex k)
 theorem leading_vertical_closed (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (x : (total K).X n) (hx : x ∈ Filtered.cycles (filtered K) r p n) : vertical K p q ((projection K p q n).hom x) = 0 := by
   have hlo : (projection K (p - 1) (q + 1) n).hom x = 0 := by
     apply projection_kills_next K (p - 1) (q + 1) n
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hx.1
   have hhi : (projection K p (q + 1) (n + 1)).hom
       (((total K).d n (n + 1)).hom x) = 0 := by
     apply projection_kills_next K p (q + 1) (n + 1)
-    exact filtration_antitone K (n + 1) (show p + 1 ≤ p + r by lia) hx.2
-  have hd := congrArg (fun f => f.hom x) (d_projection K p (q + 1) n (by lia))
-  rw [show q + 1 - 1 = q by lia] at hd
+    exact filtration_antitone K (n + 1) (show p + 1 ≤ p + r by lia -abstractProof) hx.2
+  have hd := congrArg (fun f => f.hom x) (d_projection K p (q + 1) n (by lia -abstractProof))
+  rw [show q + 1 - 1 = q by lia -abstractProof] at hd
   simp only [ModuleCat.hom_comp, ModuleCat.hom_add, ModuleCat.hom_smul,
     LinearMap.comp_apply, LinearMap.add_apply, LinearMap.smul_apply] at hd
   rw [hhi, hlo, map_zero, zero_add] at hd
@@ -397,27 +397,27 @@ theorem pure_biclosed_mem (r p q n : ℤ) (hn : p + q = n) (z : LinearMap.ker (v
 theorem leadingCycleMap_pure (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (z : LinearMap.ker (vertical K p q)) (hz : (inclusion K p q n hn).hom z.val ∈ Filtered.cycles (filtered K) r p n) : leadingCycleMap K r p q n hn hr ⟨_, hz⟩ = z := by
   apply Subtype.ext
   exact congrArg (fun f => f.hom z.val) (inclusion_projection_eq K p q n hn)
-theorem projection_d_pure (p q n : ℤ) (hn : p + q = n) (b : (K.X p).X (q - 1)) : (projection K p q n).hom (((total K).d (n - 1) n).hom ((inclusion K p (q - 1) (n - 1) (by lia)).hom b)) = p.negOnePow • incomingVertical K p q b := by
-  let u := (inclusion K p (q - 1) (n - 1) (by lia)).hom b
+theorem projection_d_pure (p q n : ℤ) (hn : p + q = n) (b : (K.X p).X (q - 1)) : (projection K p q n).hom (((total K).d (n - 1) n).hom ((inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b)) = p.negOnePow • incomingVertical K p q b := by
+  let u := (inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b
   have hu : u ∈ filtration K p (n - 1) :=
-    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia) (le_refl p) b
+    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia -abstractProof) (le_refl p) b
   have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
     apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hu
   have hp : (projection K p (q - 1) (n - 1)).hom u = b :=
-    congrArg (fun f => f.hom b) (inclusion_projection_eq K p (q - 1) (n - 1) (by lia))
-  have hd := d_projection_apply K p q (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia, hlo, hp, map_zero, zero_add] at hd
+    congrArg (fun f => f.hom b) (inclusion_projection_eq K p (q - 1) (n - 1) (by lia -abstractProof))
+  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, hp, map_zero, zero_add] at hd
   exact hd
 theorem leading_class_zero_mem_denominator (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (x : Filtered.cycles (filtered K) r p n) (hx : leadingClassMap K r p q n hn hr x = 0) : x.val ∈ Filtered.denominator (filtered K) r p n := by
   obtain ⟨b, hb⟩ := (verticalClassMap_eq_zero_iff K p q
     (leadingCycleMap K r p q n hn hr x)).mp hx
   change incomingVertical K p q b = (projection K p q n).hom x.val at hb
-  let u := (inclusion K p (q - 1) (n - 1) (by lia)).hom (p.negOnePow • b)
+  let u := (inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom (p.negOnePow • b)
   let du := ((total K).d (n - 1) n).hom u
   have hu : u ∈ filtration K p (n - 1) :=
-    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia) (le_refl _) _
+    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia -abstractProof) (le_refl _) _
   have hdu : du ∈ filtration K p n := differential_preserves_filtration K p (n - 1) n hu
   have hproj : (projection K p q n).hom du = (projection K p q n).hom x.val := by
     have hd := projection_d_pure K p q n hn (p.negOnePow • b)
@@ -437,19 +437,19 @@ theorem leading_class_zero_mem_denominator (r p q n : ℤ) (hn : p + q = n) (hr 
     refine ⟨hy, ?_⟩
     change ((total K).d n (n + 1)).hom (x.val - du) ∈
       filtration K (p + 1 + (r - 1)) (n + 1)
-    rw [map_sub, hddu, sub_zero, show p + 1 + (r - 1) = p + r by lia]
+    rw [map_sub, hddu, sub_zero, show p + 1 + (r - 1) = p + r by lia -abstractProof]
     exact x.property.2
   have hdb : du ∈ Filtered.boundaries (filtered K) (r - 1) p n :=
-    ⟨hdu, u, filtration_antitone K (n - 1) (show p - (r - 1) ≤ p by lia) hu, rfl⟩
+    ⟨hdu, u, filtration_antitone K (n - 1) (show p - (r - 1) ≤ p by lia -abstractProof) hu, rfl⟩
   exact Submodule.mem_sup.mpr ⟨y, hyc, du, hdb, sub_add_cancel x.val du⟩
 theorem boundary_leading_exact_of_primitive_mem (p q n : ℤ) (hn : p + q = n) (u : (total K).X (n - 1)) (hu : u ∈ filtration K p (n - 1)) : ∃ b : (K.X p).X (q - 1), incomingVertical K p q b = (projection K p q n).hom (((total K).d (n - 1)
     n).hom u) := by
   have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
     apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hu
-  have hd := d_projection_apply K p q (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia, hlo, map_zero, zero_add] at hd
+  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, map_zero, zero_add] at hd
   refine ⟨p.negOnePow • (projection K p (q - 1) (n - 1)).hom u, ?_⟩
   simpa using hd.symm
 theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n) (hdd : ImageKernel K (p - 1) q) (u : (total K).X (n - 1)) (hu : ((total K).d (n - 1) n).hom u ∈ filtration K p n) : ∃ b : (K.X p).X (q - 1), incomingVertical K p q b = (projection
@@ -457,17 +457,17 @@ theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n) (hdd : ImageKernel
   let a := (projection K (p - 1) q (n - 1)).hom u
   let b := (projection K p (q - 1) (n - 1)).hom u
   let c := (projection K (p - 1 - 1) (q + 1) (n - 1)).hom u
-  have hd := d_projection_apply K p q (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia] at hd
+  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof] at hd
   change (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
     ((K.d (p - 1) p).f q).hom a + p.negOnePow • incomingVertical K p q b at hd
   have hlo : (projection K (p - 1) (q + 1) n).hom
       (((total K).d (n - 1) n).hom u) = 0 := by
     apply projection_kills_next K (p - 1) (q + 1) n
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hu
-  have hdlo := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia, show q + 1 - 1 = q by lia, hlo] at hdlo
+  have hdlo := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof, show q + 1 - 1 = q by lia -abstractProof, hlo] at hdlo
   change 0 = ((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c +
     (p - 1).negOnePow • vertical K (p - 1) q a at hdlo
   have hhzero : ((K.d (p - 1) p).f (q + 1)).hom
@@ -483,7 +483,7 @@ theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n) (hdd : ImageKernel
     have hs := congrArg (fun t => ((p - 1).negOnePow : ℤ) • t) he.symm
     simpa [smul_smul, ← Units.val_mul, Int.units_mul_self] using hs
   dsimp only [ImageKernel, horizontal] at hdd
-  rw [show p - 1 + 1 = p by lia] at hdd
+  rw [show p - 1 + 1 = p by lia -abstractProof] at hdd
   have hm : ((K.d (p - 1) p).f q).hom a ∈
       LinearMap.range ((K.d (p - 1) p).f q).hom ⊓ LinearMap.ker (vertical K p q) :=
     ⟨⟨a, rfl⟩, hv⟩
@@ -606,21 +606,21 @@ noncomputable def pageIso (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (hddIn
 theorem boundary_leading_exact_next (p q n : ℤ) (hn : p + q = n + 1) (hdd : ImageKernel K (p - 1) q) (u : (total K).X n) (hu : ((total K).d n (n + 1)).hom u ∈ filtration K p (n + 1)) : ∃ b : (K.X p).X (q - 1), incomingVertical K p q b =
     (projection K p q (n + 1)).hom (((total K).d n (n + 1)).hom u) := by
   have h := boundary_leading_exact K p q (n + 1) hn hdd
-  rw [show n + 1 - 1 = n by lia] at h
+  rw [show n + 1 - 1 = n by lia -abstractProof] at h
   exact h u hu
 theorem all_differentials_zero (hdd : ∀ p q : ℤ, ImageKernel K p q) (r p n : ℤ) (hr : 1 ≤ r) : Filtered.differential (filtered K) r p n = 0 := by
   apply LinearMap.ext
   intro c
-  apply pageClassMap_injective K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia) hr
+  apply pageClassMap_injective K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia -abstractProof) hr
     (hdd (p + r - 1) (n + 1 - (p + r)))
   simp only [LinearMap.zero_apply, map_zero]
   obtain ⟨x, rfl⟩ := Filtered.quotient_surjective (filtered K) r p n c
   rw [Filtered.differential_quotient, pageClassMap_quotient]
   change verticalClassMap K (p + r) (n + 1 - (p + r))
-    (leadingCycleMap K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia) hr
+    (leadingCycleMap K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia -abstractProof) hr
       (Filtered.differentialOnCycles (filtered K) r p n x)) = 0
   apply (verticalClassMap_eq_zero_iff K (p + r) (n + 1 - (p + r)) _).mpr
-  obtain ⟨b, hb⟩ := boundary_leading_exact_next K (p + r) (n + 1 - (p + r)) n (by lia)
+  obtain ⟨b, hb⟩ := boundary_leading_exact_next K (p + r) (n + 1 - (p + r)) n (by lia -abstractProof)
     (hdd (p + r - 1) (n + 1 - (p + r))) x.val x.property.2
   exact ⟨b, hb⟩
 noncomputable abbrev pageObject (r : ℤ) (pq : ℤ × ℤ) : ModuleCat k :=
@@ -630,7 +630,7 @@ noncomputable def differentialTo (r : ℤ) (pq pq' : ℤ × ℤ) (h : pq + (r, 1
     eqToHom (by
       have hp : pq.1 + r = pq'.1 := congrArg Prod.fst h
       have hq : pq.2 + (1 - r) = pq'.2 := congrArg Prod.snd h
-      have hn : pq.1 + pq.2 + 1 = pq'.1 + pq'.2 := by lia
+      have hn : pq.1 + pq.2 + 1 = pq'.1 + pq'.2 := by lia -abstractProof
       change ModuleCat.of k (Filtered.Page (filtered K) r (pq.1 + r) (pq.1 + pq.2 + 1)) = _
       rw [hp, hn])
 noncomputable def pageDifferential (r : ℤ) (pq pq' : ℤ × ℤ) : pageObject K r pq ⟶ pageObject K r pq' :=
@@ -661,7 +661,7 @@ noncomputable def associatedSequence (hdd : ∀ p q : ℤ, ImageKernel K p q) :
     zeroPageHomologyIso K hdd r hr pq ≪≫
       pageIso K r pq.1 pq.2 (pq.1 + pq.2) rfl hr
         (hdd (pq.1 - 1) pq.2) (hdd pq.1 pq.2) ≪≫
-      (pageIso K r' pq.1 pq.2 (pq.1 + pq.2) rfl (by lia)
+      (pageIso K r' pq.1 pq.2 (pq.1 + pq.2) rfl (by lia -abstractProof)
         (hdd (pq.1 - 1) pq.2) (hdd pq.1 pq.2)).symm
 theorem zeroPageHomologyIso_π (hdd : ∀ p q : ℤ, ImageKernel K p q) (r : ℤ) (hr : 1 ≤ r) (pq : ℤ × ℤ) : (pageComplex K hdd r hr).homologyπ pq ≫ (zeroPageHomologyIso K hdd r hr pq).hom = (pageComplex K hdd r hr).iCycles pq := by
   let h := ShortComplex.LeftHomologyData.ofZeros ((pageComplex K hdd r hr).sc pq)
@@ -682,13 +682,13 @@ theorem page_comparison_common_representative (hdd : ∀ p q : ℤ, ImageKernel 
   rfl
 theorem associatedSequence_transition (hdd : ∀ p q : ℤ, ImageKernel K p q) (r s : ℤ) (hrs : r + 1 = s) (hr : 1 ≤ r) (p q : ℤ) (x : (total K).X (p + q)) (hx : x ∈ Filtered.cycles (filtered K) r p (p + q)) (hx' : x ∈ Filtered.cycles (filtered
     K) s p (p + q)) : ((associatedSequence K hdd).iso r s (p, q) hrs hr).hom ((zeroPageHomologyIso K hdd r hr (p, q)).inv (Filtered.quotient (filtered K) r p (p + q) ⟨x, hx⟩)) = Filtered.quotient (filtered K) s p (p + q) ⟨x, hx'⟩ := by
-  change (pageIso K s p q (p + q) rfl (by lia) (hdd (p - 1) q) (hdd p q)).inv
+  change (pageIso K s p q (p + q) rfl (by lia -abstractProof) (hdd (p - 1) q) (hdd p q)).inv
     ((pageIso K r p q (p + q) rfl hr (hdd (p - 1) q) (hdd p q)).hom
       ((zeroPageHomologyIso K hdd r hr (p, q)).hom
         ((zeroPageHomologyIso K hdd r hr (p, q)).inv
           (Filtered.quotient (filtered K) r p (p + q) ⟨x, hx⟩)))) = _
   rw [Iso.inv_hom_id_apply]
-  exact page_comparison_common_representative K hdd r s p q (p + q) rfl hr (by lia) x hx hx'
+  exact page_comparison_common_representative K hdd r s p q (p + q) rfl hr (by lia -abstractProof) x hx hx'
 end AlgebraicHodgePilot.Column
 namespace AlgebraicHodgePilot.Filtered
 variable {k : Type} [Field k] {C : CochainComplex (ModuleCat k) ℤ} (F : Filtration C)
@@ -709,7 +709,7 @@ def closedToCycles (r p n : ℤ) : closedCycles F p n →ₗ[k] cycles F r p n :
 theorem closedDenominator_le_closedCycles (p n : ℤ) : closedDenominator F p n ≤ closedCycles F p n := by
   apply sup_le
   · intro x hx
-    exact ⟨F.antitone n (show p ≤ p + 1 by lia) hx.1, hx.2⟩
+    exact ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) hx.1, hx.2⟩
   · intro x hx
     refine ⟨hx.1, ?_⟩
     obtain ⟨u, hu⟩ := hx.2
@@ -735,7 +735,7 @@ theorem filtration_eq_bot (L U : ℤ) (hs : HorizontalSupport K L U) (p n : ℤ)
   apply le_antisymm ?_ bot_le
   refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun ha => ?_
   rintro _ ⟨x, rfl⟩
-  have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inr (by lia))) x 0
+  have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inr (by lia -abstractProof))) x 0
   simp [hx]
 theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U) (p n : ℤ) (hp : p ≤ L) : filtration K p n = ⊤ := by
   let f : (total K).X n ⟶ ModuleCat.of k ((total K).X n ⧸ filtration K p n) :=
@@ -749,7 +749,7 @@ theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U) (p n : ℤ)
     by_cases ha : p ≤ a
     · exact (Submodule.Quotient.mk_eq_zero _).mpr
         (inclusion_mem_filtration K p a b n hab ha x)
-    · have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia))) x 0
+    · have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia -abstractProof))) x 0
       simp [hx]
   apply top_unique
   intro x _
@@ -767,8 +767,8 @@ theorem boundaries_stable (L U : ℤ) (hs : HorizontalSupport K L U) (r p n : �
   rfl
 theorem denominator_stable (L U : ℤ) (hs : HorizontalSupport K L U) (r p n : ℤ) (hu : U < p + r) (hl : p - r + 1 ≤ L) : Filtered.denominator (filtered K) r p n = Filtered.closedDenominator (filtered K) p n := by
   unfold Filtered.denominator Filtered.closedDenominator
-  rw [cycles_stable K L U hs (r - 1) (p + 1) n (by lia),
-    boundaries_stable K L U hs (r - 1) p n (by lia)]
+  rw [cycles_stable K L U hs (r - 1) (p + 1) n (by lia -abstractProof),
+    boundaries_stable K L U hs (r - 1) p n (by lia -abstractProof)]
 noncomputable def stablePageIso (L U : ℤ) (hs : HorizontalSupport K L U) (r p n : ℤ) (hu : U < p + r) (hl : p - r + 1 ≤ L) : ModuleCat.of k (Filtered.Page (filtered K) r p n) ≅ ModuleCat.of k (Filtered.InfinityPage (filtered K) p n) :=
   eqToIso (by
     unfold Filtered.Page Filtered.InfinityPage
@@ -855,7 +855,7 @@ theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) : closedToG
     obtain ⟨b, hb⟩ := (cohomologyClassMap_eq_zero_iff C n (xp - yp)).mp hclass
     have hdiff : x.val - y.val ∈ closedBoundaries F p n := by
       refine ⟨(F.F p n).sub_mem x.property.1
-        (F.antitone n (show p ≤ p + 1 by lia) y.property.1), b, ?_⟩
+        (F.antitone n (show p ≤ p + 1 by lia -abstractProof) y.property.1), b, ?_⟩
       exact hb
     exact Submodule.mem_sup.mpr ⟨y.val, y.property, x.val - y.val, hdiff,
       add_sub_cancel _ _⟩
@@ -867,7 +867,7 @@ theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) : closedToG
     have hbb : cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) = 0 :=
       (cohomologyClassMap_eq_zero_iff C n _).mpr hb.2
     have hac : a ∈ closedCycles F p n :=
-      ⟨F.antitone n (show p ≤ p + 1 by lia) ha.1, ha.2⟩
+      ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) ha.1, ha.2⟩
     refine ⟨⟨a, ha⟩, ?_⟩
     have he : (⟨a, hac⟩ : closedCycles F p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
     rw [← he, map_add]
@@ -923,7 +923,7 @@ namespace AlgebraicHodgePilot.Filtered
 variable {k : Type} [Field k] {C : CochainComplex (ModuleCat k) ℤ} (F : Filtration C)
 theorem cycles_succ_le (r p n : ℤ) : cycles F (r + 1) p n ≤ cycles F r p n := by
   intro x hx
-  exact ⟨hx.1, F.antitone (n + 1) (show p + r ≤ p + (r + 1) by lia) hx.2⟩
+  exact ⟨hx.1, F.antitone (n + 1) (show p + r ≤ p + (r + 1) by lia -abstractProof) hx.2⟩
 theorem cohomologyFiltration_eq_top_of_top (p n : ℤ) (hF : F.F p n = ⊤) : cohomologyFiltration F p n = ⊤ := by
   apply LinearMap.range_eq_top.mpr
   intro c
@@ -973,7 +973,7 @@ theorem cohomologyFiltration_exhaustive_separated (L U : ℤ) (hs : HorizontalSu
       (⨅ p : ℤ, Filtered.cohomologyFiltration (filtered K) p n) ≤
           Filtered.cohomologyFiltration (filtered K) (U + 1) n :=
         iInf_le (fun p : ℤ => Filtered.cohomologyFiltration (filtered K) p n) (U + 1)
-      _ = ⊥ := cohomologyFiltration_eq_bot K L U hs (U + 1) n (by lia)
+      _ = ⊥ := cohomologyFiltration_eq_bot K L U hs (U + 1) n (by lia -abstractProof)
 theorem quotient_cast_class {M : Type} [AddCommGroup M] [Module k M] (A B S T : Submodule k M) (hA : A = B) (hD : S = T) (he : ModuleCat.of k (A ⧸ S.comap A.subtype) = ModuleCat.of k (B ⧸ T.comap B.subtype)) (x : M) (hx : x ∈ A) (hx' : x ∈
     B) : (eqToIso he).hom ((S.comap A.subtype).mkQ ⟨x, hx⟩) = (T.comap B.subtype).mkQ ⟨x, hx'⟩ := by
   subst B T

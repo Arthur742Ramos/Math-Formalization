@@ -1,6 +1,6 @@
 module
 
-import HodgeSolution
+import ReleaseFidelity
 import FiltrationComplex
 import SignBridge
 import Indexing

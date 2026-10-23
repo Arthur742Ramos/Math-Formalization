@@ -1,5 +1,9 @@
 """Regression cases for fail-closed transitive axiom audit parsing."""
 import unittest
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
+import verify
 from verify import parse_audit
 
 
@@ -22,6 +26,18 @@ class AuditParsing(unittest.TestCase):
             parse_audit("'A' does not depend on any axioms\n'B' does not depend on any axioms", ['A'])
         with self.assertRaises(AssertionError):
             parse_audit("'A' does not depend on any axioms\n'A' does not depend on any axioms", ['A'])
+
+
+class ReceiptHistory(unittest.TestCase):
+    def test_existing_receipt_cannot_be_overwritten(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            receipt = directory / 'local-report.json'
+            receipt.write_bytes(b'immutable historical receipt')
+            with patch.object(verify, 'OUT', directory):
+                with self.assertRaisesRegex(AssertionError, 'Refusing to overwrite'):
+                    verify.main()
+            self.assertEqual(receipt.read_bytes(), b'immutable historical receipt')
 
 
 if __name__ == '__main__':

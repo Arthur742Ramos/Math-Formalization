@@ -20,7 +20,7 @@ theorem boundary_leading_exact_next (p q n : ℤ) (hn : p + q = n + 1)
     ∃ b : (K.X p).X (q - 1), incomingVertical K p q b =
       (projection K p q (n + 1)).hom (((total K).d n (n + 1)).hom u) := by
   have h := boundary_leading_exact K p q (n + 1) hn hdd
-  rw [show n + 1 - 1 = n by lia] at h
+  rw [show n + 1 - 1 = n by lia -abstractProof] at h
   exact h u hu
 
 /-- All actual induced differentials vanish, simultaneously for every `r ≥ 1`.
@@ -31,16 +31,16 @@ theorem all_differentials_zero (hdd : ∀ p q : ℤ, ImageKernel K p q)
     Filtered.differential (filtered K) r p n = 0 := by
   apply LinearMap.ext
   intro c
-  apply pageClassMap_injective K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia) hr
+  apply pageClassMap_injective K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia -abstractProof) hr
     (hdd (p + r - 1) (n + 1 - (p + r)))
   simp only [LinearMap.zero_apply, map_zero]
   obtain ⟨x, rfl⟩ := Filtered.quotient_surjective (filtered K) r p n c
   rw [Filtered.differential_quotient, pageClassMap_quotient]
   change verticalClassMap K (p + r) (n + 1 - (p + r))
-    (leadingCycleMap K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia) hr
+    (leadingCycleMap K r (p + r) (n + 1 - (p + r)) (n + 1) (by lia -abstractProof) hr
       (Filtered.differentialOnCycles (filtered K) r p n x)) = 0
   apply (verticalClassMap_eq_zero_iff K (p + r) (n + 1 - (p + r)) _).mpr
-  obtain ⟨b, hb⟩ := boundary_leading_exact_next K (p + r) (n + 1 - (p + r)) n (by lia)
+  obtain ⟨b, hb⟩ := boundary_leading_exact_next K (p + r) (n + 1 - (p + r)) n (by lia -abstractProof)
     (hdd (p + r - 1) (n + 1 - (p + r))) x.val x.property.2
   exact ⟨b, hb⟩
 

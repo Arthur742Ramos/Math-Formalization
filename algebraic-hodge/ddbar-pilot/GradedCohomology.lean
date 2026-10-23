@@ -69,7 +69,7 @@ theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) :
     obtain ⟨b, hb⟩ := (cohomologyClassMap_eq_zero_iff C n (xp - yp)).mp hclass
     have hdiff : x.val - y.val ∈ closedBoundaries F p n := by
       refine ⟨(F.F p n).sub_mem x.property.1
-        (F.antitone n (show p ≤ p + 1 by lia) y.property.1), b, ?_⟩
+        (F.antitone n (show p ≤ p + 1 by lia -abstractProof) y.property.1), b, ?_⟩
       exact hb
     exact Submodule.mem_sup.mpr ⟨y.val, y.property, x.val - y.val, hdiff,
       add_sub_cancel _ _⟩
@@ -81,7 +81,7 @@ theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) :
     have hbb : cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) = 0 :=
       (cohomologyClassMap_eq_zero_iff C n _).mpr hb.2
     have hac : a ∈ closedCycles F p n :=
-      ⟨F.antitone n (show p ≤ p + 1 by lia) ha.1, ha.2⟩
+      ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) ha.1, ha.2⟩
     refine ⟨⟨a, ha⟩, ?_⟩
     have he : (⟨a, hac⟩ : closedCycles F p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
     rw [← he, map_add]

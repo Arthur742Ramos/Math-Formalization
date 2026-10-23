@@ -61,12 +61,12 @@ theorem associatedSequence_transition (hdd : ∀ p q : ℤ, ImageKernel K p q)
       ((zeroPageHomologyIso K hdd r hr (p, q)).inv
         (Filtered.quotient (filtered K) r p (p + q) ⟨x, hx⟩)) =
       Filtered.quotient (filtered K) s p (p + q) ⟨x, hx'⟩ := by
-  change (pageIso K s p q (p + q) rfl (by lia) (hdd (p - 1) q) (hdd p q)).inv
+  change (pageIso K s p q (p + q) rfl (by lia -abstractProof) (hdd (p - 1) q) (hdd p q)).inv
     ((pageIso K r p q (p + q) rfl hr (hdd (p - 1) q) (hdd p q)).hom
       ((zeroPageHomologyIso K hdd r hr (p, q)).hom
         ((zeroPageHomologyIso K hdd r hr (p, q)).inv
           (Filtered.quotient (filtered K) r p (p + q) ⟨x, hx⟩)))) = _
   rw [Iso.inv_hom_id_apply]
-  exact page_comparison_common_representative K hdd r s p q (p + q) rfl hr (by lia) x hx hx'
+  exact page_comparison_common_representative K hdd r s p q (p + q) rfl hr (by lia -abstractProof) x hx hx'
 
 end AlgebraicHodgePilot.Column

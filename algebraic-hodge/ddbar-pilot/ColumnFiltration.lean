@@ -66,7 +66,7 @@ theorem projection_kills_next (p q n : ℤ) :
     filtration K (p + 1) n ≤ LinearMap.ker (projection K p q n).hom := by
   refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp => ?_
   rintro _ ⟨x, rfl⟩
-  have h := inclusion_projection_ne K a b p q n hab (by intro he; lia)
+  have h := inclusion_projection_ne K a b p q n hab (by intro he; lia -abstractProof)
   exact congrArg (fun f => f.hom x) h
 
 theorem filtration_split (p q n : ℤ) (h : p + q = n) :
@@ -75,16 +75,16 @@ theorem filtration_split (p q n : ℤ) (h : p + q = n) :
   apply le_antisymm
   · refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp => ?_
     by_cases ha : a = p
-    · have hb : b = q := by lia
+    · have hb : b = q := by lia -abstractProof
       subst a b
       exact le_sup_left
     · rintro _ ⟨x, rfl⟩
       exact Submodule.mem_sup.mpr ⟨0, Submodule.zero_mem _, _,
-        inclusion_mem_filtration K (p + 1) a b n hab (by lia) x, zero_add _⟩
+        inclusion_mem_filtration K (p + 1) a b n hab (by lia -abstractProof) x, zero_add _⟩
   · apply sup_le
     · rintro _ ⟨x, rfl⟩
       exact inclusion_mem_filtration K p p q n h (le_refl p) x
-    · exact filtration_antitone K n (by lia)
+    · exact filtration_antitone K n (by lia -abstractProof)
 
 theorem mem_next_of_projection_zero (p q n : ℤ) (h : p + q = n)
     (x : (total K).X n) (hx : x ∈ filtration K p n)
@@ -141,7 +141,7 @@ theorem differential_preserves_filtration (p n m : ℤ) :
   · have hs : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ)
         (ComplexShape.up ℤ) (a, b) = 1 := rfl
     rw [hs, one_smul]
-    exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia)
+    exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia -abstractProof)
       (((K.d a (a + 1)).f b).hom x)
   · exact (filtration K p m).toAddSubgroup.zsmul_mem
       (inclusionOrZero_mem_filtration K p a (b + 1) m hp (((K.X a).d b (b + 1)).hom x))

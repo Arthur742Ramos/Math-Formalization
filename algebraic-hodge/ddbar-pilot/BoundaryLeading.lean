@@ -20,10 +20,10 @@ theorem boundary_leading_exact_of_primitive_mem (p q n : ℤ) (hn : p + q = n)
       (projection K p q n).hom (((total K).d (n - 1) n).hom u) := by
   have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
     apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hu
-  have hd := d_projection_apply K p q (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia, hlo, map_zero, zero_add] at hd
+  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, map_zero, zero_add] at hd
   refine ⟨p.negOnePow • (projection K p (q - 1) (n - 1)).hom u, ?_⟩
   simpa using hd.symm
 
@@ -35,17 +35,17 @@ theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n)
   let a := (projection K (p - 1) q (n - 1)).hom u
   let b := (projection K p (q - 1) (n - 1)).hom u
   let c := (projection K (p - 1 - 1) (q + 1) (n - 1)).hom u
-  have hd := d_projection_apply K p q (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia] at hd
+  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof] at hd
   change (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
     ((K.d (p - 1) p).f q).hom a + p.negOnePow • incomingVertical K p q b at hd
   have hlo : (projection K (p - 1) (q + 1) n).hom
       (((total K).d (n - 1) n).hom u) = 0 := by
     apply projection_kills_next K (p - 1) (q + 1) n
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hu
-  have hdlo := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia, show q + 1 - 1 = q by lia, hlo] at hdlo
+  have hdlo := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof, show q + 1 - 1 = q by lia -abstractProof, hlo] at hdlo
   change 0 = ((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c +
     (p - 1).negOnePow • vertical K (p - 1) q a at hdlo
   have hhzero : ((K.d (p - 1) p).f (q + 1)).hom
@@ -61,7 +61,7 @@ theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n)
     have hs := congrArg (fun t => ((p - 1).negOnePow : ℤ) • t) he.symm
     simpa [smul_smul, ← Units.val_mul, Int.units_mul_self] using hs
   dsimp only [ImageKernel, horizontal] at hdd
-  rw [show p - 1 + 1 = p by lia] at hdd
+  rw [show p - 1 + 1 = p by lia -abstractProof] at hdd
   have hm : ((K.d (p - 1) p).f q).hom a ∈
       LinearMap.range ((K.d (p - 1) p).f q).hom ⊓ LinearMap.ker (vertical K p q) :=
     ⟨⟨a, rfl⟩, hv⟩

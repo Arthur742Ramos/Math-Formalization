@@ -50,25 +50,25 @@ theorem d_projection (p q n : ℤ) (hn : p + q = n + 1) :
     Linear.units_smul_comp]
   simp only [Preadditive.comp_add, Linear.comp_units_smul, Category.assoc]
   by_cases ha : a = p - 1
-  · have hb : b = q := by lia
+  · have hb : b = q := by lia -abstractProof
     subst a b
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     rw [inclusionOrZero_projection_eq K p q (n + 1) hn,
-      inclusionOrZero_projection_ne K (p - 1) (q + 1) p q (n + 1) (by intro h; lia),
+      inclusionOrZero_projection_ne K (p - 1) (q + 1) p q (n + 1) (by intro h; lia -abstractProof),
       inclusion_projection_eq_assoc K (p - 1) q n hab,
-      inclusion_projection_ne_assoc K (p - 1) q p (q - 1) n hab (by intro h; lia)]
+      inclusion_projection_ne_assoc K (p - 1) q p (q - 1) n hab (by intro h; lia -abstractProof)]
     simp
   · by_cases ha' : a = p
-    · have hb : b = q - 1 := by lia
+    · have hb : b = q - 1 := by lia -abstractProof
       subst a b
-      rw [show q - 1 + 1 = q by lia]
-      rw [inclusionOrZero_projection_ne K (p + 1) (q - 1) p q (n + 1) (by intro h; lia),
+      rw [show q - 1 + 1 = q by lia -abstractProof]
+      rw [inclusionOrZero_projection_ne K (p + 1) (q - 1) p q (n + 1) (by intro h; lia -abstractProof),
         inclusionOrZero_projection_eq K p q (n + 1) hn,
-        inclusion_projection_ne_assoc K p (q - 1) (p - 1) q n hab (by intro h; lia),
+        inclusion_projection_ne_assoc K p (q - 1) (p - 1) q n hab (by intro h; lia -abstractProof),
         inclusion_projection_eq_assoc K p (q - 1) n hab]
       simp
-    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1) (by intro h; lia),
-        inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (by intro h; lia),
+    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1) (by intro h; lia -abstractProof),
+        inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (by intro h; lia -abstractProof),
         inclusion_projection_ne_assoc K a b (p - 1) q n hab (by intro h; exact ha h.1),
         inclusion_projection_ne_assoc K a b p (q - 1) n hab (by intro h; exact ha' h.1)]
       simp

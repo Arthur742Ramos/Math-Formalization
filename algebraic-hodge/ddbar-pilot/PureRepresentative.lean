@@ -51,19 +51,19 @@ theorem projection_d_pure (p q n : ℤ) (hn : p + q = n)
     (b : (K.X p).X (q - 1)) :
     (projection K p q n).hom
       (((total K).d (n - 1) n).hom
-        ((inclusion K p (q - 1) (n - 1) (by lia)).hom b)) =
+        ((inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b)) =
       p.negOnePow • incomingVertical K p q b := by
-  let u := (inclusion K p (q - 1) (n - 1) (by lia)).hom b
+  let u := (inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b
   have hu : u ∈ filtration K p (n - 1) :=
-    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia) (le_refl p) b
+    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia -abstractProof) (le_refl p) b
   have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
     apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia]
+    rw [show p - 1 + 1 = p by lia -abstractProof]
     exact hu
   have hp : (projection K p (q - 1) (n - 1)).hom u = b :=
-    congrArg (fun f => f.hom b) (inclusion_projection_eq K p (q - 1) (n - 1) (by lia))
-  have hd := d_projection_apply K p q (n - 1) (by lia) u
-  rw [show n - 1 + 1 = n by lia, hlo, hp, map_zero, zero_add] at hd
+    congrArg (fun f => f.hom b) (inclusion_projection_eq K p (q - 1) (n - 1) (by lia -abstractProof))
+  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
+  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, hp, map_zero, zero_add] at hd
   exact hd
 
 end AlgebraicHodgePilot.Column

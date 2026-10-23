@@ -46,8 +46,8 @@ theorem denominator_le_cycles (r p n : ℤ) :
     denominator F r p n ≤ cycles F r p n := by
   apply sup_le
   · intro x hx
-    refine ⟨F.antitone n (by lia) hx.1, ?_⟩
-    have h : (p + 1) + (r - 1) = p + r := by lia
+    refine ⟨F.antitone n (by lia -abstractProof) hx.1, ?_⟩
+    have h : (p + 1) + (r - 1) = p + r := by lia -abstractProof
     simpa only [h] using hx.2
   · intro x hx
     exact ⟨hx.1, by change (C.d n (n + 1)).hom x ∈ F.F (p + r) (n + 1)
@@ -79,12 +79,12 @@ theorem differential_denominator (r p n : ℤ)
     denominator F r (p + r) (n + 1))
   change (C.d n (n + 1)).hom a ∈ boundaries F (r - 1) (p + r) (n + 1)
   refine ⟨?_, ?_⟩
-  · have h : p + 1 + (r - 1) = p + r := by lia
+  · have h : p + 1 + (r - 1) = p + r := by lia -abstractProof
     have hh : (C.d n (n + 1)).hom a ∈ F.F (p + 1 + (r - 1)) (n + 1) := ha.2
     rw [h] at hh
     exact hh
-  · have h : p + r - (r - 1) = p + 1 := by lia
-    rw [show n + 1 - 1 = n by lia, h]
+  · have h : p + r - (r - 1) = p + 1 := by lia -abstractProof
+    rw [show n + 1 - 1 = n by lia -abstractProof, h]
     exact ⟨a, ha.1, rfl⟩
 
 /-- The actual total differential descended to the standard filtered quotient. -/

@@ -21,10 +21,10 @@ theorem leading_class_zero_mem_denominator (r p q n : ℤ) (hn : p + q = n) (hr 
   obtain ⟨b, hb⟩ := (verticalClassMap_eq_zero_iff K p q
     (leadingCycleMap K r p q n hn hr x)).mp hx
   change incomingVertical K p q b = (projection K p q n).hom x.val at hb
-  let u := (inclusion K p (q - 1) (n - 1) (by lia)).hom (p.negOnePow • b)
+  let u := (inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom (p.negOnePow • b)
   let du := ((total K).d (n - 1) n).hom u
   have hu : u ∈ filtration K p (n - 1) :=
-    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia) (le_refl _) _
+    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia -abstractProof) (le_refl _) _
   have hdu : du ∈ filtration K p n := differential_preserves_filtration K p (n - 1) n hu
   have hproj : (projection K p q n).hom du = (projection K p q n).hom x.val := by
     have hd := projection_d_pure K p q n hn (p.negOnePow • b)
@@ -44,10 +44,10 @@ theorem leading_class_zero_mem_denominator (r p q n : ℤ) (hn : p + q = n) (hr 
     refine ⟨hy, ?_⟩
     change ((total K).d n (n + 1)).hom (x.val - du) ∈
       filtration K (p + 1 + (r - 1)) (n + 1)
-    rw [map_sub, hddu, sub_zero, show p + 1 + (r - 1) = p + r by lia]
+    rw [map_sub, hddu, sub_zero, show p + 1 + (r - 1) = p + r by lia -abstractProof]
     exact x.property.2
   have hdb : du ∈ Filtered.boundaries (filtered K) (r - 1) p n :=
-    ⟨hdu, u, filtration_antitone K (n - 1) (show p - (r - 1) ≤ p by lia) hu, rfl⟩
+    ⟨hdu, u, filtration_antitone K (n - 1) (show p - (r - 1) ≤ p by lia -abstractProof) hu, rfl⟩
   exact Submodule.mem_sup.mpr ⟨y, hyc, du, hdb, sub_add_cancel x.val du⟩
 
 end AlgebraicHodgePilot.Column

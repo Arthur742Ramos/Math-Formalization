@@ -32,7 +32,7 @@ theorem filtration_eq_bot (L U : ℤ) (hs : HorizontalSupport K L U)
   apply le_antisymm ?_ bot_le
   refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun ha => ?_
   rintro _ ⟨x, rfl⟩
-  have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inr (by lia))) x 0
+  have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inr (by lia -abstractProof))) x 0
   simp [hx]
 
 theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U)
@@ -48,7 +48,7 @@ theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U)
     by_cases ha : p ≤ a
     · exact (Submodule.Quotient.mk_eq_zero _).mpr
         (inclusion_mem_filtration K p a b n hab ha x)
-    · have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia))) x 0
+    · have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia -abstractProof))) x 0
       simp [hx]
   apply top_unique
   intro x _
@@ -75,8 +75,8 @@ theorem denominator_stable (L U : ℤ) (hs : HorizontalSupport K L U)
     (r p n : ℤ) (hu : U < p + r) (hl : p - r + 1 ≤ L) :
     Filtered.denominator (filtered K) r p n = Filtered.closedDenominator (filtered K) p n := by
   unfold Filtered.denominator Filtered.closedDenominator
-  rw [cycles_stable K L U hs (r - 1) (p + 1) n (by lia),
-    boundaries_stable K L U hs (r - 1) p n (by lia)]
+  rw [cycles_stable K L U hs (r - 1) (p + 1) n (by lia -abstractProof),
+    boundaries_stable K L U hs (r - 1) p n (by lia -abstractProof)]
 
 /-- Eventual pages are the stable quotient by equality of their actual numerator and denominator. -/
 noncomputable def stablePageIso (L U : ℤ) (hs : HorizontalSupport K L U)

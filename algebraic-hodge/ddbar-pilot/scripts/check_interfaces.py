@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Local interface/source-closure evidence; NEVER a protected Comparator verdict."""
 from pathlib import Path
-import subprocess, tempfile, json, hashlib
+import subprocess, tempfile, json, hashlib, re, secrets, os
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -12,28 +12,113 @@ def inspect():
     name_array = '#[' + ', '.join('`' + name for name in names) + ']'
     code = '''module
 import Lean
+import Lake.Check.Compare
 open Lean
 public def main : IO Unit := do
  initSearchPath (← findSysroot)
- let c ← importModules #[{module := `HodgeChallenge, importAll := true}] {}
+ let paths ← IO.getEnv "HODGE_ALIAS_PATH"
+ if let some path := paths then searchPathRef.modify (· ++ [System.FilePath.mk path])
+ let moduleName := (← IO.getEnv "HODGE_CHALLENGE_MODULE").getD "HodgeChallenge"
+ let c ← importModules #[{module := moduleName.toName, importAll := true}] {}
  let s ← importModules #[{module := `HodgeSolution, importAll := true}] {}
+ let base := (← IO.getEnv "HODGE_EXPORT_DIR").getD ""
+ let challengeExport := (← IO.getEnv "HODGE_CHALLENGE_EXPORT").getD (base ++ "/challenge.ndjson")
+ let ce ← LeanExport.parseStream (.ofHandle (← IO.FS.Handle.mk challengeExport .read))
+ let mut se ← LeanExport.parseStream (.ofHandle (← IO.FS.Handle.mk (base ++ "/solution.ndjson") .read))
+ let control := (← IO.getEnv "HODGE_NEGATIVE_CONTROL").getD ""
+ if control == "statement" then
+  let n := `AlgebraicHodgePilot.Column.boundedStableGradedIso_closed
+  let some (.thmInfo v) := se.constMap[n]? | throw (IO.userError "missing control theorem")
+  se := { se with constMap := se.constMap.insert n (.thmInfo { v with type := mkConst ``False }) }
+ if control == "closure" || control == "definition-value" then
+  let n := if control == "closure" then `AlgebraicHodgePilot.Filtered.closedToGraded else `AlgebraicHodgePilot.ImageKernel
+  let some (.defnInfo v) := se.constMap[n]? | throw (IO.userError "missing control definition")
+  se := { se with constMap := se.constMap.insert n (.defnInfo { v with value := mkConst ``False }) }
+ IO.ofExcept (Lake.Check.compareAt ce se THEOREMS DEFINITIONS PRIMITIVES)
+ IO.println "EXACT_COMPARATOR pass"
+ if control == "" && moduleName == "HodgeChallenge" then
+  let modular ← importModules #[{module := `ReleaseFidelity, importAll := true}] {}
+  let me ← LeanExport.parseStream (.ofHandle (← IO.FS.Handle.mk (base ++ "/modular.ndjson") .read))
+  match Lake.Check.compareAt ce me THEOREMS DEFINITIONS PRIMITIVES with
+  | .ok _ => throw (IO.userError "original modular/standalone mismatch regression unexpectedly passed")
+  | .error e =>
+   if !e.startsWith "Challenge and solution theorem statement do not match: 'AlgebraicHodgePilot.Column.boundedStableGradedIso_closed'" then
+    throw (IO.userError e)
+   IO.println s!"ORIGINAL_REGRESSION {e}"
+  let n := `AlgebraicHodgePilot.Column.boundedStableGradedIso_closed
+  let ct := ((c.find? n).get!).type.getUsedConstants
+  let mt := ((modular.find? n).get!).type.getUsedConstants
+  IO.println s!"TYPE_CONSTANTS_CHALLENGE_ONLY {ct.filter (!mt.contains ·)}"
+  IO.println s!"TYPE_CONSTANTS_MODULAR_ONLY {mt.filter (!ct.contains ·)}"
  for n in NAMES do
-  let some ci := c.find? n | throw (IO.userError s!"missing Challenge {n}")
-  let some si := s.find? n | throw (IO.userError s!"missing Solution {n}")
+  let some ci := ce.constMap[n]? | throw (IO.userError s!"missing Challenge {n}")
+  let some si := se.constMap[n]? | throw (IO.userError s!"missing Solution {n}")
   let ck := match ci with | .thmInfo _ => "theorem" | .defnInfo _ => "definition" | _ => "other"
   let sk := match si with | .thmInfo _ => "theorem" | .defnInfo _ => "definition" | _ => "other"
   let defeq := match Kernel.isDefEq s {} ci.type si.type with | .ok b => b | .error _ => false
+  if ci.toConstantVal != si.toConstantVal then throw (IO.userError s!"exact constant header mismatch {n}")
+  if ck == "definition" && ci.value? true != si.value? true then throw (IO.userError s!"literal definition value mismatch {n}")
   IO.println s!"INTERFACE {n}|{ck}|{sk}|{ci.type == si.type}|{defeq}|{ci.value? true == si.value? true}"
+ if moduleName != "HodgeChallenge" then return
  let sp ← getSrcSearchPath
  for n in c.header.moduleNames do
   let path ← findLean sp n
   IO.println s!"SOURCE {n}|{path}"
 '''.replace('NAMES', name_array)
+    for key, ns in [('THEOREMS', config['theorem_names']), ('DEFINITIONS', config['definition_names'])]:
+        code = code.replace(key, '#[' + ', '.join('`' + n for n in ns) + ']')
+    sysroot = Path(subprocess.check_output(['lean', '--print-prefix'], text=True).strip())
+    cli = sysroot / 'src/lean/lake/Lake/CLI/Check.lean'
+    primitive_source = cli.read_text().split('def primitiveTargets', 1)[1].split('def builtinTargets', 1)[0]
+    primitive_source = re.sub(r'--[^\n]*', '', primitive_source)
+    primitives = re.findall(r'``([A-Za-z][A-Za-z0-9_.]*)', primitive_source)
+    assert primitives and 'Nat.add' in primitives
+    code = code.replace('PRIMITIVES', '#[' + ', '.join('`' + n for n in primitives) + ']')
+    dynlib = sysroot / 'lib/lean/libLake_shared.so'
     with tempfile.TemporaryDirectory(prefix='hodge-interfaces-') as tmp:
         probe = Path(tmp) / 'Inspect.lean'
         probe.write_text(code)
-        result = subprocess.run(['lake', 'env', 'lean', '--run', str(probe)], cwd=ROOT,
-                                check=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        exports = {}
+        for module, label in [('HodgeChallenge', 'challenge'), ('HodgeSolution', 'solution'), ('ReleaseFidelity', 'modular')]:
+            path = Path(tmp) / (label + '.ndjson')
+            with path.open('w') as stream:
+                subprocess.run(['lake', 'env', 'leanexport', module, '--', *names, *primitives, 'Quot', 'Quot.mk', 'Quot.lift', 'Quot.ind'],
+                               cwd=ROOT, stdout=stream, stderr=subprocess.PIPE, text=True, check=True)
+            exports[label] = {'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'bytes': path.stat().st_size}
+        base_env = {k: v for k, v in os.environ.items() if not k.startswith('HODGE_')}
+        base_env['HODGE_EXPORT_DIR'] = tmp
+        result = subprocess.run(['lake', 'env', 'lean', '--load-dynlib=' + str(dynlib), '--run', str(probe)], cwd=ROOT,
+                                env=base_env, check=False, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if result.returncode:
+            raise RuntimeError(result.stdout)
+        controls = []
+        for mode, expected in [('statement', 'theorem statement do not match'),
+                               ('closure', 'Const does not match between challenge and target'),
+                               ('definition-value', 'literal definition value mismatch')]:
+            env = dict(base_env, HODGE_NEGATIVE_CONTROL=mode)
+            negative = subprocess.run(['lake', 'env', 'lean', '--load-dynlib=' + str(dynlib), '--run', str(probe)], cwd=ROOT,
+                                      env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            assert negative.returncode != 0 and expected in negative.stdout, (mode, negative.stdout)
+            controls.append({'mode': mode, 'rejected': True, 'diagnostic': negative.stdout.strip()})
+        alias_name = 'HodgeLocal' + secrets.token_hex(8) + '.Challenge'
+        alias_file = Path(tmp).joinpath(*alias_name.split('.')).with_suffix('.lean')
+        alias_file.parent.mkdir()
+        alias_file.write_bytes((ROOT / 'HodgeChallenge.lean').read_bytes())
+        compile_alias = subprocess.run(['lake', 'env', 'lean', '--root=' + tmp, '-o', str(alias_file.with_suffix('.olean')), str(alias_file)], cwd=ROOT,
+                                       text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        assert compile_alias.returncode == 0, compile_alias.stdout
+        alias_export = Path(tmp) / 'alias.ndjson'
+        env = dict(base_env, HODGE_ALIAS_PATH=tmp, HODGE_CHALLENGE_MODULE=alias_name, HODGE_CHALLENGE_EXPORT=str(alias_export))
+        # leanexport uses LEAN_PATH, while the probe adds the alias through searchPathRef.
+        lean_path = subprocess.check_output(['lake', 'env', 'printenv', 'LEAN_PATH'], cwd=ROOT, text=True).strip()
+        export_env = dict(base_env, LEAN_PATH=tmp + os.pathsep + lean_path)
+        with alias_export.open('w') as stream:
+            subprocess.run([str(sysroot / 'bin/leanexport'), alias_name, '--', *names, *primitives, 'Quot', 'Quot.mk', 'Quot.lift', 'Quot.ind'], cwd=ROOT,
+                           env=export_env, stdout=stream, stderr=subprocess.PIPE, text=True, check=True)
+        exports['random_alias'] = {'sha256': hashlib.sha256(alias_export.read_bytes()).hexdigest(), 'bytes': alias_export.stat().st_size}
+        alias = subprocess.run(['lake', 'env', 'lean', '--load-dynlib=' + str(dynlib), '--run', str(probe)], cwd=ROOT,
+                               env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        assert alias.returncode == 0 and 'EXACT_COMPARATOR pass' in alias.stdout, alias.stdout
     interfaces, sources = [], []
     packages = json.loads((ROOT / 'lake-manifest.json').read_text())['packages']
     owners = []
@@ -62,6 +147,7 @@ public def main : IO Unit := do
             name, ck, sk, same_type, defeq, same_value = line[10:].split('|')
             expected = 'theorem' if name in config['theorem_names'] else 'definition'
             assert ck == sk == expected, ('Wrong declaration kind', name, ck, sk)
+            assert same_type == 'true', ('Exact theorem/definition type mismatch', name)
             assert defeq == 'true', ('Local interface types are not definitionally equal', name)
             interfaces.append({'name': name, 'kind': ck, 'types_syntactically_equal': same_type == 'true',
                                'types_kernel_defeq_in_solution_environment': True,
@@ -88,7 +174,8 @@ public def main : IO Unit := do
             sources.append(row)
     assert {r['name'] for r in interfaces} == set(names)
     assert sources and {r['path'] for r in sources if r['origin'] == 'candidate'} == {'HodgeChallenge.lean'}
-    return {'status': 'pass', 'scope': 'Local separate environments, declaration kinds and local kernel type-definitional equality in Solution environment (not canonical frozen environment); compiled Challenge module source closure with pinned Git-byte checks. Not protected proof/definition comparison or independent kernel replay.',
+    return {'status': 'pass', 'scope': 'Local separate environments: actual pinned leanexport and Lake.Check.compareAt exact exported declaration/closure comparison plus literal selected definition values, declaration kinds and kernel defeq. Compiled Challenge source closure with pinned Git-byte checks. Writable local compilation, not protected canonical execution or independent kernel replay.',
+            'original_failure_regression': [line for line in result.stdout.splitlines() if line.startswith(('ORIGINAL_REGRESSION ', 'TYPE_CONSTANTS_'))], 'local_exports': exports, 'exact_pinned_compareAt': True, 'negative_controls': controls, 'negative_control_scope': 'In-memory malformed declaration mutations test comparison rejection only; not kernel-checked counterexamples or canonical controls.', 'random_alias_comparison': {'module': alias_name, 'pass': True, 'source_sha256': hashlib.sha256((ROOT / 'HodgeChallenge.lean').read_bytes()).hexdigest()} , 'literal_selected_definition_values_equal': True, 'compare_source_sha256': hashlib.sha256((sysroot / 'src/lean/lake/Lake/Check/Compare.lean').read_bytes()).hexdigest(), 'libLake_shared_sha256': hashlib.sha256(dynlib.read_bytes()).hexdigest(), 'primitive_targets': primitives,
             'interfaces': interfaces, 'source_modules': sources,
             'toolchain': (ROOT / 'lean-toolchain').read_text().strip(),
             'core_source_limit': 'Bundled Lean source bytes hashed; protected toolchain/authenticated artifact verification remains canonical-run work.'}

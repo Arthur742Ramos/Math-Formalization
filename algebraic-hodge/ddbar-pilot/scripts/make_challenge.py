@@ -14,7 +14,7 @@ def visit(m):
  order.append(m)
 visit('ReleaseFidelity')
 config=json.loads((p/'comparator.json').read_text())
-subprocess.run(['lake','build','HodgeSolution'],cwd=p,check=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+subprocess.run(['lake','build','ReleaseFidelity'],cwd=p,check=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 seeds=config['theorem_names']+config['definition_names']
 scan='module\n'+''.join('import all '+m+'\n'for m in order)+"open Lean Elab Command\nrun_cmd do\n let env ← getEnv\n let mut pending := #["+', '.join('`'+n for n in seeds)+"]\n let mut seen : NameSet := {}\n while !pending.isEmpty do\n  let n := pending.back!\n  pending := pending.pop\n  if seen.contains n then continue\n  seen := seen.insert n\n  if let some ci := env.find? n then\n   logInfo m!\"PILOT_DEP {n}\"\n   for e in #[ci.type] ++ (ci.value? true).toArray do\n    for c in e.getUsedConstants do\n     if c.toString.startsWith \"AlgebraicHodgePilot\" then pending := pending.push c\n"
 with tempfile.TemporaryDirectory(prefix='hodge-source-scan-')as tmp:
@@ -74,8 +74,10 @@ data={'status':'generated-source-map; compilation and review are certified separ
 assert len(s.splitlines())<=1000 and len(s.encode())<=100*1024
 if args.check:
  assert (p/'HodgeChallenge.lean').read_text()==s,'Challenge regeneration differs'
+ assert (p/'HodgeSolution.lean').read_text()==s,'Solution regeneration differs'
  assert json.loads((p/'verification/challenge-source-map.json').read_text())==data,'Source map regeneration differs'
 else:
  (p/'HodgeChallenge.lean').write_text(s)
+ (p/'HodgeSolution.lean').write_text(s)
  (p/'verification/challenge-source-map.json').write_text(json.dumps(data,indent=2)+'\n')
 print(json.dumps({'status':'pass','mode':'check'if args.check else'generate','lines':data['physical_lines'],'bytes':data['bytes'],'declarations':len(mapping)}))

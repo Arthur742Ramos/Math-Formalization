@@ -2,7 +2,7 @@
 
 This project proves a classical conditional algebraic degeneration theorem for
 actual mathlib bicomplexes over a field. It supplies a proof-complete,
-Mathlib-only Challenge and a separate modular Solution. It is a draft package
+Mathlib-only Challenge and Solution compiled separately from shared proof-complete source. It is a draft package
 for mechanical preflight, not a Palomar submission or verified intake handoff.
 
 For commuting squares, `ImageKernel K p q` is the actual operator identity
@@ -57,9 +57,24 @@ readable proof organization. [scripts/make_challenge.py](scripts/make_challenge.
 selects actual transitive local declaration dependencies and reflows statement
 headers; all 135 retained declarations were independently compared with modular
 sources modulo comments/whitespace. No mathematical proof command or contract
-is changed. [HodgeSolution.lean](HodgeSolution.lean) imports the modular proofs.
-The selected configuration itself and full protected comparison still require
-the canonical run described in [RUN-PLAN.md](RUN-PLAN.md).
+is changed. [HodgeSolution.lean](HodgeSolution.lean) now has the same generated proof-complete body as Challenge. Each compiles separately with Mathlib imports; neither imports the other. These share one proof implementation, rather than supplying independent proofs. The modular development remains the source of the generated declarations and separate modular audits.
+The approved [run39894330468](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39894330468)
+for source `c3107f8311488bcc256103db8ad969ffd60706e2` built Solution but failed
+protected comparison: `boundedStableGradedIso_closed` had definitionally equal,
+but structurally different, exported types. Local auxiliary-proof caches assign
+different helper constants when flattening declarations versus importing modules.
+The original report is retained under `verification/package-local/approved-run-39894330468`.
+Generating both standalone bodies from the same declaration sequence removes
+that elaboration-history discrepancy without changing mathematical statements,
+operators or hypotheses. Across the modular development, 73 arithmetic tactic
+calls now use `lia -abstractProof`: the same kernel-checked arithmetic certificates
+remain inline, avoiding module-private auxiliary lemma names in compared proof
+closures. The eight selected theorems and seventeen definitions are unchanged. The local checker now uses the pinned
+`Lake.Check.compareAt`, exact selected definition values, a random Challenge
+module alias, and rejection controls, rather than accepting type-definitional
+equality alone. Writable local checks do not establish protected verification.
+The corrected source still needs its own approved canonical run. No retry,
+rendering or intake is authorized; the PR41 Palomar-approval hold remains active.
 
 Pins are Lean `leanprover/lean4:v4.35.0-rc2` and mathlib
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`. Ordinary cloud commands are:
@@ -68,7 +83,8 @@ Pins are Lean `leanprover/lean4:v4.35.0-rc2` and mathlib
 lake build
 python3 scripts/make_challenge.py --check
 python3 scripts/check_interfaces.py
-python3 scripts/verify_package.py --pipeline-root /path/to/pinned/PalomarSubmission
+HODGE_EVIDENCE_DIR="$PWD/verification/package-local/new-unique-label" \
+  python3 scripts/verify_package.py --pipeline-root /path/to/pinned/PalomarSubmission
 ```
 
 `HodgeChallengeTests` and `HodgeSolutionTests` separately compile the semantic
@@ -90,7 +106,7 @@ Protected comparison and its negative controls, external kernels, rendering,
 browser inspection and the final release-packet guard remain separate gates.
 The current host's namespace probe fails; no security workaround is attempted.
 [RUN-PLAN.md](RUN-PLAN.md) identifies the exact runner/setup/resource approval
-needed before a canonical run. No workflow is active for this package.
+needed for canonical execution. The exact original one-run approval was used; budget/workflow/storage facts are settled. No further run is authorized. No workflow is active for this package.
 
 The formal domain is mathlib's commuting squares and signed totalization.
 `SignBridge.lean` proves an operator sign involution, anticommutation,

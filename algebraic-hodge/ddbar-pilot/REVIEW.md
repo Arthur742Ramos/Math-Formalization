@@ -108,8 +108,17 @@ surface remains separate from compilation and internal review.
 
 Eight theorem names and seventeen concrete definition/construction names are
 selected. All must be checked through both entrypoints; the local interface
-checker records declaration kinds and local kernel type-definitional equality
-in a Solution environment. This does not protect the canonical statement
+checker originally recorded declaration kinds and local kernel type-definitional equality
+in a Solution environment. The approved source-c3107f8 run subsequently failed exact
+Comparator equality because auxiliary-proof cache names differed. The corrected
+checker calls the actual pinned `Lake.Check.compareAt` and additionally requires
+selected literal definition values; separately compiled identical standalone
+proof bodies remove that elaboration-history difference. A random Challenge alias
+and in-memory declaration-mutation rejection controls test local comparison.
+These shared proofs are not independent implementations. The modular change is
+limited to 73 uses of `lia -abstractProof`, retaining generated arithmetic proofs
+inline. The pinned Grind implementation changes proof storage, not the goal,
+hypotheses or kernel checking. No supporting theorem holes are added. This does not protect the canonical statement
 surface or validate exported proofs/definition values, so it is explicitly not
 Comparator acceptance. Canonical protected execution remains required.
 
