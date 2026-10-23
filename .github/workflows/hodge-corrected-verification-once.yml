@@ -1,0 +1,21 @@
+# INERT: activate only under the new exact bundled approval; not authorized yet.
+name: Algebraic Hodge protected preflight
+on:
+  push:
+    branches: [algebraic-hodge/ddbar-pilot]
+    paths: [.github/workflows/hodge-corrected-verification-once.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.run_attempt == 1
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@07a02bae1e85c75ae349d0e75195162d16d41e21
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb
+      pipeline_commit: 07a02bae1e85c75ae349d0e75195162d16d41e21
+      request_id: hddbarpilot2
+      mode: full
+      execution_profile: palomar-standard-v1
+      execution_attempt: 53b322007e694dc52327f4eb028556a8
+      options: '{"project_path":"algebraic-hodge/ddbar-pilot","comparator_config_path":"algebraic-hodge/ddbar-pilot/comparator.json","formalization_metadata_path":"algebraic-hodge/ddbar-pilot/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
