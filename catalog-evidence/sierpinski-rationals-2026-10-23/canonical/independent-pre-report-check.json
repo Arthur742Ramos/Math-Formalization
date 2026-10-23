@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "scope": "Independent frozen-source status, exact archive bytes and identity-map consistency only; no full-report or renderer disposition yet",
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "project_path": "topology/sierpinski-rationals",
+  "package_tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f",
+  "file_count": 24,
+  "archive_sha256": "5591b5eec8a7f8207f52ed85a3553d917a3174f1ce6a0d3639a42ef03c3d899e",
+  "source_identity_sha256": "1c623d1a3e3df5069bfe0de003b01cf3881a1b80c29e83ca39632da0482267ac",
+  "guard_sha256": "6abbef629fdd7b694fc04031db98468cbe714c09f62e2fd6bc16582becd9066f",
+  "expected_full_run": 39882986575,
+  "expected_render_run": 39882986107,
+  "expected_attempt": 1,
+  "caller_commit": "2357b9c2394ab7cf3b584dfe4a9d837f7d96db32",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "intake_authorized": false,
+  "registered": false
+}

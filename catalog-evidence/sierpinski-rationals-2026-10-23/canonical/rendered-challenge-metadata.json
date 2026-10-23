@@ -1,0 +1,50 @@
+{
+  "audit_declarations": [
+    {
+      "declaration": "theorem SierpinskiRationals.countable_hasClopenBasis.{u_1} (X : Type u_1) [TopologicalSpace X] [Countable X]\n  [TopologicalSpace.MetrizableSpace X] : SierpinskiRationals.HasClopenBasis X",
+      "name": "SierpinskiRationals.countable_hasClopenBasis"
+    },
+    {
+      "declaration": "theorem SierpinskiRationals.exists_binary_scheme.{u_1} {X : Type u_1} [TopologicalSpace X] [T2Space X] [PerfectSpace X]\n  [Nonempty X] (hB : SierpinskiRationals.HasClopenBasis X) (B : Nat \u2192 Set X) (hcl : \u2200 (n : Nat), IsClopen (B n))\n  (E : Nat \u2192 X) : Nonempty (SierpinskiRationals.BinaryScheme X B E)",
+      "name": "SierpinskiRationals.exists_binary_scheme"
+    },
+    {
+      "declaration": "theorem SierpinskiRationals.BinaryScheme.code_has_both_bits.{u_1} {X : Type u_1} [TopologicalSpace X] {B : Nat \u2192 Set X}\n  {E : Nat \u2192 X} (S : SierpinskiRationals.BinaryScheme X B E) (hE : Function.Surjective E) (x : X) (N : Nat) (b : Bool) :\n  Exists fun n => And (GE.ge n N) (Eq (SierpinskiRationals.BinaryScheme.code S x n) b)",
+      "name": "SierpinskiRationals.BinaryScheme.code_has_both_bits"
+    },
+    {
+      "declaration": "theorem SierpinskiRationals.BinaryScheme.codeOrder_topology.{u_1} {X : Type u_1} [TopologicalSpace X] {B : Nat \u2192 Set X}\n  {E : Nat \u2192 X} (S : SierpinskiRationals.BinaryScheme X B E) [T2Space X]\n  (hB : TopologicalSpace.IsTopologicalBasis (Set.range B)) (hE : Function.Surjective E) : OrderTopology X",
+      "name": "SierpinskiRationals.BinaryScheme.codeOrder_topology"
+    },
+    {
+      "declaration": "theorem SierpinskiRationals.nonempty_homeomorph.{u_1} (X : Type u_1) [TopologicalSpace X] [Countable X]\n  [TopologicalSpace.MetrizableSpace X] [PerfectSpace X] [Nonempty X] : Nonempty (Homeomorph X Rat)",
+      "name": "SierpinskiRationals.nonempty_homeomorph"
+    },
+    {
+      "declaration": "theorem SierpinskiRationals.nonempty_homeomorph_iff.{u_1} (X : Type u_1) [TopologicalSpace X] :\n  Iff (Nonempty (Homeomorph X Rat))\n    (And (Nonempty X) (And (Countable X) (And (TopologicalSpace.MetrizableSpace X) (PerfectSpace X))))",
+      "name": "SierpinskiRationals.nonempty_homeomorph_iff"
+    }
+  ],
+  "declarations": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "imports": [
+    "Mathlib.Order.CountableDenseLinearOrder",
+    "Mathlib.Order.PiLex",
+    "Mathlib.Topology.Instances.Rat",
+    "Mathlib.Topology.MetricSpace.CantorScheme",
+    "Mathlib.Topology.MetricSpace.Polish",
+    "Mathlib.Topology.Perfect",
+    "Mathlib.Topology.Separation.Lemmas"
+  ],
+  "module_doc": "# Sierpi\u0144ski's characterization of the rationals\n\nSource: Michael Francis, arXiv:1210.1008, Theorem 2. The construction uses\nscheduled clopen splits, rather than the source's translation in a Cantor group.\nBinary coding infrastructure is adapted from the campaign's Cantor package\nat ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f (Apache-2.0).",
+  "schema_version": 3,
+  "solution_imports": [
+    "SierpinskiRationals"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "source": {
+    "url": "https://arxiv.org/pdf/1210.1008v1",
+    "pdf_sha256": "cd7a764d023a930c4792545378732856fb73c76e2a9abe74a03cdd235ee28108",
+    "theorem": "Theorem 2",
+    "statement_printed_page": 2,
+    "proof_printed_page": 9,
+    "consulted": "2026-10-23"
+  },
+  "predecessor": {
+    "id": "PALOMAR-2026-10-23-000001",
+    "version": 1,
+    "source_commit": "ea2e84471cdd230fd133a9e2e3b0dfc25e1a7f0f",
+    "relationship": "Attributed Apache-2.0 adaptation of splitting/enumeration/address infrastructure; no cross-project imports"
+  },
+  "account_access": {
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "username": "arthurpalomar742",
+    "observed_permission": "write",
+    "method": "GitHub collaborator permission read",
+    "observed_date": "2026-10-23",
+    "permission_changed": false
+  },
+  "reviews": {
+    "independent-source-scope-review.md": {
+      "sha256": "62a1e8da7ad3d749ae0f1504a6676af087cebdad2a2e4662fb5a43a81a066f08",
+      "scope": "Internal AI candidate/source review; final package receipt is separate."
+    },
+    "independent-implementation-review.md": {
+      "sha256": "ffe2c21783ae1fc4f5857375078bc9c257c93e14c8940bbb752bcbde1205596b",
+      "scope": "Internal AI candidate/source review; final package receipt is separate."
+    }
+  },
+  "duplicate_audit": {
+    "scope": "Bounded existing-project/branch/PR, pinned Mathlib and public recent-registry checks",
+    "matching_entry_found": false,
+    "registry_wide_search": "inaccessible",
+    "exhaustive": false
+  },
+  "intakes": 0,
+  "registered": false
+}

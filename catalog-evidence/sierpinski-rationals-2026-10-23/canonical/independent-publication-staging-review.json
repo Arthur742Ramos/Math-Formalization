@@ -1,0 +1,143 @@
+{
+  "blockers": [],
+  "browser_visual_inspection": "not performed",
+  "bundle_files_including_manifest": 14,
+  "canonical_staging_files": {
+    "README.md": {
+      "bytes": 3543,
+      "sha256": "99a212df8225e9d4e13dfa30f90a8eafa57a98e0096fdc705cc88bc29e7d21e6"
+    },
+    "authorization-and-run-ledger.json": {
+      "bytes": 855,
+      "sha256": "2887d14a3e5454289e11221e3060daedc0e2f5f1356141e6cf34b8a8a7f6e0a5"
+    },
+    "catalog-local-check.json": {
+      "bytes": 1691,
+      "sha256": "a53d6656ff83357038f384629591243a34655e63e74e9fe7ba5460be6a33578d"
+    },
+    "full-artifact.zip": {
+      "bytes": 7496,
+      "sha256": "3baffe1ade885fb4bdb9fe0048da449c8394f53bd59ae0e1ecc0c1c3a623652b"
+    },
+    "full-artifacts-api.json": {
+      "bytes": 882,
+      "sha256": "5d0b505d1b6aeb1190ceec021082382648b7b17580655cf0a7918f9414bf6767"
+    },
+    "full-report-job.log": {
+      "bytes": 50919,
+      "sha256": "d38d601b30c8a9088f826cbc80c3b1e748656a677cbb48299b22ad425a80c369"
+    },
+    "full-report.json": {
+      "bytes": 56814,
+      "sha256": "66ac793f2a013d39cba252bbfd248e4ff8842dea0bec7a88dd739273eb11e368"
+    },
+    "full-run.json": {
+      "bytes": 14345,
+      "sha256": "43cf129187f67db9a1e59193cab9f7ab2f930aacd024318270aabdcbcec14347"
+    },
+    "full-verify-job.log": {
+      "bytes": 87141,
+      "sha256": "4f9a8f55c042646302664d96db7e223fe8aa603b906c35aa2a0222f58ef6907a"
+    },
+    "independent-canonical-authentication.json": {
+      "bytes": 1757,
+      "sha256": "0be742b2cff250baa6cac6df49c4d2fc6d014a102f04146b9b32bf295062fa4d"
+    },
+    "independent-packet-review-receipt.json": {
+      "bytes": 4696,
+      "sha256": "58a5669814e66ff2be457591b46ff3bc0690deb05683b5a18197359758e8e1d6"
+    },
+    "independent-packet-review.md": {
+      "bytes": 8389,
+      "sha256": "a8b6f332f9574abba3d0d6bc7c5b200c0242114fb746c192217a401773336e54"
+    },
+    "independent-pre-report-check.json": {
+      "bytes": 915,
+      "sha256": "ea3f67b0438f82ca567cf7777088770aaa35b46abf003b4d27929efc2f2f4b94"
+    },
+    "release-guard-tests.log": {
+      "bytes": 6451,
+      "sha256": "a51a4e002681cdce6963fe541212dd2a4f4d982781dd307d89a5bbbfbce616cc"
+    },
+    "release-packet-guard.json": {
+      "bytes": 629,
+      "sha256": "7d6d167371a894207406366217a1757754899b6360b87f8fe5e836b048fc46fe"
+    },
+    "render-artifact.zip": {
+      "bytes": 217274,
+      "sha256": "ff825914e49209cd6db711be63fccfc9df504e3cfc1f80825db6df8e3081e4f1"
+    },
+    "render-artifacts-api.json": {
+      "bytes": 881,
+      "sha256": "ed2a5008c85a3502a71d88976be091fdef95e49eead527473e97555f364a409d"
+    },
+    "render-report.json": {
+      "bytes": 5181,
+      "sha256": "59049f981d2a08f5cf649c9e8375d391bc63d0743a55d43db7b19b98f9a199b5"
+    },
+    "render-run.json": {
+      "bytes": 14177,
+      "sha256": "3c1553d094e614b30ebb2ca191c034d81c22fc81fd3b1fab54335963c60a52c6"
+    },
+    "rendered-artifact-manifest.json": {
+      "bytes": 2174,
+      "sha256": "13eb4697a7683d6ead530c4482ed65b312b49251448ce0c7e7906c34b4f1d7cd"
+    },
+    "rendered-challenge-metadata.json": {
+      "bytes": 3306,
+      "sha256": "b315305e1808728992ad6c4ac4a3ea3e6e6fb63de10971d28fbbc051d0702fb7"
+    },
+    "renderer-job.log": {
+      "bytes": 92495,
+      "sha256": "649cba691aa2489c4fc7cfe543caa1b6a5c1fa6bacce808ba967ec85d5ac363c"
+    },
+    "sierpinski-rationals-d338174-source.tar": {
+      "bytes": 337920,
+      "sha256": "5591b5eec8a7f8207f52ed85a3553d917a3174f1ce6a0d3639a42ef03c3d899e"
+    },
+    "source-identity.json": {
+      "bytes": 4192,
+      "sha256": "1c623d1a3e3df5069bfe0de003b01cf3881a1b80c29e83ca39632da0482267ac"
+    },
+    "submission-packet.json": {
+      "bytes": 1797,
+      "sha256": "493161bcef1a20d8f7870039bce047f96dfcfa143418457cf10471a4acfac8bb"
+    }
+  },
+  "canonical_staging_files_at_review": 25,
+  "full_report_sha256": "66ac793f2a013d39cba252bbfd248e4ff8842dea0bec7a88dd739273eb11e368",
+  "intake_authorized": false,
+  "manifest_covered_files": 13,
+  "new_canonical_runs": 0,
+  "package_tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f",
+  "packet_sha256": "493161bcef1a20d8f7870039bce047f96dfcfa143418457cf10471a4acfac8bb",
+  "registered": false,
+  "relative_readme_links_resolve": [
+    "canonical/README.md",
+    "canonical/full-report.json",
+    "canonical/render-report.json",
+    "canonical/render-artifact.zip",
+    "canonical/submission-packet.json",
+    "canonical/sierpinski-rationals-d338174-source.tar",
+    "canonical/source-identity.json",
+    "canonical/release-packet-guard.json",
+    "canonical/independent-canonical-authentication.json",
+    "canonical/authorization-and-run-ledger.json"
+  ],
+  "remaining_limits": [
+    "Remote publication commit and links require publisher check",
+    "Human/external and editorial review not established",
+    "Duplicate clearance remains bounded and private service state unconfirmed",
+    "No registry intake or registration authority"
+  ],
+  "render_report_sha256": "59049f981d2a08f5cf649c9e8375d391bc63d0743a55d43db7b19b98f9a199b5",
+  "render_zip_entries": 16,
+  "root_evidence_readme": {
+    "bytes": 1957,
+    "sha256": "1f203c151cd6fff4b387e736f9fee3842e0ec63866802dc65f6e107533a3d495"
+  },
+  "scope": "Supplemental final publication-staging path, original-byte, API/ZIP, manifest, prose and source-identity check; closes prior report pending publication-relative path check. Remote publication is not asserted.",
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "staging_unpacked_html_omitted": "Original authenticated ZIP preserves all bytes; sidecars independently match ZIP entries.",
+  "status": "pass"
+}

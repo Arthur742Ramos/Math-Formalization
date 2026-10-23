@@ -1,0 +1,132 @@
+{
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "project_path": "topology/sierpinski-rationals",
+  "package_git_tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f",
+  "archive": {
+    "file": "sierpinski-rationals-d338174-source.tar",
+    "sha256": "5591b5eec8a7f8207f52ed85a3553d917a3174f1ce6a0d3639a42ef03c3d899e",
+    "scope": "Only exact frozen project files, package-relative names; no directories, dependencies or build outputs."
+  },
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 20,
+      "sha256": "b34af236d1df9e39ed4f98fca51702530ce76bdee4e1a69512f6caed933c3374"
+    },
+    {
+      "path": "AxiomAudit.lean",
+      "size": 1120,
+      "sha256": "ced3aa5f5c489b55dd5d80425efc1271ba42f9973ab5b46df628ed4a15228468"
+    },
+    {
+      "path": "ChallengeTests.lean",
+      "size": 3656,
+      "sha256": "321cb73704cfcc4e124d194002a8d2aac3ff8f9149e0e9f59ade1cb1e5051bc5"
+    },
+    {
+      "path": "MATERIAL-DEFINITIONS.md",
+      "size": 82924,
+      "sha256": "ffa38b780ca83933bc7ce684809e20777fa4c107e9c6c044caf023c383b40b5e"
+    },
+    {
+      "path": "README.md",
+      "size": 5194,
+      "sha256": "6c3c6bbfdd0e178e11c282b72ffcffea279b0f3c5bf8d4d225493dafbd105c21"
+    },
+    {
+      "path": "REVIEW.md",
+      "size": 848,
+      "sha256": "a15b17d8ad4c157ec76e79536d6e0237dbc1d28d4cd7d35d8b50dc43088e6066"
+    },
+    {
+      "path": "SOURCE-MAPPING.md",
+      "size": 3604,
+      "sha256": "40416b1fe6aeb69db3484671dd4bd85e8a21c15d29d453da5a76405a5bc84016"
+    },
+    {
+      "path": "SRChallenge.lean",
+      "size": 22051,
+      "sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459"
+    },
+    {
+      "path": "SRSolution.lean",
+      "size": 41,
+      "sha256": "3941da34bd2d0a65462472dc3ef75e88e1f3a3421ab6207b33fe9e0dc07a6a81"
+    },
+    {
+      "path": "SemanticTests.lean",
+      "size": 3655,
+      "sha256": "fdad8f1bc9b73b90784b4abb4ad4327158597c6e0a223da7bbfd1605b3306cc0"
+    },
+    {
+      "path": "SierpinskiRationals.lean",
+      "size": 22051,
+      "sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459"
+    },
+    {
+      "path": "VERIFICATION.md",
+      "size": 2318,
+      "sha256": "fb3f67730ea9ff4e7bef20e0312ff2311bd3b94ba7fa115f632fd56cb2a7740c"
+    },
+    {
+      "path": "comparator.json",
+      "size": 527,
+      "sha256": "0dc2e748771265835bb67adbc0392129cd68e57adcec2aa440f9f867f5ff0510"
+    },
+    {
+      "path": "formalization.yaml",
+      "size": 5435,
+      "sha256": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371"
+    },
+    {
+      "path": "lake-manifest.json",
+      "size": 3244,
+      "sha256": "125a575664dba67b1050f0c05c67c80490542b0b7c0b1828a4080a399341c5a2"
+    },
+    {
+      "path": "lakefile.toml",
+      "size": 583,
+      "sha256": "724bb03c736dc01d37f2fcf6f4c1a2244477fe244f2f9a1f2340b17ff093cb67"
+    },
+    {
+      "path": "lean-toolchain",
+      "size": 29,
+      "sha256": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a"
+    },
+    {
+      "path": "scripts/check_package.py",
+      "size": 4087,
+      "sha256": "e3351f949e59ff436da263b814ac82e25de85906c4e5d7294dbbaa0cd3578e77"
+    },
+    {
+      "path": "scripts/verify_native.py",
+      "size": 6037,
+      "sha256": "c9b45cc9ad595f40d34adbc298dddde0dfdc5d2f592f464ee0117a8ce357c1cd"
+    },
+    {
+      "path": "verification/core-imported-definitions.json",
+      "size": 4815,
+      "sha256": "35fb92a24e7ce85d2f9781384a60ad4ffc1c9c68f41a464cf164c53ad42c1f8e"
+    },
+    {
+      "path": "verification/material-imported-definitions.json",
+      "size": 130308,
+      "sha256": "8e133553c77eaa8044d24eaa598d08daa91ed2a24dfd596c64a4a63eaf4621b0"
+    },
+    {
+      "path": "verification/policy-receipt.json",
+      "size": 1463,
+      "sha256": "c0149a522e1f055bd8166f4b6a6b59044f88eae14347cae1ad1860231ed5375f"
+    },
+    {
+      "path": "verification/source-hashes.json",
+      "size": 2241,
+      "sha256": "73b2a374f90711a4d8cc89b5317ac3adf1e10d593ec4d9d9970302514aeb1d64"
+    },
+    {
+      "path": "verification/source-provenance.json",
+      "size": 1565,
+      "sha256": "741fe59b3aa229b290d23d788607313996feec668b7b9821aa53d6d37d4dfd04"
+    }
+  ]
+}

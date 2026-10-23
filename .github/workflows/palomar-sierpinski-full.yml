@@ -1,0 +1,41 @@
+name: Palomar Sierpinski full mechanical preflight
+on:
+  workflow_dispatch:
+  push:
+    branches: [topology/sierpinski-rationals]
+    paths: [.github/workflows/palomar-sierpinski-full.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: d33817461fadbe8d7498a237b0c5bc27dc044afb
+      pipeline_commit: ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+      request_id: sierpinskif1
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/sierpinski-rationals","comparator_config_path":"topology/sierpinski-rationals/comparator.json","formalization_metadata_path":"topology/sierpinski-rationals/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'
+  report:
+    needs: verify
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: mechanical-report-sierpinskif1
+          path: mechanical-evidence
+      - name: Publish bounded canonical report and digest
+        run: |
+          sha256sum mechanical-evidence/mechanical-report.json
+          python3 - <<'PYTHON'
+          import json, pathlib
+          p = pathlib.Path('mechanical-evidence/mechanical-report.json')
+          assert p.stat().st_size < 2 * 1024 * 1024
+          report = json.loads(p.read_text())
+          print('PALOMAR_MECHANICAL_REPORT_BEGIN')
+          print(json.dumps(report, sort_keys=True))
+          print('PALOMAR_MECHANICAL_REPORT_END')
+          assert report['status'] == 'pass', report.get('errors')
+          PYTHON

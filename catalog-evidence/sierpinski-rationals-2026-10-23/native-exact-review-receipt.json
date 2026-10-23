@@ -1,0 +1,52 @@
+{
+  "status": "pass",
+  "scope": "Independent authentication of native exact-source evidence; no canonical sandbox/resource-profile or editorial certification",
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "package_tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f",
+  "summary_sha256": "13184b5038099840e195c69f4f1af7c6276a2738429199614a311c7896243198",
+  "authenticated_artifacts": 41,
+  "frozen_package_files": 24,
+  "selected_theorems": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "primitive_targets": 26,
+  "axiom_closures": 18,
+  "source_sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+  "metadata_sha256": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+  "comparator_sha256": "0dc2e748771265835bb67adbc0392129cd68e57adcec2aa440f9f867f5ff0510",
+  "lockfile_sha256": "125a575664dba67b1050f0c05c67c80490542b0b7c0b1828a4080a399341c5a2",
+  "tool_binary_sha256": {
+    "lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "lake": "8ba83c98f76562d03b8dbc33f1057151ba6cbb121679dde76b2260ccc90495e1",
+    "leanexport": "c5bc1a10a21e22cbb3671d65987cdef2076833b14182d823ccb2153adf2fa954",
+    "leanchecker": "9e36e955a251b1313c8eb5b7fa101282d51df109d34d8bb7c1cfdf51985aba29",
+    "nanoda_bin": "8241c5e6baa29490aa118d382f97961b208ae730fdb96545c2abed74c9ece5a8",
+    "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef"
+  },
+  "negative_controls": [
+    "SierpinskiRationals.HasClopenBasis",
+    "SierpinskiRationals.BinaryScheme.code"
+  ],
+  "kernels": {
+    "Lean": "exit0; silent export replay",
+    "NanoDa": "exit0;19496declarations;no typechecker errors;one pretty-printer message Unable to print axioms",
+    "con-ron": "exit0;18207declarations;verified mode"
+  },
+  "additional_receipts": {
+    "exact-build.log": "d536ab3f7cbcb7657599fdc3013c9582f73c3a448f5098fc50b2b809631db748",
+    "exact-axioms.log": "26b99b32361134d764acc479f598de193477e42ee507c60006181cca57ee706b",
+    "exact-package-consistency.json": "e686b4a0507ad604c0540b18b8c69ce4a3cc3e328a9856865c57c037430fae92",
+    "exact-imported-origin.json": "332ed569c60a9fc70b9a7e4912b248c14cc96f4025f01784aba1230bef7df675"
+  },
+  "canonical_workflows_run": 0,
+  "registry_intakes": 0,
+  "review_report_sha256": "0beea2a5c3851fb3ba964c74d17a539866d48163076ff1a1f7bb5d3bdfdcd940",
+  "portable_script_sha256": "c9b45cc9ad595f40d34adbc298dddde0dfdc5d2f592f464ee0117a8ce357c1cd",
+  "reviewer": "Independent internal OpenAI Codex AI reviewer",
+  "date": "2026-10-23"
+}
