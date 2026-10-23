@@ -1,0 +1,18 @@
+{
+  "challenge_module": "SRChallenge",
+  "solution_module": "SRSolution",
+  "theorem_names": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
