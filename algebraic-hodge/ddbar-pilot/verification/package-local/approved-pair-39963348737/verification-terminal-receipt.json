@@ -1,0 +1,19 @@
+{
+  "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "run_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39963348737",
+  "activation_commit": "4356bd94be486ae9001875ce173ab5a2d5c1e2ca",
+  "pipeline_commit": "07a02bae1e85c75ae349d0e75195162d16d41e21",
+  "original_report_sha256": "c04b8a1c00dae4b57b263cfc0f2a38defd02c645f15bf8bf080b137b0d79979a",
+  "artifact_id": 12506516134,
+  "artifact_zip_sha256": "43aa938d63315ca00346f4ce919f074d5772499096bf5be082cd773a8bd7bd23",
+  "actual_accepted_kernels": [
+    "Lean default kernel",
+    "NanoDa",
+    "con-ron --verified"
+  ],
+  "status": "pass",
+  "stage": "complete",
+  "report_and_archive_binding": "pass",
+  "full_release_packet_status": "blocked by frozen-source prose; not an intake-ready receipt",
+  "render_condition": "independent original receipt review pending"
+}

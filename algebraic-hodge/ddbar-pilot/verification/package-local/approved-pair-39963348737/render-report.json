@@ -1,0 +1,44 @@
+{
+  "bwrap_source_tag": "v0.12.0",
+  "diagnostics": [
+    {
+      "code": "palomar.render_failed",
+      "explanation": "Palomar could not render the accepted Challenge.\n\nVerificationError: /opt/hostedtoolcache/Python/3.11.10/x64/bin/python3.11 /home/runner/work/Math-Formalization/Math-Formalization/pipeline/scripts/render_challenge.py sanitize failed (2): render challenge: render output file exceeds the per-file cap: HodgeChallenge/index.html",
+      "next_action": "Do not change the repository. Retry the same commit later and report the render workflow URL if this happens again.",
+      "owner": "palomar",
+      "repairable": false,
+      "retryable": true,
+      "stage": "sanitize",
+      "summary": "Palomar could not render the accepted Challenge."
+    }
+  ],
+  "diagnostics_schema_version": 1,
+  "errors": [
+    "/opt/hostedtoolcache/Python/3.11.10/x64/bin/python3.11 /home/runner/work/Math-Formalization/Math-Formalization/pipeline/scripts/render_challenge.py sanitize failed (2): render challenge: render output file exceeds the per-file cap: HodgeChallenge/index.html"
+  ],
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "mathlib_cache": {
+    "bytes": 448908886,
+    "downloaded": 8915,
+    "requested": 8915
+  },
+  "prepared_at": "2026-10-23T13:54:22Z",
+  "renderer_commit": "07a02bae1e85c75ae349d0e75195162d16d41e21",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "algebraic-hodge/ddbar-pilot/HodgeChallenge.lean",
+    "challenge_sha256": "fa12ed722b4444ddd20ea2608d688ed196cc1b731bc4266cd7afdef24e08981c",
+    "commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+    "comparator_config_path": "algebraic-hodge/ddbar-pilot/comparator.json",
+    "lakefile_path": "algebraic-hodge/ddbar-pilot/lakefile.toml",
+    "lean_toolchain_path": "algebraic-hodge/ddbar-pilot/lean-toolchain",
+    "project_path": "algebraic-hodge/ddbar-pilot",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "algebraic-hodge/ddbar-pilot/HodgeSolution.lean"
+  },
+  "stage": "sanitize",
+  "status": "error",
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39964788446"
+}

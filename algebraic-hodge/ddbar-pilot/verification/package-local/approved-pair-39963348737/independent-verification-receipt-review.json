@@ -1,0 +1,18 @@
+{
+  "scope": "Independent internal AI mechanical receipt review; conditional-render gate only",
+  "outcome": "ACCEPT",
+  "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "run_id": 39963348737,
+  "run_attempt": 1,
+  "artifact_id": 12506516134,
+  "artifact_zip_sha256": "43aa938d63315ca00346f4ce919f074d5772499096bf5be082cd773a8bd7bd23",
+  "original_report_sha256": "c04b8a1c00dae4b57b263cfc0f2a38defd02c645f15bf8bf080b137b0d79979a",
+  "findings": [
+    "OriginalZIP contains sole byte-identical originalreport.",
+    "Run/activation/pipeline/attempt/source/config/meta/lock/Challenge digests and protectednamespace/25targets/allowlist match.",
+    "Exact dependency/tool pins and bundled binary digests match; pinned newercon-ron checker revision matches.",
+    "MandatoryLean/NanoDa accepted; con-ron accepted10149declarations --verified exit0 within1800sec cap.",
+    "Pinnedcompletepath requires confinement/positive/mismatch/illtyped/illegalaxiom/conroncontrols; corresponding resourcephases present and reportcomplete without errors."
+  ],
+  "limit": "Accepts single conditional render under approvedbundle only; stale sourceprose still blocks finalhandoff; no sourcechange/newrun byreviewer."
+}

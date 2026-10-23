@@ -1,0 +1,13 @@
+{
+  "helper_commit": "4bea27b3272d8d174367c6a8f759f8214c0a660c",
+  "source_commit_unchanged": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "changes": "Conservatively detect remain-unfulfilled and Markdown-bold not-run claims; scan PLAN/RUN-PLAN; independent prose review still required.",
+  "tests": "42release-guard regression tests passed; not a full ready packet pass.",
+  "independent_review": "Read-only separate AI reviewer accepted diff and authenticated guard/tests SHA.",
+  "files": {
+    "scripts/check_release_packet.py": "35855078eee9ea44167ba832fb429bacd9ed9b82bf43d60012c789e7051b8169",
+    "tests/test_release_packet.py": "7e410a0d3f8ba90047e98d95c6f293313b4856e992bda3495d093e807ddf5ec5"
+  },
+  "actual_status_gate": "blocked: REVIEW.md stale blanket pending/completion account",
+  "no_extra_run": true
+}

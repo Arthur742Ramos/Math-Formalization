@@ -1,0 +1,20 @@
+{
+  "scope": "Independent internal AI final evidence publication review; not release acceptance",
+  "outcome": "PASS as blocked historical evidence only",
+  "reviewed_manifest_sha256": "7e9d8b95070cc76bde30924101b53b81efd5c1773011b2805fff99efc76a1cd8",
+  "reviewed_manifest_entries": 18,
+  "findings": [
+    "Exact file set and every manifest hash checked",
+    "Original report, ZIP and public API bytes match independently reviewed originals",
+    "Verified7ee, failed rendering, and unverified corrected129b whole source are accurately distinguished",
+    "65 core files unchanged does not imply whole source verification",
+    "Historical review-pending receipt is contextualized",
+    "No obvious credentials, signed download URLs or private-review URLs in selected text"
+  ],
+  "limits": [
+    "No PR merge or intake acceptance",
+    "No computation retry authorization",
+    "No canonical pass inferred for later source commits"
+  ],
+  "manifest_note": "This receipt was added after review; SHA256SUMS was then refreshed to include it, avoiding a self-hash claim."
+}

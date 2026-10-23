@@ -1,0 +1,19 @@
+{
+  "source_commit": "129b5037e20f24c023246d184e7a1317d2fe2cf7",
+  "protected_verified_source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "stage_neutral_doc_correction": "applied; separate AI review approved exact4-file patch67a93376fedbd7a5ade305d346004e31ca422a78ac7a7c890cb48ba057a1ac13",
+  "mathematical_core_files_byte_equal": 65,
+  "core_projection_scope": "65tracked project files outside4documentation files and package-local histories; not whole-project/repository equality",
+  "source_status_guard": "pass; status-only check, not fullverification",
+  "full_exact_source_binding": "blocked",
+  "blocker": "Historical report is not verification of the proposed source",
+  "original_report_relabelled": false,
+  "new_source_hosted_run_started": false,
+  "merge_or_intake_ready": false,
+  "doc_sha256": {
+    "REVIEW.md": "c40e7412b6a44da254d11b6ab88a125499f455056ee80cbd489f920514d00192",
+    "RUN-PLAN.md": "ce6b21501dc67b7b42de32886755b9a52371ca54be0881b22188935a3d0fda9c",
+    "PLAN.md": "19863762ed44e8e7fe57e6b078c99d61852d8486a613a0d224e2a8c542bf5160",
+    "README.md": "1d3385a880b5bc5c8e2a46360a3757bfcaed663298cc4a86f989b5647deb59a4"
+  }
+}
