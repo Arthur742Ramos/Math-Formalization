@@ -1,0 +1,34 @@
+{
+  "status": "pass",
+  "scope": "Exact committed helper-code offline regressions and source/metadata preservation only; no canonical/kernel/render/intake acceptance.",
+  "checked_at": "2026-10-23T02:38:54.460002+00:00",
+  "helper_code_commit": "da6a965427f83aaa5962700c5290e441acf1376b",
+  "helper_sha256": {
+    "scripts/check_release_packet.py": "b9871ee552fb0fdbee53fbbe2cb7f7d3aec95f7b35135344d0fb11808c8c6f65",
+    "tests/test_release_packet.py": "bc9ef5d1a3e18ab8fec567f1b97214c8ddcd2570e54db7d204c09fec9432c0af"
+  },
+  "mathematical_source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+  "retained_local_source_inputs_unchanged": 58,
+  "release_regression_tests": 40,
+  "inventory_regression_tests": 67,
+  "checks": {
+    "release-guard-tests": {
+      "exit_code": 0,
+      "log_sha256": "221e54600c72e16acc7147b9e76084900460eee7a26d6fff54bd17ec9e24ee57"
+    },
+    "inventory-validator-tests": {
+      "exit_code": 0,
+      "log_sha256": "a66360dbcac1c926079d23a864a325e259c463c91d6f184671b32fc2775dd5b7"
+    },
+    "status-only": {
+      "exit_code": 0,
+      "log_sha256": "888067a267889ceceaddb6a8bfbcf5fa0eab54a3bf8130cf568b23911bf6de88"
+    }
+  },
+  "status_only_is_full_verification": false,
+  "canonical_execution_attempted": false,
+  "rendering_attempted": false,
+  "palomar_intake_attempted": false,
+  "submission_hold_active": true,
+  "hold_release_requires": "Confirmed Palomar approval of PR41-associated Sierpi\u0144ski entry; no inference from GitHub merge or mechanical pass."
+}

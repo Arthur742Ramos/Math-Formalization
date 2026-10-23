@@ -1,0 +1,16 @@
+{
+  "current-pipeline-input-check.json": "c78338016c9c8bdc2f5340d4ce60b963f9b382495ac182243d49569d842164a6",
+  "draft-submission-fields.json": "5c58474c2607f68e4647c3c2e7e3c506e10ced7f7751fc505ed16df8911b7620",
+  "execution-plan.json": "db0210de25bbe8f4210e26ce80d649c9aa4e4ef52bc9f8a18b3f56448dde9671",
+  "frozen-source.tar": "8de34b24d98cbc66108aa82f1017e729d651ed1d953a3be127655b49e8d53d02",
+  "guard-review.json": "035fcb295829ad33a6c195900500fbae0739c80e32ee3856cc4a9a9a0b5533fd",
+  "hold-check.json": "fab746ac638ed2e81ecd4e26c1954823e2af644d678b72376a1eddae88855e80",
+  "inventory-validator-tests.log": "a66360dbcac1c926079d23a864a325e259c463c91d6f184671b32fc2775dd5b7",
+  "offline-preparation-report.json": "90cc2604f39ad4dc698d9fd3d603b805d0ec4664baa8f34d22c95c8a151c4b12",
+  "proposed-render-caller.yml": "bbaf71576e7c9935b95e76b79d0fd88a610ea543d1c9579eac776d6ac82e04b6",
+  "proposed-verification-caller.yml": "84c75ff7dc73a20f333beb125e7e2ac1410ba113ea8ff0facde70d98c468970c",
+  "release-guard-tests.log": "221e54600c72e16acc7147b9e76084900460eee7a26d6fff54bd17ec9e24ee57",
+  "source-archive-check.json": "ad3c5ff85e2bbbe3b56ab8568b9e9544a9a242e8410f24360ae8cd60252ad310",
+  "status-only.log": "888067a267889ceceaddb6a8bfbcf5fa0eab54a3bf8130cf568b23911bf6de88",
+  "submission-readiness-checklist.json": "af3a240c90cccf7a3a5b0f0d3a2270b790dc4f2aa3b8eb09a21a29959da6548b"
+}
