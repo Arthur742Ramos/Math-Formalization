@@ -3,8 +3,8 @@ public import Mathlib.Topology.MetricSpace.PiNat
 public import Mathlib.Topology.GDelta.Basic
 
 /-!
-Initial local development for the Knaster–Reichbach construction.
-The ambient extension theorem is not yet implemented.
+Cylinder foundations for the Knaster–Reichbach construction.
+The complete ambient extension theorem is proved in Extension.lean.
 -/
 
 public section

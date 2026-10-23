@@ -234,7 +234,7 @@
       "bridge_excerpts": [
         "KR-IsCompact"
       ],
-      "proof_status": "SemanticTests and ChallengeTests check literal definitions on both isolated entrypoints. Source-fidelity review remains independent of compilation."
+      "proof_status": "Used by the compiled compatible-limit construction. The entrypoint bridges check the final literal theorem, not an unfolding of this compactness predicate. Retained pinned definitions and their mathematical interpretation require independent fidelity review."
     },
     {
       "name": "CompactSpace",
@@ -250,7 +250,7 @@
       "bridge_excerpts": [
         "KR-CompactSpace"
       ],
-      "proof_status": "SemanticTests and ChallengeTests check literal definitions on both isolated entrypoints. Source-fidelity review remains independent of compilation."
+      "proof_status": "Used by the compiled compatible-limit construction. The entrypoint bridges check the final literal theorem, not an unfolding of this compactness predicate. Retained pinned definitions and their mathematical interpretation require independent fidelity review."
     }
   ],
   "source_files": [
