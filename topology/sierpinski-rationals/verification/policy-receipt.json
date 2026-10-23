@@ -1,0 +1,27 @@
+{
+  "pin": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/ad5db9e7ff8b17523d73aeb244aaeabcde810c64/toolchains.json",
+      "sha256": "fd40347e4b586e7c42233b35f11efb006d25033b9a7ded9565719edf7aa98354"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/ad5db9e7ff8b17523d73aeb244aaeabcde810c64/formalization-profile.json",
+      "sha256": "d695b838bbab69236f6e43afda6bd4d719a91099412351f89c3c2cfeb26d5131"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/ad5db9e7ff8b17523d73aeb244aaeabcde810c64/checker-revisions.json",
+      "sha256": "f8bf5d9df7e38fb16d667003b1b47dd28aaf4dc380ce01b50df3f8c36a79c6f3"
+    }
+  ],
+  "metadata_schema": {
+    "status": "pass",
+    "schema_url": "https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/99c678e569c7c4c0772db297c5ddd5e4c9b6322e/schema/v0.4.schema.json",
+    "schema_sha256": "25ff6b25ca4511635aff4443cf20480c15e59dddf19591c730950b442ea54fce",
+    "metadata_sha256": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+    "scope": "Upstream v0.4 JSON schema shape; not Palomar editorial acceptance"
+  },
+  "observed_date": "2026-10-23",
+  "canonical_workflows_dispatched": 0,
+  "note": "Pinned requirements consulted for source preparation. This receipt grants no intake or workflow authority."
+}

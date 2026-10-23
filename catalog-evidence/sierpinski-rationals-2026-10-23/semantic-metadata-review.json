@@ -1,0 +1,61 @@
+{
+  "status": "no-blocking-semantic-or-metadata-issue-found",
+  "reviewer": "Independent internal OpenAI Codex AI reviewer",
+  "date": "2026-10-23",
+  "baseline_commit": "17efd61a93e912f7b671c8c0fd45a46bba701ded",
+  "source_was_uncommitted": true,
+  "selected_declarations": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "reviewed_files_sha256": {
+    "SierpinskiRationals.lean": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+    "SRChallenge.lean": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+    "SRSolution.lean": "3941da34bd2d0a65462472dc3ef75e88e1f3a3421ab6207b33fe9e0dc07a6a81",
+    "SemanticTests.lean": "fdad8f1bc9b73b90784b4abb4ad4327158597c6e0a223da7bbfd1605b3306cc0",
+    "ChallengeTests.lean": "321cb73704cfcc4e124d194002a8d2aac3ff8f9149e0e9f59ade1cb1e5051bc5",
+    "formalization.yaml": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+    "README.md": "6c3c6bbfdd0e178e11c282b72ffcffea279b0f3c5bf8d4d225493dafbd105c21",
+    "SOURCE-MAPPING.md": "40416b1fe6aeb69db3484671dd4bd85e8a21c15d29d453da5a76405a5bc84016",
+    "MATERIAL-DEFINITIONS.md": "ffa38b780ca83933bc7ce684809e20777fa4c107e9c6c044caf023c383b40b5e",
+    "verification/material-imported-definitions.json": "8e133553c77eaa8044d24eaa598d08daa91ed2a24dfd596c64a4a63eaf4621b0",
+    "verification/core-imported-definitions.json": "35fb92a24e7ce85d2f9781384a60ad4ffc1c9c68f41a464cf164c53ad42c1f8e",
+    "comparator.json": "0dc2e748771265835bb67adbc0392129cd68e57adcec2aa440f9f867f5ff0510",
+    "lake-manifest.json": "125a575664dba67b1050f0c05c67c80490542b0b7c0b1828a4080a399341c5a2",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "verification/source-provenance.json": "741fe59b3aa229b290d23d788607313996feec668b7b9821aa53d6d37d4dfd04",
+    "VERIFICATION.md": "fb3f67730ea9ff4e7bef20e0312ff2311bd3b94ba7fa115f632fd56cb2a7740c",
+    "REVIEW.md": "a15b17d8ad4c157ec76e79536d6e0237dbc1d28d4cd7d35d8b50dc43088e6066"
+  },
+  "inventory": {
+    "material_declarations": 41,
+    "pinned_source_files": 35,
+    "retained_excerpts": 72,
+    "exact_source_authentication": "pass"
+  },
+  "independent_checks": [
+    {
+      "command": "lake env lean -DwarningAsError=true ChallengeTests.lean",
+      "exit_code": 0
+    },
+    {
+      "command": "lake env lean -DwarningAsError=true SemanticTests.lean",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 ../../scripts/check_imported_definitions.py --project-path topology/sierpinski-rationals --dependency-root .lake/packages/mathlib",
+      "exit_code": 0
+    }
+  ],
+  "limits": [
+    "Internal AI review, not human or external peer review",
+    "No claim of protected native or independent-kernel result authentication",
+    "No canonical full/render workflow or release-packet review certified",
+    "No exhaustive duplicate clearance or registry acceptance",
+    "Final frozen-source manifest and exact-commit receipts remain separate obligations"
+  ]
+}

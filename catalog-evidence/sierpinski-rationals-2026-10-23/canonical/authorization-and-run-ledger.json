@@ -1,0 +1,20 @@
+{
+  "authorization": "explicit-user-approval",
+  "user_reply": "Yes",
+  "reply_observed_utc": "2026-10-23T01:12:00Z",
+  "scope": "Exactly one canonical full-verification and one rendering run at d33817461fadbe8d7498a237b0c5bc27dc044afb, including conditional narrow bubblewrap AppArmor profile only on disposable runners",
+  "excluded": [
+    "registry intake",
+    "credential creation",
+    "registration",
+    "reruns",
+    "merge"
+  ],
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "caller_commit": "2357b9c2394ab7cf3b584dfe4a9d837f7d96db32",
+  "trigger_adaptation": "Manual dispatch HTTP404 created no run; branch+own-path scoped push launched one pair, jobs and source selectors unchanged.",
+  "full_run": 39882986575,
+  "render_run": 39882986107,
+  "attempt": 1
+}

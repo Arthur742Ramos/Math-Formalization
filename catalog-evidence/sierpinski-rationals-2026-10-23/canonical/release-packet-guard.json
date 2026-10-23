@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "project_path": "topology/sierpinski-rationals",
+  "metadata_sha256": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+  "report_sha256": "66ac793f2a013d39cba252bbfd248e4ff8842dea0bec7a88dd739273eb11e368",
+  "archive_sha256": "5591b5eec8a7f8207f52ed85a3553d917a3174f1ce6a0d3639a42ef03c3d899e",
+  "intake_authorized": false,
+  "scope": "Exact-source status, full-report and source archive consistency. Independent artifact provenance, current attempts/duplicates, rendering and editorial/registration decisions remain separate."
+}

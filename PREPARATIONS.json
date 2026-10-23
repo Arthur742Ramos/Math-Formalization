@@ -1190,6 +1190,90 @@
         "status": "pass",
         "scope": "Frozen-equal package tree, six modules1741jobs/16actualaxioms/51meanings43pinnedfiles107excerpts and184rootregressions. Three prior-package workflows also passed after shared parser change. Root-only canonical-completion records preserve every package byte."
       }
+    },
+    {
+      "path": "topology/sierpinski-rationals",
+      "name": "Sierpi\u0144ski's characterization of the rationals",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+        "tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f"
+      },
+      "source_files_sha256": {
+        ".gitignore": "b34af236d1df9e39ed4f98fca51702530ce76bdee4e1a69512f6caed933c3374",
+        "AxiomAudit.lean": "ced3aa5f5c489b55dd5d80425efc1271ba42f9973ab5b46df628ed4a15228468",
+        "ChallengeTests.lean": "321cb73704cfcc4e124d194002a8d2aac3ff8f9149e0e9f59ade1cb1e5051bc5",
+        "MATERIAL-DEFINITIONS.md": "ffa38b780ca83933bc7ce684809e20777fa4c107e9c6c044caf023c383b40b5e",
+        "README.md": "6c3c6bbfdd0e178e11c282b72ffcffea279b0f3c5bf8d4d225493dafbd105c21",
+        "REVIEW.md": "a15b17d8ad4c157ec76e79536d6e0237dbc1d28d4cd7d35d8b50dc43088e6066",
+        "SOURCE-MAPPING.md": "40416b1fe6aeb69db3484671dd4bd85e8a21c15d29d453da5a76405a5bc84016",
+        "SRChallenge.lean": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+        "SRSolution.lean": "3941da34bd2d0a65462472dc3ef75e88e1f3a3421ab6207b33fe9e0dc07a6a81",
+        "SemanticTests.lean": "fdad8f1bc9b73b90784b4abb4ad4327158597c6e0a223da7bbfd1605b3306cc0",
+        "SierpinskiRationals.lean": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+        "VERIFICATION.md": "fb3f67730ea9ff4e7bef20e0312ff2311bd3b94ba7fa115f632fd56cb2a7740c",
+        "comparator.json": "0dc2e748771265835bb67adbc0392129cd68e57adcec2aa440f9f867f5ff0510",
+        "formalization.yaml": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+        "lake-manifest.json": "125a575664dba67b1050f0c05c67c80490542b0b7c0b1828a4080a399341c5a2",
+        "lakefile.toml": "724bb03c736dc01d37f2fcf6f4c1a2244477fe244f2f9a1f2340b17ff093cb67",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a"
+      },
+      "theorem_names": [
+        "SierpinskiRationals.countable_hasClopenBasis",
+        "SierpinskiRationals.exists_binary_scheme",
+        "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+        "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+        "SierpinskiRationals.nonempty_homeomorph",
+        "SierpinskiRationals.nonempty_homeomorph_iff"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "semantic-metadata-review.md": "2e1cc39d738ce0bf19bdde688496324cd076c2f00117293fabb42ea3767f3532",
+          "independent-final-inventory-review.md": "0f3652c15551928bbfedf929dde45382f78918e54cfa3a989f456d53a8202c74",
+          "native-exact-evidence-review.md": "0beea2a5c3851fb3ba964c74d17a539866d48163076ff1a1f7bb5d3bdfdcd940"
+        }
+      },
+      "ordinary_local": "Exact d338174 native build, protected comparison, two rejection controls and Lean/NanoDa/verified con-ron replay passed; 18 axiom closures and exact pinned-source definitions checked.",
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "fresh_runner_security_approval": false,
+      "evidence_observed_date": "2026-10-23",
+      "checkpoint_evidence_commit": "38d7c8f6e8b711eb8b659410cd5bf7660ab780e3",
+      "checkpoint_scope": "Historical native-completion checkpoint at evidence commit38d7c8f6e8b711eb8b659410cd5bf7660ab780e3, before the user approved the canonical pair. At that checkpoint canonical full/render evidence was not established. Later canonical outcomes belong to separate immutable source-bound receipts and supersede this checkpoint for those stages; this row does not assert that those stages remain unperformed. No new intake, registration, rerun or future security authority.",
+      "latest_results_pointer": "catalog-evidence/sierpinski-rationals-2026-10-23/README.md",
+      "duplicate_check": "Bounded repository/branches/PRs, pinned Mathlib and public recent-registry audit found no equivalent. Registry-wide API inaccessible; not exhaustive clearance.",
+      "scope": "Every nonempty countable metrizable space without isolated points is homeomorphic to the usual rationals; full converse. Compatible order topology is constructed and proved equal to the original topology.",
+      "material_definition_audit": {
+        "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+        "material_declarations": 41,
+        "upstream_files": 35,
+        "literal_excerpts": 72,
+        "manifest": "verification/material-imported-definitions.json",
+        "semantic_tests": [
+          "SemanticTests.lean",
+          "ChallengeTests.lean"
+        ],
+        "schema_version": 2
+      }
     }
   ]
 }

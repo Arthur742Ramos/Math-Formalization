@@ -1,0 +1,20 @@
+module
+public import SRSolution
+#print axioms SierpinskiRationals.countable_hasClopenBasis
+#print axioms SierpinskiRationals.exists_mem_open_avoiding
+#print axioms SierpinskiRationals.exists_protected_split
+#print axioms SierpinskiRationals.exists_deciding_split
+#print axioms SierpinskiRationals.exists_binary_scheme
+#print axioms SierpinskiRationals.BinaryScheme.continuous_code
+#print axioms SierpinskiRationals.BinaryScheme.injective_code
+#print axioms SierpinskiRationals.BinaryScheme.code_has_both_bits
+#print axioms SierpinskiRationals.BinaryScheme.exists_lex_neighbors
+#print axioms SierpinskiRationals.BinaryScheme.codeOrder_noMin
+#print axioms SierpinskiRationals.BinaryScheme.codeOrder_noMax
+#print axioms SierpinskiRationals.BinaryScheme.codeOrder_dense
+#print axioms SierpinskiRationals.BinaryScheme.codeOrder_topology
+#print axioms SierpinskiRationals.exists_countable_clopen_basis
+#print axioms SierpinskiRationals.nonempty_homeomorph
+#print axioms SierpinskiRationals.rat_perfectSpace
+#print axioms SierpinskiRationals.perfectSpace_of_homeomorph
+#print axioms SierpinskiRationals.nonempty_homeomorph_iff

@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    {
+      "id": 12471447969,
+      "name": "mechanical-report-sierpinskif1",
+      "size_in_bytes": 7496,
+      "url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12471447969",
+      "archive_download_url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12471447969/zip",
+      "expired": false,
+      "created_at": "2026-10-23T01:23:37Z",
+      "expires_at": "2027-01-21T01:15:41Z",
+      "updated_at": "2026-10-23T01:23:37Z",
+      "digest": "sha256:3baffe1ade885fb4bdb9fe0048da449c8394f53bd59ae0e1ecc0c1c3a623652b",
+      "workflow_run": {
+        "id": 39882986575,
+        "repository_id": 1407508278,
+        "head_repository_id": 1407508278,
+        "head_branch": "topology/sierpinski-rationals",
+        "head_sha": "2357b9c2394ab7cf3b584dfe4a9d837f7d96db32"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "scope": "Frozen source/configuration/metadata/evidence consistency only",
+  "selected_theorems": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "proof_sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+  "challenge_lines": 493,
+  "challenge_bytes": 22051,
+  "source_files": 23
+}

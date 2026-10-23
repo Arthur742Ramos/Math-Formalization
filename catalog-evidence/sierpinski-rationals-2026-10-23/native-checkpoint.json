@@ -1,0 +1,92 @@
+{
+  "status": "historical-checkpoint-superseded",
+  "recorded_date": "2026-10-23",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "source_tree": "afe042face996ad7893c987910ced41e70a1d2e3",
+  "project_path": "topology/sierpinski-rationals",
+  "package_tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f",
+  "proof_and_challenge_sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+  "metadata_sha256": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+  "imported_definition_inventory_sha256": "8e133553c77eaa8044d24eaa598d08daa91ed2a24dfd596c64a4a63eaf4621b0",
+  "source_archive_sha256": "d99a93d6d7cfe97ac9d615ee1f91e446cbdf9b751ba4e0dcedc138f638e2a747",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "selected_theorems": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "completed": {
+    "source_package_build": "pass",
+    "independent_challenge_and_solution_semantic_bridges": "pass",
+    "transitive_axiom_audit": {
+      "declarations": 18,
+      "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+      ],
+      "status": "pass"
+    },
+    "clean_pinned_imported_definition_authentication": {
+      "declarations": 41,
+      "files": 35,
+      "excerpts": 72,
+      "status": "pass"
+    },
+    "upstream_metadata_schema": "v0.4 pass",
+    "independent_internal_AI_source_implementation_and_metadata_reviews": "no blocking issue identified; not human or external peer review",
+    "native_proof_byte_checkpoint": {
+      "protected_comparison": "pass for six selected contracts and all 26 primitive targets",
+      "negative_controls": [
+        "Independently compiled id-wrapped HasClopenBasis rejected",
+        "Independently compiled id-wrapped BinaryScheme.code rejected"
+      ],
+      "lean_kernel": "accepted",
+      "nanoda": "accepted; 19,496 declarations without typechecking errors; nonblocking pretty-printer message: Unable to print axioms",
+      "con_ron_verified": {
+        "accepted_declarations": 18207,
+        "status": "accepted"
+      },
+      "binding": "Checks completed before the source commit was created. Tested proof/Challenge bytes equal the frozen source hashes above. This is not an exact-commit full-verification claim."
+    },
+    "exact_commit_replay": {
+      "build": "pass",
+      "axiom_audit": "pass",
+      "package_core_consistency": "pass",
+      "pinned_source_authentication": "pass",
+      "protected_comparison": "pass",
+      "remaining_native_outcome": "Not yet observed; do not infer failure or success",
+      "negative_controls": {
+        "clopen_basis": "correctly rejected",
+        "address_function": "Outcome not yet observed"
+      }
+    }
+  },
+  "pending": {
+    "exact_commit_native_replay_receipt": "Await completion/status reconciliation and artifact authentication before claiming exact-commit kernel replay success",
+    "canonical_full_and_renderer": "Not dispatched; pending specific approval for exactly one pair at the frozen source",
+    "required_runner_security_scope": "Pinned PalomarSubmission install_bwrap.sh:43-52 conditionally loads /etc/apparmor.d/palomar-bwrap granting userns only to its bubblewrap path on each fresh disposable restricted Ubuntu runner. No such security change is authorized or performed here.",
+    "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+    "execution_profile": "palomar-standard-v1",
+    "registry_wide_duplicate_audit": "Unavailable; bounded checks found no match"
+  },
+  "canonical_workflows_dispatched": 0,
+  "registry_intakes": 0,
+  "registered": false,
+  "verified_intake_handoff": false,
+  "full_release_packet_guard": "Not run; no canonical full report exists",
+  "limits": "Native checks do not replace canonical isolation/resource checks, rendering or editorial review. This checkpoint is a scoped observation summary, not the original native report or a verified registry release packet.",
+  "independent_native_evidence_review": {
+    "status": "preliminary proof-byte evidence substantiated",
+    "scope": "All 41 preliminary artifact hashes, checker mechanism, frozen source bindings and exact-source preparatory build receipts were independently inspected by an internal AI reviewer. Exact-commit remaining native completion is unconfirmed. No human/external peer review.",
+    "recorded_date": "2026-10-23"
+  },
+  "historical_snapshot_commit": "326577d60489d388dea89dd3177172e979f88b9a",
+  "superseded_by": "exact-native-receipt.json"
+}

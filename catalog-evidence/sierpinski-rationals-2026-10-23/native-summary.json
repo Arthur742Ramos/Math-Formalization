@@ -1,0 +1,353 @@
+{
+  "status": "pass",
+  "scope": "Native protected-copy comparison and independent kernel replays; not canonical sandbox/resource-profile verification",
+  "selected_theorems": [
+    "SierpinskiRationals.countable_hasClopenBasis",
+    "SierpinskiRationals.exists_binary_scheme",
+    "SierpinskiRationals.BinaryScheme.code_has_both_bits",
+    "SierpinskiRationals.BinaryScheme.codeOrder_topology",
+    "SierpinskiRationals.nonempty_homeomorph",
+    "SierpinskiRationals.nonempty_homeomorph_iff"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "primitive_targets": [
+    "Nat.add",
+    "Nat.sub",
+    "Nat.mul",
+    "Nat.pow",
+    "Nat.gcd",
+    "Nat.div",
+    "Nat.mod",
+    "Nat.beq",
+    "Nat.ble",
+    "Nat.land",
+    "Nat.lor",
+    "Nat.xor",
+    "Nat.shiftLeft",
+    "Nat.shiftRight",
+    "String.ofList",
+    "Char.ofNat",
+    "List",
+    "eagerReduce",
+    "Nat",
+    "String",
+    "String.mk",
+    "Char",
+    "optParam",
+    "autoParam",
+    "semiOutParam",
+    "outParam"
+  ],
+  "source_sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+  "proof_sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+  "comparator_sha256": "0dc2e748771265835bb67adbc0392129cd68e57adcec2aa440f9f867f5ff0510",
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "runs": [
+    {
+      "label": "protected-build",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/workspace/sierpinski-q-audit/exact-d338174",
+        "-DwarningAsError=true",
+        "-o",
+        "/workspace/sierpinski-q-audit/exact-d338174/PalomarNativeSierpinski.olean",
+        "/workspace/sierpinski-q-audit/exact-d338174/PalomarNativeSierpinski.lean"
+      ],
+      "exit": 0,
+      "seconds": 5.031
+    },
+    {
+      "label": "compare-driver-C",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/workspace/sierpinski-q-audit/exact-d338174",
+        "-c",
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative.c",
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative.lean"
+      ],
+      "exit": 0,
+      "seconds": 0.853
+    },
+    {
+      "label": "compare-driver-link",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/leanc",
+        "-o",
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative",
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative.c",
+        "-lLake",
+        "-lLeanExport"
+      ],
+      "exit": 0,
+      "seconds": 3.292
+    },
+    {
+      "label": "compare",
+      "command": [
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative",
+        "/workspace/sierpinski-q-audit/exact-d338174/challenge.ndjson",
+        "/workspace/sierpinski-q-audit/exact-d338174/solution.ndjson"
+      ],
+      "exit": 0,
+      "seconds": 13.077
+    },
+    {
+      "label": "changed-clopen-basis-build",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/workspace/sierpinski-q-audit/exact-d338174",
+        "-DwarningAsError=true",
+        "-o",
+        "/workspace/sierpinski-q-audit/exact-d338174/NegativeChangedClopenBasis.olean",
+        "/workspace/sierpinski-q-audit/exact-d338174/NegativeChangedClopenBasis.lean"
+      ],
+      "exit": 0,
+      "seconds": 5.337
+    },
+    {
+      "label": "changed-clopen-basis-compare",
+      "command": [
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative",
+        "/workspace/sierpinski-q-audit/exact-d338174/challenge.ndjson",
+        "/workspace/sierpinski-q-audit/exact-d338174/changed-clopen-basis.ndjson"
+      ],
+      "exit": 1,
+      "seconds": 17.009
+    },
+    {
+      "label": "changed-code-build",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/workspace/sierpinski-q-audit/exact-d338174",
+        "-DwarningAsError=true",
+        "-o",
+        "/workspace/sierpinski-q-audit/exact-d338174/NegativeChangedCode.olean",
+        "/workspace/sierpinski-q-audit/exact-d338174/NegativeChangedCode.lean"
+      ],
+      "exit": 0,
+      "seconds": 8.134
+    },
+    {
+      "label": "changed-code-compare",
+      "command": [
+        "/workspace/sierpinski-q-audit/exact-d338174/CompareNative",
+        "/workspace/sierpinski-q-audit/exact-d338174/challenge.ndjson",
+        "/workspace/sierpinski-q-audit/exact-d338174/changed-code.ndjson"
+      ],
+      "exit": 1,
+      "seconds": 229.37
+    },
+    {
+      "label": "lean-kernel",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/leanchecker",
+        "--silent",
+        "--from-export",
+        "/workspace/sierpinski-q-audit/exact-d338174/solution.ndjson"
+      ],
+      "exit": 0,
+      "seconds": 39.965
+    },
+    {
+      "label": "nanoda",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/nanoda_bin",
+        "/workspace/sierpinski-q-audit/exact-d338174/nanoda.json"
+      ],
+      "exit": 0,
+      "seconds": 18.827
+    },
+    {
+      "label": "con-ron",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron",
+        "--verified",
+        "--jobs=2",
+        "/workspace/sierpinski-q-audit/exact-d338174/solution.ndjson"
+      ],
+      "exit": 0,
+      "seconds": 59.827
+    }
+  ],
+  "files": {
+    "NegativeChangedCode.lean": {
+      "sha256": "4695542aabe30c2f1c631b74c8a7b4849b42b5891c3d9824fc0265ae4e415186",
+      "size": 22063
+    },
+    "PalomarNativeSierpinski.olean": {
+      "sha256": "fd1629926fdacc0422feb9c928a2f279562392b440f49341dde6fe26ca871a17",
+      "size": 149752
+    },
+    "NegativeChangedClopenBasis.ir.sig": {
+      "sha256": "d133a859c73da7ea733251c387e32d3cd7d333eb9ecffd78f3324014a17de2bb",
+      "size": 176
+    },
+    "NegativeChangedCode.olean": {
+      "sha256": "52cac9184f56d082e0d4fbf17a77d68645c038a2b13890c715122befea882047",
+      "size": 149848
+    },
+    "changed-code-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "NegativeChangedClopenBasis.lean": {
+      "sha256": "8bf500ce659266a7371a42390639f58132aa498c3eddd11572cde3977d3d6375",
+      "size": 22056
+    },
+    "PalomarNativeSierpinski.ir.sig": {
+      "sha256": "34e52e8b5e693dbab4e50a8e4759d429820debcf14b2479515acd580f0136227",
+      "size": 176
+    },
+    "solution-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "solution.ndjson": {
+      "sha256": "51109ac58d64dccf83cfe238805cc8d9a1faca71076e60c6e69aa938124075c2",
+      "size": 82269084
+    },
+    "PalomarNativeSierpinski.olean.private": {
+      "sha256": "cb8951c6d45bd861e8bf1ce2a960020fc1bc7a8b900413806265c495ec3e0c5b",
+      "size": 717064
+    },
+    "CompareNative.c": {
+      "sha256": "a0ca80eb1b71d93cb1e4ecc2cffc98c4cd21a1fc6313c3505fae2424a492842a",
+      "size": 48856
+    },
+    "nanoda.json": {
+      "sha256": "d6aa2d5a5c3ec31221f1f2039adf7a3d951a1e81c89843bd987924060e802852",
+      "size": 321
+    },
+    "CompareNative.lean": {
+      "sha256": "4dc299da4f4fa8086a439a4289bdd3e02fa951cac8fe76bb71f136571a75dc40",
+      "size": 1531
+    },
+    "NegativeChangedCode.olean.server": {
+      "sha256": "b75b3d05ea4e1070cff79c29de9791b34e72d0bb442543c0ff2aeae862ff4cae",
+      "size": 12928
+    },
+    "con-ron.log": {
+      "sha256": "d9ea80eac5107d3406ba08044b6da360473b5c32883e8c1cbd2c9efb7df2202d",
+      "size": 210
+    },
+    "protected-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "PalomarNativeSierpinski.ir": {
+      "sha256": "afc6f1cc3e95efab71131cefac825741a230763877fa21db91136082e5c6a814",
+      "size": 2408
+    },
+    "changed-clopen-basis-compare.log": {
+      "sha256": "479e029fe1b9061ec336f7ce999f71c85e3a0cdd6721fe8103271a6314792c3f",
+      "size": 107
+    },
+    "NegativeChangedCode.ir": {
+      "sha256": "4b9d9bc7db5ce9b8ebe5414383d66494c990dcd80b18bee39bbe8a6ad17973e6",
+      "size": 2408
+    },
+    "NegativeChangedClopenBasis.olean.server": {
+      "sha256": "53945bb7f18c271cbd3a739f711952c6702470789fbd6fceebc4c2104015bd3f",
+      "size": 12928
+    },
+    "CompareNative": {
+      "sha256": "d93b7da00439e9760c1a8b09bc99bfc1342114bef21a1c2541f1483b265928ab",
+      "size": 118842544
+    },
+    "changed-code-compare.log": {
+      "sha256": "42854c47388565fcf496553c9cc28b00f7b518b0677aa7e4e2e315498ba7c72e",
+      "size": 110
+    },
+    "PalomarNativeSierpinski.olean.server": {
+      "sha256": "e75fa4fcc17e32dde3fd5040bdf657719d847e156bbfbbe64822fbd0bd43ee3c",
+      "size": 12928
+    },
+    "NegativeChangedClopenBasis.olean.private": {
+      "sha256": "c578f94d97ed2e8e951fb4cb4f058a1a5d419ebf3ad0135138910c1ec0fdb7be",
+      "size": 717064
+    },
+    "NegativeChangedCode.olean.private": {
+      "sha256": "28aa199fd5dddb04707786012dfa7aac02fc311caa126ab4fab2860f88286572",
+      "size": 717328
+    },
+    "challenge.ndjson": {
+      "sha256": "e367fc2017bf78c56e4c8b55bf366ffb37a7478caa519572c642fa46a78170a5",
+      "size": 82269120
+    },
+    "lean-kernel.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "changed-code-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "NegativeChangedClopenBasis.olean": {
+      "sha256": "0ea0a893cd5050461a2c07a06739b62deede109501edd0794f7e5db997d7bfee",
+      "size": 149856
+    },
+    "changed-clopen-basis-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "nanoda.log": {
+      "sha256": "08bf6709c6a02769e4c25835bb58cd4e27bc9019117e483ccd7f16acb62fd2f7",
+      "size": 114
+    },
+    "compare.log": {
+      "sha256": "75f7f41785c73b693a53b18aa60797c4bc78b0131ab625b297620227b4d5678b",
+      "size": 62
+    },
+    "NegativeChangedClopenBasis.ir": {
+      "sha256": "5b41835cc9dcfff09ac12bfb25877d3fc7a6a0b08f1876774280a49c8c44bc29",
+      "size": 2408
+    },
+    "changed-clopen-basis-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "changed-code.ndjson": {
+      "sha256": "c398498354fca06693a2524839eda57f9e81f308f930b1fee5277abc38413e58",
+      "size": 82269375
+    },
+    "compare-driver-C.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "compare-driver-link.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "NegativeChangedCode.ir.sig": {
+      "sha256": "a7212f50f1a49d793c09431adae8cfea8b2a124cfb1da3c43b9195a51680efcf",
+      "size": 176
+    },
+    "PalomarNativeSierpinski.lean": {
+      "sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+      "size": 22051
+    },
+    "changed-clopen-basis.ndjson": {
+      "sha256": "7b665e1fef2bb919e09f82d1e8e045255c2110df4e679a2babcf2b03de708bda",
+      "size": 82269240
+    },
+    "challenge-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    }
+  },
+  "toolchain": "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2",
+  "tool_binary_sha256": {
+    "lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "lake": "8ba83c98f76562d03b8dbc33f1057151ba6cbb121679dde76b2260ccc90495e1",
+    "leanexport": "c5bc1a10a21e22cbb3671d65987cdef2076833b14182d823ccb2153adf2fa954",
+    "leanchecker": "9e36e955a251b1313c8eb5b7fa101282d51df109d34d8bb7c1cfdf51985aba29",
+    "nanoda_bin": "8241c5e6baa29490aa118d382f97961b208ae730fdb96545c2abed74c9ece5a8",
+    "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef"
+  },
+  "canonical_workflows_run": 0,
+  "registry_intakes": 0
+}

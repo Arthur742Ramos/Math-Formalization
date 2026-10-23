@@ -156,3 +156,17 @@ remain separate. No prior frozen source, registration or package pin is changed.
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [The strong Choquet characterization of Polish spaces](topology/strong-choquet-polish) | Marked-point full-history game iff compatible complete metric for second-countable metrizable spaces, with coherent Gδ converse. | Full/render passed; intake and registration unconfirmed | [`f2ee17b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f2ee17b609eec4788b85043f8ad504a63cd69d86/topology/strong-choquet-polish) |
+
+## Sierpiński characterization: native checkpoint and later canonical receipts
+
+This separate cloud project proves the intrinsic characterization of the usual
+rationals, including construction of the original compatible order topology.
+The dated preparation row below records the native-completion checkpoint before
+the user authorized the canonical pair. Later canonical outcomes are recorded
+in the [source-bound evidence](catalog-evidence/sierpinski-rationals-2026-10-23/README.md);
+the checkpoint is not a claim that those stages remain unperformed. This task
+has initiated no registry intake or registration.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Sierpiński's characterization of the rationals](topology/sierpinski-rationals) | Nonempty countable metrizable spaces without isolated points are exactly the spaces homeomorphic to the usual rationals. | Preparation; not submitted — historical native checkpoint; later stage receipts linked above | [`d338174`](https://github.com/Arthur742Ramos/Math-Formalization/tree/d33817461fadbe8d7498a237b0c5bc27dc044afb/topology/sierpinski-rationals) |

@@ -1,0 +1,71 @@
+{
+  "artifact_tree_sha256": "df209c86a065e04a3589fb4e831ccea0a89f8f3058ae3a97ccce152b8897fb80",
+  "files": [
+    {
+      "bytes": 110547,
+      "path": "-verso-docs.json",
+      "sha256": "9f46af70b9559f1fbbe1eac41ea531b24ef4c120b6202c963973287c4ef1770b"
+    },
+    {
+      "bytes": 4716,
+      "path": "-verso-search/README.txt",
+      "sha256": "c2592e93a155651c869ea357d9b4c8bbd28920eb841b6a7c984841fd5fe9993a"
+    },
+    {
+      "bytes": 120,
+      "path": "-verso-search/domain-mappers.d.ts",
+      "sha256": "b347aa85cd1497191ce7e7166ef113e7c4c83f79345a6a4f7816a2155a5f7665"
+    },
+    {
+      "bytes": 2845,
+      "path": "-verso-search/fuzzysort.d.ts",
+      "sha256": "7c3f3de27ad6eb8ab420f1aade753483e1a597820ff7b5d80fa210e1c6f7c4e5"
+    },
+    {
+      "bytes": 233,
+      "path": "-verso-search/jsconfig.json",
+      "sha256": "6ae5ab90515f1ad5d923aca1616366dc67a1961b78c0285d02e4182791df7796"
+    },
+    {
+      "bytes": 2274,
+      "path": "-verso-search/licenses.md",
+      "sha256": "437e3dad49ac48ebfeabcaaf4c020b6580b13690b24ca0c5b31e4f3c797b0e43"
+    },
+    {
+      "bytes": 5681728,
+      "path": "Challenge/index.html",
+      "sha256": "d2d97bc94f30b7c701f43ce391758510055deb0f33b8be47e44c92db474b7491"
+    },
+    {
+      "bytes": 3306,
+      "path": "challenge-metadata.json",
+      "sha256": "b315305e1808728992ad6c4ac4a3ea3e6e6fb63de10971d28fbbc051d0702fb7"
+    },
+    {
+      "bytes": 44274,
+      "path": "palomar-render.css",
+      "sha256": "f16b4aa1e470cb136215b68cf37d60122ed4cfb3daf1ff3d761f87867a24f8d7"
+    },
+    {
+      "bytes": 16471,
+      "path": "palomar-sanitize.js",
+      "sha256": "37003e46e52ea8ca4ab4dc59e99a5fa35c4db8e029abddd7c4996df8b94815f6"
+    },
+    {
+      "bytes": 7820,
+      "path": "palomar-verso.js",
+      "sha256": "332773edafa3ac712ec3fba31d4c6ece2339693958873a9020a9be1bddb22538"
+    },
+    {
+      "bytes": 12030,
+      "path": "search/index.html",
+      "sha256": "140520877e6b7442f471c668ffe209523e1ae312b5cae4e691711b7f9f48cb66"
+    },
+    {
+      "bytes": 10369,
+      "path": "xref.json",
+      "sha256": "14f9e0608affacb87a7b7b4a872ccfa0f7837d2e50b002a7bdcac089618eafdd"
+    }
+  ],
+  "schema_version": 1
+}
