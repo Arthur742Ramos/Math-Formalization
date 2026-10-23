@@ -2,6 +2,10 @@ module
 public import SECChallenge
 public meta import SECChallenge
 
+public import Mathlib.LinearAlgebra.Dimension.Finite
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.NumberTheory.NumberField.Basic
+
 public section
 
 -- BEGIN material-imported-definition audit
@@ -956,4 +960,91 @@ def cachedBFSTestNetFlow : Fin 2 → Fin 2 → ℚ :=
 #guard rationalNetFlow (rationalPositiveNetFlow (n:=2) (fun i j => if i=0 ∧ j=1 then 3/4 else if i=1 ∧ j=0 then -(3/4) else 0)) 0 1 = 3/4
 
 end SECChallengeDefinitions
+-- BEGIN follow-on149 imported-definition semantic bridges
+namespace SECFollowOnDefinitions
+open scoped BigOperators
+
+theorem integer_divisibility_literal (a b : ℤ) :
+    a ∣ b ↔ ∃ c : ℤ, b = a * c := Iff.rfl
+
+theorem natural_divisibility_literal (a b : ℕ) :
+    a ∣ b ↔ ∃ c : ℕ, b = a * c := Iff.rfl
+
+theorem rational_denominator_divides_input (a b : ℤ) :
+    ((Rat.divInt a b).den : ℤ) ∣ b := Rat.den_dvd a b
+
+theorem list_nodup_decision_literal {α : Type*} [DecidableEq α] (l : List α) :
+    @decide l.Nodup (List.nodupDecidable l) =
+      @decide (List.Pairwise (fun a b : α => a ≠ b) l) (List.instDecidablePairwise l) := rfl
+
+theorem finite_support_type_card {α : Type*} (s : Finset α) :
+    Fintype.card s = s.card := Fintype.card_coe s
+
+theorem rational_number_field_finite : Module.Finite ℚ ℚ :=
+  NumberField.to_finiteDimensional
+
+theorem rational_feature_finite_generation (ν : Type*) [Fintype ν] :
+    (⊤ : Submodule ℚ (ν → ℚ)).FG := Module.Finite.fg_top
+
+theorem option_orElse_some_literal {α : Type*} (a : α) (f : Unit → Option α) :
+    Option.orElse (some a) f = some a := rfl
+
+theorem option_orElse_none_literal {α : Type*} (f : Unit → Option α) :
+    Option.orElse none f = f () := rfl
+
+theorem list_last_nonempty_literal {α : Type*} (a : α) (l : List α) :
+    (a :: l).getLast? = some ((a :: l).getLast (by simp)) := rfl
+
+theorem list_last_empty_literal {α : Type*} : ([] : List α).getLast? = none := rfl
+
+theorem list_head_literal {α : Type*} (a : α) (l : List α) :
+    (a :: l).head? = some a := rfl
+
+theorem list_tail_literal {α : Type*} (a : α) (l : List α) :
+    (a :: l).tail = l := rfl
+
+theorem rational_divInt_meaning (n d : ℤ) :
+    Rat.divInt n d = (n : ℚ) / (d : ℚ) := Rat.divInt_eq_div n d
+
+theorem rational_canonical_reconstruction (q : ℚ) :
+    (q.num : ℚ) / (q.den : ℚ) = q := Rat.num_div_den q
+
+theorem rational_divInt_zero (n : ℤ) : Rat.divInt n 0 = 0 := Rat.divInt_zero n
+
+theorem finite_subset_literal {α : Type*} (s t : Finset α) :
+    s ⊆ t ↔ ∀ ⦃a⦄, a ∈ s → a ∈ t := Iff.rfl
+
+theorem finite_strict_subset_meaning {α : Type*} (s t : Finset α) :
+    s ⊂ t ↔ s ⊆ t ∧ s ≠ t := Finset.ssubset_iff_subset_ne
+
+theorem finite_strict_subset_card {α : Type*} {s t : Finset α} (h : s ⊂ t) :
+    s.card < t.card := Finset.card_lt_card h
+
+theorem rational_linear_independence_literal {ι ν : Type*} (v : ι → ν → ℚ) :
+    LinearIndependent ℚ v ↔ Function.Injective (Finsupp.linearCombination ℚ v) := Iff.rfl
+
+theorem rational_finite_linear_combination_literal {ι ν : Type*}
+    (v : ι → ν → ℚ) (l : ι →₀ ℚ) :
+    Finsupp.linearCombination ℚ v l = ∑ i ∈ l.support, l i • v i := rfl
+
+theorem rational_linear_independence_finite {ι ν : Type*} [Fintype ι]
+    (v : ι → ν → ℚ) : LinearIndependent ℚ v ↔
+    ∀ g : ι → ℚ, ∑ i, g i • v i = 0 → ∀ i, g i = 0 :=
+  Fintype.linearIndependent_iff
+
+theorem rational_linear_dependence_finite {ι ν : Type*} [Fintype ι]
+    (v : ι → ν → ℚ) : ¬ LinearIndependent ℚ v ↔
+    ∃ g : ι → ℚ, ∑ i, g i • v i = 0 ∧ ∃ i, g i ≠ 0 :=
+  Fintype.not_linearIndependent_iff
+
+theorem rational_feature_dimension (ν : Type*) [Fintype ν] :
+    Module.finrank ℚ (ν → ℚ) = Fintype.card ν := Module.finrank_fintype_fun_eq_card ℚ
+
+theorem rational_independent_card_le_dimension {ι ν : Type*} [Fintype ι] [Fintype ν]
+    {v : ι → ν → ℚ} (h : LinearIndependent ℚ v) :
+    Fintype.card ι ≤ Module.finrank ℚ (ν → ℚ) := h.fintype_card_le_finrank
+
+end SECFollowOnDefinitions
+-- END follow-on149 imported-definition semantic bridges
+
 -- END material-imported-definition audit

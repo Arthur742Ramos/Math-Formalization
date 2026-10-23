@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 from pathlib import Path
 import re
 import shutil
@@ -25,12 +26,13 @@ out = args.out.resolve()
 assert not out.is_relative_to(root), 'Evidence belongs outside frozen package'
 out.mkdir(parents=True, exist_ok=False)
 cfg = json.loads((root / 'comparator.json').read_text())
-env = os.environ.copy()
+env = {key: os.environ[key] for key in ["HOME", "TMPDIR", "TMP", "TEMP", "LANG", "LC_ALL"] if key in os.environ}
 prefix = Path(subprocess.check_output(['lean', '--print-prefix'], cwd=root, text=True).strip())
 assert (root/'lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.35.0-rc2'
 compiler_version = subprocess.check_output([str(prefix/'bin/lean'), '--version'], text=True).strip()
 assert '4.35.0-rc2' in compiler_version and '11acb17ec6b07a8f9e9173e6845197929540936b' in compiler_version
-env.update(PATH=str(prefix / 'bin') + ':/usr/bin:/bin:/opt/homebrew/bin', LEAN_NUM_THREADS='2')
+env.update(PATH=':'.join([str(prefix / 'bin'), str(Path(sys.executable).parent), '/usr/local/bin', '/usr/bin', '/bin']), LEAN_NUM_THREADS='1')
+lean_flags = ['-j1', '-M8192', '-DwarningAsError=true']
 commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
 status = subprocess.check_output(['git', 'status', '--porcelain', '--', str(root)], cwd=repo, text=True)
 assert not status, 'Commit the complete package before exact-source verification'
@@ -56,11 +58,14 @@ assert not subprocess.check_output(['git', 'status', '--porcelain', '--', *tool_
 tool_hashes = {name: hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in tool_paths}
 files = subprocess.check_output(['git', 'ls-files', '--', str(root)], cwd=repo, text=True).splitlines()
 hashes = {f: hashlib.sha256((repo/f).read_bytes()).hexdigest() for f in files}
-receipt = {'scope': 'Native macOS exact-source builds, separate protected alias, pinned comparison/axiom APIs, native kernel checks. Not canonical Linux sandbox or registry clearance.',
+receipt = {'scope': f'Native {platform.system()} exact-source builds, separate protected alias, pinned comparison/axiom APIs, native kernel checks. Not a canonical sandbox, renderer, registry or journal clearance.',
+    'platform': platform.platform(), 'execution_profile': {'lean_flags': lean_flags, 'LEAN_NUM_THREADS': '1', 'inherited_tool_search_paths': False, 'package_build_scheduling': 'serial local import order, then aggregate Lake default-target check'},
     'commit': commit, 'package_tree': subprocess.check_output(['git', 'rev-parse', 'HEAD:game-theory/sparse-equilibrium-completion'], cwd=repo, text=True).strip(),
     'source_sha256': hashes, 'config': cfg, 'primitive_targets': primitive, 'checks': [],
     'compiler_version': compiler_version, 'compiler_sha256': hashlib.sha256((prefix/'bin/lean').read_bytes()).hexdigest(),
-    'dependency_receipts': dependency_receipts, 'verification_tools_sha256': tool_hashes}
+    'dependency_receipts': dependency_receipts, 'verification_tools_sha256': tool_hashes,
+    'native_tools_sha256': {name: hashlib.sha256((prefix/'bin'/name).read_bytes()).hexdigest() for name in ['lean', 'lake', 'leanexport', 'leanchecker']}}
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
 
 def run(name, argv, cwd=root, runenv=env, output=None):
     start = time.monotonic()
@@ -71,8 +76,13 @@ def run(name, argv, cwd=root, runenv=env, output=None):
         else:
             result = subprocess.run(argv, cwd=cwd, env=runenv, stdout=log, stderr=subprocess.STDOUT)
     receipt['checks'].append({'name': name, 'argv': list(map(str, argv)), 'exit_code': result.returncode,
-        'elapsed_seconds': round(time.monotonic()-start, 3),
+        'elapsed_seconds': round(time.monotonic()-start, 3), 'cwd': str(cwd),
+        'lean_environment': {key: runenv[key] for key in ['LEAN_NUM_THREADS', 'LEAN_PATH', 'LEAN_SRC_PATH'] if key in runenv},
         'log_sha256': hashlib.sha256((out/(name+'.log')).read_bytes()).hexdigest()})
+    if output is not None:
+        receipt['checks'][-1]['output'] = {'path': str(output), 'sha256': hashlib.sha256(output.read_bytes()).hexdigest(), 'bytes': output.stat().st_size}
+    if result.returncode:
+        receipt['result'] = 'failed'
     (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(name, result.returncode, flush=True)
     if result.returncode:
@@ -83,19 +93,23 @@ run('python-version', [sys.executable, '--version'])
 run('source-consistency', [sys.executable, 'scripts/check_package.py'])
 run('imported-definitions', [sys.executable, str(repo/'scripts/check_imported_definitions.py'), '--project-path', 'game-theory/sparse-equilibrium-completion', '--dependency-root', str(mathlib)])
 # Rebuild package-owned artifacts; preserve the isolated dependency cache.
-shutil.rmtree(root/'.lake/build', ignore_errors=True)
-run('build', [str(prefix/'bin/lake'), 'build'])
-run('axioms', [str(prefix/'bin/lake'), 'env', 'lean', 'AxiomAudit.lean'])
+build_path = root/'.lake/build'
+assert not build_path.is_symlink(), 'Package build directory must not be a symlink'
+if build_path.exists():
+    shutil.rmtree(build_path)
+assert not build_path.exists(), 'Fresh package rebuild requires successful artifact removal'
+run('build', [sys.executable, 'scripts/build_serial.py'])
+run('axioms', [str(prefix/'bin/lake'), 'env', 'lean', *lean_flags, 'AxiomAudit.lean'])
 run('native-kernel', [str(prefix/'bin/lake'), 'env', 'leanchecker', 'SECSolution'])
 alias = out/'ProtectedSparseCompletion'
 alias.mkdir(exist_ok=True)
 shutil.copyfile(root/'SECChallenge.lean', alias/'Challenge.lean')
 protected_env = env | {'LEAN_PATH': ':'.join([str(out)]+dependency_paths), 'LEAN_SRC_PATH': ':'.join(map(str,deps))}
-run('protected-compile', [str(prefix/'bin/lean'), '-j2', '-M3072', '-DwarningAsError=true', '-o', 'ProtectedSparseCompletion/Challenge.olean', 'ProtectedSparseCompletion/Challenge.lean'], out, protected_env)
+run('protected-compile', [str(prefix/'bin/lean'), *lean_flags, '-o', 'ProtectedSparseCompletion/Challenge.olean', 'ProtectedSparseCompletion/Challenge.lean'], out, protected_env)
 ch, sol = out/'challenge.ndjson', out/'solution.ndjson'
 run('challenge-export', [str(prefix/'bin/leanexport'), 'ProtectedSparseCompletion.Challenge', '--', *targets], out, protected_env, ch)
 run('solution-export', [str(prefix/'bin/lake'), 'env', 'leanexport', 'SECSolution', '--', *targets], root, env, sol)
-run('pinned-comparator-and-negative-control', [str(prefix/'bin/lean'), '-j2', '-M3072', '--run', str(root/'scripts/CompareExports.lean'), str(ch), str(sol), *cfg['theorem_names']])
+run('pinned-comparator-and-negative-control', [str(prefix/'bin/lean'), *lean_flags, '--run', str(root/'scripts/CompareExports.lean'), str(ch), str(sol), *cfg['theorem_names']])
 run('export-native-kernel', [str(prefix/'bin/leanchecker'), '--silent', '--from-export', str(sol)])
 for path in [ch, sol]:
     receipt.setdefault('exports', {})[path.name] = {'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'bytes': path.stat().st_size}
@@ -103,5 +117,19 @@ assert hashes == {f:hashlib.sha256((repo/f).read_bytes()).hexdigest() for f in f
 assert tool_hashes == {f:hashlib.sha256((repo/f).read_bytes()).hexdigest() for f in tool_paths}
 assert not subprocess.check_output(['git', 'status', '--porcelain', '--', *tool_paths], cwd=repo, text=True)
 assert not subprocess.check_output(['git', 'status', '--porcelain', '--', str(root)], cwd=repo, text=True)
+# Reauthenticate every dependency after all build/export/checker execution.
+for dep in json.loads((root/'lake-manifest.json').read_text())['packages']:
+    path = root/'.lake/packages'/dep['name']
+    assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=path, text=True).strip() == dep['rev']
+    assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=path, text=True)
+# Bind freshly generated proof and evaluator sidecars as well as source bytes.
+receipt['package_build_artifacts'] = {
+    str(path.relative_to(root)): {'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'bytes': path.stat().st_size}
+    for path in sorted((root/'.lake/build').rglob('*'))
+    if path.is_file() and path.name.endswith(('.olean', '.olean.private', '.olean.server', '.ir', '.ir.sig'))}
+receipt['protected_build_artifacts'] = {
+    str(path.relative_to(out)): {'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'bytes': path.stat().st_size}
+    for path in sorted(alias.rglob('*'))
+    if path.is_file() and path.name.endswith(('.olean', '.olean.private', '.olean.server', '.ir', '.ir.sig'))}
 receipt['result']='pass'
 (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

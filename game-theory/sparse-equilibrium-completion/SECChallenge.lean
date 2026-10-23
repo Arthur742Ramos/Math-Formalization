@@ -24,6 +24,7 @@ public import Mathlib.Data.Rat.Lemmas
 public import Mathlib.Logic.Relation
 public import Mathlib.Algebra.Order.Ring.Abs
 public import Init.Data.Vector.OfFn
+public import Mathlib.LinearAlgebra.Dimension.Finite
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -23429,5 +23430,2518 @@ theorem cached_bfs_reachable_some {n : ℕ} (A : CachedBFSAdj n) (s t : Fin n)
     obtain ⟨hw, hlen⟩ := cached_bfs_path_some_walk A s t path ho
     exact ⟨path, rfl, hw, hlen, fun other hother =>
       cached_bfs_path_shortest A s t path other ho hother⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalEdgePush.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY draft: an actual antisymmetric rational edge update.
+Uncompiled while the serialized heavy verification slot belongs to topology.
+This is an augmentation primitive, not a complete flow finder or runtime bound. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Increase one directed net-flow entry and decrease its reverse entry.
+The definition also makes sense for equal endpoints, where the update cancels. -/
+def rationalNetPushEdge {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (δ : ℚ) (u v : Fin n) : ℚ :=
+  F u v + (if u=a ∧ v=b then δ else 0) - (if u=b ∧ v=a then δ else 0)
+
+theorem rational_net_push_edge_forward {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (hab : a ≠ b) (δ : ℚ) :
+    rationalNetPushEdge F a b δ a b = F a b + δ := by
+  simp [rationalNetPushEdge,hab,Ne.symm hab]
+
+theorem rational_net_push_edge_backward {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (hab : a ≠ b) (δ : ℚ) :
+    rationalNetPushEdge F a b δ b a = F b a - δ := by
+  simp [rationalNetPushEdge,hab,Ne.symm hab]
+
+theorem rational_net_push_edge_other {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (δ : ℚ) (u v : Fin n)
+    (hforward : ¬(u=a ∧ v=b)) (hbackward : ¬(u=b ∧ v=a)) :
+    rationalNetPushEdge F a b δ u v = F u v := by
+  simp [rationalNetPushEdge,hforward,hbackward]
+
+theorem rational_net_push_edge_skew {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (hF : ∀ u v, F u v = -F v u) (a b : Fin n) (δ : ℚ) :
+    ∀ u v, rationalNetPushEdge F a b δ u v =
+      -rationalNetPushEdge F a b δ v u := by
+  intro u v
+  simp only [rationalNetPushEdge]
+  rw [hF u v]
+  have hforward : (if v=a ∧ u=b then δ else 0) =
+      (if u=b ∧ v=a then δ else 0) := by simp only [and_comm]
+  have hbackward : (if v=b ∧ u=a then δ else 0) =
+      (if u=a ∧ v=b then δ else 0) := by simp only [and_comm]
+  rw [hforward,hbackward]
+  ring
+
+/-- The reverse capacity cannot be harmed by a nonnegative push. Only the
+forward residual capacity is required, rather than a fictitious symmetric cap. -/
+theorem rational_net_push_edge_capacity {n : ℕ}
+    (C F : Fin n → Fin n → ℚ) (hF : ∀ u v, F u v ≤ C u v)
+    (a b : Fin n) (hab : a ≠ b) (δ : ℚ)
+    (hδ : 0 ≤ δ) (hres : δ ≤ C a b - F a b) :
+    ∀ u v, rationalNetPushEdge F a b δ u v ≤ C u v := by
+  intro u v
+  by_cases hf : u=a ∧ v=b
+  · rcases hf with ⟨hu,hv⟩
+    subst u
+    subst v
+    rw [rational_net_push_edge_forward F a b hab δ]
+    linarith
+  · by_cases hb : u=b ∧ v=a
+    · rcases hb with ⟨hu,hv⟩
+      subst u
+      subst v
+      rw [rational_net_push_edge_backward F a b hab δ]
+      linarith [hF b a]
+    · rw [rational_net_push_edge_other F a b δ u v hf hb]
+      exact hF u v
+
+/-- Exact divergence effect of the executed edge update. This does not assume
+that either endpoint is a global source or sink. -/
+theorem rational_net_push_edge_divergence {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (δ : ℚ) (u : Fin n) :
+    (∑ v, rationalNetPushEdge F a b δ u v) =
+      (∑ v, F u v) + (if u=a then δ else 0) - (if u=b then δ else 0) := by
+  simp only [rationalNetPushEdge,Finset.sum_sub_distrib,Finset.sum_add_distrib]
+  have ha : (∑ v : Fin n, if u=a ∧ v=b then δ else 0) =
+      (if u=a then δ else 0) := by
+    by_cases h : u=a <;> simp [h]
+  have hb : (∑ v : Fin n, if u=b ∧ v=a then δ else 0) =
+      (if u=b then δ else 0) := by
+    by_cases h : u=b <;> simp [h]
+  rw [ha,hb]
+
+theorem rational_net_push_edge_conservation_away {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (δ : ℚ) (u : Fin n) (hua : u ≠ a) (hub : u ≠ b) :
+    (∑ v, rationalNetPushEdge F a b δ u v) = ∑ v, F u v := by
+  rw [rational_net_push_edge_divergence]
+  simp [hua,hub]
+
+theorem rational_net_push_edge_source_value {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (hab : a ≠ b) (δ : ℚ) :
+    (∑ v, rationalNetPushEdge F a b δ a v) = (∑ v, F a v) + δ := by
+  rw [rational_net_push_edge_divergence]
+  simp [hab]
+
+theorem rational_net_push_edge_source_increases {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (hab : a ≠ b) (δ : ℚ) (hδ : 0 < δ) :
+    (∑ v, F a v) < ∑ v, rationalNetPushEdge F a b δ a v := by
+  rw [rational_net_push_edge_source_value F a b hab δ]
+  linarith
+
+end SparseCompletion
+
+/- Fixed source body: CachedResidualSimplePaths.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately.
+First-discovery simplicity of the actual cached BFS tables. No cycle-erasure
+oracle, assumed shortest-path simplicity, max-flow or cost claim. -/
+@[expose] public section
+namespace SparseCompletion
+
+/-- In addition to simplicity, every label on a stored walk has already been
+discovered in this same table. The second conjunct earns simplicity when a new
+endpoint is appended, rather than assuming it as an input. -/
+def CachedBFSSimpleTable {n : ℕ} (table : CachedBFSPaths n) : Prop :=
+  ∀ v path, table.get v = some path →
+    path.Nodup ∧ ∀ u ∈ path, table.get u ≠ none
+
+theorem cached_bfs_step_discovered {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (u : Fin n) (hu : prev.get u ≠ none) :
+    (cachedBFSStep A prev).get u ≠ none := by
+  cases hp : prev.get u with
+  | none => exact False.elim (hu hp)
+  | some path =>
+    rw [cached_bfs_step_keep A prev u path hp]
+    simp
+
+theorem cached_bfs_initial_simple {n : ℕ} (s : Fin n) :
+    CachedBFSSimpleTable (cachedBFSInitial s) := by
+  intro v path ho
+  by_cases hv : v = s
+  · subst v
+    have he : some [s] = some path := by
+      simpa [cachedBFSInitial, cached_vector_get_ofFn] using ho
+    have hpath : path = [s] := (Option.some.inj he).symm
+    subst path
+    constructor
+    · simp
+    · intro u hu
+      have hus : u = s := by simpa only [List.mem_singleton] using hu
+      subst u
+      simp only [cachedBFSInitial, cached_vector_get_ofFn]
+      simp
+  · have he : (none : Option (List (Fin n))) = some path := by
+      simpa only [cachedBFSInitial, cached_vector_get_ofFn, ite_eq_right hv] using ho
+    cases he
+
+theorem cached_bfs_step_simple {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (hprev : CachedBFSSimpleTable prev) :
+    CachedBFSSimpleTable (cachedBFSStep A prev) := by
+  intro v path ho
+  cases hp : prev.get v with
+  | some oldPath =>
+    have he : some oldPath = some path := by
+      simpa only [cachedBFSStep, cached_vector_get_ofFn, hp] using ho
+    have hpath : oldPath = path := Option.some.inj he
+    subst path
+    obtain ⟨hnd, hmem⟩ := hprev v oldPath hp
+    exact ⟨hnd, fun u hu => cached_bfs_step_discovered A prev u (hmem u hu)⟩
+  | none =>
+    have he : cachedBFSExtend A prev v (List.finRange n) = some path := by
+      simpa only [cachedBFSStep, cached_vector_get_ofFn, hp] using ho
+    obtain ⟨u, _, walkPrefix, hprefix, _, hpath⟩ :=
+      cached_bfs_extend_some A prev v (List.finRange n) path he
+    obtain ⟨hnd, hmem⟩ := hprev u walkPrefix hprefix
+    have hvnew : v ∉ walkPrefix := by
+      intro hv
+      exact hmem v hv hp
+    subst path
+    constructor
+    · apply List.nodup_append.mpr
+      refine ⟨hnd, by simp, ?_⟩
+      intro x hx y hy
+      have hy : y = v := by simpa only [List.mem_singleton] using hy
+      subst y
+      intro hxv
+      exact hvnew (hxv ▸ hx)
+    · intro x hx
+      rcases List.mem_append.mp hx with hx | hx
+      · exact cached_bfs_step_discovered A prev x (hmem x hx)
+      · have hxv : x = v := by simpa only [List.mem_singleton] using hx
+        subst x
+        rw [ho]
+        simp
+
+theorem cached_bfs_layers_simple {n : ℕ} (A : CachedBFSAdj n)
+    (s : Fin n) (k : ℕ) : CachedBFSSimpleTable (cachedBFSLayers A s k) := by
+  induction k with
+  | zero => exact cached_bfs_initial_simple s
+  | succ k ih =>
+    rw [cached_bfs_layers_succ]
+    exact cached_bfs_step_simple A (cachedBFSLayers A s k) ih
+
+/-- The actual returned list has no repeated vertex. This includes the
+source-equals-target singleton; no positive path-length hypothesis is hidden. -/
+theorem cached_bfs_path_nodup {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (path : List (Fin n))
+    (ho : cachedBFSPath A s t = some path) : path.Nodup := by
+  exact (cached_bfs_layers_simple A s n t path ho).1
+
+end SparseCompletion
+
+/- Fixed source body: RationalPathAugmentation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Actual rational edge updates composed along a
+simple finite path, with exact divergence and a genuine nonempty minimum.
+No augmentation finder, termination, complexity or compiled-proof claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Execute the tail updates first, then the head edge. Public eliminators
+avoid new private matcher helpers. Each branch still executes the actual edge
+update; commutativity is not assumed in the definition. -/
+def rationalNetPushPath {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) : Fin n → Fin n → ℚ :=
+  List.rec (motive := fun _ => Fin n → Fin n → Fin n → ℚ)
+    (fun _ => F)
+    (fun b _ ih start => rationalNetPushEdge (ih b) start b δ) tail a
+
+def rationalPathEnd {n : ℕ} (a : Fin n) (tail : List (Fin n)) : Fin n :=
+  List.rec (motive := fun _ => Fin n → Fin n) (fun start => start)
+    (fun b _ ih _ => ih b) tail a
+
+/-- One original residual value for every actual consecutive edge. -/
+def rationalPathResiduals {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) : List ℚ :=
+  List.rec (motive := fun _ => Fin n → List ℚ) (fun _ => [])
+    (fun b _ ih start => (C start b - F start b) :: ih b) tail a
+
+theorem rational_net_push_path_nil {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (δ : ℚ) : rationalNetPushPath F a [] δ = F := rfl
+
+theorem rational_net_push_path_cons {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (tail : List (Fin n)) (δ : ℚ) :
+    rationalNetPushPath F a (b :: tail) δ =
+      rationalNetPushEdge (rationalNetPushPath F b tail δ) a b δ := rfl
+
+theorem rational_path_end_nil {n : ℕ} (a : Fin n) : rationalPathEnd a [] = a := rfl
+
+theorem rational_path_end_cons {n : ℕ} (a b : Fin n) (tail : List (Fin n)) :
+    rationalPathEnd a (b :: tail) = rationalPathEnd b tail := rfl
+
+theorem rational_path_residuals_nil {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a : Fin n) : rationalPathResiduals C F a [] = [] := rfl
+
+theorem rational_path_residuals_cons {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a b : Fin n) (tail : List (Fin n)) :
+    rationalPathResiduals C F a (b :: tail) =
+      (C a b - F a b) :: rationalPathResiduals C F b tail := rfl
+
+theorem rational_path_end_getLast {n : ℕ} (a : Fin n) (tail : List (Fin n)) :
+    (a :: tail).getLast? = some (rationalPathEnd a tail) := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    simpa only [List.getLast?_cons_cons, rational_path_end_cons] using ih b
+
+/-- An update cannot touch a row whose label never occurs in the path. This
+earns the capacity induction's noninterference, rather than assuming disjoint
+edge effects or a special orientation of the capacity matrix. -/
+theorem rational_net_push_path_away_left {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) (u v : Fin n)
+    (hu : u ∉ a :: tail) : rationalNetPushPath F a tail δ u v = F u v := by
+  revert hu
+  induction tail generalizing a with
+  | nil => intro hu; rfl
+  | cons b tail ih =>
+    intro hu
+    have hua : u ≠ a := by
+      intro h
+      exact hu (List.mem_cons.mpr (Or.inl h))
+    have hub : u ≠ b := by
+      intro h
+      exact hu (List.mem_cons_of_mem a (List.mem_cons.mpr (Or.inl h)))
+    have hut : u ∉ b :: tail := by
+      intro h
+      exact hu (List.mem_cons_of_mem a h)
+    rw [rational_net_push_path_cons,
+      rational_net_push_edge_other _ a b δ u v
+        (fun h => hua h.1) (fun h => hub h.1)]
+    exact ih b hut
+
+theorem rational_net_push_path_skew {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (hF : ∀ u v, F u v = -F v u) (a : Fin n)
+    (tail : List (Fin n)) (δ : ℚ) :
+    ∀ u v, rationalNetPushPath F a tail δ u v =
+      -rationalNetPushPath F a tail δ v u := by
+  induction tail generalizing a with
+  | nil => exact hF
+  | cons b tail ih =>
+    rw [rational_net_push_path_cons]
+    exact rational_net_push_edge_skew _ (ih b) a b δ
+
+/-- All original capacities are preserved. Simplicity ensures that the
+already executed tail cannot have consumed the current head edge's room. -/
+theorem rational_net_push_path_capacity {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (hF : ∀ u v, F u v ≤ C u v) (a : Fin n) (tail : List (Fin n))
+    (δ : ℚ) (hδ : 0 ≤ δ) (hnd : (a :: tail).Nodup)
+    (hroom : ∀ z ∈ rationalPathResiduals C F a tail, δ ≤ z) :
+    ∀ u v, rationalNetPushPath F a tail δ u v ≤ C u v := by
+  revert hnd hroom
+  induction tail generalizing a with
+  | nil => intro hnd hroom; exact hF
+  | cons b tail ih =>
+    intro hnd hroom
+    obtain ⟨ha, ht⟩ := List.nodup_cons.mp hnd
+    have hab : a ≠ b := by
+      intro h
+      exact ha (List.mem_cons.mpr (Or.inl h))
+    have htail : ∀ z ∈ rationalPathResiduals C F b tail, δ ≤ z := by
+      intro z hz
+      exact hroom z (List.mem_cons_of_mem _ hz)
+    have hhead : δ ≤ C a b - F a b := hroom _ List.mem_cons_self
+    have hG := ih b ht htail
+    have hunused : rationalNetPushPath F b tail δ a b = F a b :=
+      rational_net_push_path_away_left F b tail δ a b ha
+    rw [rational_net_push_path_cons]
+    apply rational_net_push_edge_capacity C _ hG a b hab δ hδ
+    rw [hunused]
+    exact hhead
+
+/-- Cancellation of internal incidences is exact, even for a nonsimple list.
+Simplicity is needed for capacity, not for this algebraic telescoping law. -/
+theorem rational_net_push_path_divergence {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) (u : Fin n) :
+    (∑ v, rationalNetPushPath F a tail δ u v) =
+      (∑ v, F u v) + (if u = a then δ else 0) -
+        (if u = rationalPathEnd a tail then δ else 0) := by
+  induction tail generalizing a with
+  | nil =>
+    by_cases hua : u = a <;> simp [rational_net_push_path_nil, rational_path_end_nil, hua]
+  | cons b tail ih =>
+    rw [rational_net_push_path_cons, rational_net_push_edge_divergence,
+      ih b, rational_path_end_cons]
+    ring
+
+theorem rational_net_push_path_conservation {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) (u : Fin n)
+    (hua : u ≠ a) (hut : u ≠ rationalPathEnd a tail) :
+    (∑ v, rationalNetPushPath F a tail δ u v) = ∑ v, F u v := by
+  rw [rational_net_push_path_divergence]
+  simp only [ite_eq_right hua, ite_eq_right hut, add_zero, sub_zero]
+
+theorem rational_net_push_path_source_value {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ)
+    (hat : a ≠ rationalPathEnd a tail) :
+    (∑ v, rationalNetPushPath F a tail δ a v) = (∑ v, F a v) + δ := by
+  rw [rational_net_push_path_divergence]
+  simp [hat]
+
+/-- The minimum of an empty collection is absent. No artificial cap such as
+min(1,residual) is inserted: Some δ is an attained original residual value. -/
+def rationalNonemptyMinimum (xs : List ℚ) : Option ℚ :=
+  List.rec none (fun z _ ih => some (Option.rec z (fun b => min z b) ih)) xs
+
+theorem rational_nonempty_minimum_none_iff (xs : List ℚ) :
+    rationalNonemptyMinimum xs = none ↔ xs = [] := by
+  cases xs with
+  | nil => exact ⟨fun _ => rfl, fun _ => rfl⟩
+  | cons z zs =>
+    constructor
+    · intro h
+      change some _ = none at h
+      cases h
+    · intro h
+      cases h
+
+theorem rational_nonempty_minimum_exists (xs : List ℚ) (hne : xs ≠ []) :
+    ∃ δ, rationalNonemptyMinimum xs = some δ := by
+  cases hm : rationalNonemptyMinimum xs with
+  | none => exact False.elim (hne ((rational_nonempty_minimum_none_iff xs).mp hm))
+  | some δ => exact ⟨δ, rfl⟩
+
+theorem rational_nonempty_minimum_some (xs : List ℚ) (δ : ℚ)
+    (ho : rationalNonemptyMinimum xs = some δ) :
+    δ ∈ xs ∧ ∀ z ∈ xs, δ ≤ z := by
+  revert ho
+  induction xs generalizing δ with
+  | nil => intro ho; cases ho
+  | cons z zs ih =>
+    intro ho
+    cases ht : rationalNonemptyMinimum zs with
+    | none =>
+      change some (Option.rec z (fun b => min z b) (rationalNonemptyMinimum zs)) = some δ at ho
+      rw [ht] at ho
+      have hz : z = δ := Option.some.inj ho
+      have hnil : zs = [] := (rational_nonempty_minimum_none_iff zs).mp ht
+      subst zs
+      subst δ
+      exact ⟨List.mem_cons_self, by simp⟩
+    | some b =>
+      obtain ⟨hbmem, hble⟩ := ih b ht
+      change some (Option.rec z (fun b => min z b) (rationalNonemptyMinimum zs)) = some δ at ho
+      rw [ht] at ho
+      have he : min z b = δ := Option.some.inj ho
+      by_cases hzb : z ≤ b
+      · rw [min_eq_left hzb] at he
+        subst δ
+        constructor
+        · exact List.mem_cons_self
+        · intro w hw
+          rcases List.mem_cons.mp hw with hw | hw
+          · subst w; exact le_rfl
+          · exact le_trans hzb (hble w hw)
+      · have hbz : b ≤ z := le_of_lt (lt_of_not_ge hzb)
+        rw [min_eq_right hbz] at he
+        subst δ
+        constructor
+        · exact List.mem_cons_of_mem z hbmem
+        · intro w hw
+          rcases List.mem_cons.mp hw with hw | hw
+          · subst w; exact hbz
+          · exact hble w hw
+
+theorem rational_nonempty_minimum_positive (xs : List ℚ) (δ : ℚ)
+    (ho : rationalNonemptyMinimum xs = some δ)
+    (hpos : ∀ z ∈ xs, 0 < z) : 0 < δ := by
+  exact hpos δ (rational_nonempty_minimum_some xs δ ho).1
+
+def rationalPathBottleneck {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) : Option ℚ :=
+  rationalNonemptyMinimum (rationalPathResiduals C F a tail)
+
+/-- A positive-residual simple path supplies an actual positive executable
+push preserving all capacities and internal divergences. This is a local
+augmentation theorem, not existence or termination of a complete flow finder. -/
+theorem rational_path_bottleneck_augmentation {n : ℕ}
+    (C F : Fin n → Fin n → ℚ) (hF : ∀ u v, F u v ≤ C u v)
+    (hskew : ∀ u v, F u v = -F v u) (a : Fin n) (tail : List (Fin n))
+    (hnd : (a :: tail).Nodup) (δ : ℚ)
+    (ho : rationalPathBottleneck C F a tail = some δ)
+    (hpos : ∀ z ∈ rationalPathResiduals C F a tail, 0 < z) :
+    0 < δ ∧
+    (∀ u v, rationalNetPushPath F a tail δ u v =
+      -rationalNetPushPath F a tail δ v u) ∧
+    (∀ u v, rationalNetPushPath F a tail δ u v ≤ C u v) ∧
+    (∀ u, u ≠ a → u ≠ rationalPathEnd a tail →
+      (∑ v, rationalNetPushPath F a tail δ u v) = ∑ v, F u v) := by
+  have hmin := rational_nonempty_minimum_some
+    (rationalPathResiduals C F a tail) δ ho
+  have hδ : 0 < δ := hpos δ hmin.1
+  exact ⟨hδ, rational_net_push_path_skew F hskew a tail δ,
+    rational_net_push_path_capacity C F hF a tail δ (le_of_lt hδ) hnd hmin.2,
+    fun u hua hut => rational_net_push_path_conservation F a tail δ u hua hut⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalCachedPathAugmentation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Connect the actual cached BFS result to a
+positive bottleneck and the executed simple-path edge updates. This is one
+augmentation, with no flow-finder termination or complexity claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalWalkResiduals {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (path : List (Fin n)) : List ℚ :=
+  List.rec [] (fun a tail _ => rationalPathResiduals C F a tail) path
+
+theorem rational_walk_residuals_cons {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) :
+    rationalWalkResiduals C F (a :: tail) = rationalPathResiduals C F a tail := rfl
+
+theorem rational_path_residuals_append_one {n : ℕ}
+    (C F : Fin n → Fin n → ℚ) (a : Fin n) (tail : List (Fin n)) (v : Fin n) :
+    rationalPathResiduals C F a (tail ++ [v]) =
+      rationalPathResiduals C F a tail ++
+        [C (rationalPathEnd a tail) v - F (rationalPathEnd a tail) v] := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    simp only [List.cons_append, rational_path_residuals_cons,
+      rational_path_end_cons, ih b]
+
+/-- Every residual on a walk certified by the actual cached adjacency is
+strictly positive. The source singleton has an empty residual list. -/
+theorem cached_residual_walk_residuals_positive {n : ℕ}
+    (C F : Fin n → Fin n → ℚ) (s t : Fin n) (path : List (Fin n))
+    (hw : CachedResidualWalk (cacheResidualAdj C F) s t path) :
+    ∀ z ∈ rationalWalkResiduals C F path, 0 < z := by
+  induction hw with
+  | start =>
+    intro z hz
+    change z ∈ ([] : List ℚ) at hz
+    cases hz
+  | @extend u v walkPrefix hwalk hedge ih =>
+    have hends := cached_residual_walk_endpoints (cacheResidualAdj C F) s u
+      walkPrefix hwalk
+    cases walkPrefix with
+    | nil =>
+      have he : (none : Option (Fin n)) = some s := hends.1
+      cases he
+    | cons a tail =>
+      have hend : rationalPathEnd a tail = u := by
+        have hlast : some (rationalPathEnd a tail) = some u := by
+          rw [← rational_path_end_getLast]
+          exact hends.2
+        exact Option.some.inj hlast
+      have hedge' : rationalResidualAdj C F u v = true := by
+        change cachedBFSAdjFunction (cacheResidualAdj C F) u v = true at hedge
+        rwa [cached_residual_adjacency_coherence] at hedge
+      have hres : 0 < C u v - F u v := by
+        simpa only [rationalResidualAdj, decide_eq_true_eq] using hedge'
+      intro z hz
+      change z ∈ rationalPathResiduals C F a (tail ++ [v]) at hz
+      rw [rational_path_residuals_append_one] at hz
+      rcases List.mem_append.mp hz with hz | hz
+      · exact ih z hz
+      · have hz : z = C (rationalPathEnd a tail) v -
+            F (rationalPathEnd a tail) v := by
+          simpa only [List.mem_singleton] using hz
+        rw [hz, hend]
+        exact hres
+
+theorem rational_path_residuals_nonempty {n : ℕ}
+    (C F : Fin n → Fin n → ℚ) (a : Fin n) (tail : List (Fin n))
+    (hat : a ≠ rationalPathEnd a tail) : rationalPathResiduals C F a tail ≠ [] := by
+  cases tail with
+  | nil => exact False.elim (hat rfl)
+  | cons b tail =>
+    change (C a b - F a b) :: rationalPathResiduals C F b tail ≠ []
+    simp
+
+/-- Actual source and sink labels, original residual capacities, and the
+original cached path are retained. A distinct sink earns nonempty edges and
+therefore a genuinely positive minimum; it is not an extra feasibility oracle.
+The result executes one update, preserving all original capacity inequalities
+and exactly the original internal conservation equations. -/
+theorem cached_rational_path_augmentation {n : ℕ}
+    (C F : Fin n → Fin n → ℚ)
+    (hcap : ∀ u v, F u v ≤ C u v) (hskew : ∀ u v, F u v = -F v u)
+    (s t : Fin n) (hst : s ≠ t) (tail : List (Fin n))
+    (ho : cachedBFSPath (cacheResidualAdj C F) s t = some (s :: tail)) :
+    ∃ δ, rationalPathBottleneck C F s tail = some δ ∧ 0 < δ ∧
+      rationalPathEnd s tail = t ∧
+      (∀ u v, rationalNetPushPath F s tail δ u v =
+        -rationalNetPushPath F s tail δ v u) ∧
+      (∀ u v, rationalNetPushPath F s tail δ u v ≤ C u v) ∧
+      (∀ u, u ≠ s → u ≠ t →
+        (∑ v, rationalNetPushPath F s tail δ u v) = ∑ v, F u v) ∧
+      (∑ v, rationalNetPushPath F s tail δ s v) = (∑ v, F s v) + δ := by
+  have hw := (cached_bfs_path_some_walk (cacheResidualAdj C F) s t (s :: tail) ho).1
+  have hends := cached_residual_walk_endpoints (cacheResidualAdj C F) s t
+    (s :: tail) hw
+  have hend : rationalPathEnd s tail = t := by
+    have he : some (rationalPathEnd s tail) = some t := by
+      rw [← rational_path_end_getLast]
+      exact hends.2
+    exact Option.some.inj he
+  have hat : s ≠ rationalPathEnd s tail := by simpa only [hend] using hst
+  have hnd := cached_bfs_path_nodup (cacheResidualAdj C F) s t (s :: tail) ho
+  have hpos : ∀ z ∈ rationalPathResiduals C F s tail, 0 < z :=
+    cached_residual_walk_residuals_positive C F s t (s :: tail) hw
+  obtain ⟨δ, hδ⟩ := rational_nonempty_minimum_exists
+    (rationalPathResiduals C F s tail) (rational_path_residuals_nonempty C F s tail hat)
+  have hbot : rationalPathBottleneck C F s tail = some δ := hδ
+  obtain ⟨hpositive, hnewskew, hnewcap, hconserve⟩ :=
+    rational_path_bottleneck_augmentation C F hcap hskew s tail hnd δ hbot hpos
+  refine ⟨δ, hbot, hpositive, hend, hnewskew, hnewcap, ?_, ?_⟩
+  · intro u hus hut
+    apply hconserve u hus
+    simpa only [hend] using hut
+  · exact rational_net_push_path_source_value F s tail δ hat
+
+end SparseCompletion
+
+/- Fixed source body: RationalPathSaturation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Exact incidence of a simple path update and
+saturation of an edge attaining its genuine bottleneck. This does not assert
+termination or an iteration count for repeated augmentations. -/
+@[expose] public section
+namespace SparseCompletion
+
+def rationalPathEdges {n : ℕ} (a : Fin n) (tail : List (Fin n)) :
+    List (Fin n × Fin n) :=
+  List.rec (motive := fun _ => Fin n → List (Fin n × Fin n)) (fun _ => [])
+    (fun b _ ih start => (start, b) :: ih b) tail a
+
+theorem rational_path_edges_nil {n : ℕ} (a : Fin n) : rationalPathEdges a [] = [] := rfl
+
+theorem rational_path_edges_cons {n : ℕ} (a b : Fin n) (tail : List (Fin n)) :
+    rationalPathEdges a (b :: tail) = (a, b) :: rationalPathEdges b tail := rfl
+
+theorem rational_path_edges_endpoints {n : ℕ} (a : Fin n) (tail : List (Fin n))
+    (u v : Fin n) (he : (u, v) ∈ rationalPathEdges a tail) :
+    u ∈ a :: tail ∧ v ∈ a :: tail := by
+  revert he
+  induction tail generalizing a with
+  | nil => intro he; cases he
+  | cons b tail ih =>
+    intro he
+    rcases List.mem_cons.mp he with he | he
+    · have hu : u = a := congrArg Prod.fst he
+      have hv : v = b := congrArg Prod.snd he
+      subst u
+      subst v
+      exact ⟨List.mem_cons_self, List.mem_cons_of_mem a List.mem_cons_self⟩
+    · obtain ⟨hu, hv⟩ := ih b he
+      exact ⟨List.mem_cons_of_mem a hu, List.mem_cons_of_mem a hv⟩
+
+theorem rational_path_residuals_map {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) :
+    rationalPathResiduals C F a tail =
+      (rationalPathEdges a tail).map (fun e => C e.1 e.2 - F e.1 e.2) := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    simp only [rational_path_residuals_cons, rational_path_edges_cons, List.map_cons, ih b]
+
+/-- A simple path has exactly one forward update on each of its directed
+edges. Neither another forward occurrence nor a reverse occurrence can cancel
+it, since the head vertex is absent from the tail. -/
+theorem rational_net_push_path_edge_forward {n : ℕ} (F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) (hnd : (a :: tail).Nodup)
+    (u v : Fin n) (he : (u, v) ∈ rationalPathEdges a tail) :
+    rationalNetPushPath F a tail δ u v = F u v + δ := by
+  revert hnd he
+  induction tail generalizing a with
+  | nil => intro hnd he; cases he
+  | cons b tail ih =>
+    intro hnd he
+    obtain ⟨ha, ht⟩ := List.nodup_cons.mp hnd
+    rcases List.mem_cons.mp he with he | he
+    · have hu : u = a := congrArg Prod.fst he
+      have hv : v = b := congrArg Prod.snd he
+      subst u
+      subst v
+      have hab : a ≠ b := by
+        intro h
+        exact ha (List.mem_cons.mpr (Or.inl h))
+      rw [rational_net_push_path_cons, rational_net_push_edge_forward _ a b hab δ,
+        rational_net_push_path_away_left F b tail δ a b ha]
+    · obtain ⟨hu, hv⟩ := rational_path_edges_endpoints b tail u v he
+      have hua : u ≠ a := by
+        intro h
+        exact ha (h ▸ hu)
+      have hva : v ≠ a := by
+        intro h
+        exact ha (h ▸ hv)
+      rw [rational_net_push_path_cons,
+        rational_net_push_edge_other _ a b δ u v
+          (fun h => hua h.1) (fun h => hva h.2)]
+      exact ih b ht he
+
+/-- The computed minimum is attained by an actual path edge, and executing the
+entire simple-path update saturates that same original capacity inequality. -/
+theorem rational_path_bottleneck_saturates {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (a : Fin n) (tail : List (Fin n)) (hnd : (a :: tail).Nodup) (δ : ℚ)
+    (ho : rationalPathBottleneck C F a tail = some δ) :
+    ∃ u v, (u, v) ∈ rationalPathEdges a tail ∧
+      C u v - F u v = δ ∧ rationalNetPushPath F a tail δ u v = C u v := by
+  have hmem := (rational_nonempty_minimum_some
+    (rationalPathResiduals C F a tail) δ ho).1
+  rw [rational_path_residuals_map] at hmem
+  obtain ⟨e, he, hres⟩ := List.mem_map.mp hmem
+  refine ⟨e.1, e.2, he, hres, ?_⟩
+  rw [rational_net_push_path_edge_forward F a tail δ hnd e.1 e.2 he]
+  linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalFlowLattice.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. A fixed rational denominator lattice, its actual
+capacity-data denominator, and closure of the executed edge/path updates.
+This is a pseudopolynomial stepping foundation, not a flow finder, termination
+proof, Edmonds-Karp bound, or primitive/bit/runtime cost claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Exact membership in one shared denominator lattice. Integer witnesses are
+proof data only; all path updates and bottleneck computations remain rational
+programs from the imported modules. -/
+def RationalDenominatorLattice (D : ℕ) (q : ℚ) : Prop :=
+  ∃ z : ℤ, q = (z : ℚ) / (D : ℚ)
+
+theorem rational_lattice_zero (D : ℕ) : RationalDenominatorLattice D 0 := by
+  exact ⟨0, by simp⟩
+
+theorem rational_lattice_add (D : ℕ) (a b : ℚ)
+    (ha : RationalDenominatorLattice D a) (hb : RationalDenominatorLattice D b) :
+    RationalDenominatorLattice D (a + b) := by
+  obtain ⟨x, hx⟩ := ha
+  obtain ⟨y, hy⟩ := hb
+  refine ⟨x + y, ?_⟩
+  simp only [hx, hy, Int.cast_add, add_div]
+
+theorem rational_lattice_sub (D : ℕ) (a b : ℚ)
+    (ha : RationalDenominatorLattice D a) (hb : RationalDenominatorLattice D b) :
+    RationalDenominatorLattice D (a - b) := by
+  obtain ⟨x, hx⟩ := ha
+  obtain ⟨y, hy⟩ := hb
+  refine ⟨x - y, ?_⟩
+  simp only [hx, hy, Int.cast_sub, sub_div]
+
+theorem rational_lattice_neg (D : ℕ) (q : ℚ)
+    (hq : RationalDenominatorLattice D q) : RationalDenominatorLattice D (-q) := by
+  simpa only [zero_sub] using rational_lattice_sub D 0 q (rational_lattice_zero D) hq
+
+theorem rational_lattice_finset_sum {ι : Type*} (D : ℕ) (s : Finset ι) (q : ι → ℚ)
+    (hq : ∀ i ∈ s, RationalDenominatorLattice D (q i)) :
+    RationalDenominatorLattice D (∑ i ∈ s, q i) := by
+  classical
+  revert hq
+  induction s using Finset.induction_on with
+  | empty =>
+    intro hq
+    simpa only [Finset.sum_empty] using rational_lattice_zero D
+  | @insert a s ha ih =>
+    intro hq
+    rw [Finset.sum_insert ha]
+    exact rational_lattice_add D (q a) (∑ i ∈ s, q i)
+      (hq a (Finset.mem_insert_self a s))
+      (ih (fun i hi => hq i (Finset.mem_insert_of_mem hi)))
+
+theorem rational_lattice_sum {ι : Type*} [Fintype ι] (D : ℕ) (q : ι → ℚ)
+    (hq : ∀ i, RationalDenominatorLattice D (q i)) :
+    RationalDenominatorLattice D (∑ i, q i) := by
+  exact rational_lattice_finset_sum D Finset.univ q (fun i _ => hq i)
+
+/-- A positive lattice value has at least one unit of the fixed rational mesh.
+The positive denominator premise is essential and is not silently assumed. -/
+theorem rational_lattice_positive_step (D : ℕ) (hD : 0 < D) (q : ℚ)
+    (hq : RationalDenominatorLattice D q) (hpos : 0 < q) :
+    (1 : ℚ) / (D : ℚ) ≤ q := by
+  obtain ⟨z, hz⟩ := hq
+  have hDQ : (0 : ℚ) < (D : ℚ) := by exact_mod_cast hD
+  have hzpos : (0 : ℚ) < (z : ℚ) := by
+    apply (div_pos_iff_of_pos_right hDQ).mp
+    simpa only [← hz] using hpos
+  have hzint : (0 : ℤ) < z := by exact_mod_cast hzpos
+  have hzintone : (1 : ℤ) ≤ z := by omega
+  have hzone : (1 : ℚ) ≤ (z : ℚ) := by exact_mod_cast hzintone
+  rw [hz]
+  exact div_le_div_of_nonneg_right hzone (le_of_lt hDQ)
+
+theorem rational_lattice_scaled_integer (D : ℕ) (hD : 0 < D) (q : ℚ)
+    (hq : RationalDenominatorLattice D q) :
+    ∃ z : ℤ, (D : ℚ) * q = (z : ℚ) := by
+  obtain ⟨z, hz⟩ := hq
+  refine ⟨z, ?_⟩
+  have hDQ : (D : ℚ) ≠ 0 := by exact_mod_cast (Nat.ne_of_gt hD)
+  rw [hz]
+  field_simp [hDQ]
+
+/-- Unlike a sum-denominator bound, this says that each actual input
+denominator divides the computed common denominator. -/
+theorem rational_member_denominator_divides_product (xs : List ℚ) (q : ℚ)
+    (hq : q ∈ xs) : q.den ∣ rationalDenominatorProduct xs := by
+  revert hq
+  induction xs with
+  | nil => intro hq; cases hq
+  | cons a xs ih =>
+    intro hq
+    rcases List.mem_cons.mp hq with hq | hq
+    · subst q
+      exact ⟨rationalDenominatorProduct xs, rfl⟩
+    · obtain ⟨k, hk⟩ := ih hq
+      refine ⟨Nat.mul a.den k, ?_⟩
+      change Nat.mul a.den (rationalDenominatorProduct xs) =
+        Nat.mul q.den (Nat.mul a.den k)
+      rw [hk]
+      exact Nat.mul_left_comm a.den q.den k
+
+theorem rational_lattice_of_den_divides (D : ℕ) (hD : 0 < D) (q : ℚ)
+    (hdiv : q.den ∣ D) : RationalDenominatorLattice D q := by
+  obtain ⟨k, hk⟩ := hdiv
+  refine ⟨q.num * (k : ℤ), ?_⟩
+  have hDQ : (D : ℚ) ≠ 0 := by exact_mod_cast (Nat.ne_of_gt hD)
+  have hden : (q.den : ℚ) ≠ 0 := by exact_mod_cast q.den_ne_zero
+  have hn : (q.num : ℚ) = q * (q.den : ℚ) := (div_eq_iff hden).mp q.num_div_den
+  apply (eq_div_iff hDQ).mpr
+  rw [hk, Nat.cast_mul, Int.cast_mul, Int.cast_natCast]
+  calc
+    q * ((q.den : ℚ) * (k : ℚ)) = (q * (q.den : ℚ)) * (k : ℚ) := by ring
+    _ = (q.num : ℚ) * (k : ℚ) := congrArg (fun x : ℚ => x * (k : ℚ)) hn.symm
+
+/-- The canonical reduced denominator also divides the fixed lattice scale.
+This is needed to connect a lattice invariant to actual encoding-size bounds;
+membership alone is not substituted for that canonical-denominator claim. -/
+theorem rational_lattice_den_divides (D : ℕ) (q : ℚ)
+    (hq : RationalDenominatorLattice D q) : q.den ∣ D := by
+  obtain ⟨z, hz⟩ := hq
+  have hcast : (q.den : ℤ) ∣ (D : ℤ) := by
+    have h := Rat.den_dvd z (D : ℤ)
+    simpa only [Rat.divInt_eq_div, Int.cast_natCast, ← hz] using h
+  exact Int.natCast_dvd_natCast.mp hcast
+
+theorem rational_lattice_iff_den_divides (D : ℕ) (hD : 0 < D) (q : ℚ) :
+    RationalDenominatorLattice D q ↔ q.den ∣ D :=
+  ⟨rational_lattice_den_divides D q, rational_lattice_of_den_divides D hD q⟩
+
+theorem rational_lattice_den_le (D : ℕ) (hD : 0 < D) (q : ℚ)
+    (hq : RationalDenominatorLattice D q) : q.den ≤ D :=
+  Nat.le_of_dvd hD (rational_lattice_den_divides D q hq)
+
+theorem rational_lattice_input_list (xs : List ℚ) (q : ℚ) (hq : q ∈ xs) :
+    RationalDenominatorLattice (rationalDenominatorProduct xs) q :=
+  rational_lattice_of_den_divides _ (rational_denominator_product_positive xs) q
+    (rational_member_denominator_divides_product xs q hq)
+
+/-- A genuine finite rational enumeration of the capacity data. -/
+def rationalMatrixEntries {n : ℕ} (C : Fin n → Fin n → ℚ) : List ℚ :=
+  (List.finRange n).flatMap (fun u => (List.finRange n).map (fun v => C u v))
+
+def rationalCapacityDenominator {n : ℕ} (C : Fin n → Fin n → ℚ) : ℕ :=
+  rationalDenominatorProduct (rationalMatrixEntries C)
+
+theorem rational_capacity_denominator_positive {n : ℕ} (C : Fin n → Fin n → ℚ) :
+    0 < rationalCapacityDenominator C :=
+  rational_denominator_product_positive (rationalMatrixEntries C)
+
+theorem rational_capacity_lattice {n : ℕ} (C : Fin n → Fin n → ℚ) (u v : Fin n) :
+    RationalDenominatorLattice (rationalCapacityDenominator C) (C u v) := by
+  apply rational_lattice_input_list (rationalMatrixEntries C) (C u v)
+  apply List.mem_flatMap.mpr
+  refine ⟨u, List.mem_finRange u, ?_⟩
+  exact List.mem_map.mpr ⟨v, List.mem_finRange v, rfl⟩
+
+theorem rational_residual_lattice {n : ℕ} (D : ℕ)
+    (C F : Fin n → Fin n → ℚ)
+    (hC : ∀ u v, RationalDenominatorLattice D (C u v))
+    (hF : ∀ u v, RationalDenominatorLattice D (F u v)) (u v : Fin n) :
+    RationalDenominatorLattice D (C u v - F u v) :=
+  rational_lattice_sub D (C u v) (F u v) (hC u v) (hF u v)
+
+theorem rational_path_residuals_lattice {n : ℕ} (D : ℕ)
+    (C F : Fin n → Fin n → ℚ)
+    (hC : ∀ u v, RationalDenominatorLattice D (C u v))
+    (hF : ∀ u v, RationalDenominatorLattice D (F u v))
+    (a : Fin n) (tail : List (Fin n)) (z : ℚ)
+    (hz : z ∈ rationalPathResiduals C F a tail) : RationalDenominatorLattice D z := by
+  revert hz
+  induction tail generalizing a with
+  | nil => intro hz; cases hz
+  | cons b tail ih =>
+    intro hz
+    rcases List.mem_cons.mp hz with hz | hz
+    · subst z
+      exact rational_residual_lattice D C F hC hF a b
+    · exact ih b hz
+
+/-- The computed minimum is an actual original residual value, so it retains
+the input lattice without any rounding or denominator-growth assumption. -/
+theorem rational_path_bottleneck_lattice {n : ℕ} (D : ℕ)
+    (C F : Fin n → Fin n → ℚ)
+    (hC : ∀ u v, RationalDenominatorLattice D (C u v))
+    (hF : ∀ u v, RationalDenominatorLattice D (F u v))
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ)
+    (ho : rationalPathBottleneck C F a tail = some δ) :
+    RationalDenominatorLattice D δ :=
+  rational_path_residuals_lattice D C F hC hF a tail δ
+    (rational_nonempty_minimum_some (rationalPathResiduals C F a tail) δ ho).1
+
+theorem rational_net_push_edge_lattice {n : ℕ} (D : ℕ)
+    (F : Fin n → Fin n → ℚ) (hF : ∀ u v, RationalDenominatorLattice D (F u v))
+    (a b : Fin n) (δ : ℚ) (hδ : RationalDenominatorLattice D δ) :
+    ∀ u v, RationalDenominatorLattice D (rationalNetPushEdge F a b δ u v) := by
+  intro u v
+  unfold rationalNetPushEdge
+  apply rational_lattice_sub
+  · apply rational_lattice_add D _ _ (hF u v)
+    split_ifs
+    · exact hδ
+    · exact rational_lattice_zero D
+  · split_ifs
+    · exact hδ
+    · exact rational_lattice_zero D
+
+theorem rational_net_push_path_lattice {n : ℕ} (D : ℕ)
+    (F : Fin n → Fin n → ℚ) (hF : ∀ u v, RationalDenominatorLattice D (F u v))
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ)
+    (hδ : RationalDenominatorLattice D δ) :
+    ∀ u v, RationalDenominatorLattice D (rationalNetPushPath F a tail δ u v) := by
+  induction tail generalizing a with
+  | nil => exact hF
+  | cons b tail ih =>
+    rw [rational_net_push_path_cons]
+    exact rational_net_push_edge_lattice D _ (ih b) a b δ hδ
+
+/-- One actual positive bottleneck augmentation gains at least one common
+denominator unit of source value. This is the stepping inequality needed for
+a later integral-fuel termination argument, not that argument itself. -/
+theorem rational_path_lattice_source_step {n : ℕ} (D : ℕ) (hD : 0 < D)
+    (C F : Fin n → Fin n → ℚ)
+    (hC : ∀ u v, RationalDenominatorLattice D (C u v))
+    (hF : ∀ u v, RationalDenominatorLattice D (F u v))
+    (a : Fin n) (tail : List (Fin n)) (hat : a ≠ rationalPathEnd a tail)
+    (δ : ℚ) (ho : rationalPathBottleneck C F a tail = some δ) (hpos : 0 < δ) :
+    (1 : ℚ) / (D : ℚ) ≤
+      (∑ v, rationalNetPushPath F a tail δ a v) - (∑ v, F a v) := by
+  have hlattice := rational_path_bottleneck_lattice D C F hC hF a tail δ ho
+  have hstep := rational_lattice_positive_step D hD δ hlattice hpos
+  rw [rational_net_push_path_source_value F a tail δ hat]
+  linarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalFlowEncodingBounds.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Bounds for the actual canonical numerator/denominator
+of a bounded skew rational flow, conditional on its separately earned common
+denominator invariant. This is value encoding size, not primitive bit time,
+normalization cost, solver termination or an overall polynomial algorithm. -/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_skew_flow_magnitude {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (hskew : ∀ u v, F u v = -F v u) (hcap : ∀ u v, F u v ≤ C u v)
+    (K : ℚ) (hC : ∀ u v, C u v ≤ K) (u v : Fin n) : |F u v| ≤ K := by
+  apply abs_le.mpr
+  constructor
+  · have hr := (hcap v u).trans (hC v u)
+    have hs := hskew u v
+    linarith
+  · exact (hcap u v).trans (hC u v)
+
+theorem rational_numerator_bound_from_magnitude_denominator (q : ℚ) (N D : ℕ)
+    (hm : |q| ≤ (N : ℚ)) (hd : q.den ≤ D) : q.num.natAbs ≤ N*D := by
+  have hc : (q.den : ℚ) ≤ (D : ℚ) := by exact_mod_cast hd
+  have hn : (q.num.natAbs : ℚ) ≤ (N : ℚ)*(D : ℚ) := by
+    rw [rational_num_abs_identity]
+    exact (mul_le_mul_of_nonneg_right hm (by positivity)).trans
+      (mul_le_mul_of_nonneg_left hc (by positivity))
+  exact_mod_cast hn
+
+theorem rational_numerator_binary_bound_from_height (q : ℚ) (B E : ℕ)
+    (hm : |q| ≤ (Nat.pow 2 B : ℚ)) (hd : q.den ≤ Nat.pow 2 E) :
+    q.num.natAbs ≤ Nat.pow 2 (B+E) := by
+  have h := rational_numerator_bound_from_magnitude_denominator q (Nat.pow 2 B) (Nat.pow 2 E) hm hd
+  exact h.trans_eq (Nat.pow_add 2 B E).symm
+
+theorem natural_log2_bits_bound_of_binary_bound (x E : ℕ)
+    (hx : x ≤ Nat.pow 2 E) : Nat.log2 x+1 ≤ E+1 := by
+  by_cases hz : x=0
+  · simp only [hz,Nat.log2_zero,zero_add]
+    omega
+  · have hp : Nat.pow 2 E < Nat.pow 2 (E+1) := Nat.pow_lt_pow_succ Nat.one_lt_two
+    have hl := (Nat.log2_lt hz).mpr (hx.trans_lt hp)
+    omega
+
+/-- One sign bit plus the binary lengths of the canonical numerator magnitude
+and positive denominator. This explicitly defines a value encoding budget;
+it is not a claim about Lean heap layout, external arithmetic or instruction cost. -/
+def rationalCanonicalEncodingBits (q : ℚ) : ℕ :=
+  (Nat.log2 q.num.natAbs+1)+(Nat.log2 q.den+1)+1
+
+theorem rational_canonical_encoding_bits_bound (q : ℚ) (B E : ℕ)
+    (hm : |q| ≤ (Nat.pow 2 B : ℚ)) (hd : q.den ≤ Nat.pow 2 E) :
+    rationalCanonicalEncodingBits q ≤ B+2*E+3 := by
+  have hn := natural_log2_bits_bound_of_binary_bound q.num.natAbs (B+E)
+    (rational_numerator_binary_bound_from_height q B E hm hd)
+  have he := natural_log2_bits_bound_of_binary_bound q.den E hd
+  unfold rationalCanonicalEncodingBits
+  omega
+
+/-- The divisor premise is the actual canonical denominator invariant to be
+earned from input capacities and executed updates. Capacity/skew alone do not
+imply it: arbitrary feasible rational flows can have arbitrarily fine denominators. -/
+theorem rational_skew_flow_canonical_encoding_bound {n : ℕ}
+    (C F : Fin n → Fin n → ℚ)
+    (hskew : ∀ u v, F u v = -F v u) (hcap : ∀ u v, F u v ≤ C u v)
+    (B E D : ℕ) (hD : 0 < D) (hDb : D ≤ Nat.pow 2 E)
+    (hC : ∀ u v, C u v ≤ (Nat.pow 2 B : ℚ))
+    (hden : ∀ u v, (F u v).den ∣ D) :
+    ∀ u v, rationalCanonicalEncodingBits (F u v) ≤ B+2*E+3 := by
+  intro u v
+  apply rational_canonical_encoding_bits_bound (F u v) B E
+  · exact rational_skew_flow_magnitude C F hskew hcap _ hC u v
+  · exact (Nat.le_of_dvd hD (hden u v)).trans hDb
+
+end SparseCompletion
+
+/- Fixed source body: RationalFeatureDeletion.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. A genuinely executable rational minimum-ratio deletion
+step for a SUPPLIED zero-moment direction. The direction is input data: this
+module does not claim to construct a kernel vector, iterate to a sharp support
+bound, or establish polynomial arithmetic/bit cost. Classical reasoning occurs
+only in proofs, never in the executable definitions. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Positive-direction ratios are enumerated from the actual finite labels. -/
+def rationalFeatureRatios {m : ℕ} (q w : Fin m → ℚ) : Finset ℚ :=
+  (Finset.univ.filter fun i => 0 < w i).image fun i => q i / w i
+
+/-- A total finite rational minimum; zero is used only when no positive direction
+coordinate exists. Finite rational order and equality are genuine decidable data. -/
+def rationalFeatureTheta {m : ℕ} (q w : Fin m → ℚ) : ℚ :=
+  if h : (rationalFeatureRatios q w).Nonempty then
+    (rationalFeatureRatios q w).min' h
+  else 0
+
+/-- Every output coordinate uses the same computed step size. -/
+def rationalFeatureDelete {m : ℕ} (q w : Fin m → ℚ) : Fin m → ℚ :=
+  fun i => q i - rationalFeatureTheta q w * w i
+
+def rationalWeightSupport {m : ℕ} (q : Fin m → ℚ) : Finset (Fin m) :=
+  Finset.univ.filter fun i => q i ≠ 0
+
+theorem rational_feature_ratio_mem {m : ℕ} (q w : Fin m → ℚ) (a : ℚ) :
+    a ∈ rationalFeatureRatios q w ↔ ∃ i, 0 < w i ∧ q i / w i = a := by
+  simp only [rationalFeatureRatios, Finset.mem_image, Finset.mem_filter,
+    Finset.mem_univ, true_and]
+
+theorem rational_feature_ratios_nonempty {m : ℕ} (q w : Fin m → ℚ) :
+    (rationalFeatureRatios q w).Nonempty ↔ ∃ i, 0 < w i := by
+  constructor
+  · rintro ⟨a, ha⟩
+    obtain ⟨i, hi, _⟩ := (rational_feature_ratio_mem q w a).mp ha
+    exact ⟨i, hi⟩
+  · rintro ⟨i, hi⟩
+    exact ⟨q i / w i, (rational_feature_ratio_mem q w _).mpr ⟨i, hi, rfl⟩⟩
+
+theorem rational_feature_theta_mem {m : ℕ} (q w : Fin m → ℚ)
+    (hpos : ∃ i, 0 < w i) :
+    rationalFeatureTheta q w ∈ rationalFeatureRatios q w := by
+  have h := (rational_feature_ratios_nonempty q w).mpr hpos
+  simp only [rationalFeatureTheta, dite_eq_left h]
+  exact Finset.min'_mem _ _
+
+theorem rational_feature_theta_le_ratio {m : ℕ} (q w : Fin m → ℚ)
+    (i : Fin m) (hi : 0 < w i) :
+    rationalFeatureTheta q w ≤ q i / w i := by
+  have h := (rational_feature_ratios_nonempty q w).mpr ⟨i, hi⟩
+  simp only [rationalFeatureTheta, dite_eq_left h]
+  exact Finset.min'_le _ _ ((rational_feature_ratio_mem q w _).mpr ⟨i, hi, rfl⟩)
+
+/-- This assumption means that the supplied direction is supported on CURRENTLY
+positive weights; it does not assume any desired output property. -/
+theorem rational_feature_theta_pos {m : ℕ} (q w : Fin m → ℚ)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hpos : ∃ i, 0 < w i) :
+    0 < rationalFeatureTheta q w := by
+  obtain ⟨i, hi, he⟩ := (rational_feature_ratio_mem q w _).mp
+    (rational_feature_theta_mem q w hpos)
+  rw [← he]
+  exact div_pos (hs i (ne_of_gt hi)) hi
+
+theorem rational_feature_direction_positive {m : ℕ} (w : Fin m → ℚ)
+    (hm : ∑ i, w i = 0) (hn : ∃ i, w i ≠ 0) : ∃ i, 0 < w i := by
+  classical
+  by_contra h
+  have hnonpos : ∀ i, w i ≤ 0 := by
+    intro i
+    exact le_of_not_gt (fun hi => h ⟨i, hi⟩)
+  have hzero : ∀ i, w i = 0 := by
+    intro i
+    exact (Finset.sum_eq_zero_iff_of_nonpos (fun j _ => hnonpos j)).mp hm i
+      (Finset.mem_univ i)
+  obtain ⟨i, hi⟩ := hn
+  exact hi (hzero i)
+
+theorem rational_feature_delete_nonnegative {m : ℕ} (q w : Fin m → ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hs : ∀ i, w i ≠ 0 → 0 < q i)
+    (hpos : ∃ i, 0 < w i) : ∀ i, 0 ≤ rationalFeatureDelete q w i := by
+  have ht : 0 ≤ rationalFeatureTheta q w :=
+    le_of_lt (rational_feature_theta_pos q w hs hpos)
+  intro i
+  unfold rationalFeatureDelete
+  by_cases hi : 0 < w i
+  · exact sub_nonneg.mpr ((le_div_iff₀ hi).mp
+      (rational_feature_theta_le_ratio q w i hi))
+  · have hw : w i ≤ 0 := le_of_not_gt hi
+    exact sub_nonneg.mpr ((mul_nonpos_of_nonneg_of_nonpos ht hw).trans (hq i))
+
+theorem rational_feature_delete_zero {m : ℕ} (q w : Fin m → ℚ)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (i : Fin m) (hi : q i = 0) :
+    rationalFeatureDelete q w i = 0 := by
+  have hw : w i = 0 := by
+    by_contra hn
+    have hp := hs i hn
+    rw [hi] at hp
+    exact (lt_irrefl (0 : ℚ)) hp
+  simp only [rationalFeatureDelete, hi, hw, mul_zero, sub_self]
+
+theorem rational_feature_delete_removes {m : ℕ} (q w : Fin m → ℚ)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hpos : ∃ i, 0 < w i) :
+    ∃ i, 0 < q i ∧ rationalFeatureDelete q w i = 0 := by
+  obtain ⟨i, hi, he⟩ := (rational_feature_ratio_mem q w _).mp
+    (rational_feature_theta_mem q w hpos)
+  refine ⟨i, hs i (ne_of_gt hi), ?_⟩
+  unfold rationalFeatureDelete
+  rw [← he, div_mul_cancel₀ _ (ne_of_gt hi), sub_self]
+
+/-- Exact arbitrary feature preservation for the supplied annihilating vector. -/
+theorem rational_feature_delete_moment {m : ℕ} (q w a : Fin m → ℚ)
+    (ha : ∑ i, w i * a i = 0) :
+    (∑ i, rationalFeatureDelete q w i * a i) = ∑ i, q i * a i := by
+  simp only [rationalFeatureDelete, sub_mul, Finset.sum_sub_distrib,
+    mul_assoc, ← Finset.mul_sum, ha, mul_zero, sub_zero]
+
+theorem rational_feature_delete_mass {m : ℕ} (q w : Fin m → ℚ)
+    (hm : ∑ i, w i = 0) :
+    (∑ i, rationalFeatureDelete q w i) = ∑ i, q i := by
+  simp only [rationalFeatureDelete, Finset.sum_sub_distrib,
+    ← Finset.mul_sum, hm, mul_zero, sub_zero]
+
+theorem rational_feature_delete_support_subset {m : ℕ} (q w : Fin m → ℚ)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) :
+    rationalWeightSupport (rationalFeatureDelete q w) ⊆ rationalWeightSupport q := by
+  intro i hi
+  have hn : rationalFeatureDelete q w i ≠ 0 := (Finset.mem_filter.mp hi).2
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_univ i, ?_⟩
+  intro hz
+  exact hn (rational_feature_delete_zero q w hs i hz)
+
+theorem rational_feature_delete_support_strict {m : ℕ} (q w : Fin m → ℚ)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hpos : ∃ i, 0 < w i) :
+    rationalWeightSupport (rationalFeatureDelete q w) ⊂ rationalWeightSupport q := by
+  apply Finset.ssubset_iff_subset_ne.mpr
+  refine ⟨rational_feature_delete_support_subset q w hs, ?_⟩
+  obtain ⟨i, hi, hz⟩ := rational_feature_delete_removes q w hs hpos
+  intro he
+  have hold : i ∈ rationalWeightSupport q :=
+    Finset.mem_filter.mpr ⟨Finset.mem_univ i, ne_of_gt hi⟩
+  have hnew : i ∈ rationalWeightSupport (rationalFeatureDelete q w) := by
+    rw [he]
+    exact hold
+  exact (Finset.mem_filter.mp hnew).2 hz
+
+theorem rational_feature_delete_support_card {m : ℕ} (q w : Fin m → ℚ)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hpos : ∃ i, 0 < w i) :
+    (rationalWeightSupport (rationalFeatureDelete q w)).card <
+      (rationalWeightSupport q).card :=
+  Finset.card_lt_card (rational_feature_delete_support_strict q w hs hpos)
+
+/-- First coherent tranche: supplied kernel DATA is consumed by an actual finite
+rational step. Kernel discovery and a terminating full compressor are separate
+obligations; they are not assumed to have been implemented by this theorem. -/
+theorem rational_feature_delete_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, w i = 0)
+    (ha : ∀ a, ∑ i, w i * A a i = 0)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hn : ∃ i, w i ≠ 0) :
+    (∀ i, 0 ≤ rationalFeatureDelete q w i) ∧
+    (∑ i, rationalFeatureDelete q w i) = ∑ i, q i ∧
+    (∀ a, (∑ i, rationalFeatureDelete q w i * A a i) = ∑ i, q i * A a i) ∧
+    (∀ i, q i = 0 → rationalFeatureDelete q w i = 0) ∧
+    (rationalWeightSupport (rationalFeatureDelete q w)).card <
+      (rationalWeightSupport q).card := by
+  have hp := rational_feature_direction_positive w hm hn
+  refine ⟨rational_feature_delete_nonnegative q w hq hs hp,
+    rational_feature_delete_mass q w hm,
+    fun a => rational_feature_delete_moment q w (A a) (ha a),
+    fun i hi => rational_feature_delete_zero q w hs i hi,
+    rational_feature_delete_support_card q w hs hp⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalFeatureKernel.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Actual rational kernel discovery by finitely many calls
+of the existing total Fourier–Motzkin solver. No polynomial complexity claim.
+Classical arguments below are proofs, not a runtime kernel oracle. This module
+proves the intended exact conditional completeness specification; the separate
+cardinality/linear-dependence theorem and full compressor are not assumed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Feature equations, mass, zero coordinates outside positive input support,
+and one normalization equation. This is finite, genuinely enumerable row data. -/
+abbrev RationalFeatureEquation (d m : ℕ) := Fin d ⊕ (Unit ⊕ (Fin m ⊕ Unit))
+
+def rationalFeatureEquationCoefficient {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (p : Fin m) :
+    RationalFeatureEquation d m → Fin m → ℚ :=
+  Sum.elim A (Sum.elim (fun _ _ => 1)
+    (Sum.elim (fun i j => if 0 < q i then 0 else if j = i then 1 else 0)
+      (fun _ j => if j = p then 1 else 0)))
+
+def rationalFeatureEquationRight {d m : ℕ} : RationalFeatureEquation d m → ℚ :=
+  Sum.elim (fun _ => 0) (Sum.elim (fun _ => 0)
+    (Sum.elim (fun _ => 0) (fun _ => 1)))
+
+/-- Each equality is encoded as its two opposite rational inequalities. No
+existential feasibility decision is taken in this construction. -/
+def rationalFeatureKernelSystem {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (p : Fin m) :
+    RationalLinearSystem (RationalFeatureEquation d m × Bool) m where
+  coefficient := fun r i => if r.2 then rationalFeatureEquationCoefficient A q p r.1 i
+    else -rationalFeatureEquationCoefficient A q p r.1 i
+  rightSide := fun r => if r.2 then rationalFeatureEquationRight r.1
+    else -rationalFeatureEquationRight r.1
+
+/-- Data needed by the deletion step, except nonzeroness is supplied separately. -/
+def RationalFeatureDirection {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q w : Fin m → ℚ) : Prop :=
+  (∀ a, ∑ i, A a i * w i = 0) ∧ (∑ i, w i = 0) ∧
+    ∀ i, w i ≠ 0 → 0 < q i
+
+theorem rational_feature_system_equations {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (p : Fin m) (w : Fin m → ℚ) :
+    (rationalFeatureKernelSystem A q p).Satisfies w ↔
+      ∀ r, (∑ i, rationalFeatureEquationCoefficient A q p r i * w i) =
+        rationalFeatureEquationRight r := by
+  constructor
+  · intro h r
+    have hp := h (r, true)
+    have hn := h (r, false)
+    simp only [rationalFeatureKernelSystem, Bool.false_eq_true, ↓reduceIte,
+      neg_mul, Finset.sum_neg_distrib] at hp hn
+    exact le_antisymm hp (by linarith)
+  · intro h r
+    rcases r with ⟨r, b⟩
+    cases b <;> simp only [rationalFeatureKernelSystem, Bool.false_eq_true,
+      ↓reduceIte, neg_mul, Finset.sum_neg_distrib, h r, le_refl]
+
+theorem rational_feature_system_iff {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (p : Fin m) (w : Fin m → ℚ) :
+    (rationalFeatureKernelSystem A q p).Satisfies w ↔
+      RationalFeatureDirection A q w ∧ w p = 1 := by
+  rw [rational_feature_system_equations]
+  constructor
+  · intro h
+    have ha : ∀ a, ∑ i, A a i * w i = 0 := by
+      intro a
+      simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight]
+        using h (.inl a)
+    have hm : ∑ i, w i = 0 := by
+      simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight]
+        using h (.inr (.inl ()))
+    have hs : ∀ i, w i ≠ 0 → 0 < q i := by
+      intro i hi
+      by_contra hqi
+      have hz := h (.inr (.inr (.inl i)))
+      have hw : w i = 0 := by
+        simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight, hqi]
+          using hz
+      exact hi hw
+    have hp : w p = 1 := by
+      simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight]
+        using h (.inr (.inr (.inr ())))
+    exact ⟨⟨ha, hm, hs⟩, hp⟩
+  · rintro ⟨⟨ha, hm, hs⟩, hp⟩ r
+    rcases r with a | u | i | u
+    · simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight] using ha a
+    · simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight] using hm
+    · by_cases hi : 0 < q i
+      · simp [rationalFeatureEquationCoefficient, rationalFeatureEquationRight, hi]
+      · have hw : w i = 0 := by
+          by_contra hn
+          exact hi (hs i hn)
+        simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight, hi] using hw
+    · simpa [rationalFeatureEquationCoefficient, rationalFeatureEquationRight] using hp
+
+/-- The continuation is a Unit thunk. A successful pivot does not run any later
+pivot's LP call. List.rec can construct tail closures; administrative costs are
+not counted or bounded here. Public Option.orElse avoids a generated matcher. -/
+def rationalFeatureKernelSearch {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (ps : List (Fin m)) :
+    Option (Fin m → ℚ) :=
+  (List.rec (motive := fun _ => Unit → Option (Fin m → ℚ))
+    (fun _ => none)
+    (fun p _ tail _ => (rationalLPSolve m (rationalFeatureKernelSystem A q p)).orElse tail)
+    ps) ()
+
+def rationalFeatureKernel {d m : ℕ} (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) :
+    Option (Fin m → ℚ) := rationalFeatureKernelSearch A q (List.finRange m)
+
+theorem rational_feature_search_sound {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (ps : List (Fin m))
+    (w : Fin m → ℚ) (h : rationalFeatureKernelSearch A q ps = some w) :
+    ∃ p ∈ ps, RationalFeatureDirection A q w ∧ w p = 1 := by
+  induction ps with
+  | nil => simp [rationalFeatureKernelSearch] at h
+  | cons p ps ih =>
+    cases he : rationalLPSolve m (rationalFeatureKernelSystem A q p) with
+    | none =>
+      have ht : rationalFeatureKernelSearch A q ps = some w := by
+        simpa only [rationalFeatureKernelSearch, he, Option.orElse_none] using h
+      obtain ⟨p', hp', hd⟩ := ih ht
+      exact ⟨p', List.mem_cons_of_mem p hp', hd⟩
+    | some v =>
+      have hv : v = w := Option.some.inj (by
+        simpa only [rationalFeatureKernelSearch, he, Option.orElse_some] using h)
+      subst v
+      exact ⟨p, (by simp), (rational_feature_system_iff A q p w).mp
+        (rational_lp_solve_sound m _ w he)⟩
+
+theorem rational_feature_search_complete {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (ps : List (Fin m))
+    (p : Fin m) (hp : p ∈ ps) (w : Fin m → ℚ)
+    (hw : RationalFeatureDirection A q w) (hn : w p = 1) :
+    ∃ v, rationalFeatureKernelSearch A q ps = some v := by
+  induction ps with
+  | nil => simp at hp
+  | cons a ps ih =>
+    cases he : rationalLPSolve m (rationalFeatureKernelSystem A q a) with
+    | some v =>
+      exact ⟨v, by simp only [rationalFeatureKernelSearch, he,
+        Option.orElse_some]⟩
+    | none =>
+      have hpa : p ≠ a := by
+        intro hpa
+        subst a
+        obtain ⟨v, hv⟩ := rational_lp_solve_complete m
+          (rationalFeatureKernelSystem A q p)
+          ⟨w, (rational_feature_system_iff A q p w).mpr ⟨hw, hn⟩⟩
+        rw [he] at hv
+        cases hv
+      have hpt : p ∈ ps := (List.mem_cons.mp hp).resolve_left hpa
+      obtain ⟨v, hv⟩ := ih hpt
+      exact ⟨v, by simpa only [rationalFeatureKernelSearch, he,
+        Option.orElse_none] using hv⟩
+
+/-- Normalizing an existing nonzero rational direction is proof-only algebra.
+Runtime kernel discovery still uses the actual finite LP search above. -/
+theorem rational_feature_direction_normalize {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ) (p : Fin m)
+    (hw : RationalFeatureDirection A q w) (hp : w p ≠ 0) :
+    RationalFeatureDirection A q (fun i => w i / w p) ∧ w p / w p = 1 := by
+  rcases hw with ⟨ha, hm, hs⟩
+  refine ⟨⟨?_, ?_, ?_⟩, div_self hp⟩
+  · intro a
+    change (∑ i, A a i * (w i / w p)) = 0
+    simp_rw [← mul_div_assoc]
+    rw [← Finset.sum_div, ha a, zero_div]
+  · rw [← Finset.sum_div, hm, zero_div]
+  · intro i hi
+    exact hs i (fun hz => hi (by change w i / w p = 0; rw [hz, zero_div]))
+
+theorem rational_feature_kernel_sound {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ)
+    (h : rationalFeatureKernel A q = some w) :
+    RationalFeatureDirection A q w ∧ ∃ i, w i ≠ 0 := by
+  obtain ⟨p, _, hd, hp⟩ := rational_feature_search_sound A q (List.finRange m) w h
+  exact ⟨hd, p, by rw [hp]; exact one_ne_zero⟩
+
+/-- Completeness is not postulated: the LP solver is complete, and finite search
+normalizes and tries any nonzero coordinate of any existing direction. The
+separate dimension-count theorem must supply such a direction when applicable. -/
+theorem rational_feature_kernel_complete {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ)
+    (hw : RationalFeatureDirection A q w) (hn : ∃ p, w p ≠ 0) :
+    ∃ v, rationalFeatureKernel A q = some v := by
+  obtain ⟨p, hp⟩ := hn
+  obtain ⟨hd, he⟩ := rational_feature_direction_normalize A q w p hw hp
+  exact rational_feature_search_complete A q (List.finRange m) p
+    (by simp only [List.mem_finRange]) (fun i => w i / w p) hd he
+
+theorem rational_feature_kernel_none_iff {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) :
+    rationalFeatureKernel A q = none ↔
+      ¬ ∃ w, RationalFeatureDirection A q w ∧ ∃ i, w i ≠ 0 := by
+  constructor
+  · intro hnone ⟨w, hw, hn⟩
+    obtain ⟨v, hv⟩ := rational_feature_kernel_complete A q w hw hn
+    rw [hnone] at hv
+    cases hv
+  · intro hn
+    cases he : rationalFeatureKernel A q with
+    | none => rfl
+    | some w => exact False.elim (hn ⟨w, rational_feature_kernel_sound A q w he⟩)
+
+/-- End-to-end single deletion, using an ACTUALLY COMPUTED kernel direction.
+No compatibility witness is accepted as program input. -/
+def rationalFeatureKernelDelete {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) : Option (Fin m → ℚ) :=
+  (rationalFeatureKernel A q).map (rationalFeatureDelete q)
+
+theorem rational_feature_kernel_deletion_witness {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ)
+    (hq : ∀ i, 0 ≤ q i) (h : rationalFeatureKernel A q = some w) :
+    rationalFeatureKernelDelete A q = some (rationalFeatureDelete q w) ∧
+    (∀ i, 0 ≤ rationalFeatureDelete q w i) ∧
+    (∑ i, rationalFeatureDelete q w i) = ∑ i, q i ∧
+    (∀ a, (∑ i, rationalFeatureDelete q w i * A a i) = ∑ i, q i * A a i) ∧
+    (∀ i, q i = 0 → rationalFeatureDelete q w i = 0) ∧
+    (rationalWeightSupport (rationalFeatureDelete q w)).card <
+      (rationalWeightSupport q).card := by
+  obtain ⟨⟨ha, hm, hs⟩, hn⟩ := rational_feature_kernel_sound A q w h
+  refine ⟨by simp only [rationalFeatureKernelDelete, h, Option.map_some], ?_⟩
+  exact rational_feature_delete_contract A q w hq hm
+    (fun a => by simpa only [mul_comm] using ha a) hs hn
+
+end SparseCompletion
+
+/- Fixed source body: RationalFeatureDimension.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Finite-dimensional rational linear dependence proves
+completeness of the actual FM-based kernel program. Classical reasoning is only
+in proofs. No runtime basis selection or polynomial complexity is claimed.
+A mass row already present among d features gives the sharp d support threshold;
+otherwise the explicitly adjoined mass row costs one additional dimension. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Cardinality forces a nonzero rational relation on current positive support.
+The coefficients obtained in this proof need not themselves be executable: the
+separate total kernel program finds a normalized witness using LP completeness. -/
+theorem rational_feature_relation_of_card {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (hcard : d < (rationalWeightSupport q).card) :
+    ∃ w : Fin m → ℚ, (∀ a, ∑ i, A a i * w i = 0) ∧
+      (∀ i, w i ≠ 0 → 0 < q i) ∧ ∃ i, w i ≠ 0 := by
+  classical
+  let s := rationalWeightSupport q
+  let V : s → (Fin d → ℚ) := fun i a => A a i.val
+  have hdep : ¬ LinearIndependent ℚ V := by
+    intro hind
+    have hc : s.card ≤ d := by
+      simpa using hind.fintype_card_le_finrank
+    exact (Nat.not_le_of_gt hcard) hc
+  obtain ⟨g, hg, i, hi⟩ := Fintype.not_linearIndependent_iff.mp hdep
+  let w : Fin m → ℚ := fun j => if hj : j ∈ s then g ⟨j, hj⟩ else 0
+  have hext : ∀ f : Fin m → ℚ,
+      (∑ j, w j * f j) = ∑ j : s, g j * f j.val := by
+    intro f
+    calc
+      (∑ j, w j * f j) = ∑ j ∈ s, w j * f j := by
+        symm
+        apply Finset.sum_subset (Finset.subset_univ s)
+        intro j _ hj
+        simp only [w, dite_eq_right hj, zero_mul]
+      _ = ∑ j : s, w j.val * f j.val := (Finset.sum_coe_sort s _).symm
+      _ = ∑ j : s, g j * f j.val := by
+        apply Finset.sum_congr rfl
+        intro j _
+        simp only [w, dite_eq_left j.property]
+  refine ⟨w, ?_, ?_, ?_⟩
+  · intro a
+    have hga := congrFun hg a
+    have hzero : (∑ j : s, g j * A a j.val) = 0 := by
+      simpa only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply, V]
+        using hga
+    calc
+      (∑ j, A a j * w j) = ∑ j, w j * A a j := by
+        apply Finset.sum_congr rfl
+        intro j _
+        exact mul_comm _ _
+      _ = ∑ j : s, g j * A a j.val := hext (A a)
+      _ = 0 := hzero
+  · intro j hj
+    have hjs : j ∈ s := by
+      by_contra hn
+      exact hj (by simp only [w, dite_eq_right hn])
+    have hqj : q j ≠ 0 := (Finset.mem_filter.mp hjs).2
+    exact lt_of_le_of_ne (hq j) (Ne.symm hqj)
+  · exact ⟨i.val, by simpa only [w, dite_eq_left i.property] using hi⟩
+
+/-- If the constant-one feature is already included, mass preservation costs no
+additional feature coordinate. This is the form for exact sharp support bounds. -/
+theorem rational_feature_direction_of_card {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1)
+    (hcard : d < (rationalWeightSupport q).card) :
+    ∃ w, RationalFeatureDirection A q w ∧ ∃ i, w i ≠ 0 := by
+  obtain ⟨w, ha, hs, hn⟩ := rational_feature_relation_of_card A q hq hcard
+  have hm : ∑ i, w i = 0 := by
+    simpa only [hmass, one_mul] using ha a₀
+  exact ⟨w, ⟨ha, hm, hs⟩, hn⟩
+
+theorem rational_feature_kernel_exists_of_card {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1)
+    (hcard : d < (rationalWeightSupport q).card) :
+    ∃ w, rationalFeatureKernel A q = some w := by
+  obtain ⟨w, hw, hn⟩ := rational_feature_direction_of_card A q hq a₀ hmass hcard
+  exact rational_feature_kernel_complete A q w hw hn
+
+/-- Without an existing mass feature, append one explicitly. The bound is d+1,
+not d; this theorem does not hide the normalization coordinate. -/
+theorem rational_feature_kernel_exists_with_mass {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (hcard : d + 1 < (rationalWeightSupport q).card) :
+    ∃ w, rationalFeatureKernel A q = some w := by
+  let B : Fin (d+1) → Fin m → ℚ :=
+    Fin.cons (α := fun _ => Fin m → ℚ) (fun _ => 1) A
+  obtain ⟨w, ⟨hb, hm, hs⟩, hn⟩ := rational_feature_direction_of_card B q hq
+    0 (fun _ => rfl) hcard
+  have ha : ∀ a, ∑ i, A a i * w i = 0 := by
+    intro a
+    simpa only [B, Fin.cons_succ] using hb a.succ
+  exact rational_feature_kernel_complete A q w ⟨ha, hm, hs⟩ hn
+
+/-- Genuine end-to-end deletion above the feature dimension: the program accepts
+only the rational features and weights. Dimension/count assumptions appear solely
+in its correctness proof, not as a supplied kernel or feasibility oracle. -/
+theorem rational_feature_computed_deletion_above_dimension {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1)
+    (hcard : d < (rationalWeightSupport q).card) :
+    ∃ v, rationalFeatureKernelDelete A q = some v ∧
+      (∀ i, 0 ≤ v i) ∧ (∑ i, v i) = ∑ i, q i ∧
+      (∀ a, (∑ i, v i * A a i) = ∑ i, q i * A a i) ∧
+      (∀ i, q i = 0 → v i = 0) ∧
+      (rationalWeightSupport v).card < (rationalWeightSupport q).card := by
+  obtain ⟨w, hw⟩ := rational_feature_kernel_exists_of_card A q hq a₀ hmass hcard
+  exact ⟨rationalFeatureDelete q w,
+    rational_feature_kernel_deletion_witness A q w hq hw⟩
+
+end SparseCompletion
+
+/- Fixed source body: CachedResidualDistance.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Distances extracted from actual cached BFS paths,
+genuine walk concatenation and shortest prefixes. The final comparison lemma
+has an explicit edge-triangle premise; its validity for an augmented residual
+graph and the Edmonds-Karp critical-arc bound remain separate obligations. -/
+@[expose] public section
+namespace SparseCompletion
+
+/-- A finite sentinel represents unreachable vertices. This reads the actual
+cached program result; it does not minimize over an assumed set of paths.
+This analysis function can rerun BFS when evaluated: it is not an O(1) getter
+or a charged operation of a materialized flow-finder implementation. -/
+def cachedBFSDistance {n : ℕ} (A : CachedBFSAdj n) (s v : Fin n) : ℕ :=
+  Option.rec (n + 1) (fun path => path.length - 1) (cachedBFSPath A s v)
+
+theorem cached_bfs_distance_of_some {n : ℕ} (A : CachedBFSAdj n)
+    (s v : Fin n) (path : List (Fin n)) (ho : cachedBFSPath A s v = some path) :
+    cachedBFSDistance A s v = path.length - 1 := by
+  simp only [cachedBFSDistance, ho]
+
+theorem cached_bfs_distance_of_none {n : ℕ} (A : CachedBFSAdj n)
+    (s v : Fin n) (ho : cachedBFSPath A s v = none) :
+    cachedBFSDistance A s v = n + 1 := by
+  simp only [cachedBFSDistance, ho]
+
+theorem cached_residual_walk_nonempty {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (path : List (Fin n)) (hw : CachedResidualWalk A s t path) :
+    0 < path.length := by
+  have hh := (cached_residual_walk_endpoints A s t path hw).1
+  cases path with
+  | nil => cases hh
+  | cons a tail => simp only [List.length_cons]; omega
+
+theorem cached_residual_walk_reachable {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (path : List (Fin n)) (hw : CachedResidualWalk A s t path) :
+    Relation.ReflTransGen (fun u v => (A.get u).get v = true) s t := by
+  induction hw with
+  | start => exact Relation.ReflTransGen.refl
+  | extend hwalk hedge ih => exact Relation.ReflTransGen.tail ih hedge
+
+/-- Concatenation removes the duplicate join vertex, while executing no graph
+search. Nonempty right-hand walks are earned from their walk predicate. -/
+theorem cached_residual_walk_concat {n : ℕ} (A : CachedBFSAdj n)
+    (s u t : Fin n) (left right : List (Fin n))
+    (hl : CachedResidualWalk A s u left) (hr : CachedResidualWalk A u t right) :
+    CachedResidualWalk A s t (left ++ right.tail) := by
+  induction hr with
+  | start => simpa only [List.tail_cons, List.append_nil] using hl
+  | @extend v w walkPrefix hwalk hedge ih =>
+    have hne : walkPrefix ≠ [] := by
+      intro he
+      have hp := cached_residual_walk_nonempty A u v walkPrefix hwalk
+      simp only [he, List.length_nil] at hp
+      omega
+    have hext := CachedResidualWalk.extend ih hedge
+    simpa only [List.tail_append_of_ne_nil hne, List.append_assoc] using hext
+
+theorem cached_bfs_distance_source {n : ℕ} (A : CachedBFSAdj n) (s : Fin n) :
+    cachedBFSDistance A s s = 0 := by
+  have hi : (cachedBFSLayers A s 0).get s = some [s] := by
+    simp [cached_bfs_layers_zero, cachedBFSInitial, cached_vector_get_ofFn]
+  have ho : cachedBFSPath A s s = some [s] :=
+    cached_bfs_layers_keep A s s (Nat.zero_le n) [s] hi
+  rw [cached_bfs_distance_of_some A s s [s] ho]
+  rfl
+
+theorem cached_bfs_distance_bound {n : ℕ} (A : CachedBFSAdj n) (s v : Fin n) :
+    cachedBFSDistance A s v ≤ n + 1 := by
+  cases ho : cachedBFSPath A s v with
+  | none => rw [cached_bfs_distance_of_none A s v ho]
+  | some path =>
+    have hlen := (cached_bfs_path_some_walk A s v path ho).2
+    rw [cached_bfs_distance_of_some A s v path ho]
+    omega
+
+/-- Every actual comparison walk bounds the distance of the computed output.
+Reachability earns a Some payload; it is not supplied as a shortest-path oracle. -/
+theorem cached_bfs_distance_le_walk {n : ℕ} (A : CachedBFSAdj n)
+    (s v : Fin n) (path : List (Fin n)) (hw : CachedResidualWalk A s v path) :
+    cachedBFSDistance A s v ≤ path.length - 1 := by
+  obtain ⟨best, hbest, _, _, _⟩ := cached_bfs_reachable_some A s v
+    (cached_residual_walk_reachable A s v path hw)
+  have hlen := cached_bfs_path_shortest A s v best path hbest hw
+  rw [cached_bfs_distance_of_some A s v best hbest]
+  omega
+
+/-- The triangle inequality is earned from appending the actual edge to the
+actual shortest source-to-u walk. The unreachable-u sentinel case is finite. -/
+theorem cached_bfs_distance_edge_triangle {n : ℕ} (A : CachedBFSAdj n)
+    (s u v : Fin n) (hedge : (A.get u).get v = true) :
+    cachedBFSDistance A s v ≤ cachedBFSDistance A s u + 1 := by
+  cases ho : cachedBFSPath A s u with
+  | none =>
+    have hv := cached_bfs_distance_bound A s v
+    rw [cached_bfs_distance_of_none A s u ho]
+    omega
+  | some path =>
+    have hw := (cached_bfs_path_some_walk A s u path ho).1
+    have hp := cached_residual_walk_nonempty A s u path hw
+    have hv := cached_bfs_distance_le_walk A s v (path ++ [v])
+      (CachedResidualWalk.extend hw hedge)
+    rw [cached_bfs_distance_of_some A s u path ho]
+    simp only [List.length_append, List.length_cons, List.length_nil] at hv
+    omega
+
+/-- A genuine walk prefix of the actual shortest output is itself shortest.
+The proof substitutes any competing prefix into the same unchanged suffix. -/
+theorem cached_bfs_shortest_prefix {n : ℕ} (A : CachedBFSAdj n)
+    (s u t : Fin n) (left right : List (Fin n))
+    (_hl : CachedResidualWalk A s u left) (hr : CachedResidualWalk A u t right)
+    (ho : cachedBFSPath A s t = some (left ++ right.tail))
+    (other : List (Fin n)) (hother : CachedResidualWalk A s u other) :
+    left.length ≤ other.length := by
+  have hc := cached_residual_walk_concat A s u t other right hother hr
+  have hlen := cached_bfs_path_shortest A s t (left ++ right.tail)
+    (other ++ right.tail) ho hc
+  simp only [List.length_append] at hlen
+  omega
+
+theorem cached_bfs_distance_shortest_prefix {n : ℕ} (A : CachedBFSAdj n)
+    (s u t : Fin n) (left right : List (Fin n))
+    (hl : CachedResidualWalk A s u left) (hr : CachedResidualWalk A u t right)
+    (ho : cachedBFSPath A s t = some (left ++ right.tail)) :
+    cachedBFSDistance A s u = left.length - 1 := by
+  obtain ⟨best, hbest, hw, _, _⟩ := cached_bfs_reachable_some A s u
+    (cached_residual_walk_reachable A s u left hl)
+  have hle := cached_bfs_path_shortest A s u best left hbest hl
+  have hge := cached_bfs_shortest_prefix A s u t left right hl hr ho best hw
+  rw [cached_bfs_distance_of_some A s u best hbest]
+  omega
+
+/-- Along an actual shortest output, a genuine prefix edge advances distance
+by exactly one. No externally supplied distance or Antitone premise is used. -/
+theorem cached_bfs_distance_shortest_prefix_edge {n : ℕ} (A : CachedBFSAdj n)
+    (s u v t : Fin n) (left right : List (Fin n))
+    (hl : CachedResidualWalk A s u left) (hedge : (A.get u).get v = true)
+    (hr : CachedResidualWalk A v t right)
+    (ho : cachedBFSPath A s t = some ((left ++ [v]) ++ right.tail)) :
+    cachedBFSDistance A s v = cachedBFSDistance A s u + 1 := by
+  have hleftv : CachedResidualWalk A s v (left ++ [v]) :=
+    CachedResidualWalk.extend hl hedge
+  have hrightu : CachedResidualWalk A u t ([u, v] ++ right.tail) :=
+    cached_residual_walk_concat A u v t [u, v] right
+      (CachedResidualWalk.extend CachedResidualWalk.start hedge) hr
+  have ho' : cachedBFSPath A s t = some (left ++ ([u, v] ++ right.tail).tail) := by
+    simpa only [List.cons_append, List.nil_append, List.tail_cons, List.append_assoc]
+      using ho
+  have hu := cached_bfs_distance_shortest_prefix A s u t left
+    ([u, v] ++ right.tail) hl hrightu ho'
+  have hv := cached_bfs_distance_shortest_prefix A s v t (left ++ [v]) right hleftv hr ho
+  have hp := cached_residual_walk_nonempty A s u left hl
+  rw [hu, hv]
+  simp only [List.length_append, List.length_cons, List.length_nil]
+  omega
+
+/-- Generic potential bound along a genuine walk. This does not assert that
+any particular augmented graph satisfies its edge premise. -/
+theorem cached_walk_potential_bound {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (d : Fin n → ℕ) (hs : d s = 0)
+    (hedge : ∀ u v, (A.get u).get v = true → d v ≤ d u + 1)
+    (path : List (Fin n)) (hw : CachedResidualWalk A s t path) :
+    d t ≤ path.length - 1 := by
+  induction hw with
+  | start => simpa only [List.length_cons, List.length_nil] using (le_of_eq hs)
+  | @extend u v walkPrefix hwalk huv ih =>
+    have hp := cached_residual_walk_nonempty A s u walkPrefix hwalk
+    have he := hedge u v huv
+    simp only [List.length_append, List.length_cons, List.length_nil]
+    omega
+
+/-- A conditional graph comparison theorem for the later residual-update proof.
+No claim is made here that the edge-triangle premise has been earned after
+augmentation: that needs the new-edge/reverse-path incidence argument. -/
+theorem cached_bfs_distance_mono_of_edge_triangles {n : ℕ}
+    (Aold Anew : CachedBFSAdj n) (s : Fin n)
+    (hedge : ∀ u v, (Anew.get u).get v = true →
+      cachedBFSDistance Aold s v ≤ cachedBFSDistance Aold s u + 1)
+    (v : Fin n) : cachedBFSDistance Aold s v ≤ cachedBFSDistance Anew s v := by
+  cases ho : cachedBFSPath Anew s v with
+  | none =>
+    rw [cached_bfs_distance_of_none Anew s v ho]
+    exact cached_bfs_distance_bound Aold s v
+  | some path =>
+    have hw := (cached_bfs_path_some_walk Anew s v path ho).1
+    have hp := cached_walk_potential_bound Anew s v (cachedBFSDistance Aold s)
+      (cached_bfs_distance_source Aold s) hedge path hw
+    rwa [cached_bfs_distance_of_some Anew s v path ho]
+
+end SparseCompletion
+
+/- Fixed source body: RationalFeatureIterate.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Actual bounded iteration of the rational FM
+kernel/deletion program. Initial support cardinality is structural fuel.
+No supplied runtime kernel, polynomial LP/bit cost, or paper-specific feature
+instantiation is assumed. Earlier reviewed kernel/dimension files are unchanged. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalFeaturePreservation {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) : Prop :=
+  (∀ i, 0 ≤ v i) ∧ (∑ i, v i) = ∑ i, q i ∧
+    (∀ a, (∑ i, v i * A a i) = ∑ i, q i * A a i) ∧
+    ∀ i, q i = 0 → v i = 0
+
+theorem rational_feature_preservation_refl {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i) :
+    RationalFeaturePreservation A q q :=
+  ⟨hq, rfl, fun _ => rfl, fun _ h => h⟩
+
+theorem rational_feature_preservation_trans {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q v w : Fin m → ℚ)
+    (hqv : RationalFeaturePreservation A q v)
+    (hvw : RationalFeaturePreservation A v w) :
+    RationalFeaturePreservation A q w :=
+  ⟨hvw.1, hvw.2.1.trans hqv.2.1,
+    fun a => (hvw.2.2.1 a).trans (hqv.2.2.1 a),
+    fun i hi => hvw.2.2.2 i (hqv.2.2.2 i hi)⟩
+
+theorem rational_feature_preservation_support {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q v : Fin m → ℚ)
+    (h : RationalFeaturePreservation A q v) :
+    rationalWeightSupport v ⊆ rationalWeightSupport q := by
+  intro i hi
+  have hvi : v i ≠ 0 := (Finset.mem_filter.mp hi).2
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_univ i, ?_⟩
+  intro hqi
+  exact hvi (h.2.2.2 i hqi)
+
+/-- The fallback is the unchanged input, making the program total even on
+invalid inputs. For nonnegative inputs above the dimension threshold, the
+dimension theorem proves the actual kernel call succeeds, excluding fallback.
+No later LP call is made after the support has reached the threshold. -/
+def rationalFeatureReduceStep {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) : Fin m → ℚ :=
+  if (rationalWeightSupport q).card ≤ d then q
+  else Option.rec q (fun v => v) (rationalFeatureKernelDelete A q)
+
+theorem rational_feature_reduce_step_done {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ)
+    (hc : (rationalWeightSupport q).card ≤ d) :
+    rationalFeatureReduceStep A q = q := by
+  simp only [rationalFeatureReduceStep, ite_eq_left hc]
+
+theorem rational_feature_reduce_step_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1) :
+    RationalFeaturePreservation A q (rationalFeatureReduceStep A q) ∧
+      (rationalWeightSupport (rationalFeatureReduceStep A q)).card ≤
+        (rationalWeightSupport q).card ∧
+      (d < (rationalWeightSupport q).card →
+        (rationalWeightSupport (rationalFeatureReduceStep A q)).card <
+          (rationalWeightSupport q).card) := by
+  by_cases hc : (rationalWeightSupport q).card ≤ d
+  · rw [rational_feature_reduce_step_done A q hc]
+    refine ⟨rational_feature_preservation_refl A q hq, le_rfl, ?_⟩
+    intro hgt
+    exact False.elim ((Nat.not_lt_of_ge hc) hgt)
+  · have hgt : d < (rationalWeightSupport q).card := Nat.lt_of_not_ge hc
+    obtain ⟨v, hv, hnonneg, hsum, hmom, hzero, hcard⟩ :=
+      rational_feature_computed_deletion_above_dimension A q hq a₀ hmass hgt
+    have hstep : rationalFeatureReduceStep A q = v := by
+      simp only [rationalFeatureReduceStep, ite_eq_right hc, hv]
+    rw [hstep]
+    exact ⟨⟨hnonneg, hsum, hmom, hzero⟩, le_of_lt hcard, fun _ => hcard⟩
+
+def rationalFeatureIterates {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) (fuel : ℕ) : Fin m → ℚ :=
+  Nat.rec q (fun _ previous => rationalFeatureReduceStep A previous) fuel
+
+theorem rational_feature_iterates_zero {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) :
+    rationalFeatureIterates A q 0 = q := rfl
+
+theorem rational_feature_iterates_succ {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (fuel : ℕ) :
+    rationalFeatureIterates A q (Nat.succ fuel) =
+      rationalFeatureReduceStep A (rationalFeatureIterates A q fuel) := rfl
+
+/-- Either the target support is already reached, or every elapsed step has
+removed at least one original support point. The progress disjunction is
+earned from actual successful deletions, not provided as an oracle argument. -/
+theorem rational_feature_iterates_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1) (fuel : ℕ) :
+    RationalFeaturePreservation A q (rationalFeatureIterates A q fuel) ∧
+      ((rationalWeightSupport (rationalFeatureIterates A q fuel)).card ≤ d ∨
+        (rationalWeightSupport (rationalFeatureIterates A q fuel)).card + fuel ≤
+          (rationalWeightSupport q).card) := by
+  induction fuel with
+  | zero =>
+    refine ⟨rational_feature_preservation_refl A q hq, Or.inr ?_⟩
+    simp only [rational_feature_iterates_zero, Nat.add_zero, le_refl]
+  | succ fuel ih =>
+    obtain ⟨hprev, hcount⟩ := ih
+    have hstep := rational_feature_reduce_step_contract A
+      (rationalFeatureIterates A q fuel) hprev.1 a₀ hmass
+    constructor
+    · rw [rational_feature_iterates_succ]
+      exact rational_feature_preservation_trans A q (rationalFeatureIterates A q fuel)
+        (rationalFeatureReduceStep A (rationalFeatureIterates A q fuel)) hprev hstep.1
+    · by_cases hc : (rationalWeightSupport (rationalFeatureIterates A q fuel)).card ≤ d
+      · left
+        rw [rational_feature_iterates_succ,
+          rational_feature_reduce_step_done A (rationalFeatureIterates A q fuel) hc]
+        exact hc
+      · right
+        have hgt : d < (rationalWeightSupport (rationalFeatureIterates A q fuel)).card :=
+          Nat.lt_of_not_ge hc
+        have hstrict := hstep.2.2 hgt
+        have hremaining := hcount.resolve_left hc
+        rw [rational_feature_iterates_succ]
+        omega
+
+/-- Actual bounded compressor. Its fuel is the computed input support size,
+so no dimension/existence proof is passed to the running program. -/
+def rationalFeatureCompress {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) : Fin m → ℚ :=
+  rationalFeatureIterates A q (rationalWeightSupport q).card
+
+theorem rational_feature_compress_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1) :
+    RationalFeaturePreservation A q (rationalFeatureCompress A q) ∧
+      rationalWeightSupport (rationalFeatureCompress A q) ⊆ rationalWeightSupport q ∧
+      (rationalWeightSupport (rationalFeatureCompress A q)).card ≤
+        min (rationalWeightSupport q).card d := by
+  obtain ⟨hpres, hprogress⟩ := rational_feature_iterates_contract A q hq a₀ hmass
+    (rationalWeightSupport q).card
+  have hp : RationalFeaturePreservation A q (rationalFeatureCompress A q) := hpres
+  have hs := rational_feature_preservation_support A q (rationalFeatureCompress A q) hp
+  have hc : (rationalWeightSupport (rationalFeatureCompress A q)).card ≤ d := by
+    rcases hprogress with hdone | hcount
+    · exact hdone
+    · change (rationalWeightSupport (rationalFeatureCompress A q)).card +
+        (rationalWeightSupport q).card ≤ (rationalWeightSupport q).card at hcount
+      omega
+  exact ⟨hp, hs, Nat.le_min.mpr ⟨Finset.card_le_card hs, hc⟩⟩
+
+def rationalFeatureAdjoinMass {d m : ℕ} (A : Fin d → Fin m → ℚ) :
+    Fin (d + 1) → Fin m → ℚ :=
+  Fin.cons (α := fun _ => Fin m → ℚ) (fun _ => 1) A
+
+def rationalFeatureCompressWithMass {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) : Fin m → ℚ :=
+  rationalFeatureCompress (rationalFeatureAdjoinMass A) q
+
+/-- Arbitrary features use an explicit extra mass coordinate. This gives d+1,
+while the separate constant-feature contract above gives the sharper d. -/
+theorem rational_feature_compress_with_mass_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i) :
+    RationalFeaturePreservation A q (rationalFeatureCompressWithMass A q) ∧
+      rationalWeightSupport (rationalFeatureCompressWithMass A q) ⊆
+        rationalWeightSupport q ∧
+      (rationalWeightSupport (rationalFeatureCompressWithMass A q)).card ≤
+        min (rationalWeightSupport q).card (d + 1) := by
+  obtain ⟨hp, hs, hc⟩ := rational_feature_compress_contract
+    (rationalFeatureAdjoinMass A) q hq 0 (fun _ => rfl)
+  refine ⟨⟨hp.1, hp.2.1, ?_, hp.2.2.2⟩, hs, hc⟩
+  intro a
+  simpa only [rationalFeatureCompressWithMass, rationalFeatureAdjoinMass, Fin.cons_succ] using hp.2.2.1 a.succ
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableAugmentation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. Actual cached residual search, finite candidate checks,
+attained positive bottleneck, and materialized rational flow-table update.
+This is one augmentation attempt, not a terminating max-flow finder. None is
+not yet asserted to mean no augmenting path: safety-check completeness remains
+a separate proof obligation. No arithmetic, access, allocation or bit-cost bound.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+abbrev RationalFlowTable (n : ℕ) := Vector (Vector ℚ n) n
+
+def rationalFlowTableEntry {n : ℕ} (F : RationalFlowTable n) (u v : Fin n) : ℚ :=
+  (F.get u).get v
+
+/-- Evaluate every new entry against the same materialized input table. This is
+not a function-valued chain of unevaluated prior flow updates. -/
+def rationalTablePushEdge {n : ℕ} (F : RationalFlowTable n)
+    (a b : Fin n) (δ : ℚ) : RationalFlowTable n :=
+  Vector.ofFn fun u => Vector.ofFn fun v =>
+    rationalNetPushEdge (rationalFlowTableEntry F) a b δ u v
+
+/-- Tail table is computed once as an argument to the next materializing edge
+update. Administrative traversal and finite-vector access are not free cost
+claims; this definition establishes only actual finite table construction. -/
+def rationalTablePushPath {n : ℕ} (F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) : RationalFlowTable n :=
+  List.rec (motive := fun _ => Fin n → RationalFlowTable n)
+    (fun _ => F) (fun b _ ih start => rationalTablePushEdge (ih b) start b δ) tail a
+
+theorem rational_table_push_edge_entry {n : ℕ} (F : RationalFlowTable n)
+    (a b : Fin n) (δ : ℚ) (u v : Fin n) :
+    rationalFlowTableEntry (rationalTablePushEdge F a b δ) u v =
+      rationalNetPushEdge (rationalFlowTableEntry F) a b δ u v := by
+  simp only [rationalFlowTableEntry, rationalTablePushEdge, cached_vector_get_ofFn]
+
+theorem rational_table_push_path_entry {n : ℕ} (F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) (u v : Fin n) :
+    rationalFlowTableEntry (rationalTablePushPath F a tail δ) u v =
+      rationalNetPushPath (rationalFlowTableEntry F) a tail δ u v := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    change rationalFlowTableEntry
+      (rationalTablePushEdge (rationalTablePushPath F b tail δ) a b δ) u v = _
+    rw [rational_table_push_edge_entry, rational_net_push_path_cons]
+    simp only [rationalNetPushEdge, ih b]
+
+/-- These are actual executable finite checks, not witness inputs. Cached BFS
+is already correct; the extra checks make this first wrapper's local soundness
+independent of the remaining walk-to-consecutive-residual proof. -/
+def RationalAugmentCandidate {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (path : List (Fin n)) : Prop :=
+  path.head? = some s ∧ path.getLast? = some t ∧ path.Nodup ∧
+    ∀ z ∈ rationalPathResiduals (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s path.tail, 0 < z
+
+instance rationalAugmentCandidateDecidable {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (path : List (Fin n)) :
+    Decidable (RationalAugmentCandidate C F s t path) := by
+  unfold RationalAugmentCandidate
+  infer_instance
+
+structure RationalAugmentResult (n : ℕ) where
+  path : List (Fin n)
+  amount : ℚ
+  flow : RationalFlowTable n
+
+/-- A path found by the actual cached BFS is checked, its actual minimum is
+computed, and its edge updates are materialized. Public Option combinators avoid
+fresh pattern-match helper identities. Source-equals-target returns None because
+zero-edge paths have no positive augmentation bottleneck. -/
+def rationalAugmentOnce {n : ℕ} (C F : RationalFlowTable n) (s t : Fin n) :
+    Option (RationalAugmentResult n) :=
+  if s = t then none else
+    let A := cacheResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)
+    (cachedBFSPath A s t).bind fun path =>
+      if RationalAugmentCandidate C F s t path then
+        (rationalPathBottleneck (rationalFlowTableEntry C)
+          (rationalFlowTableEntry F) s path.tail).map fun δ =>
+          { path := path, amount := δ, flow := rationalTablePushPath F s path.tail δ }
+      else none
+
+theorem rational_augment_once_origin {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out) :
+    s ≠ t ∧
+    cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s t = some out.path ∧
+    RationalAugmentCandidate C F s t out.path ∧
+    rationalPathBottleneck (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s out.path.tail = some out.amount ∧
+    out.flow = rationalTablePushPath F s out.path.tail out.amount := by
+  by_cases hst : s = t
+  · simp only [rationalAugmentOnce, ite_eq_left hst] at ho
+    cases ho
+  · cases hp : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F)) s t with
+    | none =>
+      simp only [rationalAugmentOnce, ite_eq_right hst, hp, Option.bind_none] at ho
+      cases ho
+    | some path =>
+      by_cases hv : RationalAugmentCandidate C F s t path
+      · cases hm : rationalPathBottleneck (rationalFlowTableEntry C)
+          (rationalFlowTableEntry F) s path.tail with
+        | none =>
+          simp only [rationalAugmentOnce, ite_eq_right hst, hp, Option.bind_some,
+            ite_eq_left hv, hm, Option.map_none] at ho
+          cases ho
+        | some δ =>
+          have he : ({ path := path, amount := δ, flow := rationalTablePushPath F s path.tail δ } : RationalAugmentResult n) = out := by
+            exact Option.some.inj (by simpa only [rationalAugmentOnce, ite_eq_right hst,
+              hp, Option.bind_some, ite_eq_left hv, hm, Option.map_some] using ho)
+          subst out
+          exact ⟨hst, rfl, hv, hm, rfl⟩
+      · simp only [rationalAugmentOnce, ite_eq_right hst, hp, Option.bind_some, ite_eq_right hv] at ho
+        cases ho
+
+/-- Local soundness is earned by the actual return value. In particular the
+source divergence increases strictly; this does not assert eventual saturation
+or an upper bound on the number of successful attempts. -/
+theorem rational_augment_once_sound {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (hcap : ∀ u v, rationalFlowTableEntry F u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry F u v = -rationalFlowTableEntry F v u)
+    (ho : rationalAugmentOnce C F s t = some out) :
+    0 < out.amount ∧
+    (∀ u v, rationalFlowTableEntry out.flow u v = -rationalFlowTableEntry out.flow v u) ∧
+    (∀ u v, rationalFlowTableEntry out.flow u v ≤ rationalFlowTableEntry C u v) ∧
+    (∀ u, u ≠ s → u ≠ t → (∑ v, rationalFlowTableEntry out.flow u v) =
+      ∑ v, rationalFlowTableEntry F u v) ∧
+    (∑ v, rationalFlowTableEntry out.flow s v) =
+      (∑ v, rationalFlowTableEntry F s v) + out.amount := by
+  obtain ⟨hst, _, hcand, hm, hflow⟩ := rational_augment_once_origin C F s t out ho
+  obtain ⟨hhead, hend, hnd, hpos⟩ := hcand
+  have hepath : s :: out.path.tail = out.path := by
+    cases hp : out.path with
+    | nil => simp only [hp, List.head?_nil] at hhead; cases hhead
+    | cons a tail =>
+      have ha : a = s := Option.some.inj (by simpa only [hp, List.head?_cons] using hhead)
+      subst a
+      rfl
+  have hlast : rationalPathEnd s out.path.tail = t := by
+    have h := rational_path_end_getLast s out.path.tail
+    rw [hepath, hend] at h
+    exact (Option.some.inj h).symm
+  have hsimple : (s :: out.path.tail).Nodup := by simpa only [hepath] using hnd
+  obtain ⟨hδ, hsk, hca, hcons⟩ := rational_path_bottleneck_augmentation
+    (rationalFlowTableEntry C) (rationalFlowTableEntry F) hcap hskew s
+    out.path.tail hsimple out.amount hm hpos
+  have hentry : ∀ u v, rationalFlowTableEntry out.flow u v =
+      rationalNetPushPath (rationalFlowTableEntry F) s out.path.tail out.amount u v := by
+    intro u v
+    rw [hflow, rational_table_push_path_entry]
+  refine ⟨hδ, ?_, ?_, ?_, ?_⟩
+  · intro u v
+    simpa only [hentry] using hsk u v
+  · intro u v
+    simpa only [hentry] using hca u v
+  · intro u hus hut
+    simpa only [hentry] using hcons u hus (by simpa only [hlast] using hut)
+  · simpa only [hentry] using rational_net_push_path_source_value
+      (rationalFlowTableEntry F) s out.path.tail out.amount
+      (by simpa only [hlast] using hst)
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableFlowFuel.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Development source; exact-source verification is recorded separately. Actual bounded materialized augmentation loop.
+A common input denominator earns a positive quantum, giving finite fuel from
+source capacity. The bound is pseudopolynomial, not capacity-independent or a
+polynomial bit-runtime claim. No target max-flow theorem is assumed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalTableFlowInvariant {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (D : ℕ) : Prop :=
+  (∀ u v, rationalFlowTableEntry F u v ≤ rationalFlowTableEntry C u v) ∧
+  (∀ u v, rationalFlowTableEntry F u v = -rationalFlowTableEntry F v u) ∧
+  (∀ u, u ≠ s → u ≠ t → (∑ v, rationalFlowTableEntry F u v) = 0) ∧
+  ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry F u v)
+
+def rationalTableFlowValue {n : ℕ} (F : RationalFlowTable n) (s : Fin n) : ℚ :=
+  ∑ v, rationalFlowTableEntry F s v
+
+def rationalTableFlowUpper {n : ℕ} (C : RationalFlowTable n) (s : Fin n) : ℚ :=
+  ∑ v, rationalFlowTableEntry C s v
+
+theorem rational_table_flow_source_upper {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (D : ℕ) (hF : RationalTableFlowInvariant C F s t D) :
+    rationalTableFlowValue F s ≤ rationalTableFlowUpper C s :=
+  Finset.sum_le_sum (fun v _ => hF.1 s v)
+
+theorem rational_table_augmentation_lattice {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (D : ℕ)
+    (hC : ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry C u v))
+    (hF : ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry F u v))
+    (out : RationalAugmentResult n) (ho : rationalAugmentOnce C F s t = some out) :
+    RationalDenominatorLattice D out.amount ∧
+      ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry out.flow u v) := by
+  obtain ⟨_, _, _, hm, hflow⟩ := rational_augment_once_origin C F s t out ho
+  have hδ := rational_path_bottleneck_lattice D (rationalFlowTableEntry C)
+    (rationalFlowTableEntry F) hC hF s out.path.tail out.amount hm
+  refine ⟨hδ, ?_⟩
+  intro u v
+  rw [hflow, rational_table_push_path_entry]
+  exact rational_net_push_path_lattice D (rationalFlowTableEntry F) hF s
+    out.path.tail out.amount hδ u v
+
+theorem rational_table_augmentation_invariant {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (D : ℕ)
+    (hC : ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry C u v))
+    (hF : RationalTableFlowInvariant C F s t D)
+    (out : RationalAugmentResult n) (ho : rationalAugmentOnce C F s t = some out) :
+    RationalTableFlowInvariant C out.flow s t D := by
+  obtain ⟨_, hs, hc, hcons, _⟩ := rational_augment_once_sound C F s t out hF.1 hF.2.1 ho
+  refine ⟨hc, hs, ?_, (rational_table_augmentation_lattice C F s t D hC hF.2.2.2 out ho).2⟩
+  intro u hus hut
+  exact (hcons u hus hut).trans (hF.2.2.1 u hus hut)
+
+theorem rational_table_augmentation_quantum {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (D : ℕ) (hD : 0 < D)
+    (hC : ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry C u v))
+    (hF : RationalTableFlowInvariant C F s t D)
+    (out : RationalAugmentResult n) (ho : rationalAugmentOnce C F s t = some out) :
+    (1 : ℚ) ≤ (D : ℚ) *
+      (rationalTableFlowValue out.flow s - rationalTableFlowValue F s) := by
+  obtain ⟨hpos, _, _, _, hvalue⟩ := rational_augment_once_sound C F s t out hF.1 hF.2.1 ho
+  have hlat := (rational_table_augmentation_lattice C F s t D hC hF.2.2.2 out ho).1
+  have hδ := rational_lattice_positive_step D hD out.amount hlat hpos
+  have hDq : (0 : ℚ) < (D : ℚ) := by exact_mod_cast hD
+  have hmul : (1 : ℚ) ≤ out.amount * (D : ℚ) := (div_le_iff₀ hDq).mp hδ
+  change (∑ v, rationalFlowTableEntry out.flow s v) =
+    (∑ v, rationalFlowTableEntry F s v) + out.amount at hvalue
+  unfold rationalTableFlowValue
+  nlinarith
+
+/-- Public structural recursion constructs a state transformer. Only a Some
+branch applies the continuation to a newly materialized table. -/
+def rationalTableFlowIterate {n : ℕ} (C : RationalFlowTable n) (s t : Fin n)
+    (fuel : ℕ) (F : RationalFlowTable n) : RationalFlowTable n :=
+  Nat.rec (motive := fun _ => RationalFlowTable n → RationalFlowTable n)
+    (fun current => current)
+    (fun _ ih current => Option.rec current (fun out => ih out.flow)
+      (rationalAugmentOnce C current s t)) fuel F
+
+theorem rational_table_flow_iterate_zero {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) : rationalTableFlowIterate C s t 0 F = F := rfl
+
+theorem rational_table_flow_iterate_succ {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (fuel : ℕ) :
+    rationalTableFlowIterate C s t (fuel + 1) F =
+      Option.rec F (fun out => rationalTableFlowIterate C s t fuel out.flow)
+        (rationalAugmentOnce C F s t) := rfl
+
+/-- Termination certificate follows the EXECUTED option-returning updates.
+Its strict budget premise is a source-capacity arithmetic bound, not an assumed
+absence of paths, progress hypothesis or desired target theorem. -/
+theorem rational_table_flow_iterate_stops {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (D : ℕ) (hD : 0 < D)
+    (hC : ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry C u v))
+    (fuel : ℕ) (F : RationalFlowTable n)
+    (hF : RationalTableFlowInvariant C F s t D)
+    (hbudget : (D : ℚ) * (rationalTableFlowUpper C s - rationalTableFlowValue F s) < (fuel : ℚ)) :
+    RationalTableFlowInvariant C (rationalTableFlowIterate C s t fuel F) s t D ∧
+      rationalAugmentOnce C (rationalTableFlowIterate C s t fuel F) s t = none := by
+  induction fuel generalizing F with
+  | zero =>
+    have hu := rational_table_flow_source_upper C F s t D hF
+    have hDq : (0 : ℚ) ≤ (D : ℚ) := by positivity
+    have hn := mul_nonneg hDq (sub_nonneg.mpr hu)
+    norm_num only [Nat.cast_zero] at hbudget
+    exact False.elim ((not_lt_of_ge hn) hbudget)
+  | succ fuel ih =>
+    rw [rational_table_flow_iterate_succ]
+    cases ho : rationalAugmentOnce C F s t with
+    | none => exact ⟨hF, ho⟩
+    | some out =>
+      have hnew := rational_table_augmentation_invariant C F s t D hC hF out ho
+      have hstep := rational_table_augmentation_quantum C F s t D hD hC hF out ho
+      have hb : (D : ℚ) *
+          (rationalTableFlowUpper C s - rationalTableFlowValue out.flow s) < (fuel : ℚ) := by
+        push_cast at hbudget
+        nlinarith
+      exact ih out.flow hnew hb
+
+def rationalZeroFlowTable (n : ℕ) : RationalFlowTable n :=
+  Vector.ofFn (fun _ => Vector.ofFn (fun _ => 0))
+
+theorem rational_zero_flow_table_entry {n : ℕ} (u v : Fin n) :
+    rationalFlowTableEntry (rationalZeroFlowTable n) u v = 0 := by
+  simp only [rationalFlowTableEntry, rationalZeroFlowTable, cached_vector_get_ofFn]
+
+theorem rational_zero_flow_table_invariant {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (D : ℕ) (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    RationalTableFlowInvariant C (rationalZeroFlowTable n) s t D := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · intro u v; simpa only [rational_zero_flow_table_entry] using hC u v
+  · intro u v; simp only [rational_zero_flow_table_entry, neg_zero]
+  · intro u _ _; simp only [rational_zero_flow_table_entry, Finset.sum_const_zero]
+  · intro u v; rw [rational_zero_flow_table_entry]; exact rational_lattice_zero D
+
+/-- Explicit input-derived finite fuel. Its possible exponential magnitude in
+binary input size is intentional and is not a polynomial iteration guarantee. -/
+def rationalTableFlowFuel {n : ℕ} (C : RationalFlowTable n) (s : Fin n) : ℕ :=
+  Nat.floor ((rationalCapacityDenominator (rationalFlowTableEntry C) : ℚ) *
+    rationalTableFlowUpper C s) + 1
+
+def rationalTableFindFlow {n : ℕ} (C : RationalFlowTable n) (s t : Fin n) :
+    RationalFlowTable n :=
+  rationalTableFlowIterate C s t (rationalTableFlowFuel C s) (rationalZeroFlowTable n)
+
+theorem rational_table_find_flow_stops {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    RationalTableFlowInvariant C (rationalTableFindFlow C s t) s t
+      (rationalCapacityDenominator (rationalFlowTableEntry C)) ∧
+      rationalAugmentOnce C (rationalTableFindFlow C s t) s t = none := by
+  apply rational_table_flow_iterate_stops C s t
+    (rationalCapacityDenominator (rationalFlowTableEntry C))
+    (rational_capacity_denominator_positive _) (rational_capacity_lattice _)
+    (rationalTableFlowFuel C s) (rationalZeroFlowTable n)
+    (rational_zero_flow_table_invariant C s t _ hC)
+  have hf := Nat.lt_floor_add_one
+    ((rationalCapacityDenominator (rationalFlowTableEntry C) : ℚ) * rationalTableFlowUpper C s)
+  simpa only [rationalTableFlowFuel, rationalTableFlowValue,
+    rational_zero_flow_table_entry, Finset.sum_const_zero, sub_zero,
+    Nat.cast_add, Nat.cast_one] using hf
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableAugmentationComplete.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact-source verification is recorded separately. The actual cached path earns all finite safety checks;
+for distinct endpoints this makes the materialized augmentation attempt complete
+for actual rational residual reachability. No flow-feasibility oracle, assumed
+successful path or runtime Classical.choice. No iteration or complexity theorem.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Every check is a consequence of the actual returned cached BFS payload. -/
+theorem rational_augment_candidate_of_cached {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (path : List (Fin n))
+    (hp : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s t = some path) :
+    RationalAugmentCandidate C F s t path := by
+  have hw := (cached_bfs_path_some_walk
+    (cacheResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s t path hp).1
+  obtain ⟨hhead, hend⟩ := cached_residual_walk_endpoints
+    (cacheResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s t path hw
+  have hnd := cached_bfs_path_nodup
+    (cacheResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s t path hp
+  refine ⟨hhead, hend, hnd, ?_⟩
+  have hpositive := cached_residual_walk_residuals_positive
+    (rationalFlowTableEntry C) (rationalFlowTableEntry F) s t path hw
+  cases he : path with
+  | nil =>
+    have hn : (none : Option (Fin n)) = some s := by simpa only [he, List.head?_nil] using hhead
+    cases hn
+  | cons a tail =>
+    have ha : a = s := Option.some.inj (by simpa only [he, List.head?_cons] using hhead)
+    subst a
+    simpa only [he, rational_walk_residuals_cons, List.tail_cons] using hpositive
+
+/-- A distinct target excludes the zero-edge singleton, so the actually
+computed minimum exists and is positive. No cap is inserted into the minimum. -/
+theorem rational_augment_bottleneck_of_cached {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t) (path : List (Fin n))
+    (hp : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s t = some path) :
+    ∃ δ, rationalPathBottleneck (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s path.tail = some δ ∧ 0 < δ := by
+  obtain ⟨hhead, hend, _, hpos⟩ := rational_augment_candidate_of_cached C F s t path hp
+  have hepath : s :: path.tail = path := by
+    cases he : path with
+    | nil =>
+      have hn : (none : Option (Fin n)) = some s := by simpa only [he, List.head?_nil] using hhead
+      cases hn
+    | cons a tail =>
+      have ha : a = s := Option.some.inj (by simpa only [he, List.head?_cons] using hhead)
+      subst a
+      rfl
+  have hlast : rationalPathEnd s path.tail = t := by
+    have he := rational_path_end_getLast s path.tail
+    rw [hepath, hend] at he
+    exact (Option.some.inj he).symm
+  have hnonempty := rational_path_residuals_nonempty (rationalFlowTableEntry C)
+    (rationalFlowTableEntry F) s path.tail (by simpa only [hlast] using hst)
+  obtain ⟨δ, hδ⟩ := rational_nonempty_minimum_exists
+    (rationalPathResiduals (rationalFlowTableEntry C) (rationalFlowTableEntry F) s path.tail)
+    hnonempty
+  exact ⟨δ, hδ, rational_nonempty_minimum_positive _ δ hδ hpos⟩
+
+/-- No successful check is assumed: all checks and the bottleneck are earned
+from the actual path and source/sink distinctness. -/
+theorem rational_augment_once_from_cached {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t) (path : List (Fin n))
+    (hp : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s t = some path) :
+    ∃ out, rationalAugmentOnce C F s t = some out := by
+  have hc := rational_augment_candidate_of_cached C F s t path hp
+  obtain ⟨δ, hδ, _⟩ := rational_augment_bottleneck_of_cached C F s t hst path hp
+  refine ⟨{ path := path, amount := δ, flow := rationalTablePushPath F s path.tail δ }, ?_⟩
+  simp only [rationalAugmentOnce, ite_eq_right hst, hp, Option.bind_some,
+    ite_eq_left hc, hδ, Option.map_some]
+
+theorem rational_augment_once_some_iff_cached {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t) :
+    (∃ out, rationalAugmentOnce C F s t = some out) ↔
+      ∃ path, cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F)) s t = some path := by
+  constructor
+  · rintro ⟨out, ho⟩
+    exact ⟨out.path, (rational_augment_once_origin C F s t out ho).2.1⟩
+  · rintro ⟨path, hp⟩
+    exact rational_augment_once_from_cached C F s t hst path hp
+
+theorem rational_augment_once_none_iff_cached {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t) :
+    rationalAugmentOnce C F s t = none ↔
+      cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F)) s t = none := by
+  constructor
+  · intro hn
+    cases hp : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F)) s t with
+    | none => rfl
+    | some path =>
+      obtain ⟨out, ho⟩ := rational_augment_once_from_cached C F s t hst path hp
+      rw [hn] at ho
+      cases ho
+  · intro hp
+    simp only [rationalAugmentOnce, ite_eq_right hst, hp, Option.bind_none]
+
+/-- This is actual finite residual unreachability, not a supplied certificate.
+Distinctness is essential: the source reaches itself reflexively but the
+augmentation program intentionally rejects the zero-edge path. -/
+theorem rational_augment_once_none_iff_unreachable {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t) :
+    rationalAugmentOnce C F s t = none ↔
+      ¬ Relation.ReflTransGen
+        (fun u v => rationalResidualAdj (rationalFlowTableEntry C)
+          (rationalFlowTableEntry F) u v = true) s t := by
+  have hm : cachedRationalResidualPath (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s t = none ↔
+      cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F)) s t = none := by
+    change (cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s t).map
+        (fun path => (path, path.reverse.tail.head?)) = none ↔ _
+    exact Option.map_eq_none_iff
+  exact (rational_augment_once_none_iff_cached C F s t hst).trans
+    (hm.symm.trans (cached_rational_residual_none_iff
+      (rationalFlowTableEntry C) (rationalFlowTableEntry F) s t))
+
+theorem rational_augment_once_complete {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t)
+    (hr : Relation.ReflTransGen
+      (fun u v => rationalResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F) u v = true) s t) :
+    ∃ out, rationalAugmentOnce C F s t = some out := by
+  cases ho : rationalAugmentOnce C F s t with
+  | none =>
+    exact False.elim (((rational_augment_once_none_iff_unreachable C F s t hst).mp ho) hr)
+  | some out => exact ⟨out, rfl⟩
+
+/-- Completion of the executable one-step specification for a genuine bounded
+skew net-flow input. This is not a theorem that repeated augmentations terminate. -/
+theorem rational_augment_once_complete_sound {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t)
+    (hcap : ∀ u v, rationalFlowTableEntry F u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry F u v = -rationalFlowTableEntry F v u)
+    (hr : Relation.ReflTransGen
+      (fun u v => rationalResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F) u v = true) s t) :
+    ∃ out, rationalAugmentOnce C F s t = some out ∧ 0 < out.amount ∧
+      (∀ u v, rationalFlowTableEntry out.flow u v = -rationalFlowTableEntry out.flow v u) ∧
+      (∀ u v, rationalFlowTableEntry out.flow u v ≤ rationalFlowTableEntry C u v) ∧
+      (∀ u, u ≠ s → u ≠ t → (∑ v, rationalFlowTableEntry out.flow u v) =
+        ∑ v, rationalFlowTableEntry F u v) ∧
+      (∑ v, rationalFlowTableEntry out.flow s v) =
+        (∑ v, rationalFlowTableEntry F s v) + out.amount := by
+  obtain ⟨out, ho⟩ := rational_augment_once_complete C F s t hst hr
+  exact ⟨out, ho, rational_augment_once_sound C F s t out hcap hskew ho⟩
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableMaximumFlow.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Development source; exact-source verification is recorded separately. Actual finite materialized finder returns a
+maximum skew capacitated net flow and its computed residual cut certificate.
+The executed finder currently uses denominator-based pseudopolynomial fuel;
+no capacity-independent iteration, LP polynomial time or bit runtime claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_table_find_flow_unreachable {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    ¬ Relation.ReflTransGen
+      (fun u v => rationalResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (rationalTableFindFlow C s t)) u v = true) s t :=
+  (rational_augment_once_none_iff_unreachable C (rationalTableFindFlow C s t) s t hst).mp
+    (rational_table_find_flow_stops C s t hC).2
+
+theorem rational_table_find_flow_maximum {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v)
+    (G : Fin n → Fin n → ℚ)
+    (hGskew : ∀ u v, G u v = -G v u)
+    (hGcap : ∀ u v, G u v ≤ rationalFlowTableEntry C u v)
+    (hGcons : ∀ u, u ≠ s → u ≠ t → (∑ v, G u v) = 0) :
+    (∑ v, G s v) ≤ rationalTableFlowValue (rationalTableFindFlow C s t) s := by
+  have hf := (rational_table_find_flow_stops C s t hC).1
+  have hn := rational_table_find_flow_unreachable C s t hst hC
+  apply rational_residual_cut_maximum_certificate (rationalFlowTableEntry C)
+    (rationalFlowTableEntry (rationalTableFindFlow C s t)) G
+    hf.2.1 hGskew hf.1 hGcap s t hf.2.2.1 hGcons
+  exact fun h => hn ((residual_reach_layers_iff _ s t).mp h)
+
+/-- This cut is computed from the actual returned table. The result is a
+verifiable primal/dual equality, not an externally supplied max-flow oracle. -/
+theorem rational_table_find_flow_cut_certificate {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    let F := rationalTableFindFlow C s t
+    let S := residualReachLayers
+      (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s n
+    s ∈ S ∧ t ∉ S ∧
+      rationalTableFlowValue F s = ∑ u ∈ S, ∑ v ∈ Sᶜ, rationalFlowTableEntry C u v := by
+  dsimp only
+  let F := rationalTableFindFlow C s t
+  let S := residualReachLayers
+    (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s n
+  have hf := (rational_table_find_flow_stops C s t hC).1
+  have hs : s ∈ S := residual_reach_layers_mono _ s (Nat.zero_le n)
+    (Finset.mem_singleton_self s)
+  have ht : t ∉ S := fun h => (rational_table_find_flow_unreachable C s t hst hC)
+    ((residual_reach_layers_iff _ s t).mp h)
+  refine ⟨hs, ht, ?_⟩
+  have hv := rational_net_flow_cut_value (rationalFlowTableEntry F) hf.2.1 s t S hs ht hf.2.2.1
+  have hsat := rational_residual_reachable_cut_saturated (rationalFlowTableEntry C)
+    (rationalFlowTableEntry F) hf.1 s
+  exact hv.trans hsat
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableFlowDirect.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Cloud development draft: recursion is demanded only by an actual successful
+augmentation. The finite-fuel result equals the preserved state-transformer
+implementation. No graph-polynomial augmentation or bit-cost bound is claimed.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Unlike a Nat.rec producing an unapplied state transformer, this recursion
+inspects the current augmentation before demanding the smaller-fuel call. -/
+def rationalTableFlowIterateDirect {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) : ℕ → RationalFlowTable n → RationalFlowTable n
+  | 0, F => F
+  | fuel + 1, F => Option.rec F
+      (fun out => rationalTableFlowIterateDirect C s t fuel out.flow)
+      (rationalAugmentOnce C F s t)
+
+theorem rational_table_flow_iterate_direct_eq {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (fuel : ℕ) :
+    rationalTableFlowIterateDirect C s t fuel F =
+      rationalTableFlowIterate C s t fuel F := by
+  induction fuel generalizing F with
+  | zero => rfl
+  | succ fuel ih =>
+    change Option.rec F
+      (fun (out : RationalAugmentResult n) =>
+        rationalTableFlowIterateDirect C s t fuel out.flow)
+      (rationalAugmentOnce C F s t) = rationalTableFlowIterate C s t (fuel + 1) F
+    rw [rational_table_flow_iterate_succ]
+    cases ho : rationalAugmentOnce C F s t with
+    | none => rfl
+    | some out => exact ih out.flow
+
+theorem rational_table_flow_iterate_direct_of_none {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (fuel : ℕ)
+    (hn : rationalAugmentOnce C F s t = none) :
+    rationalTableFlowIterateDirect C s t fuel F = F := by
+  cases fuel with
+  | zero => rfl
+  | succ fuel =>
+    change Option.rec F
+      (fun out => rationalTableFlowIterateDirect C s t fuel out.flow)
+      (rationalAugmentOnce C F s t) = F
+    rw [hn]
+
+def rationalTableFindFlowDirect {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) : RationalFlowTable n :=
+  rationalTableFlowIterateDirect C s t (rationalTableFlowFuel C s)
+    (rationalZeroFlowTable n)
+
+theorem rational_table_find_flow_direct_eq {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) :
+    rationalTableFindFlowDirect C s t = rationalTableFindFlow C s t :=
+  rational_table_flow_iterate_direct_eq C (rationalZeroFlowTable n) s t
+    (rationalTableFlowFuel C s)
+
+theorem rational_table_find_flow_direct_stops {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    RationalTableFlowInvariant C (rationalTableFindFlowDirect C s t) s t
+      (rationalCapacityDenominator (rationalFlowTableEntry C)) ∧
+      rationalAugmentOnce C (rationalTableFindFlowDirect C s t) s t = none := by
+  rw [rational_table_find_flow_direct_eq]
+  exact rational_table_find_flow_stops C s t hC
+
+theorem rational_table_find_flow_direct_maximum {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v)
+    (G : Fin n → Fin n → ℚ)
+    (hGskew : ∀ u v, G u v = -G v u)
+    (hGcap : ∀ u v, G u v ≤ rationalFlowTableEntry C u v)
+    (hGcons : ∀ u, u ≠ s → u ≠ t → (∑ v, G u v) = 0) :
+    (∑ v, G s v) ≤ rationalTableFlowValue (rationalTableFindFlowDirect C s t) s := by
+  rw [rational_table_find_flow_direct_eq]
+  exact rational_table_find_flow_maximum C s t hst hC G hGskew hGcap hGcons
+
+theorem rational_table_find_flow_direct_cut_certificate {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    let F := rationalTableFindFlowDirect C s t
+    let S := residualReachLayers
+      (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s n
+    s ∈ S ∧ t ∉ S ∧
+      rationalTableFlowValue F s =
+        ∑ u ∈ S, ∑ v ∈ Sᶜ, rationalFlowTableEntry C u v := by
+  simpa only [rational_table_find_flow_direct_eq] using
+    rational_table_find_flow_cut_certificate C s t hst hC
 
 end SparseCompletion

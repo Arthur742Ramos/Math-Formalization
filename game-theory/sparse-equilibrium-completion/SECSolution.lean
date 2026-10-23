@@ -1,4 +1,21 @@
 module
+public import RationalEdgePush
+public import CachedResidualSimplePaths
+public import RationalPathAugmentation
+public import RationalCachedPathAugmentation
+public import RationalPathSaturation
+public import RationalFlowLattice
+public import RationalFlowEncodingBounds
+public import RationalFeatureDeletion
+public import RationalFeatureKernel
+public import RationalFeatureDimension
+public import CachedResidualDistance
+public import RationalFeatureIterate
+public import RationalTableAugmentation
+public import RationalTableFlowFuel
+public import RationalTableAugmentationComplete
+public import RationalTableMaximumFlow
+public import RationalTableFlowDirect
 public import PaperWitness
 public import MinimumShareRigidity
 public import SupportMinimum
