@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-10-23T00:02:53.045972+00:00",
+  "sources": [
+    {
+      "repository": "PalomarRegistry/PalomarSubmission",
+      "commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+      "path": "toolchains.json",
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/ad5db9e7ff8b17523d73aeb244aaeabcde810c64/toolchains.json",
+      "sha256": "fd40347e4b586e7c42233b35f11efb006d25033b9a7ded9565719edf7aa98354"
+    },
+    {
+      "repository": "PalomarRegistry/PalomarSubmission",
+      "commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+      "path": "allowed-challenge-repositories.json",
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/ad5db9e7ff8b17523d73aeb244aaeabcde810c64/allowed-challenge-repositories.json",
+      "sha256": "bfb114daf5ead308052ccec85b1029aa0c875bebe6eec8f642df57f2ddbd8971"
+    },
+    {
+      "repository": "PalomarRegistry/PalomarSubmission",
+      "commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+      "path": "formalization-profile.json",
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/ad5db9e7ff8b17523d73aeb244aaeabcde810c64/formalization-profile.json",
+      "sha256": "d695b838bbab69236f6e43afda6bd4d719a91099412351f89c3c2cfeb26d5131"
+    },
+    {
+      "repository": "PalomarRegistry/PalomarPolicy",
+      "commit": "28bd48b9b71bbb2a82c718ce761d5a4220ef8e60",
+      "path": "CONTRIBUTING.md",
+      "url": "https://raw.githubusercontent.com/PalomarRegistry/PalomarPolicy/28bd48b9b71bbb2a82c718ce761d5a4220ef8e60/CONTRIBUTING.md",
+      "sha256": "86865671b28515a9ba79202eec0c58dadd23dc6d832532bc01a8cdeb845ea401"
+    }
+  ],
+  "scope": "Read-only planning snapshot; no Palomar preflight, intake, or terms acceptance. Recheck before any future intake.",
+  "supported_toolchain_minimum": "v4.35.0-rc2",
+  "classification_candidates": {
+    "arxiv": [
+      "math.AT",
+      "math.AG"
+    ],
+    "msc2020": [
+      "18G40",
+      "32J25"
+    ]
+  },
+  "metadata_schema_status": "v0.4 human-only author string shape reviewed; metadata not created because pilot scope and human roles are not release-final"
+}

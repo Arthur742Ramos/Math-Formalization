@@ -1,0 +1,26 @@
+module
+
+import SignBridge
+import TotalRepresentative
+import Indexing
+
+#print axioms AlgebraicHodgePilot.total
+#print axioms AlgebraicHodgePilot.ImageKernel
+#print axioms AlgebraicHodgePilot.exists_closed_correction
+#print axioms AlgebraicHodgePilot.verticalHomologyIso
+#print axioms AlgebraicHodgePilot.verticalClass
+#print axioms AlgebraicHodgePilot.exists_closed_representative
+#print axioms AlgebraicHodgePilot.signedVertical
+#print axioms AlgebraicHodgePilot.signedVertical_anticommute
+#print axioms AlgebraicHodgePilot.sign_twist_involutive
+#print axioms AlgebraicHodgePilot.signedVertical_squared
+#print axioms AlgebraicHodgePilot.signedVertical_ker
+#print axioms AlgebraicHodgePilot.signedVertical_range
+#print axioms AlgebraicHodgePilot.total_closed_of_biclosed
+#print axioms AlgebraicHodgePilot.exists_total_closed_representative
+#print axioms AlgebraicHodgePilot.canonicalCoordinates
+#print axioms AlgebraicHodgePilot.canonicalCoordinates_totalDegree
+#print axioms AlgebraicHodgePilot.canonicalCoordinates_differentialDegree
+#print axioms AlgebraicHodgePilot.e1Data
+#print axioms AlgebraicHodgePilot.e1Data_first_left
+#print axioms AlgebraicHodgePilot.e1Data_first_right
