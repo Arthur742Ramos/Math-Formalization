@@ -1,0 +1,1198 @@
+﻿2026-10-23T01:15:54.2226927Z Current runner version: '2.338.0'
+2026-10-23T01:15:54.2247155Z ##[group]Runner Image Provisioner
+2026-10-23T01:15:54.2248042Z Hosted Compute Agent
+2026-10-23T01:15:54.2248548Z Version: 20261012.601
+2026-10-23T01:15:54.2249184Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-23T01:15:54.2249808Z Build Date: 2026-10-12T17:48:21Z
+2026-10-23T01:15:54.2250454Z Worker ID: {662e65e5-aedd-46d9-9d83-3c359fae5181}
+2026-10-23T01:15:54.2251104Z Region: westus3
+2026-10-23T01:15:54.2251570Z Cloud: Azure
+2026-10-23T01:15:54.2252100Z ##[endgroup]
+2026-10-23T01:15:54.2253250Z ##[group]Operating System
+2026-10-23T01:15:54.2253857Z Ubuntu
+2026-10-23T01:15:54.2254334Z 24.04.5
+2026-10-23T01:15:54.2254790Z LTS
+2026-10-23T01:15:54.2255281Z ##[endgroup]
+2026-10-23T01:15:54.2255766Z ##[group]Runner Image
+2026-10-23T01:15:54.2256288Z Image: ubuntu-24.04
+2026-10-23T01:15:54.2256870Z Version: 20261012.334.1
+2026-10-23T01:15:54.2257965Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-23T01:15:54.2259278Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-23T01:15:54.2260068Z ##[endgroup]
+2026-10-23T01:15:54.2261066Z ##[group]GITHUB_TOKEN Permissions
+2026-10-23T01:15:54.2262868Z Contents: read
+2026-10-23T01:15:54.2263468Z Metadata: read
+2026-10-23T01:15:54.2263998Z ##[endgroup]
+2026-10-23T01:15:54.2265764Z Secret source: Actions
+2026-10-23T01:15:54.2266549Z Cache mode: write
+2026-10-23T01:15:54.2267213Z Prepare workflow directory
+2026-10-23T01:15:54.2706567Z Prepare all required actions
+2026-10-23T01:15:54.2744998Z Getting action download info
+2026-10-23T01:15:54.6015837Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-23T01:15:54.9979563Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-23T01:15:55.4414810Z Download action repository 'ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b' (SHA:95ef2b042f9d7a56d8268cba8559e2842e2ad01b)
+2026-10-23T01:15:56.0509396Z Download action repository 'jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be' (SHA:54081f138730dfa15788a46383842cd2f914a1be)
+2026-10-23T01:15:56.3167290Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-23T01:15:56.5175206Z Uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:56.5179238Z ##[group] Inputs
+2026-10-23T01:15:56.5179572Z   repository: Arthur742Ramos/Math-Formalization
+2026-10-23T01:15:56.5179895Z   commit: d33817461fadbe8d7498a237b0c5bc27dc044afb
+2026-10-23T01:15:56.5180233Z   pipeline_commit: ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:56.5180543Z   request_id: sierpinskif1
+2026-10-23T01:15:56.5180800Z   mode: full
+2026-10-23T01:15:56.5181032Z   execution_profile: palomar-standard-v1
+2026-10-23T01:15:56.5181301Z   execution_attempt: 
+2026-10-23T01:15:56.5182211Z   options: {"project_path":"topology/sierpinski-rationals","comparator_config_path":"topology/sierpinski-rationals/comparator.json","formalization_metadata_path":"topology/sierpinski-rationals/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}
+2026-10-23T01:15:56.5183174Z ##[endgroup]
+2026-10-23T01:15:56.5183397Z Complete job name: verify / verify
+2026-10-23T01:15:56.5824508Z ##[group]Run echo "PALOMAR_JOB_STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"
+2026-10-23T01:15:56.5825048Z [36;1mecho "PALOMAR_JOB_STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"[0m
+2026-10-23T01:15:56.6011032Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:15:56.6011582Z env:
+2026-10-23T01:15:56.6011841Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:15:56.6012136Z ##[endgroup]
+2026-10-23T01:15:56.6235342Z ##[group]Run if [[ ! "$PIPELINE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
+2026-10-23T01:15:56.6235938Z [36;1mif [[ ! "$PIPELINE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then[0m
+2026-10-23T01:15:56.6236323Z [36;1m  echo "pipeline_commit must be a full lowercase commit SHA" >&2[0m
+2026-10-23T01:15:56.6236656Z [36;1m  exit 1[0m
+2026-10-23T01:15:56.6236872Z [36;1mfi[0m
+2026-10-23T01:15:56.6291765Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:15:56.6292036Z env:
+2026-10-23T01:15:56.6292280Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:15:56.6292618Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:15:56.6292951Z   PIPELINE_COMMIT: ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:56.6293252Z ##[endgroup]
+2026-10-23T01:15:56.6462334Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-23T01:15:56.6462720Z with:
+2026-10-23T01:15:56.6462959Z   repository: PalomarRegistry/PalomarSubmission
+2026-10-23T01:15:56.6463275Z   ref: ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:56.6463656Z   path: pipeline
+2026-10-23T01:15:56.6463892Z   persist-credentials: false
+2026-10-23T01:15:56.6466289Z   token: ***
+2026-10-23T01:15:56.6466499Z   ssh-strict: true
+2026-10-23T01:15:56.6466707Z   ssh-user: git
+2026-10-23T01:15:56.6466904Z   clean: true
+2026-10-23T01:15:56.6467121Z   sparse-checkout-cone-mode: true
+2026-10-23T01:15:56.6467363Z   fetch-depth: 1
+2026-10-23T01:15:56.6467561Z   fetch-tags: false
+2026-10-23T01:15:56.6467775Z   show-progress: true
+2026-10-23T01:15:56.6468180Z   lfs: false
+2026-10-23T01:15:56.6468386Z   submodules: false
+2026-10-23T01:15:56.6468598Z   set-safe-directory: true
+2026-10-23T01:15:56.6468845Z   allow-unsafe-pr-checkout: false
+2026-10-23T01:15:56.6469083Z env:
+2026-10-23T01:15:56.6469328Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:15:56.6469626Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:15:56.6469865Z ##[endgroup]
+2026-10-23T01:15:56.7276223Z Syncing repository: PalomarRegistry/PalomarSubmission
+2026-10-23T01:15:56.7278226Z ##[group]Getting Git version info
+2026-10-23T01:15:56.7278953Z Working directory is '/home/runner/work/Math-Formalization/Math-Formalization/pipeline'
+2026-10-23T01:15:56.7279742Z [command]/usr/bin/git version
+2026-10-23T01:15:56.7350353Z git version 2.55.0
+2026-10-23T01:15:56.7365893Z ##[endgroup]
+2026-10-23T01:15:56.7374537Z Temporarily overriding HOME='/home/runner/work/_temp/abc71b1b-7e5c-4e1b-b51f-ee14854632de' before making global git config changes
+2026-10-23T01:15:56.7375600Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-23T01:15:56.7379866Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-Formalization/Math-Formalization/pipeline
+2026-10-23T01:15:56.7427726Z ##[group]Determining repository object format
+2026-10-23T01:15:56.7429385Z ##[endgroup]
+2026-10-23T01:15:56.7429958Z ##[group]Initializing the repository
+2026-10-23T01:15:56.7433798Z [command]/usr/bin/git init /home/runner/work/Math-Formalization/Math-Formalization/pipeline
+2026-10-23T01:15:56.7512237Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-23T01:15:56.7515315Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-23T01:15:56.7516046Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-23T01:15:56.7516611Z hint: call:
+2026-10-23T01:15:56.7516902Z hint:
+2026-10-23T01:15:56.7517351Z hint: 	git config --global init.defaultBranch <name>
+2026-10-23T01:15:56.7517809Z hint:
+2026-10-23T01:15:56.7518402Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-23T01:15:56.7519119Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-23T01:15:56.7519642Z hint:
+2026-10-23T01:15:56.7519934Z hint: 	git branch -m <name>
+2026-10-23T01:15:56.7520269Z hint:
+2026-10-23T01:15:56.7520751Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-23T01:15:56.7521608Z Initialized empty Git repository in /home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git/
+2026-10-23T01:15:56.7523513Z [command]/usr/bin/git remote add origin https://github.com/PalomarRegistry/PalomarSubmission
+2026-10-23T01:15:56.7562852Z ##[endgroup]
+2026-10-23T01:15:56.7563431Z ##[group]Disabling automatic garbage collection
+2026-10-23T01:15:56.7566203Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-23T01:15:56.7592527Z ##[endgroup]
+2026-10-23T01:15:56.7593101Z ##[group]Setting up auth
+2026-10-23T01:15:56.7593385Z Removing SSH command configuration
+2026-10-23T01:15:56.7597087Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T01:15:56.7623711Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T01:15:56.7887700Z Removing HTTP extra header
+2026-10-23T01:15:56.7892282Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T01:15:56.7919699Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T01:15:56.8104245Z Removing includeIf entries pointing to credentials config files
+2026-10-23T01:15:56.8108855Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T01:15:56.8135273Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T01:15:56.8323600Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-23T01:15:56.8354170Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git.path /home/runner/work/_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:56.8380380Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:56.8409179Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/pipeline/.git.path /github/runner_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:56.8434572Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/pipeline/.git/worktrees/*.path /github/runner_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:56.8459682Z ##[endgroup]
+2026-10-23T01:15:56.8460221Z ##[group]Fetching the repository
+2026-10-23T01:15:56.8464765Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:57.6031356Z From https://github.com/PalomarRegistry/PalomarSubmission
+2026-10-23T01:15:57.6031920Z  * branch            ad5db9e7ff8b17523d73aeb244aaeabcde810c64 -> FETCH_HEAD
+2026-10-23T01:15:57.6041367Z [command]/usr/bin/git rev-parse --verify --quiet ad5db9e7ff8b17523d73aeb244aaeabcde810c64^{object}
+2026-10-23T01:15:57.6061972Z ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:57.6065019Z ##[endgroup]
+2026-10-23T01:15:57.6065434Z ##[group]Determining the checkout info
+2026-10-23T01:15:57.6066062Z ##[endgroup]
+2026-10-23T01:15:57.6069565Z [command]/usr/bin/git sparse-checkout disable
+2026-10-23T01:15:57.6106983Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-23T01:15:57.6131596Z ##[group]Checking out the ref
+2026-10-23T01:15:57.6135044Z [command]/usr/bin/git checkout --progress --force ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:57.6253137Z Note: switching to 'ad5db9e7ff8b17523d73aeb244aaeabcde810c64'.
+2026-10-23T01:15:57.6253543Z 
+2026-10-23T01:15:57.6253745Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-23T01:15:57.6254668Z changes and commit them, and you can discard any commits you make in this
+2026-10-23T01:15:57.6255298Z state without impacting any branches by switching back to a branch.
+2026-10-23T01:15:57.6255669Z 
+2026-10-23T01:15:57.6255938Z If you want to create a new branch to retain commits you create, you may
+2026-10-23T01:15:57.6256559Z do so (now or later) by using -c with the switch command. Example:
+2026-10-23T01:15:57.6256912Z 
+2026-10-23T01:15:57.6257069Z   git switch -c <new-branch-name>
+2026-10-23T01:15:57.6257341Z 
+2026-10-23T01:15:57.6257531Z Or undo this operation with:
+2026-10-23T01:15:57.6258103Z 
+2026-10-23T01:15:57.6258233Z   git switch -
+2026-10-23T01:15:57.6258354Z 
+2026-10-23T01:15:57.6258555Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-23T01:15:57.6258818Z 
+2026-10-23T01:15:57.6259004Z HEAD is now at ad5db9e Keep challenge styles under renderer control (#178)
+2026-10-23T01:15:57.6263546Z ##[endgroup]
+2026-10-23T01:15:57.6300113Z [command]/usr/bin/git log -1 --format=%H
+2026-10-23T01:15:57.6321160Z ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+2026-10-23T01:15:57.6329025Z ##[group]Removing auth
+2026-10-23T01:15:57.6329443Z Removing SSH command configuration
+2026-10-23T01:15:57.6332478Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T01:15:57.6360258Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T01:15:57.6544217Z Removing HTTP extra header
+2026-10-23T01:15:57.6547303Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T01:15:57.6573086Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T01:15:57.6752674Z Removing includeIf entries pointing to credentials config files
+2026-10-23T01:15:57.6755412Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T01:15:57.6777100Z includeif.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git.path
+2026-10-23T01:15:57.6778278Z includeif.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git/worktrees/*.path
+2026-10-23T01:15:57.6779072Z includeif.gitdir:/github/workspace/pipeline/.git.path
+2026-10-23T01:15:57.6779661Z includeif.gitdir:/github/workspace/pipeline/.git/worktrees/*.path
+2026-10-23T01:15:57.6785349Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git.path
+2026-10-23T01:15:57.6805284Z /home/runner/work/_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:57.6813593Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-892057e8\-471e\-47d9\-9889\-cd935e331cc8\.config
+2026-10-23T01:15:57.6841330Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git/worktrees/*.path
+2026-10-23T01:15:57.6860678Z /home/runner/work/_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:57.6866986Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-Formalization/Math-Formalization/pipeline/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-892057e8\-471e\-47d9\-9889\-cd935e331cc8\.config
+2026-10-23T01:15:57.6895206Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/pipeline/.git.path
+2026-10-23T01:15:57.6913022Z /github/runner_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:57.6919306Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/pipeline/.git.path \/github\/runner_temp\/git\-credentials\-892057e8\-471e\-47d9\-9889\-cd935e331cc8\.config
+2026-10-23T01:15:57.6946578Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/pipeline/.git/worktrees/*.path
+2026-10-23T01:15:57.6964580Z /github/runner_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config
+2026-10-23T01:15:57.6970781Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/pipeline/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-892057e8\-471e\-47d9\-9889\-cd935e331cc8\.config
+2026-10-23T01:15:57.6997499Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T01:15:57.7174157Z Removing credentials config '/home/runner/work/_temp/git-credentials-892057e8-471e-47d9-9889-cd935e331cc8.config'
+2026-10-23T01:15:57.7182105Z ##[endgroup]
+2026-10-23T01:15:57.7339092Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-23T01:15:57.7339456Z with:
+2026-10-23T01:15:57.7339658Z   python-version: 3.11.10
+2026-10-23T01:15:57.7339884Z   check-latest: false
+2026-10-23T01:15:57.7342160Z   token: ***
+2026-10-23T01:15:57.7342373Z   update-environment: true
+2026-10-23T01:15:57.7342612Z   allow-prereleases: false
+2026-10-23T01:15:57.7342844Z   freethreaded: false
+2026-10-23T01:15:57.7343062Z env:
+2026-10-23T01:15:57.7343296Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:15:57.7343585Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:15:57.7343831Z ##[endgroup]
+2026-10-23T01:15:57.8299496Z ##[group]Installed versions
+2026-10-23T01:15:57.8311051Z Version 3.11.10 was not found in the local cache
+2026-10-23T01:15:58.9383904Z Version 3.11.10 is available for downloading
+2026-10-23T01:15:58.9385135Z Download from "https://github.com/actions/python-versions/releases/download/3.11.10-10765870205/python-3.11.10-linux-24.04-x64.tar.gz"
+2026-10-23T01:15:59.5835162Z Extract downloaded archive
+2026-10-23T01:15:59.5951801Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/3ba78ae9-0b67-4245-8a25-9e2d30f3039c -f /home/runner/work/_temp/90525881-5989-4dcd-849f-261dc91ce484
+2026-10-23T01:16:01.3148136Z Execute installation script
+2026-10-23T01:16:01.3224213Z Check if Python hostedtoolcache folder exist...
+2026-10-23T01:16:01.3229031Z Create Python 3.11.10 folder
+2026-10-23T01:16:01.3237527Z Copy Python binaries to hostedtoolcache folder
+2026-10-23T01:16:01.7206757Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+2026-10-23T01:16:01.7238435Z Upgrading pip...
+2026-10-23T01:16:03.6144568Z Looking in links: /tmp/tmpg9q4d1q1
+2026-10-23T01:16:03.6151693Z Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.11.10/x64/lib/python3.11/site-packages (65.5.0)
+2026-10-23T01:16:03.6157668Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.10/x64/lib/python3.11/site-packages (24.0)
+2026-10-23T01:16:04.6499119Z Collecting pip
+2026-10-23T01:16:04.6777730Z Downloading pip-26.2.2-py3-none-any.whl.metadata (4.6 kB)
+2026-10-23T01:16:04.6849228Z Downloading pip-26.2.2-py3-none-any.whl (1.8 MB)
+2026-10-23T01:16:04.7189602Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 57.4 MB/s eta 0:00:00
+2026-10-23T01:16:04.7190152Z 
+2026-10-23T01:16:04.7491959Z Installing collected packages: pip
+2026-10-23T01:16:04.7492431Z Attempting uninstall: pip
+2026-10-23T01:16:04.7505596Z Found existing installation: pip 24.0
+2026-10-23T01:16:04.7787409Z Uninstalling pip-24.0:
+2026-10-23T01:16:04.7834227Z Successfully uninstalled pip-24.0
+2026-10-23T01:16:05.4626691Z Successfully installed pip-26.2.2
+2026-10-23T01:16:05.5180729Z Create complete file
+2026-10-23T01:16:05.5210934Z Successfully set up CPython (3.11.10)
+2026-10-23T01:16:05.5212066Z ##[endgroup]
+2026-10-23T01:16:05.5383590Z ##[group]Run ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+2026-10-23T01:16:05.5384070Z with:
+2026-10-23T01:16:05.5384266Z   ruby-version: 3.3.12
+2026-10-23T01:16:05.5384464Z   bundler-cache: true
+2026-10-23T01:16:05.5384684Z   working-directory: pipeline
+2026-10-23T01:16:05.5386942Z   token: ***
+2026-10-23T01:16:05.5387101Z env:
+2026-10-23T01:16:05.5387295Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:16:05.5387546Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:16:05.5387818Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:05.5388413Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:16:05.5388764Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:05.5389073Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:05.5389371Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:05.5389690Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:16:05.5389949Z ##[endgroup]
+2026-10-23T01:16:05.7042608Z ##[group]Modifying PATH
+2026-10-23T01:16:05.7043299Z Entries added to PATH to use selected Ruby:
+2026-10-23T01:16:05.7044067Z   /opt/hostedtoolcache/Ruby/3.3.12/x64/bin
+2026-10-23T01:16:05.7048575Z ##[endgroup]
+2026-10-23T01:16:05.7049353Z ##[group]Print Ruby version
+2026-10-23T01:16:05.7446625Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/ruby --version
+2026-10-23T01:16:06.7356928Z ruby 3.3.12 (2026-07-16 revision 0581089df9) [x86_64-linux]
+2026-10-23T01:16:06.7396602Z Took   1.03 seconds
+2026-10-23T01:16:06.7397175Z ##[endgroup]
+2026-10-23T01:16:06.7405550Z ##[group]Installing Bundler
+2026-10-23T01:16:06.7408651Z Using Bundler 2.7.2 from Gemfile.lock BUNDLED WITH 2.7.2
+2026-10-23T01:16:06.7409278Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/gem install bundler -v 2.7.2
+2026-10-23T01:16:10.5451001Z Successfully installed bundler-2.7.2
+2026-10-23T01:16:10.5451412Z 1 gem installed
+2026-10-23T01:16:10.5497753Z Took   3.81 seconds
+2026-10-23T01:16:10.5498603Z ##[endgroup]
+2026-10-23T01:16:10.5500173Z > bundle install
+2026-10-23T01:16:10.5503425Z Setting BUNDLER_VERSION=2.7.2 for "bundle config|lock" commands below to ensure Bundler 2.7.2 is used
+2026-10-23T01:16:10.5517426Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/bundle config set --local path /home/runner/work/Math-Formalization/Math-Formalization/pipeline/vendor/bundle
+2026-10-23T01:16:10.7328314Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/bundle config set --local deployment true
+2026-10-23T01:16:10.8497748Z ##[group]Print lockfile
+2026-10-23T01:16:10.8508153Z [command]/usr/bin/cat Gemfile.lock
+2026-10-23T01:16:10.8529305Z GEM
+2026-10-23T01:16:10.8529654Z   remote: https://rubygems.org/
+2026-10-23T01:16:10.8530084Z   specs:
+2026-10-23T01:16:10.8530515Z     addressable (2.9.0)
+2026-10-23T01:16:10.8530822Z       public_suffix (>= 2.0.2, < 8.0)
+2026-10-23T01:16:10.8531082Z     dotenv (3.2.0)
+2026-10-23T01:16:10.8531370Z     faraday (2.14.3)
+2026-10-23T01:16:10.8531569Z       faraday-net_http (>= 2.0, < 3.5)
+2026-10-23T01:16:10.8531802Z       json
+2026-10-23T01:16:10.8531954Z       logger
+2026-10-23T01:16:10.8532173Z     faraday-net_http (3.4.4)
+2026-10-23T01:16:10.8532495Z       net-http (~> 0.5)
+2026-10-23T01:16:10.8532756Z     json (2.21.2)
+2026-10-23T01:16:10.8533010Z     licensee (10.0.0)
+2026-10-23T01:16:10.8533319Z       dotenv (>= 2, < 4)
+2026-10-23T01:16:10.8533608Z       octokit (>= 4.20, < 11.0)
+2026-10-23T01:16:10.8533928Z       reverse_markdown (>= 1, < 4)
+2026-10-23T01:16:10.8534238Z       thor (>= 0.19, < 2.0)
+2026-10-23T01:16:10.8534516Z     logger (1.7.0)
+2026-10-23T01:16:10.8534777Z     net-http (0.9.1)
+2026-10-23T01:16:10.8535034Z       uri (>= 0.11.1)
+2026-10-23T01:16:10.8535302Z     nokogiri (1.19.4-aarch64-linux-gnu)
+2026-10-23T01:16:10.8535604Z       racc (~> 1.4)
+2026-10-23T01:16:10.8535866Z     nokogiri (1.19.4-aarch64-linux-musl)
+2026-10-23T01:16:10.8536174Z       racc (~> 1.4)
+2026-10-23T01:16:10.8536771Z     nokogiri (1.19.4-arm-linux-gnu)
+2026-10-23T01:16:10.8537096Z       racc (~> 1.4)
+2026-10-23T01:16:10.8537524Z     nokogiri (1.19.4-arm-linux-musl)
+2026-10-23T01:16:10.8537848Z       racc (~> 1.4)
+2026-10-23T01:16:10.8538288Z     nokogiri (1.19.4-arm64-darwin)
+2026-10-23T01:16:10.8538604Z       racc (~> 1.4)
+2026-10-23T01:16:10.8538847Z     nokogiri (1.19.4-x86_64-darwin)
+2026-10-23T01:16:10.8539133Z       racc (~> 1.4)
+2026-10-23T01:16:10.8539379Z     nokogiri (1.19.4-x86_64-linux-gnu)
+2026-10-23T01:16:10.8539680Z       racc (~> 1.4)
+2026-10-23T01:16:10.8539922Z     nokogiri (1.19.4-x86_64-linux-musl)
+2026-10-23T01:16:10.8540233Z       racc (~> 1.4)
+2026-10-23T01:16:10.8540485Z     octokit (10.0.0)
+2026-10-23T01:16:10.8540727Z       faraday (>= 1, < 3)
+2026-10-23T01:16:10.8540989Z       sawyer (~> 0.9)
+2026-10-23T01:16:10.8541242Z     public_suffix (7.0.5)
+2026-10-23T01:16:10.8541490Z     racc (1.8.1)
+2026-10-23T01:16:10.8541733Z     reverse_markdown (3.0.2)
+2026-10-23T01:16:10.8542019Z       nokogiri
+2026-10-23T01:16:10.8542273Z     sawyer (0.9.3)
+2026-10-23T01:16:10.8542530Z       addressable (>= 2.3.5)
+2026-10-23T01:16:10.8542829Z       faraday (>= 0.17.3, < 3)
+2026-10-23T01:16:10.8543115Z     thor (1.5.0)
+2026-10-23T01:16:10.8543355Z     uri (1.1.1)
+2026-10-23T01:16:10.8543512Z 
+2026-10-23T01:16:10.8543617Z PLATFORMS
+2026-10-23T01:16:10.8543863Z   aarch64-linux-gnu
+2026-10-23T01:16:10.8544123Z   aarch64-linux-musl
+2026-10-23T01:16:10.8544387Z   arm-linux-gnu
+2026-10-23T01:16:10.8544633Z   arm-linux-musl
+2026-10-23T01:16:10.8544881Z   arm64-darwin
+2026-10-23T01:16:10.8545123Z   x86_64-darwin
+2026-10-23T01:16:10.8545364Z   x86_64-linux-gnu
+2026-10-23T01:16:10.8545612Z   x86_64-linux-musl
+2026-10-23T01:16:10.8545776Z 
+2026-10-23T01:16:10.8545876Z DEPENDENCIES
+2026-10-23T01:16:10.8546131Z   licensee (= 10.0.0)
+2026-10-23T01:16:10.8546297Z 
+2026-10-23T01:16:10.8546397Z BUNDLED WITH
+2026-10-23T01:16:10.8546642Z    2.7.2
+2026-10-23T01:16:10.8547101Z ##[endgroup]
+2026-10-23T01:16:10.8570480Z Cache key: setup-ruby-bundler-cache-v6-ubuntu-24.04-x64-ruby-3.3.12-wd-/home/runner/work/Math-Formalization/Math-Formalization/pipeline-with--without--only--Gemfile.lock-d93caad3b41ab81138c1770dcde1415ac9aa47e8e469ea25b3f876a9f3d2cdff
+2026-10-23T01:16:11.0531298Z Cache hit for: setup-ruby-bundler-cache-v6-ubuntu-24.04-x64-ruby-3.3.12-wd-/home/runner/work/Math-Formalization/Math-Formalization/pipeline-with--without--only--Gemfile.lock-d93caad3b41ab81138c1770dcde1415ac9aa47e8e469ea25b3f876a9f3d2cdff
+2026-10-23T01:16:12.0624813Z Received 11805285 of 11805285 (100.0%), 14.3 MBs/sec
+2026-10-23T01:16:12.0625132Z Cache Size: ~11 MB (11805285 B)
+2026-10-23T01:16:12.0643916Z [command]/usr/bin/tar -xf /home/runner/work/_temp/f5da4c55-a2d6-4e40-b965-587e802f4db6/cache.tzst -P -C /home/runner/work/Math-Formalization/Math-Formalization --use-compress-program unzstd
+2026-10-23T01:16:12.1165819Z Cache restored successfully
+2026-10-23T01:16:12.1174184Z Found cache for key: setup-ruby-bundler-cache-v6-ubuntu-24.04-x64-ruby-3.3.12-wd-/home/runner/work/Math-Formalization/Math-Formalization/pipeline-with--without--only--Gemfile.lock-d93caad3b41ab81138c1770dcde1415ac9aa47e8e469ea25b3f876a9f3d2cdff
+2026-10-23T01:16:12.1184167Z [command]/opt/hostedtoolcache/Ruby/3.3.12/x64/bin/bundle install --jobs 4
+2026-10-23T01:16:12.4225495Z Bundle complete! 1 Gemfile dependency, 17 gems now installed.
+2026-10-23T01:16:12.4226042Z Bundled gems are installed into `./vendor/bundle`
+2026-10-23T01:16:12.4332101Z Took   1.88 seconds
+2026-10-23T01:16:12.4425223Z ##[group]Run python -m pip install --disable-pip-version-check --require-hashes --no-deps -r pipeline/requirements.txt
+2026-10-23T01:16:12.4425899Z [36;1mpython -m pip install --disable-pip-version-check --require-hashes --no-deps -r pipeline/requirements.txt[0m
+2026-10-23T01:16:12.4481658Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:16:12.4481872Z env:
+2026-10-23T01:16:12.4482077Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:16:12.4482346Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:16:12.4482619Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.4483109Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:16:12.4483451Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.4483754Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.4484059Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.4484394Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:16:12.4484661Z ##[endgroup]
+2026-10-23T01:16:12.7654737Z Collecting PyYAML==6.0.3 (from -r pipeline/requirements.txt (line 1))
+2026-10-23T01:16:12.8031250Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-10-23T01:16:12.8319138Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 78.2 MB/s  0:00:00
+2026-10-23T01:16:12.8462290Z Installing collected packages: PyYAML
+2026-10-23T01:16:12.8895884Z Successfully installed PyYAML-6.0.3
+2026-10-23T01:16:12.9356949Z ##[group]Run python - <<'PYTHON'
+2026-10-23T01:16:12.9357252Z [36;1mpython - <<'PYTHON'[0m
+2026-10-23T01:16:12.9357460Z [36;1mimport json, os, pathlib[0m
+2026-10-23T01:16:12.9357784Z [36;1mpath = pathlib.Path(os.environ["RUNNER_TEMP"], "submission-inputs.json")[0m
+2026-10-23T01:16:12.9358523Z [36;1mpath.write_text(json.dumps({"inputs": json.loads(os.environ["PALOMAR_INPUTS"])}))[0m
+2026-10-23T01:16:12.9358869Z [36;1mPYTHON[0m
+2026-10-23T01:16:12.9359111Z [36;1mpython pipeline/scripts/verify_submission.py prepare \[0m
+2026-10-23T01:16:12.9359436Z [36;1m  --event "$RUNNER_TEMP/submission-inputs.json" \[0m
+2026-10-23T01:16:12.9359708Z [36;1m  --work-dir "$RUNNER_TEMP/palomar" \[0m
+2026-10-23T01:16:12.9359987Z [36;1m  --output "$RUNNER_TEMP/mechanical-report.json" \[0m
+2026-10-23T01:16:12.9360260Z [36;1m  --licensee "$(command -v bundle)"[0m
+2026-10-23T01:16:12.9415317Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:16:12.9415541Z env:
+2026-10-23T01:16:12.9415779Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:16:12.9416059Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:16:12.9416328Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.9416670Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:16:12.9417012Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.9417316Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.9417617Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:12.9418018Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:16:12.9418412Z   BUNDLE_GEMFILE: /home/runner/work/Math-Formalization/Math-Formalization/pipeline/Gemfile
+2026-10-23T01:16:12.9420249Z   PALOMAR_INPUTS: {
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "request_id": "sierpinskif1",
+  "mode": "full",
+  "execution_profile": "palomar-standard-v1",
+  "execution_attempt": "",
+  "options": "{\"project_path\":\"topology/sierpinski-rationals\",\"comparator_config_path\":\"topology/sierpinski-rationals/comparator.json\",\"formalization_metadata_path\":\"topology/sierpinski-rationals/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+}
+2026-10-23T01:16:12.9421995Z ##[endgroup]
+2026-10-23T01:16:15.5382549Z ##[group]Run jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+2026-10-23T01:16:15.5382887Z with:
+2026-10-23T01:16:15.5383053Z   tool-cache: false
+2026-10-23T01:16:15.5383226Z   android: true
+2026-10-23T01:16:15.5383388Z   dotnet: true
+2026-10-23T01:16:15.5383545Z   haskell: true
+2026-10-23T01:16:15.5383711Z   large-packages: false
+2026-10-23T01:16:15.5383897Z   docker-images: true
+2026-10-23T01:16:15.5384074Z   swap-storage: false
+2026-10-23T01:16:15.5384243Z env:
+2026-10-23T01:16:15.5384429Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:16:15.5384835Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:16:15.5385099Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5385438Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:16:15.5385767Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5386093Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5386396Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5386695Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:16:15.5386953Z ##[endgroup]
+2026-10-23T01:16:15.5449060Z ##[start-action display=Run # ======;id=disk.__run]
+2026-10-23T01:16:15.5470804Z ##[group]Run # ======
+2026-10-23T01:16:15.5471365Z [36;1m[0m
+2026-10-23T01:16:15.5471525Z [36;1m# ======[0m
+2026-10-23T01:16:15.5471690Z [36;1m# MACROS[0m
+2026-10-23T01:16:15.5471845Z [36;1m# ======[0m
+2026-10-23T01:16:15.5472007Z [36;1m[0m
+2026-10-23T01:16:15.5472189Z [36;1m# macro to print a line of equals[0m
+2026-10-23T01:16:15.5472440Z [36;1m# (silly but works)[0m
+2026-10-23T01:16:15.5472649Z [36;1mprintSeparationLine() {[0m
+2026-10-23T01:16:15.5472859Z [36;1m  str=${1:=}[0m
+2026-10-23T01:16:15.5473047Z [36;1m  num=${2:-80}[0m
+2026-10-23T01:16:15.5473225Z [36;1m  counter=1[0m
+2026-10-23T01:16:15.5473396Z [36;1m  output=""[0m
+2026-10-23T01:16:15.5473589Z [36;1m  while [ $counter -le $num ][0m
+2026-10-23T01:16:15.5473808Z [36;1m  do[0m
+2026-10-23T01:16:15.5473982Z [36;1m     output="${output}${str}"[0m
+2026-10-23T01:16:15.5474205Z [36;1m     counter=$((counter+1))[0m
+2026-10-23T01:16:15.5474409Z [36;1m  done[0m
+2026-10-23T01:16:15.5474591Z [36;1m  echo "${output}"[0m
+2026-10-23T01:16:15.5474777Z [36;1m}[0m
+2026-10-23T01:16:15.5474931Z [36;1m[0m
+2026-10-23T01:16:15.5475112Z [36;1m# macro to compute available space[0m
+2026-10-23T01:16:15.5475405Z [36;1m# REF: https://unix.stackexchange.com/a/42049/60849[0m
+2026-10-23T01:16:15.5475727Z [36;1m# REF: https://stackoverflow.com/a/450821/408734[0m
+2026-10-23T01:16:15.5476117Z [36;1mgetAvailableSpace() { echo $(df -a $1 | awk 'NR > 1 {avail+=$4} END {print avail}'); }[0m
+2026-10-23T01:16:15.5476464Z [36;1m[0m
+2026-10-23T01:16:15.5476698Z [36;1m# macro to make Kb human readable (assume the input is Kb)[0m
+2026-10-23T01:16:15.5477025Z [36;1m# REF: https://unix.stackexchange.com/a/44087/60849[0m
+2026-10-23T01:16:15.5477406Z [36;1mformatByteCount() { echo $(numfmt --to=iec-i --suffix=B --padding=7 $1'000'); }[0m
+2026-10-23T01:16:15.5477724Z [36;1m[0m
+2026-10-23T01:16:15.5478097Z [36;1m# macro to output saved space[0m
+2026-10-23T01:16:15.5478362Z [36;1mprintSavedSpace() {[0m
+2026-10-23T01:16:15.5478555Z [36;1m  saved=${1}[0m
+2026-10-23T01:16:15.5478734Z [36;1m  title=${2:-}[0m
+2026-10-23T01:16:15.5478919Z [36;1m[0m
+2026-10-23T01:16:15.5479076Z [36;1m  echo ""[0m
+2026-10-23T01:16:15.5479268Z [36;1m  printSeparationLine '*' 80[0m
+2026-10-23T01:16:15.5479497Z [36;1m  if [ ! -z "${title}" ]; then[0m
+2026-10-23T01:16:15.5479770Z [36;1m    echo "=> ${title}: Saved $(formatByteCount $saved)"[0m
+2026-10-23T01:16:15.5480023Z [36;1m  else[0m
+2026-10-23T01:16:15.5480223Z [36;1m    echo "=> Saved $(formatByteCount $saved)"[0m
+2026-10-23T01:16:15.5480463Z [36;1m  fi[0m
+2026-10-23T01:16:15.5480636Z [36;1m  printSeparationLine '*' 80[0m
+2026-10-23T01:16:15.5481024Z [36;1m  echo ""[0m
+2026-10-23T01:16:15.5481192Z [36;1m}[0m
+2026-10-23T01:16:15.5481344Z [36;1m[0m
+2026-10-23T01:16:15.5481530Z [36;1m# macro to print output of dh with caption[0m
+2026-10-23T01:16:15.5481771Z [36;1mprintDH() {[0m
+2026-10-23T01:16:15.5481946Z [36;1m  caption=${1:-}[0m
+2026-10-23T01:16:15.5482126Z [36;1m[0m
+2026-10-23T01:16:15.5482286Z [36;1m  printSeparationLine '=' 80[0m
+2026-10-23T01:16:15.5482494Z [36;1m  echo "${caption}"[0m
+2026-10-23T01:16:15.5482686Z [36;1m  echo ""[0m
+2026-10-23T01:16:15.5482859Z [36;1m  echo "$ dh -h /"[0m
+2026-10-23T01:16:15.5483045Z [36;1m  echo ""[0m
+2026-10-23T01:16:15.5483319Z [36;1m  df -h /[0m
+2026-10-23T01:16:15.5483494Z [36;1m  echo "$ dh -a /"[0m
+2026-10-23T01:16:15.5483678Z [36;1m  echo ""[0m
+2026-10-23T01:16:15.5483841Z [36;1m  df -a /[0m
+2026-10-23T01:16:15.5484006Z [36;1m  echo "$ dh -a"[0m
+2026-10-23T01:16:15.5484188Z [36;1m  echo ""[0m
+2026-10-23T01:16:15.5484351Z [36;1m  df -a[0m
+2026-10-23T01:16:15.5484532Z [36;1m  printSeparationLine '=' 80[0m
+2026-10-23T01:16:15.5484735Z [36;1m}[0m
+2026-10-23T01:16:15.5484890Z [36;1m[0m
+2026-10-23T01:16:15.5485044Z [36;1m[0m
+2026-10-23T01:16:15.5485192Z [36;1m[0m
+2026-10-23T01:16:15.5485342Z [36;1m# ======[0m
+2026-10-23T01:16:15.5485509Z [36;1m# SCRIPT[0m
+2026-10-23T01:16:15.5485678Z [36;1m# ======[0m
+2026-10-23T01:16:15.5485833Z [36;1m[0m
+2026-10-23T01:16:15.5486005Z [36;1m# Display initial disk space stats[0m
+2026-10-23T01:16:15.5486220Z [36;1m[0m
+2026-10-23T01:16:15.5486408Z [36;1mAVAILABLE_INITIAL=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5486694Z [36;1mAVAILABLE_ROOT_INITIAL=$(getAvailableSpace '/')[0m
+2026-10-23T01:16:15.5486942Z [36;1m[0m
+2026-10-23T01:16:15.5487112Z [36;1mprintDH "BEFORE CLEAN-UP:"[0m
+2026-10-23T01:16:15.5487329Z [36;1mecho ""[0m
+2026-10-23T01:16:15.5487486Z [36;1m[0m
+2026-10-23T01:16:15.5487632Z [36;1m[0m
+2026-10-23T01:16:15.5487793Z [36;1m# Option: Remove Android library[0m
+2026-10-23T01:16:15.5488099Z [36;1m[0m
+2026-10-23T01:16:15.5488271Z [36;1mif [[ true == 'true' ]]; then[0m
+2026-10-23T01:16:15.5488490Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5488693Z [36;1m  [0m
+2026-10-23T01:16:15.5488888Z [36;1m  sudo rm -rf /usr/local/lib/android || true[0m
+2026-10-23T01:16:15.5489120Z [36;1m[0m
+2026-10-23T01:16:15.5489281Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5489500Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5489739Z [36;1m  printSavedSpace $SAVED "Android library"[0m
+2026-10-23T01:16:15.5489980Z [36;1mfi[0m
+2026-10-23T01:16:15.5490139Z [36;1m[0m
+2026-10-23T01:16:15.5490305Z [36;1m# Option: Remove .NET runtime[0m
+2026-10-23T01:16:15.5490508Z [36;1m[0m
+2026-10-23T01:16:15.5490670Z [36;1mif [[ true == 'true' ]]; then[0m
+2026-10-23T01:16:15.5490882Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5491091Z [36;1m[0m
+2026-10-23T01:16:15.5491386Z [36;1m  # https://github.community/t/bigger-github-hosted-runners-disk-space/17267/11[0m
+2026-10-23T01:16:15.5491757Z [36;1m  sudo rm -rf /usr/share/dotnet || true[0m
+2026-10-23T01:16:15.5491980Z [36;1m  [0m
+2026-10-23T01:16:15.5492159Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5492381Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5492624Z [36;1m  printSavedSpace $SAVED ".NET runtime"[0m
+2026-10-23T01:16:15.5492858Z [36;1mfi[0m
+2026-10-23T01:16:15.5493013Z [36;1m[0m
+2026-10-23T01:16:15.5493186Z [36;1m# Option: Remove Haskell runtime[0m
+2026-10-23T01:16:15.5493396Z [36;1m[0m
+2026-10-23T01:16:15.5493564Z [36;1mif [[ true == 'true' ]]; then[0m
+2026-10-23T01:16:15.5493786Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5494029Z [36;1m[0m
+2026-10-23T01:16:15.5494201Z [36;1m  sudo rm -rf /opt/ghc || true[0m
+2026-10-23T01:16:15.5494439Z [36;1m  sudo rm -rf /usr/local/.ghcup || true[0m
+2026-10-23T01:16:15.5494666Z [36;1m  [0m
+2026-10-23T01:16:15.5494843Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5495222Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5495463Z [36;1m  printSavedSpace $SAVED "Haskell runtime"[0m
+2026-10-23T01:16:15.5495693Z [36;1mfi[0m
+2026-10-23T01:16:15.5495847Z [36;1m[0m
+2026-10-23T01:16:15.5496012Z [36;1m# Option: Remove large packages[0m
+2026-10-23T01:16:15.5496379Z [36;1m# REF: https://github.com/apache/flink/blob/master/tools/azure-pipelines/free_disk_space.sh[0m
+2026-10-23T01:16:15.5496727Z [36;1m[0m
+2026-10-23T01:16:15.5496891Z [36;1mif [[ false == 'true' ]]; then[0m
+2026-10-23T01:16:15.5497114Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5497326Z [36;1m  [0m
+2026-10-23T01:16:15.5498040Z [36;1m  sudo apt-get remove -y '^aspnetcore-.*' || echo "::warning::The command [sudo apt-get remove -y '^aspnetcore-.*'] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5498898Z [36;1m  sudo apt-get remove -y '^dotnet-.*' --fix-missing || echo "::warning::The command [sudo apt-get remove -y '^dotnet-.*' --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5499727Z [36;1m  sudo apt-get remove -y '^llvm-.*' --fix-missing || echo "::warning::The command [sudo apt-get remove -y '^llvm-.*' --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5500587Z [36;1m  sudo apt-get remove -y 'php.*' --fix-missing || echo "::warning::The command [sudo apt-get remove -y 'php.*' --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5501438Z [36;1m  sudo apt-get remove -y '^mongodb-.*' --fix-missing || echo "::warning::The command [sudo apt-get remove -y '^mongodb-.*' --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5502335Z [36;1m  sudo apt-get remove -y '^mysql-.*' --fix-missing || echo "::warning::The command [sudo apt-get remove -y '^mysql-.*' --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5503551Z [36;1m  sudo apt-get remove -y azure-cli google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing || echo "::warning::The command [sudo apt-get remove -y azure-cli google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5504775Z [36;1m  sudo apt-get remove -y google-cloud-sdk --fix-missing || echo "::debug::The command [sudo apt-get remove -y google-cloud-sdk --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5505671Z [36;1m  sudo apt-get remove -y google-cloud-cli --fix-missing || echo "::debug::The command [sudo apt-get remove -y google-cloud-cli --fix-missing] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5506460Z [36;1m  sudo apt-get autoremove -y || echo "::warning::The command [sudo apt-get autoremove -y] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5507084Z [36;1m  sudo apt-get clean || echo "::warning::The command [sudo apt-get clean] failed to complete successfully. Proceeding..."[0m
+2026-10-23T01:16:15.5507488Z [36;1m[0m
+2026-10-23T01:16:15.5507663Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5507991Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5508248Z [36;1m  printSavedSpace $SAVED "Large misc. packages"[0m
+2026-10-23T01:16:15.5508500Z [36;1mfi[0m
+2026-10-23T01:16:15.5508655Z [36;1m[0m
+2026-10-23T01:16:15.5508823Z [36;1m# Option: Remove Docker images[0m
+2026-10-23T01:16:15.5509031Z [36;1m[0m
+2026-10-23T01:16:15.5509198Z [36;1mif [[ true == 'true' ]]; then[0m
+2026-10-23T01:16:15.5509415Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5509619Z [36;1m[0m
+2026-10-23T01:16:15.5509811Z [36;1m  sudo docker image prune --all --force || true[0m
+2026-10-23T01:16:15.5510051Z [36;1m[0m
+2026-10-23T01:16:15.5510213Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5510423Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5510652Z [36;1m  printSavedSpace $SAVED "Docker images"[0m
+2026-10-23T01:16:15.5510885Z [36;1mfi[0m
+2026-10-23T01:16:15.5511162Z [36;1m[0m
+2026-10-23T01:16:15.5511326Z [36;1m# Option: Remove tool cache[0m
+2026-10-23T01:16:15.5511693Z [36;1m# REF: https://github.com/actions/virtual-environments/issues/2875#issuecomment-1163392159[0m
+2026-10-23T01:16:15.5512044Z [36;1m[0m
+2026-10-23T01:16:15.5512202Z [36;1mif [[ false == 'true' ]]; then[0m
+2026-10-23T01:16:15.5512422Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5512625Z [36;1m[0m
+2026-10-23T01:16:15.5512821Z [36;1m  sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true[0m
+2026-10-23T01:16:15.5513064Z [36;1m  [0m
+2026-10-23T01:16:15.5513239Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5513553Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5513783Z [36;1m  printSavedSpace $SAVED "Tool cache"[0m
+2026-10-23T01:16:15.5514005Z [36;1mfi[0m
+2026-10-23T01:16:15.5514161Z [36;1m[0m
+2026-10-23T01:16:15.5514323Z [36;1m# Option: Remove Swap storage[0m
+2026-10-23T01:16:15.5514522Z [36;1m[0m
+2026-10-23T01:16:15.5514692Z [36;1mif [[ false == 'true' ]]; then[0m
+2026-10-23T01:16:15.5514908Z [36;1m  BEFORE=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5515109Z [36;1m[0m
+2026-10-23T01:16:15.5515269Z [36;1m  sudo swapoff -a || true[0m
+2026-10-23T01:16:15.5515493Z [36;1m  sudo rm -f /mnt/swapfile || true[0m
+2026-10-23T01:16:15.5515717Z [36;1m  free -h[0m
+2026-10-23T01:16:15.5515881Z [36;1m  [0m
+2026-10-23T01:16:15.5516048Z [36;1m  AFTER=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5516265Z [36;1m  SAVED=$((AFTER-BEFORE))[0m
+2026-10-23T01:16:15.5516490Z [36;1m  printSavedSpace $SAVED "Swap storage"[0m
+2026-10-23T01:16:15.5516724Z [36;1mfi[0m
+2026-10-23T01:16:15.5516872Z [36;1m[0m
+2026-10-23T01:16:15.5517022Z [36;1m[0m
+2026-10-23T01:16:15.5517165Z [36;1m[0m
+2026-10-23T01:16:15.5517326Z [36;1m# Output saved space statistic[0m
+2026-10-23T01:16:15.5517528Z [36;1m[0m
+2026-10-23T01:16:15.5517698Z [36;1mAVAILABLE_END=$(getAvailableSpace)[0m
+2026-10-23T01:16:15.5518067Z [36;1mAVAILABLE_ROOT_END=$(getAvailableSpace '/')[0m
+2026-10-23T01:16:15.5518301Z [36;1m[0m
+2026-10-23T01:16:15.5518456Z [36;1mecho ""[0m
+2026-10-23T01:16:15.5518631Z [36;1mprintDH "AFTER CLEAN-UP:"[0m
+2026-10-23T01:16:15.5518831Z [36;1m[0m
+2026-10-23T01:16:15.5518976Z [36;1mecho ""[0m
+2026-10-23T01:16:15.5519142Z [36;1mecho ""[0m
+2026-10-23T01:16:15.5519293Z [36;1m[0m
+2026-10-23T01:16:15.5519457Z [36;1mecho "/dev/root:"[0m
+2026-10-23T01:16:15.5519733Z [36;1mprintSavedSpace $((AVAILABLE_ROOT_END - AVAILABLE_ROOT_INITIAL))[0m
+2026-10-23T01:16:15.5520035Z [36;1mecho "overall:"[0m
+2026-10-23T01:16:15.5520286Z [36;1mprintSavedSpace $((AVAILABLE_END - AVAILABLE_INITIAL))[0m
+2026-10-23T01:16:15.5577139Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-23T01:16:15.5577420Z env:
+2026-10-23T01:16:15.5577627Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:16:15.5578041Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:16:15.5578324Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5578665Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:16:15.5579005Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5579311Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5579606Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:16:15.5579910Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:16:15.5580173Z ##[endgroup]
+2026-10-23T01:16:15.5873545Z ================================================================================
+2026-10-23T01:16:15.5874005Z BEFORE CLEAN-UP:
+2026-10-23T01:16:15.5874117Z 
+2026-10-23T01:16:15.5874196Z $ dh -h /
+2026-10-23T01:16:15.5874287Z 
+2026-10-23T01:16:15.5882275Z Filesystem      Size  Used Avail Use% Mounted on
+2026-10-23T01:16:15.5882712Z /dev/root       145G   60G   85G  42% /
+2026-10-23T01:16:15.5883452Z $ dh -a /
+2026-10-23T01:16:15.5891960Z 
+2026-10-23T01:16:15.5892506Z Filesystem     1K-blocks     Used Available Use% Mounted on
+2026-10-23T01:16:15.5892967Z /dev/root      151263856 62156340  89091132  42% /
+2026-10-23T01:16:15.5894974Z $ dh -a
+2026-10-23T01:16:15.5895084Z 
+2026-10-23T01:16:15.5904913Z Filesystem      1K-blocks     Used Available Use% Mounted on
+2026-10-23T01:16:15.5905239Z /dev/root       151263856 62156348  89091124  42% /
+2026-10-23T01:16:15.5905521Z devtmpfs          8181664        0   8181664   0% /dev
+2026-10-23T01:16:15.5905961Z proc                    0        0         0    - /proc
+2026-10-23T01:16:15.5906364Z sysfs                   0        0         0    - /sys
+2026-10-23T01:16:15.5907125Z securityfs              0        0         0    - /sys/kernel/security
+2026-10-23T01:16:15.5907600Z tmpfs             8186724       84   8186640   1% /dev/shm
+2026-10-23T01:16:15.5908192Z devpts                  0        0         0    - /dev/pts
+2026-10-23T01:16:15.5908613Z tmpfs             3274692     1008   3273684   1% /run
+2026-10-23T01:16:15.5909022Z tmpfs                5120        0      5120   0% /run/lock
+2026-10-23T01:16:15.5909473Z cgroup2                 0        0         0    - /sys/fs/cgroup
+2026-10-23T01:16:15.5909924Z none                    0        0         0    - /sys/fs/pstore
+2026-10-23T01:16:15.5910405Z efivarfs           131072       32    131036   1% /sys/firmware/efi/efivars
+2026-10-23T01:16:15.5910892Z bpf                     0        0         0    - /sys/fs/bpf
+2026-10-23T01:16:15.5911373Z systemd-1               -        -         -    - /proc/sys/fs/binfmt_misc
+2026-10-23T01:16:15.5911873Z hugetlbfs               0        0         0    - /dev/hugepages
+2026-10-23T01:16:15.5912334Z mqueue                  0        0         0    - /dev/mqueue
+2026-10-23T01:16:15.5912784Z debugfs                 0        0         0    - /sys/kernel/debug
+2026-10-23T01:16:15.5913264Z tracefs                 0        0         0    - /sys/kernel/tracing
+2026-10-23T01:16:15.5913727Z fusectl                 0        0         0    - /sys/fs/fuse/connections
+2026-10-23T01:16:15.5914206Z configfs                0        0         0    - /sys/kernel/config
+2026-10-23T01:16:15.5914686Z /dev/nvme0n1p16    901520    65012    773380   8% /boot
+2026-10-23T01:16:15.5915290Z /dev/nvme0n1p15    106832     6250    100582   6% /boot/efi
+2026-10-23T01:16:15.5915610Z binfmt_misc             0        0         0    - /proc/sys/fs/binfmt_misc
+2026-10-23T01:16:15.5915909Z tmpfs             1637344       12   1637332   1% /run/user/1001
+2026-10-23T01:16:15.5916190Z ================================================================================
+2026-10-23T01:16:15.5916375Z 
+2026-10-23T01:18:15.2047531Z 
+2026-10-23T01:18:15.2052820Z ********************************************************************************
+2026-10-23T01:18:15.2070985Z => Android library: Saved 11GiB
+2026-10-23T01:18:15.2076084Z ********************************************************************************
+2026-10-23T01:18:15.2077265Z 
+2026-10-23T01:18:31.9244430Z 
+2026-10-23T01:18:31.9249638Z ********************************************************************************
+2026-10-23T01:18:31.9263772Z => .NET runtime: Saved 5.7GiB
+2026-10-23T01:18:31.9268928Z ********************************************************************************
+2026-10-23T01:18:31.9269228Z 
+2026-10-23T01:18:35.7153113Z 
+2026-10-23T01:18:35.7158274Z ********************************************************************************
+2026-10-23T01:18:35.7172111Z => Haskell runtime: Saved 3.6GiB
+2026-10-23T01:18:35.7177070Z ********************************************************************************
+2026-10-23T01:18:35.7177387Z 
+2026-10-23T01:19:34.1838765Z Deleted Images:
+2026-10-23T01:19:34.1839367Z untagged: ghcr.io/github/gh-aw-firewall/agent:latest
+2026-10-23T01:19:34.1840291Z untagged: ghcr.io/github/gh-aw-firewall/agent@sha256:0be6162362c5e8c910021c8ef249cacb0e5bdc57e017aa6c21e2000276efc2ac
+2026-10-23T01:19:34.1841104Z deleted: sha256:91d6360941a32d1f242a4354a8f1001ef6274505b5a7f589d4450a8cbff21883
+2026-10-23T01:19:34.1843778Z deleted: sha256:865486c2d57bdaba57933dcdfd7e0c46ac34dc88d21c622287b141af6eb841b4
+2026-10-23T01:19:34.1844489Z deleted: sha256:de37d965744bdd51e4748164bbb3f5ba0c526f722ba6de42ec6ec5da61a68169
+2026-10-23T01:19:34.1845124Z deleted: sha256:9dfed4cb7f4d053ace0d6e3580ff6002b32732b264aec213057a91ea8175c662
+2026-10-23T01:19:34.1845837Z deleted: sha256:f2d5806fc843be813cd68cbcb3a3725929f68225ffa391a6ec04ea6131ad8cea
+2026-10-23T01:19:34.1846478Z deleted: sha256:250ccd192bc273bf5d7ccbd0a8b2e478e581ce5985cb8e847beaa6215b37f879
+2026-10-23T01:19:34.1847077Z deleted: sha256:6ebc019e0f7ca40b73993049d0019b03055338b64bb89ff8d804580a4da71406
+2026-10-23T01:19:34.1847980Z deleted: sha256:b3620ac8ebcd189711225310c58896cfa4514d5102a007a38579c80b81c4f8b3
+2026-10-23T01:19:34.1848576Z deleted: sha256:2fa797a136696494fc2481718b46d64348939998a156cbe83e0b839e219305e9
+2026-10-23T01:19:34.1849239Z deleted: sha256:abd3aab198256ed4269d1bdafcaccaca4675157dbfd604912887d8df3fc36e50
+2026-10-23T01:19:34.1849925Z deleted: sha256:4bcbe2517ce543cf4419da5854761477a9cdab68993b141d5ddd166d084beaa8
+2026-10-23T01:19:34.1850632Z deleted: sha256:bcd2f152e37d3172f56d4651d397565cb70d423ea6bf7adfc8c294dacb280abe
+2026-10-23T01:19:34.1851327Z deleted: sha256:f71a129f9cd7cd6b157bf622032505299aa93cbe514110b9cd83c5f84994c0fd
+2026-10-23T01:19:34.1852028Z deleted: sha256:823d8bf28a535199fc9ca2b8037f8cabfbfb963f6f0d96dc8a868be9560d71a3
+2026-10-23T01:19:34.1852672Z deleted: sha256:956abe18d77d571e2a91b0b9a753457faa88145773cfed363223c8aac35f9dca
+2026-10-23T01:19:34.1853234Z deleted: sha256:810a066c7817e92ac3718b776df772fe10e52bf0bbfe5f8b45f97964664a6ffe
+2026-10-23T01:19:34.1853640Z deleted: sha256:f7a265ae9b3baa3a93f28433d73765d69f3bbaf854f271bba2fa75119346e99d
+2026-10-23T01:19:34.1854058Z deleted: sha256:50651efa57bd82ffb2e52f1eb52a6cee64d6b6b6f1edaf96510b318f5ef2ea2d
+2026-10-23T01:19:34.1854462Z deleted: sha256:cbaf391e670933f026c05c7dedec3faf8f194b6c2d83b0d5694ad68323c8077c
+2026-10-23T01:19:34.1854829Z untagged: ghcr.io/github/gh-aw-firewall/api-proxy:latest
+2026-10-23T01:19:34.1855328Z untagged: ghcr.io/github/gh-aw-firewall/api-proxy@sha256:aa5447df401dcac74ae591db78236790b9d5f7e8ec6be5e8ce7d7b57676642f9
+2026-10-23T01:19:34.1855912Z deleted: sha256:986b9bc056a95591724d198db403c3ff79ebc2a9eb678370eb849225e6cb6e14
+2026-10-23T01:19:34.1856578Z deleted: sha256:845473bd2c72941c1de8a0bbaf9cf9bccded3a177053f2e4ebb61b998153adba
+2026-10-23T01:19:34.1857130Z deleted: sha256:fe1381a944465ca08c94076501efb2c5af02880c370a665c2d67911a016c51ee
+2026-10-23T01:19:34.1857582Z deleted: sha256:1cda3198dc33d301b8b112f26e5628bc90e5e5c26d79ea0a6a6174fd918eac23
+2026-10-23T01:19:34.1858295Z deleted: sha256:ae4fd9037b501dec5cfb05e1f83ca04c636133e998d89d520411b36a947a5e7d
+2026-10-23T01:19:34.1858922Z deleted: sha256:9fecf9037d5d4b425a7db95b9e9db896f2c786bf517be6accef04d9b1858fcf4
+2026-10-23T01:19:34.1859595Z deleted: sha256:74fbe05a3fb74eabc46606fb21bfcdd547ca31892af3577c3388abee99709ee0
+2026-10-23T01:19:34.1860240Z deleted: sha256:d4cfb75713e7cfcd135cc71b3c80caadc432d96f2ddd0a2ea8475e117893399b
+2026-10-23T01:19:34.1860924Z deleted: sha256:9c745b5bd5a166422f81bb165ae5b0d11faf4a7d12384cd8a33d866e56bf2e5d
+2026-10-23T01:19:34.1861572Z deleted: sha256:7bef4835a0bbba6744a4c9b2708597845518261ee6db084bae1f40dcffecca97
+2026-10-23T01:19:34.1862251Z deleted: sha256:f49d3aa361fffa2b2e94a63d2b3e6c2673485c02a7b18dbcfb4d164a12cad5cc
+2026-10-23T01:19:34.1862738Z deleted: sha256:1fc800ab7c27044f68113e1c7f474000aa447219dbd77479447ab6ad1b86b2d7
+2026-10-23T01:19:34.1863208Z deleted: sha256:9c1e16c1243231b6b2b3f73fb3dadefc3d37c0c7c539e99409b3b1f5d41ee184
+2026-10-23T01:19:34.1863666Z deleted: sha256:ff9b85e5f9ce82bac83d2f8e3097d4b731eb1c268226154012db9a54f9da2cb2
+2026-10-23T01:19:34.1864106Z deleted: sha256:a8aabe94b66ee52be2cc5a04366a49ff3fc40c2945530afcced3919350ddfdf5
+2026-10-23T01:19:34.1864581Z untagged: ghcr.io/github/github-mcp-server:latest
+2026-10-23T01:19:34.1865037Z untagged: ghcr.io/github/github-mcp-server@sha256:ffced0d76e77428532a2ced185516992d77fd146d69eec2f244e6237d1a97796
+2026-10-23T01:19:34.1887979Z deleted: sha256:9875fef5aa1fd407321d23d9a47d78f1515bfd794bcae2ce8fb1957627849146
+2026-10-23T01:19:34.1888807Z deleted: sha256:ecd8dd113ce637aabb894a9b03943b5c115c1804a2795f2f8ec102d01d4b9ec4
+2026-10-23T01:19:34.1889494Z deleted: sha256:1e1cabb4a65e50fb84bc4612619b0025e4a1d06d5e38699d1e67e5a8e4f333db
+2026-10-23T01:19:34.1889923Z deleted: sha256:86766d6a6e947f4a599c6e23307470f8f75732fc3d143ec1f3260e4406202bee
+2026-10-23T01:19:34.1890319Z deleted: sha256:2944471a0bbdfb4985f84f8d287edb5cd982d1060589e707a6cb0cbe82cdfe89
+2026-10-23T01:19:34.1890731Z deleted: sha256:5e555e7975e2202f21fb93d460d701a340ade876f3afccb70d702f1dc5ab80db
+2026-10-23T01:19:34.1891270Z deleted: sha256:2a080d78a1c5e3615170178f1c6f4c726340da9d5ff2926cb66e2fd97851da9d
+2026-10-23T01:19:34.1891677Z deleted: sha256:af4a114029fbf94a3cf75c5cfaa5e947019cd6faae4b800c9306ac9079363def
+2026-10-23T01:19:34.1892221Z deleted: sha256:c7b875d3de914680ec64ba55be5865955ec595e7370812894ee68a502e2e8391
+2026-10-23T01:19:34.1892629Z deleted: sha256:85d9b4c1ef131ee259952a35027e942f79626303ab143eff7ef00d55201bd06f
+2026-10-23T01:19:34.1893122Z deleted: sha256:492c6420fd79f4cd4e761bec1e74db6044d45adb5b073a82289af68aa3162e3f
+2026-10-23T01:19:34.1893613Z deleted: sha256:14b282df61c0316a80216cec27e753777da93de1d7e062072ef3b517f984fcf1
+2026-10-23T01:19:34.1894029Z deleted: sha256:fdaace00fc3f072b9060f703047b30a2c14d8bde7dbbf31a396802c032923732
+2026-10-23T01:19:34.1894571Z deleted: sha256:7f73eafc455b691b504d4d3c3f3c7be90e135c1d0ba4988b2cac29579cd6b567
+2026-10-23T01:19:34.1895008Z deleted: sha256:32a12b65383df6b6553c8d59f691675ca1980f8cec9c51cce163c3c8f7665a41
+2026-10-23T01:19:34.1895527Z deleted: sha256:5217b01660b515ac25ea055a8bd04a20790c7d6bd6085374b59b9081283911af
+2026-10-23T01:19:34.1895949Z deleted: sha256:7223ea1323e8c1159ec17f07d35acc27bdd1cc2bc3ed425b44ef21dac9915db0
+2026-10-23T01:19:34.1896306Z untagged: ghcr.io/github/gh-aw-firewall/squid:latest
+2026-10-23T01:19:34.1896865Z untagged: ghcr.io/github/gh-aw-firewall/squid@sha256:2840a2246adf055974e13753cdbf9ec712bc6b470b9e37740ebea0fcfc851cc0
+2026-10-23T01:19:34.1897383Z deleted: sha256:dc17fe4244715333045de96cd877dc373d701f790100a33ff57a55d523c5fd43
+2026-10-23T01:19:34.1898142Z deleted: sha256:7b343203a40bd9052ab60f3ac187160f204fc16c0359502f1ea3f0ba8ba979ab
+2026-10-23T01:19:34.1898728Z deleted: sha256:e45aa24818a347d4102cd3e8c90d17032a7e5dad6d078c5e56ed208572f0ef26
+2026-10-23T01:19:34.1899441Z deleted: sha256:2cf336166cfb412c1393d59cec3dc02407b9a0e7c1b0e6a5dfef1b03473270a0
+2026-10-23T01:19:34.1899904Z deleted: sha256:17b0094a813d97c34ca729739326189c9afdd4610bc44d121b69608ca549051f
+2026-10-23T01:19:34.1900430Z deleted: sha256:8ccd9236e1fc745540569864e5e03aa2976fda968ebc44d2bfbe7a2a2cc3824c
+2026-10-23T01:19:34.1900841Z deleted: sha256:74d97c428c51a828f9051a7a40a53ff1fc99e54fc30323ce36760701b0b7f711
+2026-10-23T01:19:34.1901302Z untagged: ghcr.io/dependabot/dependabot-updater-core:latest
+2026-10-23T01:19:34.1901825Z untagged: ghcr.io/dependabot/dependabot-updater-core@sha256:a4a43b17333aeb1e93c42781bee8f1da2a110c049fcf1cace04d621bcd3efc4b
+2026-10-23T01:19:34.1902461Z deleted: sha256:759e96ae5997ebc7d6d903ed56ba9dc0f3f2b1bb2c6a2ced5c0501f5cbf12529
+2026-10-23T01:19:34.1902884Z deleted: sha256:f057cee81f4bda97675e49c0f8da3d06667f179d8609affbe28cd3ad2cd5cf7b
+2026-10-23T01:19:34.1903365Z deleted: sha256:eb25577ea5536752c29ce44b9cc970435fd8ed1253cd5d99d5ec9fd753c5d8d1
+2026-10-23T01:19:34.1903781Z deleted: sha256:3f199fe2d372fd6082b164e7486ef15b870dea908f4c5979e4ce2a385ae5dd83
+2026-10-23T01:19:34.1904182Z deleted: sha256:f809c4d00f6cdf9bb6a28fbd470912bb57527a94648bcdfbd2c8a6f7c90d9beb
+2026-10-23T01:19:34.1904689Z deleted: sha256:847eed0e47917518a85fd7802fb6f4b057973ca261666f82137729f68226a68f
+2026-10-23T01:19:34.1905086Z deleted: sha256:e597ea81c894020692bb317e0f4e8342086d8c8314bf94cc059912de959f384b
+2026-10-23T01:19:34.1905580Z deleted: sha256:c912b2690b9f11d87758385a8e7e3f2ed8351d83606513deea02bc70cb3f064b
+2026-10-23T01:19:34.1905982Z deleted: sha256:5cd21116521a0ff45368e47fc60011cde24c52bc07115a71d99efd50d16297ce
+2026-10-23T01:19:34.1906630Z deleted: sha256:2ba1a742a18cc38baf9f012568c8581e816ca8b80bcddba8c902468e9256949d
+2026-10-23T01:19:34.1907071Z deleted: sha256:4b4eaa989ad960bc55ff36108b05bd8af516ac7d582cbb61f52ef213df6f4a61
+2026-10-23T01:19:34.1907473Z deleted: sha256:47779ce4a9e8bf3748119cad01e494c20997fd3322fc4c306f14820ed28c514c
+2026-10-23T01:19:34.1908126Z deleted: sha256:d81fb2a7c6ee3be05fdefaa7fd223be219c1ab172083ec1b994c3ecda33ac0a8
+2026-10-23T01:19:34.1908466Z untagged: ghcr.io/github/gh-aw-mcpg:latest
+2026-10-23T01:19:34.1908896Z untagged: ghcr.io/github/gh-aw-mcpg@sha256:ab5a436a1490438db473e4e3d4c973cb1d75e3cb233fb08b73d31b42d7d18fba
+2026-10-23T01:19:34.1909547Z deleted: sha256:808996e3d4773c7d3b0c383e6a590a086a28ecc216b853912c083c16c379b48a
+2026-10-23T01:19:34.1910004Z deleted: sha256:833d17b0898218516f91394a061452432f5a5e81424cc06099bffcdacacde330
+2026-10-23T01:19:34.1910454Z deleted: sha256:d987e51419de6f3a8dc290b78bdae16dba2a9c0c717c3121a912126522ca85df
+2026-10-23T01:19:34.1910922Z deleted: sha256:fbc2da059c4c135100ce6f4db532f5e0d80fdc9a1ede4d4bb2b2e82bb5dc9cc0
+2026-10-23T01:19:34.1911468Z deleted: sha256:6d715b8fec8118d84bfe0fa12b7c846e40de665401e061706f0c163043832ee4
+2026-10-23T01:19:34.1911865Z deleted: sha256:482a9dd60e2bf508688075611b808c7b909438b5e561ba879b671333780ffab3
+2026-10-23T01:19:34.1912509Z deleted: sha256:09df3d36d3df02c2be99898ac9e632f91e02fb8262d715c6c0e25927ed2e5dd6
+2026-10-23T01:19:34.1913194Z deleted: sha256:6ccd0f9257b0a94f3e50f50a9cdc766408da9d5ded13721abdac5fc34f663f49
+2026-10-23T01:19:34.1913888Z deleted: sha256:4b35d13cdd93533c08ba296080135dfc555c64a3a0a4284ac739b93e53ee63f6
+2026-10-23T01:19:34.1914567Z deleted: sha256:70834cf3bba44803e61e4c9d424992d91e06c34dcbfa92d388fc493c51c26e3a
+2026-10-23T01:19:34.1915261Z deleted: sha256:1a597abbdca4511eb22f2e0b00a5d8b6d6129e7669ed56d751b9d1d611d80bfa
+2026-10-23T01:19:34.1915962Z deleted: sha256:d5c28ed9f7e287d23038493d8b2dbea75a712162b907ec2fab74295d6bbf77fc
+2026-10-23T01:19:34.1916662Z deleted: sha256:34884abbe92863fce933ed7c39c0e045631af0ed86d5cc0dfbdf9fdca426ce3c
+2026-10-23T01:19:34.1917078Z 
+2026-10-23T01:19:34.1917215Z Total reclaimed space: 1.869GB
+2026-10-23T01:19:34.1917439Z 
+2026-10-23T01:19:34.1917592Z ********************************************************************************
+2026-10-23T01:19:34.1918727Z => Docker images: Saved 1.9GiB
+2026-10-23T01:19:34.1920424Z ********************************************************************************
+2026-10-23T01:19:34.1920731Z 
+2026-10-23T01:19:34.1971103Z 
+2026-10-23T01:19:34.1976145Z ================================================================================
+2026-10-23T01:19:34.1976577Z AFTER CLEAN-UP:
+2026-10-23T01:19:34.1976784Z 
+2026-10-23T01:19:34.1976951Z $ dh -h /
+2026-10-23T01:19:34.1977147Z 
+2026-10-23T01:19:34.1986461Z Filesystem      Size  Used Avail Use% Mounted on
+2026-10-23T01:19:34.1986866Z /dev/root       145G   37G  108G  26% /
+2026-10-23T01:19:34.1987738Z $ dh -a /
+2026-10-23T01:19:34.1988030Z 
+2026-10-23T01:19:34.1996800Z Filesystem     1K-blocks     Used Available Use% Mounted on
+2026-10-23T01:19:34.1997255Z /dev/root      151263856 38747824 112499648  26% /
+2026-10-23T01:19:34.1998003Z $ dh -a
+2026-10-23T01:19:34.1998142Z 
+2026-10-23T01:19:34.2010570Z Filesystem      1K-blocks     Used Available Use% Mounted on
+2026-10-23T01:19:34.2011007Z /dev/root       151263856 38747824 112499648  26% /
+2026-10-23T01:19:34.2011398Z devtmpfs          8181664        0   8181664   0% /dev
+2026-10-23T01:19:34.2011784Z proc                    0        0         0    - /proc
+2026-10-23T01:19:34.2012155Z sysfs                   0        0         0    - /sys
+2026-10-23T01:19:34.2012571Z securityfs              0        0         0    - /sys/kernel/security
+2026-10-23T01:19:34.2013029Z tmpfs             8186724       84   8186640   1% /dev/shm
+2026-10-23T01:19:34.2013417Z devpts                  0        0         0    - /dev/pts
+2026-10-23T01:19:34.2013665Z tmpfs             3274692     1008   3273684   1% /run
+2026-10-23T01:19:34.2013915Z tmpfs                5120        0      5120   0% /run/lock
+2026-10-23T01:19:34.2014362Z cgroup2                 0        0         0    - /sys/fs/cgroup
+2026-10-23T01:19:34.2014650Z none                    0        0         0    - /sys/fs/pstore
+2026-10-23T01:19:34.2014951Z efivarfs           131072       32    131036   1% /sys/firmware/efi/efivars
+2026-10-23T01:19:34.2015247Z bpf                     0        0         0    - /sys/fs/bpf
+2026-10-23T01:19:34.2015535Z systemd-1               -        -         -    - /proc/sys/fs/binfmt_misc
+2026-10-23T01:19:34.2015833Z hugetlbfs               0        0         0    - /dev/hugepages
+2026-10-23T01:19:34.2016102Z mqueue                  0        0         0    - /dev/mqueue
+2026-10-23T01:19:34.2016592Z debugfs                 0        0         0    - /sys/kernel/debug
+2026-10-23T01:19:34.2017048Z tracefs                 0        0         0    - /sys/kernel/tracing
+2026-10-23T01:19:34.2017506Z fusectl                 0        0         0    - /sys/fs/fuse/connections
+2026-10-23T01:19:34.2018079Z configfs                0        0         0    - /sys/kernel/config
+2026-10-23T01:19:34.2018522Z /dev/nvme0n1p16    901520    65012    773380   8% /boot
+2026-10-23T01:19:34.2018942Z /dev/nvme0n1p15    106832     6250    100582   6% /boot/efi
+2026-10-23T01:19:34.2019397Z binfmt_misc             0        0         0    - /proc/sys/fs/binfmt_misc
+2026-10-23T01:19:34.2019854Z tmpfs             1637344       12   1637332   1% /run/user/1001
+2026-10-23T01:19:34.2020229Z ================================================================================
+2026-10-23T01:19:34.2020404Z 
+2026-10-23T01:19:34.2020407Z 
+2026-10-23T01:19:34.2020477Z /dev/root:
+2026-10-23T01:19:34.2020573Z 
+2026-10-23T01:19:34.2021748Z ********************************************************************************
+2026-10-23T01:19:34.2036046Z => Saved 22GiB
+2026-10-23T01:19:34.2040802Z ********************************************************************************
+2026-10-23T01:19:34.2041094Z 
+2026-10-23T01:19:34.2041189Z overall:
+2026-10-23T01:19:34.2041321Z 
+2026-10-23T01:19:34.2045731Z ********************************************************************************
+2026-10-23T01:19:34.2059918Z => Saved 22GiB
+2026-10-23T01:19:34.2064468Z ********************************************************************************
+2026-10-23T01:19:34.2064751Z 
+2026-10-23T01:19:34.2078274Z ##[end-action id=disk.__run;outcome=success;conclusion=success;duration_ms=198662]
+2026-10-23T01:19:34.2125719Z ##[group]Run python pipeline/scripts/verify_submission.py check-capacity --disk-path "$RUNNER_TEMP" --output "$RUNNER_TEMP/mechanical-report.json"
+2026-10-23T01:19:34.2126557Z [36;1mpython pipeline/scripts/verify_submission.py check-capacity --disk-path "$RUNNER_TEMP" --output "$RUNNER_TEMP/mechanical-report.json"[0m
+2026-10-23T01:19:34.2178851Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:19:34.2179061Z env:
+2026-10-23T01:19:34.2179270Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:19:34.2179533Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:19:34.2179802Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.2180141Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:19:34.2180488Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.2180792Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.2181124Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.2181430Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:19:34.2181688Z ##[endgroup]
+2026-10-23T01:19:34.3500466Z ##[group]Run python3 pipeline/scripts/trusted_download.py \
+2026-10-23T01:19:34.3500866Z [36;1mpython3 pipeline/scripts/trusted_download.py \[0m
+2026-10-23T01:19:34.3501355Z [36;1m  --url https://github.com/leanprover/elan/releases/download/v4.2.3/elan-x86_64-unknown-linux-gnu.tar.gz \[0m
+2026-10-23T01:19:34.3501800Z [36;1m  --output "$RUNNER_TEMP/elan.tar.gz" \[0m
+2026-10-23T01:19:34.3502158Z [36;1m  --sha256 df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2[0m
+2026-10-23T01:19:34.3502499Z [36;1mmkdir "$RUNNER_TEMP/elan"[0m
+2026-10-23T01:19:34.3502775Z [36;1mtar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP/elan"[0m
+2026-10-23T01:19:34.3503174Z [36;1m"$RUNNER_TEMP/elan/elan-init" -y --no-modify-path --default-toolchain none[0m
+2026-10-23T01:19:34.3503520Z [36;1mecho "$HOME/.elan/bin" >> "$GITHUB_PATH"[0m
+2026-10-23T01:19:34.3556376Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:19:34.3556582Z env:
+2026-10-23T01:19:34.3556816Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:19:34.3557077Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:19:34.3557512Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.3558017Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:19:34.3558391Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.3558698Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.3558996Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.3559297Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:19:34.3559554Z ##[endgroup]
+2026-10-23T01:19:34.8880952Z ##[group]Run elan toolchain install "$SUBMISSION_TOOLCHAIN"
+2026-10-23T01:19:34.8881302Z [36;1melan toolchain install "$SUBMISSION_TOOLCHAIN"[0m
+2026-10-23T01:19:34.8935131Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:19:34.8935339Z env:
+2026-10-23T01:19:34.8935545Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:19:34.8935814Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:19:34.8936074Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.8936419Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:19:34.8936744Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.8937044Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.8937334Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:34.8937630Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:19:34.8938107Z   SUBMISSION_TOOLCHAIN: leanprover/lean4:v4.35.0-rc2
+2026-10-23T01:19:34.8938349Z ##[endgroup]
+2026-10-23T01:19:35.2740006Z info: Version 4.2.4 of elan is available! Use `elan self update` to update.
+2026-10-23T01:19:35.5936441Z info: downloading https://releases.lean-lang.org/lean4/v4.35.0-rc2/lean-4.35.0-rc2-linux.tar.zst
+2026-10-23T01:19:44.0720348Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.35.0-rc2
+2026-10-23T01:19:51.0772057Z 
+2026-10-23T01:19:51.1068111Z leanprover/lean4:v4.35.0-rc2 installed - Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)
+2026-10-23T01:19:51.1068617Z 
+2026-10-23T01:19:51.2594802Z ##[group]Run sudo apt-get update -qq >/dev/null
+2026-10-23T01:19:51.2595132Z [36;1msudo apt-get update -qq >/dev/null[0m
+2026-10-23T01:19:51.2595482Z [36;1msudo apt-get install -y -qq meson ninja-build libcap-dev pkg-config >/dev/null[0m
+2026-10-23T01:19:51.2595983Z [36;1mecho "PALOMAR_BWRAP=$(pipeline/scripts/install_bwrap.sh "$RUNNER_TEMP/bwrap-bin")" >> "$GITHUB_ENV"[0m
+2026-10-23T01:19:51.2649674Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:19:51.2649884Z env:
+2026-10-23T01:19:51.2650089Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:19:51.2650557Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:19:51.2650820Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:51.2651153Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:19:51.2651497Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:51.2651802Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:51.2652129Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:19:51.2652423Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:19:51.2652677Z ##[endgroup]
+2026-10-23T01:20:26.8564262Z 
+2026-10-23T01:20:26.8566399Z Running kernel seems to be up-to-date.
+2026-10-23T01:20:26.8566720Z 
+2026-10-23T01:20:26.8566854Z No services need to be restarted.
+2026-10-23T01:20:26.8567076Z 
+2026-10-23T01:20:26.8567185Z No containers need to be restarted.
+2026-10-23T01:20:26.8567332Z 
+2026-10-23T01:20:26.8567439Z No user sessions are running outdated binaries.
+2026-10-23T01:20:26.8567609Z 
+2026-10-23T01:20:26.8567773Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-10-23T01:20:29.5003603Z bubblewrap 0.12.0
+2026-10-23T01:20:29.5080448Z ##[group]Run python pipeline/scripts/verify_submission.py execute \
+2026-10-23T01:20:29.5081313Z [36;1mpython pipeline/scripts/verify_submission.py execute \[0m
+2026-10-23T01:20:29.5081805Z [36;1m  --work-dir "$RUNNER_TEMP/palomar" \[0m
+2026-10-23T01:20:29.5082264Z [36;1m  --output "$RUNNER_TEMP/mechanical-report.json" \[0m
+2026-10-23T01:20:29.5082694Z [36;1m  --bwrap "$PALOMAR_BWRAP" \[0m
+2026-10-23T01:20:29.5083054Z [36;1m  --bwrap-source-tag v0.12.0 \[0m
+2026-10-23T01:20:29.5083431Z [36;1m  --execution-budget-seconds "19800" \[0m
+2026-10-23T01:20:29.5084102Z [36;1m  --workflow-url "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39882986575"[0m
+2026-10-23T01:20:29.5151688Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:20:29.5151911Z env:
+2026-10-23T01:20:29.5152125Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:20:29.5152388Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:20:29.5152684Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:20:29.5153022Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:20:29.5153359Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:20:29.5153658Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:20:29.5153951Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:20:29.5154249Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:20:29.5154549Z   PALOMAR_BWRAP: /home/runner/work/_temp/bwrap-bin/bwrap
+2026-10-23T01:20:29.5154796Z ##[endgroup]
+2026-10-23T01:23:36.3509960Z ##[group]Run python3 pipeline/scripts/workflow_report.py finalize --report "$RUNNER_TEMP/mechanical-report.json"
+2026-10-23T01:23:36.3510601Z [36;1mpython3 pipeline/scripts/workflow_report.py finalize --report "$RUNNER_TEMP/mechanical-report.json"[0m
+2026-10-23T01:23:36.3594812Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:23:36.3595013Z env:
+2026-10-23T01:23:36.3595221Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:23:36.3595488Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:23:36.3595749Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.3596085Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:23:36.3596418Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.3596712Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.3597004Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.3597322Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:23:36.3597623Z   PALOMAR_BWRAP: /home/runner/work/_temp/bwrap-bin/bwrap
+2026-10-23T01:23:36.3599488Z   PALOMAR_INPUTS: {
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "request_id": "sierpinskif1",
+  "mode": "full",
+  "execution_profile": "palomar-standard-v1",
+  "execution_attempt": "",
+  "options": "{\"project_path\":\"topology/sierpinski-rationals\",\"comparator_config_path\":\"topology/sierpinski-rationals/comparator.json\",\"formalization_metadata_path\":\"topology/sierpinski-rationals/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+}
+2026-10-23T01:23:36.3603802Z   PALOMAR_STEPS: {
+  "checkout": {
+    "outputs": {
+      "commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+      "ref": ""
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "python": {
+    "outputs": {
+      "python-version": "3.11.10",
+      "python-path": "/opt/hostedtoolcache/Python/3.11.10/x64/bin/python"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "ruby": {
+    "outputs": {
+      "ruby-prefix": "/opt/hostedtoolcache/Ruby/3.3.12/x64"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "dependencies": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "prepare": {
+    "outputs": {
+      "ready": "true",
+      "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "disk": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "capacity": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "elan": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "toolchain": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "bwrap": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "execute": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  }
+}
+2026-10-23T01:23:36.3607036Z   PALOMAR_WORKFLOW_URL: https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39882986575
+2026-10-23T01:23:36.3607398Z ##[endgroup]
+2026-10-23T01:23:36.4027013Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-23T01:23:36.4027340Z with:
+2026-10-23T01:23:36.4027531Z   name: mechanical-report-sierpinskif1
+2026-10-23T01:23:36.4027810Z   path: /home/runner/work/_temp/mechanical-report.json
+2026-10-23T01:23:36.4028278Z   if-no-files-found: error
+2026-10-23T01:23:36.4028470Z   retention-days: 90
+2026-10-23T01:23:36.4028666Z   compression-level: 6
+2026-10-23T01:23:36.4028852Z   overwrite: false
+2026-10-23T01:23:36.4029030Z   include-hidden-files: false
+2026-10-23T01:23:36.4029224Z   archive: true
+2026-10-23T01:23:36.4029386Z env:
+2026-10-23T01:23:36.4029577Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:23:36.4029826Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:23:36.4030089Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.4030421Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:23:36.4030785Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.4031086Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.4031381Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:36.4031684Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:23:36.4031988Z   PALOMAR_BWRAP: /home/runner/work/_temp/bwrap-bin/bwrap
+2026-10-23T01:23:36.4032232Z ##[endgroup]
+2026-10-23T01:23:36.6002954Z With the provided path, there will be 1 file uploaded
+2026-10-23T01:23:36.6006669Z Artifact name is valid!
+2026-10-23T01:23:36.6007153Z Root directory input is valid!
+2026-10-23T01:23:36.9360151Z Uploading artifact: mechanical-report-sierpinskif1.zip
+2026-10-23T01:23:36.9387753Z Beginning upload of artifact content to blob storage
+2026-10-23T01:23:37.1824469Z Uploaded bytes 7496
+2026-10-23T01:23:37.2373904Z Finished uploading artifact content to blob storage!
+2026-10-23T01:23:37.2374660Z SHA256 digest of uploaded artifact is 3baffe1ade885fb4bdb9fe0048da449c8394f53bd59ae0e1ecc0c1c3a623652b
+2026-10-23T01:23:37.2375281Z Finalizing artifact upload
+2026-10-23T01:23:37.8611431Z Artifact mechanical-report-sierpinskif1 successfully finalized. Artifact ID 12471447969
+2026-10-23T01:23:37.8612325Z Artifact mechanical-report-sierpinskif1 has been successfully uploaded! Final size is 7496 bytes. Artifact ID is 12471447969
+2026-10-23T01:23:37.8615969Z Artifact download URL: https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39882986575/artifacts/12471447969
+2026-10-23T01:23:37.8759805Z ##[group]Run python3 pipeline/scripts/workflow_report.py gate --report "$RUNNER_TEMP/mechanical-report.json"
+2026-10-23T01:23:37.8760413Z [36;1mpython3 pipeline/scripts/workflow_report.py gate --report "$RUNNER_TEMP/mechanical-report.json"[0m
+2026-10-23T01:23:37.8814575Z shell: /usr/bin/bash -e {0}
+2026-10-23T01:23:37.8814785Z env:
+2026-10-23T01:23:37.8814988Z   PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
+2026-10-23T01:23:37.8815253Z   PALOMAR_JOB_STARTED_AT: 1792718156
+2026-10-23T01:23:37.8815527Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:37.8815869Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib/pkgconfig
+2026-10-23T01:23:37.8816359Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:37.8816661Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:37.8816968Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.10/x64
+2026-10-23T01:23:37.8817290Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.10/x64/lib
+2026-10-23T01:23:37.8817596Z   PALOMAR_BWRAP: /home/runner/work/_temp/bwrap-bin/bwrap
+2026-10-23T01:23:37.8819566Z   PALOMAR_INPUTS: {
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "request_id": "sierpinskif1",
+  "mode": "full",
+  "execution_profile": "palomar-standard-v1",
+  "execution_attempt": "",
+  "options": "{\"project_path\":\"topology/sierpinski-rationals\",\"comparator_config_path\":\"topology/sierpinski-rationals/comparator.json\",\"formalization_metadata_path\":\"topology/sierpinski-rationals/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+}
+2026-10-23T01:23:37.8825082Z   PALOMAR_STEPS: {
+  "checkout": {
+    "outputs": {
+      "commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+      "ref": ""
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "python": {
+    "outputs": {
+      "python-version": "3.11.10",
+      "python-path": "/opt/hostedtoolcache/Python/3.11.10/x64/bin/python"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "ruby": {
+    "outputs": {
+      "ruby-prefix": "/opt/hostedtoolcache/Ruby/3.3.12/x64"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "dependencies": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "prepare": {
+    "outputs": {
+      "ready": "true",
+      "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "disk": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "capacity": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "elan": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "toolchain": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "bwrap": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "execute": {
+    "outputs": {},
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "upload1": {
+    "outputs": {
+      "artifact-id": "12471447969",
+      "artifact-digest": "3baffe1ade885fb4bdb9fe0048da449c8394f53bd59ae0e1ecc0c1c3a623652b",
+      "artifact-url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39882986575/artifacts/12471447969"
+    },
+    "outcome": "success",
+    "conclusion": "success"
+  },
+  "upload2": {
+    "outputs": {},
+    "outcome": "skipped",
+    "conclusion": "skipped"
+  },
+  "upload3": {
+    "outputs": {},
+    "outcome": "skipped",
+    "conclusion": "skipped"
+  }
+}
+2026-10-23T01:23:37.8829314Z ##[endgroup]
+2026-10-23T01:23:37.9254934Z Post job cleanup.
+2026-10-23T01:23:38.0294787Z Post job cleanup.
+2026-10-23T01:23:38.1019371Z [command]/usr/bin/git version
+2026-10-23T01:23:38.1059614Z git version 2.55.0
+2026-10-23T01:23:38.1089333Z Temporarily overriding HOME='/home/runner/work/_temp/a8e013bb-badc-4650-a16d-6f39903a374a' before making global git config changes
+2026-10-23T01:23:38.1090332Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-23T01:23:38.1093249Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-Formalization/Math-Formalization/pipeline
+2026-10-23T01:23:38.1119154Z Removing SSH command configuration
+2026-10-23T01:23:38.1124668Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T01:23:38.1153265Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T01:23:38.1356963Z Removing HTTP extra header
+2026-10-23T01:23:38.1361928Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T01:23:38.1389195Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T01:23:38.1569842Z Removing includeIf entries pointing to credentials config files
+2026-10-23T01:23:38.1574406Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T01:23:38.1599220Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T01:23:38.1901653Z Cleaning up orphan processes

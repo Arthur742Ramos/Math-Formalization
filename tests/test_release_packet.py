@@ -174,5 +174,82 @@ class ReleasePacketTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Wrong archive source file set'):self.check_fixture(data=archive(files))
 
 
+class SeparateVerifiedReplayTests(ReleasePacketTests):
+    """Current schema-2 protocol; synthetic fixtures never claim an actual run."""
+
+    def fixture(self):
+        report = super().fixture()
+        protected = json.loads(report['protected_config'])
+        nanoda = ['/trusted/bin/nanoda_bin']
+        conron = ['/trusted/con-ron', '--jobs=2', '--verified']
+        protected['external_kernels'] = {'nanoda': nanoda}
+        report['protected_config'] = json.dumps(protected)
+        report['protected_config_sha256'] = guard.sha(report['protected_config'].encode())
+        report.update(schema_version=2, phase='verification',
+                      lean_toolchain='leanprover/lean4:v4.35.0-rc2',
+                      kernels=[{'name': 'nanoda', 'argv': nanoda},
+                               {'name': 'con-ron', 'argv': conron}],
+                      kernel_attempts=[{'name': 'con-ron', 'status': 'accepted',
+                          'reason': 'complete', 'exit_code': 0, 'argv': conron,
+                          'budget_seconds': 100,
+                          'detail': 'con-ron: accepted 18207 declarations (--verified) t=6.2s\n\n'
+                              'con-ron: 1 inductive blocks modelled in-process: Lean.Syntax '
+                              '(30 generated records, checked by the fold as declarations '
+                              'and not counted as records of the file)'}])
+        report['comparator_log_tail'] = report['comparator_log_tail'].replace(
+            'con-ron kernel accepts the solution', '')
+        report['con_ron_checker'] = {
+            'source_toolchain': report['lean_toolchain'], 'kind': 'maintainer-pinned-release',
+            'release_tag': 'v4.36.0-rc1',
+            'release_commit': 'c9afcddf514a6772bd4d649f7cfc04eff0b9f15e',
+            'archive_sha256': '26b3cea1a006ad419215520b8668dcd3f6a9eeba1a123756563a739f9c6274b2',
+            'binary_sha256': '4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef',
+            'archive_url': 'https://github.com/leanprover/lean4/releases/download/v4.36.0-rc1/lean-4.36.0-rc1-linux.tar.zst',
+        }
+        report.setdefault('tool_digests', {})['con-ron'] = report['con_ron_checker']['binary_sha256']
+        return report
+
+    def test_current_protocol_binds_three_actual_acceptances(self):
+        report = self.fixture()
+        files = dict(self.files)
+        files['lean-toolchain'] = (report['lean_toolchain'] + '\n').encode()
+        self.assertEqual(self.check_fixture(report=report, files=files)['status'], 'pass')
+
+    def check_fixture(self, report=None, fields=None, files=None, data=None):
+        report = self.fixture() if report is None else report
+        if files is None:
+            files = dict(self.files)
+            files['lean-toolchain'] = b'leanprover/lean4:v4.35.0-rc2\n'
+        return super().check_fixture(report, fields, files, data)
+
+    def test_replay_decline_or_ambiguous_acceptance_is_not_three_kernel_pass(self):
+        changes = {
+            'missing': lambda r: r.update(kernel_attempts=[]),
+            'duplicate': lambda r: r['kernel_attempts'].append(copy.deepcopy(r['kernel_attempts'][0])),
+            'declined': lambda r: r['kernel_attempts'][0].update(status='declined', reason='capacity'),
+            'nonzero': lambda r: r['kernel_attempts'][0].update(exit_code=1),
+            'boolean': lambda r: r['kernel_attempts'][0].update(exit_code=False),
+            'unverified': lambda r: r['kernel_attempts'][0].update(argv=['/trusted/con-ron', '--jobs=2']),
+            'argv-mismatch': lambda r: r['kernels'][1].update(argv=['/other/con-ron', '--jobs=2', '--verified']),
+            'false-detail': lambda r: r['kernel_attempts'][0].update(detail='con-ron: rejected'),
+            'mixed-detail': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail']+'\n con-ron: declined'),
+            'declined-verdict': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail']+'\ncon-ron: declined: unsupported inductive example'),
+            'rejected-verdict': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail']+'\ncon-ron: rejected: invalid declaration'),
+            'duplicate-verdict': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail']+'\ncon-ron: accepted 1 declarations (--verified)'),
+            'unknown-diagnostic': lambda r: r['kernel_attempts'][0].update(detail=r['kernel_attempts'][0]['detail']+'\ncon-ron: unknown'),
+            'duplicate-kernel': lambda r: r['kernels'].append(copy.deepcopy(r['kernels'][1])),
+            'wrong-digest': lambda r: r['tool_digests'].update({'con-ron':'0'*64}),
+            'wrong-release': lambda r: r['con_ron_checker'].update(release_tag='v4.35.0-rc2'),
+            'wrong-kind': lambda r: r['con_ron_checker'].update(kind='bundled'),
+            'wrong-phase': lambda r: r.update(phase='preparation'),
+            'wrong-schema': lambda r: r.update(schema_version=1),
+            'zero-budget': lambda r: r['kernel_attempts'][0].update(budget_seconds=0),
+        }
+        for name, change in changes.items():
+            with self.subTest(change=name):
+                report = self.fixture();change(report)
+                with self.assertRaises(ValueError):self.check_fixture(report=report)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "proposed-not-submitted",
+  "proposed_submission_fields": {
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+    "project_path": "topology/sierpinski-rationals",
+    "comparator_config_path": "topology/sierpinski-rationals/comparator.json",
+    "formalization_metadata_path": "topology/sierpinski-rationals/formalization.yaml"
+  },
+  "source_package_tree": "e54c3b7a138aa6386c73c23ae3b349c97351be5f",
+  "source_archive": {
+    "file": "sierpinski-rationals-d338174-source.tar",
+    "sha256": "5591b5eec8a7f8207f52ed85a3553d917a3174f1ce6a0d3639a42ef03c3d899e",
+    "scope": "Only exact frozen project files, package-relative names; no directories, dependencies or build outputs."
+  },
+  "full": {
+    "run_id": 39882986575,
+    "attempt": 1,
+    "report_sha256": "66ac793f2a013d39cba252bbfd248e4ff8842dea0bec7a88dd739273eb11e368",
+    "report_file": "full-report.json"
+  },
+  "rendering": {
+    "run_id": 39882986107,
+    "attempt": 1,
+    "report_sha256": "59049f981d2a08f5cf649c9e8375d391bc63d0743a55d43db7b19b98f9a199b5",
+    "artifact_tree_sha256": "df209c86a065e04a3589fb4e831ccea0a89f8f3058ae3a97ccce152b8897fb80",
+    "report_file": "render-report.json"
+  },
+  "authorization": {
+    "canonical_pair": "consumed: exactly one successful pair",
+    "intake": false,
+    "credential_creation": false,
+    "registration": false,
+    "merge": false,
+    "reruns": false
+  },
+  "limits": "Mechanical verification, rendering and internal AI review do not establish editorial approval, public registration or exhaustive duplicate clearance. Native checkpoint zero-run fields are dated observations before the specifically approved canonical pair.",
+  "browser_visual_inspection": "not performed"
+}

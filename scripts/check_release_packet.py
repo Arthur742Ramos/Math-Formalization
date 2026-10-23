@@ -60,6 +60,63 @@ def status_errors(files):
     return sorted(set(errors))
 
 
+def check_kernels(report, protected):
+    """Require three accepted kernels under either retained canonical protocol.
+
+    Current policy runs con-ron after mandatory protected comparison. A policy
+    decline is not sufficient for this packet's stronger three-kernel claim.
+    Artifact/caller authentication remains an independent release obligation.
+    """
+    configured = protected['external_kernels']
+    kernels = report['kernels']
+    require(len(kernels) == 2 and {k['name'] for k in kernels} == {'nanoda', 'con-ron'},
+            'Missing or duplicate independent kernel')
+    if set(configured) == {'nanoda', 'con-ron'}:
+        require('con-ron kernel accepts the solution' in report['comparator_log_tail'],
+                'Missing actual con-ron acceptance')
+        return
+    require(set(configured) == {'nanoda'} and report.get('schema_version') == 2 and
+            report.get('phase') == 'verification', 'Unsupported protected kernel protocol')
+    by_name = {k['name']: k['argv'] for k in kernels}
+    require(by_name['nanoda'] == configured['nanoda'] and len(by_name['nanoda']) == 1 and
+            pathlib.Path(by_name['nanoda'][0]).is_absolute() and
+            pathlib.Path(by_name['nanoda'][0]).name == 'nanoda_bin', 'Wrong protected NanoDa command')
+    attempts = report.get('kernel_attempts', [])
+    require(len(attempts) == 1, 'Missing or duplicate con-ron replay')
+    attempt = attempts[0]
+    require(attempt['name'] == 'con-ron' and attempt['status'] == 'accepted' and
+            attempt['reason'] == 'complete' and type(attempt['exit_code']) is int and
+            attempt['exit_code'] == 0, 'con-ron replay did not accept')
+    command = attempt['argv']
+    require(command == by_name['con-ron'] and len(command) == 3 and
+            pathlib.Path(command[0]).is_absolute() and pathlib.Path(command[0]).name == 'con-ron' and
+            command[1:] == ['--jobs=2', '--verified'], 'Wrong verified con-ron replay command')
+    require(type(attempt['budget_seconds']) is int and 1 <= attempt['budget_seconds'] <= 1800,
+            'Invalid con-ron replay budget')
+    lines = [line.strip() for line in attempt['detail'].splitlines() if line.strip().startswith('con-ron:')]
+    accepted = r'con-ron: accepted [1-9][0-9]* declarations \(--verified\)(?: t=[0-9.]+s)?'
+    modelled = (r'con-ron: [1-9][0-9]* inductive blocks modelled in-process: [^\n]+ '
+                r'\([1-9][0-9]* generated records, checked by the fold as declarations '
+                r'and not counted as records of the file\)')
+    require(len(lines) in {1, 2} and re.fullmatch(accepted, lines[0]) and
+            (len(lines) == 1 or re.fullmatch(modelled, lines[1])),
+        'Missing unambiguous verified con-ron acceptance')
+    expected = {
+        'source_toolchain': 'leanprover/lean4:v4.35.0-rc2',
+        'kind': 'maintainer-pinned-release',
+        'release_tag': 'v4.36.0-rc1',
+        'release_commit': 'c9afcddf514a6772bd4d649f7cfc04eff0b9f15e',
+        'archive_sha256': '26b3cea1a006ad419215520b8668dcd3f6a9eeba1a123756563a739f9c6274b2',
+        'binary_sha256': '4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef',
+        'archive_url': 'https://github.com/leanprover/lean4/releases/download/v4.36.0-rc1/lean-4.36.0-rc1-linux.tar.zst',
+    }
+    checker = report.get('con_ron_checker', {})
+    require(all(checker.get(key) == value for key, value in expected.items()) and
+            report['lean_toolchain'] == expected['source_toolchain'] and
+            report.get('tool_digests', {}).get('con-ron') == expected['binary_sha256'],
+            'Unrecognized con-ron checker provenance or digest')
+
+
 def bind_full(report, fields, files):
     require(report['status'] == 'pass' and report['stage'] == 'complete' and report['errors'] == [],
             'Full report did not complete successfully')
@@ -89,11 +146,10 @@ def bind_full(report, fields, files):
             protected['challenge_module'].endswith('.Challenge'), 'Unprotected Challenge')
     for kind in ['challenge', 'solution']:
         require(report[kind]['module'] == config[kind + '_module'], kind + ' module mismatch')
-    require(set(protected['external_kernels']) == {'nanoda', 'con-ron'} and
-            {k['name'] for k in report['kernels']} == {'nanoda', 'con-ron'}, 'Missing independent kernel')
+    check_kernels(report, protected)
     require(report['challenge']['trust_level'] == 'high' and report['challenge']['untrusted_sources'] == [],
             'Challenge provenance is not high trust')
-    for message in ['con-ron kernel accepts the solution', 'nanoda kernel accepts the solution',
+    for message in ['nanoda kernel accepts the solution',
                     'Lean default kernel accepts the solution', 'Your solution is okay!']:
         require(message in report['comparator_log_tail'], 'Missing actual kernel/comparison acceptance')
 
