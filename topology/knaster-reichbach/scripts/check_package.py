@@ -4,7 +4,7 @@ a=argparse.ArgumentParser();a.add_argument('--axiom-log');a.parse_args()
 cfg=json.loads((p/'comparator.json').read_text());meta=json.loads((p/'formalization.yaml').read_text())
 assert cfg['challenge_module']=='KRChallenge' and cfg['solution_module']=='KRSolution'
 assert cfg['theorem_names']==['KnasterReichbach.exists_homeomorph_extension']
-assert cfg['definition_names']==['KnasterReichbach.CantorSpace']
+assert cfg['definition_names']==[]
 assert set(cfg['permitted_axioms'])=={'propext','Quot.sound','Classical.choice'}
 roles=['Arthur Freitas Ramos','David Barros Hulak','Ruy Jose Guerra Barretto de Queiroz']
 assert meta['project']['authors']==roles and meta['project']['responsible_maintainers']==roles

@@ -79,7 +79,7 @@
     }
   ],
   "status": {
-    "scope": "One selected full Knaster–Reichbach extension theorem and the CantorSpace abbreviation; all construction obligations discharged internally.",
+    "scope": "One selected full Knaster–Reichbach extension theorem, with zero definition holes. The CantorSpace abbreviation is protected through the statement dependency closure; all construction obligations are discharged internally.",
     "sorry_count": 0,
     "sorry_in_definitions": 0,
     "axioms": [

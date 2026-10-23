@@ -32,8 +32,8 @@ the compact-codomain closed-graph theorem to construct a homeomorphism.
 `Extension.lean` constructs all those relations and proves exact agreement.
 No refinement or extension existence premise is assumed in the final theorem.
 
-The Comparator selects the final theorem and compares the `CantorSpace`
-abbreviation's definition value. `KRChallenge` contains a standalone proof from
+The Comparator selects the final theorem with zero definition holes. The
+`CantorSpace` abbreviation is protected through the statement dependency closure. `KRChallenge` contains a standalone proof from
 Mathlib imports; `KRSolution` imports the independently compiled project modules.
 Challenge and Solution semantic entrypoints check the literal `Nat -> Bool`
 product-space formulation separately. Standard allowed axioms are only

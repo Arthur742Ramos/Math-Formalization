@@ -4,9 +4,7 @@
   "theorem_names": [
     "KnasterReichbach.exists_homeomorph_extension"
   ],
-  "definition_names": [
-    "KnasterReichbach.CantorSpace"
-  ],
+  "definition_names": [],
   "permitted_axioms": [
     "propext",
     "Quot.sound",
