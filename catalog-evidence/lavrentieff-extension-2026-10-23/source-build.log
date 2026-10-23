@@ -1,0 +1,12 @@
+ℹ [1359/1364] Replayed AxiomAudit
+info: AxiomAudit.lean:3:0: 'Lavrentieff.extensionDomain_isGδ' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:4:0: 'Lavrentieff.subset_extensionDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:5:0: 'Lavrentieff.cauchy_at_extensionDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:6:0: 'Lavrentieff.continuous_extension' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:7:0: 'Lavrentieff.isGδ_inter_preimage' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:8:0: 'Lavrentieff.extend_inverse_maps' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:9:0: 'Lavrentieff.homeomorph_extension' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:10:0: 'Lavrentieff.completely_metrizable_extension' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [1361/1364] Built SemanticTests (6.0s)
+✔ [1363/1364] Built ChallengeTests (7.5s)
+Build completed successfully (1364 jobs).

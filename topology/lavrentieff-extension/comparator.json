@@ -1,0 +1,20 @@
+{
+  "challenge_module": "LEChallenge",
+  "solution_module": "LESolution",
+  "theorem_names": [
+    "Lavrentieff.extensionDomain_isG\u03b4",
+    "Lavrentieff.subset_extensionDomain",
+    "Lavrentieff.cauchy_at_extensionDomain",
+    "Lavrentieff.continuous_extension",
+    "Lavrentieff.isG\u03b4_inter_preimage",
+    "Lavrentieff.extend_inverse_maps",
+    "Lavrentieff.homeomorph_extension",
+    "Lavrentieff.completely_metrizable_extension"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

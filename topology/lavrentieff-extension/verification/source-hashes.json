@@ -1,0 +1,23 @@
+{
+  "files": {
+    "ChallengeTests.lean": "746ea1a8ada3717443c65c107f951f9243a7b72dfa84c88ea40bd6ca0a35a93f",
+    "REVIEW.md": "61e1e0135ff010cd74feb01d35d9afbc4a8e8cfe37a12b10e22efef7942c1372",
+    "lake-manifest.json": "6cdc4915e3665fe2a9210cd959ccdd28a0060846912892bf3e74e096a1bf0bb7",
+    "comparator.json": "766b5bb21750a1c3c6344f73c389943cf06ad3738885d4fcbaf1e27d822ae0a8",
+    "SemanticTests.lean": "f675cbcb989e7310eb382759cfa3fc7922f345706d75005887a1da985909498a",
+    "AxiomAudit.lean": "8c5ef57243af4ae22983a619991f45379120c07a36680b98d7c1487baa6b8f66",
+    "LESolution.lean": "99aa64ce727c0031d7406030d0aa5a16053afd63985120208bceeddd706f89d3",
+    "lakefile.toml": "a003cfd3104eaf997644323d0e46eb0c100c0d3421677a72d85d5ae5d58f6352",
+    "VERIFICATION.md": "48db26a05ce9c02d2b830bceab43b55cd8fb95c74103b6c27d33bd4e9af805cc",
+    "README.md": "f7a6603502982ae680f20bf1a7411cfea03130dec0e51b46493a23e6205780c1",
+    "LEChallenge.lean": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+    "MATERIAL-DEFINITIONS.md": "c8a02d25b6c93c0a9df6be1e4c12c0bb5cd5d6880e2ef2a81557fea53083d6b6",
+    "SOURCE-MAPPING.md": "03fe4f950ec1bde1da4a5131b649b475380e87006bf156563d32b2d804776728",
+    "Lavrentieff.lean": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "formalization.yaml": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166",
+    "scripts/check_package.py": "edad951a50171db1080d6b235ed8ad47af2be95c3b33ab8f976a34d5d24ec2b0",
+    "scripts/verify_native.py": "bbc293564f36de5b623ac12b05069545b353c4a87a6abd80381639a1ae53c0fe",
+    "verification/material-imported-definitions.json": "b149693586c7e0889fedeba8a2ddeb8b94ca44c2ce04e32f624e27c4e31899c5"
+  }
+}

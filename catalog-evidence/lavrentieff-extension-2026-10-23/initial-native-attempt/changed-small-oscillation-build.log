@@ -1,0 +1,7 @@
+/tmp/lavrentieff-native-e3b172c/NegativeChangedSmallOscillation.lean:36:31: error: This simp argument is unused:
+  mem_iUnion
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [smallOscillation]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

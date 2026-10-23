@@ -1,0 +1,26 @@
+{
+  "scope": "Static comparison and historical artifact authentication only; NO Lavrentieff rendering performed",
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
+  "challenge_sha256": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+  "challenge_lines": 218,
+  "challenge_bytes": 10535,
+  "selected_theorems": 8,
+  "local_declaration_count": 12,
+  "cap_bytes": 8388608,
+  "cap_in_pinned_pipeline": "scripts/render_challenge.py MAX_RENDER_FILE_BYTES = 8 * 1024 * 1024",
+  "reference": {
+    "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+    "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+    "challenge_sha256": "3a4f81807486210a423cd552b42e2614831a7ce32eb2626e90e3a1b3a2e6e459",
+    "challenge_lines": 493,
+    "challenge_bytes": 22051,
+    "html_bytes": 5681728,
+    "html_sha256": "d2d97bc94f30b7c701f43ce391758510055deb0f33b8be47e44c92db474b7491",
+    "render_report_path": "catalog-evidence/sierpinski-rationals-2026-10-23/canonical/render-report.json",
+    "render_report_sha256": "59049f981d2a08f5cf649c9e8375d391bc63d0743a55d43db7b19b98f9a199b5",
+    "artifact_manifest_sha256": "13eb4697a7683d6ead530c4482ed65b312b49251448ce0c7e7906c34b4f1d7cd"
+  },
+  "illustrative_byte_scaled_html_bytes": 2714480,
+  "illustrative_line_scaled_html_bytes": 2512407,
+  "interpretation": "Source volume is substantially below an authenticated passing comparison. Size risk appears modest but remains unmeasured. Linear scaling is neither a rendering result nor an upper bound: inferred types, tactic information and hover metadata can expand differently. Keep exact source and all pipeline caps; allow one conditional render only after full verification passes. An actual cap failure stops this plan; do not raise limits, hide declarations or auto-retry."
+}

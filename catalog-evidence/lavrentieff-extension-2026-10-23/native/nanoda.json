@@ -1,0 +1,13 @@
+{
+  "export_file_path": "/tmp/lavrentieff-native-final/solution.ndjson",
+  "use_stdin": false,
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "unpermitted_axiom_hard_error": true,
+  "nat_extension": true,
+  "string_extension": true,
+  "print_success_message": true
+}

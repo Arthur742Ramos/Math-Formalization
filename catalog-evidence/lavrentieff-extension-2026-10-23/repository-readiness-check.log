@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "scope": "Saved evidence and source bindings; no new Lean/Comparator execution or registry certification",
+  "projects": 17,
+  "selected_theorems": 114,
+  "selected_definitions": 36,
+  "full_success_equal_package_trees": 17,
+  "named_renderer_success": 13,
+  "registered_preview_only": 3,
+  "rendering_not_established": 1,
+  "official_registrations_evidenced": 10,
+  "user_reported_ids_unconfirmed": 2,
+  "other_registration_outcomes_unknown": 5,
+  "supplemental_selected_axiom_reports": 21,
+  "sorgenfrey_hosted_axiom_reports": 12,
+  "sorgenfrey_selected_theorems_covered": 7
+}

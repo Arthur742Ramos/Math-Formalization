@@ -1,0 +1,132 @@
+{
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
+  "package_tree": "7b387d9479cd6b5bf8427e8f085f46c64a776f11",
+  "source_edited": false,
+  "result": "no source-contained stale canonical-not-run claim found",
+  "review_method": "Direct semantic read of metadata, selected README and all linked review/verification/source/definition notes; validators checked for obsolete status assertions. Excerpts below are locators, not an automated semantic verdict.",
+  "facts": [
+    "Native and mathematical reviews are represented separately from canonical results.",
+    "Requirement language such as canonical verification and rendering require their own receipts remains true after future success.",
+    "No source field asserts current canonical_full=not-established or a future canonical failure.",
+    "Native verifier canonical_workflows_run=0 records operations of that native script, not a permanent claim about all service activity.",
+    "Old external native checkpoint and blocked-state records are dated historical evidence; retain them and publish a newer external results pointer after later outcomes.",
+    "No package edit is needed merely to record successful full/render stages."
+  ],
+  "source_documents": [
+    {
+      "path": "README.md",
+      "sha256": "f7a6603502982ae680f20bf1a7411cfea03130dec0e51b46493a23e6205780c1",
+      "status_excerpts": [
+        {
+          "line": 34,
+          "text": "independent review and machine results belong to immutable external receipts;"
+        },
+        {
+          "line": 35,
+          "text": "see [VERIFICATION.md](VERIFICATION.md). Native checks do not replace canonical"
+        },
+        {
+          "line": 36,
+          "text": "sandbox verification or rendering. No registry submission is initiated by this package."
+        }
+      ]
+    },
+    {
+      "path": "formalization.yaml",
+      "sha256": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166",
+      "status_excerpts": [
+        {
+          "line": 77,
+          "text": "    \"known_gaps\": \"No mathematical gap in selected statements. Exact-source receipts separately record build, native comparison, independent kernels and review. Canonical sandbox verification and rendering require their own receipts and authorization; native checks do not replace these gates. Bounded public duplicate checks do not establish global priority or absence of private intake.\","
+        },
+        {
+          "line": 98,
+          "text": "    \"notes\": \"Independent internal AI source/scope and implementation review completed. Metadata, definition inventory and final exact-source verification evidence require their own source-bound review receipts. No human or external peer review or registry endorsement is claimed.\""
+        }
+      ]
+    },
+    {
+      "path": "VERIFICATION.md",
+      "sha256": "48db26a05ce9c02d2b830bceab43b55cd8fb95c74103b6c27d33bd4e9af805cc",
+      "status_excerpts": [
+        {
+          "line": 20,
+          "text": "These checks have different isolation/resource properties from canonical full"
+        },
+        {
+          "line": 21,
+          "text": "sandbox verification and do not replace it. Canonical full verification and Challenge"
+        },
+        {
+          "line": 22,
+          "text": "rendering are separate gates. No protected installer, new security permission,"
+        },
+        {
+          "line": 28,
+          "text": "never infer passing edited bytes from predecessor receipts; distinguish native,"
+        },
+        {
+          "line": 29,
+          "text": "canonical, rendering, visual, editorial and registration outcomes. Record evidence"
+        },
+        {
+          "line": 31,
+          "text": "The source never describes a gate as passed without its own immutable receipt."
+        },
+        {
+          "line": 33,
+          "text": "External receipts must bind exact commit/package tree, toolchain and lockfile,"
+        },
+        {
+          "line": 35,
+          "text": "A verified intake handoff additionally requires canonical full/render evidence,"
+        }
+      ]
+    },
+    {
+      "path": "REVIEW.md",
+      "sha256": "61e1e0135ff010cd74feb01d35d9afbc4a8e8cfe37a12b10e22efef7942c1372",
+      "status_excerpts": [
+        {
+          "line": 11,
+          "text": "Challenge/Solution contracts and final exact-source receipts are distinct review"
+        }
+      ]
+    },
+    {
+      "path": "SOURCE-MAPPING.md",
+      "sha256": "03fe4f950ec1bde1da4a5131b649b475380e87006bf156563d32b2d804776728",
+      "status_excerpts": []
+    },
+    {
+      "path": "scripts/check_package.py",
+      "sha256": "edad951a50171db1080d6b235ed8ad47af2be95c3b33ab8f976a34d5d24ec2b0",
+      "status_excerpts": [
+        {
+          "line": 1,
+          "text": "\"\"\"Validate source consistency only; native/canonical/review receipts are separate.\"\"\""
+        }
+      ]
+    },
+    {
+      "path": "scripts/verify_native.py",
+      "sha256": "bbc293564f36de5b623ac12b05069545b353c4a87a6abd80381639a1ae53c0fe",
+      "status_excerpts": [
+        {
+          "line": 2,
+          "text": "parser=argparse.ArgumentParser(description='Native protected-copy comparison and kernel replay; not canonical sandbox verification.')"
+        },
+        {
+          "line": 68,
+          "text": "summary=dict(status='pass',scope='Native protected-copy comparison and independent kernel replays; not canonical sandbox/resource-profile verification',selected_theorems=names,permitted_axioms=legal,primitive_targets=primitive,source_sha256=sha(P/'LEChallenge.lean'),proof_sha256=sha(P/'Lavrentieff.lean'),comparator_sha256=sha(P/'comparator.json'),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=P,text=True).strip(),runs=runs,files={f.name:dict(sha256=sha(f),size=f.stat().st_size) for f in A.iterdir() if f.is_file()},toolchain=str(T),tool_binary_sha256={n:sha(T/'bin'/n) for n in ['lean','lake','leanexport','leanchecker','nanoda_bin','con-ron']},canonical_workflows_run=0,registry_intakes=0)"
+        }
+      ]
+    },
+    {
+      "path": "MATERIAL-DEFINITIONS.md",
+      "sha256": "c8a02d25b6c93c0a9df6be1e4c12c0bb5cd5d6880e2ef2a81557fea53083d6b6",
+      "status_excerpts": []
+    }
+  ],
+  "future_receipt_policy": "Freeze the entire project tree. Full and renderer certify e2 source. Later external evidence/catalog commits may retain the identical package tree, but never be described as freshly run. Any package edit, including metadata/doc-only, invalidates this plan and needs newly reviewed source and fresh exact-source canonical receipts; preserve prior history."
+}
