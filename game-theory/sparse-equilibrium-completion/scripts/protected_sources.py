@@ -19,7 +19,7 @@ from assemble_challenge import MODULES
 
 PIN_SHA256 = '26912f81e3b3f3a03d154464929b2363d8940679c6f09fdc159ed5eabbed77c0'
 COMPARATOR_SHA256 = '9a873345c928d8b543b0bdcd7ea03ce667fea59abb35853435fab52d0f7b042b'
-COMPARE_EXPORTS_SHA256 = 'b0bd1132246f4d7ecc6531c3a1897ce832c701e74fb0ce9fd572c4550a1a1877'
+COMPARE_EXPORTS_SHA256 = '38d386718ab6e6a9b0160fc04bfe5c352105104ee3c8fad38f5aeb1108e5f655'
 FACETS = ('.olean', '.olean.private', '.olean.server', '.ir', '.ir.sig')
 NAME = re.compile(r'[A-Za-z_][A-Za-z_0-9]*(?:\.[A-Za-z_][A-Za-z_0-9]*)*')
 RAW_STRING = re.compile(r'r(#+)"')

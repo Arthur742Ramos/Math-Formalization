@@ -1,7 +1,13 @@
 /- Uses the unchanged comparison/axiom APIs from the pinned Lean toolchain.
    Local native check only; this is not the registry sandbox runner. -/
-import Lake.Check.Compare
-import Lake.Check.Axioms
+module
+
+public import Lake.Check.Compare
+public import Lake.Check.Axioms
+meta import Lake.Check.Compare
+meta import Lake.Check.Axioms
+
+@[expose] public section
 
 open Lean Lake.Check
 
