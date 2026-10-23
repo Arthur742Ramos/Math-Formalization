@@ -1,0 +1,1128 @@
+{
+  "schema_version": 1,
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "base_commit": "6c922670eeea8bf2f4908fc944510f3512ef3f9f",
+  "before": 56,
+  "after": 0,
+  "classification": "All retired files are validation CI; no release, deployment or security automation was present.",
+  "setup_policy": "Use preinstalled user-space Elan (4.2.4 in the campaign environment), each package exact Lean pin and authenticated dependencies. Removed only hosted Elan installation, implicit Actions setup, upload and runner cleanup. Never run archived setup or security-changing installers.",
+  "workflows": [
+    {
+      "file": "alexandroff-urysohn-lean.yml",
+      "name": "Alexandroff-Urysohn Lean verification",
+      "kind": "native",
+      "sha256": "0c62dcb5259986ae1bff121d7e3e2d99a264737f151c77be60c81de381c8b21f",
+      "local_replacement": "scripts/local_validate.py alexandroff-urysohn-lean.yml",
+      "directory": "topology/alexandroff-urysohn",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/lake-version.txt\"\nlake exe cache get Mathlib.Topology.Metrizable.Uniformity Mathlib.Tactic.Linarith Mathlib.Tactic.NormNum\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/au-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/au-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/au-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "banach-mazur-baire-lean.yml",
+      "name": "Banach\u2013Mazur Baire Lean verification",
+      "kind": "native",
+      "sha256": "922a7a116106f73ab12b3a493d41b410120e46e5900826c22b806c2e3a832579",
+      "local_replacement": "scripts/local_validate.py banach-mazur-baire-lean.yml",
+      "directory": "topology/banach-mazur-baire",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/banach-mazur-baire-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/banach-mazur-baire-lake-version.txt\"\nlake exe cache get Mathlib.Order.Zorn Mathlib.Data.Set.Pairwise.Basic Mathlib.Topology.Baire.Lemmas\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 ../../scripts/check_imported_definitions.py --project-path topology/banach-mazur-baire --dependency-root .lake/packages/mathlib",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 - \"$(lean --print-prefix)/src/lean/Init/Prelude.lean\" <<'PYCORE'\nimport hashlib, json, pathlib, sys\nmanifest = json.loads(pathlib.Path('verification/core-definitions.json').read_text())\nsource = pathlib.Path(sys.argv[1]).read_bytes()\nassert hashlib.sha256(source).hexdigest() == manifest['sha256']\nassert hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\\0' + source).hexdigest() == manifest['git_blob_sha1']\nfor excerpt in manifest['excerpts']:\n    assert b''.join(source.splitlines(keepends=True)[excerpt['first_line'] - 1:excerpt['last_line']]).decode() == excerpt['text']\nPYCORE\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/banach-mazur-baire-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/banach-mazur-baire-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/banach-mazur-baire-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "banach-mazur-category-lean.yml",
+      "name": "Banach\u2013Mazur category-game Lean verification",
+      "kind": "native",
+      "sha256": "6d7a1019100579739ad696198bf98223901ace597841d6174b20b21e9cfc9ec3",
+      "local_replacement": "scripts/local_validate.py banach-mazur-category-lean.yml",
+      "directory": "topology/banach-mazur-category",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/banach-mazur-category-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/banach-mazur-category-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Baire.BaireMeasurable Mathlib.Topology.MetricSpace.Bounded Mathlib.Analysis.SpecificLimits.Basic\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 ../../scripts/check_imported_definitions.py --project-path topology/banach-mazur-category --dependency-root .lake/packages/mathlib",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 - \"$(lean --print-prefix)/src/lean/Init/Prelude.lean\" <<'PYCORE'\nimport hashlib, json, pathlib, sys\nmanifest = json.loads(pathlib.Path('verification/core-definitions.json').read_text())\nsource = pathlib.Path(sys.argv[1]).read_bytes()\nassert hashlib.sha256(source).hexdigest() == manifest['sha256']\nassert hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\\0' + source).hexdigest() == manifest['git_blob_sha1']\nfor excerpt in manifest['excerpts']:\n    assert b''.join(source.splitlines(keepends=True)[excerpt['first_line'] - 1:excerpt['last_line']]).decode() == excerpt['text']\nPYCORE\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/banach-mazur-category-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/banach-mazur-category-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/banach-mazur-category-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "choquet-baire-product-lean.yml",
+      "name": "Choquet Baire product Lean verification",
+      "kind": "native",
+      "sha256": "9343c17715e45a21741d3806b701c781a3a3ab2542abf83988df527828cc74ca",
+      "local_replacement": "scripts/local_validate.py choquet-baire-product-lean.yml",
+      "directory": "topology/choquet-baire-product",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/choquet-baire-product-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/choquet-baire-product-lake-version.txt\"\nlake exe cache get Mathlib.Order.Zorn Mathlib.Data.Set.Pairwise.Basic Mathlib.Topology.Baire.Lemmas Mathlib.Topology.MetricSpace.Bounded Mathlib.Analysis.SpecificLimits.Basic\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 ../../scripts/check_imported_definitions.py --project-path topology/choquet-baire-product --dependency-root .lake/packages/mathlib",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 - \"$(lean --print-prefix)/src/lean/Init/Prelude.lean\" <<'PYCORE'\nimport hashlib, json, pathlib, sys\nmanifest = json.loads(pathlib.Path('verification/core-definitions.json').read_text())\nsource = pathlib.Path(sys.argv[1]).read_bytes()\nassert hashlib.sha256(source).hexdigest() == manifest['sha256']\nassert hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\\0' + source).hexdigest() == manifest['git_blob_sha1']\nfor excerpt in manifest['excerpts']:\n    assert b''.join(source.splitlines(keepends=True)[excerpt['first_line'] - 1:excerpt['last_line']]).decode() == excerpt['text']\nPYCORE\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/choquet-baire-product-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/choquet-baire-product-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/choquet-baire-product-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "collectionwise-normal-lean.yml",
+      "name": "Collectionwise expansion Lean verification",
+      "kind": "native",
+      "sha256": "322b282529a2d4e96a57e2b942092b5647b4051d59892ea201b893e75a885ab1",
+      "local_replacement": "scripts/local_validate.py collectionwise-normal-lean.yml",
+      "directory": "topology/collectionwise-normal",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/collectionwise-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/collectionwise-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Compactness.Paracompact\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/collectionwise-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/collectionwise-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/collectionwise-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "compact-countable-network-lean.yml",
+      "name": "Compact countable-network Lean verification",
+      "kind": "native",
+      "sha256": "624c8735cdafcb2a26aed2188a0b276f9621d0c21a4e338fc786bb26f00daed7",
+      "local_replacement": "scripts/local_validate.py compact-countable-network-lean.yml",
+      "directory": "topology/compact-countable-network",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nif test -r /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then\n  cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns > \"$RUNNER_TEMP/countable-network-runner-userns.txt\"\nelse\n  echo absent > \"$RUNNER_TEMP/countable-network-runner-userns.txt\"\nfi\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/countable-network-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/countable-network-lake-version.txt\"\nlake exe cache get Mathlib.Topology.UrysohnsLemma Mathlib.Topology.MetricSpace.PiNat\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/countable-network-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/countable-network-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/countable-network-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "composants.yml",
+      "name": "Composants",
+      "kind": "native",
+      "sha256": "bcaba4a55f1572a1571cb24be6c7f9711ae47bcd96603d5640c91648da969f95",
+      "local_replacement": "scripts/local_validate.py composants.yml",
+      "directory": "topology/composants",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --check-package-only",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --lake-build --output .lake/verification.json",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_definitions.py --compare-mathlib --self-test"
+      ]
+    },
+    {
+      "file": "countable-coordinate-factorization-lean.yml",
+      "name": "Countable-coordinate factorization Lean verification",
+      "kind": "native",
+      "sha256": "b7eb09a8c2c8b41349485fadf3c25515eb5867327477cec4a9416ec38ed3d6ae",
+      "local_replacement": "scripts/local_validate.py countable-coordinate-factorization-lean.yml",
+      "directory": "topology/countable-coordinate-factorization",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nif test -r /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then\n  cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns > \"$RUNNER_TEMP/coordinate-factorization-runner-userns.txt\"\nelse\n  echo absent > \"$RUNNER_TEMP/coordinate-factorization-runner-userns.txt\"\nfi\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/coordinate-factorization-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/coordinate-factorization-lake-version.txt\"\nlake exe cache get Mathlib.Topology.UniformSpace.OfCompactT2 Mathlib.Topology.UniformSpace.HeineCantor Mathlib.Topology.Metrizable.Uniformity Mathlib.Analysis.Real.Cardinality Mathlib.Topology.Instances.Real.Lemmas\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/coordinate-factorization-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/coordinate-factorization-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/coordinate-factorization-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "hewitt-marczewski-pondiczery-lean.yml",
+      "name": "Countable-density HMP Lean verification",
+      "kind": "native",
+      "sha256": "196a2ebad077a7ef15105ee343f442463ead02a27ec36a57a91264d7045a9af9",
+      "local_replacement": "scripts/local_validate.py hewitt-marczewski-pondiczery-lean.yml",
+      "directory": "topology/hewitt-marczewski-pondiczery",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nif test -r /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then\n  cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns > \"$RUNNER_TEMP/hmp-runner-userns.txt\"\nelse\n  echo absent > \"$RUNNER_TEMP/hmp-runner-userns.txt\"\nfi\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/hmp-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/hmp-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Bases Mathlib.Topology.Order Mathlib.SetTheory.Cardinal.Continuum\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/hmp-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/hmp-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/hmp-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "hyperspace-components.yml",
+      "name": "Hyperspace components",
+      "kind": "native",
+      "sha256": "24469217dd1b620d387e2a369fc77e8972a57ec4c7012faf1762782dafec003c",
+      "local_replacement": "scripts/local_validate.py hyperspace-components.yml",
+      "directory": "topology/hyperspace-components",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --check-package-only",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --lake-build --output .lake/verification.json",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_definitions.py --compare-mathlib --self-test"
+      ]
+    },
+    {
+      "file": "kuratowski-ulam-lean.yml",
+      "name": "Kuratowski Ulam Lean verification",
+      "kind": "native",
+      "sha256": "ce6b9e55d8d17b8416915a494dee6070dc37ccacaa5d46136eee8ef6524c2c98",
+      "local_replacement": "scripts/local_validate.py kuratowski-ulam-lean.yml",
+      "directory": "topology/kuratowski-ulam",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/kuratowski-ulam-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/kuratowski-ulam-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Baire.BaireMeasurable Mathlib.Topology.Bases Mathlib.Topology.Order\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 ../../scripts/check_imported_definitions.py --project-path topology/kuratowski-ulam --dependency-root .lake/packages/mathlib",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/kuratowski-ulam-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/kuratowski-ulam-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/kuratowski-ulam-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "locally-compact-baire-lean.yml",
+      "name": "Locally compact Baire Lean verification",
+      "kind": "native",
+      "sha256": "d1029406fd292c51a2bc2aefeab9a03366ca4dbfc12c38a38e2c254674de6fc7",
+      "local_replacement": "scripts/local_validate.py locally-compact-baire-lean.yml",
+      "directory": "topology/locally-compact-baire",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/locally-compact-baire-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/locally-compact-baire-lake-version.txt\"\nlake exe cache get Mathlib.Order.Zorn Mathlib.Data.Set.Pairwise.Basic Mathlib.Topology.Baire.LocallyCompactRegular\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 ../../scripts/check_imported_definitions.py --project-path topology/locally-compact-baire --dependency-root .lake/packages/mathlib",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/locally-compact-baire-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/locally-compact-baire-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/locally-compact-baire-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "order-arcs.yml",
+      "name": "Order arcs",
+      "kind": "native",
+      "sha256": "0d0696735e1866f89cb5a326c224d2746cef0668b9d7a6c21aa67f1af1c2c625",
+      "local_replacement": "scripts/local_validate.py order-arcs.yml",
+      "directory": "topology/order-arcs",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --check-package-only",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --lake-build --output .lake/verification.json",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_definitions.py --compare-mathlib --self-test"
+      ]
+    },
+    {
+      "file": "palomar-au-full-preflight.yml",
+      "name": "Palomar Alexandroff-Urysohn full mechanical preflight",
+      "kind": "full",
+      "sha256": "90e3af38c37605105d08175871992e91e2b43aa0ef7a377d6694d25d47c4962f",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "aupreflight1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/alexandroff-urysohn\",\"comparator_config_path\":\"topology/alexandroff-urysohn/comparator.json\",\"formalization_metadata_path\":\"topology/alexandroff-urysohn/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-au-renderer.yml",
+      "name": "Alexandroff-Urysohn Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "8215f0ac9ca6caf2ae20d094c8c36335bfeb4337bb700de1e37c6d5b96191e14",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "8ff5eedba962cb74050fe6d5f0acd934ba830fc5",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-collectionwise-full-preflight.yml",
+      "name": "Palomar collectionwise full mechanical preflight",
+      "kind": "full",
+      "sha256": "c1f116593a109be9880010fbe48390ff2a4d96b1dd4ac36022e946f4b7c3cb84",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "cwpreflight1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/collectionwise-normal\",\"comparator_config_path\":\"topology/collectionwise-normal/comparator.json\",\"formalization_metadata_path\":\"topology/collectionwise-normal/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-collectionwise-renderer.yml",
+      "name": "Collectionwise expansion Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "62bf8891061a586111d9d374f2d9cc1acf75ccaca2447af59bb0c51b791ed8c7",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "8ba7d5096d7d77a1e2f6e6f04ba70c85aed2a814",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-composants.yml",
+      "name": "Palomar composants preflight",
+      "kind": "full",
+      "sha256": "16eac43f21296b2bea03dcb3450899c49eae4fd393909ffa4e127a936b361eeb",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "composants01",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/composants\",\"comparator_config_path\":\"topology/composants/comparator.json\",\"authorization_relationship\":\"I am a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-coordinate-factorization-full-preflight.yml",
+      "name": "Palomar coordinate-factorization full mechanical preflight",
+      "kind": "full",
+      "sha256": "f72fb4733d0cce902535c4d0e961343791c44c1dab83c8e9953c9fcc8c524b9a",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "ccpreflight1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/countable-coordinate-factorization\",\"comparator_config_path\":\"topology/countable-coordinate-factorization/comparator.json\",\"formalization_metadata_path\":\"topology/countable-coordinate-factorization/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-coordinate-factorization-renderer.yml",
+      "name": "Coordinate-factorization Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "b3a696ce52b12fb828990c7d215a24ec53ee2ce1d9e6dff7252e17a7f82ae269",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "fc3f403c4d07356d2232e809f326f63a9ce9da45",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-countable-network-full-preflight.yml",
+      "name": "Palomar countable-network full mechanical preflight",
+      "kind": "full",
+      "sha256": "e34546c0220383868e8b42cdb25af27a7def3966f3e3beaf6523049c76f6495f",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "cnpreflight1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/compact-countable-network\",\"comparator_config_path\":\"topology/compact-countable-network/comparator.json\",\"formalization_metadata_path\":\"topology/compact-countable-network/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-countable-network-renderer.yml",
+      "name": "Countable-network Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "06ce08cd17be8f3cedda0905ef7a98fb94412ebce0ff127c44c5023eb445c9b4",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "47aaba112beb17b7c0ca68f56356c5c829ee154d",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-dowker-characterization.yml",
+      "name": "Palomar Dowker characterization mechanical preflight",
+      "kind": "full",
+      "sha256": "af8ffbd6b5cea24be47ea65b6dc5bf2d5940fc8707c4e0034545bd169ec89249",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "dowker000001",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/dowker-characterization\",\"comparator_config_path\":\"topology/dowker-characterization/comparator.json\",\"formalization_metadata_path\":\"topology/dowker-characterization/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-dowker-renderer.yml",
+      "name": "Dowker Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "b9023afaabdacb1d8df9bd781e47e386c72f70c3d42fc64f1793be1daf5fd71a",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-hmp-full-preflight.yml",
+      "name": "Palomar hmp full mechanical preflight",
+      "kind": "full",
+      "sha256": "d576d79f6b10b872c7f7705af09c7ca897859b57fe581d485884001a27290a9e",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "hmppreflght1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/hewitt-marczewski-pondiczery\",\"comparator_config_path\":\"topology/hewitt-marczewski-pondiczery/comparator.json\",\"formalization_metadata_path\":\"topology/hewitt-marczewski-pondiczery/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-hmp-renderer.yml",
+      "name": "HMP Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "b0043a4da817d669c0db977ced6bcd7bdebafad13e911271d9b9353f0344f5ee",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "cd7ae6bc5f4a1e5569cbbe1a883b83e92eb07a0e",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-hyperspace-components.yml",
+      "name": "Palomar hyperspace-components preflight",
+      "kind": "full",
+      "sha256": "ce74d3f6ad4eadea0f1e0949d21206347e840a7aaa55d45099f2a71f03b32096",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "hyperspace01",
+            "execution_profile": "palomar-standard-v1",
+            "mode": "full",
+            "options": "{\"project_path\":\"topology/hyperspace-components\",\"comparator_config_path\":\"topology/hyperspace-components/comparator.json\",\"authorization_relationship\":\"I am a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-michael-biquotient.yml",
+      "name": "Palomar Michael biquotient mechanical preflight",
+      "kind": "full",
+      "sha256": "9df3a2bd88053f54ddc1798a9b1acf814c05e8a811c79318587c2fe8077ee836",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "michael00001",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/michael-biquotient\",\"comparator_config_path\":\"topology/michael-biquotient/comparator.json\",\"formalization_metadata_path\":\"topology/michael-biquotient/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-nagata-smirnov-renderer.yml",
+      "name": "Nagata\u2013Smirnov Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "9418ba66ca877c4ece941b8c51aacf87020971e68649290f98a56651f2982836",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "${{ github.sha }}",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-nagata-smirnov.yml",
+      "name": "Palomar Nagata\u2013Smirnov mechanical preflight",
+      "kind": "full",
+      "sha256": "a3368fa575e0ee83760b0709951a6ef3e7301b9ce658c3030a1b3f0ffaa73287",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "nagata000001",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/nagata-smirnov\",\"comparator_config_path\":\"topology/nagata-smirnov/comparator.json\",\"formalization_metadata_path\":\"topology/nagata-smirnov/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-order-arcs.yml",
+      "name": "Palomar order-arcs preflight",
+      "kind": "full",
+      "sha256": "6460625225d0a17d3f2f4710d1ce0226295ef4b0b7203e52a91a931479867abe",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "orderarcs001",
+            "execution_profile": "palomar-standard-v1",
+            "mode": "full",
+            "options": "{\"project_path\":\"topology/order-arcs\",\"comparator_config_path\":\"topology/order-arcs/comparator.json\",\"authorization_relationship\":\"I am a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-perfect-image-renderer.yml",
+      "name": "Perfect metrizable images Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "8a1743d955bf002a70abb43f95e28a72db24d172d64acaa6ed4cfa125c720a5e",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "${{ github.sha }}",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-perfect-image.yml",
+      "name": "Palomar Perfect metrizable images mechanical preflight",
+      "kind": "full",
+      "sha256": "c2883a0b0f7345b63f978615fef4bd87f8ab3f058a682cae4a0887abc9e5c423",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "perfimage001",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/perfect-metrizable-images\",\"comparator_config_path\":\"topology/perfect-metrizable-images/comparator.json\",\"formalization_metadata_path\":\"topology/perfect-metrizable-images/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-perfect-paracompact-renderer.yml",
+      "name": "Perfect paracompactness Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "2b751e8981a51398613f6ff8777a43dcc3e29cad21b333b16af33af8b09a3302",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "${{ github.sha }}",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-perfect-paracompact.yml",
+      "name": "Palomar perfect paracompactness mechanical preflight",
+      "kind": "full",
+      "sha256": "df64cfabf0c6136489df67b014f86852f3997082aad6d49ea3fdff522252089b",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "perfect00001",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/perfect-paracompact\",\"comparator_config_path\":\"topology/perfect-paracompact/comparator.json\",\"formalization_metadata_path\":\"topology/perfect-paracompact/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-readiness-hyperspace-components-renderer.yml",
+      "name": "hyperspace-components Challenge renderer readiness preflight",
+      "kind": "render",
+      "sha256": "d37cc925eaf096bc6a1877104fd4bd4eaf0279f393763f3c70c6f8d6432d3336",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "eb3bac386e34b97d443cfcf0bd603e34ccdac6d0",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-readiness-sorgenfrey-covering-renderer.yml",
+      "name": "sorgenfrey-covering Challenge renderer readiness preflight",
+      "kind": "render",
+      "sha256": "b54ceac5b1fc4a9bc66e9d39af10712960c497af8268c1f8f97adc32212c0731",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "bdae8391754077f11c0f200ec80a9ab56d64deae",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-readiness-whitney-reversibility-renderer.yml",
+      "name": "whitney-reversibility Challenge renderer readiness preflight",
+      "kind": "render",
+      "sha256": "d4dbb79ce293ff19a668db1c980b1a0badb992f89966b48df1a3177493b4973c",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "de1a104e9b36154b145cf08ba15b1f595b4c503e",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-sierpinski-full.yml",
+      "name": "Palomar Sierpinski full mechanical preflight",
+      "kind": "full",
+      "sha256": "ddc964dc6281d529388b77b53a53e66258968d4b4429a294577f9bedae62997b",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+            "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+            "request_id": "sierpinskif1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/sierpinski-rationals\",\"comparator_config_path\":\"topology/sierpinski-rationals/comparator.json\",\"formalization_metadata_path\":\"topology/sierpinski-rationals/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-sierpinski-renderer.yml",
+      "name": "Sierpinski Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "d254caddf5fb60de06d16de539b84c07594a99250a406fc5d845d436bb836456",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-sigma-full-preflight.yml",
+      "name": "Palomar sigma full mechanical preflight",
+      "kind": "full",
+      "sha256": "d6f231388e9782f1f0a629a600c645f8b5c30e92548203bfce179d08a311ac41",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "10f8b9075144c51468729b9b620c46b739c0a680",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "sigmapreflt1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/sigma-product-frechet\",\"comparator_config_path\":\"topology/sigma-product-frechet/comparator.json\",\"formalization_metadata_path\":\"topology/sigma-product-frechet/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-sigma-renderer.yml",
+      "name": "Sigma-product Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "828f0ffc9a2b026a5f282d160ce7e1891226ce24b01f26e3f7b4f7980f3b75eb",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "10f8b9075144c51468729b9b620c46b739c0a680",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-smirnov-renderer.yml",
+      "name": "Smirnov local metrization Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "596432fc160a4a5bcff39e7bbc911d84331052422307ead4c739342b8bed6e9a",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "${{ github.sha }}",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-smirnov.yml",
+      "name": "Palomar Smirnov local metrization mechanical preflight",
+      "kind": "full",
+      "sha256": "4c1275cb93815dfa67b79f0000b2929e3cb864cf22d3429ec262ea99e0e12c8b",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "smirnov00001",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/smirnov-local-metrization\",\"comparator_config_path\":\"topology/smirnov-local-metrization/comparator.json\",\"formalization_metadata_path\":\"topology/smirnov-local-metrization/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-sneider-full-preflight.yml",
+      "name": "Palomar Sneider full mechanical preflight",
+      "kind": "full",
+      "sha256": "bf044c31f3a32fcf643f378a670e0540744cd713da9c3aa1568b7c26f316c1a2",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "Arthur742Ramos/Math-Formalization",
+            "commit": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "sdpreflight1",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/sneider-diagonal\",\"comparator_config_path\":\"topology/sneider-diagonal/comparator.json\",\"formalization_metadata_path\":\"topology/sneider-diagonal/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-sneider-renderer.yml",
+      "name": "Sneider Challenge renderer preflight",
+      "kind": "render",
+      "sha256": "7c0bd023586669d3693941a90d1b267c9245608c71809e776c4439d2f58776ec",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_sources": [
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "persist-credentials": false
+        },
+        {
+          "repository": "PalomarRegistry/PalomarSubmission",
+          "ref": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "path": "pipeline",
+          "persist-credentials": false
+        },
+        {
+          "ref": "497432e5e02244f242cdfc8c0a43316de3aa5bdc",
+          "path": "source",
+          "persist-credentials": false
+        }
+      ]
+    },
+    {
+      "file": "palomar-sorgenfrey-covering.yml",
+      "name": "Palomar Sorgenfrey covering preflight",
+      "kind": "full",
+      "sha256": "a04f21c16b10860c82e987c4cd0bfb90659ca1e7c5fccd28617930a26330b167",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.event.pull_request.head.sha || github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "sorgenfrey01",
+            "mode": "full",
+            "execution_profile": "palomar-standard-v1",
+            "options": "{\"project_path\":\"topology/sorgenfrey-covering\",\"comparator_config_path\":\"topology/sorgenfrey-covering/comparator.json\",\"formalization_metadata_path\":\"topology/sorgenfrey-covering/formalization.yaml\",\"authorization_relationship\":\"I have approval from a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "palomar-whitney-reversibility.yml",
+      "name": "Palomar whitney-reversibility preflight",
+      "kind": "full",
+      "sha256": "a040df51654cc008560078973386039b2d003f9cbae967aec9005b0074fa29b9",
+      "local_replacement": "LOCAL-VALIDATION.md#canonical-full-verification-and-rendering",
+      "canonical_jobs": [
+        {
+          "uses": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+          "inputs": {
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+            "request_id": "whitneyrev01",
+            "execution_profile": "palomar-standard-v1",
+            "mode": "full",
+            "options": "{\"project_path\":\"topology/whitney-reversibility\",\"comparator_config_path\":\"topology/whitney-reversibility/comparator.json\",\"authorization_relationship\":\"I am a responsible author or maintainer\"}"
+          }
+        }
+      ]
+    },
+    {
+      "file": "product-countable-chain-condition-lean.yml",
+      "name": "Product countable chain condition Lean verification",
+      "kind": "native",
+      "sha256": "954cb5323fbf1164b901739d1c1fd28da9b9dfbafcd9554c91cb462323d16967",
+      "local_replacement": "scripts/local_validate.py product-countable-chain-condition-lean.yml",
+      "directory": "topology/product-countable-chain-condition",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/product-ccc-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/product-ccc-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Bases Mathlib.Data.Set.Pairwise.Chain Mathlib.Order.Zorn Mathlib.Data.Finset.Card Mathlib.Topology.Instances.Real.Lemmas Mathlib.Topology.Order Mathlib.Analysis.Real.Cardinality\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/product-ccc-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/product-ccc-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/product-ccc-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "project-catalog.yml",
+      "name": "Project catalog",
+      "kind": "catalog",
+      "sha256": "61ceb17d3981a511c51dba96c36b0f93f34ebe243c61b02e85995196f5fcf554",
+      "local_replacement": "scripts/local_validate.py catalog"
+    },
+    {
+      "file": "sigma-product-compactness-lean.yml",
+      "name": "Sigma-product compactness Lean verification",
+      "kind": "native",
+      "sha256": "683b7f0533b77c2daf98a3313854ba741ff74dd2980512445e66277d168527f4",
+      "local_replacement": "scripts/local_validate.py sigma-product-compactness-lean.yml",
+      "directory": "topology/sigma-product-compactness",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/sigma-compact-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/sigma-compact-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Compactness.CountablyCompact Mathlib.Topology.Separation.Hausdorff Mathlib.Topology.Instances.Real.Lemmas Mathlib.Analysis.Real.Cardinality\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/sigma-compact-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/sigma-compact-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/sigma-compact-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "sigma-product-frechet-lean.yml",
+      "name": "Sigma-product Frechet-Urysohn Lean verification",
+      "kind": "native",
+      "sha256": "a1d4b4c5ee8a35b640c99ce3688b8ca903a92422b8cfa9b9234754e46dbeaa01",
+      "local_replacement": "scripts/local_validate.py sigma-product-frechet-lean.yml",
+      "directory": "topology/sigma-product-frechet",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nif test -r /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then\n  cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns > \"$RUNNER_TEMP/sigma-runner-userns.txt\"\nelse\n  echo absent > \"$RUNNER_TEMP/sigma-runner-userns.txt\"\nfi\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/sigma-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/sigma-lake-version.txt\"\nlake exe cache get Mathlib.Topology.Sequences Mathlib.Topology.Bases Mathlib.Topology.Order Mathlib.Topology.Instances.Real.Lemmas Mathlib.Analysis.Real.Cardinality\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/sigma-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/sigma-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/sigma-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "sneider-diagonal-lean.yml",
+      "name": "Sneider diagonal Lean verification",
+      "kind": "native",
+      "sha256": "6d93e61e6b65545b786551c8fe05ec3794a5cc610b45fdbcd9e3f425d4998c09",
+      "local_replacement": "scripts/local_validate.py sneider-diagonal-lean.yml",
+      "directory": "topology/sneider-diagonal",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nif test -r /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then\n  cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns > \"$RUNNER_TEMP/sneider-runner-userns.txt\"\nelse\n  echo absent > \"$RUNNER_TEMP/sneider-runner-userns.txt\"\nfi\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/sneider-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/sneider-lake-version.txt\"\nlake exe cache get Mathlib.Topology.UniformSpace.OfCompactT2 Mathlib.Topology.GDelta.MetrizableSpace Mathlib.Topology.Metrizable.Uniformity\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/sneider-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/sneider-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/sneider-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "sorgenfrey-covering.yml",
+      "name": "Sorgenfrey covering",
+      "kind": "native",
+      "sha256": "1f95fa99b88c18d27251d556ea6056adf763f094c6acbc996154b6449a6ee99e",
+      "local_replacement": "scripts/local_validate.py sorgenfrey-covering.yml",
+      "directory": "topology/sorgenfrey-covering",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --check-package-only",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ngit rev-parse HEAD | tee verification-commit.log\ncat lean-toolchain\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake exe cache get Counterexamples.SorgenfreyLine Mathlib.Topology.Compactness.Lindelof",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nif grep -nE '\\b(sorry|admit|axiom)\\b' SorgenfreyCovering.lean AxiomAudit.lean Challenge.lean Solution.lean StatementSpecifications.lean scripts/CompareTypes.lean; then\n  exit 1\nfi\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee build.log\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake env lean AxiomAudit.lean 2>&1 | tee axiom-audit.log\npython scripts/check_axioms.py axiom-audit.log\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake env lean scripts/CompareTypes.lean 2>&1 | tee statement-check.log\necho 'All seven independent proposition checks passed' >> statement-check.log\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_definitions.py --compare-mathlib --self-test",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake env leanchecker SorgenfreyCovering AxiomAudit Challenge Solution 2>&1 | tee kernel-check.log\necho 'leanchecker exited successfully' >> kernel-check.log\n"
+      ]
+    },
+    {
+      "file": "strong-choquet-polish-lean.yml",
+      "name": "Strong Choquet Polish Lean verification",
+      "kind": "native",
+      "sha256": "1ffc641af0f165111497eed942748f48d4fe443f74280192fc55b85a4db6e7e9",
+      "local_replacement": "scripts/local_validate.py strong-choquet-polish-lean.yml",
+      "directory": "topology/strong-choquet-polish",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_package.py",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlean --version | tee \"$RUNNER_TEMP/strong-choquet-polish-lean-version.txt\"\nlake --version | tee \"$RUNNER_TEMP/strong-choquet-polish-lake-version.txt\"\nlake exe cache get Mathlib.Topology.MetricSpace.Polish Mathlib.Topology.MetricSpace.Completion Mathlib.Topology.GDelta.MetrizableSpace Mathlib.Topology.Compactness.Lindelof\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 ../../scripts/check_imported_definitions.py --project-path topology/strong-choquet-polish --dependency-root .lake/packages/mathlib",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 - \"$(lean --print-prefix)/src/lean/Init/Prelude.lean\" <<'PYCORE'\nimport hashlib, json, pathlib, sys\nmanifest = json.loads(pathlib.Path('verification/core-definitions.json').read_text())\nsource = pathlib.Path(sys.argv[1]).read_bytes()\nassert hashlib.sha256(source).hexdigest() == manifest['sha256']\nassert hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\\0' + source).hexdigest() == manifest['git_blob_sha1']\nfor excerpt in manifest['excerpts']:\n    assert b''.join(source.splitlines(keepends=True)[excerpt['first_line'] - 1:excerpt['last_line']]).decode() == excerpt['text']\nPYCORE\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nset -o pipefail\nlake build 2>&1 | tee \"$RUNNER_TEMP/strong-choquet-polish-build.log\"\n",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\nlake env lean AxiomAudit.lean > \"$RUNNER_TEMP/strong-choquet-polish-axioms.txt\"\npython3 scripts/check_package.py --axiom-log \"$RUNNER_TEMP/strong-choquet-polish-axioms.txt\"\ngit diff --exit-code\n"
+      ]
+    },
+    {
+      "file": "whitney-reversibility.yml",
+      "name": "Whitney reversibility",
+      "kind": "native",
+      "sha256": "afeb042d16be711ace217cb6dace68126d577cc201691cb04b9be7ad42f48b09",
+      "local_replacement": "scripts/local_validate.py whitney-reversibility.yml",
+      "directory": "topology/whitney-reversibility",
+      "local_commands": [
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\ntest \"$(elan run \"$(tr -d '\\r\\n' < lean-toolchain)\" lean --version | head -c 4)\" = Lean\nexport ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --check-package-only",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/verify.py --lake-build --output .lake/verification.json",
+        "export ELAN_TOOLCHAIN=\"$(tr -d '\\r\\n' < lean-toolchain)\"\npython3 scripts/check_definitions.py --compare-mathlib --self-test"
+      ]
+    }
+  ]
+}

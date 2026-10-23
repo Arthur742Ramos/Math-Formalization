@@ -4,6 +4,56 @@ Work in the selected independent package. Preserve unrelated projects, pinned
 dependencies and concurrent work. Read more specific instructions and relevant
 `.agents/skills` first. Do not impose one toolchain across this monorepo.
 
+## All necessary validation runs locally
+
+- Perform ALL necessary validation locally before merge or verified handoff.
+  Repository-hosted CI is retired; do not add, restore, dispatch or rerun GitHub
+  Actions for this campaign. Reconcile incoming branches so they cannot restore
+  CI. Historical hosted receipts remain historical evidence only.
+- Use `LOCAL-VALIDATION.md` and `validation/workflow-inventory.json` for the
+  executable local replacements and exact retired command/pipeline references.
+  Run `python3 scripts/local_validate.py catalog` on the final committed source.
+  For changed packages, also run their complete local native commands and the
+  pinned canonical full verifier and Challenge renderer locally. A catalog or
+  package consistency check alone never certifies a mathematical package.
+- Preserve exact-source/toolchain verification, clean builds of affected proof,
+  Challenge, Solution and semantic entrypoints, compiler checks, protected
+  Comparator and definition-value checks, all required independent kernels,
+  transitive axiom audits, negative controls, dependency and imported-definition
+  provenance, metadata/schema checks, rendering and visual inspection. Obtain
+  independent mathematical/source-fidelity and final patch/evidence review.
+  Scope checks to the actual change; policy-only edits require complete root
+  checks, migration coverage checks and independent review, rather than claiming
+  fresh proof verification for unchanged frozen packages.
+- Run as a non-root owner in an isolated workspace. Do not alter another
+  owner's checkout, dependencies or artifacts. Coordinate heavy work with
+  `/home/formalization/workloads/.heavy-verification.lock`; acquire it before
+  any heavy check, use bounded time/resource budgets, and report contention or
+  capacity failures. Preserve each package's exact pins rather than imposing
+  a monorepo toolchain. Do not run project scripts as root.
+- Record fresh start/end times, exact tested commit and tree, package/config/
+  metadata/lockfile/tool hashes, commands, environment, exit codes, report and
+  artifact hashes, negative-control outcomes and independent-review scope.
+  Keep source-bound receipts outside the frozen source (for example an external
+  evidence directory), then link the immutable receipt without editing tested
+  package status prose. Preserve failures as well as successes.
+- NEVER present stale or reused artifacts, caches, prior axiom logs, predecessor
+  reports or tree-equal historical evidence as fresh checks. Identify their
+  original source, authentication and reuse scope. Any later source change
+  requires affected checks and independent review again; prove tree equality
+  explicitly when carrying evidence forward, including after merge.
+- Merge only when all applicable local gates and independent review pass and
+  repository protections permit it. Read required contexts and rules first.
+  If a protection requires a retired CI context, report its exact configuration
+  and stop; do not synthesize a status, use an administrator bypass, or change
+  protections, security/settings, credentials, sandbox profiles or provider
+  policies. Do not cancel existing jobs or launch replacement hosted jobs.
+- Local validation grants no registry acceptance and does not bypass security
+  or Palomar's own intake, admission, verification, cooldown or review checks.
+  A denied sandbox/capacity/security gate remains blocked. Do not weaken the
+  canonical verifier to make it pass. No deployment or registry submission is
+  authorized by this policy; follow the user's separate action authorization.
+
 ## Choose a defensible target
 
 - Assess the selected results against current registry criteria before
@@ -66,7 +116,7 @@ dependencies and concurrent work. Read more specific instructions and relevant
   reuse historical limits or quotas as current policy.
 - Record the actual tested commit, Comparator config, toolchain/dependency pins,
   source hashes, logs, artifacts and results. Later edits, including metadata or
-  documentation, require affected consistency checks and fresh review. Prior CI
+  documentation, require affected consistency checks and fresh review. Prior local or hosted evidence
   does not prove an altered commit passed. Identify each check's commit; establish
   reviewed/verified tree equality explicitly and distinguish it from a fresh
   post-merge run.

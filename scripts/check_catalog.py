@@ -1,5 +1,6 @@
 """Check catalog truth, immutable package trees and public registration records."""
 import argparse,hashlib,json,pathlib,re,subprocess,sys,urllib.request
+import shutil,tempfile
 from check_preparations import check_preparations
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 HEX=re.compile(r'[0-9a-f]{40}')
@@ -64,7 +65,24 @@ def check(online,packages):
                 command=[sys.executable,str(checker)]
                 axioms=directory/'verification/local-axioms.txt'
                 if axioms.exists():command+=['--axiom-log',str(axioms)]
-            result=subprocess.run(command,cwd=directory,capture_output=True,text=True)
+            if path in {'topology/smirnov-local-metrization','topology/perfect-metrizable-images'}:
+                # These frozen validators hash/check historical workflow fixtures.
+                # Preserve their source trees and every assertion; fixtures are
+                # restored only in a disposable local copy, never as active CI.
+                with tempfile.TemporaryDirectory(prefix='catalog-fixtures-') as temporary:
+                    fixture_root=pathlib.Path(temporary)
+                    copied=fixture_root/path
+                    shutil.copytree(directory,copied,ignore=shutil.ignore_patterns('.lake','__pycache__'))
+                    fixture_workflows=fixture_root/'.github/workflows'
+                    fixture_workflows.mkdir(parents=True)
+                    archive=ROOT/'validation/retired-workflows'
+                    fixture_source=archive if archive.exists() else ROOT/'.github/workflows'
+                    for fixture in fixture_source.glob('*.yml'):
+                        shutil.copyfile(fixture,fixture_workflows/fixture.name)
+                    local_command=[item.replace(str(directory),str(copied)) for item in command]
+                    result=subprocess.run(local_command,cwd=copied,capture_output=True,text=True)
+            else:
+                result=subprocess.run(command,cwd=directory,capture_output=True,text=True)
             assert result.returncode==0,(path,result.stdout[-1500:],result.stderr[-1500:])
             package_checks.append(path)
     preparations=check_preparations(rows,seen)
