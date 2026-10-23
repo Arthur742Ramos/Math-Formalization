@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-10-23T01:37:22.816598+00:00",
+  "pipeline_repository": "https://github.com/PalomarRegistry/PalomarSubmission",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "policy_commit": "28bd48b9b71bbb2a82c718ce761d5a4220ef8e60",
+  "files": {
+    "toolchains.json": "fd40347e4b586e7c42233b35f11efb006d25033b9a7ded9565719edf7aa98354",
+    "allowed-challenge-repositories.json": "bfb114daf5ead308052ccec85b1029aa0c875bebe6eec8f642df57f2ddbd8971",
+    "formalization-profile.json": "d695b838bbab69236f6e43afda6bd4d719a91099412351f89c3c2cfeb26d5131",
+    "verification-profile.json": "94fcd7906a1b6c076c0036d742e1c5add8625e49bb474818ec8924576dbf0caa",
+    "execution-profiles.json": "6a940ec74ac122f3989f2468d479982472d928764a57646cbcb81f0dbf6b5e7b",
+    "scripts/verify_submission.py": "ccf2a0faeb78a047216b51e5378de5532994de2a965e05351dbc7adc271c0a9a",
+    "scripts/render_challenge.py": "bd0e82e9a21b3995ed182ef956e3d30640d8a38e28a6edc018462004d47c481a",
+    ".github/workflows/submission.yml": "a116f9a84bf5287e8ed9cda55b98d3023c3c4215fe084b61ce7988e9bc9dc2f0"
+  },
+  "scope": "Read-only planning and local schema validation. No protected run, credentials, terms acceptance or submission.",
+  "current_namespace_probe": {
+    "exit": 1,
+    "stderr": "bwrap: setting up uid map: Read-only file system"
+  },
+  "planned_profile": "palomar-standard-v1",
+  "planned_pipeline_budget_seconds": 19800
+}

@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-10-23T01:37:22.815998+00:00",
+  "scope": "Downloaded exact PDF hashes and directly inspected source locators; PDFs are not redistributed. Internal review is not external peer review.",
+  "sources": [
+    {
+      "source": "dgms",
+      "url": "https://www.math.stonybrook.edu/~dennis/publications/PDF/DS-pub-0024.pdf",
+      "bytes": 1651363,
+      "sha256": "75d32559e32f59ad17230fb66ab37404585a4e702f013ff175bd6e06b25414b7",
+      "download": "pass",
+      "locators": {
+        "printed_pages": "267–269",
+        "sections": [
+          "5.15(b), first identity",
+          "5.16",
+          "5.17(i) ⇒ one-filtration part of (iii)"
+        ],
+        "pdf_pages_1_based": [
+          23,
+          24,
+          25
+        ]
+      },
+      "scope": "Classical source adapted to commuting mathlib convention with signed totalization. Only one explicit identity and one filtration implication; no analytic application, converse, second filtration or n-oppositeness claimed."
+    },
+    {
+      "source": "chen-ho-teh-v2",
+      "url": "https://arxiv.org/pdf/1506.06451v2",
+      "bytes": 86284,
+      "sha256": "c65772a59b9f0d83f4aa28a535ac136d8e0a160d2de9f0cc29c712cfaa813e34",
+      "download": "pass",
+      "title": "E1-degeneration and d′d″-lemma",
+      "authors": [
+        "Tai-Wei Chen",
+        "Chung-I Ho",
+        "Jyh-Haur Teh"
+      ],
+      "locators": {
+        "sections": [
+          "Theorem 1.1",
+          "Definition 2.3"
+        ]
+      },
+      "scope": "Related direct algebraic argument. Paper theorem has non-E0-degeneration hypothesis; own formal direct proof handles all r≥1 without importing that theorem incorrectly."
+    },
+    {
+      "source": "stelzig-v3",
+      "url": "https://arxiv.org/pdf/1812.00865v3",
+      "bytes": 431173,
+      "sha256": "c9a3619300731347c14eeb72aadd08577b1ca69d4df88a468c485daa2b5ebcda",
+      "download": "pass",
+      "title": "On the Structure of Double Complexes",
+      "authors": [
+        "Jonas Stelzig"
+      ],
+      "scope": "Related squares/zigzags structure theory, not claimed formalized here."
+    }
+  ]
+}

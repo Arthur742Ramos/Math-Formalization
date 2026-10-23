@@ -1,0 +1,19 @@
+{
+  "id": 39894330468,
+  "html_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39894330468",
+  "status": "completed",
+  "conclusion": "failure",
+  "event": "push",
+  "run_attempt": 1,
+  "head_branch": "algebraic-hodge/ddbar-pilot",
+  "head_sha": "4b8bbff0846720ba126badd587f3f3422e4b5a4d",
+  "path": ".github/workflows/hodge-protected-one-run.yml",
+  "created_at": "2026-10-23T03:18:46Z",
+  "updated_at": "2026-10-23T03:25:01Z",
+  "referenced_workflows": [
+    {
+      "path": "PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@07a02bae1e85c75ae349d0e75195162d16d41e21",
+      "sha": "07a02bae1e85c75ae349d0e75195162d16d41e21"
+    }
+  ]
+}

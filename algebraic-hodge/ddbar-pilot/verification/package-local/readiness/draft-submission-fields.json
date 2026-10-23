@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "prepared_at": "2026-10-23T02:37:33.498429+00:00",
+  "draft_only": true,
+  "intake_authorized": false,
+  "ready_for_submission": false,
+  "proposed_submission_fields": {
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+    "project_path": "algebraic-hodge/ddbar-pilot",
+    "comparator_config_path": "algebraic-hodge/ddbar-pilot/comparator.json",
+    "formalization_metadata_path": "algebraic-hodge/ddbar-pilot/formalization.yaml"
+  },
+  "submission_hold": {
+    "active": true,
+    "prerequisite": "Confirmed Palomar approval of the Sierpiński entry associated with PR41",
+    "github_pr_url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/41",
+    "reported_submission_received_utc": "2026-10-23 02:25:25 UTC",
+    "mechanical_run_url": "https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39889489605",
+    "evidence_status": "Received/mechanically-verifying state was supplied in the latest trusted instruction. Palomar approval is not independently confirmed. GitHub merge and mechanical pass alone do not lift this hold.",
+    "release_confirmation": null
+  },
+  "title": "Algebraic E1 degeneration from explicit d′d″ identities",
+  "scope": "Classical conditional algebraic one-filtration E1 degeneration and canonical bounded abutment for actual commuting bicomplexes over a field. Independent foundation contribution; no computational-path extension or analytic compact-Kähler theorem.",
+  "research_interest_statement": "The candidate integrates explicit d′d″ correction witnesses with actual filtered total-complex quotients, every higher differential, canonical page transitions and bounded associated graded total cohomology. It offers reusable formal foundations for algebraic Hodge theory and homological algebra. Novelty is not claimed; research-interest/editorial qualification remains for independent Palomar assessment.",
+  "source_file_sha256": {
+    "HodgeChallenge.lean": "45138cba513db0be72953b4612060d797a6b8c6460fc694146a4c9d7eaa987ea",
+    "HodgeSolution.lean": "05a631cdac6e9c7c58f10dce4f0f9853f21c595e49fd061a19dafe3e9bbc0b06",
+    "comparator.json": "fcf32220782912b82bdde01aa79eeb0c69a9effed5bba647ffa80d217a7d3a68",
+    "formalization.yaml": "69135869a62226c3eae936596136960d4d7569a0f2637a257ee604236f0c627b",
+    "lakefile.toml": "7211c526f70e95be6b755b66976dac82eef77c91f49b525f43e4b1b3a47b270c",
+    "lake-manifest.json": "26acfec1d2476828314e9769053fca35a777371d116e118841dd8a3599700523",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "RUN-PLAN.md": "63be7e779a40a88633627c080a463c6be2c30b3a49614f095572cdc784b38c78",
+    "run-plans/protected-preflight.yml": "9064ff159388035c3d16531093ef138d45f9cb31358a7e2c10467a71ca754a2b"
+  },
+  "source_archive": {
+    "file": "frozen-source.tar",
+    "sha256": "8de34b24d98cbc66108aa82f1017e729d651ed1d953a3be127655b49e8d53d02",
+    "regular_files": 69,
+    "bytes": 849920,
+    "consistency": "Exact project-tree source bytes authenticated against the frozen source commit; no directories, links, compiled artifacts or working-tree substitutions. This is not canonical verification."
+  },
+  "canonical_full_report": null,
+  "canonical_render_report": null,
+  "browser_visual_review": null,
+  "full_release_packet_guard_receipt": null,
+  "honest_status": "Local source/evidence checks already retained elsewhere. This draft supplies no canonical acceptance, editorial decision, public registry ID, new private intake or submission authorization."
+}

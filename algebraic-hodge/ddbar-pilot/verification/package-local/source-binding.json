@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-23T01:47:39.684870+00:00",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "project_path": "algebraic-hodge/ddbar-pilot",
+  "source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+  "evidence_commit_rule": "This receipt and adjacent generated outputs are evidence only. A later evidence-only commit does not replace or freshly verify the source commit above.",
+  "source_inputs_match_commit": true,
+  "reviewed_source_and_tool_hashes_match_source_commit": 54,
+  "bound_source_files_sha256": {
+    "HodgeChallenge.lean": "45138cba513db0be72953b4612060d797a6b8c6460fc694146a4c9d7eaa987ea",
+    "HodgeSolution.lean": "05a631cdac6e9c7c58f10dce4f0f9853f21c595e49fd061a19dafe3e9bbc0b06",
+    "comparator.json": "fcf32220782912b82bdde01aa79eeb0c69a9effed5bba647ffa80d217a7d3a68",
+    "formalization.yaml": "69135869a62226c3eae936596136960d4d7569a0f2637a257ee604236f0c627b",
+    "lakefile.toml": "7211c526f70e95be6b755b66976dac82eef77c91f49b525f43e4b1b3a47b270c",
+    "lake-manifest.json": "26acfec1d2476828314e9769053fca35a777371d116e118841dd8a3599700523",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "RUN-PLAN.md": "63be7e779a40a88633627c080a463c6be2c30b3a49614f095572cdc784b38c78",
+    "run-plans/protected-preflight.yml": "9064ff159388035c3d16531093ef138d45f9cb31358a7e2c10467a71ca754a2b"
+  },
+  "bound_evidence_sha256": {
+    "local-report.json": "c47544c66f7ebbf6fd3d0056fa308fcc36c1d5a7bbca2afa92d11f9edeb496f0",
+    "artifact-hashes.json": "069593487cd47fe4a20776d7641281796dbbf434923b5ac2db3eb83bd5afdc30",
+    "review-receipt.json": "87fecee45add86e6338622920ea56d9f28dd82bb45361a9cfa69dabd907d376d",
+    "proposed-source-caller.yml": "4c9be0b68745645c61538d46fd3fd6ef4d554c9ebcc622f016f961d03da82dfe"
+  },
+  "local_outcome": {
+    "status": "pass",
+    "lean_modules": 32,
+    "modular_axiom_audits": 180,
+    "selected_challenge_axiom_audits": 25,
+    "challenge_import_modules": 3214,
+    "scope": "Exact-source LOCAL Challenge/Solution package build, selected and modular axiom audits, metadata/config validation, material-definition consistency and pinned source closure. No protected Comparator or external kernel replay."
+  },
+  "canonical_request": {
+    "status": "prepared only; no exact-run authorization granted and no activation or dispatch",
+    "source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+    "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+    "mode": "full predictive mechanical preflight; no Palomar submission",
+    "profile": "palomar-standard-v1",
+    "verifier_budget_seconds": 19800,
+    "verification_job_limit_minutes": 350,
+    "caller_sha256": "4c9be0b68745645c61538d46fd3fd6ef4d554c9ebcc622f016f961d03da82dfe",
+    "proposed_activation_path": ".github/workflows/hodge-protected-one-run.yml",
+    "attempt_limit": 1,
+    "required_approval": "Explicit approval of exactly this source/caller/pipeline/profile/budget for one disposable standard GitHub-hosted run, including runner-local pinned tools, build packages, bubblewrap namespaces and delegated cgroups. A fresh attempt needs fresh applicable authorization.",
+    "preconditions": [
+      "Read-only confirmation that all artifact/cache use and retention incur zero charges. Current pinned workflow retains artifacts90days; public runner minutes alone do not establish zero cost.",
+      "Suitable disposable permitted runner; current cloud namespace probe failed."
+    ],
+    "cost_assessment_status": "unverified; do not activate",
+    "excluded_actions": [
+      "paid capacity",
+      "new credentials",
+      "billing or repository-security setting changes",
+      "host security workaround",
+      "Mac commands",
+      "new explicit legal acceptance",
+      "Palomar submission or registration"
+    ]
+  },
+  "unfulfilled_gates": [
+    "protected Comparator",
+    "canonical positive and negative controls",
+    "external kernel acceptance",
+    "rendering",
+    "browser visual inspection",
+    "final release-packet guard",
+    "editorial and human mathematical review"
+  ],
+  "cloud_blocker": {
+    "action": "harmless bubblewrap user-namespace probe",
+    "outcome": "failed exit1",
+    "error": "bwrap: setting up uid map: Read-only file system",
+    "host_change_attempted": false
+  },
+  "primary_contributor_cross_review": {
+    "status": "completed internal AI semantic/source review",
+    "source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+    "reviewer_authored_artifacts_reviewed": [
+      "CohomologyClass.lean",
+      "GradedCohomology.lean",
+      "ReleaseFidelity.lean",
+      "Indexing.lean",
+      "MATERIAL-DEFINITIONS.md",
+      "verification/material-imported-definitions.json",
+      "HodgeChallengeTests.lean",
+      "HodgeSolutionTests.lean"
+    ],
+    "assessment": "Actual cohomology-class kernel/image quotient bridges, exact selected-use material meanings within explicit foundation boundaries, cycle-inclusion recurrence coverage, finite/exhaustive/separated actual cohomology filtration, stable quotient transport and canonical representative map agreement were read against pinned definitions. Fresh exact-source build and axiom audits passed. Same kernel/cache, not independent kernel or human review."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "local_result": "pass",
+  "canonical_result_for_corrected_source": "not run",
+  "external_kernel_acceptances": [],
+  "mathematical_contracts_unchanged": true,
+  "selected_theorems": 8,
+  "selected_definitions": 17,
+  "new_theorem_holes": 0,
+  "new_mathematical_axioms": 0,
+  "proof_storage_changes": 73,
+  "standalone_proof_implementation": "shared; separate compilation",
+  "original_failure_preserved": true,
+  "historical_receipts_overwritten": false,
+  "protected_comparator_run": false,
+  "rendering_started": false,
+  "intake_started": false,
+  "release_guard": "40 regression tests passed; full exact-source packet guard unrun",
+  "next_step": "Prepare and authorize a fresh bounded exact-source protected verification plan; no run authorized here."
+}

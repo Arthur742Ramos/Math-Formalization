@@ -1,0 +1,8 @@
+{
+  "checked_at": "2026-10-23T00:07:12.141169+00:00",
+  "source_commit": "43a2585e83ce0b6fbc09bf6b60d0f15f6743f506",
+  "local_report_sha256": "5686308b5a99d521c422b4343f3346ceba041aad2fc00120d5a8116fdbc356f0",
+  "committed_source_files_authenticated": 16,
+  "committed_source_matches_tested_source": true,
+  "scope": "Direct git-show SHA256 comparison of every source file listed in the local report. This receipt and logs are later evidence artifacts; no new mathematical source is introduced."
+}

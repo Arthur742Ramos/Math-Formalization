@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "scope": "Offline exact-commit source archive byte consistency only",
+  "source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+  "file": "frozen-source.tar",
+  "sha256": "8de34b24d98cbc66108aa82f1017e729d651ed1d953a3be127655b49e8d53d02",
+  "regular_files": 69,
+  "bytes": 849920,
+  "consistency": "Exact project-tree source bytes authenticated against the frozen source commit; no directories, links, compiled artifacts or working-tree substitutions. This is not canonical verification."
+}

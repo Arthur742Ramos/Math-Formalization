@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "status": "Prepared exact bundled proposal; NOT authorized or activated",
+  "prepared_at": "2026-10-23T04:04:35.918339+00:00",
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "reviewed_local_evidence_commit": "75fb5cb395f0993b3301944fa635353cd7685247",
+  "project_path": "algebraic-hodge/ddbar-pilot",
+  "pipeline_commit": "07a02bae1e85c75ae349d0e75195162d16d41e21",
+  "policy_snapshot_commit": "28bd48b9b71bbb2a82c718ce761d5a4220ef8e60",
+  "challenge_sha256": "fa12ed722b4444ddd20ea2608d688ed196cc1b731bc4266cd7afdef24e08981c",
+  "solution_sha256": "fa12ed722b4444ddd20ea2608d688ed196cc1b731bc4266cd7afdef24e08981c",
+  "comparator_sha256": "fcf32220782912b82bdde01aa79eeb0c69a9effed5bba647ffa80d217a7d3a68",
+  "formalization_sha256": "69135869a62226c3eae936596136960d4d7569a0f2637a257ee604236f0c627b",
+  "frozen_project_archive_sha256": "dfe64f1d3647351197b6e3761166e00f306642b4b9b068a39ccc609c933a0c57",
+  "runner": {
+    "execution_profile": "palomar-standard-v1",
+    "provider": "standard GitHub-hosted",
+    "label": "ubuntu-24.04",
+    "architecture": "x86_64",
+    "minimum_memory_bytes": 15032385536,
+    "minimum_free_workspace_bytes": 21474836480,
+    "capacity_gate": "Each work-job VM must satisfy its pinned checks after cleanup; fail closed, never substitute a paid/larger/Namespace runner. Actual image/version/tool hashes recorded at execution."
+  },
+  "jobs": [
+    {
+      "name": "one protected verification",
+      "maximum_workflow_attempts": 1,
+      "request_id": "hddbarpilot2",
+      "execution_attempt": "53b322007e694dc52327f4eb028556a8",
+      "caller": "proposed-verification-caller.yml",
+      "activation_path": ".github/workflows/hodge-corrected-verification-once.yml",
+      "caller_sha256": "486d08d7ba933de0ed381ea8d3891cd754e52b0b571cd003c682398ef7c49410",
+      "profile_resolver_timeout_minutes": 360,
+      "profile_timeout_source": "Pinned reusable profile job has no explicit timeout; Actions default360min is the effective bound, separate from verifier job.",
+      "verification_job_timeout_minutes": 350,
+      "verifier_execution_budget_seconds": 19800,
+      "con_ron_advisory_cap_seconds": 1800,
+      "artifact_retention_days": 90,
+      "artifact_name": "mechanical-report-hddbarpilot2",
+      "retry_scope": "No computation/job/workflow retry. Pinned workflow permits THREE TOTAL attempts to upload the SAME report (two retries with5/20second delays), inside the same350min job."
+    },
+    {
+      "name": "one conditional render",
+      "maximum_workflow_attempts": 1,
+      "request_id": "626ebcd7836c99d68df4fb9d8c647a68",
+      "caller": "proposed-render-caller.yml",
+      "activation_path": ".github/workflows/hodge-corrected-render-once.yml",
+      "caller_sha256": "cde6f3d3864ac56991777f84829263af953096c2bcf6b92f53fb01f76080cec0",
+      "condition": "Activate only after the exact verification run is terminal success, original same-source protected report passes binding/kernel checks, and independent receipt review accepts it. A missing, uncertain, failed or rejected receipt blocks rendering; do not seek a separate render confirmation if this exact bundle was approved.",
+      "profile_resolver_timeout_minutes": 5,
+      "render_job_timeout_minutes": 360,
+      "inner_build_timeout_seconds": 21600,
+      "html_timeout_seconds": 600,
+      "sanitizer_timeout_seconds_per_phase": 120,
+      "outer_cap_warning": "Outer360min includes setup and preempts remaining inner phases; completion not guaranteed.",
+      "limits": {
+        "memory_bytes": 12884901888,
+        "cpu_percent": 400,
+        "tasks": 512,
+        "open_files": 4096,
+        "workspace_bytes": 12884901888,
+        "single_render_file_bytes": 8388608,
+        "output_bundle_bytes": 26214400
+      },
+      "artifact_retention_days": 30,
+      "artifact_name": "challenge-render-626ebcd7836c99d68df4fb9d8c647a68",
+      "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+      "verso_pin_gate": "prepare must resolve this exact Verso SHA or fail before execute; no automatic toolchain/renderer upgrade."
+    }
+  ],
+  "combined_upper_bounds": {
+    "jobs": 4,
+    "work_jobs_with_conditional_privileged_setup": 2,
+    "cumulative_job_timeout_minutes": 1075,
+    "calculation": "360 verification profile +350 verification +5 rendering profile +360 rendering; render jobs absent if verification/review fails. Queue/admission wait is not runtime and no ETA is promised."
+  },
+  "verification_receipt_gate": [
+    "Terminal Actions success plus original machine report statuspass, not merely a green step.",
+    "Exact repository/source7eec3b8/fullSHA, request/attempt ID, pipeline07a/fullSHA, toolchain/dependency/config/metadata/Challenge digests and original artifact SHA match.",
+    "Canonical frozen Challenge/dependency provenance and protected positive/ill-typed negative controls passed.",
+    "Actual mandatory Lean and NanoDa acceptance; advisory con-ron accepted or bounded recognized decline accurately classified, never called accepted if declined.",
+    "Independent internal receipt review records original bytes/hash and confirms same-source success before render caller publication."
+  ],
+  "activation_protocol": [
+    "Before approval: proposals remain outside .github/workflows; no dispatch/publication of active callers.",
+    "After one exact bundled approval: recheck existing runs; resolve uncertain outcomes first. Activate only reviewed verification caller bytes once and verify receipt/runURL.",
+    "On verification failure or uncertain/rejected receipt: stop; no render and no automatic retry.",
+    "Only on accepted pass receipt: publish the already-reviewed render caller once under the SAME bundled approval; its source/pipeline/Verso pins do not change.",
+    "Monitor each actual run to terminal, preserve original reports/artifact hashes and actual accepted/declined kernel outcomes. Remove active caller after terminal outcome with skip-ci evidence commit.",
+    "Successful rendering still needs original render receipt review, browser visual inspection and full exact-source release-packet guard; no intake is triggered."
+  ],
+  "pinned_tools": {
+    "lean": "leanprover/lean4:v4.35.0-rc2",
+    "lean_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+    "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "elan_version": "4.2.3",
+    "elan_tar_sha256": "df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2",
+    "bubblewrap_version": "0.12.0",
+    "bubblewrap_tar_sha256": "9760d007363e3abba7c747489910f9f82d9fca53ba3bd3282e396fa3c97a3314",
+    "installer_script_sha256": "c290df6cebdf1cb26edb69ed4164d9551062bfeb65243b93d1d1d3b77eac0a35",
+    "python": "3.11.10",
+    "ruby": "3.3.12",
+    "python_dependency_lock": "pipeline requirements.txt --require-hashes --no-deps",
+    "ruby_dependency_lock": "pipeline Gemfile.lock",
+    "kernel_tools": "Submitted exact Lean release bundle; execution must record actual comparator/exporter/Lean/NanoDa/con-ron binary hashes. No external replay inferred from local build.",
+    "apt_dependency_limit": "meson,ninja-build,libcap-dev,pkg-config are installed from runner apt repositories without individually pinned package versions; record actual versions.",
+    "verso_dependencies": {
+      "Cli": "2842b9871b04862f944c032e34052cb9448ccb71",
+      "illuminate": "68a463c484e24708627b8761e8730e76b295d1e2",
+      "plausible": "e50948299c4dc4a4c21b1c34b6a6a4fddc19f912",
+      "MD4Lean": "31907cc18f48a95384f99cee5582c00fb39e0f67",
+      "subverso": "d047cb484b2f3598187450935dbcc84d078cb581"
+    }
+  },
+  "conditional_runner_security_scope": {
+    "applies_to": "Only the two disposable standard GitHub Ubuntu24.04 work-job VMs, verification and conditional rendering. Profile resolver jobs need no privileged installer setup. Never the Mac, cloud authoring executor or persistent host.",
+    "package_installation": "Runner-local sudo apt installation of meson,ninja-build,libcap-dev,pkg-config and pinned elan/bubblewrap installation; no new manually provisioned credentials.",
+    "disk_cleanup": "Pinned free-disk-space action removes preinstalled Android,dotnet,Haskell and Docker images on those disposable VMs; tool-cache, large-packages and swap-storage cleanup disabled.",
+    "apparmor": {
+      "condition": "kernel.apparmor_restrict_unprivileged_userns reads1",
+      "path": "/etc/apparmor.d/palomar-bwrap",
+      "content": "abi <abi/4.0>, include <tunables/global>; profile palomar-bwrap <absolute-runner-install-dir>/bwrap flags=(unconfined) { userns, }",
+      "activation": "sudo apparmor_parser -r /etc/apparmor.d/palomar-bwrap",
+      "limit": "Path-attached bubblewrap userns exception only; no global AppArmor or sysctl disable."
+    },
+    "cgroups": {
+      "systemd": "systemd-run --user --scope --quiet --property=Delegate=yes --, then pinned cgroup-v2 supervisor imposes limits.",
+      "non_systemd_conditional_helper": "Only if PID1 is not systemd and writable cgroup2 root with memory/pids controllers exists: pinned sudo -n cgroup_delegate.py creates palomar-host leaf, moves root-cgroup processes into it, enables memory/pids (cpu when available), creates palomar/run-<token>, delegates ownership to runner user and drops privileges before supervision. Refuses systemd hosts; fail closed if delegation cannot be established.",
+      "helper_sha256": "c8a44ea58ed9a94db2caf21c66cee3f664c86370fabd50ba56e22fa9d9345824"
+    },
+    "excluded": [
+      "No Namespace/paid/larger/self-hosted runner",
+      "No repository/account security, permission, secret or credential changes",
+      "No global host security disable",
+      "No retries of computation/workflow attempt",
+      "No registry submission/registration"
+    ]
+  },
+  "budget_workflow_facts": {
+    "status": "Owner confirmation already settled for this same standard-runner/cache/artifact arrangement; do not re-ask.",
+    "retention_days": {
+      "verification": 90,
+      "rendering": 30
+    },
+    "cache": "Same pinned ruby/setup-ruby bundler cache plus ephemeral pinned Mathlib downloads; no new cache/storage/billing settings.",
+    "billing_limit": "Owner-confirmed arrangement is the authorization fact; no new independent billing API access or zero-charge measurement is claimed. No materially different cost, runner or retention arrangement is proposed."
+  },
+  "authorization_needed": "One new exact bundled action-time approval covering the verification attempt AND one conditional rendering attempt and the described conditional per-work-VM runner setup. Prior authorization was consumed by failed run39894330468. This document is not that approval.",
+  "submission_hold": {
+    "active": true,
+    "latest_parent_evidence": "Sierpi\u0144ski review passed; registration request accepted2026-10-23 03:57:28UTC; public publication remains pending.",
+    "release_conditions": [
+      "Confirmed Sierpi\u0144ski registration/publication",
+      "All Hodge verification/render/review/release gates pass"
+    ],
+    "coordination": "Parent cloud VM owns registry actions. No overlapping Hodge intake here."
+  },
+  "not_performed": [
+    "New workflow activation or dispatch",
+    "New verification or rendering run",
+    "Runner security changes",
+    "New credentials",
+    "Hodge intake",
+    "Any other campaign takeover"
+  ],
+  "budget_reference": {
+    "url": "https://docs.github.com/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes",
+    "checked_date": "2026-10-23",
+    "claim": "GitHub documents default jobs timeout-minutes360; confirms the inherited bound of pinned reusable profile job.",
+    "billing_reference": "https://docs.github.com/en/actions/concepts/billing-and-usage",
+    "billing_scope": "Standard public-repository runner minutes are documented free. Artifact/cache arrangement remains the already-settled owner confirmation; no independent account-wide billing measurement claimed."
+  },
+  "proposed_single_approval_wording": "Authorize this exact bundle for source7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb and pipeline07a02bae1e85c75ae349d0e75195162d16d41e21: one protected verification attempt, followed only after a successful same-source original receipt and independent receipt review by one rendering attempt pinned to Verso9f8096e40b31715b1d8d5997f15a0bd832f7e37d. Use only standard disposable GitHub Ubuntu24.04 runners and the already-confirmed budget/workflow/storage arrangement, with the plan limits and90/30day artifact retention. This includes pinned package installation/disk cleanup and conditional bubblewrap AppArmor userns profile and pinned cgroup delegation/helper setup on the two work-job VMs only. No computation retry, new credentials, broader security change, paid runner or registry action is included. Approval covers the conditional render without a second confirmation; verification failure or unaccepted receipt blocks it."
+}

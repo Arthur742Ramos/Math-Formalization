@@ -1,0 +1,2 @@
+{"status": "pass", "audited_declarations": 180, "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb", "report": "/workspace/Math-Formalization/algebraic-hodge/ddbar-pilot/verification/package-local/correction-7eec3b8/local-report.json"}
+{"status": "pass", "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb", "selected_declarations": 25, "modular_audits": 180, "source_modules": 3214, "report": "/workspace/Math-Formalization/algebraic-hodge/ddbar-pilot/verification/package-local/correction-7eec3b8/local-report.json"}

@@ -1,0 +1,24 @@
+# REVIEWABLE TEMPLATE ONLY. Kept outside .github/workflows, so it cannot run.
+# After exact-source approval, pin commit to the approved source and use one
+# disposable standard GitHub-hosted run after zero-charge storage/cache confirmation.
+# No Namespace runner or paid runner. Never activate before exact approval.
+name: Algebraic Hodge protected preflight
+on:
+  push:
+    branches: [algebraic-hodge/ddbar-pilot]
+    paths: [.github/workflows/hodge-protected-one-run.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.run_attempt == 1
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: APPROVED_SOURCE_SHA
+      pipeline_commit: ad5db9e7ff8b17523d73aeb244aaeabcde810c64
+      request_id: hodgeddbarpreflight1
+      mode: full
+      execution_profile: palomar-standard-v1
+      execution_attempt: hodge-ddbar-one-approved-attempt
+      options: '{"project_path":"algebraic-hodge/ddbar-pilot","comparator_config_path":"algebraic-hodge/ddbar-pilot/comparator.json","formalization_metadata_path":"algebraic-hodge/ddbar-pilot/formalization.yaml","authorization_relationship":"I have approval from a responsible author or maintainer"}'

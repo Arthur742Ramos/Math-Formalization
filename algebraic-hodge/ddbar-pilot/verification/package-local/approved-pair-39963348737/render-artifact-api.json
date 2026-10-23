@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    {
+      "id": 12506214367,
+      "name": "challenge-render-626ebcd7836c99d68df4fb9d8c647a68",
+      "size_in_bytes": 1052,
+      "url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12506214367",
+      "archive_download_url": "https://api.github.com/repos/Arthur742Ramos/Math-Formalization/actions/artifacts/12506214367/zip",
+      "expired": false,
+      "created_at": "2026-10-23T14:01:02Z",
+      "expires_at": "2026-11-22T14:01:01Z",
+      "updated_at": "2026-10-23T14:01:02Z",
+      "digest": "sha256:fe59df6d6d61855d41349432b9a4218c2d818aeb4cacced5cf8095fd1e6c0683",
+      "workflow_run": {
+        "id": 39964788446,
+        "repository_id": 1407508278,
+        "head_repository_id": 1407508278,
+        "head_branch": "algebraic-hodge/ddbar-pilot",
+        "head_sha": "17f8f1734b793d50cc55c2a484a3c578d5dbf8e1"
+      }
+    }
+  ]
+}

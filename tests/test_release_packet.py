@@ -30,7 +30,10 @@ class MaterialDefinitionHandoff(unittest.TestCase):
                       '__pycache__' not in p.relative_to(package).parts}
 
     def check(self):
-        with mock.patch.object(guard, 'snapshot', return_value=self.files):
+        # Inventory-only fixtures do not certify the package's release prose.
+        # Real frozen-status regressions below exercise that gate independently.
+        with mock.patch.object(guard, 'snapshot', return_value=self.files), \
+                mock.patch.object(guard, 'status_errors', return_value=[]):
             return guard.check_status(ROOT, '0' * 40, self.PROJECT)
 
     def test_complete_frozen_material_evidence_passes(self):
@@ -65,6 +68,87 @@ class CategoryGameMaterialHandoff(MaterialDefinitionHandoff):
 
 class StrongChoquetMaterialHandoff(MaterialDefinitionHandoff):
     PROJECT = 'topology/strong-choquet-polish'
+
+
+class HodgeMaterialHandoff(MaterialDefinitionHandoff):
+    PROJECT = 'algebraic-hodge/ddbar-pilot'
+
+    def test_stale_frozen_bridge_blocks_handoff(self):
+        self.files['HodgeChallengeTests.lean'] = b'module\n'
+        with self.assertRaises(ValueError):
+            self.check()
+
+
+class HodgeSourcePath(unittest.TestCase):
+    def test_existing_frozen_hodge_source_is_supported(self):
+        files = guard.snapshot(ROOT, 'c3107f8311488bcc256103db8ad969ffd60706e2',
+                               'algebraic-hodge/ddbar-pilot')
+        self.assertIn('HodgeChallenge.lean', files)
+
+    def test_unknown_or_traversing_paths_are_rejected(self):
+        for path in ['algebraic-hodge/other', 'algebraic-hodge/ddbar-pilot/../ddbar-pilot',
+                     'topology/../algebraic-hodge/ddbar-pilot', '/algebraic-hodge/ddbar-pilot']:
+            with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                guard.snapshot(ROOT, '0' * 40, path)
+
+
+class AdvisoryKernelAccount(unittest.TestCase):
+    def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
+        attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,
+                       detail='Synthetic trusted-report consistency fixture, not an actual kernel run.',
+                       argv=['/pinned/bin/con-ron', '--jobs=2', '--verified'], budget_seconds=1800)
+        return dict(kernels=[{'name': 'nanoda'}], kernel_attempts=[attempt],
+                    comparator_log_tail='nanoda kernel accepts the solution\n'
+                    'Lean default kernel accepts the solution\nYour solution is okay!',
+                    warnings=['con-ron declined (' + reason +
+                              '); mandatory Lean and NanoDa checks passed.'])
+
+    def check(self, report):
+        guard.check_kernel_account(report, {'external_kernels': {'nanoda': ['/pinned/nanoda']}})
+
+    def test_recognized_advisory_declines_preserve_only_actual_acceptance(self):
+        for reason, code in [('unsupported-inductive', 2), ('fuel-exhausted', 3), ('capacity', None)]:
+            with self.subTest(reason=reason):
+                self.check(self.fixture(reason=reason, exit_code=code))
+
+    def test_advisory_acceptance_requires_accepted_kernel_entry(self):
+        report = self.fixture('accepted', 'complete', 0)
+        with self.assertRaises(ValueError):
+            self.check(report)
+        report['kernels'].append({'name': 'con-ron'})
+        self.check(report)
+
+    def test_missing_mandatory_acceptance_is_rejected(self):
+        report = self.fixture();report['kernels'] = []
+        with self.assertRaises(ValueError):self.check(report)
+        report = self.fixture();report['comparator_log_tail'] = 'Your solution is okay!'
+        with self.assertRaises(ValueError):self.check(report)
+
+    def test_rejections_unknown_errors_and_inconsistent_receipts_are_rejected(self):
+        changes = [
+            lambda r: r['kernel_attempts'][0].update(exit_code=1),
+            lambda r: r['kernel_attempts'][0].update(reason='unrecognized-checker-result'),
+            lambda r: r['kernel_attempts'][0].update(status='error'),
+            lambda r: r['kernel_attempts'][0].update(status='accepted', reason='complete', exit_code=False),
+            lambda r: r['kernel_attempts'][0].update(budget_seconds=1801),
+            lambda r: r['kernel_attempts'][0].update(budget_seconds=True),
+            lambda r: r['kernel_attempts'][0].update(argv=['/pinned/con-ron', '--jobs=2']),
+            lambda r: r['kernel_attempts'][0].update(detail=''),
+            lambda r: r.update(warnings=[]),
+            lambda r: r.update(kernel_attempts=[]),
+            lambda r: r['kernel_attempts'].append(copy.deepcopy(r['kernel_attempts'][0])),
+            lambda r: r['kernels'].append({'name': 'con-ron'}),
+            lambda r: r['kernels'].append({'name': 'other'}),
+            lambda r: r['kernels'].append({'name': 'nanoda'}),
+        ]
+        for change in changes:
+            report = self.fixture();change(report)
+            with self.subTest(change=change), self.assertRaises(ValueError):self.check(report)
+
+    def test_legacy_required_kernel_contract_is_not_relaxed(self):
+        with self.assertRaisesRegex(ValueError, 'Missing independent kernel'):
+            guard.check_kernel_account(self.fixture(),
+                                       {'external_kernels': {'nanoda': [], 'con-ron': []}})
 
 
 def archive(files):
@@ -102,6 +186,13 @@ class ReleasePacketTests(unittest.TestCase):
     def test_synthetic_complete_binding_positive(self):
         self.assertEqual(self.check_fixture()['status'], 'pass')
 
+    def test_active_submission_hold_blocks_even_otherwise_complete_packet(self):
+        packet = {'proposed_submission_fields': self.fields,
+                  'submission_hold': {'active': True, 'prerequisite': 'Palomar approval of PR41 entry'}}
+        body = json.dumps(self.fixture()).encode()
+        with self.assertRaisesRegex(ValueError, 'Submission hold is active'):
+            guard.check_packet(ROOT, packet, body, guard.sha(body), archive(self.files))
+
     def test_actual_historical_source_rejected_for_stale_packaged_claims(self):
         with self.assertRaisesRegex(ValueError, 'stale blanket'):
             guard.check_status(ROOT, OLD, PROJECT)
@@ -120,6 +211,18 @@ class ReleasePacketTests(unittest.TestCase):
                 files[name] += b'\nCanonical protected Comparator and NanoDa checks remain unperformed for this package.\n'
                 with self.assertRaisesRegex(ValueError, 'stale blanket'):
                     self.check_fixture(files=files)
+
+    def test_unfulfilled_and_bold_unrun_stage_claims_rejected(self):
+        for name in ['README.md', 'REVIEW.md', 'PLAN.md', 'RUN-PLAN.md']:
+            for text in [b'Protected Comparator and NanoDa remain unfulfilled for this candidate.',
+                         b'Canonical checks have **not** run for this package.']:
+                with self.subTest(file=name, text=text):
+                    self.assertTrue(guard.status_errors({name: text}))
+
+    def test_frozen_hodge_unfulfilled_account_is_not_ready(self):
+        files = guard.snapshot(ROOT, '7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb',
+                               'algebraic-hodge/ddbar-pilot')
+        self.assertIn('REVIEW.md: stale blanket pending/completion account', guard.status_errors(files))
 
     def test_truthful_later_source_and_visual_pending_positive(self):
         files = dict(self.files)

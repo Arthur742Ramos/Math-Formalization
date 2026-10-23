@@ -1,0 +1,163 @@
+{
+  "status": "prepared and input-validated, but blocked before execution approval; HOLD intake pending Palomar approval of PR41-associated entry",
+  "checked_at": "2026-10-23T02:42:30.889680+00:00",
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+  "evidence_only_commit": "b5e038c6acddf9fd2859775faace8f75c79f8549",
+  "project_path": "algebraic-hodge/ddbar-pilot",
+  "challenge_sha256": "45138cba513db0be72953b4612060d797a6b8c6460fc694146a4c9d7eaa987ea",
+  "pipeline_commit": "07a02bae1e85c75ae349d0e75195162d16d41e21",
+  "policy_snapshot_commit": "28bd48b9b71bbb2a82c718ce761d5a4220ef8e60",
+  "runner": {
+    "profile": "palomar-standard-v1",
+    "provider": "standard GitHub-hosted",
+    "label": "ubuntu-24.04",
+    "architecture": "x86_64",
+    "repository_visibility": "public (fresh connector read)",
+    "documented_public_runner": {
+      "cpus": 4,
+      "ram_GB": 16,
+      "ssd_GB": 14
+    },
+    "required_by_profile": {
+      "minimum_memory_bytes": 15032385536,
+      "minimum_free_workspace_bytes": 21474836480
+    },
+    "capacity_limit": "RAM is nominally compatible. Documented14GB storage is below required20GiB free; pinned cleanup is intended to reclaim space, but actual post-cleanup capacity must pass the canonical check. No future runner allocated or measured. Label is mutable; capture actual runner image/version on execution."
+  },
+  "jobs": [
+    {
+      "name": "full protected verification",
+      "attempts": 1,
+      "entrypoint": ".github/workflows/submission.yml at pinned pipeline via existing inert reusable caller",
+      "mode": "full",
+      "request_id": "hddbarpilot1",
+      "verifier_budget_seconds": 19800,
+      "verification_job_timeout_minutes": 350,
+      "additional_profile_resolver_job": "Pinned reusable workflow has no explicit timeout for its profile job; GitHub default maximum6h applies. This overhead is separate from350min verifier job.",
+      "required_checks": [
+        "canonical frozen Challenge/dependency source closure",
+        "positive and ill-typed negative controls",
+        "protected Comparator for8theorems17definitions",
+        "Lean and NanoDa acceptance",
+        "advisory con-ron attempt capped1800seconds"
+      ],
+      "caller_sha256": "84c75ff7dc73a20f333beb125e7e2ac1410ba113ea8ff0facde70d98c468970c",
+      "artifact_retention_days": 90,
+      "cache": "ruby/setup-ruby bundler cache enabled; source Mathlib caches are downloads into ephemeral workspace",
+      "caller_path": "proposed-verification-caller.yml",
+      "execution_attempt": "afe2fed6995334fa0b16605458bec750"
+    },
+    {
+      "name": "render accepted same-source Challenge",
+      "attempts": 1,
+      "requires": [
+        "same-source protected mechanical pass",
+        "independent review of mechanical receipt",
+        "separate exact render approval as required by frozen RUN-PLAN"
+      ],
+      "entrypoint": "scripts/render_challenge.py prepare then execute from pinned pipeline; renderer workflow is dispatch-only, not workflow_call",
+      "render_job_timeout_minutes": 360,
+      "inner_build_timeout_seconds": 21600,
+      "html_timeout_seconds": 600,
+      "sanitizer_timeout_seconds_per_phase": 120,
+      "deadline_limit": "360min outer job includes setup; its cap can preempt the inner6h build and later stages. Completion is not guaranteed.",
+      "resource_limits": {
+        "memory_bytes": 12884901888,
+        "cpu_percent": 400,
+        "tasks": 512,
+        "open_files": 4096,
+        "workspace_bytes": 12884901888,
+        "output_bundle_bytes": 26214400
+      },
+      "artifact_retention_days": 30,
+      "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+      "verso_tag_observed": "v4.35.0-rc2",
+      "verso_toolchain_checked": "leanprover/lean4:v4.35.0-rc2",
+      "required_paths": {
+        "challenge": "algebraic-hodge/ddbar-pilot/HodgeChallenge.lean",
+        "solution": "algebraic-hodge/ddbar-pilot/HodgeSolution.lean",
+        "comparator_config": "algebraic-hodge/ddbar-pilot/comparator.json",
+        "lakefile": "algebraic-hodge/ddbar-pilot/lakefile.toml",
+        "lean_toolchain": "algebraic-hodge/ddbar-pilot/lean-toolchain"
+      },
+      "caller_limit": "New inert own-repository caller outside active workflow directories. Static YAML and exact source/pipeline/Verso bindings checked only; independent workflow review, actual Actions policy and zero-charge assessment remain pending. It cannot activate without a later approved publication. The upstream renderer remains dispatch-only; no registry dispatch is proposed.",
+      "caller_path": "proposed-render-caller.yml",
+      "caller_sha256": "bbaf71576e7c9935b95e76b79d0fd88a610ea543d1c9579eac776d6ac82e04b6",
+      "request_id": "cd145790669d1ca783cdfef697e69c96",
+      "profile_resolver_timeout_minutes": 5,
+      "pre_execute_assertion": "prepare output verso_commit must equal9f8096e40b31715b1d8d5997f15a0bd832f7e37d, else fail before toolchain/build phases."
+    }
+  ],
+  "pinned_tools": {
+    "lean": "leanprover/lean4:v4.35.0-rc2",
+    "lean_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+    "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "elan_version": "4.2.3",
+    "elan_tar_sha256": "df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2",
+    "bubblewrap_version": "0.12.0",
+    "bubblewrap_tar_sha256": "9760d007363e3abba7c747489910f9f82d9fca53ba3bd3282e396fa3c97a3314",
+    "installer_script_sha256": "c290df6cebdf1cb26edb69ed4164d9551062bfeb65243b93d1d1d3b77eac0a35",
+    "python": "3.11.10",
+    "ruby": "3.3.12",
+    "python_dependency_lock": "pipeline requirements.txt --require-hashes --no-deps",
+    "ruby_dependency_lock": "pipeline Gemfile.lock",
+    "kernel_tools": "Submitted exact Lean release bundle; execution must record actual comparator/exporter/Lean/NanoDa/con-ron binary hashes. No external replay inferred from local build.",
+    "apt_dependency_limit": "meson,ninja-build,libcap-dev,pkg-config are installed from runner apt repositories without individually pinned package versions; record actual versions.",
+    "verso_dependencies": {
+      "Cli": "2842b9871b04862f944c032e34052cb9448ccb71",
+      "illuminate": "68a463c484e24708627b8761e8730e76b295d1e2",
+      "plausible": "e50948299c4dc4a4c21b1c34b6a6a4fddc19f912",
+      "MD4Lean": "31907cc18f48a95384f99cee5582c00fb39e0f67",
+      "subverso": "d047cb484b2f3598187450935dbcc84d078cb581"
+    }
+  },
+  "approval_required": [
+    "Activation of exact reviewed source-bound caller for one attempt only; never assume authorization from another campaign.",
+    "Runner-local sudo package installation and deletion of preinstalled Android,dotnet,Haskell,Docker images to reclaim disk, on disposable VM only.",
+    "Conditional runner-host AppArmor profile: installer reads kernel.apparmor_restrict_unprivileged_userns; when1 it writes /etc/apparmor.d/palomar-bwrap with profile palomar-bwrap <absolute-install-dir>/bwrap flags=(unconfined) { userns, } and runs sudo apparmor_parser -r /etc/apparmor.d/palomar-bwrap. Path-attached exception, no global AppArmor/sysctl disable. Requires explicit security-change approval for each disposable job VM.",
+    "Delegated cgroup-v2 resource supervision: systemd --user --scope --property=Delegate=yes on systemd hosts. Non-systemd root helper is a separate privileged fallback; do not silently apply an unapproved fallback.",
+    "Rendering has separate exact-source approval after verification receipt review; browser visual inspection is another unfulfilled receipt."
+  ],
+  "cost_assessment": {
+    "zero_charge_established": false,
+    "public_standard_minutes": "free according to current GitHub billing documentation",
+    "repository_artifact_api_bytes": 5852580,
+    "repository_artifact_count": 166,
+    "repository_cache_api_bytes": 11805285,
+    "repository_cache_count": 1,
+    "api_size_limit": "Repository API ZIP/cache sizes are not account-wide billable artifact/Packages allowance, accrued GB-hours or future retention usage.",
+    "billing_usage_and_summary": "Both owner billing GET endpoints403 Resource not accessible by integration. Authenticated account matches owner but API provides no plan value.",
+    "actions_policy": "Repository Actions permissions, allowed-actions and self-hosted-runner GETs also403; disabled versus unavailable to token remains unknown.",
+    "missing_facts": [
+      "Account plan, remaining shared Actions-artifact/Packages allowance and accrued storage usage",
+      "Applicable hard-stop budget/no-charge guarantee through90day verification and30day render retention",
+      "Repository cache storage limit/paid-overage eligibility and future bundler cache bound",
+      "Repository Actions enabled/allowed third-party reusable workflow policy",
+      "Ability of existing authorized integration/operator to publish workflow files without new credentials is untested; no activation attempted."
+    ],
+    "action": "Do not activate until owner-provided read-only settings evidence establishes zero charges. No billing/security change or new credential is authorized."
+  },
+  "not_performed": [
+    "workflow activation or dispatch",
+    "canonical verification",
+    "rendering",
+    "new credentials",
+    "security/profile/sysctl/cgroup changes",
+    "charges",
+    "Palomar submission",
+    "other campaign takeover"
+  ],
+  "repository_preservation": "Frozen mathematical source and PR40 are unchanged by this assessment.",
+  "submission_hold": {
+    "active": true,
+    "prerequisite": "Confirmed Palomar approval of the Sierpiński entry associated with PR41",
+    "github_pr_url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/41",
+    "reported_submission_received_utc": "2026-10-23 02:25:25 UTC",
+    "mechanical_run_url": "https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39889489605",
+    "evidence_status": "Received/mechanically-verifying state was supplied in the latest trusted instruction. Palomar approval is not independently confirmed. GitHub merge and mechanical pass alone do not lift this hold.",
+    "release_confirmation": null
+  },
+  "current_pipeline_inputs": "current-pipeline-input-check.json",
+  "publication_limit": "This is proposed execution only. New user check-in authorization does not grant canonical/security/cost approval or lift the PR41 Palomar-approval prerequisite."
+}

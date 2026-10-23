@@ -1,0 +1,33 @@
+ℹ [1676/1687] Replayed Integration
+info: Integration.lean:26:0: CategoryTheory.Abelian.SpectralObject.spectralSequence.{v_1, u_1, u_2, u_3} {C : Type u_1} {ι : Type u_2} {κ : Type u_3}
+  [Category.{v_1, u_1} C] [Abelian C] [Preorder ι] (X : Abelian.SpectralObject C ι) {c : ℤ → ComplexShape κ} {r₀ : ℤ}
+  (data : Abelian.SpectralObject.SpectralSequenceDataCore ι c r₀) [X.HasSpectralSequence data] : SpectralSequence C c r₀
+info: Integration.lean:27:0: HomologicalComplex₂.d_comm.{v_1, u_1, u_2, u_3} {C : Type u_1} [Category.{v_1, u_1} C] [Limits.HasZeroMorphisms C]
+  {I₁ : Type u_2} {I₂ : Type u_3} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂} (K : HomologicalComplex₂ C c₁ c₂)
+  (i₁ i₁' : I₁) (i₂ i₂' : I₂) : (K.d i₁ i₁').f i₂ ≫ (K.X i₁').d i₂ i₂' = (K.X i₁).d i₂ i₂' ≫ (K.d i₁ i₁').f i₂'
+info: Integration.lean:28:0: HomologicalComplex.d_comp_d.{v, u, u_1} {ι : Type u_1} {V : Type u} [Category.{v, u} V] [Limits.HasZeroMorphisms V]
+  {c : ComplexShape ι} (C : HomologicalComplex V c) (i j k : ι) : C.d i j ≫ C.d j k = 0
+info: Integration.lean:29:0: CategoryTheory.ShortComplex.moduleCatHomologyIso.{v, u} {R : Type u} [Ring R] (S : ShortComplex (ModuleCat R)) :
+  S.homology ≅ S.moduleCatLeftHomologyData.H
+ℹ [1686/1687] Replayed AxiomAudit
+info: AxiomAudit.lean:7:0: 'AlgebraicHodgePilot.total' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:8:0: 'AlgebraicHodgePilot.ImageKernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:9:0: 'AlgebraicHodgePilot.exists_closed_correction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:10:0: 'AlgebraicHodgePilot.verticalHomologyIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:11:0: 'AlgebraicHodgePilot.verticalClass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:12:0: 'AlgebraicHodgePilot.exists_closed_representative' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:13:0: 'AlgebraicHodgePilot.signedVertical' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:14:0: 'AlgebraicHodgePilot.signedVertical_anticommute' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:15:0: 'AlgebraicHodgePilot.sign_twist_involutive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:16:0: 'AlgebraicHodgePilot.signedVertical_squared' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:17:0: 'AlgebraicHodgePilot.signedVertical_ker' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:18:0: 'AlgebraicHodgePilot.signedVertical_range' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:19:0: 'AlgebraicHodgePilot.total_closed_of_biclosed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:20:0: 'AlgebraicHodgePilot.exists_total_closed_representative' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:21:0: 'AlgebraicHodgePilot.canonicalCoordinates' does not depend on any axioms
+info: AxiomAudit.lean:22:0: 'AlgebraicHodgePilot.canonicalCoordinates_totalDegree' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:23:0: 'AlgebraicHodgePilot.canonicalCoordinates_differentialDegree' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:24:0: 'AlgebraicHodgePilot.e1Data' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:25:0: 'AlgebraicHodgePilot.e1Data_first_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:26:0: 'AlgebraicHodgePilot.e1Data_first_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (1687 jobs).

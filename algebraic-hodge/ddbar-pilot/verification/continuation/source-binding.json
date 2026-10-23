@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "recorded_at": "2026-10-23T00:57:29.630764+00:00",
+  "tested_source_commit": "79fa9a380f88d3a659f5e9f6f8453563c4ade358",
+  "source_input_count": 40,
+  "local_lean_module_count": 26,
+  "audited_declaration_count": 168,
+  "local_report_sha256": "502bde5d9466e75dfdfbe52599f06759d8961f49ad56ef40417970e549626efc",
+  "review_receipt_sha256": "a4a9f2c58ae2b03f06afb636d6313c5da8b0b8c6b014ed446563202fc20ab7c0",
+  "all_reviewed_source_hashes_match_tested_inputs": true,
+  "all_tested_input_hashes_match_commit_and_current_worktree": true,
+  "evidence_directory_excluded_from_source_inputs": "verification/continuation/",
+  "evidence_commit_scope": "Later commit adds only receipts/logs under this directory. It is not represented as a new full build of that later commit.",
+  "verified_contracts": [
+    "actual filtered quotient pages and total-D-induced differentials",
+    "E1 identification with actual vertical homology",
+    "every higher differential dr=0 for every integer r>=1 under explicit ImageKernel identities",
+    "mathlib cohomological spectral sequence with compatible homology and quotient transitions",
+    "bounded stabilization by equality of actual cycle/denominator submodules",
+    "canonical stable-quotient comparison with actual associated graded total cohomology"
+  ],
+  "limits": [
+    "Internal AI review uses same kernel/cache; no human or external-kernel check.",
+    "No protected Comparator, Challenge/Solution, rendering, intake or editorial decision.",
+    "Inventories are preliminary and scoped, not complete release-schema expansion.",
+    "External anticommuting category reconstruction and abstract mapping-cone spectral-object comparison remain extensions."
+  ]
+}

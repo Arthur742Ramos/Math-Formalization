@@ -1,0 +1,265 @@
+{
+  "status": "preliminary-pilot-inventory",
+  "schema": "pilot-source-inventory-1",
+  "dependency": {
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+  },
+  "scope": "Literal pinned source excerpts and semantic notes. Not the repository release inventory schema; no Challenge/Solution or Comparator selected declarations yet. Completeness and entrypoint bridges remain release gates.",
+  "source_files": [
+    {
+      "path": "Mathlib/Algebra/Homology/HomologicalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalComplex.lean",
+      "sha256": "a4857ea05154321bfeb2fa8e906ad87e24977a49cd03cb8785f3f9b19ffa42df",
+      "git_blob_sha1": "50646b814429df3f77ee4be826053853b54d6c64",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin, Kim Morrison\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 59,
+          "last_line": 80,
+          "declarations": [
+            "HomologicalComplex"
+          ],
+          "meaning": "Objects and shaped differential maps with actual composition-zero laws; maps are ModuleCat linear maps.",
+          "sha256": "75be91a6cb7bf23d0c8afe1f0a6fc818fed0d55867c64a778ca0762d0799d48b",
+          "text": "structure HomologicalComplex (c : ComplexShape \u03b9) where\n  X : \u03b9 \u2192 V\n  d : \u2200 i j, X i \u27f6 X j\n  shape : \u2200 i j, \u00acc.Rel i j \u2192 d i j = 0 := by cat_disch\n  d_comp_d' : \u2200 i j k, c.Rel i j \u2192 c.Rel j k \u2192 d i j \u226b d j k = 0 := by cat_disch\n\nnamespace HomologicalComplex\n\nattribute [simp] shape\n\nvariable {V} {c : ComplexShape \u03b9}\n\n@[reassoc (attr := simp)]\ntheorem d_comp_d (C : HomologicalComplex V c) (i j k : \u03b9) : C.d i j \u226b C.d j k = 0 := by\n  by_cases hij : c.Rel i j\n  \u00b7 by_cases hjk : c.Rel j k\n    \u00b7 exact C.d_comp_d' i j k hij hjk\n    \u00b7 rw [C.shape j k hjk, comp_zero]\n  \u00b7 rw [C.shape i j hij, zero_comp]\n\ntheorem ext {C\u2081 C\u2082 : HomologicalComplex V c} (h_X : C\u2081.X = C\u2082.X)\n    (h_d :\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/HomologicalBicomplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalBicomplex.lean",
+      "sha256": "e5360697c04f6d6507d52f0adfc72b79645b77b5ce9e26446a250937010af608",
+      "git_blob_sha1": "2e9e8bf964dad97bf4b2c7964986b354d3a01fcd",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison, Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 37,
+          "last_line": 49,
+          "declarations": [
+            "HomologicalComplex\u2082"
+          ],
+          "meaning": "An iterated homological complex; its horizontal maps are chain maps, hence the squares commute.",
+          "sha256": "ca1ec8863037b14fa5ca6f6587c2393de9dadf2b8371fa0dbc093415d4da19df",
+          "text": "position `\u27e8i\u2081, i\u2082\u27e9` can be obtained as `(K.X i\u2081).X i\u2082`. -/\nabbrev HomologicalComplex\u2082 :=\n  HomologicalComplex (HomologicalComplex C c\u2082) c\u2081\n\nnamespace HomologicalComplex\u2082\n\nopen HomologicalComplex\n\nvariable {C c\u2081 c\u2082}\n\n/-- The graded object indexed by `I\u2081 \u00d7 I\u2082` induced by a bicomplex. -/\ndef toGradedObject (K : HomologicalComplex\u2082 C c\u2081 c\u2082) :\n    GradedObject (I\u2081 \u00d7 I\u2082) C :=\n"
+        },
+        {
+          "first_line": 138,
+          "last_line": 143,
+          "declarations": [
+            "HomologicalComplex\u2082.d_comm"
+          ],
+          "meaning": "Actual commuting-square law used to show h(x) is vertically closed.",
+          "sha256": "f81056ec3624f906b92776f525b0288da6430778c6b3d3c7a56162c2e71c1a91",
+          "text": "@[reassoc]\nlemma d_comm (K : HomologicalComplex\u2082 C c\u2081 c\u2082) (i\u2081 i\u2081' : I\u2081) (i\u2082 i\u2082' : I\u2082) :\n    (K.d i\u2081 i\u2081').f i\u2082 \u226b (K.X i\u2081').d i\u2082 i\u2082' = (K.X i\u2081).d i\u2082 i\u2082' \u226b (K.d i\u2081 i\u2081').f i\u2082' := by\n  simp\n\n@[reassoc (attr := simp)]\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/TotalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean",
+      "sha256": "e223f14193a2a9de9cb0d62c9eaf71a4d5ce90d644a8b088dd3e40c7b7ca4e9e",
+      "git_blob_sha1": "2e4d80bf9f4c4592c727bcff16c6ad48c85b8231",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 261,
+          "last_line": 279,
+          "declarations": [
+            "HomologicalComplex\u2082.total",
+            "HomologicalComplex\u2082.\u03b9Total"
+          ],
+          "meaning": "Coproduct total object with differential D1+D2; summand inclusion. Signed differential components are expanded separately.",
+          "sha256": "cacf654528d32a8924702542c5950aeeafaac6cb92d47ac0df201c8d4f412268",
+          "text": "    K.D\u2081 c\u2081\u2082 i\u2081\u2082 i\u2081\u2082' \u226b K.D\u2082 c\u2081\u2082 i\u2081\u2082' i\u2081\u2082'' = - K.D\u2082 c\u2081\u2082 i\u2081\u2082 i\u2081\u2082' \u226b K.D\u2081 c\u2081\u2082 i\u2081\u2082' i\u2081\u2082'' := by simp\n\n/-- The total complex of a bicomplex. -/\n@[simps -isSimp d, implicit_reducible]\nnoncomputable def total : HomologicalComplex C c\u2081\u2082 where\n  X := K.toGradedObject.mapObj (ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082)\n  d i\u2081\u2082 i\u2081\u2082' := K.D\u2081 c\u2081\u2082 i\u2081\u2082 i\u2081\u2082' + K.D\u2082 c\u2081\u2082 i\u2081\u2082 i\u2081\u2082'\n  shape i\u2081\u2082 i\u2081\u2082' h\u2081\u2082 := by\n    rw [K.D\u2081_shape c\u2081\u2082 _ _ h\u2081\u2082, K.D\u2082_shape c\u2081\u2082 _ _ h\u2081\u2082, zero_add]\n\n/-- The inclusion of a summand in the total complex. -/\nnoncomputable def \u03b9Total (i\u2081 : I\u2081) (i\u2082 : I\u2082) (i\u2081\u2082 : I\u2081\u2082)\n    (h : ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082 (i\u2081, i\u2082) = i\u2081\u2082) :\n    (K.X i\u2081).X i\u2082 \u27f6 (K.total c\u2081\u2082).X i\u2081\u2082 :=\n  K.toGradedObject.\u03b9MapObj (ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082) \u27e8i\u2081, i\u2082\u27e9 i\u2081\u2082 h\n\n@[reassoc (attr := simp)]\nlemma XXIsoOfEq_hom_\u03b9Total {x\u2081 y\u2081 : I\u2081} (h\u2081 : x\u2081 = y\u2081) {x\u2082 y\u2082 : I\u2082} (h\u2082 : x\u2082 = y\u2082)\n    (i\u2081\u2082 : I\u2081\u2082) (h : ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082 (y\u2081, y\u2082) = i\u2081\u2082) :\n"
+        },
+        {
+          "first_line": 60,
+          "last_line": 72,
+          "declarations": [
+            "HomologicalComplex\u2082.d\u2081",
+            "HomologicalComplex\u2082.d\u2082"
+          ],
+          "meaning": "Differential components use ComplexShape signs, actual bicomplex maps, and coproduct inclusions.",
+          "sha256": "535aec5f543df3c1b67307c653d2418df3955d76c81be80ac3fe4a831b7f1d5a",
+          "text": "/-- The horizontal differential in the total complex on a given summand. -/\nnoncomputable def d\u2081 :\n    (K.X i\u2081).X i\u2082 \u27f6 (K.toGradedObject.mapObj (ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082)) i\u2081\u2082 :=\n  ComplexShape.\u03b5\u2081 c\u2081 c\u2082 c\u2081\u2082 \u27e8i\u2081, i\u2082\u27e9 \u2022 ((K.d i\u2081 (c\u2081.next i\u2081)).f i\u2082 \u226b\n    K.toGradedObject.\u03b9MapObjOrZero (ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082) \u27e8_, i\u2082\u27e9 i\u2081\u2082)\n\n/-- The vertical differential in the total complex on a given summand. -/\nnoncomputable def d\u2082 :\n    (K.X i\u2081).X i\u2082 \u27f6 (K.toGradedObject.mapObj (ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082)) i\u2081\u2082 :=\n  ComplexShape.\u03b5\u2082 c\u2081 c\u2082 c\u2081\u2082 \u27e8i\u2081, i\u2082\u27e9 \u2022 ((K.X i\u2081).d i\u2082 (c\u2082.next i\u2082) \u226b\n    K.toGradedObject.\u03b9MapObjOrZero (ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082) \u27e8i\u2081, _\u27e9 i\u2081\u2082)\n\nset_option backward.isDefEq.respectTransparency.types false in\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean",
+      "sha256": "6d1c0eedf5e2ca3fc3d1c1693cc51c35f5be3045403dc814637d977872d30b30",
+      "git_blob_sha1": "27731c25d8f93ed52053070198f138d58bf08312",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 32,
+          "last_line": 72,
+          "declarations": [
+            "HomologicalComplex.sc",
+            "HomologicalComplex.sc'"
+          ],
+          "meaning": "Three-term complex from actual column differentials; canonical prev/next and specified q-1,q,q+1 pieces.",
+          "sha256": "a1deea6ebdb771bd29cd3f06c9ccb0c95da230348efd3ba4c9c30fdd7e3a2942",
+          "text": "\nvariable (C : Type*) [Category* C] [HasZeroMorphisms C] {\u03b9 : Type*} (c : ComplexShape \u03b9)\n\n/-- The functor `HomologicalComplex C c \u2964 ShortComplex C` which sends a homological\ncomplex `K` to the short complex `K.X i \u27f6 K.X j \u27f6 K.X k` for arbitrary indices `i`, `j` and `k`. -/\n@[simps]\ndef shortComplexFunctor' (i j k : \u03b9) : HomologicalComplex C c \u2964 ShortComplex C where\n  obj K := ShortComplex.mk (K.d i j) (K.d j k) (K.d_comp_d i j k)\n  map f :=\n    { \u03c4\u2081 := f.f i\n      \u03c4\u2082 := f.f j\n      \u03c4\u2083 := f.f k }\n\n/-- The functor `HomologicalComplex C c \u2964 ShortComplex C` which sends a homological\ncomplex `K` to the short complex `K.X (c.prev i) \u27f6 K.X i \u27f6 K.X (c.next i)`. -/\n@[simps!]\nnoncomputable def shortComplexFunctor (i : \u03b9) :=\n  shortComplexFunctor' C c (c.prev i) i (c.next i)\n\nset_option backward.isDefEq.respectTransparency.types false in\nset_option backward.defeqAttrib.useBackward true in\n/-- The natural isomorphism `shortComplexFunctor C c j \u2245 shortComplexFunctor' C c i j k`\nwhen `c.prev j = i` and `c.next j = k`. -/\n@[simps!]\nnoncomputable def natIsoSc' (i j k : \u03b9) (hi : c.prev j = i) (hk : c.next j = k) :\n    shortComplexFunctor C c j \u2245 shortComplexFunctor' C c i j k :=\n  NatIso.ofComponents (fun K => ShortComplex.isoMk (K.XIsoOfEq hi) (Iso.refl _) (K.XIsoOfEq hk)\n    (by simp) (by simp)) (by cat_disch)\n\nvariable {C c}\n\nvariable (K L M : HomologicalComplex C c) (\u03c6 : K \u27f6 L) (iso : K \u2245 L) (\u03c8 : L \u27f6 M) (i j k : \u03b9)\n\n/-- The short complex `K.X i \u27f6 K.X j \u27f6 K.X k` for arbitrary indices `i`, `j` and `k`. -/\nabbrev sc' := (shortComplexFunctor' C c i j k).obj K\n\n/-- The short complex `K.X (c.prev i) \u27f6 K.X i \u27f6 K.X (c.next i)`. -/\nnoncomputable abbrev sc := (shortComplexFunctor C c i).obj K\n\n/-- The canonical isomorphism `K.sc j \u2245 K.sc' i j k` when `c.prev j = i` and `c.next j = k`. -/\nnoncomputable abbrev isoSc' (hi : c.prev j = i) (hk : c.next j = k) :\n"
+        },
+        {
+          "first_line": 87,
+          "last_line": 100,
+          "declarations": [
+            "HomologicalComplex.homology"
+          ],
+          "meaning": "Homology of the actual column short complex, not a dimension or supplied equality.",
+          "sha256": "f2bed8daa93088e68b2be502a7498fe339784673dfa00e7c039e414fe9dff1b4",
+          "text": "variable [K.HasHomology i]\n\n/-- The homology in degree `i` of a homological complex. -/\nnoncomputable def homology := (K.sc i).homology\n\n/-- The cycles in degree `i` of a homological complex. -/\nnoncomputable def cycles := (K.sc i).cycles\n\n/-- The inclusion of the cycles of a homological complex. -/\nnoncomputable def iCycles : K.cycles i \u27f6 K.X i := (K.sc i).iCycles\n\n/-- The homology class map from cycles to the homology of a homological complex. -/\nnoncomputable def homology\u03c0 : K.cycles i \u27f6 K.homology i := (K.sc i).homology\u03c0\n\n"
+        },
+        {
+          "first_line": 926,
+          "last_line": 930,
+          "declarations": [
+            "HomologicalComplex.homologyIsoSc'"
+          ],
+          "meaning": "Canonical isomorphism comparing column homology to the explicit three-term piece.",
+          "sha256": "da2b18d40f0f1f80093ce329af499870e1220cc94a8af60d200727884c513c50",
+          "text": "/-- The opcycles of a homological complex in degree `j` can be computed\nby specifying a choice of `c.prev j` and `c.next j`. -/\nnoncomputable def homologyIsoSc' : K.homology j \u2245 (K.sc' i j k).homology :=\n  ShortComplex.homologyMapIso (K.isoSc' i j k hi hk)\n\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean",
+      "sha256": "24dd94f0c8dbc9ed5cb75d4c0281ff69cbd589156887cbff723046c2ecf9de2c",
+      "git_blob_sha1": "2b633dbfb07d98f6f9a3fc157c6008f94f98e7d1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 92,
+          "last_line": 111,
+          "declarations": [
+            "ShortComplex.moduleCatToCycles",
+            "ShortComplex.moduleCatLeftHomologyData"
+          ],
+          "meaning": "Incoming linear map restricted to the outgoing kernel; homology is its range quotient. Genuine d\u00b2=0 justifies restriction.",
+          "sha256": "c07796276f3576d07a6bdecbc259118663348a098568ca553ee7135b11021e12",
+          "text": "\n/-- The canonical linear map `S.X\u2081 \u2192\u2097[R] LinearMap.ker S.g` induced by `S.f`. -/\nabbrev moduleCatToCycles : S.X\u2081 \u2192\u2097[R] LinearMap.ker S.g.hom :=\n  S.f.hom.codRestrict _ <| S.moduleCat_zero_apply\n\nset_option backward.defeqAttrib.useBackward true in\n/-- The explicit left homology data of a short complex of modules that is\ngiven by a kernel and a quotient given by the `LinearMap` API. The projections to `K` and `H` are\nnot simp lemmas because the generic lemmas about `LeftHomologyData` are more useful here. -/\n@[simps! K H i_hom \u03c0_hom]\ndef moduleCatLeftHomologyData : S.LeftHomologyData where\n  K := \u21a7S.g.hom.ker\n  H := \u21a7(S.g.hom.ker \u29f8 S.moduleCatToCycles.range)\n  i := ModuleCat.ofHom (LinearMap.ker S.g.hom).subtype\n  \u03c0 := ModuleCat.ofHom (LinearMap.range S.moduleCatToCycles).mkQ\n  wi := by aesop\n  hi := ModuleCat.kernelIsLimit _\n  w\u03c0 := by aesop\n  h\u03c0 := ModuleCat.cokernelIsColimit (ModuleCat.ofHom S.moduleCatToCycles)\n\n"
+        },
+        {
+          "first_line": 168,
+          "last_line": 188,
+          "declarations": [
+            "ShortComplex.moduleCatHomologyIso"
+          ],
+          "meaning": "Canonical abstract homology to concrete kernel/image quotient comparison and projection compatibility.",
+          "sha256": "486073f2b898ba282a4a3c8c83073a60de8f28130ebd3c0f1d1e7523559f31e7",
+          "text": "\n/-- Given a short complex `S` of modules, this is the isomorphism between\nthe abstract `S.homology` of the homology API and the more explicit\nquotient of `LinearMap.ker S.g` by the image of\n`S.moduleCatToCycles : S.X\u2081 \u2192\u2097[R] LinearMap.ker S.g`. -/\nnoncomputable def moduleCatHomologyIso :\n    S.homology \u2245 S.moduleCatLeftHomologyData.H :=\n  S.moduleCatLeftHomologyData.homologyIso\n\n@[reassoc (attr := simp, elementwise)]\nlemma \u03c0_moduleCatCyclesIso_hom :\n    S.homology\u03c0 \u226b S.moduleCatHomologyIso.hom =\n      S.moduleCatCyclesIso.hom \u226b S.moduleCatLeftHomologyData.\u03c0 :=\n  S.moduleCatLeftHomologyData.homology\u03c0_comp_homologyIso_hom\n\n@[reassoc (attr := simp, elementwise)]\nlemma moduleCatCyclesIso_inv_\u03c0 :\n    S.moduleCatCyclesIso.inv \u226b S.homology\u03c0 =\n       S.moduleCatLeftHomologyData.\u03c0 \u226b S.moduleCatHomologyIso.inv :=\n  S.moduleCatLeftHomologyData.\u03c0_comp_homologyIso_inv\n\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Ker.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Ker.lean",
+      "sha256": "6820cd12f24bc4d7b00c6e508c2d2ecaff39549d74be47430eb76cd8b6ee34ee",
+      "git_blob_sha1": "c64fd7feb84fc02de4f53ec66b9bc0d7a30b1fa2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Fr\u00e9d\u00e9ric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 55,
+          "last_line": 75,
+          "declarations": [
+            "LinearMap.ker"
+          ],
+          "meaning": "Kernel is a submodule with membership f(x)=0.",
+          "sha256": "797fc2828e58af7d9dc7bdcc6f4af9327c6aa5e3ddf5f4d455935958bf09f5b2",
+          "text": "variable {\u03c4\u2081\u2082 : R \u2192+* R\u2082} {\u03c4\u2082\u2083 : R\u2082 \u2192+* R\u2083} {\u03c4\u2081\u2083 : R \u2192+* R\u2083}\nvariable [RingHomCompTriple \u03c4\u2081\u2082 \u03c4\u2082\u2083 \u03c4\u2081\u2083]\n\n/-- The kernel of a linear map `f : M \u2192 M\u2082` is defined to be `comap f \u22a5`. This is equivalent to the\nset of `x : M` such that `f x = 0`. The kernel is a submodule of `M`. -/\ndef ker (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) : Submodule R M :=\n  comap f \u22a5\n\n@[simp]\ntheorem mem_ker {f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082} {y} : y \u2208 ker f \u2194 f y = 0 :=\n  mem_bot R\u2082\n\n@[simp]\ntheorem ker_id : ker (LinearMap.id : M \u2192\u2097[R] M) = \u22a5 :=\n  rfl\n\n@[simp]\ntheorem map_coe_ker (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) (x : ker f) : f x = 0 :=\n  mem_ker.1 x.2\n\ntheorem ker_toAddSubmonoid (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) : (ker f).toAddSubmonoid = (AddMonoidHom.mker f) :=\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Range.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Range.lean",
+      "sha256": "5d3c93d9b771e9aec611a0221bc138f9491dd2c37c3babcf42c2acbe570a4d45",
+      "git_blob_sha1": "5ea20b9bee1b24bbf5a32bedfa428bb1a84c129a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Fr\u00e9d\u00e9ric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 49,
+          "last_line": 74,
+          "declarations": [
+            "LinearMap.range"
+          ],
+          "meaning": "Range is the actual image submodule, with existential preimages.",
+          "sha256": "6a5c1cd820f1342bfec077d5baa1ae57483876250620fb4d7591a0c0e2745b06",
+          "text": "\nvariable {\u03c4\u2081\u2082 : R \u2192+* R\u2082} {\u03c4\u2082\u2083 : R\u2082 \u2192+* R\u2083} {\u03c4\u2081\u2083 : R \u2192+* R\u2083}\nvariable [RingHomCompTriple \u03c4\u2081\u2082 \u03c4\u2082\u2083 \u03c4\u2081\u2083]\n\nsection\n\n/-- The range of a linear map `f : M \u2192 M\u2082` is a submodule of `M\u2082`.\nSee Note [range copy pattern]. -/\ndef range [RingHomSurjective \u03c4\u2081\u2082] (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) : Submodule R\u2082 M\u2082 :=\n  (map f \u22a4).copy (Set.range f) Set.image_univ.symm\n\ntheorem coe_range [RingHomSurjective \u03c4\u2081\u2082] (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) : (range f : Set M\u2082) = Set.range f :=\n  rfl\n\ntheorem range_toAddSubmonoid [RingHomSurjective \u03c4\u2081\u2082] (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) :\n    (range f).toAddSubmonoid = AddMonoidHom.mrange f :=\n  rfl\n\n@[simp]\ntheorem mem_range [RingHomSurjective \u03c4\u2081\u2082] {f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082} {x} : x \u2208 range f \u2194 \u2203 y, f y = x :=\n  Iff.rfl\n\ntheorem range_eq_map [RingHomSurjective \u03c4\u2081\u2082] (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) : range f = map f \u22a4 := by\n  ext\n  simp\n\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/SpectralObject/HasSpectralSequence.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/SpectralObject/HasSpectralSequence.lean",
+      "sha256": "a575f8cea8822045c5f94760333046ce0c8d3c63516c5c44dd25317275318cc5",
+      "git_blob_sha1": "483b93b3caed572e18d9c464386fba9a1b05073a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2026 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 66,
+          "last_line": 111,
+          "declarations": [
+            "SpectralSequenceDataCore"
+          ],
+          "meaning": "Page indexing recipe with degree, four interval indices, inequalities, and compatibility equations. Does not assume degeneration.",
+          "sha256": "24ab2439a6cd3377746eabc063db60a8fa820872e631f5f9f2ec7ac39bd0027b",
+          "text": "cases, additional conditions may be required on the spectral object. -/\nstructure SpectralSequenceDataCore where\n  /-- The cohomological degree of objects in the pages -/\n  deg : \u03ba \u2192 \u2124\n  /-- The zeroth index -/\n  i\u2080 (r : \u2124) (pq : \u03ba) (hr : r\u2080 \u2264 r := by lia) : \u03b9\n  /-- The first index -/\n  i\u2081 (pq : \u03ba) : \u03b9\n  /-- The second index -/\n  i\u2082 (pq : \u03ba) : \u03b9\n  /-- The third index -/\n  i\u2083 (r : \u2124) (pq : \u03ba) (hr : r\u2080 \u2264 r := by lia) : \u03b9\n  le\u2080\u2081 (r : \u2124) (pq : \u03ba) (hr : r\u2080 \u2264 r := by lia) : i\u2080 r pq \u2264 i\u2081 pq\n  le\u2081\u2082 (pq : \u03ba) : i\u2081 pq \u2264 i\u2082 pq\n  le\u2082\u2083 (r : \u2124) (pq : \u03ba) (hr : r\u2080 \u2264 r := by lia) : i\u2082 pq \u2264 i\u2083 r pq\n  hc (r : \u2124) (pq pq' : \u03ba) (hpq : (c r).Rel pq pq') (hr : r\u2080 \u2264 r := by lia) : deg pq + 1 = deg pq'\n  hc\u2080\u2082 (r : \u2124) (pq pq' : \u03ba) (hpq : (c r).Rel pq pq') (hr : r\u2080 \u2264 r := by lia) : i\u2080 r pq = i\u2082 pq'\n  hc\u2081\u2083 (r : \u2124) (pq pq' : \u03ba) (hpq : (c r).Rel pq pq') (hr : r\u2080 \u2264 r := by lia) : i\u2081 pq = i\u2083 r pq'\n  antitone_i\u2080 (r r' : \u2124) (pq : \u03ba) (hr : r\u2080 \u2264 r := by lia) (hrr' : r \u2264 r' := by lia) :\n      i\u2080 r' pq \u2264 i\u2080 r pq\n  monotone_i\u2083 (r r' : \u2124) (pq : \u03ba) (hr : r\u2080 \u2264 r := by lia) (hrr' : r \u2264 r' := by lia) :\n      i\u2083 r pq \u2264 i\u2083 r' pq\n  i\u2080_prev (r r' : \u2124) (pq pq' : \u03ba) (hpq : (c r).Rel pq pq') (hrr' : r + 1 = r' := by lia)\n      (hr : r\u2080 \u2264 r := by lia) :\n      i\u2080 r' pq = i\u2081 pq'\n  i\u2083_next (r r' : \u2124) (pq pq' : \u03ba) (hpq : (c r).Rel pq pq') (hrr' : r + 1 = r' := by lia)\n      (hr : r\u2080 \u2264 r := by lia) :\n      i\u2083 r' pq' = i\u2082 pq\n\nnamespace SpectralSequenceDataCore\n\nvariable (data : SpectralSequenceDataCore \u03b9 c r\u2080)\n\nlemma i\u2080_le (r r' : \u2124) (pq : \u03ba) (hrr' : r + 1 = r' := by lia) (hr : r\u2080 \u2264 r := by lia) :\n    data.i\u2080 r' pq \u2264 data.i\u2080 r pq :=\n  data.antitone_i\u2080 r r' pq\n\nlemma i\u2083_le (r r' : \u2124) (pq : \u03ba) (hrr' : r + 1 = r' := by lia) (hr : r\u2080 \u2264 r := by lia) :\n    data.i\u2083 r pq \u2264 data.i\u2083 r' pq :=\n  data.monotone_i\u2083 r r' pq\n\nlemma i\u2080_le' {r r' : \u2124} (hrr' : r + 1 = r') (hr : r\u2080 \u2264 r) (pq' : \u03ba)\n    {i\u2080' i\u2080 : \u03b9} (hi\u2080' : i\u2080' = data.i\u2080 r' pq') (hi\u2080 : i\u2080 = data.i\u2080 r pq') :\n    i\u2080' \u2264 i\u2080 := by\n  rw [hi\u2080', hi\u2080]\n  exact data.antitone_i\u2080 r r' pq'\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/SpectralSequence/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/SpectralSequence/Basic.lean",
+      "sha256": "637c66009dfd06128b455e5593ca17e1144314b4996afcf7f2b26871c1c647b3",
+      "git_blob_sha1": "4cf6043b1cd59cc410791df5c764e1ece0a9a675",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2026 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 36,
+          "last_line": 50,
+          "declarations": [
+            "SpectralSequence"
+          ],
+          "meaning": "Actual pages are homological complexes, linked to next-page objects by homology isomorphisms.",
+          "sha256": "4c7c6cf59db4f46aad374945c33923e854639f634db3587247834c6c9d44f9ba",
+          "text": "complexes and isomorphisms saying that the homology of a page identifies to the next page. -/\nstructure SpectralSequence where\n  /-- the `r`th page of a spectral sequence is an homological complex -/\n  page (r : \u2124) (hr : r\u2080 \u2264 r := by lia) : HomologicalComplex C (c r)\n  /-- the isomorphism between the homology of the `r`-th page at an object `pq : \u03ba`\n  and the corresponding object on the next page -/\n  iso (r r' : \u2124) (pq : \u03ba) (hrr' : r + 1 = r' := by lia) (hr : r\u2080 \u2264 r := by lia) :\n    (page r).homology pq \u2245 (page r').X pq\n\nnamespace SpectralSequence\n\nvariable {C c r\u2080}\n\n/-- A morphism of spectral sequences is a sequence of morphisms between the\npages which commutes with the isomorphisms in homology. -/\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Ring/NegOnePow.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/NegOnePow.lean",
+      "sha256": "7f22251f2ae04c10d52163a31f257305e91e84d72a4589882208152c2d841f7e",
+      "git_blob_sha1": "0580a32e48fb1492c513b193ad5b6ec73009f464",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou, Johan Commelin\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 25,
+          "last_line": 49,
+          "declarations": [
+            "Int.negOnePow"
+          ],
+          "meaning": "Integral sign unit, successor sign reversal and involution. This acts on actual differential maps.",
+          "sha256": "c028bc2cf583244db92d6eeb5523e39615ea7f5451aebb3d68a9b8b559624e91",
+          "text": "assert_not_exists TwoSidedIdeal\n\nnamespace Int\n\n/-- The map `\u2124 \u2192 \u2124\u02e3` which sends `n` to `(-1 : \u2124\u02e3) ^ n`. -/\ndef negOnePow (n : \u2124) : \u2124\u02e3 := (-1 : \u2124\u02e3) ^ n\n\nlemma negOnePow_def (n : \u2124) : n.negOnePow = (-1 : \u2124\u02e3) ^ n := rfl\n\nlemma negOnePow_add (n\u2081 n\u2082 : \u2124) :\n    (n\u2081 + n\u2082).negOnePow = n\u2081.negOnePow * n\u2082.negOnePow :=\n  zpow_add _ _ _\n\n@[simp]\nlemma negOnePow_zero : negOnePow 0 = 1 := rfl\n\n@[simp]\nlemma negOnePow_one : negOnePow 1 = -1 := rfl\n\nlemma negOnePow_succ (n : \u2124) : (n + 1).negOnePow = -n.negOnePow := by\n  rw [negOnePow_add, negOnePow_one, mul_neg, mul_one]\n\nlemma negOnePow_even (n : \u2124) (hn : Even n) : n.negOnePow = 1 := by\n  obtain \u27e8k, rfl\u27e9 := hn\n  rw [negOnePow_add, units_mul_self]\n"
+        }
+      ]
+    }
+  ]
+}

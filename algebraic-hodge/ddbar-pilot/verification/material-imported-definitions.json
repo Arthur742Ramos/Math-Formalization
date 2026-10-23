@@ -1,0 +1,2369 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "required_declarations": [
+    "Field",
+    "Module",
+    "ModuleCat",
+    "ModuleCat.Hom",
+    "LinearMap",
+    "Submodule",
+    "LinearMap.ker",
+    "LinearMap.range",
+    "Submodule.map",
+    "Submodule.comap",
+    "Submodule.quotientRel",
+    "Submodule.Quotient.mk",
+    "Submodule.mkQ",
+    "Submodule.liftQ",
+    "ComplexShape",
+    "ComplexShape.up'",
+    "ComplexShape.up",
+    "HomologicalComplex",
+    "CategoryTheory.Iso",
+    "CategoryTheory.SpectralSequence",
+    "CategoryTheory.ShortComplex",
+    "CategoryTheory.ShortComplex.LeftHomologyData",
+    "CategoryTheory.Limits.IsLimit",
+    "CategoryTheory.Limits.IsColimit",
+    "CategoryTheory.ShortComplex.HomologyData",
+    "CategoryTheory.ShortComplex.HasHomology",
+    "CategoryTheory.ShortComplex.homologyData",
+    "CategoryTheory.ShortComplex.homology",
+    "HomologicalComplex.shortComplexFunctor'",
+    "HomologicalComplex.homology",
+    "HomologicalComplex.homologyIsoSc'",
+    "CategoryTheory.ShortComplex.moduleCatLeftHomologyData",
+    "CategoryTheory.ShortComplex.moduleCatHomologyIso",
+    "CategoryTheory.ShortComplex.LeftHomologyData.ofZeros",
+    "HomologicalComplex₂.total",
+    "HomologicalComplex₂.ιTotal",
+    "CategoryTheory.GradedObject.mapObj",
+    "HomologicalComplex₂.d₁",
+    "HomologicalComplex₂.d₂",
+    "CategoryTheory.ShortComplex.RightHomologyData",
+    "CategoryTheory.ShortComplex.LeftHomologyData.homologyIso",
+    "TotalComplexShape",
+    "ComplexShape.TensorSigns",
+    "Int.negOnePow",
+    "LinearEquiv",
+    "LinearEquiv.ofBijective",
+    "LinearEquiv.toModuleIso"
+  ],
+  "material_declarations": [
+    {
+      "name": "Field",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "meaning": "A commutative field, including the inherited division-ring nontriviality and zero-inverse convention.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Field",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Field"
+      ],
+      "dependency_expansion": "Field k is inherited throughout. Fixed coefficient universe Type; integer indices. No characteristic-zero, finite-dimensional or analytic hypothesis is implicit. Its CommRing and DivisionRing parents are standard algebra infrastructure, not extra Hodge assumptions.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Module",
+      "declaration_kind": "class",
+      "role": "definition",
+      "meaning": "Scalar action distributes and obeys module laws. Over Field k the objects are vector spaces.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Module",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Module"
+      ],
+      "dependency_expansion": "Extends DistribMulAction; inherited scalar associativity, identity and zero, plus add_smul and zero_smul. AddCommGroup is carried by ModuleCat.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "ModuleCat",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Bundled additive commutative groups with k-module structure.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "ModuleCat",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ModuleCat",
+        "modulecat_of_alias"
+      ],
+      "dependency_expansion": "carrier is Type v; isAddCommGroup and isModule are fields. of is an abbreviation building this structure; no dimensions or equality-only replacement.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "ModuleCat.Hom",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Category morphisms are bundled actual linear maps.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "ModuleCat_Hom",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ModuleCat_Hom"
+      ],
+      "dependency_expansion": "Hom.hom and ofHom are abbreviations to ConcreteCategory structure; moduleCategory composition is g.comp f, identity is LinearMap.id.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "LinearMap",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Actual additive scalar-compatible maps, with ordinary linear maps using RingHom.id.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "LinearMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearMap"
+      ],
+      "dependency_expansion": "Extends AddHom and MulActionHom; function coercion is the underlying map. The tests check add/scalar preservation.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Actual subsets closed under addition and scalar multiplication.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Submodule",
+        "submodule_bottom",
+        "submodule_top",
+        "submodule_lattice"
+      ],
+      "dependency_expansion": "Extends AddSubmonoid and SubMulAction. SetLike gives membership; PartialOrder is subset inclusion. Intersection, sum, indexed sum, top and bottom use the inherited complete lattice, not numeric proxies.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "LinearMap.ker",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Vectors mapped to zero.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "LinearMap_ker",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap_ker"
+      ],
+      "dependency_expansion": "ker f is comap f bottom; bottom membership is equality to zero. Tests prove membership by literal unfolding.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "LinearMap.range",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Vectors with an actual preimage under a linear map.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "LinearMap_range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap_range"
+      ],
+      "dependency_expansion": "map f top is copied to Set.range f. RingHomSurjective for ordinary linear maps is identity-surjectivity; no extra field assumption.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule.map",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual image of the submodule under a linear map.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule_map",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule_map"
+      ],
+      "dependency_expansion": "Carrier is f image p, witnessed by x∈p with f x=y. Ordinary linear maps specialize the semilinear interface.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule.comap",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual inverse image of a submodule.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule_comap",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule_comap"
+      ],
+      "dependency_expansion": "Carrier is f preimage p. Quotient denominators are pulled back along the inclusion of the numerator submodule.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule.quotientRel",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Submodule quotient identifies elements whose difference lies in the submodule.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule_quotientRel",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Submodule_quotientRel",
+        "quotient_class_equality"
+      ],
+      "dependency_expansion": "Literal relation is QuotientAddGroup.leftRel (-x+y∈p); quotientRel_def proves the x-y form, NOT a definitional equality.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule.Quotient.mk",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Class of an actual vector in the quotient.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule_Quotient_mk",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule_Quotient_mk",
+        "quotient_class_equality"
+      ],
+      "dependency_expansion": "HasQuotient above uses Lean Quotient of quotientRel. Quotient.mk is Quotient.mk double-prime; foundational quotient is an explicit exclusion.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule.mkQ",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Linear quotient-class projection.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule_mkQ",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Submodule_mkQ",
+        "Submodule_quotientRel",
+        "quotient_class_equality"
+      ],
+      "dependency_expansion": "toFun is Quotient.mk; zero iff denominator membership is a PROVED upstream theorem used in both tests.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Submodule.liftQ",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Linear descent of a map vanishing on the denominator.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Submodule_liftQ",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule_liftQ"
+      ],
+      "dependency_expansion": "Input h:p≤ker f is an actual well-definedness proof. It uses quotient-group descent and scalar compatibility; lift applied to mkQ is literal f.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "ComplexShape",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Allowed differential incidence relation, with unique next and previous incidence.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "ComplexShape",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ComplexShape"
+      ],
+      "dependency_expansion": "Coherent incidence relation, not an operator. Complex operators and square-zero are separate HomologicalComplex fields.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "ComplexShape.up'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Differentials with index increment a.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "ComplexShape_up'",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "ComplexShape_up'"
+      ],
+      "dependency_expansion": "Rel i j is i+a=j. Used with a=1 for total/columns and a=(r,1-r) for conventional spectral pages.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "ComplexShape.up",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Cochain shape with increment one.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "ComplexShape_up",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "ComplexShape_up"
+      ],
+      "dependency_expansion": "Abbreviation-like definition up alpha := up' 1; the upstream declaration is a def. Integer indices are not replacing actual operators.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex",
+      "declaration_kind": "structure",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "Objects and actual differential morphisms, zero off shape, with d composed d zero.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.ImageKernel",
+        "AlgebraicHodgePilot.Column.RectangularSupport",
+        "AlgebraicHodgePilot.Column.HorizontalSupport",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Filtered.cycles",
+        "AlgebraicHodgePilot.Filtered.boundaries",
+        "AlgebraicHodgePilot.Filtered.denominator",
+        "AlgebraicHodgePilot.Filtered.Page",
+        "AlgebraicHodgePilot.Filtered.closedCycles",
+        "AlgebraicHodgePilot.Filtered.closedBoundaries",
+        "AlgebraicHodgePilot.Filtered.closedDenominator",
+        "AlgebraicHodgePilot.Filtered.InfinityPage",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "HomologicalComplex",
+        "bicomplex_alias",
+        "commuting_square",
+        "cochain_alias"
+      ],
+      "dependency_expansion": "CochainComplex is an abbreviation to this structure with up. HomologicalComplex₂ abbreviates this structure nested in itself; morphisms in the outer complex enforce commuting squares. No homology or degeneration fields.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.Iso",
+      "declaration_kind": "structure",
+      "role": "conclusion",
+      "meaning": "Actual morphism with inverse and both inverse laws.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_Iso",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_Iso"
+      ],
+      "dependency_expansion": "In ModuleCat both maps are actual linear maps. Isomorphism symbols in E1 and stable-grading comparisons denote this structure, never equality of dimensions.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.SpectralSequence",
+      "declaration_kind": "structure",
+      "role": "conclusion",
+      "meaning": "Page complexes and actual homology-to-next-page isomorphisms from a stated first index.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.associatedSequence"
+      ],
+      "definition_excerpt": "CategoryTheory_SpectralSequence",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_SpectralSequence",
+        "cohomological_indexing"
+      ],
+      "dependency_expansion": "CohomologicalSpectralSequence is an abbreviation with shapes up'(r,1-r); starting index is 1. Common-representative and all-next-class transition theorems further certify association beyond these fields.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Two composable actual maps with zero composition.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex"
+      ],
+      "dependency_expansion": "Three objects, f, g and f≫g=0. A column or page short complex is obtained from actual HomologicalComplex.d.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.LeftHomologyData",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Kernel of outgoing map, then cokernel of incoming map restricted to cycles.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_LeftHomologyData",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_LeftHomologyData"
+      ],
+      "dependency_expansion": "wi, hi, wπ, hπ require actual universal properties IsLimit and IsColimit; quotient interpretation is established by moduleCatLeftHomologyData.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.Limits.IsLimit",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Universal limit cone, including factorization and uniqueness.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_Limits_IsLimit",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_Limits_IsLimit"
+      ],
+      "dependency_expansion": "For a KernelFork this says the inclusion represents the kernel, not merely square-zero. Cone and categorical composition infrastructure are excluded as generic foundations.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.Limits.IsColimit",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Universal colimit cocone, including factorization and uniqueness.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_Limits_IsColimit",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_Limits_IsColimit"
+      ],
+      "dependency_expansion": "For a CokernelCofork this says projection represents the cokernel. Cocone and categorical composition infrastructure are generic foundations.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.HomologyData",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Compatible left and right homology data.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_HomologyData",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_HomologyData"
+      ],
+      "dependency_expansion": "The chosen left.H is the actual homology object; compatibility iso and comm make the two dual constructions agree. RightHomologyData is dual to the retained LeftHomologyData and is retained separately, not a new Hodge assumption.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.HasHomology",
+      "declaration_kind": "class",
+      "role": "definition",
+      "meaning": "Existence of actual homology data.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_HasHomology",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_HasHomology"
+      ],
+      "dependency_expansion": "condition is Nonempty HomologyData. In ModuleCat this is supplied by its abelian structure; no arbitrary page computation is supplied.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.homologyData",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Chosen actual homology data from its existence.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_homologyData",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_homologyData"
+      ],
+      "dependency_expansion": "Uses Classical.choice via Nonempty.some. This is standard axiom use recorded in audit, not a new mathematical axiom.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.homology",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Left.H of the chosen compatible homology data.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_homology",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_homology",
+        "CategoryTheory_ShortComplex_moduleCatHomologyIso"
+      ],
+      "dependency_expansion": "Abstract categorical homology is not literally the quotient type; moduleCatHomologyIso is the PROVED canonical bridge.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex.shortComplexFunctor'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual incoming and outgoing differentials form a short complex.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex_shortComplexFunctor'",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HomologicalComplex_shortComplexFunctor'"
+      ],
+      "dependency_expansion": "sc' is obj of this functor. sc uses shape.prev/next. The d_comp_d law supplies the zero composite.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex.homology",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Homology of the short complex at the requested degree.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex_homology",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "HomologicalComplex_homology",
+        "CategoryTheory_ShortComplex_moduleCatHomologyIso",
+        "shortcomplex_aliases"
+      ],
+      "dependency_expansion": "sc uses actual predecessor and successor differentials. homologyIsoSc' identifies explicit integer predecessor/successor with that API.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex.homologyIsoSc'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Canonical homology comparison for explicit predecessor and successor indices.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex_homologyIsoSc'",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "HomologicalComplex_homologyIsoSc'"
+      ],
+      "dependency_expansion": "Built from the actual short-complex isomorphism by homologyMapIso; requires equalities of shape.prev/next. Not definitional equality.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.moduleCatLeftHomologyData",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Concrete cycles ker g and quotient by incoming range.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_moduleCatLeftHomologyData",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_moduleCatLeftHomologyData"
+      ],
+      "dependency_expansion": "moduleCatToCycles is f restricted to ker g using zero composite. H is quotient of ker g by range of that restriction, π is actual mkQ; universal properties prove valid categorical homology data.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.moduleCatHomologyIso",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Canonical abstract-homology to concrete kernel/image quotient isomorphism.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_moduleCatHomologyIso",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_moduleCatHomologyIso"
+      ],
+      "dependency_expansion": "Uses moduleCatLeftHomologyData.homologyIso. Projection compatibility is a theorem; quotient representation is not asserted as definitional equality.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.LeftHomologyData.ofZeros",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Canonical homology data when both actual adjacent maps vanish.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.associatedSequence"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_LeftHomologyData_ofZeros",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_LeftHomologyData_ofZeros",
+        "canonical_homology_projection"
+      ],
+      "dependency_expansion": "K=H=middle object; i=π=identity, with proved kernel/cokernel universality. Used only after actual page differentials have been proved zero.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex₂.total",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual signed total complex of a commuting bicomplex.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex₂_total",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HomologicalComplex₂_total",
+        "integer_sign",
+        "total_shape_signs",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "Objects are categorical coproducts along p+q=n via GradedObject.mapObj. Differential is D₁+D₂ induced from actual horizontal/vertical maps, with signs. Full component formula is proved locally. Totalization requires HasTotal, an alias of GradedObject.HasMap, meaning coproducts over each degree fiber. Here ModuleCat has the required small colimits by its proved colimit instances; these are synthesized from the fixed category, not an additional bicomplex or Hodge hypothesis.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex₂.ιTotal",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual coproduct inclusion of each bidegree summand in the total complex.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex₂_ιTotal",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HomologicalComplex₂_ιTotal",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "Uses GradedObject.ιMapObj; column filtration is indexed supremum of actual ranges of these maps, p≤a and a+b=n. Totalization requires HasTotal, an alias of GradedObject.HasMap, meaning coproducts over each degree fiber. Here ModuleCat has the required small colimits by its proved colimit instances; these are synthesized from the fixed category, not an additional bicomplex or Hodge hypothesis.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.GradedObject.mapObj",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Coproduct of graded components over each fiber of an index map.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_GradedObject_mapObj",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "CategoryTheory_GradedObject_mapObj",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "π maps (p,q) to p+q in the up/up/up total shape; actual categorical coproducts exist in ModuleCat. This is direct sum totalization, not an unrestricted product. Totalization requires HasTotal, an alias of GradedObject.HasMap, meaning coproducts over each degree fiber. Here ModuleCat has the required small colimits by its proved colimit instances; these are synthesized from the fixed category, not an additional bicomplex or Hodge hypothesis.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex₂.d₁",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Horizontal total differential on a summand with totalization sign.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex₂_d₁",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HomologicalComplex₂_d₁",
+        "integer_sign",
+        "total_shape_signs",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "Uses ε₁ and outer K.d followed by actual summand inclusion; up/up convention makes horizontal sign 1. Totalization requires HasTotal, an alias of GradedObject.HasMap, meaning coproducts over each degree fiber. Here ModuleCat has the required small colimits by its proved colimit instances; these are synthesized from the fixed category, not an additional bicomplex or Hodge hypothesis.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "HomologicalComplex₂.d₂",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Vertical total differential on a summand with totalization sign.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "HomologicalComplex₂_d₂",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HomologicalComplex₂_d₂",
+        "integer_sign",
+        "total_shape_signs",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "Uses ε₂ and inner differential followed by actual summand inclusion; up/up convention gives (-1)^p. Signs follow ComplexShapeSigns instances; local full component theorem checks actual totalization. Totalization requires HasTotal, an alias of GradedObject.HasMap, meaning coproducts over each degree fiber. Here ModuleCat has the required small colimits by its proved colimit instances; these are synthesized from the fixed category, not an additional bicomplex or Hodge hypothesis.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.RightHomologyData",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "Dual cokernel-then-kernel homology data, compatible with left homology.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_RightHomologyData",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_RightHomologyData"
+      ],
+      "dependency_expansion": "Q is cokernel of f and H is kernel of induced g; hp and hι are actual universal properties. No Hodge assumption is present.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.LeftHomologyData.homologyIso",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Canonical isomorphism from chosen abstract homology to any proved left homology data.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+        "AlgebraicHodgePilot.Filtered.GradedCohomology",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "CategoryTheory_ShortComplex_LeftHomologyData_homologyIso",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "CategoryTheory_ShortComplex_LeftHomologyData_homologyIso",
+        "canonical_homology_projection"
+      ],
+      "dependency_expansion": "Composes the inverse leftHomologyIso with the unique comparison for the supplied left data. Its π-compatibility is a theorem, retained separately.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "TotalComplexShape",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "Index and horizontal/vertical signs making signed totalization square to zero.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "TotalComplexShape",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TotalComplexShape",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "The up/up/up instance uses π(p,q)=p+q, horizontal ε₁=1 and vertical ε₂=(-1)^p. No supplied degeneration statement is in this class.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "ComplexShape.TensorSigns",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "Sign homomorphism and compatibility of an additive complex shape.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "ComplexShape_TensorSigns",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ComplexShape_TensorSigns",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "The up integer instance is Int.negOnePow; ε changes sign along a permitted differential.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "Int.negOnePow",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The genuine sign (-1)^n as an integer unit.",
+      "used_by": [
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.filtration",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "Int_negOnePow",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Int_negOnePow",
+        "hasTotal_alias",
+        "hasMap_alias",
+        "modulecat_colimits"
+      ],
+      "dependency_expansion": "Integer-unit action on module morphisms is the usual sign; this is a sign coefficient on actual operators, not arithmetic substituted for an operator.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "LinearEquiv",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "An invertible actual linear map with an actual inverse function.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "LinearEquiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearEquiv"
+      ],
+      "dependency_expansion": "Extends LinearMap and additive equivalence; inverse laws are inherited from the equivalence. This is used to construct, not assume, the selected comparison isomorphisms.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "LinearEquiv.ofBijective",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Converts a proved bijective linear map into an actual inverse-bearing linear equivalence.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "LinearEquiv_ofBijective",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearEquiv_ofBijective"
+      ],
+      "dependency_expansion": "Composes the equivalence onto its range from proved injectivity with the equivalence from proved range=top from surjectivity. The inverse uses standard classical choice, audited separately.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    },
+    {
+      "name": "LinearEquiv.toModuleIso",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Turns actual linear equivalence into actual categorical module isomorphism.",
+      "used_by": [
+        "AlgebraicHodgePilot.exists_closed_representative",
+        "AlgebraicHodgePilot.Column.all_differentials_zero",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+        "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+        "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+        "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+        "AlgebraicHodgePilot.Column.zeroPageHomologyIso_π",
+        "AlgebraicHodgePilot.Column.firstPageIso",
+        "AlgebraicHodgePilot.Column.associatedSequence",
+        "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+      ],
+      "definition_excerpt": "LinearEquiv_toModuleIso",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearEquiv_toModuleIso"
+      ],
+      "dependency_expansion": "hom is the original linear map and inv is its symmetric linear map; both inverse identities are proved from the equivalence.",
+      "proof_status": "Separate HodgeChallengeTests and HodgeSolutionTests assert literal membership, operator, quotient and field contracts; exact entrypoint compilation is recorded separately. Retained upstream bridge excerpts establish definitions; no hash check is represented as a proof."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Algebra/Field/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Field/Defs.lean",
+      "sha256": "341e5bbbc77690b9cce20dd460d0a4c22138beea4ed9e10cc100c4d4a2db6152",
+      "git_blob_sha1": "c7cfb7246b4896ec3fc910efbfdeb50261baddeb",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Robert Y. Lewis. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert Y. Lewis, Leonardo de Moura, Johannes Hölzl, Mario Carneiro, Yaël Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "Field",
+          "first_line": 169,
+          "last_line": 180,
+          "text": "\n/-- A `Field` is a `CommRing` with multiplicative inverses for nonzero elements.\n\nAn instance of `Field K` includes maps `ratCast : ℚ → K` and `qsmul : ℚ → K → K`.\nThose two fields are needed to implement the `DivisionRing K → Algebra ℚ K` instance since we need\nto control the specific definitions for some special cases of `K` (in particular `K = ℚ` itself).\nSee also note [forgetful inheritance].\n\nIf the field has positive characteristic `p`, our division by zero convention forces\n`ratCast (1 / p) = 1 / 0 = 0`. -/\n@[stacks 09FD \"first part\"]\nclass Field (K : Type u) extends CommRing K, DivisionRing K\n",
+          "sha256": "175f1b3382fe443c80704d1eef6aee380a13f418aa87db21e390e449d182d5ae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Field/Defs.lean#L169-L180"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Defs.lean",
+      "sha256": "e67222f427fb2b194a3407d42b9ca311fc87148b929e439ad1fa638dd3d365a8",
+      "git_blob_sha1": "658209d4f26b59f63ef01b69125ce60e37906b51",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Nathaniel Thomas. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Module",
+          "first_line": 47,
+          "last_line": 60,
+          "text": "\n/-- A module is a generalization of vector spaces to a scalar semiring.\n  It consists of a scalar semiring `R` and an additive monoid of \"vectors\" `M`,\n  connected by a \"scalar multiplication\" operation `r • x : M`\n  (where `r : R` and `x : M`) with some natural associativity and\n  distributivity axioms similar to those on a ring. -/\n@[ext]\nclass Module (R : Type u) (M : Type v) [Semiring R] [AddCommMonoid M] extends\n  DistribMulAction R M where\n  /-- Scalar multiplication distributes over addition from the right. -/\n  protected add_smul : ∀ (r s : R) (x : M), (r + s) • x = r • x + s • x\n  /-- Scalar multiplication by zero gives zero. -/\n  protected zero_smul : ∀ x : M, (0 : R) • x = 0\n\n",
+          "sha256": "ac3f28349bec43f4abd1b38d6f44bf14add1748df12a8cfe19d53af4a4953201",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Defs.lean#L47-L60"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Category/ModuleCat/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Basic.lean",
+      "sha256": "8623e6251cb6c74a669576f9ea364254be0b96bcc3114975bd76bc60f516a9ff",
+      "git_blob_sha1": "f47526b890fd2cf85dd32a406366286f55413aa1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Robert A. Spencer. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Robert A. Spencer, Markus Himmel\n-/\n",
+      "excerpts": [
+        {
+          "name": "ModuleCat",
+          "first_line": 47,
+          "last_line": 65,
+          "text": "\nvariable (R : Type u) [Ring R]\n\n/-- The category of R-modules and their morphisms.\n\nNote that in the case of `R = ℤ`, we cannot\nimpose here that the `ℤ`-multiplication field from the module structure is defeq to the one coming\nfrom the `isAddCommGroup` structure (contrary to what we do for all module structures in\nmathlib), which creates some difficulties down the road. -/\nstructure ModuleCat where\n  _mkInternal ::\n  /-- the underlying type of an object in `ModuleCat R` -/\n  carrier : Type v\n  [isAddCommGroup : AddCommGroup carrier]\n  [isModule : Module R carrier]\n\ninitialize_simps_projections ModuleCat (-isModule, -isAddCommGroup)\nattribute [instance] ModuleCat.isAddCommGroup\nattribute [instance 1100] ModuleCat.isModule\n",
+          "sha256": "8428b659a522891f636b044dd66edfb1c7664a075d54d3d5469b4e985049f0a4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Basic.lean#L47-L65"
+        },
+        {
+          "name": "ModuleCat_Hom",
+          "first_line": 92,
+          "last_line": 118,
+          "text": "/-- The type of morphisms in `ModuleCat R`. -/\n@[ext]\nstructure Hom (M N : ModuleCat.{v} R) where\n  _mkInternal ::\n  /-- The underlying linear map. -/\n  hom' : M →ₗ[R] N\n\ninstance moduleCategory : Category.{v, max (v + 1) u} (ModuleCat.{v} R) where\n  Hom M N := Hom M N\n  id _ := ⟨LinearMap.id⟩\n  comp f g := ⟨g.hom'.comp f.hom'⟩\n\ninstance : ConcreteCategory (ModuleCat.{v} R) (· →ₗ[R] ·) where\n  hom := Hom.hom'\n  ofHom := Hom._mkInternal\n\nsection\n\nvariable {R}\n\n/-- Turn a morphism in `ModuleCat` back into a `LinearMap`. -/\nabbrev Hom.hom {A B : ModuleCat.{v} R} (f : Hom A B) :=\n  ConcreteCategory.hom (C := ModuleCat R) f\n\n/-- Typecheck a `LinearMap` as a morphism in `ModuleCat`. -/\nabbrev ofHom {X Y : Type v} [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]\n    (f : X →ₗ[R] Y) : of R X ⟶ of R Y :=\n",
+          "sha256": "18d69f2136f7c305c819cd17e5e953b41a88b2b3cfe119f868bd9027fa562b6d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Basic.lean#L92-L118"
+        },
+        {
+          "name": "LinearEquiv_toModuleIso",
+          "first_line": 272,
+          "last_line": 280,
+          "text": "/-- Build an isomorphism in the category `Module R` from a `LinearEquiv` between `Module`s. -/\n@[simps]\ndef LinearEquiv.toModuleIso {g₁ : AddCommGroup X₁} {g₂ : AddCommGroup X₂} {m₁ : Module R X₁}\n    {m₂ : Module R X₂} (e : X₁ ≃ₗ[R] X₂) : ModuleCat.of R X₁ ≅ ModuleCat.of R X₂ where\n  hom := ofHom (e : X₁ →ₗ[R] X₂)\n  inv := ofHom (e.symm : X₂ →ₗ[R] X₁)\n  hom_inv_id := by ext; apply e.left_inv\n  inv_hom_id := by ext; apply e.right_inv\n\n",
+          "sha256": "d5ce41006b33c4b37a16316ec5dad83c3b557d04f9275321e0b030cfaa65415e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Basic.lean#L272-L280"
+        },
+        {
+          "name": "modulecat_of_alias",
+          "first_line": 76,
+          "last_line": 82,
+          "text": "abbrev of (X : Type v) [AddCommGroup X] [Module R X] : ModuleCat.{v} R :=\n  ⟨X⟩\n\nopen Lean.PrettyPrinter.Delaborator in\n/-- This prints `ModuleCat.of R X` as `↧X`. -/\n@[app_delab ModuleCat.of]\nmeta def delabOf : Delab := CategoryTheory.delabOf\n",
+          "sha256": "dacead73f08b22dbfc6c4b75aca5cdf7f9293ecb65d855037c247f36d3409765",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Basic.lean#L76-L82"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "sha256": "aea1c354ffc798aaa5397f2f58124bc2ed7b29d24227ae568d3f5745f839570d",
+      "git_blob_sha1": "5f68ae60b4f22094ae57c9e4ef28be13925e8ef7",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro, Anne Baanen,\n  Frédéric Dupuis, Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearMap",
+          "first_line": 79,
+          "last_line": 98,
+          "text": "/-- A map `f` between an `R`-module and an `S`-module over a ring homomorphism `σ : R →+* S`\nis semilinear if it satisfies the two properties `f (x + y) = f x + f y` and\n`f (c • x) = (σ c) • f x`. Elements of `LinearMap σ M M₂` (available under the notation\n`M →ₛₗ[σ] M₂`) are bundled versions of such maps. For plain linear maps (i.e. for which\n`σ = RingHom.id R`), the notation `M →ₗ[R] M₂` is available. An unbundled version of plain linear\nmaps is available with the predicate `IsLinearMap`, but it should be avoided most of the time. -/\nstructure LinearMap {R S : Type*} [Semiring R] [Semiring S] (σ : R →+* S) (M : Type*)\n    (M₂ : Type*) [AddCommMonoid M] [AddCommMonoid M₂] [Module R M] [Module S M₂] extends\n    AddHom M M₂, MulActionHom σ M M₂\n\n/-- The `MulActionHom` underlying a `LinearMap`. -/\nadd_decl_doc LinearMap.toMulActionHom\n\n/-- The `AddHom` underlying a `LinearMap`. -/\nadd_decl_doc LinearMap.toAddHom\n\n/-- `M →ₛₗ[σ] N` is the type of `σ`-semilinear maps from `M` to `N`. -/\nnotation:25 M \" →ₛₗ[\" σ:25 \"] \" M₂:0 => LinearMap σ M M₂\n\n/-- `M →ₗ[R] N` is the type of `R`-linear maps from `M` to `N`. -/\n",
+          "sha256": "2f918943b66eca53992f8d19fde14bdd74a20eb429e4474d5a2e9359478b80d7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean#L79-L98"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Defs.lean",
+      "sha256": "f1735fb71af000fc2047c5e6456fa2b31d0f5443d23a169ac25a6ce388fe2b78",
+      "git_blob_sha1": "ceec21a0216a4bb5187d1f87c5a068caf26b7f62",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Nathaniel Thomas. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Submodule",
+          "first_line": 37,
+          "last_line": 60,
+          "text": "\n/-- A submodule of a module is one which is closed under vector operations.\n  This is a sufficient condition for the subset of vectors in the submodule\n  to themselves form a module. -/\nstructure Submodule (R : Type u) (M : Type v) [Semiring R] [AddCommMonoid M] [Module R M] : Type v\n    extends AddSubmonoid M, SubMulAction R M\n\n/-- Reinterpret a `Submodule` as an `AddSubmonoid`. -/\nadd_decl_doc Submodule.toAddSubmonoid\n\n/-- Reinterpret a `Submodule` as a `SubMulAction`. -/\nadd_decl_doc Submodule.toSubMulAction\n\nnamespace Submodule\n\nvariable [Semiring R] [AddCommMonoid M] [Module R M]\n\ninstance setLike : SetLike (Submodule R M) M where\n  coe s := s.carrier\n  coe_injective p q h := by cases p; cases q; congr; exact SetLike.coe_injective h\n\ninstance : PartialOrder (Submodule R M) := .ofSetLike (Submodule R M) M\n\ninitialize_simps_projections Submodule (carrier → coe, as_prefix coe)\n",
+          "sha256": "e1855cee6bc91ba052f21bf09daa0cda5fddb919bbd4f7a963cdbda50c13fbf5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Defs.lean#L37-L60"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Ker.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Ker.lean",
+      "sha256": "6820cd12f24bc4d7b00c6e508c2d2ecaff39549d74be47430eb76cd8b6ee34ee",
+      "git_blob_sha1": "c64fd7feb84fc02de4f53ec66b9bc0d7a30b1fa2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearMap_ker",
+          "first_line": 57,
+          "last_line": 66,
+          "text": "\n/-- The kernel of a linear map `f : M → M₂` is defined to be `comap f ⊥`. This is equivalent to the\nset of `x : M` such that `f x = 0`. The kernel is a submodule of `M`. -/\ndef ker (f : M →ₛₗ[τ₁₂] M₂) : Submodule R M :=\n  comap f ⊥\n\n@[simp]\ntheorem mem_ker {f : M →ₛₗ[τ₁₂] M₂} {y} : y ∈ ker f ↔ f y = 0 :=\n  mem_bot R₂\n\n",
+          "sha256": "f99d3c7cc74e3c5d16b8da2613084dec0781f45b988fc4e75f6a7cdafb92c692",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Ker.lean#L57-L66"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Range.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Range.lean",
+      "sha256": "5d3c93d9b771e9aec611a0221bc138f9491dd2c37c3babcf42c2acbe570a4d45",
+      "git_blob_sha1": "5ea20b9bee1b24bbf5a32bedfa428bb1a84c129a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearMap_range",
+          "first_line": 55,
+          "last_line": 72,
+          "text": "/-- The range of a linear map `f : M → M₂` is a submodule of `M₂`.\nSee Note [range copy pattern]. -/\ndef range [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) : Submodule R₂ M₂ :=\n  (map f ⊤).copy (Set.range f) Set.image_univ.symm\n\ntheorem coe_range [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) : (range f : Set M₂) = Set.range f :=\n  rfl\n\ntheorem range_toAddSubmonoid [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) :\n    (range f).toAddSubmonoid = AddMonoidHom.mrange f :=\n  rfl\n\n@[simp]\ntheorem mem_range [RingHomSurjective τ₁₂] {f : M →ₛₗ[τ₁₂] M₂} {x} : x ∈ range f ↔ ∃ y, f y = x :=\n  Iff.rfl\n\ntheorem range_eq_map [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) : range f = map f ⊤ := by\n  ext\n",
+          "sha256": "adf5d395d52333f1b10152e8d261c332f795a411c61bda554f44e6a4eb447067",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Range.lean#L55-L72"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Map.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Map.lean",
+      "sha256": "f0b02929b7aeeb359f7c9f207a7d78d3013ecf9a5e2e167431cf85422894ebc2",
+      "git_blob_sha1": "56d22fe8c8ac84bf173514e5283440e673e58b3d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "Submodule_map",
+          "first_line": 52,
+          "last_line": 63,
+          "text": "/-- The pushforward of a submodule `p ⊆ M` by `f : M → M₂` -/\ndef map (f : M →ₛₗ[σ₁₂] M₂) (p : Submodule R M) : Submodule R₂ M₂ :=\n  { p.toAddSubmonoid.map f with\n    carrier := f '' p\n    smul_mem' := by\n      rintro c x ⟨y, hy, rfl⟩\n      obtain ⟨a, rfl⟩ := σ₁₂.surjective c\n      exact ⟨_, p.smul_mem a hy, map_smulₛₗ f _ _⟩ }\n\n@[simp]\ntheorem map_coe (f : M →ₛₗ[σ₁₂] M₂) (p : Submodule R M) : (map f p : Set M₂) = f '' p :=\n  rfl\n",
+          "sha256": "43c7d9bf8328545441dd94462a3c9b822fa099a626bb091b158d37a2ba84eee7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Map.lean#L52-L63"
+        },
+        {
+          "name": "Submodule_comap",
+          "first_line": 170,
+          "last_line": 180,
+          "text": "/-- The pullback of a submodule `p ⊆ M₂` along `f : M → M₂` -/\n@[implicit_reducible]\ndef comap (f : M →ₛₗ[σ₁₂] M₂) (p : Submodule R₂ M₂) : Submodule R M :=\n  { p.toAddSubmonoid.comap f with\n    carrier := f ⁻¹' p\n    -- Note: https://github.com/leanprover-community/mathlib4/pull/8386 added `map_smulₛₗ _`\n    smul_mem' := fun a x h => by simp [p.smul_mem (σ₁₂ a) h, map_smulₛₗ _] }\n\n@[simp]\ntheorem comap_coe (f : M →ₛₗ[σ₁₂] M₂) (p : Submodule R₂ M₂) : (comap f p : Set M) = f ⁻¹' p :=\n  rfl\n",
+          "sha256": "2fef0745a4245d0f10214979089d0ddabb74442edd3efc25e0afabeb14be3156",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Map.lean#L170-L180"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Quotient/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean",
+      "sha256": "ddb08efd66c7dd6f5e142ac3e1edc1189ea30de276f1e78f4193d6ee80676fb3",
+      "git_blob_sha1": "2c25d9a529dfd044d3bf88361d79a3e8de23fda3",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Submodule_quotientRel",
+          "first_line": 39,
+          "last_line": 57,
+          "text": "\n/-- The equivalence relation associated to a submodule `p`, defined by `x ≈ y` iff `-x + y ∈ p`.\n\nNote this is equivalent to `y - x ∈ p`, but defined this way to be defeq to the `AddSubgroup`\nversion, where commutativity can't be assumed. -/\ndef quotientRel : Setoid M :=\n  QuotientAddGroup.leftRel p.toAddSubgroup\n\ntheorem quotientRel_def {x y : M} : p.quotientRel x y ↔ x - y ∈ p :=\n  Iff.trans\n    (by\n      rw [quotientRel, leftRel_apply, sub_eq_add_neg, neg_add, neg_neg]\n      rfl)\n    neg_mem_iff\n\n/-- The quotient of a module `M` by a submodule `p ⊆ M`. -/\ninstance hasQuotient : HasQuotient M (Submodule R M) :=\n  ⟨fun p => Quotient (quotientRel p)⟩\n\n",
+          "sha256": "21dab74d3018467ac7bf1c170ab32ad7f59b7aeaba1a6388e0a8fdb042b6b67d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L39-L57"
+        },
+        {
+          "name": "Submodule_Quotient_mk",
+          "first_line": 59,
+          "last_line": 66,
+          "text": "/-- Map associating to an element of `M` the corresponding element of `M/p`,\nwhen `p` is a submodule of `M`. -/\ndef mk {p : Submodule R M} : M → M ⧸ p :=\n  Quotient.mk''\n\ntheorem mk'_eq_mk' {p : Submodule R M} (x : M) :\n    @Quotient.mk' _ (quotientRel p) x = mk x :=\n  rfl\n",
+          "sha256": "d4de14806870c147d5222c268add70db6ac7e969607afdd4848ead39f5a21357",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L59-L66"
+        },
+        {
+          "name": "Submodule_mkQ",
+          "first_line": 226,
+          "last_line": 240,
+          "text": "/-- The map from a module `M` to the quotient of `M` by a submodule `p` as a linear map. -/\ndef mkQ : M →ₗ[R] M ⧸ p where\n  toFun := Quotient.mk\n  map_add' := by simp\n  map_smul' := by simp\n\n@[simp]\ntheorem mkQ_apply (x : M) : p.mkQ x = Quotient.mk x :=\n  rfl\n\ntheorem mkQ_surjective : Function.Surjective p.mkQ := by\n  rintro ⟨x⟩; exact ⟨x, rfl⟩\n\nend\n\n",
+          "sha256": "23f8e0b54dc6ef9e541e10165b88217d4a2e4e6a381f4af942ea23855386d0df",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L226-L240"
+        },
+        {
+          "name": "quotient_class_equality",
+          "first_line": 77,
+          "last_line": 98,
+          "text": "\nprotected theorem eq' {x y : M} : (mk x : M ⧸ p) = mk y ↔ -x + y ∈ p :=\n  QuotientAddGroup.eq\n\nprotected theorem eq {x y : M} : (mk x : M ⧸ p) = mk y ↔ x - y ∈ p :=\n  (Submodule.Quotient.eq' p).trans (leftRel_apply.symm.trans p.quotientRel_def)\n\ninstance : Zero (M ⧸ p) where\n  -- Use Quotient.mk'' instead of mk here because mk is not reducible.\n  -- This would lead to non-defeq diamonds.\n  -- See also the same comment at the One instance for Con.\n  zero := Quotient.mk'' 0\n\ninstance : Inhabited (M ⧸ p) :=\n  ⟨0⟩\n\n@[simp]\ntheorem mk_zero : mk 0 = (0 : M ⧸ p) :=\n  rfl\n\n@[simp]\ntheorem mk_eq_zero : (mk x : M ⧸ p) = 0 ↔ x ∈ p := by simpa using (Quotient.eq' p : mk x = 0 ↔ _)\n",
+          "sha256": "16c7a00726cb442dd6d3c04079e507d5f48e2b48bea3bf4879d64ad81431b3e4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L77-L98"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Quotient/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Basic.lean",
+      "sha256": "564aad5ee0111df700cb30aca030018f26939ed1c307f19ee6d9ac02b6bc4312",
+      "git_blob_sha1": "4a0da4567b8b41ad8120b46809c6270e0a00bf14",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Submodule_liftQ",
+          "first_line": 116,
+          "last_line": 127,
+          "text": "/-- The map from the quotient of `M` by a submodule `p` to `M₂` induced by a linear map `f : M → M₂`\nvanishing on `p`, as a linear map. -/\ndef liftQ (f : M →ₛₗ[τ₁₂] M₂) (h : p ≤ ker f) : M ⧸ p →ₛₗ[τ₁₂] M₂ :=\n  { QuotientAddGroup.lift p.toAddSubgroup f.toAddMonoidHom h with\n    map_smul' := by rintro a ⟨x⟩; exact f.map_smulₛₗ a x }\n\n@[simp]\ntheorem liftQ_apply (f : M →ₛₗ[τ₁₂] M₂) {h} (x : M) : p.liftQ f h (Quotient.mk x) = f x :=\n  rfl\n\n@[simp]\ntheorem liftQ_mkQ (f : M →ₛₗ[τ₁₂] M₂) (h) : (p.liftQ f h).comp p.mkQ = f := by ext; rfl\n",
+          "sha256": "9479fb8d21fe62bcb065a5eedf0da28e6b95c1acd1e7fa58619c413f8383561e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Basic.lean#L116-L127"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ComplexShape.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShape.lean",
+      "sha256": "6cf9e3c6c08f348416581aae844c77d1feb8489f90fbffafc3f371612da69e78",
+      "git_blob_sha1": "f28889b981c35b3c171eba6a92aa6603a5af8a70",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin, Kim Morrison\n-/\n",
+      "excerpts": [
+        {
+          "name": "ComplexShape",
+          "first_line": 59,
+          "last_line": 73,
+          "text": "\nBelow we define `c.next` and `c.prev` which provide these related elements.\n-/\n@[ext]\nstructure ComplexShape (ι : Type*) where\n  /-- Nonzero differentials `X i ⟶ X j` shall be allowed\n  on homological complexes when `Rel i j` holds. -/\n  Rel : ι → ι → Prop\n  /-- There is at most one nonzero differential from `X i`. -/\n  next_eq : ∀ {i j j'}, Rel i j → Rel i j' → j = j'\n  /-- There is at most one nonzero differential to `X j`. -/\n  prev_eq : ∀ {i i' j}, Rel i j → Rel i' j → i = i'\n\nattribute [to_dual self (reorder := 3 4)] ComplexShape.Rel\nattribute [to_dual existing] ComplexShape.next_eq\n",
+          "sha256": "3cc57e2a592201d3358a191488d05038334dc0b01bc4ed25f30a32149160340b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShape.lean#L59-L73"
+        },
+        {
+          "name": "ComplexShape_up'",
+          "first_line": 160,
+          "last_line": 168,
+          "text": "\n/-- The `ComplexShape` allowing differentials from `X i` to `X (i+a)`.\n(For example when `a = 1`, a cohomology theory indexed by `ℕ` or `ℤ`)\n-/\ndef up' {α : Type*} [Add α] [IsRightCancelAdd α] (a : α) : ComplexShape α where\n  Rel i j := i + a = j\n  next_eq hi hj := hi.symm.trans hj\n  prev_eq hi hj := add_right_cancel (hi.trans hj.symm)\n\n",
+          "sha256": "5136bdc9b1e457aac69789d369d59a59a067d0c570047dcce608c1f4481d5590",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShape.lean#L160-L168"
+        },
+        {
+          "name": "ComplexShape_up",
+          "first_line": 181,
+          "last_line": 188,
+          "text": "\n/-- The `ComplexShape` appropriate for cohomology, so `d : X i ⟶ X j` only when `j = i + 1`.\n-/\n@[to_dual (attr := simps!) down\n/-- The `ComplexShape` appropriate for homology, so `d : X i ⟶ X j` only when `i = j + 1`.\n-/]\ndef up (α : Type*) [Add α] [IsRightCancelAdd α] [One α] : ComplexShape α :=\n  up' 1\n",
+          "sha256": "e46660afa3e85d78178fa275d39b4514c7f28eaa50110a5b652b3eac5e823b22",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShape.lean#L181-L188"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/HomologicalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalComplex.lean",
+      "sha256": "a4857ea05154321bfeb2fa8e906ad87e24977a49cd03cb8785f3f9b19ffa42df",
+      "git_blob_sha1": "50646b814429df3f77ee4be826053853b54d6c64",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin, Kim Morrison\n-/\n",
+      "excerpts": [
+        {
+          "name": "HomologicalComplex",
+          "first_line": 49,
+          "last_line": 79,
+          "text": "/-- A `HomologicalComplex V c` with a \"shape\" controlled by `c : ComplexShape ι`\nhas chain groups `X i` (objects in `V`) indexed by `i : ι`,\nand a differential `d i j` whenever `c.Rel i j`.\n\nWe in fact ask for differentials `d i j` for all `i j : ι`,\nbut have a field `shape` requiring that these are zero when not allowed by `c`.\nThis avoids a lot of dependent type theory hell!\n\nThe composite of any two differentials `d i j ≫ d j k` must be zero.\n-/\nstructure HomologicalComplex (c : ComplexShape ι) where\n  X : ι → V\n  d : ∀ i j, X i ⟶ X j\n  shape : ∀ i j, ¬c.Rel i j → d i j = 0 := by cat_disch\n  d_comp_d' : ∀ i j k, c.Rel i j → c.Rel j k → d i j ≫ d j k = 0 := by cat_disch\n\nnamespace HomologicalComplex\n\nattribute [simp] shape\n\nvariable {V} {c : ComplexShape ι}\n\n@[reassoc (attr := simp)]\ntheorem d_comp_d (C : HomologicalComplex V c) (i j k : ι) : C.d i j ≫ C.d j k = 0 := by\n  by_cases hij : c.Rel i j\n  · by_cases hjk : c.Rel j k\n    · exact C.d_comp_d' i j k hij hjk\n    · rw [C.shape j k hjk, comp_zero]\n  · rw [C.shape i j hij, zero_comp]\n\ntheorem ext {C₁ C₂ : HomologicalComplex V c} (h_X : C₁.X = C₂.X)\n",
+          "sha256": "3abeb4af81000b0584caed8160c6d8bb5a1a42c0751b988baff535a488089b84",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalComplex.lean#L49-L79"
+        },
+        {
+          "name": "cochain_alias",
+          "first_line": 153,
+          "last_line": 158,
+          "text": "\n/-- An `α`-indexed cochain complex is a `HomologicalComplex`\nin which `d i j ≠ 0` only if `i + 1 = j`.\n-/\nabbrev CochainComplex (α : Type*) [AddRightCancelSemigroup α] [One α] : Type _ :=\n  HomologicalComplex V (ComplexShape.up α)\n",
+          "sha256": "7dc5c858538b2417090aef8327852df54aaeae95d4f28a7060fa11f3a0c86d70",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalComplex.lean#L153-L158"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/CategoryTheory/Iso.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/Iso.lean",
+      "sha256": "b47eab342f3e7d08f4ff8d4a16d4580b0273d63f1a790b25560236c92d4cace7",
+      "git_blob_sha1": "1d3e3cabd5c38fa072a3d9b7823b54bf206afd7b",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Tim Baumann, Stephen Morgan, Kim Morrison, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_Iso",
+          "first_line": 47,
+          "last_line": 62,
+          "text": "/-- An isomorphism (a.k.a. an invertible morphism) between two objects of a category.\nThe inverse morphism is bundled.\n\nSee also `CategoryTheory.Core` for the category with the same objects and isomorphisms playing\nthe role of morphisms. -/\n@[stacks 0017, wikidata Q189112]\nstructure Iso {C : Type u} [Category.{v} C] (X Y : C) where\n  /-- The forward direction of an isomorphism. -/\n  hom : X ⟶ Y\n  /-- The backwards direction of an isomorphism. -/\n  inv : Y ⟶ X\n  /-- Composition of the two directions of an isomorphism is the identity on the source. -/\n  hom_inv_id : hom ≫ inv = 𝟙 X := by cat_disch\n  /-- Composition of the two directions of an isomorphism in reverse order\n  is the identity on the target. -/\n  inv_hom_id : inv ≫ hom = 𝟙 Y := by cat_disch\n",
+          "sha256": "99b7ba2647fd5879b510f98072a792784cec906fc6d00518d134eee59a519267",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/Iso.lean#L47-L62"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/SpectralSequence/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/SpectralSequence/Basic.lean",
+      "sha256": "637c66009dfd06128b455e5593ca17e1144314b4996afcf7f2b26871c1c647b3",
+      "git_blob_sha1": "4cf6043b1cd59cc410791df5c764e1ece0a9a675",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2026 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_SpectralSequence",
+          "first_line": 33,
+          "last_line": 45,
+          "text": "\n/-- Given an abelian category `C`, a sequence of complex shapes `c : ℤ → ComplexShape κ`\nand a starting page `r₀ : ℤ`, a spectral sequence involves pages which are homological\ncomplexes and isomorphisms saying that the homology of a page identifies to the next page. -/\nstructure SpectralSequence where\n  /-- the `r`th page of a spectral sequence is an homological complex -/\n  page (r : ℤ) (hr : r₀ ≤ r := by lia) : HomologicalComplex C (c r)\n  /-- the isomorphism between the homology of the `r`-th page at an object `pq : κ`\n  and the corresponding object on the next page -/\n  iso (r r' : ℤ) (pq : κ) (hrr' : r + 1 = r' := by lia) (hr : r₀ ≤ r := by lia) :\n    (page r).homology pq ≅ (page r').X pq\n\nnamespace SpectralSequence\n",
+          "sha256": "6aafc8cd6f66e9e0ddd882c9bc62b284940c8fb24e6043ce598dea46139f00aa",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/SpectralSequence/Basic.lean#L33-L45"
+        },
+        {
+          "name": "cohomological_indexing",
+          "first_line": 107,
+          "last_line": 115,
+          "text": "\n/-- A cohomological spectral sequence has differentials given by the\nvector `(r, 1 - r)` on the `r`th page. -/\nabbrev CohomologicalSpectralSequence :=\n  SpectralSequence C (fun r ↦ ComplexShape.up' (⟨r, 1 - r⟩ : ℤ × ℤ))\n\n/-- A `E₂`-cohomological spectral sequence has differentials given by the\nvector `(r, 1 - r)` on the `r`th page for `2 ≤ r`. -/\nabbrev E₂CohomologicalSpectralSequence := CohomologicalSpectralSequence C 2\n",
+          "sha256": "c7294938a8c72957f538ec9a0e9c30c6b85c0cf975dad5cf3e40b0ce523896be",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/SpectralSequence/Basic.lean#L107-L115"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Basic.lean",
+      "sha256": "97e6920aea53d672f60060967ce4bc4ef48d984c5ef48758b700b187a1983e3f",
+      "git_blob_sha1": "dbed55d20ef07d8d5cc495ae730c264dc7ab3bde",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_ShortComplex",
+          "first_line": 30,
+          "last_line": 48,
+          "text": "variable (C) in\n/-- A short complex in a category `C` with zero morphisms is the datum\nof two composable morphisms `f : X₁ ⟶ X₂` and `g : X₂ ⟶ X₃` such that\n`f ≫ g = 0`. -/\nstructure ShortComplex where\n  /-- the first (left) object of a `ShortComplex` -/\n  {X₁ : C}\n  /-- the second (middle) object of a `ShortComplex` -/\n  {X₂ : C}\n  /-- the third (right) object of a `ShortComplex` -/\n  {X₃ : C}\n  /-- the first morphism of a `ShortComplex` -/\n  f : X₁ ⟶ X₂\n  /-- the second morphism of a `ShortComplex` -/\n  g : X₂ ⟶ X₃\n  /-- the composition of the two given morphisms is zero -/\n  zero : f ≫ g = 0 := by cat_disch\n\nnamespace ShortComplex\n",
+          "sha256": "7237fd38eda7b61c97cf835400c409c3fc50cff8f64db96bd01e5364d288ba82",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Basic.lean#L30-L48"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/LeftHomology.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/LeftHomology.lean",
+      "sha256": "0ca1a7c430c74bfadfb61f126109bc155953563526702a385d50d8d26ddbda80",
+      "git_blob_sha1": "09103be0097f0884291ab0600425a78927802c0e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_ShortComplex_LeftHomologyData",
+          "first_line": 42,
+          "last_line": 65,
+          "text": "  {S₁ S₂ S₃ : ShortComplex C}\n\n/-- A left homology data for a short complex `S` consists of morphisms `i : K ⟶ S.X₂` and\n`π : K ⟶ H` such that `i` identifies `K` to the kernel of `g : S.X₂ ⟶ S.X₃`,\nand that `π` identifies `H` to the cokernel of the induced map `f' : S.X₁ ⟶ K` -/\nstructure LeftHomologyData where\n  /-- a choice of kernel of `S.g : S.X₂ ⟶ S.X₃` -/\n  K : C\n  /-- a choice of cokernel of the induced morphism `S.f' : S.X₁ ⟶ K` -/\n  H : C\n  /-- the inclusion of cycles in `S.X₂` -/\n  i : K ⟶ S.X₂\n  /-- the projection from cycles to the (left) homology -/\n  π : K ⟶ H\n  /-- the kernel condition for `i` -/\n  wi : i ≫ S.g = 0\n  /-- `i : K ⟶ S.X₂` is a kernel of `g : S.X₂ ⟶ S.X₃` -/\n  hi : IsLimit (KernelFork.ofι i wi)\n  /-- the cokernel condition for `π` -/\n  wπ : hi.lift (KernelFork.ofι _ S.zero) ≫ π = 0\n  /-- `π : K ⟶ H` is a cokernel of the induced morphism `S.f' : S.X₁ ⟶ K` -/\n  hπ : IsColimit (CokernelCofork.ofπ π wπ)\n\ninitialize_simps_projections LeftHomologyData (-hi, -hπ)\n",
+          "sha256": "4c7d34e22278e6c7d5cbfe11b1e73258b51f4971124906058558ce0e7ea7e7eb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/LeftHomology.lean#L42-L65"
+        },
+        {
+          "name": "CategoryTheory_ShortComplex_LeftHomologyData_ofZeros",
+          "first_line": 207,
+          "last_line": 221,
+          "text": "/-- When both `S.f` and `S.g` are zero, the middle object `S.X₂` gives a left homology data on S -/\n@[simps]\ndef ofZeros (hf : S.f = 0) (hg : S.g = 0) : S.LeftHomologyData where\n  K := S.X₂\n  H := S.X₂\n  i := 𝟙 _\n  π := 𝟙 _\n  wi := by rw [id_comp, hg]\n  hi := KernelFork.IsLimit.ofId _ hg\n  wπ := by\n    change S.f ≫ 𝟙 _ = 0\n    simp only [hf, zero_comp]\n  hπ := CokernelCofork.IsColimit.ofId _ hf\n\n@[simp] lemma ofZeros_f' (hf : S.f = 0) (hg : S.g = 0) :\n",
+          "sha256": "07301bd301032167dea53dbc9fa3b28c13953bb6de4d96064b829c3e670741d7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/LeftHomology.lean#L207-L221"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/CategoryTheory/Limits/IsLimit.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/Limits/IsLimit.lean",
+      "sha256": "b98c1fdd6ce5415360b6acae4a2c7c0de1d52312dca2e0c103d62f0067fd5b9a",
+      "git_blob_sha1": "d260a878bda7df2fded444d9b58e9d08a2efa058",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Reid Barton, Mario Carneiro, Kim Morrison, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_Limits_IsLimit",
+          "first_line": 46,
+          "last_line": 57,
+          "text": "\n/-- A cone `t` on `F` is a limit cone if each cone on `F` admits a unique\ncone morphism to `t`. -/\n@[stacks 002E]\nstructure IsLimit (t : Cone F) where\n  /-- There is a morphism from any cone point to `t.pt` -/\n  lift : ∀ s : Cone F, s.pt ⟶ t.pt\n  /-- The map makes the triangle with the two natural transformations commute -/\n  fac : ∀ (s : Cone F) (j : J), lift s ≫ t.π.app j = s.π.app j := by cat_disch\n  /-- It is the unique such map to do this -/\n  uniq : ∀ (s : Cone F) (m : s.pt ⟶ t.pt) (_ : ∀ j : J, m ≫ t.π.app j = s.π.app j), m = lift s := by\n    cat_disch\n",
+          "sha256": "1bf0b1e2762ca15f2ef13f2e5bb54c2a789541177cb0a80c74d8c59040f320c2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/Limits/IsLimit.lean#L46-L57"
+        },
+        {
+          "name": "CategoryTheory_Limits_IsColimit",
+          "first_line": 59,
+          "last_line": 72,
+          "text": "/-- A cocone `t` on `F` is a colimit cocone if each cocone on `F` admits a unique\ncocone morphism from `t`. -/\n@[stacks 002F, to_dual]\nstructure IsColimit (t : Cocone F) where\n  /-- `t.pt` maps to all other cocone covertices -/\n  desc : ∀ s : Cocone F, t.pt ⟶ s.pt\n  /-- The map `desc` makes the diagram with the natural transformations commute -/\n  fac : ∀ (s : Cocone F) (j : J), dsimp% t.ι.app j ≫ desc s = s.ι.app j := by cat_disch\n  /-- `desc` is the unique such map -/\n  uniq : dsimp%\n    ∀ (s : Cocone F) (m : t.pt ⟶ s.pt) (_ : ∀ j : J, t.ι.app j ≫ m = s.ι.app j), m = desc s := by\n    cat_disch\n\nattribute [reassoc (attr := simp)] IsLimit.fac IsColimit.fac\n",
+          "sha256": "655b3fbcb07a0144ec431689d3359da3ae92b877ea362765764b17c31ff20296",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/Limits/IsLimit.lean#L59-L72"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/Homology.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean",
+      "sha256": "dd6997af035b48adedaaefe9cc75c27fa628e090f2032c1ce7e7e20e998f67ef",
+      "git_blob_sha1": "deb9d618262e919e690bb9b05f394b56ab67b91a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_ShortComplex_HomologyData",
+          "first_line": 47,
+          "last_line": 62,
+          "text": "\n/-- A homology data for a short complex consists of two compatible left and\nright homology data -/\nstructure HomologyData where\n  /-- a left homology data -/\n  left : S.LeftHomologyData\n  /-- a right homology data -/\n  right : S.RightHomologyData\n  /-- the compatibility isomorphism relating the two dual notions of\n  `LeftHomologyData` and `RightHomologyData` -/\n  iso : left.H ≅ right.H\n  /-- the pentagon relation expressing the compatibility of the left\n  and right homology data -/\n  comm : left.π ≫ iso.hom ≫ right.ι = left.i ≫ right.p := by cat_disch\n\nattribute [reassoc (attr := simp)] HomologyData.comm\n",
+          "sha256": "63efe73e3bcafdacf40d0e0b602acc4aede250451758b6bd0ce93548c751961f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean#L47-L62"
+        },
+        {
+          "name": "CategoryTheory_ShortComplex_HasHomology",
+          "first_line": 213,
+          "last_line": 219,
+          "text": "/-- A short complex `S` has homology when there exists a `S.HomologyData` -/\nclass HasHomology : Prop where\n  /-- the condition that there exists a homology data -/\n  condition : Nonempty S.HomologyData\n\n/-- A chosen `S.HomologyData` for a short complex `S` that has homology -/\nnoncomputable def homologyData [HasHomology S] : S.HomologyData := HasHomology.condition.some\n",
+          "sha256": "65944169e5cdaf6b340aab6306ebd6e73787dd39215737a812f7a2374c244b51",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean#L213-L219"
+        },
+        {
+          "name": "CategoryTheory_ShortComplex_homologyData",
+          "first_line": 217,
+          "last_line": 219,
+          "text": "\n/-- A chosen `S.HomologyData` for a short complex `S` that has homology -/\nnoncomputable def homologyData [HasHomology S] : S.HomologyData := HasHomology.condition.some\n",
+          "sha256": "ad95ae08019eda019fcaf4da50b9995104ba6c99a348fef8a6b3e3d068333627",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean#L217-L219"
+        },
+        {
+          "name": "CategoryTheory_ShortComplex_homology",
+          "first_line": 381,
+          "last_line": 384,
+          "text": "variable (S)\n\n/-- The homology of a short complex is the `left.H` field of a chosen homology data. -/\nnoncomputable def homology [HasHomology S] : C := S.homologyData.left.H\n",
+          "sha256": "d2efa3435f46e7c11e0a0b72c805fb86d3a24623e9e5c673fa1ac05307ad98d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean#L381-L384"
+        },
+        {
+          "name": "CategoryTheory_ShortComplex_LeftHomologyData_homologyIso",
+          "first_line": 397,
+          "last_line": 402,
+          "text": "\n/-- When a short complex has homology, its homology can be computed using\nany left homology data. -/\nnoncomputable def LeftHomologyData.homologyIso (h : S.LeftHomologyData) [S.HasHomology] :\n    S.homology ≅ h.H := S.leftHomologyIso.symm ≪≫ h.leftHomologyIso\n\n",
+          "sha256": "1e06c6cd4ab82c580fc6409d819b02725aa3e7717e034f42cc83989cd4ec5d24",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean#L397-L402"
+        },
+        {
+          "name": "canonical_homology_projection",
+          "first_line": 975,
+          "last_line": 988,
+          "text": "\n@[reassoc (attr := simp)]\nlemma LeftHomologyData.homologyπ_comp_homologyIso_hom (h : S.LeftHomologyData) :\n    S.homologyπ ≫ h.homologyIso.hom = h.cyclesIso.hom ≫ h.π := by\n  dsimp only [homologyπ, homologyIso]\n  simp only [Iso.trans_hom, Iso.symm_hom, assoc, Iso.hom_inv_id_assoc,\n    leftHomologyπ_comp_leftHomologyIso_hom]\n\n@[reassoc (attr := simp)]\nlemma LeftHomologyData.π_comp_homologyIso_inv (h : S.LeftHomologyData) :\n    h.π ≫ h.homologyIso.inv = h.cyclesIso.inv ≫ S.homologyπ := by\n  dsimp only [homologyπ, homologyIso]\n  simp only [Iso.trans_inv, Iso.symm_inv, π_comp_leftHomologyIso_inv_assoc]\n\n",
+          "sha256": "1ebbf7f47602bb5afd1ee6662c9357477ac584fca8e47e14d407e1c54953ea22",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/Homology.lean#L975-L988"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean",
+      "sha256": "6d1c0eedf5e2ca3fc3d1c1693cc51c35f5be3045403dc814637d977872d30b30",
+      "git_blob_sha1": "27731c25d8f93ed52053070198f138d58bf08312",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "HomologicalComplex_shortComplexFunctor'",
+          "first_line": 35,
+          "last_line": 44,
+          "text": "/-- The functor `HomologicalComplex C c ⥤ ShortComplex C` which sends a homological\ncomplex `K` to the short complex `K.X i ⟶ K.X j ⟶ K.X k` for arbitrary indices `i`, `j` and `k`. -/\n@[simps]\ndef shortComplexFunctor' (i j k : ι) : HomologicalComplex C c ⥤ ShortComplex C where\n  obj K := ShortComplex.mk (K.d i j) (K.d j k) (K.d_comp_d i j k)\n  map f :=\n    { τ₁ := f.f i\n      τ₂ := f.f j\n      τ₃ := f.f k }\n\n",
+          "sha256": "00088ac0f869efe871bf43e88d10bc0d721e19bdd3a0fcfd2553e91b7a6d4440",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean#L35-L44"
+        },
+        {
+          "name": "HomologicalComplex_homology",
+          "first_line": 86,
+          "last_line": 91,
+          "text": "\nvariable [K.HasHomology i]\n\n/-- The homology in degree `i` of a homological complex. -/\nnoncomputable def homology := (K.sc i).homology\n\n",
+          "sha256": "7d1a78d14816c879747652f494099a6c1216fe3fb909cd60e31c11e12e16aaeb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean#L86-L91"
+        },
+        {
+          "name": "HomologicalComplex_homologyIsoSc'",
+          "first_line": 926,
+          "last_line": 930,
+          "text": "/-- The opcycles of a homological complex in degree `j` can be computed\nby specifying a choice of `c.prev j` and `c.next j`. -/\nnoncomputable def homologyIsoSc' : K.homology j ≅ (K.sc' i j k).homology :=\n  ShortComplex.homologyMapIso (K.isoSc' i j k hi hk)\n\n",
+          "sha256": "da2b18d40f0f1f80093ce329af499870e1220cc94a8af60d200727884c513c50",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean#L926-L930"
+        },
+        {
+          "name": "shortcomplex_aliases",
+          "first_line": 64,
+          "last_line": 72,
+          "text": "\n/-- The short complex `K.X i ⟶ K.X j ⟶ K.X k` for arbitrary indices `i`, `j` and `k`. -/\nabbrev sc' := (shortComplexFunctor' C c i j k).obj K\n\n/-- The short complex `K.X (c.prev i) ⟶ K.X i ⟶ K.X (c.next i)`. -/\nnoncomputable abbrev sc := (shortComplexFunctor C c i).obj K\n\n/-- The canonical isomorphism `K.sc j ≅ K.sc' i j k` when `c.prev j = i` and `c.next j = k`. -/\nnoncomputable abbrev isoSc' (hi : c.prev j = i) (hk : c.next j = k) :\n",
+          "sha256": "8a420f4e465e06ad95fc324f07cfd6bd2825269030c2fb8dbf40c1f10a23372b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean#L64-L72"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean",
+      "sha256": "24dd94f0c8dbc9ed5cb75d4c0281ff69cbd589156887cbff723046c2ecf9de2c",
+      "git_blob_sha1": "2b633dbfb07d98f6f9a3fc157c6008f94f98e7d1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_ShortComplex_moduleCatLeftHomologyData",
+          "first_line": 92,
+          "last_line": 111,
+          "text": "\n/-- The canonical linear map `S.X₁ →ₗ[R] LinearMap.ker S.g` induced by `S.f`. -/\nabbrev moduleCatToCycles : S.X₁ →ₗ[R] LinearMap.ker S.g.hom :=\n  S.f.hom.codRestrict _ <| S.moduleCat_zero_apply\n\nset_option backward.defeqAttrib.useBackward true in\n/-- The explicit left homology data of a short complex of modules that is\ngiven by a kernel and a quotient given by the `LinearMap` API. The projections to `K` and `H` are\nnot simp lemmas because the generic lemmas about `LeftHomologyData` are more useful here. -/\n@[simps! K H i_hom π_hom]\ndef moduleCatLeftHomologyData : S.LeftHomologyData where\n  K := ↧S.g.hom.ker\n  H := ↧(S.g.hom.ker ⧸ S.moduleCatToCycles.range)\n  i := ModuleCat.ofHom (LinearMap.ker S.g.hom).subtype\n  π := ModuleCat.ofHom (LinearMap.range S.moduleCatToCycles).mkQ\n  wi := by aesop\n  hi := ModuleCat.kernelIsLimit _\n  wπ := by aesop\n  hπ := ModuleCat.cokernelIsColimit (ModuleCat.ofHom S.moduleCatToCycles)\n\n",
+          "sha256": "c07796276f3576d07a6bdecbc259118663348a098568ca553ee7135b11021e12",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean#L92-L111"
+        },
+        {
+          "name": "CategoryTheory_ShortComplex_moduleCatHomologyIso",
+          "first_line": 168,
+          "last_line": 188,
+          "text": "\n/-- Given a short complex `S` of modules, this is the isomorphism between\nthe abstract `S.homology` of the homology API and the more explicit\nquotient of `LinearMap.ker S.g` by the image of\n`S.moduleCatToCycles : S.X₁ →ₗ[R] LinearMap.ker S.g`. -/\nnoncomputable def moduleCatHomologyIso :\n    S.homology ≅ S.moduleCatLeftHomologyData.H :=\n  S.moduleCatLeftHomologyData.homologyIso\n\n@[reassoc (attr := simp, elementwise)]\nlemma π_moduleCatCyclesIso_hom :\n    S.homologyπ ≫ S.moduleCatHomologyIso.hom =\n      S.moduleCatCyclesIso.hom ≫ S.moduleCatLeftHomologyData.π :=\n  S.moduleCatLeftHomologyData.homologyπ_comp_homologyIso_hom\n\n@[reassoc (attr := simp, elementwise)]\nlemma moduleCatCyclesIso_inv_π :\n    S.moduleCatCyclesIso.inv ≫ S.homologyπ =\n       S.moduleCatLeftHomologyData.π ≫ S.moduleCatHomologyIso.inv :=\n  S.moduleCatLeftHomologyData.π_comp_homologyIso_inv\n\n",
+          "sha256": "486073f2b898ba282a4a3c8c83073a60de8f28130ebd3c0f1d1e7523559f31e7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean#L168-L188"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/TotalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean",
+      "sha256": "e223f14193a2a9de9cb0d62c9eaf71a4d5ce90d644a8b088dd3e40c7b7ca4e9e",
+      "git_blob_sha1": "2e4d80bf9f4c4592c727bcff16c6ad48c85b8231",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "HomologicalComplex₂_total",
+          "first_line": 263,
+          "last_line": 269,
+          "text": "/-- The total complex of a bicomplex. -/\n@[simps -isSimp d, implicit_reducible]\nnoncomputable def total : HomologicalComplex C c₁₂ where\n  X := K.toGradedObject.mapObj (ComplexShape.π c₁ c₂ c₁₂)\n  d i₁₂ i₁₂' := K.D₁ c₁₂ i₁₂ i₁₂' + K.D₂ c₁₂ i₁₂ i₁₂'\n  shape i₁₂ i₁₂' h₁₂ := by\n    rw [K.D₁_shape c₁₂ _ _ h₁₂, K.D₂_shape c₁₂ _ _ h₁₂, zero_add]\n",
+          "sha256": "26f5bb3cc5388d2cc13f54e6a9a4ef526d8289cce0e75e25dd4e0618b2c7fbfb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean#L263-L269"
+        },
+        {
+          "name": "HomologicalComplex₂_ιTotal",
+          "first_line": 271,
+          "last_line": 276,
+          "text": "/-- The inclusion of a summand in the total complex. -/\nnoncomputable def ιTotal (i₁ : I₁) (i₂ : I₂) (i₁₂ : I₁₂)\n    (h : ComplexShape.π c₁ c₂ c₁₂ (i₁, i₂) = i₁₂) :\n    (K.X i₁).X i₂ ⟶ (K.total c₁₂).X i₁₂ :=\n  K.toGradedObject.ιMapObj (ComplexShape.π c₁ c₂ c₁₂) ⟨i₁, i₂⟩ i₁₂ h\n\n",
+          "sha256": "ff9d85e8949d87a9c965337018556af2c5e0b62984546e87ac7fe68127285eb8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean#L271-L276"
+        },
+        {
+          "name": "HomologicalComplex₂_d₁",
+          "first_line": 59,
+          "last_line": 65,
+          "text": "\n/-- The horizontal differential in the total complex on a given summand. -/\nnoncomputable def d₁ :\n    (K.X i₁).X i₂ ⟶ (K.toGradedObject.mapObj (ComplexShape.π c₁ c₂ c₁₂)) i₁₂ :=\n  ComplexShape.ε₁ c₁ c₂ c₁₂ ⟨i₁, i₂⟩ • ((K.d i₁ (c₁.next i₁)).f i₂ ≫\n    K.toGradedObject.ιMapObjOrZero (ComplexShape.π c₁ c₂ c₁₂) ⟨_, i₂⟩ i₁₂)\n\n",
+          "sha256": "040308abc478d66259733f6c54ce0df1404e9b667dfd8e608b3d960da97fe74a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean#L59-L65"
+        },
+        {
+          "name": "HomologicalComplex₂_d₂",
+          "first_line": 66,
+          "last_line": 72,
+          "text": "/-- The vertical differential in the total complex on a given summand. -/\nnoncomputable def d₂ :\n    (K.X i₁).X i₂ ⟶ (K.toGradedObject.mapObj (ComplexShape.π c₁ c₂ c₁₂)) i₁₂ :=\n  ComplexShape.ε₂ c₁ c₂ c₁₂ ⟨i₁, i₂⟩ • ((K.X i₁).d i₂ (c₂.next i₂) ≫\n    K.toGradedObject.ιMapObjOrZero (ComplexShape.π c₁ c₂ c₁₂) ⟨i₁, _⟩ i₁₂)\n\nset_option backward.isDefEq.respectTransparency.types false in\n",
+          "sha256": "726427a8bf5778d571315b7dec0fcda7804cff42c09ef6a45443ff5e0cb8c777",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean#L66-L72"
+        },
+        {
+          "name": "hasTotal_alias",
+          "first_line": 41,
+          "last_line": 45,
+          "text": "  (c₁₂ : ComplexShape I₁₂) [TotalComplexShape c₁ c₂ c₁₂]\n\n/-- A bicomplex has a total bicomplex if for any `i₁₂ : I₁₂`, the coproduct\nof the objects `(K.X i₁).X i₂` such that `ComplexShape.π c₁ c₂ c₁₂ ⟨i₁, i₂⟩ = i₁₂` exists. -/\nabbrev HasTotal := K.toGradedObject.HasMap (ComplexShape.π c₁ c₂ c₁₂)\n",
+          "sha256": "cafcc0961ba42ad60e2161431431ae79f41b7736469e19317d9a57edfdd305ce",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean#L41-L45"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/CategoryTheory/GradedObject.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/GradedObject.lean",
+      "sha256": "6c2306dbc013a65c032fa18d9ad4194aaf56903faa3304bed7a8f35b919e6fb6",
+      "git_blob_sha1": "9e683eed1e19d5c3e122c6befca999a4141f0051",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison, Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_GradedObject_mapObj",
+          "first_line": 302,
+          "last_line": 307,
+          "text": "variable [X.HasMap p] [Y.HasMap p]\n\n/-- Given `X : GradedObject I C` and `p : I → J`, `X.mapObj p` is the graded object by `J`\nwhich in degree `j` consists of the coproduct of the `X i` such that `p i = j`. -/\nnoncomputable def mapObj : GradedObject J C := fun j => ∐ (X.mapObjFun p j)\n\n",
+          "sha256": "50dd7951d1a5424ee8ec0c6fbe2355ab11fc56dc91f248f9d0ce69a31c91119e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/GradedObject.lean#L302-L307"
+        },
+        {
+          "name": "hasMap_alias",
+          "first_line": 285,
+          "last_line": 294,
+          "text": "/-- If `X : GradedObject I C` and `p : I → J`, `X.mapObjFun p j` is the family of objects `X i`\nfor `i : I` such that `p i = j`. -/\nabbrev mapObjFun (j : J) (i : p ⁻¹' {j}) : C := X i\n\nvariable (j : J)\n\n/-- Given `X : GradedObject I C` and `p : I → J`, `X.HasMap p` is the condition that\nfor all `j : J`, the coproduct of all `X i` such `p i = j` exists. -/\nabbrev HasMap : Prop := ∀ (j : J), HasCoproduct (X.mapObjFun p j)\n\n",
+          "sha256": "314aec75466aeec12fd58f112828fa9397c3203189f171144db892d59f6fa7d3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/CategoryTheory/GradedObject.lean#L285-L294"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/RightHomology.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/RightHomology.lean",
+      "sha256": "36305292f29ec1870be84d907137757b7cb7eb55a1e5638d8092712be80128e5",
+      "git_blob_sha1": "db7db3eb3f9bc867e623dbeaff836577df828c1e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "CategoryTheory_ShortComplex_RightHomologyData",
+          "first_line": 42,
+          "last_line": 62,
+          "text": "/-- A right homology data for a short complex `S` consists of morphisms `p : S.X₂ ⟶ Q` and\n`ι : H ⟶ Q` such that `p` identifies `Q` with the cokernel of `f : S.X₁ ⟶ S.X₂`,\nand that `ι` identifies `H` with the kernel of the induced map `g' : Q ⟶ S.X₃` -/\nstructure RightHomologyData where\n  /-- a choice of cokernel of `S.f : S.X₁ ⟶ S.X₂` -/\n  Q : C\n  /-- a choice of kernel of the induced morphism `S.g' : S.Q ⟶ X₃` -/\n  H : C\n  /-- the projection from `S.X₂` -/\n  p : S.X₂ ⟶ Q\n  /-- the inclusion of the (right) homology in the chosen cokernel of `S.f` -/\n  ι : H ⟶ Q\n  /-- the cokernel condition for `p` -/\n  wp : S.f ≫ p = 0\n  /-- `p : S.X₂ ⟶ Q` is a cokernel of `S.f : S.X₁ ⟶ S.X₂` -/\n  hp : IsColimit (CokernelCofork.ofπ p wp)\n  /-- the kernel condition for `ι` -/\n  wι : ι ≫ hp.desc (CokernelCofork.ofπ _ S.zero) = 0\n  /-- `ι : H ⟶ Q` is a kernel of `S.g' : Q ⟶ S.X₃` -/\n  hι : IsLimit (KernelFork.ofι ι wι)\n\n",
+          "sha256": "7ebcbf0f73259a41458e7a86bc6511b277d9b307ba1365d53c07fc2581ba45bc",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/RightHomology.lean#L42-L62"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ComplexShapeSigns.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShapeSigns.lean",
+      "sha256": "010025013958bdba09f6a269b8620266a3ab55d058a2834f19f5b0cc291a16ae",
+      "git_blob_sha1": "66ec22c612dfad9273a19a887aa51d7092853836",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "TotalComplexShape",
+          "first_line": 37,
+          "last_line": 53,
+          "text": "/-- A total complex shape for three complex shapes `c₁`, `c₂`, `c₁₂` on three types\n`I₁`, `I₂` and `I₁₂` consists of the data and properties that will allow the construction\nof a total complex functor `HomologicalComplex₂ C c₁ c₂ ⥤ HomologicalComplex C c₁₂` which\nsends `K` to a complex which in degree `i₁₂ : I₁₂` consists of the coproduct\nof the `(K.X i₁).X i₂` such that `π ⟨i₁, i₂⟩ = i₁₂`. -/\nclass TotalComplexShape where\n  /-- a map on indices -/\n  π : I₁ × I₂ → I₁₂\n  /-- the sign of the horizontal differential in the total complex -/\n  ε₁ : I₁ × I₂ → ℤˣ\n  /-- the sign of the vertical differential in the total complex -/\n  ε₂ : I₁ × I₂ → ℤˣ\n  rel₁ {i₁ i₁' : I₁} (h : c₁.Rel i₁ i₁') (i₂ : I₂) : c₁₂.Rel (π ⟨i₁, i₂⟩) (π ⟨i₁', i₂⟩)\n  rel₂ (i₁ : I₁) {i₂ i₂' : I₂} (h : c₂.Rel i₂ i₂') : c₁₂.Rel (π ⟨i₁, i₂⟩) (π ⟨i₁, i₂'⟩)\n  ε₂_ε₁ {i₁ i₁' : I₁} {i₂ i₂' : I₂} (h₁ : c₁.Rel i₁ i₁') (h₂ : c₂.Rel i₂ i₂') :\n    ε₂ ⟨i₁, i₂⟩ * ε₁ ⟨i₁, i₂'⟩ = - ε₁ ⟨i₁, i₂⟩ * ε₂ ⟨i₁', i₂⟩\n\n",
+          "sha256": "d803e9e8152a9cb58a4162def841562b63d840b592ddbee7c8bb0eaa2b264dbc",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShapeSigns.lean#L37-L53"
+        },
+        {
+          "name": "ComplexShape_TensorSigns",
+          "first_line": 117,
+          "last_line": 125,
+          "text": "/-- If `I` is an additive monoid and `c : ComplexShape I`, `c.TensorSigns` contains the data of\nmap `ε : I → ℤˣ` and properties which allows the construction of a `TotalComplexShape c c c`. -/\nclass TensorSigns where\n  /-- the signs which appear in the vertical differential of the total complex -/\n  ε' : Multiplicative I →* ℤˣ\n  rel_add (p q r : I) (hpq : c.Rel p q) : c.Rel (p + r) (q + r)\n  add_rel (p q r : I) (hpq : c.Rel p q) : c.Rel (r + p) (r + q)\n  ε'_succ (p q : I) (hpq : c.Rel p q) : ε' q = - ε' p\n\n",
+          "sha256": "356caa154df9a3ed441f24e65d4fb9333b70fc88ee46ad4c29162088c8d77367",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShapeSigns.lean#L117-L125"
+        },
+        {
+          "name": "integer_sign",
+          "first_line": 174,
+          "last_line": 193,
+          "text": "    dsimp\n    rw [pow_add, pow_one, mul_neg, mul_one, neg_neg]\n\n@[simp]\nlemma ε_down_ℕ (n : ℕ) : (ComplexShape.down ℕ).ε n = (-1 : ℤˣ) ^ n := rfl\n\nset_option backward.isDefEq.respectTransparency.types false in\nset_option backward.defeqAttrib.useBackward true in\ninstance : TensorSigns (ComplexShape.up ℤ) where\n  ε' := MonoidHom.mk' Int.negOnePow Int.negOnePow_add\n  rel_add p q r (hpq : p + 1 = q) := by dsimp; lia\n  add_rel p q r (hpq : p + 1 = q) := by dsimp; lia\n  ε'_succ := by\n    rintro p _ rfl\n    dsimp\n    rw [Int.negOnePow_succ]\n\n@[simp]\nlemma ε_up_ℤ (n : ℤ) : (ComplexShape.up ℤ).ε n = n.negOnePow := rfl\n\n",
+          "sha256": "2ff5617927b3008ecad44f8e83abdfca9aa7579728f18b21cd1a409ff511e0ef",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShapeSigns.lean#L174-L193"
+        },
+        {
+          "name": "total_shape_signs",
+          "first_line": 154,
+          "last_line": 164,
+          "text": "\n@[simps]\ninstance : TotalComplexShape c c c where\n  π := fun ⟨p, q⟩ => p + q\n  ε₁ := fun _ => 1\n  ε₂ := fun ⟨p, _⟩ => c.ε p\n  rel₁ h q := c.rel_add h q\n  rel₂ p _ _ h := c.add_rel p h\n  ε₂_ε₁ h _ := by\n    dsimp\n    rw [neg_mul, one_mul, mul_one, c.ε_succ h, neg_neg]\n",
+          "sha256": "f55dc56702a45d44c18fff1501e624a4f108c3b45f7297475e89b21ad17bd396",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ComplexShapeSigns.lean#L154-L164"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Ring/NegOnePow.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/NegOnePow.lean",
+      "sha256": "7f22251f2ae04c10d52163a31f257305e91e84d72a4589882208152c2d841f7e",
+      "git_blob_sha1": "0580a32e48fb1492c513b193ad5b6ec73009f464",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Joël Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joël Riou, Johan Commelin\n-/\n",
+      "excerpts": [
+        {
+          "name": "Int_negOnePow",
+          "first_line": 29,
+          "last_line": 37,
+          "text": "/-- The map `ℤ → ℤˣ` which sends `n` to `(-1 : ℤˣ) ^ n`. -/\ndef negOnePow (n : ℤ) : ℤˣ := (-1 : ℤˣ) ^ n\n\nlemma negOnePow_def (n : ℤ) : n.negOnePow = (-1 : ℤˣ) ^ n := rfl\n\nlemma negOnePow_add (n₁ n₂ : ℤ) :\n    (n₁ + n₂).negOnePow = n₁.negOnePow * n₂.negOnePow :=\n  zpow_add _ _ _\n\n",
+          "sha256": "7b865f763de5410fb5d18fdb0f9cc1851e144a53c80db1ed67d8dc9c28535145",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/NegOnePow.lean#L29-L37"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Equiv/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Equiv/Defs.lean",
+      "sha256": "fea6294b3b6d6bdda0f62eb99a5977e4a73bbca7bf98e1be83c158c79e0e197a",
+      "git_blob_sha1": "c755408694c1453e874ea6512506b4713679f8a2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro, Anne Baanen,\n  Frédéric Dupuis, Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearEquiv",
+          "first_line": 48,
+          "last_line": 66,
+          "text": "/-- A linear equivalence is an invertible linear map. -/\nstructure LinearEquiv {R : Type*} {S : Type*} [Semiring R] [Semiring S] (σ : R →+* S)\n  {σ' : S →+* R} [RingHomInvPair σ σ'] [RingHomInvPair σ' σ] (M : Type*) (M₂ : Type*)\n  [AddCommMonoid M] [AddCommMonoid M₂] [Module R M] [Module S M₂] extends LinearMap σ M M₂, M ≃+ M₂\n\nattribute [coe] LinearEquiv.toLinearMap\n\n/-- The linear map underlying a linear equivalence. -/\nadd_decl_doc LinearEquiv.toLinearMap\n\n/-- The additive equivalence of types underlying a linear equivalence. -/\nadd_decl_doc LinearEquiv.toAddEquiv\n\n/-- The backwards directed function underlying a linear equivalence. -/\nadd_decl_doc LinearEquiv.invFun\n\n/-- `LinearEquiv.invFun` is a right inverse to the linear equivalence's underlying function. -/\nadd_decl_doc LinearEquiv.right_inv\n\n",
+          "sha256": "b331fdcb3b620b9b3c29a95e4efda156ff064f392497167c2615b7fbdabe4bba",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Equiv/Defs.lean#L48-L66"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Equiv.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Equiv.lean",
+      "sha256": "12d18d55d3b5a01c63386566a3797fb3ddc4b6ea78873226cd93a8a80a65e6b9",
+      "git_blob_sha1": "d6236473dd0525c4ffa2d246243a62909320b512",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "name": "LinearEquiv_ofBijective",
+          "first_line": 182,
+          "last_line": 191,
+          "text": "/-- A bijective linear map is a linear equivalence. -/\nnoncomputable def ofBijective [RingHomInvPair σ₁₂ σ₂₁] [RingHomInvPair σ₂₁ σ₁₂] (hf : Bijective f) :\n    M ≃ₛₗ[σ₁₂] M₂ :=\n  (ofInjective f hf.injective).trans <| ofTop _ <|\n    LinearMap.range_eq_top.2 hf.surjective\n\n@[simp]\ntheorem ofBijective_apply [RingHomInvPair σ₁₂ σ₂₁] [RingHomInvPair σ₂₁ σ₁₂] {hf} (x : M) :\n    ofBijective f hf x = f x :=\n  rfl\n",
+          "sha256": "84ff0d3f3de4851f3441e3a65f44801329d3807e652668c9a8e156872f989c88",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Equiv.lean#L182-L191"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/HomologicalBicomplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalBicomplex.lean",
+      "sha256": "e5360697c04f6d6507d52f0adfc72b79645b77b5ce9e26446a250937010af608",
+      "git_blob_sha1": "2e9e8bf964dad97bf4b2c7964986b354d3a01fcd",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison, Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "bicomplex_alias",
+          "first_line": 32,
+          "last_line": 40,
+          "text": "  {I₁ I₂ : Type*} (c₁ : ComplexShape I₁) (c₂ : ComplexShape I₂)\n\n/-- Given a category `C` and two complex shapes `c₁` and `c₂` on types `I₁` and `I₂`,\nthe associated type of bicomplexes `HomologicalComplex₂ C c₁ c₂` is\n`K : HomologicalComplex (HomologicalComplex C c₂) c₁`. Then, the object in\nposition `⟨i₁, i₂⟩` can be obtained as `(K.X i₁).X i₂`. -/\nabbrev HomologicalComplex₂ :=\n  HomologicalComplex (HomologicalComplex C c₂) c₁\n\n",
+          "sha256": "178e20e9ce3d986352ef99a87e4d891f90feab3e642547a3a60b32bc35fdc61d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalBicomplex.lean#L32-L40"
+        },
+        {
+          "name": "commuting_square",
+          "first_line": 138,
+          "last_line": 143,
+          "text": "@[reassoc]\nlemma d_comm (K : HomologicalComplex₂ C c₁ c₂) (i₁ i₁' : I₁) (i₂ i₂' : I₂) :\n    (K.d i₁ i₁').f i₂ ≫ (K.X i₁').d i₂ i₂' = (K.X i₁).d i₂ i₂' ≫ (K.d i₁ i₁').f i₂' := by\n  simp\n\n@[reassoc (attr := simp)]\n",
+          "sha256": "f81056ec3624f906b92776f525b0288da6430778c6b3d3c7a56162c2e71c1a91",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/HomologicalBicomplex.lean#L138-L143"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Lattice.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Lattice.lean",
+      "sha256": "6d143772606afa67740f152df5cad2263a867ffb4a7314686c98cba5b9efb430",
+      "git_blob_sha1": "1b5678a24211e4176f5c7a7167075d8aea7fb3e7",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "submodule_bottom",
+          "first_line": 50,
+          "last_line": 55,
+          "text": "\n/-- The set `{0}` is the bottom element of the lattice of submodules. -/\ninstance : Bot (Submodule R M) :=\n  ⟨{ (⊥ : AddSubmonoid M) with\n      carrier := {0}\n      smul_mem' := by simp }⟩\n",
+          "sha256": "d18e9cd05d310518a6726c6621e30dd9c2809c4ae950a2820a14d63837537e4b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Lattice.lean#L50-L55"
+        },
+        {
+          "name": "submodule_top",
+          "first_line": 129,
+          "last_line": 134,
+          "text": "/-- The universal set is the top element of the lattice of submodules. -/\ninstance : Top (Submodule R M) :=\n  ⟨{ (⊤ : AddSubmonoid M) with\n      carrier := Set.univ\n      smul_mem' := fun _ _ _ ↦ trivial }⟩\n\n",
+          "sha256": "ed0d96746cc671fab01d8a1bc7287d03e1d84755452fa1ae7dd0b6272fcf1044",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Lattice.lean#L129-L134"
+        },
+        {
+          "name": "submodule_lattice",
+          "first_line": 180,
+          "last_line": 216,
+          "text": "instance : InfSet (Submodule R M) :=\n  ⟨fun S ↦\n    { carrier := ⋂ s ∈ S, (s : Set M)\n      zero_mem' := by simp [zero_mem]\n      add_mem' := by simp +contextual [add_mem]\n      smul_mem' := by simp +contextual [smul_mem] }⟩\n\nprotected theorem isGLB_sInf {S : Set (Submodule R M)} : IsGLB S (sInf S) :=\n  .of_image SetLike.coe_subset_coe isGLB_biInf\n\ninstance : Min (Submodule R M) :=\n  ⟨fun p q ↦\n    { carrier := p ∩ q\n      zero_mem' := by simp [zero_mem]\n      add_mem' := by simp +contextual [add_mem]\n      smul_mem' := by simp +contextual [smul_mem] }⟩\n\ninstance completeLattice : CompleteLattice (Submodule R M) where\n  sup a b := sInf { x | a ≤ x ∧ b ≤ x }\n  le_sup_left _ _ := Set.subset_iInter₂ fun _ ⟨h, _⟩ ↦ h\n  le_sup_right _ _ := Set.subset_iInter₂ fun _ ⟨_, h⟩ ↦ h\n  sup_le _ _ _ h₁ h₂ := Set.biInter_subset_of_mem ⟨h₁, h₂⟩\n  inf := (· ⊓ ·)\n  le_inf _ _ _ := Set.subset_inter\n  inf_le_left _ _ := Set.inter_subset_left\n  inf_le_right _ _ := Set.inter_subset_right\n  sSup S := sInf {sm | ∀ s ∈ S, s ≤ sm}\n  isLUB_sSup _ := isGLB_upperBounds.mp Submodule.isGLB_sInf\n  isGLB_sInf _ := Submodule.isGLB_sInf\n\n@[simp]\ntheorem coe_inf : ↑(p ⊓ q) = (p ∩ q : Set M) :=\n  rfl\n\n@[simp]\ntheorem mem_inf {p q : Submodule R M} {x : M} : x ∈ p ⊓ q ↔ x ∈ p ∧ x ∈ q :=\n  Iff.rfl\n",
+          "sha256": "98e321adbc678b3e41be924048492a3033c488d477a616fd9a7bceb7d3aead12",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Lattice.lean#L180-L216"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Category/ModuleCat/Colimits.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Colimits.lean",
+      "sha256": "56240e276c94d5a20573b59aa01a789fbc55f3c8a2e6377810912600926d385b",
+      "git_blob_sha1": "467890248156563a42f746a82a5be8f05ff3a879",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Kim Morrison. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison, Joël Riou\n-/\n",
+      "excerpts": [
+        {
+          "name": "modulecat_colimits",
+          "first_line": 119,
+          "last_line": 150,
+          "text": "instance hasColimitsOfShape [HasColimitsOfShape J AddCommGrpCat.{w'}] :\n    HasColimitsOfShape J (ModuleCat.{w'} R) where\n\nnoncomputable instance reflectsColimitsOfShape [HasColimitsOfShape J AddCommGrpCat.{w'}] :\n    ReflectsColimitsOfShape J (forget₂ (ModuleCat.{w'} R) AddCommGrpCat) where\n\ninstance hasColimitsOfSize [HasColimitsOfSize.{v, u} AddCommGrpCat.{w'}] :\n    HasColimitsOfSize.{v, u} (ModuleCat.{w'} R) where\n\nnoncomputable instance forget₂PreservesColimitsOfShape\n    [HasColimitsOfShape J AddCommGrpCat.{w'}] :\n    PreservesColimitsOfShape J (forget₂ (ModuleCat.{w'} R) AddCommGrpCat) where\n\nnoncomputable instance forget₂PreservesColimitsOfSize\n    [HasColimitsOfSize.{u, v} AddCommGrpCat.{w'}] :\n    PreservesColimitsOfSize.{u, v} (forget₂ (ModuleCat.{w'} R) AddCommGrpCat) where\n\nnoncomputable instance\n    [HasColimitsOfSize.{u, v} AddCommGrpMax.{w, w'}] :\n    PreservesColimitsOfSize.{u, v} (forget₂ (ModuleCat.{max w w'} R) AddCommGrpCat) where\n\ninstance : HasFiniteColimits (ModuleCat.{w'} R) := inferInstance\n\n-- Sanity checks, just to make sure typeclass search can find the instances we want.\nexample (R : Type u) [Ring R] : HasColimits (ModuleCat.{max v u} R) :=\n  inferInstance\n\nexample (R : Type u) [Ring R] : HasColimits (ModuleCat.{max u v} R) :=\n  inferInstance\n\nexample (R : Type u) [Ring R] : HasColimits (ModuleCat.{u} R) :=\n  inferInstance\n",
+          "sha256": "c977278abaae57fe94c6152471f98120426f32a2bff053043ec58750bb7d9229",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Category/ModuleCat/Colimits.lean#L119-L150"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "module": "HodgeChallengeTests",
+      "path": "HodgeChallengeTests.lean",
+      "sha256": "8e69b9c68fe6f6cef2f8cdc70d76962fecb8c043d147e17be94c9eaf1c3c01c5"
+    },
+    {
+      "module": "HodgeSolutionTests",
+      "path": "HodgeSolutionTests.lean",
+      "sha256": "c83a260ed72bcd3ffb0e81f253916b1bfccf7c76898a0fd63eccd9d9f3ee7b89"
+    }
+  ]
+}

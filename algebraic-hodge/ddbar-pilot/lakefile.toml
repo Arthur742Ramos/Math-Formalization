@@ -1,0 +1,105 @@
+name = "algebraicHodgePilot"
+version = "0.1.0"
+defaultTargets = ["HodgeChallengeAudit", "HodgeChallengeTests", "HodgeSolutionTests", "ReleaseFidelity", "FiltrationComplex", "SignBridge", "Indexing", "AxiomAudit"]
+moreLeanArgs = ["-j2", "-M3072", "-DwarningAsError=true"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+
+[[lean_lib]]
+name = "Integration"
+
+[[lean_lib]]
+name = "Representative"
+
+[[lean_lib]]
+name = "AxiomAudit"
+
+[[lean_lib]]
+name = "SignBridge"
+
+[[lean_lib]]
+name = "TotalRepresentative"
+
+[[lean_lib]]
+name = "Indexing"
+
+[[lean_lib]]
+name = "FilteredPages"
+
+[[lean_lib]]
+name = "ColumnFiltration"
+
+[[lean_lib]]
+name = "ColumnComponents"
+
+[[lean_lib]]
+name = "FiltrationComplex"
+
+[[lean_lib]]
+name = "VerticalClass"
+
+[[lean_lib]]
+name = "LeadingCycle"
+
+[[lean_lib]]
+name = "BoundaryLeading"
+
+[[lean_lib]]
+name = "PureRepresentative"
+
+[[lean_lib]]
+name = "LeadingKernel"
+
+[[lean_lib]]
+name = "PageComparison"
+
+[[lean_lib]]
+name = "PageIsomorphism"
+
+[[lean_lib]]
+name = "Degeneration"
+
+[[lean_lib]]
+name = "AssociatedSequence"
+
+[[lean_lib]]
+name = "SequenceTransitions"
+
+[[lean_lib]]
+name = "FilteredInfinity"
+
+[[lean_lib]]
+name = "InfinityComparison"
+
+[[lean_lib]]
+name = "BoundedFiltration"
+
+[[lean_lib]]
+name = "CohomologyClass"
+
+[[lean_lib]]
+name = "GradedCohomology"
+
+[[lean_lib]]
+name = "E1Degeneration"
+
+[[lean_lib]]
+name = "ReleaseFidelity"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "HodgeSolution"
+
+[[lean_lib]]
+name = "HodgeChallengeTests"
+
+[[lean_lib]]
+name = "HodgeSolutionTests"
+
+[[lean_lib]]
+name = "HodgeChallengeAudit"

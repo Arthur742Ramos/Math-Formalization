@@ -1,0 +1,52 @@
+{
+  "scope": "Conditional algebraic Hodge foundation; internal AI review, not external peer review or analytic compact-Kaehler theorem",
+  "verified_source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "pipeline_commit": "07a02bae1e85c75ae349d0e75195162d16d41e21",
+  "verification": {
+    "run_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39963348737",
+    "status": "pass",
+    "accepted_kernels": [
+      "Lean default kernel",
+      "NanoDa",
+      "con-ron --verified"
+    ],
+    "original_report_sha256": "c04b8a1c00dae4b57b263cfc0f2a38defd02c645f15bf8bf080b137b0d79979a",
+    "independent_receipt_review": "accepted before rendering"
+  },
+  "rendering": {
+    "run_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39964788446",
+    "status": "error",
+    "stage": "sanitize",
+    "artifact_id": 12506214367,
+    "original_report_sha256": "0f1d85e357b87cb021ebd8479357c52675eb8171f3061a80741111aa54195bba",
+    "cause": "HodgeChallenge/index.html exceeds pinned 8 MiB per-file cap",
+    "actual_html_size": "not retained",
+    "html_artifact": "absent",
+    "independent_receipt_review": "failure and source/pipeline/artifact identity independently confirmed"
+  },
+  "authorization_account": {
+    "approved_verification_runs_used": 1,
+    "approved_conditional_render_runs_used": 1,
+    "computation_retries": 0,
+    "new_credentials": false,
+    "remaining_pair_authorization": "consumed; diagnostic retryable flag is not authorization"
+  },
+  "documentation_correction": {
+    "commit": "129b5037e20f24c023246d184e7a1317d2fe2cf7",
+    "scope": "README.md, REVIEW.md, PLAN.md, RUN-PLAN.md only",
+    "status_only_guard": "pass",
+    "old_receipt_against_corrected_source": "blocked: Historical report is not verification of the proposed source",
+    "core_projection": "65 tracked nonhistorical project files outside those four documents match verified source; this is not full source equality"
+  },
+  "release_status": {
+    "merge": "blocked",
+    "submission": "not attempted",
+    "browser_visual_acceptance": "unperformed; no HTML; local Chromium SUID sandbox readiness also failed without modification",
+    "remaining_gates": [
+      "successful exact-source rendering and visual acceptance",
+      "exact-source full verification of corrected proposed source",
+      "independent final release-packet acceptance"
+    ],
+    "sierpinski_prerequisite": "parent confirmed PALOMAR-2026-10-23-000003 v1 registered"
+  }
+}

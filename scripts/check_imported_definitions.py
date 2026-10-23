@@ -25,6 +25,14 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def declaration_header_matches(body, kind, name, *, legacy=False):
+    """Lean identifiers may end in apostrophes, which are not Python word chars."""
+    prefix = r'(?m)^def ' if legacy else (
+        r'(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?' + kind +
+        r" (?:[A-Za-z_][\w']*\.)*")
+    return re.search(prefix + re.escape(name.split('.')[-1]) + r"(?![\w'])", body) is not None
+
+
 def local_file(root, name):
     parts = pathlib.PurePosixPath(name)
     require(not parts.is_absolute() and parts.parts and
@@ -125,7 +133,7 @@ def check(project, dependency_root=None):
         require(all(n in document for n in usage), 'Document omits affected declarations')
         body = excerpts[declaration['definition_excerpt']]
         if version == 1:
-            require(re.search(r'(?m)^def ' + re.escape(name.split('.')[-1]) + r'\b', body),
+            require(declaration_header_matches(body, 'def', name, legacy=True),
                     'Definition evidence is not a definition')
             require(declaration['bridge_kind'] == 'proved-equivalence',
                     'Semantic bridge must not be claimed as definitional equality')
@@ -134,7 +142,7 @@ def check(project, dependency_root=None):
         else:
             kind = declaration['declaration_kind']
             require(kind in {'def', 'class', 'structure'}, 'Unknown declaration kind')
-            require(re.search(r'(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?' + kind + r" (?:[A-Za-z_][\w']*\.)*" + re.escape(name.split('.')[-1]) + r'\b', body),
+            require(declaration_header_matches(body, kind, name),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
             allowed = {'class-fields'} if kind in {'class', 'structure'} else {

@@ -1,0 +1,12 @@
+{
+  "axioms.log": "ee4b9d65495f543f3b21d28024645feef565bd0c25931692411f68005e3a77a3",
+  "build.log": "716a20aa772acab969f05866ca2dd2b7ef2f390d0f85f23eb3ea54f32de768dc",
+  "challenge-axioms.log": "becc4ec167fdfae2984bc29d11dbf98ab3dde631d00311f33f9b658cade74b64",
+  "challenge-regeneration.log": "8a84ee4ab42c1d90214bfd5f8f03107f701c205c7cd7923d5e9433b6e751e9e7",
+  "interfaces-and-source-closure.json": "e5528830971ed2d6c32afcd9071efbbdc10a5cbd211d63d7d530bb967ce87c2c",
+  "inventory-exact-pin.json": "b6fd8cb0e0b7220656fb3b5d182597387156f76085a9dc06214363cc294115f3",
+  "inventory-static.json": "ccccb882d761fa74d26f1c22744f42b127628ca51df4b91507e3119ebbbb77d6",
+  "inventory-validator-tests.log": "79bef5b0c5ef09751c5685e43b998381596e6dc5f960916360760c21fa49f5d0",
+  "local-report.json": "c47544c66f7ebbf6fd3d0056fa308fcc36c1d5a7bbca2afa92d11f9edeb496f0",
+  "parser-tests.log": "e6ec182765cd965f2837d8eeaef5a64af48a104f245cd1a0b7281559194c57c1"
+}

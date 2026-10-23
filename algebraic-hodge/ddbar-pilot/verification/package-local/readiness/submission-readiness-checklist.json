@@ -1,0 +1,51 @@
+{
+  "source_commit": "c3107f8311488bcc256103db8ad969ffd60706e2",
+  "submission_hold": {
+    "active": true,
+    "prerequisite": "Confirmed Palomar approval of the Sierpiński entry associated with PR41",
+    "github_pr_url": "https://github.com/Arthur742Ramos/Math-Formalization/pull/41",
+    "reported_submission_received_utc": "2026-10-23 02:25:25 UTC",
+    "mechanical_run_url": "https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/39889489605",
+    "evidence_status": "Received/mechanically-verifying state was supplied in the latest trusted instruction. Palomar approval is not independently confirmed. GitHub merge and mechanical pass alone do not lift this hold.",
+    "release_confirmation": null
+  },
+  "remaining_gates": [
+    {
+      "gate": "runner facts",
+      "state": "blocked",
+      "needed": "Owner read-only evidence establishing zero artifact/cache charges under existing billing settings and permitting the pinned Actions workflow. Existing integration billing/Actions-policy GETs returned403; do not create credentials or change settings."
+    },
+    {
+      "gate": "exact verification approval",
+      "state": "not granted",
+      "needed": "One source-bound palomar-standard-v1 full attempt;19800-second verifier budget/350-minute verification job. Explicit conditional runner-local AppArmor profile loading, package installation, disk cleanup and delegated cgroups. Profile resolver currently has default360-minute timeout; actual runner must pass20GiB post-cleanup free-space check."
+    },
+    {
+      "gate": "protected comparison and independent kernels",
+      "state": "unrun",
+      "needed": "Actual source-bound full report, positive/ill-typed negative controls, mandatory Lean/NanoDa acceptance, bounded advisory con-ron outcome accurately recorded; independent provenance/evidence review."
+    },
+    {
+      "gate": "render and inspect",
+      "state": "unrun",
+      "needed": "Separate exact-source render approval after mechanical acceptance;360-minute render job, pinned Verso; sanitized artifact and browser statement/sign/quotient inspection."
+    },
+    {
+      "gate": "final source account and packet",
+      "state": "pending actual receipts",
+      "needed": "Reconcile the selected source own status prose with completed exact-source receipts; any edited source needs its own checks. Run full packet guard against original authenticated report and exact source archive; independent final review. Status-only or synthetic tests are insufficient."
+    },
+    {
+      "gate": "Sierpiński prerequisite",
+      "state": "HOLD",
+      "needed": "Confirm Palomar approval of the PR41-associated entry, not merely GitHub merge or mechanical success. Refresh public duplicates/current intake state before eventual Hodge intake."
+    }
+  ],
+  "independent_preparation_now": {
+    "draft_fields": "Prepared with exact source paths/digests and active prerequisite hold.",
+    "source_archive": "Prepared and exact-byte checked; not a verified intake packet.",
+    "release_guard": "Path/kernel-policy/hold compatibility fix under independent review, with offline regressions; no mathematical source or metadata edits.",
+    "presentation": "Existing title/metadata scope remains appropriate. Challenge readability warning persists; optional restructuring would create new source requiring checks and review. No paths extension is required."
+  },
+  "smallest_next_input": "Owner-provided read-only existing billing/Actions-settings evidence that establishes zero charges and workflow eligibility. It is a factual input, not execution approval. After that, obtain the exact single-verification-attempt/security approval; retain the PR41 Palomar-approval hold."
+}

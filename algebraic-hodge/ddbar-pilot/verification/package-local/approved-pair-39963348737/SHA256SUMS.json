@@ -1,0 +1,21 @@
+{
+  "README.md": "ff75029f4b60ed3fb3cf4542b5b4b54f30ddfa759bda12908e3394a90aca5fb7",
+  "approved-pair-outcome.json": "b8f3d53c2aadde25b52feb98f78352ab0a41db2f7e2e2854d658a4e063b9a828",
+  "browser-readiness.log": "36cacc8ca934c7635003d97a7c8f1b19fa92a1c2da74088cbc727d37778eea6b",
+  "full-release-guard.log": "94c9c7a4b9629ea94b3c94b4849da322cf4975be0fbc549ec8b429b3b7cbdd02",
+  "full-source-archive-check.json": "0c8af267c004ce0828bbe5e8bfea0979ba40d73eee2493034aa90121382ef4c9",
+  "independent-final-evidence-review.json": "6923954affa5f9d9e608784652c469276ba50c31ea036a80c02a731e0a72d8c0",
+  "independent-reconciliation-review.json": "1eb5cd2d2e0a92b2d72f28abbcf7169d78087229b2ab8fc8425a4276e40baeda",
+  "independent-verification-receipt-review.json": "05c91c6284e276a4dc6628d175fc07708ff61f18626834e891225855cfa46675",
+  "mechanical-report.json": "c04b8a1c00dae4b57b263cfc0f2a38defd02c645f15bf8bf080b137b0d79979a",
+  "reconciled-release-guard-tests.log": "83bc5a3e687b7a95d3dd343d628ed87485bcd9837e437f6c3fb12750046bdbba",
+  "release-guard-fix-review.json": "e54ec8651cb5e873c5e8637149ba809b7925574f4269fa986789e1fd49b299ec",
+  "render-artifact-api.json": "69c51b76f80b81a0d98a361b7c1fa982c07397bc08768d4e63d1a747e5f5b1c8",
+  "render-original-artifact.zip": "fe59df6d6d61855d41349432b9a4218c2d818aeb4cacced5cf8095fd1e6c0683",
+  "render-report.json": "0f1d85e357b87cb021ebd8479357c52675eb8171f3061a80741111aa54195bba",
+  "status-corrected-guard.log": "50a850103c9a535e3db414d77e5fbf63c4bbe37ba80620f61cfdb405c7f3bb66",
+  "status-correction-and-source-binding.json": "1e478560d1ade7bb6e8fa8bbf16c167f9c997a2e15471d18f7c70f9ea65ac203",
+  "verification-artifact-api.json": "9f23fab63bc8088a3a3dfbc94d806f8a346391ac5dab346c5d0bb2fec3133229",
+  "verification-original-artifact.zip": "43aa938d63315ca00346f4ce919f074d5772499096bf5be082cd773a8bd7bd23",
+  "verification-terminal-receipt.json": "be7109c49e3ef552af16c517bf846613243160353ca88cfdf472367e8b511e67"
+}

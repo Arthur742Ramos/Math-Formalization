@@ -1,0 +1,1449 @@
+{
+  "status": "pass",
+  "scope": "Exact-source LOCAL Challenge/Solution package build, selected and modular axiom audits, metadata/config validation, material-definition consistency and pinned source closure. No protected Comparator or external kernel replay.",
+  "checked_at": "2026-10-23T03:51:55.221752+00:00",
+  "source_commit": "7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb",
+  "source_inputs_match_commit": true,
+  "source_worktree_status_before_report": [
+    "?? algebraic-hodge/ddbar-pilot/verification/package-local/correction-7eec3b8/"
+  ],
+  "lean_version": "Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "source_sha256": {
+    "AssociatedSequence.lean": "5d4e045a3b6cad1fb98eaba01759b7d4d7f1e8a4947acbd80c083fd4501e2158",
+    "AxiomAudit.lean": "5afde993c709adb566ee7b03b53b7ec843f4bc05e480a4d05fcb41956cae9dae",
+    "BoundaryLeading.lean": "db8034e60ba067aeed532d67690d9669c294eff09408f20c4fe6eed85804de31",
+    "BoundedFiltration.lean": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+    "CohomologyClass.lean": "9ab806d9cb9c19121d9ae2fd0d77edc3dacaa46f2654b3a2503fe0568d5d94bd",
+    "ColumnComponents.lean": "64cea4ea5b4ba1118879ea70faed12cbc0429b6d27ae16db94950a64ed1da631",
+    "ColumnFiltration.lean": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+    "Degeneration.lean": "8053fc85a10b4412a5c4e670eaf81e2dcc5107c4e42705934b3a575a3088695a",
+    "E1Degeneration.lean": "5582b016c7328e2fbc60e700b8926f1fec74044c600db01fcc506cbbf9b4e869",
+    "FilteredInfinity.lean": "43e6976abbe75afcd4d3f90222f87e4f8a80ddede3b22f4f2b5a12da604215da",
+    "FilteredPages.lean": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+    "FiltrationComplex.lean": "7120b6d4b3200fad2c6fe768f0f03e42ceda4bff8a133eae5cdc7fdc352ad58c",
+    "GradedCohomology.lean": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+    "HodgeChallenge.lean": "fa12ed722b4444ddd20ea2608d688ed196cc1b731bc4266cd7afdef24e08981c",
+    "HodgeChallengeAudit.lean": "3234ac1b993dc71ad00db7da29af6b6c66513d93051c53fa66fb952c40b75283",
+    "HodgeChallengeTests.lean": "a4e0a9d403392bc7bec70e0912ee9a11efcf2278c41c19b79fc313f0460f095c",
+    "HodgeSolution.lean": "fa12ed722b4444ddd20ea2608d688ed196cc1b731bc4266cd7afdef24e08981c",
+    "HodgeSolutionTests.lean": "c83a260ed72bcd3ffb0e81f253916b1bfccf7c76898a0fd63eccd9d9f3ee7b89",
+    "Indexing.lean": "22ae6646967b5709ae1eaddb2c072f8befc9474b309fb80b6f322394ec13b594",
+    "InfinityComparison.lean": "e6b9e01b3f0a8d8edd819e9700e51acf0e122dbcc0a12dfb046cc5c0490b8479",
+    "Integration.lean": "461396e0c4e3f961454df41c6b62d852a1809aab7f83fc34652d203f76fb2a7f",
+    "LeadingCycle.lean": "21bc4a602b42b16c99cb113d8227b694bbb209935f823b90f08b668395b60a92",
+    "LeadingKernel.lean": "8f02fc5ba9782a62e0bbbc2113240f37faafb0acc91245a4f1509318635c11c2",
+    "MATERIAL-DEFINITIONS.md": "1d26ef713dc4d75875fed8f3a570ee585b72952d72feddbc01eb84fd1f142263",
+    "PLAN.md": "dd6e02a8e46ce97e4bee5284283c84bea971204584f08cc152293293d9858446",
+    "PageComparison.lean": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
+    "PageIsomorphism.lean": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
+    "PureRepresentative.lean": "fc99856b38c507b3a382c79da6f2b562902fbacfb80c4a1116fae831bae429db",
+    "README.md": "2fa6e859df3775cefc1fc05062e9d390416f3662bb8de028fec2000c8adc3231",
+    "REVIEW.md": "5045574d33c080e9717cdd3521b0e82b25fe2245dbad8f090f617f01663ef57c",
+    "RUN-PLAN.md": "5970e023c9a3baf051c750b30389f562295721e9a3c2e4fc9c3703618b7da3e9",
+    "ReleaseFidelity.lean": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+    "Representative.lean": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+    "SequenceTransitions.lean": "d2ee884f2cb7e3085438cc71f60c0283f21dc079411a18f69ccdd37b8fc609c2",
+    "SignBridge.lean": "5cf99fcababd32c73451857307c2fa800255f0f2b5131c82bfebb4139d85ac0a",
+    "TotalRepresentative.lean": "d3cc3162bace9746351e3d003fdeda84aa825a61b1df4e64fe5d406a951e1a47",
+    "VerticalClass.lean": "6f0963175e0a6b5ba187aaf72d7fdbf22a44c23f738408051bb55e74ccc6b050",
+    "comparator.json": "fcf32220782912b82bdde01aa79eeb0c69a9effed5bba647ffa80d217a7d3a68",
+    "formalization.yaml": "69135869a62226c3eae936596136960d4d7569a0f2637a257ee604236f0c627b",
+    "lake-manifest.json": "26acfec1d2476828314e9769053fca35a777371d116e118841dd8a3599700523",
+    "lakefile.toml": "7211c526f70e95be6b755b66976dac82eef77c91f49b525f43e4b1b3a47b270c",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "run-plans/protected-preflight.yml": "9064ff159388035c3d16531093ef138d45f9cb31358a7e2c10467a71ca754a2b",
+    "scripts/check_interfaces.py": "d070971d2a0d407adbd056fca3b72863f5697119620b651c2004ae4f11d78573",
+    "scripts/make_challenge.py": "53cec8aa9ce606514519963011a86c0a0cddd907da4edc22bb468334c8840528",
+    "scripts/test_verify.py": "6f6efbe9cb3db6bf8848486cf8001082d0ddee87d5ebdded6c3911c9b89daf04",
+    "scripts/verify.py": "a3dee9b8e88671b2d9b15d25d4c48ffe7ba5d76bda4d972ed95d9ac7ea6a3995",
+    "scripts/verify_package.py": "b22f13f888acc8984dd2be87e36364ac980fc513b7c950e254ca1750f3bd6ce7",
+    "verification/challenge-source-map.json": "c9657086fbb30953c0d784c1939cc4af4e98aca4b22fc2108436aa17488b8b89",
+    "verification/checkpoint-review.md": "0c7c3640cb123c38b1ebca910288d0edf9adf8d7c92b2d04e81b27a4de6f50d4",
+    "verification/continuation-inventory.json": "5545fb3c5918d181b8720d38328740f9315f01d64bf0ce7b77962bf50e76ee2d",
+    "verification/material-imported-definitions.json": "971032f1a5677f0ed9a37750fb7d75718364fe41f46936e591bc44f2f1e9d664",
+    "verification/mathematical-sources.json": "456f27294a964c2d3bdbfbfc5b35c3bb17748b8a89a48e043caf402291cfa5e2",
+    "verification/package-policy-snapshot.json": "552821a50723bce65956cbdcf8efccfbe6d256111a08a64bbc7aaba64fafdaea",
+    "verification/palomar-toolchains.json": "fd40347e4b586e7c42233b35f11efb006d25033b9a7ded9565719edf7aa98354",
+    "verification/policy-snapshot.json": "d231e629ec46dc15de1e339d3b9073f60026b11bd73967470e47e6a302edca45",
+    "verification/source-binding.json": "71a6e720dc664a4381dc33b044742c0da450708fe41908a0a5d1cb02845ae097",
+    "verification/upstream-inventory.json": "7efbcf3042866a56b746faf54b19d07af641e850cb8aba11170dcf8ad44c7ffd"
+  },
+  "local_lean_modules": [
+    "AssociatedSequence.lean",
+    "AxiomAudit.lean",
+    "BoundaryLeading.lean",
+    "BoundedFiltration.lean",
+    "CohomologyClass.lean",
+    "ColumnComponents.lean",
+    "ColumnFiltration.lean",
+    "Degeneration.lean",
+    "E1Degeneration.lean",
+    "FilteredInfinity.lean",
+    "FilteredPages.lean",
+    "FiltrationComplex.lean",
+    "GradedCohomology.lean",
+    "HodgeChallenge.lean",
+    "HodgeChallengeAudit.lean",
+    "HodgeChallengeTests.lean",
+    "HodgeSolution.lean",
+    "HodgeSolutionTests.lean",
+    "Indexing.lean",
+    "InfinityComparison.lean",
+    "Integration.lean",
+    "LeadingCycle.lean",
+    "LeadingKernel.lean",
+    "PageComparison.lean",
+    "PageIsomorphism.lean",
+    "PureRepresentative.lean",
+    "ReleaseFidelity.lean",
+    "Representative.lean",
+    "SequenceTransitions.lean",
+    "SignBridge.lean",
+    "TotalRepresentative.lean",
+    "VerticalClass.lean"
+  ],
+  "build_log_sha256": "d7e90cf55cfdc49ca37b657629422ec65d466bbdf55cd04b7cffc8e94a16935f",
+  "axiom_log_sha256": "ee4b9d65495f543f3b21d28024645feef565bd0c25931692411f68005e3a77a3",
+  "parser_tests_log_sha256": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6",
+  "audited_declarations": {
+    "AlgebraicHodgePilot.Column.pageObject": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.differentialTo": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageDifferential": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageDifferential_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageComplex": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.zeroPageHomologyIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_d_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundary_leading_exact_of_primitive_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundary_leading_exact": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.HorizontalSupport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.RectangularSupport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.rectangularSupport_horizontal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration_eq_bot": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration_eq_top": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.cycles_stable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundaries_stable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.denominator_stable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.stablePageIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.eventually_stable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologySC": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyClassMap_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyClassMap_eq_zero_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusionOrZero_projection_ne": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusionOrZero_projection_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusion_d": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.d_projection": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.d_projection_apply": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.projection": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusion_projection_self": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusion_projection_ne": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusion_projection_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusion_mem_filtration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration_antitone": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.projection_kills_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration_split": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.mem_next_of_projection_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.subtract_leading_mem_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.inclusionOrZero_mem_filtration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.differential_preserves_filtration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtered": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundary_leading_exact_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.all_differentials_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.exists_closed_page_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageToGradedIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageToGradedIso_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.bounded_e1_degeneration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedCycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedBoundaries": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedDenominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedCycles_le_cycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedToCycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedToCycles_val": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedDenominator_le_closedCycles": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.InfinityPage": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityQuotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityQuotient_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.Filtration": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.boundaries": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.differential_squared": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.boundary_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.denominator_le_cycles": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.Page": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.differentialOnCycles": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.differential_denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.differential": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.quotient_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.differential_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.page_differential_squared": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.filteredComplex": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.filteredInclusion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.filteredMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.filtrationFunctor": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedCycleToCycle": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration_antitone": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedClassToFiltration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.GradedCohomology": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedToGraded": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedToGraded_zero_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityToGraded": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityToGraded_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityToGraded_injective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityToGraded_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityGradedIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.infinityGradedIso_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.canonicalCoordinates_totalDegree": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.canonicalCoordinates_differentialDegree": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.e1Data": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.e1Data_first_left": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.e1Data_first_right": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.closedLeadingMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.closedLeadingMap_zero_of_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.closedLeadingMap_zero_of_boundary": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.closedLeadingMap_kills_denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.closedLeadingMap_zero_mem_denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.infinityClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.infinityClassMap_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.infinityClassMap_injective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.infinityClassMap_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.infinityIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageToInfinityIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.infinityIso_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.closedCycles_leading_independent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageIso_closed_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.iso_common_image": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageToInfinityIso_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Bicomplex": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.total": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.E1Sequence": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leading_vertical_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leadingCycleMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leadingClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leadingCycleMap_val": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leadingClassMap_zero_of_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leading_class_zero_mem_denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leading_zero_of_boundary": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leading_zero_of_boundary_e1": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leading_kills_denominator_of_boundary": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageClassMap_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageClassMap_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageClassMap_injective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageClassMap_injective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageClassMap_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageClassMap_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pure_vertical_cycle_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pure_biclosed_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.leadingCycleMap_pure": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.projection_d_pure": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cycles_succ_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_top_of_top": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_bot_of_bot": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_covers": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.cohomologyFiltration_eq_top": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.cohomologyFiltration_eq_bot": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.quotient_cast_class": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.stablePageIso_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso_eq_pageToGradedIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.horizontal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.incomingVertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.ImageKernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.exists_closed_correction": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalSC": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalHomologyIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalClass": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.exists_closed_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.zeroPageHomologyIso_\u03c0": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.pageIso_quotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.page_comparison_common_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_anticommute": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.sign_twist_involutive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_squared": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_ker": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_range": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.total_closed_of_biclosed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.exists_total_closed_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalClassMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalClassMap_apply": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalClassMap_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalClassMap_eq_zero_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.canonicalCoordinates": []
+  },
+  "upstream_files_authenticated": 15,
+  "upstream_source_records_authenticated": 17,
+  "all_higher_differentials_zero": true,
+  "actual_quotient_pages_and_compatible_recurrence": true,
+  "bounded_stabilization_and_actual_graded_cohomology_comparison": true,
+  "abstract_mapping_cone_spectral_object_comparison": false,
+  "protected_comparator_run": false,
+  "external_kernel_checks_run": false,
+  "challenge_rendered": false,
+  "palomar_intake_attempted": false,
+  "publication_role_check": "arthurpalomar742 already has write; observed via connected GitHub read-only tool",
+  "environment": {
+    "host": "selected cloud executor; no Mac commands",
+    "workspace_disk_available_bytes": 31540047872,
+    "cgroup_memory_max_bytes": "17179869184",
+    "cgroup_cpu_max": "400000 100000",
+    "cache": "matching pinned checkout and ignored build cache reused; missing mathlib modules fetched successfully",
+    "network_limit": "direct Palomar recent.json returned HTTP 403 during initial survey; GitHub and mathlib cache worked"
+  },
+  "stage": "local-package-complete",
+  "repository_tool_sha256": {
+    "scripts/check_imported_definitions.py": "cd477dfcc1a762476d21176cada2617ab7d042cb02ef52dad9b418d6c0327fe0",
+    "tests/test_imported_definitions.py": "4c398bda8fd8a9baffef5761aba31a492ba8b9ed7d982285184e6102e51635d5"
+  },
+  "canonical_pipeline_validation_commit": "07a02bae1e85c75ae349d0e75195162d16d41e21",
+  "canonical_pipeline_worktree_file_sha256": {
+    ".github/scripts/check_retired_intake_wording.py": "ce894c37d3ebb31515df860af82fec2c7c1efd0472ee1ee8495aac12e4878cb5",
+    ".github/workflows/ci.yml": "0bde6376fc2b8e919a092851ea5e6d3fed3f9fcdf8f68b9f30ff78d214ad89df",
+    ".github/workflows/compatibility.yml": "970716963052c7b2dedb7678a53e4199fe50d9559b1a43b90b831b2829a01c1e",
+    ".github/workflows/render-challenge.yml": "d89c07650b3ec0843fc7e041c04a14efcacf01cdb53d750a3d960e377a631736",
+    ".github/workflows/submission.yml": "10d97d59e223c3378d4b96601260f26fec1b27d4fd94739bc06a63ec3bab9c17",
+    ".gitignore": "9eaec5e42eba7513b66e11e948ea1f2c38f6b1107c989178a791d155d1207038",
+    "Gemfile": "c0197db488ffa8e154edea20a26fa7a1c1c3e89675dfce43e72c16831966dd9b",
+    "Gemfile.lock": "d93caad3b41ab81138c1770dcde1415ac9aa47e8e469ea25b3f876a9f3d2cdff",
+    "LICENSE": "10321b0cca2b8025d4b5065dd20e22c1f74da2e872c12363e3601974e093bc21",
+    "README.md": "f2804567be02b85527191ffaed8e52e9ab76052ea2b6c7f0e7e1fe7b93722045",
+    "SECURITY.md": "fd11fde80ab1279b5b1cd7e7e4ac09da654d150dc79ff178491c6ff626807b9f",
+    "allowed-challenge-repositories.json": "bfb114daf5ead308052ccec85b1029aa0c875bebe6eec8f642df57f2ddbd8971",
+    "browser-preflight-policy.json": "d3d0003b7a043695c5cb06c117253e248406e0723bbfe2cac50afb703fa97046",
+    "checker-revisions.json": "f8bf5d9df7e38fb16d667003b1b47dd28aaf4dc380ce01b50df3f8c36a79c6f3",
+    "docs/comparator-declaration-closure.md": "ee8f15e73810c0ef36672deebcb7d958538940a931d7fc96c256f7f29cf8a10d",
+    "docs/launch-security-review.md": "469b124d30bc4cf65f4018052a4a3438bc48825ee4002567eb6c16036551ce86",
+    "docs/mathlib-cache-trust.md": "9e4cddd89fdfb9f325b76f91489379f469ea8cda7126bf82101be259510aa597",
+    "execution-profiles.json": "6a940ec74ac122f3989f2468d479982472d928764a57646cbcb81f0dbf6b5e7b",
+    "formalization-profile.json": "d695b838bbab69236f6e43afda6bd4d719a91099412351f89c3c2cfeb26d5131",
+    "licenses/tippy-MIT.txt": "7f4929c55f525ae510a77c361496c5a86a092434a3681c95a4dc89e951c67e98",
+    "licenses/verso-Apache-2.0.txt": "8b28515ffffc5c0fe2807d8ae3735b00b324d9b7ce807dd63ff6ac8922fbce7e",
+    "pyproject.toml": "22362d5177cc45c64a54004323d6f513e2e27e91893069a41ded3d383c5f2fb4",
+    "requirements-lint.txt": "ab743d45859d1a411ba31b6f3ef8c1251da090896171ab0084471cac358a1c83",
+    "requirements.txt": "5144c14fbd798e2eb36ce329776b1c7f15f309f007f93003c30d29ddd9261536",
+    "scripts/__init__.py": "7e0c8455d9e8f146ed94c7bef905f2b2888f9a54b1701e085c2419e43079be6b",
+    "scripts/browser_preflight_policy.py": "5ed8123eac7ad281b7471af6ca5d389c724b9b5d47e97007b8ffb622ab0ae09c",
+    "scripts/cgroup_delegate.py": "c8a44ea58ed9a94db2caf21c66cee3f664c86370fabd50ba56e22fa9d9345824",
+    "scripts/checker_updates.py": "a912a25f2770a5dbc5edb5e6f2b0948db03d68325179c1e8e3b9f08152001384",
+    "scripts/core_notation_audit.lean": "47ee22447f312db83e764e8eab015a0db49b7317d2fccb4314f52b6a6cad2e3d",
+    "scripts/detect_license.rb": "7cc4ad2c63633b307c42808cbe29b6df799ef93f6c7560456e2637bc376f35f8",
+    "scripts/install_bwrap.sh": "c290df6cebdf1cb26edb69ed4164d9551062bfeb65243b93d1d1d3b77eac0a35",
+    "scripts/kernel_outcomes.py": "63329382f969ca8280661076ab4ce7dc1d9a1b54083d2c8a9d57a25a16486e79",
+    "scripts/measure_resources.py": "d465e7ef200e9a1c908da51a8b8f90898995df05a56066ea6a3e15b027b2e183",
+    "scripts/orcid_validation.py": "2f368bf27a27f150da1a03f502ff0f45845fce1d5ebcf8dcfcf10908b5d360b7",
+    "scripts/render_challenge.py": "bd0e82e9a21b3995ed182ef956e3d30640d8a38e28a6edc018462004d47c481a",
+    "scripts/render_report.py": "5a8dc3cbd803cd4bb302c7a30a51879b207677ee6b18cdf3e91a9bc388eaa455",
+    "scripts/render_styles.py": "9f049426681219efaa31933905529f80021f7ea5ccfafee48d76490e3a118f28",
+    "scripts/seccomp_filter.py": "ef2a7ac79d696d7eafdcaed06dc840701318b8da5a28ea3090c282ffee97d85a",
+    "scripts/smoke_render_module_identity.py": "17654358fb622836928d301baf7f5f7274cc387745faf9dd657d134a9fba6113",
+    "scripts/smoke_trusted_challenge.py": "61155c44e7292117e99ec9bda0c75642fb4669a7aba955b4358d34cedf5116ca",
+    "scripts/source_requirements.py": "971950a45500ad8ba8c9061eb51716bc1c38f411ff877c447b6de527b23d2c6d",
+    "scripts/submission_contract.py": "264b7da57bd099b7cd4da15b580b32978671a60b8b396c60920f584176224cc3",
+    "scripts/supervise_cgroup.py": "3cf9af4fa405e0e2e1bf1e06abe4b53887c1e4a7d5ebe9a6f20b5cf6a66f0e58",
+    "scripts/trusted_download.py": "4897b14702eeaad47b3fd35e01ad960e84f43660ed97e2250a6eba25323736bc",
+    "scripts/trusted_git_fetch.py": "ad0b3e79afc606d6532d3f7f110feae25eb9a8b0c27159e03fe06f67aa447f5c",
+    "scripts/verification_errors.py": "ce58c4adc2f896a8ce69961d1f49ada7f571d86f9638a196f34197e3293cc776",
+    "scripts/verification_profile.py": "5990b4da4074cabb79dfb5c9c8c4dc75d8d409553b3e023627ec3b485e2d26e4",
+    "scripts/verify_submission.py": "ceb73190a31dfd58d3a3c4f9139f1755b4a805727e938afbb4d978e72401b951",
+    "scripts/workflow_inputs.py": "0a564f08c2d2628b441c33310d63ab9dddd3caacd32bc0aa52742c30387b429c",
+    "scripts/workflow_report.py": "93d481005cd98cd2da0dbe02af2ab3164d8da2748e09152673ec66d900d25ad7",
+    "taxonomies/LICENSE.md": "061fccfbd5270148cc253102608ec792c4c4e044753b92ce9db391a97f781d6f",
+    "taxonomies/README.md": "9d6be115efeb98e465ed96223ab9ce88e8e4dec6b5f283722dfe552854abe59f",
+    "taxonomies/arxiv-categories.json": "3b339cf140a914c50bab39b1c44df2437ce3984bd09bb2150fcb0edd60eda776",
+    "taxonomies/msc2020-codes.json": "b4de69f1f562da01e0f4580cecc0ab36098f5297bb7cdd669c8ec3b0d3606060",
+    "tests/__init__.py": "8f3df158c4330c99fa3b6fa1dce268fb5e2258ea6d14746d02e51c96491baf7c",
+    "tests/fixtures/browser-preflight.json": "7fcb8dfc373ba52aeeadf05361e6531a2e35c435c8404910662021d7f4bcd074",
+    "tests/fixtures/cold-cslib/PalomarCold/Challenge.lean": "99b3fbdf940ee1ddb152d50a38eadb33196cf32c5f3e877f7dc6a422e2339d74",
+    "tests/fixtures/cold-cslib/PalomarCold/Solution.lean": "3074583eac5eba78303f35866ee86d9fdcd93a91892fefeee51a7c0103f4a4bd",
+    "tests/fixtures/cold-cslib/comparator.json": "580419f25337a7fb13d723ed5ec3501722f2593e780cd1cdbc88b2e2a265591a",
+    "tests/fixtures/cold-cslib/lake-manifest.json": "3f83d7a9281cde13ab2a238cd635e9626723c602e2ee51d6bd45d2b895e6bcef",
+    "tests/fixtures/cold-cslib/lakefile.toml": "f84aad8da21cfea62d66fddfef8a92b7dbf2c2f83f231a6ea835da3f576ae31d",
+    "tests/fixtures/cold-cslib/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "tests/fixtures/lean-source-requirements.json": "34c73e6dbcb01844dca2f6598744adb35c569a38c7085741bf645f6442a36fe7",
+    "tests/fixtures/palomar-template-comparator.json": "ecb5fdece4f95702adc4dc86988c9315717e77ebfbda6d6d420571ddbe42e9fc",
+    "tests/fixtures/palomar-template-formalization.yaml": "04f3c577a1315833b7cf04ac8d7c8762689067a527a9cc3ec7f64f2ffbf12e24",
+    "tests/fixtures/reusable-preflight/Challenge.lean": "e1f57b37db8872a25da0bd7c1bc0f8292f25973dde384de6efaf9fc57ad6f4c0",
+    "tests/fixtures/reusable-preflight/Solution.lean": "e1f57b37db8872a25da0bd7c1bc0f8292f25973dde384de6efaf9fc57ad6f4c0",
+    "tests/fixtures/reusable-preflight/comparator.json": "0d8643b38143bd1506733c54936292d4598aed79799d44361a70adc5dfbe8945",
+    "tests/fixtures/reusable-preflight/formalization.yaml": "47907b2e0a61fcb2231060d0b3080a724112cafb8c97cbc86d0b56c25fccd092",
+    "tests/fixtures/reusable-preflight/lakefile.toml": "b310b5d01a166a2e23e31e2e002bbdf8e544b4ab4fb2ee8c8c97c7ed9dc917c1",
+    "tests/fixtures/reusable-preflight/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "tests/fixtures/verso-render-css/README.md": "c5955b34886e96f9f36b6e8c870e7d896b8627e9f5d425373e6df39da074d52b",
+    "tests/fixtures/verso-render-css/code.css": "791b203b77e466c48504f32e5c794ecfbfa21d262bcabcd4a080f97194cfe529",
+    "tests/fixtures/verso-render-css/highlighter.css": "874c9b3c310261e50adabc476d7b47bd3a627aa52e3e9d15c7722dfb39464cdb",
+    "tests/test_browser_preflight_contract.py": "9ba6f8a54b44359c5a5216cd3e7942cadd4f9320db7390f8bb1dba536f3dbf2e",
+    "tests/test_checker_updates.py": "eb6be66672dd493c66101f948aea6227475c1b8fb078e9f977bb53dafe9ca56c",
+    "tests/test_compatibility_workflow.py": "d75f7651f5da684abc2bb25cbf05ae60c57002b3e64b591a78221582cf832546",
+    "tests/test_documentation.py": "d837082b118fe0bfc258d5f291ae1bf2daa95623a7ddbaac90a26a8e67452b8a",
+    "tests/test_kernel_outcomes.py": "ec54e6e96d9155cb3fb4cc61ab838e4edae6f7969ed68a62b20e9aeefcedde42",
+    "tests/test_lint_workflow.py": "419673531acd49ca3b456e0debf294ec6e61793a9d6be1af952c02b64e84fe6a",
+    "tests/test_orcid_validation.py": "5942db2937d160f162ec3a6d4e98f29da5379a2273f88c29e27e60b147a041c6",
+    "tests/test_preparation_reporting.py": "aad0b768efaccaa804ca0eb58abf81960d5fb6a8ef194d5e94b39417a92ca338",
+    "tests/test_render_challenge.py": "6919396e3278c3526e1c99cc2994a432567442a3f59222cff68d409632d65c60",
+    "tests/test_render_report.py": "d0bf61c9c0541090ee071cb85416b919661497668a1303f712e77217ee4f0b0f",
+    "tests/test_resource_supervision.py": "ee1dfcf7749b70bce1aaa81ef0872451761ae815cc3321d59c4c20a275786539",
+    "tests/test_retired_intake_wording.py": "5e8f6630c8050c5da6d3feefb4877c0f64e3db8f67c06df9c15e0a56f7a7a86a",
+    "tests/test_sandbox_integration.py": "7706e1900c78c3b76cb6f9a7fcaa0ecfb0dc88658bb836c6a49167bf06bbfe69",
+    "tests/test_source_requirements.py": "3f615fe5dc99a892a66d92ca2fee60a2d9abccd31b0e8a3024222ceaec482aa8",
+    "tests/test_submission_contract.py": "bddd7087f88226ad9c0b7099086c3aee02e991eaaf3ba4975844140551fcb77c",
+    "tests/test_verification_profile.py": "15d965be37cb0a28c549ffe1b70a2784a97adfd7c8f0d866ec240923cd38e914",
+    "tests/test_verify_submission.py": "321225614500f673f9449bd85c39e10e53486ca9967e8ca3651c2882bec83002",
+    "tests/test_workflow_recovery.py": "cd2298d8374458ee75fed74ade64d0864f88fc16e085a829d7483eac41a85c4c",
+    "tmp9kdf8y_a/m.jsonl": "0c2107ec660d966027424af34183ad6b8add70cad6a0294649ef5b344b352a53",
+    "toolchains.json": "fd40347e4b586e7c42233b35f11efb006d25033b9a7ded9565719edf7aa98354",
+    "verification-profile.json": "94fcd7906a1b6c076c0036d742e1c5add8625e49bb474818ec8924576dbf0caa"
+  },
+  "metadata_schema_and_comparator_configuration_valid": true,
+  "source_requirements": {
+    "schema_version": 1,
+    "module_required": true,
+    "maximum_lines": 10000,
+    "files_checked": 229
+  },
+  "selected_theorem_count": 8,
+  "selected_definition_count": 17,
+  "selected_challenge_axioms": {
+    "AlgebraicHodgePilot.exists_closed_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.all_differentials_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_covers": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.bounded_e1_degeneration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.zeroPageHomologyIso_\u03c0": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.ImageKernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.RectangularSupport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.HorizontalSupport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.boundaries": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.Page": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedCycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedBoundaries": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedDenominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.InfinityPage": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.GradedCohomology": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "selected_solution_axioms": {
+    "AlgebraicHodgePilot.exists_closed_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.all_differentials_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_next": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_covers": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.bounded_e1_degeneration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.zeroPageHomologyIso_\u03c0": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.ImageKernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.RectangularSupport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.HorizontalSupport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.filtration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.boundaries": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.Page": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedCycles": [
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedBoundaries": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.closedDenominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.InfinityPage": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Filtered.GradedCohomology": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.firstPageIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.associatedSequence": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "material_inventory": {
+    "status": "pass",
+    "project": "/workspace/Math-Formalization/algebraic-hodge/ddbar-pilot",
+    "material_declarations": [
+      "Field",
+      "Module",
+      "ModuleCat",
+      "ModuleCat.Hom",
+      "LinearMap",
+      "Submodule",
+      "LinearMap.ker",
+      "LinearMap.range",
+      "Submodule.map",
+      "Submodule.comap",
+      "Submodule.quotientRel",
+      "Submodule.Quotient.mk",
+      "Submodule.mkQ",
+      "Submodule.liftQ",
+      "ComplexShape",
+      "ComplexShape.up'",
+      "ComplexShape.up",
+      "HomologicalComplex",
+      "CategoryTheory.Iso",
+      "CategoryTheory.SpectralSequence",
+      "CategoryTheory.ShortComplex",
+      "CategoryTheory.ShortComplex.LeftHomologyData",
+      "CategoryTheory.Limits.IsLimit",
+      "CategoryTheory.Limits.IsColimit",
+      "CategoryTheory.ShortComplex.HomologyData",
+      "CategoryTheory.ShortComplex.HasHomology",
+      "CategoryTheory.ShortComplex.homologyData",
+      "CategoryTheory.ShortComplex.homology",
+      "HomologicalComplex.shortComplexFunctor'",
+      "HomologicalComplex.homology",
+      "HomologicalComplex.homologyIsoSc'",
+      "CategoryTheory.ShortComplex.moduleCatLeftHomologyData",
+      "CategoryTheory.ShortComplex.moduleCatHomologyIso",
+      "CategoryTheory.ShortComplex.LeftHomologyData.ofZeros",
+      "HomologicalComplex\u2082.total",
+      "HomologicalComplex\u2082.\u03b9Total",
+      "CategoryTheory.GradedObject.mapObj",
+      "HomologicalComplex\u2082.d\u2081",
+      "HomologicalComplex\u2082.d\u2082",
+      "CategoryTheory.ShortComplex.RightHomologyData",
+      "CategoryTheory.ShortComplex.LeftHomologyData.homologyIso",
+      "TotalComplexShape",
+      "ComplexShape.TensorSigns",
+      "Int.negOnePow",
+      "LinearEquiv",
+      "LinearEquiv.ofBijective",
+      "LinearEquiv.toModuleIso"
+    ],
+    "retained_source_files": 30,
+    "retained_excerpts": 63,
+    "upstream_origin": "exact-pinned-clean-Git-source",
+    "upstream_files_authenticated": 30,
+    "bridge_compilation": "separate actual Lean build required",
+    "scope": "Retained evidence consistency; inventory completeness and mathematical fidelity require independent review."
+  },
+  "compiled_challenge_module_count": 3214,
+  "local_interface_types_kernel_defeq_in_solution_environment": true,
+  "local_exact_pinned_compareAt_and_literal_definition_values": true,
+  "local_interface_limit": "Actual pinned comparison function over writable local environments, including random Challenge alias and in-memory rejection controls; no protected canonical run or external-kernel replay.",
+  "challenge_bytes": 62760,
+  "challenge_lines": 995,
+  "challenge_readability_warning": true,
+  "protected_positive_negative_controls_run": false,
+  "browser_visual_inspection_run": false,
+  "release_packet_guard_run": false,
+  "canonical_execution_blocker": "Corrected source has not had a canonical run. Original source c3107f8 failed in approved run39894330468; that approval is consumed. No new hosted run is authorized. Local namespace restrictions remain; no security workaround attempted.",
+  "completed_at": "2026-10-23T03:54:07.025789+00:00"
+}
