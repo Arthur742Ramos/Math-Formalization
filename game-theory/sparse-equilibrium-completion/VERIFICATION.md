@@ -26,17 +26,20 @@ config, exact native toolchain, locked Mathlib source, commands, logs and export
 The native verification sequence builds both independent contracts, all actual
 axiom reports, the definition bridges through each entrypoint, and a semantic
 counterexample proving that cuts cannot replace omitted-row guards. The protected
-Challenge is a deterministic assembly of the exact316 local mathematical source bodies with
-full proofs, zero definition holes, and exposed public declarations; it is
-compiled under a different module alias
-without importing the solution. The unchanged pinned `Lake.Check.compareAt` API
+Challenge imports 373 protected source modules that preserve the canonical
+module boundaries, full proofs, exposed public declarations and zero definition
+holes. Each protected copy changes only project import tokens to protected
+aliases, without importing the canonical modules or the solution. The 432 default
+targets reach 805 local modules; a separate isolated phase compiles the 373
+protected copies and one aggregator. The unchanged pinned `Lake.Check.compareAt` API
 compares dependency identities. A modified fixed `envelope` definition must be
 rejected. `Lake.Check.checkAxioms`, native module checking and independent checking
 of the solution export provide separately logged checks. No custom comparison
 normalization is introduced.
 
-`scripts/assemble_challenge.py --check` authenticates this assembly. Source module
-imports are replaced by their fixed bodies; external Mathlib imports are retained.
+`scripts/assemble_challenge.py --check` authenticates the protected import
+aggregator and exact source-copy mapping. Project import tokens refer to the
+protected copies; declaration bodies and external imports are retained unchanged.
 The immutable first foundation checkpoint remains tagged separately with its own
 exact-source receipt; later development never inherits that receipt automatically.
 

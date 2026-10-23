@@ -78,15 +78,21 @@ def capture(root, prefix, source_files, extra_files):
         if name in resolved:
             continue
         relative = Path(name.replace('.', '/'))
+        package = name.split('.', 1)[0]
         selected = None
         for artifacts, sources in pairs:
-            if (artifacts/relative.with_suffix('.olean')).is_file():
+            # Lean.Util.Path.findWithExt selects the first package root, even
+            # when this particular module is missing there. Never fall through
+            # to a later split-package overlay that Lean would not load.
+            if (artifacts/package).is_dir() or (artifacts/(package+'.olean')).exists():
                 if artifacts == prefix/'lib/lean' and (name == 'Lake' or name.startswith('Lake.')):
                     sources = prefix/'src/lean/lake'
                 selected = artifacts, sources
                 break
         require(selected is not None, 'Missing external module; no fallback build: '+name)
         artifacts, sources = selected
+        require((artifacts/relative.with_suffix('.olean')).is_file(),
+                'Module missing from first selected package root: '+name+' at '+str(artifacts))
         source = file_record(sources/relative.with_suffix('.lean'))
         records[source['path']] = source
         facets = []

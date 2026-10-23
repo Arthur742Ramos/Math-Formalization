@@ -45,6 +45,53 @@ class InputEnvelopeTests(unittest.TestCase):
     def envelope(self):
         return capture(self.root, self.prefix, [self.own], [self.root/'lake-manifest.json'])
 
+    def external_module(self, dependency, name, contents):
+        source_root = self.root/'.lake/packages'/dependency
+        relative = Path(name.replace('.', '/'))
+        source = source_root/relative.with_suffix('.lean')
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('module\npublic section\n')
+        for suffix in FACETS:
+            target = source_root/'.lake/build/lib/lean'/Path(str(relative)+suffix)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(contents)
+
+    def import_external(self, name):
+        self.own.write_text('module\npublic import '+name+'\npublic section\ndef own := 1\n')
+
+    def test_first_package_directory_refuses_missing_module_despite_later_copy(self):
+        first = self.root/'.lake/packages/dep0/.lake/build/lib/lean/Fixture'
+        first.mkdir(parents=True)
+        self.external_module('dep1', 'Fixture.Child', b'later complete module')
+        self.import_external('Fixture.Child')
+        with self.assertRaisesRegex(ValueError, 'Module missing from first selected package root'):
+            self.envelope()
+
+    def test_first_package_olean_refuses_missing_child_despite_later_copy(self):
+        first = self.root/'.lake/packages/dep0/.lake/build/lib/lean/Fixture.olean'
+        first.parent.mkdir(parents=True)
+        first.write_bytes(b'package root without child directory')
+        self.external_module('dep1', 'Fixture.Child', b'later complete module')
+        self.import_external('Fixture.Child')
+        with self.assertRaisesRegex(ValueError, 'Module missing from first selected package root'):
+            self.envelope()
+
+    def test_first_complete_package_selected_over_distinct_later_copy(self):
+        self.external_module('dep0', 'Fixture.Child', b'first complete module')
+        self.external_module('dep1', 'Fixture.Child', b'later different module')
+        self.import_external('Fixture.Child')
+        row = self.envelope()['resolved_modules']['Fixture.Child']
+        self.assertEqual(row['artifact_root'],
+                         str(self.root/'.lake/packages/dep0/.lake/build/lib/lean'))
+        self.assertTrue(all('/dep0/' in facet['path'] for facet in row['facets']))
+
+    def test_unshadowed_later_package_selected(self):
+        self.external_module('dep1', 'Fixture.Child', b'unshadowed later module')
+        self.import_external('Fixture.Child')
+        row = self.envelope()['resolved_modules']['Fixture.Child']
+        self.assertEqual(row['artifact_root'],
+                         str(self.root/'.lake/packages/dep1/.lake/build/lib/lean'))
+
     def test_runtime_roots_even_without_target_imports(self):
         result = self.envelope()
         self.assertEqual(result['runtime_roots'], ['Init', 'Lean', 'Lake'])
