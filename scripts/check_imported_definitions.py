@@ -41,8 +41,11 @@ def local_file(root, name):
 def declaration_head_matches(name, kind, body, *, legacy=False):
     """Match the complete retained declaration name, including a trailing prime."""
     terminal = re.escape(name.split('.')[-1]) + r"(?![\w'!?.])"
+    # Lean's `class inductive` remains an inductive declaration with a class attribute.
+    # Only this exact modifier is accepted, and only for the inductive kind.
+    kind_prefix = r"(?:class )?inductive" if kind == 'inductive' else re.escape(kind)
     prefix = r'(?m)^def ' if legacy else (
-        r"(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?" + kind +
+        r"(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?" + kind_prefix +
         r" (?:[A-Za-z_][\w']*\.)*")
     return bool(re.search(prefix + terminal, body))
 

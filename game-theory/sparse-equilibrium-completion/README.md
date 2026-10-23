@@ -6,6 +6,21 @@ in `Arthur742Ramos/aoe2-equilibrium-balance`, under
 `research/sparse-equilibrium-completion`. It is a partial development, not a
 whole-paper formalization or a submission-ready entry.
 
+The current integration draft assembles the closed cohort of 57 new mathematical
+modules, 442 theorem proofs and 627 named APIs over historical b5. Its draft
+configuration has 373 mathematical modules, 1852 theorem audit targets and 185
+non-theorem audit targets (2037 named reports), 1742 selected protected contracts,
+and 432 default targets. These are source/configuration counts. Integrated verification requires an
+external receipt bound to the exact commit and tree, covering source consistency,
+build, protected comparison, exports and kernels. The constituent cohorts have separate bounded
+checks and internal AI reviews; those receipts do not verify the assembled tree.
+
+Historical commit `b5a0fbfd6968db1bda7aae252660bac2236a2b68` passed all 12
+native verification gates, with external receipt SHA256
+`bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.
+That result applies to b5's exact bytes. Whole-paper completion and submission
+readiness remain false.
+
 The development proves the weighted completion criterion in both directions,
 including zero-weight row guards, the quadratic call-envelope equivalence and the
 finite quadratic grid implication. Finite-feature recombination gives actual
@@ -100,9 +115,10 @@ compact-class optimistic values and their support-budget restrictions attain
 actual minima and satisfy the endpoint perturbation bound. Actual anchor-clone
 games and universal sparse upper witnesses give the quantified joint-k order.
 Finite-grid gap correctness, exclusion and monotonicity are proved over the reals.
-The zero-floor global sparse-output composition is proved below. Efficient flow
-reconstruction, executable sorted separation and polynomial operation/bit-cost
-clauses remain tracked gaps in SCOPE.md; whole-paper readiness is unestablished.
+The zero-floor global sparse-output composition, actual sorted separation and
+graph-flow reconstruction are proved in later tranches. Complete operational
+and bit-cost clauses remain tracked gaps in SCOPE.md; whole-paper readiness is
+unestablished.
 
 The algorithm tranche proves an actual computable rational certificate checker,
 compact attained fixed/gap optima and the additive enclosure W≤V≤W+η.
@@ -453,7 +469,7 @@ covers the mathematics, proof repairs and receipt authentication. These narrow
 checks are not a clean exact-commit whole-package verification. All completed
 mechanical gates for the integrated candidate are bound by immutable evidence
 outside the frozen source; predecessor836ab90 passed all12 native gates for its
-own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and executed supplied-cover encode/decode transport remain open. Native macOS checks do not establish
+own bytes. Whole-paper and submission readiness remain false. At predecessor273fb8c, perspective violating-cut output and affine separation were open; the later52 tranche below supplies them. Complete arithmetic/bit costs, polynomial rational LP/flow guarantees, efficient sparse vertex selection and complete supplied-cover solver/cost composition remain open. The new draft supplies the finite supplied-cover encode/decode adapter described below. Native macOS checks do not establish
 canonical Linux, rendering or editorial readiness. No submission is authorized.
 
 ## Computed violating cuts, separation and flow foundations
@@ -639,16 +655,19 @@ polynomial exact rational LP and complete arithmetic/encoding/bit costs are
 tracked separately. No registry or journal submission is authorized.
 
 
-## Graph-bounded flow and canonical paper compression
+## Historical b5: graph-bounded flow and canonical FM compression
 
-The current source extends the historical155 integration with100 mathematical
+The historical b5 source extended the155 integration with100 mathematical
 proofs across12 modules:316 mathematical modules,1410 theorem audit targets
 and1300 selected protected contracts in total. The earlier integrated commit
 `f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` passed all12 native gates;
 its immutable external receipt has SHA256
 `550205def6d34828d33a514e9d4a8a379f3542f6894234f16a563986241ea0f6`.
-That result applies to that historical commit. Mechanical status of this
-extended source is determined by its own exact-source receipts.
+That result applies to f3daca0. The later b5 commit
+`b5a0fbfd6968db1bda7aae252660bac2236a2b68` also passed all12 native gates,
+with external receipt SHA256
+`bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.
+Neither historical receipt verifies the new assembled draft.
 
 Actual shortest residual paths earn monotone levels and a two-level increase
 between recurring critical arcs. Successful augmentation traces have length
@@ -675,14 +694,64 @@ separately. Graph-flow wrappers produce an actual rational residual payoff
 completion and prove full normalized compatible-game response bounds on the
 original labels, with one additive eta.
 
-The kernel search in this integrated source uses Fourier--Motzkin elimination.
-Some returned weight functions may recompute their search when read; no
-operational sharing or polynomial kernel runtime is inferred. Separate newer
-Gaussian, input-height and source-event developments are outside this source.
+The kernel search at b5 uses Fourier--Motzkin elimination. Some returned
+weight functions may recompute their search when read; no operational sharing
+or polynomial kernel runtime follows. The current draft additionally assembles
+the materialized Gaussian, input-height and source-event cohorts described below.
 The100 additions have strict narrow audits and66 asserted controls, independent
 internal AI source reviews, and an expanded reviewed imported-definition
 inventory with22 bridges checked in both historical entrypoint contexts.
-Those checks do not replace this source's integrated protected/native gates.
+Those bounded checks are distinct from b5's completed integrated gates and
+from the exact-source evidence required for the combined draft.
 Whole-paper completion remains false: polynomial rational LP, arithmetic,
 intermediate heights, bit costs and the remaining source-specific algorithm
 composition still require proofs. No registry or journal submission is authorized.
+
+
+## Current draft: materialized Gaussian output and bounded encoding
+
+`RationalGaussianKernel` implements deterministic finite rational pivoting and
+stores its residual tables and returned vectors. Soundness, completeness and
+nontrivial returned directions are proved for that actual program. The
+`rationalGaussianCompressVector` iteration materializes the original-label
+weights. Its paper general/exact wrappers feed those same weights to the actual
+graph-fuel demand decoder and return a materialized rational payoff table.
+The game contracts preserve nonnegativity, mass, original zeros, anchor/extra
+moments and the canonical general/exact support counts, with the stated
+positive-parameter and normalized-game hypotheses and a separate zero-mass case.
+The older Fourier--Motzkin entrypoints remain separate functional programs.
+
+Earned original-input bounds control cleared matrices, actual Gaussian minors
+and selected transient values, returned kernel directions, iterated weights and
+the actual graph-decoded payoff entries. The literal paper-pair second
+projections have explicit numerator/denominator and canonical-encoding bounds.
+The exponents retain their dimensions and canonical grid count. They do not yet
+supply a polynomial bound in the binary length of every original numerical
+parameter. Connected flow and Gaussian source-event ledgers have erasure
+identities and polynomial bounds for their stated aggregate event models;
+a complete operational cost bridge and primitive arithmetic bit costs remain open.
+
+The LP35 cohort proves a classical small rational feasible-point theorem from
+input heights and boundedness of the same feasible set. Its actual gap and
+interval/repertoire wrappers earn those bounds from the original data. This
+is an existence result, with no algorithm for finding the point or height
+claim for the existing FM solver's returned point. Cone17 constructs rational
+affine coefficients for the fixed-tolerance m-prefix rotated-cone rows, proves
+rational/real satisfaction bridges and completion equivalence under sorted
+scores, nonnegative weights of the prescribed mass and positive M, and counts
+dense scalar coordinates.
+A general conic or polynomial rational LP solver remains open.
+
+Finite supplied-cover tables execute encode/decode on the original finite
+labels. The rational cover program returns actual full-game weights and payoffs
+with the retained cover data and proved original-label response guarantees,
+including zero residual mass. The cohort also includes the uniform graph's
+minimum cover value two for positive residual count, threshold strong-loss cover
+bounds and the literal
+245-action example with an eleven-action witness. No eleven-action minimality
+or efficient cover-finding claim is made.
+
+This closed627 integration excludes the later Farkas13, Vertex20, Gap17 and
+storedcost59 cohorts. A full polynomial rational LP solver, complete operational
+and bit costs, the remaining source-specific algorithm compositions and
+whole-paper completion remain open. No registry or journal submission is authorized.

@@ -1,6 +1,6 @@
 name = "sparseEquilibriumCompletion"
 version = "0.1.0"
-defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "CompletionDual", "CompletionGeometry", "CompletionCriterion", "SparseCompletionWitness", "PaperWitness", "PrefixRigidity", "TwoAnchorRigidity", "MinimumShareRigidity", "PrefixStability", "MinimumShareStability", "Quantization", "SupportQuantization", "SupportLowerBound", "SupportRate", "SupportMinimum", "ResidualMinimum", "IntervalLower", "CoreLower", "BinCompression", "BinnedWitness", "BalancedBins", "BinnedCompletion", "BinnedMoments", "BinnedGame", "BalancedGame", "CoreAdjustment", "NoiseUpper", "NoiseSharp", "MidpointExact", "BinnedExact", "MidpointGame", "BalancedExact", "AllMassWitness", "ExtraMomentCuts", "ExtraMomentGameCertificates", "ExtraMomentCompletion", "ExtraMomentWitness", "ExtraMomentAllMass", "ScorePrefixes", "ConicCompletion", "ConicConvexity", "IntervalPerspective", "IntervalConic", "ObservationCover", "CoveredWitness", "IntervalProjection", "WeakCover", "WeakCoverWitness", "IntervalLossMaximum", "WeakCoverMaximum", "CoverRelabel", "ArbitraryCover", "ArbitraryWeakCover", "IntervalLossOrder", "IntervalConvexity", "GapCertificates", "GapFeasibility", "IntervalRepertoire", "IntervalStability", "OptimisticValue", "ValueStability", "SupportCompact", "OrderedStability", "ThresholdSeparation", "IntervalSeparation", "JointSupportFoundation", "JointSupportLower", "JointSupportUpper", "JointSupportTheorem", "JointSupportGeneral", "RationalCertificate", "RationalCertificateSoundness", "RationalCertificateChecks", "FixedValue", "GapCompact", "ValueBounds", "GapValue", "AllocationRounding", "AllocationGrid", "AllocationResponse", "AllocationValue", "AllocationApproximation", "IntervalGap", "IntervalGapGame", "Bisection", "BisectionChecks", "IntervalGapEpigraph", "GapSparse", "IntervalGapSparse", "RationalGrid", "RationalGridSizeBounds", "RationalGap", "RationalGapChecks", "RationalGapEncoding", "RationalOneVariable", "RationalOneVariableFinite", "RationalOneVariableFintype", "RationalLinearSystem", "RationalLinearSolver", "RationalLinearReal", "RationalLinearTransfer", "RationalGapDecision", "RationalGapSearch", "RationalGapRealDecision", "RationalResidualCompletion", "RationalResidualSolver", "RationalResidualGap", "RationalRepertoire", "RationalGapAlgorithm", "RationalGapValue", "RationalOneVariableChecks", "RationalLinearSolverChecks", "RationalResidualChecks", "RationalResidualGapChecks", "RationalGapAlgorithmChecks", "RationalLogRounds", "RationalAlgorithmCertificate", "RationalCertifiedApproximation", "RationalIntervalRecovery", "RationalIntervalGap", "RationalIntervalVariables", "RationalIntervalForms", "RationalLinearForms", "RationalIntervalEncoding", "RationalIntervalPoint", "RationalIntervalEvaluation", "RationalIntervalSystemPoint", "RationalIntervalPack", "RationalIntervalSolver", "RationalIntervalGameOutput", "RationalIntervalRealPoint", "RationalIntervalRealNecessity", "RationalIntervalRealSolver", "RationalAutomaticChecks", "RationalIntervalPhysical", "RationalIntervalRepertoire", "RationalIntervalPhysicalNecessity", "RationalIntervalRepertoireSolver", "RationalIntervalRepertoireReal", "RationalIntervalRepertoireGame", "RationalIntervalPhysicalProjection", "RationalIntervalMonotone", "RationalIntervalSearch", "RationalIntervalModel", "RationalIntervalClass", "RationalIntervalValue", "RationalIntervalOutputClass", "RationalIntervalValueCertificate", "RationalIntervalAccurate", "RationalIntervalRepertoireChecks", "RationalIntervalParameters", "RationalIntervalConsistency", "RationalIntervalInitialize", "RationalIntervalInitializedAlgorithm", "RationalIntervalInitializedSoundness", "RationalIntervalInitializerChecks", "AllocationReservoir", "AllocationReservoirValue", "RationalFiniteSelection", "RationalAllocationGrid", "RationalAllocationRun", "RationalAllocationSearchSoundness", "RationalReservoirApproximation", "RationalFloorRepertoire", "RationalAllocationCompleteness", "RationalAnchorApproximation", "RationalFloorGridPhysical", "RationalIntervalWitnessClass", "RationalFloorGridGame", "RationalFloorGridAccuracy", "RationalFloorClass", "RationalFloorGlobalAccuracy", "RationalReservoirRepresentation", "RationalNoResidualGame", "RationalNoResidualAccuracy", "RationalInitializedUpperWitness", "RationalFloorClassWitness", "RationalFloorValueCertificate", "RationalReservoirClass", "RationalNoResidualGlobal", "RationalFloorSearch", "RationalFloorAccuracyParameters", "RationalFloorAutomatic", "RationalFloorTotalClass", "RationalFloorDecision", "RationalAllocationChecks", "RationalNonzeroAllocationChecks", "RationalFloorAutomaticChecks", "RationalGapCompression", "RationalSparseSupport", "RationalSparseGapSearch", "RationalSparseGapAlgorithm", "RationalSparseGapGame", "RationalFrozenPhysical", "RationalIntervalSparseReduction", "RationalIntervalSparseAlgorithm", "RationalIntervalSparseConditions", "RationalIntervalSparseGame", "RationalIntervalSparseApproximation", "RationalIntervalSparseInitialized", "RationalSparseGapChecks", "RationalIntervalSparseChecks", "RationalIntervalSparseInitializedChecks", "RationalCentralPayoff", "RationalExplicitBinPayoff", "RationalBinnedWeights", "RationalBinnedOmitted", "BinPrefixResponse", "RationalUniformScore", "RationalBinLocalResponse", "RationalBinnedMoment", "RationalBinPairResponse", "RationalBinCrossResponse", "RationalBinnedResponse", "RationalBinnedRealResponse", "ExplicitBinnedGame", "ExplicitBinnedCore", "RationalExplicitBinPayoffChecks", "RationalBinnedResponseChecks", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests", "RationalFloorOutputRows", "RationalFloorSparsify", "RationalFloorSparsifyComplete", "RationalFloorSparsifyClass", "RationalFloorSparseValue", "RationalFloorSparseSupport", "RationalFloorSparseDecision", "RationalFloorSparseCertified", "RationalFloorSparseChecks", "RationalFloorSparseCertifiedChecks", "RationalCountedDot", "RationalTableCertificate", "RationalTableSums", "RationalTableRows", "RationalTableOmitted", "RationalCountedAll", "RationalCountedTableRows", "RationalCountedRowCost", "RationalTableConditions", "RationalCountedTableCertificate", "RationalCountedCertificateSoundness", "RationalTableStorage", "RationalCountedCommitments", "RationalCountedIntervalObservations", "RationalCountedCertificateRate", "LargeToleranceWitness", "PrefixViolation", "RationalFloorCertifiedGeneral", "CoverUniformBound", "RationalCountedCertificateChecks", "RationalCountedExtensionChecks", "RationalFloorCertifiedGeneralChecks", "PayoffScaling", "ScaledJointLower", "ScaledJointUpper", "ScaledJointSupportTheorem", "ScaledJointAllK", "PhysicalSupportMinimum", "ExactInstanceSupportMinimum", "SupportProblemMinimum", "WorstCaseSupport", "AnchorRelabel", "FiniteCloneInstance", "FiniteCloneLower", "WorstCaseSupportSharp", "SupportObservationInvariance", "CountedMerge", "CountedMergeSort", "RationalScoreSort", "RationalLabelSort", "RationalSortedIndex", "RationalSortedPrefixes", "RationalPrefixScan", "ListPrefixSum", "RationalSortedCutCheck", "RationalPerspectiveCutCheck", "RationalIntervalCutCheck", "SourceAllocationStepNormalized", "RationalSourceFloorParameters", "RationalSourceFloorAutomatic", "RationalSourceFloorClass", "RationalSourceFloorRows", "RationalSourceFloorCertified", "RationalViolationSearch", "RationalViolationPayload", "RationalPrefixArithmetic", "RationalSortedArithmetic", "RationalNodupCutPayload", "RationalDenominatorGrowth", "RationalIntervalExactGuards", "RationalIntervalExactReconstruction", "RationalPerspectiveViolation", "RationalIntervalViolation", "RationalFlowDemandCuts", "RationalSaturatedFlow", "RationalPerspectiveSeparator", "RationalFlowZeroRows", "RationalFlowCertificateCheck", "RationalResidualReach", "RationalNetFlow", "FiniteSkewEquilibrium", "RationalPositiveNetFlow", "RationalReachCut", "RationalNetCut", "RationalNumeratorGrowth", "FiniteSkewNash", "CachedResidualBFS", "RationalEdgePush", "CachedResidualSimplePaths", "RationalPathAugmentation", "RationalCachedPathAugmentation", "RationalPathSaturation", "RationalFlowLattice", "RationalFlowEncodingBounds", "RationalFeatureDeletion", "RationalFeatureKernel", "RationalFeatureDimension", "CachedResidualDistance", "RationalFeatureIterate", "RationalTableAugmentation", "RationalTableFlowFuel", "RationalTableAugmentationComplete", "RationalTableMaximumFlow", "RationalTableFlowDirect", "AugmentationFeatureControls", "KernelDistanceIterateControls", "TableFlowControls", "DirectFlowControls", "RationalResidualDistanceMono", "RationalCriticalArc", "RationalAugmentationCount", "RationalTableFlowPolynomial", "RationalDemandNetwork", "RationalCanonicalGrid", "RationalPaperFeatures", "RationalPaperCuts", "RationalPaperWitness", "RationalPaperFlow", "RationalDemandGraphNetwork", "RationalPaperGraphFlow", "DistanceControls", "PolynomialFlowControls", "DemandNetworkSmoke", "RationalPaperControls", "RationalPaperFlowControls", "DemandGraphNetworkControls", "RationalPaperGraphFlowControls"]
+defaultTargets = ["SparseCompletion", "MomentCompression", "GameModel", "SparseWitness", "GameSparseWitness", "CompletionDual", "CompletionGeometry", "CompletionCriterion", "SparseCompletionWitness", "PaperWitness", "PrefixRigidity", "TwoAnchorRigidity", "MinimumShareRigidity", "PrefixStability", "MinimumShareStability", "Quantization", "SupportQuantization", "SupportLowerBound", "SupportRate", "SupportMinimum", "ResidualMinimum", "IntervalLower", "CoreLower", "BinCompression", "BinnedWitness", "BalancedBins", "BinnedCompletion", "BinnedMoments", "BinnedGame", "BalancedGame", "CoreAdjustment", "NoiseUpper", "NoiseSharp", "MidpointExact", "BinnedExact", "MidpointGame", "BalancedExact", "AllMassWitness", "ExtraMomentCuts", "ExtraMomentGameCertificates", "ExtraMomentCompletion", "ExtraMomentWitness", "ExtraMomentAllMass", "ScorePrefixes", "ConicCompletion", "ConicConvexity", "IntervalPerspective", "IntervalConic", "ObservationCover", "CoveredWitness", "IntervalProjection", "WeakCover", "WeakCoverWitness", "IntervalLossMaximum", "WeakCoverMaximum", "CoverRelabel", "ArbitraryCover", "ArbitraryWeakCover", "IntervalLossOrder", "IntervalConvexity", "GapCertificates", "GapFeasibility", "IntervalRepertoire", "IntervalStability", "OptimisticValue", "ValueStability", "SupportCompact", "OrderedStability", "ThresholdSeparation", "IntervalSeparation", "JointSupportFoundation", "JointSupportLower", "JointSupportUpper", "JointSupportTheorem", "JointSupportGeneral", "RationalCertificate", "RationalCertificateSoundness", "RationalCertificateChecks", "FixedValue", "GapCompact", "ValueBounds", "GapValue", "AllocationRounding", "AllocationGrid", "AllocationResponse", "AllocationValue", "AllocationApproximation", "IntervalGap", "IntervalGapGame", "Bisection", "BisectionChecks", "IntervalGapEpigraph", "GapSparse", "IntervalGapSparse", "RationalGrid", "RationalGridSizeBounds", "RationalGap", "RationalGapChecks", "RationalGapEncoding", "RationalOneVariable", "RationalOneVariableFinite", "RationalOneVariableFintype", "RationalLinearSystem", "RationalLinearSolver", "RationalLinearReal", "RationalLinearTransfer", "RationalGapDecision", "RationalGapSearch", "RationalGapRealDecision", "RationalResidualCompletion", "RationalResidualSolver", "RationalResidualGap", "RationalRepertoire", "RationalGapAlgorithm", "RationalGapValue", "RationalOneVariableChecks", "RationalLinearSolverChecks", "RationalResidualChecks", "RationalResidualGapChecks", "RationalGapAlgorithmChecks", "RationalLogRounds", "RationalAlgorithmCertificate", "RationalCertifiedApproximation", "RationalIntervalRecovery", "RationalIntervalGap", "RationalIntervalVariables", "RationalIntervalForms", "RationalLinearForms", "RationalIntervalEncoding", "RationalIntervalPoint", "RationalIntervalEvaluation", "RationalIntervalSystemPoint", "RationalIntervalPack", "RationalIntervalSolver", "RationalIntervalGameOutput", "RationalIntervalRealPoint", "RationalIntervalRealNecessity", "RationalIntervalRealSolver", "RationalAutomaticChecks", "RationalIntervalPhysical", "RationalIntervalRepertoire", "RationalIntervalPhysicalNecessity", "RationalIntervalRepertoireSolver", "RationalIntervalRepertoireReal", "RationalIntervalRepertoireGame", "RationalIntervalPhysicalProjection", "RationalIntervalMonotone", "RationalIntervalSearch", "RationalIntervalModel", "RationalIntervalClass", "RationalIntervalValue", "RationalIntervalOutputClass", "RationalIntervalValueCertificate", "RationalIntervalAccurate", "RationalIntervalRepertoireChecks", "RationalIntervalParameters", "RationalIntervalConsistency", "RationalIntervalInitialize", "RationalIntervalInitializedAlgorithm", "RationalIntervalInitializedSoundness", "RationalIntervalInitializerChecks", "AllocationReservoir", "AllocationReservoirValue", "RationalFiniteSelection", "RationalAllocationGrid", "RationalAllocationRun", "RationalAllocationSearchSoundness", "RationalReservoirApproximation", "RationalFloorRepertoire", "RationalAllocationCompleteness", "RationalAnchorApproximation", "RationalFloorGridPhysical", "RationalIntervalWitnessClass", "RationalFloorGridGame", "RationalFloorGridAccuracy", "RationalFloorClass", "RationalFloorGlobalAccuracy", "RationalReservoirRepresentation", "RationalNoResidualGame", "RationalNoResidualAccuracy", "RationalInitializedUpperWitness", "RationalFloorClassWitness", "RationalFloorValueCertificate", "RationalReservoirClass", "RationalNoResidualGlobal", "RationalFloorSearch", "RationalFloorAccuracyParameters", "RationalFloorAutomatic", "RationalFloorTotalClass", "RationalFloorDecision", "RationalAllocationChecks", "RationalNonzeroAllocationChecks", "RationalFloorAutomaticChecks", "RationalGapCompression", "RationalSparseSupport", "RationalSparseGapSearch", "RationalSparseGapAlgorithm", "RationalSparseGapGame", "RationalFrozenPhysical", "RationalIntervalSparseReduction", "RationalIntervalSparseAlgorithm", "RationalIntervalSparseConditions", "RationalIntervalSparseGame", "RationalIntervalSparseApproximation", "RationalIntervalSparseInitialized", "RationalSparseGapChecks", "RationalIntervalSparseChecks", "RationalIntervalSparseInitializedChecks", "RationalCentralPayoff", "RationalExplicitBinPayoff", "RationalBinnedWeights", "RationalBinnedOmitted", "BinPrefixResponse", "RationalUniformScore", "RationalBinLocalResponse", "RationalBinnedMoment", "RationalBinPairResponse", "RationalBinCrossResponse", "RationalBinnedResponse", "RationalBinnedRealResponse", "ExplicitBinnedGame", "ExplicitBinnedCore", "RationalExplicitBinPayoffChecks", "RationalBinnedResponseChecks", "SECChallenge", "SECSolution", "AxiomAudit", "SemanticTests", "DefinitionTests", "ChallengeDefinitionTests", "RationalFloorOutputRows", "RationalFloorSparsify", "RationalFloorSparsifyComplete", "RationalFloorSparsifyClass", "RationalFloorSparseValue", "RationalFloorSparseSupport", "RationalFloorSparseDecision", "RationalFloorSparseCertified", "RationalFloorSparseChecks", "RationalFloorSparseCertifiedChecks", "RationalCountedDot", "RationalTableCertificate", "RationalTableSums", "RationalTableRows", "RationalTableOmitted", "RationalCountedAll", "RationalCountedTableRows", "RationalCountedRowCost", "RationalTableConditions", "RationalCountedTableCertificate", "RationalCountedCertificateSoundness", "RationalTableStorage", "RationalCountedCommitments", "RationalCountedIntervalObservations", "RationalCountedCertificateRate", "LargeToleranceWitness", "PrefixViolation", "RationalFloorCertifiedGeneral", "CoverUniformBound", "RationalCountedCertificateChecks", "RationalCountedExtensionChecks", "RationalFloorCertifiedGeneralChecks", "PayoffScaling", "ScaledJointLower", "ScaledJointUpper", "ScaledJointSupportTheorem", "ScaledJointAllK", "PhysicalSupportMinimum", "ExactInstanceSupportMinimum", "SupportProblemMinimum", "WorstCaseSupport", "AnchorRelabel", "FiniteCloneInstance", "FiniteCloneLower", "WorstCaseSupportSharp", "SupportObservationInvariance", "CountedMerge", "CountedMergeSort", "RationalScoreSort", "RationalLabelSort", "RationalSortedIndex", "RationalSortedPrefixes", "RationalPrefixScan", "ListPrefixSum", "RationalSortedCutCheck", "RationalPerspectiveCutCheck", "RationalIntervalCutCheck", "SourceAllocationStepNormalized", "RationalSourceFloorParameters", "RationalSourceFloorAutomatic", "RationalSourceFloorClass", "RationalSourceFloorRows", "RationalSourceFloorCertified", "RationalViolationSearch", "RationalViolationPayload", "RationalPrefixArithmetic", "RationalSortedArithmetic", "RationalNodupCutPayload", "RationalDenominatorGrowth", "RationalIntervalExactGuards", "RationalIntervalExactReconstruction", "RationalPerspectiveViolation", "RationalIntervalViolation", "RationalFlowDemandCuts", "RationalSaturatedFlow", "RationalPerspectiveSeparator", "RationalFlowZeroRows", "RationalFlowCertificateCheck", "RationalResidualReach", "RationalNetFlow", "FiniteSkewEquilibrium", "RationalPositiveNetFlow", "RationalReachCut", "RationalNetCut", "RationalNumeratorGrowth", "FiniteSkewNash", "CachedResidualBFS", "RationalEdgePush", "CachedResidualSimplePaths", "RationalPathAugmentation", "RationalCachedPathAugmentation", "RationalPathSaturation", "RationalFlowLattice", "RationalFlowEncodingBounds", "RationalFeatureDeletion", "RationalFeatureKernel", "RationalFeatureDimension", "CachedResidualDistance", "RationalFeatureIterate", "RationalTableAugmentation", "RationalTableFlowFuel", "RationalTableAugmentationComplete", "RationalTableMaximumFlow", "RationalTableFlowDirect", "AugmentationFeatureControls", "KernelDistanceIterateControls", "TableFlowControls", "DirectFlowControls", "RationalResidualDistanceMono", "RationalCriticalArc", "RationalAugmentationCount", "RationalTableFlowPolynomial", "RationalDemandNetwork", "RationalCanonicalGrid", "RationalPaperFeatures", "RationalPaperCuts", "RationalPaperWitness", "RationalPaperFlow", "RationalDemandGraphNetwork", "RationalPaperGraphFlow", "DistanceControls", "PolynomialFlowControls", "DemandNetworkSmoke", "RationalPaperControls", "RationalPaperFlowControls", "DemandGraphNetworkControls", "RationalPaperGraphFlowControls", "FlowComputationCost", "CountedCachedBFS", "CountedRationalPathOps", "CountedAugmentCandidate", "CountedRationalAugmentation", "CountedFlowInitialization", "RationalGaussianKernel", "CountedGaussianPrimitives", "CountedGaussianKernel", "Example243", "ExecutableCoverIndex", "ExecutableCoverWitness", "FiniteConstraintCover", "IntegerMinorHeight", "GaussianScale", "GaussianSchurSylvester", "GaussianActualMinors", "GaussianTerminalTrace", "GaussianCramerOutput", "GaussianInputEncoding", "GaussianOutputBits", "RationalGaussianFeature", "GaussianFeatureBits", "GaussianRecursiveReturns", "GaussianTransientStage", "GaussianTransientArithmetic", "RationalConeEncoding", "RationalLPBoxDomain", "RationalLPActiveRows", "RationalLPActiveBasis", "RationalInputHeight", "RationalLPIntegerInput", "RationalLPCramerHeight", "RationalLPSmallWitness", "RationalGridInputHeight", "RationalGapInputHeight", "RationalLinearInputEncoding", "RationalIntervalInputHeight", "RationalRepertoireInputHeight", "RationalConstructedLPSmallWitness", "RationalGaussianCompress", "RationalGaussianPaperFeatures", "RationalGaussianPaperCuts", "RationalGaussianPaperWitness", "RationalGaussianPaperFlow", "RationalCoveredGaussian", "RationalCoveredGaussianWitness", "RationalDeletionLattice", "RationalGraphFlowOutputHeight", "RationalDemandGraphOutputHeight", "RationalGaussianCompressionEncoding", "RationalGaussianGraphOutputHeight", "RationalPaperLPInputHeight", "RationalGaussianPaperEncoding", "RationalGaussianPaperTableEncoding", "ThresholdStrongLossCover", "UniformObservationCover", "GaussianKernelAudit", "GaussianCompressionControls", "RationalLPInputHeightControls", "RationalIntervalInputHeightControls", "FlowCostControls", "GaussianGlobalHeightAudit", "GraphLedgerControls", "Example243Controls", "GaussianInputBitsControls", "DeletionLatticeControls", "GaussianCompressionEncodingControls", "GaussianCostControls", "GaussianPaperEncodingControls", "GraphOutputHeightControls", "RationalLPSmallWitnessControls", "CoveredGaussianControls", "GaussianPaperTableEncodingControls", "ConeEncodingControls"]
 moreLeanArgs = ["-j1", "-M8192", "-DwarningAsError=true"]
 [[require]]
 name = "mathlib"
@@ -1073,3 +1073,228 @@ name = "DemandGraphNetworkControls"
 
 [[lean_lib]]
 name = "RationalPaperGraphFlowControls"
+
+[[lean_lib]]
+name = "FlowComputationCost"
+
+[[lean_lib]]
+name = "CountedCachedBFS"
+
+[[lean_lib]]
+name = "CountedRationalPathOps"
+
+[[lean_lib]]
+name = "CountedAugmentCandidate"
+
+[[lean_lib]]
+name = "CountedRationalAugmentation"
+
+[[lean_lib]]
+name = "CountedFlowInitialization"
+
+[[lean_lib]]
+name = "RationalGaussianKernel"
+
+[[lean_lib]]
+name = "CountedGaussianPrimitives"
+
+[[lean_lib]]
+name = "CountedGaussianKernel"
+
+[[lean_lib]]
+name = "Example243"
+
+[[lean_lib]]
+name = "ExecutableCoverIndex"
+
+[[lean_lib]]
+name = "ExecutableCoverWitness"
+
+[[lean_lib]]
+name = "FiniteConstraintCover"
+
+[[lean_lib]]
+name = "IntegerMinorHeight"
+
+[[lean_lib]]
+name = "GaussianScale"
+
+[[lean_lib]]
+name = "GaussianSchurSylvester"
+
+[[lean_lib]]
+name = "GaussianActualMinors"
+
+[[lean_lib]]
+name = "GaussianTerminalTrace"
+
+[[lean_lib]]
+name = "GaussianCramerOutput"
+
+[[lean_lib]]
+name = "GaussianInputEncoding"
+
+[[lean_lib]]
+name = "GaussianOutputBits"
+
+[[lean_lib]]
+name = "RationalGaussianFeature"
+
+[[lean_lib]]
+name = "GaussianFeatureBits"
+
+[[lean_lib]]
+name = "GaussianRecursiveReturns"
+
+[[lean_lib]]
+name = "GaussianTransientStage"
+
+[[lean_lib]]
+name = "GaussianTransientArithmetic"
+
+[[lean_lib]]
+name = "RationalConeEncoding"
+
+[[lean_lib]]
+name = "RationalLPBoxDomain"
+
+[[lean_lib]]
+name = "RationalLPActiveRows"
+
+[[lean_lib]]
+name = "RationalLPActiveBasis"
+
+[[lean_lib]]
+name = "RationalInputHeight"
+
+[[lean_lib]]
+name = "RationalLPIntegerInput"
+
+[[lean_lib]]
+name = "RationalLPCramerHeight"
+
+[[lean_lib]]
+name = "RationalLPSmallWitness"
+
+[[lean_lib]]
+name = "RationalGridInputHeight"
+
+[[lean_lib]]
+name = "RationalGapInputHeight"
+
+[[lean_lib]]
+name = "RationalLinearInputEncoding"
+
+[[lean_lib]]
+name = "RationalIntervalInputHeight"
+
+[[lean_lib]]
+name = "RationalRepertoireInputHeight"
+
+[[lean_lib]]
+name = "RationalConstructedLPSmallWitness"
+
+[[lean_lib]]
+name = "RationalGaussianCompress"
+
+[[lean_lib]]
+name = "RationalGaussianPaperFeatures"
+
+[[lean_lib]]
+name = "RationalGaussianPaperCuts"
+
+[[lean_lib]]
+name = "RationalGaussianPaperWitness"
+
+[[lean_lib]]
+name = "RationalGaussianPaperFlow"
+
+[[lean_lib]]
+name = "RationalCoveredGaussian"
+
+[[lean_lib]]
+name = "RationalCoveredGaussianWitness"
+
+[[lean_lib]]
+name = "RationalDeletionLattice"
+
+[[lean_lib]]
+name = "RationalGraphFlowOutputHeight"
+
+[[lean_lib]]
+name = "RationalDemandGraphOutputHeight"
+
+[[lean_lib]]
+name = "RationalGaussianCompressionEncoding"
+
+[[lean_lib]]
+name = "RationalGaussianGraphOutputHeight"
+
+[[lean_lib]]
+name = "RationalPaperLPInputHeight"
+
+[[lean_lib]]
+name = "RationalGaussianPaperEncoding"
+
+[[lean_lib]]
+name = "RationalGaussianPaperTableEncoding"
+
+[[lean_lib]]
+name = "ThresholdStrongLossCover"
+
+[[lean_lib]]
+name = "UniformObservationCover"
+
+[[lean_lib]]
+name = "GaussianKernelAudit"
+
+[[lean_lib]]
+name = "GaussianCompressionControls"
+
+[[lean_lib]]
+name = "RationalLPInputHeightControls"
+
+[[lean_lib]]
+name = "RationalIntervalInputHeightControls"
+
+[[lean_lib]]
+name = "FlowCostControls"
+
+[[lean_lib]]
+name = "GaussianGlobalHeightAudit"
+
+[[lean_lib]]
+name = "GraphLedgerControls"
+
+[[lean_lib]]
+name = "Example243Controls"
+
+[[lean_lib]]
+name = "GaussianInputBitsControls"
+
+[[lean_lib]]
+name = "DeletionLatticeControls"
+
+[[lean_lib]]
+name = "GaussianCompressionEncodingControls"
+
+[[lean_lib]]
+name = "GaussianCostControls"
+
+[[lean_lib]]
+name = "GaussianPaperEncodingControls"
+
+[[lean_lib]]
+name = "GraphOutputHeightControls"
+
+[[lean_lib]]
+name = "RationalLPSmallWitnessControls"
+
+[[lean_lib]]
+name = "CoveredGaussianControls"
+
+[[lean_lib]]
+name = "GaussianPaperTableEncodingControls"
+
+[[lean_lib]]
+name = "ConeEncodingControls"

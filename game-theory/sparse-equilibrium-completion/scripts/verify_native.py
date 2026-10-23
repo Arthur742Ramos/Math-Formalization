@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import time
+from check_axiom_reports import check_reports
 
 if not __debug__ or sys.flags.optimize:
     raise SystemExit('Verification refuses assertion-disabled Python optimization modes')
@@ -100,6 +101,15 @@ if build_path.exists():
 assert not build_path.exists(), 'Fresh package rebuild requires successful artifact removal'
 run('build', [sys.executable, 'scripts/build_serial.py'])
 run('axioms', [str(prefix/'bin/lake'), 'env', 'lean', *lean_flags, 'AxiomAudit.lean'])
+try:
+    receipt['axiom_audit'] = check_reports((root/'AxiomAudit.lean').read_text(),
+        (out/'axioms.log').read_text(), cfg['permitted_axioms'])
+except ValueError as error:
+    receipt['result'] = 'failed'
+    receipt['axiom_audit'] = {'result': 'failed', 'error': str(error)}
+    (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    raise SystemExit('Ordered axiom validation failed: '+str(error))
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
 run('native-kernel', [str(prefix/'bin/lake'), 'env', 'leanchecker', 'SECSolution'])
 alias = out/'ProtectedSparseCompletion'
 alias.mkdir(exist_ok=True)

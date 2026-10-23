@@ -1,0 +1,18 @@
+{
+  "status": "FULL_PINNED_GITHUB_SOURCE_BYTES_EQUAL_INSTALLED_COMPILER_SOURCE",
+  "created_utc": "2026-10-23T04:29:47.100733+00:00",
+  "repository": "leanprover/lean4",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "repository_path": "src/Init/Data/Nat/Bitwise/Basic.lean",
+  "immutable_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Bitwise/Basic.lean",
+  "installed_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Nat/Bitwise/Basic.lean",
+  "bytes": 4801,
+  "sha256": "0196b9eabcb97bd41b9ace0cfb828d2f0f0215085d2eb8972d2c541539c94df3",
+  "github_git_blob_sha1": "1e2adf9e812a8aa3e890ae9f7ee08de0388e9f1b",
+  "github_payload": {
+    "path": "/workspace/sparse-migration/evidence/compiler-natbitwise-source-fetch.json",
+    "sha256": "1bf0c78362a7512be797afa493146f424830e282db6b4989a90286edaa1c1822"
+  },
+  "method": "Connected GitHub full-file fetch encodingbase64 at exact compilercommit; independent Python whole-byte decode/equality/SHA256/GitblobSHA1 check. No excerpts or moving branch used.",
+  "limits": "Logical source provenance only; extern lean_nat_land/shiftr implementation and operational/bit-runtime adequacy are not proved by source equality."
+}

@@ -1,0 +1,18 @@
+{
+  "status": "FULL_PINNED_GITHUB_SOURCE_BYTES_EQUAL_INSTALLED_COMPILER_SOURCE",
+  "created_utc": "2026-10-23T05:14:42.010344+00:00",
+  "repository": "leanprover/lean4",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "repository_path": "src/Init/Data/Nat/Coprime.lean",
+  "immutable_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Nat/Coprime.lean",
+  "installed_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Nat/Coprime.lean",
+  "bytes": 7726,
+  "sha256": "05b67b9e50bb0b92ba80dc4a8074580c14a8bdcdbdc150486f4796d104c8426a",
+  "github_git_blob_sha1": "b8eac03865690984f848f912d5fb3812dad719e6",
+  "github_payload": {
+    "path": "/workspace/sparse-migration/evidence/compiler-nat-coprime-source-fetch.json",
+    "sha256": "59b5ac20330780523e333fd006009cdd7ebdf6c1c26840f95fc06687ab304521"
+  },
+  "method": "Connected exact-commit full-file base64 fetch; independent whole-byte decode/equality/SHA256/GitblobSHA1 check.",
+  "limits": "Logical source provenance only. No native GCD implementation or arithmetic bit-runtime adequacy claim."
+}

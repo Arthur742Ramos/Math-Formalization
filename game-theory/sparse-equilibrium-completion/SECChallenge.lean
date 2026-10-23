@@ -25,6 +25,22 @@ public import Mathlib.Logic.Relation
 public import Mathlib.Algebra.Order.Ring.Abs
 public import Init.Data.Vector.OfFn
 public import Mathlib.LinearAlgebra.Dimension.Finite
+public import Mathlib.Data.Vector.Basic
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.Data.Finset.Powerset
+public import Mathlib.LinearAlgebra.Matrix.AbsoluteValue
+public import Mathlib.LinearAlgebra.Matrix.Integer
+public import Mathlib.LinearAlgebra.Matrix.SchurComplement
+public import Mathlib.Logic.Equiv.Sum
+public import Mathlib.LinearAlgebra.Matrix.Adjugate
+public import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
+public import Mathlib.Data.Nat.Size
+public import Mathlib.Data.Fin.Tuple.Basic
+public import Mathlib.Data.Fintype.Powerset
+public import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.Data.Fintype.Perm
+public import Mathlib.Data.Int.NatAbs
 
 
 /- Fixed source body: SparseCompletion.lean -/
@@ -28604,4 +28620,9033 @@ theorem rational_paper_normalized_zero_graph_flow {k d m : ℕ}
   refine ⟨he, hc, hn, hmass, hanchor, ha, hE, hsk, hbound, ?_⟩
   simpa only [Rat.cast_zero, zero_add] using hresp
 
+end SparseCompletion
+
+/- Fixed source body: FlowComputationCost.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCOMPILED cost-model foundation, separate from the checked graph34.
+Counts designated source-level primitive events, not machine instructions or
+operand-bit work. Instrumentation overhead itself is excluded, as in a writer
+translation. Every measured count below is computed from the executable input
+and executed branches; no progress/budget/bound is a field of a returned value.
+The ledger is an aggregate of designated events. Value erasure and these
+commutative totals do not assert execution-trace order or operational cost
+adequacy for generated code; those are separate obligations.
+
+The finite-vector adapter mirrors the actual countdown Array.ofFn.go loop,
+including its order of calls to f, pushes, and decreasing loop index. Its
+charge is accumulated while executing those same finite cases; it is not a
+bound inserted into a result field. Counter bookkeeping is instrumentation.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+structure FlowWork where
+  rationalEvents : ℕ := 0
+  listEvents : ℕ := 0
+  vectorEvents : ℕ := 0
+  adminEvents : ℕ := 0
+  deriving DecidableEq, Repr
+
+def flowWorkAdd (a b : FlowWork) : FlowWork :=
+  { rationalEvents := a.rationalEvents + b.rationalEvents
+    listEvents := a.listEvents + b.listEvents
+    vectorEvents := a.vectorEvents + b.vectorEvents
+    adminEvents := a.adminEvents + b.adminEvents }
+
+def flowWorkTotal (a : FlowWork) : ℕ :=
+  a.rationalEvents + a.listEvents + a.vectorEvents + a.adminEvents
+
+theorem flow_work_total_add (a b : FlowWork) :
+    flowWorkTotal (flowWorkAdd a b) = flowWorkTotal a + flowWorkTotal b := by
+  simp only [flowWorkAdd, flowWorkTotal]
+  omega
+
+def flowSumWork (xs : List FlowWork) : FlowWork :=
+  xs.foldr flowWorkAdd {}
+
+theorem flow_sum_work_total (xs : List FlowWork) :
+    flowWorkTotal (flowSumWork xs) = (xs.map flowWorkTotal).sum := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih =>
+    simp only [flowSumWork, List.foldr_cons, flow_work_total_add, List.map_cons,
+      List.sum_cons, ← ih]
+
+theorem flow_sum_work_bound (xs : List FlowWork) (B : ℕ)
+    (hb : ∀ a ∈ xs, flowWorkTotal a ≤ B) :
+    flowWorkTotal (flowSumWork xs) ≤ xs.length * B := by
+  induction xs with
+  | nil => simp [flowSumWork, flowWorkTotal]
+  | cons x xs ih =>
+    have hx := hb x List.mem_cons_self
+    have ht := ih (fun a ha => hb a (List.mem_cons_of_mem x ha))
+    change flowWorkTotal (flowWorkAdd x (flowSumWork xs)) ≤ (xs.length + 1) * B
+    rw [flow_work_total_add]
+    nlinarith
+
+abbrev FlowCounted (α : Type*) := α × FlowWork
+
+/- Shared collection primitives. All callers, including BFS, use this one
+appendTR pricing: each reverse cons has two list events and one control event. -/
+def flowCountReverseAux {α : Type*} : List α → List α → FlowCounted (List α)
+  | [], acc => (acc, {adminEvents := 1})
+  | a :: xs, acc =>
+    let rest := flowCountReverseAux xs (a :: acc)
+    (rest.1, flowWorkAdd {listEvents := 2, adminEvents := 1} rest.2)
+
+theorem flow_count_reverse_aux_erase {α : Type*} (xs acc : List α) :
+    (flowCountReverseAux xs acc).1 = List.reverseAux xs acc := by
+  induction xs generalizing acc with
+  | nil => rfl
+  | cons a xs ih => exact ih (a :: acc)
+
+theorem flow_count_reverse_aux_total {α : Type*} (xs acc : List α) :
+    flowWorkTotal (flowCountReverseAux xs acc).2 = 3 * xs.length + 1 := by
+  induction xs generalizing acc with
+  | nil => rfl
+  | cons a xs ih =>
+    change flowWorkTotal (flowWorkAdd _ (flowCountReverseAux xs (a :: acc)).2) = _
+    rw [flow_work_total_add, ih]
+    simp only [flowWorkTotal, List.length_cons]
+    omega
+
+def flowCountAppend {α : Type*} (xs ys : List α) : FlowCounted (List α) :=
+  let first := flowCountReverseAux xs []
+  let second := flowCountReverseAux first.1 ys
+  (second.1, flowWorkAdd first.2 second.2)
+
+theorem flow_count_append_erase {α : Type*} (xs ys : List α) :
+    (flowCountAppend xs ys).1 = xs ++ ys := by
+  change (flowCountReverseAux _ _).1 = _
+  rw [flow_count_reverse_aux_erase, flow_count_reverse_aux_erase]
+  change List.appendTR xs ys = xs ++ ys
+  have he := congrFun (congrFun (congrFun List.append_eq_appendTR α) xs) ys
+  exact he.symm
+
+theorem flow_count_append_total {α : Type*} (xs ys : List α) :
+    flowWorkTotal (flowCountAppend xs ys).2 = 6 * xs.length + 2 := by
+  have hfirst := flow_count_reverse_aux_total xs []
+  have hsecond := flow_count_reverse_aux_total (flowCountReverseAux xs []).1 ys
+  have hlen : (flowCountReverseAux xs []).1.length = xs.length := by
+    rw [flow_count_reverse_aux_erase]
+    simp only [List.reverseAux_eq, List.append_nil, List.length_reverse]
+  rw [hlen] at hsecond
+  change flowWorkTotal (flowWorkAdd _ _) = _
+  rw [flow_work_total_add]
+  omega
+
+/-- Same source countdown loop as Array.ofFn.go: one f call and one array
+push per successor. Administrative events charge the loop case and the two
+natural subtractions in n-i-1. The zero case charges one loop case. -/
+def flowCountArrayOfFn {α : Type*} {n : ℕ} (f : Fin n → FlowCounted α) :
+    FlowCounted (Array α) :=
+  go (Array.emptyWithCapacity n) n (Nat.le_refl n)
+where
+  go (acc : Array α) : (i : ℕ) → i ≤ n → FlowCounted (Array α)
+    | 0, _ => (acc, {adminEvents := 1})
+    | i + 1, h =>
+      have hi : n - i - 1 < n :=
+        Nat.lt_of_lt_of_le (Nat.sub_one_lt (Nat.sub_ne_zero_iff_lt.mpr h)) (Nat.sub_le n i)
+      let cell := f ⟨n - i - 1, hi⟩
+      let rest := go (acc.push cell.1) i (Nat.le_of_succ_le h)
+      (rest.1, flowWorkAdd cell.2
+        (flowWorkAdd {vectorEvents := 1, adminEvents := 3} rest.2))
+
+theorem flow_count_array_go_erase {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) (acc : Array α) (i : ℕ) (hi : i ≤ n) :
+    (flowCountArrayOfFn.go f acc i hi).1 =
+      Array.ofFn.go (fun j => (f j).1) acc i hi := by
+  revert hi
+  induction i generalizing acc with
+  | zero => intro hi; rfl
+  | succ i ih =>
+    intro hi
+    have hj : n - i - 1 < n := by omega
+    simpa only [flowCountArrayOfFn.go, Array.ofFn.go] using
+      ih (acc.push (f ⟨n - i - 1, hj⟩).1) (Nat.le_of_succ_le hi)
+
+theorem flow_count_array_ofFn_erase {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) :
+    (flowCountArrayOfFn f).1 = Array.ofFn (fun i => (f i).1) :=
+  flow_count_array_go_erase f (Array.emptyWithCapacity n) n (Nat.le_refl n)
+
+theorem flow_count_array_go_bound {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) (B : ℕ)
+    (hb : ∀ i, flowWorkTotal (f i).2 ≤ B)
+    (acc : Array α) (i : ℕ) (hi : i ≤ n) :
+    flowWorkTotal (flowCountArrayOfFn.go f acc i hi).2 ≤ i * (B + 4) + 1 := by
+  revert hi
+  induction i generalizing acc with
+  | zero => intro hi; simp [flowCountArrayOfFn.go, flowWorkTotal]
+  | succ i ih =>
+    intro hi
+    have hj : n - i - 1 < n := by omega
+    have hc := hb ⟨n - i - 1, hj⟩
+    have ht := ih (acc.push (f ⟨n - i - 1, hj⟩).1) (Nat.le_of_succ_le hi)
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add]
+    change flowWorkTotal (f ⟨n - i - 1, hj⟩).2 +
+      (4 + flowWorkTotal (flowCountArrayOfFn.go f
+        (acc.push (f ⟨n - i - 1, hj⟩).1) i (Nat.le_of_succ_le hi)).2) ≤ _
+    nlinarith
+
+def flowCountVectorOfFn {α : Type*} {n : ℕ} (f : Fin n → FlowCounted α) :
+    FlowCounted (Vector α n) :=
+  let run := flowCountArrayOfFn f
+  (⟨run.1, by rw [flow_count_array_ofFn_erase]; exact Array.size_ofFn⟩, run.2)
+
+theorem flow_count_vector_ofFn_erase {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) :
+    (flowCountVectorOfFn f).1 = Vector.ofFn (fun i => (f i).1) := by
+  apply Vector.toArray_inj.mp
+  exact flow_count_array_ofFn_erase f
+
+theorem flow_count_vector_ofFn_bound {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) (B : ℕ)
+    (hb : ∀ i, flowWorkTotal (f i).2 ≤ B) :
+    flowWorkTotal (flowCountVectorOfFn f).2 ≤ n * (B + 4) + 1 :=
+  flow_count_array_go_bound f B hb (Array.emptyWithCapacity n) n (Nat.le_refl n)
+
+/-- Exact source countdown from Fin.foldr, used by List.finRange. -/
+def flowCountFinRange (n : ℕ) : FlowCounted (List (Fin n)) :=
+  go n (Nat.le_refl n) []
+where
+  go : (i : ℕ) → i ≤ n → List (Fin n) → FlowCounted (List (Fin n))
+    | 0, _, acc => (acc, {adminEvents := 1})
+    | i + 1, h, acc =>
+      let rest := go i (Nat.le_of_lt h) (⟨i, h⟩ :: acc)
+      (rest.1, flowWorkAdd {listEvents := 1, adminEvents := 1} rest.2)
+
+theorem flow_count_finRange_go_erase (n i : ℕ) (hi : i ≤ n) (acc : List (Fin n)) :
+    (flowCountFinRange.go n i hi acc).1 =
+      Fin.foldr.loop n (fun j xs => j :: xs) i hi acc := by
+  revert hi acc
+  induction i with
+  | zero => intro hi acc; rfl
+  | succ i ih =>
+    intro hi acc
+    simpa only [flowCountFinRange.go, Fin.foldr.loop] using
+      ih (Nat.le_of_lt hi) (⟨i, hi⟩ :: acc)
+
+theorem flow_count_finRange_erase (n : ℕ) :
+    (flowCountFinRange n).1 = List.finRange n :=
+  flow_count_finRange_go_erase n n (Nat.le_refl n) []
+
+theorem flow_count_finRange_go_total (n i : ℕ) (hi : i ≤ n) (acc : List (Fin n)) :
+    flowWorkTotal (flowCountFinRange.go n i hi acc).2 = 2 * i + 1 := by
+  revert hi acc
+  induction i with
+  | zero => intro hi acc; rfl
+  | succ i ih =>
+    intro hi acc
+    have ht := ih (Nat.le_of_lt hi) (⟨i, hi⟩ :: acc)
+    change flowWorkTotal (flowWorkAdd _ _) = _
+    rw [flow_work_total_add, ht]
+    change 2 + (2 * i + 1) = 2 * (i + 1) + 1
+    omega
+
+theorem flow_count_finRange_total (n : ℕ) :
+    flowWorkTotal (flowCountFinRange n).2 = 2 * n + 1 :=
+  flow_count_finRange_go_total n n (Nat.le_refl n) []
+
+/-- Residual cache adapter: each cell performs the same rational subtraction
+and positivity comparison, with four materialized input-table reads. -/
+def flowCountResidualCache {n : ℕ} (C F : RationalFlowTable n) :
+    FlowCounted (CachedBFSAdj n) :=
+  flowCountVectorOfFn fun u => flowCountVectorOfFn fun v =>
+    (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F) u v,
+      {rationalEvents := 2, vectorEvents := 4, adminEvents := 1})
+
+theorem flow_count_residual_cache_erase {n : ℕ} (C F : RationalFlowTable n) :
+    (flowCountResidualCache C F).1 =
+      cacheResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F) := by
+  unfold flowCountResidualCache
+  rw [flow_count_vector_ofFn_erase]
+  unfold cacheResidualAdj
+  congr 1
+  funext u
+  exact flow_count_vector_ofFn_erase _
+
+theorem flow_count_residual_cache_bound {n : ℕ} (C F : RationalFlowTable n) :
+    flowWorkTotal (flowCountResidualCache C F).2 ≤ 16 * (n + 1) ^ 2 := by
+  have hrow : ∀ u : Fin n, flowWorkTotal (flowCountVectorOfFn (fun v =>
+      (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F) u v,
+        {rationalEvents := 2, vectorEvents := 4, adminEvents := 1}))).2 ≤ n * 11 + 1 := by
+    intro u
+    apply flow_count_vector_ofFn_bound _ 7
+    intro v
+    exact le_rfl
+  have ht := flow_count_vector_ofFn_bound
+    (fun u => flowCountVectorOfFn (fun v =>
+      (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F) u v,
+        {rationalEvents := 2, vectorEvents := 4, adminEvents := 1}))) (n * 11 + 1) hrow
+  change flowWorkTotal (flowCountResidualCache C F).2 ≤ _ at ht
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: CountedCachedBFS.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCOMPILED writer translation of the actual cached BFS. Kept
+separate from checked graph34. Counts designated unit source events only;
+compiler operational semantics, array allocation/copy costs and operand-bit
+costs remain separate. The original List.rec continuation-building pass is
+counted even when an early successful predecessor stops forcing continuations.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+/-- The original source builds a thunk at every list constructor. This pair
+separates those eager construction events from the demanded predecessor scan.
+The successful append executes the shared appendTR writer. Both reversal
+passes count their cons visits, cell constructions, and control cases.
+-/
+def flowCountBFSExtendBuild {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (v : Fin n) (labels : List (Fin n)) :
+    (Unit → FlowCounted (Option (List (Fin n)))) × FlowWork :=
+  List.rec
+    ((fun _ => (none, {adminEvents := 1})), {listEvents := 1, adminEvents := 1})
+    (fun u _ ih =>
+      ((fun _ =>
+        match prev.get u with
+        | none =>
+          let rest := ih.1 ()
+          (rest.1, flowWorkAdd {vectorEvents := 1, adminEvents := 2} rest.2)
+        | some path =>
+          if (A.get u).get v then
+            let appended := flowCountAppend path [v]
+            (some appended.1, flowWorkAdd
+              {listEvents := 1, vectorEvents := 3, adminEvents := 3} appended.2)
+          else
+            let rest := ih.1 ()
+            (rest.1, flowWorkAdd {vectorEvents := 3, adminEvents := 3} rest.2)),
+        flowWorkAdd {listEvents := 1, adminEvents := 1} ih.2)) labels
+
+theorem flow_count_bfs_extend_force_erase {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (v : Fin n) (labels : List (Fin n)) :
+    ((flowCountBFSExtendBuild A prev v labels).1 ()).1 =
+      cachedBFSExtend A prev v labels := by
+  induction labels with
+  | nil => rfl
+  | cons u us ih =>
+    cases hp : prev.get u with
+    | none => simpa [flowCountBFSExtendBuild, cachedBFSExtend, hp] using ih
+    | some path =>
+      cases he : (A.get u).get v with
+      | false => simpa [flowCountBFSExtendBuild, cachedBFSExtend, hp, he] using ih
+      | true =>
+        simp [flowCountBFSExtendBuild, cachedBFSExtend, hp, he,
+          flow_count_append_erase]
+
+theorem flow_count_bfs_extend_build_total {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (v : Fin n) (labels : List (Fin n)) :
+    flowWorkTotal (flowCountBFSExtendBuild A prev v labels).2 = 2 * (labels.length + 1) := by
+  induction labels with
+  | nil => rfl
+  | cons u us ih =>
+    change flowWorkTotal (flowWorkAdd _ (flowCountBFSExtendBuild A prev v us).2) = _
+    rw [flow_work_total_add, ih]
+    change 2 + 2 * (us.length + 1) = 2 * (us.length + 1 + 1)
+    omega
+
+theorem flow_count_bfs_extend_force_bound {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (v : Fin n) (labels : List (Fin n)) (L : ℕ)
+    (hlen : ∀ u path, prev.get u = some path → path.length ≤ L) :
+    flowWorkTotal ((flowCountBFSExtendBuild A prev v labels).1 ()).2 ≤
+      8 * (labels.length + 1) + 6 * L + 4 := by
+  induction labels with
+  | nil => simp only [flowCountBFSExtendBuild, flowWorkTotal, List.length_nil]; omega
+  | cons u us ih =>
+    cases hp : prev.get u with
+    | none =>
+      simp only [flowCountBFSExtendBuild, hp]
+      change flowWorkTotal (flowWorkAdd _ ((flowCountBFSExtendBuild A prev v us).1 ()).2) ≤ _
+      rw [flow_work_total_add]
+      change 3 + flowWorkTotal ((flowCountBFSExtendBuild A prev v us).1 ()).2 ≤ _
+      simp only [List.length_cons]
+      omega
+    | some path =>
+      have hpLen := hlen u path hp
+      cases he : (A.get u).get v with
+      | false =>
+        simp [flowCountBFSExtendBuild, hp, he]
+        change flowWorkTotal (flowWorkAdd _ ((flowCountBFSExtendBuild A prev v us).1 ()).2) ≤ _
+        rw [flow_work_total_add]
+        change 6 + flowWorkTotal ((flowCountBFSExtendBuild A prev v us).1 ()).2 ≤ _
+        omega
+      | true =>
+        simp [flowCountBFSExtendBuild, hp, he]
+        rw [flow_work_total_add, flow_count_append_total]
+        change 7 + (6 * path.length + 2) ≤ _
+        omega
+
+def flowCountBFSExtend {n : ℕ} (A : CachedBFSAdj n) (prev : CachedBFSPaths n)
+    (v : Fin n) (labels : List (Fin n)) : FlowCounted (Option (List (Fin n))) :=
+  let built := flowCountBFSExtendBuild A prev v labels
+  let forced := built.1 ()
+  (forced.1, flowWorkAdd built.2 forced.2)
+
+theorem flow_count_bfs_extend_erase {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (v : Fin n) (labels : List (Fin n)) :
+    (flowCountBFSExtend A prev v labels).1 = cachedBFSExtend A prev v labels :=
+  flow_count_bfs_extend_force_erase A prev v labels
+
+theorem flow_count_bfs_extend_bound {n : ℕ} (A : CachedBFSAdj n)
+    (prev : CachedBFSPaths n) (v : Fin n) (labels : List (Fin n)) (L : ℕ)
+    (hlen : ∀ u path, prev.get u = some path → path.length ≤ L) :
+    flowWorkTotal (flowCountBFSExtend A prev v labels).2 ≤
+      10 * (labels.length + 1) + 6 * L + 4 := by
+  have hbuild := flow_count_bfs_extend_build_total A prev v labels
+  have hforce := flow_count_bfs_extend_force_bound A prev v labels L hlen
+  change flowWorkTotal (flowWorkAdd _ _) ≤ _
+  rw [flow_work_total_add]
+  omega
+
+def flowCountBFSCell {n : ℕ} (A : CachedBFSAdj n) (prev : CachedBFSPaths n)
+    (v : Fin n) : FlowCounted (Option (List (Fin n))) :=
+  match prev.get v with
+  | some path => (some path, {vectorEvents := 1, adminEvents := 1})
+  | none =>
+    let labels := flowCountFinRange n
+    let scan := flowCountBFSExtend A prev v labels.1
+    (scan.1, flowWorkAdd {vectorEvents := 1, adminEvents := 1}
+      (flowWorkAdd labels.2 scan.2))
+
+def flowCountBFSStep {n : ℕ} (A : CachedBFSAdj n) (prev : CachedBFSPaths n) :
+    FlowCounted (CachedBFSPaths n) :=
+  flowCountVectorOfFn (flowCountBFSCell A prev)
+
+theorem flow_count_bfs_step_erase {n : ℕ} (A : CachedBFSAdj n) (prev : CachedBFSPaths n) :
+    (flowCountBFSStep A prev).1 = cachedBFSStep A prev := by
+  unfold flowCountBFSStep cachedBFSStep
+  rw [flow_count_vector_ofFn_erase]
+  congr 1
+  funext v
+  cases hp : prev.get v with
+  | none => simp only [flowCountBFSCell, hp, flow_count_bfs_extend_erase, flow_count_finRange_erase]
+  | some path => simp only [flowCountBFSCell, hp]
+
+theorem flow_count_bfs_step_bound {n : ℕ} (A : CachedBFSAdj n) (prev : CachedBFSPaths n)
+    (L : ℕ) (hlen : ∀ u path, prev.get u = some path → path.length ≤ L) :
+    flowWorkTotal (flowCountBFSStep A prev).2 ≤ n * (12 * (n + 1) + 6 * L + 10) + 1 := by
+  apply flow_count_vector_ofFn_bound _ (12 * (n + 1) + 6 * L + 6)
+  intro v
+  cases hp : prev.get v with
+  | some path => simp only [flowCountBFSCell, hp, flowWorkTotal]; omega
+  | none =>
+    have hs := flow_count_bfs_extend_bound A prev v (List.finRange n) L hlen
+    simp only [List.length_finRange] at hs
+    simp only [flowCountBFSCell, hp]
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd (flowCountFinRange n).2
+      (flowCountBFSExtend A prev v (flowCountFinRange n).1).2)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add, flow_count_finRange_total,
+      flow_count_finRange_erase]
+    change 2 + (2 * n + 1 + flowWorkTotal (flowCountBFSExtend A prev v (List.finRange n)).2) ≤ _
+    omega
+
+def flowCountBFSInitial {n : ℕ} (s : Fin n) : FlowCounted (CachedBFSPaths n) :=
+  flowCountVectorOfFn fun v =>
+    (if v = s then some [s] else none,
+      {listEvents := if v = s then 1 else 0, adminEvents := 2})
+
+theorem flow_count_bfs_initial_erase {n : ℕ} (s : Fin n) :
+    (flowCountBFSInitial s).1 = cachedBFSInitial s :=
+  flow_count_vector_ofFn_erase _
+
+theorem flow_count_bfs_initial_bound {n : ℕ} (s : Fin n) :
+    flowWorkTotal (flowCountBFSInitial s).2 ≤ 7 * n + 1 := by
+  calc
+    _ ≤ n * (3 + 4) + 1 := flow_count_vector_ofFn_bound _ 3 (by
+      intro v
+      by_cases he : v = s <;> simp [he, flowWorkTotal])
+    _ = 7 * n + 1 := by omega
+
+def flowCountBFSLayers {n : ℕ} (A : CachedBFSAdj n) (s : Fin n) :
+    ℕ → FlowCounted (CachedBFSPaths n)
+  | 0 =>
+    let initial := flowCountBFSInitial s
+    (initial.1, flowWorkAdd {adminEvents := 1} initial.2)
+  | k + 1 =>
+    let prev := flowCountBFSLayers A s k
+    let next := flowCountBFSStep A prev.1
+    (next.1, flowWorkAdd prev.2 (flowWorkAdd {adminEvents := 1} next.2))
+
+theorem flow_count_bfs_layers_erase {n : ℕ} (A : CachedBFSAdj n) (s : Fin n) (k : ℕ) :
+    (flowCountBFSLayers A s k).1 = cachedBFSLayers A s k := by
+  induction k with
+  | zero => exact flow_count_bfs_initial_erase s
+  | succ k ih =>
+    change (flowCountBFSStep A (flowCountBFSLayers A s k).1).1 = _
+    rw [flow_count_bfs_step_erase, ih]
+    rfl
+
+theorem flow_count_bfs_layers_bound {n : ℕ} (A : CachedBFSAdj n) (s : Fin n) (k : ℕ) :
+    flowWorkTotal (flowCountBFSLayers A s k).2 ≤
+      7 * n + 2 + k * (n * (12 * (n + 1) + 6 * (k + 1) + 10) + 2) := by
+  induction k with
+  | zero =>
+    have hi := flow_count_bfs_initial_bound s
+    change flowWorkTotal (flowWorkAdd _ _) ≤ _
+    rw [flow_work_total_add]
+    change 1 + flowWorkTotal (flowCountBFSInitial s).2 ≤ _
+    omega
+  | succ k ih =>
+    have hlen : ∀ u path, (flowCountBFSLayers A s k).1.get u = some path →
+        path.length ≤ k + 1 := by
+      intro u path ho
+      rw [flow_count_bfs_layers_erase] at ho
+      exact (cached_bfs_layers_valid A s k u path ho).2
+    have hs := flow_count_bfs_step_bound A (flowCountBFSLayers A s k).1 (k + 1) hlen
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add]
+    change flowWorkTotal (flowCountBFSLayers A s k).2 +
+      (1 + flowWorkTotal (flowCountBFSStep A (flowCountBFSLayers A s k).1).2) ≤ _
+    nlinarith [Nat.zero_le (n * k)]
+
+def flowCountBFSPath {n : ℕ} (A : CachedBFSAdj n) (s t : Fin n) :
+    FlowCounted (Option (List (Fin n))) :=
+  let layers := flowCountBFSLayers A s n
+  (layers.1.get t, flowWorkAdd layers.2 {vectorEvents := 1, adminEvents := 1})
+
+theorem flow_count_bfs_path_erase {n : ℕ} (A : CachedBFSAdj n) (s t : Fin n) :
+    (flowCountBFSPath A s t).1 = cachedBFSPath A s t := by
+  change (flowCountBFSLayers A s n).1.get t = _
+  rw [flow_count_bfs_layers_erase]
+  rfl
+
+theorem flow_count_bfs_path_bound {n : ℕ} (A : CachedBFSAdj n) (s t : Fin n) :
+    flowWorkTotal (flowCountBFSPath A s t).2 ≤ 64 * (n + 1) ^ 3 := by
+  have hl := flow_count_bfs_layers_bound A s n
+  change flowWorkTotal (flowWorkAdd _ _) ≤ _
+  rw [flow_work_total_add]
+  change flowWorkTotal (flowCountBFSLayers A s n).2 + 2 ≤ _
+  nlinarith [Nat.zero_le (n ^ 2), Nat.zero_le (n ^ 3)]
+
+end SparseCompletion
+
+/- Fixed source body: CountedRationalPathOps.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCOMPILED. Executable writer translations of the actual path
+residual list, attained minimum, and fully materialized rational table push.
+Counts rational primitive invocations and designated list/vector/admin events;
+no claim about rational operand bits or machine allocation/copy time.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+def flowCountPathResiduals {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) : FlowCounted (List ℚ) :=
+  List.rec (motive := fun _ => Fin n → FlowCounted (List ℚ))
+    (fun _ => ([], {listEvents := 1, adminEvents := 1}))
+    (fun b _ ih start =>
+      let residual := rationalFlowTableEntry C start b - rationalFlowTableEntry F start b
+      let rest := ih b
+      (residual :: rest.1,
+        flowWorkAdd {rationalEvents := 1, listEvents := 2, vectorEvents := 4, adminEvents := 2} rest.2)) tail a
+
+theorem flow_count_path_residuals_erase {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) :
+    (flowCountPathResiduals C F a tail).1 =
+      rationalPathResiduals (rationalFlowTableEntry C) (rationalFlowTableEntry F) a tail := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    change (_ :: (flowCountPathResiduals C F b tail).1) = _
+    rw [ih b]
+    rfl
+
+theorem flow_count_path_residuals_length {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) :
+    (flowCountPathResiduals C F a tail).1.length = tail.length := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    change (flowCountPathResiduals C F b tail).1.length + 1 = tail.length + 1
+    rw [ih b]
+
+theorem flow_count_path_residuals_total {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) :
+    flowWorkTotal (flowCountPathResiduals C F a tail).2 = 9 * tail.length + 2 := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    change flowWorkTotal (flowWorkAdd _ (flowCountPathResiduals C F b tail).2) = _
+    rw [flow_work_total_add, ih b]
+    simp only [flowWorkTotal, List.length_cons]
+    omega
+
+def flowCountNonemptyMinimum (xs : List ℚ) : FlowCounted (Option ℚ) :=
+  List.rec (none, {listEvents := 1, adminEvents := 1})
+    (fun z _ ih =>
+      match ih.1 with
+      | none => (some z, flowWorkAdd {listEvents := 1, adminEvents := 2} ih.2)
+      | some b =>
+        (some (min z b), flowWorkAdd {rationalEvents := 1, listEvents := 1, adminEvents := 2} ih.2)) xs
+
+theorem flow_count_nonempty_minimum_erase (xs : List ℚ) :
+    (flowCountNonemptyMinimum xs).1 = rationalNonemptyMinimum xs := by
+  induction xs with
+  | nil => rfl
+  | cons z zs ih =>
+    have he : flowCountNonemptyMinimum (z :: zs) =
+        (match (flowCountNonemptyMinimum zs).1 with
+        | none => (some z, flowWorkAdd {listEvents := 1, adminEvents := 2}
+            (flowCountNonemptyMinimum zs).2)
+        | some b => (some (min z b), flowWorkAdd
+            {rationalEvents := 1, listEvents := 1, adminEvents := 2}
+            (flowCountNonemptyMinimum zs).2)) := rfl
+    rw [he]
+    change _ = some (Option.rec (motive := fun _ => ℚ) z
+      (fun b => min z b) (rationalNonemptyMinimum zs))
+    rw [← ih]
+    cases hm : (flowCountNonemptyMinimum zs).1 <;> rfl
+
+theorem flow_count_nonempty_minimum_bound (xs : List ℚ) :
+    flowWorkTotal (flowCountNonemptyMinimum xs).2 ≤ 4 * xs.length + 2 := by
+  induction xs with
+  | nil => simp [flowCountNonemptyMinimum, flowWorkTotal]
+  | cons z zs ih =>
+    have he : flowCountNonemptyMinimum (z :: zs) =
+        (match (flowCountNonemptyMinimum zs).1 with
+        | none => (some z, flowWorkAdd {listEvents := 1, adminEvents := 2}
+            (flowCountNonemptyMinimum zs).2)
+        | some b => (some (min z b), flowWorkAdd
+            {rationalEvents := 1, listEvents := 1, adminEvents := 2}
+            (flowCountNonemptyMinimum zs).2)) := rfl
+    rw [he]
+    cases hm : (flowCountNonemptyMinimum zs).1 with
+    | none =>
+      change flowWorkTotal (flowWorkAdd _ (flowCountNonemptyMinimum zs).2) ≤ _
+      rw [flow_work_total_add]
+      change 3 + flowWorkTotal (flowCountNonemptyMinimum zs).2 ≤ _
+      simp only [List.length_cons]
+      omega
+    | some b =>
+      change flowWorkTotal (flowWorkAdd _ (flowCountNonemptyMinimum zs).2) ≤ _
+      rw [flow_work_total_add]
+      change 4 + flowWorkTotal (flowCountNonemptyMinimum zs).2 ≤ _
+      simp only [List.length_cons]
+      omega
+
+def flowCountPathBottleneck {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) : FlowCounted (Option ℚ) :=
+  let residuals := flowCountPathResiduals C F a tail
+  let amount := flowCountNonemptyMinimum residuals.1
+  (amount.1, flowWorkAdd residuals.2 amount.2)
+
+theorem flow_count_path_bottleneck_erase {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) :
+    (flowCountPathBottleneck C F a tail).1 =
+      rationalPathBottleneck (rationalFlowTableEntry C) (rationalFlowTableEntry F) a tail := by
+  change (flowCountNonemptyMinimum _).1 = _
+  rw [flow_count_nonempty_minimum_erase, flow_count_path_residuals_erase]
+  rfl
+
+theorem flow_count_path_bottleneck_bound {n : ℕ} (C F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) :
+    flowWorkTotal (flowCountPathBottleneck C F a tail).2 ≤ 13 * tail.length + 4 := by
+  have hr := flow_count_path_residuals_total C F a tail
+  have hm := flow_count_nonempty_minimum_bound (flowCountPathResiduals C F a tail).1
+  rw [flow_count_path_residuals_length] at hm
+  change flowWorkTotal (flowWorkAdd _ _) ≤ _
+  rw [flow_work_total_add]
+  omega
+
+/-- Original net-edge cell always executes its rational add and subtract.
+The two proposition conjunctions each evaluate two Fin equalities. -/
+def flowCountTablePushEdge {n : ℕ} (F : RationalFlowTable n)
+    (a b : Fin n) (δ : ℚ) : FlowCounted (RationalFlowTable n) :=
+  flowCountVectorOfFn fun u => flowCountVectorOfFn fun v =>
+    (rationalNetPushEdge (rationalFlowTableEntry F) a b δ u v,
+      {rationalEvents := 2, vectorEvents := 2, adminEvents := 8})
+
+theorem flow_count_table_push_edge_erase {n : ℕ} (F : RationalFlowTable n)
+    (a b : Fin n) (δ : ℚ) :
+    (flowCountTablePushEdge F a b δ).1 = rationalTablePushEdge F a b δ := by
+  unfold flowCountTablePushEdge rationalTablePushEdge
+  rw [flow_count_vector_ofFn_erase]
+  congr 1
+  funext u
+  exact flow_count_vector_ofFn_erase _
+
+theorem flow_count_table_push_edge_bound {n : ℕ} (F : RationalFlowTable n)
+    (a b : Fin n) (δ : ℚ) :
+    flowWorkTotal (flowCountTablePushEdge F a b δ).2 ≤ 24 * (n + 1) ^ 2 := by
+  have hrow : ∀ u : Fin n, flowWorkTotal (flowCountVectorOfFn (fun v =>
+      (rationalNetPushEdge (rationalFlowTableEntry F) a b δ u v,
+        {rationalEvents := 2, vectorEvents := 2, adminEvents := 8}))).2 ≤ n * 16 + 1 := by
+    intro u
+    apply flow_count_vector_ofFn_bound _ 12
+    intro v
+    exact le_rfl
+  have ht := flow_count_vector_ofFn_bound
+    (fun u => flowCountVectorOfFn (fun v =>
+      (rationalNetPushEdge (rationalFlowTableEntry F) a b δ u v,
+        {rationalEvents := 2, vectorEvents := 2, adminEvents := 8}))) (n * 16 + 1) hrow
+  change flowWorkTotal (flowCountTablePushEdge F a b δ).2 ≤ _ at ht
+  nlinarith
+
+def flowCountTablePushPath {n : ℕ} (F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) : FlowCounted (RationalFlowTable n) :=
+  List.rec (motive := fun _ => Fin n → FlowCounted (RationalFlowTable n))
+    (fun _ => (F, {listEvents := 1, adminEvents := 1}))
+    (fun b _ ih start =>
+      let rest := ih b
+      let pushed := flowCountTablePushEdge rest.1 start b δ
+      (pushed.1, flowWorkAdd rest.2
+        (flowWorkAdd {listEvents := 1, adminEvents := 2} pushed.2))) tail a
+
+theorem flow_count_table_push_path_erase {n : ℕ} (F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) :
+    (flowCountTablePushPath F a tail δ).1 = rationalTablePushPath F a tail δ := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    change (flowCountTablePushEdge (flowCountTablePushPath F b tail δ).1 a b δ).1 = _
+    rw [flow_count_table_push_edge_erase, ih b]
+    rfl
+
+theorem flow_count_table_push_path_bound {n : ℕ} (F : RationalFlowTable n)
+    (a : Fin n) (tail : List (Fin n)) (δ : ℚ) :
+    flowWorkTotal (flowCountTablePushPath F a tail δ).2 ≤
+      tail.length * (24 * (n + 1) ^ 2 + 3) + 2 := by
+  induction tail generalizing a with
+  | nil => simp [flowCountTablePushPath, flowWorkTotal]
+  | cons b tail ih =>
+    have hp := flow_count_table_push_edge_bound (flowCountTablePushPath F b tail δ).1 a b δ
+    have ht := ih b
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add]
+    change flowWorkTotal (flowCountTablePushPath F b tail δ).2 +
+      (3 + flowWorkTotal (flowCountTablePushEdge (flowCountTablePushPath F b tail δ).1 a b δ).2) ≤ _
+    simp only [List.length_cons]
+    nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: CountedAugmentCandidate.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCOMPILED. The checked wrapper's actual candidate decision is
+translated at the pinned instance computation order: eager conjunction checks,
+tail-first List.instDecidablePairwise, head-first List.decidableBAll, actual
+getLast traversal, and reconstruction of the positive residual list.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+def flowCountAll {α : Type*} (p : α → FlowCounted Bool) : List α → FlowCounted Bool
+  | [] => (true, {listEvents := 1})
+  | a :: tail =>
+    let head := p a
+    if head.1 then
+      let rest := flowCountAll p tail
+      (rest.1, flowWorkAdd head.2 (flowWorkAdd {listEvents := 1, adminEvents := 1} rest.2))
+    else (false, flowWorkAdd head.2 {listEvents := 1, adminEvents := 1})
+
+theorem flow_count_all_erase {α : Type*} (p : α → FlowCounted Bool)
+    (P : α → Prop) [DecidablePred P] (hp : ∀ a, (p a).1 = decide (P a)) (xs : List α) :
+    (flowCountAll p xs).1 = decide (∀ a ∈ xs, P a) := by
+  induction xs with
+  | nil => simp [flowCountAll]
+  | cons a tail ih =>
+    by_cases h : P a <;> simp [flowCountAll, hp a, ih, h]
+
+theorem flow_count_all_bound {α : Type*} (p : α → FlowCounted Bool)
+    (B : ℕ) (hb : ∀ a, flowWorkTotal (p a).2 ≤ B) (xs : List α) :
+    flowWorkTotal (flowCountAll p xs).2 ≤ xs.length * (B + 2) + 1 := by
+  induction xs with
+  | nil => simp [flowCountAll, flowWorkTotal]
+  | cons a tail ih =>
+    have hh := hb a
+    cases he : (p a).1 with
+    | false =>
+      simp only [flowCountAll, he, Bool.false_eq_true, ↓reduceIte]
+      rw [flow_work_total_add]
+      change flowWorkTotal (p a).2 + 2 ≤ _
+      simp only [List.length_cons]
+      nlinarith
+    | true =>
+      simp only [flowCountAll, he, ↓reduceIte]
+      rw [flow_work_total_add, flow_work_total_add]
+      change flowWorkTotal (p a).2 + (2 + flowWorkTotal (flowCountAll p tail).2) ≤ _
+      simp only [List.length_cons]
+      nlinarith
+
+/-- Same tail-first order as the pinned Pairwise/Nodup decision instance. -/
+def flowCountNodup {α : Type*} [DecidableEq α] : List α → FlowCounted Bool
+  | [] => (true, {listEvents := 1, adminEvents := 1})
+  | a :: tail =>
+    let rest := flowCountNodup tail
+    if rest.1 then
+      let heads := flowCountAll (fun b => (decide (a ≠ b), {adminEvents := 1})) tail
+      (heads.1, flowWorkAdd rest.2
+        (flowWorkAdd {listEvents := 1, adminEvents := 1} heads.2))
+    else (false, flowWorkAdd rest.2 {listEvents := 1, adminEvents := 1})
+
+theorem flow_count_nodup_erase {α : Type*} [DecidableEq α] (xs : List α) :
+    (flowCountNodup xs).1 = decide xs.Nodup := by
+  induction xs with
+  | nil => simp [flowCountNodup]
+  | cons a tail ih =>
+    have ha := flow_count_all_erase
+      (fun b => (decide (a ≠ b), ({adminEvents := 1} : FlowWork)))
+      (fun b => a ≠ b) (fun _ => rfl) tail
+    by_cases h : tail.Nodup
+    · simp only [flowCountNodup, ih, decide_eq_true h, ↓reduceIte]
+      rw [ha]
+      apply Bool.eq_iff_iff.mpr
+      simp only [decide_eq_true_eq, List.nodup_cons]
+      constructor
+      · intro hh
+        exact ⟨by intro hm; exact hh a hm rfl, h⟩
+      · intro hh b hb he
+        subst b
+        exact hh.1 hb
+    · simp [flowCountNodup, ih, h, List.nodup_cons]
+
+theorem flow_count_nodup_bound {α : Type*} [DecidableEq α] (xs : List α) :
+    flowWorkTotal (flowCountNodup xs).2 ≤ 4 * (xs.length + 1) ^ 2 := by
+  induction xs with
+  | nil => simp only [flowCountNodup, flowWorkTotal, List.length_nil]; omega
+  | cons a tail ih =>
+    have ha := flow_count_all_bound
+      (fun b => (decide (a ≠ b), ({adminEvents := 1} : FlowWork))) 1 (fun _ => le_rfl) tail
+    cases ht : (flowCountNodup tail).1 with
+    | false =>
+      simp only [flowCountNodup, ht, Bool.false_eq_true, ↓reduceIte]
+      rw [flow_work_total_add]
+      change flowWorkTotal (flowCountNodup tail).2 + 2 ≤ _
+      simp only [List.length_cons]
+      nlinarith
+    | true =>
+      simp only [flowCountNodup, ht, ↓reduceIte]
+      rw [flow_work_total_add, flow_work_total_add]
+      change flowWorkTotal (flowCountNodup tail).2 + (2 + flowWorkTotal (flowCountAll _ tail).2) ≤ _
+      simp only [List.length_cons]
+      nlinarith
+
+def flowCountGetLast {α : Type*} (a : α) : List α → FlowCounted α
+  | [] => (a, {listEvents := 1, adminEvents := 1})
+  | b :: tail =>
+    let rest := flowCountGetLast b tail
+    (rest.1, flowWorkAdd {listEvents := 2, adminEvents := 1} rest.2)
+
+theorem flow_count_getLast_erase {α : Type*} (a : α) (tail : List α) :
+    (flowCountGetLast a tail).1 = (a :: tail).getLast (by simp) := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih => exact ih b
+
+theorem flow_count_getLast_total {α : Type*} (a : α) (tail : List α) :
+    flowWorkTotal (flowCountGetLast a tail).2 = 3 * tail.length + 2 := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    change flowWorkTotal (flowWorkAdd _ (flowCountGetLast b tail).2) = _
+    rw [flow_work_total_add, ih b]
+    simp only [flowWorkTotal, List.length_cons]
+    omega
+
+def flowCountHeadCheck {n : ℕ} (s : Fin n) : List (Fin n) → FlowCounted Bool
+  | [] => (false, {listEvents := 1, adminEvents := 1})
+  | a :: _ => (decide (a = s), {listEvents := 1, adminEvents := 2})
+
+theorem flow_count_head_check_erase {n : ℕ} (s : Fin n) (path : List (Fin n)) :
+    (flowCountHeadCheck s path).1 = decide (path.head? = some s) := by
+  cases path <;> simp [flowCountHeadCheck]
+
+def flowCountLastCheck {n : ℕ} (t : Fin n) : List (Fin n) → FlowCounted Bool
+  | [] => (false, {listEvents := 1, adminEvents := 1})
+  | a :: tail =>
+    let last := flowCountGetLast a tail
+    (decide (last.1 = t), flowWorkAdd {listEvents := 1, adminEvents := 2} last.2)
+
+theorem flow_count_last_check_erase {n : ℕ} (t : Fin n) (path : List (Fin n)) :
+    (flowCountLastCheck t path).1 = decide (path.getLast? = some t) := by
+  cases path with
+  | nil => rfl
+  | cons a tail => simp [flowCountLastCheck, flow_count_getLast_erase, List.getLast?]
+
+def flowCountPositiveResiduals {n : ℕ} (C F : RationalFlowTable n)
+    (s : Fin n) (tail : List (Fin n)) : FlowCounted Bool :=
+  let residuals := flowCountPathResiduals C F s tail
+  let positive := flowCountAll
+    (fun z => (decide (0 < z), {rationalEvents := 1})) residuals.1
+  (positive.1, flowWorkAdd residuals.2 positive.2)
+
+theorem flow_count_positive_residuals_erase {n : ℕ} (C F : RationalFlowTable n)
+    (s : Fin n) (tail : List (Fin n)) :
+    (flowCountPositiveResiduals C F s tail).1 =
+      decide (∀ z ∈ rationalPathResiduals (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F) s tail, 0 < z) := by
+  change (flowCountAll _ _).1 = _
+  rw [flow_count_all_erase _ (fun z : ℚ => 0 < z) (fun _ => rfl),
+    flow_count_path_residuals_erase]
+
+theorem flow_count_positive_residuals_bound {n : ℕ} (C F : RationalFlowTable n)
+    (s : Fin n) (tail : List (Fin n)) :
+    flowWorkTotal (flowCountPositiveResiduals C F s tail).2 ≤ 12 * tail.length + 3 := by
+  have hr := flow_count_path_residuals_total C F s tail
+  have hp := flow_count_all_bound
+    (fun z : ℚ => (decide (0 < z), ({rationalEvents := 1} : FlowWork))) 1
+    (fun _ => le_rfl) (flowCountPathResiduals C F s tail).1
+  rw [flow_count_path_residuals_length] at hp
+  change flowWorkTotal (flowWorkAdd _ _) ≤ _
+  rw [flow_work_total_add]
+  omega
+
+/-- The four input decisions are let-bound eagerly, matching the source And
+instance. In particular the residual list is not skipped on a false head test.
+-/
+def flowCountAugmentCandidate {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (path : List (Fin n)) : FlowCounted Bool :=
+  let head := flowCountHeadCheck s path
+  let last := flowCountLastCheck t path
+  let nodup := flowCountNodup path
+  let positive := flowCountPositiveResiduals C F s path.tail
+  (head.1 && last.1 && nodup.1 && positive.1,
+    flowWorkAdd head.2 (flowWorkAdd last.2 (flowWorkAdd nodup.2
+      (flowWorkAdd positive.2 {adminEvents := 3}))))
+
+theorem flow_count_augment_candidate_erase {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (path : List (Fin n)) :
+    (flowCountAugmentCandidate C F s t path).1 = decide (RationalAugmentCandidate C F s t path) := by
+  apply Bool.eq_iff_iff.mpr
+  simp [flowCountAugmentCandidate, flow_count_head_check_erase, flow_count_last_check_erase,
+    flow_count_nodup_erase, flow_count_positive_residuals_erase, RationalAugmentCandidate, and_assoc]
+
+theorem flow_count_augment_candidate_bound {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (path : List (Fin n)) :
+    flowWorkTotal (flowCountAugmentCandidate C F s t path).2 ≤ 32 * (path.length + 1) ^ 2 := by
+  have hn := flow_count_nodup_bound path
+  have hp := flow_count_positive_residuals_bound C F s path.tail
+  have hh : flowWorkTotal (flowCountHeadCheck s path).2 ≤ 3 := by
+    cases path <;> simp only [flowCountHeadCheck, flowWorkTotal] <;> omega
+  have hl : flowWorkTotal (flowCountLastCheck t path).2 ≤ 3 * path.length + 4 := by
+    cases path with
+    | nil => simp only [flowCountLastCheck, flowWorkTotal, List.length_nil]; omega
+    | cons a tail =>
+      have ht := flow_count_getLast_total a tail
+      change flowWorkTotal (flowWorkAdd _ (flowCountGetLast a tail).2) ≤ _
+      rw [flow_work_total_add, ht]
+      change 3 + (3 * tail.length + 2) ≤ _
+      simp only [List.length_cons]
+      omega
+  have htail : path.tail.length ≤ path.length := by cases path <;> simp
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ _)))) ≤ _
+  repeat rw [flow_work_total_add]
+  change flowWorkTotal (flowCountHeadCheck s path).2 +
+    (flowWorkTotal (flowCountLastCheck t path).2 +
+      (flowWorkTotal (flowCountNodup path).2 +
+        (flowWorkTotal (flowCountPositiveResiduals C F s path.tail).2 + 3))) ≤ _
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: CountedRationalAugmentation.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCOMPILED. Executable writer translation of rationalAugmentOnce,
+including the actual BFS, complete candidate decision, a second residual-list
+construction for the bottleneck, and every materialized path/table update.
+The count is a designated source-event model, not a machine/bit-runtime claim.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+def flowCountAugmentOnce {n : ℕ} (C F : RationalFlowTable n) (s t : Fin n) :
+    FlowCounted (Option (RationalAugmentResult n)) :=
+  if s = t then (none, {adminEvents := 2}) else
+    let cache := flowCountResidualCache C F
+    let bfs := flowCountBFSPath cache.1 s t
+    match bfs.1 with
+    | none =>
+      (none, flowWorkAdd cache.2 (flowWorkAdd bfs.2 {adminEvents := 3}))
+    | some path =>
+      let candidate := flowCountAugmentCandidate C F s t path
+      if candidate.1 then
+        let amount := flowCountPathBottleneck C F s path.tail
+        match amount.1 with
+        | none =>
+          (none, flowWorkAdd cache.2 (flowWorkAdd bfs.2
+            (flowWorkAdd candidate.2 (flowWorkAdd amount.2 {adminEvents := 5}))))
+        | some δ =>
+          let pushed := flowCountTablePushPath F s path.tail δ
+          (some {path := path, amount := δ, flow := pushed.1},
+            flowWorkAdd cache.2 (flowWorkAdd bfs.2 (flowWorkAdd candidate.2
+              (flowWorkAdd amount.2 (flowWorkAdd pushed.2 {adminEvents := 7})))))
+      else
+        (none, flowWorkAdd cache.2 (flowWorkAdd bfs.2
+          (flowWorkAdd candidate.2 {adminEvents := 4})))
+
+theorem flow_count_augment_once_erase {n : ℕ} (C F : RationalFlowTable n) (s t : Fin n) :
+    (flowCountAugmentOnce C F s t).1 = rationalAugmentOnce C F s t := by
+  by_cases hst : s = t
+  · simp [flowCountAugmentOnce, rationalAugmentOnce, hst]
+  · cases hp : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry F)) s t with
+    | none =>
+      simp [flowCountAugmentOnce, rationalAugmentOnce, hst, flow_count_residual_cache_erase,
+        flow_count_bfs_path_erase, hp]
+    | some path =>
+      by_cases hc : RationalAugmentCandidate C F s t path
+      · cases hm : rationalPathBottleneck (rationalFlowTableEntry C)
+          (rationalFlowTableEntry F) s path.tail with
+        | none =>
+          simp [flowCountAugmentOnce, rationalAugmentOnce, hst, flow_count_residual_cache_erase,
+            flow_count_bfs_path_erase, hp, flow_count_augment_candidate_erase, hc,
+            flow_count_path_bottleneck_erase, hm]
+        | some δ =>
+          simp [flowCountAugmentOnce, rationalAugmentOnce, hst, flow_count_residual_cache_erase,
+            flow_count_bfs_path_erase, hp, flow_count_augment_candidate_erase, hc,
+            flow_count_path_bottleneck_erase, hm, flow_count_table_push_path_erase]
+      · simp [flowCountAugmentOnce, rationalAugmentOnce, hst, flow_count_residual_cache_erase,
+          flow_count_bfs_path_erase, hp, flow_count_augment_candidate_erase, hc]
+
+theorem flow_count_augment_once_bound {n : ℕ} (C F : RationalFlowTable n) (s t : Fin n) :
+    flowWorkTotal (flowCountAugmentOnce C F s t).2 ≤ 1000 * (n + 2) ^ 3 := by
+  have hc := flow_count_residual_cache_bound C F
+  have hb := flow_count_bfs_path_bound (flowCountResidualCache C F).1 s t
+  by_cases hst : s = t
+  · simp only [flowCountAugmentOnce, hst, ↓reduceIte]
+    change 2 ≤ 1000 * (n + 2) ^ 3
+    nlinarith [Nat.zero_le (n ^ 2), Nat.zero_le (n ^ 3)]
+  · cases hp : (flowCountBFSPath (flowCountResidualCache C F).1 s t).1 with
+    | none =>
+      simp only [flowCountAugmentOnce, hst, ↓reduceIte, hp]
+      repeat rw [flow_work_total_add]
+      change flowWorkTotal (flowCountResidualCache C F).2 +
+        (flowWorkTotal (flowCountBFSPath (flowCountResidualCache C F).1 s t).2 + 3) ≤ _
+      nlinarith [Nat.zero_le (n ^ 2), Nat.zero_le (n ^ 3)]
+    | some path =>
+      have hlen : path.length ≤ n + 1 := by
+        rw [flow_count_bfs_path_erase] at hp
+        exact (cached_bfs_path_some_walk _ s t path hp).2
+      have htail : path.tail.length ≤ n + 1 := by
+        have ht : path.tail.length ≤ path.length := by cases path <;> simp
+        omega
+      have hcan := flow_count_augment_candidate_bound C F s t path
+      have hcan' : flowWorkTotal (flowCountAugmentCandidate C F s t path).2 ≤
+          32 * (n + 2) ^ 2 := by
+        apply le_trans hcan
+        have hl : path.length + 1 ≤ n + 2 := by omega
+        exact Nat.mul_le_mul_left 32 (Nat.pow_le_pow_left hl 2)
+      cases hv : (flowCountAugmentCandidate C F s t path).1 with
+      | false =>
+        simp only [flowCountAugmentOnce, hst, ↓reduceIte, hp, hv, Bool.false_eq_true]
+        repeat rw [flow_work_total_add]
+        change flowWorkTotal (flowCountResidualCache C F).2 +
+          (flowWorkTotal (flowCountBFSPath (flowCountResidualCache C F).1 s t).2 +
+            (flowWorkTotal (flowCountAugmentCandidate C F s t path).2 + 4)) ≤ _
+        nlinarith [Nat.zero_le (n ^ 2), Nat.zero_le (n ^ 3)]
+      | true =>
+        have hm := flow_count_path_bottleneck_bound C F s path.tail
+        have hm' : flowWorkTotal (flowCountPathBottleneck C F s path.tail).2 ≤
+            13 * (n + 1) + 4 := by omega
+        cases hd : (flowCountPathBottleneck C F s path.tail).1 with
+        | none =>
+          simp only [flowCountAugmentOnce, hst, ↓reduceIte, hp, hv, hd]
+          repeat rw [flow_work_total_add]
+          change flowWorkTotal (flowCountResidualCache C F).2 +
+            (flowWorkTotal (flowCountBFSPath (flowCountResidualCache C F).1 s t).2 +
+              (flowWorkTotal (flowCountAugmentCandidate C F s t path).2 + (flowWorkTotal (flowCountPathBottleneck C F s path.tail).2 + 5))) ≤ _
+          nlinarith [Nat.zero_le (n ^ 2), Nat.zero_le (n ^ 3)]
+        | some δ =>
+          have hpush := flow_count_table_push_path_bound F s path.tail δ
+          have hpush' : flowWorkTotal (flowCountTablePushPath F s path.tail δ).2 ≤
+              (n + 1) * (24 * (n + 1) ^ 2 + 3) + 2 := by
+            apply le_trans hpush
+            exact Nat.add_le_add_right (Nat.mul_le_mul_right _ htail) 2
+          simp only [flowCountAugmentOnce, hst, ↓reduceIte, hp, hv, hd]
+          repeat rw [flow_work_total_add]
+          change flowWorkTotal (flowCountResidualCache C F).2 +
+            (flowWorkTotal (flowCountBFSPath (flowCountResidualCache C F).1 s t).2 +
+              (flowWorkTotal (flowCountAugmentCandidate C F s t path).2 + (flowWorkTotal (flowCountPathBottleneck C F s path.tail).2 +
+                (flowWorkTotal (flowCountTablePushPath F s path.tail δ).2 + 7)))) ≤ _
+          nlinarith [Nat.zero_le (n ^ 2), Nat.zero_le (n ^ 3)]
+
+/-- Same demanded recursion as the actual direct loop; an unsuccessful return
+never constructs or invokes the remaining-fuel continuation. -/
+def flowCountTableFlowDirect {n : ℕ} (C : RationalFlowTable n) (s t : Fin n) :
+    ℕ → RationalFlowTable n → FlowCounted (RationalFlowTable n)
+  | 0, F => (F, {adminEvents := 1})
+  | fuel + 1, F =>
+    let attempt := flowCountAugmentOnce C F s t
+    match attempt.1 with
+    | none => (F, flowWorkAdd attempt.2 {adminEvents := 2})
+    | some out =>
+      let rest := flowCountTableFlowDirect C s t fuel out.flow
+      (rest.1, flowWorkAdd attempt.2 (flowWorkAdd {adminEvents := 2} rest.2))
+
+theorem flow_count_table_flow_direct_erase {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (fuel : ℕ) (F : RationalFlowTable n) :
+    (flowCountTableFlowDirect C s t fuel F).1 = rationalTableFlowIterateDirect C s t fuel F := by
+  induction fuel generalizing F with
+  | zero => rfl
+  | succ fuel ih =>
+    cases ho : rationalAugmentOnce C F s t with
+    | none =>
+      simp [flowCountTableFlowDirect, flow_count_augment_once_erase, ho,
+        rational_table_flow_iterate_direct_of_none C F s t (fuel + 1) ho]
+    | some out =>
+      simp only [flowCountTableFlowDirect, flow_count_augment_once_erase, ho]
+      rw [ih out.flow]
+      change _ = Option.rec (motive := fun _ => RationalFlowTable n) F
+        (fun result => rationalTableFlowIterateDirect C s t fuel result.flow)
+        (rationalAugmentOnce C F s t)
+      rw [ho]
+
+theorem flow_count_table_flow_direct_bound {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (fuel : ℕ) (F : RationalFlowTable n) :
+    flowWorkTotal (flowCountTableFlowDirect C s t fuel F).2 ≤
+      (fuel + 1) * (1000 * (n + 2) ^ 3 + 2) := by
+  induction fuel generalizing F with
+  | zero =>
+    change 1 ≤ (0 + 1) * (1000 * (n + 2) ^ 3 + 2)
+    omega
+  | succ fuel ih =>
+    have ha := flow_count_augment_once_bound C F s t
+    cases ho : (flowCountAugmentOnce C F s t).1 with
+    | none =>
+      simp only [flowCountTableFlowDirect, ho]
+      rw [flow_work_total_add]
+      change flowWorkTotal (flowCountAugmentOnce C F s t).2 + 2 ≤ _
+      nlinarith
+    | some out =>
+      have ht := ih out.flow
+      simp only [flowCountTableFlowDirect, ho]
+      rw [flow_work_total_add, flow_work_total_add]
+      change flowWorkTotal (flowCountAugmentOnce C F s t).2 +
+        (2 + flowWorkTotal (flowCountTableFlowDirect C s t fuel out.flow).2) ≤ _
+      nlinarith
+
+theorem rational_capacity_arc_support_card_le {n : ℕ} (C : RationalFlowTable n) :
+    (rationalCapacityArcSupport C).card ≤ n * n := by
+  have hcard := Finset.card_le_card
+    (Finset.filter_subset (fun e : Fin n × Fin n =>
+      0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1) Finset.univ)
+  simpa only [rationalCapacityArcSupport, Finset.card_univ,
+    Fintype.card_prod, Fintype.card_fin] using hcard
+
+/-- Counter bound for running the actual graph-fuel loop after its fuel and
+initial table have been computed. Pricing construction of the Finset support,
+its cardinal, and the zero table is a distinct initialization obligation.
+This boundary is explicit: this theorem is not total finder runtime. -/
+theorem flow_count_graph_fuel_loop_bound {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) :
+    flowWorkTotal (flowCountTableFlowDirect C s t (rationalTableGraphFuel C) F).2 ≤
+      2000 * (n + 2) ^ 6 := by
+  have he := rational_capacity_arc_support_card_le C
+  have hf : rationalTableGraphFuel C + 1 ≤ (n + 2) ^ 3 := by
+    unfold rationalTableGraphFuel
+    nlinarith [Nat.mul_le_mul_right (n + 2) he, Nat.zero_le (n ^ 3)]
+  have ht := flow_count_table_flow_direct_bound C s t (rationalTableGraphFuel C) F
+  have hm := Nat.mul_le_mul_right (1000 * (n + 2) ^ 3 + 2) hf
+  apply le_trans ht
+  apply le_trans hm
+  nlinarith [Nat.zero_le ((n + 2) ^ 3), Nat.zero_le ((n + 2) ^ 6)]
+
+end SparseCompletion
+
+/- Fixed source body: CountedFlowInitialization.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCOMPILED. Real finder initialization: canonical Fin.univ product,
+Multiset map/join representation, filtered oriented support, actual cardinal,
+natural fuel arithmetic, and materialized zero table. Erasure is to the actual
+graph-fuel finder, not an alternative denominator-fuel recomputation.
+
+The collection adapter counts source list primitives after pinned map/filter/
+append TR replacements. Join charges its actual foldrTR conversion/array pass
+per input row as well as each append; those independent pure conversion events
+are batched with the corresponding fold event. Array allocation/copy machine
+time, rational operand bits and compiler instruction counts remain unpriced.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+def flowCountMap {α β : Type*} (f : α → FlowCounted β) (xs : List α) :
+    FlowCounted (List β) := go xs []
+where
+  go : List α → List β → FlowCounted (List β)
+    | [], acc =>
+      let rev := flowCountReverseAux acc []
+      (rev.1, flowWorkAdd {adminEvents := 1} rev.2)
+    | a :: tail, acc =>
+      let head := f a
+      let rest := go tail (head.1 :: acc)
+      (rest.1, flowWorkAdd head.2
+        (flowWorkAdd {listEvents := 2, adminEvents := 1} rest.2))
+
+theorem flow_count_map_go_erase {α β : Type*} (f : α → FlowCounted β)
+    (xs : List α) (acc : List β) :
+    (flowCountMap.go f xs acc).1 = List.mapTR.loop (fun a => (f a).1) xs acc := by
+  induction xs generalizing acc with
+  | nil => exact flow_count_reverse_aux_erase acc []
+  | cons a xs ih => exact ih ((f a).1 :: acc)
+
+theorem flow_count_map_erase {α β : Type*} (f : α → FlowCounted β) (xs : List α) :
+    (flowCountMap f xs).1 = xs.map (fun a => (f a).1) := by
+  rw [List.map_eq_mapTR]
+  exact flow_count_map_go_erase f xs []
+
+theorem flow_count_map_go_bound {α β : Type*} (f : α → FlowCounted β)
+    (B : ℕ) (hb : ∀ a, flowWorkTotal (f a).2 ≤ B) (xs : List α) (acc : List β) :
+    flowWorkTotal (flowCountMap.go f xs acc).2 ≤
+      xs.length * (B + 6) + 3 * acc.length + 2 := by
+  induction xs generalizing acc with
+  | nil =>
+    have hr := flow_count_reverse_aux_total acc []
+    change flowWorkTotal (flowWorkAdd _ (flowCountReverseAux acc []).2) ≤ _
+    rw [flow_work_total_add, hr]
+    change 1 + (3 * acc.length + 1) ≤ _
+    simp only [List.length_nil, Nat.zero_mul, Nat.zero_add]
+    omega
+  | cons a xs ih =>
+    have hh := hb a
+    have ht := ih ((f a).1 :: acc)
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add]
+    change flowWorkTotal (f a).2 + (3 + flowWorkTotal (flowCountMap.go f xs ((f a).1 :: acc)).2) ≤ _
+    simp only [List.length_cons] at ht ⊢
+    nlinarith
+
+theorem flow_count_map_bound {α β : Type*} (f : α → FlowCounted β)
+    (B : ℕ) (hb : ∀ a, flowWorkTotal (f a).2 ≤ B) (xs : List α) :
+    flowWorkTotal (flowCountMap f xs).2 ≤ xs.length * (B + 6) + 2 := by
+  simpa only [flowCountMap, List.length_nil, mul_zero, add_zero] using
+    flow_count_map_go_bound f B hb xs []
+
+def flowCountJoin {α : Type*} : List (List α) → FlowCounted (List α)
+  | [] => ([], {adminEvents := 2})
+  | row :: rows =>
+    let rest := flowCountJoin rows
+    let joined := flowCountAppend row rest.1
+    (joined.1, flowWorkAdd rest.2
+      (flowWorkAdd {listEvents := 1, vectorEvents := 2, adminEvents := 3} joined.2))
+
+theorem flow_count_join_erase {α : Type*} (rows : List (List α)) :
+    (flowCountJoin rows).1 = rows.flatten := by
+  induction rows with
+  | nil => rfl
+  | cons row rows ih =>
+    change (flowCountAppend _ _).1 = _
+    rw [flow_count_append_erase, ih]
+    rfl
+
+theorem flow_count_join_bound {α : Type*} (rows : List (List α)) (L : ℕ)
+    (hlen : ∀ row ∈ rows, row.length ≤ L) :
+    flowWorkTotal (flowCountJoin rows).2 ≤ rows.length * (6 * L + 8) + 2 := by
+  induction rows with
+  | nil => simp [flowCountJoin, flowWorkTotal]
+  | cons row rows ih =>
+    have hr := hlen row List.mem_cons_self
+    have ht := ih (fun a ha => hlen a (List.mem_cons_of_mem row ha))
+    have ha := flow_count_append_total row (flowCountJoin rows).1
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add]
+    change flowWorkTotal (flowCountJoin rows).2 + (6 + flowWorkTotal (flowCountAppend row (flowCountJoin rows).1).2) ≤ _
+    simp only [List.length_cons]
+    nlinarith
+
+def flowCountPairUniverse (n : ℕ) : FlowCounted (List (Fin n × Fin n)) :=
+  let left := flowCountFinRange n
+  let right := flowCountFinRange n
+  let rows := flowCountMap
+    (fun a => flowCountMap (fun b => ((a, b), {adminEvents := 1})) right.1) left.1
+  let joined := flowCountJoin rows.1
+  (joined.1, flowWorkAdd left.2 (flowWorkAdd right.2 (flowWorkAdd rows.2 joined.2)))
+
+theorem flow_count_pair_universe_erase (n : ℕ) :
+    (flowCountPairUniverse n).1 =
+      (List.finRange n).flatMap (fun a => (List.finRange n).map (Prod.mk a)) := by
+  simp only [flowCountPairUniverse, flow_count_join_erase, flow_count_map_erase,
+    flow_count_finRange_erase, List.flatMap]
+
+theorem flow_count_pair_universe_multiset (n : ℕ) :
+    ((flowCountPairUniverse n).1 : Multiset (Fin n × Fin n)) =
+      (Finset.univ : Finset (Fin n × Fin n)).val := by
+  rw [flow_count_pair_universe_erase]
+  change ((List.finRange n).flatMap (fun a => (List.finRange n).map (Prod.mk a)) :
+    Multiset (Fin n × Fin n)) =
+      (List.finRange n : Multiset (Fin n)) ×ˢ (List.finRange n : Multiset (Fin n))
+  exact (Multiset.coe_product (List.finRange n) (List.finRange n)).symm
+
+theorem flow_count_pair_universe_length (n : ℕ) :
+    (flowCountPairUniverse n).1.length = n * n := by
+  have hc := congrArg Multiset.card (flow_count_pair_universe_multiset n)
+  simpa only [Multiset.coe_card, Finset.card_val, Finset.card_univ,
+    Fintype.card_prod, Fintype.card_fin] using hc
+
+theorem flow_count_pair_universe_bound (n : ℕ) :
+    flowWorkTotal (flowCountPairUniverse n).2 ≤ 40 * (n + 1) ^ 2 := by
+  have hrow : ∀ a : Fin n, flowWorkTotal
+      (flowCountMap (fun b : Fin n => ((a, b), ({adminEvents := 1} : FlowWork)))
+        (flowCountFinRange n).1).2 ≤ 7 * n + 2 := by
+    intro a
+    have h := flow_count_map_bound (fun b : Fin n =>
+      ((a, b), ({adminEvents := 1} : FlowWork))) 1 (fun _ => le_rfl) (flowCountFinRange n).1
+    simpa only [flow_count_finRange_erase, List.length_finRange, Nat.mul_comm] using h
+  have hrows := flow_count_map_bound (fun a : Fin n => flowCountMap
+    (fun b => ((a, b), ({adminEvents := 1} : FlowWork))) (flowCountFinRange n).1)
+    (7 * n + 2) hrow (flowCountFinRange n).1
+  have hleftLen := congrArg List.length (flow_count_finRange_erase n)
+  simp only [List.length_finRange] at hleftLen
+  rw [hleftLen] at hrows
+  have hrowLen : ∀ row ∈ (flowCountMap (fun a : Fin n => flowCountMap
+      (fun b => ((a, b), ({adminEvents := 1} : FlowWork))) (flowCountFinRange n).1)
+      (flowCountFinRange n).1).1, row.length ≤ n := by
+    intro row hmem
+    rw [flow_count_map_erase] at hmem
+    obtain ⟨a, _, he⟩ := List.mem_map.mp hmem
+    subst row
+    simp [flow_count_map_erase, flow_count_finRange_erase]
+  have hj := flow_count_join_bound _ n hrowLen
+  have hrowsLen : (flowCountMap (fun a : Fin n => flowCountMap
+      (fun b => ((a, b), ({adminEvents := 1} : FlowWork))) (flowCountFinRange n).1)
+      (flowCountFinRange n).1).1.length = n := by
+    simp [flow_count_map_erase, flow_count_finRange_erase]
+  rw [hrowsLen] at hj
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ _))) ≤ _
+  repeat rw [flow_work_total_add]
+  simp only [flow_count_finRange_total]
+  nlinarith
+
+def flowCountFilter {α : Type*} (p : α → FlowCounted Bool) (xs : List α) :
+    FlowCounted (List α) := go xs []
+where
+  go : List α → List α → FlowCounted (List α)
+    | [], acc =>
+      let rev := flowCountReverseAux acc []
+      (rev.1, flowWorkAdd {adminEvents := 1} rev.2)
+    | a :: tail, acc =>
+      let test := p a
+      let rest := go tail (if test.1 then a :: acc else acc)
+      (rest.1, flowWorkAdd test.2
+        (flowWorkAdd {listEvents := if test.1 then 2 else 1, adminEvents := 1} rest.2))
+
+theorem flow_count_filter_go_erase {α : Type*} (p : α → FlowCounted Bool)
+    (xs acc : List α) :
+    (flowCountFilter.go p xs acc).1 = List.filterTR.loop (fun a => (p a).1) xs acc := by
+  induction xs generalizing acc with
+  | nil => exact flow_count_reverse_aux_erase acc []
+  | cons a xs ih =>
+    cases he : (p a).1 <;> simpa [flowCountFilter.go, he, List.filterTR.loop] using
+      ih (if (p a).1 then a :: acc else acc)
+
+theorem flow_count_filter_erase {α : Type*} (p : α → FlowCounted Bool) (xs : List α) :
+    (flowCountFilter p xs).1 = xs.filter (fun a => (p a).1) := by
+  rw [List.filter_eq_filterTR]
+  exact flow_count_filter_go_erase p xs []
+
+theorem flow_count_filter_go_bound {α : Type*} (p : α → FlowCounted Bool)
+    (B : ℕ) (hb : ∀ a, flowWorkTotal (p a).2 ≤ B) (xs acc : List α) :
+    flowWorkTotal (flowCountFilter.go p xs acc).2 ≤
+      xs.length * (B + 6) + 3 * acc.length + 2 := by
+  induction xs generalizing acc with
+  | nil =>
+    have hr := flow_count_reverse_aux_total acc []
+    change flowWorkTotal (flowWorkAdd _ (flowCountReverseAux acc []).2) ≤ _
+    rw [flow_work_total_add, hr]
+    change 1 + (3 * acc.length + 1) ≤ _
+    simp only [List.length_nil, Nat.zero_mul, Nat.zero_add]
+    omega
+  | cons a xs ih =>
+    have hh := hb a
+    cases he : (p a).1 with
+    | false =>
+      have ht := ih acc
+      simp only [flowCountFilter.go, he, Bool.false_eq_true, ↓reduceIte]
+      rw [flow_work_total_add, flow_work_total_add]
+      change flowWorkTotal (p a).2 + (2 + flowWorkTotal (flowCountFilter.go p xs acc).2) ≤ _
+      simp only [List.length_cons]
+      nlinarith
+    | true =>
+      have ht := ih (a :: acc)
+      simp only [flowCountFilter.go, he, ↓reduceIte]
+      rw [flow_work_total_add, flow_work_total_add]
+      change flowWorkTotal (p a).2 + (3 + flowWorkTotal (flowCountFilter.go p xs (a :: acc)).2) ≤ _
+      simp only [List.length_cons] at ht ⊢
+      nlinarith
+
+theorem flow_count_filter_bound {α : Type*} (p : α → FlowCounted Bool)
+    (B : ℕ) (hb : ∀ a, flowWorkTotal (p a).2 ≤ B) (xs : List α) :
+    flowWorkTotal (flowCountFilter p xs).2 ≤ xs.length * (B + 6) + 2 := by
+  simpa only [flowCountFilter, List.length_nil, mul_zero, add_zero] using
+    flow_count_filter_go_bound p B hb xs []
+
+def flowCountLength {α : Type*} : List α → FlowCounted ℕ
+  | [] => (0, {adminEvents := 1})
+  | _ :: tail =>
+    let rest := flowCountLength tail
+    (rest.1 + 1, flowWorkAdd {listEvents := 1, adminEvents := 1} rest.2)
+
+theorem flow_count_length_erase {α : Type*} (xs : List α) :
+    (flowCountLength xs).1 = xs.length := by
+  induction xs with
+  | nil => rfl
+  | cons a xs ih => simpa only [flowCountLength, List.length_cons] using congrArg (· + 1) ih
+
+theorem flow_count_length_total {α : Type*} (xs : List α) :
+    flowWorkTotal (flowCountLength xs).2 = 2 * xs.length + 1 := by
+  induction xs with
+  | nil => rfl
+  | cons a xs ih =>
+    change flowWorkTotal (flowWorkAdd _ (flowCountLength xs).2) = _
+    rw [flow_work_total_add, ih]
+    change 2 + (2 * xs.length + 1) = _
+    simp only [List.length_cons]
+    omega
+
+def flowCountGraphFuel {n : ℕ} (C : RationalFlowTable n) : FlowCounted ℕ :=
+  let pairs := flowCountPairUniverse n
+  let support := flowCountFilter (fun e =>
+    (decide (0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1),
+      {rationalEvents := 2, vectorEvents := 4, adminEvents := 1})) pairs.1
+  let cardinal := flowCountLength support.1
+  (cardinal.1 * (n + 2) + 1, flowWorkAdd pairs.2
+    (flowWorkAdd support.2 (flowWorkAdd cardinal.2 {adminEvents := 3})))
+
+theorem flow_count_graph_fuel_erase {n : ℕ} (C : RationalFlowTable n) :
+    (flowCountGraphFuel C).1 = rationalTableGraphFuel C := by
+  let P : Fin n × Fin n → Prop := fun e =>
+    0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1
+  have hm : ((flowCountFilter (fun e =>
+      (decide (P e), ({rationalEvents := 2, vectorEvents := 4, adminEvents := 1} : FlowWork)))
+      (flowCountPairUniverse n).1).1 : Multiset (Fin n × Fin n)) =
+      (rationalCapacityArcSupport C).val := by
+    rw [flow_count_filter_erase]
+    change Multiset.filter P ((flowCountPairUniverse n).1 : Multiset _) = _
+    rw [flow_count_pair_universe_multiset]
+    rfl
+  have hc := congrArg Multiset.card hm
+  simp only [Multiset.coe_card, Finset.card_val] at hc
+  change (flowCountLength _).1 * (n + 2) + 1 = _
+  rw [flow_count_length_erase, hc]
+  rfl
+
+theorem flow_count_graph_fuel_bound {n : ℕ} (C : RationalFlowTable n) :
+    flowWorkTotal (flowCountGraphFuel C).2 ≤ 100 * (n + 1) ^ 2 := by
+  have hu := flow_count_pair_universe_bound n
+  have hf := flow_count_filter_bound (fun e : Fin n × Fin n =>
+    (decide (0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1),
+      ({rationalEvents := 2, vectorEvents := 4, adminEvents := 1} : FlowWork))) 7
+    (fun _ => le_rfl) (flowCountPairUniverse n).1
+  rw [flow_count_pair_universe_length] at hf
+  have hlen : (flowCountFilter (fun e : Fin n × Fin n =>
+      (decide (0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1),
+        ({rationalEvents := 2, vectorEvents := 4, adminEvents := 1} : FlowWork)))
+      (flowCountPairUniverse n).1).1.length ≤ n * n := by
+    rw [flow_count_filter_erase]
+    exact le_trans (List.length_filter_le _ _) (le_of_eq (flow_count_pair_universe_length n))
+  have hl := flow_count_length_total (flowCountFilter (fun e : Fin n × Fin n =>
+    (decide (0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1),
+      ({rationalEvents := 2, vectorEvents := 4, adminEvents := 1} : FlowWork)))
+      (flowCountPairUniverse n).1).1
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ _))) ≤ _
+  repeat rw [flow_work_total_add]
+  change flowWorkTotal (flowCountPairUniverse n).2 +
+    (flowWorkTotal (flowCountFilter _ (flowCountPairUniverse n).1).2 +
+      (flowWorkTotal (flowCountLength _).2 + 3)) ≤ _
+  nlinarith
+
+def flowCountZeroTable (n : ℕ) : FlowCounted (RationalFlowTable n) :=
+  flowCountVectorOfFn fun _ => flowCountVectorOfFn fun _ => (0, {})
+
+theorem flow_count_zero_table_erase (n : ℕ) :
+    (flowCountZeroTable n).1 = rationalZeroFlowTable n := by
+  unfold flowCountZeroTable rationalZeroFlowTable
+  rw [flow_count_vector_ofFn_erase]
+  congr 1
+  funext u
+  exact flow_count_vector_ofFn_erase _
+
+theorem flow_count_zero_table_bound (n : ℕ) :
+    flowWorkTotal (flowCountZeroTable n).2 ≤ 10 * (n + 1) ^ 2 := by
+  have hr : ∀ u : Fin n, flowWorkTotal
+      (flowCountVectorOfFn (fun _ : Fin n => ((0 : ℚ), ({} : FlowWork)))).2 ≤ n * 4 + 1 := by
+    intro u
+    exact flow_count_vector_ofFn_bound _ 0 (fun _ => le_rfl)
+  have ht := flow_count_vector_ofFn_bound
+    (fun _ : Fin n => flowCountVectorOfFn (fun _ : Fin n => ((0 : ℚ), ({} : FlowWork))))
+    (n * 4 + 1) hr
+  change flowWorkTotal (flowCountZeroTable n).2 ≤ _ at ht
+  nlinarith
+
+def flowCountFindFlowPolynomial {n : ℕ} (C : RationalFlowTable n) (s t : Fin n) :
+    FlowCounted (RationalFlowTable n) :=
+  let fuel := flowCountGraphFuel C
+  let initial := flowCountZeroTable n
+  let run := flowCountTableFlowDirect C s t fuel.1 initial.1
+  (run.1, flowWorkAdd fuel.2 (flowWorkAdd initial.2
+    (flowWorkAdd {adminEvents := 1} run.2)))
+
+theorem flow_count_find_flow_polynomial_erase {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) :
+    (flowCountFindFlowPolynomial C s t).1 = rationalTableFindFlowPolynomial C s t := by
+  change (flowCountTableFlowDirect C s t _ _).1 = _
+  rw [flow_count_table_flow_direct_erase, flow_count_graph_fuel_erase, flow_count_zero_table_erase]
+  rfl
+
+/-- Complete source-event bound includes real graph-fuel and zero-table
+initialization, the candidate checks, paths, all materialized pushes, and the
+actual demanded direct-loop administrative cases. The erased output is the
+actual graph-bounded finder. This is still a source-event unit-operation model,
+not a theorem about compiler instructions, allocator behavior or rational bits.
+-/
+theorem flow_count_find_flow_polynomial_bound {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) :
+    flowWorkTotal (flowCountFindFlowPolynomial C s t).2 ≤ 3000 * (n + 2) ^ 6 := by
+  have hf := flow_count_graph_fuel_bound C
+  have hz := flow_count_zero_table_bound n
+  have hr := flow_count_graph_fuel_loop_bound C (rationalZeroFlowTable n) s t
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ _))) ≤ _
+  repeat rw [flow_work_total_add]
+  rw [flow_count_graph_fuel_erase, flow_count_zero_table_erase]
+  change flowWorkTotal (flowCountGraphFuel C).2 + (flowWorkTotal (flowCountZeroTable n).2 +
+    (1 + flowWorkTotal (flowCountTableFlowDirect C s t (rationalTableGraphFuel C) (rationalZeroFlowTable n)).2)) ≤ _
+  have hpoly : (n + 1) ^ 2 ≤ (n + 2) ^ 6 := by
+    have h1 : (n + 1) ^ 2 ≤ (n + 2) ^ 2 := Nat.pow_le_pow_left (by omega) 2
+    have h2 : (n + 2) ^ 2 ≤ (n + 2) ^ 6 := Nat.pow_le_pow_right (by omega) (by omega)
+    exact le_trans h1 h2
+  have hpos : 1 ≤ (n + 2) ^ 6 := by
+    have he : 0 < (n + 2) ^ 6 := pow_pos (by omega) _
+    omega
+  omega
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianKernel.lean -/
+/- AI-assisted formalization; Apache-2.0, following the parent repository.
+Strict module compilation and artifact evidence are retained in attempts/.
+No verified polynomial-cost claim.
+The program uses rational arithmetic, deterministic finite pivot search, and
+materialized finite lists. Classical choice is not used in any definition.
+These correctness proofs concern the actual deterministic table algorithm.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion.Gaussian
+
+abbrev QVec (n : ℕ) := List.Vector ℚ n
+abbrev QTable (r n : ℕ) := List.Vector (QVec n) r
+
+@[simp] theorem vecGet_ofFn {n : ℕ} (f : Fin n → ℚ) :
+    (List.Vector.ofFn f).get = f := by
+  funext i
+  simp
+
+def tableOfFn {r n : ℕ} (A : Fin r → Fin n → ℚ) : QTable r n :=
+  List.Vector.ofFn (fun i => List.Vector.ofFn (A i))
+
+def entry {r n : ℕ} (A : QTable r n) (i : Fin r) (j : Fin n) : ℚ :=
+  (A.get i).get j
+
+@[simp] theorem entry_tableOfFn {r n : ℕ} (A : Fin r → Fin n → ℚ)
+    (i : Fin r) (j : Fin n) : entry (tableOfFn A) i j = A i j := by
+  simp [entry, tableOfFn]
+
+@[simp] theorem entry_tableOfFn_function {r n : ℕ} (A : Fin r → Fin n → ℚ) :
+    entry (tableOfFn A) = A := by
+  funext i j
+  exact entry_tableOfFn A i j
+
+def dot {n : ℕ} (a x : Fin n → ℚ) : ℚ := ∑ j, a j * x j
+
+def IsKernel {r n : ℕ} (A : QTable r n) (x : Fin n → ℚ) : Prop :=
+  ∀ i, dot (entry A i) x = 0
+
+/-- First nonzero coordinate, in Fin's natural order, by structural recursion.
+This does not call an existential decider or a noncomputable finite selector. -/
+def firstNonzero : (r : ℕ) → (Fin r → ℚ) → Option (Fin r)
+  | 0, _ => none
+  | r+1, a => if a 0 = 0 then
+      (firstNonzero r (fun i => a i.succ)).map Fin.succ
+    else some 0
+
+theorem firstNonzero_none (r : ℕ) (a : Fin r → ℚ) :
+    firstNonzero r a = none ↔ ∀ i, a i = 0 := by
+  induction r with
+  | zero => simp [firstNonzero]
+  | succ r ih =>
+    by_cases h : a 0 = 0
+    · simp only [firstNonzero, h, ↓reduceIte, Option.map_eq_none_iff, ih]
+      constructor
+      · intro ht i
+        refine Fin.cases h (fun j => ht j) i
+      · intro ht j
+        exact ht j.succ
+    · simp only [firstNonzero, h, ↓reduceIte, Option.some_ne_none, false_iff]
+      intro ht
+      exact h (ht 0)
+
+theorem firstNonzero_some (r : ℕ) (a : Fin r → ℚ) (p : Fin r)
+    (h : firstNonzero r a = some p) : a p ≠ 0 := by
+  induction r with
+  | zero => exact Fin.elim0 p
+  | succ r ih =>
+    by_cases hz : a 0 = 0
+    · cases he : firstNonzero r (fun i => a i.succ) with
+      | none => simp [firstNonzero, hz, he] at h
+      | some q =>
+        have hp : q.succ = p := by simpa [firstNonzero, hz, he] using h
+        subst p
+        exact ih (fun i => a i.succ) q he
+    · have hp : (0 : Fin (r+1)) = p := by simpa [firstNonzero, hz] using h
+      subst p
+      exact hz
+
+/-- Schur residual after the first column has a nonzero pivot in row p. -/
+def residual {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ) (p : Fin r) :
+    Fin r → Fin n → ℚ :=
+  fun i j => A i j.succ - A i 0 * (A p j.succ / A p 0)
+
+/-- Restore the eliminated first coordinate. The returned tail is unchanged. -/
+def lift {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ) (p : Fin r)
+    (w : Fin n → ℚ) : Fin (n+1) → ℚ :=
+  Fin.cons (-(∑ j, (A p j.succ / A p 0) * w j)) w
+
+@[simp] theorem lift_succ {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ)
+    (p : Fin r) (w : Fin n → ℚ) (j : Fin n) :
+    lift A p w j.succ = w j := by simp [lift]
+
+/-- Exact algebraic identity; no pivot assumption is necessary for this identity. -/
+theorem dot_lift {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ)
+    (p i : Fin r) (w : Fin n → ℚ) :
+    dot (A i) (lift A p w) = dot (residual A p i) w := by
+  simp only [dot, Fin.sum_univ_succ, lift, Fin.cons_zero, Fin.cons_succ,
+    residual, sub_mul, Finset.sum_sub_distrib, mul_neg, Finset.mul_sum]
+  simp_rw [mul_assoc]
+  ring
+
+/-- A relation determines its eliminated coordinate from the pivot equation. -/
+theorem lift_tail_of_kernel {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ)
+    (p : Fin r) (hp : A p 0 ≠ 0) (v : Fin (n+1) → ℚ)
+    (hv : dot (A p) v = 0) :
+    lift A p (fun j => v j.succ) = v := by
+  funext j
+  refine Fin.cases ?_ (fun _ => by simp [lift]) j
+  have hs : A p 0 * v 0 + ∑ j : Fin n, A p j.succ * v j.succ = 0 := by
+    simpa only [dot, Fin.sum_univ_succ] using hv
+  have ht : (∑ j : Fin n, (A p j.succ / A p 0) * v j.succ) =
+      (∑ j : Fin n, A p j.succ * v j.succ) / A p 0 := by
+    simp_rw [div_mul_eq_mul_div₀]
+    exact (Finset.sum_div _ _ _).symm
+  change -(∑ j : Fin n, (A p j.succ / A p 0) * v j.succ) = v 0
+  rw [ht]
+  rw [← neg_div]
+  apply (div_eq_iff hp).2
+  linarith
+
+/-- Each call strictly decreases the number of columns. Every residual matrix
+and returned vector is materialized with Vector.ofFn before it is reused.
+No solver, kernel witness, rank witness, or choice function is program input. -/
+def kernel (r : ℕ) : (n : ℕ) → QTable r n → Option (QVec n)
+  | 0, _ => none
+  | n+1, A =>
+    match firstNonzero r (fun i => entry A i 0) with
+    | none => some (List.Vector.ofFn (Fin.cons 1 (fun _ => 0)))
+    | some p =>
+      let B := tableOfFn (residual (entry A) p)
+      (kernel r n B).map (fun w => List.Vector.ofFn (lift (entry A) p w.get))
+
+/-- A returned value is a nonzero homogeneous relation. -/
+theorem kernel_sound (r n : ℕ) (A : QTable r n) (w : QVec n)
+    (h : kernel r n A = some w) :
+    IsKernel A w.get ∧ ∃ j, w.get j ≠ 0 := by
+  induction n with
+  | zero => simp [kernel] at h
+  | succ n ih =>
+    cases hp : firstNonzero r (fun i => entry A i 0) with
+    | none =>
+      have hw : List.Vector.ofFn (Fin.cons 1 (fun _ : Fin n => 0)) = w := by
+        simpa [kernel, hp] using h
+      subst w
+      have hz := (firstNonzero_none r (fun i => entry A i 0)).mp hp
+      constructor
+      · intro i
+        simp [dot, Fin.sum_univ_succ, hz i]
+      · exact ⟨0, by simp⟩
+    | some p =>
+      cases hk : kernel r n (tableOfFn (residual (entry A) p)) with
+      | none => simp [kernel, hp, hk] at h
+      | some v =>
+        have hw : List.Vector.ofFn (lift (entry A) p v.get) = w := by
+          simpa [kernel, hp, hk] using h
+        subst w
+        obtain ⟨hv, j, hj⟩ := ih _ v hk
+        constructor
+        · intro i
+          simpa only [vecGet_ofFn, dot_lift, IsKernel,
+            entry_tableOfFn_function] using hv i
+        · exact ⟨j.succ, by simpa using hj⟩
+
+/-- The relation has an exactly normalized coordinate; normalization does not
+need an additional division after discovery. This is useful for its Cramer
+description once the selected pivot-minor invariant is established. -/
+theorem kernel_has_unit_coordinate (r n : ℕ) (A : QTable r n) (w : QVec n)
+    (h : kernel r n A = some w) : ∃ j, w.get j = 1 := by
+  induction n with
+  | zero => simp [kernel] at h
+  | succ n ih =>
+    cases hp : firstNonzero r (fun i => entry A i 0) with
+    | none =>
+      have hw : List.Vector.ofFn (Fin.cons 1 (fun _ : Fin n => 0)) = w := by
+        simpa [kernel, hp] using h
+      subst w
+      exact ⟨0, by simp⟩
+    | some p =>
+      cases hk : kernel r n (tableOfFn (residual (entry A) p)) with
+      | none => simp [kernel, hp, hk] at h
+      | some v =>
+        have hw : List.Vector.ofFn (lift (entry A) p v.get) = w := by
+          simpa [kernel, hp, hk] using h
+        subst w
+        obtain ⟨j, hj⟩ := ih _ v hk
+        exact ⟨j.succ, by simpa using hj⟩
+
+/-- Failure certifies injectivity, rather than merely bounded-fuel failure. -/
+theorem kernel_none_injective (r n : ℕ) (A : QTable r n)
+    (h : kernel r n A = none) (v : Fin n → ℚ) (hv : IsKernel A v) :
+    ∀ j, v j = 0 := by
+  induction n with
+  | zero => exact fun j => Fin.elim0 j
+  | succ n ih =>
+    cases hp : firstNonzero r (fun i => entry A i 0) with
+    | none => simp [kernel, hp] at h
+    | some p =>
+      have hn : kernel r n (tableOfFn (residual (entry A) p)) = none := by
+        simpa only [kernel, hp, Option.map_eq_none_iff] using h
+      have hp0 := firstNonzero_some r (fun i => entry A i 0) p hp
+      have he := lift_tail_of_kernel (entry A) p hp0 v (hv p)
+      have ht : IsKernel (tableOfFn (residual (entry A) p))
+          (fun j => v j.succ) := by
+        intro i
+        simpa only [IsKernel, entry_tableOfFn_function, ← dot_lift, he] using hv i
+      have hz := ih _ hn (fun j => v j.succ) ht
+      intro j
+      refine Fin.cases ?_ hz j
+      have hh := congrFun he 0
+      simpa [lift, hz] using hh.symm
+
+theorem kernel_complete (r n : ℕ) (A : QTable r n)
+    (v : Fin n → ℚ) (hv : IsKernel A v) (hn : ∃ j, v j ≠ 0) :
+    ∃ w, kernel r n A = some w := by
+  cases he : kernel r n A with
+  | some w => exact ⟨w, rfl⟩
+  | none =>
+    obtain ⟨j, hj⟩ := hn
+    exact False.elim (hj (kernel_none_injective r n A he v hv j))
+
+theorem kernel_none_iff (r n : ℕ) (A : QTable r n) :
+    kernel r n A = none ↔
+      ∀ v : Fin n → ℚ, IsKernel A v → ∀ j, v j = 0 := by
+  constructor
+  · exact fun h v hv => kernel_none_injective r n A h v hv
+  · intro h
+    cases he : kernel r n A with
+    | none => rfl
+    | some w =>
+      obtain ⟨hw, j, hj⟩ := kernel_sound r n A w he
+      exact False.elim (hj (h w.get hw j))
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: CountedGaussianPrimitives.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact verification status is retained in external immutable receipts. Separate extension of the frozen flow82 ledger.
+Gaussian.QVec is Mathlib's LIST-backed Vector, not core's Array-backed Vector.
+List reads below execute and charge each traversed cons. Gaussian arithmetic
+extends rationalEvents to mul/div/neg as well as add/sub/equality/order tests;
+these are unit source invocations, never operand-bit or native instructions.
+
+The finite-sum adapter retains canonical Fin enumeration, the pinned mapTR
+writer from flow82, and the source foldr result. Its per-element fold charge
+batches the independently pure toArray conversion used by foldrTR (list visit,
+array push) with the corresponding array read/add/loop event. As in flow82's
+join adapter, this is an aggregate designated ledger, not a trace-order or
+operational-adequacy theorem. Counter bookkeeping itself is excluded.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Literal List.get recursion. Both terminal read and skipped cons cost one
+list visit and one designated indexing/case event. No constant-time read. -/
+def gaussianCountListGet {α : Type*} : (xs : List α) → Fin xs.length → FlowCounted α
+  | a :: _, ⟨0, _⟩ => (a, {listEvents := 1, adminEvents := 1})
+  | _ :: tail, ⟨i + 1, hi⟩ =>
+    let rest := gaussianCountListGet tail ⟨i, Nat.lt_of_succ_lt_succ hi⟩
+    (rest.1, flowWorkAdd {listEvents := 1, adminEvents := 1} rest.2)
+
+theorem gaussian_count_list_get_erase {α : Type*} (xs : List α) (i : Fin xs.length) :
+    (gaussianCountListGet xs i).1 = xs.get i := by
+  induction xs with
+  | nil => exact Fin.elim0 i
+  | cons a tail ih =>
+    rcases i with ⟨i, hi⟩
+    cases i with
+    | zero => rfl
+    | succ i => exact ih ⟨i, Nat.lt_of_succ_lt_succ hi⟩
+
+theorem gaussian_count_list_get_total {α : Type*} (xs : List α) (i : Fin xs.length) :
+    flowWorkTotal (gaussianCountListGet xs i).2 = 2 * (i.val + 1) := by
+  induction xs with
+  | nil => exact Fin.elim0 i
+  | cons a tail ih =>
+    rcases i with ⟨i, hi⟩
+    cases i with
+    | zero => rfl
+    | succ i =>
+      change flowWorkTotal (flowWorkAdd _ (gaussianCountListGet tail _).2) = _
+      rw [flow_work_total_add, ih]
+      change 2 + 2 * (i + 1) = 2 * (i + 1 + 1)
+      omega
+
+def gaussianCountVectorGet {α : Type*} {n : ℕ} (v : List.Vector α n) (i : Fin n) :
+    FlowCounted α := gaussianCountListGet v.val (i.cast v.property.symm)
+
+theorem gaussian_count_vector_get_erase {α : Type*} {n : ℕ}
+    (v : List.Vector α n) (i : Fin n) :
+    (gaussianCountVectorGet v i).1 = v.get i := by
+  exact gaussian_count_list_get_erase _ _
+
+theorem gaussian_count_vector_get_total {α : Type*} {n : ℕ}
+    (v : List.Vector α n) (i : Fin n) :
+    flowWorkTotal (gaussianCountVectorGet v i).2 = 2 * (i.val + 1) := by
+  exact gaussian_count_list_get_total _ _
+
+theorem gaussian_count_vector_get_bound {α : Type*} {n : ℕ}
+    (v : List.Vector α n) (i : Fin n) :
+    flowWorkTotal (gaussianCountVectorGet v i).2 ≤ 2 * n := by
+  rw [gaussian_count_vector_get_total]
+  omega
+
+/-- Literal recursive Mathlib List.Vector.ofFn. Its subtype proofs erase;
+there is no core Array.ofFn call or reverse pass at this site. -/
+def gaussianCountVectorOfFn {α : Type*} : {n : ℕ} → (Fin n → FlowCounted α) →
+    FlowCounted (List.Vector α n)
+  | 0, _ => (List.Vector.nil, {listEvents := 1, adminEvents := 1})
+  | n + 1, f =>
+    let head := f 0
+    let tail := gaussianCountVectorOfFn (fun i : Fin n => f i.succ)
+    (List.Vector.cons head.1 tail.1,
+      flowWorkAdd head.2 (flowWorkAdd {listEvents := 1, adminEvents := 1} tail.2))
+
+theorem gaussian_count_vector_ofFn_erase {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) :
+    (gaussianCountVectorOfFn f).1 = List.Vector.ofFn (fun i => (f i).1) := by
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+    change List.Vector.cons _ (gaussianCountVectorOfFn _).1 = _
+    rw [ih]
+    rfl
+
+theorem gaussian_count_vector_ofFn_bound {α : Type*} {n : ℕ}
+    (f : Fin n → FlowCounted α) (B : ℕ) (hb : ∀ i, flowWorkTotal (f i).2 ≤ B) :
+    flowWorkTotal (gaussianCountVectorOfFn f).2 ≤ n * (B + 2) + 2 := by
+  induction n with
+  | zero => simp [gaussianCountVectorOfFn, flowWorkTotal]
+  | succ n ih =>
+    have hh := hb 0
+    have ht := ih (fun i => f i.succ) (fun i => hb i.succ)
+    change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+    rw [flow_work_total_add, flow_work_total_add]
+    change flowWorkTotal (f 0).2 +
+      (2 + flowWorkTotal (gaussianCountVectorOfFn (fun i : Fin n => f i.succ)).2) ≤ _
+    nlinarith
+
+def gaussianCountEntry {r n : ℕ} (A : Gaussian.QTable r n) (i : Fin r) (j : Fin n) :
+    FlowCounted ℚ :=
+  let row := gaussianCountVectorGet A i
+  let cell := gaussianCountVectorGet row.1 j
+  (cell.1, flowWorkAdd row.2 cell.2)
+
+theorem gaussian_count_entry_erase {r n : ℕ} (A : Gaussian.QTable r n)
+    (i : Fin r) (j : Fin n) :
+    (gaussianCountEntry A i j).1 = Gaussian.entry A i j := by
+  simp [gaussianCountEntry, gaussian_count_vector_get_erase, Gaussian.entry]
+
+theorem gaussian_count_entry_total {r n : ℕ} (A : Gaussian.QTable r n)
+    (i : Fin r) (j : Fin n) :
+    flowWorkTotal (gaussianCountEntry A i j).2 = 2 * (i.val + 1) + 2 * (j.val + 1) := by
+  change flowWorkTotal (flowWorkAdd _ _) = _
+  rw [flow_work_total_add, gaussian_count_vector_get_total, gaussian_count_vector_get_total]
+
+theorem gaussian_count_entry_bound {r n : ℕ} (A : Gaussian.QTable r n)
+    (i : Fin r) (j : Fin n) :
+    flowWorkTotal (gaussianCountEntry A i j).2 ≤ 2 * (r + n) := by
+  rw [gaussian_count_entry_total]
+  omega
+
+/-- Same two nested list-vector constructions as Gaussian.tableOfFn. -/
+def gaussianCountTableOfFn {r n : ℕ} (f : Fin r → Fin n → FlowCounted ℚ) :
+    FlowCounted (Gaussian.QTable r n) :=
+  gaussianCountVectorOfFn (fun i => gaussianCountVectorOfFn (f i))
+
+theorem gaussian_count_table_ofFn_erase {r n : ℕ}
+    (f : Fin r → Fin n → FlowCounted ℚ) :
+    (gaussianCountTableOfFn f).1 = Gaussian.tableOfFn (fun i j => (f i j).1) := by
+  simp only [gaussianCountTableOfFn, gaussian_count_vector_ofFn_erase, Gaussian.tableOfFn]
+
+theorem gaussian_count_table_ofFn_bound {r n : ℕ}
+    (f : Fin r → Fin n → FlowCounted ℚ) (B : ℕ)
+    (hb : ∀ i j, flowWorkTotal (f i j).2 ≤ B) :
+    flowWorkTotal (gaussianCountTableOfFn f).2 ≤ r * (n * (B + 2) + 4) + 2 := by
+  exact gaussian_count_vector_ofFn_bound _ (n * (B + 2) + 2)
+    (fun i => gaussian_count_vector_ofFn_bound (f i) B (hb i))
+
+/-- Aggregate pinned foldrTR conversion/read/add ledger. Each demanded input
+cons is traversed in this executable adapter; conversion events are batched.
+One rational addition, list1, vector2, admin3 per element; terminal admin2. -/
+def gaussianCountListSum : List ℚ → FlowCounted ℚ
+  | [] => (0, {adminEvents := 2})
+  | a :: tail =>
+    let rest := gaussianCountListSum tail
+    (a + rest.1,
+      flowWorkAdd {rationalEvents := 1, listEvents := 1, vectorEvents := 2, adminEvents := 3} rest.2)
+
+theorem gaussian_count_list_sum_erase (xs : List ℚ) :
+    (gaussianCountListSum xs).1 = xs.sum := by
+  induction xs with
+  | nil => rfl
+  | cons a tail ih => simp [gaussianCountListSum, ih]
+
+theorem gaussian_count_list_sum_total (xs : List ℚ) :
+    flowWorkTotal (gaussianCountListSum xs).2 = 7 * xs.length + 2 := by
+  induction xs with
+  | nil => rfl
+  | cons a tail ih =>
+    change flowWorkTotal (flowWorkAdd _ _) = _
+    rw [flow_work_total_add, ih]
+    change 7 + (7 * tail.length + 2) = _
+    simp only [List.length_cons]
+    omega
+
+def gaussianCountFiniteSum {n : ℕ} (f : Fin n → FlowCounted ℚ) : FlowCounted ℚ :=
+  let labels := flowCountFinRange n
+  let values := flowCountMap f labels.1
+  let total := gaussianCountListSum values.1
+  (total.1, flowWorkAdd labels.2 (flowWorkAdd values.2 total.2))
+
+theorem gaussian_count_finite_sum_erase {n : ℕ} (f : Fin n → FlowCounted ℚ) :
+    (gaussianCountFiniteSum f).1 = ∑ j, (f j).1 := by
+  change (gaussianCountListSum _).1 = _
+  rw [gaussian_count_list_sum_erase, flow_count_map_erase, flow_count_finRange_erase]
+  have hm : ((List.finRange n : List (Fin n)) : Multiset (Fin n)) =
+      (Finset.univ : Finset (Fin n)).val := rfl
+  change (Multiset.map (fun j => (f j).1) (List.finRange n : Multiset (Fin n))).sum = _
+  rw [hm]
+  rfl
+
+theorem gaussian_count_finite_sum_bound {n : ℕ} (f : Fin n → FlowCounted ℚ)
+    (B : ℕ) (hb : ∀ j, flowWorkTotal (f j).2 ≤ B) :
+    flowWorkTotal (gaussianCountFiniteSum f).2 ≤ n * (B + 15) + 5 := by
+  have hm := flow_count_map_bound f B hb (flowCountFinRange n).1
+  have hs := gaussian_count_list_sum_total (flowCountMap f (flowCountFinRange n).1).1
+  have hl : (flowCountFinRange n).1.length = n := by
+    simp [flow_count_finRange_erase]
+  rw [hl] at hm
+  have hv : (flowCountMap f (flowCountFinRange n).1).1.length = n := by
+    simp [flow_count_map_erase, flow_count_finRange_erase]
+  rw [hv] at hs
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ _)) ≤ _
+  rw [flow_work_total_add, flow_work_total_add, flow_count_finRange_total, hs]
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: CountedGaussianKernel.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development source; exact verification status is retained in external immutable receipts. Executable aggregate event translation of the actual
+Gaussian.kernel on an ALREADY MATERIALIZED List.Vector table. Every repeated
+source entry invocation executes its own linear list lookup; no pivot row,
+column or quotient cache is introduced. Recursive residual tables and returned
+vectors are materialized exactly at the original program's boundaries.
+
+The source expression `List.Vector.ofFn (Gaussian.lift ... w.get)` applies lift
+once to form its Fin.cons callback. The head expression is the argument to
+Fin.cons, outside that callback's indexed body; this adapter computes that
+head once, then materializes the vector. This is the declared applicative
+source-event convention. It is not an assertion about compiler optimization,
+low-level trace order, native cost or operand-bit work. In contrast, the theta
+in rationalFeatureDelete is syntactically INSIDE its indexed lambda and is
+not covered by this sharing boundary.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def gaussianCountFirstNonzero : (r : ℕ) → (Fin r → FlowCounted ℚ) →
+    FlowCounted (Option (Fin r))
+  | 0, _ => (none, {adminEvents := 1})
+  | r + 1, a =>
+    let head := a 0
+    if head.1 = 0 then
+      let rest := gaussianCountFirstNonzero r (fun i => a i.succ)
+      (rest.1.map Fin.succ,
+        flowWorkAdd head.2 (flowWorkAdd {rationalEvents := 1, adminEvents := 3} rest.2))
+    else (some 0, flowWorkAdd head.2 {rationalEvents := 1, adminEvents := 2})
+
+theorem gaussian_count_first_nonzero_erase (r : ℕ) (a : Fin r → FlowCounted ℚ) :
+    (gaussianCountFirstNonzero r a).1 = Gaussian.firstNonzero r (fun i => (a i).1) := by
+  induction r with
+  | zero => rfl
+  | succ r ih =>
+    by_cases hz : (a 0).1 = 0 <;>
+      simp [gaussianCountFirstNonzero, Gaussian.firstNonzero, hz, ih]
+
+theorem gaussian_count_first_nonzero_bound (r : ℕ) (a : Fin r → FlowCounted ℚ)
+    (B : ℕ) (hb : ∀ i, flowWorkTotal (a i).2 ≤ B) :
+    flowWorkTotal (gaussianCountFirstNonzero r a).2 ≤ r * (B + 4) + 1 := by
+  induction r with
+  | zero => simp [gaussianCountFirstNonzero, flowWorkTotal]
+  | succ r ih =>
+    have hh := hb 0
+    by_cases hz : (a 0).1 = 0
+    · have ht := ih (fun i => a i.succ) (fun i => hb i.succ)
+      simp only [gaussianCountFirstNonzero, hz, ↓reduceIte]
+      rw [flow_work_total_add, flow_work_total_add]
+      change flowWorkTotal (a 0).2 +
+        (4 + flowWorkTotal (gaussianCountFirstNonzero r (fun i => a i.succ)).2) ≤ _
+      nlinarith
+    · simp only [gaussianCountFirstNonzero, hz, ↓reduceIte]
+      rw [flow_work_total_add]
+      change flowWorkTotal (a 0).2 + 3 ≤ _
+      nlinarith
+
+def gaussianCountResidualCell {r n : ℕ} (A : Gaussian.QTable r (n + 1))
+    (p i : Fin r) (j : Fin n) : FlowCounted ℚ :=
+  let a := gaussianCountEntry A i j.succ
+  let b := gaussianCountEntry A i 0
+  let c := gaussianCountEntry A p j.succ
+  let e := gaussianCountEntry A p 0
+  (a.1 - b.1 * (c.1 / e.1), flowWorkAdd a.2 (flowWorkAdd b.2
+    (flowWorkAdd c.2 (flowWorkAdd e.2 {rationalEvents := 3}))))
+
+theorem gaussian_count_residual_cell_erase {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p i : Fin r) (j : Fin n) :
+    (gaussianCountResidualCell A p i j).1 = Gaussian.residual (Gaussian.entry A) p i j := by
+  simp only [gaussianCountResidualCell, gaussian_count_entry_erase, Gaussian.residual]
+
+theorem gaussian_count_residual_cell_bound {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p i : Fin r) (j : Fin n) :
+    flowWorkTotal (gaussianCountResidualCell A p i j).2 ≤ 8 * (r + n + 1) + 3 := by
+  have ha := gaussian_count_entry_bound A i j.succ
+  have hb := gaussian_count_entry_bound A i 0
+  have hc := gaussian_count_entry_bound A p j.succ
+  have he := gaussian_count_entry_bound A p 0
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ _)))) ≤ _
+  repeat rw [flow_work_total_add]
+  change flowWorkTotal (gaussianCountEntry A i j.succ).2 +
+    (flowWorkTotal (gaussianCountEntry A i 0).2 +
+      (flowWorkTotal (gaussianCountEntry A p j.succ).2 +
+        (flowWorkTotal (gaussianCountEntry A p 0).2 + 3))) ≤ _
+  omega
+
+def gaussianCountResidualTable {r n : ℕ} (A : Gaussian.QTable r (n + 1))
+    (p : Fin r) : FlowCounted (Gaussian.QTable r n) :=
+  gaussianCountTableOfFn (gaussianCountResidualCell A p)
+
+theorem gaussian_count_residual_table_erase {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p : Fin r) :
+    (gaussianCountResidualTable A p).1 = Gaussian.tableOfFn (Gaussian.residual (Gaussian.entry A) p) := by
+  simp only [gaussianCountResidualTable, gaussian_count_table_ofFn_erase,
+    gaussian_count_residual_cell_erase]
+
+theorem gaussian_count_residual_table_bound {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p : Fin r) :
+    flowWorkTotal (gaussianCountResidualTable A p).2 ≤
+      r * (n * (8 * (r + n + 1) + 5) + 4) + 2 := by
+  exact gaussian_count_table_ofFn_bound _ (8 * (r + n + 1) + 3)
+    (gaussian_count_residual_cell_bound A p)
+
+def gaussianCountLiftTerm {r n : ℕ} (A : Gaussian.QTable r (n + 1))
+    (p : Fin r) (w : Gaussian.QVec n) (j : Fin n) : FlowCounted ℚ :=
+  let a := gaussianCountEntry A p j.succ
+  let b := gaussianCountEntry A p 0
+  let c := gaussianCountVectorGet w j
+  ((a.1 / b.1) * c.1,
+    flowWorkAdd a.2 (flowWorkAdd b.2 (flowWorkAdd c.2 {rationalEvents := 2})))
+
+theorem gaussian_count_lift_term_erase {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p : Fin r) (w : Gaussian.QVec n) (j : Fin n) :
+    (gaussianCountLiftTerm A p w j).1 =
+      (Gaussian.entry A p j.succ / Gaussian.entry A p 0) * w.get j := by
+  simp only [gaussianCountLiftTerm, gaussian_count_entry_erase, gaussian_count_vector_get_erase]
+
+theorem gaussian_count_lift_term_bound {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p : Fin r) (w : Gaussian.QVec n) (j : Fin n) :
+    flowWorkTotal (gaussianCountLiftTerm A p w j).2 ≤ 6 * (r + n + 1) + 2 := by
+  have ha := gaussian_count_entry_bound A p j.succ
+  have hb := gaussian_count_entry_bound A p 0
+  have hc := gaussian_count_vector_get_bound w j
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (flowWorkAdd _ _))) ≤ _
+  repeat rw [flow_work_total_add]
+  change flowWorkTotal (gaussianCountEntry A p j.succ).2 +
+    (flowWorkTotal (gaussianCountEntry A p 0).2 +
+      (flowWorkTotal (gaussianCountVectorGet w j).2 + 2)) ≤ _
+  omega
+
+def gaussianCountLiftVector {r n : ℕ} (A : Gaussian.QTable r (n + 1))
+    (p : Fin r) (w : Gaussian.QVec n) : FlowCounted (Gaussian.QVec (n + 1)) :=
+  let total := gaussianCountFiniteSum (gaussianCountLiftTerm A p w)
+  let head := -total.1
+  let vector := gaussianCountVectorOfFn (Fin.cases
+    (head, ({adminEvents := 1} : FlowWork))
+    (fun j =>
+      let cell := gaussianCountVectorGet w j
+      (cell.1, flowWorkAdd cell.2 {adminEvents := 1})))
+  (vector.1, flowWorkAdd total.2 (flowWorkAdd {rationalEvents := 1} vector.2))
+
+theorem gaussian_count_lift_vector_erase {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p : Fin r) (w : Gaussian.QVec n) :
+    (gaussianCountLiftVector A p w).1 =
+      List.Vector.ofFn (Gaussian.lift (Gaussian.entry A) p w.get) := by
+  simp only [gaussianCountLiftVector, gaussian_count_vector_ofFn_erase]
+  congr 1
+  funext j
+  refine Fin.cases ?_ (fun j => ?_) j
+  · simp [gaussian_count_finite_sum_erase, gaussian_count_lift_term_erase, Gaussian.lift]
+  · simp [gaussian_count_vector_get_erase, Gaussian.lift]
+
+theorem gaussian_count_lift_vector_bound {r n : ℕ}
+    (A : Gaussian.QTable r (n + 1)) (p : Fin r) (w : Gaussian.QVec n) :
+    flowWorkTotal (gaussianCountLiftVector A p w).2 ≤ 32 * (r + n + 2) ^ 2 := by
+  have hs := gaussian_count_finite_sum_bound (gaussianCountLiftTerm A p w)
+    (6 * (r + n + 1) + 2) (gaussian_count_lift_term_bound A p w)
+  let f : Fin (n + 1) → FlowCounted ℚ := Fin.cases
+    (-(gaussianCountFiniteSum (gaussianCountLiftTerm A p w)).1, ({adminEvents := 1} : FlowWork))
+    (fun j =>
+      let cell := gaussianCountVectorGet w j
+      (cell.1, flowWorkAdd cell.2 {adminEvents := 1}))
+  have hf : ∀ j, flowWorkTotal (f j).2 ≤ 2 * n + 1 := by
+    intro j
+    refine Fin.cases ?_ (fun j => ?_) j
+    · change 1 ≤ 2 * n + 1
+      omega
+    · have hc := gaussian_count_vector_get_bound w j
+      change flowWorkTotal (flowWorkAdd _ _) ≤ _
+      rw [flow_work_total_add]
+      change flowWorkTotal (gaussianCountVectorGet w j).2 + 1 ≤ _
+      omega
+  have hv := gaussian_count_vector_ofFn_bound f (2 * n + 1) hf
+  change flowWorkTotal (flowWorkAdd _ (flowWorkAdd _ (gaussianCountVectorOfFn f).2)) ≤ _
+  rw [flow_work_total_add, flow_work_total_add]
+  change flowWorkTotal (gaussianCountFiniteSum (gaussianCountLiftTerm A p w)).2 +
+    (1 + flowWorkTotal (gaussianCountVectorOfFn f).2) ≤ _
+  nlinarith [Nat.zero_le (r ^ 2), Nat.zero_le (n ^ 2), Nat.zero_le (r * n)]
+
+/-- Exact source recursion: one pivot scan, materialized residual, recursive
+call on one fewer column, and an output lift only on actual success. -/
+def gaussianCountKernel (r : ℕ) : (n : ℕ) → Gaussian.QTable r n →
+    FlowCounted (Option (Gaussian.QVec n))
+  | 0, _ => (none, {adminEvents := 1})
+  | n + 1, A =>
+    let pivot := gaussianCountFirstNonzero r (fun i => gaussianCountEntry A i 0)
+    match pivot.1 with
+    | none =>
+      let out := gaussianCountVectorOfFn
+        (fun j : Fin (n + 1) => (Fin.cons 1 (fun _ => 0) j, {adminEvents := 1}))
+      (some out.1, flowWorkAdd pivot.2 (flowWorkAdd out.2 {adminEvents := 2}))
+    | some p =>
+      let residual := gaussianCountResidualTable A p
+      let tail := gaussianCountKernel r n residual.1
+      match tail.1 with
+      | none => (none, flowWorkAdd pivot.2
+          (flowWorkAdd residual.2 (flowWorkAdd tail.2 {adminEvents := 3})))
+      | some w =>
+        let out := gaussianCountLiftVector A p w
+        (some out.1, flowWorkAdd pivot.2 (flowWorkAdd residual.2
+          (flowWorkAdd tail.2 (flowWorkAdd out.2 {adminEvents := 3}))))
+
+theorem gaussian_count_kernel_erase (r n : ℕ) (A : Gaussian.QTable r n) :
+    (gaussianCountKernel r n A).1 = Gaussian.kernel r n A := by
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+    cases hp : Gaussian.firstNonzero r (fun i => Gaussian.entry A i 0) with
+    | none =>
+      simp [gaussianCountKernel, gaussian_count_first_nonzero_erase,
+        gaussian_count_entry_erase, hp, gaussian_count_vector_ofFn_erase, Gaussian.kernel]
+    | some p =>
+      cases ht : Gaussian.kernel r n (Gaussian.tableOfFn (Gaussian.residual (Gaussian.entry A) p)) with
+      | none =>
+        simp [gaussianCountKernel, gaussian_count_first_nonzero_erase,
+          gaussian_count_entry_erase, hp, gaussian_count_residual_table_erase, ih, ht, Gaussian.kernel]
+      | some w =>
+        simp [gaussianCountKernel, gaussian_count_first_nonzero_erase,
+          gaussian_count_entry_erase, hp, gaussian_count_residual_table_erase, ih, ht,
+          gaussian_count_lift_vector_erase, Gaussian.kernel]
+
+/-- The actual callback budgets below are derived from materialized list
+lookup and the proved primitive bounds; no counter/budget is a program input. -/
+theorem gaussian_count_kernel_bound (r n : ℕ) (A : Gaussian.QTable r n) :
+    flowWorkTotal (gaussianCountKernel r n A).2 ≤
+      (n + 1) * (128 * (r + n + 2) ^ 3) := by
+  induction n with
+  | zero =>
+    change 1 ≤ (0 + 1) * (128 * (r + 0 + 2) ^ 3)
+    nlinarith [Nat.zero_le (r ^ 2), Nat.zero_le (r ^ 3)]
+  | succ n ih =>
+    have hp := gaussian_count_first_nonzero_bound r (fun i => gaussianCountEntry A i 0)
+      (2 * (r + (n + 1))) (fun i => gaussian_count_entry_bound A i 0)
+    cases he : (gaussianCountFirstNonzero r (fun i => gaussianCountEntry A i 0)).1 with
+    | none =>
+      have hv := gaussian_count_vector_ofFn_bound
+        (fun j : Fin (n + 1) => (Fin.cons (1 : ℚ) (fun _ => 0) j, ({adminEvents := 1} : FlowWork)))
+        1 (fun _ => le_rfl)
+      simp only [gaussianCountKernel, he]
+      repeat rw [flow_work_total_add]
+      change flowWorkTotal (gaussianCountFirstNonzero r (fun i => gaussianCountEntry A i 0)).2 +
+        (flowWorkTotal (gaussianCountVectorOfFn _).2 + 2) ≤ _
+      have hfactor : 128 * (r + (n + 1) + 2) ^ 3 ≤
+          (n + 1 + 1) * (128 * (r + (n + 1) + 2) ^ 3) := by
+        simpa only [Nat.one_mul] using
+          Nat.mul_le_mul_right (128 * (r + (n + 1) + 2) ^ 3)
+            (show 1 ≤ n + 1 + 1 by omega)
+      apply le_trans _ hfactor
+      nlinarith only [hp, hv, Nat.zero_le r, Nat.zero_le n,
+        Nat.zero_le (r ^ 2), Nat.zero_le (n ^ 2), Nat.zero_le (r * n),
+        Nat.zero_le (r ^ 3), Nat.zero_le (n ^ 3),
+        Nat.zero_le (r ^ 2 * n), Nat.zero_le (r * n ^ 2)]
+    | some p =>
+      have hr := gaussian_count_residual_table_bound A p
+      have ht := ih (gaussianCountResidualTable A p).1
+      have hpow : (r + n + 2) ^ 3 ≤ (r + (n + 1) + 2) ^ 3 :=
+        Nat.pow_le_pow_left (by omega) 3
+      have ht' : flowWorkTotal (gaussianCountKernel r n (gaussianCountResidualTable A p).1).2 ≤
+          (n + 1) * (128 * (r + (n + 1) + 2) ^ 3) := by
+        exact le_trans ht (Nat.mul_le_mul_left _ (Nat.mul_le_mul_left _ hpow))
+      cases ho : (gaussianCountKernel r n (gaussianCountResidualTable A p).1).1 with
+      | none =>
+        simp only [gaussianCountKernel, he, ho]
+        repeat rw [flow_work_total_add]
+        change flowWorkTotal (gaussianCountFirstNonzero r (fun i => gaussianCountEntry A i 0)).2 +
+          (flowWorkTotal (gaussianCountResidualTable A p).2 +
+            (flowWorkTotal (gaussianCountKernel r n (gaussianCountResidualTable A p).1).2 + 3)) ≤ _
+        nlinarith [Nat.zero_le (r ^ 3), Nat.zero_le (n ^ 3), Nat.zero_le (r ^ 2 * n), Nat.zero_le (r * n ^ 2)]
+      | some w =>
+        have hl := gaussian_count_lift_vector_bound A p w
+        simp only [gaussianCountKernel, he, ho]
+        repeat rw [flow_work_total_add]
+        change flowWorkTotal (gaussianCountFirstNonzero r (fun i => gaussianCountEntry A i 0)).2 +
+          (flowWorkTotal (gaussianCountResidualTable A p).2 +
+            (flowWorkTotal (gaussianCountKernel r n (gaussianCountResidualTable A p).1).2 +
+              (flowWorkTotal (gaussianCountLiftVector A p w).2 + 3))) ≤ _
+        nlinarith [Nat.zero_le (r ^ 3), Nat.zero_le (n ^ 3), Nat.zero_le (r ^ 2 * n), Nat.zero_le (r * n ^ 2)]
+
+theorem gaussian_count_kernel_quartic_bound (r n : ℕ) (A : Gaussian.QTable r n) :
+    flowWorkTotal (gaussianCountKernel r n A).2 ≤ 128 * (r + n + 2) ^ 4 := by
+  have hb := gaussian_count_kernel_bound r n A
+  calc
+    _ ≤ (n + 1) * (128 * (r + n + 2) ^ 3) := hb
+    _ ≤ (r + n + 2) * (128 * (r + n + 2) ^ 3) :=
+      Nat.mul_le_mul_right _ (by omega)
+    _ = _ := by ring
+
+end SparseCompletion
+
+/- Fixed source body: Example243.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft: the authenticated paper's equal odd-bin core example.
+This instantiates existing Lean payoff/weight mathematics. It makes no claim
+about prototype implementation fidelity or minimality of the eleven actions. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def example243Lengths : Fin 9 → ℕ := fun _ => 27
+
+theorem example243_lengths_positive (b : Fin 9) : 0 < example243Lengths b := by
+  norm_num [example243Lengths]
+
+theorem example243_residual_count : (∑ b, example243Lengths b)=243 := by
+  norm_num [example243Lengths]
+
+def example243WeightsQ : Fin (∑ b, example243Lengths b) → ℚ :=
+  rationalBinnedWeights example243Lengths example243_lengths_positive (1/4)
+
+def example243PayoffQ : Fin (∑ b, example243Lengths b) → Fin (∑ b, example243Lengths b) → ℚ :=
+  rationalExplicitBinPayoff example243Lengths
+
+def example243FullWeightsQ : (Fin 2 ⊕ Fin (∑ b, example243Lengths b)) → ℚ :=
+  Sum.elim (fun _ => 3/8) example243WeightsQ
+
+def example243ErrorQ : ℚ :=
+  (1/4 : ℚ)^2/(12*(243 : ℚ)^3)*(9*(27 : ℚ)*((27 : ℚ)^2-1))
+
+def example243CoreChangeQ : ℚ := (8/3 : ℚ)*example243ErrorQ
+
+theorem example243_error_rational : example243ErrorQ=91/1417176 := by
+  norm_num [example243ErrorQ]
+
+theorem example243_core_change_rational : example243CoreChangeQ=91/531441 := by
+  norm_num [example243CoreChangeQ, example243ErrorQ]
+
+theorem example243_core_change_within_radius : example243CoreChangeQ < (1/5000 : ℚ) := by
+  rw [example243_core_change_rational]
+  norm_num
+
+noncomputable section
+
+def example243Weights : Fin (∑ b, example243Lengths b) → ℝ :=
+  binnedWeights example243Lengths example243_lengths_positive (1/(4 : ℕ))
+
+def example243Payoff : Fin (∑ b, example243Lengths b) → Fin (∑ b, example243Lengths b) → ℝ :=
+  explicitBinnedMatrix example243Lengths
+
+theorem example243_weights_real (i : Fin (∑ b, example243Lengths b)) :
+    (example243WeightsQ i : ℝ)=example243Weights i := by
+  simpa only [example243WeightsQ, example243Weights, Rat.cast_div, Rat.cast_one,
+    Rat.cast_ofNat, Nat.cast_ofNat] using rational_binned_weights_real example243Lengths
+      example243_lengths_positive (1/4) i
+
+theorem example243_payoff_real (i j : Fin (∑ b, example243Lengths b)) :
+    (example243PayoffQ i j : ℝ)=example243Payoff i j := rfl
+
+theorem example243_full_weights_real (v : Fin 2 ⊕ Fin (∑ b, example243Lengths b)) :
+    (example243FullWeightsQ v : ℝ)=
+      blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights v := by
+  cases v with
+  | inl a => norm_num [example243FullWeightsQ, blockWeights, twoShares]
+  | inr i => exact example243_weights_real i
+
+theorem example243_error : explicitBinnedError example243Lengths=(91/1417176 : ℝ) := by
+  norm_num [explicitBinnedError, example243Lengths, binParityTerm]
+
+theorem example243_error_real : (example243ErrorQ : ℝ)=explicitBinnedError example243Lengths := by
+  rw [example243_error_rational, example243_error]
+  norm_num
+
+theorem example243_action_count : Fintype.card (Fin 2 ⊕ Fin (∑ b, example243Lengths b))=245 := by
+  simp only [Fintype.card_sum, Fintype.card_fin, example243_residual_count]
+
+theorem example243_residual_support : supportSize example243Weights=9 := by
+  exact binned_odd_support_exact example243Lengths example243_lengths_positive
+    (by rw [example243_residual_count]; norm_num)
+    (by intro b; norm_num [example243Lengths]) (1/(4 : ℕ)) (by norm_num)
+
+
+/-- The numerical error is the actual central game's anchor response, with
+opposite error at the other anchor and zero response on every residual row. -/
+theorem example243_central_responses :
+    let m := ∑ b, example243Lengths b
+    let A := blockMatrix (rigidityCore (uniformTarget m (1/(4 : ℕ))))
+      (rigidityCross (uniformTarget m (1/(4 : ℕ)))) example243Payoff
+    let x := blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights
+    response A x (.inl 0)=(91/1417176 : ℝ) ∧
+      response A x (.inl 1)= -(91/1417176 : ℝ) ∧ ∀ j, response A x (.inr j)=0 := by
+  obtain ⟨d, _, _, _, _, _, _, _, _, h0, h1, hrows, he⟩ :=
+    explicit_binned_game_witness example243Lengths example243_lengths_positive
+      (by rw [example243_residual_count]; norm_num)
+  have hd : d=(91/1417176 : ℝ) := by
+    change d=explicitBinnedError example243Lengths at he
+    rw [example243_error] at he
+    exact he
+  rw [hd] at h0 h1
+  exact ⟨h0, h1, hrows⟩
+
+/-- The existing explicit construction, with the literal core-only interval
+predicate and original bin labels. The two anchor shares are exactly 3/8. -/
+theorem example243_core_witness :
+    ∃ u, UniformCoreWitness (∑ b, example243Lengths b) 0 (1/5000)
+      example243Weights u example243Payoff := by
+  apply explicit_binned_core_witness example243Lengths example243_lengths_positive
+    (by rw [example243_residual_count]; norm_num) 0 (1/5000) (by norm_num) (by norm_num)
+  rw [example243_error]
+  norm_num
+
+theorem example243_total_support :
+    (Finset.univ.filter fun v =>
+      blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights v ≠ 0).card=11 := by
+  obtain ⟨u, hu⟩ := example243_core_witness
+  have hs := uniform_interval_total_support_card (by norm_num : (0 : ℝ) ≤ 1/5000) hu
+  rw [example243_residual_support] at hs
+  exact hs
+
+theorem example243_rational_total_support :
+    (Finset.univ.filter fun v => example243FullWeightsQ v ≠ 0).card=11 := by
+  have hsupport : (Finset.univ.filter fun v => example243FullWeightsQ v ≠ 0)=
+      (Finset.univ.filter fun v =>
+        blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights v ≠ 0) := by
+    ext v
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, ←example243_full_weights_real,
+      Rat.cast_ne_zero]
+  rw [hsupport]
+  exact example243_total_support
+
+/-- At exact tolerance the two opposite anchor inequalities pin the core
+decrease. Its numerical value is earned from the actual supplied bin game. -/
+theorem example243_witness_core_change (u : ℝ)
+    (hu : UniformCoreWitness (∑ b, example243Lengths b) 0 (1/5000)
+      example243Weights u example243Payoff) :
+    uniformCoreValue (∑ b, example243Lengths b)-u=(91/531441 : ℝ) := by
+  obtain ⟨h0, h1, _⟩ := example243_central_responses
+  let m := ∑ b, example243Lengths b
+  let D := rigidityCross (uniformTarget m (1/(4 : ℕ)))
+  change response (blockMatrix (twoCore (uniformCoreValue m)) D example243Payoff)
+    (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights) (.inl 0)=(91/1417176 : ℝ) at h0
+  change response (blockMatrix (twoCore (uniformCoreValue m)) D example243Payoff)
+    (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights) (.inl 1)= -(91/1417176 : ℝ) at h1
+  have hshift := two_core_anchor_shift D example243Payoff example243Weights
+    (uniformCoreValue m) (((3 : ℕ) : ℝ)/(8 : ℕ)*(uniformCoreValue m-u))
+  have hnew : uniformCoreValue m-(((8 : ℕ) : ℝ)/(3 : ℕ))*
+      ((((3 : ℕ) : ℝ)/(8 : ℕ))*(uniformCoreValue m-u))=u := by ring
+  rw [hnew, h0, h1] at hshift
+  obtain ⟨_, _, _, _, _, _, _, _, _, hresp⟩ := hu
+  have ha := hresp (.inl 0)
+  have hb := hresp (.inl 1)
+  change response (blockMatrix (twoCore u) D example243Payoff)
+    (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights) (.inl 0) ≤ 0 at ha
+  change response (blockMatrix (twoCore u) D example243Payoff)
+    (blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ))) example243Weights) (.inl 1) ≤ 0 at hb
+  change uniformCoreValue m-u=(91/531441 : ℝ)
+  norm_num only [Nat.cast_ofNat] at hshift
+  linarith [hshift.1, hshift.2]
+
+/-- A feasible eleven-action witness in the source's 245-label game. This
+asserts existence and exact compatibility, without a support-minimality claim. -/
+theorem example243_eleven_action_witness :
+    Fintype.card (Fin 2 ⊕ Fin (∑ b, example243Lengths b))=245 ∧
+      ∃ u, UniformCoreWitness (∑ b, example243Lengths b) 0 (1/5000)
+        example243Weights u example243Payoff ∧
+        (Finset.univ.filter fun v => blockWeights (twoShares (((3 : ℕ) : ℝ)/(4 : ℕ)))
+          example243Weights v ≠ 0).card=11 ∧
+        uniformCoreValue (∑ b, example243Lengths b)-u=(91/531441 : ℝ) ∧
+        |u-uniformCoreValue (∑ b, example243Lengths b)| < (1/5000 : ℝ) := by
+  obtain ⟨u, hu⟩ := example243_core_witness
+  have hchange := example243_witness_core_change u hu
+  refine ⟨example243_action_count, u, hu, example243_total_support, hchange, ?_⟩
+  have habs : |u-uniformCoreValue (∑ b, example243Lengths b)|=(91/531441 : ℝ) := by
+    rw [abs_sub_comm, hchange]
+    norm_num
+  rw [habs]
+  norm_num
+
+end
+end SparseCompletion
+
+/- Fixed source body: ExecutableCoverIndex.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source-only draft. Deterministic finite cover indexing on the original Fin n
+labels. Enumeration uses sorted-list get/idxOf, with no choice-based equivFin. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def coverAnchorIndex {n : ℕ} (C : Finset (Fin n)) :
+    Fin C.card ≃ {v : Fin n // v ∈ C} :=
+  (C.orderIsoOfFin rfl).toEquiv
+
+def coverResidualIndex {n : ℕ} (C : Finset (Fin n)) :
+    Fin Cᶜ.card ≃ {v : Fin n // v ∈ Cᶜ} :=
+  ((Cᶜ).orderIsoOfFin rfl).toEquiv
+
+def coverDecode {n : ℕ} (C : Finset (Fin n)) :
+    (Fin C.card ⊕ Fin Cᶜ.card) → Fin n :=
+  Sum.elim (fun h => (coverAnchorIndex C h).val)
+    (fun i => (coverResidualIndex C i).val)
+
+def coverEncode {n : ℕ} (C : Finset (Fin n)) (v : Fin n) :
+    Fin C.card ⊕ Fin Cᶜ.card :=
+  if hv : v ∈ C then .inl ((coverAnchorIndex C).symm ⟨v, hv⟩)
+  else .inr ((coverResidualIndex C).symm ⟨v, Finset.mem_compl.mpr hv⟩)
+
+theorem cover_decode_anchor_mem {n : ℕ} (C : Finset (Fin n)) (h : Fin C.card) :
+    coverDecode C (.inl h) ∈ C :=
+  (coverAnchorIndex C h).property
+
+theorem cover_decode_residual_not_mem {n : ℕ} (C : Finset (Fin n)) (i : Fin Cᶜ.card) :
+    coverDecode C (.inr i) ∉ C :=
+  Finset.mem_compl.mp (coverResidualIndex C i).property
+
+theorem cover_encode_decode {n : ℕ} (C : Finset (Fin n))
+    (a : Fin C.card ⊕ Fin Cᶜ.card) : coverEncode C (coverDecode C a)=a := by
+  cases a with
+  | inl h =>
+    unfold coverEncode
+    rw [dite_eq_left (cover_decode_anchor_mem C h)]
+    congr 1
+    exact (coverAnchorIndex C).symm_apply_apply h
+  | inr i =>
+    unfold coverEncode
+    rw [dite_eq_right (cover_decode_residual_not_mem C i)]
+    congr 1
+    exact (coverResidualIndex C).symm_apply_apply i
+
+theorem cover_decode_encode {n : ℕ} (C : Finset (Fin n)) (v : Fin n) :
+    coverDecode C (coverEncode C v)=v := by
+  by_cases hv : v ∈ C
+  · rw [coverEncode, dite_eq_left hv]
+    exact congrArg Subtype.val ((coverAnchorIndex C).apply_symm_apply ⟨v, hv⟩)
+  · rw [coverEncode, dite_eq_right hv]
+    exact congrArg Subtype.val
+      ((coverResidualIndex C).apply_symm_apply ⟨v, Finset.mem_compl.mpr hv⟩)
+
+/-- The equivalence is earned from the actual branch-based encoder and the
+sorted enumerations; callers do not supply an inverse or equivalence oracle. -/
+def coverExecutableEquiv {n : ℕ} (C : Finset (Fin n)) :
+    (Fin C.card ⊕ Fin Cᶜ.card) ≃ Fin n where
+  toFun := coverDecode C
+  invFun := coverEncode C
+  left_inv := cover_encode_decode C
+  right_inv := cover_decode_encode C
+
+theorem cover_partition_card {n : ℕ} (C : Finset (Fin n)) : C.card+Cᶜ.card=n := by
+  have h := Fintype.card_congr (coverExecutableEquiv C)
+  simpa only [Fintype.card_sum, Fintype.card_fin] using h
+
+theorem cover_encode_anchor {n : ℕ} (C : Finset (Fin n)) (v : Fin n) (hv : v ∈ C) :
+    coverEncode C v=.inl ((coverAnchorIndex C).symm ⟨v, hv⟩) := by
+  exact dite_eq_left hv
+
+theorem cover_encode_residual {n : ℕ} (C : Finset (Fin n)) (v : Fin n) (hv : v ∉ C) :
+    coverEncode C v=.inr ((coverResidualIndex C).symm ⟨v, Finset.mem_compl.mpr hv⟩) := by
+  exact dite_eq_right hv
+
+def coverEncodeWeights {n : ℕ} {R : Type*} (C : Finset (Fin n)) (x : Fin n → R) :
+    (Fin C.card ⊕ Fin Cᶜ.card) → R := fun a => x (coverDecode C a)
+
+def coverDecodeWeights {n : ℕ} {R : Type*} (C : Finset (Fin n))
+    (x : (Fin C.card ⊕ Fin Cᶜ.card) → R) : Fin n → R := fun v => x (coverEncode C v)
+
+def coverEncodeMatrix {n : ℕ} {R : Type*} (C : Finset (Fin n)) (A : Fin n → Fin n → R) :
+    (Fin C.card ⊕ Fin Cᶜ.card) → (Fin C.card ⊕ Fin Cᶜ.card) → R :=
+  fun a b => A (coverDecode C a) (coverDecode C b)
+
+def coverDecodeMatrix {n : ℕ} {R : Type*} (C : Finset (Fin n))
+    (A : (Fin C.card ⊕ Fin Cᶜ.card) → (Fin C.card ⊕ Fin Cᶜ.card) → R) :
+    Fin n → Fin n → R := fun u v => A (coverEncode C u) (coverEncode C v)
+
+theorem cover_weights_roundtrip {n : ℕ} {R : Type*} (C : Finset (Fin n)) (x : Fin n → R) :
+    coverDecodeWeights C (coverEncodeWeights C x)=x := by
+  funext v
+  simp only [coverDecodeWeights, coverEncodeWeights, cover_decode_encode]
+
+theorem cover_matrix_roundtrip {n : ℕ} {R : Type*} (C : Finset (Fin n))
+    (A : Fin n → Fin n → R) : coverDecodeMatrix C (coverEncodeMatrix C A)=A := by
+  funext u v
+  simp only [coverDecodeMatrix, coverEncodeMatrix, cover_decode_encode]
+
+theorem cover_weights_encode_roundtrip {n : ℕ} {R : Type*} (C : Finset (Fin n))
+    (x : (Fin C.card ⊕ Fin Cᶜ.card) → R) :
+    coverEncodeWeights C (coverDecodeWeights C x)=x := by
+  funext a
+  simp only [coverDecodeWeights, coverEncodeWeights, cover_encode_decode]
+
+theorem cover_matrix_encode_roundtrip {n : ℕ} {R : Type*} (C : Finset (Fin n))
+    (A : (Fin C.card ⊕ Fin Cᶜ.card) → (Fin C.card ⊕ Fin Cᶜ.card) → R) :
+    coverEncodeMatrix C (coverDecodeMatrix C A)=A := by
+  funext a b
+  simp only [coverDecodeMatrix, coverEncodeMatrix, cover_encode_decode]
+
+/-- Runtime data only. Inverse and partition proofs are earned below, rather
+than accepted as fields of a caller-supplied equivalence. -/
+structure CoverIndexTable (n k m : ℕ) where
+  anchors : List.Vector (Fin n) k
+  residuals : List.Vector (Fin n) m
+  codes : List.Vector (Fin k ⊕ Fin m) n
+
+def coverIndexTable {n : ℕ} (C : Finset (Fin n)) : CoverIndexTable n C.card Cᶜ.card where
+  anchors := List.Vector.ofFn (fun h => coverDecode C (.inl h))
+  residuals := List.Vector.ofFn (fun i => coverDecode C (.inr i))
+  codes := List.Vector.ofFn (coverEncode C)
+
+def coverTableDecode {n k m : ℕ} (table : CoverIndexTable n k m) :
+    (Fin k ⊕ Fin m) → Fin n := Sum.elim table.anchors.get table.residuals.get
+
+def coverTableEncode {n k m : ℕ} (table : CoverIndexTable n k m) :
+    Fin n → (Fin k ⊕ Fin m) := table.codes.get
+
+theorem cover_table_decode {n : ℕ} (C : Finset (Fin n))
+    (a : Fin C.card ⊕ Fin Cᶜ.card) :
+    coverTableDecode (coverIndexTable C) a=coverDecode C a := by
+  cases a <;> simp only [coverTableDecode, coverIndexTable, Sum.elim_inl, Sum.elim_inr,
+    List.Vector.get_ofFn]
+
+theorem cover_table_encode {n : ℕ} (C : Finset (Fin n)) (v : Fin n) :
+    coverTableEncode (coverIndexTable C) v=coverEncode C v := by
+  simp only [coverTableEncode, coverIndexTable, List.Vector.get_ofFn]
+
+theorem cover_table_encode_decode {n : ℕ} (C : Finset (Fin n))
+    (a : Fin C.card ⊕ Fin Cᶜ.card) :
+    coverTableEncode (coverIndexTable C) (coverTableDecode (coverIndexTable C) a)=a := by
+  rw [cover_table_decode, cover_table_encode, cover_encode_decode]
+
+theorem cover_table_decode_encode {n : ℕ} (C : Finset (Fin n)) (v : Fin n) :
+    coverTableDecode (coverIndexTable C) (coverTableEncode (coverIndexTable C) v)=v := by
+  rw [cover_table_encode, cover_table_decode, cover_decode_encode]
+
+end SparseCompletion
+
+/- Fixed source body: ExecutableCoverWitness.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source-only draft. Full witness transport through the actual finite encoder.
+The existing relabel lemmas are used only in proofs; executable indexing does
+not call coverEquiv or Fintype.equivFin. No compressor runtime claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem cover_residual_sum {n : ℕ} (C : Finset (Fin n)) (f : Fin n → ℝ) :
+    (∑ v : {v : Fin n // v ∈ Cᶜ}, f v.val)=
+      ∑ i : Fin Cᶜ.card, f (coverDecode C (.inr i)) := by
+  exact (Equiv.sum_comp (coverResidualIndex C) (fun v => f v.val)).symm
+
+theorem cover_residual_support {n : ℕ} (C : Finset (Fin n))
+    (y : (Fin C.card ⊕ Fin Cᶜ.card) → ℝ) :
+    (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} =>
+      coverDecodeWeights C y v.val ≠ 0).card =
+    (Finset.univ.filter fun i : Fin Cᶜ.card => y (.inr i) ≠ 0).card := by
+  classical
+  simp only [Finset.card_eq_sum_ones, Finset.sum_filter]
+  have h : (∑ i : Fin Cᶜ.card,
+      if coverDecodeWeights C y (coverDecode C (.inr i)) ≠ 0 then (1 : ℕ) else 0)=
+      ∑ v : {v : Fin n // v ∈ Cᶜ},
+        if coverDecodeWeights C y v.val ≠ 0 then (1 : ℕ) else 0 :=
+    Equiv.sum_comp (coverResidualIndex C)
+      (fun v => if coverDecodeWeights C y v.val ≠ 0 then (1 : ℕ) else 0)
+  simpa only [coverDecodeWeights, cover_encode_decode] using h.symm
+
+theorem cover_executable_free_residual {n : ℕ} (C : Finset (Fin n))
+    (lo hi : Fin n → Fin n → ℝ) (M : ℝ)
+    (hc : intervalVertexCover (C : Set (Fin n)) lo hi M) :
+    freeResidualIntervals (coverEncodeMatrix C lo) (coverEncodeMatrix C hi) M := by
+  intro i j hij
+  have hne : coverDecode C (.inr i) ≠ coverDecode C (.inr j) := by
+    intro h
+    have h' := congrArg (coverEncode C) h
+    simp only [cover_encode_decode, Sum.inr.injEq] at h'
+    exact hij h'
+  by_contra hn
+  have hbad : lo (coverDecode C (.inr i)) (coverDecode C (.inr j)) ≠ -M ∨
+      hi (coverDecode C (.inr i)) (coverDecode C (.inr j)) ≠ M := by
+    change ¬(lo (coverDecode C (.inr i)) (coverDecode C (.inr j))= -M ∧
+      hi (coverDecode C (.inr i)) (coverDecode C (.inr j))=M) at hn
+    tauto
+  rcases hc _ _ ⟨hne, hbad⟩ with h | h
+  · exact cover_decode_residual_not_mem C i h
+  · exact cover_decode_residual_not_mem C j h
+
+/-- All normalized compatible-game clauses are transported, including original
+observation intervals, fixed anchor incident entries/responses, original zeros,
+the supplied exact support bounds, and all residual moments. The hypotheses
+are the literal split witness, rather than an assumed original-label outcome. -/
+theorem cover_executable_full_witness {n d : ℕ} (C : Finset (Fin n))
+    (A lo hi : Fin n → Fin n → ℝ) (x : Fin n → ℝ) (F : Fin n → Fin d → ℝ)
+    (y : (Fin C.card ⊕ Fin Cᶜ.card) → ℝ)
+    (G : (Fin C.card ⊕ Fin Cᶜ.card) → (Fin C.card ⊕ Fin Cᶜ.card) → ℝ)
+    (M ε : ℝ) (N T : ℕ)
+    (hn : ∀ a, 0 ≤ y a) (hm : ∑ a, y a=1) (hsk : IsSkew G)
+    (hb : ∀ a b, -M ≤ G a b ∧ G a b ≤ M)
+    (hI : offDiagonalIntervals (coverEncodeMatrix C lo) (coverEncodeMatrix C hi) G)
+    (hrows : ∀ a, response G y a ≤ ε)
+    (ha : ∀ h, y (.inl h)=x (coverDecode C (.inl h)))
+    (hz : ∀ i, x (coverDecode C (.inr i))=0 → y (.inr i)=0)
+    (hc : (Finset.univ.filter fun i : Fin Cᶜ.card => y (.inr i) ≠ 0).card ≤ N)
+    (ht : (Finset.univ.filter fun a => y a ≠ 0).card ≤ T)
+    (hentries : ∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+      G a b=coverEncodeMatrix C A a b)
+    (hanchors : ∀ h, response G y (.inl h)=response A x (coverDecode C (.inl h)))
+    (hF : ∀ g, (∑ i : Fin Cᶜ.card, y (.inr i)*F (coverDecode C (.inr i)) g)=
+      ∑ i : Fin Cᶜ.card, x (coverDecode C (.inr i))*F (coverDecode C (.inr i)) g) :
+    let x' := coverDecodeWeights C y
+    let A' := coverDecodeMatrix C G
+    (∀ v, 0 ≤ x' v) ∧ (∑ v, x' v)=1 ∧ IsSkew A' ∧
+      (∀ u v, -M ≤ A' u v ∧ A' u v ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ v, response A' x' v ≤ ε) ∧
+      (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} => x' v.val ≠ 0).card ≤ N ∧
+      (Finset.univ.filter fun v => x' v ≠ 0).card ≤ T ∧
+      (∀ u v, u ∈ C ∨ v ∈ C → A' u v=A u v) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ v : {v : Fin n // v ∈ Cᶜ}, x' v.val*F v.val g)=
+        ∑ v : {v : Fin n // v ∈ Cᶜ}, x v.val*F v.val g := by
+  classical
+  dsimp only
+  let e := coverExecutableEquiv C
+  have hmass : (∑ v, coverDecodeWeights C y v)=∑ a, y a := relabel_mass e y
+  have hresponse : ∀ v, response (coverDecodeMatrix C G) (coverDecodeWeights C y) v=
+      response G y (coverEncode C v) := relabel_response e G y
+  have hsupport : (Finset.univ.filter fun v => coverDecodeWeights C y v ≠ 0).card=
+      (Finset.univ.filter fun a => y a ≠ 0).card := relabel_support_card e y
+  refine ⟨fun v => hn _, hmass.trans hm, relabel_skew e G hsk,
+    fun u v => hb _ _, ?_, fun v => (hresponse v).trans_le (hrows _),
+    ?_, ?_, (cover_residual_support C y).trans_le hc, hsupport.trans_le ht, ?_, ?_, ?_⟩
+  · intro u v huv
+    have hne : coverEncode C u ≠ coverEncode C v := by
+      intro he
+      apply huv
+      simpa only [cover_decode_encode] using congrArg (coverDecode C) he
+    simpa only [coverEncodeMatrix, coverDecodeMatrix, cover_decode_encode] using
+      hI (coverEncode C u) (coverEncode C v) hne
+  · intro v hv
+    let h := (coverAnchorIndex C).symm ⟨v, hv⟩
+    have hdec : coverDecode C (.inl h)=v := by
+      rw [← cover_encode_anchor C v hv]
+      exact cover_decode_encode C v
+    change y (coverEncode C v)=x v
+    rw [cover_encode_anchor C v hv]
+    exact (ha h).trans (congrArg x hdec)
+  · intro v hv hzero
+    let i := (coverResidualIndex C).symm ⟨v, Finset.mem_compl.mpr hv⟩
+    have hdec : coverDecode C (.inr i)=v := by
+      rw [← cover_encode_residual C v hv]
+      exact cover_decode_encode C v
+    change y (coverEncode C v)=0
+    rw [cover_encode_residual C v hv]
+    exact hz i (by rw [hdec]; exact hzero)
+  · intro u v huv
+    have hbranch : (∃ h, coverEncode C u=Sum.inl h) ∨
+        ∃ h, coverEncode C v=Sum.inl h := by
+      rcases huv with hu | hv
+      · exact Or.inl ⟨_, cover_encode_anchor C u hu⟩
+      · exact Or.inr ⟨_, cover_encode_anchor C v hv⟩
+    simpa only [coverDecodeMatrix, coverEncodeMatrix, cover_decode_encode] using
+      hentries (coverEncode C u) (coverEncode C v) hbranch
+  · intro v hv
+    rw [hresponse, cover_encode_anchor C v hv, hanchors]
+    have hdec : coverDecode C
+        (.inl ((coverAnchorIndex C).symm ⟨v, hv⟩))=v := by
+      rw [← cover_encode_anchor C v hv]
+      exact cover_decode_encode C v
+    rw [hdec]
+  · intro g
+    rw [cover_residual_sum C (fun v => coverDecodeWeights C y v*F v g),
+      cover_residual_sum C (fun v => x v*F v g)]
+    simp only [coverDecodeWeights, cover_encode_decode]
+    exact hF g
+
+end SparseCompletion
+
+/- Fixed source body: FiniteConstraintCover.lean -/
+/- AI-assisted source-only draft under the repository Apache-2.0 license.
+Exact-source verification is recorded in separate receipts. The finite minimum below is computed from all actual
+finite vertex subsets; no minimum-cover property is supplied as an input. -/
+@[expose] public section
+namespace SparseCompletion
+
+/-- A concrete finite Boolean graph cover. Symmetry is not needed by the
+finite minimum algorithm; semantic graph bridges establish it where required. -/
+def finiteConstraintCover {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) (C : Finset ν) : Prop :=
+  ∀ a b, edge a b = true → a ∈ C ∨ b ∈ C
+
+instance finiteConstraintCoverDecidable {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) (C : Finset ν) : Decidable (finiteConstraintCover edge C) :=
+  inferInstanceAs (Decidable (∀ a b, edge a b = true → a ∈ C ∨ b ∈ C))
+
+/-- All cardinalities of actual finite vertex covers, obtained by exhaustive
+finite-subset enumeration. No graph-algorithm efficiency bound is asserted. -/
+def finiteConstraintCoverSizes {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) : Finset ℕ :=
+  ((Finset.univ.powerset).filter (finiteConstraintCover edge)).image Finset.card
+
+theorem finite_constraint_cover_univ {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) : finiteConstraintCover edge Finset.univ := by
+  intro a b _
+  exact Or.inl (Finset.mem_univ a)
+
+theorem finite_constraint_cover_sizes_nonempty {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) : (finiteConstraintCoverSizes edge).Nonempty := by
+  refine ⟨Finset.univ.card, Finset.mem_image.mpr ⟨Finset.univ, ?_, rfl⟩⟩
+  exact Finset.mem_filter.mpr
+    ⟨Finset.mem_powerset.mpr (Finset.subset_univ _), finite_constraint_cover_univ edge⟩
+
+def finiteConstraintCoverMinimum {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) : ℕ :=
+  (finiteConstraintCoverSizes edge).min' (finite_constraint_cover_sizes_nonempty edge)
+
+theorem finite_constraint_cover_minimum_le {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) (C : Finset ν) (hC : finiteConstraintCover edge C) :
+    finiteConstraintCoverMinimum edge ≤ C.card := by
+  apply Finset.min'_le
+  exact Finset.mem_image.mpr ⟨C, Finset.mem_filter.mpr
+    ⟨Finset.mem_powerset.mpr (Finset.subset_univ C), hC⟩, rfl⟩
+
+theorem finite_constraint_cover_minimum_attained {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) :
+    ∃ C : Finset ν, finiteConstraintCover edge C ∧ C.card = finiteConstraintCoverMinimum edge := by
+  have h := Finset.min'_mem (finiteConstraintCoverSizes edge)
+    (finite_constraint_cover_sizes_nonempty edge)
+  obtain ⟨C, hC, he⟩ := Finset.mem_image.mp h
+  exact ⟨C, (Finset.mem_filter.mp hC).2, he⟩
+
+/-- This is a semantic characterization of the computed minimum, proved from
+its enumeration. It is not a hypothesis replacing minimum-cover computation. -/
+theorem finite_constraint_cover_minimum_spec {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) :
+    ∃ C : Finset ν, finiteConstraintCover edge C ∧
+      C.card = finiteConstraintCoverMinimum edge ∧
+      ∀ D : Finset ν, finiteConstraintCover edge D → C.card ≤ D.card := by
+  obtain ⟨C, hC, he⟩ := finite_constraint_cover_minimum_attained edge
+  refine ⟨C, hC, he, ?_⟩
+  intro D hD
+  calc
+    C.card = finiteConstraintCoverMinimum edge := he
+    _ ≤ D.card := finite_constraint_cover_minimum_le edge D hD
+
+/-- Exact transport to the project's original interval-edge/cover predicates. -/
+theorem finite_constraint_cover_interval_bridge {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) (lo hi : ν → ν → ℝ) (M : ℝ)
+    (hedge : ∀ a b, edge a b = true ↔ intervalConstraintEdge lo hi M a b)
+    (C : Finset ν) :
+    finiteConstraintCover edge C ↔ intervalVertexCover (C : Set ν) lo hi M := by
+  constructor
+  · intro h a b hab
+    exact h a b ((hedge a b).mpr hab)
+  · intro h a b hab
+    exact h a b ((hedge a b).mp hab)
+
+theorem finite_constraint_cover_minimum_set_le {ν : Type*} [Fintype ν] [DecidableEq ν]
+    (edge : ν → ν → Bool) (lo hi : ν → ν → ℝ) (M : ℝ)
+    (hedge : ∀ a b, edge a b = true ↔ intervalConstraintEdge lo hi M a b)
+    (C : Set ν) [DecidablePred (· ∈ C)] (hC : intervalVertexCover C lo hi M) :
+    finiteConstraintCoverMinimum edge ≤ Fintype.card C := by
+  have hc : finiteConstraintCover edge C.toFinset := by
+    intro a b hab
+    simpa only [Set.mem_toFinset] using hC a b ((hedge a b).mp hab)
+  simpa only [Set.toFinset_card] using finite_constraint_cover_minimum_le edge C.toFinset hc
+
+theorem finite_constraint_cover_minimum_empty_labels {ν : Type*} [Fintype ν]
+    [DecidableEq ν] [IsEmpty ν] (edge : ν → ν → Bool) :
+    finiteConstraintCoverMinimum edge = 0 := by
+  apply Nat.eq_zero_of_le_zero
+  have hc : finiteConstraintCover edge ∅ := by
+    intro a
+    exact isEmptyElim a
+  simpa only [Finset.card_empty] using finite_constraint_cover_minimum_le edge ∅ hc
+
+end SparseCompletion
+
+/- Fixed source body: IntegerMinorHeight.lean -/
+/- AI-assisted formalization; Apache-2.0, following the parent repository.
+Strict module compilation and artifact evidence are retained in attempts/.
+These are explicit arithmetic bounds, not an assumed polynomial solver or a
+runtime invariant supplied by the caller. The elimination-to-minor invariant
+needed to apply them at every Gaussian stage remains an open proof obligation.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion.Gaussian
+
+/-- Reduction of a rational quotient cannot increase its numerator height. -/
+theorem quotient_num_height (a b : ℤ) (hb : b ≠ 0) :
+    ((a : ℚ) / (b : ℚ)).num.natAbs ≤ a.natAbs := by
+  by_cases ha : a = 0
+  · simp [ha]
+  · apply Int.natAbs_le_of_dvd_ne_zero _ ha
+    simpa only [Rat.divInt_eq_div] using Rat.num_dvd a hb
+
+/-- The reduced denominator divides the original denominator and is no larger. -/
+theorem quotient_den_height (a b : ℤ) (hb : b ≠ 0) :
+    ((a : ℚ) / (b : ℚ)).den ≤ b.natAbs := by
+  have h := Int.natAbs_le_of_dvd_ne_zero (Rat.den_dvd a b) hb
+  simpa only [Int.natAbs_natCast, Rat.divInt_eq_div] using h
+
+/-- Leibniz's bound is sufficient for polynomial bit height; Hadamard's sharper
+bound is unnecessary. This uses the pinned Mathlib determinant bound. -/
+theorem determinant_height {n : ℕ} (A : Matrix (Fin n) (Fin n) ℤ)
+    (H : ℕ) (hA : ∀ i j, (A i j).natAbs ≤ H) :
+    A.det.natAbs ≤ n.factorial * H^n := by
+  have hentry : ∀ i j, |A i j| ≤ (H : ℤ) := by
+    intro i j
+    rw [← Int.natCast_natAbs]
+    exact_mod_cast hA i j
+  have hd := Matrix.det_le (A := A) (abv := AbsoluteValue.abs) hentry
+  have hz : |A.det| ≤ (n.factorial : ℤ) * (H : ℤ)^n := by
+    simpa only [AbsoluteValue.abs_apply, Fintype.card_fin, nsmul_eq_mul] using hd
+  rw [← Int.natCast_natAbs] at hz
+  exact_mod_cast hz
+
+/-- Concrete minor quotient bound. When U,V are (k+1)- and k-minors of a
+cleared input matrix, this gives both encoding components, with no coprimality
+hypothesis and no lower bound on the absolute value of a rational pivot. -/
+theorem minor_quotient_height {u v : ℕ}
+    (U : Matrix (Fin u) (Fin u) ℤ) (V : Matrix (Fin v) (Fin v) ℤ)
+    (H : ℕ) (hU : ∀ i j, (U i j).natAbs ≤ H)
+    (hV : ∀ i j, (V i j).natAbs ≤ H) (hv : V.det ≠ 0) :
+    (((U.det : ℚ) / (V.det : ℚ)).num.natAbs ≤ u.factorial * H^u) ∧
+      (((U.det : ℚ) / (V.det : ℚ)).den ≤ v.factorial * H^v) := by
+  exact ⟨(quotient_num_height U.det V.det hv).trans (determinant_height U H hU),
+    (quotient_den_height U.det V.det hv).trans (determinant_height V H hV)⟩
+
+/-- Every displayed submatrix inherits the input coefficient height. Maps need
+not be injective: the bound also covers repeated rows or columns and det = 0. -/
+theorem submatrix_determinant_height {r n k : ℕ}
+    (Z : Matrix (Fin r) (Fin n) ℤ) (H : ℕ)
+    (hZ : ∀ i j, (Z i j).natAbs ≤ H)
+    (rows : Fin k → Fin r) (cols : Fin k → Fin n) :
+    (Z.submatrix rows cols).det.natAbs ≤ k.factorial * H^k := by
+  exact determinant_height _ H (fun i j => hZ (rows i) (cols j))
+
+/-- Pivot ratios cancel a shared minor denominator. This prevents a spurious
+extra denominator factor when bounding the coefficients used by lift. -/
+theorem shared_denominator_ratio (a b δ : ℤ) (ha : a ≠ 0) (hδ : δ ≠ 0) :
+    ((b : ℚ) / (δ : ℚ)) / ((a : ℚ) / (δ : ℚ)) =
+      (b : ℚ) / (a : ℚ) := by
+  have haq : (a : ℚ) ≠ 0 := Int.cast_ne_zero.mpr ha
+  have hδq : (δ : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hδ
+  field_simp [haq, hδq]
+
+theorem shared_minor_pivot_ratio_height {k : ℕ}
+    (U V : Matrix (Fin k) (Fin k) ℤ) (δ : ℤ)
+    (H : ℕ) (hU : ∀ i j, (U i j).natAbs ≤ H)
+    (hV : ∀ i j, (V i j).natAbs ≤ H) (hv : V.det ≠ 0) (hδ : δ ≠ 0) :
+    ((((U.det : ℚ) / (δ : ℚ)) / ((V.det : ℚ) / (δ : ℚ))).num.natAbs ≤
+      k.factorial * H^k) ∧
+    ((((U.det : ℚ) / (δ : ℚ)) / ((V.det : ℚ) / (δ : ℚ))).den ≤
+      k.factorial * H^k) := by
+  rw [shared_denominator_ratio V.det U.det δ hv hδ]
+  exact minor_quotient_height U V H hU hV hv
+
+/-- Exact algebraic induction step for bordered minors. To apply this to the
+program, a Sylvester determinant identity must establish hminor for its actual
+selected rows and prefix columns. This lemma does not assume such an invariant
+of kernel, and is not itself the missing determinant identity. -/
+theorem residual_shared_minor_step (a b c d δ e : ℚ)
+    (ha : a ≠ 0) (hδ : δ ≠ 0) (hminor : a*d-c*b = δ*e) :
+    d/δ - (c/δ) * ((b/δ)/(a/δ)) = e/a := by
+  calc
+    d/δ - (c/δ) * ((b/δ)/(a/δ)) = (a*d-c*b)/(δ*a) := by
+      field_simp [ha, hδ]
+    _ = (δ*e)/(δ*a) := by rw [hminor]
+    _ = e/a := by
+      field_simp [ha, hδ]
+
+
+/-- Clearing a rational matrix's single common denominator preserves exactly
+its homogeneous equations. The denominator is Mathlib's finite LCM, not an
+oracle or a supplied integer encoding. -/
+theorem clear_denominators_kernel_iff {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) (w : Fin n → ℚ) :
+    (∀ i, ∑ j, (A.num i j : ℚ) * w j = 0) ↔
+      ∀ i, ∑ j, A i j * w j = 0 := by
+  have hD : (A.den : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr A.den_ne_zero
+  have hrow : ∀ i, (∑ j, (A.num i j : ℚ) * w j) / A.den =
+      ∑ j, A i j * w j := by
+    intro i
+    rw [Finset.sum_div]
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [← div_mul_eq_mul_div₀, Matrix.num_div_den]
+  constructor
+  · intro h i
+    rw [← hrow i, h i, zero_div]
+  · intro h i
+    exact (div_eq_zero_iff.mp (by rw [hrow i, h i])).resolve_right hD
+
+/-- A single residual update with a scalar integer denominator is the 2x2
+minor formula. Higher-stage bordered-minor identities are still required. -/
+theorem integer_first_residual (a b c d : ℤ) (ha : a ≠ 0) :
+    (d : ℚ) - (c : ℚ) * ((b : ℚ) / (a : ℚ)) =
+      ((a*d-c*b : ℤ) : ℚ) / (a : ℚ) := by
+  have haq : (a : ℚ) ≠ 0 := Int.cast_ne_zero.mpr ha
+  push_cast
+  field_simp [haq]
+
+/-- The residual's pivot row is exactly zero, including empty column sets. -/
+theorem residual_pivot_row_zero {r n : ℕ}
+    (A : Fin r → Fin (n+1) → ℚ) (p : Fin r) (hp : A p 0 ≠ 0) :
+    ∀ j, residual A p p j = 0 := by
+  intro j
+  simp only [residual]
+  field_simp [hp]; ring
+
+/-- Previously zero rows remain zero. Together with deterministic nonzero-pivot
+selection, this is the local fact needed to prove pivot rows never repeat. -/
+theorem residual_preserves_zero_row {r n : ℕ}
+    (A : Fin r → Fin (n+1) → ℚ) (p i : Fin r)
+    (hi : ∀ j, A i j = 0) : ∀ j, residual A p i j = 0 := by
+  intro j
+  simp [residual, hi]
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianScale.lean -/
+/- AI-assisted Gaussian global-height continuation; Apache-2.0.
+Exact check status is recorded in source-bound receipts outside this source.
+The original uncompiled v1 draft is preserved in source-global-height-v1.
+Frozen Gaussian kernel APIs are unchanged. No bit-cost or general LP claim.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion.Gaussian
+
+def scaleTable {r n : ℕ} (c : ℚ) (A : QTable r n) : QTable r n :=
+  tableOfFn (fun i j => c * entry A i j)
+
+@[simp] theorem entry_scaleTable {r n : ℕ} (c : ℚ) (A : QTable r n) :
+    entry (scaleTable c A) = fun i j => c * entry A i j := by
+  funext i j
+  simp [scaleTable]
+
+theorem firstNonzero_scale (r : ℕ) (c : ℚ) (hc : c ≠ 0)
+    (a : Fin r → ℚ) :
+    firstNonzero r (fun i => c * a i) = firstNonzero r a := by
+  induction r with
+  | zero => rfl
+  | succ r ih =>
+    by_cases ha : a 0 = 0
+    · simp [firstNonzero, ha, ih]
+    · have hca : c * a 0 ≠ 0 := mul_ne_zero hc ha
+      simp [firstNonzero, ha, hca]
+
+/-- The cancellation law also covers a zero denominator; rational division is
+total. Thus scalar invariance does not need to assume a whole stage has rank. -/
+theorem residual_scale {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ)
+    (p : Fin r) (c : ℚ) (hc : c ≠ 0) :
+    residual (fun i j => c * A i j) p = fun i j => c * residual A p i j := by
+  funext i j
+  simp only [residual, mul_div_mul_left _ _ hc]
+  ring
+
+theorem lift_scale {r n : ℕ} (A : Fin r → Fin (n+1) → ℚ)
+    (p : Fin r) (w : Fin n → ℚ) (c : ℚ) (hc : c ≠ 0) :
+    lift (fun i j => c * A i j) p w = lift A p w := by
+  simp only [lift, mul_div_mul_left _ _ hc]
+
+theorem residual_scaleTable {r n : ℕ} (A : QTable r (n+1))
+    (p : Fin r) (c : ℚ) (hc : c ≠ 0) :
+    tableOfFn (residual (entry (scaleTable c A)) p) =
+      scaleTable c (tableOfFn (residual (entry A) p)) := by
+  apply List.Vector.ext
+  intro i
+  apply List.Vector.ext
+  intro j
+  change entry (tableOfFn (residual (entry (scaleTable c A)) p)) i j =
+    entry (scaleTable c (tableOfFn (residual (entry A) p))) i j
+  simp only [entry_tableOfFn, entry_scaleTable]
+  rw [residual_scale _ _ c hc]
+
+/-- Equality of actual returned Option/vector data, not merely equality of
+their homogeneous solution sets. No minor/rank witness is accepted as input. -/
+theorem kernel_scaleTable (r n : ℕ) (A : QTable r n)
+    (c : ℚ) (hc : c ≠ 0) :
+    kernel r n (scaleTable c A) = kernel r n A := by
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+    have hp : firstNonzero r (fun i => entry (scaleTable c A) i 0) =
+        firstNonzero r (fun i => entry A i 0) := by
+      simpa only [entry_scaleTable] using
+        firstNonzero_scale r c hc (fun i => entry A i 0)
+    cases he : firstNonzero r (fun i => entry A i 0) with
+    | none => simp only [kernel, hp, he]
+    | some p =>
+      simp only [kernel, hp, he]
+      rw [residual_scaleTable A p c hc, ih]
+      congr 1
+      funext w
+      rw [entry_scaleTable, lift_scale _ p w.get c hc]
+
+def integerNumeratorTable {r n : ℕ} (A : QTable r n) : QTable r n :=
+  tableOfFn (fun i j => (Matrix.num (entry A) i j : ℚ))
+
+theorem integerNumeratorTable_eq_scale {r n : ℕ} (A : QTable r n) :
+    integerNumeratorTable A = scaleTable (Matrix.den (entry A) : ℚ) A := by
+  apply List.Vector.ext
+  intro i
+  apply List.Vector.ext
+  intro j
+  simp only [integerNumeratorTable, scaleTable, tableOfFn, List.Vector.get_ofFn]
+  have hD : (Matrix.den (entry A) : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (Matrix.den_ne_zero (entry A))
+  have h := (div_eq_iff hD).mp (Matrix.num_div_den (entry A) i j)
+  simpa only [mul_comm] using h
+
+/-- Clearing denominators changes neither success/failure nor any normalized
+coefficient returned by the existing deterministic Gaussian kernel. This is
+the missing execution bridge beyond equality of homogeneous predicates. -/
+theorem kernel_integerNumeratorTable (r n : ℕ) (A : QTable r n) :
+    kernel r n (integerNumeratorTable A) = kernel r n A := by
+  rw [integerNumeratorTable_eq_scale]
+  exact kernel_scaleTable r n A _ (Nat.cast_ne_zero.mpr (Matrix.den_ne_zero (entry A)))
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianSchurSylvester.lean -/
+/- AI-assisted Gaussian global-height continuation; Apache-2.0.
+Exact check status is recorded in source-bound receipts outside this source.
+The original uncompiled v1 draft is preserved in source-global-height-v1.
+Frozen Gaussian kernel APIs are unchanged. No bit-cost or general LP claim.
+-/
+@[expose] public section
+open scoped Matrix
+namespace SparseCompletion.Gaussian
+
+/-- A one-row/one-column border of C, indexed by ι ⊕ Unit. The index order
+is prefix first, appended entry last, matching the operational Fin.snoc trace. -/
+def oneBorder {ι : Type*} [Fintype ι] [DecidableEq ι] (C : Matrix ι ι ℚ)
+    (B : Matrix ι (Fin 2) ℚ) (R : Matrix (Fin 2) ι ℚ)
+    (D : Matrix (Fin 2) (Fin 2) ℚ) (i j : Fin 2) :
+    Matrix (ι ⊕ Unit) (ι ⊕ Unit) ℚ :=
+  Matrix.fromBlocks C (fun x _ => B x j) (fun _ y => R i y) (fun _ _ => D i j)
+
+/-- Each one-border determinant is the prefix determinant times the
+corresponding entry of the two-border Schur complement. k=0 is included. -/
+theorem oneBorder_det {ι : Type*} [Fintype ι] [DecidableEq ι] (C : Matrix ι ι ℚ)
+    [Invertible C] (B : Matrix ι (Fin 2) ℚ)
+    (R : Matrix (Fin 2) ι ℚ) (D : Matrix (Fin 2) (Fin 2) ℚ)
+    (i j : Fin 2) :
+    (oneBorder C B R D i j).det = C.det * (D - R * ⅟C * B) i j := by
+  have hd := Matrix.det_fromBlocks₁₁ C
+    (show Matrix ι Unit ℚ from fun x _ => B x j)
+    (show Matrix Unit ι ℚ from fun _ y => R i y)
+    (show Matrix Unit Unit ℚ from fun _ _ => D i j)
+  calc
+    (oneBorder C B R D i j).det = C.det * _ := hd
+    _ = C.det * (D - R * ⅟C * B) i j := by
+      congr 1
+      rw [Matrix.det_unique]
+      rfl
+
+/-- The actual two-border Sylvester identity, derived rather than required as
+an hminor assumption. This is the nonsingular-prefix case required by a genuine
+Gaussian run; a general singular-prefix identity is unnecessary for that run. -/
+theorem twoBorder_sylvester {ι : Type*} [Fintype ι] [DecidableEq ι] (C : Matrix ι ι ℚ)
+    [Invertible C] (B : Matrix ι (Fin 2) ℚ)
+    (R : Matrix (Fin 2) ι ℚ) (D : Matrix (Fin 2) (Fin 2) ℚ) :
+    (oneBorder C B R D 0 0).det * (oneBorder C B R D 1 1).det -
+      (oneBorder C B R D 1 0).det * (oneBorder C B R D 0 1).det =
+      C.det * (Matrix.fromBlocks C B R D).det := by
+  rw [oneBorder_det, oneBorder_det, oneBorder_det, oneBorder_det,
+    Matrix.det_fromBlocks₁₁, Matrix.det_fin_two]
+  ring
+
+/-- Consequently the actual Schur pivot update transforms the four one-border
+quotients into the two-border quotient, provided the newly chosen pivot is
+nonzero. The Sylvester equality is proved above, not supplied by the caller. -/
+theorem twoBorder_residual_update {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (C : Matrix ι ι ℚ) [Invertible C]
+    (B : Matrix ι (Fin 2) ℚ) (R : Matrix (Fin 2) ι ℚ)
+    (D : Matrix (Fin 2) (Fin 2) ℚ)
+    (hC : C.det ≠ 0) (ha : (oneBorder C B R D 0 0).det ≠ 0) :
+    (oneBorder C B R D 1 1).det / C.det -
+      ((oneBorder C B R D 1 0).det / C.det) *
+        (((oneBorder C B R D 0 1).det / C.det) /
+          ((oneBorder C B R D 0 0).det / C.det)) =
+      (Matrix.fromBlocks C B R D).det / (oneBorder C B R D 0 0).det := by
+  exact residual_shared_minor_step _ _ _ _ _ _ ha hC
+    (twoBorder_sylvester C B R D)
+
+/- GaussianActualMinors supplies the explicit nested-sum reindexing bridge:
+appendTwoEquiv is applied on BOTH determinant axes, so signs cancel exactly.
+It then writes the global actual-stage induction and integer casting. Exact check status is recorded in source-bound receipts; these are not
+certificates fed to the kernel. -/
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianActualMinors.lean -/
+/- AI-assisted Gaussian global-height continuation; Apache-2.0.
+Exact check status is recorded in source-bound receipts outside this source.
+The original uncompiled v1 draft is preserved in source-global-height-v1.
+Frozen Gaussian kernel APIs are unchanged. No bit-cost or general LP claim.
+-/
+@[expose] public section
+open scoped BigOperators Matrix
+namespace SparseCompletion.Gaussian
+
+def appendMap {ι α : Type*} (P : ι → α) (p : α) : ι ⊕ Unit → α :=
+  Sum.elim P (fun _ => p)
+
+def selectedBlock {r N : ℕ} {ι : Type*}
+    (Z : Fin r → Fin N → ℚ) (P : ι → Fin r) (Q : ι → Fin N) : Matrix ι ι ℚ :=
+  Matrix.submatrix Z P Q
+
+def selectedBorder {r N : ℕ} {ι : Type*}
+    (Z : Fin r → Fin N → ℚ) (P : ι → Fin r) (Q : ι → Fin N)
+    (i : Fin r) (j : Fin N) : Matrix (ι ⊕ Unit) (ι ⊕ Unit) ℚ :=
+  Matrix.submatrix Z (appendMap P i) (appendMap Q j)
+
+def unitSumFinTwo : Unit ⊕ Unit ≃ Fin 2 where
+  toFun := Sum.elim (fun _ => 0) (fun _ => 1)
+  invFun j := if j = 0 then Sum.inl () else Sum.inr ()
+  left_inv x := by rcases x with u | u <;> cases u <;> rfl
+  right_inv j := by fin_cases j <;> rfl
+
+def appendTwoEquiv (ι : Type*) : ((ι ⊕ Unit) ⊕ Unit) ≃ ι ⊕ Fin 2 :=
+  (Equiv.sumAssoc ι Unit Unit).trans
+    (Equiv.sumCongr (Equiv.refl ι) unitSumFinTwo)
+
+/-- Concrete selected-row/column Sylvester identity. hC is a usual local
+linear-algebra premise; the subsequent actual-stage induction earns hC from
+the program's earlier nonzero pivot, rather than receiving it from a caller. -/
+theorem selectedBorder_sylvester {r N : ℕ} {ι : Type*}
+    [Fintype ι] [DecidableEq ι] (Z : Fin r → Fin N → ℚ)
+    (P : ι → Fin r) (Q : ι → Fin N) (p i : Fin r) (q j : Fin N)
+    (hC : (selectedBlock Z P Q).det ≠ 0) :
+    (selectedBorder Z P Q p q).det * (selectedBorder Z P Q i j).det -
+      (selectedBorder Z P Q i q).det * (selectedBorder Z P Q p j).det =
+      (selectedBlock Z P Q).det *
+        (selectedBorder Z (appendMap P p) (appendMap Q q) i j).det := by
+  classical
+  let C := selectedBlock Z P Q
+  let B : Matrix ι (Fin 2) ℚ := fun x t => Z (P x) (if t = 0 then q else j)
+  let R : Matrix (Fin 2) ι ℚ := fun t y => Z (if t = 0 then p else i) (Q y)
+  let D : Matrix (Fin 2) (Fin 2) ℚ :=
+    fun s t => Z (if s = 0 then p else i) (if t = 0 then q else j)
+  let _ : Invertible C := Matrix.invertibleOfIsUnitDet (A := C)
+    (isUnit_iff_ne_zero.mpr hC)
+  have h00 : oneBorder C B R D 0 0 = selectedBorder Z P Q p q := by
+    ext x y
+    rcases x with x | u <;> rcases y with y | v <;> rfl
+  have h01 : oneBorder C B R D 0 1 = selectedBorder Z P Q p j := by
+    ext x y
+    rcases x with x | u <;> rcases y with y | v <;> rfl
+  have h10 : oneBorder C B R D 1 0 = selectedBorder Z P Q i q := by
+    ext x y
+    rcases x with x | u <;> rcases y with y | v <;> rfl
+  have h11 : oneBorder C B R D 1 1 = selectedBorder Z P Q i j := by
+    ext x y
+    rcases x with x | u <;> rcases y with y | v <;> rfl
+  have hmatrix :
+      (selectedBorder Z (appendMap P p) (appendMap Q q) i j).submatrix
+        (appendTwoEquiv ι).symm (appendTwoEquiv ι).symm =
+      Matrix.fromBlocks C B R D := by
+    ext x y
+    rcases x with x | x
+    · rcases y with y | y
+      · rfl
+      · fin_cases y <;> rfl
+    · rcases y with y | y
+      · fin_cases x <;> rfl
+      · fin_cases x <;> fin_cases y <;> rfl
+  have hdet : (Matrix.fromBlocks C B R D).det =
+      (selectedBorder Z (appendMap P p) (appendMap Q q) i j).det := by
+    rw [← hmatrix, Matrix.det_submatrix_equiv_self]
+  simpa only [h00, h01, h10, h11, hdet] using twoBorder_sylvester C B R D
+
+@[reducible] def PrefixIndex : ℕ → Type
+  | 0 => PEmpty
+  | k+1 => PrefixIndex k ⊕ Unit
+
+instance prefixIndexFintype : (k : ℕ) → Fintype (PrefixIndex k)
+  | 0 => inferInstanceAs (Fintype PEmpty)
+  | k+1 => by
+      change Fintype (PrefixIndex k ⊕ Unit)
+      letI : Fintype (PrefixIndex k) := prefixIndexFintype k
+      infer_instance
+
+instance prefixIndexDecidableEq : (k : ℕ) → DecidableEq (PrefixIndex k)
+  | 0 => inferInstanceAs (DecidableEq PEmpty)
+  | k+1 => by
+      change DecidableEq (PrefixIndex k ⊕ Unit)
+      letI : DecidableEq (PrefixIndex k) := prefixIndexDecidableEq k
+      infer_instance
+
+instance prefixIndexZeroIsEmpty : IsEmpty (PrefixIndex 0) := ⟨PEmpty.elim⟩
+
+theorem prefixIndex_card (k : ℕ) : Fintype.card (PrefixIndex k) = k := by
+  induction k with
+  | zero => exact Fintype.card_ofIsEmpty
+  | succ k ih =>
+      simpa only [PrefixIndex, Fintype.card_sum, Fintype.card_unit] using
+        (congrArg (fun n : ℕ => n+1) ih)
+
+/-- Ordered operational stages with the actual remaining-column labels. Each
+step selects the program's actual pivot row and removes the actual first
+column; no minor/rank/height conclusion occurs in the constructor data. -/
+inductive MinorStage {r N : ℕ} (A : QTable r N) :
+    (k n : ℕ) → (PrefixIndex k → Fin r) → (PrefixIndex k → Fin N) →
+      (Fin n → Fin N) → QTable r n → Prop
+  | initial : MinorStage A 0 N PEmpty.elim PEmpty.elim id A
+  | step {k n : ℕ} {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+      {σ : Fin (n+1) → Fin N} {B : QTable r (n+1)}
+      (previous : MinorStage A k (n+1) P Q σ B) (p : Fin r)
+      (pivot : firstNonzero r (fun i => entry B i 0) = some p) :
+      MinorStage A (k+1) n (appendMap P p) (appendMap Q (σ 0))
+        (fun j => σ j.succ) (tableOfFn (residual (entry B) p))
+
+/-- Global invariant for actual reachable stages, including the
+initial empty minor. It supplies both nonzero prefix determinants and actual
+entry formulas from only real program-step equations. No kernel/minor oracle
+or externally supplied invariant is a hypothesis. Check status is recorded in exact-source receipts. -/
+theorem minorStage_invariant {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) :
+    (selectedBlock (entry A) P Q).det ≠ 0 ∧
+      ∀ i j, entry B i j = (selectedBorder (entry A) P Q i (σ j)).det /
+        (selectedBlock (entry A) P Q).det := by
+  classical
+  induction h with
+  | initial =>
+    let _ : Unique (PrefixIndex 0 ⊕ Unit) :=
+      { default := Sum.inr ()
+        uniq := by
+          intro x
+          rcases x with x | u
+          · exact PEmpty.elim x
+          · cases u
+            rfl }
+    have h0 : (selectedBlock (entry A)
+        (PEmpty.elim : PrefixIndex 0 → Fin r)
+        (PEmpty.elim : PrefixIndex 0 → Fin N)).det = 1 := Matrix.det_isEmpty
+    constructor
+    · rw [h0]
+      exact one_ne_zero
+    · intro i j
+      rw [h0, div_one]
+      symm
+      exact (Matrix.det_unique (selectedBorder (entry A)
+        (PEmpty.elim : PrefixIndex 0 → Fin r)
+        (PEmpty.elim : PrefixIndex 0 → Fin N) i j)).trans rfl
+  | @step k n P Q σ B previous p hp ih =>
+    rcases ih with ⟨hC, hentry⟩
+    have hp0 := firstNonzero_some r (fun i => entry B i 0) p hp
+    have hnew : (selectedBorder (entry A) P Q p (σ 0)).det ≠ 0 := by
+      intro hz
+      apply hp0
+      rw [hentry p 0, hz, zero_div]
+    refine ⟨hnew, ?_⟩
+    intro i j
+    simp only [entry_tableOfFn, residual]
+    rw [hentry i j.succ, hentry i 0, hentry p j.succ, hentry p 0]
+    exact residual_shared_minor_step _ _ _ _ _ _ hnew hC
+      (selectedBorder_sylvester (entry A) P Q p i (σ 0) (σ j.succ) hC)
+
+/-- General finite-index wrapper around the CHECKED Fin-index quotient bound.
+The equivalences occur only in this proof, not in the actual kernel program. -/
+theorem minor_quotient_height_any {ι κ : Type*}
+    [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq κ]
+    (U : Matrix ι ι ℤ) (V : Matrix κ κ ℤ) (H : ℕ)
+    (hU : ∀ i j, (U i j).natAbs ≤ H) (hV : ∀ i j, (V i j).natAbs ≤ H)
+    (hv : V.det ≠ 0) :
+    (((U.det : ℚ) / (V.det : ℚ)).num.natAbs ≤
+      (Fintype.card ι).factorial * H^(Fintype.card ι)) ∧
+    (((U.det : ℚ) / (V.det : ℚ)).den ≤
+      (Fintype.card κ).factorial * H^(Fintype.card κ)) := by
+  classical
+  let eι : Fin (Fintype.card ι) ≃ ι := (Fintype.equivFin ι).symm
+  let eκ : Fin (Fintype.card κ) ≃ κ := (Fintype.equivFin κ).symm
+  have hdU : (U.submatrix eι eι).det = U.det := Matrix.det_submatrix_equiv_self eι U
+  have hdV : (V.submatrix eκ eκ).det = V.det := Matrix.det_submatrix_equiv_self eκ V
+  have hb := minor_quotient_height (U.submatrix eι eι) (V.submatrix eκ eκ) H
+    (fun i j => hU (eι i) (eι j)) (fun i j => hV (eκ i) (eκ j))
+    (by simpa only [hdV] using hv)
+  simpa only [hdU, hdV] using hb
+
+theorem intCast_det {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : Matrix ι ι ℤ) :
+    Matrix.det (fun i j => (M i j : ℚ)) = (M.det : ℚ) := by
+  exact ((Int.castRingHom ℚ).map_det M).symm
+
+/-- Actual stage encoding bound. The input hypothesis is only bounded
+integer entries plus an operational trace made from actual program equations.
+The minor representation is derived by minorStage_invariant above; no minor
+witness, height field, or desired conclusion is assumed. -/
+theorem minorStage_integer_height {r N k n : ℕ}
+    (Z : Fin r → Fin N → ℤ) (H : ℕ) (hZ : ∀ i j, (Z i j).natAbs ≤ H)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage (tableOfFn (fun i j => (Z i j : ℚ))) k n P Q σ B) :
+    ∀ i j, (entry B i j).num.natAbs ≤ (k+1).factorial * H^(k+1) ∧
+      (entry B i j).den ≤ k.factorial * H^k := by
+  classical
+  intro i j
+  let V : Matrix (PrefixIndex k) (PrefixIndex k) ℤ := Matrix.submatrix Z P Q
+  let U : Matrix (PrefixIndex k ⊕ Unit) (PrefixIndex k ⊕ Unit) ℤ :=
+    Matrix.submatrix Z (appendMap P i) (appendMap Q (σ j))
+  have hdV :
+      (selectedBlock (entry (tableOfFn (fun i j => (Z i j : ℚ)))) P Q).det =
+        (V.det : ℚ) := by
+    rw [entry_tableOfFn_function]
+    change Matrix.det (fun a b => (V a b : ℚ)) = (V.det : ℚ)
+    exact intCast_det V
+  have hdU :
+      (selectedBorder (entry (tableOfFn (fun i j => (Z i j : ℚ)))) P Q i (σ j)).det =
+        (U.det : ℚ) := by
+    rw [entry_tableOfFn_function]
+    change Matrix.det (fun a b => (U a b : ℚ)) = (U.det : ℚ)
+    exact intCast_det U
+  have hinv := minorStage_invariant h
+  have hv : V.det ≠ 0 := by
+    intro hz
+    apply hinv.1
+    rw [hdV, hz, Int.cast_zero]
+  have he : entry B i j = (U.det : ℚ) / (V.det : ℚ) := by
+    simpa only [hdU, hdV] using hinv.2 i j
+  have hb := minor_quotient_height_any U V H
+    (fun a b => hZ (appendMap P i a) (appendMap Q (σ j) b))
+    (fun a b => hZ (P a) (Q b)) hv
+  rw [he]
+  simpa only [Fintype.card_sum, Fintype.card_unit, prefixIndex_card] using hb
+
+/- Source continuation is now in GaussianTerminalTrace and GaussianCramerOutput:
+real success extends this operational trace to its real dependent-column stop;
+the selected original-row system then supplies actual returned-coordinate
+Cramer bounds. Compilation evidence is recorded in source-bound receipts. These results
+do not supply an executable bit-complexity bound. -/
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianTerminalTrace.lean -/
+/- AI-assisted Gaussian global-height continuation; Apache-2.0.
+Exact check status is recorded in source-bound receipts outside this source.
+The original uncompiled v1 draft is preserved in source-global-height-v1.
+Frozen Gaussian kernel APIs are unchanged. No bit-cost or general LP claim.
+-/
+@[expose] public section
+open scoped BigOperators Matrix
+namespace SparseCompletion.Gaussian
+
+def columnStepEquiv (ι : Type*) (n : ℕ) :
+    ((ι ⊕ Unit) ⊕ Fin n) ≃ ι ⊕ Fin (n+1) where
+  toFun := Sum.elim (Sum.elim Sum.inl (fun _ => Sum.inr 0))
+    (fun j => Sum.inr j.succ)
+  invFun := Sum.elim (fun i => Sum.inl (Sum.inl i))
+    (Fin.cases (Sum.inl (Sum.inr ())) Sum.inr)
+  left_inv x := by
+    rcases x with (i | u) | j
+    · rfl
+    · cases u
+      rfl
+    · simp
+  right_inv x := by
+    rcases x with i | j
+    · rfl
+    · refine Fin.cases rfl (fun _ => by simp) j
+
+theorem minorStage_dimensions {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) : k+n = N := by
+  induction h with
+  | initial => simp
+  | step previous p hp ih => omega
+
+/-- The actual selected and remaining labels partition the entire original
+input, exactly once, even for empty prefix or empty remaining dimensions. -/
+theorem minorStage_columns_bijective {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) : Function.Bijective (Sum.elim Q σ) := by
+  induction h with
+  | initial =>
+    constructor
+    · intro x y hxy
+      rcases x with x | x
+      · exact PEmpty.elim x
+      · rcases y with y | y
+        · exact PEmpty.elim y
+        · exact congrArg Sum.inr hxy
+    · intro j
+      exact ⟨Sum.inr j, rfl⟩
+  | @step k n P Q σ B previous p hp ih =>
+    have he : Sum.elim (appendMap Q (σ 0)) (fun j => σ j.succ) =
+        (Sum.elim Q σ) ∘ columnStepEquiv (PrefixIndex k) n := by
+      funext x
+      rcases x with (x | u) | j <;> rfl
+    rw [he]
+    exact ih.comp (columnStepEquiv (PrefixIndex k) n).bijective
+
+theorem minorStage_remaining_val {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) : ∀ j, (σ j).val = k+j.val := by
+  induction h with
+  | initial => intro j; simp
+  | @step k n P Q σ B previous p hp ih =>
+    intro j
+    change (σ j.succ).val = k+1+j.val
+    have hh := ih j.succ
+    simp only [Fin.val_succ] at hh
+    omega
+
+theorem minorStage_selected_zero {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) : ∀ s j, entry B (P s) j = 0 := by
+  induction h with
+  | initial => intro s; exact PEmpty.elim s
+  | @step k n P Q σ B previous p hp ih =>
+    intro s j
+    rcases s with s | u
+    · simpa only [entry_tableOfFn, appendMap, Sum.elim_inl] using
+        residual_preserves_zero_row (entry B) p (P s) (ih s) j
+    · have hp0 := firstNonzero_some r (fun i => entry B i 0) p hp
+      simpa only [entry_tableOfFn, appendMap, Sum.elim_inr] using
+        residual_pivot_row_zero (entry B) p hp0 j
+
+theorem minorStage_rows_injective {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) : Function.Injective P := by
+  induction h with
+  | initial => intro s; exact PEmpty.elim s
+  | @step k n P Q σ B previous p hp ih =>
+    have hp0 := firstNonzero_some r (fun i => entry B i 0) p hp
+    have hne : ∀ s, P s ≠ p := by
+      intro s hs
+      apply hp0
+      simpa only [hs] using minorStage_selected_zero previous s 0
+    intro x y hxy
+    rcases x with x | u <;> rcases y with y | v
+    · exact congrArg Sum.inl (ih hxy)
+    · exact False.elim (hne x hxy)
+    · exact False.elim (hne y hxy.symm)
+    · exact congrArg Sum.inr (Subsingleton.elim u v)
+
+theorem minorStage_pivots_le_rows {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) : k ≤ r := by
+  simpa only [prefixIndex_card, Fintype.card_fin] using
+    Fintype.card_le_of_injective P (minorStage_rows_injective h)
+
+/-- Success of the actual recursive call extends any actual previous stage to
+its real zero-first-column terminal stage. The output's unit coordinate tracks
+the exact number of newly executed pivots, rather than a surrogate cost count. -/
+theorem kernel_terminal_trace {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (hstage : MinorStage A k n P Q σ B) (w : QVec n)
+    (hkernel : kernel r n B = some w) :
+    ∃ f : Fin n, w.get f = 1 ∧ (∀ j, f < j → w.get j = 0) ∧
+      ∃ (k' m : ℕ) (P' : PrefixIndex k' → Fin r) (Q' : PrefixIndex k' → Fin N)
+        (σ' : Fin (m+1) → Fin N) (C : QTable r (m+1)),
+        MinorStage A k' (m+1) P' Q' σ' C ∧
+        firstNonzero r (fun i => entry C i 0) = none ∧ k' = k+f.val := by
+  induction n generalizing k with
+  | zero => simp [kernel] at hkernel
+  | succ n ih =>
+    cases hp : firstNonzero r (fun i => entry B i 0) with
+    | none =>
+      have hw : List.Vector.ofFn (Fin.cons 1 (fun _ : Fin n => 0)) = w := by
+        simpa only [kernel, hp, Option.some.injEq] using hkernel
+      subst w
+      refine ⟨0, by simp, ?_, k, n, P, Q, σ, B, hstage, hp, by simp⟩
+      intro j
+      refine Fin.cases (by simp) (fun _ _ => by simp) j
+    | some p =>
+      cases hc : kernel r n (tableOfFn (residual (entry B) p)) with
+      | none => simp [kernel, hp, hc] at hkernel
+      | some u =>
+        have hw : List.Vector.ofFn (lift (entry B) p u.get) = w := by
+          simpa only [kernel, hp, hc, Option.map_some, Option.some.injEq] using hkernel
+        subst w
+        obtain ⟨f, hf, hz, k', m, P', Q', σ', C, hs, hstop, hk'⟩ :=
+          ih (MinorStage.step hstage p hp) u hc
+        refine ⟨f.succ, by simpa using hf, ?_, k', m, P', Q', σ', C,
+          hs, hstop, ?_⟩
+        · intro j
+          refine Fin.cases (by simp) ?_ j
+          intro j hj
+          exact by simpa using hz j (by simpa using hj)
+        · simp only [Fin.val_succ]
+          omega
+
+/-- Every real returned vector therefore has a real terminal trace, an actual
+unit free column, zeros on every later column, and a computed prefix length
+bounded by the number of rows. Zero-column failure cannot fake this witness. -/
+theorem kernel_terminal_data {r N : ℕ} (A : QTable r N) (w : QVec N)
+    (hkernel : kernel r N A = some w) :
+    ∃ (k n : ℕ) (P : PrefixIndex k → Fin r) (Q : PrefixIndex k → Fin N)
+      (σ : Fin (n+1) → Fin N) (B : QTable r (n+1)),
+      MinorStage A k (n+1) P Q σ B ∧
+      firstNonzero r (fun i => entry B i 0) = none ∧
+      k < N ∧ k ≤ r ∧ w.get (σ 0) = 1 ∧
+      ∀ j : Fin n, w.get (σ j.succ) = 0 := by
+  obtain ⟨f, hf, hz, k, n, P, Q, σ, B, hs, hstop, hk⟩ :=
+    kernel_terminal_trace (MinorStage.initial (A := A)) w hkernel
+  have hkf : k = f.val := by simpa using hk
+  have hσ : σ 0 = f := by
+    apply Fin.ext
+    have hval := minorStage_remaining_val hs 0
+    simpa only [Fin.val_zero, add_zero, hkf] using hval
+  refine ⟨k, n, P, Q, σ, B, hs, hstop, ?_, minorStage_pivots_le_rows hs, ?_, ?_⟩
+  · simpa only [hkf] using f.isLt
+  · simpa only [hσ] using hf
+  · intro j
+    apply hz
+    change f.val < (σ j.succ).val
+    rw [minorStage_remaining_val hs, ← hkf]
+    simp
+
+/-- Selected ORIGINAL rows of the actual returned relation solve the prefix
+square system with the negative ORIGINAL free column. The actual column
+bijection earns the sum split; no unknown outside-support residual is dropped. -/
+theorem terminal_prefix_equation {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin (n+1) → Fin N} {B : QTable r (n+1)}
+    (hs : MinorStage A k (n+1) P Q σ B) (v : Fin N → ℚ)
+    (hv : IsKernel A v) (hf : v (σ 0) = 1)
+    (hz : ∀ j : Fin n, v (σ j.succ) = 0) :
+    selectedBlock (entry A) P Q *ᵥ (fun t => v (Q t)) =
+      fun s => -entry A (P s) (σ 0) := by
+  classical
+  funext s
+  change (∑ t, entry A (P s) (Q t) * v (Q t)) = -entry A (P s) (σ 0)
+  have he := (minorStage_columns_bijective hs).sum_comp
+    (fun j => entry A (P s) j * v j)
+  rw [Fintype.sum_sum_type, Fin.sum_univ_succ] at he
+  simp only [Sum.elim_inl, Sum.elim_inr, hf, mul_one, hz,
+    mul_zero, Finset.sum_const_zero, add_zero] at he
+  have hzero : (∑ j, entry A (P s) j * v j) = 0 := hv (P s)
+  linarith
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianCramerOutput.lean -/
+/- AI-assisted Gaussian global-height continuation; Apache-2.0.
+Exact check status is recorded in source-bound receipts outside this source.
+The original uncompiled v1 draft is preserved in source-global-height-v1.
+Frozen Gaussian kernel APIs are unchanged. No bit-cost or general LP claim.
+-/
+@[expose] public section
+open scoped BigOperators Matrix
+namespace SparseCompletion.Gaussian
+
+/-- Cramer's identity in the direction needed for an already computed vector.
+Unlike inversion, this identity also covers singular and empty squares. -/
+theorem det_smul_eq_cramer_mulVec {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (C : Matrix ι ι ℚ) (x : ι → ℚ) :
+    C.det • x = C.cramer (C *ᵥ x) := by
+  symm
+  rw [Matrix.cramer_eq_adjugate_mulVec, Matrix.mulVec_mulVec,
+    Matrix.adjugate_mul, Matrix.smul_mulVec, Matrix.one_mulVec]
+
+/-- A generic algebra helper. The actual-output theorem below derives this
+system and nonsingularity from real program steps rather than assuming them. -/
+theorem integer_system_cramer {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (U : Matrix ι ι ℤ) (b : ι → ℤ) (x : ι → ℚ)
+    (hdet : U.det ≠ 0)
+    (hsolve : (fun i j => (U i j : ℚ)) *ᵥ x = fun i => (b i : ℚ)) :
+    ∀ j, x j = ((U.updateCol j b).det : ℚ) / (U.det : ℚ) := by
+  classical
+  intro j
+  have hd : (U.det : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hdet
+  let C : Matrix ι ι ℚ := fun i j => (U i j : ℚ)
+  have hm : (fun i j' => ((U.updateCol j b) i j' : ℚ)) =
+      C.updateCol j (fun i => (b i : ℚ)) := by
+    ext i j'
+    simp only [Matrix.updateCol_apply]
+    split_ifs <;> rfl
+  have hs : C *ᵥ x = fun i => (b i : ℚ) := hsolve
+  have hc := det_smul_eq_cramer_mulVec C x
+  rw [hs] at hc
+  have hh : C.det * x j = (C.updateCol j (fun i => (b i : ℚ))).det := congrFun hc j
+  have hdC : C.det = (U.det : ℚ) := intCast_det U
+  have hdM : (C.updateCol j (fun i => (b i : ℚ))).det =
+      ((U.updateCol j b).det : ℚ) := by
+    rw [← hm]
+    exact intCast_det (U.updateCol j b)
+  rw [hdC, hdM] at hh
+  apply (eq_div_iff hd).mpr
+  simpa only [mul_comm] using hh
+
+theorem integer_system_coordinate_height {ι : Type*}
+    [Fintype ι] [DecidableEq ι]
+    (U : Matrix ι ι ℤ) (b : ι → ℤ) (x : ι → ℚ) (H : ℕ)
+    (hU : ∀ i j, (U i j).natAbs ≤ H) (hb : ∀ i, (b i).natAbs ≤ H)
+    (hdet : U.det ≠ 0)
+    (hsolve : (fun i j => (U i j : ℚ)) *ᵥ x = fun i => (b i : ℚ)) :
+    ∀ j, (x j).num.natAbs ≤ (Fintype.card ι).factorial * H^(Fintype.card ι) ∧
+      (x j).den ≤ (Fintype.card ι).factorial * H^(Fintype.card ι) := by
+  classical
+  intro j
+  rw [integer_system_cramer U b x hdet hsolve j]
+  apply minor_quotient_height_any (U.updateCol j b) U H _ hU hdet
+  intro i t
+  by_cases ht : t = j
+  · simpa only [Matrix.updateCol_apply, ite_eq_left ht] using hb i
+  · simpa only [Matrix.updateCol_apply, ite_eq_right ht] using hU i t
+
+/-- Actual normalized-output bound. The only data hypothesis is an
+entry bound on the integer INPUT. The returned vector, actual terminal prefix,
+nonsingular selected square, original-row equations and Cramer numerators are
+all earned from the actual deterministic kernel success equation.
+
+The max with one is essential: an empty pivot prefix returns a unit coordinate,
+and zero coordinates have denominator one even when H=0. k<N also excludes
+zero-column success, while k≤r is earned from actual distinct selected rows.
+Exact check status is recorded in source-bound receipts. -/
+theorem kernel_integer_output_height {r N : ℕ}
+    (Z : Fin r → Fin N → ℤ) (H : ℕ) (hZ : ∀ i j, (Z i j).natAbs ≤ H)
+    (w : QVec N)
+    (hkernel : kernel r N (tableOfFn (fun i j => (Z i j : ℚ))) = some w) :
+    ∃ k : ℕ, k ≤ r ∧ k < N ∧
+      ∀ j, (w.get j).num.natAbs ≤ max 1 (k.factorial * H^k) ∧
+        (w.get j).den ≤ max 1 (k.factorial * H^k) := by
+  classical
+  let A : QTable r N := tableOfFn (fun i j => (Z i j : ℚ))
+  obtain ⟨k, n, P, Q, σ, B, hs, _hstop, hkN, hkr, hf, hz⟩ :=
+    kernel_terminal_data A w hkernel
+  let U : Matrix (PrefixIndex k) (PrefixIndex k) ℤ := Matrix.submatrix Z P Q
+  let b : PrefixIndex k → ℤ := fun s => -Z (P s) (σ 0)
+  let x : PrefixIndex k → ℚ := fun t => w.get (Q t)
+  have hcast : selectedBlock (entry A) P Q = fun i j => (U i j : ℚ) := by
+    ext i j
+    change entry (tableOfFn (fun i j => (Z i j : ℚ))) (P i) (Q j) = (Z (P i) (Q j) : ℚ)
+    exact entry_tableOfFn _ _ _
+  have hdet : U.det ≠ 0 := by
+    intro hh
+    have hd := (minorStage_invariant hs).1
+    apply hd
+    rw [hcast, intCast_det, hh, Int.cast_zero]
+  have hsolve : (fun i j => (U i j : ℚ)) *ᵥ x = fun i => (b i : ℚ) := by
+    have he := terminal_prefix_equation hs w.get
+      (kernel_sound r N A w hkernel).1 hf hz
+    simpa only [hcast, x, b, A, entry_tableOfFn, Int.cast_neg] using he
+  have hcoord := integer_system_coordinate_height U b x H
+    (fun i j => hZ (P i) (Q j))
+    (fun i => by simpa only [b, Int.natAbs_neg] using hZ (P i) (σ 0))
+    hdet hsolve
+  have hselected : ∀ t, (w.get (Q t)).num.natAbs ≤ k.factorial * H^k ∧
+      (w.get (Q t)).den ≤ k.factorial * H^k := by
+    simpa only [x, prefixIndex_card] using hcoord
+  have hremaining : ∀ t, (w.get (σ t)).num.natAbs ≤ max 1 (k.factorial * H^k) ∧
+      (w.get (σ t)).den ≤ max 1 (k.factorial * H^k) := by
+    refine Fin.cases ?_ ?_
+    · rw [hf]
+      simp
+    · intro j
+      rw [hz j]
+      constructor
+      · simp
+      · simp
+  refine ⟨k, hkr, hkN, ?_⟩
+  intro j
+  obtain ⟨t, ht⟩ := (minorStage_columns_bijective hs).2 j
+  rcases t with t | t
+  · change Q t = j at ht
+    rw [← ht]
+    exact ⟨(hselected t).1.trans (le_max_right _ _),
+      (hselected t).2.trans (le_max_right _ _)⟩
+  · change σ t = j at ht
+    rw [← ht]
+    exact hremaining t
+
+/-- Rational-input execution transfer. H bounds the actual integer
+numerator matrix supplied by Matrix.num, whose common-denominator scaling is
+proved to preserve every coefficient of the actual return value. This is not
+yet an input-bit-size estimate: that separate encoding bridge remains open. -/
+theorem kernel_rational_output_height {r N : ℕ}
+    (A : QTable r N) (H : ℕ)
+    (hH : ∀ i j, (Matrix.num (entry A) i j).natAbs ≤ H)
+    (w : QVec N) (hkernel : kernel r N A = some w) :
+    ∃ k : ℕ, k ≤ r ∧ k < N ∧
+      ∀ j, (w.get j).num.natAbs ≤ max 1 (k.factorial * H^k) ∧
+        (w.get j).den ≤ max 1 (k.factorial * H^k) := by
+  have hi : kernel r N (integerNumeratorTable A) = some w := by
+    rw [kernel_integerNumeratorTable]
+    exact hkernel
+  exact kernel_integer_output_height (Matrix.num (entry A)) H hH w hi
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianInputEncoding.lean -/
+/- AI-assisted original-input and transient-value continuation; Apache-2.0.
+Exact compilation/audit status is recorded in source-bound receipts.
+The uncompiled original draft remains in source-input-bits-v1.
+These are value/encoding bounds, not primitive or total running-time claims.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion.Gaussian
+
+def inputDenominatorProduct {r n : ℕ} (A : Matrix (Fin r) (Fin n) ℚ) : ℕ :=
+  ∏ p : Fin r × Fin n, (A p.1 p.2).den
+
+theorem inputDenominatorProduct_pos {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) : 0 < inputDenominatorProduct A := by
+  apply Finset.prod_pos
+  intro p _
+  exact (A p.1 p.2).den_pos
+
+/-- The LCM used by the ACTUAL Mathlib numerator matrix divides the product
+of original denominators, including an empty matrix's product one. -/
+theorem matrix_den_dvd_input_product {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) : A.den ∣ inputDenominatorProduct A := by
+  apply Matrix.den_dvd_iff.mpr
+  intro i j
+  exact Finset.dvd_prod_of_mem (fun p : Fin r × Fin n => (A p.1 p.2).den)
+    (Finset.mem_univ (i, j))
+
+theorem matrix_den_le_input_product {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) : A.den ≤ inputDenominatorProduct A := by
+  exact Nat.le_of_dvd (inputDenominatorProduct_pos A) (matrix_den_dvd_input_product A)
+
+theorem inputDenominatorProduct_le {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) (D : ℕ)
+    (hD : ∀ i j, (A i j).den ≤ D) : inputDenominatorProduct A ≤ D^(r*n) := by
+  have hp := Finset.prod_le_prod (s := Finset.univ)
+    (f := fun p : Fin r × Fin n => (A p.1 p.2).den)
+    (g := fun _ => D) (fun p _ => hD p.1 p.2)
+  simpa only [inputDenominatorProduct, Finset.prod_const, Finset.card_univ,
+    Fintype.card_prod, Fintype.card_fin] using hp
+
+/-- Exact normalization identity, with the LCM quotient derived from original
+entry divisibility. The integer matrix is Mathlib's actual Matrix.num. -/
+theorem matrix_num_eq_den_quotient_mul {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) (i : Fin r) (j : Fin n) :
+    ∃ t : ℕ, A.den = (A i j).den * t ∧
+      A.num i j = (t : ℤ) * (A i j).num := by
+  obtain ⟨t, ht⟩ := (Matrix.den_dvd_iff.mp (dvd_refl A.den)) i j
+  refine ⟨t, ht, ?_⟩
+  have hscalar : (A.den : ℚ) * A i j = ((t : ℤ) * (A i j).num : ℤ) := by
+    calc
+      (A.den : ℚ) * A i j = (t : ℚ) * (A i j * ((A i j).den : ℚ)) := by
+        rw [ht, Nat.cast_mul]
+        ring
+      _ = (t : ℚ) * ((A i j).num : ℚ) := by rw [Rat.mul_den_eq_num]
+      _ = ((t : ℤ) * (A i j).num : ℤ) := by push_cast; rfl
+  simp only [Matrix.num, Matrix.map_apply, Matrix.smul_apply, smul_eq_mul,
+    hscalar, Rat.num_intCast]
+
+theorem matrix_num_abs_le_den_mul {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) (i : Fin r) (j : Fin n) :
+    (A.num i j).natAbs ≤ A.den * (A i j).num.natAbs := by
+  obtain ⟨t, ht, hn⟩ := matrix_num_eq_den_quotient_mul A i j
+  have htd : t ≤ A.den := by
+    calc
+      t = 1*t := (one_mul t).symm
+      _ ≤ (A i j).den*t := Nat.mul_le_mul_right t (A i j).den_pos
+      _ = A.den := ht.symm
+  rw [hn, Int.natAbs_mul, Int.natAbs_natCast]
+  exact Nat.mul_le_mul_right _ htd
+
+theorem matrix_num_bound_from_original_entries {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) (P D : ℕ)
+    (hP : ∀ i j, (A i j).num.natAbs ≤ P)
+    (hD : ∀ i j, (A i j).den ≤ D) :
+    ∀ i j, (A.num i j).natAbs ≤ P * D^(r*n) := by
+  intro i j
+  calc
+    (A.num i j).natAbs ≤ A.den * (A i j).num.natAbs := matrix_num_abs_le_den_mul A i j
+    _ ≤ D^(r*n) * P := Nat.mul_le_mul
+      ((matrix_den_le_input_product A).trans (inputDenominatorProduct_le A D hD))
+      (hP i j)
+    _ = P * D^(r*n) := Nat.mul_comm _ _
+
+def clearedInputExponent (r n B : ℕ) : ℕ := B * (r*n+1)
+
+/-- Explicit original-entry bridge: no H bound on Matrix.num is supplied by
+the caller. Its exponent is earned from at most r*n denominator factors. -/
+theorem matrix_num_bound_from_input_bits {r n : ℕ}
+    (A : Matrix (Fin r) (Fin n) ℚ) (B : ℕ)
+    (hnum : ∀ i j, (A i j).num.natAbs ≤ 2^B)
+    (hden : ∀ i j, (A i j).den ≤ 2^B) :
+    ∀ i j, (A.num i j).natAbs ≤ 2^(clearedInputExponent r n B) := by
+  intro i j
+  calc
+    (A.num i j).natAbs ≤ 2^B * (2^B)^(r*n) :=
+      matrix_num_bound_from_original_entries A (2^B) (2^B) hnum hden i j
+    _ = (2^B)^(r*n+1) := by rw [pow_succ]; exact Nat.mul_comm _ _
+    _ = 2^(clearedInputExponent r n B) := by rw [← pow_mul]; rfl
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianOutputBits.lean -/
+/- AI-assisted original-input and transient-value continuation; Apache-2.0.
+Exact compilation/audit status is recorded in source-bound receipts.
+The uncompiled original draft remains in source-input-bits-v1.
+These are value/encoding bounds, not primitive or total running-time claims.
+-/
+@[expose] public section
+namespace SparseCompletion.Gaussian
+
+theorem nat_size_le_of_le_two_pow (a E : ℕ) (h : a ≤ 2^E) : Nat.size a ≤ E+1 := by
+  simpa only [Nat.size_pow] using Nat.size_le_size h
+
+/-- A deliberately coarse polynomial exponent avoids pretending factorial
+magnitude is polynomial. Its binary length is bounded by k²+E*k+1. -/
+theorem factorial_times_pow_two_le (k E : ℕ) :
+    max 1 (k.factorial * (2^E)^k) ≤ 2^(k*k+E*k) := by
+  apply max_le
+  · exact Nat.one_le_two_pow
+  · calc
+      k.factorial * (2^E)^k ≤ k^k * (2^E)^k :=
+        Nat.mul_le_mul_right _ (Nat.factorial_le_pow k)
+      _ ≤ (2^k)^k * (2^E)^k :=
+        Nat.mul_le_mul_right _ (Nat.pow_le_pow_left (Nat.le_of_lt k.lt_two_pow_self) k)
+      _ = 2^(k*k+E*k) := by rw [← pow_mul, ← pow_mul, pow_add]
+
+def kernelOutputBitBound (r n B : ℕ) : ℕ :=
+  r*r + clearedInputExponent r n B*r + 1
+
+/-- Actual computed coefficients, bounded directly from original rational
+input entry numerators and denominators. The cleared numerator matrix is no
+longer a caller-supplied height hypothesis. -/
+theorem kernel_output_bits_from_original_input {r n : ℕ}
+    (A : QTable r n) (B : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^B)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^B)
+    (w : QVec n) (hkernel : kernel r n A = some w) :
+    ∀ j, Nat.size (w.get j).num.natAbs ≤ kernelOutputBitBound r n B ∧
+      Nat.size (w.get j).den ≤ kernelOutputBitBound r n B := by
+  obtain ⟨k, hkr, _hkn, hk⟩ := kernel_rational_output_height A
+    (2^(clearedInputExponent r n B))
+    (matrix_num_bound_from_input_bits (entry A) B hnum hden) w hkernel
+  intro j
+  have hpow := factorial_times_pow_two_le k (clearedInputExponent r n B)
+  have hn := nat_size_le_of_le_two_pow _ _ ((hk j).1.trans hpow)
+  have hd := nat_size_le_of_le_two_pow _ _ ((hk j).2.trans hpow)
+  have hk2 : k*k ≤ r*r := Nat.mul_le_mul hkr hkr
+  have hkE : clearedInputExponent r n B*k ≤ clearedInputExponent r n B*r :=
+    Nat.mul_le_mul_left _ hkr
+  constructor <;> dsimp [kernelOutputBitBound] <;> omega
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: RationalGaussianFeature.lean -/
+/- AI-assisted formalization; Apache-2.0, following the parent repository.
+Strict module compilation evidence is retained in attempts/.
+This bridge reuses the already compiled direction,
+deletion, and dimension theorems by importing their existing module. FM remains
+in the import closure but is not called by the runtime definitions below.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Homogeneous feature, mass, and inactive-coordinate equations. In contrast
+to the FM search, no coordinate-normalization equation or repeated LP is needed.
+Rows are explicitly enumerated as Fin (d+(m+1)); no Fintype.equivFin is used. -/
+def gaussianFeatureRows {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) : Fin (d+(m+1)) → Fin m → ℚ :=
+  Fin.addCases A (Fin.cons (fun _ => 1)
+    (fun i j => if 0 < q i then 0 else if j = i then 1 else 0))
+
+theorem gaussian_feature_equations_iff {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ) :
+    Gaussian.IsKernel (Gaussian.tableOfFn (gaussianFeatureRows A q)) w ↔
+      RationalFeatureDirection A q w := by
+  constructor
+  · intro h
+    have ha : ∀ a, ∑ i, A a i * w i = 0 := by
+      intro a
+      simpa [Gaussian.IsKernel, Gaussian.dot, gaussianFeatureRows]
+        using h (Fin.castAdd (m+1) a)
+    have hm : ∑ i, w i = 0 := by
+      simpa [Gaussian.IsKernel, Gaussian.dot, gaussianFeatureRows]
+        using h (Fin.natAdd d 0)
+    refine ⟨ha, hm, ?_⟩
+    intro i hi
+    by_contra hn
+    have hz := h (Fin.natAdd d i.succ)
+    have hw : w i = 0 := by
+      simpa [Gaussian.dot, gaussianFeatureRows, hn] using hz
+    exact hi hw
+  · rintro ⟨ha, hm, hs⟩ row
+    refine Fin.addCases ?_ ?_ row
+    · intro a
+      simpa [Gaussian.dot, gaussianFeatureRows] using ha a
+    · intro row
+      refine Fin.cases ?_ ?_ row
+      · simpa [Gaussian.dot, gaussianFeatureRows] using hm
+      · intro i
+        by_cases hi : 0 < q i
+        · simp [Gaussian.dot, gaussianFeatureRows, hi]
+        · have hw : w i = 0 := by
+            by_contra hn
+            exact hi (hs i hn)
+          simpa [Gaussian.dot, gaussianFeatureRows, hi] using hw
+
+/-- Actual rational feature kernel discovery, with deterministic Gaussian
+elimination over explicit tables. The final function closes over a computed
+Vector, so repeated coordinate reads do not recompute back-substitution. -/
+def rationalGaussianFeatureKernel {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) : Option (Fin m → ℚ) :=
+  (Gaussian.kernel (d+(m+1)) m
+    (Gaussian.tableOfFn (gaussianFeatureRows A q))).map List.Vector.get
+
+theorem rational_gaussian_feature_sound {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ)
+    (h : rationalGaussianFeatureKernel A q = some w) :
+    RationalFeatureDirection A q w ∧ ∃ i, w i ≠ 0 := by
+  cases he : Gaussian.kernel (d+(m+1)) m
+      (Gaussian.tableOfFn (gaussianFeatureRows A q)) with
+  | none => simp [rationalGaussianFeatureKernel, he] at h
+  | some v =>
+    have hv : v.get = w := by simpa [rationalGaussianFeatureKernel, he] using h
+    obtain ⟨hd, hn⟩ := Gaussian.kernel_sound _ _ _ v he
+    rw [← hv]
+    exact ⟨(gaussian_feature_equations_iff A q v.get).mp hd, hn⟩
+
+theorem rational_gaussian_feature_complete {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q w : Fin m → ℚ)
+    (hw : RationalFeatureDirection A q w) (hn : ∃ i, w i ≠ 0) :
+    ∃ v, rationalGaussianFeatureKernel A q = some v := by
+  obtain ⟨v, hv⟩ := Gaussian.kernel_complete (d+(m+1)) m
+    (Gaussian.tableOfFn (gaussianFeatureRows A q)) w
+    ((gaussian_feature_equations_iff A q w).mpr hw) hn
+  exact ⟨v.get, by simp [rationalGaussianFeatureKernel, hv]⟩
+
+def rationalGaussianFeatureDelete {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) : Option (Fin m → ℚ) :=
+  (rationalGaussianFeatureKernel A q).map (rationalFeatureDelete q)
+
+theorem rational_gaussian_deletion_above_dimension {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i = 1)
+    (hcard : d < (rationalWeightSupport q).card) :
+    ∃ v, rationalGaussianFeatureDelete A q = some v ∧
+      (∀ i, 0 ≤ v i) ∧ (∑ i, v i) = ∑ i, q i ∧
+      (∀ a, (∑ i, v i * A a i) = ∑ i, q i * A a i) ∧
+      (∀ i, q i = 0 → v i = 0) ∧
+      (rationalWeightSupport v).card < (rationalWeightSupport q).card := by
+  obtain ⟨w, hw, hn⟩ := rational_feature_direction_of_card A q hq a₀ hmass hcard
+  obtain ⟨w, hw⟩ := rational_gaussian_feature_complete A q w hw hn
+  obtain ⟨⟨ha, hm, hs⟩, hn⟩ := rational_gaussian_feature_sound A q w hw
+  refine ⟨rationalFeatureDelete q w, ?_, ?_⟩
+  · simp [rationalGaussianFeatureDelete, hw]
+  · exact rational_feature_delete_contract A q w hq hm
+      (fun a => by simpa only [mul_comm] using ha a) hs hn
+
+end SparseCompletion
+
+/- Fixed source body: GaussianFeatureBits.lean -/
+/- AI-assisted original-input and transient-value continuation; Apache-2.0.
+Exact compilation/audit status is recorded in source-bound receipts.
+The uncompiled original draft remains in source-input-bits-v1.
+These are value/encoding bounds, not primitive or total running-time claims.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+theorem gaussian_feature_original_entry_bounds {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (B : ℕ)
+    (hnum : ∀ a i, (A a i).num.natAbs ≤ 2^B)
+    (hden : ∀ a i, (A a i).den ≤ 2^B) :
+    ∀ row i, (gaussianFeatureRows A q row i).num.natAbs ≤ 2^B ∧
+      (gaussianFeatureRows A q row i).den ≤ 2^B := by
+  intro row
+  refine Fin.addCases ?_ ?_ row
+  · intro a i
+    simpa only [gaussianFeatureRows, Fin.addCases_left] using And.intro (hnum a i) (hden a i)
+  · intro row
+    refine Fin.cases ?_ ?_ row
+    · intro i
+      simpa only [gaussianFeatureRows, Fin.addCases_right, Fin.cons_zero,
+        Rat.num_one, Int.natAbs_one, Rat.den_one] using
+        And.intro (Nat.one_le_two_pow (n := B)) (Nat.one_le_two_pow (n := B))
+    · intro j i
+      by_cases hq : 0 < q j
+      · simp [gaussianFeatureRows, hq, Nat.one_le_two_pow]
+      · by_cases hij : i = j <;> simp [gaussianFeatureRows, hq, hij, Nat.one_le_two_pow]
+
+/-- A uniform original-feature bound for every ACTUAL computed direction.
+In particular it is independent of the current weight encoding during all
+support-deletion iterations. This is a value bound, not a runtime sharing claim. -/
+theorem rational_gaussian_feature_direction_bits {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (B : ℕ)
+    (hnum : ∀ a i, (A a i).num.natAbs ≤ 2^B)
+    (hden : ∀ a i, (A a i).den ≤ 2^B)
+    (q w : Fin m → ℚ) (hkernel : rationalGaussianFeatureKernel A q = some w) :
+    ∀ i, Nat.size (w i).num.natAbs ≤ Gaussian.kernelOutputBitBound (d+(m+1)) m B ∧
+      Nat.size (w i).den ≤ Gaussian.kernelOutputBitBound (d+(m+1)) m B := by
+  cases hk : Gaussian.kernel (d+(m+1)) m
+      (Gaussian.tableOfFn (gaussianFeatureRows A q)) with
+  | none => simp [rationalGaussianFeatureKernel, hk] at hkernel
+  | some v =>
+    have hv : v.get = w := by simpa [rationalGaussianFeatureKernel, hk] using hkernel
+    have he := gaussian_feature_original_entry_bounds A q B hnum hden
+    have hb := Gaussian.kernel_output_bits_from_original_input
+      (Gaussian.tableOfFn (gaussianFeatureRows A q)) B
+      (fun a i => by simpa only [Gaussian.entry_tableOfFn] using (he a i).1)
+      (fun a i => by simpa only [Gaussian.entry_tableOfFn] using (he a i).2) v hk
+    simpa only [hv] using hb
+
+end SparseCompletion
+
+/- Fixed source body: GaussianRecursiveReturns.lean -/
+/- AI-assisted original-input and transient-value continuation; Apache-2.0.
+Exact compilation/audit status is recorded in source-bound receipts.
+The uncompiled original draft remains in source-input-bits-v1.
+These are value/encoding bounds, not primitive or total running-time claims.
+-/
+@[expose] public section
+namespace SparseCompletion.Gaussian
+
+inductive ReturnedCall {r N : ℕ} (A : QTable r N) (w : QVec N) :
+    (k n : ℕ) → (PrefixIndex k → Fin r) → (PrefixIndex k → Fin N) →
+      (Fin n → Fin N) → QTable r n → QVec n → Prop
+  | initial (hroot : kernel r N A = some w) :
+      ReturnedCall A w 0 N PEmpty.elim PEmpty.elim id A w
+  | step {k n : ℕ} {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+      {σ : Fin (n+1) → Fin N} {B : QTable r (n+1)} {v : QVec (n+1)}
+      (previous : ReturnedCall A w k (n+1) P Q σ B v) (p : Fin r)
+      (pivot : firstNonzero r (fun i => entry B i 0) = some p)
+      (u : QVec n) (child : kernel r n (tableOfFn (residual (entry B) p)) = some u) :
+      ReturnedCall A w (k+1) n (appendMap P p) (appendMap Q (σ 0))
+        (fun j => σ j.succ) (tableOfFn (residual (entry B) p)) u
+
+theorem returnedCall_kernel {r N k n : ℕ} {A : QTable r N} {w : QVec N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n} {v : QVec n}
+    (h : ReturnedCall A w k n P Q σ B v) : kernel r n B = some v := by
+  cases h with
+  | initial hroot => exact hroot
+  | step previous p pivot u child => exact child
+
+theorem returnedCall_stage {r N k n : ℕ} {A : QTable r N} {w : QVec N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n} {v : QVec n}
+    (h : ReturnedCall A w k n P Q σ B v) : MinorStage A k n P Q σ B := by
+  induction h with
+  | initial => exact MinorStage.initial
+  | step previous p pivot u child ih => exact MinorStage.step ih p pivot
+
+/-- Every inner stored output coefficient is literally an original stored
+output coefficient. This is earned from the actual Option.map/lift program. -/
+theorem returnedCall_tail {r N k n : ℕ} {A : QTable r N} {w : QVec N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n} {v : QVec n}
+    (h : ReturnedCall A w k n P Q σ B v) : ∀ j, v.get j = w.get (σ j) := by
+  induction h with
+  | initial => intro j; rfl
+  | @step k n P Q σ B v previous p hp u hu ih =>
+    have hv : List.Vector.ofFn (lift (entry B) p u.get) = v := by
+      simpa only [kernel, hp, hu, Option.map_some, Option.some.injEq] using
+        returnedCall_kernel previous
+    intro j
+    calc
+      u.get j = v.get j.succ := by rw [← hv]; simp
+      _ = w.get (σ j.succ) := ih j.succ
+
+/-- Consequently every actual recursive stored output, including intermediate
+back-substitution returns, has the root's earned polynomial binary digit bound.
+No bound on an inner output is a trace constructor field or theorem premise. -/
+theorem returnedCall_output_bits {r N k n : ℕ} {A : QTable r N} {w : QVec N}
+    (Bbits : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^Bbits)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^Bbits)
+    (hroot : kernel r N A = some w)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {C : QTable r n} {v : QVec n}
+    (h : ReturnedCall A w k n P Q σ C v) :
+    ∀ j, Nat.size (v.get j).num.natAbs ≤ kernelOutputBitBound r N Bbits ∧
+      Nat.size (v.get j).den ≤ kernelOutputBitBound r N Bbits := by
+  intro j
+  rw [returnedCall_tail h j]
+  exact kernel_output_bits_from_original_input A Bbits hnum hden w hroot (σ j)
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianTransientStage.lean -/
+/- AI-assisted original-input and transient-value continuation; Apache-2.0.
+Exact compilation/audit status is recorded in source-bound receipts.
+The uncompiled original draft remains in source-input-bits-v1.
+These are value/encoding bounds, not primitive or total running-time claims.
+-/
+@[expose] public section
+namespace SparseCompletion.Gaussian
+
+/-- Scaling transports the real operational trace, preserving its actual pivot
+rows and original column labels. It does not replace the runtime algorithm. -/
+theorem minorStage_scale {r N k n : ℕ} {A : QTable r N}
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (h : MinorStage A k n P Q σ B) (c : ℚ) (hc : c ≠ 0) :
+    MinorStage (scaleTable c A) k n P Q σ (scaleTable c B) := by
+  induction h with
+  | initial => exact MinorStage.initial
+  | @step k n P Q σ B previous p hp ih =>
+    have hps : firstNonzero r (fun i => entry (scaleTable c B) i 0) = some p := by
+      rw [entry_scaleTable, firstNonzero_scale r c hc, hp]
+    have hs := MinorStage.step ih p hps
+    rw [residual_scaleTable B p c hc] at hs
+    exact hs
+
+/-- Entry heights of the ORIGINAL rational execution. The scaling factor D is
+put back into the denominator, so this does not silently price the integer-
+scaled equivalent algorithm in place of the actual rational run. -/
+theorem minorStage_original_rational_height {r N k n : ℕ}
+    (A : QTable r N) (H : ℕ)
+    (hH : ∀ i j, (Matrix.num (entry A) i j).natAbs ≤ H)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {B : QTable r n}
+    (hs : MinorStage A k n P Q σ B) :
+    ∀ i j, (entry B i j).num.natAbs ≤ (k+1).factorial * H^(k+1) ∧
+      (entry B i j).den ≤ Matrix.den (entry A) * (k.factorial * H^k) := by
+  classical
+  let Z : Matrix (Fin r) (Fin N) ℤ := Matrix.num (entry A)
+  let D : ℕ := Matrix.den (entry A)
+  have hD : (D : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (Matrix.den_ne_zero (entry A))
+  have hsc := minorStage_scale hs (D : ℚ) hD
+  rw [← integerNumeratorTable_eq_scale] at hsc
+  have hint := minorStage_invariant hsc
+  intro i j
+  let V : Matrix (PrefixIndex k) (PrefixIndex k) ℤ := Matrix.submatrix Z P Q
+  let U : Matrix (PrefixIndex k ⊕ Unit) (PrefixIndex k ⊕ Unit) ℤ :=
+    Matrix.submatrix Z (appendMap P i) (appendMap Q (σ j))
+  have hdV : (selectedBlock (entry (integerNumeratorTable A)) P Q).det = (V.det : ℚ) := by
+    change (selectedBlock (entry (tableOfFn (fun a b => (Z a b : ℚ)))) P Q).det = _
+    rw [entry_tableOfFn_function]
+    exact intCast_det V
+  have hdU : (selectedBorder (entry (integerNumeratorTable A)) P Q i (σ j)).det =
+      (U.det : ℚ) := by
+    change (selectedBorder (entry (tableOfFn (fun a b => (Z a b : ℚ)))) P Q i (σ j)).det = _
+    rw [entry_tableOfFn_function]
+    exact intCast_det U
+  have hvq : (V.det : ℚ) ≠ 0 := by simpa only [hdV] using hint.1
+  have hv : V.det ≠ 0 := Int.cast_ne_zero.mp hvq
+  have hec : (D : ℚ) * entry B i j = (U.det : ℚ) / (V.det : ℚ) := by
+    simpa only [entry_scaleTable, hdU, hdV] using hint.2 i j
+  have hden : (D : ℤ) * V.det ≠ 0 :=
+    mul_ne_zero (Int.natCast_ne_zero.mpr (Matrix.den_ne_zero (entry A))) hv
+  have he : entry B i j = (U.det : ℚ) / (((D : ℤ) * V.det : ℤ) : ℚ) := by
+    calc
+      entry B i j = ((D : ℚ) * entry B i j) / (D : ℚ) := by field_simp [hD]
+      _ = ((U.det : ℚ) / (V.det : ℚ)) / (D : ℚ) := by rw [hec]
+      _ = (U.det : ℚ) / (((D : ℤ) * V.det : ℤ) : ℚ) := by push_cast; ring
+  have hUb : U.det.natAbs ≤ (k+1).factorial * H^(k+1) := by
+    let e := (Fintype.equivFin (PrefixIndex k ⊕ Unit)).symm
+    have hd := determinant_height (U.submatrix e e) H
+      (fun a b => hH (appendMap P i (e a)) (appendMap Q (σ j) (e b)))
+    simpa only [Matrix.det_submatrix_equiv_self, Fintype.card_sum,
+      Fintype.card_unit, prefixIndex_card] using hd
+  have hVb : V.det.natAbs ≤ k.factorial * H^k := by
+    let e := (Fintype.equivFin (PrefixIndex k)).symm
+    have hd := determinant_height (V.submatrix e e) H (fun a b => hH (P (e a)) (Q (e b)))
+    simpa only [Matrix.det_submatrix_equiv_self, prefixIndex_card] using hd
+  rw [he]
+  constructor
+  · exact (quotient_num_height U.det ((D : ℤ) * V.det) hden).trans hUb
+  · apply (quotient_den_height U.det ((D : ℤ) * V.det) hden).trans
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using Nat.mul_le_mul_left D hVb
+
+/-- Original-input bounds for actual rational residual entries. This is a
+mathematical value invariant of every real stage, not a runtime-cost premise. -/
+theorem minorStage_height_from_original_input {r N k n : ℕ}
+    (A : QTable r N) (Bbits : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^Bbits)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^Bbits)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {C : QTable r n}
+    (hs : MinorStage A k n P Q σ C) :
+    ∀ i j, (entry C i j).num.natAbs ≤
+        (k+1).factorial * (2^(clearedInputExponent r N Bbits))^(k+1) ∧
+      (entry C i j).den ≤
+        (2^Bbits)^(r*N) * (k.factorial * (2^(clearedInputExponent r N Bbits))^k) := by
+  intro i j
+  have hh := minorStage_original_rational_height A (2^(clearedInputExponent r N Bbits))
+    (matrix_num_bound_from_input_bits (entry A) Bbits hnum hden) hs i j
+  refine ⟨hh.1, hh.2.trans ?_⟩
+  apply Nat.mul_le_mul_right
+  exact (matrix_den_le_input_product (entry A)).trans
+    (inputDenominatorProduct_le (entry A) (2^Bbits) hden)
+
+/-- Generic quotient arithmetic: both reduced encoding components are bounded
+by cross-products of actual operand numerator/denominator bounds. -/
+theorem rational_div_height (q s : ℚ) (hqN hqD hsN hsD : ℕ)
+    (hqnum : q.num.natAbs ≤ hqN) (hqden : q.den ≤ hqD)
+    (hsnum : s.num.natAbs ≤ hsN) (hsden : s.den ≤ hsD) (hs : s ≠ 0) :
+    (q/s).num.natAbs ≤ hqN*hsD ∧ (q/s).den ≤ hqD*hsN := by
+  have hsn : s.num ≠ 0 := by intro hn; exact hs (Rat.zero_of_num_zero hn)
+  have hd : (q.den : ℤ) * s.num ≠ 0 :=
+    mul_ne_zero (Int.natCast_ne_zero.mpr q.den_ne_zero) hsn
+  have he : q/s = ((q.num * (s.den : ℤ) : ℤ) : ℚ) /
+      (((q.den : ℤ) * s.num : ℤ) : ℚ) := by
+    conv_lhs => rw [← Rat.num_div_den q, ← Rat.num_div_den s]
+    push_cast
+    simp only [div_eq_mul_inv, mul_inv_rev, inv_inv]
+    ring
+  rw [he]
+  constructor
+  · apply (quotient_num_height _ _ hd).trans
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using Nat.mul_le_mul hqnum hsden
+  · apply (quotient_den_height _ _ hd).trans
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using Nat.mul_le_mul hqden hsnum
+
+/-- The actual pivot division used by residual and lift now has an earned
+original-input operand bound. No minor or pivot-height witness is supplied. -/
+theorem minorStage_actual_pivot_division_height {r N k n : ℕ}
+    (A : QTable r N) (Bbits : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^Bbits)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^Bbits)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin (n+1) → Fin N} {C : QTable r (n+1)}
+    (hs : MinorStage A k (n+1) P Q σ C) (p : Fin r)
+    (hp : firstNonzero r (fun i => entry C i 0) = some p) :
+    ∀ j : Fin n, let M := (k+1).factorial * (2^(clearedInputExponent r N Bbits))^(k+1)
+      let D := (2^Bbits)^(r*N) * (k.factorial * (2^(clearedInputExponent r N Bbits))^k)
+      (entry C p j.succ / entry C p 0).num.natAbs ≤ M*D ∧
+      (entry C p j.succ / entry C p 0).den ≤ D*M := by
+  intro j
+  have hentry := minorStage_height_from_original_input A Bbits hnum hden hs
+  exact rational_div_height _ _ _ _ _ _ (hentry p j.succ).1 (hentry p j.succ).2
+    (hentry p 0).1 (hentry p 0).2 (firstNonzero_some r _ p hp)
+
+def stageNumeratorExponent (r N B k : ℕ) : ℕ :=
+  (k+1)*(k+1) + clearedInputExponent r N B*(k+1)
+
+def stageDenominatorExponent (r N B k : ℕ) : ℕ :=
+  B*(r*N) + (k*k + clearedInputExponent r N B*k)
+
+theorem stage_numerator_magnitude_le_two_pow (r N B k : ℕ) :
+    (k+1).factorial * (2^(clearedInputExponent r N B))^(k+1) ≤
+      2^(stageNumeratorExponent r N B k) := by
+  exact (le_max_right 1 _).trans
+    (factorial_times_pow_two_le (k+1) (clearedInputExponent r N B))
+
+theorem stage_denominator_magnitude_le_two_pow (r N B k : ℕ) :
+    (2^B)^(r*N) * (k.factorial * (2^(clearedInputExponent r N B))^k) ≤
+      2^(stageDenominatorExponent r N B k) := by
+  calc
+    _ ≤ (2^B)^(r*N) * 2^(k*k+clearedInputExponent r N B*k) :=
+      Nat.mul_le_mul_left _ ((le_max_right 1 _).trans
+        (factorial_times_pow_two_le k (clearedInputExponent r N B)))
+    _ = _ := by rw [← pow_mul, ← pow_add]; rfl
+
+/-- Binary digit bounds for every normalized value stored in an ORIGINAL
+rational residual table, from original input bits and actual reached stage. -/
+theorem minorStage_entry_bits_from_original_input {r N k n : ℕ}
+    (A : QTable r N) (Bbits : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^Bbits)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^Bbits)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin n → Fin N} {C : QTable r n}
+    (hs : MinorStage A k n P Q σ C) :
+    ∀ i j, Nat.size (entry C i j).num.natAbs ≤ stageNumeratorExponent r N Bbits k+1 ∧
+      Nat.size (entry C i j).den ≤ stageDenominatorExponent r N Bbits k+1 := by
+  intro i j
+  have hh := minorStage_height_from_original_input A Bbits hnum hden hs i j
+  exact ⟨nat_size_le_of_le_two_pow _ _ (hh.1.trans (stage_numerator_magnitude_le_two_pow r N Bbits k)),
+    nat_size_le_of_le_two_pow _ _ (hh.2.trans (stage_denominator_magnitude_le_two_pow r N Bbits k))⟩
+
+/-- Actual pivot division bit lengths, including divisions recomputed inside
+each lift getter. Repetition changes event counts but not this value bound. -/
+theorem minorStage_pivot_division_bits_from_original_input {r N k n : ℕ}
+    (A : QTable r N) (Bbits : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^Bbits)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^Bbits)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin (n+1) → Fin N} {C : QTable r (n+1)}
+    (hs : MinorStage A k (n+1) P Q σ C) (p : Fin r)
+    (hp : firstNonzero r (fun i => entry C i 0) = some p) :
+    ∀ j : Fin n,
+      Nat.size (entry C p j.succ / entry C p 0).num.natAbs ≤
+        stageNumeratorExponent r N Bbits k + stageDenominatorExponent r N Bbits k + 1 ∧
+      Nat.size (entry C p j.succ / entry C p 0).den ≤
+        stageNumeratorExponent r N Bbits k + stageDenominatorExponent r N Bbits k + 1 := by
+  intro j
+  have hpiv := minorStage_actual_pivot_division_height A Bbits hnum hden hs p hp j
+  have hmul := Nat.mul_le_mul (stage_numerator_magnitude_le_two_pow r N Bbits k)
+    (stage_denominator_magnitude_le_two_pow r N Bbits k)
+  rw [← pow_add] at hmul
+  constructor
+  · exact nat_size_le_of_le_two_pow _ _ (hpiv.1.trans hmul)
+  · apply nat_size_le_of_le_two_pow
+    apply hpiv.2.trans
+    simpa only [Nat.mul_comm] using hmul
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: GaussianTransientArithmetic.lean -/
+/- AI-assisted original-input and transient-value continuation; Apache-2.0.
+Exact compilation/audit status is recorded in source-bound receipts.
+The uncompiled original draft remains in source-input-bits-v1.
+These are value/encoding bounds, not primitive or total running-time claims.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion.Gaussian
+
+theorem rational_mul_height (q s : ℚ) (Nq Dq Ns Ds : ℕ)
+    (hqN : q.num.natAbs ≤ Nq) (hqD : q.den ≤ Dq)
+    (hsN : s.num.natAbs ≤ Ns) (hsD : s.den ≤ Ds) :
+    (q*s).num.natAbs ≤ Nq*Ns ∧ (q*s).den ≤ Dq*Ds := by
+  have hd : (q.den : ℤ) * (s.den : ℤ) ≠ 0 :=
+    mul_ne_zero (Int.natCast_ne_zero.mpr q.den_ne_zero) (Int.natCast_ne_zero.mpr s.den_ne_zero)
+  have he : q*s = ((q.num * s.num : ℤ) : ℚ) /
+      (((q.den : ℤ) * (s.den : ℤ) : ℤ) : ℚ) := by
+    conv_lhs => rw [← Rat.num_div_den q, ← Rat.num_div_den s]
+    push_cast
+    rw [div_mul_div_comm]
+  rw [he]
+  constructor
+  · apply (quotient_num_height _ _ hd).trans
+    simpa only [Int.natAbs_mul] using Nat.mul_le_mul hqN hsN
+  · apply (quotient_den_height _ _ hd).trans
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using Nat.mul_le_mul hqD hsD
+
+theorem rational_add_height (q s : ℚ) (Nq Dq Ns Ds : ℕ)
+    (hqN : q.num.natAbs ≤ Nq) (hqD : q.den ≤ Dq)
+    (hsN : s.num.natAbs ≤ Ns) (hsD : s.den ≤ Ds) :
+    (q+s).num.natAbs ≤ Nq*Ds+Ns*Dq ∧ (q+s).den ≤ Dq*Ds := by
+  have hd : (q.den : ℤ) * (s.den : ℤ) ≠ 0 :=
+    mul_ne_zero (Int.natCast_ne_zero.mpr q.den_ne_zero) (Int.natCast_ne_zero.mpr s.den_ne_zero)
+  have he : q+s = ((q.num * (s.den : ℤ) + s.num * (q.den : ℤ) : ℤ) : ℚ) /
+      (((q.den : ℤ) * (s.den : ℤ) : ℤ) : ℚ) := by
+    conv_lhs => rw [← Rat.num_div_den q, ← Rat.num_div_den s]
+    push_cast
+    field_simp [Nat.cast_ne_zero.mpr q.den_ne_zero, Nat.cast_ne_zero.mpr s.den_ne_zero]
+  rw [he]
+  constructor
+  · apply (quotient_num_height _ _ hd).trans
+    apply (Int.natAbs_add_le _ _).trans
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using
+      Nat.add_le_add (Nat.mul_le_mul hqN hsD) (Nat.mul_le_mul hsN hqD)
+  · apply (quotient_den_height _ _ hd).trans
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using Nat.mul_le_mul hqD hsD
+
+/-- Every subset sum, so in particular every finite enumeration prefix, has
+an explicit magnitude bound. This is a value statement; identifying compiler
+accumulators with these prefixes remains part of the cost-semantics bridge. -/
+theorem rational_finset_sum_height {ι : Type*} [DecidableEq ι]
+    (f : ι → ℚ) (s : Finset ι) (M : ℕ)
+    (h : ∀ i ∈ s, (f i).num.natAbs ≤ M ∧ (f i).den ≤ M) :
+    (∑ i ∈ s, f i).num.natAbs ≤ s.card * M^s.card ∧
+      (∑ i ∈ s, f i).den ≤ M^s.card := by
+  induction s using Finset.induction_on with
+  | empty => simp
+  | @insert a s ha ih =>
+    have hfa := h a (Finset.mem_insert_self a s)
+    have hs := ih (fun i hi => h i (Finset.mem_insert_of_mem hi))
+    have hadd := rational_add_height (f a) (∑ i ∈ s, f i) M M
+      (s.card*M^s.card) (M^s.card) hfa.1 hfa.2 hs.1 hs.2
+    rw [Finset.sum_insert ha, Finset.card_insert_of_notMem ha]
+    constructor
+    · apply hadd.1.trans_eq
+      rw [pow_succ]
+      ring
+    · apply hadd.2.trans_eq
+      rw [pow_succ]
+      ring
+
+/-- Value bound for a real lift's actual summands and every finite partial sum.
+Both coefficient and child-vector bounds are earned from real program traces,
+original input bits and actual parent/child success equations.
+
+No height bound for a child return, primitive event count, primitive cost or
+cached lift sum is supplied. Repeated evaluation of this mathematical sum is
+allowed; its sharing and total execution cost are separate obligations. -/
+theorem actual_lift_partial_sum_height {r N k n : ℕ}
+    (A : QTable r N) (w : QVec N) (Bbits : ℕ)
+    (hnum : ∀ i j, (entry A i j).num.natAbs ≤ 2^Bbits)
+    (hden : ∀ i j, (entry A i j).den ≤ 2^Bbits)
+    (hroot : kernel r N A = some w)
+    {P : PrefixIndex k → Fin r} {Q : PrefixIndex k → Fin N}
+    {σ : Fin (n+1) → Fin N} {C : QTable r (n+1)} {v : QVec (n+1)}
+    (hcall : ReturnedCall A w k (n+1) P Q σ C v) (p : Fin r)
+    (hp : firstNonzero r (fun i => entry C i 0) = some p)
+    (u : QVec n) (hchild : kernel r n (tableOfFn (residual (entry C) p)) = some u) :
+    let M := (k+1).factorial * (2^(clearedInputExponent r N Bbits))^(k+1)
+    let D := (2^Bbits)^(r*N) * (k.factorial * (2^(clearedInputExponent r N Bbits))^k)
+    let L := (M*D) * 2^(kernelOutputBitBound r N Bbits)
+    ∀ s : Finset (Fin n),
+      (∑ j ∈ s, (entry C p j.succ / entry C p 0) * u.get j).num.natAbs ≤ s.card*L^s.card ∧
+      (∑ j ∈ s, (entry C p j.succ / entry C p 0) * u.get j).den ≤ L^s.card := by
+  dsimp only
+  intro s
+  apply rational_finset_sum_height
+  intro j _
+  have hpiv := minorStage_actual_pivot_division_height A Bbits hnum hden
+    (returnedCall_stage hcall) p hp j
+  have htail := returnedCall_output_bits Bbits hnum hden hroot
+    (ReturnedCall.step hcall p hp u hchild) j
+  have hun : (u.get j).num.natAbs ≤ 2^(kernelOutputBitBound r N Bbits) :=
+    (Nat.size_le.mp htail.1).le
+  have hud : (u.get j).den ≤ 2^(kernelOutputBitBound r N Bbits) :=
+    (Nat.size_le.mp htail.2).le
+  have hmul := rational_mul_height _ _ _ _ _ _ hpiv.1 hpiv.2 hun hud
+  simpa only [Nat.mul_comm] using hmul
+
+end SparseCompletion.Gaussian
+
+/- Fixed source body: RationalConeEncoding.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Explicit rational coefficients for the paper's fixed-tolerance cone rows.
+Separate source draft; verification status is recorded externally.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- A three-dimensional rotated-cone row with rational affine coefficients.
+There is no feasibility or correctness field. -/
+structure RationalConeRow (n : ℕ) where
+  u : Fin n → ℚ
+  v : Fin n → ℚ
+  w : Fin n → ℚ
+  u0 : ℚ
+  v0 : ℚ
+  w0 : ℚ
+
+def RationalConeRow.RealSatisfied {n : ℕ} (c : RationalConeRow n)
+    (x : Fin n → ℝ) : Prop :=
+  rotatedLorentz ((c.u0 : ℝ)+rationalFormRealEval c.u x)
+    ((c.v0 : ℝ)+rationalFormRealEval c.v x)
+    ((c.w0 : ℝ)+rationalFormRealEval c.w x)
+
+def RationalConeRow.RationalSatisfied {n : ℕ} (c : RationalConeRow n)
+    (x : Fin n → ℚ) : Prop :=
+  0 ≤ c.u0+rationalFormEval c.u x ∧
+    0 ≤ c.v0+rationalFormEval c.v x ∧
+    (c.w0+rationalFormEval c.w x)^2 ≤
+      2*(c.u0+rationalFormEval c.u x)*(c.v0+rationalFormEval c.v x)
+
+instance rationalConeRowSatisfiesDecidable {n : ℕ} (c : RationalConeRow n)
+    (x : Fin n → ℚ) : Decidable (c.RationalSatisfied x) := by
+  unfold RationalConeRow.RationalSatisfied
+  infer_instance
+
+theorem rational_cone_row_cast_iff {n : ℕ} (c : RationalConeRow n)
+    (x : Fin n → ℚ) :
+    c.RealSatisfied (fun i => (x i : ℝ)) ↔ c.RationalSatisfied x := by
+  have he (a : Fin n → ℚ) :
+      rationalFormRealEval a (fun i => (x i : ℝ)) = (rationalFormEval a x : ℝ) := by
+    simp only [rationalFormRealEval, rationalFormEval, Rat.cast_sum, Rat.cast_mul]
+  simp only [RationalConeRow.RealSatisfied, he, rotatedLorentz,
+    RationalConeRow.RationalSatisfied]
+  norm_cast
+
+/-- Encodes M Q(x)^2 - M r Q(x) + a(x) ≤ 0 using only rational
+coefficients. Its correctness theorem requires M>0, as in the paper. -/
+def rationalQuadraticConeRow {n : ℕ} (Q a : Fin n → ℚ) (M r : ℚ) :
+    RationalConeRow n where
+  u := rationalFormAdd (rationalFormScale r Q) (rationalFormScale (-1/M) a)
+  v := fun _ => 0
+  w := Q
+  u0 := 0
+  v0 := 1/2
+  w0 := 0
+
+theorem rational_quadratic_cone_row_iff {n : ℕ} (Q a : Fin n → ℚ)
+    (M r : ℚ) (hM : 0 < M) (x : Fin n → ℝ) :
+    (rationalQuadraticConeRow Q a M r).RealSatisfied x ↔
+      (M : ℝ)*(rationalFormRealEval Q x)^2-
+        (M : ℝ)*(r : ℝ)*rationalFormRealEval Q x+rationalFormRealEval a x ≤ 0 := by
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  rw [quadratic_rotated_cone (M : ℝ) (r : ℝ)
+    (rationalFormRealEval Q x) (rationalFormRealEval a x) hMR]
+  have hu : rationalFormRealEval
+      (rationalFormAdd (rationalFormScale r Q) (rationalFormScale (-1/M) a)) x =
+      (r : ℝ)*rationalFormRealEval Q x-rationalFormRealEval a x/(M : ℝ) := by
+    rw [rational_form_real_eval_add, rational_form_real_eval_scale,
+      rational_form_real_eval_scale]
+    push_cast
+    ring
+  have hz : rationalFormRealEval (fun _ : Fin n => (0 : ℚ)) x = 0 := by
+    simp [rationalFormRealEval]
+  dsimp only [RationalConeRow.RealSatisfied, rationalQuadraticConeRow]
+  rw [hu, hz]
+  norm_num
+
+def rationalPrefixMassForm (m l : ℕ) : Fin m → ℚ :=
+  fun i => if i.val < l then 1 else 0
+
+def rationalPrefixScoreForm {m : ℕ} (t : Fin m → ℚ) (ε : ℚ) (l : ℕ) :
+    Fin m → ℚ := fun i => if i.val < l then t i-ε else 0
+
+def rationalPrefixConeRows {m : ℕ} (t : Fin m → ℚ) (M r ε : ℚ) :
+    Fin m → RationalConeRow m := fun l =>
+  rationalQuadraticConeRow (rationalPrefixMassForm m (l.val+1))
+    (rationalPrefixScoreForm t ε (l.val+1)) M r
+
+theorem rational_prefix_mass_form_eval {m : ℕ} (q : Fin m → ℝ) (l : ℕ) :
+    rationalFormRealEval (rationalPrefixMassForm m l) q = mass (scorePrefix m l) q := by
+  unfold rationalFormRealEval rationalPrefixMassForm mass scorePrefix
+  rw [Finset.sum_filter]
+  apply Finset.sum_congr rfl
+  intro i _
+  by_cases hi : i.val < l <;> simp [hi]
+
+theorem rational_prefix_score_form_eval {m : ℕ} (t : Fin m → ℚ) (ε : ℚ)
+    (q : Fin m → ℝ) (l : ℕ) :
+    rationalFormRealEval (rationalPrefixScoreForm t ε l) q =
+      ∑ i ∈ scorePrefix m l, q i*((t i : ℝ)-(ε : ℝ)) := by
+  unfold rationalFormRealEval rationalPrefixScoreForm scorePrefix
+  rw [Finset.sum_filter]
+  apply Finset.sum_congr rfl
+  intro i _
+  by_cases hi : i.val < l <;> simp [hi, mul_comm]
+
+theorem rational_prefix_cone_row_iff {m : ℕ} (t : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 < M) (q : Fin m → ℝ) (l : Fin m) :
+    (rationalPrefixConeRows t M r ε l).RealSatisfied q ↔
+      (M : ℝ)*(mass (scorePrefix m (l.val+1)) q)^2-
+        (M : ℝ)*(r : ℝ)*mass (scorePrefix m (l.val+1)) q+
+        (∑ i ∈ scorePrefix m (l.val+1), q i*((t i : ℝ)-(ε : ℝ))) ≤ 0 := by
+  unfold rationalPrefixConeRows
+  rw [rational_quadratic_cone_row_iff _ _ M r hM q,
+    rational_prefix_mass_form_eval, rational_prefix_score_form_eval]
+
+/-- There are exactly m actual cone rows; the omitted empty prefix is 0≤0.
+This is an exact coefficient representation, not an exact-conic solver. -/
+theorem rational_prefix_cone_rows_iff {m : ℕ} (t : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 < M) (q : Fin m → ℝ) :
+    (∀ l, (rationalPrefixConeRows t M r ε l).RealSatisfied q) ↔
+      ∀ l : ℕ, l ≤ m →
+        (M : ℝ)*(mass (scorePrefix m l) q)^2-
+          (M : ℝ)*(r : ℝ)*mass (scorePrefix m l) q+
+          (∑ i ∈ scorePrefix m l, q i*((t i : ℝ)-(ε : ℝ))) ≤ 0 := by
+  constructor
+  · intro h l hl
+    cases l with
+    | zero => simp [scorePrefix, mass]
+    | succ l => exact (rational_prefix_cone_row_iff t M r ε hM q ⟨l, by omega⟩).mp (h _)
+  · intro h l
+    exact (rational_prefix_cone_row_iff t M r ε hM q l).mpr (h _ (by omega))
+
+theorem rational_prefix_cone_completion_iff {m : ℕ} (t : Fin m → ℚ)
+    (M r ε : ℚ) (hM : 0 < M) (q : Fin m → ℝ)
+    (hq : ∀ i, 0 ≤ q i) (hr : ∑ i, q i=(r : ℝ))
+    (ht : Antitone (fun i => (t i : ℝ))) :
+    (∃ B, IsSkew B ∧ (∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ)) ∧
+      ∀ i, (t i : ℝ)+response B q i ≤ (ε : ℝ)) ↔
+    (∀ i, (t i : ℝ) ≤ (ε : ℝ)+(M : ℝ)*(r : ℝ)) ∧
+      ∀ l, (rationalPrefixConeRows t M r ε l).RealSatisfied q := by
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  rw [weighted_completion_prefix_quadratic_iff q (fun i => (t i : ℝ))
+    (M : ℝ) (r : ℝ) (ε : ℝ) hMR hq hr ht,
+    rational_prefix_cone_rows_iff t M r ε hM q]
+
+/-- Dense rational scalar coordinates, including all three affine constants.
+No byte serializer, coefficient-height, or runtime claim is implicit. -/
+def rationalConeSystemCoordinateCount (rows n : ℕ) : ℕ := rows*(3*n+3)
+
+theorem rational_prefix_cone_coordinate_count (m : ℕ) :
+    rationalConeSystemCoordinateCount (Fintype.card (Fin m)) m = 3*m*(m+1) := by
+  simp only [rationalConeSystemCoordinateCount, Fintype.card_fin]
+  ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalLPBoxDomain.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Explicit bounds on the actual interval epigraph coordinates and
+an algebraic obstruction to feasible rays. No active-basis, small-witness,
+solver-complexity, or output-height theorem is asserted here. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_real_mass_coordinate_bound {m : ℕ} (q : Fin m → ℝ) (r : ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = (r : ℝ)) (i : Fin m) :
+    |q i| ≤ |(r : ℝ)| := by
+  have hi := Finset.single_le_sum (fun j (_ : j ∈ (Finset.univ : Finset (Fin m))) => hq j)
+    (Finset.mem_univ i)
+  rw [hm] at hi
+  exact (abs_of_nonneg (hq i)).le.trans (hi.trans (le_abs_self _))
+
+theorem rational_gap_real_system_coordinate_bound {k m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (x : Fin m → ℝ)
+    (hx : (rationalGapSystem K D p M r ρ η).RealSatisfies x) :
+    ∀ i, |x i| ≤ |(r : ℝ)| := by
+  have hq (i : Fin m) : 0 ≤ x i := by
+    have hh := hx (.inl i)
+    change (∑ j, ((if j=i then (-1 : ℚ) else 0 : ℚ) : ℝ)*x j) ≤ ((0 : ℚ) : ℝ) at hh
+    have he : (∑ j, ((if j=i then (-1 : ℚ) else 0 : ℚ) : ℝ)*x j) = -x i := by
+      calc
+        _ = ∑ j, if j=i then -x j else 0 := by
+          apply Finset.sum_congr rfl
+          intro j _
+          by_cases hj : j=i <;> simp [hj]
+        _ = _ := by simp
+    rw [he, Rat.cast_zero] at hh
+    exact neg_nonpos.mp hh
+  have hu := hx (.inr (.inl 0))
+  have hl := hx (.inr (.inl 1))
+  change (∑ j, ((1 : ℚ) : ℝ)*x j) ≤ (r : ℝ) at hu
+  change (∑ j, ((-1 : ℚ) : ℝ)*x j) ≤ ((-r : ℚ) : ℝ) at hl
+  have hu' : (∑ j, x j) ≤ (r : ℝ) := by simpa using hu
+  have hl' : (r : ℝ) ≤ ∑ j, x j := by
+    simpa only [Rat.cast_neg, Rat.cast_one, neg_one_mul, Finset.sum_neg_distrib,
+      neg_le_neg_iff] using hl
+  exact rational_real_mass_coordinate_bound x r hq (le_antisymm hu' hl')
+
+theorem rational_gap_append_real_coordinate_bound {k m : ℕ} {I : Type*}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m) (x : Fin m → ℝ)
+    (hx : ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies x) :
+    ∀ i, |x i| ≤ |(r : ℝ)| :=
+  rational_gap_real_system_coordinate_bound K D p M r ρ η x
+    (((rational_linear_real_append_iff _ R x).mp hx).1)
+
+/-- These radii are finite expressions in the literal input intervals and
+the literal generated envelope rows. No proposed output-height budget occurs. -/
+def rationalIntervalCoordinateRadius {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ)
+    (M r η : ℚ) : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℝ :=
+  intervalVariableEncode (Sum.elim (fun _ => |(r : ℝ)|)
+    (Sum.elim (fun v => (|(lo v.1 v.2 : ℝ)|+|(hi v.1 v.2 : ℝ)|)*|(r : ℝ)|)
+      (Sum.elim (fun v => |(loK v.1 v.2 : ℝ)|+|(hiK v.1 v.2 : ℝ)|)
+        (fun v => |(rationalEnvelope M r (M*r-rationalGridNode M r η (v.1.val+1)) : ℝ)|))))
+
+theorem rational_interval_real_point_block_bounds {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ)
+    (V : Fin m → Fin k → ℝ) (K : Fin k → Fin k → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℝ) (M r ρ η : ℚ)
+    (A : Fin (rationalGridSize M r η) → Fin m → ℝ)
+    (h : RationalIntervalRealPoint loK hiK lo hi V K p q M r ρ η A) :
+    (∀ i, |q i| ≤ |(r : ℝ)|) ∧
+    (∀ i a, |V i a| ≤ (|(lo i a : ℝ)|+|(hi i a : ℝ)|)*|(r : ℝ)|) ∧
+    (∀ a b, |K a b| ≤ |(loK a b : ℝ)|+|(hiK a b : ℝ)|) ∧
+    ∀ l i, |A l i| ≤
+      |(rationalEnvelope M r (M*r-rationalGridNode M r η (l.val+1)) : ℝ)| := by
+  rcases h with ⟨hq,hm,hV,_hK,hKb,_ha,_hlo,_hcap,hA⟩
+  have hqb := rational_real_mass_coordinate_bound q r hq hm
+  refine ⟨hqb,?_,?_,?_⟩
+  · intro i a
+    have hl := neg_abs_le (lo i a : ℝ)
+    have hu := le_abs_self (hi i a : ℝ)
+    have hll := mul_le_mul_of_nonneg_right hl (hq i)
+    have huu := mul_le_mul_of_nonneg_right hu (hq i)
+    have hqabs : q i ≤ |(r : ℝ)| := (le_abs_self _).trans (hqb i)
+    have hscale := mul_le_mul_of_nonneg_left hqabs
+      (add_nonneg (abs_nonneg (lo i a : ℝ)) (abs_nonneg (hi i a : ℝ)))
+    have hloextra := mul_nonneg (abs_nonneg (lo i a : ℝ)) (hq i)
+    have hhiextra := mul_nonneg (abs_nonneg (hi i a : ℝ)) (hq i)
+    exact abs_le.mpr ⟨by nlinarith [(hV i a).1], by nlinarith [(hV i a).2]⟩
+  · intro a b
+    have hl := neg_abs_le (loK a b : ℝ)
+    have hu := le_abs_self (hiK a b : ℝ)
+    exact abs_le.mpr ⟨by linarith [(hKb a b).1, abs_nonneg (hiK a b : ℝ)],
+      by linarith [(hKb a b).2, abs_nonneg (loK a b : ℝ)]⟩
+  · intro l i
+    have hi := Finset.single_le_sum
+      (fun j (_ : j ∈ (Finset.univ : Finset (Fin m))) => (hA l).1 j) (Finset.mem_univ i)
+    rw [abs_of_nonneg ((hA l).1 i)]
+    exact hi.trans ((hA l).2.2.trans (le_abs_self _))
+
+theorem rational_interval_system_coordinate_radius {k m : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℝ)
+    (hx : (rationalIntervalSystem loK hiK lo hi p M r ρ η).RealSatisfies x) :
+    ∀ u, |x u| ≤ rationalIntervalCoordinateRadius loK hiK lo hi M r η u := by
+  obtain ⟨hq,hV,hK,hA⟩ := rational_interval_real_point_block_bounds loK hiK lo hi
+    (intervalV x) (intervalK x) p (intervalQ x) M r ρ η (intervalAux x)
+    ((rational_interval_system_real_point loK hiK lo hi p M r ρ η x).mp hx)
+  intro u
+  obtain ⟨v,rfl⟩ := (rationalIntervalVariableEquiv k m (rationalGridSize M r η)).surjective u
+  dsimp only [rationalIntervalCoordinateRadius, intervalVariableEncode]
+  rw [(rationalIntervalVariableEquiv k m (rationalGridSize M r η)).symm_apply_apply]
+  rcases v with i | v
+  · exact hq i
+  · rcases v with v | v
+    · exact hV v.1 v.2
+    · rcases v with v | v
+      · exact hK v.1 v.2
+      · exact hA v.1 v.2
+
+theorem rational_interval_repertoire_coordinate_radius {k m : ℕ} {I : Type*}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (x : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℝ)
+    (hx : (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).RealSatisfies x) :
+    ∀ u, |x u| ≤ rationalIntervalCoordinateRadius loK hiK lo hi M r η u :=
+  rational_interval_system_coordinate_radius loK hiK lo hi p M r ρ η x
+    (((rational_interval_repertoire_real_system_iff loK hiK lo hi p M r ρ η R x).mp hx).1)
+
+/-- A bounded real feasible set has no nonconstant feasible ray. This uses
+only finite linear expressions and ordered-field algebra. -/
+theorem rational_lp_bounded_no_feasible_direction {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (U : Fin n → ℝ)
+    (hb : ∀ y, S.RealSatisfies y → ∀ j, |y j| ≤ U j)
+    (x v : Fin n → ℝ) (hx : S.RealSatisfies x)
+    (hv : ∀ row, (∑ j, (S.coefficient row j : ℝ)*v j) ≤ 0) : v = 0 := by
+  have hray (t : ℝ) (ht : 0 ≤ t) : S.RealSatisfies (fun j => x j+t*v j) := by
+    intro row
+    have he : (∑ j, (S.coefficient row j : ℝ)*(x j+t*v j)) =
+        (∑ j, (S.coefficient row j : ℝ)*x j)+t*(∑ j, (S.coefficient row j : ℝ)*v j) := by
+      simp only [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro j _
+      ring
+    rw [he]
+    exact (add_le_of_nonpos_right (mul_nonpos_of_nonneg_of_nonpos ht (hv row))).trans (hx row)
+  funext j
+  by_contra hj
+  have ha : 0 < |v j| := abs_pos.mpr hj
+  have hU : 0 ≤ U j := (abs_nonneg (x j)).trans (hb x hx j)
+  let t := (U j+|x j|+1)/|v j|
+  have ht : 0 ≤ t := div_nonneg (by positivity) (le_of_lt ha)
+  have hmul : t*|v j| = U j+|x j|+1 := div_mul_cancel₀ _ (ne_of_gt ha)
+  have htri := abs_add_le (x j+t*v j) (-x j)
+  have he : (x j+t*v j)+ -x j = t*v j := by ring
+  rw [he, abs_neg, abs_mul, abs_of_nonneg ht] at htri
+  have hy := hb _ (hray t ht) j
+  linarith
+
+theorem rational_lp_bounded_nonzero_direction_positive_row {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (U : Fin n → ℝ)
+    (hb : ∀ y, S.RealSatisfies y → ∀ j, |y j| ≤ U j)
+    (x v : Fin n → ℝ) (hx : S.RealSatisfies x) (hv : v ≠ 0) :
+    ∃ row, 0 < ∑ j, (S.coefficient row j : ℝ)*v j := by
+  by_contra h
+  push Not at h
+  exact hv (rational_lp_bounded_no_feasible_direction S U hb x v hx h)
+
+end SparseCompletion
+
+/- Fixed source body: RationalLPActiveRows.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Finite active-row argument for a coordinate-bounded
+feasible rational linear system. No topology, solver implementation, supplied
+basis, small-witness height, or runtime theorem is asserted. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalLPRealResponse {I : Type*} {n : ℕ} (S : RationalLinearSystem I n)
+    (x : Fin n → ℝ) (row : I) : ℝ := ∑ j, (S.coefficient row j : ℝ)*x j
+
+theorem rational_lp_real_response_step {I : Type*} {n : ℕ}
+    (S : RationalLinearSystem I n) (x v : Fin n → ℝ) (t : ℝ) (row : I) :
+    rationalLPRealResponse S (fun j => x j+t*v j) row =
+      rationalLPRealResponse S x row+t*rationalLPRealResponse S v row := by
+  unfold rationalLPRealResponse
+  simp only [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
+  congr 1
+  apply Finset.sum_congr rfl
+  intro j _
+  ring
+
+noncomputable def rationalLPActiveRows {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (x : Fin n → ℝ) : Finset I := by
+  classical
+  exact Finset.univ.filter (fun row => rationalLPRealResponse S x row = (S.rightSide row : ℝ))
+
+theorem rational_lp_active_row_mem {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (x : Fin n → ℝ) (row : I) :
+    row ∈ rationalLPActiveRows S x ↔
+      rationalLPRealResponse S x row = (S.rightSide row : ℝ) := by
+  classical
+  simp only [rationalLPActiveRows, Finset.mem_filter, Finset.mem_univ, true_and]
+
+/-- Finite selection over subsets of the original row family; no point
+enumerator or LP solver is introduced. -/
+theorem rational_lp_maximal_active_count {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (hf : ∃ x, S.RealSatisfies x) :
+    ∃ x, S.RealSatisfies x ∧ ∀ y, S.RealSatisfies y →
+      (rationalLPActiveRows S y).card ≤ (rationalLPActiveRows S x).card := by
+  classical
+  let candidates : Finset (Finset I) := Finset.univ.filter
+    (fun a => ∃ x, S.RealSatisfies x ∧ rationalLPActiveRows S x = a)
+  have hmem (x : Fin n → ℝ) (hx : S.RealSatisfies x) : rationalLPActiveRows S x ∈ candidates := by
+    simp only [candidates, Finset.mem_filter, Finset.mem_univ, true_and]
+    exact ⟨x,hx,rfl⟩
+  obtain ⟨x₀,hx₀⟩ := hf
+  obtain ⟨a,ha,hmax⟩ := Finset.exists_max_image candidates Finset.card ⟨_,hmem x₀ hx₀⟩
+  obtain ⟨x,hx,hax⟩ := (Finset.mem_filter.mp ha).2
+  refine ⟨x,hx,?_⟩
+  intro y hy
+  rw [hax]
+  exact hmax _ (hmem y hy)
+
+/-- A nonzero vector in the kernel of every tight row permits a step to an
+additional tight original row. The boundedness premise is geometric, and is
+earned for the actual fixed/interval constructors in RationalLPBoxDomain. -/
+theorem rational_lp_active_kernel_step {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (U : Fin n → ℝ)
+    (hb : ∀ y, S.RealSatisfies y → ∀ j, |y j| ≤ U j)
+    (x v : Fin n → ℝ) (hx : S.RealSatisfies x) (hv : v ≠ 0)
+    (hker : ∀ row, rationalLPRealResponse S x row = (S.rightSide row : ℝ) →
+      rationalLPRealResponse S v row = 0) :
+    ∃ y, S.RealSatisfies y ∧
+      (rationalLPActiveRows S x).card < (rationalLPActiveRows S y).card := by
+  classical
+  let positive : Finset I := Finset.univ.filter (fun row => 0 < rationalLPRealResponse S v row)
+  have hp : positive.Nonempty := by
+    obtain ⟨row,hr⟩ := rational_lp_bounded_nonzero_direction_positive_row S U hb x v hx hv
+    exact ⟨row, Finset.mem_filter.mpr ⟨Finset.mem_univ _,hr⟩⟩
+  let ratio := fun row => ((S.rightSide row : ℝ)-rationalLPRealResponse S x row)/
+    rationalLPRealResponse S v row
+  obtain ⟨row,hrow,hmin⟩ := Finset.exists_min_image positive ratio hp
+  have hpos : 0 < rationalLPRealResponse S v row := (Finset.mem_filter.mp hrow).2
+  have hstrict : rationalLPRealResponse S x row < (S.rightSide row : ℝ) := by
+    by_contra hn
+    have he : rationalLPRealResponse S x row = (S.rightSide row : ℝ) :=
+      le_antisymm (hx row) (le_of_not_gt hn)
+    have hz := hker row he
+    linarith
+  let t := ratio row
+  have ht : 0 < t := div_pos (sub_pos.mpr hstrict) hpos
+  let y := fun j => x j+t*v j
+  have hy : S.RealSatisfies y := by
+    intro i
+    change rationalLPRealResponse S y i ≤ (S.rightSide i : ℝ)
+    rw [rational_lp_real_response_step]
+    by_cases hi : 0 < rationalLPRealResponse S v i
+    · have hmi := hmin i (Finset.mem_filter.mpr ⟨Finset.mem_univ _,hi⟩)
+      have hh : t*rationalLPRealResponse S v i ≤
+          (S.rightSide i : ℝ)-rationalLPRealResponse S x i := (le_div_iff₀ hi).mp hmi
+      linarith
+    · have hh := mul_nonpos_of_nonneg_of_nonpos (le_of_lt ht) (le_of_not_gt hi)
+      exact (add_le_of_nonpos_right hh).trans (hx i)
+  have hsub : rationalLPActiveRows S x ⊆ rationalLPActiveRows S y := by
+    intro i hi
+    apply (rational_lp_active_row_mem S y i).mpr
+    have he := (rational_lp_active_row_mem S x i).mp hi
+    change rationalLPRealResponse S (fun j => x j+t*v j) i = _
+    rw [rational_lp_real_response_step, hker i he, mul_zero, add_zero]
+    exact he
+  have hnew : row ∈ rationalLPActiveRows S y := by
+    apply (rational_lp_active_row_mem S y row).mpr
+    change rationalLPRealResponse S (fun j => x j+t*v j) row = _
+    rw [rational_lp_real_response_step]
+    have htrow : t*rationalLPRealResponse S v row =
+        (S.rightSide row : ℝ)-rationalLPRealResponse S x row := div_mul_cancel₀ _ (ne_of_gt hpos)
+    linarith
+  have hold : row ∉ rationalLPActiveRows S x := by
+    intro hi
+    have he := (rational_lp_active_row_mem S x row).mp hi
+    linarith
+  refine ⟨y,hy,Finset.card_lt_card ?_⟩
+  exact ⟨hsub, fun h => hold (h hnew)⟩
+
+/-- The tight rows of an earned feasible point have trivial common kernel.
+An active full-rank family is a conclusion, never a supplied field. -/
+theorem rational_lp_exists_trivial_active_kernel {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (U : Fin n → ℝ)
+    (hb : ∀ y, S.RealSatisfies y → ∀ j, |y j| ≤ U j)
+    (hf : ∃ x, S.RealSatisfies x) :
+    ∃ x, S.RealSatisfies x ∧ ∀ v : Fin n → ℝ,
+      (∀ row, rationalLPRealResponse S x row = (S.rightSide row : ℝ) →
+        rationalLPRealResponse S v row = 0) → v = 0 := by
+  obtain ⟨x,hx,hmax⟩ := rational_lp_maximal_active_count S hf
+  refine ⟨x,hx,?_⟩
+  intro v hker
+  by_contra hv
+  obtain ⟨y,hy,hlt⟩ := rational_lp_active_kernel_step S U hb x v hx hv hker
+  exact (not_lt_of_ge (hmax y hy)) hlt
+
+theorem rational_gap_append_exists_trivial_active_kernel {k m : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m)
+    (hf : ∃ x, ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies x) :
+    let S := (rationalGapSystem K D p M r ρ η).append R
+    ∃ x, S.RealSatisfies x ∧ ∀ v : Fin m → ℝ,
+      (∀ row, rationalLPRealResponse S x row = (S.rightSide row : ℝ) →
+        rationalLPRealResponse S v row = 0) → v = 0 :=
+  rational_lp_exists_trivial_active_kernel _ (fun _ => |(r : ℝ)|)
+    (fun x hx => rational_gap_append_real_coordinate_bound K D p M r ρ η R x hx) hf
+
+theorem rational_interval_repertoire_exists_trivial_active_kernel
+    {k m : ℕ} {I : Type*} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ)
+    (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hf : ∃ x, (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).RealSatisfies x) :
+    let S := rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R
+    ∃ x, S.RealSatisfies x ∧ ∀ v : Fin (m+(m*k+(k*k+rationalGridSize M r η*m))) → ℝ,
+      (∀ row, rationalLPRealResponse S x row = (S.rightSide row : ℝ) →
+        rationalLPRealResponse S v row = 0) → v = 0 :=
+  rational_lp_exists_trivial_active_kernel _ (rationalIntervalCoordinateRadius loK hiK lo hi M r η)
+    (fun x hx => rational_interval_repertoire_coordinate_radius loK hiK lo hi p M r ρ η R x hx) hf
+
+end SparseCompletion
+
+/- Fixed source body: RationalLPActiveBasis.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Select independent ORIGINAL active rows after earning their
+trivial common kernel. Classical basis selection is proof-only. -/
+@[expose] public section
+open scoped BigOperators Matrix
+namespace SparseCompletion
+
+theorem rational_lp_select_nonsingular_rows {I : Type*} [Fintype I] {n : ℕ}
+    (A : I → Fin n → ℝ)
+    (hker : ∀ v : Fin n → ℝ, (∀ i, ∑ j, A i j*v j = 0) → v = 0) :
+    ∃ e : Fin n → I, Function.Injective e ∧ Matrix.det (fun i j => A (e i) j : Matrix (Fin n) (Fin n) ℝ) ≠ 0 := by
+  classical
+  obtain ⟨κ,a,ha,hspan,hli⟩ := exists_linearIndependent' ℝ A
+  let _ : Finite κ := Finite.of_injective a ha
+  let _ : Fintype κ := Fintype.ofFinite κ
+  let B : Matrix κ (Fin n) ℝ := fun i j => A (a i) j
+  have hBker (v : Fin n → ℝ) (hv : B *ᵥ v = 0) : v = 0 := by
+    let L : (Fin n → ℝ) →ₗ[ℝ] ℝ :=
+      { toFun := fun w => ∑ j, w j*v j
+        map_add' := by intro w z; simp only [Pi.add_apply, add_mul, Finset.sum_add_distrib]
+        map_smul' := by
+          intro c w
+          simp only [Pi.smul_apply, smul_eq_mul, mul_assoc, Finset.mul_sum, RingHom.id_apply] }
+    have hle : Submodule.span ℝ (Set.range (A ∘ a)) ≤ LinearMap.ker L := by
+      apply Submodule.span_le.mpr
+      rintro _ ⟨i,rfl⟩
+      exact congrFun hv i
+    apply hker v
+    intro i
+    have hm : A i ∈ Submodule.span ℝ (Set.range A) := Submodule.subset_span ⟨i,rfl⟩
+    rw [← hspan] at hm
+    exact hle hm
+  have hBinj : Function.Injective B.mulVecLin := by
+    intro v w he
+    apply sub_eq_zero.mp
+    apply hBker
+    change B *ᵥ v = B *ᵥ w at he
+    rw [Matrix.mulVec_sub, he, sub_self]
+  have hlow : n ≤ Fintype.card κ := by
+    simpa only [Module.finrank_fintype_fun_eq_card, Fintype.card_fin] using
+      (LinearMap.finrank_le_finrank_of_injective hBinj)
+  have hupp : Fintype.card κ ≤ n := by
+    simpa only [Module.finrank_fintype_fun_eq_card, Fintype.card_fin] using hli.fintype_card_le_finrank
+  let f : Fin n ≃ κ := (Fintype.equivFinOfCardEq (le_antisymm hupp hlow)).symm
+  refine ⟨a ∘ f,ha.comp f.injective,?_⟩
+  have hli' : LinearIndependent ℝ (fun i : Fin n => A (a (f i))) := hli.comp f f.injective
+  apply IsUnit.ne_zero
+  exact (Matrix.isUnit_iff_isUnit_det _).mp
+    (Matrix.linearIndependent_rows_iff_isUnit.mp hli')
+
+/-- The selected rows are an injective subfamily of the literal finite row
+type and are tight at an earned feasible point. No basis premise occurs. -/
+theorem rational_lp_exists_active_basis {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (U : Fin n → ℝ)
+    (hb : ∀ y, S.RealSatisfies y → ∀ j, |y j| ≤ U j)
+    (hf : ∃ x, S.RealSatisfies x) :
+    ∃ (x : Fin n → ℝ) (e : Fin n → I), S.RealSatisfies x ∧ Function.Injective e ∧
+      (∀ i, rationalLPRealResponse S x (e i) = (S.rightSide (e i) : ℝ)) ∧
+      Matrix.det (fun i j => S.coefficient (e i) j : Matrix (Fin n) (Fin n) ℚ) ≠ 0 := by
+  classical
+  obtain ⟨x,hx,hker⟩ := rational_lp_exists_trivial_active_kernel S U hb hf
+  let J := {row : I // rationalLPRealResponse S x row = (S.rightSide row : ℝ)}
+  let _ : Fintype J := Fintype.ofFinite J
+  let A : J → Fin n → ℝ := fun row j => (S.coefficient row.val j : ℝ)
+  have hA : ∀ v : Fin n → ℝ, (∀ row, ∑ j, A row j*v j = 0) → v = 0 := by
+    intro v hv
+    apply hker v
+    intro row hr
+    exact hv (⟨row,hr⟩ : J)
+  obtain ⟨e,he,hdet⟩ := rational_lp_select_nonsingular_rows A hA
+  refine ⟨x,Subtype.val ∘ e,hx,Subtype.val_injective.comp he,fun i => (e i).property,?_⟩
+  have hc : ((Matrix.det (fun i j => S.coefficient (e i).val j : Matrix (Fin n) (Fin n) ℚ) : ℚ) : ℝ) =
+      Matrix.det (fun i j => A (e i) j : Matrix (Fin n) (Fin n) ℝ) := Rat.cast_det _
+  intro hz
+  apply hdet
+  rw [← hc]
+  simpa only [Function.comp_apply, Rat.cast_zero] using congrArg (fun q : ℚ => (q : ℝ)) hz
+
+end SparseCompletion
+
+/- Fixed source body: RationalInputHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Development value-encoding bounds for canonical rational numerators and
+denominators. No arithmetic-operation or solver runtime bound is asserted. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- An explicit bound on both canonical integer components; no field supplies
+an output-size or complexity conclusion. -/
+def RationalInputHeight (q : ℚ) (B : ℕ) : Prop :=
+  q.num.natAbs ≤ (Nat.pow 2 B) ∧ q.den ≤ (Nat.pow 2 B)
+
+instance rationalInputHeightDecidable (q : ℚ) (B : ℕ) :
+    Decidable (RationalInputHeight q B) := by
+  unfold RationalInputHeight
+  infer_instance
+
+theorem rational_input_height_mono {q : ℚ} {A B : ℕ}
+    (h : RationalInputHeight q A) (hAB : A ≤ B) : RationalInputHeight q B := by
+  have hp := Nat.pow_le_pow_right (by decide : 0 < 2) hAB
+  exact ⟨h.1.trans hp, h.2.trans hp⟩
+
+theorem rational_input_height_magnitude {q : ℚ} {B : ℕ}
+    (h : RationalInputHeight q B) : |q| ≤ ((Nat.pow 2 B) : ℕ) :=
+  (rational_magnitude_le_num_abs q).trans (by exact_mod_cast h.1)
+
+theorem rational_input_height_bits {q : ℚ} {B : ℕ}
+    (h : RationalInputHeight q B) : rationalCanonicalEncodingBits q ≤ 2*B+3 := by
+  have hn := natural_log2_bits_bound_of_binary_bound q.num.natAbs B h.1
+  have hd := natural_log2_bits_bound_of_binary_bound q.den B h.2
+  unfold rationalCanonicalEncodingBits
+  omega
+
+theorem rational_input_height_zero (B : ℕ) : RationalInputHeight 0 B := by
+  have hp : 0 < Nat.pow 2 B := Nat.two_pow_pos B
+  simp only [RationalInputHeight, Rat.num_zero, Int.natAbs_zero, Rat.den_zero]
+  omega
+
+theorem rational_input_height_nat (n B : ℕ) (hn : n ≤ (Nat.pow 2 B)) :
+    RationalInputHeight (n : ℚ) B := by
+  have hp : 0 < Nat.pow 2 B := Nat.two_pow_pos B
+  simp only [RationalInputHeight, Rat.num_natCast, Int.natAbs_natCast, Rat.den_natCast]
+  exact ⟨hn, by omega⟩
+
+theorem rational_input_height_one (B : ℕ) : RationalInputHeight 1 B := by
+  have hp : 0 < Nat.pow 2 B := Nat.two_pow_pos B
+  exact rational_input_height_nat 1 B (by omega)
+
+theorem rational_input_height_neg {q : ℚ} {B : ℕ}
+    (h : RationalInputHeight q B) : RationalInputHeight (-q) B := by
+  simpa only [RationalInputHeight, Rat.neg_num, Int.natAbs_neg, Rat.neg_den] using h
+
+theorem rational_input_height_inv {q : ℚ} {B : ℕ}
+    (h : RationalInputHeight q B) : RationalInputHeight q⁻¹ B := by
+  have hp : 0 < Nat.pow 2 B := Nat.two_pow_pos B
+  constructor
+  · simp only [Rat.num_inv, Int.natAbs_mul, Int.natAbs_natCast, Int.natAbs_sign]
+    split
+    · simp
+    · simpa only [one_mul] using h.2
+  · simp only [Rat.den_inv]
+    split
+    · omega
+    · exact h.1
+
+theorem rational_input_height_mul {a b : ℚ} {A B : ℕ}
+    (ha : RationalInputHeight a A) (hb : RationalInputHeight b B) :
+    RationalInputHeight (a*b) (2*(A+B)) := by
+  have hd : (a*b).den ≤ (Nat.pow 2 (A+B)) := by
+    calc
+      _ ≤ a.den*b.den := Nat.le_of_dvd (Nat.mul_pos a.den_pos b.den_pos) (Rat.mul_den_dvd a b)
+      _ ≤ ((Nat.pow 2 A))*((Nat.pow 2 B)) := Nat.mul_le_mul ha.2 hb.2
+      _ = _ := (Nat.pow_add 2 A B).symm
+  have hm : |a*b| ≤ ((Nat.pow 2 (A+B)) : ℕ) := by
+    calc
+      _ = |a| * |b| := abs_mul a b
+      _ ≤ (((Nat.pow 2 A) : ℕ) : ℚ)*(((Nat.pow 2 B) : ℕ) : ℚ) :=
+        mul_le_mul (rational_input_height_magnitude ha) (rational_input_height_magnitude hb)
+          (abs_nonneg b) (by positivity)
+      _ = _ := by exact_mod_cast (Nat.pow_add 2 A B).symm
+  constructor
+  · simpa only [two_mul] using rational_numerator_binary_bound_from_height (a*b) (A+B) (A+B) hm hd
+  · exact hd.trans (Nat.pow_le_pow_right (by decide : 0 < 2) (by omega))
+
+theorem rational_input_height_div {a b : ℚ} {A B : ℕ}
+    (ha : RationalInputHeight a A) (hb : RationalInputHeight b B) :
+    RationalInputHeight (a/b) (2*(A+B)) := by
+  simpa only [div_eq_mul_inv] using rational_input_height_mul ha (rational_input_height_inv hb)
+
+theorem rational_input_height_add {a b : ℚ} {A B : ℕ}
+    (ha : RationalInputHeight a A) (hb : RationalInputHeight b B) :
+    RationalInputHeight (a+b) (2*(A+B)+1) := by
+  have hd : (a+b).den ≤ (Nat.pow 2 (A+B)) := by
+    calc
+      _ ≤ a.den*b.den := Nat.le_of_dvd (Nat.mul_pos a.den_pos b.den_pos) (Rat.add_den_dvd a b)
+      _ ≤ ((Nat.pow 2 A))*((Nat.pow 2 B)) := Nat.mul_le_mul ha.2 hb.2
+      _ = _ := (Nat.pow_add 2 A B).symm
+  have hA : (((Nat.pow 2 A) : ℕ) : ℚ) ≤ ((Nat.pow 2 (A+B)) : ℕ) := by
+    exact_mod_cast Nat.pow_le_pow_right (by decide : 0 < 2) (Nat.le_add_right A B)
+  have hB : (((Nat.pow 2 B) : ℕ) : ℚ) ≤ ((Nat.pow 2 (A+B)) : ℕ) := by
+    exact_mod_cast Nat.pow_le_pow_right (by decide : 0 < 2) (Nat.le_add_left B A)
+  have hm : |a+b| ≤ ((Nat.pow 2 (A+B+1)) : ℕ) := by
+    calc
+      _ ≤ |a|+|b| := abs_add_le a b
+      _ ≤ (((Nat.pow 2 A) : ℕ) : ℚ)+(((Nat.pow 2 B) : ℕ) : ℚ) :=
+        add_le_add (rational_input_height_magnitude ha) (rational_input_height_magnitude hb)
+      _ ≤ (((Nat.pow 2 (A+B)) : ℕ) : ℚ)+(((Nat.pow 2 (A+B)) : ℕ) : ℚ) := add_le_add hA hB
+      _ = _ := by
+        exact_mod_cast (show Nat.pow 2 (A+B)+Nat.pow 2 (A+B) = Nat.pow 2 (A+B+1) by
+          rw [show Nat.pow 2 (A+B+1) = Nat.pow 2 (A+B)*2 from rfl]
+          omega)
+  constructor
+  · have hn := rational_numerator_binary_bound_from_height (a+b) (A+B+1) (A+B) hm hd
+    convert hn using 1; congr 1; omega
+  · exact hd.trans (Nat.pow_le_pow_right (by decide : 0 < 2) (by omega))
+
+theorem rational_input_height_sub {a b : ℚ} {A B : ℕ}
+    (ha : RationalInputHeight a A) (hb : RationalInputHeight b B) :
+    RationalInputHeight (a-b) (2*(A+B)+1) := by
+  simpa only [sub_eq_add_neg] using rational_input_height_add ha (rational_input_height_neg hb)
+
+theorem rational_input_height_min {a b : ℚ} {B : ℕ}
+    (ha : RationalInputHeight a B) (hb : RationalInputHeight b B) :
+    RationalInputHeight (min a b) B := by
+  rcases le_total a b with h | h
+  · simpa only [min_eq_left h] using ha
+  · simpa only [min_eq_right h] using hb
+
+theorem rational_input_height_max {a b : ℚ} {B : ℕ}
+    (ha : RationalInputHeight a B) (hb : RationalInputHeight b B) :
+    RationalInputHeight (max a b) B := by
+  rcases le_total a b with h | h
+  · simpa only [max_eq_right h] using hb
+  · simpa only [max_eq_left h] using ha
+
+theorem rational_input_height_fin_sum {n B : ℕ} (f : Fin n → ℚ)
+    (hf : ∀ i, RationalInputHeight (f i) B) :
+    RationalInputHeight (∑ i, f i) (n+B*(n+1)) := by
+  let xs := List.ofFn f
+  have hn : ∀ a ∈ xs, a.num.natAbs ≤ (Nat.pow 2 B) := by
+    intro a ha
+    obtain ⟨i, rfl⟩ := List.mem_ofFn.mp ha
+    exact (hf i).1
+  have hd : ∀ a ∈ xs, a.den ≤ (Nat.pow 2 B) := by
+    intro a ha
+    obtain ⟨i, rfl⟩ := List.mem_ofFn.mp ha
+    exact (hf i).2
+  constructor
+  · simpa only [xs, List.sum_ofFn, List.length_ofFn] using
+      rational_sum_numerator_binary_bound xs B hn hd
+  · have hh := rational_sum_denominator_binary_bound xs B hd
+    simp only [xs, List.sum_ofFn, List.length_ofFn] at hh
+    exact hh.trans (Nat.pow_le_pow_right (by decide : 0 < 2) (by nlinarith))
+
+end SparseCompletion
+
+/- Fixed source body: RationalLPIntegerInput.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Global denominator clearing for the literal augmented LP
+input matrix, using David Loeffler's pinned Matrix.den / Matrix.num API. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- The RHS occupies column none; every coefficient occupies its original
+some j column. Nothing depends on a solver result or on selected active rows. -/
+def rationalLPAugmentedMatrix {I : Type*} {n : ℕ} (S : RationalLinearSystem I n) :
+    Matrix I (Option (Fin n)) ℚ := fun row col => col.elim (S.rightSide row) (S.coefficient row)
+
+def rationalLPInputDenominator {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) : ℕ := (rationalLPAugmentedMatrix S).den
+
+def rationalLPIntegerInput {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) : Matrix I (Option (Fin n)) ℤ :=
+  (rationalLPAugmentedMatrix S).num
+
+def rationalLPIntegerEntryHeight (rows vars B : ℕ) : ℕ := B*(rows*(vars+1)+1)
+
+theorem rational_lp_input_denominator_positive {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) : 0 < rationalLPInputDenominator S :=
+  Nat.pos_of_ne_zero (Matrix.den_ne_zero _)
+
+theorem rational_lp_augmented_input_height {I : Type*} {n B : ℕ}
+    (S : RationalLinearSystem I n)
+    (hc : ∀ row j, RationalInputHeight (S.coefficient row j) B)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) B) :
+    ∀ row col, RationalInputHeight (rationalLPAugmentedMatrix S row col) B := by
+  intro row col
+  cases col with
+  | none => exact hr row
+  | some j => exact hc row j
+
+theorem rational_lp_input_denominator_bound {I : Type*} [Fintype I] {n B : ℕ}
+    (S : RationalLinearSystem I n)
+    (hc : ∀ row j, RationalInputHeight (S.coefficient row j) B)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) B) :
+    rationalLPInputDenominator S ≤ Nat.pow 2 (B*(Fintype.card I*(n+1))) := by
+  classical
+  let A := rationalLPAugmentedMatrix S
+  let D := ∏ p : I × Option (Fin n), (A p.1 p.2).den
+  have hDpos : 0 < D := Finset.prod_pos (fun p _ => (A p.1 p.2).den_pos)
+  have hdvd : A.den ∣ D := Matrix.den_dvd_iff.mpr (fun row col =>
+    Finset.dvd_prod_of_mem (fun p : I × Option (Fin n) => (A p.1 p.2).den) (Finset.mem_univ (row,col)))
+  have hprod : D ≤ (Nat.pow 2 B)^(Fintype.card (I × Option (Fin n))) :=
+    Finset.prod_le_pow_card _ _ _ (fun p _ => (rational_lp_augmented_input_height S hc hr p.1 p.2).2)
+  have hpow (a t : ℕ) : a^t = Nat.pow a t := by
+    induction t with
+    | zero => rfl
+    | succ t ih => rw [pow_succ, ih]; rfl
+  have hb : D ≤ Nat.pow 2 (B*(Fintype.card I*(n+1))) := by
+    have hprod' : D ≤ Nat.pow (Nat.pow 2 B) (Fintype.card I*(n+1)) := by
+      simpa only [Fintype.card_prod, Fintype.card_option, Fintype.card_fin, hpow] using hprod
+    exact hprod'.trans_eq (Nat.pow_mul 2 B (Fintype.card I*(n+1))).symm
+  exact (Nat.le_of_dvd hDpos hdvd).trans hb
+
+theorem rational_lp_integer_input_cast {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (row : I) (col : Option (Fin n)) :
+    (rationalLPIntegerInput S row col : ℚ) =
+      (rationalLPInputDenominator S : ℚ)*rationalLPAugmentedMatrix S row col := by
+  have he := (div_eq_iff (by exact_mod_cast (ne_of_gt (rational_lp_input_denominator_positive S)) :
+      (rationalLPInputDenominator S : ℚ) ≠ 0)).mp
+    ((rationalLPAugmentedMatrix S).num_div_den row col)
+  simpa only [rationalLPIntegerInput, rationalLPInputDenominator, mul_comm] using he
+
+theorem rational_lp_integer_input_real_cast {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (row : I) (col : Option (Fin n)) :
+    (rationalLPIntegerInput S row col : ℝ) =
+      (rationalLPInputDenominator S : ℝ)*(rationalLPAugmentedMatrix S row col : ℝ) := by
+  exact_mod_cast rational_lp_integer_input_cast S row col
+
+theorem rational_lp_integer_input_entry_bound {I : Type*} [Fintype I] {n B : ℕ}
+    (S : RationalLinearSystem I n)
+    (hc : ∀ row j, RationalInputHeight (S.coefficient row j) B)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) B) (row : I) (col : Option (Fin n)) :
+    (rationalLPIntegerInput S row col).natAbs ≤
+      Nat.pow 2 (rationalLPIntegerEntryHeight (Fintype.card I) n B) := by
+  let z := rationalLPIntegerInput S row col
+  have hD := rational_lp_input_denominator_bound S hc hr
+  have hA := rational_input_height_magnitude (rational_lp_augmented_input_height S hc hr row col)
+  have hz : |(z : ℚ)| ≤
+      (Nat.pow 2 (rationalLPIntegerEntryHeight (Fintype.card I) n B) : ℕ) := by
+    calc
+      _ = (rationalLPInputDenominator S : ℚ)*|rationalLPAugmentedMatrix S row col| := by
+        rw [rational_lp_integer_input_cast, abs_mul, abs_of_nonneg (Nat.cast_nonneg _)]
+      _ ≤ ((Nat.pow 2 (B*(Fintype.card I*(n+1))) : ℕ) : ℚ)*((Nat.pow 2 B : ℕ) : ℚ) :=
+        mul_le_mul (by exact_mod_cast hD) hA (abs_nonneg _) (by positivity)
+      _ = _ := by
+        have hp : Nat.pow 2 (B*(Fintype.card I*(n+1)))*Nat.pow 2 B =
+            Nat.pow 2 (B*(Fintype.card I*(n+1))+B) := (Nat.pow_add 2 _ _).symm
+        have he : B*(Fintype.card I*(n+1))+B = rationalLPIntegerEntryHeight (Fintype.card I) n B := by
+          unfold rationalLPIntegerEntryHeight
+          ring
+        exact_mod_cast hp.trans (congrArg (Nat.pow 2) he)
+  have he : (z.natAbs : ℚ) = |(z : ℚ)| := by
+    simpa only [Rat.num_intCast, Rat.den_intCast, Nat.cast_one, mul_one] using
+      rational_num_abs_identity (z : ℚ)
+  exact_mod_cast he.trans_le hz
+
+end SparseCompletion
+
+/- Fixed source body: RationalLPCramerHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Elementary integer determinant bounds and canonical rational
+Cramer witness heights. These are certificate-size bounds, not bit time. -/
+@[expose] public section
+open scoped BigOperators Matrix
+namespace SparseCompletion
+
+def rationalLPSmallWitnessHeight (rows vars B : ℕ) : ℕ :=
+  vars*vars+vars*rationalLPIntegerEntryHeight rows vars B
+
+theorem rational_lp_factorial_binary_bound (n : ℕ) : n.factorial ≤ Nat.pow 2 (n*n) := by
+  calc
+    _ ≤ n^n := Nat.factorial_le_pow n
+    _ ≤ (Nat.pow 2 n)^n := Nat.pow_le_pow_left (Nat.le_of_lt (Nat.lt_two_pow_self)) n
+    _ = _ := (Nat.pow_mul 2 n n).symm
+
+theorem rational_lp_integer_determinant_binary_bound {n E : ℕ}
+    (A : Matrix (Fin n) (Fin n) ℤ)
+    (hA : ∀ i j, (A i j).natAbs ≤ Nat.pow 2 E) :
+    A.det.natAbs ≤ Nat.pow 2 (n*n+n*E) := by
+  classical
+  have hterm (σ : Equiv.Perm (Fin n)) :
+      (((Equiv.Perm.sign σ : ℤ)*∏ i, A (σ i) i).natAbs) ≤ (Nat.pow 2 E)^n := by
+    rw [Int.natAbs_mul, Int.units_natAbs, one_mul]
+    calc
+      _ = ∏ i, (A (σ i) i).natAbs := map_prod Int.natAbsHom _ _
+      _ ≤ _ := by
+        simpa only [Finset.card_univ, Fintype.card_fin] using
+          Finset.prod_le_pow_card (Finset.univ : Finset (Fin n))
+            (fun i => (A (σ i) i).natAbs) (Nat.pow 2 E) (fun i _ => hA (σ i) i)
+  have hdet : A.det.natAbs ≤ n.factorial*(Nat.pow 2 E)^n := by
+    rw [Matrix.det_apply']
+    calc
+      _ ≤ ∑ σ : Equiv.Perm (Fin n),
+          (((Equiv.Perm.sign σ : ℤ)*∏ i, A (σ i) i).natAbs) := Int.natAbs_sum_le _ _
+      _ ≤ ∑ _σ : Equiv.Perm (Fin n), (Nat.pow 2 E)^n := Finset.sum_le_sum (fun σ _ => hterm σ)
+      _ = _ := by simp only [Finset.sum_const, Finset.card_univ, Fintype.card_perm,
+          Fintype.card_fin, nsmul_eq_mul, Nat.cast_id]
+  calc
+    _ ≤ n.factorial*(Nat.pow 2 E)^n := hdet
+    _ ≤ Nat.pow 2 (n*n)*Nat.pow 2 (E*n) := Nat.mul_le_mul
+      (rational_lp_factorial_binary_bound n) (le_of_eq (Nat.pow_mul 2 E n).symm)
+    _ = _ := by
+      have hp : Nat.pow 2 (n*n)*Nat.pow 2 (E*n) = Nat.pow 2 (n*n+E*n) :=
+        (Nat.pow_add 2 _ _).symm
+      exact hp.trans (congrArg (Nat.pow 2) (by ring))
+
+/-- Canonical reduction of an integer quotient cannot enlarge either
+integer component. This avoids the coarse generic rational-division bound. -/
+theorem rational_lp_integer_quotient_input_height {P : ℕ} (a b : ℤ) (hb : b ≠ 0)
+    (ha : a.natAbs ≤ Nat.pow 2 P) (hbd : b.natAbs ≤ Nat.pow 2 P) :
+    RationalInputHeight ((a : ℚ)/(b : ℚ)) P := by
+  let q : ℚ := (a : ℚ)/(b : ℚ)
+  obtain ⟨c,hn,hd⟩ := Rat.exists_eq_mul_div_num_and_eq_mul_div_den a hb
+  have hc : c ≠ 0 := by
+    intro hz
+    apply hb
+    rw [hd, hz, zero_mul]
+  have hcn : 1 ≤ c.natAbs := by
+    exact Nat.one_le_iff_ne_zero.mpr (fun hz => hc (Int.natAbs_eq_zero.mp hz))
+  have hnum : a.natAbs = c.natAbs*q.num.natAbs := by
+    simpa only [Int.natAbs_mul] using congrArg Int.natAbs hn
+  have hden : b.natAbs = c.natAbs*q.den := by
+    simpa only [Int.natAbs_mul, Int.natAbs_natCast] using congrArg Int.natAbs hd
+  constructor
+  · have hh : q.num.natAbs ≤ c.natAbs*q.num.natAbs := by
+      simpa only [one_mul] using Nat.mul_le_mul_right q.num.natAbs hcn
+    exact (hh.trans_eq hnum.symm).trans ha
+  · have hh : q.den ≤ c.natAbs*q.den := by
+      simpa only [one_mul] using Nat.mul_le_mul_right q.den hcn
+    exact (hh.trans_eq hden.symm).trans hbd
+
+def rationalIntegerCramerWitness {n : ℕ} (A : Matrix (Fin n) (Fin n) ℤ) (b : Fin n → ℤ) :
+    Fin n → ℚ := fun j => ((A.updateCol j b).det : ℚ)/(A.det : ℚ)
+
+theorem rational_integer_cramer_witness_input_height {n E : ℕ}
+    (A : Matrix (Fin n) (Fin n) ℤ) (b : Fin n → ℤ) (hdet : A.det ≠ 0)
+    (hA : ∀ i j, (A i j).natAbs ≤ Nat.pow 2 E)
+    (hb : ∀ i, (b i).natAbs ≤ Nat.pow 2 E) :
+    ∀ j, RationalInputHeight (rationalIntegerCramerWitness A b j) (n*n+n*E) := by
+  intro j
+  apply rational_lp_integer_quotient_input_height _ _ hdet
+  · apply rational_lp_integer_determinant_binary_bound
+    intro i k
+    rw [Matrix.updateCol_apply]
+    split
+    · exact hb i
+    · exact hA i k
+  · exact rational_lp_integer_determinant_binary_bound A hA
+
+/-- This is an equality with the original real point, obtained from the
+actual integer Cramer quotients and the actual active square equations. -/
+theorem rational_integer_cramer_witness_real_eq {n : ℕ}
+    (A : Matrix (Fin n) (Fin n) ℤ) (b : Fin n → ℤ) (hdet : A.det ≠ 0)
+    (x : Fin n → ℝ)
+    (hx : (fun i j => (A i j : ℝ) : Matrix (Fin n) (Fin n) ℝ) *ᵥ x = fun i => (b i : ℝ)) :
+    (fun j => (rationalIntegerCramerWitness A b j : ℝ)) = x := by
+  let C : Matrix (Fin n) (Fin n) ℝ := fun i j => (A i j : ℝ)
+  let d : Fin n → ℝ := fun i => (b i : ℝ)
+  have hx' : C *ᵥ x = d := hx
+  have hc : Matrix.cramer C d = C.det • x := by
+    rw [Matrix.cramer_eq_adjugate_mulVec, ← hx', Matrix.mulVec_mulVec,
+      Matrix.adjugate_mul, Matrix.smul_mulVec, Matrix.one_mulVec]
+  funext j
+  have hm : (A.updateCol j b).map (fun z : ℤ => (z : ℝ)) =
+      C.updateCol j d := by
+    exact Matrix.map_updateCol (M := A) (j := j) (c := b) (fun z : ℤ => (z : ℝ))
+  have hcastj : ((A.updateCol j b).det : ℝ) = (C.updateCol j d).det :=
+    (Int.cast_det (A.updateCol j b)).trans (congrArg Matrix.det hm)
+  have hcastA : (A.det : ℝ) = C.det := Int.cast_det A
+  have he : ((A.updateCol j b).det : ℝ) = (A.det : ℝ)*x j := by
+    calc
+      _ = (C.updateCol j d).det := hcastj
+      _ = Matrix.cramer C d j := (Matrix.cramer_apply (A := C) (b := d) j).symm
+      _ = C.det*x j := by simpa only [Pi.smul_apply, smul_eq_mul] using congrFun hc j
+      _ = _ := congrArg (fun c : ℝ => c*x j) hcastA.symm
+  simp only [rationalIntegerCramerWitness, Rat.cast_div, Rat.cast_intCast]
+  apply (div_eq_iff (by exact_mod_cast hdet : (A.det : ℝ) ≠ 0)).mpr
+  simpa only [mul_comm] using he
+
+end SparseCompletion
+
+/- Fixed source body: RationalLPSmallWitness.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Feasibility plus earned coordinate boundedness yields a small
+rational feasible point via an earned original-row basis and Cramer quotients.
+No solver output or polynomial-time algorithm theorem is asserted. -/
+@[expose] public section
+open scoped BigOperators Matrix
+namespace SparseCompletion
+
+theorem rational_lp_small_witness_height_formula (rows vars B : ℕ) :
+    rationalLPSmallWitnessHeight rows vars B = vars*vars+vars*(B*(rows*(vars+1)+1)) := rfl
+
+theorem rational_lp_integer_selected_det_ne_zero {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (e : Fin n → I)
+    (hdet : Matrix.det (fun i j => S.coefficient (e i) j : Matrix (Fin n) (Fin n) ℚ) ≠ 0) :
+    Matrix.det (fun i j => rationalLPIntegerInput S (e i) (some j) : Matrix (Fin n) (Fin n) ℤ) ≠ 0 := by
+  let A : Matrix (Fin n) (Fin n) ℤ := fun i j => rationalLPIntegerInput S (e i) (some j)
+  let C : Matrix (Fin n) (Fin n) ℚ := fun i j => S.coefficient (e i) j
+  have hm : A.map (fun z : ℤ => (z : ℚ)) =
+      (rationalLPInputDenominator S : ℚ) • C := by
+    ext i j
+    exact rational_lp_integer_input_cast S (e i) (some j)
+  have hD : (rationalLPInputDenominator S : ℚ) ≠ 0 := by
+    exact_mod_cast (ne_of_gt (rational_lp_input_denominator_positive S))
+  have hz : (A.det : ℚ) ≠ 0 := by
+    rw [Int.cast_det, hm, Matrix.det_smul]
+    exact mul_ne_zero (pow_ne_zero _ hD) hdet
+  change A.det ≠ 0
+  exact_mod_cast hz
+
+theorem rational_lp_integer_selected_real_equations {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) (e : Fin n → I) (x : Fin n → ℝ)
+    (he : ∀ i, rationalLPRealResponse S x (e i) = (S.rightSide (e i) : ℝ)) :
+    (fun i j => (rationalLPIntegerInput S (e i) (some j) : ℝ) : Matrix (Fin n) (Fin n) ℝ) *ᵥ x =
+      fun i => (rationalLPIntegerInput S (e i) none : ℝ) := by
+  funext i
+  change (∑ j, (rationalLPIntegerInput S (e i) (some j) : ℝ)*x j) = _
+  simp only [rational_lp_integer_input_real_cast]
+  change (∑ j, (rationalLPInputDenominator S : ℝ)*(S.coefficient (e i) j : ℝ)*x j) =
+    (rationalLPInputDenominator S : ℝ)*(S.rightSide (e i) : ℝ)
+  calc
+    _ = (rationalLPInputDenominator S : ℝ)*rationalLPRealResponse S x (e i) := by
+      unfold rationalLPRealResponse
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro j _
+      ring
+    _ = _ := congrArg ((rationalLPInputDenominator S : ℝ)*·) (he i)
+
+/-- Main certificate-existence statement. Input component bounds and the
+same feasible set's coordinate bounds are the only quantitative premises.
+The selected original active basis, all denominators, and the rational
+witness are earned in the proof. -/
+theorem rational_lp_exists_small_feasible_point {I : Type*} [Fintype I] {n B : ℕ}
+    (S : RationalLinearSystem I n)
+    (hc : ∀ row j, RationalInputHeight (S.coefficient row j) B)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) B)
+    (U : Fin n → ℝ) (hb : ∀ y, S.RealSatisfies y → ∀ j, |y j| ≤ U j)
+    (hf : ∃ x, S.RealSatisfies x) :
+    ∃ q, S.Satisfies q ∧ ∀ j,
+      RationalInputHeight (q j) (rationalLPSmallWitnessHeight (Fintype.card I) n B) := by
+  obtain ⟨x,e,hx,_he,hactive,hdet⟩ := rational_lp_exists_active_basis S U hb hf
+  let A : Matrix (Fin n) (Fin n) ℤ := fun i j => rationalLPIntegerInput S (e i) (some j)
+  let b : Fin n → ℤ := fun i => rationalLPIntegerInput S (e i) none
+  have hA : A.det ≠ 0 := rational_lp_integer_selected_det_ne_zero S e hdet
+  let q := rationalIntegerCramerWitness A b
+  have hreal : (fun j => (q j : ℝ)) = x := rational_integer_cramer_witness_real_eq A b hA x
+    (rational_lp_integer_selected_real_equations S e x hactive)
+  refine ⟨q,(rational_linear_real_cast_iff S q).mp ?_,?_⟩
+  · rw [hreal]
+    exact hx
+  · exact rational_integer_cramer_witness_input_height A b hA
+      (fun i j => rational_lp_integer_input_entry_bound S hc hr (e i) (some j))
+      (fun i => rational_lp_integer_input_entry_bound S hc hr (e i) none)
+
+end SparseCompletion
+
+/- Fixed source body: RationalGridInputHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Input-derived canonical component bounds for the actual rational score,
+grid nodes, envelope and both executed grid-size definitions. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalScoreInputHeight (k B : ℕ) : ℕ := k+4*B*(k+1)
+def rationalGridNodeInputHeight (B J : ℕ) : ℕ := 8+6*B+8*J
+def rationalGridThresholdInputHeight (B J : ℕ) : ℕ :=
+  2*(4*B+rationalGridNodeInputHeight B J)+1
+def rationalEnvelopeInputHeight (B J : ℕ) : ℕ :=
+  8*rationalGridNodeInputHeight B J+12+4*B
+
+theorem rational_score_input_height {k m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B) (i : Fin m) :
+    RationalInputHeight (rationalScore D p i) (rationalScoreInputHeight k B) := by
+  have hterm : ∀ a, RationalInputHeight (D i a*p a) (4*B) := by
+    intro a
+    convert rational_input_height_mul (hD i a) (hp a) using 1; omega
+  simpa only [rationalScore, rationalScoreInputHeight] using
+    rational_input_height_fin_sum (fun a => D i a*p a) hterm
+
+theorem rational_grid_node_input_height (M r η : ℚ) (B J l : ℕ)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) (hl : l ≤ (Nat.pow 2 J)) :
+    RationalInputHeight (rationalGridNode M r η l) (rationalGridNodeInputHeight B J) := by
+  have htwo : RationalInputHeight (2 : ℚ) 2 := rational_input_height_nat 2 2 (by norm_num)
+  have hli := rational_input_height_nat l J hl
+  have hleft := rational_input_height_mul (rational_input_height_mul htwo hη)
+    (rational_input_height_mul hli hli)
+  have hright := rational_input_height_mul (rational_input_height_mul htwo hM) hr
+  unfold rationalGridNode
+  rw [pow_two]
+  apply rational_input_height_min
+  · exact rational_input_height_mono hleft (by unfold rationalGridNodeInputHeight; omega)
+  · exact rational_input_height_mono hright (by unfold rationalGridNodeInputHeight; omega)
+
+theorem rational_grid_threshold_input_height (M r η : ℚ) (B J l : ℕ)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) (hl : l ≤ (Nat.pow 2 J)) :
+    RationalInputHeight (M*r-rationalGridNode M r η l)
+      (rationalGridThresholdInputHeight B J) := by
+  have hprod : RationalInputHeight (M*r) (4*B) := by
+    convert rational_input_height_mul hM hr using 1; omega
+  exact rational_input_height_sub hprod (rational_grid_node_input_height M r η B J l hM hr hη hl)
+
+theorem rational_envelope_grid_input_height (M r η : ℚ) (B J l : ℕ)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) (hl : l ≤ (Nat.pow 2 J)) :
+    RationalInputHeight (rationalEnvelope M r (M*r-rationalGridNode M r η l))
+      (rationalEnvelopeInputHeight B J) := by
+  have hnode := rational_grid_node_input_height M r η B J l hM hr hη hl
+  have hfour : RationalInputHeight (4 : ℚ) 3 := rational_input_height_nat 4 3 (by norm_num)
+  have hvalue : rationalEnvelope M r (M*r-rationalGridNode M r η l) =
+      (rationalGridNode M r η l)^2/(4*M) := by
+    unfold rationalEnvelope
+    congr 1
+    ring
+  rw [hvalue, pow_two]
+  have hh := rational_input_height_div (rational_input_height_mul hnode hnode)
+    (rational_input_height_mul hfour hM)
+  convert hh using 1; unfold rationalEnvelopeInputHeight; omega
+
+theorem rational_grid_ratio_input_height (M r η : ℚ) (B : ℕ)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) : RationalInputHeight (M*r/η) (10*B) := by
+  convert rational_input_height_div (rational_input_height_mul hM hr) hη using 1; omega
+
+/-- Neither positivity nor a guessed bound on an output grid index is needed:
+the exact executed integer endpoint is bounded from the canonical input data. -/
+theorem rational_grid_sizes_input_bound (M r η : ℚ) (B : ℕ)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) :
+    rationalGridSize M r η ≤ (Nat.pow 2 (10*B+1)) ∧
+      rationalCanonicalGridSize M r η ≤ (Nat.pow 2 (10*B+1)) := by
+  have hm := rational_input_height_magnitude (rational_grid_ratio_input_height M r η B hM hr hη)
+  have hc : Nat.ceil (M*r/η) ≤ (Nat.pow 2 (10*B)) :=
+    Nat.ceil_le.mpr ((le_abs_self _).trans hm)
+  have hs := (Nat.sqrt_le_self (Nat.ceil (M*r/η))).trans hc
+  have hp : 0 < Nat.pow 2 (10*B) := Nat.two_pow_pos (10*B)
+  have hpstep : Nat.pow 2 (10*B+1) = Nat.pow 2 (10*B)*2 := rfl
+  constructor
+  · unfold rationalGridSize
+    rw [hpstep]
+    omega
+  · dsimp only [rationalCanonicalGridSize, rationalCeilSqrt]
+    split <;> rw [hpstep] <;> omega
+
+theorem rational_grid_row_endpoint_input_bound {M r η : ℚ} {B : ℕ}
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) (l : Fin (rationalGridSize M r η)) :
+    l.val+1 ≤ (Nat.pow 2 (10*B+1)) :=
+  (Nat.succ_le_of_lt l.isLt).trans (rational_grid_sizes_input_bound M r η B hM hr hη).1
+
+theorem rational_canonical_row_endpoint_input_bound {M r η : ℚ} {B L : ℕ}
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) (hL : L ≤ rationalCanonicalGridSize M r η) (l : Fin L) :
+    l.val+1 ≤ (Nat.pow 2 (10*B+1)) :=
+  ((Nat.succ_le_of_lt l.isLt).trans hL).trans
+    (rational_grid_sizes_input_bound M r η B hM hr hη).2
+
+end SparseCompletion
+
+/- Fixed source body: RationalGapInputHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Polynomial value-encoding bounds for every row of the actual fixed-anchor
+rational LP constructor, including generated hinge endpoints and envelopes.
+No claim about FM output size, arithmetic cost or solver runtime. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalFixedAnchorInputHeight (k B : ℕ) : ℕ := 1024*(k+1)*(B+1)
+
+theorem rational_gap_coefficient_input_height {k m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (row : RationalGapRow k m (rationalGridSize M r η)) (i : Fin m) :
+    RationalInputHeight (rationalGapCoefficient D p M r ρ η row i)
+      (rationalFixedAnchorInputHeight k B) := by
+  have hbase : B ≤ rationalFixedAnchorInputHeight k B := by
+    unfold rationalFixedAnchorInputHeight
+    nlinarith [Nat.zero_le (k*B)]
+  have hz := rational_input_height_zero (rationalFixedAnchorInputHeight k B)
+  have ho := rational_input_height_one (rationalFixedAnchorInputHeight k B)
+  have hn := rational_input_height_neg ho
+  have hhinge (l : Fin (rationalGridSize M r η)) :
+      RationalInputHeight
+        (max (rationalScore D p i-ρ-(M*r-rationalGridNode M r η (l.val+1))) 0)
+        (rationalFixedAnchorInputHeight k B) := by
+    have hs := rational_score_input_height D p hD hp i
+    have ht := rational_grid_threshold_input_height M r η B (10*B+1) (l.val+1)
+      hM hr hη (rational_grid_row_endpoint_input_bound hM hr hη l)
+    apply rational_input_height_max _ hz
+    apply rational_input_height_mono (rational_input_height_sub (rational_input_height_sub hs hρ) ht)
+    unfold rationalScoreInputHeight rationalGridThresholdInputHeight
+      rationalGridNodeInputHeight rationalFixedAnchorInputHeight
+    nlinarith [Nat.zero_le (k*B)]
+  rcases row with j | row
+  · simp only [rationalGapCoefficient, Sum.elim_inl]
+    split
+    · exact hn
+    · exact hz
+  · rcases row with s | row
+    · simp only [rationalGapCoefficient, Sum.elim_inr, Sum.elim_inl]
+      split
+      · exact ho
+      · exact hn
+    · rcases row with j | row
+      · exact hz
+      · rcases row with a | l
+        · exact rational_input_height_mono (rational_input_height_neg (hD i a)) hbase
+        · exact hhinge l
+
+theorem rational_gap_right_side_input_height {k m B : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hK : ∀ a b, RationalInputHeight (K a b) B)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (row : RationalGapRow k m (rationalGridSize M r η)) :
+    RationalInputHeight (rationalGapRightSide K D p M r ρ η row)
+      (rationalFixedAnchorInputHeight k B) := by
+  have hbase : B ≤ rationalFixedAnchorInputHeight k B := by
+    unfold rationalFixedAnchorInputHeight
+    nlinarith [Nat.zero_le (k*B)]
+  have hz := rational_input_height_zero (rationalFixedAnchorInputHeight k B)
+  rcases row with j | row
+  · exact hz
+  · rcases row with s | row
+    · simp only [rationalGapRightSide, Sum.elim_inr, Sum.elim_inl]
+      split
+      · exact rational_input_height_mono hr hbase
+      · exact rational_input_height_mono (rational_input_height_neg hr) hbase
+    · rcases row with i | row
+      · have hs := rational_score_input_height D p hD hp i
+        apply rational_input_height_mono
+          (rational_input_height_sub (rational_input_height_add hρ (rational_input_height_mul hM hr)) hs)
+        unfold rationalScoreInputHeight rationalFixedAnchorInputHeight
+        nlinarith [Nat.zero_le (k*B)]
+      · rcases row with a | l
+        · have hs : RationalInputHeight (∑ b, K a b*p b) (rationalScoreInputHeight k B) := by
+            apply rational_input_height_fin_sum
+            intro b
+            convert rational_input_height_mul (hK a b) (hp b) using 1; omega
+          apply rational_input_height_mono (rational_input_height_sub hρ hs)
+          unfold rationalScoreInputHeight rationalFixedAnchorInputHeight
+          nlinarith [Nat.zero_le (k*B)]
+        · apply rational_input_height_mono
+            (rational_envelope_grid_input_height M r η B (10*B+1) (l.val+1)
+              hM hr hη (rational_grid_row_endpoint_input_bound hM hr hη l))
+          unfold rationalEnvelopeInputHeight rationalGridNodeInputHeight rationalFixedAnchorInputHeight
+          nlinarith [Nat.zero_le (k*B)]
+
+/-- Every entry belongs to the literal LP passed to `rationalLPSolve` by the
+fixed-anchor constructor. Only input canonical num/den bounds are premises. -/
+theorem rational_gap_system_input_height {k m B : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hK : ∀ a b, RationalInputHeight (K a b) B)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B) :
+    (∀ row i, RationalInputHeight ((rationalGapSystem K D p M r ρ η).coefficient row i)
+      (rationalFixedAnchorInputHeight k B)) ∧
+      ∀ row, RationalInputHeight ((rationalGapSystem K D p M r ρ η).rightSide row)
+        (rationalFixedAnchorInputHeight k B) :=
+  ⟨rational_gap_coefficient_input_height D p M r ρ η hD hp hM hr hρ hη,
+    rational_gap_right_side_input_height K D p M r ρ η hK hD hp hM hr hρ hη⟩
+
+def rationalLinearSystemEncodingBits {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) : ℕ :=
+  ∑ row, ((∑ i, rationalCanonicalEncodingBits (S.coefficient row i))+
+    rationalCanonicalEncodingBits (S.rightSide row))
+
+theorem rational_linear_system_encoding_bits_of_entry_bound {I : Type*} [Fintype I]
+    {n H : ℕ} (S : RationalLinearSystem I n)
+    (hc : ∀ row i, RationalInputHeight (S.coefficient row i) H)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) H) :
+    rationalLinearSystemEncodingBits S ≤ Fintype.card I*(n+1)*(2*H+3) := by
+  unfold rationalLinearSystemEncodingBits
+  calc
+    _ ≤ ∑ row : I, (n+1)*(2*H+3) := by
+      apply Finset.sum_le_sum
+      intro row _
+      have hsum : (∑ i, rationalCanonicalEncodingBits (S.coefficient row i)) ≤ n*(2*H+3) := by
+        calc
+          _ ≤ ∑ _ : Fin n, (2*H+3) := Finset.sum_le_sum (fun i _ => rational_input_height_bits (hc row i))
+          _ = _ := by simp
+      have hright := rational_input_height_bits (hr row)
+      nlinarith
+    _ = _ := by simp; ring
+
+theorem rational_gap_system_encoding_bits {k m B : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hK : ∀ a b, RationalInputHeight (K a b) B)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B) :
+    rationalLinearSystemEncodingBits (rationalGapSystem K D p M r ρ η) ≤
+      (2*m+2+k+rationalGridSize M r η)*(m+1)*(2048*(k+1)*(B+1)+3) := by
+  obtain ⟨hc, hs⟩ := rational_gap_system_input_height K D p M r ρ η hK hD hp hM hr hρ hη
+  have hh := rational_linear_system_encoding_bits_of_entry_bound (rationalGapSystem K D p M r ρ η) hc hs
+  rw [rational_gap_encoding_rows] at hh
+  convert hh using 1; unfold rationalFixedAnchorInputHeight; ring
+
+end SparseCompletion
+
+/- Fixed source body: RationalLinearInputEncoding.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Compositional input heights for literal linear forms, finite repertoire
+append, and explicit coordinate-tagged dense LP value encodings. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_form_add_input_height {n A B : ℕ} (c d : Fin n → ℚ)
+    (hc : ∀ u, RationalInputHeight (c u) A) (hd : ∀ u, RationalInputHeight (d u) B) :
+    ∀ u, RationalInputHeight (rationalFormAdd c d u) (2*(A+B)+1) :=
+  fun u => rational_input_height_add (hc u) (hd u)
+
+theorem rational_form_scale_input_height {n A B : ℕ} (a : ℚ) (c : Fin n → ℚ)
+    (ha : RationalInputHeight a A) (hc : ∀ u, RationalInputHeight (c u) B) :
+    ∀ u, RationalInputHeight (rationalFormScale a c u) (2*(A+B)) :=
+  fun u => rational_input_height_mul ha (hc u)
+
+theorem rational_form_fin_sum_input_height {n t B : ℕ} (c : Fin t → Fin n → ℚ)
+    (hc : ∀ j u, RationalInputHeight (c j u) B) :
+    ∀ u, RationalInputHeight (rationalFormSum c u) (t+B*(t+1)) :=
+  fun u => rational_input_height_fin_sum (fun j => c j u) (fun j => hc j u)
+
+theorem rational_interval_basis_input_height {k m H : ℕ}
+    (v : RationalIntervalVariable k m H) (u : Fin (m+(m*k+(k*k+H*m)))) :
+    RationalInputHeight (intervalBasis v u) 0 := by
+  unfold intervalBasis
+  split
+  · exact rational_input_height_one 0
+  · exact rational_input_height_zero 0
+
+/-- A canonical binary width for an enumerated finite coordinate. The zero
+dimension has width one; its absence of coordinate entries is counted below. -/
+def rationalLPIndexWidth (n : ℕ) : ℕ := Nat.log2 n+1
+
+theorem rational_lp_actual_index_bits_le {n : ℕ} (i : Fin n) :
+    Nat.log2 i.val+1 ≤ rationalLPIndexWidth n := by
+  unfold rationalLPIndexWidth
+  by_cases hi : i.val=0
+  · simp only [hi, Nat.log2_zero, zero_add]
+    omega
+  · have hlt := (Nat.log2_lt hi).mpr (i.isLt.trans (Nat.lt_log2_self))
+    omega
+
+/-- Declared dense serialization: every rational scalar has a fixed-width
+row and column coordinate tag. RHS scalars use column n in Fin(n+1).
+This counts these explicit tags, not Lean heap objects or arithmetic cost. -/
+def rationalIndexedLinearSystemEncodingBits {I : Type*} [Fintype I] {n : ℕ}
+    (S : RationalLinearSystem I n) : ℕ :=
+  rationalLinearSystemEncodingBits S + Fintype.card I*(n+1)*
+    (rationalLPIndexWidth (Fintype.card I)+rationalLPIndexWidth (n+1))
+
+theorem rational_indexed_system_encoding_bits_of_entry_bound {I : Type*} [Fintype I]
+    {n H : ℕ} (S : RationalLinearSystem I n)
+    (hc : ∀ row i, RationalInputHeight (S.coefficient row i) H)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) H) :
+    rationalIndexedLinearSystemEncodingBits S ≤ Fintype.card I*(n+1)*
+      (2*H+3+rationalLPIndexWidth (Fintype.card I)+rationalLPIndexWidth (n+1)) := by
+  have hh := rational_linear_system_encoding_bits_of_entry_bound S hc hr
+  unfold rationalIndexedLinearSystemEncodingBits
+  calc
+    _ ≤ Fintype.card I*(n+1)*(2*H+3) + Fintype.card I*(n+1)*
+        (rationalLPIndexWidth (Fintype.card I)+rationalLPIndexWidth (n+1)) :=
+      Nat.add_le_add_right hh _
+    _ = _ := by ring
+
+theorem rational_index_width_dimension_bound (n : ℕ) : rationalLPIndexWidth n ≤ n+1 := by
+  unfold rationalLPIndexWidth
+  exact Nat.add_le_add_right (Nat.log2_le_self n) 1
+
+theorem rational_indexed_system_polynomial_encoding_bits_of_entry_bound
+    {I : Type*} [Fintype I] {n H : ℕ} (S : RationalLinearSystem I n)
+    (hc : ∀ row i, RationalInputHeight (S.coefficient row i) H)
+    (hr : ∀ row, RationalInputHeight (S.rightSide row) H) :
+    rationalIndexedLinearSystemEncodingBits S ≤
+      Fintype.card I*(n+1)*(2*H+Fintype.card I+n+6) := by
+  have hh := rational_indexed_system_encoding_bits_of_entry_bound S hc hr
+  have hrow := rational_index_width_dimension_bound (Fintype.card I)
+  have hcol := rational_index_width_dimension_bound (n+1)
+  exact hh.trans (Nat.mul_le_mul_left (Fintype.card I*(n+1)) (by omega))
+
+theorem rational_linear_append_input_height {I J : Type*} {n A B : ℕ}
+    (S : RationalLinearSystem I n) (R : RationalLinearSystem J n)
+    (hc : ∀ row i, RationalInputHeight (S.coefficient row i) A)
+    (hs : ∀ row, RationalInputHeight (S.rightSide row) A)
+    (hR : ∀ row i, RationalInputHeight (R.coefficient row i) B)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) B) :
+    (∀ row i, RationalInputHeight ((S.append R).coefficient row i) (A+B)) ∧
+      ∀ row, RationalInputHeight ((S.append R).rightSide row) (A+B) := by
+  constructor
+  · rintro (row | row) i
+    · exact rational_input_height_mono (hc row i) (by omega)
+    · exact rational_input_height_mono (hR row i) (by omega)
+  · rintro (row | row)
+    · exact rational_input_height_mono (hs row) (by omega)
+    · exact rational_input_height_mono (hb row) (by omega)
+
+theorem rational_linear_append_value_encoding_bits {I J : Type*} [Fintype I] [Fintype J]
+    {n : ℕ} (S : RationalLinearSystem I n) (R : RationalLinearSystem J n) :
+    rationalLinearSystemEncodingBits (S.append R) =
+      rationalLinearSystemEncodingBits S+rationalLinearSystemEncodingBits R := by
+  simp only [rationalLinearSystemEncodingBits, Fintype.sum_sum_type,
+    RationalLinearSystem.append, Sum.elim_inl, Sum.elim_inr]
+
+end SparseCompletion
+
+/- Fixed source body: RationalIntervalInputHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Input-derived bounds for all actual interval LP rows: physical bounds,
+anchor rows, global guards, and perspective epigraph constraints. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalIntervalInputHeight (k m B : ℕ) : ℕ := 65536*(k+m+1)*(B+1)
+def rationalIntervalVariableCount (k m H : ℕ) : ℕ := m+(m*k+(k*k+H*m))
+def rationalIntervalRowCount (k m H : ℕ) : ℕ := 3*m+2+2*m*k+4*k*k+k+2*H*m+H
+
+theorem rational_interval_variable_count (k m H : ℕ) :
+    Fintype.card (Fin (m+(m*k+(k*k+H*m)))) = rationalIntervalVariableCount k m H := by
+  simp only [Fintype.card_fin, rationalIntervalVariableCount]
+
+theorem rational_interval_rows_exact_count (k m H : ℕ) :
+    Fintype.card (RationalIntervalRows k m H) = rationalIntervalRowCount k m H :=
+  rational_interval_row_count k m H
+
+theorem rational_interval_coefficient_input_height {k m B : ℕ}
+    (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ) (M r ρ η : ℚ)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hhi : ∀ i a, RationalInputHeight (hi i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (row : RationalIntervalRows k m (rationalGridSize M r η))
+    (u : Fin (m+(m*k+(k*k+rationalGridSize M r η*m)))) :
+    RationalInputHeight (rationalIntervalCoefficient (rationalGridSize M r η) lo hi p M r ρ η row u)
+      (rationalIntervalInputHeight k m B) := by
+  let H := rationalGridSize M r η
+  have hQ : ∀ i v, RationalInputHeight (intervalQForm k m H i v) 0 :=
+    fun i v => rational_interval_basis_input_height (.inl i) v
+  have hV : ∀ i a v, RationalInputHeight (intervalVForm k m H i a v) 0 :=
+    fun i a v => rational_interval_basis_input_height (.inr (.inl (i,a))) v
+  have hK : ∀ a b v, RationalInputHeight (intervalKForm k m H a b v) 0 :=
+    fun a b v => rational_interval_basis_input_height (.inr (.inr (.inl (a,b)))) v
+  have hA : ∀ l i v, RationalInputHeight (intervalAuxForm k m H l i v) 0 :=
+    fun l i v => rational_interval_basis_input_height (.inr (.inr (.inr (l,i)))) v
+  have hneg := rational_input_height_neg (rational_input_height_one 0)
+  have hscore (i : Fin m) : RationalInputHeight
+      (rationalFormSum (fun a => rationalFormScale (p a) (intervalVForm k m H i a)) u)
+      (k+2*B*(k+1)) := by
+    apply rational_input_height_fin_sum
+    intro a
+    simpa only [Nat.add_zero, rationalFormScale] using rational_input_height_mul (hp a) (hV i a u)
+  have hcore (a : Fin k) : RationalInputHeight
+      (rationalFormSum (fun b => rationalFormScale (p b) (intervalKForm k m H a b)) u)
+      (k+2*B*(k+1)) := by
+    apply rational_input_height_fin_sum
+    intro b
+    simpa only [Nat.add_zero, rationalFormScale] using rational_input_height_mul (hp b) (hK a b u)
+  have hQsum : RationalInputHeight (rationalFormSum (intervalQForm k m H) u) m := by
+    simpa using rational_form_fin_sum_input_height (intervalQForm k m H) hQ u
+  have hVsum (a : Fin k) : RationalInputHeight
+      (rationalFormSum (fun i => intervalVForm k m H i a) u) m := by
+    simpa using rational_form_fin_sum_input_height (fun i => intervalVForm k m H i a)
+      (fun i v => hV i a v) u
+  have hAsum (l : Fin H) : RationalInputHeight
+      (rationalFormSum (intervalAuxForm k m H l) u) m := by
+    simpa using rational_form_fin_sum_input_height (intervalAuxForm k m H l)
+      (fun i v => hA l i v) u
+  have hb0 : 0 ≤ rationalIntervalInputHeight k m B := Nat.zero_le _
+  rcases row with i | row
+  · exact rational_input_height_mono (rational_input_height_mul hneg (hQ i u)) hb0
+  · rcases row with s | row
+    · have hsign : RationalInputHeight (if s.val=0 then (1 : ℚ) else -1) 0 := by
+        split
+        · exact rational_input_height_one 0
+        · exact hneg
+      apply rational_input_height_mono (rational_input_height_mul hsign hQsum)
+      unfold rationalIntervalInputHeight
+      nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+    · rcases row with row | rows
+      · simp only [rationalIntervalCoefficient, Sum.elim_inr, Sum.elim_inl]
+        split
+        · apply rational_input_height_mono
+            (rational_input_height_add (rational_input_height_mul (hlo row.2.1 row.2.2) (hQ row.2.1 u))
+              (rational_input_height_mul hneg (hV row.2.1 row.2.2 u)))
+          unfold rationalIntervalInputHeight
+          nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+        · apply rational_input_height_mono
+            (rational_input_height_add (hV row.2.1 row.2.2 u)
+              (rational_input_height_mul (rational_input_height_neg (hhi row.2.1 row.2.2)) (hQ row.2.1 u)))
+          unfold rationalIntervalInputHeight
+          nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+      · rcases rows with row | rows
+        · simp only [rationalIntervalCoefficient, Sum.elim_inr, Sum.elim_inl]
+          split
+          · exact rational_input_height_mono (rational_input_height_add (hK row.2.1 row.2.2 u)
+              (hK row.2.2 row.2.1 u)) (by unfold rationalIntervalInputHeight; nlinarith)
+          · split
+            · exact rational_input_height_mono
+                (rational_input_height_mul hneg (rational_input_height_add
+                  (hK row.2.1 row.2.2 u) (hK row.2.2 row.2.1 u)))
+                (by unfold rationalIntervalInputHeight; nlinarith)
+            · split
+              · exact rational_input_height_mono (rational_input_height_mul hneg (hK row.2.1 row.2.2 u)) hb0
+              · exact rational_input_height_mono (hK row.2.1 row.2.2 u) hb0
+        · rcases rows with a | rows
+          · apply rational_input_height_mono
+              (rational_input_height_add (hcore a) (rational_input_height_mul hneg (hVsum a)))
+            unfold rationalIntervalInputHeight
+            nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+          · rcases rows with i | rows
+            · exact rational_input_height_zero _
+            · rcases rows with i | rows
+              · apply rational_input_height_mono (rational_input_height_add (hscore i)
+                  (rational_input_height_mul (rational_input_height_neg
+                    (rational_input_height_add hρ (rational_input_height_mul hM hr))) (hQ i u)))
+                unfold rationalIntervalInputHeight
+                nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+              · rcases rows with row | l
+                · simp only [rationalIntervalCoefficient, Sum.elim_inr, Sum.elim_inl]
+                  split
+                  · exact rational_input_height_mono (rational_input_height_mul hneg (hA row.2.1 row.2.2 u)) hb0
+                  · have hthreshold := rational_grid_threshold_input_height M r η B (10*B+1)
+                      (row.2.1.val+1) hM hr hη (rational_grid_row_endpoint_input_bound hM hr hη row.2.1)
+                    apply rational_input_height_mono
+                      (rational_input_height_add (rational_input_height_add (hscore row.2.2)
+                        (rational_input_height_mul (rational_input_height_neg
+                          (rational_input_height_add hρ hthreshold)) (hQ row.2.2 u)))
+                        (rational_input_height_mul hneg (hA row.2.1 row.2.2 u)))
+                    unfold rationalGridThresholdInputHeight rationalGridNodeInputHeight rationalIntervalInputHeight
+                    nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+                · exact rational_input_height_mono (hAsum l)
+                    (by unfold rationalIntervalInputHeight; nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)])
+
+theorem rational_interval_right_side_input_height {k m B : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hlK : ∀ a b, RationalInputHeight (loK a b) B)
+    (hhK : ∀ a b, RationalInputHeight (hiK a b) B)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (row : RationalIntervalRows k m (rationalGridSize M r η)) :
+    RationalInputHeight (rationalIntervalRightSide (rationalGridSize M r η) loK hiK lo p M r ρ η row)
+      (rationalIntervalInputHeight k m B) := by
+  have hbase : B ≤ rationalIntervalInputHeight k m B := by
+    unfold rationalIntervalInputHeight
+    nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+  have hz := rational_input_height_zero (rationalIntervalInputHeight k m B)
+  rcases row with i | row
+  · exact hz
+  · rcases row with s | row
+    · simp only [rationalIntervalRightSide, Sum.elim_inr, Sum.elim_inl]
+      split
+      · exact rational_input_height_mono hr hbase
+      · exact rational_input_height_mono (rational_input_height_neg hr) hbase
+    · rcases row with row | rows
+      · exact hz
+      · rcases rows with row | rows
+        · simp only [rationalIntervalRightSide, Sum.elim_inr, Sum.elim_inl]
+          split
+          · exact hz
+          · split
+            · exact hz
+            · split
+              · exact rational_input_height_mono (rational_input_height_neg (hlK row.2.1 row.2.2)) hbase
+              · exact rational_input_height_mono (hhK row.2.1 row.2.2) hbase
+        · rcases rows with a | rows
+          · exact rational_input_height_mono hρ hbase
+          · rcases rows with i | rows
+            · apply rational_input_height_mono (rational_input_height_sub
+                (rational_input_height_add hρ (rational_input_height_mul hM hr))
+                (rational_score_input_height lo p hlo hp i))
+              unfold rationalScoreInputHeight rationalIntervalInputHeight
+              nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+            · rcases rows with i | rows
+              · exact hz
+              · rcases rows with row | l
+                · exact hz
+                · apply rational_input_height_mono
+                    (rational_envelope_grid_input_height M r η B (10*B+1) (l.val+1)
+                      hM hr hη (rational_grid_row_endpoint_input_bound hM hr hη l))
+                  unfold rationalEnvelopeInputHeight rationalGridNodeInputHeight rationalIntervalInputHeight
+                  nlinarith [Nat.zero_le (k*B), Nat.zero_le (m*B)]
+
+theorem rational_interval_system_input_height {k m B : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hlK : ∀ a b, RationalInputHeight (loK a b) B)
+    (hhK : ∀ a b, RationalInputHeight (hiK a b) B)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hhi : ∀ i a, RationalInputHeight (hi i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B) :
+    (∀ row u, RationalInputHeight ((rationalIntervalSystem loK hiK lo hi p M r ρ η).coefficient row u)
+      (rationalIntervalInputHeight k m B)) ∧
+      ∀ row, RationalInputHeight ((rationalIntervalSystem loK hiK lo hi p M r ρ η).rightSide row)
+        (rationalIntervalInputHeight k m B) :=
+  ⟨rational_interval_coefficient_input_height lo hi p M r ρ η hlo hhi hp hM hr hρ hη,
+    rational_interval_right_side_input_height loK hiK lo p M r ρ η hlK hhK hlo hp hM hr hρ hη⟩
+
+theorem rational_interval_system_indexed_encoding_bits {k m B : ℕ}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hlK : ∀ a b, RationalInputHeight (loK a b) B)
+    (hhK : ∀ a b, RationalInputHeight (hiK a b) B)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hhi : ∀ i a, RationalInputHeight (hi i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B) :
+    let H := rationalGridSize M r η
+    let rows := rationalIntervalRowCount k m H
+    let vars := rationalIntervalVariableCount k m H
+    rationalIndexedLinearSystemEncodingBits (rationalIntervalSystem loK hiK lo hi p M r ρ η) ≤
+      rows*(vars+1)*(2*rationalIntervalInputHeight k m B+rows+vars+6) := by
+  obtain ⟨hc, hs⟩ := rational_interval_system_input_height loK hiK lo hi p M r ρ η hlK hhK hlo hhi hp hM hr hρ hη
+  have hh := rational_indexed_system_polynomial_encoding_bits_of_entry_bound
+    (rationalIntervalSystem loK hiK lo hi p M r ρ η) hc hs
+  simpa only [rational_interval_rows_exact_count, rationalIntervalVariableCount] using hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalRepertoireInputHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Actual fixed-anchor append and interval physical-variable repertoire lifting.
+Repertoire coefficients/RHS have explicit canonical INPUT component bounds.
+All bounds include the generated row/variable dimensions, including H. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalPhysicalRepertoireInputHeight (k m BR : ℕ) : ℕ :=
+  rationalIntervalVariableCount k m 0 + 2*BR*(rationalIntervalVariableCount k m 0+1)
+
+def rationalIntervalRepertoireInputHeight (k m B BR : ℕ) : ℕ :=
+  rationalIntervalInputHeight k m B+rationalPhysicalRepertoireInputHeight k m BR+BR
+
+theorem rational_interval_physical_form_input_height (k m H : ℕ)
+    (j : Fin (m+(m*k+(k*k+0*m)))) (u : Fin (m+(m*k+(k*k+H*m)))) :
+    RationalInputHeight (intervalPhysicalForm k m H j u) 0 :=
+  rational_interval_basis_input_height _ u
+
+theorem rational_interval_lifted_repertoire_coefficient_input_height {k m H BR : ℕ} {I : Type*}
+    (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (row : I) (u : Fin (m+(m*k+(k*k+H*m)))) :
+    RationalInputHeight (rationalFormSum (fun j => rationalFormScale (R.coefficient row j)
+      (intervalPhysicalForm k m H j)) u) (rationalPhysicalRepertoireInputHeight k m BR) := by
+  apply rational_input_height_fin_sum
+  intro j
+  simpa only [Nat.add_zero, rationalFormScale] using rational_input_height_mul (hR row j)
+    (rational_interval_physical_form_input_height k m H j u)
+
+theorem rational_interval_repertoire_row_count (k m H : ℕ) (I : Type*) [Fintype I] :
+    Fintype.card (RationalIntervalRows k m H ⊕ I) =
+      rationalIntervalRowCount k m H+Fintype.card I := by
+  rw [Fintype.card_sum, rational_interval_rows_exact_count]
+
+theorem rational_interval_repertoire_system_input_height {k m B BR : ℕ} {I : Type*}
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hlK : ∀ a b, RationalInputHeight (loK a b) B)
+    (hhK : ∀ a b, RationalInputHeight (hiK a b) B)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hhi : ∀ i a, RationalInputHeight (hi i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) BR) :
+    (∀ row u, RationalInputHeight
+      ((rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).coefficient row u)
+      (rationalIntervalRepertoireInputHeight k m B BR)) ∧
+      ∀ row, RationalInputHeight
+        ((rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).rightSide row)
+        (rationalIntervalRepertoireInputHeight k m B BR) := by
+  obtain ⟨hc, hs⟩ := rational_interval_system_input_height loK hiK lo hi p M r ρ η hlK hhK hlo hhi hp hM hr hρ hη
+  constructor
+  · rintro (row | row) u
+    · exact rational_input_height_mono (hc row u)
+        (by unfold rationalIntervalRepertoireInputHeight; omega)
+    · exact rational_input_height_mono
+        (rational_interval_lifted_repertoire_coefficient_input_height R hR row u)
+        (by unfold rationalIntervalRepertoireInputHeight; omega)
+  · rintro (row | row)
+    · exact rational_input_height_mono (hs row)
+        (by unfold rationalIntervalRepertoireInputHeight; omega)
+    · exact rational_input_height_mono (hb row)
+        (by unfold rationalIntervalRepertoireInputHeight; omega)
+
+/-- Includes every arbitrary finite declared physical repertoire row at the
+literal original binder, with its actual lift into the epigraph variables. -/
+theorem rational_interval_repertoire_indexed_encoding_bits {k m B BR : ℕ} {I : Type*} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hlK : ∀ a b, RationalInputHeight (loK a b) B)
+    (hhK : ∀ a b, RationalInputHeight (hiK a b) B)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hhi : ∀ i a, RationalInputHeight (hi i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) BR) :
+    let H := rationalGridSize M r η
+    let rows := rationalIntervalRowCount k m H+Fintype.card I
+    let vars := rationalIntervalVariableCount k m H
+    rationalIndexedLinearSystemEncodingBits (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R) ≤
+      rows*(vars+1)*(2*rationalIntervalRepertoireInputHeight k m B BR+rows+vars+6) := by
+  obtain ⟨hc, hs⟩ := rational_interval_repertoire_system_input_height
+    loK hiK lo hi p M r ρ η R hlK hhK hlo hhi hp hM hr hρ hη hR hb
+  have hh := rational_indexed_system_polynomial_encoding_bits_of_entry_bound
+    (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R) hc hs
+  simpa only [rational_interval_repertoire_row_count, rationalIntervalVariableCount] using hh
+
+theorem rational_gap_append_repertoire_input_height {k m B BR : ℕ} {I : Type*}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m)
+    (hK : ∀ a b, RationalInputHeight (K a b) B)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) BR) :
+    (∀ row j, RationalInputHeight
+      (((rationalGapSystem K D p M r ρ η).append R).coefficient row j)
+      (rationalFixedAnchorInputHeight k B+BR)) ∧
+      ∀ row, RationalInputHeight (((rationalGapSystem K D p M r ρ η).append R).rightSide row)
+        (rationalFixedAnchorInputHeight k B+BR) := by
+  obtain ⟨hc, hs⟩ := rational_gap_system_input_height K D p M r ρ η hK hD hp hM hr hρ hη
+  exact rational_linear_append_input_height _ R hc hs hR hb
+
+/-- The actual fixed-anchor LP passed to rationalGapSolve includes R here;
+R has explicit input component bounds, not a supplied output budget. -/
+theorem rational_gap_append_repertoire_indexed_encoding_bits {k m B BR : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m)
+    (hK : ∀ a b, RationalInputHeight (K a b) B)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) BR) :
+    let rows := 2*m+2+k+rationalGridSize M r η+Fintype.card I
+    rationalIndexedLinearSystemEncodingBits ((rationalGapSystem K D p M r ρ η).append R) ≤
+      rows*(m+1)*(2*(rationalFixedAnchorInputHeight k B+BR)+rows+m+6) := by
+  obtain ⟨hc, hs⟩ := rational_gap_append_repertoire_input_height K D p M r ρ η R hK hD hp hM hr hρ hη hR hb
+  have hh := rational_indexed_system_polynomial_encoding_bits_of_entry_bound
+    ((rationalGapSystem K D p M r ρ η).append R) hc hs
+  rw [Fintype.card_sum, rational_gap_encoding_rows] at hh
+  exact hh
+
+theorem rational_interval_empty_variables (H : ℕ) : rationalIntervalVariableCount 0 0 H = 0 := by
+  simp [rationalIntervalVariableCount]
+
+theorem rational_interval_empty_physical_rows (H : ℕ) : rationalIntervalRowCount 0 0 H = 2+H := by
+  simp [rationalIntervalRowCount]
+
+theorem rational_empty_repertoire_keeps_interval_row_count (k m H : ℕ) :
+    Fintype.card (RationalIntervalRows k m H ⊕ Fin 0) = rationalIntervalRowCount k m H := by
+  rw [Fintype.card_sum, rational_interval_rows_exact_count, Fintype.card_fin, Nat.add_zero]
+
+end SparseCompletion
+
+/- Fixed source body: RationalConstructedLPSmallWitness.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Small feasible rational points for the ACTUAL fixed-anchor
+append and interval physical-repertoire LP constructors at their original
+binders, with input-derived matrix heights and earned coordinate bounds.
+This is separate from FM output height and polynomial solver time. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_gap_append_exists_small_feasible_point
+    {k m B BR : ℕ} {I : Type*} [Fintype I]
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I m)
+    (hK : ∀ a b, RationalInputHeight (K a b) B)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) BR)
+    (hf : ∃ x, ((rationalGapSystem K D p M r ρ η).append R).RealSatisfies x) :
+    ∃ q, ((rationalGapSystem K D p M r ρ η).append R).Satisfies q ∧
+      ∀ j, RationalInputHeight (q j)
+        (rationalLPSmallWitnessHeight (2*m+2+k+rationalGridSize M r η+Fintype.card I) m
+          (rationalFixedAnchorInputHeight k B+BR)) := by
+  obtain ⟨hc,hs⟩ := rational_gap_append_repertoire_input_height
+    K D p M r ρ η R hK hD hp hM hr hρ hη hR hb
+  have hh := rational_lp_exists_small_feasible_point
+    ((rationalGapSystem K D p M r ρ η).append R) hc hs (fun _ => |(r : ℝ)|)
+    (fun x hx => rational_gap_append_real_coordinate_bound K D p M r ρ η R x hx) hf
+  have hrows : Fintype.card (RationalGapRow k m (rationalGridSize M r η) ⊕ I) =
+      2*m+2+k+rationalGridSize M r η+Fintype.card I := by
+    rw [Fintype.card_sum, rational_gap_encoding_rows]
+  simpa only [hrows] using hh
+
+theorem rational_interval_repertoire_exists_small_feasible_point
+    {k m B BR : ℕ} {I : Type*} [Fintype I]
+    (loK hiK : Fin k → Fin k → ℚ) (lo hi : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ) (R : RationalLinearSystem I (m+(m*k+(k*k+0*m))))
+    (hlK : ∀ a b, RationalInputHeight (loK a b) B)
+    (hhK : ∀ a b, RationalInputHeight (hiK a b) B)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hhi : ∀ i a, RationalInputHeight (hi i a) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hR : ∀ row j, RationalInputHeight (R.coefficient row j) BR)
+    (hb : ∀ row, RationalInputHeight (R.rightSide row) BR)
+    (hf : ∃ x, (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).RealSatisfies x) :
+    let H := rationalGridSize M r η
+    ∃ q, (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R).Satisfies q ∧
+      ∀ j, RationalInputHeight (q j)
+        (rationalLPSmallWitnessHeight (rationalIntervalRowCount k m H+Fintype.card I)
+          (rationalIntervalVariableCount k m H) (rationalIntervalRepertoireInputHeight k m B BR)) := by
+  obtain ⟨hc,hs⟩ := rational_interval_repertoire_system_input_height
+    loK hiK lo hi p M r ρ η R hlK hhK hlo hhi hp hM hr hρ hη hR hb
+  have hh := rational_lp_exists_small_feasible_point
+    (rationalIntervalRepertoireSystem loK hiK lo hi p M r ρ η R) hc hs
+    (rationalIntervalCoordinateRadius loK hiK lo hi M r η)
+    (fun x hx => rational_interval_repertoire_coordinate_radius loK hiK lo hi p M r ρ η R x hx) hf
+  simpa only [rational_interval_repertoire_row_count, rationalIntervalVariableCount] using hh
+
+/-- Once the small packed point is earned, the literal recovery division
+also has an explicit canonical height bound, including its zero-mass branch.
+This does not assert a height for the output of the existing FM program. -/
+theorem rational_interval_small_point_recovery_height {k m H B P : ℕ}
+    (lo : Fin m → Fin k → ℚ) (x : Fin (m+(m*k+(k*k+H*m))) → ℚ)
+    (hlo : ∀ i a, RationalInputHeight (lo i a) B)
+    (hx : ∀ u, RationalInputHeight (x u) P) :
+    ∀ i a, RationalInputHeight (rationalIntervalRecover lo (intervalV x) (intervalQ x) i a) (B+4*P) := by
+  intro i a
+  unfold rationalIntervalRecover
+  split
+  · exact rational_input_height_mono (hlo i a) (by omega)
+  · exact rational_input_height_mono
+      (rational_input_height_div
+        (hx (rationalIntervalVariableEquiv k m H (.inr (.inl (i,a)))))
+        (hx (rationalIntervalVariableEquiv k m H (.inl i)))) (by omega)
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianCompress.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. Actual Gaussian deletion with materialized vector states.
+No coefficient-height, operation-cost, bit-cost or polynomial-runtime theorem.
+Frozen FM/paper modules remain unchanged; FM in imports is not a runtime call. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Every successful Gaussian deletion is materialized before it becomes the
+next state. The total fallback keeps the input vector; above dimension the
+existing proved Gaussian completeness theorem excludes that fallback. -/
+def rationalGaussianReduceVector {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Gaussian.QVec m) : Gaussian.QVec m :=
+  if (rationalWeightSupport q.get).card ≤ d then q
+  else Option.rec q List.Vector.ofFn (rationalGaussianFeatureDelete A q.get)
+
+theorem rational_gaussian_reduce_vector_done {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Gaussian.QVec m)
+    (hc : (rationalWeightSupport q.get).card ≤ d) :
+    rationalGaussianReduceVector A q=q := by
+  simp only [rationalGaussianReduceVector, ite_eq_left hc]
+
+theorem rational_gaussian_reduce_vector_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Gaussian.QVec m)
+    (hq : ∀ i, 0 ≤ q.get i) (a₀ : Fin d) (hmass : ∀ i, A a₀ i=1) :
+    RationalFeaturePreservation A q.get (rationalGaussianReduceVector A q).get ∧
+      (rationalWeightSupport (rationalGaussianReduceVector A q).get).card ≤
+        (rationalWeightSupport q.get).card ∧
+      (d < (rationalWeightSupport q.get).card →
+        (rationalWeightSupport (rationalGaussianReduceVector A q).get).card <
+          (rationalWeightSupport q.get).card) := by
+  by_cases hc : (rationalWeightSupport q.get).card ≤ d
+  · rw [rational_gaussian_reduce_vector_done A q hc]
+    refine ⟨rational_feature_preservation_refl A q.get hq, le_rfl, ?_⟩
+    intro hgt
+    exact False.elim ((Nat.not_lt_of_ge hc) hgt)
+  · have hgt : d < (rationalWeightSupport q.get).card := Nat.lt_of_not_ge hc
+    obtain ⟨v, hv, hn, hs, hm, hz, hcard⟩ :=
+      rational_gaussian_deletion_above_dimension A q.get hq a₀ hmass hgt
+    have hstep : rationalGaussianReduceVector A q=List.Vector.ofFn v := by
+      simp only [rationalGaussianReduceVector, ite_eq_right hc, hv]
+    rw [hstep]
+    simpa only [Gaussian.vecGet_ofFn] using
+      (show RationalFeaturePreservation A q.get v ∧
+        (rationalWeightSupport v).card ≤ (rationalWeightSupport q.get).card ∧
+        (d < (rationalWeightSupport q.get).card →
+          (rationalWeightSupport v).card < (rationalWeightSupport q.get).card) from
+        ⟨⟨hn, hs, hm, hz⟩, le_of_lt hcard, fun _ => hcard⟩)
+
+def rationalGaussianVectorIterates {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Gaussian.QVec m) (fuel : ℕ) : Gaussian.QVec m :=
+  Nat.rec q (fun _ previous => rationalGaussianReduceVector A previous) fuel
+
+theorem rational_gaussian_vector_iterates_zero {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Gaussian.QVec m) :
+    rationalGaussianVectorIterates A q 0=q := rfl
+
+theorem rational_gaussian_vector_iterates_succ {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Gaussian.QVec m) (fuel : ℕ) :
+    rationalGaussianVectorIterates A q (Nat.succ fuel)=
+      rationalGaussianReduceVector A (rationalGaussianVectorIterates A q fuel) := rfl
+
+theorem rational_gaussian_vector_iterates_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Gaussian.QVec m)
+    (hq : ∀ i, 0 ≤ q.get i) (a₀ : Fin d) (hmass : ∀ i, A a₀ i=1) (fuel : ℕ) :
+    RationalFeaturePreservation A q.get (rationalGaussianVectorIterates A q fuel).get ∧
+      ((rationalWeightSupport (rationalGaussianVectorIterates A q fuel).get).card ≤ d ∨
+        (rationalWeightSupport (rationalGaussianVectorIterates A q fuel).get).card+fuel ≤
+          (rationalWeightSupport q.get).card) := by
+  induction fuel with
+  | zero =>
+    refine ⟨rational_feature_preservation_refl A q.get hq, Or.inr ?_⟩
+    simp only [rational_gaussian_vector_iterates_zero, Nat.add_zero, le_refl]
+  | succ fuel ih =>
+    obtain ⟨hprev, hcount⟩ := ih
+    have hstep := rational_gaussian_reduce_vector_contract A
+      (rationalGaussianVectorIterates A q fuel) hprev.1 a₀ hmass
+    constructor
+    · rw [rational_gaussian_vector_iterates_succ]
+      exact rational_feature_preservation_trans A q.get
+        (rationalGaussianVectorIterates A q fuel).get
+        (rationalGaussianReduceVector A (rationalGaussianVectorIterates A q fuel)).get
+        hprev hstep.1
+    · by_cases hc : (rationalWeightSupport (rationalGaussianVectorIterates A q fuel).get).card ≤ d
+      · left
+        rw [rational_gaussian_vector_iterates_succ,
+          rational_gaussian_reduce_vector_done A (rationalGaussianVectorIterates A q fuel) hc]
+        exact hc
+      · right
+        have hgt : d < (rationalWeightSupport (rationalGaussianVectorIterates A q fuel).get).card :=
+          Nat.lt_of_not_ge hc
+        have hstrict := hstep.2.2 hgt
+        have hremaining := hcount.resolve_left hc
+        rw [rational_gaussian_vector_iterates_succ]
+        omega
+
+/-- Fully materialized actual Gaussian compressor. Initial positive-support
+cardinality is its sole fuel; no numerical payoff or denominator fuel is used. -/
+def rationalGaussianCompressVector {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) : Gaussian.QVec m :=
+  rationalGaussianVectorIterates A (List.Vector.ofFn q) (rationalWeightSupport q).card
+
+theorem rational_gaussian_compress_vector_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i)
+    (a₀ : Fin d) (hmass : ∀ i, A a₀ i=1) :
+    RationalFeaturePreservation A q (rationalGaussianCompressVector A q).get ∧
+      rationalWeightSupport (rationalGaussianCompressVector A q).get ⊆ rationalWeightSupport q ∧
+      (rationalWeightSupport (rationalGaussianCompressVector A q).get).card ≤
+        min (rationalWeightSupport q).card d := by
+  obtain ⟨hpres, hprogress⟩ := rational_gaussian_vector_iterates_contract A
+    (List.Vector.ofFn q) (by simpa only [Gaussian.vecGet_ofFn] using hq) a₀ hmass
+    (rationalWeightSupport q).card
+  simp only [Gaussian.vecGet_ofFn] at hpres hprogress
+  have hp : RationalFeaturePreservation A q (rationalGaussianCompressVector A q).get := hpres
+  have hs := rational_feature_preservation_support A q (rationalGaussianCompressVector A q).get hp
+  have hc : (rationalWeightSupport (rationalGaussianCompressVector A q).get).card ≤ d := by
+    rcases hprogress with hdone | hcount
+    · exact hdone
+    · change (rationalWeightSupport (rationalGaussianCompressVector A q).get).card+
+        (rationalWeightSupport q).card ≤ (rationalWeightSupport q).card at hcount
+      omega
+  exact ⟨hp, hs, Nat.le_min.mpr ⟨Finset.card_le_card hs, hc⟩⟩
+
+theorem rational_gaussian_compress_iteration_fuel_le {m : ℕ}
+    (q : Fin m → ℚ) :
+    (rationalWeightSupport q).card ≤ m := by
+  exact le_trans (Finset.card_filter_le _ _) (by simp)
+
+def rationalGaussianCompressVectorWithMass {d m : ℕ} (A : Fin d → Fin m → ℚ)
+    (q : Fin m → ℚ) : Gaussian.QVec m :=
+  rationalGaussianCompressVector (rationalFeatureAdjoinMass A) q
+
+theorem rational_gaussian_compress_vector_with_mass_contract {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (q : Fin m → ℚ) (hq : ∀ i, 0 ≤ q i) :
+    RationalFeaturePreservation A q (rationalGaussianCompressVectorWithMass A q).get ∧
+      rationalWeightSupport (rationalGaussianCompressVectorWithMass A q).get ⊆ rationalWeightSupport q ∧
+      (rationalWeightSupport (rationalGaussianCompressVectorWithMass A q).get).card ≤
+        min (rationalWeightSupport q).card (d+1) := by
+  obtain ⟨hp, hs, hc⟩ := rational_gaussian_compress_vector_contract
+    (rationalFeatureAdjoinMass A) q hq 0 (fun _ => rfl)
+  refine ⟨⟨hp.1, hp.2.1, ?_, hp.2.2.2⟩, hs, hc⟩
+  intro a
+  simpa only [rationalGaussianCompressVectorWithMass, rationalFeatureAdjoinMass, Fin.cons_succ] using
+    hp.2.2.1 a.succ
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianPaperFeatures.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. Actual Gaussian compressor at the frozen paper matrix.
+The public output vector materializes all original-label weights. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalGaussianPaperCompress {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) : Gaussian.QVec m :=
+  rationalGaussianCompressVector (rationalPaperFeatures D E v M r η L) q
+
+/-- Coordinate projection of the vector-valued public output, for direct reuse
+of the finite-grid analysis. This adds no FM call to the executed program. -/
+def rationalGaussianPaperWeights {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) : Fin m → ℚ :=
+  (rationalGaussianPaperCompress D E q v M r η L).get
+
+theorem rational_gaussian_paper_compress_contract {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) (hq : ∀ i, 0 ≤ q i) :
+    let q' := rationalGaussianPaperWeights D E q v M r η L
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=∑ i, q i ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ min (rationalWeightSupport q).card (k+d+L+1) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ∀ l : Fin L,
+        rationalCall q' v (M*r-rationalGridNode M r η (l.val+1)) =
+          rationalCall q v (M*r-rationalGridNode M r η (l.val+1)) := by
+  obtain ⟨hp, _, hc⟩ := rational_gaussian_compress_vector_contract
+    (rationalPaperFeatures D E v M r η L) q hq 0 (fun _ => rfl)
+  refine ⟨hp.1, hp.2.1, hp.2.2.2, ?_, ?_, ?_, ?_⟩
+  · simpa only [rationalGaussianPaperWeights, rationalGaussianPaperCompress, Nat.add_assoc] using hc
+  · intro a
+    simpa [rationalGaussianPaperWeights, rationalGaussianPaperCompress, rationalPaperFeatures] using
+      hp.2.2.1 (Fin.castAdd (d+L) a).succ
+  · intro a
+    simpa [rationalGaussianPaperWeights, rationalGaussianPaperCompress, rationalPaperFeatures] using
+      hp.2.2.1 (Fin.natAdd k (Fin.castAdd L a)).succ
+  · intro l
+    simpa [rationalGaussianPaperWeights, rationalGaussianPaperCompress, rationalPaperFeatures, rationalCall] using
+      hp.2.2.1 (Fin.natAdd k (Fin.natAdd d l)).succ
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianPaperCuts.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. These theorems analyze the actual Gaussian vector output. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_gaussian_paper_real_contract {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) (hq : ∀ i, 0 ≤ q i)
+    (hm : ∑ i, q i=r) :
+    let q' := rationalGaussianPaperWeights D E q v M r η L
+    (∀ i, (0 : ℝ) ≤ (q' i : ℝ)) ∧ (∑ i, (q' i : ℝ))=(r : ℝ) ∧
+      (∀ i, (q i : ℝ)=0 → (q' i : ℝ)=0) ∧
+      (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card ≤ k+d+L+1 ∧
+      (∀ a, (∑ i, (q' i : ℝ)*(D i a : ℝ)) = ∑ i, (q i : ℝ)*(D i a : ℝ)) ∧
+      (∀ a, (∑ i, q' i*E a i) = ∑ i, q i*E a i) ∧
+      ∀ l : Fin L,
+        call (fun i => (q' i : ℝ)) (fun i => (v i : ℝ))
+            ((M : ℝ)*(r : ℝ)-gridNode (M : ℝ) (r : ℝ) (η : ℝ) (l.val+1)) =
+          call (fun i => (q i : ℝ)) (fun i => (v i : ℝ))
+            ((M : ℝ)*(r : ℝ)-gridNode (M : ℝ) (r : ℝ) (η : ℝ) (l.val+1)) := by
+  obtain ⟨hn, hs, hz, hc, ha, he, hh⟩ :=
+    rational_gaussian_paper_compress_contract D E q v M r η L hq
+  refine ⟨fun i => by exact_mod_cast hn i, ?_, ?_, ?_, ?_, he, ?_⟩
+  · exact_mod_cast hs.trans hm
+  · intro i hi
+    have hqi : q i=0 := by exact_mod_cast hi
+    exact_mod_cast hz i hqi
+  · have hsupport : (Finset.univ.filter fun i =>
+        ((rationalGaussianPaperWeights D E q v M r η L) i : ℝ) ≠ 0) =
+        rationalWeightSupport (rationalGaussianPaperWeights D E q v M r η L) := by
+      ext i
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, rationalWeightSupport,
+        Rat.cast_ne_zero]
+    rw [hsupport]
+    exact le_trans hc (min_le_right _ _)
+  · intro a
+    exact_mod_cast ha a
+  · intro l
+    have h := congrArg (fun z : ℚ => (z : ℝ)) (hh l)
+    simpa only [rational_call_real, Rat.cast_sub, Rat.cast_mul, rational_grid_node_real] using h
+
+theorem rational_gaussian_paper_compress_cuts {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M r η : ℚ) (H : ℕ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hH : M*r ≤ η*(H : ℚ)^2) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hcuts : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ)) (fun i => (v i : ℝ))) :
+    let q' := rationalGaussianPaperWeights D E q v M r η H
+    Cuts (M : ℝ) (r : ℝ) (fun i => (q' i : ℝ)) (fun i => (v i : ℝ)-(η : ℝ)) := by
+  obtain ⟨hn, hmass, hz, _, _, _, hh⟩ := rational_gaussian_paper_real_contract D E q v M r η H hq hm
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) ≤ (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hHR : (M : ℝ)*(r : ℝ) ≤ (η : ℝ)*(H : ℝ)^2 := by exact_mod_cast hH
+  apply call_bound_implies_cuts _ _ _ _ hMR hn hmass
+  apply finite_grid_implication _ _ _ _ _ H hMR hrR hηR hHR hn
+  · intro i hi
+    exact supported_score_cap _ _ _ _ hMR (fun i => by exact_mod_cast hq i)
+      hcuts i (fun hzero => hi (hz i hzero))
+  · intro l hl hlH
+    let j : Fin H := ⟨l-1, by omega⟩
+    have hj : j.val+1=l := by dsimp [j]; omega
+    have he := hh j
+    rw [hj] at he
+    rw [he]
+    exact cuts_imply_call_bound _ _ _ _ hMR hcuts _
+
+theorem rational_gaussian_paper_exact_compress_cuts {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ) (H : ℕ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hH : M*r ≤ η*(H : ℚ)^2) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hcuts : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ))
+      (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))))
+    (hmean : ∑ i, (q i : ℝ)*score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i=0)
+    (hlow : ∀ i, q i ≠ 0 → -(M : ℝ)*(r : ℝ) ≤
+      score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i) :
+    let q' := rationalGaussianPaperWeights D E q (rationalScore D p) M r η (H-1)
+    (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card ≤ k+d+H ∧
+      Cuts (M : ℝ) (r : ℝ) (fun i => (q' i : ℝ))
+        (fun i => score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-(η : ℝ)) := by
+  obtain ⟨hn, hmass, hz, hc, ha, _, hh⟩ :=
+    rational_gaussian_paper_real_contract D E q (rationalScore D p) M r η (H-1) hq hm
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) < (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hHR : (M : ℝ)*(r : ℝ) ≤ (η : ℝ)*(H : ℝ)^2 := by exact_mod_cast hH
+  have hHpos : 0 < H := by
+    by_contra h
+    have hzero : H=0 := by omega
+    simp only [hzero, Nat.cast_zero, zero_pow (by decide : 2 ≠ 0), mul_zero] at hHR
+    nlinarith [mul_pos hMR hrR]
+  refine ⟨by omega, ?_⟩
+  apply call_bound_implies_cuts _ _ _ _ hMR hn hmass
+  apply finite_grid_implication _ _ _ _ _ H hMR (le_of_lt hrR) hηR hHR hn
+  · intro i hi
+    exact supported_score_cap _ _ _ _ hMR (fun i => by exact_mod_cast hq i)
+      hcuts i (fun hzero => hi (hz i hzero))
+  · intro l hl hlH
+    by_cases hlast : l=H
+    · subst l
+      have hnode : gridNode (M : ℝ) (r : ℝ) (η : ℝ) H=2*(M : ℝ)*(r : ℝ) :=
+        min_eq_right (by nlinarith)
+      rw [hnode]
+      have harg : (M : ℝ)*(r : ℝ)-2*(M : ℝ)*(r : ℝ)=-(M : ℝ)*(r : ℝ) := by ring
+      rw [harg]
+      have hmean' : (∑ i,
+          (rationalGaussianPaperWeights D E q (rationalScore D p) M r η (H-1) i : ℝ)*
+            score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i)=0 :=
+        (linear_score_moment_preserved k _ (fun a => (p a : ℝ))
+          (fun i => (q i : ℝ)) _
+          (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))) (fun _ => rfl) ha).trans hmean
+      rw [bottom_call_of_zero_mean _ _ _ _ hmass hmean' (fun i hi =>
+        hlow i (fun hzero => hi (hz i (by exact_mod_cast hzero))))]
+      have he : envelope (M : ℝ) (r : ℝ) (-(M : ℝ)*(r : ℝ)) = (M : ℝ)*(r : ℝ)^2 := by
+        unfold envelope
+        field_simp
+        ring
+      rw [he]
+    · let j : Fin (H-1) := ⟨l-1, by omega⟩
+      have hj : j.val+1=l := by dsimp [j]; omega
+      have he := hh j
+      simp only [rational_score_real] at he
+      rw [hj] at he
+      rw [he]
+      exact cuts_imply_call_bound _ _ _ _ hMR hcuts _
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianPaperWitness.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. Rational weights are the coordinates of the executed Gaussian vector;
+the Real bounded completion uses the existing proved sufficiency theorem.
+No polynomial runtime or executable completion matrix is claimed here. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalGaussianPaperGeneral {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : Fin m → ℚ :=
+  rationalGaussianPaperWeights D E q (fun i => rationalScore D p i-ρ) M r η
+    (rationalCanonicalGridSize M r η)
+
+def rationalGaussianPaperExact {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r η : ℚ) : Fin m → ℚ :=
+  rationalGaussianPaperWeights D E q (rationalScore D p) M r η
+    (rationalCanonicalGridSize M r η-1)
+
+/-- The supplied original witness justifies all cuts and global guards. The
+returned game uses exactly the rational vector computed from that same input,
+on the original labels, with one eta slack and d preserved extra moments. -/
+theorem rational_gaussian_paper_general_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let q' := rationalGaussianPaperGeneral D E p q M r ρ η
+    ∃ B' : Fin m → Fin m → ℝ,
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew B' ∧ (∀ i j, -(M : ℝ) ≤ B' i j ∧ B' i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  let H := rationalCanonicalGridSize M r η
+  let v : Fin m → ℚ := fun i => rationalScore D p i-ρ
+  let q' := rationalGaussianPaperWeights D E q v M r η H
+  have hr : 0 ≤ r := by rw [←hm]; exact Finset.sum_nonneg (fun i _ => hq i)
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hqR : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := fun i => by exact_mod_cast hq i
+  have hmR : ∑ i, (q i : ℝ)=(r : ℝ) := by exact_mod_cast hm
+  have hres := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).2
+  have hcuts := completion_cuts_necessary _ _ B _ _ _ hqR hmR hB
+    (fun i j => (hb i j).1) hres
+  have hv : ∀ i, (v i : ℝ)=score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-(ρ : ℝ) := by
+    intro i
+    simp only [v, Rat.cast_sub, rational_score_real]
+  have hcutsV : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ)) (fun i => (v i : ℝ)) := by
+    simpa only [hv] using hcuts
+  obtain ⟨hn, hmass, hz, hc, ha, he, _⟩ :=
+    rational_gaussian_paper_compress_contract D E q v M r η H hq
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hm'R : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass.trans hm
+  have hc' := rational_gaussian_paper_compress_cuts D E q v M r η H hM hr hη
+    (rational_canonical_grid_size_bound M r η hη) hq hm hcutsV
+  have hshift : (fun i => (v i : ℝ)-(η : ℝ)) =
+      (fun i => score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-((ρ : ℝ)+(η : ℝ))) := by
+    funext i
+    rw [hv]
+    ring
+  rw [hshift] at hc'
+  have hguard : ∀ i, score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i ≤
+      (ρ : ℝ)+(η : ℝ)+(M : ℝ)*(r : ℝ) := by
+    intro i
+    have hg := response_guard _ _ B _ _ _ hqR hmR (fun i j => (hb i j).1) hres i
+    linarith
+  obtain ⟨B', hsk, hbound, hresp⟩ := completion_of_cuts_and_guards
+    (fun i => (q' i : ℝ)) (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)))
+    (M : ℝ) (r : ℝ) ((ρ : ℝ)+(η : ℝ)) (le_of_lt hMR) hq'R hm'R hc' hguard
+  refine ⟨B', hn, hmass.trans hm, hz, ?_, ha, he, hsk, hbound, ?_⟩
+  · have hcanonical := rational_canonical_grid_size_real M r η (le_of_lt hM) hr hη
+    simpa only [rationalGaussianPaperGeneral, H, v, hcanonical, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using hc
+  · apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+    refine ⟨?_, hresp⟩
+    have hanchor := anchor_response_of_moments k K (fun i a => (D i a : ℝ))
+      (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) (fun i => (q' i : ℝ))
+      (fun a => by exact_mod_cast ha a)
+    intro a
+    change anchorResponse K (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))
+      (fun i => (q' i : ℝ)) a ≤ _
+    rw [hanchor]
+    have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).1 a
+    linarith
+
+/-- Exact-equilibrium specialization earns the endpoint identity from the
+original game. No bottom-hinge premise is passed to the compressor or wrapper. -/
+theorem rational_gaussian_paper_exact_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let q' := rationalGaussianPaperExact D E p q M r η
+    ∃ B' : Fin m → Fin m → ℝ,
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew B' ∧ (∀ i j, -(M : ℝ) ≤ B' i j ∧ B' i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  let H := rationalCanonicalGridSize M r η
+  let q' := rationalGaussianPaperWeights D E q (rationalScore D p) M r η (H-1)
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) < (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hpR : ∀ a, (0 : ℝ) ≤ (p a : ℝ) := fun a => by exact_mod_cast hp a
+  have hqR : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := fun i => by exact_mod_cast hq i
+  have hmR : ∑ i, (q i : ℝ)=(r : ℝ) := by exact_mod_cast hm
+  have hres := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).2
+  have hcuts0 := completion_cuts_necessary _ _ B _ _ _ hqR hmR hB
+    (fun i j => (hb i j).1) hres
+  have hcuts : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ))
+      (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))) := by
+    simpa only [sub_zero] using hcuts0
+  have hmean := exact_score_mean_zero K (fun i a => (D i a : ℝ)) B
+    (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) hpR hqR hK hB hrows
+  have hlow : ∀ i, q i ≠ 0 → -(M : ℝ)*(r : ℝ) ≤
+      score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i := by
+    intro i hi
+    have hiR : (q i : ℝ) ≠ 0 := by exact_mod_cast hi
+    simpa only [neg_mul] using (abs_le.mp (exact_score_bounds K
+      (fun i a => (D i a : ℝ)) B (fun a => (p a : ℝ)) (fun i => (q i : ℝ))
+      (M : ℝ) (r : ℝ) hpR hqR hmR hK hB hb hrows i hiR)).1
+  have hH := rational_canonical_grid_size_bound M r η hη
+  have hHpos : 0 < H := by
+    by_contra h
+    have hzero : H=0 := by omega
+    change M*r ≤ η*(H : ℚ)^2 at hH
+    simp only [hzero, Nat.cast_zero, zero_pow (by decide : 2 ≠ 0), mul_zero] at hH
+    nlinarith [mul_pos hM hr]
+  obtain ⟨hn, hmass, hz, hc, ha, he, _⟩ :=
+    rational_gaussian_paper_compress_contract D E q (rationalScore D p) M r η (H-1) hq
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hm'R : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass.trans hm
+  have hc' := (rational_gaussian_paper_exact_compress_cuts D E p q M r η H hM hr hη
+    hH hq hm hcuts hmean hlow).2
+  have hguard : ∀ i, score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i ≤
+      (η : ℝ)+(M : ℝ)*(r : ℝ) := by
+    intro i
+    have hg := response_guard _ _ B _ _ _ hqR hmR (fun i j => (hb i j).1) hres i
+    linarith
+  obtain ⟨B', hsk, hbound, hresp⟩ := completion_of_cuts_and_guards
+    (fun i => (q' i : ℝ)) (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)))
+    (M : ℝ) (r : ℝ) (η : ℝ) (le_of_lt hMR) hq'R hm'R hc' hguard
+  refine ⟨B', hn, hmass.trans hm, hz, ?_, ha, he, hsk, hbound, ?_⟩
+  · have hcanonical := rational_canonical_grid_size_real M r η (le_of_lt hM) (le_of_lt hr) hη
+    have hdim : k+d+(H-1)+1=k+d+H := by omega
+    rw [hdim] at hc
+    simpa only [rationalGaussianPaperExact, H, hcanonical] using hc
+  · apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+    refine ⟨?_, hresp⟩
+    have hanchor := anchor_response_of_moments k K (fun i a => (D i a : ℝ))
+      (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) (fun i => (q' i : ℝ))
+      (fun a => by exact_mod_cast ha a)
+    intro a
+    change anchorResponse K (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))
+      (fun i => (q' i : ℝ)) a ≤ _
+    rw [hanchor]
+    have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).1 a
+    linarith
+
+/-- Zero residual mass is handled independently of the positive-mass endpoint
+argument: every executed output is identically zero, for any number of hinges. -/
+theorem rational_gaussian_paper_compress_zero_mass {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M η : ℚ) (L : ℕ)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0) :
+    rationalGaussianPaperWeights D E q v M 0 η L = q ∧
+      q=(fun _ => 0) ∧
+      (rationalWeightSupport (rationalGaussianPaperWeights D E q v M 0 η L)).card=0 := by
+  have hmR : ∑ i, (q i : ℝ)=0 := by exact_mod_cast hm
+  have hzeroR := nonnegative_mass_zero (fun i => (q i : ℝ))
+    (fun i => by exact_mod_cast hq i) hmR
+  have hzero : q=fun _ => 0 := by
+    funext i
+    exact_mod_cast congrFun hzeroR i
+  obtain ⟨_, _, hz, _, _, _, _⟩ :=
+    rational_gaussian_paper_compress_contract D E q v M 0 η L hq
+  have hout : rationalGaussianPaperWeights D E q v M 0 η L=q := by
+    funext i
+    have hqi : q i=0 := congrFun hzero i
+    rw [hz i hqi, hqi]
+  refine ⟨hout, hzero, ?_⟩
+  rw [hout, hzero]
+  simp [rationalWeightSupport]
+
+
+/-- In the zero-residual-mass branch the same exact program retains the
+original zero vector, so the supplied bounded completion itself is a witness. -/
+theorem rational_gaussian_paper_exact_zero_mass_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let q' := rationalGaussianPaperExact D E p q M 0 η
+    q'=q ∧ (rationalWeightSupport q').card=0 ∧
+      ∃ B' : Fin m → Fin m → ℝ,
+        IsSkew B' ∧ (∀ i j, -(M : ℝ) ≤ B' i j ∧ B' i j ≤ (M : ℝ)) ∧
+        ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+          (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  obtain ⟨hout, _, hc⟩ := rational_gaussian_paper_compress_zero_mass D E q (rationalScore D p)
+    M η (rationalCanonicalGridSize M 0 η-1) hq hm
+  refine ⟨hout, hc, B, hB, hb, ?_⟩
+  change ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+    (blockWeights (fun a => (p a : ℝ))
+      (fun i => (rationalGaussianPaperWeights D E q (rationalScore D p) M 0 η
+        (rationalCanonicalGridSize M 0 η-1) i : ℝ))) a ≤ (η : ℝ)
+  rw [hout]
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  exact fun a => le_trans (hrows a) (le_of_lt hηR)
+
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianPaperFlow.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. Actual materialized Gaussian qprime and graph-bounded
+demand-network Bprime. No total runtime or coefficient-height theorem. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalGaussianPaperGeneralVector {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : Gaussian.QVec m :=
+  rationalGaussianPaperCompress D E q (fun i => rationalScore D p i-ρ) M r η
+    (rationalCanonicalGridSize M r η)
+
+def rationalGaussianPaperExactVector {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r η : ℚ) : Gaussian.QVec m :=
+  rationalGaussianPaperCompress D E q (rationalScore D p) M r η
+    (rationalCanonicalGridSize M r η-1)
+
+def rationalGaussianPaperGeneralFlow {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : Gaussian.QVec m × RationalFlowTable m :=
+  let q' := rationalGaussianPaperGeneralVector D E p q M r ρ η
+  (q', rationalDemandGraphCompletionTable q'.get (rationalScore D p) M (ρ+η))
+
+def rationalGaussianPaperExactFlow {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r η : ℚ) : Gaussian.QVec m × RationalFlowTable m :=
+  let q' := rationalGaussianPaperExactVector D E p q M r η
+  (q', rationalDemandGraphCompletionTable q'.get (rationalScore D p) M η)
+
+/-- Literal normalized compatible-game obligations for the returned data.
+This is a proposition about the executed pair, not a field accepted by it. -/
+def RationalGaussianPaperGame {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (out : Gaussian.QVec m × RationalFlowTable m) (M ε : ℚ) : Prop :=
+  let q := out.1.get
+  let B := rationalFlowTableEntry out.2
+  (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a) ∧
+    (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) a)=1 ∧
+    (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+    IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ))) ∧
+    (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B i j : ℝ)) a b ∧
+      blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B i j : ℝ)) a b ≤ (M : ℝ)) ∧
+    ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ε : ℝ)
+
+theorem rational_gaussian_pair_game {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (D : Fin m → Fin k → ℚ) (p : Fin k → ℚ)
+    (out : Gaussian.QVec m × RationalFlowTable m) (M r ε : ℚ)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ out.1.get i) (hm : ∑ i, out.1.get i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hB : ResidualRatConditions out.1.get (rationalScore D p) M ε (rationalFlowTableEntry out.2))
+    (ha : ∀ a, anchorResponse (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+      (fun a => (p a : ℝ)) (fun i => (out.1.get i : ℝ)) a ≤ (ε : ℝ)) :
+    RationalGaussianPaperGame K D p out M ε := by
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  have hreal := (residual_rat_real_iff _ _ _ _ _).mp hB
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a)
+    (fun i => by exact_mod_cast hq i), ?_, fun _ => rfl,
+    blockMatrix_skew _ _ _ hKR hreal.1,
+    blockMatrix_bounds _ _ _ _ hKbR hDbR hreal.2.1, ?_⟩
+  · rw [blockWeights_mass]
+    have hmR : ∑ i, (out.1.get i : ℝ)=(r : ℝ) := by exact_mod_cast hm
+    rw [hmR]
+    exact_mod_cast hnorm
+  · apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+    refine ⟨ha, ?_⟩
+    intro i
+    have hi := hreal.2.2 i
+    simpa only [response, ←rational_score_real] using hi
+
+/-- Actual Gaussian-vector/graph-table output on the original rational game;
+canonical sharp support, all original labels/moments, and one additive eta. -/
+theorem rational_gaussian_paper_general_algorithm {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let out := rationalGaussianPaperGeneralFlow D E p q M r ρ η
+    let q' := out.1.get
+    let B' := rationalFlowTableEntry out.2
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ min (rationalWeightSupport q).card (k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ResidualRatConditions q' (rationalScore D p) M (ρ+η) B' ∧
+      RationalGaussianPaperGame K D p out M (ρ+η) := by
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨Bc, hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_gaussian_paper_general_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M r ρ η hM hη hq hm hBR hBbR hrows
+  let qv := rationalGaussianPaperGeneralVector D E p q M r ρ η
+  have hreal : ResidualRealConditions qv.get (rationalScore D p) M (ρ+η) Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real, Rat.cast_add, qv, rationalGaussianPaperGeneralVector, rationalGaussianPaperGeneral, rationalGaussianPaperWeights] using hi
+  have hrat := rational_paper_graph_demand_reconstruction qv.get (rationalScore D p)
+    M r (ρ+η) (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  refine ⟨hn, hmass, hz, hc, ha, he, hrat, ?_⟩
+  apply rational_gaussian_pair_game K D p (rationalGaussianPaperGeneralFlow D E p q M r ρ η)
+    M r (ρ+η) hp hn hmass hnorm hK hKb hDb hrat
+  intro a
+  have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  simpa only [Rat.cast_add, rationalGaussianPaperGeneralFlow, rationalGaussianPaperGeneralVector,
+    rationalGaussianPaperGeneral, rationalGaussianPaperWeights] using hh
+
+
+/-- Actual Gaussian-vector/graph-table output on the original rational game;
+canonical sharp support, all original labels/moments, and one additive eta. -/
+theorem rational_gaussian_paper_exact_algorithm {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalGaussianPaperExactFlow D E p q M r η
+    let q' := out.1.get
+    let B' := rationalFlowTableEntry out.2
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ min (rationalWeightSupport q).card (k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ResidualRatConditions q' (rationalScore D p) M η B' ∧
+      RationalGaussianPaperGame K D p out M η := by
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨Bc, hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_gaussian_paper_exact_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M r η hM hr hη hp hq hm hKR hBR hBbR hrows
+  let qv := rationalGaussianPaperExactVector D E p q M r η
+  have hreal : ResidualRealConditions qv.get (rationalScore D p) M η Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real, qv, rationalGaussianPaperExactVector, rationalGaussianPaperExact, rationalGaussianPaperWeights] using hi
+  have hrat := rational_paper_graph_demand_reconstruction qv.get (rationalScore D p)
+    M r η (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  refine ⟨hn, hmass, hz, hc, ha, he, hrat, ?_⟩
+  apply rational_gaussian_pair_game K D p (rationalGaussianPaperExactFlow D E p q M r η)
+    M r η hp hn hmass hnorm hK hKb hDb hrat
+  intro a
+  have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  simpa only [rationalGaussianPaperExactFlow, rationalGaussianPaperExactVector,
+    rationalGaussianPaperExact, rationalGaussianPaperWeights] using hh
+
+/-- Zero residual mass returns the original zero vector and runs the actual
+Gaussian-vector/graph-table program, retaining every original row guard. -/
+theorem rational_gaussian_paper_zero_algorithm {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hnorm : (∑ a, p a)+0=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalGaussianPaperExactFlow D E p q M 0 η
+    out.1.get=q ∧ (rationalWeightSupport out.1.get).card=0 ∧
+      ResidualRatConditions out.1.get (rationalScore D p) M η (rationalFlowTableEntry out.2) ∧
+      RationalGaussianPaperGame K D p out M η := by
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨hout, hc, Bc, hsk, hbound, hresp⟩ :=
+    rational_gaussian_paper_exact_zero_mass_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M η hη hq hm hBR hBbR hrows
+  let qv := rationalGaussianPaperExactVector D E p q M 0 η
+  have hqv : qv.get=q := hout
+  have hn : ∀ i, 0 ≤ qv.get i := by rw [hqv]; exact hq
+  have hmass : ∑ i, qv.get i=0 := by rw [hqv]; exact hm
+  have hreal : ResidualRealConditions qv.get (rationalScore D p) M η Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real, qv, rationalGaussianPaperExactVector,
+      rationalGaussianPaperExact, rationalGaussianPaperWeights] using hi
+  have hrat := rational_paper_graph_demand_reconstruction qv.get (rationalScore D p)
+    M 0 η (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  refine ⟨hqv, hc, hrat, ?_⟩
+  apply rational_gaussian_pair_game K D p (rationalGaussianPaperExactFlow D E p q M 0 η)
+    M 0 η hp hn hmass hnorm hK hKb hDb hrat
+  intro a
+  have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  simpa only [rationalGaussianPaperExactFlow, rationalGaussianPaperExactVector,
+    rationalGaussianPaperExact, rationalGaussianPaperWeights] using hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalCoveredGaussian.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source-only draft. Supplied-cover execution on original rational Fin n labels.
+The computed index table, Gaussian vector/graph-flow pair, and final original
+weight/matrix tables are bound as data. No cost or sort-sharing theorem. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalCoverCore {n k m : ℕ} (table : CoverIndexTable n k m)
+    (A : Fin n → Fin n → ℚ) : Fin k → Fin k → ℚ :=
+  fun a b => A (coverTableDecode table (.inl a)) (coverTableDecode table (.inl b))
+
+def rationalCoverCross {n k m : ℕ} (table : CoverIndexTable n k m)
+    (A : Fin n → Fin n → ℚ) : Fin m → Fin k → ℚ :=
+  fun i a => A (coverTableDecode table (.inr i)) (coverTableDecode table (.inl a))
+
+def rationalCoverResidual {n k m : ℕ} (table : CoverIndexTable n k m)
+    (A : Fin n → Fin n → ℚ) : Fin m → Fin m → ℚ :=
+  fun i j => A (coverTableDecode table (.inr i)) (coverTableDecode table (.inr j))
+
+def rationalCoverAnchors {n k m : ℕ} (table : CoverIndexTable n k m)
+    (x : Fin n → ℚ) : Fin k → ℚ := fun a => x (coverTableDecode table (.inl a))
+
+def rationalCoverWeights {n k m : ℕ} (table : CoverIndexTable n k m)
+    (x : Fin n → ℚ) : Fin m → ℚ := fun i => x (coverTableDecode table (.inr i))
+
+def rationalCoverExtras {n k m d : ℕ} (table : CoverIndexTable n k m)
+    (E : Fin d → Fin n → ℚ) : Fin d → Fin m → ℚ :=
+  fun g i => E g (coverTableDecode table (.inr i))
+
+def rationalCoverBlock {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (D : Fin m → Fin k → ℚ) (B : Fin m → Fin m → ℚ) :
+    (Fin k ⊕ Fin m) → (Fin k ⊕ Fin m) → ℚ
+  | .inl a, .inl b => K a b
+  | .inl a, .inr j => -D j a
+  | .inr i, .inl a => D i a
+  | .inr i, .inr j => B i j
+
+def rationalCoverAssemble {n k m : ℕ} (table : CoverIndexTable n k m)
+    (A : Fin n → Fin n → ℚ) (x : Fin n → ℚ)
+    (pair : Gaussian.QVec m × RationalFlowTable m) : Gaussian.QVec n × Gaussian.QTable n n :=
+  let p := rationalCoverAnchors table x
+  let K := rationalCoverCore table A
+  let D := rationalCoverCross table A
+  let B := rationalFlowTableEntry pair.2
+  let code := coverTableEncode table
+  (List.Vector.ofFn (fun v => Sum.elim p pair.1.get (code v)),
+    Gaussian.tableOfFn (fun u v => rationalCoverBlock K D B (code u) (code v)))
+
+def rationalCoveredGaussianGeneral {n d : ℕ} (C : Finset (Fin n))
+    (A : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (M ρ η : ℚ) : Gaussian.QVec n × Gaussian.QTable n n :=
+  let table := coverIndexTable C
+  let D := rationalCoverCross table A
+  let p := rationalCoverAnchors table x
+  let q := rationalCoverWeights table x
+  let E' := rationalCoverExtras table E
+  let r := ∑ i, q i
+  let pair := rationalGaussianPaperGeneralFlow D E' p q M r ρ η
+  rationalCoverAssemble table A x pair
+
+/-- One actual exact program covers positive and zero residual mass. The
+existing exact-zero theorem proves the H-1 branch sound at zero mass. -/
+def rationalCoveredGaussianExact {n d : ℕ} (C : Finset (Fin n))
+    (A : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (M η : ℚ) : Gaussian.QVec n × Gaussian.QTable n n :=
+  let table := coverIndexTable C
+  let D := rationalCoverCross table A
+  let p := rationalCoverAnchors table x
+  let q := rationalCoverWeights table x
+  let E' := rationalCoverExtras table E
+  let r := ∑ i, q i
+  let pair := rationalGaussianPaperExactFlow D E' p q M r η
+  rationalCoverAssemble table A x pair
+
+theorem rational_cover_block_real {k m : ℕ} (K : Fin k → Fin k → ℚ)
+    (D : Fin m → Fin k → ℚ) (B : Fin m → Fin m → ℚ)
+    (a b : Fin k ⊕ Fin m) :
+    (rationalCoverBlock K D B a b : ℝ)=blockMatrix
+      (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)) a b := by
+  cases a <;> cases b <;> simp only [rationalCoverBlock, blockMatrix, Rat.cast_neg]
+
+theorem rational_cover_assemble_weights {n k m : ℕ} (table : CoverIndexTable n k m)
+    (A : Fin n → Fin n → ℚ) (x : Fin n → ℚ)
+    (pair : Gaussian.QVec m × RationalFlowTable m) (v : Fin n) :
+    (rationalCoverAssemble table A x pair).1.get v=
+      Sum.elim (rationalCoverAnchors table x) pair.1.get (coverTableEncode table v) := by
+  simp only [rationalCoverAssemble, List.Vector.get_ofFn]
+
+theorem rational_cover_assemble_matrix {n k m : ℕ} (table : CoverIndexTable n k m)
+    (A : Fin n → Fin n → ℚ) (x : Fin n → ℚ)
+    (pair : Gaussian.QVec m × RationalFlowTable m) (u v : Fin n) :
+    Gaussian.entry (rationalCoverAssemble table A x pair).2 u v=
+      rationalCoverBlock (rationalCoverCore table A) (rationalCoverCross table A)
+        (rationalFlowTableEntry pair.2) (coverTableEncode table u) (coverTableEncode table v) := by
+  simp only [rationalCoverAssemble, Gaussian.entry_tableOfFn]
+
+end SparseCompletion
+
+/- Fixed source body: RationalCoveredGaussianWitness.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Source-only draft. Literal original-label contracts for the actually computed
+supplied-cover Gaussian/graph-demand program. No runtime or height claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def RationalCoveredGaussianWitness {n d : ℕ} (C : Finset (Fin n))
+    (A lo hi : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (out : Gaussian.QVec n × Gaussian.QTable n n) (M ε : ℚ) (L : ℕ) : Prop :=
+  let x' := fun v => (out.1.get v : ℝ)
+  let A' := fun u v => (Gaussian.entry out.2 u v : ℝ)
+  let x₀ := fun v => (x v : ℝ)
+  let A₀ := fun u v => (A u v : ℝ)
+  (∀ v, 0 ≤ x' v) ∧ (∑ v, x' v)=1 ∧ IsSkew A' ∧
+    (∀ u v, -(M : ℝ) ≤ A' u v ∧ A' u v ≤ (M : ℝ)) ∧
+    offDiagonalIntervals (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) A' ∧
+    (∀ v, response A' x' v ≤ (ε : ℝ)) ∧
+    (∀ v, v ∈ C → x' v=x₀ v) ∧ (∀ v, v ∉ C → x₀ v=0 → x' v=0) ∧
+    (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} => x' v.val ≠ 0).card ≤
+      min (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} => x₀ v.val ≠ 0).card L ∧
+    (Finset.univ.filter fun v => x' v ≠ 0).card ≤ min n (C.card+L) ∧
+    (∀ u v, u ∈ C ∨ v ∈ C → A' u v=A₀ u v) ∧
+    (∀ v, v ∈ C → response A' x' v=response A₀ x₀ v) ∧
+    (∀ g, (∑ v : {v : Fin n // v ∈ Cᶜ}, x' v.val*(E g v.val : ℝ))=
+      ∑ v : {v : Fin n // v ∈ Cᶜ}, x₀ v.val*(E g v.val : ℝ)) ∧
+    (∑ v : {v : Fin n // v ∈ Cᶜ}, x' v.val)=
+      ∑ v : {v : Fin n // v ∈ Cᶜ}, x₀ v.val
+
+theorem rational_cover_cast_support {m : ℕ} (q : Fin m → ℚ) :
+    (Finset.univ.filter fun i => (q i : ℝ) ≠ 0).card=(rationalWeightSupport q).card := by
+  classical
+  have heq : (Finset.univ.filter fun i => (q i : ℝ) ≠ 0)=rationalWeightSupport q := by
+    ext i
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, rationalWeightSupport]
+    constructor <;> intro h hz <;> apply h <;> exact_mod_cast hz
+  exact congrArg Finset.card heq
+
+theorem rational_cover_split_weights {n : ℕ} (C : Finset (Fin n)) (x : Fin n → ℚ) :
+    coverEncodeWeights C (fun v => (x v : ℝ))=
+      blockWeights (fun a => (rationalCoverAnchors (coverIndexTable C) x a : ℝ))
+        (fun i => (rationalCoverWeights (coverIndexTable C) x i : ℝ)) := by
+  funext a
+  cases a <;> simp only [coverEncodeWeights, blockWeights, Sum.elim_inl, Sum.elim_inr,
+    rationalCoverAnchors, rationalCoverWeights, cover_table_decode]
+
+theorem rational_cover_split_matrix {n : ℕ} (C : Finset (Fin n))
+    (A : Fin n → Fin n → ℚ) (hA : ∀ u v, A u v= -A v u) :
+    coverEncodeMatrix C (fun u v => (A u v : ℝ))=
+      blockMatrix (fun a b => (rationalCoverCore (coverIndexTable C) A a b : ℝ))
+        (fun i a => (rationalCoverCross (coverIndexTable C) A i a : ℝ))
+        (fun i j => (rationalCoverResidual (coverIndexTable C) A i j : ℝ)) := by
+  funext a b
+  cases a with
+  | inl a =>
+    cases b with
+    | inl b => simp only [coverEncodeMatrix, blockMatrix, rationalCoverCore, cover_table_decode]
+    | inr j =>
+      simp only [coverEncodeMatrix, blockMatrix, rationalCoverCross, cover_table_decode]
+      exact_mod_cast hA (coverDecode C (.inl a)) (coverDecode C (.inr j))
+  | inr i =>
+    cases b <;> simp only [coverEncodeMatrix, blockMatrix,
+      rationalCoverCross, rationalCoverResidual, cover_table_decode]
+
+theorem rational_cover_input_mass {n : ℕ} (C : Finset (Fin n)) (x : Fin n → ℚ)
+    (hm : ∑ v, x v=1) :
+    (∑ a, rationalCoverAnchors (coverIndexTable C) x a)+
+      (∑ i, rationalCoverWeights (coverIndexTable C) x i)=1 := by
+  have h := (Equiv.sum_comp (coverExecutableEquiv C) x).trans hm
+  change (∑ a : Fin C.card ⊕ Fin Cᶜ.card, x (coverDecode C a))=1 at h
+  simpa only [Fintype.sum_sum_type, rationalCoverAnchors,
+    rationalCoverWeights, cover_table_decode] using h
+
+theorem rational_cover_residual_mass {n : ℕ} (C : Finset (Fin n)) (x : Fin n → ℚ) :
+    (∑ i, rationalCoverWeights (coverIndexTable C) x i)=
+      ∑ v : {v : Fin n // v ∈ Cᶜ}, x v.val := by
+  simpa only [rationalCoverWeights, cover_table_decode, coverDecode, Sum.elim_inr] using
+    Equiv.sum_comp (coverResidualIndex C) (fun v => x v.val)
+
+theorem rational_cover_input_rows {n : ℕ} (C : Finset (Fin n))
+    (A : Fin n → Fin n → ℚ) (x : Fin n → ℚ) (ρ : ℚ)
+    (hA : ∀ u v, A u v= -A v u)
+    (hrows : ∀ v, response (fun u v => (A u v : ℝ)) (fun v => (x v : ℝ)) v ≤ (ρ : ℝ)) :
+    ∀ a, response
+      (blockMatrix (fun a b => (rationalCoverCore (coverIndexTable C) A a b : ℝ))
+        (fun i a => (rationalCoverCross (coverIndexTable C) A i a : ℝ))
+        (fun i j => (rationalCoverResidual (coverIndexTable C) A i j : ℝ)))
+      (blockWeights (fun a => (rationalCoverAnchors (coverIndexTable C) x a : ℝ))
+        (fun i => (rationalCoverWeights (coverIndexTable C) x i : ℝ))) a ≤ (ρ : ℝ) := by
+  intro a
+  rw [← rational_cover_split_matrix C A hA, ← rational_cover_split_weights C x]
+  have h := relabel_response (coverExecutableEquiv C).symm
+    (fun u v => (A u v : ℝ)) (fun v => (x v : ℝ)) a
+  exact h.trans_le (hrows _)
+
+theorem rational_cover_assemble_real {n : ℕ} (C : Finset (Fin n))
+    (A : Fin n → Fin n → ℚ) (x : Fin n → ℚ)
+    (pair : Gaussian.QVec Cᶜ.card × RationalFlowTable Cᶜ.card) :
+    (fun v => ((rationalCoverAssemble (coverIndexTable C) A x pair).1.get v : ℝ))=
+      coverDecodeWeights C (blockWeights
+        (fun a => (rationalCoverAnchors (coverIndexTable C) x a : ℝ))
+        (fun i => (pair.1.get i : ℝ))) ∧
+    (fun u v => (Gaussian.entry (rationalCoverAssemble (coverIndexTable C) A x pair).2 u v : ℝ))=
+      coverDecodeMatrix C (blockMatrix
+        (fun a b => (rationalCoverCore (coverIndexTable C) A a b : ℝ))
+        (fun i a => (rationalCoverCross (coverIndexTable C) A i a : ℝ))
+        (fun i j => (rationalFlowTableEntry pair.2 i j : ℝ))) := by
+  constructor
+  · funext v
+    rw [rational_cover_assemble_weights, cover_table_encode]
+    cases h : coverEncode C v <;>
+      simp only [coverDecodeWeights, blockWeights, h, Sum.elim_inl, Sum.elim_inr]
+  · funext u v
+    rw [rational_cover_assemble_matrix, cover_table_encode, cover_table_encode,
+      rational_cover_block_real]
+    rfl
+
+theorem rational_cover_assemble_unchanged_weights {n : ℕ} (C : Finset (Fin n))
+    (A : Fin n → Fin n → ℚ) (x : Fin n → ℚ)
+    (pair : Gaussian.QVec Cᶜ.card × RationalFlowTable Cᶜ.card)
+    (heq : pair.1.get=rationalCoverWeights (coverIndexTable C) x) :
+    (rationalCoverAssemble (coverIndexTable C) A x pair).1.get=x := by
+  have hw := (rational_cover_assemble_real C A x pair).1
+  have hcast : (fun v => ((rationalCoverAssemble (coverIndexTable C) A x pair).1.get v : ℝ))=
+      fun v => (x v : ℝ) := by
+    rw [hw, heq, ← rational_cover_split_weights C x, cover_weights_roundtrip]
+  funext v
+  exact_mod_cast congrFun hcast v
+
+/-- Proof adapter for the actual Gaussian pair contract. The final algorithms
+below earn these hypotheses by invoking the existing executable solver theorem;
+the algorithms accept only C,A,E,x,M,rho,eta and no desired witness. -/
+theorem rational_cover_pair_transport {n d : ℕ} (C : Finset (Fin n))
+    (A lo hi : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (M ε : ℚ) (L : ℕ)
+    (pair : Gaussian.QVec Cᶜ.card × RationalFlowTable Cᶜ.card)
+    (hA : ∀ u v, A u v= -A v u)
+    (hI : offDiagonalIntervals (fun u v => (lo u v : ℝ))
+      (fun u v => (hi u v : ℝ)) (fun u v => (A u v : ℝ)))
+    (hcover : intervalVertexCover (C : Set (Fin n))
+      (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) (M : ℝ))
+    (hm : ∑ i, pair.1.get i=∑ i, rationalCoverWeights (coverIndexTable C) x i)
+    (hz : ∀ i, rationalCoverWeights (coverIndexTable C) x i=0 → pair.1.get i=0)
+    (hc : (rationalWeightSupport pair.1.get).card ≤
+      min (rationalWeightSupport (rationalCoverWeights (coverIndexTable C) x)).card L)
+    (hD : ∀ a, (∑ i, pair.1.get i*rationalCoverCross (coverIndexTable C) A i a)=
+      ∑ i, rationalCoverWeights (coverIndexTable C) x i*rationalCoverCross (coverIndexTable C) A i a)
+    (hE : ∀ g, (∑ i, pair.1.get i*rationalCoverExtras (coverIndexTable C) E g i)=
+      ∑ i, rationalCoverWeights (coverIndexTable C) x i*rationalCoverExtras (coverIndexTable C) E g i)
+    (hg : RationalGaussianPaperGame (rationalCoverCore (coverIndexTable C) A)
+      (rationalCoverCross (coverIndexTable C) A) (rationalCoverAnchors (coverIndexTable C) x)
+      pair M ε) :
+    RationalCoveredGaussianWitness C A lo hi E x
+      (rationalCoverAssemble (coverIndexTable C) A x pair) M ε L := by
+  classical
+  let table := coverIndexTable C
+  let p := rationalCoverAnchors table x
+  let q := rationalCoverWeights table x
+  let K := rationalCoverCore table A
+  let D := rationalCoverCross table A
+  let B := rationalCoverResidual table A
+  let B' := rationalFlowTableEntry pair.2
+  let y := blockWeights (fun a => (p a : ℝ)) (fun i => (pair.1.get i : ℝ))
+  let G := blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+    (fun i j => (B' i j : ℝ))
+  let y₀ := blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))
+  let G₀ := blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+    (fun i j => (B i j : ℝ))
+  let xR := fun v => (x v : ℝ)
+  let AR := fun u v => (A u v : ℝ)
+  have hysplit : coverEncodeWeights C xR=y₀ := rational_cover_split_weights C x
+  have hGsplit : coverEncodeMatrix C AR=G₀ := rational_cover_split_matrix C A hA
+  obtain ⟨hyn, hym, hya, hGsk, hGb, hGrows⟩ := hg
+  have hfree := cover_executable_free_residual C
+    (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) (M : ℝ) hcover
+  have hI₀ : offDiagonalIntervals (coverEncodeMatrix C (fun u v => (lo u v : ℝ)))
+      (coverEncodeMatrix C (fun u v => (hi u v : ℝ))) G₀ := by
+    rw [← hGsplit]
+    exact (relabel_intervals (coverExecutableEquiv C).symm _ _ _).mpr hI
+  have hI' := cover_intervals_preserved
+    (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+    (fun i j => (B i j : ℝ)) (fun i j => (B' i j : ℝ)) _ _ (M : ℝ)
+    hfree hI₀ (fun i j => hGb (.inr i) (.inr j))
+  have hzR : ∀ i, xR (coverDecode C (.inr i))=0 → y (.inr i)=0 := by
+    intro i hi
+    have hiQ : q i=0 := by
+      have : (q i : ℝ)=0 := by
+        simpa only [q, table, rationalCoverWeights, cover_table_decode, xR] using hi
+      exact_mod_cast this
+    change (pair.1.get i : ℝ)=0
+    exact_mod_cast hz i hiQ
+  have hcs : (Finset.univ.filter fun i : Fin Cᶜ.card => y (.inr i) ≠ 0).card ≤
+      min (rationalWeightSupport q).card L := by
+    simpa only [y, blockWeights, Sum.elim_inr, rational_cover_cast_support] using hc
+  have hts : (Finset.univ.filter fun a => y a ≠ 0).card ≤ min n (C.card+L) := by
+    apply le_min
+    · have hcard : (Finset.univ : Finset (Fin C.card ⊕ Fin Cᶜ.card)).card=n := by
+        simpa only [Finset.card_univ, Fintype.card_sum, Fintype.card_fin] using cover_partition_card C
+      exact (Finset.card_filter_le _ _).trans (le_of_eq hcard)
+    · rw [block_support_card]
+      have hp : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ C.card :=
+        (Finset.card_filter_le _ _).trans (by simp)
+      have hqL := hcs.trans (min_le_right _ _)
+      exact Nat.add_le_add hp hqL
+  have hentries : ∀ a b, ((∃ h, a=Sum.inl h) ∨ ∃ h, b=Sum.inl h) →
+      G a b=coverEncodeMatrix C AR a b := by
+    intro a b hab
+    rw [hGsplit]
+    exact anchor_incident_entries_preserved _ _ _ _ a b hab
+  have hDreal : ∀ a, (∑ i, (pair.1.get i : ℝ)*(D i a : ℝ))=
+      ∑ i, (q i : ℝ)*(D i a : ℝ) := by
+    intro a
+    exact_mod_cast hD a
+  have hanchors : ∀ a, response G y (.inl a)=response AR xR (coverDecode C (.inl a)) := by
+    intro a
+    have ha : response G y (.inl a)=response G₀ y₀ (.inl a) := by
+      rw [block_response_anchor, block_response_anchor]
+      exact anchor_response_of_moments C.card (fun a b => (K a b : ℝ))
+        (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))
+        (fun i => (q i : ℝ)) (fun i => (pair.1.get i : ℝ)) hDreal a
+    rw [← hGsplit, ← hysplit] at ha
+    exact ha.trans (relabel_response (coverExecutableEquiv C).symm AR xR (.inl a))
+  have hFreal : ∀ g, (∑ i : Fin Cᶜ.card, y (.inr i)*(E g (coverDecode C (.inr i)) : ℝ))=
+      ∑ i : Fin Cᶜ.card, xR (coverDecode C (.inr i))*(E g (coverDecode C (.inr i)) : ℝ) := by
+    intro g
+    have he : (∑ i, (pair.1.get i : ℝ)*(rationalCoverExtras table E g i : ℝ))=
+        ∑ i, (q i : ℝ)*(rationalCoverExtras table E g i : ℝ) := by exact_mod_cast hE g
+    simpa only [y, blockWeights, Sum.elim_inr, rationalCoverExtras, q,
+      rationalCoverWeights, table, cover_table_decode, xR] using he
+  have hfull := cover_executable_full_witness C AR
+    (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) xR
+    (fun v g => (E g v : ℝ)) y G (M : ℝ) (ε : ℝ)
+    (min (rationalWeightSupport q).card L) (min n (C.card+L))
+    hyn hym hGsk hGb hI' hGrows
+    (fun a => by simp only [y, blockWeights, Sum.elim_inl, p, rationalCoverAnchors,
+      table, cover_table_decode, xR]) hzR hcs hts hentries hanchors hFreal
+  have holdcard : (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} => xR v.val ≠ 0).card=
+      (rationalWeightSupport q).card := by
+    calc
+      _ = (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} =>
+          coverDecodeWeights C (coverEncodeWeights C xR) v.val ≠ 0).card := by
+        congr 1
+        ext v
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and, cover_weights_roundtrip]
+      _ = (Finset.univ.filter fun i : Fin Cᶜ.card =>
+          coverEncodeWeights C xR (.inr i) ≠ 0).card :=
+        cover_residual_support C (coverEncodeWeights C xR)
+      _ = (Finset.univ.filter fun i => (q i : ℝ) ≠ 0).card := by
+        apply congrArg Finset.card
+        apply Finset.filter_congr
+        intro i _
+        have heq : coverEncodeWeights C xR (.inr i)=(q i : ℝ) := by
+          simp only [coverEncodeWeights, xR, q, rationalCoverWeights, table, cover_table_decode]
+        rw [heq]
+      _ = _ := rational_cover_cast_support q
+  have hresmass : (∑ v : {v : Fin n // v ∈ Cᶜ}, coverDecodeWeights C y v.val)=
+      ∑ v : {v : Fin n // v ∈ Cᶜ}, xR v.val := by
+    rw [cover_residual_sum C, cover_residual_sum C]
+    simp only [coverDecodeWeights, cover_encode_decode, y, blockWeights, Sum.elim_inr]
+    have hmR : (∑ i, (pair.1.get i : ℝ))=∑ i, (q i : ℝ) := by exact_mod_cast hm
+    simpa only [q, table, rationalCoverWeights, cover_table_decode, xR] using hmR
+  obtain ⟨hw, hmat⟩ := rational_cover_assemble_real C A x pair
+  unfold RationalCoveredGaussianWitness
+  rw [hw, hmat]
+  dsimp only
+  change (Finset.univ.filter fun v : {v : Fin n // v ∈ Cᶜ} => (x v.val : ℝ) ≠ 0).card=
+    (rationalWeightSupport q).card at holdcard
+  rw [holdcard]
+  obtain ⟨hn', hm', hsk', hb', hI'', hrows', ha', hz', hc', ht', he', hr', hF'⟩ := hfull
+  exact ⟨hn', hm', hsk', hb', hI'', hrows', ha', hz', hc', ht', he', hr', hF', hresmass⟩
+
+/-- The caller supplies only a rational feasible original game and a finite
+cover of its constrained observation edges. Both the split witness and inverse
+index properties are earned; the conclusion concerns the actual materialized
+original-label program output. -/
+theorem rational_covered_gaussian_general {n d : ℕ} (C : Finset (Fin n))
+    (A lo hi : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (M ρ η : ℚ) (hM : 0 < M) (hη : 0 < η)
+    (hx : ∀ v, 0 ≤ x v) (hmass : ∑ v, x v=1)
+    (hA : ∀ u v, A u v= -A v u) (hb : ∀ u v, -M ≤ A u v ∧ A u v ≤ M)
+    (hI : offDiagonalIntervals (fun u v => (lo u v : ℝ))
+      (fun u v => (hi u v : ℝ)) (fun u v => (A u v : ℝ)))
+    (hcover : intervalVertexCover (C : Set (Fin n))
+      (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) (M : ℝ))
+    (hrows : ∀ v, response (fun u v => (A u v : ℝ)) (fun v => (x v : ℝ)) v ≤ (ρ : ℝ)) :
+    RationalCoveredGaussianWitness C A lo hi E x
+      (rationalCoveredGaussianGeneral C A E x M ρ η) M (ρ+η)
+      (C.card+d+1+gridSize (M : ℝ)
+        ((∑ v : {v : Fin n // v ∈ Cᶜ}, x v.val : ℚ) : ℝ) (η : ℝ)) := by
+  let table := coverIndexTable C
+  let K := rationalCoverCore table A
+  let D := rationalCoverCross table A
+  let B := rationalCoverResidual table A
+  let p := rationalCoverAnchors table x
+  let q := rationalCoverWeights table x
+  let E' := rationalCoverExtras table E
+  let r := ∑ i, q i
+  have hp : ∀ a, 0 ≤ p a := fun a => hx _
+  have hq : ∀ i, 0 ≤ q i := fun i => hx _
+  have hnorm : (∑ a, p a)+r=1 := rational_cover_input_mass C x hmass
+  have hK : ∀ a b, K a b= -K b a := fun a b => hA _ _
+  have hB : ∀ i j, B i j= -B j i := fun i j => hA _ _
+  have hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M := fun a b => hb _ _
+  have hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M := fun i a => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun i j => hb _ _
+  obtain ⟨_, hm, hz, hc, hD, hE, _, hg⟩ :=
+    rational_gaussian_paper_general_algorithm K D E' B p q M r ρ η hM hη hp hq rfl
+      hnorm hK hB hKb hDb hBb (rational_cover_input_rows C A x ρ hA hrows)
+  have h := rational_cover_pair_transport C A lo hi E x M (ρ+η)
+    (C.card+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ))
+    (rationalGaussianPaperGeneralFlow D E' p q M r ρ η)
+    hA hI hcover hm hz hc hD hE hg
+  simpa only [rationalCoveredGaussianGeneral, r, q, table,
+    rational_cover_residual_mass] using h
+
+/-- Exact-input sharpening uses H-1 hinges and the same original observations.
+Positive residual mass and the zero-mass case are stated separately. -/
+theorem rational_covered_gaussian_exact {n d : ℕ} (C : Finset (Fin n))
+    (A lo hi : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (M η : ℚ) (hM : 0 < M) (hη : 0 < η)
+    (hr : 0 < ∑ v : {v : Fin n // v ∈ Cᶜ}, x v.val)
+    (hx : ∀ v, 0 ≤ x v) (hmass : ∑ v, x v=1)
+    (hA : ∀ u v, A u v= -A v u) (hb : ∀ u v, -M ≤ A u v ∧ A u v ≤ M)
+    (hI : offDiagonalIntervals (fun u v => (lo u v : ℝ))
+      (fun u v => (hi u v : ℝ)) (fun u v => (A u v : ℝ)))
+    (hcover : intervalVertexCover (C : Set (Fin n))
+      (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) (M : ℝ))
+    (hrows : ∀ v, response (fun u v => (A u v : ℝ)) (fun v => (x v : ℝ)) v ≤ 0) :
+    RationalCoveredGaussianWitness C A lo hi E x
+      (rationalCoveredGaussianExact C A E x M η) M η
+      (C.card+d+gridSize (M : ℝ)
+        ((∑ v : {v : Fin n // v ∈ Cᶜ}, x v.val : ℚ) : ℝ) (η : ℝ)) := by
+  let table := coverIndexTable C
+  let K := rationalCoverCore table A
+  let D := rationalCoverCross table A
+  let B := rationalCoverResidual table A
+  let p := rationalCoverAnchors table x
+  let q := rationalCoverWeights table x
+  let E' := rationalCoverExtras table E
+  let r := ∑ i, q i
+  have hp : ∀ a, 0 ≤ p a := fun a => hx _
+  have hq : ∀ i, 0 ≤ q i := fun i => hx _
+  have hr' : 0 < r := by simpa only [r, q, table, rational_cover_residual_mass] using hr
+  have hnorm : (∑ a, p a)+r=1 := rational_cover_input_mass C x hmass
+  have hK : ∀ a b, K a b= -K b a := fun a b => hA _ _
+  have hB : ∀ i j, B i j= -B j i := fun i j => hA _ _
+  have hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M := fun a b => hb _ _
+  have hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M := fun i a => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun i j => hb _ _
+  obtain ⟨_, hm, hz, hc, hD, hE, _, hg⟩ :=
+    rational_gaussian_paper_exact_algorithm K D E' B p q M r η hM hr' hη hp hq rfl
+      hnorm hK hB hKb hDb hBb (by simpa only [Rat.cast_zero] using rational_cover_input_rows C A x 0 hA (by simpa only [Rat.cast_zero] using hrows))
+  have h := rational_cover_pair_transport C A lo hi E x M η
+    (C.card+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ))
+    (rationalGaussianPaperExactFlow D E' p q M r η)
+    hA hI hcover hm hz hc hD hE hg
+  simpa only [rationalCoveredGaussianExact, r, q, table,
+    rational_cover_residual_mass] using h
+
+theorem rational_covered_gaussian_zero {n d : ℕ} (C : Finset (Fin n))
+    (A lo hi : Fin n → Fin n → ℚ) (E : Fin d → Fin n → ℚ) (x : Fin n → ℚ)
+    (M η : ℚ) (hM : 0 < M) (hη : 0 < η)
+    (hr : (∑ v : {v : Fin n // v ∈ Cᶜ}, x v.val)=0)
+    (hx : ∀ v, 0 ≤ x v) (hmass : ∑ v, x v=1)
+    (hA : ∀ u v, A u v= -A v u) (hb : ∀ u v, -M ≤ A u v ∧ A u v ≤ M)
+    (hI : offDiagonalIntervals (fun u v => (lo u v : ℝ))
+      (fun u v => (hi u v : ℝ)) (fun u v => (A u v : ℝ)))
+    (hcover : intervalVertexCover (C : Set (Fin n))
+      (fun u v => (lo u v : ℝ)) (fun u v => (hi u v : ℝ)) (M : ℝ))
+    (hrows : ∀ v, response (fun u v => (A u v : ℝ)) (fun v => (x v : ℝ)) v ≤ 0) :
+    (rationalCoveredGaussianExact C A E x M η).1.get=x ∧
+    RationalCoveredGaussianWitness C A lo hi E x
+      (rationalCoveredGaussianExact C A E x M η) M η
+      (C.card+d+gridSize (M : ℝ) 0 (η : ℝ)) := by
+  let table := coverIndexTable C
+  let K := rationalCoverCore table A
+  let D := rationalCoverCross table A
+  let B := rationalCoverResidual table A
+  let p := rationalCoverAnchors table x
+  let q := rationalCoverWeights table x
+  let E' := rationalCoverExtras table E
+  have hp : ∀ a, 0 ≤ p a := fun a => hx _
+  have hq : ∀ i, 0 ≤ q i := fun i => hx _
+  have hm₀ : (∑ i, q i)=0 := by
+    simpa only [q, table, rational_cover_residual_mass] using hr
+  have hnorm : (∑ a, p a)+0=1 := by
+    have h := rational_cover_input_mass C x hmass
+    change (∑ a, p a)+(∑ i, q i)=1 at h
+    rwa [hm₀] at h
+  have hK : ∀ a b, K a b= -K b a := fun a b => hA _ _
+  have hB : ∀ i j, B i j= -B j i := fun i j => hA _ _
+  have hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M := fun a b => hb _ _
+  have hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M := fun i a => hb _ _
+  have hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M := fun i j => hb _ _
+  let pair := rationalGaussianPaperExactFlow D E' p q M 0 η
+  obtain ⟨heq, hcard, _, hg⟩ := rational_gaussian_paper_zero_algorithm K D E' B p q M η
+    hM hη hp hq hm₀ hnorm hK hB hKb hDb hBb (by simpa only [Rat.cast_zero] using rational_cover_input_rows C A x 0 hA (by simpa only [Rat.cast_zero] using hrows))
+  have hm : (∑ i, pair.1.get i)=∑ i, q i := by rw [heq]
+  have hz : ∀ i, q i=0 → pair.1.get i=0 := by rw [heq]; exact fun _ h => h
+  have hc : (rationalWeightSupport pair.1.get).card ≤
+      min (rationalWeightSupport q).card (C.card+d+gridSize (M : ℝ) 0 (η : ℝ)) := by
+    rw [hcard]
+    exact Nat.zero_le _
+  have hD : ∀ a, (∑ i, pair.1.get i*D i a)=∑ i, q i*D i a := by
+    rw [heq]; exact fun _ => rfl
+  have hE : ∀ g, (∑ i, pair.1.get i*E' g i)=∑ i, q i*E' g i := by
+    rw [heq]; exact fun _ => rfl
+  have h := rational_cover_pair_transport C A lo hi E x M η
+    (C.card+d+gridSize (M : ℝ) 0 (η : ℝ)) pair
+    hA hI hcover hm hz hc hD hE hg
+  have hsame := rational_cover_assemble_unchanged_weights C A x pair heq
+  have hmC : (∑ i, rationalCoverWeights (coverIndexTable C) x i)=0 := hm₀
+  constructor
+  · simpa only [rationalCoveredGaussianExact, pair, D, E', p, q, table, hmC] using hsame
+  · simpa only [rationalCoveredGaussianExact, pair, D, E', p, q, table, hmC] using h
+
+end SparseCompletion
+
+/- Fixed source body: RationalDeletionLattice.lean -/
+/- AI-assisted formalization; Apache-2.0, following the parent repository.
+Actual minimum-ratio deletion preserves a common denominator whose growth
+depends on the direction, rather than multiplying all current weight denominators.
+Exact checking status is external. No runtime or primitive bit-cost claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- The executed minimum ratio is one actual positive-direction coordinate.
+This earns the pivot used in the denominator proof, rather than supplying it. -/
+theorem rational_feature_theta_selected {m : ℕ} (q w : Fin m → ℚ)
+    (hpos : ∃ i, 0 < w i) :
+    ∃ j, 0 < w j ∧ rationalFeatureTheta q w = q j / w j := by
+  obtain ⟨j, hj, he⟩ := (rational_feature_ratio_mem q w _).mp
+    (rational_feature_theta_mem q w hpos)
+  exact ⟨j, hj, he.symm⟩
+
+/-- Clearing one shared direction denominator cancels it from the actual
+deletion ratio. Only the positive selected integer coordinate enlarges the
+weight lattice. The integer vector is input representation data, not an
+assumed output bound or preservation contract. -/
+theorem rational_feature_delete_integer_lattice {m : ℕ}
+    (q w : Fin m → ℚ) (D W : ℕ) (hD : 0 < D) (hW : 0 < W)
+    (hq : ∀ i, RationalDenominatorLattice D (q i))
+    (z : Fin m → ℤ) (hw : ∀ i, w i = (z i : ℚ)/(W : ℚ))
+    (hpos : ∃ i, 0 < w i) :
+    ∃ j, 0 < z j ∧
+      ∀ i, RationalDenominatorLattice (D*(z j).natAbs)
+        (rationalFeatureDelete q w i) := by
+  obtain ⟨j, hj, htheta⟩ := rational_feature_theta_selected q w hpos
+  have hWQ : (0 : ℚ) < (W : ℚ) := by exact_mod_cast hW
+  have hzjQ : (0 : ℚ) < (z j : ℚ) := by
+    exact (div_pos_iff_of_pos_right hWQ).mp ((hw j) ▸ hj)
+  have hzj : (0 : ℤ) < z j := by exact_mod_cast hzjQ
+  have hD0 : (D : ℚ) ≠ 0 := by exact_mod_cast (Nat.ne_of_gt hD)
+  have hW0 : (W : ℚ) ≠ 0 := ne_of_gt hWQ
+  have hz0 : (z j : ℚ) ≠ 0 := ne_of_gt hzjQ
+  have habs : ((z j).natAbs : ℚ) = (z j : ℚ) := by
+    have hi := congrArg (fun a : ℤ => (a : ℚ))
+      (Int.natAbs_of_nonneg (le_of_lt hzj))
+    simpa only [Int.cast_natCast] using hi
+  refine ⟨j, hzj, ?_⟩
+  intro i
+  obtain ⟨a, ha⟩ := hq i
+  obtain ⟨b, hb⟩ := hq j
+  refine ⟨a*z j-b*z i, ?_⟩
+  simp only [rationalFeatureDelete, htheta, hw i, hw j, ha, hb,
+    Nat.cast_mul, habs, Int.cast_sub, Int.cast_mul]
+  field_simp [hD0, hW0, hz0]
+
+/-- A uniform integer-direction bound gives a single positive output lattice
+scale, with linear multiplicative growth in the old scale. -/
+theorem rational_feature_delete_lattice_bound {m : ℕ}
+    (q w : Fin m → ℚ) (D W Z : ℕ) (hD : 0 < D) (hW : 0 < W)
+    (hq : ∀ i, RationalDenominatorLattice D (q i))
+    (z : Fin m → ℤ) (hw : ∀ i, w i = (z i : ℚ)/(W : ℚ))
+    (hz : ∀ i, (z i).natAbs ≤ Z) (hpos : ∃ i, 0 < w i) :
+    ∃ D', 0 < D' ∧ D' ≤ D*Z ∧
+      ∀ i, (rationalFeatureDelete q w i).den ∣ D' := by
+  obtain ⟨j, hj, hl⟩ := rational_feature_delete_integer_lattice q w D W hD hW hq z hw hpos
+  refine ⟨D*(z j).natAbs, Nat.mul_pos hD (Int.natAbs_pos.mpr (ne_of_gt hj)),
+    Nat.mul_le_mul_left D (hz j), ?_⟩
+  intro i
+  exact rational_lattice_den_divides _ _ (hl i)
+
+/-- Canonical direction heights give an earned uniform integer direction
+bound. The product clears only direction denominators, never all current
+weight denominators. The current weights enter only through their OLD common
+lattice D. -/
+theorem rational_feature_delete_canonical_lattice_bound {m : ℕ}
+    (q w : Fin m → ℚ) (D K : ℕ) (hD : 0 < D)
+    (hq : ∀ i, RationalDenominatorLattice D (q i))
+    (hwn : ∀ i, (w i).num.natAbs ≤ K) (hwd : ∀ i, (w i).den ≤ K)
+    (hpos : ∃ i, 0 < w i) :
+    ∃ D', 0 < D' ∧ D' ≤ D*Nat.pow K (m+1) ∧
+      ∀ i, (rationalFeatureDelete q w i).den ∣ D' := by
+  classical
+  let W := rationalDenominatorProduct (List.ofFn w)
+  have hW : 0 < W := rational_denominator_product_positive _
+  have hwl : ∀ i, RationalDenominatorLattice W (w i) := by
+    intro i
+    exact rational_lattice_input_list _ _ (List.mem_ofFn.mpr ⟨i, rfl⟩)
+  choose z hz using fun i => rational_lattice_scaled_integer W hW (w i) (hwl i)
+  have hW0 : (W : ℚ) ≠ 0 := by exact_mod_cast (Nat.ne_of_gt hW)
+  have hw : ∀ i, w i = (z i : ℚ)/(W : ℚ) := by
+    intro i
+    apply (eq_div_iff hW0).mpr
+    simpa only [mul_comm] using hz i
+  have hzbound : ∀ i, (z i).natAbs ≤ K*W := by
+    intro i
+    have hm : |w i| ≤ (K : ℚ) :=
+      (rational_magnitude_le_num_abs _).trans (by exact_mod_cast hwn i)
+    have hh : ((z i).natAbs : ℚ) ≤ ((K*W : ℕ) : ℚ) := by
+      rw [Nat.cast_natAbs, Int.cast_abs, ←hz i, abs_mul,
+        abs_of_pos (show (0 : ℚ) < (W : ℚ) by exact_mod_cast hW), Nat.cast_mul]
+      have hWQ : (0 : ℚ) ≤ (W : ℚ) := by exact_mod_cast (le_of_lt hW)
+      nlinarith
+    exact_mod_cast hh
+  have hWbound : W ≤ Nat.pow K m := by
+    have hp := rational_denominator_product_power (List.ofFn w) K (by
+      intro a ha
+      obtain ⟨i, rfl⟩ := List.mem_ofFn.mp ha
+      exact hwd i)
+    simpa only [W, List.length_ofFn] using hp
+  obtain ⟨D', hDp, hDb, hDl⟩ := rational_feature_delete_lattice_bound
+    q w D W (K*W) hD hW hq z hw hzbound hpos
+  refine ⟨D', hDp, hDb.trans ?_, hDl⟩
+  apply Nat.mul_le_mul_left D
+  calc
+    K*W ≤ K*Nat.pow K m := Nat.mul_le_mul_left K hWbound
+    _ = Nat.pow K (m+1) := by
+      have hp : Nat.pow K (m+1) = Nat.pow K m*K := rfl
+      rw [hp]
+      exact Nat.mul_comm _ _
+
+/-- In binary-exponent form the actual output denominator exponent grows
+ADDITIVELY by B*(m+1), independently of the current denominator magnitude. -/
+theorem rational_feature_delete_binary_lattice_bound {m : ℕ}
+    (q w : Fin m → ℚ) (D Q B : ℕ) (hD : 0 < D) (hDb : D ≤ Nat.pow 2 Q)
+    (hq : ∀ i, RationalDenominatorLattice D (q i))
+    (hwn : ∀ i, (w i).num.natAbs ≤ Nat.pow 2 B) (hwd : ∀ i, (w i).den ≤ Nat.pow 2 B)
+    (hpos : ∃ i, 0 < w i) :
+    ∃ D', 0 < D' ∧ D' ≤ Nat.pow 2 (Q+B*(m+1)) ∧
+      ∀ i, (rationalFeatureDelete q w i).den ∣ D' := by
+  obtain ⟨D', hDp, hDb', hDl⟩ := rational_feature_delete_canonical_lattice_bound
+    q w D (Nat.pow 2 B) hD hq hwn hwd hpos
+  refine ⟨D', hDp, hDb'.trans ?_, hDl⟩
+  calc
+    D*Nat.pow (Nat.pow 2 B) (m+1) ≤ Nat.pow 2 Q*Nat.pow (Nat.pow 2 B) (m+1) := Nat.mul_le_mul_right _ hDb
+    _ = Nat.pow 2 (Q+B*(m+1)) := by
+      have hp : Nat.pow 2 (B*(m+1)) = Nat.pow (Nat.pow 2 B) (m+1) :=
+        Nat.pow_mul 2 B (m+1)
+      have ha : Nat.pow 2 (Q+B*(m+1)) = Nat.pow 2 Q*Nat.pow 2 (B*(m+1)) :=
+        Nat.pow_add 2 Q (B*(m+1))
+      rw [←hp, ←ha]
+
+/-- Nonnegative mass and the earned deletion contract bound each actual
+coordinate. No magnitude of the returned vector is supplied as a premise. -/
+theorem rational_feature_delete_magnitude {m : ℕ}
+    (q w : Fin m → ℚ) (r : ℚ)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r)
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hw : ∑ i, w i = 0)
+    (hpos : ∃ i, 0 < w i) :
+    ∀ i, |rationalFeatureDelete q w i| ≤ r := by
+  have hn := rational_feature_delete_nonnegative q w hq hs hpos
+  have hmass := rational_feature_delete_mass q w hw
+  intro i
+  rw [abs_of_nonneg (hn i)]
+  calc
+    rationalFeatureDelete q w i ≤ ∑ j, rationalFeatureDelete q w j :=
+      Finset.single_le_sum (fun j _ => hn j) (Finset.mem_univ i)
+    _ = r := hmass.trans hm
+
+/-- Actual canonical value-encoding bound for one executed deletion. Direction
+height and current input lattice are explicit input facts; the output lattice,
+mass bound, reduced numerators, denominators and bit budget are all derived.
+This is not a primitive-arithmetic or runtime statement. -/
+theorem rational_feature_delete_encoding_bits {m : ℕ}
+    (q w : Fin m → ℚ) (D Q B R : ℕ) (r : ℚ)
+    (hD : 0 < D) (hDb : D ≤ Nat.pow 2 Q)
+    (hql : ∀ i, RationalDenominatorLattice D (q i))
+    (hwn : ∀ i, (w i).num.natAbs ≤ Nat.pow 2 B) (hwd : ∀ i, (w i).den ≤ Nat.pow 2 B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r) (hr : r ≤ ((Nat.pow 2 R : ℕ) : ℚ))
+    (hs : ∀ i, w i ≠ 0 → 0 < q i) (hw : ∑ i, w i = 0)
+    (hpos : ∃ i, 0 < w i) :
+    ∀ i, rationalCanonicalEncodingBits (rationalFeatureDelete q w i) ≤
+      R+2*(Q+B*(m+1))+3 := by
+  obtain ⟨D', hDp, hDb', hDl⟩ := rational_feature_delete_binary_lattice_bound
+    q w D Q B hD hDb hql hwn hwd hpos
+  intro i
+  apply rational_canonical_encoding_bits_bound _ R (Q+B*(m+1))
+  · exact (rational_feature_delete_magnitude q w r hq hm hs hw hpos i).trans hr
+  · exact (Nat.le_of_dvd hDp (hDl i)).trans hDb'
+
+end SparseCompletion
+
+/- Fixed source body: RationalGraphFlowOutputHeight.lean -/
+/- AI-assisted actual graph-flow/decoder value-height continuation.
+Exact compilation/audit status is recorded in source-bound receipts.
+The original reviewed uncompiled v1 is preserved in source-graph-output-height-v1.
+These are value/encoding bounds, not primitive or whole-pipeline runtime claims.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_matrix_entries_length {n : ℕ} (C : Fin n → Fin n → ℚ) :
+    (rationalMatrixEntries C).length = n*n := by
+  simp [rationalMatrixEntries, List.length_flatMap, List.length_finRange]
+
+theorem rational_capacity_denominator_from_input_height {n H : ℕ}
+    (C : Fin n → Fin n → ℚ) (hC : ∀ u v, RationalInputHeight (C u v) H) :
+    rationalCapacityDenominator C ≤ Nat.pow 2 (H*(n*n)) := by
+  have hh := rational_denominator_product_power (rationalMatrixEntries C) (Nat.pow 2 H) (by
+    intro a ha
+    obtain ⟨u, _hu, ha⟩ := List.mem_flatMap.mp ha
+    obtain ⟨v, _hv, rfl⟩ := List.mem_map.mp ha
+    exact (hC u v).2)
+  have hp : Nat.pow 2 (H*(n*n)) = Nat.pow (Nat.pow 2 H) (n*n) := Nat.pow_mul 2 H (n*n)
+  simpa only [rationalCapacityDenominator, rational_matrix_entries_length, hp] using hh
+
+def rationalGraphFlowHeight (n H : ℕ) : ℕ := H + H*(n*n)
+
+/-- Any actual finite direct run starts at the actual zero table. Its capacity,
+skew and lattice invariants are derived from input nonnegativity and capacity
+data. No common-denominator conclusion is accepted as a hypothesis. -/
+theorem rational_table_direct_flow_output_height {n H : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (fuel : ℕ)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v)
+    (hH : ∀ u v, RationalInputHeight (rationalFlowTableEntry C u v) H) :
+    ∀ u v, RationalInputHeight
+      (rationalFlowTableEntry
+        (rationalTableFlowIterateDirect C s t fuel (rationalZeroFlowTable n)) u v)
+      (rationalGraphFlowHeight n H) := by
+  let D := rationalCapacityDenominator (rationalFlowTableEntry C)
+  have hD : 0 < D := rational_capacity_denominator_positive _
+  have hDb := rational_capacity_denominator_from_input_height (rationalFlowTableEntry C) hH
+  have hinv := rational_table_flow_iterate_direct_invariant C s t D
+    (rational_capacity_lattice _) fuel (rationalZeroFlowTable n)
+    (rational_zero_flow_table_invariant C s t D hC)
+  intro u v
+  have hden := (rational_lattice_den_le D hD _ (hinv.2.2.2 u v)).trans hDb
+  have hcap : ∀ a b, rationalFlowTableEntry C a b ≤ ((Nat.pow 2 H : ℕ) : ℚ) := by
+    intro a b
+    exact (le_abs_self _).trans (rational_input_height_magnitude (hH a b))
+  have hmag := rational_skew_flow_magnitude (rationalFlowTableEntry C)
+    (rationalFlowTableEntry (rationalTableFlowIterateDirect C s t fuel (rationalZeroFlowTable n)))
+    hinv.2.1 hinv.1 ((Nat.pow 2 H : ℕ) : ℚ) hcap u v
+  constructor
+  · exact rational_numerator_binary_bound_from_height _ H (H*(n*n)) hmag hden
+  · exact hden.trans (Nat.pow_le_pow_right (by decide : 0 < 2) (by
+      unfold rationalGraphFlowHeight
+      omega))
+
+theorem rational_table_graph_flow_output_height {n H : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v)
+    (hH : ∀ u v, RationalInputHeight (rationalFlowTableEntry C u v) H) :
+    ∀ u v, RationalInputHeight (rationalFlowTableEntry (rationalTableFindFlowPolynomial C s t) u v)
+      (rationalGraphFlowHeight n H) :=
+  rational_table_direct_flow_output_height C s t (rationalTableGraphFuel C) hC hH
+
+/-- Sharper canonical flow value budget, independently of loop fuel. This is
+still a bound on actual values, not a bound on executed operations or bit time. -/
+theorem rational_table_graph_flow_canonical_bits {n H : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v)
+    (hH : ∀ u v, RationalInputHeight (rationalFlowTableEntry C u v) H) :
+    ∀ u v, rationalCanonicalEncodingBits
+      (rationalFlowTableEntry (rationalTableFindFlowPolynomial C s t) u v) ≤ H+2*(H*(n*n))+3 := by
+  have hinv := rational_table_find_flow_polynomial_invariant C s t hC
+  apply rational_skew_flow_canonical_encoding_bound _ _ hinv.2.1 hinv.1 H (H*(n*n))
+    (rationalCapacityDenominator (rationalFlowTableEntry C))
+    (rational_capacity_denominator_positive _) (rational_capacity_denominator_from_input_height _ hH)
+  · intro u v
+    exact (le_abs_self _).trans (rational_input_height_magnitude (hH u v))
+  · intro u v
+    exact rational_lattice_den_divides _ _ (hinv.2.2.2 u v)
+
+end SparseCompletion
+
+/- Fixed source body: RationalDemandGraphOutputHeight.lean -/
+/- AI-assisted actual graph-flow/decoder value-height continuation.
+Exact compilation/audit status is recorded in source-bound receipts.
+The original reviewed uncompiled v1 is preserved in source-graph-output-height-v1.
+These are value/encoding bounds, not primitive or whole-pipeline runtime claims.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_demand_capacity_input_height {m H : ℕ}
+    (d : Fin m → ℚ) (c : Fin m → Fin m → ℚ)
+    (hd : ∀ i, RationalInputHeight (d i) H)
+    (hc : ∀ i j, RationalInputHeight (c i j) H) :
+    ∀ u v, RationalInputHeight (rationalDemandCapacity d c u v) H := by
+  have hz := rational_input_height_zero H
+  have hp (i : Fin m) := rational_input_height_max (hd i) hz
+  have hn (i : Fin m) := rational_input_height_max (rational_input_height_neg (hd i)) hz
+  intro u v
+  induction u using Fin.lastCases with
+  | last =>
+    induction v using Fin.lastCases with
+    | last => simpa only [rationalDemandCapacity, Fin.lastCases_last] using hz
+    | cast v =>
+      induction v using Fin.lastCases with
+      | last => simpa [rationalDemandCapacity] using hz
+      | cast j => simpa [rationalDemandCapacity] using hp j
+  | cast u =>
+    induction u using Fin.lastCases with
+    | last => simpa [rationalDemandCapacity] using hz
+    | cast i =>
+      induction v using Fin.lastCases with
+      | last => simpa [rationalDemandCapacity] using hz
+      | cast v =>
+        induction v using Fin.lastCases with
+        | last => simpa [rationalDemandCapacity] using hn i
+        | cast j => simpa [rationalDemandCapacity] using hc i j
+
+theorem rational_demand_graph_net_output_height {m H : ℕ}
+    (d : Fin m → ℚ) (c : Fin m → Fin m → ℚ)
+    (hcn : ∀ i j, 0 ≤ c i j)
+    (hd : ∀ i, RationalInputHeight (d i) H)
+    (hc : ∀ i j, RationalInputHeight (c i j) H) :
+    ∀ u v, RationalInputHeight (rationalFlowTableEntry (rationalDemandGraphFindTable d c) u v)
+      (rationalGraphFlowHeight (m+2) H) := by
+  apply rational_table_graph_flow_output_height
+  · simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hcn
+  · simpa only [rational_demand_table_entry] using rational_demand_capacity_input_height d c hd hc
+
+/-- Positive arcs are actual max(net,0) values, hence inherit the earned net
+height. A newly chosen arbitrary feasible arc flow is not substituted here. -/
+theorem rational_demand_graph_positive_arc_output_height {m H : ℕ}
+    (d : Fin m → ℚ) (c : Fin m → Fin m → ℚ)
+    (hcn : ∀ i j, 0 ≤ c i j)
+    (hd : ∀ i, RationalInputHeight (d i) H)
+    (hc : ∀ i j, RationalInputHeight (c i j) H) :
+    ∀ i j, RationalInputHeight (rationalDemandGraphFindArc d c i j)
+      (rationalGraphFlowHeight (m+2) H) := by
+  intro i j
+  exact rational_input_height_max
+    (rational_demand_graph_net_output_height d c hcn hd hc (demandInternal i) (demandInternal j))
+    (rational_input_height_zero _)
+
+def rationalDemandConstructorHeight (H : ℕ) : ℕ := 16*(H+1)
+
+theorem rational_demand_constructed_data_height {m H : ℕ}
+    (q t : Fin m → ℚ) (M ε : ℚ)
+    (hq : ∀ i, RationalInputHeight (q i) H) (ht : ∀ i, RationalInputHeight (t i) H)
+    (hM : RationalInputHeight M H) (hε : RationalInputHeight ε H) :
+    (∀ i, RationalInputHeight (q i*(t i-ε)) (rationalDemandConstructorHeight H)) ∧
+    ∀ i j, RationalInputHeight (M*q i*q j) (rationalDemandConstructorHeight H) := by
+  constructor
+  · intro i
+    apply rational_input_height_mono (rational_input_height_mul (hq i)
+      (rational_input_height_sub (ht i) hε))
+    unfold rationalDemandConstructorHeight
+    omega
+  · intro i j
+    apply rational_input_height_mono (rational_input_height_mul
+      (rational_input_height_mul hM (hq i)) (hq j))
+    unfold rationalDemandConstructorHeight
+    omega
+
+def rationalDemandGraphOutputHeight (m H : ℕ) : ℕ :=
+  8*rationalGraphFlowHeight (m+2) (rationalDemandConstructorHeight H) + 8*H + 2
+
+/-- Generic literal decoder arithmetic, including 0,-M,+M zero-weight branches.
+The nonzero-weight division is total rational division and is bounded directly
+from canonical input components, rather than a lower bound supplied on q. -/
+theorem rational_flow_decode_with_zeros_input_height {m H S : ℕ}
+    (q : Fin m → ℚ) (F : Fin m → Fin m → ℚ) (M : ℚ)
+    (hq : ∀ i, RationalInputHeight (q i) H)
+    (hF : ∀ i j, RationalInputHeight (F i j) S) (hM : RationalInputHeight M H) :
+    ∀ i j, RationalInputHeight (rationalFlowDecodeWithZeros q F M i j) (8*S+8*H+2) := by
+  intro i j
+  unfold rationalFlowDecodeWithZeros
+  split_ifs with hi hj hj
+  · exact rational_input_height_zero _
+  · exact rational_input_height_mono (rational_input_height_neg hM) (by omega)
+  · exact rational_input_height_mono hM (by omega)
+  · change RationalInputHeight (-(F i j-F j i)/(q i*q j)) _
+    exact rational_input_height_mono
+      (rational_input_height_div
+        (rational_input_height_neg (rational_input_height_sub (hF i j) (hF j i)))
+        (rational_input_height_mul (hq i) (hq j))) (by omega)
+
+/-- Actual final table height from original q,t,M,epsilon input data. The flow
+denominator lattice is earned by the direct loop from actual capacities, then
+the exact payload/entry theorem connects the decoder to this actual table. -/
+theorem rational_demand_graph_completion_table_output_height {m H : ℕ}
+    (q t : Fin m → ℚ) (M ε : ℚ)
+    (hq : ∀ i, RationalInputHeight (q i) H) (ht : ∀ i, RationalInputHeight (t i) H)
+    (hM : RationalInputHeight M H) (hε : RationalInputHeight ε H)
+    (hqn : ∀ i, 0 ≤ q i) (hMn : 0 ≤ M) :
+    ∀ i j, RationalInputHeight
+      (rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε) i j)
+      (rationalDemandGraphOutputHeight m H) := by
+  obtain ⟨hd, hc⟩ := rational_demand_constructed_data_height q t M ε hq ht hM hε
+  have harc := rational_demand_graph_positive_arc_output_height
+    (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)
+    (fun i j => mul_nonneg (mul_nonneg hMn (hqn i)) (hqn j)) hd hc
+  intro i j
+  rw [rational_demand_graph_completion_table_entry]
+  exact rational_flow_decode_with_zeros_input_height q _ M hq harc hM i j
+
+theorem rational_demand_graph_completion_table_canonical_bits {m H : ℕ}
+    (q t : Fin m → ℚ) (M ε : ℚ)
+    (hq : ∀ i, RationalInputHeight (q i) H) (ht : ∀ i, RationalInputHeight (t i) H)
+    (hM : RationalInputHeight M H) (hε : RationalInputHeight ε H)
+    (hqn : ∀ i, 0 ≤ q i) (hMn : 0 ≤ M) :
+    ∀ i j, rationalCanonicalEncodingBits
+      (rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε) i j) ≤
+      2*rationalDemandGraphOutputHeight m H+3 := by
+  intro i j
+  exact rational_input_height_bits
+    (rational_demand_graph_completion_table_output_height q t M ε hq ht hM hε hqn hMn i j)
+
+theorem rational_demand_graph_completion_table_separate_input_height {m Q T B E : ℕ}
+    (q t : Fin m → ℚ) (M ε : ℚ)
+    (hq : ∀ i, RationalInputHeight (q i) Q) (ht : ∀ i, RationalInputHeight (t i) T)
+    (hM : RationalInputHeight M B) (hε : RationalInputHeight ε E)
+    (hqn : ∀ i, 0 ≤ q i) (hMn : 0 ≤ M) :
+    ∀ i j, RationalInputHeight
+      (rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε) i j)
+      (rationalDemandGraphOutputHeight m (Q+T+B+E)) := by
+  apply rational_demand_graph_completion_table_output_height q t M ε
+    (fun i => rational_input_height_mono (hq i) (by omega))
+    (fun i => rational_input_height_mono (ht i) (by omega))
+    (rational_input_height_mono hM (by omega)) (rational_input_height_mono hε (by omega)) hqn hMn
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianCompressionEncoding.lean -/
+/- AI-assisted separate development; Apache-2.0.
+Composes actual Gaussian directions and actual materialized deletions.
+Exact-source check status is recorded externally. No arithmetic operation,
+primitive bit-time or runtime claim.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def gaussianCompressionDirectionExponent (d m B : ℕ) : ℕ :=
+  Gaussian.kernelOutputBitBound (d+(m+1)) m B
+
+/-- The actual reduction, including both keep-input branches, earns its next
+common lattice and preserves nonnegativity and mass. Direction bounds come
+from original feature entries, independently of the current weight sizes. -/
+theorem rational_gaussian_reduce_vector_encoding_lattice {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (B : ℕ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q : Gaussian.QVec m) (D Q : ℕ) (hD : 0 < D) (hDb : D ≤ Nat.pow 2 Q)
+    (hql : ∀ i, RationalDenominatorLattice D (q.get i))
+    (hq : ∀ i, 0 ≤ q.get i) :
+    ∃ D', 0 < D' ∧
+      D' ≤ Nat.pow 2 (Q+gaussianCompressionDirectionExponent d m B*(m+1)) ∧
+      (∀ i, RationalDenominatorLattice D' ((rationalGaussianReduceVector A q).get i)) ∧
+      (∀ i, 0 ≤ (rationalGaussianReduceVector A q).get i) ∧
+      (∑ i, (rationalGaussianReduceVector A q).get i) = ∑ i, q.get i := by
+  let T := gaussianCompressionDirectionExponent d m B
+  have hkeep : ∃ D', 0 < D' ∧ D' ≤ Nat.pow 2 (Q+T*(m+1)) ∧
+      (∀ i, RationalDenominatorLattice D' (q.get i)) ∧
+      (∀ i, 0 ≤ q.get i) ∧ (∑ i, q.get i) = ∑ i, q.get i := by
+    refine ⟨D, hD, hDb.trans ?_, hql, hq, rfl⟩
+    exact Nat.pow_le_pow_right (by decide : 0 < 2) (Nat.le_add_right _ _)
+  unfold rationalGaussianReduceVector
+  split_ifs with hc
+  · exact hkeep
+  · cases hk : rationalGaussianFeatureKernel A q.get with
+    | none =>
+      simpa only [rationalGaussianFeatureDelete, hk, Option.map_none]
+        using hkeep
+    | some w =>
+      obtain ⟨⟨_ha, hm, hs⟩, hn⟩ := rational_gaussian_feature_sound A q.get w hk
+      have hpos := rational_feature_direction_positive w hm hn
+      have hwb := rational_gaussian_feature_direction_bits A B hAn hAd q.get w hk
+      have hwn : ∀ i, (w i).num.natAbs ≤ Nat.pow 2 T := by
+        intro i
+        exact Nat.le_of_lt (Nat.size_le.mp (hwb i).1)
+      have hwd : ∀ i, (w i).den ≤ Nat.pow 2 T := by
+        intro i
+        exact Nat.le_of_lt (Nat.size_le.mp (hwb i).2)
+      obtain ⟨D', hDp, hDb', hDl⟩ := rational_feature_delete_binary_lattice_bound
+        q.get w D Q T hD hDb hql hwn hwd hpos
+      have hnonneg := rational_feature_delete_nonnegative q.get w hq hs hpos
+      have hmass := rational_feature_delete_mass q.get w hm
+      refine ⟨D', hDp, hDb', ?_, ?_, ?_⟩
+      · intro i
+        simpa only [rationalGaussianFeatureDelete, hk, Option.map_some,
+          Gaussian.vecGet_ofFn] using
+          rational_lattice_of_den_divides D' hDp (rationalFeatureDelete q.get w i) (hDl i)
+      · simpa only [rationalGaussianFeatureDelete, hk, Option.map_some,
+          Gaussian.vecGet_ofFn] using hnonneg
+      · simpa only [rationalGaussianFeatureDelete, hk, Option.map_some,
+          Gaussian.vecGet_ofFn] using hmass
+
+/-- Induction over the actual materialized vector iteration. The lattice
+exponent grows additively per iteration; no bounds on returned weights are
+introduced as input fields or premises. -/
+theorem rational_gaussian_iterates_encoding_lattice {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (B : ℕ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q : Gaussian.QVec m) (D Q : ℕ) (hD : 0 < D) (hDb : D ≤ Nat.pow 2 Q)
+    (hql : ∀ i, RationalDenominatorLattice D (q.get i))
+    (hq : ∀ i, 0 ≤ q.get i) (fuel : ℕ) :
+    ∃ D', 0 < D' ∧
+      D' ≤ Nat.pow 2 (Q+fuel*(gaussianCompressionDirectionExponent d m B*(m+1))) ∧
+      (∀ i, RationalDenominatorLattice D' ((rationalGaussianVectorIterates A q fuel).get i)) ∧
+      (∀ i, 0 ≤ (rationalGaussianVectorIterates A q fuel).get i) ∧
+      (∑ i, (rationalGaussianVectorIterates A q fuel).get i) = ∑ i, q.get i := by
+  induction fuel with
+  | zero =>
+    refine ⟨D, hD, ?_, hql, hq, rfl⟩
+    simpa only [Nat.zero_mul, Nat.add_zero] using hDb
+  | succ fuel ih =>
+    obtain ⟨Dt, hDt, hDtb, hDtl, htn, htm⟩ := ih
+    obtain ⟨D', hDp, hDb', hDl, hn, hm⟩ := rational_gaussian_reduce_vector_encoding_lattice
+      A B hAn hAd (rationalGaussianVectorIterates A q fuel) Dt
+      (Q+fuel*(gaussianCompressionDirectionExponent d m B*(m+1))) hDt hDtb hDtl htn
+    rw [rational_gaussian_vector_iterates_succ]
+    refine ⟨D', hDp, ?_, hDl, hn, hm.trans htm⟩
+    simpa only [Nat.succ_mul, Nat.add_assoc] using hDb'
+
+/-- Value-encoding bound for the actual Gaussian compressor, derived from
+original feature heights, original weight denominators, nonnegativity and mass.
+The input numerator bound is unnecessary because mass controls magnitudes.
+This theorem does not assert arithmetic or bit runtime. -/
+theorem rational_gaussian_compress_encoding_bits {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (B : ℕ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q : Fin m → ℚ) (Q R : ℕ) (r : ℚ)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 Q)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r)
+    (hr : r ≤ ((Nat.pow 2 R : ℕ) : ℚ)) :
+    ∀ i, rationalCanonicalEncodingBits ((rationalGaussianCompressVector A q).get i) ≤
+      R+2*(Q*m+m*(gaussianCompressionDirectionExponent d m B*(m+1)))+3 := by
+  let D := rationalDenominatorProduct (List.ofFn q)
+  have hD : 0 < D := rational_denominator_product_positive _
+  have hql : ∀ i, RationalDenominatorLattice D (q i) := by
+    intro i
+    exact rational_lattice_input_list _ _ (List.mem_ofFn.mpr ⟨i, rfl⟩)
+  have hDb : D ≤ Nat.pow 2 (Q*m) := by
+    have hh := rational_denominator_product_power (List.ofFn q) (Nat.pow 2 Q) (by
+      intro a ha
+      obtain ⟨i, rfl⟩ := List.mem_ofFn.mp ha
+      exact hqd i)
+    have hp : Nat.pow 2 (Q*m) = Nat.pow (Nat.pow 2 Q) m := Nat.pow_mul 2 Q m
+    simpa only [D, List.length_ofFn, hp] using hh
+  obtain ⟨D', hDp, hDb', hDl, hn, hmass⟩ := rational_gaussian_iterates_encoding_lattice
+    A B hAn hAd (List.Vector.ofFn q) D (Q*m) hD hDb
+    (by simpa only [Gaussian.vecGet_ofFn] using hql)
+    (by simpa only [Gaussian.vecGet_ofFn] using hq) (rationalWeightSupport q).card
+  have hcount := rational_gaussian_compress_iteration_fuel_le q
+  have hDbFinal : D' ≤ Nat.pow 2 (Q*m+m*(gaussianCompressionDirectionExponent d m B*(m+1))) := by
+    exact hDb'.trans (Nat.pow_le_pow_right (by decide : 0 < 2)
+      (Nat.add_le_add_left (Nat.mul_le_mul_right _ hcount) _))
+  have hmFinal : (∑ i, (rationalGaussianCompressVector A q).get i) = r := by
+    have hm0 : (∑ i, (List.Vector.ofFn q).get i) = r := by
+      simpa only [Gaussian.vecGet_ofFn] using hm
+    exact hmass.trans hm0
+  intro i
+  apply rational_canonical_encoding_bits_bound _ R
+    (Q*m+m*(gaussianCompressionDirectionExponent d m B*(m+1)))
+  · have hni : 0 ≤ (rationalGaussianCompressVector A q).get i := hn i
+    rw [abs_of_nonneg hni]
+    exact (Finset.single_le_sum (fun j _ => hn j) (Finset.mem_univ i)).trans
+      (hmFinal.le.trans hr)
+  · exact (rational_lattice_den_le D' hDp _ (hDl i)).trans hDbFinal
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianGraphOutputHeight.lean -/
+/- AI-assisted actual graph-flow/decoder value-height continuation.
+Exact compilation/audit status is recorded in source-bound receipts.
+The original reviewed uncompiled v1 is preserved in source-graph-output-height-v1.
+These are value/encoding bounds, not primitive or whole-pipeline runtime claims.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_input_height_of_canonical_budget {q : ℚ} {H : ℕ}
+    (h : rationalCanonicalEncodingBits q ≤ H) : RationalInputHeight q H := by
+  have hn : Nat.log2 q.num.natAbs+1 ≤ H := by
+    unfold rationalCanonicalEncodingBits at h
+    omega
+  have hd : Nat.log2 q.den+1 ≤ H := by
+    unfold rationalCanonicalEncodingBits at h
+    omega
+  constructor
+  · by_cases hz : q.num.natAbs = 0
+    · rw [hz]
+      exact Nat.zero_le _
+    · exact ((Nat.log2_lt hz).mp (by omega)).le
+  · exact ((Nat.log2_lt q.den_ne_zero).mp (by omega)).le
+
+def gaussianCompressedInputHeight (d m B Q R : ℕ) : ℕ :=
+  R+2*(Q*m+m*(gaussianCompressionDirectionExponent d m B*(m+1)))+3
+
+theorem rational_gaussian_compress_output_input_height {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (B : ℕ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q : Fin m → ℚ) (Q R : ℕ) (r : ℚ)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 Q)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r)
+    (hr : r ≤ ((Nat.pow 2 R : ℕ) : ℚ)) :
+    ∀ i, RationalInputHeight ((rationalGaussianCompressVector A q).get i)
+      (gaussianCompressedInputHeight d m B Q R) := by
+  intro i
+  exact rational_input_height_of_canonical_budget
+    (rational_gaussian_compress_encoding_bits A B hAn hAd q Q R r hqd hq hm hr i)
+
+/-- Nonnegativity is recovered from the actual iterate lattice theorem, even
+without a distinguished mass row in the original features. No property of the
+returned weights is assumed to feed the graph capacity invariant. -/
+theorem rational_gaussian_compress_nonnegative_from_input {d m : ℕ}
+    (A : Fin d → Fin m → ℚ) (B : ℕ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q : Fin m → ℚ) (Q : ℕ)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 Q) (hq : ∀ i, 0 ≤ q i) :
+    ∀ i, 0 ≤ (rationalGaussianCompressVector A q).get i := by
+  let D := rationalDenominatorProduct (List.ofFn q)
+  have hD : 0 < D := rational_denominator_product_positive _
+  have hql : ∀ i, RationalDenominatorLattice D (q i) := by
+    intro i
+    exact rational_lattice_input_list _ _ (List.mem_ofFn.mpr ⟨i, rfl⟩)
+  have hDb : D ≤ Nat.pow 2 (Q*m) := by
+    have hh := rational_denominator_product_power (List.ofFn q) (Nat.pow 2 Q) (by
+      intro a ha
+      obtain ⟨i, rfl⟩ := List.mem_ofFn.mp ha
+      exact hqd i)
+    have hp : Nat.pow 2 (Q*m) = Nat.pow (Nat.pow 2 Q) m := Nat.pow_mul 2 Q m
+    simpa only [D, List.length_ofFn, hp] using hh
+  obtain ⟨D', _hDp, _hDb', _hDl, hn, _hm⟩ := rational_gaussian_iterates_encoding_lattice
+    A B hAn hAd (List.Vector.ofFn q) D (Q*m) hD hDb
+    (by simpa only [Gaussian.vecGet_ofFn] using hql)
+    (by simpa only [Gaussian.vecGet_ofFn] using hq) (rationalWeightSupport q).card
+  exact hn
+
+/-- Source-only full ACTUAL value-height endpoint: returned Gaussian weights
+are passed to the actual graph-fuel demand decoder and materialized B table.
+Only original input encoding/nonnegativity/mass hypotheses occur. -/
+theorem rational_gaussian_graph_completion_table_output_height {d m B Q R T U E : ℕ}
+    (A : Fin d → Fin m → ℚ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q t : Fin m → ℚ) (M ε r : ℚ)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 Q)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r)
+    (hr : r ≤ ((Nat.pow 2 R : ℕ) : ℚ))
+    (ht : ∀ i, RationalInputHeight (t i) T)
+    (hM : RationalInputHeight M U) (hε : RationalInputHeight ε E) (hMn : 0 ≤ M) :
+    ∀ i j, RationalInputHeight
+      (rationalFlowTableEntry
+        (rationalDemandGraphCompletionTable (rationalGaussianCompressVector A q).get t M ε) i j)
+      (rationalDemandGraphOutputHeight m (gaussianCompressedInputHeight d m B Q R+T+U+E)) := by
+  apply rational_demand_graph_completion_table_separate_input_height _ t M ε
+    (rational_gaussian_compress_output_input_height A B hAn hAd q Q R r hqd hq hm hr)
+    ht hM hε (rational_gaussian_compress_nonnegative_from_input A B hAn hAd q Q hqd hq) hMn
+
+theorem rational_gaussian_graph_completion_table_canonical_bits {d m B Q R T U E : ℕ}
+    (A : Fin d → Fin m → ℚ)
+    (hAn : ∀ a i, (A a i).num.natAbs ≤ Nat.pow 2 B)
+    (hAd : ∀ a i, (A a i).den ≤ Nat.pow 2 B)
+    (q t : Fin m → ℚ) (M ε r : ℚ)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 Q)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r)
+    (hr : r ≤ ((Nat.pow 2 R : ℕ) : ℚ))
+    (ht : ∀ i, RationalInputHeight (t i) T)
+    (hM : RationalInputHeight M U) (hε : RationalInputHeight ε E) (hMn : 0 ≤ M) :
+    ∀ i j, rationalCanonicalEncodingBits
+      (rationalFlowTableEntry
+        (rationalDemandGraphCompletionTable (rationalGaussianCompressVector A q).get t M ε) i j) ≤
+      2*rationalDemandGraphOutputHeight m (gaussianCompressedInputHeight d m B Q R+T+U+E)+3 := by
+  intro i j
+  exact rational_input_height_bits
+    (rational_gaussian_graph_completion_table_output_height A hAn hAd q t M ε r
+      hqd hq hm hr ht hM hε hMn i j)
+
+end SparseCompletion
+
+/- Fixed source body: RationalPaperLPInputHeight.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Input-derived encoding bounds for the literal feature-kernel LPs called by
+the actual general/exact paper compressor. Current weights enter coefficients
+only through support tests; no FM output-height or runtime theorem is claimed. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_paper_shift_features_input_height {k d m B L : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ)
+    (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hL : L ≤ rationalCanonicalGridSize M r η)
+    (row : Fin (k+(d+L)+1)) (i : Fin m) :
+    RationalInputHeight
+      (rationalPaperFeatures D E (fun i => rationalScore D p i-ρ) M r η L row i)
+      (rationalFixedAnchorInputHeight k B) := by
+  have hbase : B ≤ rationalFixedAnchorInputHeight k B := by
+    unfold rationalFixedAnchorInputHeight
+    nlinarith [Nat.zero_le (k*B)]
+  have hhinge (l : Fin L) : RationalInputHeight
+      (max (rationalScore D p i-ρ-(M*r-rationalGridNode M r η (l.val+1))) 0)
+      (rationalFixedAnchorInputHeight k B) := by
+    have hs := rational_score_input_height D p hD hp i
+    have ht := rational_grid_threshold_input_height M r η B (10*B+1) (l.val+1)
+      hM hr hη (rational_canonical_row_endpoint_input_bound hM hr hη hL l)
+    apply rational_input_height_max _ (rational_input_height_zero _)
+    apply rational_input_height_mono (rational_input_height_sub (rational_input_height_sub hs hρ) ht)
+    unfold rationalScoreInputHeight rationalGridThresholdInputHeight
+      rationalGridNodeInputHeight rationalFixedAnchorInputHeight
+    nlinarith [Nat.zero_le (k*B)]
+  refine Fin.cases ?_ (fun tail => ?_) row
+  · exact rational_input_height_one _
+  · refine Fin.addCases (fun a => ?_) (fun tail' => ?_) tail
+    · simpa [rationalPaperFeatures] using rational_input_height_mono (hD i a) hbase
+    · refine Fin.addCases (fun a => ?_) (fun l => ?_) tail'
+      · simpa [rationalPaperFeatures] using rational_input_height_mono (hE a i) hbase
+      · simpa [rationalPaperFeatures] using hhinge l
+
+theorem rational_feature_kernel_system_input_height {f m H : ℕ}
+    (A : Fin f → Fin m → ℚ) (q : Fin m → ℚ) (pivot : Fin m)
+    (hA : ∀ row i, RationalInputHeight (A row i) H) :
+    (∀ row i, RationalInputHeight ((rationalFeatureKernelSystem A q pivot).coefficient row i) H) ∧
+      ∀ row, RationalInputHeight ((rationalFeatureKernelSystem A q pivot).rightSide row) H := by
+  have hz := rational_input_height_zero H
+  have ho := rational_input_height_one H
+  have hc (row : RationalFeatureEquation f m) (i : Fin m) :
+      RationalInputHeight (rationalFeatureEquationCoefficient A q pivot row i) H := by
+    rcases row with a | u | j | u
+    · exact hA a i
+    · exact ho
+    · simp only [rationalFeatureEquationCoefficient, Sum.elim_inr, Sum.elim_inl]
+      split
+      · exact hz
+      · split
+        · exact ho
+        · exact hz
+    · simp only [rationalFeatureEquationCoefficient, Sum.elim_inr]
+      split
+      · exact ho
+      · exact hz
+  have hs (row : RationalFeatureEquation f m) :
+      RationalInputHeight (rationalFeatureEquationRight row) H := by
+    rcases row with a | u | j | u
+    · exact hz
+    · exact hz
+    · exact hz
+    · exact ho
+  constructor
+  · rintro ⟨row, b⟩ i
+    cases b
+    · exact rational_input_height_neg (hc row i)
+    · exact hc row i
+  · rintro ⟨row, b⟩
+    cases b
+    · exact rational_input_height_neg (hs row)
+    · exact hs row
+
+theorem rational_feature_kernel_system_encoding_bits {f m H : ℕ}
+    (A : Fin f → Fin m → ℚ) (q : Fin m → ℚ) (pivot : Fin m)
+    (hA : ∀ row i, RationalInputHeight (A row i) H) :
+    rationalLinearSystemEncodingBits (rationalFeatureKernelSystem A q pivot) ≤
+      2*(f+m+2)*(m+1)*(2*H+3) := by
+  obtain ⟨hc, hs⟩ := rational_feature_kernel_system_input_height A q pivot hA
+  have hh := rational_linear_system_encoding_bits_of_entry_bound (rationalFeatureKernelSystem A q pivot) hc hs
+  have hcard : Fintype.card (RationalFeatureEquation f m × Bool) = 2*(f+m+2) := by
+    simp only [RationalFeatureEquation, Fintype.card_sum, Fintype.card_fin,
+      Fintype.card_unit, Fintype.card_prod, Fintype.card_bool]
+    ring
+  simpa only [hcard] using hh
+
+/-- This is the exact LP family passed to the original paper compressor's
+kernel search, for every current rational weight vector and chosen pivot.
+The same canonical-grid bound covers L=H and the exact L=H-1 construction. -/
+theorem rational_paper_shift_kernel_input_encoding_bits {k d m B L : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ)
+    (q : Fin m → ℚ) (pivot : Fin m) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hL : L ≤ rationalCanonicalGridSize M r η) :
+    rationalLinearSystemEncodingBits
+      (rationalFeatureKernelSystem
+        (rationalPaperFeatures D E (fun i => rationalScore D p i-ρ) M r η L) q pivot) ≤
+      2*(k+d+L+m+3)*(m+1)*(2048*(k+1)*(B+1)+3) := by
+  have hA := rational_paper_shift_features_input_height D E p M r ρ η hD hE hp hM hr hρ hη hL
+  have hh := rational_feature_kernel_system_encoding_bits
+    (rationalPaperFeatures D E (fun i => rationalScore D p i-ρ) M r η L) q pivot hA
+  convert hh using 1; unfold rationalFixedAnchorInputHeight; ring
+
+theorem rational_paper_general_kernel_input_encoding_bits {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ)
+    (q : Fin m → ℚ) (pivot : Fin m) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B) :
+    rationalLinearSystemEncodingBits
+      (rationalFeatureKernelSystem
+        (rationalPaperFeatures D E (fun i => rationalScore D p i-ρ) M r η
+          (rationalCanonicalGridSize M r η)) q pivot) ≤
+      2*(k+d+rationalCanonicalGridSize M r η+m+3)*(m+1)*(2048*(k+1)*(B+1)+3) :=
+  rational_paper_shift_kernel_input_encoding_bits D E p q pivot M r ρ η hD hE hp hM hr hρ hη le_rfl
+
+theorem rational_paper_exact_kernel_input_encoding_bits {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ)
+    (q : Fin m → ℚ) (pivot : Fin m) (M r η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B) :
+    rationalLinearSystemEncodingBits
+      (rationalFeatureKernelSystem
+        (rationalPaperFeatures D E (rationalScore D p) M r η
+          (rationalCanonicalGridSize M r η-1)) q pivot) ≤
+      2*(k+d+(rationalCanonicalGridSize M r η-1)+m+3)*(m+1)*(2048*(k+1)*(B+1)+3) := by
+  simpa only [sub_zero] using rational_paper_shift_kernel_input_encoding_bits
+    (L := rationalCanonicalGridSize M r η-1) D E p q pivot M r 0 η hD hE hp hM hr
+      (rational_input_height_zero B) hη (Nat.sub_le _ _)
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianPaperEncoding.lean -/
+/- AI-assisted separate source draft; Apache-2.0.
+Original paper-input bounds for the actual materialized Gaussian weights.
+Exact check status is external. Value encoding only; no runtime claim.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def gaussianPaperWeightExponent (k d m L B : ℕ) : ℕ :=
+  B*m+m*(gaussianCompressionDirectionExponent (k+(d+L)+1) m
+    (rationalFixedAnchorInputHeight k B)*(m+1))
+
+/-- Every original rational input is bounded before compression. The result
+is the actual materialized vector, including all repeated support deletions;
+no direction or returned-weight size bound is a caller premise. -/
+theorem rational_gaussian_paper_shift_encoding_bits {k d m B L : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r)
+    (hL : L ≤ rationalCanonicalGridSize M r η) :
+    ∀ i, rationalCanonicalEncodingBits
+      ((rationalGaussianPaperCompress D E q (fun j => rationalScore D p j-ρ) M r η L).get i)
+        ≤ B+2*gaussianPaperWeightExponent k d m L B+3 := by
+  have hA := rational_paper_shift_features_input_height D E p M r ρ η
+    hD hE hp hM hr hρ hη hL
+  have hrb : r ≤ ((Nat.pow 2 B : ℕ) : ℚ) :=
+    (le_abs_self r).trans (rational_input_height_magnitude hr)
+  exact rational_gaussian_compress_encoding_bits
+    (rationalPaperFeatures D E (fun j => rationalScore D p j-ρ) M r η L)
+    (rationalFixedAnchorInputHeight k B)
+    (fun a i => (hA a i).1) (fun a i => (hA a i).2)
+    q B B r hqd hq hm hrb
+
+theorem rational_gaussian_paper_general_flow_weight_encoding {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r) :
+    ∀ i, rationalCanonicalEncodingBits
+      ((rationalGaussianPaperGeneralFlow D E p q M r ρ η).1.get i)
+      ≤ B+2*gaussianPaperWeightExponent k d m (rationalCanonicalGridSize M r η) B+3 := by
+  exact rational_gaussian_paper_shift_encoding_bits D E p q M r ρ η
+    hD hE hp hqd hM hr hρ hη hq hm (Nat.le_refl _)
+
+theorem rational_gaussian_paper_exact_flow_weight_encoding {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i = r) :
+    ∀ i, rationalCanonicalEncodingBits
+      ((rationalGaussianPaperExactFlow D E p q M r η).1.get i)
+      ≤ B+2*gaussianPaperWeightExponent k d m (rationalCanonicalGridSize M r η-1) B+3 := by
+  have hh := rational_gaussian_paper_shift_encoding_bits D E p q M r 0 η
+    hD hE hp hqd hM hr (rational_input_height_zero B) hη hq hm
+    (Nat.sub_le (rationalCanonicalGridSize M r η) 1)
+  simpa only [rationalGaussianPaperExactFlow, rationalGaussianPaperExactVector, sub_zero] using hh
+
+end SparseCompletion
+
+/- Fixed source body: RationalGaussianPaperTableEncoding.lean -/
+/- AI-assisted original-paper output encoding composition; Apache-2.0.
+Exact check status is external. Value encoding only; no runtime claim.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Input exponent for the literal general public pair's materialized table.
+The canonical grid count remains explicit in the already proved weight budget. -/
+def gaussianPaperGeneralTableHeight (k d m B : ℕ) (M r η : ℚ) : ℕ :=
+  rationalDemandGraphOutputHeight m
+    ((B+2*gaussianPaperWeightExponent k d m (rationalCanonicalGridSize M r η) B+3)
+      +rationalScoreInputHeight k B+B+(4*B+1))
+
+/-- Input exponent for the literal exact public pair's materialized table. -/
+def gaussianPaperExactTableHeight (k d m B : ℕ) (M r η : ℚ) : ℕ :=
+  rationalDemandGraphOutputHeight m
+    ((B+2*gaussianPaperWeightExponent k d m (rationalCanonicalGridSize M r η-1) B+3)
+      +rationalScoreInputHeight k B+B+B)
+
+/-- Original data bounds earn the height of the actual second projection.
+The first projection's size and nonnegativity are derived from the executed
+compressor. No output flow, common denominator or returned-weight premise is
+accepted, and no original feasible game witness is needed for a value bound. -/
+theorem rational_gaussian_paper_general_flow_table_input_height {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r) (hMn : 0 ≤ M) :
+    ∀ i j, RationalInputHeight
+      (rationalFlowTableEntry (rationalGaussianPaperGeneralFlow D E p q M r ρ η).2 i j)
+      (gaussianPaperGeneralTableHeight k d m B M r η) := by
+  have hweights : ∀ i, RationalInputHeight
+      ((rationalGaussianPaperGeneralFlow D E p q M r ρ η).1.get i)
+      (B+2*gaussianPaperWeightExponent k d m (rationalCanonicalGridSize M r η) B+3) := by
+    intro i
+    exact rational_input_height_of_canonical_budget
+      (rational_gaussian_paper_general_flow_weight_encoding D E p q M r ρ η
+        hD hE hp hqd hM hr hρ hη hq hm i)
+  have hn : ∀ i, 0 ≤ (rationalGaussianPaperGeneralFlow D E p q M r ρ η).1.get i := by
+    have hh := (rational_gaussian_paper_compress_contract D E q
+      (fun i => rationalScore D p i-ρ) M r η (rationalCanonicalGridSize M r η) hq).1
+    simpa only [rationalGaussianPaperGeneralFlow, rationalGaussianPaperGeneralVector,
+      rationalGaussianPaperWeights] using hh
+  have hepsilon : RationalInputHeight (ρ+η) (4*B+1) := by
+    convert rational_input_height_add hρ hη using 1; omega
+  exact rational_demand_graph_completion_table_separate_input_height
+    (rationalGaussianPaperGeneralFlow D E p q M r ρ η).1.get (rationalScore D p) M (ρ+η)
+    hweights (rational_score_input_height D p hD hp) hM hepsilon hn hMn
+
+/-- Canonical value budget for the same literal general public pair table. -/
+theorem rational_gaussian_paper_general_flow_table_canonical_bits {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hρ : RationalInputHeight ρ B) (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r) (hMn : 0 ≤ M) :
+    ∀ i j, rationalCanonicalEncodingBits
+      (rationalFlowTableEntry (rationalGaussianPaperGeneralFlow D E p q M r ρ η).2 i j) ≤
+      2*gaussianPaperGeneralTableHeight k d m B M r η+3 := by
+  intro i j
+  exact rational_input_height_bits
+    (rational_gaussian_paper_general_flow_table_input_height D E p q M r ρ η
+      hD hE hp hqd hM hr hρ hη hq hm hMn i j)
+
+/-- Exact-target analogue, including natural grid subtraction and zero weights.
+Only original input encoding/nonnegativity/mass assumptions occur. -/
+theorem rational_gaussian_paper_exact_flow_table_input_height {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r) (hMn : 0 ≤ M) :
+    ∀ i j, RationalInputHeight
+      (rationalFlowTableEntry (rationalGaussianPaperExactFlow D E p q M r η).2 i j)
+      (gaussianPaperExactTableHeight k d m B M r η) := by
+  have hweights : ∀ i, RationalInputHeight
+      ((rationalGaussianPaperExactFlow D E p q M r η).1.get i)
+      (B+2*gaussianPaperWeightExponent k d m (rationalCanonicalGridSize M r η-1) B+3) := by
+    intro i
+    exact rational_input_height_of_canonical_budget
+      (rational_gaussian_paper_exact_flow_weight_encoding D E p q M r η
+        hD hE hp hqd hM hr hη hq hm i)
+  have hn : ∀ i, 0 ≤ (rationalGaussianPaperExactFlow D E p q M r η).1.get i := by
+    have hh := (rational_gaussian_paper_compress_contract D E q
+      (rationalScore D p) M r η (rationalCanonicalGridSize M r η-1) hq).1
+    simpa only [rationalGaussianPaperExactFlow, rationalGaussianPaperExactVector,
+      rationalGaussianPaperWeights] using hh
+  exact rational_demand_graph_completion_table_separate_input_height
+    (rationalGaussianPaperExactFlow D E p q M r η).1.get (rationalScore D p) M η
+    hweights (rational_score_input_height D p hD hp) hM hη hn hMn
+
+/-- Canonical value budget for the same literal exact public pair table. -/
+theorem rational_gaussian_paper_exact_flow_table_canonical_bits {k d m B : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hD : ∀ i a, RationalInputHeight (D i a) B)
+    (hE : ∀ a i, RationalInputHeight (E a i) B)
+    (hp : ∀ a, RationalInputHeight (p a) B)
+    (hqd : ∀ i, (q i).den ≤ Nat.pow 2 B)
+    (hM : RationalInputHeight M B) (hr : RationalInputHeight r B)
+    (hη : RationalInputHeight η B)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r) (hMn : 0 ≤ M) :
+    ∀ i j, rationalCanonicalEncodingBits
+      (rationalFlowTableEntry (rationalGaussianPaperExactFlow D E p q M r η).2 i j) ≤
+      2*gaussianPaperExactTableHeight k d m B M r η+3 := by
+  intro i j
+  exact rational_input_height_bits
+    (rational_gaussian_paper_exact_flow_table_input_height D E p q M r η
+      hD hE hp hqd hM hr hη hq hm hMn i j)
+
+end SparseCompletion
+
+/- Fixed source body: ThresholdStrongLossCover.lean -/
+/- AI-assisted source-only draft under repository Apache-2.0.
+Exact-source verification is recorded in separate receipts. The strict threshold is the paper's d_ij > beta,
+and beta is transported from its stated nonnegative loss domain. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+noncomputable section
+
+/-- Strong-loss edges use the original intervalLoss, with a strict threshold. -/
+def intervalStrongLossEdge {ν : Type*} (lo hi : ν → ν → ℝ) (M β : ℝ)
+    (a b : ν) : Prop := a ≠ b ∧ β < intervalLoss M (lo a b) (hi a b)
+
+def intervalStrongLossVertexCover {ν : Type*} (C : Set ν)
+    (lo hi : ν → ν → ℝ) (M β : ℝ) : Prop :=
+  ∀ a b, intervalStrongLossEdge lo hi M β a b → a ∈ C ∨ b ∈ C
+
+/-- Unordered-pair form used literally in the paper's observation graph. -/
+def orderedStrongLossVertexCover {ν : Type*} [LinearOrder ν] (C : Set ν)
+    (lo hi : ν → ν → ℝ) (M β : ℝ) : Prop :=
+  ∀ a b, a < b → β < intervalLoss M (lo a b) (hi a b) → a ∈ C ∨ b ∈ C
+
+theorem strong_loss_cover_ordered_bridge {ν : Type*} [LinearOrder ν]
+    (C : Set ν) (lo hi : ν → ν → ℝ) (M β : ℝ)
+    (hrev : ∀ a b, a ≠ b → lo a b = -hi b a ∧ hi a b = -lo b a) :
+    orderedStrongLossVertexCover C lo hi M β ↔
+      intervalStrongLossVertexCover C lo hi M β := by
+  constructor
+  · intro h a b hab
+    rcases lt_or_gt_of_ne hab.1 with hlt | hgt
+    · exact h a b hlt hab.2
+    · have hs : intervalLoss M (lo b a) (hi b a) = intervalLoss M (lo a b) (hi a b) := by
+        rw [(hrev b a hab.1.symm).1, (hrev b a hab.1.symm).2, interval_loss_reverse]
+      exact (h b a hgt (by rw [hs]; exact hab.2)).symm
+  · intro h a b hab hβ
+    exact h a b ⟨ne_of_lt hab, hβ⟩
+
+/-- The inserted zero in residualLossValues handles empty labels and the
+absence of uncovered pairs. Its comparison requires the earned beta≥0. -/
+theorem strong_loss_cover_residual_bound {ν : Type*} [Fintype ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (lo hi : ν → ν → ℝ) (M β : ℝ)
+    (hβ : 0 ≤ β) (hcover : intervalStrongLossVertexCover C lo hi M β) :
+    residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+      (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M ≤ β := by
+  apply (residual_loss_bound_le_iff _ _ M β).mpr
+  refine ⟨hβ, ?_⟩
+  intro i j hij
+  by_contra h
+  have he : i.val ≠ j.val := fun he => hij (Subtype.ext he)
+  have hstrong : β < intervalLoss M (lo i.val j.val) (hi i.val j.val) := lt_of_not_ge h
+  rcases hcover i.val j.val ⟨he, hstrong⟩ with hiC | hjC
+  · exact i.property hiC
+  · exact j.property hjC
+
+theorem ordered_strong_loss_cover_residual_bound {ν : Type*} [Fintype ν] [LinearOrder ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (lo hi : ν → ν → ℝ) (M β : ℝ)
+    (hβ : 0 ≤ β)
+    (hrev : ∀ a b, a ≠ b → lo a b = -hi b a ∧ hi a b = -lo b a)
+    (hcover : orderedStrongLossVertexCover C lo hi M β) :
+    residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+      (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M ≤ β :=
+  strong_loss_cover_residual_bound C lo hi M β hβ
+    ((strong_loss_cover_ordered_bridge C lo hi M β hrev).mp hcover)
+
+/-- The source beta_C earns its entire [0,2M] domain from the actual
+nonempty bounded interval endpoints, including no residual pairs. -/
+theorem residual_loss_source_domain {ν : Type*} [Fintype ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (lo hi : ν → ν → ℝ) (M : ℝ)
+    (hM : 0 ≤ M) (hlo : ∀ a b, a ≠ b → -M ≤ lo a b)
+    (hhi : ∀ a b, a ≠ b → hi a b ≤ M)
+    (hlu : ∀ a b, a ≠ b → lo a b ≤ hi a b) :
+    residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+      (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M ∈ Set.Icc 0 ((2 : ℕ) * M) := by
+  refine ⟨residual_loss_bound_nonnegative _ _ M, ?_⟩
+  apply residual_loss_bound_le _ _ M hM
+  · intro i j hij
+    exact hlo i.val j.val (fun he => hij (Subtype.ext he))
+  · intro i j hij
+    exact hhi i.val j.val (fun he => hij (Subtype.ext he))
+  · intro i j hij
+    exact hlu i.val j.val (fun he => hij (Subtype.ext he))
+
+/-- beta_C itself is a threshold for which C covers every stronger edge;
+this uses the computed finite loss maximum, not an assumed loss-bound field. -/
+theorem residual_loss_bound_gives_strong_cover {ν : Type*} [Fintype ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (lo hi : ν → ν → ℝ) (M : ℝ) :
+    intervalStrongLossVertexCover C lo hi M
+      (residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+        (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M) := by
+  intro a b hab
+  by_cases ha : a ∈ C
+  · exact Or.inl ha
+  · by_cases hb : b ∈ C
+    · exact Or.inr hb
+    · let i : (Cᶜ : Set ν) := ⟨a, ha⟩
+      let j : (Cᶜ : Set ν) := ⟨b, hb⟩
+      have hij : i ≠ j := fun he => hab.1 (congrArg Subtype.val he)
+      have hbound := residual_loss_le_bound
+        (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+        (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M i j hij
+      exact False.elim (not_lt_of_ge hbound hab.2)
+
+/-- This scalar statement includes r=0 literally; no positive residual mass
+or nonempty residual type is introduced to transport the beta*r error. -/
+theorem strong_loss_cover_error_bound {ν : Type*} [Fintype ν] [LinearOrder ν]
+    (C : Set ν) [DecidablePred (· ∈ C)] (lo hi : ν → ν → ℝ) (x : ν → ℝ) (M β : ℝ)
+    (hβ : 0 ≤ β) (hx : ∀ i, 0 ≤ x i)
+    (hrev : ∀ a b, a ≠ b → lo a b = -hi b a ∧ hi a b = -lo b a)
+    (hcover : orderedStrongLossVertexCover C lo hi M β) :
+    residualLossBound (fun i j : (Cᶜ : Set ν) => lo i.val j.val)
+      (fun i j : (Cᶜ : Set ν) => hi i.val j.val) M * (∑ i : (Cᶜ : Set ν), x i) ≤
+      β * (∑ i : (Cᶜ : Set ν), x i) := by
+  exact mul_le_mul_of_nonneg_right
+    (ordered_strong_loss_cover_residual_bound C lo hi M β hβ hrev hcover)
+    (Finset.sum_nonneg fun i _ => hx i.val)
+
+/-- Paper-facing strict-threshold corollary, preserving all original witness, support, incident-entry, anchor-response and extra-moment guarantees. Only the nonnegative endpoint of beta’s source domain is needed. -/
+theorem threshold_vertex_subset_weak_sparse {ν : Type*} [Fintype ν] [LinearOrder ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (d : ℕ) (F : ν → Fin d → ℝ) (A lo hi : ν → ν → ℝ) (x : ν → ℝ) (M ρ η β : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hlo : ∀ a b, a ≠ b → -M ≤ lo a b) (hhi : ∀ a b, a ≠ b → hi a b ≤ M)
+    (hlu : ∀ a b, a ≠ b → lo a b ≤ hi a b)
+    (hrev : ∀ a b, a ≠ b → lo a b= -hi b a ∧ hi a b= -lo b a)
+    (hβ : β ∈ Set.Icc 0 ((2 : ℕ) * M))
+    (hcover : orderedStrongLossVertexCover C lo hi M β) (hresp : ∀ i, response A x i ≤ ρ) :
+    let k := Fintype.card C
+    let r := ∑ i : (Cᶜ : Set ν), x i
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ ρ+η+β*r) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i ≠ 0).card ≤
+        min (Fintype.card (Cᶜ : Set ν)) (k+d+1+gridSize M r η) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) ((2 : ℕ)*k+d+1+gridSize M r η) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ i : (Cᶜ : Set ν), x' i*F i g)=∑ i : (Cᶜ : Set ν), x i*F i g := by
+  classical
+  dsimp only
+  have herr := strong_loss_cover_error_bound C lo hi x M β hβ.1 hn hrev hcover
+  obtain ⟨A', x', hxn, hxm, hsk, hbb, hInt, hrows, hC, hS, hres, htotal, hentries, hanchors, hF⟩ :=
+    arbitrary_vertex_subset_weak_sparse C d F A lo hi x M ρ η hM hη hA hb hn hm hI hlo hhi hlu hrev hresp
+  refine ⟨A', x', hxn, hxm, hsk, hbb, hInt, ?_, hC, hS, hres, htotal, hentries, hanchors, hF⟩
+  intro i
+  exact le_trans (hrows i) (by linarith)
+
+
+/-- Paper-facing strict-threshold corollary, preserving all original witness, support, incident-entry, anchor-response and extra-moment guarantees. Only the nonnegative endpoint of beta’s source domain is needed. -/
+theorem threshold_vertex_subset_weak_exact {ν : Type*} [Fintype ν] [LinearOrder ν] (C : Set ν) [DecidablePred (· ∈ C)]
+    (d : ℕ) (F : ν → Fin d → ℝ) (A lo hi : ν → ν → ℝ) (x : ν → ℝ) (M η β : ℝ)
+    (hM : 0 < M) (hη : 0 < η) (hA : IsSkew A) (hb : ∀ i j, -M ≤ A i j ∧ A i j ≤ M)
+    (hn : ∀ i, 0 ≤ x i) (hm : ∑ i, x i=1) (hI : offDiagonalIntervals lo hi A)
+    (hlo : ∀ a b, a ≠ b → -M ≤ lo a b) (hhi : ∀ a b, a ≠ b → hi a b ≤ M)
+    (hlu : ∀ a b, a ≠ b → lo a b ≤ hi a b)
+    (hrev : ∀ a b, a ≠ b → lo a b= -hi b a ∧ hi a b= -lo b a)
+    (hβ : β ∈ Set.Icc 0 ((2 : ℕ) * M))
+    (hcover : orderedStrongLossVertexCover C lo hi M β) (hresp : ∀ i, response A x i ≤ 0) :
+    let k := Fintype.card C
+    let r := ∑ i : (Cᶜ : Set ν), x i
+    ∃ (A' : ν → ν → ℝ) (x' : ν → ℝ),
+      (∀ i, 0 ≤ x' i) ∧ (∑ i, x' i)=1 ∧ IsSkew A' ∧
+      (∀ i j, -M ≤ A' i j ∧ A' i j ≤ M) ∧ offDiagonalIntervals lo hi A' ∧
+      (∀ i, response A' x' i ≤ η+β*r) ∧ (∀ v, v ∈ C → x' v=x v) ∧
+      (∀ v, v ∉ C → x v=0 → x' v=0) ∧
+      (Finset.univ.filter fun i : (Cᶜ : Set ν) => x' i ≠ 0).card ≤
+        min (Fintype.card (Cᶜ : Set ν)) (k+d+gridSize M r η) ∧
+      (Finset.univ.filter fun i => x' i ≠ 0).card ≤
+        min (Fintype.card ν) ((2 : ℕ)*k+d+gridSize M r η) ∧
+      (∀ a b, a ∈ C ∨ b ∈ C → A' a b=A a b) ∧
+      (∀ v, v ∈ C → response A' x' v=response A x v) ∧
+      ∀ g, (∑ i : (Cᶜ : Set ν), x' i*F i g)=∑ i : (Cᶜ : Set ν), x i*F i g := by
+  classical
+  dsimp only
+  have herr := strong_loss_cover_error_bound C lo hi x M β hβ.1 hn hrev hcover
+  obtain ⟨A', x', hxn, hxm, hsk, hbb, hInt, hrows, hC, hS, hres, htotal, hentries, hanchors, hF⟩ :=
+    arbitrary_vertex_subset_weak_exact C d F A lo hi x M η hM hη hA hb hn hm hI hlo hhi hlu hrev hresp
+  refine ⟨A', x', hxn, hxm, hsk, hbb, hInt, ?_, hC, hS, hres, htotal, hentries, hanchors, hF⟩
+  intro i
+  exact le_trans (hrows i) (by linarith)
+
+end
+end SparseCompletion
+
+/- Fixed source body: UniformObservationCover.lean -/
+/- AI-assisted source-only draft under the repository Apache-2.0 license.
+Exact-source verification is recorded in separate receipts. Every anchor-incident unordered pair is observed exactly,
+including observed zero. The residual block has its original full interval. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Boolean adjacency for the actual two-anchor observation pattern. -/
+def twoAnchorObservationEdge {ι : Type*} [DecidableEq ι]
+    (a b : Fin 2 ⊕ ι) : Bool :=
+  decide (a ≠ b) && match a, b with
+    | .inr _, .inr _ => false
+    | _, _ => true
+
+@[simp] theorem two_anchor_observation_no_loop {ι : Type*} [DecidableEq ι]
+    (a : Fin 2 ⊕ ι) : twoAnchorObservationEdge a a = false := by
+  cases a <;> simp [twoAnchorObservationEdge]
+
+theorem two_anchor_observation_symmetric {ι : Type*} [DecidableEq ι]
+    (a b : Fin 2 ⊕ ι) : twoAnchorObservationEdge a b = twoAnchorObservationEdge b a := by
+  cases a <;> cases b <;> simp [twoAnchorObservationEdge, ne_comm]
+
+def twoAnchorObservedLo {ι : Type*} (K : Fin 2 → Fin 2 → ℝ)
+    (D : ι → Fin 2 → ℝ) (M : ℝ) (a b : Fin 2 ⊕ ι) : ℝ :=
+  match a, b with
+  | .inr _, .inr _ => -M
+  | _, _ => blockMatrix K D (fun _ _ => 0) a b
+
+def twoAnchorObservedHi {ι : Type*} (K : Fin 2 → Fin 2 → ℝ)
+    (D : ι → Fin 2 → ℝ) (M : ℝ) (a b : Fin 2 ⊕ ι) : ℝ :=
+  match a, b with
+  | .inr _, .inr _ => M
+  | _, _ => blockMatrix K D (fun _ _ => 0) a b
+
+theorem singleton_interval_constrained (M : ℝ) (hM : 0 < M) :
+    ∀ v : ℝ, v ≠ -M ∨ v ≠ M := by
+  intro v
+  by_cases h : v = -M
+  · right
+    intro he
+    linarith
+  · exact Or.inl h
+
+/-- Literal graph bridge: exact observed zero remains an edge. -/
+theorem two_anchor_observation_edge_bridge {ι : Type*} [DecidableEq ι]
+    (K : Fin 2 → Fin 2 → ℝ) (D : ι → Fin 2 → ℝ) (M : ℝ) (hM : 0 < M)
+    (a b : Fin 2 ⊕ ι) :
+    twoAnchorObservationEdge a b = true ↔
+      intervalConstraintEdge (twoAnchorObservedLo K D M) (twoAnchorObservedHi K D M) M a b := by
+  cases a <;> cases b <;>
+    simp [twoAnchorObservationEdge, twoAnchorObservedLo, twoAnchorObservedHi,
+      intervalConstraintEdge, singleton_interval_constrained M hM]
+
+/-- The opposite ordered entries describe the same skew interval. -/
+theorem two_anchor_observed_reverse {ι : Type*} (K : Fin 2 → Fin 2 → ℝ)
+    (D : ι → Fin 2 → ℝ) (M : ℝ) (hK : IsSkew K) :
+    ∀ a b : Fin 2 ⊕ ι, a ≠ b →
+      twoAnchorObservedLo K D M a b = -twoAnchorObservedHi K D M b a ∧
+      twoAnchorObservedHi K D M a b = -twoAnchorObservedLo K D M b a := by
+  intro a b _
+  cases a with
+  | inl h =>
+    cases b with
+    | inl h' => exact ⟨hK h h', hK h h'⟩
+    | inr j => exact ⟨rfl, rfl⟩
+  | inr i =>
+    cases b with
+    | inl h => simp [twoAnchorObservedLo, twoAnchorObservedHi, blockMatrix]
+    | inr j => simp [twoAnchorObservedLo, twoAnchorObservedHi]
+
+def twoAnchorCover {ι : Type*} [DecidableEq ι] : Finset (Fin 2 ⊕ ι) :=
+  {Sum.inl 0, Sum.inl 1}
+
+theorem two_anchor_cover_card {ι : Type*} [DecidableEq ι] :
+    (twoAnchorCover (ι := ι)).card = 2 := by
+  simp [twoAnchorCover]
+
+theorem two_anchor_cover_covers {ι : Type*} [Fintype ι] [DecidableEq ι] :
+    finiteConstraintCover (twoAnchorObservationEdge (ι := ι)) twoAnchorCover := by
+  intro a b hab
+  cases a with
+  | inl h =>
+    left
+    fin_cases h <;> simp [twoAnchorCover]
+  | inr i =>
+    cases b with
+    | inl h =>
+      right
+      fin_cases h <;> simp [twoAnchorCover]
+    | inr j => simp [twoAnchorObservationEdge] at hab
+
+theorem card_at_least_two_of_distinct_mem {ν : Type*} [DecidableEq ν]
+    (C : Finset ν) {a b : ν} (ha : a ∈ C) (hb : b ∈ C) (hab : a ≠ b) :
+    2 ≤ C.card := by
+  have hs : ({a, b} : Finset ν) ⊆ C := by
+    intro v hv
+    rcases Finset.mem_insert.mp hv with rfl | hv
+    · exact ha
+    · have he : v = b := Finset.mem_singleton.mp hv
+      subst v
+      exact hb
+  simpa [hab] using Finset.card_le_card hs
+
+/-- A residual vertex and the two anchors form a constrained triangle,
+so every actual cover contains at least two vertices. -/
+theorem two_anchor_cover_lower {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (j : ι) (C : Finset (Fin 2 ⊕ ι))
+    (hC : finiteConstraintCover (twoAnchorObservationEdge (ι := ι)) C) : 2 ≤ C.card := by
+  let a0 : Fin 2 ⊕ ι := .inl 0
+  let a1 : Fin 2 ⊕ ι := .inl 1
+  have h01 : a0 ∈ C ∨ a1 ∈ C := hC a0 a1 (by simp [twoAnchorObservationEdge, a0, a1])
+  have h0j : a0 ∈ C ∨ Sum.inr j ∈ C := hC a0 (.inr j) (by simp [twoAnchorObservationEdge, a0])
+  have h1j : a1 ∈ C ∨ Sum.inr j ∈ C := hC a1 (.inr j) (by simp [twoAnchorObservationEdge, a1])
+  rcases h01 with h0 | h1
+  · by_cases h1 : a1 ∈ C
+    · exact card_at_least_two_of_distinct_mem C h0 h1 (by simp [a0, a1])
+    · exact card_at_least_two_of_distinct_mem C h0 (h1j.resolve_left h1) (by simp [a0])
+  · by_cases h0 : a0 ∈ C
+    · exact card_at_least_two_of_distinct_mem C h0 h1 (by simp [a0, a1])
+    · exact card_at_least_two_of_distinct_mem C h1 (h0j.resolve_left h0) (by simp [a1])
+
+theorem two_anchor_observation_minimum_two {ι : Type*} [Fintype ι] [DecidableEq ι]
+    [Nonempty ι] : finiteConstraintCoverMinimum (twoAnchorObservationEdge (ι := ι)) = 2 := by
+  obtain ⟨j⟩ := ‹Nonempty ι›
+  apply le_antisymm
+  · simpa only [two_anchor_cover_card] using
+      finite_constraint_cover_minimum_le (twoAnchorObservationEdge (ι := ι)) twoAnchorCover
+        two_anchor_cover_covers
+  · obtain ⟨C, hC, he⟩ := finite_constraint_cover_minimum_attained
+      (twoAnchorObservationEdge (ι := ι))
+    rw [←he]
+    exact two_anchor_cover_lower j C hC
+
+/-- Empty residual labels leave one observed anchor edge, not a triangle. -/
+theorem two_anchor_observation_minimum_empty_residual {ι : Type*} [Fintype ι]
+    [DecidableEq ι] [IsEmpty ι] :
+    finiteConstraintCoverMinimum (twoAnchorObservationEdge (ι := ι)) = 1 := by
+  have hc : finiteConstraintCover (twoAnchorObservationEdge (ι := ι)) {Sum.inl 0} := by
+    intro a b hab
+    cases a with
+    | inr i => exact isEmptyElim i
+    | inl h =>
+      cases b with
+      | inr j => exact isEmptyElim j
+      | inl h' => fin_cases h <;> fin_cases h' <;> simp_all [twoAnchorObservationEdge]
+  apply le_antisymm
+  · simpa only [Finset.card_singleton] using
+      finite_constraint_cover_minimum_le (twoAnchorObservationEdge (ι := ι)) {Sum.inl 0} hc
+  · obtain ⟨C, hC, he⟩ := finite_constraint_cover_minimum_attained
+      (twoAnchorObservationEdge (ι := ι))
+    have hh := hC (.inl 0) (.inl 1) (by simp [twoAnchorObservationEdge])
+    have hn : C.Nonempty := hh.elim (fun h => ⟨_, h⟩) (fun h => ⟨_, h⟩)
+    rw [←he]
+    exact Nat.succ_le_of_lt (Finset.card_pos.mpr hn)
+
+noncomputable section
+
+def uniformObservedLo (m : ℕ) : (Fin 2 ⊕ Fin m) → (Fin 2 ⊕ Fin m) → ℝ :=
+  twoAnchorObservedLo (rigidityCore (uniformTarget m (1 / 4)))
+    (rigidityCross (uniformTarget m (1 / 4))) 1
+
+def uniformObservedHi (m : ℕ) : (Fin 2 ⊕ Fin m) → (Fin 2 ⊕ Fin m) → ℝ :=
+  twoAnchorObservedHi (rigidityCore (uniformTarget m (1 / 4)))
+    (rigidityCross (uniformTarget m (1 / 4))) 1
+
+theorem uniform_observation_edge_bridge (m : ℕ) (a b : Fin 2 ⊕ Fin m) :
+    twoAnchorObservationEdge a b = true ↔
+      intervalConstraintEdge (uniformObservedLo m) (uniformObservedHi m) 1 a b :=
+  two_anchor_observation_edge_bridge _ _ 1 (by norm_num) a b
+
+/-- The paper's actual bounded uniform observations, not an abstract graph
+chosen merely to have a prescribed cover number. -/
+theorem uniform_observed_intervals_valid (m : ℕ) (hm : 0 < m) :
+    ∀ a b : Fin 2 ⊕ Fin m,
+      -1 ≤ uniformObservedLo m a b ∧ uniformObservedLo m a b ≤ uniformObservedHi m a b ∧
+      uniformObservedHi m a b ≤ 1 := by
+  have hb := two_anchor_observed_bounds hm (uniformTarget m (1 / 4))
+    (fun j => le_of_lt (uniformTarget_positive m (1 / 4) (by norm_num) j))
+    (uniformTarget_mass m hm (1 / 4))
+  have hK : ∀ a b, -1 ≤ rigidityCore (uniformTarget m (1 / 4)) a b ∧
+      rigidityCore (uniformTarget m (1 / 4)) a b ≤ 1 := by
+    simpa only [rigidityCore, Nat.cast_ofNat] using hb.1
+  have hD : ∀ j h, -1 ≤ rigidityCross (uniformTarget m (1 / 4)) j h ∧
+      rigidityCross (uniformTarget m (1 / 4)) j h ≤ 1 := by
+    simpa only [rigidityCross, Nat.cast_ofNat] using hb.2
+  intro a b
+  cases a with
+  | inl h =>
+    cases b with
+    | inl h' => exact ⟨(hK h h').1, le_refl _, (hK h h').2⟩
+    | inr j =>
+      have hd := hD j h
+      dsimp [uniformObservedLo, uniformObservedHi, twoAnchorObservedLo, twoAnchorObservedHi, blockMatrix]
+      exact ⟨by linarith, le_refl _, by linarith⟩
+  | inr i =>
+    cases b with
+    | inl h => exact ⟨(hD i h).1, le_refl _, (hD i h).2⟩
+    | inr j => norm_num [uniformObservedLo, uniformObservedHi, twoAnchorObservedLo, twoAnchorObservedHi]
+
+/-- Actual finite-minimum computation for the nonempty-residual uniform
+family. The empty-residual variant is separately one, and empty whole-label
+finite graphs have minimum zero. -/
+theorem uniform_constraint_cover_minimum_two (m : ℕ) (hm : 0 < m) :
+    finiteConstraintCoverMinimum (twoAnchorObservationEdge (ι := Fin m)) = 2 := by
+  let : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  exact two_anchor_observation_minimum_two
+
+/-- Original interval-cover predicate, universally over every candidate
+cover set: the two anchors attain the minimum and all covers have size≥2. -/
+theorem uniform_interval_cover_minimum_two (m : ℕ) (hm : 0 < m) :
+    intervalVertexCover (twoAnchorCover (ι := Fin m) : Set (Fin 2 ⊕ Fin m))
+      (uniformObservedLo m) (uniformObservedHi m) 1 ∧
+    (twoAnchorCover (ι := Fin m)).card = 2 ∧
+    ∀ (C : Set (Fin 2 ⊕ Fin m)) [DecidablePred (· ∈ C)],
+      intervalVertexCover C (uniformObservedLo m) (uniformObservedHi m) 1 → 2 ≤ Fintype.card C := by
+  refine ⟨?_, two_anchor_cover_card, ?_⟩
+  · exact (finite_constraint_cover_interval_bridge _ _ _ 1 (uniform_observation_edge_bridge m)
+      twoAnchorCover).mp two_anchor_cover_covers
+  · intro C _ hC
+    calc
+      2 = finiteConstraintCoverMinimum (twoAnchorObservationEdge (ι := Fin m)) :=
+        (uniform_constraint_cover_minimum_two m hm).symm
+      _ ≤ Fintype.card C :=
+        finite_constraint_cover_minimum_set_le _ _ _ 1 (uniform_observation_edge_bridge m) C hC
+
+end
 end SparseCompletion
