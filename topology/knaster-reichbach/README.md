@@ -7,9 +7,13 @@ It constructs a genuine ambient homeomorphism, taking only closedness,
 nowhere-density and the prescribed subtype homeomorphism as assumptions.
 All proof/library declarations have proofs without holes or new axioms.
 Independent internal AI mathematical/source review found no blocker.
-This is not yet a verified release: exact-source mechanical, canonical,
-rendering and final packet receipts are recorded separately. No provider PR
-or registry intake has been created for this package.
+The source is published in [PR45](https://github.com/Arthur742Ramos/Math-Formalization/pull/45).
+Local canonical full verification and rendering passed for predecessor
+`320b363a9b8ea37f7b2176689040668b19eb21e8`; immutable report digests are recorded in
+[local validation history](verification/local-history.json). That history does
+not certify later source bytes. Release requires exact-source final reports,
+browser inspection and final packet review for the final commit. Their receipts
+must be retained outside the frozen source; no registry intake has been created.
 
 ## Mathematical sources and scope
 
