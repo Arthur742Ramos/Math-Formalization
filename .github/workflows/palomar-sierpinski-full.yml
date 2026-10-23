@@ -1,6 +1,9 @@
 name: Palomar Sierpinski full mechanical preflight
 on:
   workflow_dispatch:
+  push:
+    branches: [topology/sierpinski-rationals]
+    paths: [.github/workflows/palomar-sierpinski-full.yml]
 permissions:
   contents: read
 jobs:

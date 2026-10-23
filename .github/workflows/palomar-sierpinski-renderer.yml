@@ -1,6 +1,9 @@
 name: Sierpinski Challenge renderer preflight
 on:
   workflow_dispatch:
+  push:
+    branches: [topology/sierpinski-rationals]
+    paths: [.github/workflows/palomar-sierpinski-renderer.yml]
 permissions:
   contents: read
 env:
