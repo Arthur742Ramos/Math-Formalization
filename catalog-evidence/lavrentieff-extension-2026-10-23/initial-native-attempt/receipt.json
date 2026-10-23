@@ -1,0 +1,17 @@
+{
+  "source_commit": "e3b172c50ac52de55486fec8f79df1e28e49862b",
+  "status": "incomplete",
+  "passed": [
+    "fresh protected Challenge compilation",
+    "positive native comparison and transitive axiom audit"
+  ],
+  "failed_action": "first negative-control elaboration",
+  "reason": "unused mem_iUnion simp argument became a warning-as-error before intended comparison rejection",
+  "correction": "Add id_eq only to the mutated test proof; source theorem proofs and metadata unchanged.",
+  "files": {
+    "changed-small-oscillation-build.log": "d1d9b6eafec2ad2dc2e73c33e8e577e03f334fa1fb27fd46075f773aa9b06852",
+    "compare.log": "75f7f41785c73b693a53b18aa60797c4bc78b0131ab625b297620227b4d5678b",
+    "run.log": "30067e8c14119d397f709ffa3df8b55243571f6ba24baf8e881c49ff11345ee6",
+    "protected-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

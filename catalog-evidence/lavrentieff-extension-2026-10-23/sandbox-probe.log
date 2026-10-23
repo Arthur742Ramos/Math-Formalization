@@ -1,0 +1,4 @@
+Read-only probe: bwrap --unshare-user --ro-bind / / /bin/true
+exit1
+bwrap: setting up uid map: Read-only file system
+No security-setting mutation or protected installer was attempted.

@@ -1,0 +1,18 @@
+{
+  "source_commit": "e3b172c50ac52de55486fec8f79df1e28e49862b",
+  "package_tree": "4674f79591febb32b97ed5972afebbc834fd9024",
+  "review_type": "independent internal AI; no machine or human review claim",
+  "status": "pass for mathematical/source/metadata/inventory scope",
+  "merge_readiness": "blocked: canonical full and rendering absent",
+  "reviewed_sha256": {
+    "Lavrentieff.lean": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+    "comparator.json": "766b5bb21750a1c3c6344f73c389943cf06ad3738885d4fcbaf1e27d822ae0a8",
+    "formalization.yaml": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166",
+    "MATERIAL-DEFINITIONS.md": "c8a02d25b6c93c0a9df6be1e4c12c0bb5cd5d6880e2ef2a81557fea53083d6b6",
+    "verification/material-imported-definitions.json": "b149693586c7e0889fedeba8a2ddeb8b94ca44c2ce04e32f624e27c4e31899c5",
+    "verification/source-hashes.json": "69304118baf47c258ab88a6ea7e25c3ba7050abedba83d7f09e5c00b18d19cf8",
+    "SemanticTests.lean": "f675cbcb989e7310eb382759cfa3fc7922f345706d75005887a1da985909498a",
+    "ChallengeTests.lean": "746ea1a8ada3717443c65c107f951f9243a7b72dfa84c88ea40bd6ca0a35a93f"
+  },
+  "report_sha256": "d6e9703588cc44c6bda6c50bdbb605528f0d573dc553974fd89439e41c75a83f"
+}

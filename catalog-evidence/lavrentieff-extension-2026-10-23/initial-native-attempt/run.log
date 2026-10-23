@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/workspace/Math-Formalization/topology/lavrentieff-extension/scripts/verify_native.py", line 56, in <module>
+    run(label+'-build',[str(T/'bin/lean'),'-DwarningAsError=true','-o',str(A/(mod+'.olean')),str(A/(mod+'.lean'))])
+  File "/workspace/Math-Formalization/topology/lavrentieff-extension/scripts/verify_native.py", line 18, in run
+    if expected is not None and r.returncode!=expected: raise RuntimeError((label,r.returncode,(A/(label+'.log')).read_text()[-4000:]))
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: ('changed-small-oscillation-build', 1, '/tmp/lavrentieff-native-e3b172c/NegativeChangedSmallOscillation.lean:36:31: error: This simp argument is unused:\n  mem_iUnion\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [smallOscillation]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`\n')

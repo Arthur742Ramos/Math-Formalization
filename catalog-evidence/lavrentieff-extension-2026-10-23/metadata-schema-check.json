@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "schema_url": "https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/v0.4.schema.json",
+  "schema_sha256": "25ff6b25ca4511635aff4443cf20480c15e59dddf19591c730950b442ea54fce",
+  "metadata_sha256": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166",
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7"
+}

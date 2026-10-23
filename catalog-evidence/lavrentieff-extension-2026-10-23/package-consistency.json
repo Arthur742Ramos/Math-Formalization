@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "scope": "Validate source consistency only; native/canonical/review receipts are separate.",
+  "proof_sha256": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+  "theorems": [
+    "Lavrentieff.extensionDomain_isG\u03b4",
+    "Lavrentieff.subset_extensionDomain",
+    "Lavrentieff.cauchy_at_extensionDomain",
+    "Lavrentieff.continuous_extension",
+    "Lavrentieff.isG\u03b4_inter_preimage",
+    "Lavrentieff.extend_inverse_maps",
+    "Lavrentieff.homeomorph_extension",
+    "Lavrentieff.completely_metrizable_extension"
+  ],
+  "files": 20,
+  "lines": 218
+}
