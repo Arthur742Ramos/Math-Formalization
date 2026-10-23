@@ -1,0 +1,31 @@
+'AlgebraicHodgePilot.exists_closed_representative' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.all_differentials_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.associatedSequence_transition_next' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'AlgebraicHodgePilot.Column.associatedSequence_transition_covers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'AlgebraicHodgePilot.Column.bounded_e1_degeneration' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.boundedStableGradedIso_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.zeroPageHomologyIso_π' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.ImageKernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.RectangularSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.HorizontalSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.filtration' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.cycles' depends on axioms: [propext, Quot.sound]
+'AlgebraicHodgePilot.Filtered.boundaries' depends on axioms: [propext, Quot.sound]
+'AlgebraicHodgePilot.Filtered.denominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.Page' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.closedCycles' depends on axioms: [propext, Quot.sound]
+'AlgebraicHodgePilot.Filtered.closedBoundaries' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.closedDenominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.InfinityPage' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.cohomologyFiltration' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Filtered.GradedCohomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.firstPageIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.associatedSequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AlgebraicHodgePilot.Column.boundedStableGradedIso' depends on axioms: [propext, Classical.choice, Quot.sound]

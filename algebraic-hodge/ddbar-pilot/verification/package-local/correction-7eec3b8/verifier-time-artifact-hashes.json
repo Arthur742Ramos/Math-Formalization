@@ -1,0 +1,15 @@
+{
+  "axioms.log": "ee4b9d65495f543f3b21d28024645feef565bd0c25931692411f68005e3a77a3",
+  "build.log": "d7e90cf55cfdc49ca37b657629422ec65d466bbdf55cd04b7cffc8e94a16935f",
+  "challenge-axioms.log": "becc4ec167fdfae2984bc29d11dbf98ab3dde631d00311f33f9b658cade74b64",
+  "challenge-regeneration.log": "e2e6612ad02c9f9a68b0f565750a7fc82482c985935fbee6be85ec63dbcc6d31",
+  "frozen-source.tar": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "independent-source-review.json": "9ec13c4af694225d1d5652776125de6587f4eb66ca30b6826d27b115bf3bfaad",
+  "interfaces-and-source-closure.json": "dfc8d208f7a60fbcacbf6fb70871c9f90b780648415cbee68bc9b66d6a6d4333",
+  "inventory-exact-pin.json": "b6fd8cb0e0b7220656fb3b5d182597387156f76085a9dc06214363cc294115f3",
+  "inventory-static.json": "ccccb882d761fa74d26f1c22744f42b127628ca51df4b91507e3119ebbbb77d6",
+  "inventory-validator-tests.log": "e32313a188fb60dc5854007a6583781aea488793d347a9429698cc301a18b673",
+  "local-report.json": "776f9938515f2d5fe8279bff7fbb2780b0e108322b278cc74c1fd6ba90b67899",
+  "parser-tests.log": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6",
+  "solution-axioms.log": "becc4ec167fdfae2984bc29d11dbf98ab3dde631d00311f33f9b658cade74b64"
+}

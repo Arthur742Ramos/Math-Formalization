@@ -1,0 +1,23 @@
+{
+  "README.md": "de4f34fc03ca860eb9104be3a633923374e9a4d72f12634c994ac36660b7355f",
+  "axioms.log": "ee4b9d65495f543f3b21d28024645feef565bd0c25931692411f68005e3a77a3",
+  "build.log": "d7e90cf55cfdc49ca37b657629422ec65d466bbdf55cd04b7cffc8e94a16935f",
+  "challenge-axioms.log": "becc4ec167fdfae2984bc29d11dbf98ab3dde631d00311f33f9b658cade74b64",
+  "challenge-regeneration.log": "e2e6612ad02c9f9a68b0f565750a7fc82482c985935fbee6be85ec63dbcc6d31",
+  "corrected-source-packet.json": "8586ce3c982c4cca74fb8642a7e0e988b6eb6d8156518254d4298be1de7b6180",
+  "correction-summary.json": "ff37d89dcd91e9727db9ca0900094e64db19f94fe432c13e2dfd8fc5e6427855",
+  "final-evidence-review.json": "427c3b6f5a29f4fd51c8a948d3115e41fcc75765e6883813b21fce76de9a4845",
+  "frozen-source.tar": "dfe64f1d3647351197b6e3761166e00f306642b4b9b068a39ccc609c933a0c57",
+  "independent-source-review.json": "9ec13c4af694225d1d5652776125de6587f4eb66ca30b6826d27b115bf3bfaad",
+  "interfaces-and-source-closure.json": "dfc8d208f7a60fbcacbf6fb70871c9f90b780648415cbee68bc9b66d6a6d4333",
+  "inventory-exact-pin.json": "b6fd8cb0e0b7220656fb3b5d182597387156f76085a9dc06214363cc294115f3",
+  "inventory-static.json": "ccccb882d761fa74d26f1c22744f42b127628ca51df4b91507e3119ebbbb77d6",
+  "inventory-validator-tests.log": "e32313a188fb60dc5854007a6583781aea488793d347a9429698cc301a18b673",
+  "local-report.json": "776f9938515f2d5fe8279bff7fbb2780b0e108322b278cc74c1fd6ba90b67899",
+  "manifest-timing-note.json": "ecff54f96ff553961edd35f3c7b84822479e9636c171478e3331b947678c6dd6",
+  "parser-tests.log": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6",
+  "release-guard-regression-tests.log": "535469c9a674146c4b6ec6b414915106b6a2792ee6c9632a265cc3b8317c6019",
+  "solution-axioms.log": "becc4ec167fdfae2984bc29d11dbf98ab3dde631d00311f33f9b658cade74b64",
+  "verification-command.log": "4807cd619c8aca49c07068e27a1912ba06e63b16ec18f6ab50a7ed41c861af36",
+  "verifier-time-artifact-hashes.json": "e01a6338fdee4135de11411074ee9801af9d6b6814b3205a6bd3a2351356e28c"
+}

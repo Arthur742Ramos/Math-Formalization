@@ -1,0 +1,8 @@
+{
+  "original_manifest": "verifier-time-artifact-hashes.json",
+  "status": "preserved historical verifier-time capture; superseded for completed packet hashes",
+  "cause": "Primary prepared frozen-source.tar concurrently with verifier artifact enumeration; verifier-time tar entry hashed the opened empty file.",
+  "completed_archive_sha256": "dfe64f1d3647351197b6e3761166e00f306642b4b9b068a39ccc609c933a0c57",
+  "completed_archive_binding": "corrected-source-packet.json and final artifact-hashes.json",
+  "source_or_verification_result_affected": false
+}
