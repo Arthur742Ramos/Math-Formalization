@@ -1,6 +1,6 @@
 module
 
-import HodgeChallenge
+import Challenge
 
 #print axioms AlgebraicHodgePilot.exists_closed_representative
 #print axioms AlgebraicHodgePilot.Column.all_differentials_zero

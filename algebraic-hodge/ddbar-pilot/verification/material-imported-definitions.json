@@ -2358,7 +2358,7 @@
     {
       "module": "HodgeChallengeTests",
       "path": "HodgeChallengeTests.lean",
-      "sha256": "a4e0a9d403392bc7bec70e0912ee9a11efcf2278c41c19b79fc313f0460f095c"
+      "sha256": "8e69b9c68fe6f6cef2f8cdc70d76962fecb8c043d147e17be94c9eaf1c3c01c5"
     },
     {
       "module": "HodgeSolutionTests",

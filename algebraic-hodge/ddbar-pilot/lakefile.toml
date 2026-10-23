@@ -90,7 +90,7 @@ name = "E1Degeneration"
 name = "ReleaseFidelity"
 
 [[lean_lib]]
-name = "HodgeChallenge"
+name = "Challenge"
 
 [[lean_lib]]
 name = "HodgeSolution"

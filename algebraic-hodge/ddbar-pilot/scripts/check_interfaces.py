@@ -18,7 +18,7 @@ public def main : IO Unit := do
  initSearchPath (← findSysroot)
  let paths ← IO.getEnv "HODGE_ALIAS_PATH"
  if let some path := paths then searchPathRef.modify (· ++ [System.FilePath.mk path])
- let moduleName := (← IO.getEnv "HODGE_CHALLENGE_MODULE").getD "HodgeChallenge"
+ let moduleName := (← IO.getEnv "HODGE_CHALLENGE_MODULE").getD "Challenge"
  let c ← importModules #[{module := moduleName.toName, importAll := true}] {}
  let s ← importModules #[{module := `HodgeSolution, importAll := true}] {}
  let base := (← IO.getEnv "HODGE_EXPORT_DIR").getD ""
@@ -36,7 +36,7 @@ public def main : IO Unit := do
   se := { se with constMap := se.constMap.insert n (.defnInfo { v with value := mkConst ``False }) }
  IO.ofExcept (Lake.Check.compareAt ce se THEOREMS DEFINITIONS PRIMITIVES)
  IO.println "EXACT_COMPARATOR pass"
- if control == "" && moduleName == "HodgeChallenge" then
+ if control == "" && moduleName == "Challenge" then
   let modular ← importModules #[{module := `ReleaseFidelity, importAll := true}] {}
   let me ← LeanExport.parseStream (.ofHandle (← IO.FS.Handle.mk (base ++ "/modular.ndjson") .read))
   match Lake.Check.compareAt ce me THEOREMS DEFINITIONS PRIMITIVES with
@@ -59,7 +59,7 @@ public def main : IO Unit := do
   if ci.toConstantVal != si.toConstantVal then throw (IO.userError s!"exact constant header mismatch {n}")
   if ck == "definition" && ci.value? true != si.value? true then throw (IO.userError s!"literal definition value mismatch {n}")
   IO.println s!"INTERFACE {n}|{ck}|{sk}|{ci.type == si.type}|{defeq}|{ci.value? true == si.value? true}"
- if moduleName != "HodgeChallenge" then return
+ if moduleName != "Challenge" then return
  let sp ← getSrcSearchPath
  for n in c.header.moduleNames do
   let path ← findLean sp n
@@ -79,7 +79,7 @@ public def main : IO Unit := do
         probe = Path(tmp) / 'Inspect.lean'
         probe.write_text(code)
         exports = {}
-        for module, label in [('HodgeChallenge', 'challenge'), ('HodgeSolution', 'solution'), ('ReleaseFidelity', 'modular')]:
+        for module, label in [('Challenge', 'challenge'), ('HodgeSolution', 'solution'), ('ReleaseFidelity', 'modular')]:
             path = Path(tmp) / (label + '.ndjson')
             with path.open('w') as stream:
                 subprocess.run(['lake', 'env', 'leanexport', module, '--', *names, *primitives, 'Quot', 'Quot.mk', 'Quot.lift', 'Quot.ind'],
@@ -103,7 +103,7 @@ public def main : IO Unit := do
         alias_name = 'HodgeLocal' + secrets.token_hex(8) + '.Challenge'
         alias_file = Path(tmp).joinpath(*alias_name.split('.')).with_suffix('.lean')
         alias_file.parent.mkdir()
-        alias_file.write_bytes((ROOT / 'HodgeChallenge.lean').read_bytes())
+        alias_file.write_bytes((ROOT / 'Challenge.lean').read_bytes())
         compile_alias = subprocess.run(['lake', 'env', 'lean', '--root=' + tmp, '-o', str(alias_file.with_suffix('.olean')), str(alias_file)], cwd=ROOT,
                                        text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         assert compile_alias.returncode == 0, compile_alias.stdout
@@ -165,17 +165,17 @@ public def main : IO Unit := do
                 assert blobs.get(relative) == blob, ('Source differs from pinned Git', package['name'], relative)
                 row.update(origin=package['name'], path=relative, commit=package['rev'],
                            repository=package['url'], git_blob_sha1=blob, git_source_authenticated=True)
-            elif path == ROOT / 'HodgeChallenge.lean':
-                row.update(origin='candidate', path='HodgeChallenge.lean')
+            elif path == ROOT / 'Challenge.lean':
+                row.update(origin='candidate', path='Challenge.lean')
             else:
                 assert '/src/lean/' in path.as_posix(), ('Noncanonical local Challenge import', str(path))
                 row.update(origin='bundled-Lean-toolchain-source', path=path.as_posix().split('/src/lean/', 1)[1],
                            git_source_authenticated=False)
             sources.append(row)
     assert {r['name'] for r in interfaces} == set(names)
-    assert sources and {r['path'] for r in sources if r['origin'] == 'candidate'} == {'HodgeChallenge.lean'}
+    assert sources and {r['path'] for r in sources if r['origin'] == 'candidate'} == {'Challenge.lean'}
     return {'status': 'pass', 'scope': 'Local separate environments: actual pinned leanexport and Lake.Check.compareAt exact exported declaration/closure comparison plus literal selected definition values, declaration kinds and kernel defeq. Compiled Challenge source closure with pinned Git-byte checks. Writable local compilation, not protected canonical execution or independent kernel replay.',
-            'original_failure_regression': [line for line in result.stdout.splitlines() if line.startswith(('ORIGINAL_REGRESSION ', 'TYPE_CONSTANTS_'))], 'local_exports': exports, 'exact_pinned_compareAt': True, 'negative_controls': controls, 'negative_control_scope': 'In-memory malformed declaration mutations test comparison rejection only; not kernel-checked counterexamples or canonical controls.', 'random_alias_comparison': {'module': alias_name, 'pass': True, 'source_sha256': hashlib.sha256((ROOT / 'HodgeChallenge.lean').read_bytes()).hexdigest()} , 'literal_selected_definition_values_equal': True, 'compare_source_sha256': hashlib.sha256((sysroot / 'src/lean/lake/Lake/Check/Compare.lean').read_bytes()).hexdigest(), 'libLake_shared_sha256': hashlib.sha256(dynlib.read_bytes()).hexdigest(), 'primitive_targets': primitives,
+            'original_failure_regression': [line for line in result.stdout.splitlines() if line.startswith(('ORIGINAL_REGRESSION ', 'TYPE_CONSTANTS_'))], 'local_exports': exports, 'exact_pinned_compareAt': True, 'negative_controls': controls, 'negative_control_scope': 'In-memory malformed declaration mutations test comparison rejection only; not kernel-checked counterexamples or canonical controls.', 'random_alias_comparison': {'module': alias_name, 'pass': True, 'source_sha256': hashlib.sha256((ROOT / 'Challenge.lean').read_bytes()).hexdigest()} , 'literal_selected_definition_values_equal': True, 'compare_source_sha256': hashlib.sha256((sysroot / 'src/lean/lake/Lake/Check/Compare.lean').read_bytes()).hexdigest(), 'libLake_shared_sha256': hashlib.sha256(dynlib.read_bytes()).hexdigest(), 'primitive_targets': primitives,
             'interfaces': interfaces, 'source_modules': sources,
             'toolchain': (ROOT / 'lean-toolchain').read_text().strip(),
             'core_source_limit': 'Bundled Lean source bytes hashed; protected toolchain/authenticated artifact verification remains canonical-run work.'}

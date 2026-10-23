@@ -70,22 +70,26 @@ theorem differential_denominator (r p n : ℤ)
     (x : cycles F r p n)
     (hx : x ∈ (denominator F r p n).comap (cycles F r p n).subtype) :
     differentialOnCycles F r p n x ∈
-      (denominator F r (p + r) (n + 1)).comap (cycles F r (p + r) (n + 1)).subtype := by
-  change (C.d n (n + 1)).hom x.val ∈ denominator F r (p + r) (n + 1)
-  obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-  change a + b = x.val at hab
-  rw [← hab, map_add, boundary_closed F (r - 1) p n hb, add_zero]
-  apply (le_sup_right : boundaries F (r - 1) (p + r) (n + 1) ≤
-    denominator F r (p + r) (n + 1))
-  change (C.d n (n + 1)).hom a ∈ boundaries F (r - 1) (p + r) (n + 1)
-  refine ⟨?_, ?_⟩
-  · have h : p + 1 + (r - 1) = p + r := by lia -abstractProof
-    have hh : (C.d n (n + 1)).hom a ∈ F.F (p + 1 + (r - 1)) (n + 1) := ha.2
-    rw [h] at hh
-    exact hh
-  · have h : p + r - (r - 1) = p + 1 := by lia -abstractProof
-    rw [show n + 1 - 1 = n by lia -abstractProof, h]
-    exact ⟨a, ha.1, rfl⟩
+      (denominator F r (p + r) (n + 1)).comap (cycles F r (p + r) (n + 1)).subtype :=
+  have ep : p + 1 + (r - 1) = p + r := by lia -abstractProof
+  have eq : p + r - (r - 1) = p + 1 := by lia -abstractProof
+  Exists.elim (Submodule.mem_sup.mp hx) fun a ha =>
+  Exists.elim ha.2 fun b hb =>
+    have hab := hb.2
+    have hb := hb.1
+    have ha := ha.1
+    have he : (C.d n (n + 1)).hom x.val = (C.d n (n + 1)).hom a :=
+      (congrArg (fun z => (C.d n (n + 1)).hom z) hab).symm.trans
+        ((map_add (C.d n (n + 1)).hom a b).trans
+          ((congrArg (fun z => (C.d n (n + 1)).hom a + z)
+            (boundary_closed F (r - 1) p n hb)).trans (add_zero _)))
+    show (C.d n (n + 1)).hom x.val ∈ denominator F r (p + r) (n + 1) from
+    he.symm ▸ (show (C.d n (n + 1)).hom a ∈ denominator F r (p + r) (n + 1) from
+      (le_sup_right : boundaries F (r - 1) (p + r) (n + 1) ≤
+        denominator F r (p + r) (n + 1))
+        ⟨ep ▸ ha.2, by
+          rw [show n + 1 - 1 = n by lia -abstractProof, eq]
+          exact ⟨a, ha.1, rfl⟩⟩)
 
 /-- The actual total differential descended to the standard filtered quotient. -/
 def differential (r p n : ℤ) :

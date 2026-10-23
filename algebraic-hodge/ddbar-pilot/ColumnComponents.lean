@@ -41,43 +41,59 @@ theorem inclusion_d (a b n m : ℤ) (hab : a + b = n) :
 theorem d_projection (p q n : ℤ) (hn : p + q = n + 1) :
     (total K).d n (n + 1) ≫ projection K p q (n + 1) =
       projection K (p - 1) q n ≫ (K.d (p - 1) p).f q +
-      p.negOnePow • (projection K p (q - 1) n ≫ (K.X p).d (q - 1) q) := by
-  apply HomologicalComplex₂.total.hom_ext
-  intro a b hab
-  change a + b = n at hab
-  change inclusion K a b n hab ≫ _ = inclusion K a b n hab ≫ _
-  rw [← Category.assoc, inclusion_d, Preadditive.add_comp,
-    Linear.units_smul_comp]
-  simp only [Preadditive.comp_add, Linear.comp_units_smul, Category.assoc]
-  by_cases ha : a = p - 1
-  · have hb : b = q := by lia -abstractProof
-    subst a b
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    rw [inclusionOrZero_projection_eq K p q (n + 1) hn,
-      inclusionOrZero_projection_ne K (p - 1) (q + 1) p q (n + 1) (by intro h; lia -abstractProof),
-      inclusion_projection_eq_assoc K (p - 1) q n hab,
-      inclusion_projection_ne_assoc K (p - 1) q p (q - 1) n hab (by intro h; lia -abstractProof)]
-    simp
-  · by_cases ha' : a = p
+      p.negOnePow • (projection K p (q - 1) n ≫ (K.X p).d (q - 1) q) :=
+  HomologicalComplex₂.total.hom_ext (ComplexShape.up ℤ) fun a b hab =>
+  have hab' : a + b = n := hab
+  have horizontal_component :
+      (K.d a (a + 1)).f b ≫ (K.ιTotalOrZero (ComplexShape.up ℤ) (a + 1) b (n + 1) ≫
+        projection K p q (n + 1)) =
+      (inclusion K a b n hab' ≫ projection K (p - 1) q n) ≫ (K.d (p - 1) p).f q := by
+    by_cases ha : a = p - 1
+    · have hb : b = q := by lia -abstractProof
+      subst a b
+      rw [sub_add_cancel p 1, inclusionOrZero_projection_eq K p q (n + 1) hn,
+        inclusion_projection_eq K (p - 1) q n hab']
+      simp
+    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1)
+        (fun h => ha (eq_sub_iff_add_eq.mpr h.1)),
+        inclusion_projection_ne K a b (p - 1) q n hab' (fun h => ha h.1)]
+      simp
+  have vertical_component :
+      a.negOnePow • ((K.X a).d b (b + 1) ≫
+        (K.ιTotalOrZero (ComplexShape.up ℤ) a (b + 1) (n + 1) ≫ projection K p q (n + 1))) =
+      p.negOnePow • ((inclusion K a b n hab' ≫ projection K p (q - 1) n) ≫
+        (K.X p).d (q - 1) q) := by
+    by_cases ha : a = p
     · have hb : b = q - 1 := by lia -abstractProof
       subst a b
-      rw [show q - 1 + 1 = q by lia -abstractProof]
-      rw [inclusionOrZero_projection_ne K (p + 1) (q - 1) p q (n + 1) (by intro h; lia -abstractProof),
-        inclusionOrZero_projection_eq K p q (n + 1) hn,
-        inclusion_projection_ne_assoc K p (q - 1) (p - 1) q n hab (by intro h; lia -abstractProof),
-        inclusion_projection_eq_assoc K p (q - 1) n hab]
+      rw [sub_add_cancel q 1, inclusionOrZero_projection_eq K p q (n + 1) hn,
+        inclusion_projection_eq K p (q - 1) n hab']
       simp
-    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1) (by intro h; lia -abstractProof),
-        inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (by intro h; lia -abstractProof),
-        inclusion_projection_ne_assoc K a b (p - 1) q n hab (by intro h; exact ha h.1),
-        inclusion_projection_ne_assoc K a b p (q - 1) n hab (by intro h; exact ha' h.1)]
+    · rw [inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (fun h => ha h.1),
+        inclusion_projection_ne K a b p (q - 1) n hab' (fun h => ha h.1)]
       simp
+  calc
+    inclusion K a b n hab' ≫ ((total K).d n (n + 1) ≫ projection K p q (n + 1)) =
+        ((K.d a (a + 1)).f b ≫ K.ιTotalOrZero (ComplexShape.up ℤ) (a + 1) b (n + 1) +
+          a.negOnePow • ((K.X a).d b (b + 1) ≫ K.ιTotalOrZero (ComplexShape.up ℤ) a (b + 1) (n + 1))) ≫
+            projection K p q (n + 1) :=
+      (Category.assoc _ _ _).symm.trans
+        (congrArg (fun t => t ≫ projection K p q (n + 1)) (inclusion_d K a b n (n + 1) hab'))
+    _ = (K.d a (a + 1)).f b ≫ (K.ιTotalOrZero (ComplexShape.up ℤ) (a + 1) b (n + 1) ≫ projection K p q (n + 1)) +
+        a.negOnePow • ((K.X a).d b (b + 1) ≫ (K.ιTotalOrZero (ComplexShape.up ℤ) a (b + 1) (n + 1) ≫
+          projection K p q (n + 1))) := by rw [Preadditive.add_comp, Linear.units_smul_comp]; simp only [Category.assoc]
+    _ = (inclusion K a b n hab' ≫ projection K (p - 1) q n) ≫ (K.d (p - 1) p).f q +
+        p.negOnePow • ((inclusion K a b n hab' ≫ projection K p (q - 1) n) ≫ (K.X p).d (q - 1) q) :=
+      congrArg₂ (fun s t => s + t) horizontal_component vertical_component
+    _ = inclusion K a b n hab' ≫ (projection K (p - 1) q n ≫ (K.d (p - 1) p).f q +
+        p.negOnePow • (projection K p (q - 1) n ≫ (K.X p).d (q - 1) q)) := by
+      simp only [Preadditive.comp_add, Linear.comp_units_smul, Category.assoc]
 
 theorem d_projection_apply (p q n : ℤ) (hn : p + q = n + 1)
     (x : (total K).X n) :
     (projection K p q (n + 1)).hom (((total K).d n (n + 1)).hom x) =
       ((K.d (p - 1) p).f q).hom ((projection K (p - 1) q n).hom x) +
-      p.negOnePow • ((K.X p).d (q - 1) q).hom ((projection K p (q - 1) n).hom x) := by
-  exact congrArg (fun f => f.hom x) (d_projection K p q n hn)
+      p.negOnePow • ((K.X p).d (q - 1) q).hom ((projection K p (q - 1) n).hom x) :=
+  congrArg (fun f => f.hom x) (d_projection K p q n hn)
 
 end AlgebraicHodgePilot.Column

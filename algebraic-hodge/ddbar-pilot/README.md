@@ -6,6 +6,12 @@ Mathlib-only Challenge and Solution compiled separately from shared proof-comple
 Verification, rendering and intake are accounted for per exact source in immutable
 release receipts; this source text alone does not certify any release stage.
 
+The current local repair uses generated Challenge SHA256
+`cab2875daf0f96d37d371f37bafb2cbabb1d47692377942913b8445c760a57b6`.
+Earlier receipts below concern their recorded historical sources. This candidate
+requires fresh validation and rendering receipts; no canonical acceptance,
+registry intake or merge is claimed for it.
+
 For commuting squares, `ImageKernel K p q` is the actual operator identity
 
 ```
@@ -51,14 +57,13 @@ selected names are fixed in [comparator.json](comparator.json): eight theorems
 and seventeen concrete definitions/constructions. The definitions have their
 literal values in Challenge; their values are not unspecified placeholders.
 
-[HodgeChallenge.lean](HodgeChallenge.lean) contains complete proofs and only
-three Mathlib imports. Its 995 lines and roughly 61 KiB fit the hard cap but
+[Challenge.lean](Challenge.lean) contains complete proofs and only
+three Mathlib imports. Its 992 lines and roughly 65 KiB fit the hard cap but
 exceed the readability-warning threshold. The modular development remains the
 readable proof organization. [scripts/make_challenge.py](scripts/make_challenge.py)
 selects actual transitive local declaration dependencies and reflows statement
 headers; all 135 retained declarations were independently compared with modular
-sources modulo comments/whitespace. No mathematical proof command or contract
-is changed. [HodgeSolution.lean](HodgeSolution.lean) now has the same generated proof-complete body as Challenge. Each compiles separately with Mathlib imports; neither imports the other. These share one proof implementation, rather than supplying independent proofs. The modular development remains the source of the generated declarations and separate modular audits.
+sources modulo comments/whitespace. Generation preserves each retained declaration's complete proof text; source refactors are checked separately against the original contracts. [HodgeSolution.lean](HodgeSolution.lean) now has the same generated proof-complete body as Challenge. Each compiles separately with Mathlib imports; neither imports the other. These share one proof implementation, rather than supplying independent proofs. The modular development remains the source of the generated declarations and separate modular audits.
 The approved [run39894330468](https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/39894330468)
 for source `c3107f8311488bcc256103db8ad969ffd60706e2` built Solution but failed
 protected comparison: `boundedStableGradedIso_closed` had definitionally equal,

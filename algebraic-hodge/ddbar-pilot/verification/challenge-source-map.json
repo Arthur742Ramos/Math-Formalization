@@ -17,56 +17,56 @@
     {
       "declaration": "AlgebraicHodgePilot.horizontal",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "f97cb9b29813296b2fa501490117b7f1083d46e4a1325d6ab1e7a7d97603445f"
     },
     {
       "declaration": "AlgebraicHodgePilot.vertical",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "0c18b7c5dd09a385f4faabed6cc793e8ff80d516023e83eca3170f3287ae8cd5"
     },
     {
       "declaration": "AlgebraicHodgePilot.incomingVertical",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "ec2eee6fa83b047938445e7accdd53458a4b6f84ee34d2d45ca8cd05a7520fa3"
     },
     {
       "declaration": "AlgebraicHodgePilot.ImageKernel",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "0a591071f294858edf13fa6fdaa21dcdba6ce1feb4fd1b71f9cfe19facde45cd"
     },
     {
       "declaration": "AlgebraicHodgePilot.exists_closed_correction",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
-      "standalone_declaration_sha256": "9bb8e024a8129214c1ae60f113ab7267b6def9ff72ef497e6a9527ee3eefb412"
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
+      "standalone_declaration_sha256": "080d7db0e5d7bcfa984c6062fa223e4b876e69021945f4d7bb3a746e51b4e094"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalSC",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "d2785e53e52932c82028319406d55820b5983a8625ebe6669daf0e5d95ff7a71"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalHomologyIso",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "366d26ade29c59ad0cf8371303958d60c6d7e3245bd22b1042cef5537838654f"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalClass",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
       "standalone_declaration_sha256": "9fe154fa1ae66d7adc1562d0ea6b9cca76492dbb29a24a3636aa38955fb79d5d"
     },
     {
       "declaration": "AlgebraicHodgePilot.exists_closed_representative",
       "modular_file": "Representative.lean",
-      "modular_file_sha256": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
-      "standalone_declaration_sha256": "7908d2afbd313473f35443da0a7e1a86c6221e7154de8ae8f10025c4408fb0f2"
+      "modular_file_sha256": "feb8b7a90e587bf4508a049c3020c81e2068aac1b98c123855a0f8d93d72b325",
+      "standalone_declaration_sha256": "58dc14f83516aa52c270a83a8767f3eb21e370fb35fd8d86463372285b209ae1"
     },
     {
       "declaration": "AlgebraicHodgePilot.total_closed_of_biclosed",
@@ -77,367 +77,367 @@
     {
       "declaration": "AlgebraicHodgePilot.Filtered.Filtration",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "5f1f242f2ca5ae48650890b47f43e45634cbb6b0d45a6ad5b41aa471f971f20a"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cycles",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "9722981d6fe63f2212b53629591974982b5e8d080294c7638cc43273a4120cd3"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.boundaries",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "509b55999c7ac2fcaf8383eb525257b994813a387f874eb235b251372e3c8cab"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.denominator",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "462522ccc00576eece96eab7f426e127630cbb8c79dad34bf1c6f99b5e310838"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.differential_squared",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "fb594c533ef9cc3709bfb3179b17f386a4bfad897f23eba741d1ce42bfa90c10"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.boundary_closed",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "3479d81cfb8490f72be778af615fc9c37ccee27fe9eba6ab7ecc4c584641ba33"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.denominator_le_cycles",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "f4d5aba9ca087a6f68b128dfad943e9bfe856b71f3f59a8df563b0c55553e3c1"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.Page",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "f7a048b91352205a049b1935c6ae7e36974e362cc6cfd94bd1ed71bee9275c52"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.differentialOnCycles",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "66a9c10183cfa034997a296eb2eb94f30426128314056c6ed7b05b21090464ae"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.differential_denominator",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
-      "standalone_declaration_sha256": "99352b1d408acb479cfdfb5df3db18884605630e513c4af0c42622e74714d7d4"
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
+      "standalone_declaration_sha256": "56c8c13c7cc851c5300e831d767d4d25ea80dc52398107a597d95f8256b67073"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.differential",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "81d4755b08b5b2a2ee4d22ea8cd7c4ff2aca67b74d76e31ba302a69934f459e6"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.quotient",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "b675a98d40fb20af76401437752e3343c1f9fb1908a7dfc1008d1bfd7419496b"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.quotient_surjective",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "5cd11d4cf7fb4bfe74011dee284ed6049d284df76620a77458181f460d4169e7"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.differential_quotient",
       "modular_file": "FilteredPages.lean",
-      "modular_file_sha256": "4dab1e6c1cc358f5a88dea96870a82aa7b3954efeb82366e954d43581f690e9f",
+      "modular_file_sha256": "7e10575feb1c85e7b3dd678764680472b7809c961cb50faf0dd22c849fcc3a70",
       "standalone_declaration_sha256": "fe84ee203ebe3baa43ab26d385fa55fdb30cf2ae8591950ec1897348bc5f93fd"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusion",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "b4775d19f1063dcf9d090dc9c3793ce075fef5ec6a6881a412105a78a0b421fc"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.projection",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "0d83941ee11a92c9a7c68a4bd511157ea581dd710ae631b246b8bcabd0f52755"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusion_projection_self",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "d24e2821acea43d7b1a600b43ddc93f744e79c7bb9ec898addf46370661842f1"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusion_projection_ne",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "babffd57c7d8b9af2e3787d3da29a100bcd004d082909b257207a0e7bc0aed61"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusion_projection_eq",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "c4d227b134d1816e7fd625065bad27efcf901c86659b76cff367b211c4818c06"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.filtration",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "6aa428e5065c97d4bc24314c0058b92e0ac65cbd070f668b416ac5caddde9276"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusion_mem_filtration",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
-      "standalone_declaration_sha256": "f70d9a2fa67879452d5f72f1107f25f4bb0a0870f3a4e861f84e0b403d67a8fc"
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
+      "standalone_declaration_sha256": "e273341a70552055b870739f5fad0bc9f1b7c9078c14111714e4a58b1c869b44"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.filtration_antitone",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "bc5b11524b540f71a7bc79a33f0249b27a1e72f90a861f0f8c779e8a8ffe49b7"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.projection_kills_next",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "32a51a560f49ae913cc07b6438655c8e965f52e31cee705300e6c73e5cd112d7"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.filtration_split",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "5aa54963fa6190bd531968dcbdb9426d50d7a2a3a52f95fac86ad793d9a82a65"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.mem_next_of_projection_zero",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
-      "standalone_declaration_sha256": "122500f3c04212939477ff0805925153f2ee11c9c3cc61081d3f509dcd3506fb"
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
+      "standalone_declaration_sha256": "3bd957b41881bb883eb2df73211a0873a2ac2e60ba418ff6adba8d629e5d12ee"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusionOrZero_mem_filtration",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "414e410cc4e6dd57939018647af0eb9db8753bca1a436e783727d80d6c41b85f"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.differential_preserves_filtration",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
-      "standalone_declaration_sha256": "e1b2efbb0f357dafec226a1984c36058cc1bafcfc987e7726824419660df5fe5"
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
+      "standalone_declaration_sha256": "756b0be40219cf2802e062b0cadb4047272fcdd4800812925c96e7a09d8b4ffe"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.filtered",
       "modular_file": "ColumnFiltration.lean",
-      "modular_file_sha256": "ff277ea1429790ce9b70e8d0d1b56292c35869add693b0af8fdb06638725b037",
+      "modular_file_sha256": "5856bfffe1734c34ef50694612988ce5f31eb1cc130a57b78f2e6892bcc651fa",
       "standalone_declaration_sha256": "e90f46d20717e6d7bf1c5aa3dc223892e08561245e9b857e07cbe5987ff3e442"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusionOrZero_projection_ne",
       "modular_file": "ColumnComponents.lean",
-      "modular_file_sha256": "64cea4ea5b4ba1118879ea70faed12cbc0429b6d27ae16db94950a64ed1da631",
+      "modular_file_sha256": "3f875db7051c99da2313954449ba44e11a2e705acec903efe1d123ee750f49ef",
       "standalone_declaration_sha256": "571d230aa190857c8ff1e79aa533f562eee4163558ede3380cf7e048b76ae16e"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusionOrZero_projection_eq",
       "modular_file": "ColumnComponents.lean",
-      "modular_file_sha256": "64cea4ea5b4ba1118879ea70faed12cbc0429b6d27ae16db94950a64ed1da631",
+      "modular_file_sha256": "3f875db7051c99da2313954449ba44e11a2e705acec903efe1d123ee750f49ef",
       "standalone_declaration_sha256": "b9e163ea247b4658d07a42a0bace9127dabb03aeab2aaa7dc9b5933d25f2554d"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.inclusion_d",
       "modular_file": "ColumnComponents.lean",
-      "modular_file_sha256": "64cea4ea5b4ba1118879ea70faed12cbc0429b6d27ae16db94950a64ed1da631",
+      "modular_file_sha256": "3f875db7051c99da2313954449ba44e11a2e705acec903efe1d123ee750f49ef",
       "standalone_declaration_sha256": "846ee5b450b9a265c1980dfd0b37a63e0c276ad2ee4c32afa5db744b6eabf71b"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.d_projection",
       "modular_file": "ColumnComponents.lean",
-      "modular_file_sha256": "64cea4ea5b4ba1118879ea70faed12cbc0429b6d27ae16db94950a64ed1da631",
-      "standalone_declaration_sha256": "e25aa7f1e7103ee24e8fb0142c93f79ebfe38778c9c8822238f6ed5dacf6cd60"
+      "modular_file_sha256": "3f875db7051c99da2313954449ba44e11a2e705acec903efe1d123ee750f49ef",
+      "standalone_declaration_sha256": "1f590a38c56e06d6fd9d2bd270a93eecaffffc02cf13e1b68a08a83f5c9f071d"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.d_projection_apply",
       "modular_file": "ColumnComponents.lean",
-      "modular_file_sha256": "64cea4ea5b4ba1118879ea70faed12cbc0429b6d27ae16db94950a64ed1da631",
-      "standalone_declaration_sha256": "cc9ac4a0c2ed0645f5fe610f9502753e83a77aa8014d83587722bec21da0ad6e"
+      "modular_file_sha256": "3f875db7051c99da2313954449ba44e11a2e705acec903efe1d123ee750f49ef",
+      "standalone_declaration_sha256": "1423bb018466ab5c35761dc7e135332ccf44571488882ae9d9e1ccc4842dd896"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalClassMap",
       "modular_file": "VerticalClass.lean",
-      "modular_file_sha256": "6f0963175e0a6b5ba187aaf72d7fdbf22a44c23f738408051bb55e74ccc6b050",
+      "modular_file_sha256": "7d7b32a2b235e462b342646e4b116adbdca08b5ec050913fb73487dd4e4bb474",
       "standalone_declaration_sha256": "71933b7050f01ee8906ed3c2e7369d5823bd53c31395436f362f833038e45c44"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalClassMap_apply",
       "modular_file": "VerticalClass.lean",
-      "modular_file_sha256": "6f0963175e0a6b5ba187aaf72d7fdbf22a44c23f738408051bb55e74ccc6b050",
+      "modular_file_sha256": "7d7b32a2b235e462b342646e4b116adbdca08b5ec050913fb73487dd4e4bb474",
       "standalone_declaration_sha256": "a4f3e7702013774bb1dc317d10fcb0b1629d9d979df55c28e3cc2af9c8a3c36b"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalClassMap_surjective",
       "modular_file": "VerticalClass.lean",
-      "modular_file_sha256": "6f0963175e0a6b5ba187aaf72d7fdbf22a44c23f738408051bb55e74ccc6b050",
-      "standalone_declaration_sha256": "78b67aac6379ee1314a78f5c4300ce5c12deff19f0962efecee85165da88f4d2"
+      "modular_file_sha256": "7d7b32a2b235e462b342646e4b116adbdca08b5ec050913fb73487dd4e4bb474",
+      "standalone_declaration_sha256": "64708c74413ec8962b77e4b3ce0083d65686af248a0807bd5a6cf3a3a51e29d8"
     },
     {
       "declaration": "AlgebraicHodgePilot.verticalClassMap_eq_zero_iff",
       "modular_file": "VerticalClass.lean",
-      "modular_file_sha256": "6f0963175e0a6b5ba187aaf72d7fdbf22a44c23f738408051bb55e74ccc6b050",
-      "standalone_declaration_sha256": "7a5b9586db9169cba7abdc67c0fe7dd9e66c0946230e6c7a3d1df5a517ff57b6"
+      "modular_file_sha256": "7d7b32a2b235e462b342646e4b116adbdca08b5ec050913fb73487dd4e4bb474",
+      "standalone_declaration_sha256": "fa41d5f28de49ded03b19a288fd7d3e60561245f5e6f1b609588345d357ff9cf"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leading_vertical_closed",
       "modular_file": "LeadingCycle.lean",
-      "modular_file_sha256": "21bc4a602b42b16c99cb113d8227b694bbb209935f823b90f08b668395b60a92",
-      "standalone_declaration_sha256": "106531c704be1e5c95b8f715e0168792a53d1004b4c5f5b974e0749b6cd06d2a"
+      "modular_file_sha256": "8d832855a65b97353d5687e6a1b47ce96e52ef25c880a396b773392a65325928",
+      "standalone_declaration_sha256": "da01164fad2a3a298b2bf26997fe65c0a0b7b2006a10d42b984992529dd7acb0"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leadingCycleMap",
       "modular_file": "LeadingCycle.lean",
-      "modular_file_sha256": "21bc4a602b42b16c99cb113d8227b694bbb209935f823b90f08b668395b60a92",
+      "modular_file_sha256": "8d832855a65b97353d5687e6a1b47ce96e52ef25c880a396b773392a65325928",
       "standalone_declaration_sha256": "91cde978a6c2e04591e971cd13c661ef314f4a2477dc66d2ed3f46f98bcb82d7"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leadingClassMap",
       "modular_file": "LeadingCycle.lean",
-      "modular_file_sha256": "21bc4a602b42b16c99cb113d8227b694bbb209935f823b90f08b668395b60a92",
+      "modular_file_sha256": "8d832855a65b97353d5687e6a1b47ce96e52ef25c880a396b773392a65325928",
       "standalone_declaration_sha256": "79f984966fbbc5e6dd7e46977567ef1d6d6d3e223f4eae6d81a2450268d19bd9"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leadingClassMap_zero_of_next",
       "modular_file": "LeadingCycle.lean",
-      "modular_file_sha256": "21bc4a602b42b16c99cb113d8227b694bbb209935f823b90f08b668395b60a92",
+      "modular_file_sha256": "8d832855a65b97353d5687e6a1b47ce96e52ef25c880a396b773392a65325928",
       "standalone_declaration_sha256": "848e23b50ba0f3fde283a6c91b3d77c681bb17ee1acc3263489a0a81f2b1a5d3"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pure_vertical_cycle_mem",
       "modular_file": "PureRepresentative.lean",
-      "modular_file_sha256": "fc99856b38c507b3a382c79da6f2b562902fbacfb80c4a1116fae831bae429db",
-      "standalone_declaration_sha256": "50dd52be0d8442f4c1cff1449e08020f4a968800d36f5a469ff6ba491b6ed771"
+      "modular_file_sha256": "fe45f1108855bb092d050f0e8bd5fc49d64eb2dcef9862eb1d762f7f02ccdbac",
+      "standalone_declaration_sha256": "11112c27e559d03ca2807bb32f51e6353574bfdb25acb554d4827c29ca8493bf"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pure_biclosed_mem",
       "modular_file": "PureRepresentative.lean",
-      "modular_file_sha256": "fc99856b38c507b3a382c79da6f2b562902fbacfb80c4a1116fae831bae429db",
-      "standalone_declaration_sha256": "a5a78a75ea3c89b5322421d8d083488d107a0190cd663488aaa5ee27c0e09917"
+      "modular_file_sha256": "fe45f1108855bb092d050f0e8bd5fc49d64eb2dcef9862eb1d762f7f02ccdbac",
+      "standalone_declaration_sha256": "d378b6c16d3bf4f8f657c6f6ffde6e9d1fd3d9c4ba4c654f81f0229d03645f6e"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leadingCycleMap_pure",
       "modular_file": "PureRepresentative.lean",
-      "modular_file_sha256": "fc99856b38c507b3a382c79da6f2b562902fbacfb80c4a1116fae831bae429db",
+      "modular_file_sha256": "fe45f1108855bb092d050f0e8bd5fc49d64eb2dcef9862eb1d762f7f02ccdbac",
       "standalone_declaration_sha256": "705e5cda0ba3c335e8af1e6d181406e1e0018a5c5755247cf88d99ba1f548a9f"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.projection_d_pure",
       "modular_file": "PureRepresentative.lean",
-      "modular_file_sha256": "fc99856b38c507b3a382c79da6f2b562902fbacfb80c4a1116fae831bae429db",
-      "standalone_declaration_sha256": "496a530e0ff86eb5633f3a6bf55af6c0b780fd7629c76ea221724c9ed744cf22"
+      "modular_file_sha256": "fe45f1108855bb092d050f0e8bd5fc49d64eb2dcef9862eb1d762f7f02ccdbac",
+      "standalone_declaration_sha256": "b8d1a86ce6457da906b289cf1268dbebd4eaf8fcf633baf9e889a818d38ff952"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leading_class_zero_mem_denominator",
       "modular_file": "LeadingKernel.lean",
-      "modular_file_sha256": "8f02fc5ba9782a62e0bbbc2113240f37faafb0acc91245a4f1509318635c11c2",
-      "standalone_declaration_sha256": "763ca503255f6c177f0de37abd933df94491ffd1d1df156b06fa3575b093f53d"
+      "modular_file_sha256": "ef9a0baf61b21c8473ef4c4b0501aaee172f8f7060adb127e42b98287f56488c",
+      "standalone_declaration_sha256": "78b05348ddadcae3697d648152d486557f3a1dc70530d7ab67c2072849a31e9a"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.boundary_leading_exact_of_primitive_mem",
       "modular_file": "BoundaryLeading.lean",
-      "modular_file_sha256": "db8034e60ba067aeed532d67690d9669c294eff09408f20c4fe6eed85804de31",
-      "standalone_declaration_sha256": "c6902a3e2655d7d1ddde8905be12f76e9eaf82fcc8b5b44b7ee425f3bb27709f"
+      "modular_file_sha256": "ca24c9bffb445a5f104fb7c397be9d7b7fba63287d42b65e129335f02befbfb6",
+      "standalone_declaration_sha256": "e015cc99b2c2c42a638386701b67ff514e73febcbb2966b8d50f0b68cc82ed14"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.boundary_leading_exact",
       "modular_file": "BoundaryLeading.lean",
-      "modular_file_sha256": "db8034e60ba067aeed532d67690d9669c294eff09408f20c4fe6eed85804de31",
-      "standalone_declaration_sha256": "4f5fa263c47b410575dc59786105ca0081cbc67b77dab4ec8b1c398c50a0ff8c"
+      "modular_file_sha256": "ca24c9bffb445a5f104fb7c397be9d7b7fba63287d42b65e129335f02befbfb6",
+      "standalone_declaration_sha256": "cd6a1c9ff842a8d6eb616897431eae635a8efb022637572bd7d811f3df27fff2"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leading_zero_of_boundary",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
-      "standalone_declaration_sha256": "b5b9fd32f12e26ec1fd39892701e5245f59a1f46eb3848eac35531de6a79e124"
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
+      "standalone_declaration_sha256": "1aab23a7e3bce9051e11693ec4bf0e2666e1bf4ccf5481b86eb73e280d56d76e"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leading_zero_of_boundary_e1",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
-      "standalone_declaration_sha256": "aa2c9b0744956d3e75f539e79d6c384ab9c6bbbb39e3f3dd25ea96b525bb2349"
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
+      "standalone_declaration_sha256": "436fd7ac2b868ee97e235c895b4994483567d4580940db0e090c177b2ba026e3"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.leading_kills_denominator_of_boundary",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
-      "standalone_declaration_sha256": "00a33334864f9cae64794325f1ab4d21c2cb2d6534c3e8a370178222cd8660ed"
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
+      "standalone_declaration_sha256": "e583a9e1800cb5896782e7a05f2813de16d3ba4a63795cd4bdb86ba68f282485"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pageClassMap",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
       "standalone_declaration_sha256": "0cdd1e9ab25dfdaafd13fc728badf5a368a3c2c0ebfb7c31ec1042cfea023093"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.firstPageClassMap",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
       "standalone_declaration_sha256": "cb21ee9a02ee4b9dd0297415f62f5ecf1bb0d17b09417d3b430191203925d262"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pageClassMap_quotient",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
       "standalone_declaration_sha256": "ab239cd1aea5fae1a33c60a2527356cb9655d1c7a574cd85ec4cc1185d748766"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.firstPageClassMap_quotient",
       "modular_file": "PageComparison.lean",
-      "modular_file_sha256": "dbbb37704500748a3ac8639e773d1a028df79ea80ef3e6bb729c6158de7d5f42",
+      "modular_file_sha256": "83598e92d6a220a5282c9367b4ca4c3f1ba2d9ef09458cf1653090e18b1ba86f",
       "standalone_declaration_sha256": "dcb7bc9c0ba0f66edba9aa0852a6f0f0a1b32b9330ef2aa30b31abbc1b3cb57f"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pageClassMap_injective",
       "modular_file": "PageIsomorphism.lean",
-      "modular_file_sha256": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
+      "modular_file_sha256": "a0425ce1377b0dfc6c5d7ee7707a1013b323189a796624d014aae776e5da3c42",
       "standalone_declaration_sha256": "07875c2fe91a31c8f88253109785c3d020c6ca870361c4c493ad187ccd9fc960"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.firstPageClassMap_injective",
       "modular_file": "PageIsomorphism.lean",
-      "modular_file_sha256": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
+      "modular_file_sha256": "a0425ce1377b0dfc6c5d7ee7707a1013b323189a796624d014aae776e5da3c42",
       "standalone_declaration_sha256": "f042d31b902718a2dfdf2cebd7dcf6f6dbb593c28786f7f462a087eb48722413"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.firstPageClassMap_surjective",
       "modular_file": "PageIsomorphism.lean",
-      "modular_file_sha256": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
-      "standalone_declaration_sha256": "c99a4cd0e1014ec7b42f742b5e969072d2bec06be844b422bbd99e398559a475"
+      "modular_file_sha256": "a0425ce1377b0dfc6c5d7ee7707a1013b323189a796624d014aae776e5da3c42",
+      "standalone_declaration_sha256": "cb6117e7b3d9730b1239d258e5da0751fd2ace01be5611ffdb05314ff4cc21a2"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pageClassMap_surjective",
       "modular_file": "PageIsomorphism.lean",
-      "modular_file_sha256": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
-      "standalone_declaration_sha256": "1c2ca0195d615d690e509459e36f3c7fefdbbacfdf556304c907c4a9ed968ab9"
+      "modular_file_sha256": "a0425ce1377b0dfc6c5d7ee7707a1013b323189a796624d014aae776e5da3c42",
+      "standalone_declaration_sha256": "985a66b35f1fad52e5b8e0649e26436c7e35f8e9cf4d2b2d1e591bac67447639"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.firstPageIso",
       "modular_file": "PageIsomorphism.lean",
-      "modular_file_sha256": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
+      "modular_file_sha256": "a0425ce1377b0dfc6c5d7ee7707a1013b323189a796624d014aae776e5da3c42",
       "standalone_declaration_sha256": "b794bfad03116851b80883dc8f6b0c33884ed6b0761a89f9850f9af342511182"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.pageIso",
       "modular_file": "PageIsomorphism.lean",
-      "modular_file_sha256": "cb3107fbee0ce6f2107027258c9c21cbf07df83032b91a3852098177638c42e1",
+      "modular_file_sha256": "a0425ce1377b0dfc6c5d7ee7707a1013b323189a796624d014aae776e5da3c42",
       "standalone_declaration_sha256": "4fca855d3a4ee08116ac8a4e628081f9f98fd479cc547492c3305c208ecb0909"
     },
     {
@@ -569,169 +569,169 @@
     {
       "declaration": "AlgebraicHodgePilot.Column.HorizontalSupport",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "3404517d007d11e2280e4d99031868c3de40b662b4c3699ed40619d4e995b302"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.RectangularSupport",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "0ce5c789093921b6714f716b8fe9d8e1570038df8704d16b3390da13cc57dc92"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.rectangularSupport_horizontal",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
-      "standalone_declaration_sha256": "ee6b63f916f82704d594a4435276f06fa1c3a5b8e8ae31a3c190c057182e2cd1"
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
+      "standalone_declaration_sha256": "d15b0628fc5555372683f796b0e3e8ac91d200922b302e34b5e12a0b8944cc59"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.filtration_eq_bot",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "0ed1e45f9f926e0365d7516d20aa2b0e108382b37e30487bbf78899520a93ef3"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.filtration_eq_top",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
-      "standalone_declaration_sha256": "8b6e23d52d6c026e818fc0f8182a8d570553dce3afcea14a17379dd7286ed72e"
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
+      "standalone_declaration_sha256": "4d96f2dc5f7e5aafdf82bb229808c49dbac7d98d9a5369333f9ea2a656b75db1"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.cycles_stable",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "0366871b8bbc2c3d930a786a3ad32cd42de9914d2df7b2bc934175cea5c5107c"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.boundaries_stable",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "1c3feda44592dcbd831e0ce776552e379e8808583bc880522883b1ae4bb3dc3c"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.denominator_stable",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "dff7e2774bf49af41894dd20f373940e533c2bec8498c98013e9b6e0e48f6888"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.stablePageIso",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "77c3a3c88461ece814eb0d61c7619a774d23593e62236262d45db4417142dc45"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.eventually_stable",
       "modular_file": "BoundedFiltration.lean",
-      "modular_file_sha256": "6f6a1234f6ce5b2fe38d0ae226e751235fefef9341b5334150468580050c9ca0",
+      "modular_file_sha256": "2e795444a9dfa9f668b8e0f4f131c41548b0a5ade7190637ce6a58aa3a924b75",
       "standalone_declaration_sha256": "4ebcfa9a4ea614bd0ac710479c61ceedd7cbdd4f75cdc37ee0dda3aaa255109e"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologySC",
       "modular_file": "CohomologyClass.lean",
-      "modular_file_sha256": "9ab806d9cb9c19121d9ae2fd0d77edc3dacaa46f2654b3a2503fe0568d5d94bd",
+      "modular_file_sha256": "59d0238ab785dee45fd2b7715240721c22eee0ae13d711e12ea135bcb72a5b5b",
       "standalone_declaration_sha256": "87d89ccd47cd5e48c9f5b203c002494bf94673228542bc9629c3435982ba7219"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyIso",
       "modular_file": "CohomologyClass.lean",
-      "modular_file_sha256": "9ab806d9cb9c19121d9ae2fd0d77edc3dacaa46f2654b3a2503fe0568d5d94bd",
+      "modular_file_sha256": "59d0238ab785dee45fd2b7715240721c22eee0ae13d711e12ea135bcb72a5b5b",
       "standalone_declaration_sha256": "f266a2fe210b88cbda38a7565f539f0c45a0b2cd64273e1b1c6b8d2ac35bedbe"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyClassMap",
       "modular_file": "CohomologyClass.lean",
-      "modular_file_sha256": "9ab806d9cb9c19121d9ae2fd0d77edc3dacaa46f2654b3a2503fe0568d5d94bd",
+      "modular_file_sha256": "59d0238ab785dee45fd2b7715240721c22eee0ae13d711e12ea135bcb72a5b5b",
       "standalone_declaration_sha256": "a60bb0ed6df7b993ee92bf0092f44dbdee2cb501333b9e6f6c9f6d238025a570"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyClassMap_surjective",
       "modular_file": "CohomologyClass.lean",
-      "modular_file_sha256": "9ab806d9cb9c19121d9ae2fd0d77edc3dacaa46f2654b3a2503fe0568d5d94bd",
-      "standalone_declaration_sha256": "aaa05e8412b6a63129f5557b4b19b8be1822c8386020e6643c0bddbaacde5e5f"
+      "modular_file_sha256": "59d0238ab785dee45fd2b7715240721c22eee0ae13d711e12ea135bcb72a5b5b",
+      "standalone_declaration_sha256": "e6721041cd64c6d1042f2a9fd7b8e0ed42294109726bdca00d8932f8d4beeb38"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyClassMap_eq_zero_iff",
       "modular_file": "CohomologyClass.lean",
-      "modular_file_sha256": "9ab806d9cb9c19121d9ae2fd0d77edc3dacaa46f2654b3a2503fe0568d5d94bd",
-      "standalone_declaration_sha256": "63794c9dd4e780716de8e361cd60782453b0035a4550ec4d6165d9f45ffa316e"
+      "modular_file_sha256": "59d0238ab785dee45fd2b7715240721c22eee0ae13d711e12ea135bcb72a5b5b",
+      "standalone_declaration_sha256": "f37e01f704aa0758a43feae6da1f1b7b770e7727d8a67f3a1e66062fccfcb6fa"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.closedCycleToCycle",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "1fabb83e38809538e9b0a1d75007a38f452af058372c19e33a9330d4ff94bcda"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.closedClassMap",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "a6f70cadad3d947e02f200e778574408a07e2104e2037576be75fd9a11d79774"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "645328cec34948b3ea3ce8ef00be2c43488f8ebc423030fc7c5090ad08904c80"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.closedClassToFiltration",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "c16f0ade64f7563bcfc8aef5d02b8ff86ee42b47376b9821e4e93f2d03fac46a"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.GradedCohomology",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "9484e4af924ec74e75d584878af327c79aed22631e53e5558878a0e09b45aa5c"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.closedToGraded",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "b4e2c2eb3ec5323d6267956749cae7849dbc5dca7c7e4cab50a7b0314128fb1f"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.closedToGraded_zero_iff",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
-      "standalone_declaration_sha256": "0882e25477d6443744c36f9985306ad83f755a4b3176d8301da4f4b9e84c8be6"
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
+      "standalone_declaration_sha256": "a778377edf0a4445d02f8ab5610b2e008ed63f289b7d7d6f65e13f96274a61e8"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.infinityToGraded",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "623204ae887501dd641372bdf4802581d9b7e9745f85f8cf7169e7d5f02a5b4a"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.infinityToGraded_quotient",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "8c1a00a3fdc96624dfac7a24db08e7d72a5eff3f5a05b8d05d12d4aab52f28cc"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.infinityToGraded_injective",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "582680cddc74ec6c17ef40059398f312ccc670f7a056ad2faf8462f38264402a"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.infinityToGraded_surjective",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "fc82e68c7373b20a1109bd1c3a9ca14edaa087c34926bfbe31299f3ce94a3793"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.infinityGradedIso",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "1dd91e67080e64bb0d65b2bc92b30244da187db36067b62056939a3dbe46ce0e"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.infinityGradedIso_quotient",
       "modular_file": "GradedCohomology.lean",
-      "modular_file_sha256": "8118685ae73b324b154f5ba47130b31aeb22587c9aa5c91c2609a1e76dca8b01",
+      "modular_file_sha256": "18fbf774688221c452a4b99917e6063905d63e3f0ce194861468a757704f3085",
       "standalone_declaration_sha256": "b5e7e4d6a810bd24b1f5ba9c7dcdd5ef326aaf3b656b50d736183e2f631c6b67"
     },
     {
@@ -749,71 +749,71 @@
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cycles_succ_le",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "732a621233d39abf528915edd57d9efa316fbe5592d3396163045fa9cf1722b8"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_top_of_top",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "ad8a1bc5fe98a905a48a28611e38c93000b8d93319c3e776254f0142f8e22098"
     },
     {
       "declaration": "AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_bot_of_bot",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "d8d353afcbe72096c0cd97562a22c8cfa766fb873bb9093eba27d74b170b9854"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "e920aab774646f3448adc0fc5813e56b9e9497e481c74f2ae66fe865a7e8fc12"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "7377a19faa34d381a2431e2a2d943544362b8f41466687a9d91522238239e8ec"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.cohomologyFiltration_eq_top",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "251d5df2cebbda1492d30ab91c83df5da7d9bb5fac6e6d377af39fa016fc1851"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.cohomologyFiltration_eq_bot",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "c2e5def869ee5fa47886e8396dfaf0a8d85b22630331b2ded04b4f74a96d00f6"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "75611d25f021dfcaca45a9283877a6821ff04c1e1a922af314d52a291cf3ceb4"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.quotient_cast_class",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "503db8b07d38035c3598e5655b41dc2ab94ce30989a9adc10768a816c2dbb3ec"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.stablePageIso_quotient",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
-      "standalone_declaration_sha256": "3153d36372a30729c1a1c7d02d8636675de32a837947049a124fc94a8e0ba995"
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
+      "standalone_declaration_sha256": "795274a6b195150a4a31ddb3cd6674d4e6bf1d4976ce6e046bd82f0e2a47124d"
     },
     {
       "declaration": "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
       "modular_file": "ReleaseFidelity.lean",
-      "modular_file_sha256": "e7ea40c1d17aa27c5ac96f7547eeb4798d6f12a4171212681389c98bec4c55b3",
+      "modular_file_sha256": "8e6ba3ca7771407ce93b60ae4af93ec703bbe537f54ec8ab4bda2627eef0a1c4",
       "standalone_declaration_sha256": "c22bdb13557cdcac9c35665b7bbb327fbc234bc4914f5bb3ebe579d1f05e563d"
     }
   ],
-  "challenge_sha256": "fa12ed722b4444ddd20ea2608d688ed196cc1b731bc4266cd7afdef24e08981c",
-  "physical_lines": 995,
-  "bytes": 62760
+  "challenge_sha256": "cab2875daf0f96d37d371f37bafb2cbabb1d47692377942913b8445c760a57b6",
+  "physical_lines": 992,
+  "bytes": 66635
 }

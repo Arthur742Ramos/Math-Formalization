@@ -58,7 +58,7 @@ def e1Data : Abelian.SpectralObject.SpectralSequenceDataCore EInt
 
 /-- At page 1 the first outer interval is the identity interval. -/
 theorem e1Data_first_left (pq : ℤ × ℤ) :
-    e1Data.i₀ 1 pq = e1Data.i₁ pq := by
+    e1Data.i₀ 1 pq = e1Data.i₁ pq :=
   rfl
 
 /-- At page 1 the last outer interval is the identity interval. -/

@@ -1,6 +1,6 @@
 module
 
-public import HodgeChallenge
+public import Challenge
 
 -- BEGIN material-imported-definition audit
 @[expose] public section

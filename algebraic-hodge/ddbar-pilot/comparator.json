@@ -1,5 +1,5 @@
 {
-  "challenge_module": "HodgeChallenge",
+  "challenge_module": "Challenge",
   "solution_module": "HodgeSolution",
   "theorem_names": [
     "AlgebraicHodgePilot.exists_closed_representative",

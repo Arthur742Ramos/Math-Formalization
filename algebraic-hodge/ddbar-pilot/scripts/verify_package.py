@@ -80,7 +80,7 @@ def main(pipeline):
     selected_axioms = verify.parse_audit(audit, selected)
     with tempfile.TemporaryDirectory(prefix='hodge-solution-audit-') as tmp:
         probe = pathlib.Path(tmp) / 'SolutionAudit.lean'
-        probe.write_text((ROOT / 'HodgeChallengeAudit.lean').read_text().replace('import HodgeChallenge', 'import HodgeSolution'))
+        probe.write_text((ROOT / 'HodgeChallengeAudit.lean').read_text().replace('import Challenge', 'import HodgeSolution'))
         solution_audit = command(['lake', 'env', 'lean', '-DwarningAsError=true', str(probe)])
     (OUT / 'solution-axioms.log').write_text(solution_audit)
     solution_axioms = verify.parse_audit(solution_audit, selected)
@@ -107,8 +107,8 @@ def main(pipeline):
         'local_interface_types_kernel_defeq_in_solution_environment': True,
         'local_exact_pinned_compareAt_and_literal_definition_values': True,
         'local_interface_limit': 'Actual pinned comparison function over writable local environments, including random Challenge alias and in-memory rejection controls; no protected canonical run or external-kernel replay.',
-        'challenge_bytes': (ROOT / 'HodgeChallenge.lean').stat().st_size,
-        'challenge_lines': len((ROOT / 'HodgeChallenge.lean').read_text().splitlines()),
+        'challenge_bytes': (ROOT / 'Challenge.lean').stat().st_size,
+        'challenge_lines': len((ROOT / 'Challenge.lean').read_text().splitlines()),
         'challenge_readability_warning': True,
         'protected_comparator_run': False,
         'protected_positive_negative_controls_run': False,

@@ -1,0 +1,30 @@
+{
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
+  "package_tree": "7b387d9479cd6b5bf8427e8f085f46c64a776f11",
+  "status": "native-pass-canonical-blocked",
+  "source_files": {
+    "Lavrentieff.lean": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+    "LEChallenge.lean": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+    "comparator.json": "766b5bb21750a1c3c6344f73c389943cf06ad3738885d4fcbaf1e27d822ae0a8",
+    "formalization.yaml": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166",
+    "lakefile.toml": "a003cfd3104eaf997644323d0e46eb0c100c0d3421677a72d85d5ae5d58f6352",
+    "lake-manifest.json": "6cdc4915e3665fe2a9210cd959ccdd28a0060846912892bf3e74e096a1bf0bb7",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "verification/source-hashes.json": "7af4eb0b8183ab5148c50d5962fc92305e1b730f2c9505e776339fba89a23dff",
+    "scripts/verify_native.py": "bbc293564f36de5b623ac12b05069545b353c4a87a6abd80381639a1ae53c0fe"
+  },
+  "native_summary_sha256": "02f157e4845a62785bb8aadbeac06c66d8b494405f754a885b9163fcb476053d",
+  "metadata_schema": "pass",
+  "package_consistency": "pass",
+  "imported_definition_exact_Git_origin": "pass;26 meanings25 files57 excerpts",
+  "ordinary_build": "six default modules passed; proof/contract/test/pin bytes equal frozen source",
+  "review": "independent internal AI source/scope/implementation/metadata/inventory and supplemental harness review passed",
+  "canonical_full": "blocked;not launched",
+  "rendering": "blocked;not launched",
+  "security_reason": "Cloud bwrap uid-map probe fails; pinned hosted install_bwrap.sh may load /etc/apparmor.d/palomar-bwrap through sudo apparmor_parser. User prohibits new security-setting changes without specific approval.",
+  "protected_installer_attempted": false,
+  "security_settings_changed": false,
+  "registry_intakes_by_this_task": 0,
+  "merge": "blocked pending required canonical full/render gates and final receipt review",
+  "export_files": "Original NDJSON exports retained in cloud /tmp/lavrentieff-native-final; public summary records their full SHA256 and sizes. Generated binary/olean artifacts excluded from Git."
+}

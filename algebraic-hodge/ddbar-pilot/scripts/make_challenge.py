@@ -4,7 +4,7 @@ p=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description="Regenerate the proof-complete Mathlib-only Challenge; this is not protected verification.")
 parser.add_argument('--check',action='store_true')
 args=parser.parse_args()
-files={f.stem:f for f in p.glob('*.lean') if f.stem not in {'AxiomAudit','HodgeChallenge','HodgeSolution','HodgeChallengeTests','HodgeSolutionTests'}}
+files={f.stem:f for f in p.glob('*.lean') if f.stem not in {'AxiomAudit','Challenge','HodgeSolution','HodgeChallengeTests','HodgeSolutionTests'}}
 order=[];seen=set()
 def visit(m):
  if m in seen:return
@@ -73,11 +73,11 @@ for ns in ['AlgebraicHodgePilot.Column']:
 data={'status':'generated-source-map; compilation and review are certified separately','method':'Exact local constant closure collected with import all; only explicitly used source declarations retained. Comments/blank lines removed; declaration headers reflowed to width240, and adjacent identical Column contexts merged. No mathematical proof commands or contracts changed.','retained_declarations':mapping,'challenge_sha256':hashlib.sha256(s.encode()).hexdigest(),'physical_lines':len(s.splitlines()),'bytes':len(s.encode())}
 assert len(s.splitlines())<=1000 and len(s.encode())<=100*1024
 if args.check:
- assert (p/'HodgeChallenge.lean').read_text()==s,'Challenge regeneration differs'
+ assert (p/'Challenge.lean').read_text()==s,'Challenge regeneration differs'
  assert (p/'HodgeSolution.lean').read_text()==s,'Solution regeneration differs'
  assert json.loads((p/'verification/challenge-source-map.json').read_text())==data,'Source map regeneration differs'
 else:
- (p/'HodgeChallenge.lean').write_text(s)
+ (p/'Challenge.lean').write_text(s)
  (p/'HodgeSolution.lean').write_text(s)
  (p/'verification/challenge-source-map.json').write_text(json.dumps(data,indent=2)+'\n')
 print(json.dumps({'status':'pass','mode':'check'if args.check else'generate','lines':data['physical_lines'],'bytes':data['bytes'],'declarations':len(mapping)}))

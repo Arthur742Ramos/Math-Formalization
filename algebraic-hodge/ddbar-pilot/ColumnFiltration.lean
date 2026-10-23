@@ -52,8 +52,8 @@ noncomputable def filtration (p n : ℤ) : Submodule k ((total K).X n) :=
     LinearMap.range (inclusion K a b n h).hom
 
 theorem inclusion_mem_filtration (p a b n : ℤ) (h : a + b = n) (hp : p ≤ a)
-    (x : (K.X a).X b) : (inclusion K a b n h).hom x ∈ filtration K p n := by
-  exact Submodule.mem_iSup_of_mem a (Submodule.mem_iSup_of_mem b
+    (x : (K.X a).X b) : (inclusion K a b n h).hom x ∈ filtration K p n :=
+  Submodule.mem_iSup_of_mem a (Submodule.mem_iSup_of_mem b
     (Submodule.mem_iSup_of_mem h (Submodule.mem_iSup_of_mem hp ⟨x, rfl⟩)))
 
 theorem filtration_antitone (n : ℤ) : Antitone (fun p => filtration K p n) := by
@@ -88,18 +88,23 @@ theorem filtration_split (p q n : ℤ) (h : p + q = n) :
 
 theorem mem_next_of_projection_zero (p q n : ℤ) (h : p + q = n)
     (x : (total K).X n) (hx : x ∈ filtration K p n)
-    (hz : (projection K p q n).hom x = 0) : x ∈ filtration K (p + 1) n := by
-  rw [filtration_split K p q n h] at hx
-  obtain ⟨a, ⟨u, rfl⟩, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-  have hu : u = 0 := by
+    (hz : (projection K p q n).hom x = 0) : x ∈ filtration K (p + 1) n :=
+  match Submodule.mem_sup.mp
+      (Eq.mp (congrArg (fun S : Submodule k ((total K).X n) => x ∈ S)
+        (filtration_split K p q n h)) hx) with
+  | ⟨_, ⟨u, rfl⟩, b, hb, hab⟩ =>
     have hcomp := congrArg (fun f => f.hom u) (inclusion_projection_eq K p q n h)
-    have hbz := projection_kills_next K p q n hb
-    change (projection K p q n).hom b = 0 at hbz
-    rw [← hab, map_add, hbz, add_zero] at hz
-    exact hcomp.symm.trans hz
-  subst u
-  have hb' : b = x := by simpa using hab
-  exact hb' ▸ hb
+    have hbz : (projection K p q n).hom b = 0 := projection_kills_next K p q n hb
+    have hu : u = 0 := hcomp.symm.trans (calc
+      (projection K p q n).hom ((inclusion K p q n h).hom u) =
+          (projection K p q n).hom ((inclusion K p q n h).hom u) +
+            (projection K p q n).hom b := by rw [hbz, add_zero]
+      _ = (projection K p q n).hom ((inclusion K p q n h).hom u + b) :=
+        (map_add (projection K p q n).hom _ _).symm
+      _ = (projection K p q n).hom x := congrArg (projection K p q n).hom hab
+      _ = 0 := hz)
+    have hb' : b = x := by simpa only [hu, map_zero, zero_add] using hab
+    hb' ▸ hb
 
 theorem subtract_leading_mem_next (p q n : ℤ) (h : p + q = n)
     (x : (total K).X n) (hx : x ∈ filtration K p n) :
@@ -124,28 +129,29 @@ theorem inclusionOrZero_mem_filtration (p a b n : ℤ) (hp : p ≤ a)
 
 theorem differential_preserves_filtration (p n m : ℤ) :
     filtration K p n ≤
-      (filtration K p m).comap ((total K).d n m).hom := by
-  refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp => ?_
-  rintro _ ⟨x, rfl⟩
-  change ((inclusion K a b n hab ≫ (total K).d n m).hom) x ∈ filtration K p m
-  dsimp only [AlgebraicHodgePilot.total]
-  rw [HomologicalComplex₂.total_d, Preadditive.comp_add]
-  change ((K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₁ (ComplexShape.up ℤ) n m +
-    K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₂ (ComplexShape.up ℤ) n m).hom) x ∈ filtration K p m
-  rw [HomologicalComplex₂.ι_D₁, HomologicalComplex₂.ι_D₂,
-    K.d₁_eq' (ComplexShape.up ℤ) (i₁ := a) (i₁' := a + 1) (by rfl),
-    K.d₂_eq' (ComplexShape.up ℤ) a (i₂ := b) (i₂' := b + 1) (by rfl)]
-  simp only [ModuleCat.hom_add, LinearMap.add_apply, ModuleCat.hom_smul,
-    LinearMap.smul_apply, ModuleCat.hom_comp, LinearMap.comp_apply]
-  apply Submodule.add_mem
-  · have hs : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ)
-        (ComplexShape.up ℤ) (a, b) = 1 := rfl
-    rw [hs, one_smul]
-    exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia -abstractProof)
-      (((K.d a (a + 1)).f b).hom x)
-  · exact (filtration K p m).toAddSubgroup.zsmul_mem
-      (inclusionOrZero_mem_filtration K p a (b + 1) m hp (((K.X a).d b (b + 1)).hom x))
-      (a.negOnePow : ℤ)
+      (filtration K p m).comap ((total K).d n m).hom :=
+  iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp =>
+    fun _ hx => by
+      rcases hx with ⟨x, rfl⟩
+      change ((inclusion K a b n hab ≫ (total K).d n m).hom) x ∈ filtration K p m
+      dsimp only [AlgebraicHodgePilot.total]
+      rw [HomologicalComplex₂.total_d, Preadditive.comp_add]
+      change ((K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₁ (ComplexShape.up ℤ) n m +
+        K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₂ (ComplexShape.up ℤ) n m).hom) x ∈ filtration K p m
+      rw [HomologicalComplex₂.ι_D₁, HomologicalComplex₂.ι_D₂,
+        K.d₁_eq' (ComplexShape.up ℤ) (i₁ := a) (i₁' := a + 1) (by rfl),
+        K.d₂_eq' (ComplexShape.up ℤ) a (i₂ := b) (i₂' := b + 1) (by rfl)]
+      simp only [ModuleCat.hom_add, LinearMap.add_apply, ModuleCat.hom_smul,
+        LinearMap.smul_apply, ModuleCat.hom_comp, LinearMap.comp_apply]
+      apply Submodule.add_mem
+      · have hs : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ)
+            (ComplexShape.up ℤ) (a, b) = 1 := rfl
+        rw [hs, one_smul]
+        exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia -abstractProof)
+          (((K.d a (a + 1)).f b).hom x)
+      · exact (filtration K p m).toAddSubgroup.zsmul_mem
+          (inclusionOrZero_mem_filtration K p a (b + 1) m hp (((K.X a).d b (b + 1)).hom x))
+          (a.negOnePow : ℤ)
 
 noncomputable def filtered : Filtered.Filtration (total K) where
   F := filtration K

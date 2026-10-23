@@ -17,63 +17,63 @@ variable {k : Type} [Field k] (K : Bicomplex k)
 theorem boundary_leading_exact_of_primitive_mem (p q n : ℤ) (hn : p + q = n)
     (u : (total K).X (n - 1)) (hu : u ∈ filtration K p (n - 1)) :
     ∃ b : (K.X p).X (q - 1), incomingVertical K p q b =
-      (projection K p q n).hom (((total K).d (n - 1) n).hom u) := by
-  have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
-    apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    exact hu
-  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, map_zero, zero_add] at hd
-  refine ⟨p.negOnePow • (projection K p (q - 1) (n - 1)).hom u, ?_⟩
-  simpa using hd.symm
+      (projection K p q n).hom (((total K).d (n - 1) n).hom u) :=
+  have hN : n - 1 + 1 = n := sub_add_cancel n 1
+  have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 :=
+    projection_kills_next K (p - 1) q (n - 1) (by rw [sub_add_cancel p 1]; exact hu)
+  have hd := d_projection_apply K p q (n - 1) (hn.trans hN.symm) u
+  ⟨p.negOnePow • (projection K p (q - 1) (n - 1)).hom u, by
+    rw [hN, hlo, map_zero, zero_add] at hd
+    simpa using hd.symm⟩
 
 theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n)
     (hdd : ImageKernel K (p - 1) q) (u : (total K).X (n - 1))
     (hu : ((total K).d (n - 1) n).hom u ∈ filtration K p n) :
     ∃ b : (K.X p).X (q - 1), incomingVertical K p q b =
-      (projection K p q n).hom (((total K).d (n - 1) n).hom u) := by
+      (projection K p q n).hom (((total K).d (n - 1) n).hom u) :=
   let a := (projection K (p - 1) q (n - 1)).hom u
   let b := (projection K p (q - 1) (n - 1)).hom u
   let c := (projection K (p - 1 - 1) (q + 1) (n - 1)).hom u
-  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof] at hd
-  change (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
-    ((K.d (p - 1) p).f q).hom a + p.negOnePow • incomingVertical K p q b at hd
+  have hd : (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
+      ((K.d (p - 1) p).f q).hom a + p.negOnePow • incomingVertical K p q b := by
+    have h := d_projection_apply K p q (n - 1) (hn.trans (sub_add_cancel n 1).symm) u
+    rw [sub_add_cancel n 1] at h
+    exact h
   have hlo : (projection K (p - 1) (q + 1) n).hom
-      (((total K).d (n - 1) n).hom u) = 0 := by
-    apply projection_kills_next K (p - 1) (q + 1) n
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    exact hu
-  have hdlo := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof, show q + 1 - 1 = q by lia -abstractProof, hlo] at hdlo
-  change 0 = ((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c +
-    (p - 1).negOnePow • vertical K (p - 1) q a at hdlo
+      (((total K).d (n - 1) n).hom u) = 0 :=
+    projection_kills_next K (p - 1) (q + 1) n (by
+      simpa only [show p - 1 + 1 = p by lia -abstractProof] using hu)
+  have hdlo : 0 = ((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c +
+      (p - 1).negOnePow • vertical K (p - 1) q a := by
+    have h := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia -abstractProof) u
+    rw [sub_add_cancel n 1, show q + 1 - 1 = q by lia -abstractProof, hlo] at h
+    exact h
   have hhzero : ((K.d (p - 1) p).f (q + 1)).hom
       (((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c) = 0 :=
     congrArg (fun f => f.hom c) (K.d_f_comp_d_f (p - 1 - 1) (p - 1) p (q + 1))
   have hcomm : vertical K p q (((K.d (p - 1) p).f q).hom a) =
       ((K.d (p - 1) p).f (q + 1)).hom (vertical K (p - 1) q a) :=
     congrArg (fun f => f.hom a) (K.d_comm (p - 1) p q (q + 1))
-  have hv : vertical K p q (((K.d (p - 1) p).f q).hom a) = 0 := by
-    have he := congrArg (fun t => ((K.d (p - 1) p).f (q + 1)).hom t) hdlo
-    simp only [Units.smul_def, map_zero, map_add, map_zsmul] at he
-    rw [hhzero, zero_add, ← hcomm] at he
-    have hs := congrArg (fun t => ((p - 1).negOnePow : ℤ) • t) he.symm
-    simpa [smul_smul, ← Units.val_mul, Int.units_mul_self] using hs
-  dsimp only [ImageKernel, horizontal] at hdd
-  rw [show p - 1 + 1 = p by lia -abstractProof] at hdd
-  have hm : ((K.d (p - 1) p).f q).hom a ∈
-      LinearMap.range ((K.d (p - 1) p).f q).hom ⊓ LinearMap.ker (vertical K p q) :=
-    ⟨⟨a, rfl⟩, hv⟩
-  rw [hdd] at hm
-  obtain ⟨w, hw⟩ := hm
-  have hc : incomingVertical K p q (((K.d (p - 1) p).f (q - 1)).hom w) =
-      ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) :=
-    congrArg (fun f => f.hom w) (K.d_comm (p - 1) p (q - 1) q)
-  refine ⟨((K.d (p - 1) p).f (q - 1)).hom w + p.negOnePow • b, ?_⟩
-  change ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) =
-    ((K.d (p - 1) p).f q).hom a at hw
-  rw [map_add, hc, hw, hd]
-  simp
+  have hv : vertical K p q (((K.d (p - 1) p).f q).hom a) = 0 :=
+    (smul_eq_zero_iff_eq (p - 1).negOnePow).mp (by
+      have he := congrArg (fun t => ((K.d (p - 1) p).f (q + 1)).hom t) hdlo
+      simpa only [Units.smul_def, map_zero, map_add, map_zsmul,
+        hhzero, zero_add, ← hcomm] using he.symm)
+  Exists.elim (show horizontal K (p - 1) q a ∈
+      LinearMap.range ((horizontal K (p - 1) q).comp (incomingVertical K (p - 1) q)) from
+    hdd ▸ ⟨⟨a, rfl⟩, Eq.mpr (congrArg (fun j =>
+      vertical K j q (((K.d (p - 1) j).f q).hom a) = 0) (sub_add_cancel p 1)) hv⟩) fun w hw =>
+    have hw' : ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) =
+        ((K.d (p - 1) p).f q).hom a :=
+      Eq.mp (congrArg (fun j => ((K.d (p - 1) j).f q).hom (incomingVertical K (p - 1) q w) =
+        ((K.d (p - 1) j).f q).hom a) (sub_add_cancel p 1)) hw
+    have hc : incomingVertical K p q (((K.d (p - 1) p).f (q - 1)).hom w) =
+        ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) :=
+      congrArg (fun f => f.hom w) (K.d_comm (p - 1) p (q - 1) q)
+    ⟨((K.d (p - 1) p).f (q - 1)).hom w + p.negOnePow • b,
+      (map_add (incomingVertical K p q) _ _).trans
+        ((congrArg₂ (fun s t => s + t) (hc.trans hw')
+          (show incomingVertical K p q (p.negOnePow • b) = p.negOnePow • incomingVertical K p q b from
+            map_zsmul (incomingVertical K p q) (p.negOnePow : ℤ) b)).trans hd.symm)⟩
 
 end AlgebraicHodgePilot.Column

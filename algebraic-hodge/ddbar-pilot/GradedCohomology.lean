@@ -54,41 +54,38 @@ noncomputable def closedToGraded (p n : ℤ) :
     (cohomologyFiltration F p n).subtype).mkQ.comp (closedClassToFiltration F p n)
 
 theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) :
-    closedToGraded F p n x = 0 ↔ x.val ∈ closedDenominator F p n := by
+    closedToGraded F p n x = 0 ↔ x.val ∈ closedDenominator F p n :=
   have hzero : closedToGraded F p n x = 0 ↔
       closedClassMap F p n x ∈ cohomologyFiltration F (p + 1) n :=
     Submodule.Quotient.mk_eq_zero _
-  rw [hzero]
-  constructor
-  · rintro ⟨y, hy⟩
+  hzero.trans ⟨fun ⟨y, hy⟩ =>
     let xp := closedCycleToCycle F p n x
     let yp := closedCycleToCycle F (p + 1) n y
-    have hclass : cohomologyClassMap C n (xp - yp) = 0 := by
-      rw [map_sub]
-      exact sub_eq_zero.mpr hy.symm
-    obtain ⟨b, hb⟩ := (cohomologyClassMap_eq_zero_iff C n (xp - yp)).mp hclass
-    have hdiff : x.val - y.val ∈ closedBoundaries F p n := by
-      refine ⟨(F.F p n).sub_mem x.property.1
-        (F.antitone n (show p ≤ p + 1 by lia -abstractProof) y.property.1), b, ?_⟩
-      exact hb
-    exact Submodule.mem_sup.mpr ⟨y.val, y.property, x.val - y.val, hdiff,
-      add_sub_cancel _ _⟩
-  · intro hx
-    obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-    have hbc : b ∈ closedCycles F p n :=
-      closedDenominator_le_closedCycles F p n
-        ((show closedBoundaries F p n ≤ closedDenominator F p n from le_sup_right) hb)
-    have hbb : cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) = 0 :=
-      (cohomologyClassMap_eq_zero_iff C n _).mpr hb.2
-    have hac : a ∈ closedCycles F p n :=
-      ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) ha.1, ha.2⟩
-    refine ⟨⟨a, ha⟩, ?_⟩
-    have he : (⟨a, hac⟩ : closedCycles F p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
-    rw [← he, map_add]
-    change closedClassMap F (p + 1) n ⟨a, ha⟩ =
-      closedClassMap F p n ⟨a, hac⟩ + cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩)
-    rw [hbb, add_zero]
-    rfl
+    have hclass : cohomologyClassMap C n (xp - yp) = 0 :=
+      (map_sub (cohomologyClassMap C n) xp yp).trans (sub_eq_zero.mpr hy.symm)
+    Exists.elim ((cohomologyClassMap_eq_zero_iff C n (xp - yp)).mp hclass) fun b hb =>
+      have hdiff : x.val - y.val ∈ closedBoundaries F p n :=
+        ⟨(F.F p n).sub_mem x.property.1
+          (F.antitone n (show p ≤ p + 1 by lia -abstractProof) y.property.1), b, hb⟩
+      Submodule.mem_sup.mpr ⟨y.val, y.property, x.val - y.val, hdiff, add_sub_cancel _ _⟩,
+    fun hx =>
+      match Submodule.mem_sup.mp hx with
+      | ⟨a, ha, b, hb, hab⟩ =>
+        have hbc : b ∈ closedCycles F p n :=
+          closedDenominator_le_closedCycles F p n
+            ((show closedBoundaries F p n ≤ closedDenominator F p n from le_sup_right) hb)
+        have hbb : cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) = 0 :=
+          (cohomologyClassMap_eq_zero_iff C n _).mpr hb.2
+        have hac : a ∈ closedCycles F p n :=
+          ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) ha.1, ha.2⟩
+        have he : (⟨a, hac⟩ : closedCycles F p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
+        ⟨⟨a, ha⟩, calc
+          closedClassMap F (p + 1) n ⟨a, ha⟩ = closedClassMap F p n ⟨a, hac⟩ := rfl
+          _ = closedClassMap F p n ⟨a, hac⟩ +
+              cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) := by rw [hbb, add_zero]
+          _ = closedClassMap F p n x :=
+            (map_add (closedClassMap F p n) ⟨a, hac⟩ ⟨b, hbc⟩).symm.trans
+              (congrArg (closedClassMap F p n) he)⟩⟩
 
 /-- Canonical map from the actual infinity quotient to associated graded cohomology. -/
 noncomputable def infinityToGraded (p n : ℤ) :

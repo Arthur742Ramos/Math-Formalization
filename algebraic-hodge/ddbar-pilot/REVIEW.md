@@ -98,7 +98,7 @@ stabilization and degeneration maps as actual morphisms to graded cohomology.
 The generic quotient transport lemma only transports along proved numerator
 and denominator equalities; no convergence conclusion is assumed.
 
-The reviewer independently compared all135 retained HodgeChallenge declarations
+The reviewer independently compared all135 retained Challenge declarations
 with modular sources modulo comments/whitespace, using a separate comparison
 rather than trusting the generator's own hashes. Contracts and proof commands
 match. Only three Mathlib imports occur, and complete proofs are supplied.

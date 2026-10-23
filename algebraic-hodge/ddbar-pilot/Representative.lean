@@ -33,24 +33,25 @@ theorem exists_closed_correction (p q : ℤ) (hdd : ImageKernel K p q)
     (x : (K.X p).X q) (hx : vertical K p q x = 0) :
     ∃ b : (K.X p).X (q - 1),
       horizontal K p q (x - incomingVertical K p q b) = 0 ∧
-      vertical K p q (x - incomingVertical K p q b) = 0 := by
+      vertical K p q (x - incomingVertical K p q b) = 0 :=
   have hcomm : vertical K (p + 1) q (horizontal K p q x) =
       horizontal K p (q + 1) (vertical K p q x) :=
     congrArg (fun f => f x) (congrArg ModuleCat.Hom.hom (K.d_comm p (p + 1) q (q + 1)))
   have hmem : horizontal K p q x ∈
-      LinearMap.range (horizontal K p q) ⊓ LinearMap.ker (vertical K (p + 1) q) := by
-    exact ⟨⟨x, rfl⟩, by simpa [hx] using hcomm⟩
-  rw [hdd] at hmem
-  obtain ⟨b, hb⟩ := hmem
-  change horizontal K p q (incomingVertical K p q b) = horizontal K p q x at hb
-  refine ⟨b, ?_, ?_⟩
-  · rw [map_sub, ← hb]
-    exact sub_self _
-  · have hvv : vertical K p q (incomingVertical K p q b) = 0 := by
-      have h := congrArg (fun f => f b) (congrArg ModuleCat.Hom.hom
-        ((K.X p).d_comp_d (q - 1) q (q + 1)))
-      exact h
-    rw [map_sub, hx, hvv, sub_self]
+      LinearMap.range (horizontal K p q) ⊓ LinearMap.ker (vertical K (p + 1) q) :=
+    ⟨⟨x, rfl⟩, hcomm.trans ((congrArg (horizontal K p (q + 1)) hx).trans (map_zero _))⟩
+  Exists.elim (show horizontal K p q x ∈
+      LinearMap.range ((horizontal K p q).comp (incomingVertical K p q)) from hdd ▸ hmem)
+    fun b hb =>
+      have hb' : horizontal K p q (incomingVertical K p q b) = horizontal K p q x := hb
+      have hvv : vertical K p q (incomingVertical K p q b) = 0 :=
+        congrArg (fun f => f b) (congrArg ModuleCat.Hom.hom
+          ((K.X p).d_comp_d (q - 1) q (q + 1)))
+      ⟨b,
+        (map_sub (horizontal K p q) x (incomingVertical K p q b)).trans
+          ((congrArg (fun t => horizontal K p q x - t) hb').trans (sub_self _)),
+        (map_sub (vertical K p q) x (incomingVertical K p q b)).trans
+          ((congrArg₂ (fun a b => a - b) hx hvv).trans (sub_self _))⟩
 
 /-- The genuine three-term piece of the vertical column in degree `q`. -/
 abbrev verticalSC (p q : ℤ) := (K.X p).sc' (q - 1) q (q + 1)
@@ -72,25 +73,25 @@ both differentials. No boundedness or finite-dimensionality is needed. -/
 theorem exists_closed_representative (p q : ℤ) (hdd : ImageKernel K p q)
     (c : (K.X p).homology q) :
     ∃ z : LinearMap.ker (vertical K p q),
-      horizontal K p q z = 0 ∧ verticalClass K p q z = c := by
+      horizontal K p q z = 0 ∧ verticalClass K p q z = c :=
   let S := verticalSC K p q
   let c' := S.moduleCatHomologyIso.hom ((verticalHomologyIso K p q).hom c)
-  obtain ⟨x, hx⟩ := (LinearMap.range S.moduleCatToCycles).mkQ_surjective c'
-  let x₀ : LinearMap.ker (vertical K p q) := x
-  change S.moduleCatLeftHomologyData.π x₀ = c' at hx
-  obtain ⟨b, hb, hv⟩ := exists_closed_correction K p q hdd x₀.val x₀.property
-  let y : LinearMap.ker (vertical K p q) := ⟨x₀.val - incomingVertical K p q b, hv⟩
-  refine ⟨y, hb, ?_⟩
-  have hxy : S.moduleCatLeftHomologyData.π y = S.moduleCatLeftHomologyData.π x₀ := by
-    apply (Submodule.Quotient.eq _).2
-    refine ⟨-b, ?_⟩
-    apply Subtype.ext
-    change incomingVertical K p q (-b) = (x₀.val - incomingVertical K p q b) - x₀.val
-    simp [map_neg, sub_sub_cancel_left]
-  dsimp [verticalClass]
-  rw [hxy]
-  change (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv (_)) = c
-  rw [hx]
-  simp [c']
+  Exists.elim ((LinearMap.range S.moduleCatToCycles).mkQ_surjective c') fun x hx =>
+    let x₀ : LinearMap.ker (vertical K p q) := x
+    have hx' : S.moduleCatLeftHomologyData.π x₀ = c' := hx
+    Exists.elim (exists_closed_correction K p q hdd x₀.val x₀.property) fun b ⟨hb, hv⟩ =>
+      let y : LinearMap.ker (vertical K p q) := ⟨x₀.val - incomingVertical K p q b, hv⟩
+      have hxy : S.moduleCatLeftHomologyData.π y = S.moduleCatLeftHomologyData.π x₀ :=
+        (Submodule.Quotient.eq _).2 ⟨-b, Subtype.ext (by
+          change incomingVertical K p q (-b) = (x₀.val - incomingVertical K p q b) - x₀.val
+          simp [map_neg, sub_sub_cancel_left])⟩
+      ⟨y, hb, calc
+        verticalClass K p q y =
+            (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv
+              (S.moduleCatLeftHomologyData.π x₀)) :=
+          congrArg (fun t => (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv t)) hxy
+        _ = (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv c') :=
+          congrArg (fun t => (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv t)) hx'
+        _ = c := by simp [c']⟩
 
 end AlgebraicHodgePilot

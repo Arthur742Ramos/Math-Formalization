@@ -119,8 +119,8 @@ theorem stablePageIso_quotient (L U : ℤ) (hs : HorizontalSupport K L U)
     (x : Filtered.closedCycles (filtered K) p n) :
     (stablePageIso K L U hs r p n hu hl).hom
       (Filtered.quotient (filtered K) r p n (Filtered.closedToCycles (filtered K) r p n x)) =
-      Filtered.infinityQuotient (filtered K) p n x := by
-  exact quotient_cast_class (Filtered.cycles (filtered K) r p n)
+      Filtered.infinityQuotient (filtered K) p n x :=
+  quotient_cast_class (Filtered.cycles (filtered K) r p n)
     (Filtered.closedCycles (filtered K) p n) (Filtered.denominator (filtered K) r p n)
     (Filtered.closedDenominator (filtered K) p n) (cycles_stable K L U hs r p n hu)
     (denominator_stable K L U hs r p n hu hl) _ x.val

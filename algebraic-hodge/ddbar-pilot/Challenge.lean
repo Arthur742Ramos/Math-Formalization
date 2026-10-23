@@ -30,24 +30,25 @@ def ImageKernel (p q : ℤ) : Prop :=
   LinearMap.range (horizontal K p q) ⊓ LinearMap.ker (vertical K (p + 1) q) =
     LinearMap.range ((horizontal K p q).comp (incomingVertical K p q))
 theorem exists_closed_correction (p q : ℤ) (hdd : ImageKernel K p q) (x : (K.X p).X q) (hx : vertical K p q x = 0) : ∃ b : (K.X p).X (q - 1), horizontal K p q (x - incomingVertical K p q b) = 0 ∧ vertical K p q (x - incomingVertical K p q
-    b) = 0 := by
+    b) = 0 :=
   have hcomm : vertical K (p + 1) q (horizontal K p q x) =
       horizontal K p (q + 1) (vertical K p q x) :=
     congrArg (fun f => f x) (congrArg ModuleCat.Hom.hom (K.d_comm p (p + 1) q (q + 1)))
   have hmem : horizontal K p q x ∈
-      LinearMap.range (horizontal K p q) ⊓ LinearMap.ker (vertical K (p + 1) q) := by
-    exact ⟨⟨x, rfl⟩, by simpa [hx] using hcomm⟩
-  rw [hdd] at hmem
-  obtain ⟨b, hb⟩ := hmem
-  change horizontal K p q (incomingVertical K p q b) = horizontal K p q x at hb
-  refine ⟨b, ?_, ?_⟩
-  · rw [map_sub, ← hb]
-    exact sub_self _
-  · have hvv : vertical K p q (incomingVertical K p q b) = 0 := by
-      have h := congrArg (fun f => f b) (congrArg ModuleCat.Hom.hom
-        ((K.X p).d_comp_d (q - 1) q (q + 1)))
-      exact h
-    rw [map_sub, hx, hvv, sub_self]
+      LinearMap.range (horizontal K p q) ⊓ LinearMap.ker (vertical K (p + 1) q) :=
+    ⟨⟨x, rfl⟩, hcomm.trans ((congrArg (horizontal K p (q + 1)) hx).trans (map_zero _))⟩
+  Exists.elim (show horizontal K p q x ∈
+      LinearMap.range ((horizontal K p q).comp (incomingVertical K p q)) from hdd ▸ hmem)
+    fun b hb =>
+      have hb' : horizontal K p q (incomingVertical K p q b) = horizontal K p q x := hb
+      have hvv : vertical K p q (incomingVertical K p q b) = 0 :=
+        congrArg (fun f => f b) (congrArg ModuleCat.Hom.hom
+          ((K.X p).d_comp_d (q - 1) q (q + 1)))
+      ⟨b,
+        (map_sub (horizontal K p q) x (incomingVertical K p q b)).trans
+          ((congrArg (fun t => horizontal K p q x - t) hb').trans (sub_self _)),
+        (map_sub (vertical K p q) x (incomingVertical K p q b)).trans
+          ((congrArg₂ (fun a b => a - b) hx hvv).trans (sub_self _))⟩
 abbrev verticalSC (p q : ℤ) := (K.X p).sc' (q - 1) q (q + 1)
 noncomputable def verticalHomologyIso (p q : ℤ) : (K.X p).homology q ≅ (verticalSC K p q).homology :=
   (K.X p).homologyIsoSc' (q - 1) q (q + 1) (by simp) (by simp)
@@ -55,26 +56,26 @@ noncomputable def verticalClass (p q : ℤ) (z : LinearMap.ker (vertical K p q))
   (verticalHomologyIso K p q).inv
     ((verticalSC K p q).moduleCatHomologyIso.inv
       ((verticalSC K p q).moduleCatLeftHomologyData.π z))
-theorem exists_closed_representative (p q : ℤ) (hdd : ImageKernel K p q) (c : (K.X p).homology q) : ∃ z : LinearMap.ker (vertical K p q), horizontal K p q z = 0 ∧ verticalClass K p q z = c := by
+theorem exists_closed_representative (p q : ℤ) (hdd : ImageKernel K p q) (c : (K.X p).homology q) : ∃ z : LinearMap.ker (vertical K p q), horizontal K p q z = 0 ∧ verticalClass K p q z = c :=
   let S := verticalSC K p q
   let c' := S.moduleCatHomologyIso.hom ((verticalHomologyIso K p q).hom c)
-  obtain ⟨x, hx⟩ := (LinearMap.range S.moduleCatToCycles).mkQ_surjective c'
-  let x₀ : LinearMap.ker (vertical K p q) := x
-  change S.moduleCatLeftHomologyData.π x₀ = c' at hx
-  obtain ⟨b, hb, hv⟩ := exists_closed_correction K p q hdd x₀.val x₀.property
-  let y : LinearMap.ker (vertical K p q) := ⟨x₀.val - incomingVertical K p q b, hv⟩
-  refine ⟨y, hb, ?_⟩
-  have hxy : S.moduleCatLeftHomologyData.π y = S.moduleCatLeftHomologyData.π x₀ := by
-    apply (Submodule.Quotient.eq _).2
-    refine ⟨-b, ?_⟩
-    apply Subtype.ext
-    change incomingVertical K p q (-b) = (x₀.val - incomingVertical K p q b) - x₀.val
-    simp [map_neg, sub_sub_cancel_left]
-  dsimp [verticalClass]
-  rw [hxy]
-  change (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv (_)) = c
-  rw [hx]
-  simp [c']
+  Exists.elim ((LinearMap.range S.moduleCatToCycles).mkQ_surjective c') fun x hx =>
+    let x₀ : LinearMap.ker (vertical K p q) := x
+    have hx' : S.moduleCatLeftHomologyData.π x₀ = c' := hx
+    Exists.elim (exists_closed_correction K p q hdd x₀.val x₀.property) fun b ⟨hb, hv⟩ =>
+      let y : LinearMap.ker (vertical K p q) := ⟨x₀.val - incomingVertical K p q b, hv⟩
+      have hxy : S.moduleCatLeftHomologyData.π y = S.moduleCatLeftHomologyData.π x₀ :=
+        (Submodule.Quotient.eq _).2 ⟨-b, Subtype.ext (by
+          change incomingVertical K p q (-b) = (x₀.val - incomingVertical K p q b) - x₀.val
+          simp [map_neg, sub_sub_cancel_left])⟩
+      ⟨y, hb, calc
+        verticalClass K p q y =
+            (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv
+              (S.moduleCatLeftHomologyData.π x₀)) :=
+          congrArg (fun t => (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv t)) hxy
+        _ = (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv c') :=
+          congrArg (fun t => (verticalHomologyIso K p q).inv (S.moduleCatHomologyIso.inv t)) hx'
+        _ = c := by simp [c']⟩
 end AlgebraicHodgePilot
 namespace AlgebraicHodgePilot
 variable {k : Type} [Field k] (K : Bicomplex k)
@@ -126,22 +127,26 @@ def differentialOnCycles (r p n : ℤ) : cycles F r p n →ₗ[k] cycles F r (p 
       rw [differential_squared n x.val]
       exact (F.F (p + r + r) (n + 1 + 1)).zero_mem⟩
 theorem differential_denominator (r p n : ℤ) (x : cycles F r p n) (hx : x ∈ (denominator F r p n).comap (cycles F r p n).subtype) : differentialOnCycles F r p n x ∈ (denominator F r (p + r) (n + 1)).comap (cycles F r (p + r) (n +
-    1)).subtype := by
-  change (C.d n (n + 1)).hom x.val ∈ denominator F r (p + r) (n + 1)
-  obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-  change a + b = x.val at hab
-  rw [← hab, map_add, boundary_closed F (r - 1) p n hb, add_zero]
-  apply (le_sup_right : boundaries F (r - 1) (p + r) (n + 1) ≤
-    denominator F r (p + r) (n + 1))
-  change (C.d n (n + 1)).hom a ∈ boundaries F (r - 1) (p + r) (n + 1)
-  refine ⟨?_, ?_⟩
-  · have h : p + 1 + (r - 1) = p + r := by lia -abstractProof
-    have hh : (C.d n (n + 1)).hom a ∈ F.F (p + 1 + (r - 1)) (n + 1) := ha.2
-    rw [h] at hh
-    exact hh
-  · have h : p + r - (r - 1) = p + 1 := by lia -abstractProof
-    rw [show n + 1 - 1 = n by lia -abstractProof, h]
-    exact ⟨a, ha.1, rfl⟩
+    1)).subtype :=
+  have ep : p + 1 + (r - 1) = p + r := by lia -abstractProof
+  have eq : p + r - (r - 1) = p + 1 := by lia -abstractProof
+  Exists.elim (Submodule.mem_sup.mp hx) fun a ha =>
+  Exists.elim ha.2 fun b hb =>
+    have hab := hb.2
+    have hb := hb.1
+    have ha := ha.1
+    have he : (C.d n (n + 1)).hom x.val = (C.d n (n + 1)).hom a :=
+      (congrArg (fun z => (C.d n (n + 1)).hom z) hab).symm.trans
+        ((map_add (C.d n (n + 1)).hom a b).trans
+          ((congrArg (fun z => (C.d n (n + 1)).hom a + z)
+            (boundary_closed F (r - 1) p n hb)).trans (add_zero _)))
+    show (C.d n (n + 1)).hom x.val ∈ denominator F r (p + r) (n + 1) from
+    he.symm ▸ (show (C.d n (n + 1)).hom a ∈ denominator F r (p + r) (n + 1) from
+      (le_sup_right : boundaries F (r - 1) (p + r) (n + 1) ≤
+        denominator F r (p + r) (n + 1))
+        ⟨ep ▸ ha.2, by
+          rw [show n + 1 - 1 = n by lia -abstractProof, eq]
+          exact ⟨a, ha.1, rfl⟩⟩)
 def differential (r p n : ℤ) : Page F r p n →ₗ[k] Page F r (p + r) (n + 1) :=
   (denominator F r p n).comap (cycles F r p n).subtype |>.liftQ
     (((denominator F r (p + r) (n + 1)).comap
@@ -182,8 +187,8 @@ theorem inclusion_projection_eq (p q n : ℤ) (h : p + q = n) : inclusion K p q 
 noncomputable def filtration (p n : ℤ) : Submodule k ((total K).X n) :=
   ⨆ (a : ℤ) (b : ℤ) (h : a + b = n) (_ : p ≤ a),
     LinearMap.range (inclusion K a b n h).hom
-theorem inclusion_mem_filtration (p a b n : ℤ) (h : a + b = n) (hp : p ≤ a) (x : (K.X a).X b) : (inclusion K a b n h).hom x ∈ filtration K p n := by
-  exact Submodule.mem_iSup_of_mem a (Submodule.mem_iSup_of_mem b
+theorem inclusion_mem_filtration (p a b n : ℤ) (h : a + b = n) (hp : p ≤ a) (x : (K.X a).X b) : (inclusion K a b n h).hom x ∈ filtration K p n :=
+  Submodule.mem_iSup_of_mem a (Submodule.mem_iSup_of_mem b
     (Submodule.mem_iSup_of_mem h (Submodule.mem_iSup_of_mem hp ⟨x, rfl⟩)))
 theorem filtration_antitone (n : ℤ) : Antitone (fun p => filtration K p n) := by
   intro p p' hpp
@@ -209,46 +214,52 @@ theorem filtration_split (p q n : ℤ) (h : p + q = n) : filtration K p n = Line
     · rintro _ ⟨x, rfl⟩
       exact inclusion_mem_filtration K p p q n h (le_refl p) x
     · exact filtration_antitone K n (by lia -abstractProof)
-theorem mem_next_of_projection_zero (p q n : ℤ) (h : p + q = n) (x : (total K).X n) (hx : x ∈ filtration K p n) (hz : (projection K p q n).hom x = 0) : x ∈ filtration K (p + 1) n := by
-  rw [filtration_split K p q n h] at hx
-  obtain ⟨a, ⟨u, rfl⟩, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-  have hu : u = 0 := by
+theorem mem_next_of_projection_zero (p q n : ℤ) (h : p + q = n) (x : (total K).X n) (hx : x ∈ filtration K p n) (hz : (projection K p q n).hom x = 0) : x ∈ filtration K (p + 1) n :=
+  match Submodule.mem_sup.mp
+      (Eq.mp (congrArg (fun S : Submodule k ((total K).X n) => x ∈ S)
+        (filtration_split K p q n h)) hx) with
+  | ⟨_, ⟨u, rfl⟩, b, hb, hab⟩ =>
     have hcomp := congrArg (fun f => f.hom u) (inclusion_projection_eq K p q n h)
-    have hbz := projection_kills_next K p q n hb
-    change (projection K p q n).hom b = 0 at hbz
-    rw [← hab, map_add, hbz, add_zero] at hz
-    exact hcomp.symm.trans hz
-  subst u
-  have hb' : b = x := by simpa using hab
-  exact hb' ▸ hb
+    have hbz : (projection K p q n).hom b = 0 := projection_kills_next K p q n hb
+    have hu : u = 0 := hcomp.symm.trans (calc
+      (projection K p q n).hom ((inclusion K p q n h).hom u) =
+          (projection K p q n).hom ((inclusion K p q n h).hom u) +
+            (projection K p q n).hom b := by rw [hbz, add_zero]
+      _ = (projection K p q n).hom ((inclusion K p q n h).hom u + b) :=
+        (map_add (projection K p q n).hom _ _).symm
+      _ = (projection K p q n).hom x := congrArg (projection K p q n).hom hab
+      _ = 0 := hz)
+    have hb' : b = x := by simpa only [hu, map_zero, zero_add] using hab
+    hb' ▸ hb
 theorem inclusionOrZero_mem_filtration (p a b n : ℤ) (hp : p ≤ a) (x : (K.X a).X b) : (K.ιTotalOrZero (ComplexShape.up ℤ) a b n).hom x ∈ filtration K p n := by
   by_cases h : a + b = n
   · rw [K.ιTotalOrZero_eq (ComplexShape.up ℤ) a b n h]
     exact inclusion_mem_filtration K p a b n h hp x
   · rw [K.ιTotalOrZero_eq_zero (ComplexShape.up ℤ) a b n h]
     exact (filtration K p n).zero_mem
-theorem differential_preserves_filtration (p n m : ℤ) : filtration K p n ≤ (filtration K p m).comap ((total K).d n m).hom := by
-  refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp => ?_
-  rintro _ ⟨x, rfl⟩
-  change ((inclusion K a b n hab ≫ (total K).d n m).hom) x ∈ filtration K p m
-  dsimp only [AlgebraicHodgePilot.total]
-  rw [HomologicalComplex₂.total_d, Preadditive.comp_add]
-  change ((K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₁ (ComplexShape.up ℤ) n m +
-    K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₂ (ComplexShape.up ℤ) n m).hom) x ∈ filtration K p m
-  rw [HomologicalComplex₂.ι_D₁, HomologicalComplex₂.ι_D₂,
-    K.d₁_eq' (ComplexShape.up ℤ) (i₁ := a) (i₁' := a + 1) (by rfl),
-    K.d₂_eq' (ComplexShape.up ℤ) a (i₂ := b) (i₂' := b + 1) (by rfl)]
-  simp only [ModuleCat.hom_add, LinearMap.add_apply, ModuleCat.hom_smul,
-    LinearMap.smul_apply, ModuleCat.hom_comp, LinearMap.comp_apply]
-  apply Submodule.add_mem
-  · have hs : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ)
-        (ComplexShape.up ℤ) (a, b) = 1 := rfl
-    rw [hs, one_smul]
-    exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia -abstractProof)
-      (((K.d a (a + 1)).f b).hom x)
-  · exact (filtration K p m).toAddSubgroup.zsmul_mem
-      (inclusionOrZero_mem_filtration K p a (b + 1) m hp (((K.X a).d b (b + 1)).hom x))
-      (a.negOnePow : ℤ)
+theorem differential_preserves_filtration (p n m : ℤ) : filtration K p n ≤ (filtration K p m).comap ((total K).d n m).hom :=
+  iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun hp =>
+    fun _ hx => by
+      rcases hx with ⟨x, rfl⟩
+      change ((inclusion K a b n hab ≫ (total K).d n m).hom) x ∈ filtration K p m
+      dsimp only [AlgebraicHodgePilot.total]
+      rw [HomologicalComplex₂.total_d, Preadditive.comp_add]
+      change ((K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₁ (ComplexShape.up ℤ) n m +
+        K.ιTotal (ComplexShape.up ℤ) a b n hab ≫ K.D₂ (ComplexShape.up ℤ) n m).hom) x ∈ filtration K p m
+      rw [HomologicalComplex₂.ι_D₁, HomologicalComplex₂.ι_D₂,
+        K.d₁_eq' (ComplexShape.up ℤ) (i₁ := a) (i₁' := a + 1) (by rfl),
+        K.d₂_eq' (ComplexShape.up ℤ) a (i₂ := b) (i₂' := b + 1) (by rfl)]
+      simp only [ModuleCat.hom_add, LinearMap.add_apply, ModuleCat.hom_smul,
+        LinearMap.smul_apply, ModuleCat.hom_comp, LinearMap.comp_apply]
+      apply Submodule.add_mem
+      · have hs : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ)
+            (ComplexShape.up ℤ) (a, b) = 1 := rfl
+        rw [hs, one_smul]
+        exact inclusionOrZero_mem_filtration K p (a + 1) b m (by lia -abstractProof)
+          (((K.d a (a + 1)).f b).hom x)
+      · exact (filtration K p m).toAddSubgroup.zsmul_mem
+          (inclusionOrZero_mem_filtration K p a (b + 1) m hp (((K.X a).d b (b + 1)).hom x))
+          (a.negOnePow : ℤ)
 noncomputable def filtered : Filtered.Filtration (total K) where
   F := filtration K
   antitone := filtration_antitone K
@@ -269,40 +280,56 @@ theorem inclusion_d (a b n m : ℤ) (hab : a + b = n) : inclusion K a b n hab �
     K.d₁_eq' (ComplexShape.up ℤ) (i₁ := a) (i₁' := a + 1) (by rfl),
     K.d₂_eq' (ComplexShape.up ℤ) a (i₂ := b) (i₂' := b + 1) (by rfl)]
   simp [ComplexShape.ε₁, ComplexShape.ε₂]
-theorem d_projection (p q n : ℤ) (hn : p + q = n + 1) : (total K).d n (n + 1) ≫ projection K p q (n + 1) = projection K (p - 1) q n ≫ (K.d (p - 1) p).f q + p.negOnePow • (projection K p (q - 1) n ≫ (K.X p).d (q - 1) q) := by
-  apply HomologicalComplex₂.total.hom_ext
-  intro a b hab
-  change a + b = n at hab
-  change inclusion K a b n hab ≫ _ = inclusion K a b n hab ≫ _
-  rw [← Category.assoc, inclusion_d, Preadditive.add_comp,
-    Linear.units_smul_comp]
-  simp only [Preadditive.comp_add, Linear.comp_units_smul, Category.assoc]
-  by_cases ha : a = p - 1
-  · have hb : b = q := by lia -abstractProof
-    subst a b
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    rw [inclusionOrZero_projection_eq K p q (n + 1) hn,
-      inclusionOrZero_projection_ne K (p - 1) (q + 1) p q (n + 1) (by intro h; lia -abstractProof),
-      inclusion_projection_eq_assoc K (p - 1) q n hab,
-      inclusion_projection_ne_assoc K (p - 1) q p (q - 1) n hab (by intro h; lia -abstractProof)]
-    simp
-  · by_cases ha' : a = p
+theorem d_projection (p q n : ℤ) (hn : p + q = n + 1) : (total K).d n (n + 1) ≫ projection K p q (n + 1) = projection K (p - 1) q n ≫ (K.d (p - 1) p).f q + p.negOnePow • (projection K p (q - 1) n ≫ (K.X p).d (q - 1) q) :=
+  HomologicalComplex₂.total.hom_ext (ComplexShape.up ℤ) fun a b hab =>
+  have hab' : a + b = n := hab
+  have horizontal_component :
+      (K.d a (a + 1)).f b ≫ (K.ιTotalOrZero (ComplexShape.up ℤ) (a + 1) b (n + 1) ≫
+        projection K p q (n + 1)) =
+      (inclusion K a b n hab' ≫ projection K (p - 1) q n) ≫ (K.d (p - 1) p).f q := by
+    by_cases ha : a = p - 1
+    · have hb : b = q := by lia -abstractProof
+      subst a b
+      rw [sub_add_cancel p 1, inclusionOrZero_projection_eq K p q (n + 1) hn,
+        inclusion_projection_eq K (p - 1) q n hab']
+      simp
+    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1)
+        (fun h => ha (eq_sub_iff_add_eq.mpr h.1)),
+        inclusion_projection_ne K a b (p - 1) q n hab' (fun h => ha h.1)]
+      simp
+  have vertical_component :
+      a.negOnePow • ((K.X a).d b (b + 1) ≫
+        (K.ιTotalOrZero (ComplexShape.up ℤ) a (b + 1) (n + 1) ≫ projection K p q (n + 1))) =
+      p.negOnePow • ((inclusion K a b n hab' ≫ projection K p (q - 1) n) ≫
+        (K.X p).d (q - 1) q) := by
+    by_cases ha : a = p
     · have hb : b = q - 1 := by lia -abstractProof
       subst a b
-      rw [show q - 1 + 1 = q by lia -abstractProof]
-      rw [inclusionOrZero_projection_ne K (p + 1) (q - 1) p q (n + 1) (by intro h; lia -abstractProof),
-        inclusionOrZero_projection_eq K p q (n + 1) hn,
-        inclusion_projection_ne_assoc K p (q - 1) (p - 1) q n hab (by intro h; lia -abstractProof),
-        inclusion_projection_eq_assoc K p (q - 1) n hab]
+      rw [sub_add_cancel q 1, inclusionOrZero_projection_eq K p q (n + 1) hn,
+        inclusion_projection_eq K p (q - 1) n hab']
       simp
-    · rw [inclusionOrZero_projection_ne K (a + 1) b p q (n + 1) (by intro h; lia -abstractProof),
-        inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (by intro h; lia -abstractProof),
-        inclusion_projection_ne_assoc K a b (p - 1) q n hab (by intro h; exact ha h.1),
-        inclusion_projection_ne_assoc K a b p (q - 1) n hab (by intro h; exact ha' h.1)]
+    · rw [inclusionOrZero_projection_ne K a (b + 1) p q (n + 1) (fun h => ha h.1),
+        inclusion_projection_ne K a b p (q - 1) n hab' (fun h => ha h.1)]
       simp
+  calc
+    inclusion K a b n hab' ≫ ((total K).d n (n + 1) ≫ projection K p q (n + 1)) =
+        ((K.d a (a + 1)).f b ≫ K.ιTotalOrZero (ComplexShape.up ℤ) (a + 1) b (n + 1) +
+          a.negOnePow • ((K.X a).d b (b + 1) ≫ K.ιTotalOrZero (ComplexShape.up ℤ) a (b + 1) (n + 1))) ≫
+            projection K p q (n + 1) :=
+      (Category.assoc _ _ _).symm.trans
+        (congrArg (fun t => t ≫ projection K p q (n + 1)) (inclusion_d K a b n (n + 1) hab'))
+    _ = (K.d a (a + 1)).f b ≫ (K.ιTotalOrZero (ComplexShape.up ℤ) (a + 1) b (n + 1) ≫ projection K p q (n + 1)) +
+        a.negOnePow • ((K.X a).d b (b + 1) ≫ (K.ιTotalOrZero (ComplexShape.up ℤ) a (b + 1) (n + 1) ≫
+          projection K p q (n + 1))) := by rw [Preadditive.add_comp, Linear.units_smul_comp]; simp only [Category.assoc]
+    _ = (inclusion K a b n hab' ≫ projection K (p - 1) q n) ≫ (K.d (p - 1) p).f q +
+        p.negOnePow • ((inclusion K a b n hab' ≫ projection K p (q - 1) n) ≫ (K.X p).d (q - 1) q) :=
+      congrArg₂ (fun s t => s + t) horizontal_component vertical_component
+    _ = inclusion K a b n hab' ≫ (projection K (p - 1) q n ≫ (K.d (p - 1) p).f q +
+        p.negOnePow • (projection K p (q - 1) n ≫ (K.X p).d (q - 1) q)) := by
+      simp only [Preadditive.comp_add, Linear.comp_units_smul, Category.assoc]
 theorem d_projection_apply (p q n : ℤ) (hn : p + q = n + 1) (x : (total K).X n) : (projection K p q (n + 1)).hom (((total K).d n (n + 1)).hom x) = ((K.d (p - 1) p).f q).hom ((projection K (p - 1) q n).hom x) + p.negOnePow • ((K.X p).d (q -
-    1) q).hom ((projection K p (q - 1) n).hom x) := by
-  exact congrArg (fun f => f.hom x) (d_projection K p q n hn)
+    1) q).hom ((projection K p (q - 1) n).hom x) :=
+  congrArg (fun f => f.hom x) (d_projection K p q n hn)
 end AlgebraicHodgePilot.Column
 namespace AlgebraicHodgePilot
 variable {k : Type} [Field k] (K : Bicomplex k)
@@ -311,58 +338,51 @@ noncomputable def verticalClassMap (p q : ℤ) : LinearMap.ker (vertical K p q) 
     ((verticalSC K p q).moduleCatHomologyIso.inv.hom.comp
       (verticalSC K p q).moduleCatLeftHomologyData.π.hom)
 theorem verticalClassMap_apply (p q : ℤ) (z : LinearMap.ker (vertical K p q)) : verticalClassMap K p q z = verticalClass K p q z := rfl
-theorem verticalClassMap_surjective (p q : ℤ) : Function.Surjective (verticalClassMap K p q) := by
-  intro c
+theorem verticalClassMap_surjective (p q : ℤ) : Function.Surjective (verticalClassMap K p q) :=
+  fun c =>
+    let S := verticalSC K p q
+    let c' := S.moduleCatHomologyIso.hom ((verticalHomologyIso K p q).hom c)
+    Exists.elim ((LinearMap.range S.moduleCatToCycles).mkQ_surjective c') fun x hx =>
+      let z : LinearMap.ker (vertical K p q) := x
+      have hx' : S.moduleCatLeftHomologyData.π z = c' := hx
+      ⟨z, show (verticalHomologyIso K p q).inv
+          (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = c from
+        (congrArg (fun t => (verticalHomologyIso K p q).inv
+          (S.moduleCatHomologyIso.inv t)) hx').trans (by simp [c'])⟩
+theorem verticalClassMap_eq_zero_iff (p q : ℤ) (z : LinearMap.ker (vertical K p q)) : verticalClassMap K p q z = 0 ↔ ∃ b : (K.X p).X (q - 1), incomingVertical K p q b = z.val :=
   let S := verticalSC K p q
-  let c' := S.moduleCatHomologyIso.hom ((verticalHomologyIso K p q).hom c)
-  obtain ⟨x, hx⟩ := (LinearMap.range S.moduleCatToCycles).mkQ_surjective c'
-  let z : LinearMap.ker (vertical K p q) := x
-  change S.moduleCatLeftHomologyData.π z = c' at hx
-  refine ⟨z, ?_⟩
-  change (verticalHomologyIso K p q).inv
-    (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = c
-  rw [hx]
-  simp [c']
-theorem verticalClassMap_eq_zero_iff (p q : ℤ) (z : LinearMap.ker (vertical K p q)) : verticalClassMap K p q z = 0 ↔ ∃ b : (K.X p).X (q - 1), incomingVertical K p q b = z.val := by
-  let S := verticalSC K p q
-  constructor
-  · intro h
-    have hh := congrArg
-      (fun c => S.moduleCatHomologyIso.hom ((verticalHomologyIso K p q).hom c)) h
+  ⟨fun h =>
     have hq : S.moduleCatLeftHomologyData.π z = 0 := by
+      have hh := congrArg (fun c => S.moduleCatHomologyIso.hom ((verticalHomologyIso K p q).hom c)) h
       simp [verticalClassMap, S] at hh
       exact hh
-    have hm : z ∈ LinearMap.range S.moduleCatToCycles :=
-      (Submodule.Quotient.mk_eq_zero _).mp hq
-    obtain ⟨b, hb⟩ := hm
-    exact ⟨b, congrArg Subtype.val hb⟩
-  · rintro ⟨b, hb⟩
-    have hz : S.moduleCatToCycles b = z := Subtype.ext hb
-    have hq : S.moduleCatLeftHomologyData.π z = 0 :=
-      (Submodule.Quotient.mk_eq_zero _).mpr ⟨b, hz⟩
-    change (verticalHomologyIso K p q).inv
-      (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = 0
-    rw [hq]
-    simp
+    Exists.elim ((Submodule.Quotient.mk_eq_zero _).mp hq) fun b hb =>
+      ⟨b, congrArg Subtype.val hb⟩,
+    fun ⟨b, hb⟩ =>
+      have hz : S.moduleCatToCycles b = z := Subtype.ext hb
+      have hq : S.moduleCatLeftHomologyData.π z = 0 :=
+        (Submodule.Quotient.mk_eq_zero _).mpr ⟨b, hz⟩
+      show (verticalHomologyIso K p q).inv
+          (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = 0 from
+        (congrArg (fun t => (verticalHomologyIso K p q).inv
+          (S.moduleCatHomologyIso.inv t)) hq).trans (by simp)⟩
 end AlgebraicHodgePilot
 namespace AlgebraicHodgePilot.Column
 variable {k : Type} [Field k] (K : Bicomplex k)
-theorem leading_vertical_closed (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (x : (total K).X n) (hx : x ∈ Filtered.cycles (filtered K) r p n) : vertical K p q ((projection K p q n).hom x) = 0 := by
-  have hlo : (projection K (p - 1) (q + 1) n).hom x = 0 := by
-    apply projection_kills_next K (p - 1) (q + 1) n
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    exact hx.1
+theorem leading_vertical_closed (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (x : (total K).X n) (hx : x ∈ Filtered.cycles (filtered K) r p n) : vertical K p q ((projection K p q n).hom x) = 0 :=
+  have hlo : (projection K (p - 1) (q + 1) n).hom x = 0 :=
+    projection_kills_next K (p - 1) (q + 1) n (by
+      rw [sub_add_cancel p 1]
+      exact hx.1)
   have hhi : (projection K p (q + 1) (n + 1)).hom
-      (((total K).d n (n + 1)).hom x) = 0 := by
-    apply projection_kills_next K p (q + 1) (n + 1)
-    exact filtration_antitone K (n + 1) (show p + 1 ≤ p + r by lia -abstractProof) hx.2
-  have hd := congrArg (fun f => f.hom x) (d_projection K p (q + 1) n (by lia -abstractProof))
-  rw [show q + 1 - 1 = q by lia -abstractProof] at hd
-  simp only [ModuleCat.hom_comp, ModuleCat.hom_add, ModuleCat.hom_smul,
-    LinearMap.comp_apply, LinearMap.add_apply, LinearMap.smul_apply] at hd
-  rw [hhi, hlo, map_zero, zero_add] at hd
-  have hs := congrArg (fun y => p.negOnePow • y) hd.symm
-  simpa [smul_smul, Int.units_mul_self] using hs
+      (((total K).d n (n + 1)).hom x) = 0 :=
+    projection_kills_next K p (q + 1) (n + 1)
+      (filtration_antitone K (n + 1) (show p + 1 ≤ p + r by lia -abstractProof) hx.2)
+  have hd : 0 = p.negOnePow • vertical K p q ((projection K p q n).hom x) := by
+    have h := d_projection_apply K p (q + 1) n (by lia -abstractProof) x
+    rw [show q + 1 - 1 = q by lia -abstractProof, hhi, hlo, map_zero, zero_add] at h
+    exact h
+  (smul_eq_zero_iff_eq p.negOnePow).mp hd.symm
 noncomputable def leadingCycleMap (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) : Filtered.cycles (filtered K) r p n →ₗ[k] LinearMap.ker (vertical K p q) :=
   ((projection K p q n).hom.domRestrict (Filtered.cycles (filtered K) r p n)).codRestrict _
     fun x => leading_vertical_closed K r p q n hn hr x.val x.property
@@ -374,171 +394,163 @@ theorem leadingClassMap_zero_of_next (r p q n : ℤ) (hn : p + q = n) (hr : 1 �
     exact projection_kills_next K p q n hx
   change verticalClassMap K p q (leadingCycleMap K r p q n hn hr x) = 0
   rw [hz, map_zero]
-theorem pure_vertical_cycle_mem (p q n : ℤ) (hn : p + q = n) (z : LinearMap.ker (vertical K p q)) : (inclusion K p q n hn).hom z.val ∈ Filtered.cycles (filtered K) 1 p n := by
-  refine ⟨inclusion_mem_filtration K p p q n hn (le_refl p) z.val, ?_⟩
-  have hd := congrArg (fun f => f.hom z.val) (inclusion_d K p q n (n + 1) hn)
-  simp only [ModuleCat.hom_comp, ModuleCat.hom_add, ModuleCat.hom_smul,
-    LinearMap.comp_apply, LinearMap.add_apply, LinearMap.smul_apply] at hd
-  change ((total K).d n (n + 1)).hom ((inclusion K p q n hn).hom z.val) ∈
-    filtration K (p + 1) (n + 1)
-  rw [hd]
-  have hz := z.property
-  change ((K.X p).d q (q + 1)).hom z.val = 0 at hz
-  rw [hz, map_zero, smul_zero, add_zero]
-  exact inclusionOrZero_mem_filtration K (p + 1) (p + 1) q (n + 1) (le_refl _) _
-theorem pure_biclosed_mem (r p q n : ℤ) (hn : p + q = n) (z : LinearMap.ker (vertical K p q)) (hz : horizontal K p q z.val = 0) : (inclusion K p q n hn).hom z.val ∈ Filtered.cycles (filtered K) r p n := by
-  refine ⟨inclusion_mem_filtration K p p q n hn (le_refl p) z.val, ?_⟩
-  change ((total K).d n (n + 1)).hom ((inclusion K p q n hn).hom z.val) ∈
-    filtration K (p + r) (n + 1)
-  subst n
-  dsimp only [inclusion]
-  rw [total_closed_of_biclosed K p q z.val hz z.property]
-  exact (filtration K (p + r) (p + q + 1)).zero_mem
+theorem pure_vertical_cycle_mem (p q n : ℤ) (hn : p + q = n) (z : LinearMap.ker (vertical K p q)) : (inclusion K p q n hn).hom z.val ∈ Filtered.cycles (filtered K) 1 p n :=
+  have hz : ((K.X p).d q (q + 1)).hom z.val = 0 := z.property
+  have hd : ((total K).d n (n + 1)).hom ((inclusion K p q n hn).hom z.val) =
+      (K.ιTotalOrZero (ComplexShape.up ℤ) (p + 1) q (n + 1)).hom (((K.d p (p + 1)).f q).hom z.val) := by
+    have h := congrArg (fun f => f.hom z.val) (inclusion_d K p q n (n + 1) hn)
+    simpa only [ModuleCat.hom_comp, ModuleCat.hom_add, ModuleCat.hom_smul,
+      LinearMap.comp_apply, LinearMap.add_apply, LinearMap.smul_apply,
+      hz, map_zero, smul_zero, add_zero] using h
+  ⟨inclusion_mem_filtration K p p q n hn (le_refl p) z.val,
+    show ((total K).d n (n + 1)).hom ((inclusion K p q n hn).hom z.val) ∈
+      filtration K (p + 1) (n + 1) from
+    hd.symm ▸ inclusionOrZero_mem_filtration K (p + 1) (p + 1) q (n + 1) (le_refl _) _⟩
+theorem pure_biclosed_mem (r p q n : ℤ) (hn : p + q = n) (z : LinearMap.ker (vertical K p q)) (hz : horizontal K p q z.val = 0) : (inclusion K p q n hn).hom z.val ∈ Filtered.cycles (filtered K) r p n :=
+  have hd : ((total K).d n (n + 1)).hom ((inclusion K p q n hn).hom z.val) = 0 := by
+    subst n
+    exact total_closed_of_biclosed K p q z.val hz z.property
+  ⟨inclusion_mem_filtration K p p q n hn (le_refl p) z.val,
+    show ((total K).d n (n + 1)).hom ((inclusion K p q n hn).hom z.val) ∈
+      filtration K (p + r) (n + 1) from
+    hd.symm ▸ (filtration K (p + r) (n + 1)).zero_mem⟩
 theorem leadingCycleMap_pure (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (z : LinearMap.ker (vertical K p q)) (hz : (inclusion K p q n hn).hom z.val ∈ Filtered.cycles (filtered K) r p n) : leadingCycleMap K r p q n hn hr ⟨_, hz⟩ = z := by
   apply Subtype.ext
   exact congrArg (fun f => f.hom z.val) (inclusion_projection_eq K p q n hn)
-theorem projection_d_pure (p q n : ℤ) (hn : p + q = n) (b : (K.X p).X (q - 1)) : (projection K p q n).hom (((total K).d (n - 1) n).hom ((inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b)) = p.negOnePow • incomingVertical K p q b := by
-  let u := (inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b
+theorem projection_d_pure (p q n : ℤ) (hn : p + q = n) (b : (K.X p).X (q - 1)) : (projection K p q n).hom (((total K).d (n - 1) n).hom ((inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom b)) = p.negOnePow • incomingVertical K p q b :=
+  have hi : p + (q - 1) = n - 1 := by lia -abstractProof
+  let u := (inclusion K p (q - 1) (n - 1) hi).hom b
   have hu : u ∈ filtration K p (n - 1) :=
-    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia -abstractProof) (le_refl p) b
-  have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
-    apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    exact hu
+    inclusion_mem_filtration K p p (q - 1) (n - 1) hi (le_refl p) b
+  have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 :=
+    projection_kills_next K (p - 1) q (n - 1) (by
+      simpa only [sub_add_cancel p 1] using hu)
   have hp : (projection K p (q - 1) (n - 1)).hom u = b :=
-    congrArg (fun f => f.hom b) (inclusion_projection_eq K p (q - 1) (n - 1) (by lia -abstractProof))
-  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, hp, map_zero, zero_add] at hd
-  exact hd
-theorem leading_class_zero_mem_denominator (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (x : Filtered.cycles (filtered K) r p n) (hx : leadingClassMap K r p q n hn hr x = 0) : x.val ∈ Filtered.denominator (filtered K) r p n := by
-  obtain ⟨b, hb⟩ := (verticalClassMap_eq_zero_iff K p q
-    (leadingCycleMap K r p q n hn hr x)).mp hx
-  change incomingVertical K p q b = (projection K p q n).hom x.val at hb
-  let u := (inclusion K p (q - 1) (n - 1) (by lia -abstractProof)).hom (p.negOnePow • b)
+    congrArg (fun f => f.hom b) (inclusion_projection_eq K p (q - 1) (n - 1) hi)
+  have hd := d_projection_apply K p q (n - 1) (hn.trans (sub_add_cancel n 1).symm) u
+  show (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
+    p.negOnePow • incomingVertical K p q b from by
+    rw [sub_add_cancel n 1, hlo, hp, map_zero, zero_add] at hd
+    exact hd
+theorem leading_class_zero_mem_denominator (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (x : Filtered.cycles (filtered K) r p n) (hx : leadingClassMap K r p q n hn hr x = 0) : x.val ∈ Filtered.denominator (filtered K) r p n :=
+  have hi : p + (q - 1) = n - 1 := by lia -abstractProof
+  have ep : p + 1 + (r - 1) = p + r := by lia -abstractProof
+  have hp : p - (r - 1) ≤ p := by lia -abstractProof
+  Exists.elim ((verticalClassMap_eq_zero_iff K p q
+    (leadingCycleMap K r p q n hn hr x)).mp hx) fun b hb =>
+  have hb' : incomingVertical K p q b = (projection K p q n).hom x.val := hb
+  let u := (inclusion K p (q - 1) (n - 1) hi).hom (p.negOnePow • b)
   let du := ((total K).d (n - 1) n).hom u
   have hu : u ∈ filtration K p (n - 1) :=
-    inclusion_mem_filtration K p p (q - 1) (n - 1) (by lia -abstractProof) (le_refl _) _
+    inclusion_mem_filtration K p p (q - 1) (n - 1) hi (le_refl _) _
   have hdu : du ∈ filtration K p n := differential_preserves_filtration K p (n - 1) n hu
-  have hproj : (projection K p q n).hom du = (projection K p q n).hom x.val := by
-    have hd := projection_d_pure K p q n hn (p.negOnePow • b)
-    change (projection K p q n).hom du = _ at hd
-    rw [hd]
-    simpa [Units.smul_def, map_zsmul, smul_smul, ← Units.val_mul,
-      Int.units_mul_self] using hb
+  have hproj : (projection K p q n).hom du = (projection K p q n).hom x.val :=
+    (projection_d_pure K p q n hn (p.negOnePow • b)).trans (by
+      simpa [Units.smul_def, map_zsmul, smul_smul, ← Units.val_mul, Int.units_mul_self] using hb')
   have hddu : ((total K).d n (n + 1)).hom du = 0 :=
     congrArg (fun f => f.hom u) ((total K).d_comp_d (n - 1) n (n + 1))
   let y := x.val - du
-  have hy : y ∈ filtration K (p + 1) n := by
-    apply mem_next_of_projection_zero K p q n hn
-    · exact (filtration K p n).sub_mem x.property.1 hdu
-    · change (projection K p q n).hom (x.val - du) = 0
-      rw [map_sub, hproj, sub_self]
-  have hyc : y ∈ Filtered.cycles (filtered K) (r - 1) (p + 1) n := by
-    refine ⟨hy, ?_⟩
-    change ((total K).d n (n + 1)).hom (x.val - du) ∈
-      filtration K (p + 1 + (r - 1)) (n + 1)
-    rw [map_sub, hddu, sub_zero, show p + 1 + (r - 1) = p + r by lia -abstractProof]
-    exact x.property.2
+  have hzero : (projection K p q n).hom y = 0 :=
+    (map_sub (projection K p q n).hom x.val du).trans
+      ((congrArg (fun t => (projection K p q n).hom x.val - t) hproj).trans (sub_self _))
+  have hy : y ∈ filtration K (p + 1) n :=
+    mem_next_of_projection_zero K p q n hn y ((filtration K p n).sub_mem x.property.1 hdu) hzero
+  have he : ((total K).d n (n + 1)).hom y = ((total K).d n (n + 1)).hom x.val :=
+    (map_sub ((total K).d n (n + 1)).hom x.val du).trans
+      ((congrArg (fun t => ((total K).d n (n + 1)).hom x.val - t) hddu).trans (sub_zero _))
+  have hyc : y ∈ Filtered.cycles (filtered K) (r - 1) (p + 1) n :=
+    ⟨hy, show ((total K).d n (n + 1)).hom y ∈ filtration K (p + 1 + (r - 1)) (n + 1) from
+      he.symm ▸ Eq.mpr (congrArg (fun j => ((total K).d n (n + 1)).hom x.val ∈ filtration K j (n + 1)) ep) x.property.2⟩
   have hdb : du ∈ Filtered.boundaries (filtered K) (r - 1) p n :=
-    ⟨hdu, u, filtration_antitone K (n - 1) (show p - (r - 1) ≤ p by lia -abstractProof) hu, rfl⟩
-  exact Submodule.mem_sup.mpr ⟨y, hyc, du, hdb, sub_add_cancel x.val du⟩
+    ⟨hdu, u, filtration_antitone K (n - 1) hp hu, rfl⟩
+  Submodule.mem_sup.mpr ⟨y, hyc, du, hdb, sub_add_cancel x.val du⟩
 theorem boundary_leading_exact_of_primitive_mem (p q n : ℤ) (hn : p + q = n) (u : (total K).X (n - 1)) (hu : u ∈ filtration K p (n - 1)) : ∃ b : (K.X p).X (q - 1), incomingVertical K p q b = (projection K p q n).hom (((total K).d (n - 1)
-    n).hom u) := by
-  have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 := by
-    apply projection_kills_next K (p - 1) q (n - 1)
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    exact hu
-  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof, hlo, map_zero, zero_add] at hd
-  refine ⟨p.negOnePow • (projection K p (q - 1) (n - 1)).hom u, ?_⟩
-  simpa using hd.symm
+    n).hom u) :=
+  have hN : n - 1 + 1 = n := sub_add_cancel n 1
+  have hlo : (projection K (p - 1) q (n - 1)).hom u = 0 :=
+    projection_kills_next K (p - 1) q (n - 1) (by rw [sub_add_cancel p 1]; exact hu)
+  have hd := d_projection_apply K p q (n - 1) (hn.trans hN.symm) u
+  ⟨p.negOnePow • (projection K p (q - 1) (n - 1)).hom u, by
+    rw [hN, hlo, map_zero, zero_add] at hd
+    simpa using hd.symm⟩
 theorem boundary_leading_exact (p q n : ℤ) (hn : p + q = n) (hdd : ImageKernel K (p - 1) q) (u : (total K).X (n - 1)) (hu : ((total K).d (n - 1) n).hom u ∈ filtration K p n) : ∃ b : (K.X p).X (q - 1), incomingVertical K p q b = (projection
-    K p q n).hom (((total K).d (n - 1) n).hom u) := by
+    K p q n).hom (((total K).d (n - 1) n).hom u) :=
   let a := (projection K (p - 1) q (n - 1)).hom u
   let b := (projection K p (q - 1) (n - 1)).hom u
   let c := (projection K (p - 1 - 1) (q + 1) (n - 1)).hom u
-  have hd := d_projection_apply K p q (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof] at hd
-  change (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
-    ((K.d (p - 1) p).f q).hom a + p.negOnePow • incomingVertical K p q b at hd
+  have hd : (projection K p q n).hom (((total K).d (n - 1) n).hom u) =
+      ((K.d (p - 1) p).f q).hom a + p.negOnePow • incomingVertical K p q b := by
+    have h := d_projection_apply K p q (n - 1) (hn.trans (sub_add_cancel n 1).symm) u
+    rw [sub_add_cancel n 1] at h
+    exact h
   have hlo : (projection K (p - 1) (q + 1) n).hom
-      (((total K).d (n - 1) n).hom u) = 0 := by
-    apply projection_kills_next K (p - 1) (q + 1) n
-    rw [show p - 1 + 1 = p by lia -abstractProof]
-    exact hu
-  have hdlo := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia -abstractProof) u
-  rw [show n - 1 + 1 = n by lia -abstractProof, show q + 1 - 1 = q by lia -abstractProof, hlo] at hdlo
-  change 0 = ((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c +
-    (p - 1).negOnePow • vertical K (p - 1) q a at hdlo
+      (((total K).d (n - 1) n).hom u) = 0 :=
+    projection_kills_next K (p - 1) (q + 1) n (by
+      simpa only [show p - 1 + 1 = p by lia -abstractProof] using hu)
+  have hdlo : 0 = ((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c +
+      (p - 1).negOnePow • vertical K (p - 1) q a := by
+    have h := d_projection_apply K (p - 1) (q + 1) (n - 1) (by lia -abstractProof) u
+    rw [sub_add_cancel n 1, show q + 1 - 1 = q by lia -abstractProof, hlo] at h
+    exact h
   have hhzero : ((K.d (p - 1) p).f (q + 1)).hom
       (((K.d (p - 1 - 1) (p - 1)).f (q + 1)).hom c) = 0 :=
     congrArg (fun f => f.hom c) (K.d_f_comp_d_f (p - 1 - 1) (p - 1) p (q + 1))
   have hcomm : vertical K p q (((K.d (p - 1) p).f q).hom a) =
       ((K.d (p - 1) p).f (q + 1)).hom (vertical K (p - 1) q a) :=
     congrArg (fun f => f.hom a) (K.d_comm (p - 1) p q (q + 1))
-  have hv : vertical K p q (((K.d (p - 1) p).f q).hom a) = 0 := by
-    have he := congrArg (fun t => ((K.d (p - 1) p).f (q + 1)).hom t) hdlo
-    simp only [Units.smul_def, map_zero, map_add, map_zsmul] at he
-    rw [hhzero, zero_add, ← hcomm] at he
-    have hs := congrArg (fun t => ((p - 1).negOnePow : ℤ) • t) he.symm
-    simpa [smul_smul, ← Units.val_mul, Int.units_mul_self] using hs
-  dsimp only [ImageKernel, horizontal] at hdd
-  rw [show p - 1 + 1 = p by lia -abstractProof] at hdd
-  have hm : ((K.d (p - 1) p).f q).hom a ∈
-      LinearMap.range ((K.d (p - 1) p).f q).hom ⊓ LinearMap.ker (vertical K p q) :=
-    ⟨⟨a, rfl⟩, hv⟩
-  rw [hdd] at hm
-  obtain ⟨w, hw⟩ := hm
-  have hc : incomingVertical K p q (((K.d (p - 1) p).f (q - 1)).hom w) =
-      ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) :=
-    congrArg (fun f => f.hom w) (K.d_comm (p - 1) p (q - 1) q)
-  refine ⟨((K.d (p - 1) p).f (q - 1)).hom w + p.negOnePow • b, ?_⟩
-  change ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) =
-    ((K.d (p - 1) p).f q).hom a at hw
-  rw [map_add, hc, hw, hd]
-  simp
+  have hv : vertical K p q (((K.d (p - 1) p).f q).hom a) = 0 :=
+    (smul_eq_zero_iff_eq (p - 1).negOnePow).mp (by
+      have he := congrArg (fun t => ((K.d (p - 1) p).f (q + 1)).hom t) hdlo
+      simpa only [Units.smul_def, map_zero, map_add, map_zsmul,
+        hhzero, zero_add, ← hcomm] using he.symm)
+  Exists.elim (show horizontal K (p - 1) q a ∈
+      LinearMap.range ((horizontal K (p - 1) q).comp (incomingVertical K (p - 1) q)) from
+    hdd ▸ ⟨⟨a, rfl⟩, Eq.mpr (congrArg (fun j =>
+      vertical K j q (((K.d (p - 1) j).f q).hom a) = 0) (sub_add_cancel p 1)) hv⟩) fun w hw =>
+    have hw' : ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) =
+        ((K.d (p - 1) p).f q).hom a :=
+      Eq.mp (congrArg (fun j => ((K.d (p - 1) j).f q).hom (incomingVertical K (p - 1) q w) =
+        ((K.d (p - 1) j).f q).hom a) (sub_add_cancel p 1)) hw
+    have hc : incomingVertical K p q (((K.d (p - 1) p).f (q - 1)).hom w) =
+        ((K.d (p - 1) p).f q).hom (incomingVertical K (p - 1) q w) :=
+      congrArg (fun f => f.hom w) (K.d_comm (p - 1) p (q - 1) q)
+    ⟨((K.d (p - 1) p).f (q - 1)).hom w + p.negOnePow • b,
+      (map_add (incomingVertical K p q) _ _).trans
+        ((congrArg₂ (fun s t => s + t) (hc.trans hw')
+          (show incomingVertical K p q (p.negOnePow • b) = p.negOnePow • incomingVertical K p q b from
+            map_zsmul (incomingVertical K p q) (p.negOnePow : ℤ) b)).trans hd.symm)⟩
 theorem leading_zero_of_boundary (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (hdd : ImageKernel K (p - 1) q) (x : Filtered.cycles (filtered K) r p n) (hx : x.val ∈ Filtered.boundaries (filtered K) (r - 1) p n) : leadingClassMap K r p q n hn
-    hr x = 0 := by
-  obtain ⟨u, _, hu⟩ := hx.2
-  have huf : ((total K).d (n - 1) n).hom u ∈ filtration K p n := by
-    rw [hu]
-    exact hx.1
-  obtain ⟨b, hb⟩ := boundary_leading_exact K p q n hn hdd u huf
-  change verticalClassMap K p q (leadingCycleMap K r p q n hn hr x) = 0
-  apply (verticalClassMap_eq_zero_iff K p q _).mpr
-  refine ⟨b, ?_⟩
-  change incomingVertical K p q b = (projection K p q n).hom x.val
-  rw [← hu]
-  exact hb
-theorem leading_zero_of_boundary_e1 (p q n : ℤ) (hn : p + q = n) (x : Filtered.cycles (filtered K) 1 p n) (hx : x.val ∈ Filtered.boundaries (filtered K) (1 - 1) p n) : leadingClassMap K 1 p q n hn (le_refl 1) x = 0 := by
-  obtain ⟨u, hup, hu⟩ := hx.2
-  have hup' : u ∈ filtration K p (n - 1) := by
-    simp only [sub_self, sub_zero] at hup
-    exact hup
-  obtain ⟨b, hb⟩ := boundary_leading_exact_of_primitive_mem K p q n hn u hup'
-  change verticalClassMap K p q (leadingCycleMap K 1 p q n hn (le_refl 1) x) = 0
-  apply (verticalClassMap_eq_zero_iff K p q _).mpr
-  refine ⟨b, ?_⟩
-  change incomingVertical K p q b = (projection K p q n).hom x.val
-  rw [← hu]
-  exact hb
+    hr x = 0 :=
+  Exists.elim hx.2 fun u ⟨_, hu⟩ =>
+    have huf : ((total K).d (n - 1) n).hom u ∈ filtration K p n := hu.symm ▸ hx.1
+    Exists.elim (boundary_leading_exact K p q n hn hdd u huf) fun b hb =>
+      (verticalClassMap_eq_zero_iff K p q _).mpr
+        ⟨b, hb.trans (congrArg (projection K p q n).hom hu)⟩
+theorem leading_zero_of_boundary_e1 (p q n : ℤ) (hn : p + q = n) (x : Filtered.cycles (filtered K) 1 p n) (hx : x.val ∈ Filtered.boundaries (filtered K) (1 - 1) p n) : leadingClassMap K 1 p q n hn (le_refl 1) x = 0 :=
+  Exists.elim hx.2 fun u ⟨hup, hu⟩ =>
+    have hup' : u ∈ filtration K p (n - 1) := by
+      simp only [sub_self, sub_zero] at hup
+      exact hup
+    Exists.elim (boundary_leading_exact_of_primitive_mem K p q n hn u hup') fun b hb =>
+      (verticalClassMap_eq_zero_iff K p q _).mpr
+        ⟨b, hb.trans (congrArg (projection K p q n).hom hu)⟩
 theorem leading_kills_denominator_of_boundary (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (hbzero : ∀ x : Filtered.cycles (filtered K) r p n, x.val ∈ Filtered.boundaries (filtered K) (r - 1) p n → leadingClassMap K r p q n hn hr x = 0) :
-    (Filtered.denominator (filtered K) r p n).comap (Filtered.cycles (filtered K) r p n).subtype ≤ LinearMap.ker (leadingClassMap K r p q n hn hr) := by
-  intro x hx
-  obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-  have hac : a ∈ Filtered.cycles (filtered K) r p n :=
-    Filtered.denominator_le_cycles (filtered K) r p n
-      ((show Filtered.cycles (filtered K) (r - 1) (p + 1) n ≤
-        Filtered.denominator (filtered K) r p n from le_sup_left) ha)
-  have hbc : b ∈ Filtered.cycles (filtered K) r p n :=
-    Filtered.denominator_le_cycles (filtered K) r p n
-      ((show Filtered.boundaries (filtered K) (r - 1) p n ≤
-        Filtered.denominator (filtered K) r p n from le_sup_right) hb)
-  have hx' : (⟨a, hac⟩ : Filtered.cycles (filtered K) r p n) + ⟨b, hbc⟩ = x :=
-    Subtype.ext hab
-  change leadingClassMap K r p q n hn hr x = 0
-  rw [← hx', map_add, leadingClassMap_zero_of_next K r p q n hn hr ⟨a, hac⟩ ha.1,
-    hbzero ⟨b, hbc⟩ hb, add_zero]
+    (Filtered.denominator (filtered K) r p n).comap (Filtered.cycles (filtered K) r p n).subtype ≤ LinearMap.ker (leadingClassMap K r p q n hn hr) :=
+  fun x hx =>
+    match Submodule.mem_sup.mp hx with
+    | ⟨a, ha, b, hb, hab⟩ =>
+      have hac : a ∈ Filtered.cycles (filtered K) r p n :=
+        Filtered.denominator_le_cycles (filtered K) r p n
+          ((show Filtered.cycles (filtered K) (r - 1) (p + 1) n ≤
+            Filtered.denominator (filtered K) r p n from le_sup_left) ha)
+      have hbc : b ∈ Filtered.cycles (filtered K) r p n :=
+        Filtered.denominator_le_cycles (filtered K) r p n
+          ((show Filtered.boundaries (filtered K) (r - 1) p n ≤
+            Filtered.denominator (filtered K) r p n from le_sup_right) hb)
+      have he : (⟨a, hac⟩ : Filtered.cycles (filtered K) r p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
+      show leadingClassMap K r p q n hn hr x = 0 from by
+        rw [← he, map_add, leadingClassMap_zero_of_next K r p q n hn hr ⟨a, hac⟩ ha.1,
+          hbzero ⟨b, hbc⟩ hb, add_zero]
 noncomputable def pageClassMap (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (hdd : ImageKernel K (p - 1) q) : Filtered.Page (filtered K) r p n →ₗ[k] (K.X p).homology q :=
   ((Filtered.denominator (filtered K) r p n).comap
     (Filtered.cycles (filtered K) r p n).subtype).liftQ
@@ -576,26 +588,27 @@ theorem firstPageClassMap_injective (p q n : ℤ) (hn : p + q = n) : Function.In
   rw [firstPageClassMap_quotient] at hz
   exact (Submodule.Quotient.mk_eq_zero _).mpr
     (leading_class_zero_mem_denominator K 1 p q n hn (le_refl 1) x hz)
-theorem firstPageClassMap_surjective (p q n : ℤ) (hn : p + q = n) : Function.Surjective (firstPageClassMap K p q n hn) := by
-  intro c
-  obtain ⟨z, hz⟩ := verticalClassMap_surjective K p q c
-  let x : Filtered.cycles (filtered K) 1 p n :=
-    ⟨(inclusion K p q n hn).hom z.val, pure_vertical_cycle_mem K p q n hn z⟩
-  refine ⟨Filtered.quotient (filtered K) 1 p n x, ?_⟩
-  rw [firstPageClassMap_quotient]
-  change verticalClassMap K p q (leadingCycleMap K 1 p q n hn (le_refl 1) x) = c
-  rw [leadingCycleMap_pure]
-  exact hz
-theorem pageClassMap_surjective (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (hddIn : ImageKernel K (p - 1) q) (hddOut : ImageKernel K p q) : Function.Surjective (pageClassMap K r p q n hn hr hddIn) := by
-  intro c
-  obtain ⟨z, hz, hc⟩ := exists_closed_representative K p q hddOut c
-  let x : Filtered.cycles (filtered K) r p n :=
-    ⟨(inclusion K p q n hn).hom z.val, pure_biclosed_mem K r p q n hn z hz⟩
-  refine ⟨Filtered.quotient (filtered K) r p n x, ?_⟩
-  rw [pageClassMap_quotient]
-  change verticalClassMap K p q (leadingCycleMap K r p q n hn hr x) = c
-  rw [leadingCycleMap_pure, verticalClassMap_apply]
-  exact hc
+theorem firstPageClassMap_surjective (p q n : ℤ) (hn : p + q = n) : Function.Surjective (firstPageClassMap K p q n hn) :=
+  fun c =>
+    Exists.elim (verticalClassMap_surjective K p q c) fun z hz =>
+      let x : Filtered.cycles (filtered K) 1 p n :=
+        ⟨(inclusion K p q n hn).hom z.val, pure_vertical_cycle_mem K p q n hn z⟩
+      ⟨Filtered.quotient (filtered K) 1 p n x,
+        (firstPageClassMap_quotient K p q n hn x).trans
+          ((congrArg (verticalClassMap K p q)
+            (leadingCycleMap_pure K 1 p q n hn (le_refl 1) z
+              (pure_vertical_cycle_mem K p q n hn z))).trans hz)⟩
+theorem pageClassMap_surjective (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r) (hddIn : ImageKernel K (p - 1) q) (hddOut : ImageKernel K p q) : Function.Surjective (pageClassMap K r p q n hn hr hddIn) :=
+  fun c =>
+    Exists.elim (exists_closed_representative K p q hddOut c) fun z ⟨hz, hc⟩ =>
+      let x : Filtered.cycles (filtered K) r p n :=
+        ⟨(inclusion K p q n hn).hom z.val, pure_biclosed_mem K r p q n hn z hz⟩
+      ⟨Filtered.quotient (filtered K) r p n x,
+        (pageClassMap_quotient K r p q n hn hr hddIn x).trans
+          ((congrArg (verticalClassMap K p q)
+            (leadingCycleMap_pure K r p q n hn hr z
+              (pure_biclosed_mem K r p q n hn z hz))).trans
+            ((verticalClassMap_apply K p q z).trans hc))⟩
 noncomputable def firstPageIso (p q n : ℤ) (hn : p + q = n) : ModuleCat.of k (Filtered.Page (filtered K) 1 p n) ≅ (K.X p).homology q :=
   (LinearEquiv.ofBijective (firstPageClassMap K p q n hn)
     ⟨firstPageClassMap_injective K p q n hn, firstPageClassMap_surjective K p q n hn⟩).toModuleIso
@@ -728,33 +741,25 @@ def HorizontalSupport (L U : ℤ) : Prop :=
   ∀ p q, p < L ∨ U < p → Subsingleton ((K.X p).X q)
 def RectangularSupport (L U B T : ℤ) : Prop :=
   ∀ p q, p < L ∨ U < p ∨ q < B ∨ T < q → Subsingleton ((K.X p).X q)
-theorem rectangularSupport_horizontal (L U B T : ℤ) (hs : RectangularSupport K L U B T) : HorizontalSupport K L U := by
-  intro p q hp
-  exact hs p q (hp.elim Or.inl (fun h => Or.inr (Or.inl h)))
+theorem rectangularSupport_horizontal (L U B T : ℤ) (hs : RectangularSupport K L U B T) : HorizontalSupport K L U :=
+  fun p q hp => hs p q (hp.elim Or.inl (fun h => Or.inr (Or.inl h)))
 theorem filtration_eq_bot (L U : ℤ) (hs : HorizontalSupport K L U) (p n : ℤ) (hp : U < p) : filtration K p n = ⊥ := by
   apply le_antisymm ?_ bot_le
   refine iSup_le fun a => iSup_le fun b => iSup_le fun hab => iSup_le fun ha => ?_
   rintro _ ⟨x, rfl⟩
   have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inr (by lia -abstractProof))) x 0
   simp [hx]
-theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U) (p n : ℤ) (hp : p ≤ L) : filtration K p n = ⊤ := by
+theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U) (p n : ℤ) (hp : p ≤ L) : filtration K p n = ⊤ :=
   let f : (total K).X n ⟶ ModuleCat.of k ((total K).X n ⧸ filtration K p n) :=
     ModuleCat.ofHom (filtration K p n).mkQ
-  have hf : f = 0 := by
-    apply HomologicalComplex₂.total.hom_ext
-    intro a b hab
-    apply ModuleCat.hom_ext
-    apply LinearMap.ext
-    intro x
-    by_cases ha : p ≤ a
-    · exact (Submodule.Quotient.mk_eq_zero _).mpr
-        (inclusion_mem_filtration K p a b n hab ha x)
-    · have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia -abstractProof))) x 0
-      simp [hx]
-  apply top_unique
-  intro x _
-  apply (Submodule.Quotient.mk_eq_zero _).mp
-  exact congrArg (fun g => g.hom x) hf
+  have hf : f = 0 :=
+    HomologicalComplex₂.total.hom_ext (ComplexShape.up ℤ) fun a b hab =>
+      ModuleCat.hom_ext (LinearMap.ext fun x =>
+        if ha : p ≤ a then (Submodule.Quotient.mk_eq_zero _).mpr
+          (inclusion_mem_filtration K p a b n hab ha x)
+        else have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia -abstractProof))) x 0
+             by simp [hx])
+  top_unique fun x _ => (Submodule.Quotient.mk_eq_zero _).mp (congrArg (fun g => g.hom x) hf)
 theorem cycles_stable (L U : ℤ) (hs : HorizontalSupport K L U) (r p n : ℤ) (hr : U < p + r) : Filtered.cycles (filtered K) r p n = Filtered.closedCycles (filtered K) p n := by
   unfold Filtered.cycles Filtered.closedCycles
   change filtration K p n ⊓ (filtration K (p + r) (n + 1)).comap _ = _
@@ -790,39 +795,34 @@ noncomputable def cohomologyClassMap (n : ℤ) : LinearMap.ker (C.d n (n + 1)).h
   (cohomologyIso C n).inv.hom.comp
     ((cohomologySC C n).moduleCatHomologyIso.inv.hom.comp
       (cohomologySC C n).moduleCatLeftHomologyData.π.hom)
-theorem cohomologyClassMap_surjective (n : ℤ) : Function.Surjective (cohomologyClassMap C n) := by
-  intro c
+theorem cohomologyClassMap_surjective (n : ℤ) : Function.Surjective (cohomologyClassMap C n) :=
+  fun c =>
+    let S := cohomologySC C n
+    let c' := S.moduleCatHomologyIso.hom ((cohomologyIso C n).hom c)
+    Exists.elim ((LinearMap.range S.moduleCatToCycles).mkQ_surjective c') fun x hx =>
+      let z : LinearMap.ker ((C.d n (n + 1)).hom) := x
+      have hx' : S.moduleCatLeftHomologyData.π z = c' := hx
+      ⟨z, show (cohomologyIso C n).inv
+          (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = c from
+        (congrArg (fun t => (cohomologyIso C n).inv
+          (S.moduleCatHomologyIso.inv t)) hx').trans (by simp [c'])⟩
+theorem cohomologyClassMap_eq_zero_iff (n : ℤ) (z : LinearMap.ker (C.d n (n + 1)).hom) : cohomologyClassMap C n z = 0 ↔ ∃ b : C.X (n - 1), (C.d (n - 1) n).hom b = z.val :=
   let S := cohomologySC C n
-  let c' := S.moduleCatHomologyIso.hom ((cohomologyIso C n).hom c)
-  obtain ⟨x, hx⟩ := (LinearMap.range S.moduleCatToCycles).mkQ_surjective c'
-  let z : LinearMap.ker (C.d n (n + 1)).hom := x
-  change S.moduleCatLeftHomologyData.π z = c' at hx
-  refine ⟨z, ?_⟩
-  change (cohomologyIso C n).inv
-    (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = c
-  rw [hx]
-  simp [c']
-theorem cohomologyClassMap_eq_zero_iff (n : ℤ) (z : LinearMap.ker (C.d n (n + 1)).hom) : cohomologyClassMap C n z = 0 ↔ ∃ b : C.X (n - 1), (C.d (n - 1) n).hom b = z.val := by
-  let S := cohomologySC C n
-  constructor
-  · intro h
-    have hh := congrArg
-      (fun c => S.moduleCatHomologyIso.hom ((cohomologyIso C n).hom c)) h
+  ⟨fun h =>
     have hq : S.moduleCatLeftHomologyData.π z = 0 := by
+      have hh := congrArg (fun c => S.moduleCatHomologyIso.hom ((cohomologyIso C n).hom c)) h
       simp [cohomologyClassMap, S] at hh
       exact hh
-    have hm : z ∈ LinearMap.range S.moduleCatToCycles :=
-      (Submodule.Quotient.mk_eq_zero _).mp hq
-    obtain ⟨b, hb⟩ := hm
-    exact ⟨b, congrArg Subtype.val hb⟩
-  · rintro ⟨b, hb⟩
-    have hz : S.moduleCatToCycles b = z := Subtype.ext hb
-    have hq : S.moduleCatLeftHomologyData.π z = 0 :=
-      (Submodule.Quotient.mk_eq_zero _).mpr ⟨b, hz⟩
-    change (cohomologyIso C n).inv
-      (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = 0
-    rw [hq]
-    simp
+    Exists.elim ((Submodule.Quotient.mk_eq_zero _).mp hq) fun b hb =>
+      ⟨b, congrArg Subtype.val hb⟩,
+    fun ⟨b, hb⟩ =>
+      have hz : S.moduleCatToCycles b = z := Subtype.ext hb
+      have hq : S.moduleCatLeftHomologyData.π z = 0 :=
+        (Submodule.Quotient.mk_eq_zero _).mpr ⟨b, hz⟩
+      show (cohomologyIso C n).inv
+          (S.moduleCatHomologyIso.inv (S.moduleCatLeftHomologyData.π z)) = 0 from
+        (congrArg (fun t => (cohomologyIso C n).inv
+          (S.moduleCatHomologyIso.inv t)) hq).trans (by simp)⟩
 end AlgebraicHodgePilot.Filtered
 namespace AlgebraicHodgePilot.Filtered
 variable {k : Type} [Field k] {C : CochainComplex (ModuleCat k) ℤ} (F : Filtration C)
@@ -840,41 +840,38 @@ abbrev GradedCohomology (p n : ℤ) :=
 noncomputable def closedToGraded (p n : ℤ) : closedCycles F p n →ₗ[k] GradedCohomology F p n :=
   ((cohomologyFiltration F (p + 1) n).comap
     (cohomologyFiltration F p n).subtype).mkQ.comp (closedClassToFiltration F p n)
-theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) : closedToGraded F p n x = 0 ↔ x.val ∈ closedDenominator F p n := by
+theorem closedToGraded_zero_iff (p n : ℤ) (x : closedCycles F p n) : closedToGraded F p n x = 0 ↔ x.val ∈ closedDenominator F p n :=
   have hzero : closedToGraded F p n x = 0 ↔
       closedClassMap F p n x ∈ cohomologyFiltration F (p + 1) n :=
     Submodule.Quotient.mk_eq_zero _
-  rw [hzero]
-  constructor
-  · rintro ⟨y, hy⟩
+  hzero.trans ⟨fun ⟨y, hy⟩ =>
     let xp := closedCycleToCycle F p n x
     let yp := closedCycleToCycle F (p + 1) n y
-    have hclass : cohomologyClassMap C n (xp - yp) = 0 := by
-      rw [map_sub]
-      exact sub_eq_zero.mpr hy.symm
-    obtain ⟨b, hb⟩ := (cohomologyClassMap_eq_zero_iff C n (xp - yp)).mp hclass
-    have hdiff : x.val - y.val ∈ closedBoundaries F p n := by
-      refine ⟨(F.F p n).sub_mem x.property.1
-        (F.antitone n (show p ≤ p + 1 by lia -abstractProof) y.property.1), b, ?_⟩
-      exact hb
-    exact Submodule.mem_sup.mpr ⟨y.val, y.property, x.val - y.val, hdiff,
-      add_sub_cancel _ _⟩
-  · intro hx
-    obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp hx
-    have hbc : b ∈ closedCycles F p n :=
-      closedDenominator_le_closedCycles F p n
-        ((show closedBoundaries F p n ≤ closedDenominator F p n from le_sup_right) hb)
-    have hbb : cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) = 0 :=
-      (cohomologyClassMap_eq_zero_iff C n _).mpr hb.2
-    have hac : a ∈ closedCycles F p n :=
-      ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) ha.1, ha.2⟩
-    refine ⟨⟨a, ha⟩, ?_⟩
-    have he : (⟨a, hac⟩ : closedCycles F p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
-    rw [← he, map_add]
-    change closedClassMap F (p + 1) n ⟨a, ha⟩ =
-      closedClassMap F p n ⟨a, hac⟩ + cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩)
-    rw [hbb, add_zero]
-    rfl
+    have hclass : cohomologyClassMap C n (xp - yp) = 0 :=
+      (map_sub (cohomologyClassMap C n) xp yp).trans (sub_eq_zero.mpr hy.symm)
+    Exists.elim ((cohomologyClassMap_eq_zero_iff C n (xp - yp)).mp hclass) fun b hb =>
+      have hdiff : x.val - y.val ∈ closedBoundaries F p n :=
+        ⟨(F.F p n).sub_mem x.property.1
+          (F.antitone n (show p ≤ p + 1 by lia -abstractProof) y.property.1), b, hb⟩
+      Submodule.mem_sup.mpr ⟨y.val, y.property, x.val - y.val, hdiff, add_sub_cancel _ _⟩,
+    fun hx =>
+      match Submodule.mem_sup.mp hx with
+      | ⟨a, ha, b, hb, hab⟩ =>
+        have hbc : b ∈ closedCycles F p n :=
+          closedDenominator_le_closedCycles F p n
+            ((show closedBoundaries F p n ≤ closedDenominator F p n from le_sup_right) hb)
+        have hbb : cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) = 0 :=
+          (cohomologyClassMap_eq_zero_iff C n _).mpr hb.2
+        have hac : a ∈ closedCycles F p n :=
+          ⟨F.antitone n (show p ≤ p + 1 by lia -abstractProof) ha.1, ha.2⟩
+        have he : (⟨a, hac⟩ : closedCycles F p n) + ⟨b, hbc⟩ = x := Subtype.ext hab
+        ⟨⟨a, ha⟩, calc
+          closedClassMap F (p + 1) n ⟨a, ha⟩ = closedClassMap F p n ⟨a, hac⟩ := rfl
+          _ = closedClassMap F p n ⟨a, hac⟩ +
+              cohomologyClassMap C n (closedCycleToCycle F p n ⟨b, hbc⟩) := by rw [hbb, add_zero]
+          _ = closedClassMap F p n x :=
+            (map_add (closedClassMap F p n) ⟨a, hac⟩ ⟨b, hbc⟩).symm.trans
+              (congrArg (closedClassMap F p n) he)⟩⟩
 noncomputable def infinityToGraded (p n : ℤ) : InfinityPage F p n →ₗ[k] GradedCohomology F p n :=
   ((closedDenominator F p n).comap (closedCycles F p n).subtype).liftQ
     (closedToGraded F p n) fun x hx => (closedToGraded_zero_iff F p n x).mpr hx
@@ -981,8 +978,8 @@ theorem quotient_cast_class {M : Type} [AddCommGroup M] [Module k M] (A B S T : 
   rw [hh]
   rfl
 theorem stablePageIso_quotient (L U : ℤ) (hs : HorizontalSupport K L U) (r p n : ℤ) (hu : U < p + r) (hl : p - r + 1 ≤ L) (x : Filtered.closedCycles (filtered K) p n) : (stablePageIso K L U hs r p n hu hl).hom (Filtered.quotient (filtered
-    K) r p n (Filtered.closedToCycles (filtered K) r p n x)) = Filtered.infinityQuotient (filtered K) p n x := by
-  exact quotient_cast_class (Filtered.cycles (filtered K) r p n)
+    K) r p n (Filtered.closedToCycles (filtered K) r p n x)) = Filtered.infinityQuotient (filtered K) p n x :=
+  quotient_cast_class (Filtered.cycles (filtered K) r p n)
     (Filtered.closedCycles (filtered K) p n) (Filtered.denominator (filtered K) r p n)
     (Filtered.closedDenominator (filtered K) p n) (cycles_stable K L U hs r p n hu)
     (denominator_stable K L U hs r p n hu hl) _ x.val

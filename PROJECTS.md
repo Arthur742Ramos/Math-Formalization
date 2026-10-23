@@ -170,3 +170,20 @@ has initiated no registry intake or registration.
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Sierpiński's characterization of the rationals](topology/sierpinski-rationals) | Nonempty countable metrizable spaces without isolated points are exactly the spaces homeomorphic to the usual rationals. | Preparation; not submitted — historical native checkpoint; later stage receipts linked above | [`d338174`](https://github.com/Arthur742Ramos/Math-Formalization/tree/d33817461fadbe8d7498a237b0c5bc27dc044afb/topology/sierpinski-rationals) |
+
+## Lavrentieff homeomorphism extension preparation
+
+The full modern theorem for arbitrary subsets of completely metrizable spaces is
+proved, including empty subsets and exact pointwise agreement. Ordinary build,
+eight standard-axiom closures, native comparison and two fixed-definition rejection
+controls, independent kernel replays and independent internal source/implementation/
+metadata/inventory review passed. Native verification has different isolation and
+resource properties from canonical verification. Canonical full and rendering
+remain blocked under the current security restriction; no protected installer,
+security-setting change, merge or registry intake is performed by this preparation.
+Exact evidence and the unsuccessful first control attempt are retained in
+[catalog evidence](catalog-evidence/lavrentieff-extension-2026-10-23/README.md).
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Lavrentieff's Gδ homeomorphism extension theorem](topology/lavrentieff-extension) | Gδ continuous extension domains and homeomorphism extension between arbitrary subspaces of completely metrizable spaces. | Preparation; not submitted | [`e2d111b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/e2d111be48a52d4e3dd803b7b77a72b31cd59ca7/topology/lavrentieff-extension) |

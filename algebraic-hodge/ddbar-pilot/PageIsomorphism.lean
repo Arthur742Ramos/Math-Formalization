@@ -40,29 +40,30 @@ theorem firstPageClassMap_injective (p q n : ℤ) (hn : p + q = n) :
     (leading_class_zero_mem_denominator K 1 p q n hn (le_refl 1) x hz)
 
 theorem firstPageClassMap_surjective (p q n : ℤ) (hn : p + q = n) :
-    Function.Surjective (firstPageClassMap K p q n hn) := by
-  intro c
-  obtain ⟨z, hz⟩ := verticalClassMap_surjective K p q c
-  let x : Filtered.cycles (filtered K) 1 p n :=
-    ⟨(inclusion K p q n hn).hom z.val, pure_vertical_cycle_mem K p q n hn z⟩
-  refine ⟨Filtered.quotient (filtered K) 1 p n x, ?_⟩
-  rw [firstPageClassMap_quotient]
-  change verticalClassMap K p q (leadingCycleMap K 1 p q n hn (le_refl 1) x) = c
-  rw [leadingCycleMap_pure]
-  exact hz
+    Function.Surjective (firstPageClassMap K p q n hn) :=
+  fun c =>
+    Exists.elim (verticalClassMap_surjective K p q c) fun z hz =>
+      let x : Filtered.cycles (filtered K) 1 p n :=
+        ⟨(inclusion K p q n hn).hom z.val, pure_vertical_cycle_mem K p q n hn z⟩
+      ⟨Filtered.quotient (filtered K) 1 p n x,
+        (firstPageClassMap_quotient K p q n hn x).trans
+          ((congrArg (verticalClassMap K p q)
+            (leadingCycleMap_pure K 1 p q n hn (le_refl 1) z
+              (pure_vertical_cycle_mem K p q n hn z))).trans hz)⟩
 
 theorem pageClassMap_surjective (r p q n : ℤ) (hn : p + q = n) (hr : 1 ≤ r)
     (hddIn : ImageKernel K (p - 1) q) (hddOut : ImageKernel K p q) :
-    Function.Surjective (pageClassMap K r p q n hn hr hddIn) := by
-  intro c
-  obtain ⟨z, hz, hc⟩ := exists_closed_representative K p q hddOut c
-  let x : Filtered.cycles (filtered K) r p n :=
-    ⟨(inclusion K p q n hn).hom z.val, pure_biclosed_mem K r p q n hn z hz⟩
-  refine ⟨Filtered.quotient (filtered K) r p n x, ?_⟩
-  rw [pageClassMap_quotient]
-  change verticalClassMap K p q (leadingCycleMap K r p q n hn hr x) = c
-  rw [leadingCycleMap_pure, verticalClassMap_apply]
-  exact hc
+    Function.Surjective (pageClassMap K r p q n hn hr hddIn) :=
+  fun c =>
+    Exists.elim (exists_closed_representative K p q hddOut c) fun z ⟨hz, hc⟩ =>
+      let x : Filtered.cycles (filtered K) r p n :=
+        ⟨(inclusion K p q n hn).hom z.val, pure_biclosed_mem K r p q n hn z hz⟩
+      ⟨Filtered.quotient (filtered K) r p n x,
+        (pageClassMap_quotient K r p q n hn hr hddIn x).trans
+          ((congrArg (verticalClassMap K p q)
+            (leadingCycleMap_pure K r p q n hn hr z
+              (pure_biclosed_mem K r p q n hn z hz))).trans
+            ((verticalClassMap_apply K p q z).trans hc))⟩
 
 /-- E1 of the genuine column-filtered quotient is vertical cohomology for every bicomplex. -/
 noncomputable def firstPageIso (p q n : ℤ) (hn : p + q = n) :

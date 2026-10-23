@@ -23,9 +23,8 @@ def RectangularSupport (L U B T : ℤ) : Prop :=
   ∀ p q, p < L ∨ U < p ∨ q < B ∨ T < q → Subsingleton ((K.X p).X q)
 
 theorem rectangularSupport_horizontal (L U B T : ℤ) (hs : RectangularSupport K L U B T) :
-    HorizontalSupport K L U := by
-  intro p q hp
-  exact hs p q (hp.elim Or.inl (fun h => Or.inr (Or.inl h)))
+    HorizontalSupport K L U :=
+  fun p q hp => hs p q (hp.elim Or.inl (fun h => Or.inr (Or.inl h)))
 
 theorem filtration_eq_bot (L U : ℤ) (hs : HorizontalSupport K L U)
     (p n : ℤ) (hp : U < p) : filtration K p n = ⊥ := by
@@ -36,24 +35,17 @@ theorem filtration_eq_bot (L U : ℤ) (hs : HorizontalSupport K L U)
   simp [hx]
 
 theorem filtration_eq_top (L U : ℤ) (hs : HorizontalSupport K L U)
-    (p n : ℤ) (hp : p ≤ L) : filtration K p n = ⊤ := by
+    (p n : ℤ) (hp : p ≤ L) : filtration K p n = ⊤ :=
   let f : (total K).X n ⟶ ModuleCat.of k ((total K).X n ⧸ filtration K p n) :=
     ModuleCat.ofHom (filtration K p n).mkQ
-  have hf : f = 0 := by
-    apply HomologicalComplex₂.total.hom_ext
-    intro a b hab
-    apply ModuleCat.hom_ext
-    apply LinearMap.ext
-    intro x
-    by_cases ha : p ≤ a
-    · exact (Submodule.Quotient.mk_eq_zero _).mpr
-        (inclusion_mem_filtration K p a b n hab ha x)
-    · have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia -abstractProof))) x 0
-      simp [hx]
-  apply top_unique
-  intro x _
-  apply (Submodule.Quotient.mk_eq_zero _).mp
-  exact congrArg (fun g => g.hom x) hf
+  have hf : f = 0 :=
+    HomologicalComplex₂.total.hom_ext (ComplexShape.up ℤ) fun a b hab =>
+      ModuleCat.hom_ext (LinearMap.ext fun x =>
+        if ha : p ≤ a then (Submodule.Quotient.mk_eq_zero _).mpr
+          (inclusion_mem_filtration K p a b n hab ha x)
+        else have hx : x = 0 := @Subsingleton.elim _ (hs a b (Or.inl (by lia -abstractProof))) x 0
+             by simp [hx])
+  top_unique fun x _ => (Submodule.Quotient.mk_eq_zero _).mp (congrArg (fun g => g.hom x) hf)
 
 theorem cycles_stable (L U : ℤ) (hs : HorizontalSupport K L U)
     (r p n : ℤ) (hr : U < p + r) :

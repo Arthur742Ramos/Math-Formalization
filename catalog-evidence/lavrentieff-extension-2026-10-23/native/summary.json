@@ -1,0 +1,355 @@
+{
+  "status": "pass",
+  "scope": "Native protected-copy comparison and independent kernel replays; not canonical sandbox/resource-profile verification",
+  "selected_theorems": [
+    "Lavrentieff.extensionDomain_isG\u03b4",
+    "Lavrentieff.subset_extensionDomain",
+    "Lavrentieff.cauchy_at_extensionDomain",
+    "Lavrentieff.continuous_extension",
+    "Lavrentieff.isG\u03b4_inter_preimage",
+    "Lavrentieff.extend_inverse_maps",
+    "Lavrentieff.homeomorph_extension",
+    "Lavrentieff.completely_metrizable_extension"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "primitive_targets": [
+    "Nat.add",
+    "Nat.sub",
+    "Nat.mul",
+    "Nat.pow",
+    "Nat.gcd",
+    "Nat.div",
+    "Nat.mod",
+    "Nat.beq",
+    "Nat.ble",
+    "Nat.land",
+    "Nat.lor",
+    "Nat.xor",
+    "Nat.shiftLeft",
+    "Nat.shiftRight",
+    "String.ofList",
+    "Char.ofNat",
+    "List",
+    "eagerReduce",
+    "Nat",
+    "String",
+    "String.mk",
+    "Char",
+    "optParam",
+    "autoParam",
+    "semiOutParam",
+    "outParam"
+  ],
+  "source_sha256": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+  "proof_sha256": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+  "comparator_sha256": "766b5bb21750a1c3c6344f73c389943cf06ad3738885d4fcbaf1e27d822ae0a8",
+  "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
+  "runs": [
+    {
+      "label": "protected-build",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/tmp/lavrentieff-native-final",
+        "-DwarningAsError=true",
+        "-o",
+        "/tmp/lavrentieff-native-final/PalomarNativeLavrentieff.olean",
+        "/tmp/lavrentieff-native-final/PalomarNativeLavrentieff.lean"
+      ],
+      "exit": 0,
+      "seconds": 9.419
+    },
+    {
+      "label": "compare-driver-C",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/tmp/lavrentieff-native-final",
+        "-c",
+        "/tmp/lavrentieff-native-final/CompareNative.c",
+        "/tmp/lavrentieff-native-final/CompareNative.lean"
+      ],
+      "exit": 0,
+      "seconds": 2.393
+    },
+    {
+      "label": "compare-driver-link",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/leanc",
+        "-o",
+        "/tmp/lavrentieff-native-final/CompareNative",
+        "/tmp/lavrentieff-native-final/CompareNative.c",
+        "-lLake",
+        "-lLeanExport"
+      ],
+      "exit": 0,
+      "seconds": 4.866
+    },
+    {
+      "label": "compare",
+      "command": [
+        "/tmp/lavrentieff-native-final/CompareNative",
+        "/tmp/lavrentieff-native-final/challenge.ndjson",
+        "/tmp/lavrentieff-native-final/solution.ndjson"
+      ],
+      "exit": 0,
+      "seconds": 9.05
+    },
+    {
+      "label": "changed-small-oscillation-build",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/tmp/lavrentieff-native-final",
+        "-DwarningAsError=true",
+        "-o",
+        "/tmp/lavrentieff-native-final/NegativeChangedSmallOscillation.olean",
+        "/tmp/lavrentieff-native-final/NegativeChangedSmallOscillation.lean"
+      ],
+      "exit": 0,
+      "seconds": 10.854
+    },
+    {
+      "label": "changed-small-oscillation-compare",
+      "command": [
+        "/tmp/lavrentieff-native-final/CompareNative",
+        "/tmp/lavrentieff-native-final/challenge.ndjson",
+        "/tmp/lavrentieff-native-final/changed-small-oscillation.ndjson"
+      ],
+      "exit": 1,
+      "seconds": 7.749
+    },
+    {
+      "label": "changed-extension-domain-build",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean",
+        "--root=/tmp/lavrentieff-native-final",
+        "-DwarningAsError=true",
+        "-o",
+        "/tmp/lavrentieff-native-final/NegativeChangedExtensionDomain.olean",
+        "/tmp/lavrentieff-native-final/NegativeChangedExtensionDomain.lean"
+      ],
+      "exit": 0,
+      "seconds": 7.158
+    },
+    {
+      "label": "changed-extension-domain-compare",
+      "command": [
+        "/tmp/lavrentieff-native-final/CompareNative",
+        "/tmp/lavrentieff-native-final/challenge.ndjson",
+        "/tmp/lavrentieff-native-final/changed-extension-domain.ndjson"
+      ],
+      "exit": 1,
+      "seconds": 7.724
+    },
+    {
+      "label": "lean-kernel",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/leanchecker",
+        "--silent",
+        "--from-export",
+        "/tmp/lavrentieff-native-final/solution.ndjson"
+      ],
+      "exit": 0,
+      "seconds": 16.95
+    },
+    {
+      "label": "nanoda",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/nanoda_bin",
+        "/tmp/lavrentieff-native-final/nanoda.json"
+      ],
+      "exit": 0,
+      "seconds": 8.492
+    },
+    {
+      "label": "con-ron",
+      "command": [
+        "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/con-ron",
+        "--verified",
+        "--jobs=2",
+        "/tmp/lavrentieff-native-final/solution.ndjson"
+      ],
+      "exit": 0,
+      "seconds": 33.327
+    }
+  ],
+  "files": {
+    "con-ron.log": {
+      "sha256": "c3904b6584d3a33e75d5b18bb381714a434b79546b181c44ccfe0b32930a4c76",
+      "size": 210
+    },
+    "nanoda.log": {
+      "sha256": "35cb9c016d0fbdb455caa2167a42732b7c0637fac2c50443fa4e83545078aca7",
+      "size": 114
+    },
+    "nanoda.json": {
+      "sha256": "8d152e223f3577d7e958f6c8038ed50b8067f83f189686f50fe160f78e4111b9",
+      "size": 307
+    },
+    "lean-kernel.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "changed-extension-domain-compare.log": {
+      "sha256": "a572eac1bd262f88c319bb248b5ca9f77f7b60d79dbd6638f9f18ef5c3f1e42a",
+      "size": 100
+    },
+    "changed-extension-domain-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "changed-extension-domain.ndjson": {
+      "sha256": "53bc0db627857704cc428e17828ef6ffa6660978e7660ee62221598709845d25",
+      "size": 48470542
+    },
+    "NegativeChangedExtensionDomain.ir": {
+      "sha256": "1a2705e12be8e59ea775d8734ecc9b8d0f28a86e86697bac660171a79b625821",
+      "size": 2128
+    },
+    "NegativeChangedExtensionDomain.ir.sig": {
+      "sha256": "7b8a1286fdbd519540ee4317fa683398c4f46a7b542a95a65086294a677d5bd7",
+      "size": 176
+    },
+    "NegativeChangedExtensionDomain.olean.private": {
+      "sha256": "e69b45ace4a62eed4dc1c0d6fb22aa03cfe8e286d049c33844db453981814bad",
+      "size": 490520
+    },
+    "NegativeChangedExtensionDomain.olean.server": {
+      "sha256": "5376bc86fbd72ea2f7d4e6d74262d664c3c0f816282bb9a17c06decc87f3859a",
+      "size": 4568
+    },
+    "NegativeChangedExtensionDomain.olean": {
+      "sha256": "a73a8a651d34bb3e954396bd13145f5b6061734295ab8423aefe3a44bf007a57",
+      "size": 57224
+    },
+    "changed-extension-domain-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "NegativeChangedExtensionDomain.lean": {
+      "sha256": "dfc509d26cea9d0fa2f41f832a368a5cd93089a09043ee5d7bb663ef3e9f9446",
+      "size": 10540
+    },
+    "changed-small-oscillation-compare.log": {
+      "sha256": "e6de01d619ecbabe5ef7b1e7bc5372a6386469d1542efa6cd4f10684fb4b6724",
+      "size": 101
+    },
+    "changed-small-oscillation-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "changed-small-oscillation.ndjson": {
+      "sha256": "8705452d6842feb5169f756797b81992481d8c832074a604c844b631e1a9df19",
+      "size": 48470551
+    },
+    "NegativeChangedSmallOscillation.ir": {
+      "sha256": "177546e5e2b289711f3d864097a0273e9f558203bcb8941160154142585ee513",
+      "size": 2128
+    },
+    "NegativeChangedSmallOscillation.ir.sig": {
+      "sha256": "c7b506392da5014edf65057c27a5dc676d921d436edaf306c2def2319fc8530a",
+      "size": 176
+    },
+    "NegativeChangedSmallOscillation.olean.private": {
+      "sha256": "28f38637d2f1c4593ba9e1673bfdd967b38e476f2f2c8608fdfa4f5677562c02",
+      "size": 490528
+    },
+    "NegativeChangedSmallOscillation.olean.server": {
+      "sha256": "39fadc4e2441834482546230c42872f11b036b3eb2b3196fc7bea7a062dc99f7",
+      "size": 4568
+    },
+    "NegativeChangedSmallOscillation.olean": {
+      "sha256": "519fca8bbad1ef67abd8be908a66ad0239359583688c1f08b99d33d7c695bbb7",
+      "size": 57224
+    },
+    "changed-small-oscillation-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "NegativeChangedSmallOscillation.lean": {
+      "sha256": "442a96f130987c9f6bb87f2c8593a2f7b1cbb38fac393cd9271cc78b6253d74f",
+      "size": 10547
+    },
+    "compare.log": {
+      "sha256": "75f7f41785c73b693a53b18aa60797c4bc78b0131ab625b297620227b4d5678b",
+      "size": 62
+    },
+    "CompareNative": {
+      "sha256": "15411906bd7f5b119c7d114cdbcb5b1ba7cbc8b31e97681c83f466fb4070c5d5",
+      "size": 118843528
+    },
+    "compare-driver-link.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "CompareNative.c": {
+      "sha256": "251eb65eb686695f49e0dc56007288a8ce62bf09d273bac95aec37a99057dbef",
+      "size": 50557
+    },
+    "compare-driver-C.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "CompareNative.lean": {
+      "sha256": "fe4f582f2098571219e500f5a64e2eb3ce09cb5e7d4ac4c3dd8a6682f5c64d82",
+      "size": 1565
+    },
+    "solution-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "solution.ndjson": {
+      "sha256": "bace57dc052b0322ae89965acb6a1af9d698bc914a5242b917ad5d95dc2e613f",
+      "size": 48470324
+    },
+    "challenge-export.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "challenge.ndjson": {
+      "sha256": "3ee2bfc235c78d2a59d16c51f480bfb27d1f90715c3a9a08f9e75b8e05c3c51a",
+      "size": 48470441
+    },
+    "PalomarNativeLavrentieff.ir": {
+      "sha256": "dddd4a4090b3c7a6e9748d45860f663ce7b1feea7a16d5fc7205ff96d8bcb1f5",
+      "size": 2128
+    },
+    "PalomarNativeLavrentieff.ir.sig": {
+      "sha256": "85d55d02a17ebe79c23c06e395d450d564678980f766464f8518e47c65fa6980",
+      "size": 176
+    },
+    "PalomarNativeLavrentieff.olean.private": {
+      "sha256": "5d387a3d6c156522abb7255e2206ae33da6e0443c0cf6dd3c4f63f0dc1f2b5d5",
+      "size": 490624
+    },
+    "PalomarNativeLavrentieff.olean.server": {
+      "sha256": "e77aeccea9eba243049b4574953d9b7fb69058ff9eb0d543424ec8485cd073a5",
+      "size": 4568
+    },
+    "PalomarNativeLavrentieff.olean": {
+      "sha256": "d2d5640ff14d97b71024a9a8bea09e27c0b4244f6d9807fb9b66a8966ec45672",
+      "size": 57056
+    },
+    "protected-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "PalomarNativeLavrentieff.lean": {
+      "sha256": "153d5f02dea29239c8318cee4d06985d16d474135af7456b867297a9080ae0fc",
+      "size": 10535
+    }
+  },
+  "toolchain": "/workspace/palomar-tools/elan/toolchains/leanprover--lean4---v4.35.0-rc2",
+  "tool_binary_sha256": {
+    "lean": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+    "lake": "8ba83c98f76562d03b8dbc33f1057151ba6cbb121679dde76b2260ccc90495e1",
+    "leanexport": "c5bc1a10a21e22cbb3671d65987cdef2076833b14182d823ccb2153adf2fa954",
+    "leanchecker": "9e36e955a251b1313c8eb5b7fa101282d51df109d34d8bb7c1cfdf51985aba29",
+    "nanoda_bin": "8241c5e6baa29490aa118d382f97961b208ae730fdb96545c2abed74c9ece5a8",
+    "con-ron": "4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef"
+  },
+  "canonical_workflows_run": 0,
+  "registry_intakes": 0
+}
