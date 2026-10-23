@@ -1,0 +1,257 @@
+ℹ [1677/1715] Replayed HodgeChallengeAudit
+info: HodgeChallengeAudit.lean:5:0: 'AlgebraicHodgePilot.exists_closed_representative' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:6:0: 'AlgebraicHodgePilot.Column.all_differentials_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:7:0: 'AlgebraicHodgePilot.Column.associatedSequence_transition_next' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: HodgeChallengeAudit.lean:8:0: 'AlgebraicHodgePilot.Column.associatedSequence_transition_covers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: HodgeChallengeAudit.lean:9:0: 'AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: HodgeChallengeAudit.lean:10:0: 'AlgebraicHodgePilot.Column.bounded_e1_degeneration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:11:0: 'AlgebraicHodgePilot.Column.boundedStableGradedIso_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:12:0: 'AlgebraicHodgePilot.Column.zeroPageHomologyIso_π' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:13:0: 'AlgebraicHodgePilot.ImageKernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:14:0: 'AlgebraicHodgePilot.Column.RectangularSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:15:0: 'AlgebraicHodgePilot.Column.HorizontalSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:16:0: 'AlgebraicHodgePilot.Column.filtration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:17:0: 'AlgebraicHodgePilot.Filtered.cycles' depends on axioms: [propext, Quot.sound]
+info: HodgeChallengeAudit.lean:18:0: 'AlgebraicHodgePilot.Filtered.boundaries' depends on axioms: [propext, Quot.sound]
+info: HodgeChallengeAudit.lean:19:0: 'AlgebraicHodgePilot.Filtered.denominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:20:0: 'AlgebraicHodgePilot.Filtered.Page' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:21:0: 'AlgebraicHodgePilot.Filtered.closedCycles' depends on axioms: [propext, Quot.sound]
+info: HodgeChallengeAudit.lean:22:0: 'AlgebraicHodgePilot.Filtered.closedBoundaries' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:23:0: 'AlgebraicHodgePilot.Filtered.closedDenominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:24:0: 'AlgebraicHodgePilot.Filtered.InfinityPage' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:25:0: 'AlgebraicHodgePilot.Filtered.cohomologyFiltration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:26:0: 'AlgebraicHodgePilot.Filtered.GradedCohomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:27:0: 'AlgebraicHodgePilot.Column.firstPageIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:28:0: 'AlgebraicHodgePilot.Column.associatedSequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: HodgeChallengeAudit.lean:29:0: 'AlgebraicHodgePilot.Column.boundedStableGradedIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [1681/1715] Replayed Integration
+info: Integration.lean:26:0: CategoryTheory.Abelian.SpectralObject.spectralSequence.{v_1, u_1, u_2, u_3} {C : Type u_1} {ι : Type u_2} {κ : Type u_3}
+  [Category.{v_1, u_1} C] [Abelian C] [Preorder ι] (X : Abelian.SpectralObject C ι) {c : ℤ → ComplexShape κ} {r₀ : ℤ}
+  (data : Abelian.SpectralObject.SpectralSequenceDataCore ι c r₀) [X.HasSpectralSequence data] : SpectralSequence C c r₀
+info: Integration.lean:27:0: HomologicalComplex₂.d_comm.{v_1, u_1, u_2, u_3} {C : Type u_1} [Category.{v_1, u_1} C] [Limits.HasZeroMorphisms C]
+  {I₁ : Type u_2} {I₂ : Type u_3} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂} (K : HomologicalComplex₂ C c₁ c₂)
+  (i₁ i₁' : I₁) (i₂ i₂' : I₂) : (K.d i₁ i₁').f i₂ ≫ (K.X i₁').d i₂ i₂' = (K.X i₁).d i₂ i₂' ≫ (K.d i₁ i₁').f i₂'
+info: Integration.lean:28:0: HomologicalComplex.d_comp_d.{v, u, u_1} {ι : Type u_1} {V : Type u} [Category.{v, u} V] [Limits.HasZeroMorphisms V]
+  {c : ComplexShape ι} (C : HomologicalComplex V c) (i j k : ι) : C.d i j ≫ C.d j k = 0
+info: Integration.lean:29:0: CategoryTheory.ShortComplex.moduleCatHomologyIso.{v, u} {R : Type u} [Ring R] (S : ShortComplex (ModuleCat R)) :
+  S.homology ≅ S.moduleCatLeftHomologyData.H
+ℹ [1714/1715] Replayed AxiomAudit
+info: AxiomAudit.lean:8:0: 'AlgebraicHodgePilot.Column.pageObject' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:9:0: 'AlgebraicHodgePilot.Column.differentialTo' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:10:0: 'AlgebraicHodgePilot.Column.pageDifferential' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:11:0: 'AlgebraicHodgePilot.Column.pageDifferential_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:12:0: 'AlgebraicHodgePilot.Column.pageComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:13:0: 'AlgebraicHodgePilot.Column.zeroPageHomologyIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:14:0: 'AlgebraicHodgePilot.Column.associatedSequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:15:0: 'AlgebraicHodgePilot.Column.associatedSequence_d_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:16:0: 'AlgebraicHodgePilot.Column.boundary_leading_exact_of_primitive_mem' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:17:0: 'AlgebraicHodgePilot.Column.boundary_leading_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:18:0: 'AlgebraicHodgePilot.Column.HorizontalSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:19:0: 'AlgebraicHodgePilot.Column.RectangularSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:20:0: 'AlgebraicHodgePilot.Column.rectangularSupport_horizontal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:21:0: 'AlgebraicHodgePilot.Column.filtration_eq_bot' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:22:0: 'AlgebraicHodgePilot.Column.filtration_eq_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:23:0: 'AlgebraicHodgePilot.Column.cycles_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:24:0: 'AlgebraicHodgePilot.Column.boundaries_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:25:0: 'AlgebraicHodgePilot.Column.denominator_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:26:0: 'AlgebraicHodgePilot.Column.stablePageIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:27:0: 'AlgebraicHodgePilot.Column.eventually_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:28:0: 'AlgebraicHodgePilot.Filtered.cohomologySC' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:29:0: 'AlgebraicHodgePilot.Filtered.cohomologyIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:30:0: 'AlgebraicHodgePilot.Filtered.cohomologyClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:31:0: 'AlgebraicHodgePilot.Filtered.cohomologyClassMap_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:32:0: 'AlgebraicHodgePilot.Filtered.cohomologyClassMap_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:33:0: 'AlgebraicHodgePilot.Column.inclusionOrZero_projection_ne' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:34:0: 'AlgebraicHodgePilot.Column.inclusionOrZero_projection_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:35:0: 'AlgebraicHodgePilot.Column.inclusion_d' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:36:0: 'AlgebraicHodgePilot.Column.d_projection' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:37:0: 'AlgebraicHodgePilot.Column.d_projection_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:38:0: 'AlgebraicHodgePilot.Column.inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:39:0: 'AlgebraicHodgePilot.Column.projection' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:40:0: 'AlgebraicHodgePilot.Column.inclusion_projection_self' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:41:0: 'AlgebraicHodgePilot.Column.inclusion_projection_ne' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:42:0: 'AlgebraicHodgePilot.Column.inclusion_projection_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:43:0: 'AlgebraicHodgePilot.Column.filtration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:44:0: 'AlgebraicHodgePilot.Column.inclusion_mem_filtration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:45:0: 'AlgebraicHodgePilot.Column.filtration_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:46:0: 'AlgebraicHodgePilot.Column.projection_kills_next' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:47:0: 'AlgebraicHodgePilot.Column.filtration_split' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:48:0: 'AlgebraicHodgePilot.Column.mem_next_of_projection_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:49:0: 'AlgebraicHodgePilot.Column.subtract_leading_mem_next' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:50:0: 'AlgebraicHodgePilot.Column.inclusionOrZero_mem_filtration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:51:0: 'AlgebraicHodgePilot.Column.differential_preserves_filtration' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:52:0: 'AlgebraicHodgePilot.Column.filtered' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:53:0: 'AlgebraicHodgePilot.Column.boundary_leading_exact_next' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:54:0: 'AlgebraicHodgePilot.Column.all_differentials_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:55:0: 'AlgebraicHodgePilot.Column.exists_closed_page_representative' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:56:0: 'AlgebraicHodgePilot.Column.pageToGradedIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:57:0: 'AlgebraicHodgePilot.Column.pageToGradedIso_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:58:0: 'AlgebraicHodgePilot.Column.boundedStableGradedIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:59:0: 'AlgebraicHodgePilot.Column.bounded_e1_degeneration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:60:0: 'AlgebraicHodgePilot.Filtered.closedCycles' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:61:0: 'AlgebraicHodgePilot.Filtered.closedBoundaries' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:62:0: 'AlgebraicHodgePilot.Filtered.closedDenominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:63:0: 'AlgebraicHodgePilot.Filtered.closedCycles_le_cycles' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:64:0: 'AlgebraicHodgePilot.Filtered.closedToCycles' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:65:0: 'AlgebraicHodgePilot.Filtered.closedToCycles_val' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:66:0: 'AlgebraicHodgePilot.Filtered.closedDenominator_le_closedCycles' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:67:0: 'AlgebraicHodgePilot.Filtered.InfinityPage' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:68:0: 'AlgebraicHodgePilot.Filtered.infinityQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:69:0: 'AlgebraicHodgePilot.Filtered.infinityQuotient_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:70:0: 'AlgebraicHodgePilot.Filtered.Filtration' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:71:0: 'AlgebraicHodgePilot.Filtered.cycles' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:72:0: 'AlgebraicHodgePilot.Filtered.boundaries' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:73:0: 'AlgebraicHodgePilot.Filtered.denominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:74:0: 'AlgebraicHodgePilot.Filtered.differential_squared' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:75:0: 'AlgebraicHodgePilot.Filtered.boundary_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:76:0: 'AlgebraicHodgePilot.Filtered.denominator_le_cycles' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:77:0: 'AlgebraicHodgePilot.Filtered.Page' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:78:0: 'AlgebraicHodgePilot.Filtered.differentialOnCycles' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:79:0: 'AlgebraicHodgePilot.Filtered.differential_denominator' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:80:0: 'AlgebraicHodgePilot.Filtered.differential' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:81:0: 'AlgebraicHodgePilot.Filtered.quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:82:0: 'AlgebraicHodgePilot.Filtered.quotient_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:83:0: 'AlgebraicHodgePilot.Filtered.differential_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:84:0: 'AlgebraicHodgePilot.Filtered.page_differential_squared' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:85:0: 'AlgebraicHodgePilot.Filtered.filteredComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:86:0: 'AlgebraicHodgePilot.Filtered.filteredInclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:87:0: 'AlgebraicHodgePilot.Filtered.filteredMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:88:0: 'AlgebraicHodgePilot.Filtered.filtrationFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:89:0: 'AlgebraicHodgePilot.Filtered.closedCycleToCycle' depends on axioms: [propext, Quot.sound]
+info: AxiomAudit.lean:90:0: 'AlgebraicHodgePilot.Filtered.closedClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:91:0: 'AlgebraicHodgePilot.Filtered.cohomologyFiltration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:92:0: 'AlgebraicHodgePilot.Filtered.cohomologyFiltration_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:93:0: 'AlgebraicHodgePilot.Filtered.closedClassToFiltration' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:94:0: 'AlgebraicHodgePilot.Filtered.GradedCohomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:95:0: 'AlgebraicHodgePilot.Filtered.closedToGraded' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:96:0: 'AlgebraicHodgePilot.Filtered.closedToGraded_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:97:0: 'AlgebraicHodgePilot.Filtered.infinityToGraded' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:98:0: 'AlgebraicHodgePilot.Filtered.infinityToGraded_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:99:0: 'AlgebraicHodgePilot.Filtered.infinityToGraded_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:100:0: 'AlgebraicHodgePilot.Filtered.infinityToGraded_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:101:0: 'AlgebraicHodgePilot.Filtered.infinityGradedIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:102:0: 'AlgebraicHodgePilot.Filtered.infinityGradedIso_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:103:0: 'AlgebraicHodgePilot.canonicalCoordinates' does not depend on any axioms
+info: AxiomAudit.lean:104:0: 'AlgebraicHodgePilot.canonicalCoordinates_totalDegree' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:105:0: 'AlgebraicHodgePilot.canonicalCoordinates_differentialDegree' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:106:0: 'AlgebraicHodgePilot.e1Data' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:107:0: 'AlgebraicHodgePilot.e1Data_first_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:108:0: 'AlgebraicHodgePilot.e1Data_first_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:109:0: 'AlgebraicHodgePilot.Column.closedLeadingMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:110:0: 'AlgebraicHodgePilot.Column.closedLeadingMap_zero_of_next' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:111:0: 'AlgebraicHodgePilot.Column.closedLeadingMap_zero_of_boundary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:112:0: 'AlgebraicHodgePilot.Column.closedLeadingMap_kills_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:113:0: 'AlgebraicHodgePilot.Column.closedLeadingMap_zero_mem_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:114:0: 'AlgebraicHodgePilot.Column.infinityClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:115:0: 'AlgebraicHodgePilot.Column.infinityClassMap_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:116:0: 'AlgebraicHodgePilot.Column.infinityClassMap_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:117:0: 'AlgebraicHodgePilot.Column.infinityClassMap_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:118:0: 'AlgebraicHodgePilot.Column.infinityIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:119:0: 'AlgebraicHodgePilot.Column.pageToInfinityIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:120:0: 'AlgebraicHodgePilot.Column.infinityIso_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:121:0: 'AlgebraicHodgePilot.Column.closedCycles_leading_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:122:0: 'AlgebraicHodgePilot.Column.pageIso_closed_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:123:0: 'AlgebraicHodgePilot.Column.iso_common_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:124:0: 'AlgebraicHodgePilot.Column.pageToInfinityIso_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:125:0: 'AlgebraicHodgePilot.Bicomplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:126:0: 'AlgebraicHodgePilot.total' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:127:0: 'AlgebraicHodgePilot.E1Sequence' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:128:0: 'AlgebraicHodgePilot.Column.leading_vertical_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:129:0: 'AlgebraicHodgePilot.Column.leadingCycleMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:130:0: 'AlgebraicHodgePilot.Column.leadingClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:131:0: 'AlgebraicHodgePilot.Column.leadingCycleMap_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:132:0: 'AlgebraicHodgePilot.Column.leadingClassMap_zero_of_next' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:133:0: 'AlgebraicHodgePilot.Column.leading_class_zero_mem_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:134:0: 'AlgebraicHodgePilot.Column.leading_zero_of_boundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:135:0: 'AlgebraicHodgePilot.Column.leading_zero_of_boundary_e1' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:136:0: 'AlgebraicHodgePilot.Column.leading_kills_denominator_of_boundary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:137:0: 'AlgebraicHodgePilot.Column.pageClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:138:0: 'AlgebraicHodgePilot.Column.firstPageClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:139:0: 'AlgebraicHodgePilot.Column.pageClassMap_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:140:0: 'AlgebraicHodgePilot.Column.firstPageClassMap_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:141:0: 'AlgebraicHodgePilot.Column.pageClassMap_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:142:0: 'AlgebraicHodgePilot.Column.firstPageClassMap_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:143:0: 'AlgebraicHodgePilot.Column.firstPageClassMap_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:144:0: 'AlgebraicHodgePilot.Column.pageClassMap_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:145:0: 'AlgebraicHodgePilot.Column.firstPageIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:146:0: 'AlgebraicHodgePilot.Column.pageIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:147:0: 'AlgebraicHodgePilot.Column.pure_vertical_cycle_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:148:0: 'AlgebraicHodgePilot.Column.pure_biclosed_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:149:0: 'AlgebraicHodgePilot.Column.leadingCycleMap_pure' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:150:0: 'AlgebraicHodgePilot.Column.projection_d_pure' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:151:0: 'AlgebraicHodgePilot.Filtered.cycles_succ_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:152:0: 'AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_top_of_top' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:153:0: 'AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_bot_of_bot' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:154:0: 'AlgebraicHodgePilot.Column.associatedSequence_transition_next' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:155:0: 'AlgebraicHodgePilot.Column.associatedSequence_transition_covers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:156:0: 'AlgebraicHodgePilot.Column.cohomologyFiltration_eq_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:157:0: 'AlgebraicHodgePilot.Column.cohomologyFiltration_eq_bot' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:158:0: 'AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:159:0: 'AlgebraicHodgePilot.Column.quotient_cast_class' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:160:0: 'AlgebraicHodgePilot.Column.stablePageIso_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:161:0: 'AlgebraicHodgePilot.Column.boundedStableGradedIso_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:162:0: 'AlgebraicHodgePilot.Column.boundedStableGradedIso_eq_pageToGradedIso' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:163:0: 'AlgebraicHodgePilot.horizontal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:164:0: 'AlgebraicHodgePilot.vertical' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:165:0: 'AlgebraicHodgePilot.incomingVertical' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:166:0: 'AlgebraicHodgePilot.ImageKernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:167:0: 'AlgebraicHodgePilot.exists_closed_correction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:168:0: 'AlgebraicHodgePilot.verticalSC' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:169:0: 'AlgebraicHodgePilot.verticalHomologyIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:170:0: 'AlgebraicHodgePilot.verticalClass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:171:0: 'AlgebraicHodgePilot.exists_closed_representative' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:172:0: 'AlgebraicHodgePilot.Column.zeroPageHomologyIso_π' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:173:0: 'AlgebraicHodgePilot.Column.pageIso_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:174:0: 'AlgebraicHodgePilot.Column.page_comparison_common_representative' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: AxiomAudit.lean:175:0: 'AlgebraicHodgePilot.Column.associatedSequence_transition' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:176:0: 'AlgebraicHodgePilot.signedVertical' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:177:0: 'AlgebraicHodgePilot.signedVertical_anticommute' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:178:0: 'AlgebraicHodgePilot.sign_twist_involutive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:179:0: 'AlgebraicHodgePilot.signedVertical_squared' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:180:0: 'AlgebraicHodgePilot.signedVertical_ker' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:181:0: 'AlgebraicHodgePilot.signedVertical_range' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:182:0: 'AlgebraicHodgePilot.total_closed_of_biclosed' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:183:0: 'AlgebraicHodgePilot.exists_total_closed_representative' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:184:0: 'AlgebraicHodgePilot.verticalClassMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:185:0: 'AlgebraicHodgePilot.verticalClassMap_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:186:0: 'AlgebraicHodgePilot.verticalClassMap_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AxiomAudit.lean:187:0: 'AlgebraicHodgePilot.verticalClassMap_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (1715 jobs).
