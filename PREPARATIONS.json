@@ -1364,8 +1364,8 @@
       "scope": "Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "f995af4ef34a70cab0d5b37c553052623397ccfe",
-        "tree": "d79a4493b8210f19117d94bb02dbeff569c12d2f"
+        "commit": "2c4a33f20ad3169169a1659e097e7832ba428db2",
+        "tree": "aaee5bed5bde5c0901e0c1c93a351d6a95eec6d5"
       },
       "source_files_sha256": {
         "SemanticTests.lean": "55c1e220bea22518f92f489e47bbd9eb4af9593eeb89680459915b551e38b442",
@@ -1380,7 +1380,7 @@
         "MATERIAL-DEFINITIONS.md": "dd6ceef4febb73d10e5d8f4d89e16926360df294fb6b60b1fa6d894b8ef9bc0b",
         "lake-manifest.json": "64de57925efc56321f9e20c4152045e7a8949ae09ad34cf9ca9e5ad06bf841db",
         "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
-        "README.md": "6475f0be0aa0fcbe212a1e7293ad752a49ed97b0c04e974f8e25af4e7ebc0c7b",
+        "README.md": "145fdfbb34fc589780ec0b5b28215c2b06cda9a26f11273e4777c65759b92536",
         "comparator.json": "17da0f3aaa741d19dc7e1d7505ba0eb5ac42ae9c5300a6559561a62b4369e48b"
       },
       "theorem_names": [
@@ -1412,6 +1412,31 @@
         "receipts_sha256": {
           "complete_mathematical_source": "61cb9748a74bd26cabcd521a421a7a12297801999cc6c4eb2c6d7a56ef5f3722"
         }
+      },
+      "evidence_scope": "Dated preparation checkpoint before exact-source verification of this status-corrected snapshot. not-established applies only to this new snapshot at this checkpoint; later exact-source results are retained externally without editing frozen status prose.",
+      "historical_completed_stages": {
+        "scope": "Immutable local validation history of the named predecessor; later commits require their own exact-source external receipts. No hosted workflow or registry intake.",
+        "source_commit": "320b363a9b8ea37f7b2176689040668b19eb21e8",
+        "package_tree": "d79a4493b8210f19117d94bb02dbeff569c12d2f",
+        "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+        "full": {
+          "status": "pass",
+          "report_sha256": "e840f4cbdeed98752855293dc0e16f7de79eed9480e7fd8f44f57638af652bcc",
+          "adapter_receipt_sha256": "a85414d85ddab0f65839ab931e5781633451ff119489743b5d957121c432aa21"
+        },
+        "rendering": {
+          "status": "pass",
+          "report_sha256": "2430a72cf9c1b548b07f7c7ef3c9c69eccf36033d2182b6cf9a4c3c577a1989f",
+          "adapter_receipt_sha256": "9ff55936b0faa851442dff9904d47a2689e5011de244d27035e9e24b6c9537c4",
+          "artifact_tree_sha256": "852e040adb291a087d9862c9f6a6e23c1b2a3d32e66270cdcec26f529448f5c3"
+        },
+        "independent_full_review_sha256": "f78694d49e0de84d462c68237b243a7c4a67c98a3260df9859237948765320de",
+        "native_receipt_sha256": "39d06815403140ec41f1f5ae9ccbb95957dea3bc35320a11f9851da99606858b",
+        "limits": "Internal AI review and machine verification; no human mathematical or external editorial review asserted. The Challenge review-surface warning is retained."
+      },
+      "source_publication": {
+        "pull_request": "https://github.com/Arthur742Ramos/Math-Formalization/pull/45",
+        "branch": "topology/knaster-reichbach"
       }
     }
   ]

@@ -188,10 +188,10 @@ Exact evidence and the unsuccessful first control attempt are retained in
 | --- | --- | --- | --- |
 | [Lavrentieff's Gδ homeomorphism extension theorem](topology/lavrentieff-extension) | Gδ continuous extension domains and homeomorphism extension between arbitrary subspaces of completely metrizable spaces. | Preparation; not submitted | [`e2d111b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/e2d111be48a52d4e3dd803b7b77a72b31cd59ca7/topology/lavrentieff-extension) |
 
-## Knaster–Reichbach preparation (local candidate)
+## Knaster–Reichbach preparation (published source)
 
-The full mathematical proof is implemented and internally reviewed. Exact-source canonical full verification, rendering and final release gates are not established. The source snapshot below is local and not yet published; no provider PR or intake was created.
+The full mathematical proof is implemented and internally reviewed; source is published in [PR45](https://github.com/Arthur742Ramos/Math-Formalization/pull/45). Local canonical full verification and rendering passed for predecessor `320b363a9b8ea37f7b2176689040668b19eb21e8`, as recorded in the package history. The snapshot below is a later status correction: at this dated preparation checkpoint its own exact-source final gates were not established. Later source-bound reports and final review must be recorded externally without editing the frozen status account. No registry intake has been created.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`f995af4`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f995af4ef34a70cab0d5b37c553052623397ccfe/topology/knaster-reichbach) (local candidate) |
+| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`2c4a33f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2c4a33f20ad3169169a1659e097e7832ba428db2/topology/knaster-reichbach) (dated status checkpoint) |
