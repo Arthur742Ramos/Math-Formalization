@@ -187,3 +187,11 @@ Exact evidence and the unsuccessful first control attempt are retained in
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Lavrentieff's Gδ homeomorphism extension theorem](topology/lavrentieff-extension) | Gδ continuous extension domains and homeomorphism extension between arbitrary subspaces of completely metrizable spaces. | Preparation; not submitted | [`e2d111b`](https://github.com/Arthur742Ramos/Math-Formalization/tree/e2d111be48a52d4e3dd803b7b77a72b31cd59ca7/topology/lavrentieff-extension) |
+
+## Knaster–Reichbach preparation (local candidate)
+
+The full mathematical proof is implemented and internally reviewed. Exact-source canonical full verification, rendering and final release gates are not established. The source snapshot below is local and not yet published; no provider PR or intake was created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`c30136f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c30136f1334e2c13ad7ebcd4429a4ef7586b68a9/topology/knaster-reichbach) (local candidate) |

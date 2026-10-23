@@ -372,7 +372,7 @@
       "registry_registration_status": "unconfirmed"
     },
     {
-      "name": "Kuratowski\u2013Ulam category theorem for countable pi-base spaces",
+      "name": "Kuratowski–Ulam category theorem for countable pi-base spaces",
       "path": "topology/kuratowski-ulam",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
@@ -610,7 +610,7 @@
     },
     {
       "path": "topology/banach-mazur-baire",
-      "name": "Oxtoby's Banach\u2013Mazur characterization of Baire spaces",
+      "name": "Oxtoby's Banach–Mazur characterization of Baire spaces",
       "state": "verified-preparation-intake-unconfirmed",
       "source_snapshot": {
         "commit": "59d4a50df466480e88ab71bc1f3527bfe0bf1811",
@@ -852,7 +852,7 @@
         "Browser-runtime visual inspection remains unestablished; original sanitized HTML/contracts/manifest hashes are separate evidence.",
         "The approved full350/render360 pair was consumed; no future security-setting exception or rerun authority."
       ],
-      "scope": "Arbitrary Baire times Banach\u2013Mazur alpha-favorable product; coherent full-history rectangle tree, fixed-open dense-Gdelta fiber witnesses, actual complete-metric winning second strategy, compatible play/payoff equality and explicit empty-space extension.",
+      "scope": "Arbitrary Baire times Banach–Mazur alpha-favorable product; coherent full-history rectangle tree, fixed-open dense-Gdelta fiber witnesses, actual complete-metric winning second strategy, compatible play/payoff equality and explicit empty-space extension.",
       "material_definition_audit": {
         "source_commit": "51def6feb5e4469cce2396dfa4c9fa4f3b933d82",
         "material_declarations": 22,
@@ -886,7 +886,7 @@
     },
     {
       "path": "topology/banach-mazur-category",
-      "name": "Banach\u2013Mazur determinacy for Baire-property targets",
+      "name": "Banach–Mazur determinacy for Baire-property targets",
       "state": "user-reported-registered",
       "source_snapshot": {
         "commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
@@ -1037,7 +1037,7 @@
         "source_commit": "0377aacab289fee8153cdec87fd8a1be06b9ec2c",
         "classification": "user-confirmed-registered",
         "actor": "user",
-        "statement": "Pr34 registered let\u2019s do the next one now",
+        "statement": "Pr34 registered let’s do the next one now",
         "public_registration_id": null,
         "public_registration_version": null,
         "independently_verified_registry_link": null,
@@ -1156,7 +1156,7 @@
         "Browser-runtime visual inspection remains unestablished.",
         "Approved full350/render360 pair consumed; no rerun or future security exception authority."
       ],
-      "scope": "Ten selected targets: actual compatible legal play, empty-space strategy, complete-metric and completely-metrizable forward implications, countable-open-intersection and G\u03b4 completeness, strong embedded-image G\u03b4 converse, strong-to-complete-metrizable, main iff and Polish iff. Main converse explicitly assumes second countability and metrizability.",
+      "scope": "Ten selected targets: actual compatible legal play, empty-space strategy, complete-metric and completely-metrizable forward implications, countable-open-intersection and Gδ completeness, strong embedded-image Gδ converse, strong-to-complete-metrizable, main iff and Polish iff. Main converse explicitly assumes second countability and metrizability.",
       "material_definition_audit": {
         "source_commit": "f2ee17b609eec4788b85043f8ad504a63cd69d86",
         "material_declarations": 51,
@@ -1193,7 +1193,7 @@
     },
     {
       "path": "topology/sierpinski-rationals",
-      "name": "Sierpi\u0144ski's characterization of the rationals",
+      "name": "Sierpiński's characterization of the rationals",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
         "commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
@@ -1277,7 +1277,7 @@
     },
     {
       "path": "topology/lavrentieff-extension",
-      "name": "Lavrentieff's G\u03b4 homeomorphism extension theorem",
+      "name": "Lavrentieff's Gδ homeomorphism extension theorem",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
         "commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
@@ -1302,11 +1302,11 @@
         "formalization.yaml": "11d853a0e9993cb22832f5fa15200ba715ddd2e8b156e6facf99243ed7a21166"
       },
       "theorem_names": [
-        "Lavrentieff.extensionDomain_isG\u03b4",
+        "Lavrentieff.extensionDomain_isGδ",
         "Lavrentieff.subset_extensionDomain",
         "Lavrentieff.cauchy_at_extensionDomain",
         "Lavrentieff.continuous_extension",
-        "Lavrentieff.isG\u03b4_inter_preimage",
+        "Lavrentieff.isGδ_inter_preimage",
         "Lavrentieff.extend_inverse_maps",
         "Lavrentieff.homeomorph_extension",
         "Lavrentieff.completely_metrizable_extension"
@@ -1344,7 +1344,7 @@
       "evidence_observed_date": "2026-10-23",
       "latest_results_pointer": "catalog-evidence/lavrentieff-extension-2026-10-23/README.md",
       "duplicate_check": "Repository status/open PRs/catalog, pinned Mathlib and Palomar public query revision509 checked; broader extension query32 entries over two pages had no equivalent. Bounded search, not global priority or private-intake clearance.",
-      "scope": "Every homeomorphism between arbitrary subsets of completely metrizable spaces extends to a homeomorphism between G\u03b4 supersets contained in the respective closures. Empty subsets and ambient spaces are included. A zero-oscillation construction first gives a G\u03b4 continuous extension domain for maps to complete metric spaces. Restricting the two continuous extensions gives mutually inverse maps. The arbitrary supplied topologies are preserved by compatible complete metrics. Classical mathematics, with no mathematical novelty or priority claim.",
+      "scope": "Every homeomorphism between arbitrary subsets of completely metrizable spaces extends to a homeomorphism between Gδ supersets contained in the respective closures. Empty subsets and ambient spaces are included. A zero-oscillation construction first gives a Gδ continuous extension domain for maps to complete metric spaces. Restricting the two continuous extensions gives mutually inverse maps. The arbitrary supplied topologies are preserved by compatible complete metrics. Classical mathematics, with no mathematical novelty or priority claim.",
       "material_definition_audit": {
         "source_commit": "e2d111be48a52d4e3dd803b7b77a72b31cd59ca7",
         "material_declarations": 26,
@@ -1356,6 +1356,64 @@
           "ChallengeTests.lean"
         ],
         "schema_version": 2
+      }
+    },
+    {
+      "name": "Knaster–Reichbach homeomorphism extension on Cantor space",
+      "path": "topology/knaster-reichbach",
+      "scope": "Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "c30136f1334e2c13ad7ebcd4429a4ef7586b68a9",
+        "tree": "30c89d6f95db5121246b592a29b8d9c5cca69d6d"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "55c1e220bea22518f92f489e47bbd9eb4af9593eeb89680459915b551e38b442",
+        "KRSolution.lean": "7afc8ad6c3f31c9774aadbc4486d745e66b940b5d8556943097e2c56358156dc",
+        "AxiomAudit.lean": "1c6eb5f3b9991f9da83bb9075d688b6ff8e9769d71b81b9e53fbeb8c5d7754ed",
+        "KRChallenge.lean": "edf5a20f1751bdfaf2c17fbcead16185cd90151139eaf49bb399bf0874220c1a",
+        "KnasterReichbach.lean": "aa63aac4b360ef2b238a3c69a36b6d8f39eff1fed885110e785fdaeabe7af643",
+        "ChallengeTests.lean": "00e4b83737cafdae3789e34166474a06ca91fad1e8d5e6d8d64136aeeb18ecbc",
+        "formalization.yaml": "cb914935f5a86429db48032aaffad90b79c81b80a29d97a2501a98a8a38126f9",
+        "lakefile.toml": "2df307d3782d65ff77a7be3efe3e5b6c5979307941166e385c989140ca3cb140",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "dd6ceef4febb73d10e5d8f4d89e16926360df294fb6b60b1fa6d894b8ef9bc0b",
+        "lake-manifest.json": "64de57925efc56321f9e20c4152045e7a8949ae09ad34cf9ca9e5ad06bf841db",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "8ef695e052bdd4bbd838e52f4e40e27a95fc610a4e13ea52fa5ff929e820e918",
+        "comparator.json": "6942b0ef3bd1804d5818fab3b3d6ed408e69dbeb1426c9a115920b442e9e0af3"
+      },
+      "theorem_names": [
+        "KnasterReichbach.exists_homeomorph_extension"
+      ],
+      "definition_names": [
+        "KnasterReichbach.CantorSpace"
+      ],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source": "61cb9748a74bd26cabcd521a421a7a12297801999cc6c4eb2c6d7a56ef5f3722"
+        }
       }
     }
   ]
