@@ -76,30 +76,71 @@ has conventional E1 indexing justified by its first-page computation; it does
 not claim a `HasSpectralSequence` instance or an abstract mapping-cone spectral
 object comparison.
 
-The release inventories remain preliminary. The original literal-source
-inventory is retained, with continuation excerpts for quotient descent,
-submodule images/inverse images, actual zero-map homology data, total summand
-maps and conventional spectral-sequence indexing. Exact-pin source and excerpt
-checks are mechanical evidence, not a completeness or semantic-fidelity proof.
-A complete selected-declaration dependency expansion and separate
-Challenge/Solution bridges remain release gates.
+The original pilot inventories and continuation receipts remain historical.
+The package now has a schema-2 material inventory: 47 definitions, structures
+and classes, 30 exact-pin source files and 63 excerpts. The primary contributor
+independently reviewed the reviewer's inventory and separately compiled
+bridges, checking literal/proved distinctions, quotient and homology meaning,
+sign conventions, coproduct existence and LinearEquiv inverse construction.
+Core/order/algebra/category expansion boundaries are explicit rather than
+claimed as exhaustive transitive theorem/tactic inventory. The validator's
+apostrophe-final name bug was fixed with positive/negative regressions; all67
+existing inventory tests passed. No other project's mathematics or pins changed.
+
+## Package and abutment review
+
+ReleaseFidelity was authored by the separate reviewer and independently read
+and freshly compiled by the primary contributor. It proves next-page cycle
+inclusion, recurrence coverage of arbitrary next-page classes, finite bounds
+on actual induced cohomology filtration, exhaustion/separation, representative
+compatibility of the actual stabilized quotient, and equality of the bounded
+stabilization and degeneration maps as actual morphisms to graded cohomology.
+The generic quotient transport lemma only transports along proved numerator
+and denominator equalities; no convergence conclusion is assumed.
+
+The reviewer independently compared all135 retained HodgeChallenge declarations
+with modular sources modulo comments/whitespace, using a separate comparison
+rather than trusting the generator's own hashes. Contracts and proof commands
+match. Only three Mathlib imports occur, and complete proofs are supplied.
+The current995-line statement surface fits the hard cap but triggers the
+readability warning. Human/editorial evaluation of this large proof-complete
+surface remains separate from compilation and internal review.
+
+Eight theorem names and seventeen concrete definition/construction names are
+selected. All must be checked through both entrypoints; the local interface
+checker records declaration kinds and local kernel type-definitional equality
+in a Solution environment. This does not protect the canonical statement
+surface or validate exported proofs/definition values, so it is explicitly not
+Comparator acceptance. Canonical protected execution remains required.
 
 ## Verification and remaining limits
 
-`AxiomAudit.lean` enumerates the local public definitions and theorems,
-including the generic cohomology and graded comparisons, actual sequence,
-bounded stabilization and final theorem. The verifier compares every returned
-name with that list and permits only `propext`, `Classical.choice`, and
-`Quot.sound`. It rejects proof holes, custom axiom declarations and unsafe or
-native shortcuts. The continuation receipt, rather than the old checkpoint
-report, identifies the exact tested commit, all source digests, audit count,
-logs, Lean version and dependency pin. Reviewed-source hashes are recorded in
-the separate continuation review receipt; later evidence-only additions do
-not assert a fresh post-merge or whole-commit run.
+AxiomAudit enumerates 180 modular declarations. HodgeChallengeAudit separately
+audits the 25 selected declarations through the standalone entrypoint. Only
+propext, Classical.choice and Quot.sound are allowed; proof holes, custom
+mathematical axioms and unsafe/native shortcuts are prohibited. Each exact-source
+receipt records the actual results and source hashes. Package receipts are
+separate from immutable checkpoint/continuation evidence, and evidence-only
+commits are not represented as fresh whole-commit runs.
 
-No protected Comparator, external kernel, Challenge rendering, metadata
-intake, Palomar registration or editorial acceptance has run for this project.
-Final authorship and responsible-maintainer metadata require explicit role
-assignment. A serious-research-interest assessment and exact release packet
-review are still necessary before a Palomar-ready handoff. Draft PR40 remains
-the only campaign and no submission is authorized by these notes.
+Local compiled module-closure evidence hashes actual source files and checks
+Git-package bytes at exact manifest pins. Bundled Lean source bytes are
+identified separately; neither this writable-cache inspection nor ordinary
+Lean builds replace a protected canonical dependency audit or independent
+kernel replay.
+
+The user explicitly assigned Arthur Freitas Ramos, Ruy Jose Guerra Barretto de
+Queiroz and David Barros Hulak to both human author and responsible-maintainer
+roles. Metadata and README preserve that assignment and the separate substantive
+AI contribution disclosure. No human proof contribution or human/external
+review is invented from those roles.
+
+The pinned metadata/config validators are read-only local checks. Protected
+Comparator and its positive/negative controls, NanoDa/con-ron, rendering,
+browser inspection and final release-packet guard remain unfulfilled for this
+candidate. RUN-PLAN documents the current namespace failure and exact approval
+needed for a disposable hosted run, with zero-charge storage/cache eligibility
+confirmed separately before execution. No host workaround, new credential,
+charges, terms acceptance or submission occurs. Draft PR40 remains the only
+campaign. Serious-research-interest/editorial qualification and a final
+exact-packet review are still necessary before verified intake handoff.

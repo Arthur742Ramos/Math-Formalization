@@ -1,6 +1,6 @@
 name = "algebraicHodgePilot"
 version = "0.1.0"
-defaultTargets = ["E1Degeneration", "FiltrationComplex", "SignBridge", "Indexing", "AxiomAudit"]
+defaultTargets = ["HodgeChallengeAudit", "HodgeChallengeTests", "HodgeSolutionTests", "ReleaseFidelity", "FiltrationComplex", "SignBridge", "Indexing", "AxiomAudit"]
 moreLeanArgs = ["-j2", "-M3072", "-DwarningAsError=true"]
 
 [[require]]
@@ -85,3 +85,21 @@ name = "GradedCohomology"
 
 [[lean_lib]]
 name = "E1Degeneration"
+
+[[lean_lib]]
+name = "ReleaseFidelity"
+
+[[lean_lib]]
+name = "HodgeChallenge"
+
+[[lean_lib]]
+name = "HodgeSolution"
+
+[[lean_lib]]
+name = "HodgeChallengeTests"
+
+[[lean_lib]]
+name = "HodgeSolutionTests"
+
+[[lean_lib]]
+name = "HodgeChallengeAudit"

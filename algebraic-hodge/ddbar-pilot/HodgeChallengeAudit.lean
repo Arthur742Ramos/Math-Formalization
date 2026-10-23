@@ -1,0 +1,29 @@
+module
+
+import HodgeChallenge
+
+#print axioms AlgebraicHodgePilot.exists_closed_representative
+#print axioms AlgebraicHodgePilot.Column.all_differentials_zero
+#print axioms AlgebraicHodgePilot.Column.associatedSequence_transition_next
+#print axioms AlgebraicHodgePilot.Column.associatedSequence_transition_covers
+#print axioms AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated
+#print axioms AlgebraicHodgePilot.Column.bounded_e1_degeneration
+#print axioms AlgebraicHodgePilot.Column.boundedStableGradedIso_closed
+#print axioms AlgebraicHodgePilot.Column.zeroPageHomologyIso_π
+#print axioms AlgebraicHodgePilot.ImageKernel
+#print axioms AlgebraicHodgePilot.Column.RectangularSupport
+#print axioms AlgebraicHodgePilot.Column.HorizontalSupport
+#print axioms AlgebraicHodgePilot.Column.filtration
+#print axioms AlgebraicHodgePilot.Filtered.cycles
+#print axioms AlgebraicHodgePilot.Filtered.boundaries
+#print axioms AlgebraicHodgePilot.Filtered.denominator
+#print axioms AlgebraicHodgePilot.Filtered.Page
+#print axioms AlgebraicHodgePilot.Filtered.closedCycles
+#print axioms AlgebraicHodgePilot.Filtered.closedBoundaries
+#print axioms AlgebraicHodgePilot.Filtered.closedDenominator
+#print axioms AlgebraicHodgePilot.Filtered.InfinityPage
+#print axioms AlgebraicHodgePilot.Filtered.cohomologyFiltration
+#print axioms AlgebraicHodgePilot.Filtered.GradedCohomology
+#print axioms AlgebraicHodgePilot.Column.firstPageIso
+#print axioms AlgebraicHodgePilot.Column.associatedSequence
+#print axioms AlgebraicHodgePilot.Column.boundedStableGradedIso

@@ -1,6 +1,6 @@
 module
 
-import E1Degeneration
+import HodgeSolution
 import FiltrationComplex
 import SignBridge
 import Indexing
@@ -148,6 +148,18 @@ import Indexing
 #print axioms AlgebraicHodgePilot.Column.pure_biclosed_mem
 #print axioms AlgebraicHodgePilot.Column.leadingCycleMap_pure
 #print axioms AlgebraicHodgePilot.Column.projection_d_pure
+#print axioms AlgebraicHodgePilot.Filtered.cycles_succ_le
+#print axioms AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_top_of_top
+#print axioms AlgebraicHodgePilot.Filtered.cohomologyFiltration_eq_bot_of_bot
+#print axioms AlgebraicHodgePilot.Column.associatedSequence_transition_next
+#print axioms AlgebraicHodgePilot.Column.associatedSequence_transition_covers
+#print axioms AlgebraicHodgePilot.Column.cohomologyFiltration_eq_top
+#print axioms AlgebraicHodgePilot.Column.cohomologyFiltration_eq_bot
+#print axioms AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated
+#print axioms AlgebraicHodgePilot.Column.quotient_cast_class
+#print axioms AlgebraicHodgePilot.Column.stablePageIso_quotient
+#print axioms AlgebraicHodgePilot.Column.boundedStableGradedIso_closed
+#print axioms AlgebraicHodgePilot.Column.boundedStableGradedIso_eq_pageToGradedIso
 #print axioms AlgebraicHodgePilot.horizontal
 #print axioms AlgebraicHodgePilot.vertical
 #print axioms AlgebraicHodgePilot.incomingVertical

@@ -8,7 +8,7 @@ import subprocess
 import datetime
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-OUT = ROOT / 'verification/continuation'
+OUT = ROOT / 'verification/package-local'
 PIN = '065356127b1dc0016f66b7283ce0ce2c4055aa55'
 ALLOWED = {'propext', 'Classical.choice', 'Quot.sound'}
 
@@ -27,6 +27,7 @@ def snapshot():
                    and '.lake' not in p.relative_to(ROOT).parts
                    and '__pycache__' not in p.relative_to(ROOT).parts
                    and not p.is_relative_to(OUT)
+                   and not p.is_relative_to(ROOT / 'verification/continuation')
                    and p.suffix not in {'.log', '.olean', '.ilean'}
                    and p.name != 'local-report.json')
     return {str(p.relative_to(ROOT)): sha(p.read_bytes()) for p in paths}
@@ -136,7 +137,7 @@ def main():
     (OUT / 'local-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({'status': 'pass', 'audited_declarations': len(seen),
                       'source_commit': report['source_commit'],
-                      'report': 'verification/continuation/local-report.json'}))
+                      'report': 'verification/package-local/local-report.json'}))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,38 @@
+{
+  "challenge_module": "HodgeChallenge",
+  "solution_module": "HodgeSolution",
+  "theorem_names": [
+    "AlgebraicHodgePilot.exists_closed_representative",
+    "AlgebraicHodgePilot.Column.all_differentials_zero",
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_next",
+    "AlgebraicHodgePilot.Column.associatedSequence_transition_covers",
+    "AlgebraicHodgePilot.Column.cohomologyFiltration_exhaustive_separated",
+    "AlgebraicHodgePilot.Column.bounded_e1_degeneration",
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso_closed",
+    "AlgebraicHodgePilot.Column.zeroPageHomologyIso_\u03c0"
+  ],
+  "definition_names": [
+    "AlgebraicHodgePilot.ImageKernel",
+    "AlgebraicHodgePilot.Column.RectangularSupport",
+    "AlgebraicHodgePilot.Column.HorizontalSupport",
+    "AlgebraicHodgePilot.Column.filtration",
+    "AlgebraicHodgePilot.Filtered.cycles",
+    "AlgebraicHodgePilot.Filtered.boundaries",
+    "AlgebraicHodgePilot.Filtered.denominator",
+    "AlgebraicHodgePilot.Filtered.Page",
+    "AlgebraicHodgePilot.Filtered.closedCycles",
+    "AlgebraicHodgePilot.Filtered.closedBoundaries",
+    "AlgebraicHodgePilot.Filtered.closedDenominator",
+    "AlgebraicHodgePilot.Filtered.InfinityPage",
+    "AlgebraicHodgePilot.Filtered.cohomologyFiltration",
+    "AlgebraicHodgePilot.Filtered.GradedCohomology",
+    "AlgebraicHodgePilot.Column.firstPageIso",
+    "AlgebraicHodgePilot.Column.associatedSequence",
+    "AlgebraicHodgePilot.Column.boundedStableGradedIso"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ]
+}

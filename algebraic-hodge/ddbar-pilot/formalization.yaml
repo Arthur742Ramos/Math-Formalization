@@ -1,0 +1,103 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Algebraic E1 degeneration from explicit d′d″ identities",
+    "description": "For actual commuting integer-indexed double complexes over a field, componentwise image/kernel identities imply biclosed representatives of vertical cohomology classes and vanishing of every higher differential of the column-filtered signed total complex. The genuine first quotient page identifies with vertical cohomology; canonical recurrence agrees on actual representatives and covers all next-page classes. Finite rectangular support gives actual quotient stabilization and a canonical identification with the associated graded of total cohomology with its finite, exhaustive, separated induced filtration. Classical conditional algebraic mathematics; no analytic compact-Kähler theorem or novelty claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT"
+    ],
+    "msc2020": [
+      "18G40",
+      "55T05"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Real homotopy theory of Kähler manifolds, Inventiones Mathematicae 29 (1975), §§5.15–5.17",
+      "authors": [
+        "Pierre Deligne",
+        "Phillip Griffiths",
+        "John Morgan",
+        "Dennis Sullivan"
+      ],
+      "type": "paper",
+      "id": "https://www.math.stonybrook.edu/~dennis/publications/PDF/DS-pub-0024.pdf",
+      "relationship": "formalizes",
+      "note": "One componentwise direction of the explicit d′d″ identities, sufficient for degeneration of one filtration. The full opposite-filtration/converse equivalence and analytic compact-Kähler hypotheses are not asserted. Consulted PDF SHA256 75d32559e32f59ad17230fb66ab37404585a4e702f013ff175bd6e06b25414b7."
+    },
+    {
+      "title": "E1-degeneration and d′d″-lemma (arXiv:1506.06451v2)",
+      "type": "paper",
+      "id": "https://arxiv.org/abs/1506.06451v2",
+      "relationship": "related",
+      "note": "Context for the classical algebraic degeneration argument. This development proves its own direct all-r result, including earlier degeneration; it does not invoke the paper theorem without its extra non-E0 hypothesis. Consulted PDF SHA256 c65772a59b9f0d83f4aa28a535ac136d8e0a160d2de9f0cc29c712cfaa813e34.",
+      "authors": [
+        "Tai-Wei Chen",
+        "Chung-I Ho",
+        "Jyh-Haur Teh"
+      ]
+    },
+    {
+      "title": "On the Structure of Double Complexes (arXiv:1812.00865v3)",
+      "type": "paper",
+      "id": "https://arxiv.org/abs/1812.00865v3",
+      "relationship": "related",
+      "note": "Square/zigzag structure theory supplies contextual research audience; no decomposition theorem from this paper is claimed formalized. Consulted PDF SHA256 c9a3619300731347c14eeb72aadd08577b1ca69d4df88a468c485daa2b5ebcda.",
+      "authors": [
+        "Jonas Stelzig"
+      ]
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses actual ModuleCat bicomplexes, signed totalization, homology and spectral-sequence structures. Scoped overlap search, not exhaustive priority claim."
+    }
+  ],
+  "status": {
+    "scope": "Conditional algebraic one-filtration E1 degeneration and canonical bounded abutment. The selected entrypoint scope is fixed by comparator.json.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof hole or added conclusion within the selected contracts. Exact-source protected comparison, independent-kernel acceptance, rendering, browser inspection and packet checks are separate stages certified only by their own immutable receipts; local builds do not certify them. No analytic compact-Kähler theorem, external anticommuting reconstruction, opposite-filtration converse, abstract mapping-cone spectral-object comparison or editorial acceptance is asserted.",
+    "attribution_status": "User explicitly assigned the three named people to both human author and responsible-maintainer roles for this package. This role assignment is not a claim that they supplied mathematical proofs or external review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with independent internal AI semantic/source review. Backend identity and costs are not independently attested."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Mathlib commuting squares and signed totalization are the formal domain. The operator sign bridge is proved; reconstruction from independently specified anticommuting data is not. One explicit image/kernel identity suffices for the selected one-filtration implication; finite horizontal support suffices for convergence, and rectangular boundedness implies it."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI semantic and source reviewer",
+      "Primary contributor reviewing reviewer-authored generic comparison and release-fidelity lemmas"
+    ],
+    "notes": "Same Lean kernel and dependency cache. Exact reviewed hashes, source/evidence distinction and later canonical gates are separately recorded."
+  }
+}

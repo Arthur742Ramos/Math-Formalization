@@ -9,7 +9,19 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_imported_definitions import check, sha
+from check_imported_definitions import check, declaration_header_matches, sha
+
+
+class LeanIdentifierBoundary(unittest.TestCase):
+    def test_apostrophe_final_names(self):
+        self.assertTrue(declaration_header_matches("def up' (r : ℤ) := r", 'def', "ComplexShape.up'"))
+        self.assertTrue(declaration_header_matches("def shortComplexFunctor' := 0", 'def',
+                                                  "HomologicalComplex.shortComplexFunctor'", legacy=True))
+
+    def test_longer_identifier_is_not_the_selected_name(self):
+        for body in ["def up'' := 0", "def up'Extra := 0", "def upstream := 0"]:
+            self.assertFalse(declaration_header_matches(body, 'def', "ComplexShape.up'"))
+        self.assertFalse(declaration_header_matches('def kernel := 0', 'def', 'LinearMap.ker'))
 
 
 class ImportedDefinitionEvidence(unittest.TestCase):

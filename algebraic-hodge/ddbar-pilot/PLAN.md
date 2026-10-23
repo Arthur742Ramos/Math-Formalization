@@ -98,15 +98,14 @@ v4.35.0-rc2, matching this project's pins. Recheck current policy, schema,
 file/packaging limits and supported toolchains before any release; these
 observations are not an official preflight.
 
-Before verified intake: freeze the exact source scope, obtain independent
-research-interest and source-fidelity review, assign explicitly authorized
-human author/maintainer roles, prepare accurate metadata/classification/license
-and AI disclosure, and create a small proved Challenge/Solution with selected
-names and allowed import closure. Complete the material imported-definition
-inventory and its dependency expansions; compile semantic bridges through both
-entrypoints separately and run the repository's inventory validator in static
-and exact-dependency modes. The current pilot inventories are preliminary,
-not the release schema and not a claim of completeness.
+Before verified intake, freeze the exact source scope and obtain independent
+research-interest/source-fidelity review. Preserve the explicitly assigned
+human roles and accurate metadata/AI disclosure. The proof-complete
+Challenge/Solution, selected surface and schema-2 material inventory now exist;
+both entrypoint bridges compile, and static/exact-dependency validators run.
+The original preliminary inventories remain historical evidence. Local source
+closure checks do not replace the canonical frozen-dependency audit, and
+consistency checks do not certify semantic completeness.
 
 Then obtain authorized protected Comparator and independent-kernel checks,
 render/inspect Challenge, review the exact immutable release packet and run
@@ -114,3 +113,37 @@ render/inspect Challenge, review the exact immutable release packet and run
 local Lean/axiom checks satisfy none of those external release gates by
 implication. No Palomar submission, credentials, security changes, charges or
 new legal acceptance occur here. PR40 remains a draft.
+
+## Current package milestone
+
+The selected surface now consists of eight theorems and seventeen literal
+definitions/constructions in comparator.json. HodgeChallenge has complete
+proofs, 995 lines, and only Mathlib imports; HodgeSolution imports the modular
+development. A source map and reproducible generator retain 135 declarations
+without changing mathematical commands/contracts. The hard size cap is met,
+but the readability warning remains an editorial consideration.
+
+ReleaseFidelity proves recurrence coverage of every next-page class, explicit
+finite/exhaustive/separated induced cohomology filtration, canonical bounded
+representative compatibility and equality of stabilization/degeneration maps
+to graded cohomology. The source reviewer and primary contributor review each
+other's contributions; no independent-kernel or human review is inferred.
+
+Human author and responsible-maintainer roles were explicitly assigned for
+this package to Arthur Freitas Ramos, Ruy Jose Guerra Barretto de Queiroz and
+David Barros Hulak. Metadata preserves the separate AI contribution account.
+No new credentials or terms acceptance were needed.
+
+The material inventory retains 47 definitions/structures/classes, 30 exact-pin
+source files and 63 excerpts. Its documented core/order/algebra/category
+expansion boundaries are reviewed explicitly. Both entrypoint bridge modules
+compile. The shared validator's apostrophe-final identifier bug was corrected
+with regression coverage; no other project's mathematics or pins changed.
+
+RUN-PLAN.md is the exact execution boundary: the current cloud cannot set up
+bubblewrap user namespaces. The inert caller template is outside active
+workflow directories. One predictive full preflight requires specific approval
+of the immutable source, pinned pipeline, disposable zero-cost hosted runner,
+runner-local setup and 19,800-second budget, with storage/cache costs independently
+confirmed as zero before execution. Protected controls, external
+kernels and later rendering are not represented as completed.
