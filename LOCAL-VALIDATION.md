@@ -39,6 +39,7 @@ preinstalled Elan 4.2.4, and each package's exact Lean/dependency pins. The exis
 paper, hodge and pr43 workspaces belong to other owners.
 
 ```sh
+export PATH="$HOME/.elan/bin:$PATH"
 python3 scripts/local_validate.py catalog --seconds 600
 python3 scripts/local_validate.py banach-mazur-category-lean.yml --plan
 python3 scripts/local_validate.py banach-mazur-category-lean.yml --seconds 1500
@@ -73,6 +74,10 @@ cache reuse must be recorded as reuse. Add package checks for new packages or
 new requirements; the retired inventory is a coverage floor, not a forever-fixed
 validation specification. Root policy-only edits do not require rebuilding
 unchanged mathematical packages or claiming fresh canonical results for them.
+Native execution refuses existing package `.lake/build` outputs or loose Lean
+compiled artifacts; prepare a fresh owned checkout for a new run. Do not delete
+or reuse another owner's build tree. Dependency cache authentication remains a
+separate gate.
 
 ## Canonical full verification and rendering
 

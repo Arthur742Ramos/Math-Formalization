@@ -30,8 +30,14 @@ def run(command, cwd, env, log, seconds):
             try:
                 process.wait(timeout=5)
             except subprocess.TimeoutExpired:
+                pass
+            # The leader may have exited while a descendant ignored SIGTERM.
+            # Keep the lock until any surviving members of its group are killed.
+            try:
                 os.killpg(process.pid, signal.SIGKILL)
-                process.wait()
+            except ProcessLookupError:
+                pass
+            process.wait()
             return 124
 
 
@@ -66,6 +72,13 @@ def main():
         parser.error('--seconds must be between 1 and 7200')
     if git('status', '--porcelain', '--untracked-files=all'):
         parser.error('commit all source changes first; receipts must bind a clean source')
+    if args.target != 'catalog':
+        package = ROOT / entry['directory']
+        if (package / '.lake/build').exists() or (package / '.lake/build').is_symlink():
+            parser.error('package build outputs already exist; prepare a fresh owned checkout before verification')
+        if any(p.suffix in {'.olean', '.ilean'} for p in package.rglob('*')
+               if '.lake' not in p.relative_to(package).parts):
+            parser.error('package contains prior compiled artifacts outside dependency caches')
     import time
     with open(args.lock, 'a') as lock:
         try:

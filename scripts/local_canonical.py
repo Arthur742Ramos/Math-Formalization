@@ -15,6 +15,22 @@ import time
 from local_validate import run
 
 
+def report_passes(report, fields):
+    source = report.get('source', {})
+    return (report.get('status') == 'pass'
+            and source.get('repository') == fields['repository']
+            and source.get('commit') == fields['commit'])
+
+
+def load_report(path):
+    if path.is_symlink() or not path.is_file() or path.stat().st_size > 2 * 1024 * 1024:
+        raise ValueError('canonical report must be a regular file of at most 2 MiB')
+    report = json.loads(path.read_text())
+    if not isinstance(report, dict):
+        raise ValueError('canonical report must be an object')
+    return report
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('mode', choices=['full', 'render'])
@@ -38,6 +54,7 @@ def main():
         p.error('pipeline must be clean at the exact reviewed revision, with dependencies installed outside its source')
     if not a.bwrap.resolve().is_file() or not os.access(a.bwrap.resolve(), os.X_OK):
         p.error('provide an existing authenticated executable bubblewrap; no installer is run')
+    bwrap_digest = hashlib.sha256(a.bwrap.resolve().read_bytes()).hexdigest()
     inputs_bytes = a.inputs.read_bytes()
     inputs = json.loads(inputs_bytes)
     if a.mode == 'full':
@@ -90,7 +107,7 @@ def main():
                         '--renderer-commit', a.pipeline_commit, '--workflow-url', evidence.as_uri()]]
         receipt = {'mode': a.mode, 'repository': fields['repository'], 'commit': fields['commit'],
                    'pipeline_commit': a.pipeline_commit, 'inputs_sha256': hashlib.sha256(inputs_bytes).hexdigest(),
-                   'bwrap_sha256': hashlib.sha256(a.bwrap.resolve().read_bytes()).hexdigest(),
+                   'bwrap_sha256': bwrap_digest,
                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                    'scope': 'Local canonical preflight; no registry intake or acceptance.', 'steps': [], 'status': 'error'}
         deadline = time.monotonic() + a.seconds
@@ -105,12 +122,17 @@ def main():
                 receipt['steps'].append(step)
                 if code or not report.exists():
                     break
-                observed = json.loads(report.read_text())
+                observed = load_report(report)
                 if observed.get('status') in {'fail', 'error'}:
                     break
             else:
-                if json.loads(report.read_text()).get('status') == 'pass':
+                if report_passes(load_report(report), fields):
                     receipt['status'] = 'pass'
+            if (git('rev-parse', 'HEAD') != a.pipeline_commit
+                    or git('status', '--porcelain', '--untracked-files=all')
+                    or hashlib.sha256(a.bwrap.resolve().read_bytes()).hexdigest() != bwrap_digest):
+                receipt['status'] = 'error'
+                receipt['tool_source_changed'] = True
             if report.exists():
                 receipt['report_sha256'] = hashlib.sha256(report.read_bytes()).hexdigest()
         finally:

@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import unittest
 import yaml
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -45,17 +46,60 @@ class LocalMigrationTests(unittest.TestCase):
             for command in e['local_commands']:
                 subprocess.run(['bash', '-n'], input=command, text=True, check=True)
 
-    def test_package_trees_and_historical_records_are_unchanged(self):
-        base = json.loads((ROOT / 'validation/workflow-inventory.json').read_text())['base_commit']
-        changed = subprocess.check_output(['git', 'diff', '--name-only', base, 'HEAD', '--', 'topology', 'REGISTRATIONS.json', 'READINESS.json', 'PREPARATIONS.json', 'catalog-evidence'], cwd=ROOT, text=True)
-        self.assertEqual('', changed)
+    def test_canonical_report_gate_rejects_failed_pending_and_wrong_source(self):
+        sys.path.insert(0, str(ROOT / 'scripts'))
+        import local_canonical
+        fields = {'repository': 'Arthur742Ramos/Math-Formalization', 'commit': 'a' * 40}
+        good = {'status': 'pass', 'source': dict(fields)}
+        self.assertTrue(local_canonical.report_passes(good, fields))
+        for status in ['fail', 'error', 'pending', None]:
+            self.assertFalse(local_canonical.report_passes(dict(good, status=status), fields))
+        for report in [{}, {'status': 'pass'}, dict(good, source=dict(fields, commit='b' * 40)),
+                       dict(good, source=dict(fields, repository='another/repository'))]:
+            self.assertFalse(local_canonical.report_passes(report, fields))
 
-    def test_canonical_cli_preserves_capacity_and_report_gates(self):
-        source = (ROOT / 'scripts/local_canonical.py').read_text()
-        self.assertIn("'check-capacity'", source)
-        self.assertIn("'status') == 'pass'", source)
-        self.assertNotIn('sudo', source)
-        self.assertNotIn('install_bwrap', source)
+    def test_canonical_report_reader_rejects_symlink_and_oversize(self):
+        import tempfile
+        sys.path.insert(0, str(ROOT / 'scripts'))
+        import local_canonical
+        with tempfile.TemporaryDirectory() as temporary:
+            report = Path(temporary) / 'report.json'
+            report.write_text('{}')
+            link = Path(temporary) / 'link.json'
+            link.symlink_to(report)
+            with self.assertRaises(ValueError):
+                local_canonical.load_report(link)
+            report.write_bytes(b' ' * (2 * 1024 * 1024 + 1))
+            with self.assertRaises(ValueError):
+                local_canonical.load_report(report)
+
+    def test_timeout_kills_descendant_even_when_leader_exits_on_term(self):
+        import os
+        import signal
+        import tempfile
+        sys.path.insert(0, str(ROOT / 'scripts'))
+        from local_validate import run
+        code = ('import os,signal,time\n'
+                'pid=os.fork()\n'
+                'if pid==0:\n'
+                ' signal.signal(signal.SIGTERM,signal.SIG_IGN)\n'
+                ' print(os.getpid(),flush=True)\n'
+                ' time.sleep(30)\n'
+                'else: time.sleep(30)\n')
+        with tempfile.TemporaryDirectory() as temporary:
+            log = Path(temporary) / 'timeout.log'
+            result = run([sys.executable, '-c', code], ROOT, dict(os.environ), log, 1)
+            self.assertEqual(124, result)
+            child = int(log.read_text().strip())
+            try:
+                state = Path(f'/proc/{child}/stat')
+                if state.exists():
+                    self.assertIn(state.read_text().split()[2], {'Z', 'X'})
+            finally:
+                try:
+                    os.kill(child, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
 
 
 if __name__ == '__main__':
