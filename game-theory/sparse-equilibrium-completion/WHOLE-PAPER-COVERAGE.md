@@ -20,10 +20,10 @@ positive residual mass; earlier separate results cover zero-mass branches.
 
 | Source result | Actual coverage and declarations | Precise remaining scope |
 | --- | --- | --- |
-| `sp:thm:sparse` — Sparse approximate completion (sections/main_theorem.tex:1) | Canonical-H mathematical theorem, all mass branches, original support and anchor moments, d extra moments, general k+d+1+H and exact k+d+H; total finite-cardinality caps. `normalized_sparse_witness_extra_moments_all_mass`, `normalized_exact_sparse_witness_extra_moments_all_mass`. Integrated `large_tolerance_sparse_moments` improves arbitrary starting tolerance to k+d+1 when r>0 and eta>=Mr. | No source-faithful executed supplied-input compression wrapper with canonical sharp counts and returned original moments/zeros. Generic executed gap support search is a different correct contract. Polynomial LP-vertex/flow construction remains open. |
-| `sp:lem:flow` — Residual completion criterion (sections/completion.tex:4) | Exact bounded-skew completion iff global guards and all weighted cuts, including zero-mass rows; stronger zero-total-mass/M=0 cases. `weighted_completion_iff`, `cuts_dual_bound`, `cuts_weighted_completion`; actual rational matrix reconstruction in `rational_residual_completion_complete`. | Existence and rational reconstruction are proved. The integrated actual finite capacitated-flow finder and its maximum/cut correctness are described below; the demand-network/game wrapper is a separate composition. Polynomial total operation/bit complexity remains open. The source proof itself already includes separation and level-set duality. |
+| `sp:thm:sparse` — Sparse approximate completion (sections/main_theorem.tex:1) | Canonical-H mathematical theorem, all mass branches, original support and anchor moments, d extra moments, general k+d+1+H and exact k+d+H; total finite-cardinality caps. `normalized_sparse_witness_extra_moments_all_mass`, `normalized_exact_sparse_witness_extra_moments_all_mass`. Integrated `large_tolerance_sparse_moments` improves arbitrary starting tolerance to k+d+1 when r>0 and eta>=Mr. | The supplied-input canonical wrapper is now executed: `rational_paper_general_witness`, `rational_paper_exact_witness` and zero-mass wrappers preserve original zeros/moments with literal sharp counts. `rational_paper_normalized_general_graph_flow`, `rational_paper_normalized_exact_graph_flow` and the zero wrapper reconstruct actual rational full-game data. Its kernel search is Fourier–Motzkin; polynomial kernel/LP and full flow operation/bit costs remain open. |
+| `sp:lem:flow` — Residual completion criterion (sections/completion.tex:4) | Exact bounded-skew completion iff global guards and all weighted cuts, including zero-mass rows; stronger zero-total-mass/M=0 cases. `weighted_completion_iff`, `cuts_dual_bound`, `cuts_weighted_completion`; actual rational matrix reconstruction in `rational_residual_completion_complete`. | Existence, rational reconstruction and actual demand-network/game composition are proved. `rational_demand_graph_completion_table_sound` earns the returned rational table through graph-sized maximum-flow and source-saturation proofs. Polynomial total operation/bit complexity remains open. The source proof itself already includes separation and level-set duality. |
 | `sp:lem:call` — Quadratic call envelope (sections/completion.tex:35) | Exact quadratic call-envelope equivalence and positive-support score cap. `cuts_iff_call_bound`, `supported_score_cap`. | The source integrated-score curve Lambda is an unused alternate proof ingredient, not a missing envelope conclusion. |
-| `sp:lem:grid` — Finite-grid implication (sections/sparsification.tex:11) | Actual quadratic interpolation, truncated last interval and canonical ceiling-root bridge. `finite_grid_implication`, `canonical_grid_implication`, `quadratic_grid_identity`, `truncated_grid_error`. | Executed rational programs use a different valid computable H; do not identify that H with canonical ceiling sqrt. |
+| `sp:lem:grid` — Finite-grid implication (sections/sparsification.tex:11) | Actual quadratic interpolation, truncated last interval and canonical ceiling-root bridge. `finite_grid_implication`, `canonical_grid_implication`, `quadratic_grid_identity`, `truncated_grid_error`. | The older gap-decision grid retains its different valid H. The new `rational_canonical_grid_size_real` proves the actual canonical rational-grid value equals the paper ceiling-root grid; canonical paper compression uses that value. |
 | `lb:thm:dense` — Unique dense equilibrium-compatible completion (sections/rigidity.tex:25) | Uniform and arbitrary-positive-target fixed-share strategy/completion rigidity. `uniform_two_anchor_dense`, `bounded_two_anchor_fixed_share_rigidity`, `tight_prefix_completion_unique`. | No central mathematical conclusion missing; stronger numerical observation margins are not separate contracts. |
 | `lb:thm:universalrigidity` — Two-anchor inverse rigidity (sections/rigidity.tex:97) | Any positive target of mass1/4, two minimum shares forced tight, unique strategy and transitive residual block. `bounded_two_anchor_minimum_share_rigidity`, `two_anchor_target_feasible`. | Actual construction bounded in[-1,1]; literal finer margins5/6 and1/3 are not packaged separately. |
 | `lb:thm:support` — Support lower bound (sections/rigidity.tex:151) | Exact finite m,h lower bound and 3/1216 inverse-square specialization from genuine cumulative quantization. `uniform_fixed_share_support_lower`, `uniform_fixed_share_inverse_square`, `finite_subset_quantization_bound`, `sparse_cumulative_quantization`. | No central mathematical gap; variable-share endpoint partition is handled separately. |
@@ -133,7 +133,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 
 ### Functional algorithms and exact source constants
 
-- A specialized executed **supplied feasible input** compression routine should preserve its original support, anchor/extra moments and the literal canonical k+1+H/general or k+H/exact count. The current rational finite-mask gap algorithm correctly preserves its declared linear constraints but uses an alternative actualH and counts extra rows; its returned output contract is not the original-input theorem’s full preservation contract.
+- The specialized supplied-input canonical compression and rational graph-flow reconstruction now preserve original zeros, anchor/extra moments and the literal canonical general/exact support counts. The older finite-mask gap algorithm remains a separate correct contract with an alternative H and extra rows. The canonical compressor still uses Fourier–Motzkin kernel search; polynomial construction and full arithmetic/bit costs remain open.
 - The supplied arbitrary original vertex subset C still needs an executed finite relabel/encode/decode adapter to the block-labelled solver and returned game. Classical geometric coverEquiv proofs are not that runtime adapter.
 - The dense source-floor program now uses literal epsilon/(6Mk) for positive k, proves its exact node count and global value guarantee in RationalSourceFloorParameters/Automatic. The separate sparse-output allocation wrapper uses epsilon/(6M(k+1)); its larger count must not be identified with the dense source constant.
 - Rational score sorting, tie-compatible prefix scanning, actual violating-subset output and finite guard composition are executed with proved correctness. The connected comparison/arithmetic ledgers cover their stated models; a full O(m log m) machine/bit-runtime theorem remains open.
@@ -142,7 +142,7 @@ This preserves the earlier audit’s claim-group enumeration. “Direct wrapper�
 ### Operation, bit and solver complexity
 
 - No polynomial rational LP solver, coefficient-height/encoding-growth analysis, polynomial bit bound or end-to-end fixed-anchor/fixed-k additive-FPTAS running-time theorem. Fourier–Motzkin and exhaustive2^m support enumeration can be exponential.
-- An actual finite capacitated-flow finder now computes feasible maximum skew net flow and a matching residual cut, using denominator-lattice fuel. Its equivalent direct loop removes eager numeric-fuel continuation construction. A capacity-independent iteration theorem, full flow operation/bit bound and demand-network/game composition are outside this integrated source.
+- The actual graph-fuel finder now computes feasible maximum skew net flow and a matching residual cut with a capacity-independent successful-augmentation bound. The demand network and rational game-completion decoder are integrated. The bound counts oriented support {(u,v) | 0<Cuv+Cvu}; it is not a full primitive operation/bit-runtime theorem.
 - No polynomial sparse LP-vertex selection algorithm. Geometric Caratheodory existence and exhaustive support search do not imply one.
 - No O(m logm) executed sorted-separation cost proof. Finite exact constraints and an explicit logarithmic threshold-round count do not supply the missing per-call costs.
 - The integrated connected unit-Rat compact checker closes that declared **arithmetic-model** claim once exact-source verification passes. It supplies no machine/bit-cost or arbitrary-R-checking theorem.
@@ -155,7 +155,7 @@ Statistical coverage, time-uniform confidence guarantees, sample complexity, cau
 
 Whole-paper completion and submission readiness remain **false**. Predecessor f3c300572e22fb88de71183aee09ccc66785c3da passed all12 native gates, with the historical retained Nat.find/WF/Classical source-completeness qualification. The later878941b source corrected that inventory and passed all12 native gates for its general-M and attained worst-case results. The later59 source corrected those list and finite-equivalence recipe findings and passed all12 native gates at836ab90 for both entrypoints, builds, axiom audits, protected comparison/negative controls, exports and kernels. Failed receipts remain failed; predecessor receipts certify only their own source.
 
-The authenticated manuscript retains its anonymous-draft authorship statement. The user separately supplied Arthur/David/Ruy paper attribution, which remains distinct from unconfirmed human Lean authors/maintainers. No coauthor approval, external peer review or publication authorization is inferred. No submission or external publication action was taken.
+The authenticated manuscript retains its anonymous-draft authorship statement. The user separately supplied Arthur/David/Ruy paper attribution, which remains distinct from unconfirmed human Lean authors/maintainers. No coauthor approval, external peer review or publication authorization is inferred. No registry or journal submission was made.
 
 
 ## General payoff bounds and actual worst-case support
@@ -427,14 +427,14 @@ integration below supplies a complete finite capacitated-flow finder and
 augmentation correctness. Open work includes their operation and bit bounds,
 polynomial rational LP guarantees, complete arithmetic/encoding
 costs beyond the proved components, efficient sparse selection and the remaining
-source-specific algorithm compositions. No publication or submission is made.
+source-specific algorithm compositions. No registry or journal submission is made.
 
 
-## Cloud integration of augmentation, finite flow and feature compression
+## Historical155 integration of augmentation, finite flow and feature compression
 
-This development integrates the preserved149 follow-on proofs and six proofs
-for an equivalent directly recursive flow loop. The source has304 mathematical
-modules,1310 source theorem audit targets and1200 selected protected contracts.
+The historical f3daca0 development integrated149 preserved follow-on proofs and
+six proofs for an equivalent directly recursive flow loop. That source had304
+mathematical modules,1310 theorem audit targets and1200 protected contracts.
 These counts describe the code under review; complete mechanical verification
 is established by an immutable exact-source receipt outside the frozen package.
 The earlier checkpoint sections retain their historical source state and do
@@ -478,3 +478,52 @@ Whole-paper completion remains false. Demand-network/game composition,
 capacity-independent flow runtime, efficient paper-specific compression,
 polynomial exact rational LP and complete arithmetic/encoding/bit costs are
 tracked separately. No registry or journal submission is authorized.
+
+
+## Graph-bounded flow and canonical paper compression
+
+The current source extends the historical155 integration with100 mathematical
+proofs across12 modules:316 mathematical modules,1410 theorem audit targets
+and1300 selected protected contracts in total. The earlier integrated commit
+`f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` passed all12 native gates;
+its immutable external receipt has SHA256
+`550205def6d34828d33a514e9d4a8a379f3542f6894234f16a563986241ea0f6`.
+That result applies to that historical commit. Mechanical status of this
+extended source is determined by its own exact-source receipts.
+
+Actual shortest residual paths earn monotone levels and a two-level increase
+between recurring critical arcs. Successful augmentation traces have length
+at most `E*(n+2)`, where E is the cardinality of the oriented support
+`{(u,v) | 0 < C u v + C v u}`, including possible reverse residual orientations.
+`rationalTableFindFlowPolynomial` uses graph-derived direct-loop fuel, earns
+stopping and a maximum-flow/computed-cut certificate for distinct terminals.
+This bound is independent of capacity magnitude. It bounds augmentations and
+fuel; primitive arithmetic and full bit-runtime guarantees remain open.
+
+The finite demand network is built from the original rational weights,
+scores, payoff bound and response threshold. Its computed maximum and cut earn
+source saturation when the original residual completion is feasible. The
+returned materialized table decodes to rational skew bounded payoffs, including
+zero-weight original labels. Graph-sized fuel replaces numeric capacity fuel
+in `rationalDemandGraphCompletionTable`.
+
+The actual canonical rational grid agrees with the paper's ceil-square-root
+count. Paper feature rows preserve mass, anchor and extra moments, original
+zero labels, and all required hinge values. The general residual support bound
+is `k+d+1+H`; the exact-equilibrium endpoint identity earns `k+d+H` when the
+stated positive-parameter hypotheses hold, with zero residual mass handled
+separately. Graph-flow wrappers produce an actual rational residual payoff
+completion and prove full normalized compatible-game response bounds on the
+original labels, with one additive eta.
+
+The kernel search in this integrated source uses Fourier--Motzkin elimination.
+Some returned weight functions may recompute their search when read; no
+operational sharing or polynomial kernel runtime is inferred. Separate newer
+Gaussian, input-height and source-event developments are outside this source.
+The100 additions have strict narrow audits and66 asserted controls, independent
+internal AI source reviews, and an expanded reviewed imported-definition
+inventory with22 bridges checked in both historical entrypoint contexts.
+Those checks do not replace this source's integrated protected/native gates.
+Whole-paper completion remains false: polynomial rational LP, arithmetic,
+intermediate heights, bit costs and the remaining source-specific algorithm
+composition still require proofs. No registry or journal submission is authorized.

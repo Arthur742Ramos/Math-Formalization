@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "checked_at_utc": "2026-10-23T02:02:58.603663+00:00",
+  "repository": "leanprover/lean4",
+  "commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "method": "Connected GitHub fetch_file full base64 bytes, bytecompareagainstinstalledpinnedcompiler source, independentlyrecomputedGitblobSHA1",
+  "fetch_payload_sha256": "97bff104027614422e099a2113d06e39a4e2bac0cc885b216ba0e0a440da43e6",
+  "sources": [
+    {
+      "path": "src/Init/Data/Prod.lean",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Prod.lean",
+      "status": "PASS",
+      "bytes": 2787,
+      "sha256": "66e190929f976c08354efa2b611d9e2dcb8db2fefd2d60c3f7db49c8de9544ba",
+      "git_blob_sha1": "0ac2c7800544105686ed2410e7dd5857cd9bb359",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Prod.lean"
+    },
+    {
+      "path": "src/Init/Data/Fin/Package.lean",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Fin/Package.lean",
+      "status": "PASS",
+      "bytes": 964,
+      "sha256": "dadccc6e4183450b9922cd697b3f7d15c319ba11b1d71d5b784b37e22464251f",
+      "git_blob_sha1": "4a5cce3375b81b7d09ab1e8c71bca96a20d0a563",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Package.lean"
+    },
+    {
+      "path": "src/Init/Data/Order/PackageFactories.lean",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Order/PackageFactories.lean",
+      "status": "PASS",
+      "bytes": 33439,
+      "sha256": "cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e",
+      "git_blob_sha1": "b1222723d8aea4996f5545c07d7c6e429812d014",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean"
+    },
+    {
+      "path": "src/Init/Data/Order/Classes.lean",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Order/Classes.lean",
+      "status": "PASS",
+      "bytes": 7482,
+      "sha256": "9ac5d18a28594020211f78e2e12dd80a0ac6bde4cd654d35b9436f727eaff8c3",
+      "git_blob_sha1": "571d41f762de0e22ca3f35ed1ba8f8446aa86f3c",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/Classes.lean"
+    },
+    {
+      "path": "src/Init/Data/Order/Lemmas.lean",
+      "local_path": "/workspace/sparse-migration/toolchains/lean-4.35.0-rc2-linux/src/lean/Init/Data/Order/Lemmas.lean",
+      "status": "PASS",
+      "bytes": 25251,
+      "sha256": "e721ebe577372a31e53cbf6a43cf562396245a7300aaad208957b798e36a0f4f",
+      "git_blob_sha1": "b4b0105228ebf45521aec3afaa3a04a87159c669",
+      "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/Lemmas.lean"
+    }
+  ]
+}

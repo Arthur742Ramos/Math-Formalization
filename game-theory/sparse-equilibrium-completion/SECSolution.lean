@@ -1,4 +1,16 @@
 module
+public import RationalResidualDistanceMono
+public import RationalCriticalArc
+public import RationalAugmentationCount
+public import RationalTableFlowPolynomial
+public import RationalDemandNetwork
+public import RationalCanonicalGrid
+public import RationalPaperFeatures
+public import RationalPaperCuts
+public import RationalPaperWitness
+public import RationalPaperFlow
+public import RationalDemandGraphNetwork
+public import RationalPaperGraphFlow
 public import RationalEdgePush
 public import CachedResidualSimplePaths
 public import RationalPathAugmentation

@@ -25945,3 +25945,2663 @@ theorem rational_table_find_flow_direct_cut_certificate {n : ℕ}
     rational_table_find_flow_cut_certificate C s t hst hC
 
 end SparseCompletion
+
+/- Fixed source body: RationalResidualDistanceMono.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCHECKED follow-on to narrow149. Actual materialized table pushes,
+new residual arcs, and BFS distance monotonicity. No iteration-count or runtime
+claim. Compiler checks are intentionally delegated to the serialized check owner.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+/-- Consecutive edges of an arbitrary vertex list, with no fabricated first
+vertex in the empty case. -/
+def rationalWalkEdges {n : ℕ} (path : List (Fin n)) : List (Fin n × Fin n) :=
+  List.rec [] (fun a tail _ => rationalPathEdges a tail) path
+
+theorem rational_walk_edges_cons {n : ℕ} (a : Fin n) (tail : List (Fin n)) :
+    rationalWalkEdges (a :: tail) = rationalPathEdges a tail := rfl
+
+theorem rational_path_edges_append_one {n : ℕ} (a : Fin n)
+    (tail : List (Fin n)) (v : Fin n) :
+    rationalPathEdges a (tail ++ [v]) =
+      rationalPathEdges a tail ++ [(rationalPathEnd a tail, v)] := by
+  induction tail generalizing a with
+  | nil => rfl
+  | cons b tail ih =>
+    simp only [List.cons_append, rational_path_edges_cons,
+      rational_path_end_cons, ih b]
+
+theorem rational_walk_edges_append_one {n : ℕ} (path : List (Fin n))
+    (u v : Fin n) (hend : path.getLast? = some u) :
+    rationalWalkEdges (path ++ [v]) = rationalWalkEdges path ++ [(u, v)] := by
+  cases path with
+  | nil => cases hend
+  | cons a tail =>
+    have he : rationalPathEnd a tail = u := by
+      exact Option.some.inj ((rational_path_end_getLast a tail).symm.trans hend)
+    simpa only [List.cons_append, rational_walk_edges_cons, he] using
+      rational_path_edges_append_one a tail v
+
+/-- The completed shortest-walk length forces equality in every original
+edge triangle, so every actual consecutive edge advances the BFS level by one.
+The induction uses a certified walkPrefix walk, not a supplied shortest-walkPrefix
+oracle. -/
+theorem cached_residual_walk_edges_levels {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (path : List (Fin n)) (hw : CachedResidualWalk A s t path)
+    (hd : cachedBFSDistance A s t = path.length - 1) :
+    ∀ u v, (u, v) ∈ rationalWalkEdges path →
+      cachedBFSDistance A s v = cachedBFSDistance A s u + 1 := by
+  revert hd
+  induction hw with
+  | start =>
+    intro hd u v he
+    cases he
+  | @extend a b walkPrefix hp hab ih =>
+    intro hd
+    have hlen := cached_residual_walk_nonempty A s a walkPrefix hp
+    have hpre := cached_bfs_distance_le_walk A s a walkPrefix hp
+    have htri := cached_bfs_distance_edge_triangle A s a b hab
+    have hd' : cachedBFSDistance A s a = walkPrefix.length - 1 := by
+      simp only [List.length_append, List.length_cons, List.length_nil] at hd
+      omega
+    have hab' : cachedBFSDistance A s b = cachedBFSDistance A s a + 1 := by
+      simp only [List.length_append, List.length_cons, List.length_nil] at hd
+      omega
+    intro u v he
+    rw [rational_walk_edges_append_one walkPrefix a b
+      (cached_residual_walk_endpoints A s a walkPrefix hp).2] at he
+    rcases List.mem_append.mp he with he | he
+    · exact ih hd' u v he
+    · have he' : (u, v) = (a, b) := List.mem_singleton.mp he
+      have hu : u = a := congrArg Prod.fst he'
+      have hv : v = b := congrArg Prod.snd he'
+      simpa only [hu, hv] using hab'
+
+theorem cached_bfs_path_edges_levels {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (path : List (Fin n)) (ho : cachedBFSPath A s t = some path) :
+    ∀ u v, (u, v) ∈ rationalWalkEdges path →
+      cachedBFSDistance A s v = cachedBFSDistance A s u + 1 :=
+  cached_residual_walk_edges_levels A s t path
+    (cached_bfs_path_some_walk A s t path ho).1
+    (cached_bfs_distance_of_some A s t path ho)
+
+/-- A nonnegative path push can decrease an oriented entry only if the path
+contains its reverse edge. This follows from the actual skew-net update even
+for nonsimple paths; it does not assume an incidence formula. -/
+theorem rational_net_push_path_le_of_reverse_absent {n : ℕ}
+    (F : Fin n → Fin n → ℚ) (a : Fin n) (tail : List (Fin n))
+    (δ : ℚ) (hδ : 0 ≤ δ) (u v : Fin n)
+    (hnot : (v, u) ∉ rationalPathEdges a tail) :
+    F u v ≤ rationalNetPushPath F a tail δ u v := by
+  induction tail generalizing a with
+  | nil => exact le_rfl
+  | cons b tail ih =>
+    have htail : (v, u) ∉ rationalPathEdges b tail := by
+      intro he
+      exact hnot (List.mem_cons_of_mem (a, b) he)
+    have hb : ¬ (u = b ∧ v = a) := by
+      rintro ⟨rfl, rfl⟩
+      exact hnot List.mem_cons_self
+    have hle := ih b htail
+    rw [rational_net_push_path_cons]
+    simp only [rationalNetPushEdge, ite_eq_right hb, sub_zero]
+    split_ifs <;> linarith
+
+/-- A positive post-update residual arc either already existed or reverses an
+actual consecutive augmentation edge. Capacity feasibility and skew symmetry
+are unnecessary for this local incidence fact. -/
+theorem rational_net_push_path_new_residual_arc {n : ℕ}
+    (C F : Fin n → Fin n → ℚ) (a : Fin n) (tail : List (Fin n))
+    (δ : ℚ) (hδ : 0 ≤ δ) (u v : Fin n)
+    (hnew : 0 < C u v - rationalNetPushPath F a tail δ u v) :
+    0 < C u v - F u v ∨ (v, u) ∈ rationalPathEdges a tail := by
+  by_cases he : (v, u) ∈ rationalPathEdges a tail
+  · exact Or.inr he
+  · left
+    have hle := rational_net_push_path_le_of_reverse_absent F a tail δ hδ u v he
+    linarith
+
+theorem cached_residual_arc_iff {n : ℕ} (C F : Fin n → Fin n → ℚ)
+    (u v : Fin n) :
+    ((cacheResidualAdj C F).get u).get v = true ↔ 0 < C u v - F u v := by
+  simp only [cacheResidualAdj, cached_vector_get_ofFn, rationalResidualAdj,
+    decide_eq_true_eq]
+
+/-- The generic comparison theorem's triangles are now earned for the actual
+updated residual graph, using new-edge incidence and exact shortest-path levels.
+The finite unreachable sentinel is the one defined by cachedBFSDistance. -/
+theorem rational_table_push_shortest_distance_mono {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (tail : List (Fin n))
+    (δ : ℚ) (hδ : 0 ≤ δ)
+    (ho : cachedBFSPath (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s t = some (s :: tail)) (w : Fin n) :
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s w ≤
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (rationalTablePushPath F s tail δ))) s w := by
+  apply cached_bfs_distance_mono_of_edge_triangles
+  intro u v he
+  have hnew := (cached_residual_arc_iff (rationalFlowTableEntry C)
+    (rationalFlowTableEntry (rationalTablePushPath F s tail δ)) u v).mp he
+  rw [rational_table_push_path_entry] at hnew
+  rcases rational_net_push_path_new_residual_arc (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s tail δ hδ u v hnew with hold | hreverse
+  · exact cached_bfs_distance_edge_triangle _ s u v
+      ((cached_residual_arc_iff _ _ u v).mpr hold)
+  · have hlevel := cached_bfs_path_edges_levels _ s t (s :: tail) ho v u hreverse
+    omega
+
+/-- Distances are nondecreasing after an actual successful wrapper return.
+Its path and amount are extracted from the executable Option result. -/
+theorem rational_augment_once_distance_mono {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out) (w : Fin n) :
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s w ≤
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry out.flow)) s w := by
+  obtain ⟨_, hp, hcand, hm, hflow⟩ := rational_augment_once_origin C F s t out ho
+  obtain ⟨hhead, _, _, hpos⟩ := hcand
+  have hpath : s :: out.path.tail = out.path := by
+    cases he : out.path with
+    | nil => simp only [he, List.head?_nil] at hhead; cases hhead
+    | cons a tail =>
+      have ha : a = s := Option.some.inj (by
+        simpa only [he, List.head?_cons] using hhead)
+      subst a
+      rfl
+  have hδ : 0 < out.amount := rational_nonempty_minimum_positive
+    (rationalPathResiduals (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s out.path.tail) out.amount hm hpos
+  rw [hflow]
+  apply rational_table_push_shortest_distance_mono C F s t out.path.tail
+    out.amount (le_of_lt hδ)
+  simpa only [hpath] using hp
+
+end SparseCompletion
+
+/- Fixed source body: RationalCriticalArc.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCHECKED. Critical arcs and level recurrence for genuine successful
+augmentation traces. A trace premise consists only of actual Option-return and
+materialized next-state equations. No distance, progress, count, or termination
+conclusion is supplied as a trace field or hypothesis.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+theorem rational_augment_once_path_source {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out) :
+    s :: out.path.tail = out.path := by
+  have hhead := (rational_augment_once_origin C F s t out ho).2.2.1.1
+  cases he : out.path with
+  | nil => simp only [he, List.head?_nil] at hhead; cases hhead
+  | cons a tail =>
+    have ha : a = s := Option.some.inj (by
+      simpa only [he, List.head?_cons] using hhead)
+    subst a
+    rfl
+
+theorem rational_augment_once_amount_positive {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out) : 0 < out.amount := by
+  obtain ⟨_, _, hcand, hm, _⟩ := rational_augment_once_origin C F s t out ho
+  exact rational_nonempty_minimum_positive
+    (rationalPathResiduals (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F) s out.path.tail) out.amount hm hcand.2.2.2
+
+/-- Every successful actual attempt supplies a saturated actual path edge.
+This is an existential witness extracted from the computed bottleneck. -/
+theorem rational_augment_once_critical_arc {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out) :
+    ∃ u v, (u, v) ∈ rationalWalkEdges out.path ∧
+      rationalFlowTableEntry out.flow u v = rationalFlowTableEntry C u v := by
+  obtain ⟨_, _, hcand, hm, hflow⟩ := rational_augment_once_origin C F s t out ho
+  have hpath := rational_augment_once_path_source C F s t out ho
+  have hnd : (s :: out.path.tail).Nodup := by
+    simpa only [hpath] using hcand.2.2.1
+  obtain ⟨u, v, he, _, hsat⟩ := rational_path_bottleneck_saturates
+    (rationalFlowTableEntry C) (rationalFlowTableEntry F) s out.path.tail hnd
+    out.amount hm
+  refine ⟨u, v, ?_, ?_⟩
+  · have he' : (u, v) ∈ rationalWalkEdges (s :: out.path.tail) := he
+    rw [hpath] at he'
+    exact he'
+  · rw [hflow, rational_table_push_path_entry]
+    exact hsat
+
+theorem rational_augment_once_edge_levels {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out)
+    (u v : Fin n) (he : (u, v) ∈ rationalWalkEdges out.path) :
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s v =
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry F)) s u + 1 :=
+  cached_bfs_path_edges_levels _ s t out.path
+    (rational_augment_once_origin C F s t out ho).2.1 u v he
+
+theorem cached_residual_walk_edges_arcs {n : ℕ} (A : CachedBFSAdj n)
+    (s t : Fin n) (path : List (Fin n)) (hw : CachedResidualWalk A s t path) :
+    ∀ u v, (u, v) ∈ rationalWalkEdges path → (A.get u).get v = true := by
+  induction hw with
+  | start => intro u v he; cases he
+  | @extend a b walkPrefix hp hab ih =>
+    intro u v he
+    rw [rational_walk_edges_append_one walkPrefix a b
+      (cached_residual_walk_endpoints A s a walkPrefix hp).2] at he
+    rcases List.mem_append.mp he with he | he
+    · exact ih u v he
+    · have he' : (u, v) = (a, b) := List.mem_singleton.mp he
+      have hu : u = a := congrArg Prod.fst he'
+      have hv : v = b := congrArg Prod.snd he'
+      simpa only [hu, hv] using hab
+
+theorem rational_augment_once_edge_residual {n : ℕ} (C F : RationalFlowTable n)
+    (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out)
+    (u v : Fin n) (he : (u, v) ∈ rationalWalkEdges out.path) :
+    0 < rationalFlowTableEntry C u v - rationalFlowTableEntry F u v := by
+  have hp := (rational_augment_once_origin C F s t out ho).2.1
+  have hw := (cached_bfs_path_some_walk _ s t out.path hp).1
+  exact (cached_residual_arc_iff _ _ u v).mp
+    (cached_residual_walk_edges_arcs _ s t out.path hw u v he)
+
+theorem rational_augment_once_entry_le_of_reverse_absent {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (out : RationalAugmentResult n)
+    (ho : rationalAugmentOnce C F s t = some out)
+    (u v : Fin n) (he : (v, u) ∉ rationalWalkEdges out.path) :
+    rationalFlowTableEntry F u v ≤ rationalFlowTableEntry out.flow u v := by
+  have hpath := rational_augment_once_path_source C F s t out ho
+  have hnot : (v, u) ∉ rationalPathEdges s out.path.tail := by
+    intro hmem
+    have he' : (v, u) ∈ rationalWalkEdges (s :: out.path.tail) := hmem
+    rw [hpath] at he'
+    exact he he'
+  rw [(rational_augment_once_origin C F s t out ho).2.2.2.2,
+    rational_table_push_path_entry]
+  exact rational_net_push_path_le_of_reverse_absent _ s out.path.tail
+    out.amount (le_of_lt (rational_augment_once_amount_positive C F s t out ho)) u v hnot
+
+/-- A finite successful execution is described only by actual program
+equations. Distance monotonicity at arbitrary trace times is derived. -/
+theorem rational_successful_trace_distance_mono {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (k : ℕ) (F : ℕ → RationalFlowTable n)
+    (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (i j : ℕ) (hij : i ≤ j) (hjk : j ≤ k) (v : Fin n) :
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (F i))) s v ≤
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (F j))) s v := by
+  have haux : ∀ d, i + d ≤ k →
+      cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (F i))) s v ≤
+      cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (F (i + d)))) s v := by
+    intro d
+    induction d with
+    | zero => intro _; exact le_rfl
+    | succ d ih =>
+      intro hd
+      have hlt : i + d < k := by omega
+      have hstep := rational_augment_once_distance_mono C (F (i + d)) s t
+        (out (i + d)) (hreturn (i + d) hlt) v
+      rw [← hnext (i + d) hlt] at hstep
+      exact le_trans (ih (by omega)) hstep
+  have he : i + (j - i) = j := Nat.add_sub_of_le hij
+  simpa only [he] using haux (j - i) (by omega)
+
+/-- If an oriented entry strictly decreases along a genuine execution segment,
+some actual returned path in that segment traverses the reverse edge. -/
+theorem rational_successful_trace_reverse_of_decrease {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (k : ℕ)
+    (F : ℕ → RationalFlowTable n) (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (i j : ℕ) (hij : i ≤ j) (hjk : j ≤ k) (u v : Fin n)
+    (hdec : rationalFlowTableEntry (F j) u v < rationalFlowTableEntry (F i) u v) :
+    ∃ r, i ≤ r ∧ r < j ∧ (v, u) ∈ rationalWalkEdges (out r).path := by
+  by_contra hn
+  have habsent : ∀ r, i ≤ r → r < j →
+      (v, u) ∉ rationalWalkEdges (out r).path := by
+    intro r hir hrj he
+    exact hn ⟨r, hir, hrj, he⟩
+  have haux : ∀ d, i + d ≤ j →
+      rationalFlowTableEntry (F i) u v ≤ rationalFlowTableEntry (F (i + d)) u v := by
+    intro d
+    induction d with
+    | zero => intro _; exact le_rfl
+    | succ d ih =>
+      intro hd
+      have hrj : i + d < j := by omega
+      have hrk : i + d < k := by omega
+      have hstep := rational_augment_once_entry_le_of_reverse_absent C (F (i + d)) s t
+        (out (i + d)) (hreturn (i + d) hrk) u v
+        (habsent (i + d) (by omega) hrj)
+      rw [← hnext (i + d) hrk] at hstep
+      exact le_trans (ih (by omega)) hstep
+  have he : i + (j - i) = j := Nat.add_sub_of_le hij
+  have hle : rationalFlowTableEntry (F i) u v ≤ rationalFlowTableEntry (F j) u v := by
+    simpa only [he] using haux (j - i) (by omega)
+  exact (not_lt_of_ge hle) hdec
+
+/-- Two actual opposite traversals force a level increase by two. Monotonicity
+between the two return states and the final state is earned from the trace. -/
+theorem rational_successful_trace_opposite_level_gap {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (k : ℕ)
+    (F : ℕ → RationalFlowTable n) (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (i r j : ℕ) (hir : i ≤ r) (hrj : r ≤ j) (hjk : j ≤ k) (hrk : r < k)
+    (u v : Fin n) (hforward : (u, v) ∈ rationalWalkEdges (out i).path)
+    (hreverse : (v, u) ∈ rationalWalkEdges (out r).path) :
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (F i))) s u + 2 ≤
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (F j))) s u := by
+  have hik : i < k := by omega
+  have hi := rational_augment_once_edge_levels C (F i) s t (out i)
+    (hreturn i hik) u v hforward
+  have hr := rational_augment_once_edge_levels C (F r) s t (out r)
+    (hreturn r hrk) v u hreverse
+  have hmono1 := rational_successful_trace_distance_mono C s t k F out hreturn hnext
+    i r hir (by omega) v
+  have hmono2 := rational_successful_trace_distance_mono C s t k F out hreturn hnext
+    r j hrj hjk u
+  omega
+
+/-- Reuse after actual saturation forces an intervening reverse traversal,
+and hence raises the same oriented arc's tail level by at least two. Neither
+the intervening reversal nor the level increase is assumed. -/
+theorem rational_successful_trace_critical_recurrence {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (k : ℕ)
+    (F : ℕ → RationalFlowTable n) (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (i j : ℕ) (hij : i < j) (hjk : j < k) (u v : Fin n)
+    (hfirst : (u, v) ∈ rationalWalkEdges (out i).path)
+    (hsat : rationalFlowTableEntry (out i).flow u v = rationalFlowTableEntry C u v)
+    (hlater : (u, v) ∈ rationalWalkEdges (out j).path) :
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (F i))) s u + 2 ≤
+    cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+      (rationalFlowTableEntry (F j))) s u := by
+  have hik : i < k := by omega
+  have hres := rational_augment_once_edge_residual C (F j) s t (out j)
+    (hreturn j hjk) u v hlater
+  have he : rationalFlowTableEntry (F (i + 1)) u v = rationalFlowTableEntry C u v := by
+    rw [hnext i hik, hsat]
+  have hdec : rationalFlowTableEntry (F j) u v <
+      rationalFlowTableEntry (F (i + 1)) u v := by
+    rw [he]
+    linarith
+  obtain ⟨r, hir, hrj, hreverse⟩ := rational_successful_trace_reverse_of_decrease
+    C s t k F out hreturn hnext (i + 1) j (by omega) (by omega) u v hdec
+  exact rational_successful_trace_opposite_level_gap C s t k F out hreturn hnext
+    i r j (by omega) (by omega) (by omega) (by omega) u v hfirst hreverse
+
+end SparseCompletion
+
+/- Fixed source body: RationalAugmentationCount.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCHECKED. Capacity-independent bound on the number of actual
+successful cached-shortest-path augmentations. The proof charges each real
+bottleneck saturation to its oriented capacity-support arc and BFS level.
+No bound on rational arithmetic or machine/bit runtime is asserted.
+-/
+@[expose] public section
+namespace SparseCompletion
+
+/-- Fixed oriented support of the capacity table. For nonnegative capacities
+this is precisely the symmetric closure of its positive directed entries. -/
+def rationalCapacityArcSupport {n : ℕ} (C : RationalFlowTable n) :
+    Finset (Fin n × Fin n) :=
+  Finset.univ.filter fun e =>
+    0 < rationalFlowTableEntry C e.1 e.2 + rationalFlowTableEntry C e.2 e.1
+
+theorem rational_successful_trace_feasible {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (k : ℕ) (F : ℕ → RationalFlowTable n)
+    (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (hcap : ∀ u v, rationalFlowTableEntry (F 0) u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry (F 0) u v =
+      -rationalFlowTableEntry (F 0) v u) (i : ℕ) (hik : i ≤ k) :
+    (∀ u v, rationalFlowTableEntry (F i) u v ≤ rationalFlowTableEntry C u v) ∧
+    (∀ u v, rationalFlowTableEntry (F i) u v =
+      -rationalFlowTableEntry (F i) v u) := by
+  revert hik
+  induction i with
+  | zero => intro _; exact ⟨hcap, hskew⟩
+  | succ i ih =>
+    intro hik
+    have hi : i < k := by omega
+    obtain ⟨hc, hs⟩ := ih (by omega)
+    obtain ⟨_, hs', hc', _, _⟩ := rational_augment_once_sound C (F i) s t (out i)
+      hc hs (hreturn i hi)
+    rw [hnext i hi]
+    exact ⟨hc', hs'⟩
+
+theorem rational_augment_once_edge_in_capacity_support {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (out : RationalAugmentResult n)
+    (hcap : ∀ u v, rationalFlowTableEntry F u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry F u v = -rationalFlowTableEntry F v u)
+    (ho : rationalAugmentOnce C F s t = some out)
+    (u v : Fin n) (he : (u, v) ∈ rationalWalkEdges out.path) :
+    (u, v) ∈ rationalCapacityArcSupport C := by
+  have hres := rational_augment_once_edge_residual C F s t out ho u v he
+  have hr := hcap v u
+  have hs := hskew u v
+  simp only [rationalCapacityArcSupport, Finset.mem_filter, Finset.mem_univ,
+    true_and]
+  linarith
+
+/-- A genuine finite successful execution has at most (V+2)E augmentations,
+where E is the fixed number of oriented capacity-support arcs. The injection
+labels each executed augmentation by an attained critical arc and its actual
+cached BFS tail level. Repeating the same arc forces a level increase by two.
+The harmless +2 uses the existing finite unreachable-sentinel bound uniformly.
+-/
+theorem rational_successful_trace_length_bound {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (k : ℕ) (F : ℕ → RationalFlowTable n)
+    (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (hcap : ∀ u v, rationalFlowTableEntry (F 0) u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry (F 0) u v =
+      -rationalFlowTableEntry (F 0) v u) :
+    k ≤ (rationalCapacityArcSupport C).card * (n + 2) := by
+  classical
+  choose u v hedge hsat using fun i : Fin k =>
+    rational_augment_once_critical_arc C (F i.val) s t (out i.val)
+      (hreturn i.val i.isLt)
+  have hsupp : ∀ i : Fin k, (u i, v i) ∈ rationalCapacityArcSupport C := by
+    intro i
+    obtain ⟨hc, hs⟩ := rational_successful_trace_feasible C s t k F out hreturn hnext
+      hcap hskew i.val (le_of_lt i.isLt)
+    exact rational_augment_once_edge_in_capacity_support C (F i.val) s t (out i.val)
+      hc hs (hreturn i.val i.isLt) (u i) (v i) (hedge i)
+  let key : Fin k → ({e // e ∈ rationalCapacityArcSupport C} × Fin (n + 2)) :=
+    fun i => (⟨(u i, v i), hsupp i⟩,
+      ⟨cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (F i.val))) s (u i), by
+        have hb := cached_bfs_distance_bound
+          (cacheResidualAdj (rationalFlowTableEntry C)
+            (rationalFlowTableEntry (F i.val))) s (u i)
+        omega⟩)
+  have hinj : Function.Injective key := by
+    intro a b heq
+    have hp : (u a, v a) = (u b, v b) := congrArg (fun x => x.1.val) heq
+    have hu : u a = u b := congrArg Prod.fst hp
+    have hv : v a = v b := congrArg Prod.snd hp
+    have hd : cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (F a.val))) s (u a) =
+      cachedBFSDistance (cacheResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (F b.val))) s (u b) :=
+      congrArg (fun x => x.2.val) heq
+    by_contra hn
+    have hne : a.val ≠ b.val := fun he => hn (Fin.ext he)
+    rcases lt_or_gt_of_ne hne with hab | hba
+    · have hlater : (u a, v a) ∈ rationalWalkEdges (out b.val).path := by
+        simpa only [hu, hv] using hedge b
+      have hgap := rational_successful_trace_critical_recurrence C s t k F out
+        hreturn hnext a.val b.val hab b.isLt (u a) (v a) (hedge a) (hsat a) hlater
+      rw [hu] at hd hgap
+      omega
+    · have hlater : (u b, v b) ∈ rationalWalkEdges (out a.val).path := by
+        simpa only [hu, hv] using hedge a
+      have hgap := rational_successful_trace_critical_recurrence C s t k F out
+        hreturn hnext b.val a.val hba a.isLt (u b) (v b) (hedge b) (hsat b) hlater
+      rw [hu] at hd
+      omega
+  have hcard := Fintype.card_le_of_injective key hinj
+  simpa only [Fintype.card_fin, Fintype.card_prod, Fintype.card_coe] using hcard
+
+/-- Explicit constant form of the O(VE) actual-augmentation bound. A source
+vertex already forces V positive. -/
+theorem rational_successful_trace_length_le_three_mul_vertices_edges {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (k : ℕ)
+    (F : ℕ → RationalFlowTable n) (out : ℕ → RationalAugmentResult n)
+    (hreturn : ∀ i, i < k → rationalAugmentOnce C (F i) s t = some (out i))
+    (hnext : ∀ i, i < k → F (i + 1) = (out i).flow)
+    (hcap : ∀ u v, rationalFlowTableEntry (F 0) u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry (F 0) u v =
+      -rationalFlowTableEntry (F 0) v u) :
+    k ≤ 3 * n * (rationalCapacityArcSupport C).card := by
+  have hb := rational_successful_trace_length_bound C s t k F out hreturn hnext hcap hskew
+  have hn : 0 < n := by have hs := s.isLt; omega
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalTableFlowPolynomial.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY UNCHECKED. Polynomial graph fuel for the existing actual direct
+augmentation loop. This is an augmentation-count result, with no claim about
+bit complexity of rational arithmetic or total machine runtime.
+-/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- The same direct loop can be viewed as a forward sequence of materialized
+states. This lemma identifies that sequence with executing one more attempt
+on its previous terminal state. -/
+theorem rational_table_flow_iterate_direct_succ_final {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (fuel : ℕ) :
+    rationalTableFlowIterateDirect C s t (fuel + 1) F =
+      Option.rec (rationalTableFlowIterateDirect C s t fuel F)
+        (fun out => out.flow)
+        (rationalAugmentOnce C (rationalTableFlowIterateDirect C s t fuel F) s t) := by
+  induction fuel generalizing F with
+  | zero => rfl
+  | succ fuel ih =>
+    cases ho : rationalAugmentOnce C F s t with
+    | none =>
+      rw [rational_table_flow_iterate_direct_of_none C F s t ((fuel + 1) + 1) ho,
+        rational_table_flow_iterate_direct_of_none C F s t (fuel + 1) ho, ho]
+    | some out =>
+      have hhead0 : rationalTableFlowIterateDirect C s t ((fuel + 1) + 1) F =
+          rationalTableFlowIterateDirect C s t (fuel + 1) out.flow := by
+        change Option.rec (motive := fun _ => RationalFlowTable n) F
+          (fun (result : RationalAugmentResult n) =>
+            rationalTableFlowIterateDirect C s t (fuel + 1) result.flow)
+          (rationalAugmentOnce C F s t) = _
+        rw [ho]
+      have hhead1 : rationalTableFlowIterateDirect C s t (fuel + 1) F =
+          rationalTableFlowIterateDirect C s t fuel out.flow := by
+        change Option.rec (motive := fun _ => RationalFlowTable n) F
+          (fun (result : RationalAugmentResult n) =>
+            rationalTableFlowIterateDirect C s t fuel result.flow)
+          (rationalAugmentOnce C F s t) = _
+        rw [ho]
+      rw [hhead0, hhead1]
+      exact ih out.flow
+
+theorem rational_table_flow_iterate_direct_none_persistent {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n) (i j : ℕ) (hij : i ≤ j)
+    (hn : rationalAugmentOnce C (rationalTableFlowIterateDirect C s t i F) s t = none) :
+    rationalTableFlowIterateDirect C s t j F = rationalTableFlowIterateDirect C s t i F := by
+  have haux : ∀ d, rationalTableFlowIterateDirect C s t (i + d) F =
+      rationalTableFlowIterateDirect C s t i F := by
+    intro d
+    induction d with
+    | zero => rfl
+    | succ d ih =>
+      rw [show i + (d + 1) = (i + d) + 1 by omega,
+        rational_table_flow_iterate_direct_succ_final, ih, hn]
+  have he : i + (j - i) = j := Nat.add_sub_of_le hij
+  simpa only [he] using haux (j - i)
+
+/-- Input graph size alone supplies the fuel. -/
+def rationalTableGraphFuel {n : ℕ} (C : RationalFlowTable n) : ℕ :=
+  (rationalCapacityArcSupport C).card * (n + 2) + 1
+
+/-- If the final state were still successful, every earlier state would have
+been successful too, because the actual loop stutters permanently after None.
+That would contradict the earned capacity-independent trace-count theorem. -/
+theorem rational_table_flow_graph_fuel_stops {n : ℕ}
+    (C F : RationalFlowTable n) (s t : Fin n)
+    (hcap : ∀ u v, rationalFlowTableEntry F u v ≤ rationalFlowTableEntry C u v)
+    (hskew : ∀ u v, rationalFlowTableEntry F u v = -rationalFlowTableEntry F v u) :
+    rationalAugmentOnce C
+      (rationalTableFlowIterateDirect C s t (rationalTableGraphFuel C) F) s t = none := by
+  classical
+  by_contra hn
+  let states : ℕ → RationalFlowTable n := fun i => rationalTableFlowIterateDirect C s t i F
+  let outputs : ℕ → RationalAugmentResult n := fun i =>
+    (rationalAugmentOnce C (states i) s t).getD
+      { path := [], amount := 0, flow := states i }
+  have hreturn : ∀ i, i < rationalTableGraphFuel C →
+      rationalAugmentOnce C (states i) s t = some (outputs i) := by
+    intro i hi
+    cases ho : rationalAugmentOnce C (states i) s t with
+    | none =>
+      have he := rational_table_flow_iterate_direct_none_persistent C F s t i
+        (rationalTableGraphFuel C) (le_of_lt hi) ho
+      have hn' : rationalAugmentOnce C (states (rationalTableGraphFuel C)) s t ≠ none := hn
+      have he' : states (rationalTableGraphFuel C) = states i := he
+      exact False.elim (hn' (by rw [he', ho]))
+    | some out =>
+      simp only [outputs, ho, Option.getD_some]
+  have hnext : ∀ i, i < rationalTableGraphFuel C → states (i + 1) = (outputs i).flow := by
+    intro i hi
+    change rationalTableFlowIterateDirect C s t (i + 1) F = (outputs i).flow
+    rw [rational_table_flow_iterate_direct_succ_final]
+    change Option.rec (motive := fun _ => RationalFlowTable n) (states i)
+      (fun (out : RationalAugmentResult n) => out.flow)
+      (rationalAugmentOnce C (states i) s t) = _
+    rw [hreturn i hi]
+  have hb := rational_successful_trace_length_bound C s t (rationalTableGraphFuel C)
+    states outputs hreturn hnext hcap hskew
+  unfold rationalTableGraphFuel at hb
+  omega
+
+def rationalTableFindFlowPolynomial {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) : RationalFlowTable n :=
+  rationalTableFlowIterateDirect C s t (rationalTableGraphFuel C) (rationalZeroFlowTable n)
+
+theorem rational_table_find_flow_polynomial_stops {n : ℕ} (C : RationalFlowTable n)
+    (s t : Fin n) (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    rationalAugmentOnce C (rationalTableFindFlowPolynomial C s t) s t = none := by
+  apply rational_table_flow_graph_fuel_stops C (rationalZeroFlowTable n) s t
+  · intro u v
+    simpa only [rational_zero_flow_table_entry] using hC u v
+  · intro u v
+    simp only [rational_zero_flow_table_entry, neg_zero]
+
+theorem rational_table_flow_iterate_direct_invariant {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (D : ℕ)
+    (hC : ∀ u v, RationalDenominatorLattice D (rationalFlowTableEntry C u v))
+    (fuel : ℕ) (F : RationalFlowTable n)
+    (hF : RationalTableFlowInvariant C F s t D) :
+    RationalTableFlowInvariant C (rationalTableFlowIterateDirect C s t fuel F) s t D := by
+  rw [rational_table_flow_iterate_direct_eq]
+  induction fuel generalizing F with
+  | zero => exact hF
+  | succ fuel ih =>
+    rw [rational_table_flow_iterate_succ]
+    cases ho : rationalAugmentOnce C F s t with
+    | none => exact hF
+    | some out =>
+      exact ih out.flow (rational_table_augmentation_invariant C F s t D hC hF out ho)
+
+theorem rational_table_find_flow_polynomial_invariant {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    RationalTableFlowInvariant C (rationalTableFindFlowPolynomial C s t) s t
+      (rationalCapacityDenominator (rationalFlowTableEntry C)) :=
+  rational_table_flow_iterate_direct_invariant C s t _ (rational_capacity_lattice _)
+    (rationalTableGraphFuel C) (rationalZeroFlowTable n)
+    (rational_zero_flow_table_invariant C s t _ hC)
+
+theorem rational_table_find_flow_polynomial_unreachable {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    ¬ Relation.ReflTransGen
+      (fun u v => rationalResidualAdj (rationalFlowTableEntry C)
+        (rationalFlowTableEntry (rationalTableFindFlowPolynomial C s t)) u v = true) s t :=
+  (rational_augment_once_none_iff_unreachable C (rationalTableFindFlowPolynomial C s t)
+    s t hst).mp (rational_table_find_flow_polynomial_stops C s t hC)
+
+theorem rational_table_find_flow_polynomial_maximum {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v)
+    (G : Fin n → Fin n → ℚ)
+    (hGskew : ∀ u v, G u v = -G v u)
+    (hGcap : ∀ u v, G u v ≤ rationalFlowTableEntry C u v)
+    (hGcons : ∀ u, u ≠ s → u ≠ t → (∑ v, G u v) = 0) :
+    (∑ v, G s v) ≤ rationalTableFlowValue (rationalTableFindFlowPolynomial C s t) s := by
+  have hf := rational_table_find_flow_polynomial_invariant C s t hC
+  have hn := rational_table_find_flow_polynomial_unreachable C s t hst hC
+  apply rational_residual_cut_maximum_certificate (rationalFlowTableEntry C)
+    (rationalFlowTableEntry (rationalTableFindFlowPolynomial C s t)) G
+    hf.2.1 hGskew hf.1 hGcap s t hf.2.2.1 hGcons
+  exact fun h => hn ((residual_reach_layers_iff _ s t).mp h)
+
+theorem rational_table_find_flow_polynomial_cut_certificate {n : ℕ}
+    (C : RationalFlowTable n) (s t : Fin n) (hst : s ≠ t)
+    (hC : ∀ u v, 0 ≤ rationalFlowTableEntry C u v) :
+    let F := rationalTableFindFlowPolynomial C s t
+    let S := residualReachLayers
+      (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s n
+    s ∈ S ∧ t ∉ S ∧
+      rationalTableFlowValue F s = ∑ u ∈ S, ∑ v ∈ Sᶜ, rationalFlowTableEntry C u v := by
+  dsimp only
+  let F := rationalTableFindFlowPolynomial C s t
+  let S := residualReachLayers
+    (rationalResidualAdj (rationalFlowTableEntry C) (rationalFlowTableEntry F)) s n
+  have hf := rational_table_find_flow_polynomial_invariant C s t hC
+  have hs : s ∈ S := residual_reach_layers_mono _ s (Nat.zero_le n)
+    (Finset.mem_singleton_self s)
+  have ht : t ∉ S := fun h => (rational_table_find_flow_polynomial_unreachable C s t hst hC)
+    ((residual_reach_layers_iff _ s t).mp h)
+  refine ⟨hs, ht, ?_⟩
+  have hv := rational_net_flow_cut_value (rationalFlowTableEntry F) hf.2.1 s t S hs ht hf.2.2.1
+  have hsat := rational_residual_reachable_cut_saturated (rationalFlowTableEntry C)
+    (rationalFlowTableEntry F) hf.1 s
+  exact hv.trans hsat
+
+end SparseCompletion
+
+/- Fixed source body: RationalDemandNetwork.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Actual demand-network table and cut reduction. No polynomial runtime claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def demandSource (m : ℕ) : Fin (m+2) := Fin.last (m+1)
+def demandSink (m : ℕ) : Fin (m+2) := (Fin.last m).castSucc
+def demandInternal {m : ℕ} (i : Fin m) : Fin (m+2) := i.castSucc.castSucc
+
+def rationalDemandCapacity {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : Fin (m+2) → Fin (m+2) → ℚ :=
+  Fin.lastCases (Fin.lastCases 0 (Fin.lastCases 0 (fun j => max (d j) 0)))
+    (Fin.lastCases (fun _ => 0)
+      (fun i => Fin.lastCases 0 (Fin.lastCases (max (-d i) 0) (c i))))
+
+def rationalDemandTable {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : RationalFlowTable (m+2) :=
+  Vector.ofFn fun u => Vector.ofFn fun v => rationalDemandCapacity d c u v
+
+@[simp] theorem rational_demand_table_entry {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (u v : Fin (m+2)) :
+    rationalFlowTableEntry (rationalDemandTable d c) u v =
+      rationalDemandCapacity d c u v := by
+  simp [rationalFlowTableEntry, rationalDemandTable, cached_vector_get_ofFn]
+
+@[simp] theorem demand_capacity_source_internal {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i : Fin m) :
+    rationalDemandCapacity d c (demandSource m) (demandInternal i) = max (d i) 0 := by
+  simp [rationalDemandCapacity, demandSource, demandInternal]
+@[simp] theorem demand_capacity_internal_sink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i : Fin m) :
+    rationalDemandCapacity d c (demandInternal i) (demandSink m) = max (-d i) 0 := by
+  simp [rationalDemandCapacity, demandSink, demandInternal]
+@[simp] theorem demand_capacity_internal_internal {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i j : Fin m) :
+    rationalDemandCapacity d c (demandInternal i) (demandInternal j) = c i j := by
+  simp [rationalDemandCapacity, demandInternal]
+@[simp] theorem demand_capacity_to_source {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (u : Fin (m+2)) :
+    rationalDemandCapacity d c u (demandSource m) = 0 := by
+  induction u using Fin.lastCases with
+  | last => simp [rationalDemandCapacity, demandSource]
+  | cast u =>
+    induction u using Fin.lastCases <;> simp [rationalDemandCapacity, demandSource]
+@[simp] theorem demand_capacity_from_sink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (v : Fin (m+2)) :
+    rationalDemandCapacity d c (demandSink m) v = 0 := by
+  simp [rationalDemandCapacity, demandSink]
+@[simp] theorem demand_capacity_source_sink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) :
+    rationalDemandCapacity d c (demandSource m) (demandSink m) = 0 := by
+  simp [rationalDemandCapacity, demandSource, demandSink]
+
+theorem demand_nodes_sum {m : ℕ} (f : Fin (m+2) → ℚ) :
+    (∑ v, f v) = (∑ i, f (demandInternal i)) +
+      f (demandSink m) + f (demandSource m) := by
+  rw [Fin.sum_univ_castSucc, Fin.sum_univ_castSucc]
+  rfl
+
+def demandInternalSet {m : ℕ} (T : Finset (Fin (m+2))) : Finset (Fin m) :=
+  Finset.univ.filter (fun i => demandInternal i ∈ T)
+
+@[simp] theorem mem_demand_internal_set {m : ℕ} (T : Finset (Fin (m+2))) (i : Fin m) :
+    i ∈ demandInternalSet T ↔ demandInternal i ∈ T := by simp [demandInternalSet]
+
+theorem demand_nodes_subset_sum {m : ℕ} (T : Finset (Fin (m+2)))
+    (f : Fin (m+2) → ℚ) :
+    (∑ v ∈ T, f v) = (∑ i ∈ demandInternalSet T, f (demandInternal i)) +
+      (if demandSink m ∈ T then f (demandSink m) else 0) +
+      (if demandSource m ∈ T then f (demandSource m) else 0) := by
+  classical
+  have h : (∑ v ∈ T, f v) = ∑ v, if v ∈ T then f v else 0 := by
+    simp
+  rw [h, demand_nodes_sum]
+  simp [demandInternalSet, Finset.sum_filter]
+
+theorem demand_internal_set_compl {m : ℕ} (T : Finset (Fin (m+2))) :
+    demandInternalSet Tᶜ = (demandInternalSet T)ᶜ := by
+  ext i
+  simp
+
+theorem rational_demand_capacity_nonneg {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j) :
+    ∀ u v, 0 ≤ rationalDemandCapacity d c u v := by
+  intro u v
+  induction u using Fin.lastCases with
+  | last =>
+    induction v using Fin.lastCases with
+    | last => simp [rationalDemandCapacity]
+    | cast v =>
+      induction v using Fin.lastCases <;> simp [rationalDemandCapacity]
+  | cast u =>
+    induction u using Fin.lastCases with
+    | last => simp [rationalDemandCapacity]
+    | cast i =>
+      induction v using Fin.lastCases with
+      | last => simp [rationalDemandCapacity]
+      | cast v =>
+        induction v using Fin.lastCases <;> simp [rationalDemandCapacity, hc]
+
+theorem rational_demand_table_cut {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (T : Finset (Fin (m+2)))
+    (hs : demandSource m ∈ T) (ht : demandSink m ∉ T) :
+    (∑ u ∈ T, ∑ v ∈ Tᶜ, rationalFlowTableEntry (rationalDemandTable d c) u v) =
+      rationalDemandNetworkCut d c (demandInternalSet T) := by
+  classical
+  simp only [rational_demand_table_entry]
+  rw [demand_nodes_subset_sum T]
+  simp only [hs, ht, ite_true, ite_false, add_zero]
+  simp_rw [demand_nodes_subset_sum Tᶜ, demand_internal_set_compl]
+  simp only [Finset.mem_compl, hs, ht, not_true_eq_false, not_false_eq_true,
+    ite_true, ite_false, demand_capacity_to_source,
+    demand_capacity_source_sink, demand_capacity_internal_sink,
+    demand_capacity_internal_internal, demand_capacity_source_internal,
+    add_zero]
+  unfold rationalDemandNetworkCut
+  rw [Finset.sum_add_distrib]
+  ring
+
+@[simp] theorem demand_source_ne_sink (m : ℕ) : demandSource m ≠ demandSink m := by
+  intro h
+  have hv := congrArg Fin.val h
+  simp only [demandSource, demandSink, Fin.val_last, Fin.val_castSucc] at hv
+  omega
+@[simp] theorem demand_internal_ne_source {m : ℕ} (i : Fin m) :
+    demandInternal i ≠ demandSource m := by simp [demandInternal, demandSource]
+@[simp] theorem demand_internal_ne_sink {m : ℕ} (i : Fin m) :
+    demandInternal i ≠ demandSink m := by simp [demandInternal, demandSink]
+
+theorem rational_demand_source_upper {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) :
+    rationalTableFlowUpper (rationalDemandTable d c) (demandSource m) =
+      ∑ i, max (d i) 0 := by
+  unfold rationalTableFlowUpper
+  simp only [rational_demand_table_entry]
+  rw [demand_nodes_sum]
+  simp
+
+def rationalDemandFindTable {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : RationalFlowTable (m+2) :=
+  rationalTableFindFlowDirect (rationalDemandTable d c) (demandSource m) (demandSink m)
+
+def rationalDemandFindArc {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i j : Fin m) : ℚ :=
+  rationalPositiveNetFlow (rationalFlowTableEntry (rationalDemandFindTable d c))
+    (demandInternal i) (demandInternal j)
+
+def rationalDemandFindSink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i : Fin m) : ℚ :=
+  rationalPositiveNetFlow (rationalFlowTableEntry (rationalDemandFindTable d c))
+    (demandInternal i) (demandSink m)
+
+theorem rational_demand_find_source_value {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j) :
+    rationalTableFlowValue (rationalDemandFindTable d c) (demandSource m) =
+      ∑ i, max (d i) 0 := by
+  have hC : ∀ u v, 0 ≤ rationalFlowTableEntry (rationalDemandTable d c) u v := by
+    simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+  have hf := (rational_table_find_flow_direct_stops (rationalDemandTable d c)
+    (demandSource m) (demandSink m) hC).1
+  have hcert := rational_table_find_flow_direct_cut_certificate (rationalDemandTable d c)
+    (demandSource m) (demandSink m) (demand_source_ne_sink m) hC
+  dsimp only at hcert
+  obtain ⟨hs, ht, he⟩ := hcert
+  rw [rational_demand_table_cut d c _ hs ht] at he
+  let T := residualReachLayers
+    (rationalResidualAdj (rationalFlowTableEntry (rationalDemandTable d c))
+      (rationalFlowTableEntry (rationalDemandFindTable d c))) (demandSource m) (m+2)
+  have hlo := (rational_demand_network_cuts_iff d c).mpr hcuts (demandInternalSet T)
+  have hhi := rational_table_flow_source_upper _ _ _ _ _ hf
+  rw [rational_demand_source_upper] at hhi
+  change rationalTableFlowValue (rationalDemandFindTable d c) (demandSource m) ≤ _ at hhi
+  change rationalTableFlowValue (rationalDemandFindTable d c) (demandSource m) =
+    rationalDemandNetworkCut d c (demandInternalSet T) at he
+  exact le_antisymm hhi (he ▸ hlo)
+
+theorem rational_demand_find_source_saturated {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j)
+    (i : Fin m) :
+    rationalFlowTableEntry (rationalDemandFindTable d c) (demandSource m)
+      (demandInternal i) = max (d i) 0 := by
+  have hC : ∀ u v, 0 ≤ rationalFlowTableEntry (rationalDemandTable d c) u v := by
+    simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+  have hf := (rational_table_find_flow_direct_stops (rationalDemandTable d c)
+    (demandSource m) (demandSink m) hC).1
+  have hsum : (∑ v, (rationalFlowTableEntry (rationalDemandTable d c) (demandSource m) v -
+      rationalFlowTableEntry (rationalDemandFindTable d c) (demandSource m) v)) = 0 := by
+    rw [Finset.sum_sub_distrib]
+    change rationalTableFlowUpper (rationalDemandTable d c) (demandSource m) -
+      rationalTableFlowValue (rationalDemandFindTable d c) (demandSource m) = 0
+    rw [rational_demand_source_upper, rational_demand_find_source_value d c hc hcuts, sub_self]
+  have hz := (Finset.sum_eq_zero_iff_of_nonneg
+    (fun v (_ : v ∈ (Finset.univ : Finset (Fin (m+2)))) =>
+      sub_nonneg.mpr (hf.1 (demandSource m) v))).mp hsum
+  have hi := hz (demandInternal i) (Finset.mem_univ _)
+  simp only [rational_demand_table_entry, demand_capacity_source_internal] at hi
+  change max (d i) 0 - rationalFlowTableEntry (rationalDemandFindTable d c)
+    (demandSource m) (demandInternal i) = 0 at hi
+  exact (sub_eq_zero.mp hi).symm
+
+theorem rational_demand_find_saturated {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j) :
+    RationalSaturatedFlow d c (rationalDemandFindArc d c) (rationalDemandFindSink d c) := by
+  let F := rationalFlowTableEntry (rationalDemandFindTable d c)
+  let P := rationalPositiveNetFlow F
+  have hC : ∀ u v, 0 ≤ rationalFlowTableEntry (rationalDemandTable d c) u v := by
+    simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+  have hf := (rational_table_find_flow_direct_stops (rationalDemandTable d c)
+    (demandSource m) (demandSink m) hC).1
+  have hpb : ∀ u v, 0 ≤ P u v ∧ P u v ≤ rationalDemandCapacity d c u v := by
+    intro u v
+    simpa only [rational_demand_table_entry] using
+      rational_positive_net_flow_bounds _ F hC hf.1 u v
+  have hpzero : ∀ u v, rationalDemandCapacity d c u v = 0 → P u v = 0 := by
+    intro u v hz
+    exact le_antisymm (hz ▸ (hpb u v).2) (hpb u v).1
+  have hp_source : ∀ i, P (demandSource m) (demandInternal i) = max (d i) 0 := by
+    intro i
+    dsimp [P, F, rationalPositiveNetFlow]
+    rw [rational_demand_find_source_saturated d c hc hcuts]
+    exact max_eq_left (le_max_right _ _)
+  refine ⟨?_, ?_, ?_⟩
+  · intro i
+    change 0 ≤ P (demandInternal i) (demandSink m) ∧
+      P (demandInternal i) (demandSink m) ≤ max (-d i) 0
+    simpa only [demand_capacity_internal_sink] using hpb (demandInternal i) (demandSink m)
+  · intro i j
+    change 0 ≤ P (demandInternal i) (demandInternal j) ∧
+      P (demandInternal i) (demandInternal j) ≤ c i j
+    simpa only [demand_capacity_internal_internal] using hpb (demandInternal i) (demandInternal j)
+  · intro i
+    have hdiv := rational_positive_net_flow_divergence F hf.2.1 (demandInternal i)
+    have hcons : (∑ v, F (demandInternal i) v) = 0 :=
+      hf.2.2.1 (demandInternal i) (demand_internal_ne_source i) (demand_internal_ne_sink i)
+    rw [hcons] at hdiv
+    rw [demand_nodes_sum, demand_nodes_sum] at hdiv
+    have h_is := hpzero (demandInternal i) (demandSource m)
+      (demand_capacity_to_source d c _)
+    have h_ti := hpzero (demandSink m) (demandInternal i)
+      (demand_capacity_from_sink d c _)
+    change (∑ j, P (demandInternal i) (demandInternal j)) +
+      P (demandInternal i) (demandSink m) + P (demandInternal i) (demandSource m) -
+      ((∑ j, P (demandInternal j) (demandInternal i)) +
+      P (demandSink m) (demandInternal i) + P (demandSource m) (demandInternal i)) = 0 at hdiv
+    rw [h_is, h_ti, hp_source i] at hdiv
+    change max (d i) 0 + (∑ j, P (demandInternal j) (demandInternal i)) =
+      P (demandInternal i) (demandSink m) + ∑ j, P (demandInternal i) (demandInternal j)
+    linarith
+
+def rationalDemandCompletion {m : ℕ} (q t : Fin m → ℚ) (M ε : ℚ) :
+    Fin m → Fin m → ℚ :=
+  rationalFlowDecodeWithZeros q
+    (rationalDemandFindArc (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)) M
+
+theorem rational_demand_completion_sound {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hr : (∑ i, q i) = r)
+    (hg : ∀ i, t i ≤ ε+M*r)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, q i*(t i-ε)) ≤
+      ∑ i ∈ S, ∑ j ∈ Sᶜ, M*q i*q j) :
+    ResidualRatConditions q t M ε (rationalDemandCompletion q t M ε) := by
+  exact rational_saturated_flow_completion_with_zeros q t _ _ M r ε hM hq hr hg
+    (rational_demand_find_saturated _ _
+      (fun i j => mul_nonneg (mul_nonneg hM (hq i)) (hq j)) hcuts)
+
+/-- Finite data payload. The constructor binds the actual returned net table
+before materializing every internal arc and sink entry. Consumers should bind
+this payload once and read its vectors, rather than call a getter afresh. -/
+structure RationalDemandFlowPayload (m : ℕ) where
+  net : RationalFlowTable (m+2)
+  arcF : RationalFlowTable m
+  sinkY : Vector ℚ m
+
+def rationalDemandFindPayload {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : RationalDemandFlowPayload m :=
+  let net := rationalDemandFindTable d c
+  let P := rationalPositiveNetFlow (rationalFlowTableEntry net)
+  { net := net
+    arcF := Vector.ofFn fun i => Vector.ofFn fun j => P (demandInternal i) (demandInternal j)
+    sinkY := Vector.ofFn fun i => P (demandInternal i) (demandSink m) }
+
+@[simp] theorem rational_demand_payload_arc {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i j : Fin m) :
+    rationalFlowTableEntry (rationalDemandFindPayload d c).arcF i j =
+      rationalDemandFindArc d c i j := by
+  simp [rationalFlowTableEntry, rationalDemandFindPayload, rationalDemandFindArc,
+    cached_vector_get_ofFn]
+
+@[simp] theorem rational_demand_payload_sink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i : Fin m) :
+    (rationalDemandFindPayload d c).sinkY.get i = rationalDemandFindSink d c i := by
+  simp [rationalDemandFindPayload, rationalDemandFindSink, cached_vector_get_ofFn]
+
+/-- The executable matrix-producing interface. The net finder is run in the
+payload construction, followed by finite materialization of the decoded matrix.
+No per-operation or polynomial bit-runtime bound is claimed. -/
+def rationalDemandCompletionTable {m : ℕ} (q t : Fin m → ℚ) (M ε : ℚ) :
+    RationalFlowTable m :=
+  let payload := rationalDemandFindPayload (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)
+  Vector.ofFn fun i => Vector.ofFn fun j =>
+    rationalFlowDecodeWithZeros q (rationalFlowTableEntry payload.arcF) M i j
+
+theorem rational_demand_completion_table_entry {m : ℕ} (q t : Fin m → ℚ)
+    (M ε : ℚ) (i j : Fin m) :
+    rationalFlowTableEntry (rationalDemandCompletionTable q t M ε) i j =
+      rationalDemandCompletion q t M ε i j := by
+  simp only [rationalDemandCompletionTable, rationalFlowTableEntry, cached_vector_get_ofFn]
+  have harc : rationalFlowTableEntry
+      (rationalDemandFindPayload (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)).arcF =
+      rationalDemandFindArc (fun i => q i*(t i-ε)) (fun i j => M*q i*q j) := by
+    funext u v
+    exact rational_demand_payload_arc _ _ u v
+  change rationalFlowDecodeWithZeros q
+      (rationalFlowTableEntry (rationalDemandFindPayload
+        (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)).arcF) M i j = _
+  rw [harc]
+  rfl
+
+theorem rational_demand_completion_table_sound {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hr : (∑ i, q i) = r)
+    (hg : ∀ i, t i ≤ ε+M*r)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, q i*(t i-ε)) ≤
+      ∑ i ∈ S, ∑ j ∈ Sᶜ, M*q i*q j) :
+    ResidualRatConditions q t M ε
+      (rationalFlowTableEntry (rationalDemandCompletionTable q t M ε)) := by
+  have he : rationalFlowTableEntry (rationalDemandCompletionTable q t M ε) =
+      rationalDemandCompletion q t M ε := by
+    funext i j
+    exact rational_demand_completion_table_entry q t M ε i j
+  rw [he]
+  exact rational_demand_completion_sound q t M r ε hM hq hr hg hcuts
+
+end SparseCompletion
+
+/- Fixed source body: RationalCanonicalGrid.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate development draft. No polynomial complexity claim. -/
+@[expose] public section
+namespace SparseCompletion
+
+/-- Exact integer implementation of ceil(sqrt(a)). The comparison distinguishes
+the perfect-square boundary that the older unconditional `sqrt(ceil(a))+1` misses. -/
+def rationalCeilSqrt (a : ℚ) : ℕ :=
+  let s := Nat.sqrt (Nat.ceil a)
+  if a ≤ (s : ℚ)^2 then s else s+1
+
+theorem rational_ceil_sqrt_bound (a : ℚ) :
+    a ≤ (rationalCeilSqrt a : ℚ)^2 := by
+  dsimp only [rationalCeilSqrt]
+  split
+  · assumption
+  · have h := Nat.le_ceil a
+    have hs : (Nat.ceil a : ℚ) < ((Nat.sqrt (Nat.ceil a)+1 : ℕ) : ℚ)^2 := by
+      exact_mod_cast Nat.lt_succ_sqrt' (Nat.ceil a)
+    exact le_of_lt (lt_of_le_of_lt h hs)
+
+theorem rational_ceil_sqrt_minimal (a : ℚ) (n : ℕ) (hn : a ≤ (n : ℚ)^2) :
+    rationalCeilSqrt a ≤ n := by
+  have hc : Nat.ceil a ≤ n^2 := Nat.ceil_le.mpr (by exact_mod_cast hn)
+  have hs : Nat.sqrt (Nat.ceil a) ≤ n := by
+    simpa only [Nat.sqrt_eq'] using Nat.sqrt_le_sqrt hc
+  dsimp only [rationalCeilSqrt]
+  split
+  · exact hs
+  · have hne : Nat.sqrt (Nat.ceil a) ≠ n := by
+      intro he
+      subst n
+      contradiction
+    omega
+
+theorem rational_ceil_sqrt_real (a : ℚ) (ha : 0 ≤ a) :
+    rationalCeilSqrt a = Nat.ceil (Real.sqrt (a : ℝ)) := by
+  apply Nat.le_antisymm
+  · apply rational_ceil_sqrt_minimal
+    have hroot := Real.sq_sqrt (show (0 : ℝ) ≤ (a : ℝ) by exact_mod_cast ha)
+    have hc := Nat.le_ceil (Real.sqrt (a : ℝ))
+    have hh : (a : ℝ) ≤ (Nat.ceil (Real.sqrt (a : ℝ)) : ℝ)^2 := by
+      nlinarith [Real.sqrt_nonneg (a : ℝ)]
+    exact_mod_cast hh
+  · apply Nat.ceil_le.mpr
+    apply (Real.sqrt_le_left (Nat.cast_nonneg _)).mpr
+    exact_mod_cast rational_ceil_sqrt_bound a
+
+def rationalCanonicalGridSize (M r η : ℚ) : ℕ := rationalCeilSqrt (M*r/η)
+
+theorem rational_canonical_grid_size_real (M r η : ℚ)
+    (hM : 0 ≤ M) (hr : 0 ≤ r) (hη : 0 < η) :
+    rationalCanonicalGridSize M r η = gridSize (M : ℝ) (r : ℝ) (η : ℝ) := by
+  rw [rationalCanonicalGridSize, rational_ceil_sqrt_real _
+    (div_nonneg (mul_nonneg hM hr) (le_of_lt hη))]
+  unfold gridSize
+  congr 2
+  push_cast
+  rfl
+
+theorem rational_canonical_grid_size_bound (M r η : ℚ) (hη : 0 < η) :
+    M*r ≤ η*(rationalCanonicalGridSize M r η : ℚ)^2 := by
+  have h := (div_le_iff₀ hη).mp (rational_ceil_sqrt_bound (M*r/η))
+  change M*r ≤ η*(rationalCeilSqrt (M*r/η) : ℚ)^2
+  nlinarith
+
+end SparseCompletion
+
+/- Fixed source body: RationalPaperFeatures.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate development draft. Actual FM compressor; no polynomial bound. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Mass occurs exactly once, followed by k anchors, d extra moments and L
+hinges. L=H is general; L=H-1 is the exact-equilibrium specialization. -/
+def rationalPaperFeatures {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) :
+    Fin (k+(d+L)+1) → Fin m → ℚ :=
+  Fin.cons (α := fun _ => Fin m → ℚ) (fun _ => 1)
+    (Fin.append (fun a i => D i a)
+      (Fin.append E (fun l i => max (v i-(M*r-rationalGridNode M r η (l.val+1))) 0)))
+
+def rationalPaperCompress {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) :
+    Fin m → ℚ := rationalFeatureCompress (rationalPaperFeatures D E v M r η L) q
+
+/-- All retained features and original zeros belong to the exact executed
+output. The support bound includes the single normalization coordinate. -/
+theorem rational_paper_compress_contract {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) (hq : ∀ i, 0 ≤ q i) :
+    let q' := rationalPaperCompress D E q v M r η L
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i) = ∑ i, q i ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ min (rationalWeightSupport q).card (k+d+L+1) ∧
+      (∀ a, (∑ i, q' i*D i a) = ∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i) = ∑ i, q i*E a i) ∧
+      ∀ l : Fin L,
+        rationalCall q' v (M*r-rationalGridNode M r η (l.val+1)) =
+          rationalCall q v (M*r-rationalGridNode M r η (l.val+1)) := by
+  obtain ⟨hp, _, hc⟩ := rational_feature_compress_contract
+    (rationalPaperFeatures D E v M r η L) q hq 0 (fun _ => rfl)
+  refine ⟨hp.1, hp.2.1, hp.2.2.2, (by simpa only [rationalPaperCompress, Nat.add_assoc] using hc), ?_, ?_, ?_⟩
+  · intro a
+    simpa [rationalPaperCompress, rationalPaperFeatures] using hp.2.2.1 (Fin.castAdd (d+L) a).succ
+  · intro a
+    simpa [rationalPaperCompress, rationalPaperFeatures] using
+      hp.2.2.1 (Fin.natAdd k (Fin.castAdd L a)).succ
+  · intro l
+    simpa [rationalPaperCompress, rationalPaperFeatures, rationalCall] using
+      hp.2.2.1 (Fin.natAdd k (Fin.natAdd d l)).succ
+
+end SparseCompletion
+
+/- Fixed source body: RationalPaperCuts.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. These theorems analyze the actual rational output. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_paper_real_contract {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M r η : ℚ) (L : ℕ) (hq : ∀ i, 0 ≤ q i)
+    (hm : ∑ i, q i=r) :
+    let q' := rationalPaperCompress D E q v M r η L
+    (∀ i, (0 : ℝ) ≤ (q' i : ℝ)) ∧ (∑ i, (q' i : ℝ))=(r : ℝ) ∧
+      (∀ i, (q i : ℝ)=0 → (q' i : ℝ)=0) ∧
+      (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card ≤ k+d+L+1 ∧
+      (∀ a, (∑ i, (q' i : ℝ)*(D i a : ℝ)) = ∑ i, (q i : ℝ)*(D i a : ℝ)) ∧
+      (∀ a, (∑ i, q' i*E a i) = ∑ i, q i*E a i) ∧
+      ∀ l : Fin L,
+        call (fun i => (q' i : ℝ)) (fun i => (v i : ℝ))
+            ((M : ℝ)*(r : ℝ)-gridNode (M : ℝ) (r : ℝ) (η : ℝ) (l.val+1)) =
+          call (fun i => (q i : ℝ)) (fun i => (v i : ℝ))
+            ((M : ℝ)*(r : ℝ)-gridNode (M : ℝ) (r : ℝ) (η : ℝ) (l.val+1)) := by
+  obtain ⟨hn, hs, hz, hc, ha, he, hh⟩ :=
+    rational_paper_compress_contract D E q v M r η L hq
+  refine ⟨fun i => by exact_mod_cast hn i, ?_, ?_, ?_, ?_, he, ?_⟩
+  · exact_mod_cast hs.trans hm
+  · intro i hi
+    have hqi : q i=0 := by exact_mod_cast hi
+    exact_mod_cast hz i hqi
+  · have hsupport : (Finset.univ.filter fun i =>
+        ((rationalPaperCompress D E q v M r η L) i : ℝ) ≠ 0) =
+        rationalWeightSupport (rationalPaperCompress D E q v M r η L) := by
+      ext i
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, rationalWeightSupport,
+        Rat.cast_ne_zero]
+    rw [hsupport]
+    exact le_trans hc (min_le_right _ _)
+  · intro a
+    exact_mod_cast ha a
+  · intro l
+    have h := congrArg (fun z : ℚ => (z : ℝ)) (hh l)
+    simpa only [rational_call_real, Rat.cast_sub, Rat.cast_mul, rational_grid_node_real] using h
+
+theorem rational_paper_compress_cuts {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M r η : ℚ) (H : ℕ)
+    (hM : 0 < M) (hr : 0 ≤ r) (hη : 0 < η)
+    (hH : M*r ≤ η*(H : ℚ)^2) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hcuts : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ)) (fun i => (v i : ℝ))) :
+    let q' := rationalPaperCompress D E q v M r η H
+    Cuts (M : ℝ) (r : ℝ) (fun i => (q' i : ℝ)) (fun i => (v i : ℝ)-(η : ℝ)) := by
+  obtain ⟨hn, hmass, hz, _, _, _, hh⟩ := rational_paper_real_contract D E q v M r η H hq hm
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) ≤ (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hHR : (M : ℝ)*(r : ℝ) ≤ (η : ℝ)*(H : ℝ)^2 := by exact_mod_cast hH
+  apply call_bound_implies_cuts _ _ _ _ hMR hn hmass
+  apply finite_grid_implication _ _ _ _ _ H hMR hrR hηR hHR hn
+  · intro i hi
+    exact supported_score_cap _ _ _ _ hMR (fun i => by exact_mod_cast hq i)
+      hcuts i (fun hzero => hi (hz i hzero))
+  · intro l hl hlH
+    let j : Fin H := ⟨l-1, by omega⟩
+    have hj : j.val+1=l := by dsimp [j]; omega
+    have he := hh j
+    rw [hj] at he
+    rw [he]
+    exact cuts_imply_call_bound _ _ _ _ hMR hcuts _
+
+theorem rational_paper_exact_compress_cuts {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ) (H : ℕ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hH : M*r ≤ η*(H : ℚ)^2) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hcuts : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ))
+      (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))))
+    (hmean : ∑ i, (q i : ℝ)*score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i=0)
+    (hlow : ∀ i, q i ≠ 0 → -(M : ℝ)*(r : ℝ) ≤
+      score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i) :
+    let q' := rationalPaperCompress D E q (rationalScore D p) M r η (H-1)
+    (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card ≤ k+d+H ∧
+      Cuts (M : ℝ) (r : ℝ) (fun i => (q' i : ℝ))
+        (fun i => score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-(η : ℝ)) := by
+  obtain ⟨hn, hmass, hz, hc, ha, _, hh⟩ :=
+    rational_paper_real_contract D E q (rationalScore D p) M r η (H-1) hq hm
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) < (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hHR : (M : ℝ)*(r : ℝ) ≤ (η : ℝ)*(H : ℝ)^2 := by exact_mod_cast hH
+  have hHpos : 0 < H := by
+    by_contra h
+    have hzero : H=0 := by omega
+    simp only [hzero, Nat.cast_zero, zero_pow (by decide : 2 ≠ 0), mul_zero] at hHR
+    nlinarith [mul_pos hMR hrR]
+  refine ⟨by omega, ?_⟩
+  apply call_bound_implies_cuts _ _ _ _ hMR hn hmass
+  apply finite_grid_implication _ _ _ _ _ H hMR (le_of_lt hrR) hηR hHR hn
+  · intro i hi
+    exact supported_score_cap _ _ _ _ hMR (fun i => by exact_mod_cast hq i)
+      hcuts i (fun hzero => hi (hz i hzero))
+  · intro l hl hlH
+    by_cases hlast : l=H
+    · subst l
+      have hnode : gridNode (M : ℝ) (r : ℝ) (η : ℝ) H=2*(M : ℝ)*(r : ℝ) :=
+        min_eq_right (by nlinarith)
+      rw [hnode]
+      have harg : (M : ℝ)*(r : ℝ)-2*(M : ℝ)*(r : ℝ)=-(M : ℝ)*(r : ℝ) := by ring
+      rw [harg]
+      have hmean' : (∑ i,
+          (rationalPaperCompress D E q (rationalScore D p) M r η (H-1) i : ℝ)*
+            score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i)=0 :=
+        (linear_score_moment_preserved k _ (fun a => (p a : ℝ))
+          (fun i => (q i : ℝ)) _
+          (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))) (fun _ => rfl) ha).trans hmean
+      rw [bottom_call_of_zero_mean _ _ _ _ hmass hmean' (fun i hi =>
+        hlow i (fun hzero => hi (hz i (by exact_mod_cast hzero))))]
+      have he : envelope (M : ℝ) (r : ℝ) (-(M : ℝ)*(r : ℝ)) = (M : ℝ)*(r : ℝ)^2 := by
+        unfold envelope
+        field_simp
+        ring
+      rw [he]
+    · let j : Fin (H-1) := ⟨l-1, by omega⟩
+      have hj : j.val+1=l := by dsimp [j]; omega
+      have he := hh j
+      simp only [rational_score_real] at he
+      rw [hj] at he
+      rw [he]
+      exact cuts_imply_call_bound _ _ _ _ hMR hcuts _
+
+end SparseCompletion
+
+/- Fixed source body: RationalPaperWitness.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Separate source draft. Rational weights are executed by the FM compressor;
+the Real bounded completion uses the existing proved sufficiency theorem.
+No polynomial runtime or executable completion matrix is claimed here. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalPaperGeneral {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : Fin m → ℚ :=
+  rationalPaperCompress D E q (fun i => rationalScore D p i-ρ) M r η
+    (rationalCanonicalGridSize M r η)
+
+def rationalPaperExact {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r η : ℚ) : Fin m → ℚ :=
+  rationalPaperCompress D E q (rationalScore D p) M r η
+    (rationalCanonicalGridSize M r η-1)
+
+/-- The supplied original witness justifies all cuts and global guards. The
+returned game uses exactly the rational vector computed from that same input,
+on the original labels, with one eta slack and d preserved extra moments. -/
+theorem rational_paper_general_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let q' := rationalPaperGeneral D E p q M r ρ η
+    ∃ B' : Fin m → Fin m → ℝ,
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew B' ∧ (∀ i j, -(M : ℝ) ≤ B' i j ∧ B' i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  let H := rationalCanonicalGridSize M r η
+  let v : Fin m → ℚ := fun i => rationalScore D p i-ρ
+  let q' := rationalPaperCompress D E q v M r η H
+  have hr : 0 ≤ r := by rw [←hm]; exact Finset.sum_nonneg (fun i _ => hq i)
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hqR : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := fun i => by exact_mod_cast hq i
+  have hmR : ∑ i, (q i : ℝ)=(r : ℝ) := by exact_mod_cast hm
+  have hres := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).2
+  have hcuts := completion_cuts_necessary _ _ B _ _ _ hqR hmR hB
+    (fun i j => (hb i j).1) hres
+  have hv : ∀ i, (v i : ℝ)=score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-(ρ : ℝ) := by
+    intro i
+    simp only [v, Rat.cast_sub, rational_score_real]
+  have hcutsV : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ)) (fun i => (v i : ℝ)) := by
+    simpa only [hv] using hcuts
+  obtain ⟨hn, hmass, hz, hc, ha, he, _⟩ :=
+    rational_paper_compress_contract D E q v M r η H hq
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hm'R : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass.trans hm
+  have hc' := rational_paper_compress_cuts D E q v M r η H hM hr hη
+    (rational_canonical_grid_size_bound M r η hη) hq hm hcutsV
+  have hshift : (fun i => (v i : ℝ)-(η : ℝ)) =
+      (fun i => score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i-((ρ : ℝ)+(η : ℝ))) := by
+    funext i
+    rw [hv]
+    ring
+  rw [hshift] at hc'
+  have hguard : ∀ i, score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i ≤
+      (ρ : ℝ)+(η : ℝ)+(M : ℝ)*(r : ℝ) := by
+    intro i
+    have hg := response_guard _ _ B _ _ _ hqR hmR (fun i j => (hb i j).1) hres i
+    linarith
+  obtain ⟨B', hsk, hbound, hresp⟩ := completion_of_cuts_and_guards
+    (fun i => (q' i : ℝ)) (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)))
+    (M : ℝ) (r : ℝ) ((ρ : ℝ)+(η : ℝ)) (le_of_lt hMR) hq'R hm'R hc' hguard
+  refine ⟨B', hn, hmass.trans hm, hz, ?_, ha, he, hsk, hbound, ?_⟩
+  · have hcanonical := rational_canonical_grid_size_real M r η (le_of_lt hM) hr hη
+    simpa only [rationalPaperGeneral, H, v, hcanonical, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using hc
+  · apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+    refine ⟨?_, hresp⟩
+    have hanchor := anchor_response_of_moments k K (fun i a => (D i a : ℝ))
+      (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) (fun i => (q' i : ℝ))
+      (fun a => by exact_mod_cast ha a)
+    intro a
+    change anchorResponse K (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))
+      (fun i => (q' i : ℝ)) a ≤ _
+    rw [hanchor]
+    have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).1 a
+    linarith
+
+/-- Exact-equilibrium specialization earns the endpoint identity from the
+original game. No bottom-hinge premise is passed to the compressor or wrapper. -/
+theorem rational_paper_exact_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let q' := rationalPaperExact D E p q M r η
+    ∃ B' : Fin m → Fin m → ℝ,
+      (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew B' ∧ (∀ i j, -(M : ℝ) ≤ B' i j ∧ B' i j ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  let H := rationalCanonicalGridSize M r η
+  let q' := rationalPaperCompress D E q (rationalScore D p) M r η (H-1)
+  have hMR : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hM
+  have hrR : (0 : ℝ) < (r : ℝ) := by exact_mod_cast hr
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  have hpR : ∀ a, (0 : ℝ) ≤ (p a : ℝ) := fun a => by exact_mod_cast hp a
+  have hqR : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := fun i => by exact_mod_cast hq i
+  have hmR : ∑ i, (q i : ℝ)=(r : ℝ) := by exact_mod_cast hm
+  have hres := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).2
+  have hcuts0 := completion_cuts_necessary _ _ B _ _ _ hqR hmR hB
+    (fun i j => (hb i j).1) hres
+  have hcuts : Cuts (M : ℝ) (r : ℝ) (fun i => (q i : ℝ))
+      (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))) := by
+    simpa only [sub_zero] using hcuts0
+  have hmean := exact_score_mean_zero K (fun i a => (D i a : ℝ)) B
+    (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) hpR hqR hK hB hrows
+  have hlow : ∀ i, q i ≠ 0 → -(M : ℝ)*(r : ℝ) ≤
+      score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i := by
+    intro i hi
+    have hiR : (q i : ℝ) ≠ 0 := by exact_mod_cast hi
+    simpa only [neg_mul] using (abs_le.mp (exact_score_bounds K
+      (fun i a => (D i a : ℝ)) B (fun a => (p a : ℝ)) (fun i => (q i : ℝ))
+      (M : ℝ) (r : ℝ) hpR hqR hmR hK hB hb hrows i hiR)).1
+  have hH := rational_canonical_grid_size_bound M r η hη
+  have hHpos : 0 < H := by
+    by_contra h
+    have hzero : H=0 := by omega
+    change M*r ≤ η*(H : ℚ)^2 at hH
+    simp only [hzero, Nat.cast_zero, zero_pow (by decide : 2 ≠ 0), mul_zero] at hH
+    nlinarith [mul_pos hM hr]
+  obtain ⟨hn, hmass, hz, hc, ha, he, _⟩ :=
+    rational_paper_compress_contract D E q (rationalScore D p) M r η (H-1) hq
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hm'R : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass.trans hm
+  have hc' := (rational_paper_exact_compress_cuts D E p q M r η H hM hr hη
+    hH hq hm hcuts hmean hlow).2
+  have hguard : ∀ i, score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)) i ≤
+      (η : ℝ)+(M : ℝ)*(r : ℝ) := by
+    intro i
+    have hg := response_guard _ _ B _ _ _ hqR hmR (fun i j => (hb i j).1) hres i
+    linarith
+  obtain ⟨B', hsk, hbound, hresp⟩ := completion_of_cuts_and_guards
+    (fun i => (q' i : ℝ)) (score (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ)))
+    (M : ℝ) (r : ℝ) (η : ℝ) (le_of_lt hMR) hq'R hm'R hc' hguard
+  refine ⟨B', hn, hmass.trans hm, hz, ?_, ha, he, hsk, hbound, ?_⟩
+  · have hcanonical := rational_canonical_grid_size_real M r η (le_of_lt hM) (le_of_lt hr) hη
+    have hdim : k+d+(H-1)+1=k+d+H := by omega
+    rw [hdim] at hc
+    simpa only [rationalPaperExact, H, hcanonical] using hc
+  · apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+    refine ⟨?_, hresp⟩
+    have hanchor := anchor_response_of_moments k K (fun i a => (D i a : ℝ))
+      (fun a => (p a : ℝ)) (fun i => (q i : ℝ)) (fun i => (q' i : ℝ))
+      (fun a => by exact_mod_cast ha a)
+    intro a
+    change anchorResponse K (fun i a => (D i a : ℝ)) (fun a => (p a : ℝ))
+      (fun i => (q' i : ℝ)) a ≤ _
+    rw [hanchor]
+    have hh := ((block_response_bounds_iff _ _ _ _ _ _).mp hrows).1 a
+    linarith
+
+/-- Zero residual mass is handled independently of the positive-mass endpoint
+argument: every executed output is identically zero, for any number of hinges. -/
+theorem rational_paper_compress_zero_mass {k d m : ℕ}
+    (D : Fin m → Fin k → ℚ) (E : Fin d → Fin m → ℚ)
+    (q v : Fin m → ℚ) (M η : ℚ) (L : ℕ)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0) :
+    rationalPaperCompress D E q v M 0 η L = q ∧
+      q=(fun _ => 0) ∧
+      (rationalWeightSupport (rationalPaperCompress D E q v M 0 η L)).card=0 := by
+  have hmR : ∑ i, (q i : ℝ)=0 := by exact_mod_cast hm
+  have hzeroR := nonnegative_mass_zero (fun i => (q i : ℝ))
+    (fun i => by exact_mod_cast hq i) hmR
+  have hzero : q=fun _ => 0 := by
+    funext i
+    exact_mod_cast congrFun hzeroR i
+  obtain ⟨_, _, hz, _, _, _, _⟩ :=
+    rational_paper_compress_contract D E q v M 0 η L hq
+  have hout : rationalPaperCompress D E q v M 0 η L=q := by
+    funext i
+    have hqi : q i=0 := congrFun hzero i
+    rw [hz i hqi, hqi]
+  refine ⟨hout, hzero, ?_⟩
+  rw [hout, hzero]
+  simp [rationalWeightSupport]
+
+
+/-- In the zero-residual-mass branch the same exact program retains the
+original zero vector, so the supplied bounded completion itself is a witness. -/
+theorem rational_paper_exact_zero_mass_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let q' := rationalPaperExact D E p q M 0 η
+    q'=q ∧ (rationalWeightSupport q').card=0 ∧
+      ∃ B' : Fin m → Fin m → ℝ,
+        IsSkew B' ∧ (∀ i j, -(M : ℝ) ≤ B' i j ∧ B' i j ≤ (M : ℝ)) ∧
+        ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+          (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  obtain ⟨hout, _, hc⟩ := rational_paper_compress_zero_mass D E q (rationalScore D p)
+    M η (rationalCanonicalGridSize M 0 η-1) hq hm
+  refine ⟨hout, hc, B, hB, hb, ?_⟩
+  change ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+    (blockWeights (fun a => (p a : ℝ))
+      (fun i => (rationalPaperCompress D E q (rationalScore D p) M 0 η
+        (rationalCanonicalGridSize M 0 η-1) i : ℝ))) a ≤ (η : ℝ)
+  rw [hout]
+  have hηR : (0 : ℝ) < (η : ℝ) := by exact_mod_cast hη
+  exact fun a => le_trans (hrows a) (le_of_lt hηR)
+
+/-- Normalized whole-game wrapper for the same computed general output. -/
+theorem rational_paper_normalized_general_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ a b, -(M : ℝ) ≤ K a b ∧ K a b ≤ (M : ℝ))
+    (hDb : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ))
+    (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let q' := rationalPaperGeneral D E p q M r ρ η
+    ∃ B' : Fin m → Fin m → ℝ,
+      (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ))
+        (fun i => (q' i : ℝ)) a ≠ 0).card ≤ (2 : ℕ)*k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix K (fun i a => (D i a : ℝ)) B') ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix K (fun i a => (D i a : ℝ)) B' a b ∧
+        blockMatrix K (fun i a => (D i a : ℝ)) B' a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  classical
+  obtain ⟨B', hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_paper_general_witness K D E B p q M r ρ η hM hη hq hm hB hb hrows
+  let q' := rationalPaperGeneral D E p q M r ρ η
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hmR : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass
+  have hs : (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card =
+      (rationalWeightSupport q').card := by
+    congr 1
+    ext i
+    simp [rationalWeightSupport]
+  have hcard := le_trans hc (min_le_right _ _)
+  change (rationalWeightSupport q').card ≤ _ at hcard
+  refine ⟨B', blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a) hq'R,
+    ?_, fun _ => rfl, hz, hcard, ?_, ha, he,
+    blockMatrix_skew _ _ _ hK hsk, blockMatrix_bounds _ _ _ _ hKb hDb hbound, hresp⟩
+  · rw [blockWeights_mass, hmR]
+    exact_mod_cast hnorm
+  · rw [block_support_card, hs]
+    have hanchor : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+
+
+/-- Normalized whole-game wrapper for the same computed exact output. -/
+theorem rational_paper_normalized_exact_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : IsSkew K) (hB : IsSkew B)
+    (hKb : ∀ a b, -(M : ℝ) ≤ K a b ∧ K a b ≤ (M : ℝ))
+    (hDb : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ))
+    (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let q' := rationalPaperExact D E p q M r η
+    ∃ B' : Fin m → Fin m → ℝ,
+      (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ))
+        (fun i => (q' i : ℝ)) a ≠ 0).card ≤ (2 : ℕ)*k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix K (fun i a => (D i a : ℝ)) B') ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix K (fun i a => (D i a : ℝ)) B' a b ∧
+        blockMatrix K (fun i a => (D i a : ℝ)) B' a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B')
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  classical
+  obtain ⟨B', hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_paper_exact_witness K D E B p q M r η hM hr hη hp hq hm hK hB hb hrows
+  let q' := rationalPaperExact D E p q M r η
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hmR : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass
+  have hs : (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card =
+      (rationalWeightSupport q').card := by
+    congr 1
+    ext i
+    simp [rationalWeightSupport]
+  have hcard := le_trans hc (min_le_right _ _)
+  change (rationalWeightSupport q').card ≤ _ at hcard
+  refine ⟨B', blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a) hq'R,
+    ?_, fun _ => rfl, hz, hcard, ?_, ha, he,
+    blockMatrix_skew _ _ _ hK hsk, blockMatrix_bounds _ _ _ _ hKb hDb hbound, hresp⟩
+  · rw [blockWeights_mass, hmR]
+    exact_mod_cast hnorm
+  · rw [block_support_card, hs]
+    have hanchor : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+
+end SparseCompletion
+
+/- Fixed source body: RationalPaperFlow.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+SOURCE-ONLY draft. The output binds the actual FM-compressed rational qprime
+and the actual demand-network completion table. No polynomial runtime claim.
+The earlier15 mathematical proofs remain unchanged. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+/-- Proof-only bridge from an earned Real completion to the exact rational
+global guards and all demand cuts consumed by the executed flow program. The
+completion is never a runtime parameter of that program. -/
+theorem rational_paper_demand_guards_and_cuts {m : ℕ}
+    (q t : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (h : ∃ B : Fin m → Fin m → ℝ, ResidualRealConditions q t M ε B) :
+    (∀ i, t i ≤ ε+M*r) ∧
+      ∀ S : Finset (Fin m), (∑ i ∈ S, q i*(t i-ε)) ≤
+        ∑ i ∈ S, ∑ j ∈ Sᶜ, M*q i*q j := by
+  obtain ⟨B, hsk, hb, hresp⟩ := h
+  have hMR : (0 : ℝ) ≤ (M : ℝ) := by exact_mod_cast hM
+  have hqR : ∀ i, (0 : ℝ) ≤ (q i : ℝ) := fun i => by exact_mod_cast hq i
+  have hmR : ∑ i, (q i : ℝ)=(r : ℝ) := by exact_mod_cast hm
+  have hc := (weighted_completion_iff (fun i => (q i : ℝ)) (fun i => (t i : ℝ))
+    (M : ℝ) (r : ℝ) (ε : ℝ) hMR hqR hmR).mp ⟨B, hsk, hb, hresp⟩
+  refine ⟨fun i => by exact_mod_cast hc.1 i, ?_⟩
+  intro S
+  have hscalar : (∑ i ∈ S, q i*(t i-ε)) ≤
+      M*(∑ i ∈ S, q i)*(r-∑ i ∈ S, q i) := by
+    have hh := hc.2 S
+    change (∑ i ∈ S, (q i : ℝ)*((t i : ℝ)-(ε : ℝ))) ≤
+      (M : ℝ)*(∑ i ∈ S, (q i : ℝ))*((r : ℝ)-∑ i ∈ S, (q i : ℝ)) at hh
+    exact_mod_cast hh
+  have hcomp : (∑ j ∈ Sᶜ, q j)=r-∑ i ∈ S, q i := by
+    have hs := Finset.sum_add_sum_compl S q
+    rw [hm] at hs
+    linarith
+  have hcapacity : (∑ i ∈ S, ∑ j ∈ Sᶜ, M*q i*q j) =
+      M*(∑ i ∈ S, q i)*(r-∑ i ∈ S, q i) := by
+    calc
+      _ = (∑ i ∈ S, M*q i)*(∑ j ∈ Sᶜ, q j) := by
+        rw [Finset.sum_mul]
+        simp only [Finset.mul_sum]
+      _ = M*(∑ i ∈ S, q i)*(∑ j ∈ Sᶜ, q j) := by
+        congr 1
+        exact (Finset.mul_sum S q M).symm
+      _ = _ := by rw [hcomp]
+  rw [hcapacity]
+  exact hscalar
+
+theorem rational_paper_demand_reconstruction {m : ℕ}
+    (q t : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (h : ∃ B : Fin m → Fin m → ℝ, ResidualRealConditions q t M ε B) :
+    ResidualRatConditions q t M ε
+      (rationalFlowTableEntry (rationalDemandCompletionTable q t M ε)) := by
+  obtain ⟨hg, hc⟩ := rational_paper_demand_guards_and_cuts q t M r ε hM hq hm h
+  exact rational_demand_completion_table_sound q t M r ε hM hq hm hg hc
+
+def rationalPaperGeneralFlow {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : (Fin m → ℚ) × RationalFlowTable m :=
+  let q' := rationalPaperGeneral D E p q M r ρ η
+  (q', rationalDemandCompletionTable q' (rationalScore D p) M (ρ+η))
+
+def rationalPaperExactFlow {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r η : ℚ) : (Fin m → ℚ) × RationalFlowTable m :=
+  let q' := rationalPaperExact D E p q M r η
+  (q', rationalDemandCompletionTable q' (rationalScore D p) M η)
+
+/-- Replaces the proof-only Real completion by the matrix actually returned
+from the materialized demand network, at the same single rho+eta threshold. -/
+theorem rational_paper_general_flow_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let out := rationalPaperGeneralFlow D E p q M r ρ η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ResidualRatConditions q' (rationalScore D p) M (ρ+η) B' ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  obtain ⟨Bc, hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_paper_general_witness K D E B p q M r ρ η hM hη hq hm hB hb hrows
+  let q' := rationalPaperGeneral D E p q M r ρ η
+  have hreal : ResidualRealConditions q' (rationalScore D p) M (ρ+η) Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real, Rat.cast_add] using hi
+  have hrat := rational_paper_demand_reconstruction q' (rationalScore D p) M r (ρ+η)
+    (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  have hrreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  refine ⟨hn, hmass, hz, hc, ha, he, hrat, ?_⟩
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    exact ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  · intro i
+    have hi := hrreal.2.2 i
+    simpa only [response, ←rational_score_real, Rat.cast_add, rationalPaperGeneralFlow, q'] using hi
+
+/-- Exact positive residual mass: the computed pair has the sharp k+d+H
+bound already earned by the H-1 feature construction. -/
+theorem rational_paper_exact_flow_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactFlow D E p q M r η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ResidualRatConditions q' (rationalScore D p) M η B' ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  obtain ⟨Bc, hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_paper_exact_witness K D E B p q M r η hM hr hη hp hq hm hK hB hb hrows
+  let q' := rationalPaperExact D E p q M r η
+  have hreal : ResidualRealConditions q' (rationalScore D p) M η Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real] using hi
+  have hrat := rational_paper_demand_reconstruction q' (rationalScore D p) M r η
+    (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  have hrreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  refine ⟨hn, hmass, hz, hc, ha, he, hrat, ?_⟩
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    exact ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  · intro i
+    have hi := hrreal.2.2 i
+    simpa only [response, ←rational_score_real, rationalPaperExactFlow, q'] using hi
+
+/-- Zero residual mass still invokes the concrete table program. Its guards
+are earned from the original game's global rows, including every zero label. -/
+theorem rational_paper_exact_zero_flow_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactFlow D E p q M 0 η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    q'=q ∧ (rationalWeightSupport q').card=0 ∧
+      ResidualRatConditions q' (rationalScore D p) M η B' ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  obtain ⟨hout, hc, Bc, hsk, hbound, hresp⟩ :=
+    rational_paper_exact_zero_mass_witness K D E B p q M η hη hq hm hB hb hrows
+  let q' := rationalPaperExact D E p q M 0 η
+  have hn : ∀ i, 0 ≤ q' i := by simpa only [q', hout] using hq
+  have hmass : ∑ i, q' i=0 := by simpa only [q', hout] using hm
+  have hreal : ResidualRealConditions q' (rationalScore D p) M η Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real] using hi
+  have hrat := rational_paper_demand_reconstruction q' (rationalScore D p) M 0 η
+    (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  have hrreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  refine ⟨hout, hc, hrat, ?_⟩
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    exact ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  · intro i
+    have hi := hrreal.2.2 i
+    simpa only [response, ←rational_score_real, rationalPaperExactFlow, q'] using hi
+
+/-- Entirely rational supplied-witness interface: both weights and residual
+completion are the actual returned pair, cast to the normalized Real game. -/
+theorem rational_paper_normalized_general_flow {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let out := rationalPaperGeneralFlow D E p q M r ρ η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ))
+        (fun i => (q' i : ℝ)) a ≠ 0).card ≤ (2 : ℕ)*k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  classical
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨hn, hmass, hz, hc, ha, he, hrat, hresp⟩ :=
+    rational_paper_general_flow_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M r ρ η hM hη hq hm hBR hBbR hrows
+  let out := rationalPaperGeneralFlow D E p q M r ρ η
+  let q' := out.1
+  let B' := rationalFlowTableEntry out.2
+  have hreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hmR : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass
+  have hs : (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card =
+      (rationalWeightSupport q').card := by
+    congr 1
+    ext i
+    simp [rationalWeightSupport]
+  have hcard : (rationalWeightSupport q').card ≤ k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) :=
+    le_trans hc (min_le_right _ _)
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a) hq'R,
+    ?_, fun _ => rfl, hz, hcard, ?_, ha, he,
+    blockMatrix_skew _ _ _ hKR hreal.1, blockMatrix_bounds _ _ _ _ hKbR hDbR hreal.2.1, hresp⟩
+  · rw [blockWeights_mass, hmR]
+    exact_mod_cast hnorm
+  · rw [block_support_card, hs]
+    have hanchor : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+
+
+/-- Entirely rational supplied-witness interface: both weights and residual
+completion are the actual returned pair, cast to the normalized Real game. -/
+theorem rational_paper_normalized_exact_flow {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactFlow D E p q M r η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ))
+        (fun i => (q' i : ℝ)) a ≠ 0).card ≤ (2 : ℕ)*k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  classical
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨hn, hmass, hz, hc, ha, he, hrat, hresp⟩ :=
+    rational_paper_exact_flow_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M r η hM hr hη hp hq hm hKR hBR hBbR hrows
+  let out := rationalPaperExactFlow D E p q M r η
+  let q' := out.1
+  let B' := rationalFlowTableEntry out.2
+  have hreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hmR : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass
+  have hs : (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card =
+      (rationalWeightSupport q').card := by
+    congr 1
+    ext i
+    simp [rationalWeightSupport]
+  have hcard : (rationalWeightSupport q').card ≤ k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) :=
+    le_trans hc (min_le_right _ _)
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a) hq'R,
+    ?_, fun _ => rfl, hz, hcard, ?_, ha, he,
+    blockMatrix_skew _ _ _ hKR hreal.1, blockMatrix_bounds _ _ _ _ hKbR hDbR hreal.2.1, hresp⟩
+  · rw [blockWeights_mass, hmR]
+    exact_mod_cast hnorm
+  · rw [block_support_card, hs]
+    have hanchor : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+
+/-- Normalized zero-mass exact branch. General and exact executed pairs agree
+because both compressors return the same original zero vector, and therefore
+invoke the identical rational completion table at threshold eta. -/
+theorem rational_paper_normalized_zero_flow {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hnorm : (∑ a, p a)+0=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactFlow D E p q M 0 η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    q'=q ∧ (rationalWeightSupport q').card=0 ∧
+      (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  have hg := (rational_paper_compress_zero_mass D E q
+    (fun i => rationalScore D p i-0) M η (rationalCanonicalGridSize M 0 η) hq hm).1
+  obtain ⟨he, _, hc⟩ := rational_paper_compress_zero_mass D E q (rationalScore D p)
+    M η (rationalCanonicalGridSize M 0 η-1) hq hm
+  have hout : rationalPaperGeneralFlow D E p q M 0 0 η = rationalPaperExactFlow D E p q M 0 η := by
+    simp only [rationalPaperGeneralFlow, rationalPaperExactFlow,
+      rationalPaperGeneral, rationalPaperExact, hg, he, zero_add]
+  have hgen := rational_paper_normalized_general_flow K D E B p q M 0 0 η
+    hM hη hp hq hm hnorm hK hB hKb hDb hBb (by simpa only [Rat.cast_zero] using hrows)
+  rw [hout] at hgen
+  obtain ⟨hn, hmass, hanchor, _, _, _, ha, hE, hsk, hbound, hresp⟩ := hgen
+  refine ⟨he, hc, hn, hmass, hanchor, ha, hE, hsk, hbound, ?_⟩
+  simpa only [Rat.cast_zero, zero_add] using hresp
+
+end SparseCompletion
+
+/- Fixed source body: RationalDemandGraphNetwork.lean -/
+/- AI-assisted formalization under repository Apache-2.0.
+Development graph-fuel demand-network composition; exact check status belongs
+to the external source-bound receipts.
+The actual direct graph-fuel finder produces the net table used for every
+cut, saturation, nonnegative arc and decoded matrix below. The earlier numeric
+fuel demand finder is imported for reusable table/cut lemmas only and is never
+called by the new executable definitions. No total or bit-runtime claim. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+def rationalDemandGraphFindTable {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : RationalFlowTable (m+2) :=
+  rationalTableFindFlowPolynomial (rationalDemandTable d c) (demandSource m) (demandSink m)
+
+def rationalDemandGraphFuel {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : ℕ := rationalTableGraphFuel (rationalDemandTable d c)
+
+theorem rational_demand_graph_find_table_eq_direct {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) :
+    rationalDemandGraphFindTable d c =
+      rationalTableFlowIterateDirect (rationalDemandTable d c) (demandSource m) (demandSink m)
+        (rationalDemandGraphFuel d c) (rationalZeroFlowTable (m+2)) := rfl
+
+/-- A graph-size bound on actual loop fuel. It does not bound the machine
+cost of an attempt, rational bit sizes, materialization or total execution. -/
+theorem rational_demand_graph_fuel_bound {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) :
+    rationalDemandGraphFuel d c ≤ (m+2)*(m+2)*(m+4)+1 := by
+  have hcard : (rationalCapacityArcSupport (rationalDemandTable d c)).card ≤ (m+2)*(m+2) := by
+    calc
+      _ ≤ Fintype.card (Fin (m+2) × Fin (m+2)) := Finset.card_le_univ _
+      _ = _ := by simp
+  unfold rationalDemandGraphFuel rationalTableGraphFuel
+  have hh := Nat.mul_le_mul_right (m+4) hcard
+  simpa only [show m+2+2 = m+4 by omega] using Nat.add_le_add_right hh 1
+
+theorem rational_demand_graph_find_stops {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j) :
+    rationalAugmentOnce (rationalDemandTable d c) (rationalDemandGraphFindTable d c)
+      (demandSource m) (demandSink m) = none := by
+  apply rational_table_find_flow_polynomial_stops
+  simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+
+def rationalDemandGraphFindArc {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i j : Fin m) : ℚ :=
+  rationalPositiveNetFlow (rationalFlowTableEntry (rationalDemandGraphFindTable d c))
+    (demandInternal i) (demandInternal j)
+
+def rationalDemandGraphFindSink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i : Fin m) : ℚ :=
+  rationalPositiveNetFlow (rationalFlowTableEntry (rationalDemandGraphFindTable d c))
+    (demandInternal i) (demandSink m)
+
+theorem rational_demand_graph_find_source_value {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j) :
+    rationalTableFlowValue (rationalDemandGraphFindTable d c) (demandSource m) =
+      ∑ i, max (d i) 0 := by
+  have hC : ∀ u v, 0 ≤ rationalFlowTableEntry (rationalDemandTable d c) u v := by
+    simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+  have hf := (rational_table_find_flow_polynomial_invariant (rationalDemandTable d c)
+    (demandSource m) (demandSink m) hC)
+  have hcert := rational_table_find_flow_polynomial_cut_certificate (rationalDemandTable d c)
+    (demandSource m) (demandSink m) (demand_source_ne_sink m) hC
+  dsimp only at hcert
+  obtain ⟨hs, ht, he⟩ := hcert
+  rw [rational_demand_table_cut d c _ hs ht] at he
+  let T := residualReachLayers
+    (rationalResidualAdj (rationalFlowTableEntry (rationalDemandTable d c))
+      (rationalFlowTableEntry (rationalDemandGraphFindTable d c))) (demandSource m) (m+2)
+  have hlo := (rational_demand_network_cuts_iff d c).mpr hcuts (demandInternalSet T)
+  have hhi := rational_table_flow_source_upper _ _ _ _ _ hf
+  rw [rational_demand_source_upper] at hhi
+  change rationalTableFlowValue (rationalDemandGraphFindTable d c) (demandSource m) ≤ _ at hhi
+  change rationalTableFlowValue (rationalDemandGraphFindTable d c) (demandSource m) =
+    rationalDemandNetworkCut d c (demandInternalSet T) at he
+  exact le_antisymm hhi (he ▸ hlo)
+
+theorem rational_demand_graph_find_source_saturated {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j)
+    (i : Fin m) :
+    rationalFlowTableEntry (rationalDemandGraphFindTable d c) (demandSource m)
+      (demandInternal i) = max (d i) 0 := by
+  have hC : ∀ u v, 0 ≤ rationalFlowTableEntry (rationalDemandTable d c) u v := by
+    simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+  have hf := (rational_table_find_flow_polynomial_invariant (rationalDemandTable d c)
+    (demandSource m) (demandSink m) hC)
+  have hsum : (∑ v, (rationalFlowTableEntry (rationalDemandTable d c) (demandSource m) v -
+      rationalFlowTableEntry (rationalDemandGraphFindTable d c) (demandSource m) v)) = 0 := by
+    rw [Finset.sum_sub_distrib]
+    change rationalTableFlowUpper (rationalDemandTable d c) (demandSource m) -
+      rationalTableFlowValue (rationalDemandGraphFindTable d c) (demandSource m) = 0
+    rw [rational_demand_source_upper, rational_demand_graph_find_source_value d c hc hcuts, sub_self]
+  have hz := (Finset.sum_eq_zero_iff_of_nonneg
+    (fun v (_ : v ∈ (Finset.univ : Finset (Fin (m+2)))) =>
+      sub_nonneg.mpr (hf.1 (demandSource m) v))).mp hsum
+  have hi := hz (demandInternal i) (Finset.mem_univ _)
+  simp only [rational_demand_table_entry, demand_capacity_source_internal] at hi
+  change max (d i) 0 - rationalFlowTableEntry (rationalDemandGraphFindTable d c)
+    (demandSource m) (demandInternal i) = 0 at hi
+  exact (sub_eq_zero.mp hi).symm
+
+theorem rational_demand_graph_find_saturated {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (hc : ∀ i j, 0 ≤ c i j)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, d i) ≤ ∑ i ∈ S, ∑ j ∈ Sᶜ, c i j) :
+    RationalSaturatedFlow d c (rationalDemandGraphFindArc d c) (rationalDemandGraphFindSink d c) := by
+  let F := rationalFlowTableEntry (rationalDemandGraphFindTable d c)
+  let P := rationalPositiveNetFlow F
+  have hC : ∀ u v, 0 ≤ rationalFlowTableEntry (rationalDemandTable d c) u v := by
+    simpa only [rational_demand_table_entry] using rational_demand_capacity_nonneg d c hc
+  have hf := (rational_table_find_flow_polynomial_invariant (rationalDemandTable d c)
+    (demandSource m) (demandSink m) hC)
+  have hpb : ∀ u v, 0 ≤ P u v ∧ P u v ≤ rationalDemandCapacity d c u v := by
+    intro u v
+    simpa only [rational_demand_table_entry] using
+      rational_positive_net_flow_bounds _ F hC hf.1 u v
+  have hpzero : ∀ u v, rationalDemandCapacity d c u v = 0 → P u v = 0 := by
+    intro u v hz
+    exact le_antisymm (hz ▸ (hpb u v).2) (hpb u v).1
+  have hp_source : ∀ i, P (demandSource m) (demandInternal i) = max (d i) 0 := by
+    intro i
+    dsimp [P, F, rationalPositiveNetFlow]
+    rw [rational_demand_graph_find_source_saturated d c hc hcuts]
+    exact max_eq_left (le_max_right _ _)
+  refine ⟨?_, ?_, ?_⟩
+  · intro i
+    change 0 ≤ P (demandInternal i) (demandSink m) ∧
+      P (demandInternal i) (demandSink m) ≤ max (-d i) 0
+    simpa only [demand_capacity_internal_sink] using hpb (demandInternal i) (demandSink m)
+  · intro i j
+    change 0 ≤ P (demandInternal i) (demandInternal j) ∧
+      P (demandInternal i) (demandInternal j) ≤ c i j
+    simpa only [demand_capacity_internal_internal] using hpb (demandInternal i) (demandInternal j)
+  · intro i
+    have hdiv := rational_positive_net_flow_divergence F hf.2.1 (demandInternal i)
+    have hcons : (∑ v, F (demandInternal i) v) = 0 :=
+      hf.2.2.1 (demandInternal i) (demand_internal_ne_source i) (demand_internal_ne_sink i)
+    rw [hcons] at hdiv
+    rw [demand_nodes_sum, demand_nodes_sum] at hdiv
+    have h_is := hpzero (demandInternal i) (demandSource m)
+      (demand_capacity_to_source d c _)
+    have h_ti := hpzero (demandSink m) (demandInternal i)
+      (demand_capacity_from_sink d c _)
+    change (∑ j, P (demandInternal i) (demandInternal j)) +
+      P (demandInternal i) (demandSink m) + P (demandInternal i) (demandSource m) -
+      ((∑ j, P (demandInternal j) (demandInternal i)) +
+      P (demandSink m) (demandInternal i) + P (demandSource m) (demandInternal i)) = 0 at hdiv
+    rw [h_is, h_ti, hp_source i] at hdiv
+    change max (d i) 0 + (∑ j, P (demandInternal j) (demandInternal i)) =
+      P (demandInternal i) (demandSink m) + ∑ j, P (demandInternal i) (demandInternal j)
+    linarith
+
+def rationalDemandGraphCompletion {m : ℕ} (q t : Fin m → ℚ) (M ε : ℚ) :
+    Fin m → Fin m → ℚ :=
+  rationalFlowDecodeWithZeros q
+    (rationalDemandGraphFindArc (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)) M
+
+theorem rational_demand_graph_completion_sound {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hr : (∑ i, q i) = r)
+    (hg : ∀ i, t i ≤ ε+M*r)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, q i*(t i-ε)) ≤
+      ∑ i ∈ S, ∑ j ∈ Sᶜ, M*q i*q j) :
+    ResidualRatConditions q t M ε (rationalDemandGraphCompletion q t M ε) := by
+  exact rational_saturated_flow_completion_with_zeros q t _ _ M r ε hM hq hr hg
+    (rational_demand_graph_find_saturated _ _
+      (fun i j => mul_nonneg (mul_nonneg hM (hq i)) (hq j)) hcuts)
+
+def rationalDemandGraphFindPayload {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) : RationalDemandFlowPayload m :=
+  let net := rationalDemandGraphFindTable d c
+  let P := rationalPositiveNetFlow (rationalFlowTableEntry net)
+  { net := net
+    arcF := Vector.ofFn fun i => Vector.ofFn fun j => P (demandInternal i) (demandInternal j)
+    sinkY := Vector.ofFn fun i => P (demandInternal i) (demandSink m) }
+
+@[simp] theorem rational_demand_graph_payload_arc {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i j : Fin m) :
+    rationalFlowTableEntry (rationalDemandGraphFindPayload d c).arcF i j =
+      rationalDemandGraphFindArc d c i j := by
+  simp [rationalFlowTableEntry, rationalDemandGraphFindPayload, rationalDemandGraphFindArc,
+    cached_vector_get_ofFn]
+
+@[simp] theorem rational_demand_graph_payload_sink {m : ℕ} (d : Fin m → ℚ)
+    (c : Fin m → Fin m → ℚ) (i : Fin m) :
+    (rationalDemandGraphFindPayload d c).sinkY.get i = rationalDemandGraphFindSink d c i := by
+  simp [rationalDemandGraphFindPayload, rationalDemandGraphFindSink, cached_vector_get_ofFn]
+
+/-- The executable matrix-producing interface. The net finder is run in the
+payload construction, followed by finite materialization of the decoded matrix.
+No per-operation or polynomial bit-runtime bound is claimed. -/
+def rationalDemandGraphCompletionTable {m : ℕ} (q t : Fin m → ℚ) (M ε : ℚ) :
+    RationalFlowTable m :=
+  let payload := rationalDemandGraphFindPayload (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)
+  Vector.ofFn fun i => Vector.ofFn fun j =>
+    rationalFlowDecodeWithZeros q (rationalFlowTableEntry payload.arcF) M i j
+
+theorem rational_demand_graph_completion_table_entry {m : ℕ} (q t : Fin m → ℚ)
+    (M ε : ℚ) (i j : Fin m) :
+    rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε) i j =
+      rationalDemandGraphCompletion q t M ε i j := by
+  simp only [rationalDemandGraphCompletionTable, rationalFlowTableEntry, cached_vector_get_ofFn]
+  have harc : rationalFlowTableEntry
+      (rationalDemandGraphFindPayload (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)).arcF =
+      rationalDemandGraphFindArc (fun i => q i*(t i-ε)) (fun i j => M*q i*q j) := by
+    funext u v
+    exact rational_demand_graph_payload_arc _ _ u v
+  change rationalFlowDecodeWithZeros q
+      (rationalFlowTableEntry (rationalDemandGraphFindPayload
+        (fun i => q i*(t i-ε)) (fun i j => M*q i*q j)).arcF) M i j = _
+  rw [harc]
+  rfl
+
+theorem rational_demand_graph_completion_table_sound {m : ℕ} (q t : Fin m → ℚ) (M r ε : ℚ)
+    (hM : 0 ≤ M) (hq : ∀ i, 0 ≤ q i) (hr : (∑ i, q i) = r)
+    (hg : ∀ i, t i ≤ ε+M*r)
+    (hcuts : ∀ S : Finset (Fin m), (∑ i ∈ S, q i*(t i-ε)) ≤
+      ∑ i ∈ S, ∑ j ∈ Sᶜ, M*q i*q j) :
+    ResidualRatConditions q t M ε
+      (rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε)) := by
+  have he : rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε) =
+      rationalDemandGraphCompletion q t M ε := by
+    funext i j
+    exact rational_demand_graph_completion_table_entry q t M ε i j
+  rw [he]
+  exact rational_demand_graph_completion_sound q t M r ε hM hq hr hg hcuts
+
+end SparseCompletion
+
+/- Fixed source body: RationalPaperGraphFlow.lean -/
+/- AI-assisted formalization under the repository Apache-2.0 license.
+Development composition of actual FM-compressed rational weights and the
+actual graph-fuel demand-network completion. Exact check status belongs to
+external source-bound receipts. No polynomial total or bit-runtime claim.
+The frozen paper flow module is imported only for the proof-side earned
+rational guard/cut bridge. Its numeric-fuel executable pair is not invoked. -/
+@[expose] public section
+open scoped BigOperators
+namespace SparseCompletion
+
+theorem rational_paper_graph_demand_reconstruction {m : ℕ}
+    (q t : Fin m → ℚ) (M r ε : ℚ) (hM : 0 ≤ M)
+    (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (h : ∃ B : Fin m → Fin m → ℝ, ResidualRealConditions q t M ε B) :
+    ResidualRatConditions q t M ε
+      (rationalFlowTableEntry (rationalDemandGraphCompletionTable q t M ε)) := by
+  obtain ⟨hg, hc⟩ := rational_paper_demand_guards_and_cuts q t M r ε hM hq hm h
+  exact rational_demand_graph_completion_table_sound q t M r ε hM hq hm hg hc
+
+def rationalPaperGeneralGraphFlow {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r ρ η : ℚ) : (Fin m → ℚ) × RationalFlowTable m :=
+  let q' := rationalPaperGeneral D E p q M r ρ η
+  (q', rationalDemandGraphCompletionTable q' (rationalScore D p) M (ρ+η))
+
+def rationalPaperExactGraphFlow {k d m : ℕ} (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (p : Fin k → ℚ) (q : Fin m → ℚ)
+    (M r η : ℚ) : (Fin m → ℚ) × RationalFlowTable m :=
+  let q' := rationalPaperExact D E p q M r η
+  (q', rationalDemandGraphCompletionTable q' (rationalScore D p) M η)
+
+/-- Replaces the proof-only Real completion by the matrix actually returned
+from the materialized demand network, at the same single rho+eta threshold. -/
+theorem rational_paper_general_graph_flow_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let out := rationalPaperGeneralGraphFlow D E p q M r ρ η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ResidualRatConditions q' (rationalScore D p) M (ρ+η) B' ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  obtain ⟨Bc, hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_paper_general_witness K D E B p q M r ρ η hM hη hq hm hB hb hrows
+  let q' := rationalPaperGeneral D E p q M r ρ η
+  have hreal : ResidualRealConditions q' (rationalScore D p) M (ρ+η) Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real, Rat.cast_add] using hi
+  have hrat := rational_paper_graph_demand_reconstruction q' (rationalScore D p) M r (ρ+η)
+    (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  have hrreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  refine ⟨hn, hmass, hz, hc, ha, he, hrat, ?_⟩
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    exact ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  · intro i
+    have hi := hrreal.2.2 i
+    simpa only [response, ←rational_score_real, Rat.cast_add, rationalPaperGeneralGraphFlow, q'] using hi
+
+/-- Exact positive residual mass: the computed pair has the sharp k+d+H
+bound already earned by the H-1 feature construction. -/
+theorem rational_paper_exact_graph_flow_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hK : IsSkew K) (hB : IsSkew B)
+    (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactGraphFlow D E p q M r η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ i, 0 ≤ q' i) ∧ (∑ i, q' i)=r ∧ (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤
+        min (rationalWeightSupport q).card (k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      ResidualRatConditions q' (rationalScore D p) M η B' ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  obtain ⟨Bc, hn, hmass, hz, hc, ha, he, hsk, hbound, hresp⟩ :=
+    rational_paper_exact_witness K D E B p q M r η hM hr hη hp hq hm hK hB hb hrows
+  let q' := rationalPaperExact D E p q M r η
+  have hreal : ResidualRealConditions q' (rationalScore D p) M η Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real] using hi
+  have hrat := rational_paper_graph_demand_reconstruction q' (rationalScore D p) M r η
+    (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  have hrreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  refine ⟨hn, hmass, hz, hc, ha, he, hrat, ?_⟩
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    exact ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  · intro i
+    have hi := hrreal.2.2 i
+    simpa only [response, ←rational_score_real, rationalPaperExactGraphFlow, q'] using hi
+
+/-- Zero residual mass still invokes the concrete table program. Its guards
+are earned from the original game's global rows, including every zero label. -/
+theorem rational_paper_exact_zero_graph_flow_witness {k d m : ℕ}
+    (K : Fin k → Fin k → ℝ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℝ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hM : 0 < M) (hη : 0 < η) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hB : IsSkew B) (hb : ∀ i j, -(M : ℝ) ≤ B i j ∧ B i j ≤ (M : ℝ))
+    (hrows : ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) B)
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactGraphFlow D E p q M 0 η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    q'=q ∧ (rationalWeightSupport q').card=0 ∧
+      ResidualRatConditions q' (rationalScore D p) M η B' ∧
+      ∀ a, response (blockMatrix K (fun i a => (D i a : ℝ)) (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  obtain ⟨hout, hc, Bc, hsk, hbound, hresp⟩ :=
+    rational_paper_exact_zero_mass_witness K D E B p q M η hη hq hm hB hb hrows
+  let q' := rationalPaperExact D E p q M 0 η
+  have hn : ∀ i, 0 ≤ q' i := by simpa only [q', hout] using hq
+  have hmass : ∑ i, q' i=0 := by simpa only [q', hout] using hm
+  have hreal : ResidualRealConditions q' (rationalScore D p) M η Bc := by
+    refine ⟨hsk, hbound, ?_⟩
+    intro i
+    have hi := hresp (.inr i)
+    rw [block_response_residual] at hi
+    simpa only [response, ←rational_score_real] using hi
+  have hrat := rational_paper_graph_demand_reconstruction q' (rationalScore D p) M 0 η
+    (le_of_lt hM) hn hmass ⟨Bc, hreal⟩
+  have hrreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  refine ⟨hout, hc, hrat, ?_⟩
+  apply (block_response_bounds_iff _ _ _ _ _ _).mpr
+  constructor
+  · intro a
+    exact ((block_response_bounds_iff _ _ _ _ _ _).mp hresp).1 a
+  · intro i
+    have hi := hrreal.2.2 i
+    simpa only [response, ←rational_score_real, rationalPaperExactGraphFlow, q'] using hi
+
+/-- Entirely rational supplied-witness interface: both weights and residual
+completion are the actual returned pair, cast to the normalized Real game. -/
+theorem rational_paper_normalized_general_graph_flow {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r ρ η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ (ρ : ℝ)) :
+    let out := rationalPaperGeneralGraphFlow D E p q M r ρ η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ))
+        (fun i => (q' i : ℝ)) a ≠ 0).card ≤ (2 : ℕ)*k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (ρ : ℝ)+(η : ℝ) := by
+  classical
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨hn, hmass, hz, hc, ha, he, hrat, hresp⟩ :=
+    rational_paper_general_graph_flow_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M r ρ η hM hη hq hm hBR hBbR hrows
+  let out := rationalPaperGeneralGraphFlow D E p q M r ρ η
+  let q' := out.1
+  let B' := rationalFlowTableEntry out.2
+  have hreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hmR : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass
+  have hs : (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card =
+      (rationalWeightSupport q').card := by
+    congr 1
+    ext i
+    simp [rationalWeightSupport]
+  have hcard : (rationalWeightSupport q').card ≤ k+d+1+gridSize (M : ℝ) (r : ℝ) (η : ℝ) :=
+    le_trans hc (min_le_right _ _)
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a) hq'R,
+    ?_, fun _ => rfl, hz, hcard, ?_, ha, he,
+    blockMatrix_skew _ _ _ hKR hreal.1, blockMatrix_bounds _ _ _ _ hKbR hDbR hreal.2.1, hresp⟩
+  · rw [blockWeights_mass, hmR]
+    exact_mod_cast hnorm
+  · rw [block_support_card, hs]
+    have hanchor : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+
+
+/-- Entirely rational supplied-witness interface: both weights and residual
+completion are the actual returned pair, cast to the normalized Real game. -/
+theorem rational_paper_normalized_exact_graph_flow {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M r η : ℚ)
+    (hM : 0 < M) (hr : 0 < r) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=r)
+    (hnorm : (∑ a, p a)+r=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactGraphFlow D E p q M r η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ i, q i=0 → q' i=0) ∧
+      (rationalWeightSupport q').card ≤ k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (Finset.univ.filter fun a => blockWeights (fun a => (p a : ℝ))
+        (fun i => (q' i : ℝ)) a ≠ 0).card ≤ (2 : ℕ)*k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  classical
+  have hKR : IsSkew (fun a b => (K a b : ℝ)) := by
+    intro a b
+    change (K a b : ℝ)= -(K b a : ℝ)
+    exact_mod_cast hK a b
+  have hBR : IsSkew (fun i j => (B i j : ℝ)) := by
+    intro i j
+    change (B i j : ℝ)= -(B j i : ℝ)
+    exact_mod_cast hB i j
+  have hKbR : ∀ a b, -(M : ℝ) ≤ (K a b : ℝ) ∧ (K a b : ℝ) ≤ (M : ℝ) := by
+    intro a b
+    exact_mod_cast hKb a b
+  have hDbR : ∀ i a, -(M : ℝ) ≤ (D i a : ℝ) ∧ (D i a : ℝ) ≤ (M : ℝ) := by
+    intro i a
+    exact_mod_cast hDb i a
+  have hBbR : ∀ i j, -(M : ℝ) ≤ (B i j : ℝ) ∧ (B i j : ℝ) ≤ (M : ℝ) := by
+    intro i j
+    exact_mod_cast hBb i j
+  obtain ⟨hn, hmass, hz, hc, ha, he, hrat, hresp⟩ :=
+    rational_paper_exact_graph_flow_witness (fun a b => (K a b : ℝ)) D E
+      (fun i j => (B i j : ℝ)) p q M r η hM hr hη hp hq hm hKR hBR hBbR hrows
+  let out := rationalPaperExactGraphFlow D E p q M r η
+  let q' := out.1
+  let B' := rationalFlowTableEntry out.2
+  have hreal := (residual_rat_real_iff _ _ _ _ _).mp hrat
+  have hq'R : ∀ i, (0 : ℝ) ≤ (q' i : ℝ) := fun i => by exact_mod_cast hn i
+  have hmR : ∑ i, (q' i : ℝ)=(r : ℝ) := by exact_mod_cast hmass
+  have hs : (Finset.univ.filter fun i => (q' i : ℝ) ≠ 0).card =
+      (rationalWeightSupport q').card := by
+    congr 1
+    ext i
+    simp [rationalWeightSupport]
+  have hcard : (rationalWeightSupport q').card ≤ k+d+gridSize (M : ℝ) (r : ℝ) (η : ℝ) :=
+    le_trans hc (min_le_right _ _)
+  refine ⟨blockWeights_nonneg _ _ (fun a => by exact_mod_cast hp a) hq'R,
+    ?_, fun _ => rfl, hz, hcard, ?_, ha, he,
+    blockMatrix_skew _ _ _ hKR hreal.1, blockMatrix_bounds _ _ _ _ hKbR hDbR hreal.2.1, hresp⟩
+  · rw [blockWeights_mass, hmR]
+    exact_mod_cast hnorm
+  · rw [block_support_card, hs]
+    have hanchor : (Finset.univ.filter fun a => (p a : ℝ) ≠ 0).card ≤ k :=
+      le_trans (Finset.card_filter_le _ _) (by simp)
+    omega
+
+/-- Normalized zero-mass exact branch. General and exact executed pairs agree
+because both compressors return the same original zero vector, and therefore
+invoke the identical rational completion table at threshold eta. -/
+theorem rational_paper_normalized_zero_graph_flow {k d m : ℕ}
+    (K : Fin k → Fin k → ℚ) (D : Fin m → Fin k → ℚ)
+    (E : Fin d → Fin m → ℚ) (B : Fin m → Fin m → ℚ)
+    (p : Fin k → ℚ) (q : Fin m → ℚ) (M η : ℚ)
+    (hM : 0 < M) (hη : 0 < η)
+    (hp : ∀ a, 0 ≤ p a) (hq : ∀ i, 0 ≤ q i) (hm : ∑ i, q i=0)
+    (hnorm : (∑ a, p a)+0=1) (hK : ∀ a b, K a b= -K b a)
+    (hB : ∀ i j, B i j= -B j i)
+    (hKb : ∀ a b, -M ≤ K a b ∧ K a b ≤ M)
+    (hDb : ∀ i a, -M ≤ D i a ∧ D i a ≤ M)
+    (hBb : ∀ i j, -M ≤ B i j ∧ B i j ≤ M)
+    (hrows : ∀ a, response (blockMatrix (fun a b => (K a b : ℝ))
+      (fun i a => (D i a : ℝ)) (fun i j => (B i j : ℝ)))
+      (blockWeights (fun a => (p a : ℝ)) (fun i => (q i : ℝ))) a ≤ 0) :
+    let out := rationalPaperExactGraphFlow D E p q M 0 η
+    let q' := out.1
+    let B' := rationalFlowTableEntry out.2
+    q'=q ∧ (rationalWeightSupport q').card=0 ∧
+      (∀ a, 0 ≤ blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a) ∧
+      (∑ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) a)=1 ∧
+      (∀ a, blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ)) (.inl a)=(p a : ℝ)) ∧
+      (∀ a, (∑ i, q' i*D i a)=∑ i, q i*D i a) ∧
+      (∀ a, (∑ i, q' i*E a i)=∑ i, q i*E a i) ∧
+      IsSkew (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ))) ∧
+      (∀ a b, -(M : ℝ) ≤ blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ∧
+        blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+          (fun i j => (B' i j : ℝ)) a b ≤ (M : ℝ)) ∧
+      ∀ a, response (blockMatrix (fun a b => (K a b : ℝ)) (fun i a => (D i a : ℝ))
+        (fun i j => (B' i j : ℝ)))
+        (blockWeights (fun a => (p a : ℝ)) (fun i => (q' i : ℝ))) a ≤ (η : ℝ) := by
+  have hg := (rational_paper_compress_zero_mass D E q
+    (fun i => rationalScore D p i-0) M η (rationalCanonicalGridSize M 0 η) hq hm).1
+  obtain ⟨he, _, hc⟩ := rational_paper_compress_zero_mass D E q (rationalScore D p)
+    M η (rationalCanonicalGridSize M 0 η-1) hq hm
+  have hout : rationalPaperGeneralGraphFlow D E p q M 0 0 η = rationalPaperExactGraphFlow D E p q M 0 η := by
+    simp only [rationalPaperGeneralGraphFlow, rationalPaperExactGraphFlow,
+      rationalPaperGeneral, rationalPaperExact, hg, he, zero_add]
+  have hgen := rational_paper_normalized_general_graph_flow K D E B p q M 0 0 η
+    hM hη hp hq hm hnorm hK hB hKb hDb hBb (by simpa only [Rat.cast_zero] using hrows)
+  rw [hout] at hgen
+  obtain ⟨hn, hmass, hanchor, _, _, _, ha, hE, hsk, hbound, hresp⟩ := hgen
+  refine ⟨he, hc, hn, hmass, hanchor, ha, hE, hsk, hbound, ?_⟩
+  simpa only [Rat.cast_zero, zero_add] using hresp
+
+end SparseCompletion

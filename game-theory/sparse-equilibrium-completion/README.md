@@ -586,14 +586,14 @@ integration below supplies a complete finite capacitated-flow finder and
 augmentation correctness. Open work includes their operation and bit bounds,
 polynomial rational LP guarantees, complete arithmetic/encoding
 costs beyond the proved components, efficient sparse selection and the remaining
-source-specific algorithm compositions. No publication or submission is made.
+source-specific algorithm compositions. No registry or journal submission is made.
 
 
-## Cloud integration of augmentation, finite flow and feature compression
+## Historical155 integration of augmentation, finite flow and feature compression
 
-This development integrates the preserved149 follow-on proofs and six proofs
-for an equivalent directly recursive flow loop. The source has304 mathematical
-modules,1310 source theorem audit targets and1200 selected protected contracts.
+The historical f3daca0 development integrated149 preserved follow-on proofs and
+six proofs for an equivalent directly recursive flow loop. That source had304
+mathematical modules,1310 theorem audit targets and1200 protected contracts.
 These counts describe the code under review; complete mechanical verification
 is established by an immutable exact-source receipt outside the frozen package.
 The earlier checkpoint sections retain their historical source state and do
@@ -637,3 +637,52 @@ Whole-paper completion remains false. Demand-network/game composition,
 capacity-independent flow runtime, efficient paper-specific compression,
 polynomial exact rational LP and complete arithmetic/encoding/bit costs are
 tracked separately. No registry or journal submission is authorized.
+
+
+## Graph-bounded flow and canonical paper compression
+
+The current source extends the historical155 integration with100 mathematical
+proofs across12 modules:316 mathematical modules,1410 theorem audit targets
+and1300 selected protected contracts in total. The earlier integrated commit
+`f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` passed all12 native gates;
+its immutable external receipt has SHA256
+`550205def6d34828d33a514e9d4a8a379f3542f6894234f16a563986241ea0f6`.
+That result applies to that historical commit. Mechanical status of this
+extended source is determined by its own exact-source receipts.
+
+Actual shortest residual paths earn monotone levels and a two-level increase
+between recurring critical arcs. Successful augmentation traces have length
+at most `E*(n+2)`, where E is the cardinality of the oriented support
+`{(u,v) | 0 < C u v + C v u}`, including possible reverse residual orientations.
+`rationalTableFindFlowPolynomial` uses graph-derived direct-loop fuel, earns
+stopping and a maximum-flow/computed-cut certificate for distinct terminals.
+This bound is independent of capacity magnitude. It bounds augmentations and
+fuel; primitive arithmetic and full bit-runtime guarantees remain open.
+
+The finite demand network is built from the original rational weights,
+scores, payoff bound and response threshold. Its computed maximum and cut earn
+source saturation when the original residual completion is feasible. The
+returned materialized table decodes to rational skew bounded payoffs, including
+zero-weight original labels. Graph-sized fuel replaces numeric capacity fuel
+in `rationalDemandGraphCompletionTable`.
+
+The actual canonical rational grid agrees with the paper's ceil-square-root
+count. Paper feature rows preserve mass, anchor and extra moments, original
+zero labels, and all required hinge values. The general residual support bound
+is `k+d+1+H`; the exact-equilibrium endpoint identity earns `k+d+H` when the
+stated positive-parameter hypotheses hold, with zero residual mass handled
+separately. Graph-flow wrappers produce an actual rational residual payoff
+completion and prove full normalized compatible-game response bounds on the
+original labels, with one additive eta.
+
+The kernel search in this integrated source uses Fourier--Motzkin elimination.
+Some returned weight functions may recompute their search when read; no
+operational sharing or polynomial kernel runtime is inferred. Separate newer
+Gaussian, input-height and source-event developments are outside this source.
+The100 additions have strict narrow audits and66 asserted controls, independent
+internal AI source reviews, and an expanded reviewed imported-definition
+inventory with22 bridges checked in both historical entrypoint contexts.
+Those checks do not replace this source's integrated protected/native gates.
+Whole-paper completion remains false: polynomial rational LP, arithmetic,
+intermediate heights, bit costs and the remaining source-specific algorithm
+composition still require proofs. No registry or journal submission is authorized.

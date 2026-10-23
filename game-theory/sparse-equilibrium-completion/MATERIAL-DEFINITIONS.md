@@ -16096,3 +16096,1262 @@ protected theorem div_mul_cancel {a b : Rat} (hb : b ≠ 0) : a / b * b = a := b
 ```
 
 Affected targets: `SparseCompletion.rational_canonical_encoding_bits_bound`, `SparseCompletion.rational_capacity_lattice`, `SparseCompletion.rational_lattice_den_divides`, `SparseCompletion.rational_lattice_den_le`, `SparseCompletion.rational_lattice_iff_den_divides`, `SparseCompletion.rational_lattice_input_list`, `SparseCompletion.rational_lattice_of_den_divides`, `SparseCompletion.rational_magnitude_le_num_abs`, `SparseCompletion.rational_num_abs_identity`, `SparseCompletion.rational_numerator_binary_bound_from_height`, `SparseCompletion.rational_numerator_bound_from_magnitude_denominator`, `SparseCompletion.rational_skew_flow_canonical_encoding_bound`, `SparseCompletion.rational_sum_magnitude_bound`, `SparseCompletion.rational_sum_numerator_binary_bound`, `SparseCompletion.rational_sum_numerator_bits`, `SparseCompletion.rational_sum_numerator_power_bound`, `SparseCompletion.rational_sum_numerator_product_bound`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`.
+
+# Next100 imported-definition source candidate
+
+Baseline: immutable published commit `f3daca0129db5fc8a4ed2297b5c11e43bfecb7aa` with75material139core3auxiliary records. This separate source-only candidate adds100 actual target contexts. PASS merged owner-based8helper supplement into actual100 target closures; original arrays retained. New semantic bridge source is retained in both Challenge and Solution contexts. Exact-source external receipts report compilation; integrated candidate checks and independent inventory-completeness review remain separate.
+
+The original trace expands actual project types/values and generated local inductive recipes with an external declaration stop. The focused supplement follows private helpers by actual module owner. External upstream theorem-proof bodies remain outside this bounded closure. No module-wide target assignment is used. Historical1310 reuse is justified by exact304-module equality after removing only leading comments: imports, attributes, all declaration bodies and proof text match the published source. This is a bounded reuse rationale, not a fresh published-commit trace.
+
+All original155 arrays and historical provenance are preserved by union. The earlier author document’s trailing blank-line normalization is already part of the frozen published baseline; its exact bytes are the starting document here.
+
+## Fintype — actual100 added contexts
+
+A finite type has a finite duplicate-free enumeration containing every element.
+
+Finite sums range over that enumeration. Empty types are allowed. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection. Actual finite function equality and universal decisions use Fintype.decidablePiFintype and decidableForallFintype, reducing through proved iff to actual univ traversal; exact supporting excerpt retained.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.demand_internal_set_compl`, `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.demand_nodes_sum`, `SparseCompletion.mem_demand_internal_set`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Finset — actual100 added contexts
+
+A finite set is a multiset with no duplicate entries.
+
+Membership, complement and subset sums refer to the finite indexing set, without multiplicities. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection. Finite complement uses actual Finset.booleanAlgebra via boundedOrder top=univ and GeneralizedBooleanAlgebra.toBooleanAlgebra compl(a)=top\a. Finset.instSDiff stores Multiset.sub; quotient subtraction delegates literal Batteries List.diff and logical List.elem/erase with a proved eraseTR runtime replacement. This finite enumeration is distinct from Set.compl. Public compl/membership and Array.toListAppend contracts define the proof boundary; no machine/bit complexity is inferred. Direct finite erasure separately uses literal Finset.erase wrapping Multiset.erase, whose Quot.liftOn delegates List.erase; these wrappers have exact183 historical users, while shared logical/runtime erase backing has221 historical plus5 future users. Erasure alone does not entail List.elem or Batteries List.diff. Follow-on support deletion retains exact subset/strict-subset membership meanings and the strict-cardinality contract, with no equality-by-cardinality assumption.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.demand_internal_set_compl`, `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.demand_nodes_sum`, `SparseCompletion.mem_demand_internal_set`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Finset.prod — actual100 added contexts
+
+Multiplicative source for the generated additive Finset.sum definition.
+
+The to_additive attribute generates Finset.sum as the mapped underlying multiset sum; finite_sum_literal checks that exact value.
+
+Actual added targets: `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.demand_nodes_sum`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`.
+
+## Set.Icc — actual100 added contexts
+
+The closed interval consists of x with a ≤ x and x ≤ b.
+
+The grid/envelope domain includes both endpoints; interval_literal unfolds the actual predicate. Compact completion reconstruction also uses the coordinatewise closed interval of matrices between constant bounds -M and M; the generic order-interval predicate retains the same literal conjunction meaning.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Nat.ceil — actual100 added contexts
+
+The natural ceiling delegates to FloorSemiring.ceil.
+
+FloorSemiring.gc_ceil says ceil a ≤ n iff a ≤ (n:ℝ); the natural ceiling is zero for negative a. For the computable rational grid only, the actual Rat FloorRing uses ofFloor(Rat.floor), integer ceil=-Rat.floor(-q), and Nat truncation. It does not use the noncomputable Real floor choice.
+
+Actual added targets: `SparseCompletion.rational_canonical_grid_size_bound`, `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_bound`, `SparseCompletion.rational_ceil_sqrt_minimal`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## FloorSemiring — actual100 added contexts
+
+Floor and ceiling operations with their natural-cast adjunction laws.
+
+The ceil field is a lower adjoint to the natural cast; natural_ceiling_meaning checks the resulting equivalence at ℝ. For the computable rational grid only, the actual Rat FloorRing uses ofFloor(Rat.floor), integer ceil=-Rat.floor(-q), and Nat truncation. It does not use the noncomputable Real floor choice. Explicit-bin supporting expansion: For the 15 new targets listed here only, FloorSemiring.instCharZero is supporting natural-cast proof context generated by the literal anonymous instance at line 106. The theorem natCast_strictMono uses the retained floor operation internally in its proof; no bin algorithm performs a floor/ceil operation. No fabricated literal instance name is asserted.
+
+Actual added targets: `SparseCompletion.rational_canonical_grid_size_bound`, `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_bound`, `SparseCompletion.rational_ceil_sqrt_minimal`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## NNReal.sqrt — actual100 added contexts
+
+Nonnegative square root is the inverse order isomorphism of squaring on nonnegative reals.
+
+powOrderIso 2 supplies squaring; its inverse identities give a nonnegative root with square equal to the input.
+
+Actual added targets: `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Real.sqrt — actual100 added contexts
+
+The real square root applies NNReal.sqrt to Real.toNNReal.
+
+Negative inputs yield zero. Nonnegative radicands include Mr/η, ε, ε+δ, ε+3δ/8 and 3/1216 under the selected contracts' positivity hypotheses; square_root_meaning proves the needed square and sign laws.
+
+Actual added targets: `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Real.toNNReal — actual100 added contexts
+
+Real-to-nonnegative-real conversion clips a real input below at zero.
+
+The underlying value is max r 0, with a proof of nonnegativity. For nonnegative inputs its coercion equals the original input.
+
+Actual added targets: `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Convex — actual100 added contexts
+
+Every point of the set is a star center of the set.
+
+Via StarConvex this means closure under nonnegative two-point real convex combinations; convex_literal proves the expanded quantifiers.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## StarConvex — actual100 added contexts
+
+All nonnegative combinations of a chosen center with a point of the set, with weights summing to one, remain in the set.
+
+Centers in the set quantify convexity. No topological closedness is assumed.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Module.finrank — actual100 added contexts
+
+The natural-number conversion of the cardinal-valued module rank.
+
+Cardinal.toNat is zero on infinite cardinals. Here the feature space is a finite real product and the checked finite_feature_dimension law gives its actual finite dimension; no infinite-dimensional rank is interpreted as a support bound. Follow-on rational feature dimension uses the exact Q finite function-space contract and the independent-family cardinality inequality; Real finite dimension is not silently substituted.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Finset.card — actual100 added contexts
+
+The number of elements in the underlying duplicate-free multiset.
+
+finite_card_literal checks this exact value. The support count is a count of original nonzero labels, not a count of distinct feature values. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Fintype.card — actual100 added contexts
+
+The cardinality of the finite universal enumeration.
+
+type_card_literal checks its link to Finset.card. Empty finite feature types are allowed, giving the mass-only one-point case. For arbitrary covers, Subtype carries original labels with membership proofs; Set.Elem/coercion and finite-subtype-enumeration use the filtered universal finite set. Fintype.subtype enumerates every actual member. Equiv.Set.sumCompl partitions the original type and Fintype.equivFin numbers only the chosen cover; all sum/cardinality transport uses a proved bijection. See compiler evidence for Subtype and genuine DecidablePred, including Bool reflection.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## IsCompact — actual100 added contexts
+
+Every nontrivial filter containing the set has a cluster point in the set.
+
+The filter is finer than the principal filter of s. ClusterPt means the neighborhood filter and input filter have nontrivial infimum; in finite Euclidean space this gives ordinary compactness.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## IsClosed — actual100 added contexts
+
+The complement is open.
+
+Closedness of the upper orthant is proved coordinatewise, rather than assumed. IsOpen is the given topology predicate.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Continuous — actual100 added contexts
+
+Preimages of open sets are open.
+
+Used for the image of a compact set under the weighted response linear map and for continuous separating functionals. The actual interval physical-moment map uses pointwise multiplication; Continuous.mul/mul_const and the exact to_additive-generated continuous_add contract are retained separately. No literal generated declaration head is fabricated.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## LinearMap — actual100 added contexts
+
+A bundled additive scalar-preserving map.
+
+Specializing the scalar homomorphism to the identity on real numbers gives ordinary real linearity; weightedNegResponse is constructed with both laws.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## ContinuousLinearMap — actual100 added contexts
+
+A bundled linear map together with continuity.
+
+StrongDual real E abbreviates E to real continuous linear maps. Only evaluation, linearity and continuity are used, not any topology on the dual itself.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Set.image — actual100 added contexts
+
+The image comprises values of domain points in the specified set.
+
+weightedScoreSet is the image of the full bounded skew box. Membership yields an actual skew matrix with entry bounds, rather than an abstract unrelated score vector.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Finset.image — actual100 added contexts
+
+The finite image maps every element and removes duplicate values.
+
+The mapped underlying multiset is converted to a finite set by deduplication; membership is existence of a preimage in the original set. Image cardinality never increases and equals the source cardinality when the function is injective.  Its literal Multiset.toFinset delegate now has retained Multiset.dedup→List.dedup→Batteries List.pwFilter source recipes, with exact215 historical users. This is a supporting-source correction, not a claim that every theorem runs this computation.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Finset.Nonempty — actual100 added contexts
+
+A finite set contains an element.
+
+This is an existential membership predicate; it supplies a genuine maximum only in the nonempty branch. The empty threshold set uses prefix0. Exploitability also takes the attained supremum of the genuine nonempty universal finite row set; the Nonempty action-type instance proves univ nonempty. All original row responses, not a supplied objective bound, participate in this supremum.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Finset.max' — actual100 added contexts
+
+Maximum element of a genuinely nonempty finite set in a linear order.
+
+Definition is sup' of identity; nonemptiness is required. Maximum membership and order contracts establish result semantics, including for a set formed by inserting0. In the rational elimination program the to_dual generated minprime/infprime select rational finite minima, with actual bridges to infprime/WithTop.untop. No literal generated definition head is fabricated.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Finset.sup' — actual100 added contexts
+
+Supremum of the image of a genuinely nonempty finite set in a join semilattice.
+
+Uses WithBot.unbot after finite sup of lifted values, with a proof the result is not bottom. Finset.sup folds supremum with bottom; it is not arbitrary choice or a supremum assumed attained in a general infinite set. Exploitability also takes the attained supremum of the genuine nonempty universal finite row set; the Nonempty action-type instance proves univ nonempty. All original row responses, not a supplied objective bound, participate in this supremum. In the rational elimination program the to_dual generated minprime/infprime select rational finite minima, with actual bridges to infprime/WithTop.untop. No literal generated definition head is fabricated.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## LinearOrder — actual100 added contexts
+
+A reflexive, transitive, antisymmetric and total ordering with decidable comparisons/equality and consistent min/max/comparison operations.
+
+Extends PartialOrder then Preorder then LE/LT. Preorder ties strict order to non-strict order and its asymmetric part; LinearOrder supplies totality, decidable instances, min/max definitions and comparison consistency. Finite maximum applies to its actual order, not an abstract numerical supremum assumption.
+
+Actual added targets: `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_canonical_grid_size_bound`, `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_bound`, `SparseCompletion.rational_ceil_sqrt_minimal`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_demand_capacity_nonneg`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_net_push_path_le_of_reverse_absent`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## ConditionallyCompleteLattice — actual100 added contexts
+
+Every nonempty bounded-below set has a greatest lower bound; dually for suprema.
+
+Real uses its proved isGLB_sInf and isLUB_sSup. BddBelow and IsGLB are generated duals of retained bounds definitions. The actual value image is compact and nonempty before sInf membership/lower-bound theorems are applied.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## ConditionallyCompleteLinearOrder — actual100 added contexts
+
+Conditional completeness together with a total ordered structure and coherent decidable comparisons.
+
+On reals this is the retained canonical instance. Outside bounded sets the operation is total by convention; all claimed optimistic minima use actual compact nonempty sets.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Rat.castRec — actual100 added contexts
+
+Default rational-to-division-ring recipe is the integer numerator divided by its nonzero natural denominator.
+
+Batteries RatCast supplies the selected map/coercions. Real overrides the default recipe with its Cauchy-real injection. The numerator/denominator formula, injectivity, order reflection and arithmetic preservation are proved contracts, not definitional equality of the Real constructor. Compiler Rat data, reduced arithmetic and lawful decidability are retained separately; finite support uses its actual attach enumeration.
+
+Actual added targets: `SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Set.Nonempty — actual100 added contexts
+
+There exists an actual member of the set; compactness alone does not supply one.
+
+Distinct from the compiler Nonempty typeclass and from Inhabited/default data. The exact existential definition and separate actual witness hypotheses/constructions are retained.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Nat.floor — actual100 added contexts
+
+Nat.floor selects the FloorSemiring.floor field and is natural-valued: it is zero on negative reals. It is the greatest natural below a nonnegative input; the contract floor(x)<=x requires x>=0. The next-integer bound x<floor(x)+1 and monotonicity hold for all reals. Actual Real floor is noncomputable via Archimedean FloorRing construction and then Int.toNat; these mathematical rounding lemmas are not an executable Real-floor algorithm. Finite allocation maps are actual functions from the anchor index type to the finite ordinal, enumerated by Pi.instFintype/Fintype.piFinset, whose cardinal is N^(card anchors).
+
+FloorSemiring.floor and its Galois connection select the natural floor, zero on negative inputs. Actual Real FloorRing uses an Archimedean choice construction and the Nat floor is its Int.toNat truncation; mathematical rounding is not claimed executable on arbitrary Reals. Pi.instFintype enumerates genuine finite functions by Fintype.piFinset; its cardinality is proved, not a runtime assertion.
+
+Actual added targets: `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`.
+
+## Finset.filter — actual100 added contexts
+
+Actual finite filtering by a decidable predicate.
+
+Expands to Multiset.filter; preserves finite no-duplicate data. Predicate-to-Bool computation uses genuine decidability, not arbitrary Real comparison.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.demand_internal_set_compl`, `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.mem_demand_internal_set`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Multiset.filter — actual100 added contexts
+
+Finite multiset filtering via quotient lift of List.filter.
+
+List.filter consumes actual Bool predicate with decidable coercion; exact compiler List operations and membership contracts are retained separately.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.demand_internal_set_compl`, `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.mem_demand_internal_set`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Fin.cons — actual100 added contexts
+
+Dependent bounded-coordinate cons; coordinate zero is the supplied head and successor coordinates are the tail.
+
+Actual Fin.cases indexing and Fin(n+1) decomposition. Structural LP elimination appends a rational head and uses the proved finite sum successor contract. No arbitrary finite equivalence is selected.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Multiset.toFinset — actual100 added contexts
+
+Finite-set conversion stores the deduplicated multiset with genuine Nodup evidence.
+
+The literal definition and value theorem identify its data with Multiset.dedup; Nodup conversion contracts relate the direct constructor to this conversion.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Multiset.dedup — actual100 added contexts
+
+Permutation-invariant multiset deduplication induced by List.dedup through Quot.liftOn.
+
+The actual quotient lift uses List.dedup and the public permutation contract; coercion and membership contracts are retained. Kernel Quot is the primitive boundary; no unsafe unquot path.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## List.dedup — actual100 added contexts
+
+Remove earlier duplicate occurrences via the actual pairwise-filter fold.
+
+The literal program is Batteries List.pwFilter (not-equal), whose foldr condition checks every retained tail element. The Nodup constructor payload does not run this program; its equality proof references these semantics.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Relation.ReflTransGen — actual100 added contexts
+
+Least reflexive/transitive closure of relation r: a finite chain may have zero edges (refl), or append one r-edge (tail).
+
+Literal indexed inductive in namespace Relation. refl and tail constructors and generated eliminator are provided by Lean from this declaration; no literal def ReflTransGen.rec head exists.
+
+Actual added targets: `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## abs — actual100 added contexts
+
+Absolute value as generated additive lattice-ordered-group operation; at rational arguments it equals max q (-q).
+
+Actual generated definition is distinguished from its literal multiplicative source. Authenticated to_additive generator plus actual pinned exported target and proved semantic bridge are required; no fabricated literal target declaration head. Public generated zero/nonnegative/triangle and actual ring/cast magnitude contracts retained.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Pi.single — actual100 added contexts
+
+The generated additive single-coordinate function equals x at the selected index and zero elsewhere, via genuine DecidableEq Function.update.
+
+Actual generated definition is distinguished from its literal multiplicative source. Authenticated to_additive generator plus actual pinned exported target and proved semantic bridge are required; no fabricated literal target declaration head. Literal Pi.mulSingle delegates Function.update; its dependent conditional and non-dependent pointwise contract retained. DecidableEq supplied, not a fake decision or assumed runtime choice.
+
+Actual added targets: `SparseCompletion.rational_paper_demand_guards_and_cuts`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## LinearIndependent — actual100 added contexts
+
+A family of vectors is linearly independent exactly when its finitely supported linear-combination map is injective.
+
+Exact definition is Function.Injective (Finsupp.linearCombination R v). Retained Finsupp structure has exact finite support; linearCombination is a bundled linear map with a public finite sum contract. Finsupp.sum is generated additively from retained Finsupp.prod and sums over the exact nonzero support; the finite-sum coordinate bridge checks this literal evaluation. For actual rational finite feature spaces, the proved finite characterization supplies a nonzero coefficient relation when independence fails. The dimension contradiction uses the exact finite independent-cardinality bound and Module.finrank_fintype_fun_eq_card over Q, allowing empty finite coordinate types. The actual Rat.numberField/NumberField.to_finiteDimensional instance route supplies a genuine finite-generation premise, with the exact alias/class/finite-span definitions retained as supporting context. These are proved equivalences/contracts, not claims of definitional equality with a handwritten finite-sum predicate. No analytic closure or affine independence is substituted.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Fin.append — actual100 added contexts
+
+Concatenates two genuine finite-index functions through the actual dependent Fin.addCases split; prefix/suffix coordinates use castAdd/natAdd without default indexing. Empty prefix or suffix types remain valid.
+
+Literal @Fin.addCases with constant motive. Retained core split, castAdd/natAdd transports and exact append_left/append_right contracts bind the source/destination tuple blocks. No list append, arbitrary function extension or graph correctness is substituted.
+
+Actual added targets: `SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## HAppend notation interface
+
+Heterogeneous append notation selects hAppend; the concrete List instance below supplies concatenation, never an arbitrary append meaning.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1563-L1566
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `68460cac8605145c6148e12a00e17558a075967c50dc69ebb80c35b25aca5fd7`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+class HAppend (α : Type u) (β : Type v) (γ : outParam (Type w)) where
+  /-- `a ++ b` is the result of concatenation of `a` and `b`, usually read "append".
+  The meaning of this notation is type-dependent. -/
+  hAppend : α → β → γ
+```
+
+Exact selected users (historical and new): `SparseCompletion.cached_bfs_distance_bound`, `SparseCompletion.cached_bfs_distance_edge_triangle`, `SparseCompletion.cached_bfs_distance_le_walk`, `SparseCompletion.cached_bfs_distance_mono_of_edge_triangles`, `SparseCompletion.cached_bfs_distance_of_none`, `SparseCompletion.cached_bfs_distance_of_some`, `SparseCompletion.cached_bfs_distance_shortest_prefix`, `SparseCompletion.cached_bfs_distance_shortest_prefix_edge`, `SparseCompletion.cached_bfs_distance_source`, `SparseCompletion.cached_bfs_extend_nil`, `SparseCompletion.cached_bfs_extend_none_iff`, `SparseCompletion.cached_bfs_extend_some`, `SparseCompletion.cached_bfs_initial_valid`, `SparseCompletion.cached_bfs_layers_keep`, `SparseCompletion.cached_bfs_layers_none_iff`, `SparseCompletion.cached_bfs_layers_simple`, `SparseCompletion.cached_bfs_layers_succ`, `SparseCompletion.cached_bfs_layers_valid`, `SparseCompletion.cached_bfs_layers_zero`, `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_bfs_path_nodup`, `SparseCompletion.cached_bfs_path_none_iff_unreachable`, `SparseCompletion.cached_bfs_path_shortest`, `SparseCompletion.cached_bfs_path_some_endpoints`, `SparseCompletion.cached_bfs_path_some_walk`, `SparseCompletion.cached_bfs_reachable_some`, `SparseCompletion.cached_bfs_result_origin`, `SparseCompletion.cached_bfs_result_predecessor`, `SparseCompletion.cached_bfs_shortest_prefix`, `SparseCompletion.cached_bfs_step_discovered`, `SparseCompletion.cached_bfs_step_keep`, `SparseCompletion.cached_bfs_step_none_iff`, `SparseCompletion.cached_bfs_step_simple`, `SparseCompletion.cached_bfs_step_valid`, `SparseCompletion.cached_penultimate_sound`, `SparseCompletion.cached_rational_path_augmentation`, `SparseCompletion.cached_rational_residual_none_iff`, `SparseCompletion.cached_residual_walk_concat`, `SparseCompletion.cached_residual_walk_edges_arcs`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.cached_residual_walk_endpoints`, `SparseCompletion.cached_residual_walk_nonempty`, `SparseCompletion.cached_residual_walk_reachable`, `SparseCompletion.cached_residual_walk_residuals_positive`, `SparseCompletion.cached_walk_potential_bound`, `SparseCompletion.cached_walk_reach_layer`, `SparseCompletion.counted_merge_sort_perm`, `SparseCompletion.rational_augment_bottleneck_of_cached`, `SparseCompletion.rational_augment_candidate_of_cached`, `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_interval_cut_check_iff`, `SparseCompletion.rational_interval_exact_check_full_game`, `SparseCompletion.rational_interval_exact_check_iff`, `SparseCompletion.rational_interval_exact_reconstruction_complete`, `SparseCompletion.rational_interval_exact_reconstruction_none_iff`, `SparseCompletion.rational_interval_exact_residual_exists`, `SparseCompletion.rational_interval_violation_comparisons`, `SparseCompletion.rational_interval_violation_none_iff_check`, `SparseCompletion.rational_interval_violation_none_iff_cuts`, `SparseCompletion.rational_interval_violation_some_sound`, `SparseCompletion.rational_label_sort_covers`, `SparseCompletion.rational_label_sort_labels`, `SparseCompletion.rational_label_sort_nodup`, `SparseCompletion.rational_label_sort_stored_score`, `SparseCompletion.rational_nodup_sorted_violation_comparisons`, `SparseCompletion.rational_nodup_sorted_violation_eq`, `SparseCompletion.rational_nodup_sorted_violation_none_iff`, `SparseCompletion.rational_nodup_sorted_violation_some_sound`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_path_edges_append_one`, `SparseCompletion.rational_path_residuals_append_one`, `SparseCompletion.rational_perspective_cut_check_iff`, `SparseCompletion.rational_perspective_separator_sound`, `SparseCompletion.rational_perspective_violation_comparisons`, `SparseCompletion.rational_perspective_violation_none_iff_check`, `SparseCompletion.rational_perspective_violation_none_iff_cuts`, `SparseCompletion.rational_perspective_violation_some_sound`, `SparseCompletion.rational_score_sort_perm`, `SparseCompletion.rational_score_sort_stored_score`, `SparseCompletion.rational_sorted_cut_check_iff`, `SparseCompletion.rational_sorted_cut_check_prefix_iff`, `SparseCompletion.rational_sorted_cut_prefix_criterion`, `SparseCompletion.rational_sorted_index_antitone`, `SparseCompletion.rational_sorted_index_bijective`, `SparseCompletion.rational_sorted_index_injective`, `SparseCompletion.rational_sorted_index_score`, `SparseCompletion.rational_sorted_index_surjective`, `SparseCompletion.rational_sorted_prefix_sum`, `SparseCompletion.rational_sorted_violation_none_iff_cuts`, `SparseCompletion.rational_sorted_violation_some_sound`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_eq`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_eq`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_direct_none_persistent`, `SparseCompletion.rational_table_flow_iterate_direct_of_none`, `SparseCompletion.rational_table_flow_iterate_direct_succ_final`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.rational_table_flow_iterate_succ`, `SparseCompletion.rational_table_flow_iterate_zero`, `SparseCompletion.rational_table_push_shortest_distance_mono`, `SparseCompletion.rational_walk_edges_append_one`.
+
+## Append homogeneous interface
+
+Homogeneous append notation class; retained List dictionary and HAppend adapter supply the actual operation.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1728-L1731
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `67364778e9aa0ab24a65c0fc900dd88f4688b63427ce47fe4013649c0721e7ce`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+class Append (α : Type u) where
+  /-- `a ++ b` is the result of concatenation of `a` and `b`. See `HAppend`. -/
+  append : α → α → α
+
+```
+
+Exact selected users (historical and new): `SparseCompletion.cached_bfs_distance_bound`, `SparseCompletion.cached_bfs_distance_edge_triangle`, `SparseCompletion.cached_bfs_distance_le_walk`, `SparseCompletion.cached_bfs_distance_mono_of_edge_triangles`, `SparseCompletion.cached_bfs_distance_of_none`, `SparseCompletion.cached_bfs_distance_of_some`, `SparseCompletion.cached_bfs_distance_shortest_prefix`, `SparseCompletion.cached_bfs_distance_shortest_prefix_edge`, `SparseCompletion.cached_bfs_distance_source`, `SparseCompletion.cached_bfs_extend_nil`, `SparseCompletion.cached_bfs_extend_none_iff`, `SparseCompletion.cached_bfs_extend_some`, `SparseCompletion.cached_bfs_initial_valid`, `SparseCompletion.cached_bfs_layers_keep`, `SparseCompletion.cached_bfs_layers_none_iff`, `SparseCompletion.cached_bfs_layers_simple`, `SparseCompletion.cached_bfs_layers_succ`, `SparseCompletion.cached_bfs_layers_valid`, `SparseCompletion.cached_bfs_layers_zero`, `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_bfs_path_nodup`, `SparseCompletion.cached_bfs_path_none_iff_unreachable`, `SparseCompletion.cached_bfs_path_shortest`, `SparseCompletion.cached_bfs_path_some_endpoints`, `SparseCompletion.cached_bfs_path_some_walk`, `SparseCompletion.cached_bfs_reachable_some`, `SparseCompletion.cached_bfs_result_origin`, `SparseCompletion.cached_bfs_result_predecessor`, `SparseCompletion.cached_bfs_shortest_prefix`, `SparseCompletion.cached_bfs_step_discovered`, `SparseCompletion.cached_bfs_step_keep`, `SparseCompletion.cached_bfs_step_none_iff`, `SparseCompletion.cached_bfs_step_simple`, `SparseCompletion.cached_bfs_step_valid`, `SparseCompletion.cached_penultimate_sound`, `SparseCompletion.cached_rational_path_augmentation`, `SparseCompletion.cached_rational_residual_none_iff`, `SparseCompletion.cached_residual_walk_concat`, `SparseCompletion.cached_residual_walk_edges_arcs`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.cached_residual_walk_endpoints`, `SparseCompletion.cached_residual_walk_nonempty`, `SparseCompletion.cached_residual_walk_reachable`, `SparseCompletion.cached_residual_walk_residuals_positive`, `SparseCompletion.cached_walk_potential_bound`, `SparseCompletion.cached_walk_reach_layer`, `SparseCompletion.counted_merge_sort_perm`, `SparseCompletion.rational_augment_bottleneck_of_cached`, `SparseCompletion.rational_augment_candidate_of_cached`, `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_interval_cut_check_iff`, `SparseCompletion.rational_interval_exact_check_full_game`, `SparseCompletion.rational_interval_exact_check_iff`, `SparseCompletion.rational_interval_exact_reconstruction_complete`, `SparseCompletion.rational_interval_exact_reconstruction_none_iff`, `SparseCompletion.rational_interval_exact_residual_exists`, `SparseCompletion.rational_interval_violation_comparisons`, `SparseCompletion.rational_interval_violation_none_iff_check`, `SparseCompletion.rational_interval_violation_none_iff_cuts`, `SparseCompletion.rational_interval_violation_some_sound`, `SparseCompletion.rational_label_sort_covers`, `SparseCompletion.rational_label_sort_labels`, `SparseCompletion.rational_label_sort_nodup`, `SparseCompletion.rational_label_sort_stored_score`, `SparseCompletion.rational_nodup_sorted_violation_comparisons`, `SparseCompletion.rational_nodup_sorted_violation_eq`, `SparseCompletion.rational_nodup_sorted_violation_none_iff`, `SparseCompletion.rational_nodup_sorted_violation_some_sound`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_path_edges_append_one`, `SparseCompletion.rational_path_residuals_append_one`, `SparseCompletion.rational_perspective_cut_check_iff`, `SparseCompletion.rational_perspective_separator_sound`, `SparseCompletion.rational_perspective_violation_comparisons`, `SparseCompletion.rational_perspective_violation_none_iff_check`, `SparseCompletion.rational_perspective_violation_none_iff_cuts`, `SparseCompletion.rational_perspective_violation_some_sound`, `SparseCompletion.rational_score_sort_perm`, `SparseCompletion.rational_score_sort_stored_score`, `SparseCompletion.rational_sorted_cut_check_iff`, `SparseCompletion.rational_sorted_cut_check_prefix_iff`, `SparseCompletion.rational_sorted_cut_prefix_criterion`, `SparseCompletion.rational_sorted_index_antitone`, `SparseCompletion.rational_sorted_index_bijective`, `SparseCompletion.rational_sorted_index_injective`, `SparseCompletion.rational_sorted_index_score`, `SparseCompletion.rational_sorted_index_surjective`, `SparseCompletion.rational_sorted_prefix_sum`, `SparseCompletion.rational_sorted_violation_none_iff_cuts`, `SparseCompletion.rational_sorted_violation_some_sound`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_eq`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_eq`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_direct_none_persistent`, `SparseCompletion.rational_table_flow_iterate_direct_of_none`, `SparseCompletion.rational_table_flow_iterate_direct_succ_final`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.rational_table_flow_iterate_succ`, `SparseCompletion.rational_table_flow_iterate_zero`, `SparseCompletion.rational_table_push_shortest_distance_mono`, `SparseCompletion.rational_walk_edges_append_one`.
+
+## Append to HAppend dictionary adapter
+
+The actual adapter passes homogeneous Append.append into HAppend.hAppend.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1826-L1827
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `aab7d6d20b3645b4ac69be320ffde584c81583c11de9d0ca2047bb7b3650332f`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+instance [Append α] : HAppend α α α where
+  hAppend a b := Append.append a b
+```
+
+Exact selected users (historical and new): `SparseCompletion.cached_bfs_distance_bound`, `SparseCompletion.cached_bfs_distance_edge_triangle`, `SparseCompletion.cached_bfs_distance_le_walk`, `SparseCompletion.cached_bfs_distance_mono_of_edge_triangles`, `SparseCompletion.cached_bfs_distance_of_none`, `SparseCompletion.cached_bfs_distance_of_some`, `SparseCompletion.cached_bfs_distance_shortest_prefix`, `SparseCompletion.cached_bfs_distance_shortest_prefix_edge`, `SparseCompletion.cached_bfs_distance_source`, `SparseCompletion.cached_bfs_extend_nil`, `SparseCompletion.cached_bfs_extend_none_iff`, `SparseCompletion.cached_bfs_extend_some`, `SparseCompletion.cached_bfs_initial_valid`, `SparseCompletion.cached_bfs_layers_keep`, `SparseCompletion.cached_bfs_layers_none_iff`, `SparseCompletion.cached_bfs_layers_simple`, `SparseCompletion.cached_bfs_layers_succ`, `SparseCompletion.cached_bfs_layers_valid`, `SparseCompletion.cached_bfs_layers_zero`, `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_bfs_path_nodup`, `SparseCompletion.cached_bfs_path_none_iff_unreachable`, `SparseCompletion.cached_bfs_path_shortest`, `SparseCompletion.cached_bfs_path_some_endpoints`, `SparseCompletion.cached_bfs_path_some_walk`, `SparseCompletion.cached_bfs_reachable_some`, `SparseCompletion.cached_bfs_result_origin`, `SparseCompletion.cached_bfs_result_predecessor`, `SparseCompletion.cached_bfs_shortest_prefix`, `SparseCompletion.cached_bfs_step_discovered`, `SparseCompletion.cached_bfs_step_keep`, `SparseCompletion.cached_bfs_step_none_iff`, `SparseCompletion.cached_bfs_step_simple`, `SparseCompletion.cached_bfs_step_valid`, `SparseCompletion.cached_penultimate_sound`, `SparseCompletion.cached_rational_path_augmentation`, `SparseCompletion.cached_rational_residual_none_iff`, `SparseCompletion.cached_residual_walk_concat`, `SparseCompletion.cached_residual_walk_edges_arcs`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.cached_residual_walk_endpoints`, `SparseCompletion.cached_residual_walk_nonempty`, `SparseCompletion.cached_residual_walk_reachable`, `SparseCompletion.cached_residual_walk_residuals_positive`, `SparseCompletion.cached_walk_potential_bound`, `SparseCompletion.cached_walk_reach_layer`, `SparseCompletion.counted_merge_sort_perm`, `SparseCompletion.rational_augment_bottleneck_of_cached`, `SparseCompletion.rational_augment_candidate_of_cached`, `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_interval_cut_check_iff`, `SparseCompletion.rational_interval_exact_check_full_game`, `SparseCompletion.rational_interval_exact_check_iff`, `SparseCompletion.rational_interval_exact_reconstruction_complete`, `SparseCompletion.rational_interval_exact_reconstruction_none_iff`, `SparseCompletion.rational_interval_exact_residual_exists`, `SparseCompletion.rational_interval_violation_comparisons`, `SparseCompletion.rational_interval_violation_none_iff_check`, `SparseCompletion.rational_interval_violation_none_iff_cuts`, `SparseCompletion.rational_interval_violation_some_sound`, `SparseCompletion.rational_label_sort_covers`, `SparseCompletion.rational_label_sort_labels`, `SparseCompletion.rational_label_sort_nodup`, `SparseCompletion.rational_label_sort_stored_score`, `SparseCompletion.rational_nodup_sorted_violation_comparisons`, `SparseCompletion.rational_nodup_sorted_violation_eq`, `SparseCompletion.rational_nodup_sorted_violation_none_iff`, `SparseCompletion.rational_nodup_sorted_violation_some_sound`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_path_edges_append_one`, `SparseCompletion.rational_path_residuals_append_one`, `SparseCompletion.rational_perspective_cut_check_iff`, `SparseCompletion.rational_perspective_separator_sound`, `SparseCompletion.rational_perspective_violation_comparisons`, `SparseCompletion.rational_perspective_violation_none_iff_check`, `SparseCompletion.rational_perspective_violation_none_iff_cuts`, `SparseCompletion.rational_perspective_violation_some_sound`, `SparseCompletion.rational_score_sort_perm`, `SparseCompletion.rational_score_sort_stored_score`, `SparseCompletion.rational_sorted_cut_check_iff`, `SparseCompletion.rational_sorted_cut_check_prefix_iff`, `SparseCompletion.rational_sorted_cut_prefix_criterion`, `SparseCompletion.rational_sorted_index_antitone`, `SparseCompletion.rational_sorted_index_bijective`, `SparseCompletion.rational_sorted_index_injective`, `SparseCompletion.rational_sorted_index_score`, `SparseCompletion.rational_sorted_index_surjective`, `SparseCompletion.rational_sorted_prefix_sum`, `SparseCompletion.rational_sorted_violation_none_iff_cuts`, `SparseCompletion.rational_sorted_violation_some_sound`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_eq`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_eq`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_direct_none_persistent`, `SparseCompletion.rational_table_flow_iterate_direct_of_none`, `SparseCompletion.rational_table_flow_iterate_direct_succ_final`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.rational_table_flow_iterate_succ`, `SparseCompletion.rational_table_flow_iterate_zero`, `SparseCompletion.rational_table_push_shortest_distance_mono`, `SparseCompletion.rational_walk_edges_append_one`.
+
+## List.append logical concatenation
+
+Structural nil/cons concatenation. Output preserves first-list order followed by second-list order; no graph/path fact follows without its original proof.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L3284-L3287
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `6e253027c73d671d838b6919df83e6e0f7e04de01643617849eeae97cae997b4`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+@[implicit_reducible]
+protected def List.append : (xs ys : List α) → List α
+  | nil,       bs => bs
+  | cons a as, bs => cons a (List.append as bs)
+```
+
+Exact selected users (historical and new): `SparseCompletion.cached_bfs_distance_bound`, `SparseCompletion.cached_bfs_distance_edge_triangle`, `SparseCompletion.cached_bfs_distance_le_walk`, `SparseCompletion.cached_bfs_distance_mono_of_edge_triangles`, `SparseCompletion.cached_bfs_distance_of_none`, `SparseCompletion.cached_bfs_distance_of_some`, `SparseCompletion.cached_bfs_distance_shortest_prefix`, `SparseCompletion.cached_bfs_distance_shortest_prefix_edge`, `SparseCompletion.cached_bfs_distance_source`, `SparseCompletion.cached_bfs_extend_nil`, `SparseCompletion.cached_bfs_extend_none_iff`, `SparseCompletion.cached_bfs_extend_some`, `SparseCompletion.cached_bfs_initial_valid`, `SparseCompletion.cached_bfs_layers_keep`, `SparseCompletion.cached_bfs_layers_none_iff`, `SparseCompletion.cached_bfs_layers_simple`, `SparseCompletion.cached_bfs_layers_succ`, `SparseCompletion.cached_bfs_layers_valid`, `SparseCompletion.cached_bfs_layers_zero`, `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_bfs_path_nodup`, `SparseCompletion.cached_bfs_path_none_iff_unreachable`, `SparseCompletion.cached_bfs_path_shortest`, `SparseCompletion.cached_bfs_path_some_endpoints`, `SparseCompletion.cached_bfs_path_some_walk`, `SparseCompletion.cached_bfs_reachable_some`, `SparseCompletion.cached_bfs_result_origin`, `SparseCompletion.cached_bfs_result_predecessor`, `SparseCompletion.cached_bfs_shortest_prefix`, `SparseCompletion.cached_bfs_step_discovered`, `SparseCompletion.cached_bfs_step_keep`, `SparseCompletion.cached_bfs_step_none_iff`, `SparseCompletion.cached_bfs_step_simple`, `SparseCompletion.cached_bfs_step_valid`, `SparseCompletion.cached_penultimate_sound`, `SparseCompletion.cached_rational_path_augmentation`, `SparseCompletion.cached_rational_residual_none_iff`, `SparseCompletion.cached_residual_walk_concat`, `SparseCompletion.cached_residual_walk_edges_arcs`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.cached_residual_walk_endpoints`, `SparseCompletion.cached_residual_walk_nonempty`, `SparseCompletion.cached_residual_walk_reachable`, `SparseCompletion.cached_residual_walk_residuals_positive`, `SparseCompletion.cached_walk_potential_bound`, `SparseCompletion.cached_walk_reach_layer`, `SparseCompletion.counted_merge_sort_perm`, `SparseCompletion.rational_augment_bottleneck_of_cached`, `SparseCompletion.rational_augment_candidate_of_cached`, `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_interval_cut_check_iff`, `SparseCompletion.rational_interval_exact_check_full_game`, `SparseCompletion.rational_interval_exact_check_iff`, `SparseCompletion.rational_interval_exact_reconstruction_complete`, `SparseCompletion.rational_interval_exact_reconstruction_none_iff`, `SparseCompletion.rational_interval_exact_residual_exists`, `SparseCompletion.rational_interval_violation_comparisons`, `SparseCompletion.rational_interval_violation_none_iff_check`, `SparseCompletion.rational_interval_violation_none_iff_cuts`, `SparseCompletion.rational_interval_violation_some_sound`, `SparseCompletion.rational_label_sort_covers`, `SparseCompletion.rational_label_sort_labels`, `SparseCompletion.rational_label_sort_nodup`, `SparseCompletion.rational_label_sort_stored_score`, `SparseCompletion.rational_nodup_sorted_violation_comparisons`, `SparseCompletion.rational_nodup_sorted_violation_eq`, `SparseCompletion.rational_nodup_sorted_violation_none_iff`, `SparseCompletion.rational_nodup_sorted_violation_some_sound`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_path_edges_append_one`, `SparseCompletion.rational_path_residuals_append_one`, `SparseCompletion.rational_perspective_cut_check_iff`, `SparseCompletion.rational_perspective_separator_sound`, `SparseCompletion.rational_perspective_violation_comparisons`, `SparseCompletion.rational_perspective_violation_none_iff_check`, `SparseCompletion.rational_perspective_violation_none_iff_cuts`, `SparseCompletion.rational_perspective_violation_some_sound`, `SparseCompletion.rational_score_sort_perm`, `SparseCompletion.rational_score_sort_stored_score`, `SparseCompletion.rational_sorted_cut_check_iff`, `SparseCompletion.rational_sorted_cut_check_prefix_iff`, `SparseCompletion.rational_sorted_cut_prefix_criterion`, `SparseCompletion.rational_sorted_index_antitone`, `SparseCompletion.rational_sorted_index_bijective`, `SparseCompletion.rational_sorted_index_injective`, `SparseCompletion.rational_sorted_index_score`, `SparseCompletion.rational_sorted_index_surjective`, `SparseCompletion.rational_sorted_prefix_sum`, `SparseCompletion.rational_sorted_violation_none_iff_cuts`, `SparseCompletion.rational_sorted_violation_some_sound`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_eq`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_eq`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_direct_none_persistent`, `SparseCompletion.rational_table_flow_iterate_direct_of_none`, `SparseCompletion.rational_table_flow_iterate_direct_succ_final`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.rational_table_flow_iterate_succ`, `SparseCompletion.rational_table_flow_iterate_zero`, `SparseCompletion.rational_table_push_shortest_distance_mono`, `SparseCompletion.rational_walk_edges_append_one`.
+
+## List.append runtime replacement and csimp
+
+Actual appendTR reverses the first list then reverseAux onto the second. The proved csimp equality replaces the logical definition before constructing the List Append dictionary. No primitive or bit cost bound is proved.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean#L593-L607
+
+Whole-source SHA256: `566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293`; Git blob SHA1: `d99b37a6ff92aba32801ecf221eaece95db29faa`; excerpt SHA256: `9e085c224bb553a7ed0944e8e73e8002e4a44754a3230acf454451fcfa429f32`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+def appendTR (as bs : List α) : List α :=
+  reverseAux as.reverse bs
+
+@[csimp] theorem append_eq_appendTR : @List.append = @appendTR := by
+  apply funext; intro α; apply funext; intro as; apply funext; intro bs
+  simp [appendTR, reverse]
+  induction as with
+  | nil  => rfl
+  | cons a as ih =>
+    rw [reverseAux, reverseAux_reverseAux]
+    simp [List.append, ih, reverseAux]
+
+instance : Append (List α) := ⟨List.append⟩
+
+@[simp] theorem append_eq {as bs : List α} : List.append as bs = as ++ bs := rfl
+```
+
+Exact selected users (historical and new): `SparseCompletion.cached_bfs_distance_bound`, `SparseCompletion.cached_bfs_distance_edge_triangle`, `SparseCompletion.cached_bfs_distance_le_walk`, `SparseCompletion.cached_bfs_distance_mono_of_edge_triangles`, `SparseCompletion.cached_bfs_distance_of_none`, `SparseCompletion.cached_bfs_distance_of_some`, `SparseCompletion.cached_bfs_distance_shortest_prefix`, `SparseCompletion.cached_bfs_distance_shortest_prefix_edge`, `SparseCompletion.cached_bfs_distance_source`, `SparseCompletion.cached_bfs_extend_nil`, `SparseCompletion.cached_bfs_extend_none_iff`, `SparseCompletion.cached_bfs_extend_some`, `SparseCompletion.cached_bfs_initial_valid`, `SparseCompletion.cached_bfs_layers_keep`, `SparseCompletion.cached_bfs_layers_none_iff`, `SparseCompletion.cached_bfs_layers_simple`, `SparseCompletion.cached_bfs_layers_succ`, `SparseCompletion.cached_bfs_layers_valid`, `SparseCompletion.cached_bfs_layers_zero`, `SparseCompletion.cached_bfs_path_edges_levels`, `SparseCompletion.cached_bfs_path_nodup`, `SparseCompletion.cached_bfs_path_none_iff_unreachable`, `SparseCompletion.cached_bfs_path_shortest`, `SparseCompletion.cached_bfs_path_some_endpoints`, `SparseCompletion.cached_bfs_path_some_walk`, `SparseCompletion.cached_bfs_reachable_some`, `SparseCompletion.cached_bfs_result_origin`, `SparseCompletion.cached_bfs_result_predecessor`, `SparseCompletion.cached_bfs_shortest_prefix`, `SparseCompletion.cached_bfs_step_discovered`, `SparseCompletion.cached_bfs_step_keep`, `SparseCompletion.cached_bfs_step_none_iff`, `SparseCompletion.cached_bfs_step_simple`, `SparseCompletion.cached_bfs_step_valid`, `SparseCompletion.cached_penultimate_sound`, `SparseCompletion.cached_rational_path_augmentation`, `SparseCompletion.cached_rational_residual_none_iff`, `SparseCompletion.cached_residual_walk_concat`, `SparseCompletion.cached_residual_walk_edges_arcs`, `SparseCompletion.cached_residual_walk_edges_levels`, `SparseCompletion.cached_residual_walk_endpoints`, `SparseCompletion.cached_residual_walk_nonempty`, `SparseCompletion.cached_residual_walk_reachable`, `SparseCompletion.cached_residual_walk_residuals_positive`, `SparseCompletion.cached_walk_potential_bound`, `SparseCompletion.cached_walk_reach_layer`, `SparseCompletion.counted_merge_sort_perm`, `SparseCompletion.rational_augment_bottleneck_of_cached`, `SparseCompletion.rational_augment_candidate_of_cached`, `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_interval_cut_check_iff`, `SparseCompletion.rational_interval_exact_check_full_game`, `SparseCompletion.rational_interval_exact_check_iff`, `SparseCompletion.rational_interval_exact_reconstruction_complete`, `SparseCompletion.rational_interval_exact_reconstruction_none_iff`, `SparseCompletion.rational_interval_exact_residual_exists`, `SparseCompletion.rational_interval_violation_comparisons`, `SparseCompletion.rational_interval_violation_none_iff_check`, `SparseCompletion.rational_interval_violation_none_iff_cuts`, `SparseCompletion.rational_interval_violation_some_sound`, `SparseCompletion.rational_label_sort_covers`, `SparseCompletion.rational_label_sort_labels`, `SparseCompletion.rational_label_sort_nodup`, `SparseCompletion.rational_label_sort_stored_score`, `SparseCompletion.rational_nodup_sorted_violation_comparisons`, `SparseCompletion.rational_nodup_sorted_violation_eq`, `SparseCompletion.rational_nodup_sorted_violation_none_iff`, `SparseCompletion.rational_nodup_sorted_violation_some_sound`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_path_edges_append_one`, `SparseCompletion.rational_path_residuals_append_one`, `SparseCompletion.rational_perspective_cut_check_iff`, `SparseCompletion.rational_perspective_separator_sound`, `SparseCompletion.rational_perspective_violation_comparisons`, `SparseCompletion.rational_perspective_violation_none_iff_check`, `SparseCompletion.rational_perspective_violation_none_iff_cuts`, `SparseCompletion.rational_perspective_violation_some_sound`, `SparseCompletion.rational_score_sort_perm`, `SparseCompletion.rational_score_sort_stored_score`, `SparseCompletion.rational_sorted_cut_check_iff`, `SparseCompletion.rational_sorted_cut_check_prefix_iff`, `SparseCompletion.rational_sorted_cut_prefix_criterion`, `SparseCompletion.rational_sorted_index_antitone`, `SparseCompletion.rational_sorted_index_bijective`, `SparseCompletion.rational_sorted_index_injective`, `SparseCompletion.rational_sorted_index_score`, `SparseCompletion.rational_sorted_index_surjective`, `SparseCompletion.rational_sorted_prefix_sum`, `SparseCompletion.rational_sorted_violation_none_iff_cuts`, `SparseCompletion.rational_sorted_violation_some_sound`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_eq`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_eq`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_direct_none_persistent`, `SparseCompletion.rational_table_flow_iterate_direct_of_none`, `SparseCompletion.rational_table_flow_iterate_direct_succ_final`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.rational_table_flow_iterate_succ`, `SparseCompletion.rational_table_flow_iterate_zero`, `SparseCompletion.rational_table_push_shortest_distance_mono`, `SparseCompletion.rational_walk_edges_append_one`.
+
+## Option.getD explicit fallback
+
+Returns some payload if present, otherwise the explicit supplied fallback. It requires no Inhabited/default instance; callers supply their actual source/sink fallback.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L3079-L3082
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `8e6c9676d65933f71c49dde8149418f9131acf08de8292b6e0374d0b917296d8`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+@[macro_inline, implicit_reducible] def Option.getD (opt : Option α) (dflt : α) : α :=
+  match opt with
+  | some x => x
+  | none => dflt
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`.
+
+## Option payload equality decision
+
+Option equality uses constructor discrimination and a genuine payload DecidableEq in the some/some branch; arbitrary equality is not assumed.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Option/Basic.lean#L18-L30
+
+Whole-source SHA256: `cf4b95fea5eceebccfd6ce65c172b8b3cd35e8a805b1f2018e59f951a2b30bf9`; Git blob SHA1: `a62ef09997979b1946a331ef744693225910247c`; excerpt SHA256: `79d6f38efa03e80a94d8d189e56b166a38cc8faf7861c58d1992d7f934ad30d7`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+instance instDecidableEq {α} [inst : DecidableEq α] : DecidableEq (Option α) := fun a b =>
+  /-
+  Structured for compatibility with the decidable-equality-with-none instances.
+  -/
+  match a with
+  | none => match b with
+    | none => .isTrue rfl
+    | some _ => .isFalse (fun h => Option.noConfusion rfl (heq_of_eq h))
+  | some a => match b with
+    | none => .isFalse (fun h => Option.noConfusion rfl (heq_of_eq h))
+    | some b => match inst a b with
+      | .isTrue h => .isTrue (h ▸ rfl)
+      | .isFalse n => .isFalse (fun h => Option.noConfusion rfl (heq_of_eq h) (fun h' => absurd (eq_of_heq h') n))
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_eq`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_eq`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_direct_none_persistent`, `SparseCompletion.rational_table_flow_iterate_direct_of_none`, `SparseCompletion.rational_table_flow_iterate_direct_succ_final`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.rational_table_flow_iterate_succ`, `SparseCompletion.rational_table_flow_iterate_zero`.
+
+## Option equality with none decision
+
+Equality with none is decided by constructor discrimination without requiring decidable payload equality.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Option/Basic.lean#L35-L40
+
+Whole-source SHA256: `cf4b95fea5eceebccfd6ce65c172b8b3cd35e8a805b1f2018e59f951a2b30bf9`; Git blob SHA1: `a62ef09997979b1946a331ef744693225910247c`; excerpt SHA256: `8c13954dee215ccf531b0eafcdbd38eb4c615c055f59e9379620ad2b257a9aa8`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+instance decidableEqNone (o : Option α) : Decidable (o = none) :=
+  /- We use a `match` instead of transferring from `isNone_iff_eq_none` for
+    compatibility with the `DecidableEq` instance. -/
+  match o with
+  | none => .isTrue rfl
+  | some _ => .isFalse (fun h => Option.noConfusion rfl (heq_of_eq h))
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`.
+
+## Option membership actual some equality
+
+a belongs to optional b exactly when b=some a. This is optional payload membership, not list or set membership.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Option/Instances.lean#L26-L26
+
+Whole-source SHA256: `1c7471e4b27cfdd19f4bc111a402d246f2db4d74f5b5559b639e66c70e8429d6`; Git blob SHA1: `a840a7529e216a7703414f9d748dfa7a1ef755e0`; excerpt SHA256: `7f3ea417558a70f7e3b78eaf802850c89cb166936f442c2783f7d1d9ed64981b`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-option-instances-source-authentication.json SHA256 e0bc41d825086e7acda711e0b2aedd43b8190afa997652147aeab22ddea40d8e. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2017 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+-/
+instance : Membership α (Option α) := ⟨fun b a => b = some a⟩
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_allocation_run_game`, `SparseCompletion.rational_allocation_run_output`, `SparseCompletion.rational_allocation_run_success_iff`, `SparseCompletion.rational_allocation_search_minimal`, `SparseCompletion.rational_allocation_search_output`, `SparseCompletion.rational_allocation_search_success_iff`, `SparseCompletion.rational_augment_once_amount_positive`, `SparseCompletion.rational_augment_once_complete`, `SparseCompletion.rational_augment_once_complete_sound`, `SparseCompletion.rational_augment_once_critical_arc`, `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_augment_once_edge_in_capacity_support`, `SparseCompletion.rational_augment_once_edge_levels`, `SparseCompletion.rational_augment_once_edge_residual`, `SparseCompletion.rational_augment_once_entry_le_of_reverse_absent`, `SparseCompletion.rational_augment_once_from_cached`, `SparseCompletion.rational_augment_once_none_iff_cached`, `SparseCompletion.rational_augment_once_none_iff_unreachable`, `SparseCompletion.rational_augment_once_origin`, `SparseCompletion.rational_augment_once_path_source`, `SparseCompletion.rational_augment_once_some_iff_cached`, `SparseCompletion.rational_augment_once_sound`, `SparseCompletion.rational_certified_approximation_complete`, `SparseCompletion.rational_certified_approximation_sound`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_finite_select_minimal`, `SparseCompletion.rational_finite_select_origin`, `SparseCompletion.rational_finite_select_success_iff`, `SparseCompletion.rational_floor_approximation_empty`, `SparseCompletion.rational_floor_approximation_global`, `SparseCompletion.rational_floor_approximation_none_iff`, `SparseCompletion.rational_floor_approximation_output_class`, `SparseCompletion.rational_floor_approximation_rows`, `SparseCompletion.rational_floor_certified_complete`, `SparseCompletion.rational_floor_certified_none_iff`, `SparseCompletion.rational_floor_certified_origin`, `SparseCompletion.rational_floor_certified_value`, `SparseCompletion.rational_floor_grid_global_accuracy`, `SparseCompletion.rational_floor_grid_search_accuracy`, `SparseCompletion.rational_floor_grid_value_certificate`, `SparseCompletion.rational_floor_reservoir_output_class`, `SparseCompletion.rational_floor_search_output_class`, `SparseCompletion.rational_floor_search_rows`, `SparseCompletion.rational_floor_search_value_certificate`, `SparseCompletion.rational_floor_sparse_certified_complete`, `SparseCompletion.rational_floor_sparse_certified_none_iff`, `SparseCompletion.rational_floor_sparse_certified_origin`, `SparseCompletion.rational_floor_sparse_certified_value`, `SparseCompletion.rational_floor_sparse_empty`, `SparseCompletion.rational_floor_sparse_global`, `SparseCompletion.rational_floor_sparse_none_iff`, `SparseCompletion.rational_floor_sparse_nonpositive`, `SparseCompletion.rational_floor_sparse_origin`, `SparseCompletion.rational_floor_sparse_output_game`, `SparseCompletion.rational_floor_sparse_sqrt_support`, `SparseCompletion.rational_floor_sparse_total_support`, `SparseCompletion.rational_floor_sparsify_class`, `SparseCompletion.rational_floor_sparsify_complete`, `SparseCompletion.rational_floor_total_output_class`, `SparseCompletion.rational_gap_accurate_complete`, `SparseCompletion.rational_gap_accurate_value_enclosure`, `SparseCompletion.rational_gap_algorithm_certificate`, `SparseCompletion.rational_gap_algorithm_checked_output`, `SparseCompletion.rational_gap_algorithm_complete`, `SparseCompletion.rational_gap_algorithm_sound`, `SparseCompletion.rational_gap_approximation_complete`, `SparseCompletion.rational_gap_approximation_value_enclosure`, `SparseCompletion.rational_initialized_upper_lt_witness`, `SparseCompletion.rational_interval_accurate_complete`, `SparseCompletion.rational_interval_accurate_value_enclosure`, `SparseCompletion.rational_interval_algorithm_complete`, `SparseCompletion.rational_interval_algorithm_full_game`, `SparseCompletion.rational_interval_algorithm_none_incompatible`, `SparseCompletion.rational_interval_algorithm_output`, `SparseCompletion.rational_interval_algorithm_output_class`, `SparseCompletion.rational_interval_algorithm_real_lp_complete`, `SparseCompletion.rational_interval_approximation_complete`, `SparseCompletion.rational_interval_approximation_value_enclosure`, `SparseCompletion.rational_interval_compatible_success`, `SparseCompletion.rational_interval_initialize_complete`, `SparseCompletion.rational_interval_initialize_none_iff`, `SparseCompletion.rational_interval_initialize_sound`, `SparseCompletion.rational_interval_initialized_complete`, `SparseCompletion.rational_interval_initialized_game`, `SparseCompletion.rational_interval_initialized_none_iff`, `SparseCompletion.rational_interval_initialized_output`, `SparseCompletion.rational_interval_initialized_value`, `SparseCompletion.rational_interval_model_approximation_complete`, `SparseCompletion.rational_interval_model_upper_feasible`, `SparseCompletion.rational_interval_repertoire_algorithm_full_game`, `SparseCompletion.rational_interval_repertoire_algorithm_output`, `SparseCompletion.rational_interval_repertoire_algorithm_real_complete`, `SparseCompletion.rational_interval_sparse_accurate_complete`, `SparseCompletion.rational_interval_sparse_accurate_value_enclosure`, `SparseCompletion.rational_interval_sparse_algorithm_conditions`, `SparseCompletion.rational_interval_sparse_algorithm_game`, `SparseCompletion.rational_interval_sparse_algorithm_origin`, `SparseCompletion.rational_interval_sparse_algorithm_real_complete`, `SparseCompletion.rational_interval_sparse_approximation_complete`, `SparseCompletion.rational_interval_sparse_approximation_value_enclosure`, `SparseCompletion.rational_interval_sparse_initialized_complete`, `SparseCompletion.rational_interval_sparse_initialized_game`, `SparseCompletion.rational_interval_sparse_initialized_none_iff`, `SparseCompletion.rational_interval_sparse_initialized_origin`, `SparseCompletion.rational_interval_sparse_initialized_value`, `SparseCompletion.rational_interval_sparse_reduction`, `SparseCompletion.rational_interval_success_compatible`, `SparseCompletion.rational_no_residual_global_certificate`, `SparseCompletion.rational_no_residual_search_accuracy`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_reservoir_search_minimal`, `SparseCompletion.rational_reservoir_search_output`, `SparseCompletion.rational_source_floor_approximation_global`, `SparseCompletion.rational_source_floor_approximation_output_class`, `SparseCompletion.rational_source_floor_approximation_rows`, `SparseCompletion.rational_source_floor_certified_complete`, `SparseCompletion.rational_source_floor_certified_none_iff`, `SparseCompletion.rational_source_floor_certified_origin`, `SparseCompletion.rational_source_floor_certified_value`, `SparseCompletion.rational_source_floor_none_iff`, `SparseCompletion.rational_sparse_gap_algorithm_complete`, `SparseCompletion.rational_sparse_gap_algorithm_full_game`, `SparseCompletion.rational_sparse_gap_algorithm_full_support`, `SparseCompletion.rational_sparse_gap_algorithm_sound`, `SparseCompletion.rational_sparse_gap_search_sound`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_feasible`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_successful_trace_reverse_of_decrease`, `SparseCompletion.rational_table_augmentation_invariant`, `SparseCompletion.rational_table_augmentation_lattice`, `SparseCompletion.rational_table_augmentation_quantum`, `SparseCompletion.rational_table_find_flow_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_cut_certificate`, `SparseCompletion.rational_table_find_flow_direct_maximum`, `SparseCompletion.rational_table_find_flow_direct_stops`, `SparseCompletion.rational_table_find_flow_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_invariant`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_find_flow_stops`, `SparseCompletion.rational_table_find_flow_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_flow_iterate_direct_invariant`, `SparseCompletion.rational_table_flow_iterate_stops`, `SparseCompletion.real_interval_completion_algorithm_success`, `SparseCompletion.real_interval_repertoire_algorithm_success`.
+
+## BEq Boolean equality interface
+
+Boolean equality is an executable binary test; BEq alone supplies no equality correctness. Genuine LawfulBEq evidence below supplies the correspondence.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1296-L1298
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `22b1e14d3cf1a07b85d178c9fc69d15bfae45567eb6e9f6aaafdfe2639660caa`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+class BEq (α : Type u) where
+  /-- Boolean equality, notated as `a == b`. -/
+  beq : α → α → Bool
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## BEq fallback from genuine DecidableEq
+
+A supplied genuine DecidableEq can provide BEq by decide(a=b). This fallback source is retained as factory supporting context, without asserting which elaborator default ran or counting an operation.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean#L1302-L1303
+
+Whole-source SHA256: `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`; Git blob SHA1: `f87ee970af5149d74434f09a89aedff1a8fdb2d2`; excerpt SHA256: `d77d654842d4e2c6ff0e12e9e4491c9fbe5542a5b1d23636a0c2a5f9a0760a27`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Mario Carneiro
+-/
+instance (priority := 500) [DecidableEq α] : BEq α where
+  beq a b := decide (Eq a b)
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## ReflBEq genuine reflexivity premise
+
+ReflBEq requires reflexive Boolean equality. It is a real premise, not inferred from the type of a Boolean function.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean#L782-L784
+
+Whole-source SHA256: `264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99`; Git blob SHA1: `23e784c3806badcabd1e8f19c50946d66bc3c87a`; excerpt SHA256: `940c2f567e504a6171508a617ca468a9aaa34a67687ec492c6214ffbd8f94f03`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+
+notation, basic datatypes and type classes
+-/
+class ReflBEq (α) [BEq α] : Prop where
+  /-- `==` is reflexive, that is, `(a == a) = true`. -/
+  protected rfl {a : α} : a == a
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## LawfulBEq genuine equality premise
+
+LawfulBEq extends reflexivity and requires every true Boolean equality to imply propositional equality. Both directions justify finite membership decisions.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean#L802-L806
+
+Whole-source SHA256: `264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99`; Git blob SHA1: `23e784c3806badcabd1e8f19c50946d66bc3c87a`; excerpt SHA256: `4ff649de9921fdbf678cc65bc72a17babef8ed3ed15a689e37fdddcdc5c27f35`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+
+notation, basic datatypes and type classes
+-/
+class LawfulBEq (α : Type u) [BEq α] : Prop extends ReflBEq α where
+  /-- If `a == b` evaluates to `true`, then `a` and `b` are equal in the logic. -/
+  eq_of_beq : {a b : α} → a == b → a = b
+
+export LawfulBEq (eq_of_beq)
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Prod Boolean equality componentwise
+
+Actual product Boolean equality tests both coordinates with Boolean conjunction.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean#L1470-L1471
+
+Whole-source SHA256: `264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99`; Git blob SHA1: `23e784c3806badcabd1e8f19c50946d66bc3c87a`; excerpt SHA256: `c96ccf8ea68b1b517d54953727501a56b5ed8350fe6344bb454e7c972f5d97a9`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2014 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura
+
+notation, basic datatypes and type classes
+-/
+instance [BEq α] [BEq β] : BEq (α × β) where
+  beq := fun (a₁, b₁) (a₂, b₂) => a₁ == a₂ && b₁ == b₂
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Prod lawful Boolean equality instance
+
+Componentwise reflexive/lawful Boolean equality constructs genuine reflexivity and equality correctness for pairs.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Prod.lean#L17-L23
+
+Whole-source SHA256: `66e190929f976c08354efa2b611d9e2dcb8db2fefd2d60c3f7db49c8de9544ba`; Git blob SHA1: `0ac2c7800544105686ed2410e7dd5857cd9bb359`; excerpt SHA256: `e8ff50e03a50707417e879941af3be4b916bf30e88867f830436d4ad6294b614`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2022 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+instance [BEq α] [BEq β] [ReflBEq α] [ReflBEq β] : ReflBEq (α × β) where
+  rfl {a} := by cases a; simp [BEq.beq]
+
+instance [BEq α] [BEq β] [LawfulBEq α] [LawfulBEq β] : LawfulBEq (α × β) where
+  eq_of_beq {a b} (h : a.1 == b.1 && a.2 == b.2) := by
+    cases a; cases b
+    refine congr (congrArg _ (eq_of_beq ?_)) (eq_of_beq ?_) <;> simp_all
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## List lawful Boolean membership decision
+
+List.elem true iff actual inductive List.Mem under genuine LawfulBEq; the Decidable membership instance transports that Boolean computation through the exact equivalence. No arbitrary default or equality oracle.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean#L837-L852
+
+Whole-source SHA256: `566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293`; Git blob SHA1: `d99b37a6ff92aba32801ecf221eaece95db29faa`; excerpt SHA256: `48a3c1a5feaf29169f4c8fd150acb9813d8e8e5d73e89fd3a66a6b5a8d62a327`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+theorem mem_of_elem_eq_true [BEq α] [LawfulBEq α] {a : α} {as : List α} : elem a as = true → a ∈ as := by
+  match as with
+  | [] => simp [elem]
+  | a'::as =>
+    simp [elem]
+    split
+    next h => intros; simp at h; subst h; apply Mem.head
+    next _ => intro h; exact Mem.tail _ (mem_of_elem_eq_true h)
+
+theorem elem_eq_true_of_mem [BEq α] [ReflBEq α] {a : α} {as : List α} (h : a ∈ as) : elem a as = true := by
+  induction h with
+  | head _ => simp [elem]
+  | tail _ _ ih => simp only [elem]; split; rfl; assumption
+
+instance [BEq α] [LawfulBEq α] (a : α) (as : List α) : Decidable (a ∈ as) :=
+  decidable_of_decidable_of_iff (Iff.intro mem_of_elem_eq_true elem_eq_true_of_mem)
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Fin.last endpoint constructor
+
+The last index of Fin(n+1) has value n and the genuine n<n+1 proof; n=0 is valid.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L290-L290
+
+Whole-source SHA256: `bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4`; Git blob SHA1: `6fee3ab2eaacf1b76de02ea7f7880f29fbac8294`; excerpt SHA256: `d4045bffcc7d7bc2ad59586dda5a701ef8799d1c4368fabe4e0eb67f5cfaf8cf`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+@[inline, implicit_reducible] def last (n : Nat) : Fin (n + 1) := ⟨n, n.lt_succ_self⟩
+```
+
+Exact selected users (historical and new): `SparseCompletion.demand_capacity_from_sink`, `SparseCompletion.demand_capacity_internal_internal`, `SparseCompletion.demand_capacity_internal_sink`, `SparseCompletion.demand_capacity_source_internal`, `SparseCompletion.demand_capacity_source_sink`, `SparseCompletion.demand_capacity_to_source`, `SparseCompletion.demand_internal_ne_sink`, `SparseCompletion.demand_internal_ne_source`, `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.demand_nodes_sum`, `SparseCompletion.demand_source_ne_sink`, `SparseCompletion.rational_demand_capacity_nonneg`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_demand_table_entry`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.uniform_fixed_share_inverse_square`, `SparseCompletion.uniform_fixed_share_support_lower`.
+
+## Fin.castSucc prefix inclusion
+
+castSucc is castAdd1 and preserves index value, embedding the prefix in Fin(n+1). It is distinct from Fin.succ.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Basic.lean#L337-L337
+
+Whole-source SHA256: `bb3d4e46cb40a24f5a09e6e003c76f2b84140a598df81233f0bffe3afe08cbf4`; Git blob SHA1: `6fee3ab2eaacf1b76de02ea7f7880f29fbac8294`; excerpt SHA256: `5f78d2300ecaf215951ccb3daa00e3700cc874b330573bf9d03a7f0e0e81edb5`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura, Robert Y. Lewis, Keeley Hoek, Mario Carneiro
+-/
+@[inline, implicit_reducible] def castSucc : Fin n → Fin (n + 1) := castAdd 1
+```
+
+Exact selected users (historical and new): `SparseCompletion.demand_capacity_from_sink`, `SparseCompletion.demand_capacity_internal_internal`, `SparseCompletion.demand_capacity_internal_sink`, `SparseCompletion.demand_capacity_source_internal`, `SparseCompletion.demand_capacity_source_sink`, `SparseCompletion.demand_capacity_to_source`, `SparseCompletion.demand_internal_ne_sink`, `SparseCompletion.demand_internal_ne_source`, `SparseCompletion.demand_internal_set_compl`, `SparseCompletion.demand_nodes_subset_sum`, `SparseCompletion.demand_nodes_sum`, `SparseCompletion.demand_source_ne_sink`, `SparseCompletion.mem_demand_internal_set`, `SparseCompletion.rational_demand_capacity_nonneg`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_demand_table_entry`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.uniform_fixed_share_inverse_square`, `SparseCompletion.uniform_fixed_share_support_lower`.
+
+## Fin.reverseInduction actual endpoint recursion
+
+Endpoint reverse induction uses an actual structurally decreasing natural recursion and dependent casts; lastCases delegates it. No fabricated default index or generic well-founded fixpoint is supplied.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Lemmas.lean#L1003-L1014
+
+Whole-source SHA256: `f00755157b6915ad4ff73f0ff86143576dcf9d89a0d0a31a8f0d9401b0a45bd0`; Git blob SHA1: `91a6ba1e65e76a33c5729ba6c40204a8ae99226c`; excerpt SHA256: `2697107bd3fb3531da776117d5c0102f074d3e73f816af2ecde251a297b8f9c7`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2022 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Leonardo de Moura
+-/
+@[elab_as_elim] def reverseInduction {motive : Fin (n + 1) → Sort _} (last : motive (Fin.last n))
+    (cast : ∀ i : Fin n, motive i.succ → motive (castSucc i)) (i : Fin (n + 1)) : motive i :=
+  let rec go (j : Nat) (h) (h2 : i ≤ j) (x : motive ⟨j, h⟩) : motive i :=
+    if hi : i.1 = j then _root_.cast (by simp [← hi]) x
+    else match j with
+      | 0 => False.elim (by omega)
+      | j + 1 => go j (by omega) (by omega) (cast ⟨j, by omega⟩ x)
+  go _ _ (by omega) last
+
+@[simp, grind =] theorem reverseInduction_last {n : Nat} {motive : Fin (n + 1) → Sort _} {zero succ} :
+    (reverseInduction zero succ (Fin.last n) : motive (Fin.last n)) = zero := by
+  rw [reverseInduction, reverseInduction.go]; simp
+```
+
+Exact selected users (historical and new): `SparseCompletion.demand_capacity_from_sink`, `SparseCompletion.demand_capacity_internal_internal`, `SparseCompletion.demand_capacity_internal_sink`, `SparseCompletion.demand_capacity_source_internal`, `SparseCompletion.demand_capacity_source_sink`, `SparseCompletion.demand_capacity_to_source`, `SparseCompletion.rational_demand_capacity_nonneg`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_demand_table_entry`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Fin.lastCases endpoint split and contracts
+
+Dependent cases split the actual last index from castSucc prefix indices, with exact last and castSucc evaluation theorems. At n=0 only the last branch is inhabited.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Lemmas.lean#L1044-L1054
+
+Whole-source SHA256: `f00755157b6915ad4ff73f0ff86143576dcf9d89a0d0a31a8f0d9401b0a45bd0`; Git blob SHA1: `91a6ba1e65e76a33c5729ba6c40204a8ae99226c`; excerpt SHA256: `8c6e2916c3c0071eef2cddcb8f8540c1cbf890b434d45cce9262b7ff630a911b`. Apache-2.0.
+
+Rechecked installed pinned bytes against previously retained authenticated whole-source SHA256 and Git blob identity.
+
+```lean
+/-
+Copyright (c) 2022 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Leonardo de Moura
+-/
+@[elab_as_elim] def lastCases {n : Nat} {motive : Fin (n + 1) → Sort _} (last : motive (Fin.last n))
+    (cast : ∀ i : Fin n, motive (castSucc i)) (i : Fin (n + 1)) : motive i :=
+  reverseInduction last (fun i _ => cast i) i
+
+@[simp, grind =] theorem lastCases_last {n : Nat} {motive : Fin (n + 1) → Sort _} {last cast} :
+    (Fin.lastCases last cast (Fin.last n) : motive (Fin.last n)) = last :=
+  reverseInduction_last ..
+
+@[simp, grind =] theorem lastCases_castSucc {n : Nat} {motive : Fin (n + 1) → Sort _} {last cast}
+    (i : Fin n) : (Fin.lastCases last cast (Fin.castSucc i) : motive (Fin.castSucc i)) = cast i :=
+  reverseInduction_castSucc ..
+```
+
+Exact selected users (historical and new): `SparseCompletion.demand_capacity_from_sink`, `SparseCompletion.demand_capacity_internal_internal`, `SparseCompletion.demand_capacity_internal_sink`, `SparseCompletion.demand_capacity_source_internal`, `SparseCompletion.demand_capacity_source_sink`, `SparseCompletion.demand_capacity_to_source`, `SparseCompletion.rational_demand_capacity_nonneg`, `SparseCompletion.rational_demand_completion_sound`, `SparseCompletion.rational_demand_completion_table_entry`, `SparseCompletion.rational_demand_completion_table_sound`, `SparseCompletion.rational_demand_find_saturated`, `SparseCompletion.rational_demand_find_source_saturated`, `SparseCompletion.rational_demand_find_source_value`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_entry`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_demand_graph_find_table_eq_direct`, `SparseCompletion.rational_demand_graph_fuel_bound`, `SparseCompletion.rational_demand_graph_payload_arc`, `SparseCompletion.rational_demand_graph_payload_sink`, `SparseCompletion.rational_demand_payload_arc`, `SparseCompletion.rational_demand_payload_sink`, `SparseCompletion.rational_demand_source_upper`, `SparseCompletion.rational_demand_table_cut`, `SparseCompletion.rational_demand_table_entry`, `SparseCompletion.rational_paper_demand_reconstruction`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Std preorder package actual fields
+
+Named generated parent projections expose actual LE,LT,BEq and lawfulness fields of the same preorder package. They do not create a fresh unrelated equality operation.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean#L31-L37
+
+Whole-source SHA256: `cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e`; Git blob SHA1: `b1222723d8aea4996f5545c07d7c6e429812d014`; excerpt SHA256: `b1679b9e5f750684258fb27fdd0ec609c5cc52684cd1571d3245ad6a3cffb418`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+public class PreorderPackage (α : Type u) extends
+    LE α, LT α, BEq α, LawfulOrderLT α, LawfulOrderBEq α, IsPreorder α where
+  decidableLE : DecidableLE α
+  decidableLT : DecidableLT α
+
+public instance [PreorderPackage α] : DecidableLE α := PreorderPackage.decidableLE
+public instance [PreorderPackage α] : DecidableLT α := PreorderPackage.decidableLT
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std linear preorder package parent
+
+LinearPreorderPackage extends its exact PreorderPackage and lawful total comparison context. Generated parent projection comes from this class declaration.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean#L301-L302
+
+Whole-source SHA256: `cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e`; Git blob SHA1: `b1222723d8aea4996f5545c07d7c6e429812d014`; excerpt SHA256: `387764a6b981b5a03997cd118dba418c8343496ac9f7a5bef2a965effb143a8c`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+public class LinearPreorderPackage (α : Type u) extends
+    PreorderPackage α, Ord α, LawfulOrderOrd α, IsLinearPreorder α
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std linear order package parent
+
+LinearOrderPackage extends exact linear-preorder and partial-order package parents, carrying coherent min/max and order laws. No generated projection is presented as a literal handwritten definition.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean#L401-L403
+
+Whole-source SHA256: `cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e`; Git blob SHA1: `b1222723d8aea4996f5545c07d7c6e429812d014`; excerpt SHA256: `85efbe6f57c77dce8a1a31a54edf27f5c9eca392267986cef16ee33b9dbab894`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+public class LinearOrderPackage (α : Type u) extends
+    LinearPreorderPackage α, PartialOrderPackage α, Min α, Max α,
+    LawfulOrderMin α, LawfulOrderMax α, IsLinearOrder α
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std partial order actual antisymmetry premise
+
+The actual IsPartialOrder class extends preorder and has antisymmetry, needed to turn lawful order equality into equality.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/Classes.lean#L63-L65
+
+Whole-source SHA256: `9ac5d18a28594020211f78e2e12dd80a0ac6bde4cd654d35b9436f727eaff8c3`; Git blob SHA1: `571d41f762de0e22ca3f35ed1ba8f8446aa86f3c`; excerpt SHA256: `664c3e7b5e37742472e5eefd388fb9aa8299acf579e2ddd9f4e759fdfba548c7`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+public class IsPartialOrder (α : Type u) [LE α] extends IsPreorder α where
+  le_antisymm : ∀ a b : α, a ≤ b → b ≤ a → a = b
+
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std lawful order Boolean equality premise
+
+LawfulOrderBEq states Boolean equality iff both order comparisons. Antisymmetry is separately required for propositional equality.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/Classes.lean#L101-L104
+
+Whole-source SHA256: `9ac5d18a28594020211f78e2e12dd80a0ac6bde4cd654d35b9436f727eaff8c3`; Git blob SHA1: `571d41f762de0e22ca3f35ed1ba8f8446aa86f3c`; excerpt SHA256: `8c435f4dbc0aa0b483afef1819a88e4081899f8451892f3898f7c0952d67fb66`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+public class LawfulOrderBEq (α : Type u) [BEq α] [LE α] where
+  beq_iff_le_and_ge : ∀ a b : α, a == b ↔ a ≤ b ∧ b ≤ a
+
+end BEq
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std lawful Boolean equality from partial order
+
+Actual order-compatible equality plus genuine partial-order antisymmetry produces LawfulBEq. This is the Fin pair membership dictionary route, not a claim that all BEq tests are lawful.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/Lemmas.lean#L269-L288
+
+Whole-source SHA256: `e721ebe577372a31e53cbf6a43cf562396245a7300aaad208957b798e36a0f4f`; Git blob SHA1: `b4b0105228ebf45521aec3afaa3a04a87159c669`; excerpt SHA256: `d24f3a8f19c9238fd9a76b51a17c3bff0392341cbec81c0ae82c0e5c53d124cb`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+public theorem beq_iff_le_and_ge {α : Type u} [BEq α] [LE α] [LawfulOrderBEq α]
+    {a b : α} : a == b ↔ a ≤ b ∧ b ≤ a := by
+  simp [LawfulOrderBEq.beq_iff_le_and_ge]
+
+public instance {α : Type u} [BEq α] [LE α] [LawfulOrderBEq α] :
+    Symm (α := α) (· == ·) where
+  symm := by simp_all [beq_iff_le_and_ge]
+
+public instance {α : Type u} [BEq α] [LE α] [LawfulOrderBEq α] [IsPreorder α] : EquivBEq α where
+  rfl := by simp [beq_iff_le_and_ge, le_refl]
+  symm := Symm.symm (r := (· == ·)) _ _
+  trans hab hbc := by
+    simp only [beq_iff_le_and_ge] at hab hbc ⊢
+    exact ⟨le_trans hab.1 hbc.1, le_trans hbc.2 hab.2⟩
+
+public instance {α : Type u} [BEq α] [LE α] [LawfulOrderBEq α] [IsPartialOrder α] :
+    LawfulBEq α where
+  eq_of_beq := by
+    simp only [beq_iff_le_and_ge, and_imp]
+    apply le_antisymm
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Fin actual linear order package instance
+
+Actual Fin order dictionary assembled from its existing finite-value comparisons and exact comparison/min/max laws; parent projections provide the Boolean test used in pair-list membership decisions.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Fin/Package.lean#L24-L30
+
+Whole-source SHA256: `dadccc6e4183450b9922cd697b3f7d15c319ba11b1d71d5b784b37e22464251f`; Git blob SHA1: `4a5cce3375b81b7d09ab1e8c71bca96a20d0a563`; excerpt SHA256: `792618d7f32498deec6f4a5cc5897d103e1222b6933463c7cb4f15ad56e798f1`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2026 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Julia M. Himmel
+-/
+public instance {n : Nat} : LinearOrderPackage (Fin n) := .ofLE _ {
+  beq_iff_le_and_ge a b := by simpa using Fin.le_antisymm_iff
+  isLE_compare a b := by rw [le_def, ← isLE_compare, compare_val]
+  isGE_compare a b := by rw [le_def, ← isGE_compare, compare_val]
+  min_eq a b := by simp [← val_inj, val_min, apply_ite val, min_eq_ite, le_def]
+  max_eq a b := by simp [← val_inj, val_max, apply_ite val, max_eq_ite, le_def]
+}
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std preorder package exact factory
+
+The genuine factory copies supplied BEq/LE/LT fields and their laws into one coherent package, with no arbitrary equality implementation substituted.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean#L174-L185
+
+Whole-source SHA256: `cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e`; Git blob SHA1: `b1222723d8aea4996f5545c07d7c6e429812d014`; excerpt SHA256: `23cbd478781ab3f7a4deb781cc41a864735188d622b3eae841384dc27bdb5270`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+@[inline, expose, instance_reducible]
+public def PreorderPackage.ofLE (α : Type u)
+    (args : Packages.PreorderOfLEArgs α := by exact {}) : PreorderPackage α where
+  toLE := args.le
+  decidableLE := args.decidableLE
+  toLT := args.lt
+  toBEq := args.beq
+  toLawfulOrderLT := @LawfulOrderLT.mk (lt_iff := args.lt_iff)
+  decidableLT := args.decidableLT
+  toLawfulOrderBEq := @LawfulOrderBEq.mk (beq_iff_le_and_ge := args.beq_iff_le_and_ge)
+  le_refl := args.le_refl
+  le_trans := args.le_trans
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std linear preorder package exact factory
+
+The genuine linear-preorder factory delegates to the retained exact preorder factory and copies actual order/comparison fields.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean#L388-L395
+
+Whole-source SHA256: `cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e`; Git blob SHA1: `b1222723d8aea4996f5545c07d7c6e429812d014`; excerpt SHA256: `a848144ac6a037f4727badfbdc9fd288699bd84a0604fcc5ba1c32a265ef7b2f`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+@[inline, expose, instance_reducible]
+public def LinearPreorderPackage.ofLE (α : Type u)
+    (args : Packages.LinearPreorderOfLEArgs α := by exact {}) : LinearPreorderPackage α where
+  toPreorderPackage := .ofLE α args.toPreorderOfLEArgs
+  toOrd := letI := args.le; args.ord
+  le_total := args.le_total
+  isLE_compare := args.isLE_compare
+  isGE_compare := args.isGE_compare
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Std linear order package exact factory
+
+The genuine linear-order factory delegates to linear-preorder and partial-order factories and supplies actual coherent min/max law fields. Its class projections are generated from the retained class declarations.
+
+https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Order/PackageFactories.lean#L490-L506
+
+Whole-source SHA256: `cf45b6bc3f830a3308f384717242df787cb8f418c6fd20dbaf6491fb7d775c4e`; Git blob SHA1: `b1222723d8aea4996f5545c07d7c6e429812d014`; excerpt SHA256: `f595f634cd6def599dda9ed8131aa9cf418f725ac17d360839f4162f91b74741`. Apache-2.0.
+
+Separate exact pinned connected-GitHub full-byte authentication: verification/compiler-next100-source-authentication.json SHA256 71862cd1c822646faf8ca557c59e723370963680bb2cd2fd99753e6b54fe50e1. No receipt from another source path reused.
+
+```lean
+/-
+Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Paul Reichert
+-/
+@[inline, expose, instance_reducible]
+public def LinearOrderPackage.ofLE (α : Type u)
+    (args : Packages.LinearOrderOfLEArgs α := by exact {}) : LinearOrderPackage α where
+  toLinearPreorderPackage := .ofLE α args.toLinearPreorderOfLEArgs
+  le_antisymm := (PartialOrderPackage.ofLE α args.toPartialOrderOfLEArgs).le_antisymm
+  toMin := args.min
+  toMax := args.max
+  toLawfulOrderMin := by
+    letI := LinearPreorderPackage.ofLE α args.toLinearPreorderOfLEArgs
+    letI := args.decidableLE; letI := args.min
+    haveI : LawfulOrderLeftLeaningMin α := .of_eq args.min_eq
+    infer_instance
+  toLawfulOrderMax := by
+    letI := LinearPreorderPackage.ofLE α args.toLinearPreorderOfLEArgs
+    letI := args.decidableLE; letI := args.max
+    haveI : LawfulOrderLeftLeaningMax α := .of_eq args.max_eq
+    infer_instance
+```
+
+Exact selected users (historical and new): `SparseCompletion.rational_augment_once_distance_mono`, `SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_net_push_path_new_residual_arc`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_critical_recurrence`, `SparseCompletion.rational_successful_trace_distance_mono`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_successful_trace_opposite_level_gap`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`, `SparseCompletion.rational_table_push_shortest_distance_mono`.
+
+## Fin.append literal tuple concatenation and coordinate contracts
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fin/Tuple/Basic.lean#L309-L326
+
+Whole-source SHA256: `ba4ed35611cfb9e6af9eebe8b9241b436ce17f38c70a6ff8889cfd2cd2880be3`; Git blob SHA1: `a4a014e6939aa6c762efe9716012644238f6a6c6`; excerpt SHA256: `f4f8235f2b63010f916942eb8e18949797674e0945e844894a579dfc7f188836`. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2019 Floris van Doorn. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Yury Kudryashov, Sébastien Gouëzel, Chris Hughes, Antoine Chambert-Loir
+-/def append (a : Fin m → α) (b : Fin n → α) : Fin (m + n) → α :=
+  @Fin.addCases _ _ (fun _ => α) a b
+
+@[simp]
+theorem append_left (u : Fin m → α) (v : Fin n → α) (i : Fin m) :
+    append u v (Fin.castAdd n i) = u i :=
+  addCases_left _
+
+/-- Variant of `append_left` using `Fin.castLE` instead of `Fin.castAdd`. -/
+@[simp]
+theorem append_left' (u : Fin m → α) (v : Fin n → α) (i : Fin m) :
+    append u v (Fin.castLE (by lia) i) = u i :=
+  addCases_left _
+
+@[simp]
+theorem append_right (u : Fin m → α) (v : Fin n → α) (i : Fin n) :
+    append u v (natAdd m i) = v i :=
+  addCases_right _
+```
+
+## Fintype.card_le_of_injective exact public contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Card.lean#L240-L241
+
+Whole-source SHA256: `a77eb573a459ee525cfb4ac753dd05968ef2cc831d7549dc4e9036c7a90a1f00`; Git blob SHA1: `f59efd09968716b3727825b05027f6fdee9e5dc8`; excerpt SHA256: `28add758ea773ee045ca9d7a6b30dd20da537a82486945f2db7e2895d9fcaf1c`. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2017 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+theorem card_le_of_injective (f : α → β) (hf : Function.Injective f) : card α ≤ card β :=
+  Finset.card_le_card_of_injOn f (fun _ _ => Finset.mem_univ _) fun _ _ _ _ h => hf h
+```
+
+## Nat.sqrt_le_sqrt exact public contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean#L49-L50
+
+Whole-source SHA256: `3ba3c0be75f7d9c912f8f74e24710d1ce771e692b79dd4cbb0dd6bf638ae1414`; Git blob SHA1: `6e0e55b225761cc0112e2b1c8d1d394ef867bfec`; excerpt SHA256: `08a2a263805e23ae4ff2f6bd6f91aedbf19bd4b701b91d9100ae65a8eaf25891`. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/@[gcongr]
+lemma sqrt_le_sqrt (h : m ≤ n) : sqrt m ≤ sqrt n := le_sqrt.2 (le_trans (sqrt_le _) h)
+```
+
+## Nat.sqrt_eq' exact public contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Sqrt.lean#L80-L81
+
+Whole-source SHA256: `3ba3c0be75f7d9c912f8f74e24710d1ce771e692b79dd4cbb0dd6bf638ae1414`; Git blob SHA1: `6e0e55b225761cc0112e2b1c8d1d394ef867bfec`; excerpt SHA256: `5b5f3ede72a406be328b661a2ab64b8be027bc2bad434c27171b3f1cf926dd83`. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2014 Floris van Doorn (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Floris van Doorn, Leonardo de Moura, Jeremy Avigad, Mario Carneiro
+-/@[simp]
+lemma sqrt_eq' (n : ℕ) : sqrt (n ^ 2) = n := sqrt_add_eq' n (zero_le _)
+```
+
+## Real.sqrt_le_left exact public contract
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Real/Sqrt.lean#L224-L226
+
+Whole-source SHA256: `f4e96c735ead60a8983bcf8eb6e38dfd05d8102c3f741094f73639858605bb6a`; Git blob SHA1: `92936ac2ea8d16aff301eecc8983d24e0b1f65d2`; excerpt SHA256: `88571e89b61c47b514dad40ad2b9f63155227c88defe89309278cdfb4421a0ea`. Apache-2.0.
+
+```lean
+/-
+Copyright (c) 2020 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro, Floris van Doorn, Yury Kudryashov
+-/
+theorem sqrt_le_left (hy : 0 ≤ y) : √x ≤ y ↔ x ≤ y ^ 2 := by
+  rw [sqrt, ← Real.le_toNNReal_iff_coe_le hy, NNReal.sqrt_le_iff_le_sq, sq, ← Real.toNNReal_mul hy,
+    Real.toNNReal_le_toNNReal_iff (mul_self_nonneg y), sq]
+```
+
+## Fin.append_left — exact public-contract users
+
+`SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Fin.append_right — exact public-contract users
+
+`SparseCompletion.rational_paper_compress_contract`, `SparseCompletion.rational_paper_compress_cuts`, `SparseCompletion.rational_paper_compress_zero_mass`, `SparseCompletion.rational_paper_exact_compress_cuts`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_exact_zero_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_mass_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_paper_real_contract`.
+
+## Fintype.card_le_of_injective — exact public-contract users
+
+`SparseCompletion.rational_demand_graph_completion_sound`, `SparseCompletion.rational_demand_graph_completion_table_sound`, `SparseCompletion.rational_demand_graph_find_saturated`, `SparseCompletion.rational_demand_graph_find_source_saturated`, `SparseCompletion.rational_demand_graph_find_source_value`, `SparseCompletion.rational_demand_graph_find_stops`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_zero_graph_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_graph_demand_reconstruction`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`, `SparseCompletion.rational_successful_trace_length_bound`, `SparseCompletion.rational_successful_trace_length_le_three_mul_vertices_edges`, `SparseCompletion.rational_table_find_flow_polynomial_cut_certificate`, `SparseCompletion.rational_table_find_flow_polynomial_maximum`, `SparseCompletion.rational_table_find_flow_polynomial_stops`, `SparseCompletion.rational_table_find_flow_polynomial_unreachable`, `SparseCompletion.rational_table_flow_graph_fuel_stops`.
+
+## Nat.sqrt_le_sqrt — exact public-contract users
+
+`SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_minimal`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Nat.sqrt_eq' — exact public-contract users
+
+`SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_minimal`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.
+
+## Real.sqrt_le_left — exact public-contract users
+
+`SparseCompletion.rational_canonical_grid_size_real`, `SparseCompletion.rational_ceil_sqrt_real`, `SparseCompletion.rational_paper_exact_flow_witness`, `SparseCompletion.rational_paper_exact_graph_flow_witness`, `SparseCompletion.rational_paper_exact_witness`, `SparseCompletion.rational_paper_general_flow_witness`, `SparseCompletion.rational_paper_general_graph_flow_witness`, `SparseCompletion.rational_paper_general_witness`, `SparseCompletion.rational_paper_normalized_exact_flow`, `SparseCompletion.rational_paper_normalized_exact_graph_flow`, `SparseCompletion.rational_paper_normalized_exact_witness`, `SparseCompletion.rational_paper_normalized_general_flow`, `SparseCompletion.rational_paper_normalized_general_graph_flow`, `SparseCompletion.rational_paper_normalized_general_witness`, `SparseCompletion.rational_paper_normalized_zero_flow`, `SparseCompletion.rational_paper_normalized_zero_graph_flow`.

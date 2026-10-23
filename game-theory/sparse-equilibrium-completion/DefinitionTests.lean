@@ -6,6 +6,11 @@ public import Mathlib.LinearAlgebra.Dimension.Finite
 public import Mathlib.LinearAlgebra.Dimension.Constructions
 public import Mathlib.NumberTheory.NumberField.Basic
 
+public import Mathlib.Data.Fin.Tuple.Basic
+public import Mathlib.Data.Nat.Sqrt
+public import Mathlib.Analysis.Real.Sqrt
+public import Mathlib.Data.Fintype.Card
+
 public section
 
 -- BEGIN material-imported-definition audit
@@ -1046,5 +1051,94 @@ theorem rational_independent_card_le_dimension {ι ν : Type*} [Fintype ι] [Fin
 
 end SECFollowOnDefinitions
 -- END follow-on149 imported-definition semantic bridges
+
+-- BEGIN next100 imported-definition semantic bridges
+namespace SECNext100Definitions
+
+theorem tuple_append_literal {α : Sort*} {m n : ℕ}
+    (a : Fin m → α) (b : Fin n → α) :
+    Fin.append a b = @Fin.addCases _ _ (fun _ => α) a b := rfl
+
+theorem tuple_append_left {α : Sort*} {m n : ℕ}
+    (a : Fin m → α) (b : Fin n → α) (i : Fin m) :
+    Fin.append a b (Fin.castAdd n i) = a i := Fin.append_left a b i
+
+theorem tuple_append_right {α : Sort*} {m n : ℕ}
+    (a : Fin m → α) (b : Fin n → α) (i : Fin n) :
+    Fin.append a b (Fin.natAdd m i) = b i := Fin.append_right a b i
+
+theorem list_append_literal {α : Type*} (a : α) (xs ys : List α) :
+    ([] : List α) ++ ys = ys ∧ (a :: xs) ++ ys = a :: (xs ++ ys) := ⟨rfl, rfl⟩
+
+theorem list_append_runtime_literal {α : Type*} (xs ys : List α) :
+    xs ++ ys = List.reverseAux xs.reverse ys := by
+  exact congrFun (congrFun (congrFun List.append_eq_appendTR α) xs) ys
+
+theorem option_getD_literal {α : Type*} (a fallback : α) :
+    (some a).getD fallback = a ∧ (none : Option α).getD fallback = fallback := ⟨rfl, rfl⟩
+
+theorem option_membership_literal {α : Type*} (a : α) (o : Option α) :
+    a ∈ o ↔ o = some a := Iff.rfl
+
+theorem option_none_decision_literal {α : Type*} (o : Option α) :
+    @decide (o = none) (Option.decidableEqNone o) = o.isNone := by
+  cases o <;> rfl
+
+theorem option_some_equality_decision {α : Type*} [DecidableEq α] (a b : α) :
+    decide ((some a : Option α) = some b) = decide (a = b) := by
+  apply Bool.eq_iff_iff.mpr
+  simp only [decide_eq_true_eq, Option.some.injEq]
+
+theorem product_boolean_equality_literal {α β : Type*} [BEq α] [BEq β]
+    (a a' : α) (b b' : β) :
+    ((a, b) == (a', b')) = ((a == a') && (b == b')) := rfl
+
+theorem lawful_boolean_equality {α : Type*} [BEq α] [LawfulBEq α] (a b : α) :
+    (a == b) = true ↔ a = b := ⟨eq_of_beq, fun h => h ▸ BEq.rfl⟩
+
+theorem finite_product_boolean_equality {m n : ℕ}
+    (a a' : Fin m) (b b' : Fin n) :
+    ((a, b) == (a', b')) = true ↔ (a, b) = (a', b') :=
+  lawful_boolean_equality (a, b) (a', b')
+
+theorem finite_order_boolean_equality {n : ℕ} (a b : Fin n) :
+    (a == b) = true ↔ a ≤ b ∧ b ≤ a := Std.LawfulOrderBEq.beq_iff_le_and_ge a b
+
+theorem lawful_list_membership_decision {α : Type*} [BEq α] [LawfulBEq α]
+    (a : α) (xs : List α) :
+    @decide (a ∈ xs) (List.instDecidableMemOfLawfulBEq a xs) = List.elem a xs := by
+  apply Bool.eq_iff_iff.mpr
+  rw [decide_eq_true_eq]
+  exact ⟨List.elem_eq_true_of_mem, List.mem_of_elem_eq_true⟩
+
+theorem fin_endpoint_values {n : ℕ} (i : Fin n) :
+    (Fin.last n).val = n ∧ (Fin.castSucc i).val = i.val := ⟨rfl, rfl⟩
+
+theorem fin_last_cases_literal {n : ℕ} {motive : Fin (n+1) → Sort*}
+    (last : motive (Fin.last n)) (cast : ∀ i : Fin n, motive (Fin.castSucc i))
+    (i : Fin (n+1)) :
+    Fin.lastCases (motive := motive) last cast i =
+      Fin.reverseInduction (motive := motive) last (fun j _ => cast j) i := rfl
+
+theorem fin_last_cases_last {α : Sort*} {n : ℕ} (last : α) (cast : Fin n → α) :
+    Fin.lastCases last cast (Fin.last n) = last := Fin.lastCases_last
+
+theorem fin_last_cases_prefix {α : Sort*} {n : ℕ} (last : α) (cast : Fin n → α)
+    (i : Fin n) : Fin.lastCases last cast (Fin.castSucc i) = cast i := Fin.lastCases_castSucc i
+
+theorem finite_injective_card_bound {α β : Type*} [Fintype α] [Fintype β]
+    (f : α → β) (hf : Function.Injective f) : Fintype.card α ≤ Fintype.card β :=
+  Fintype.card_le_of_injective f hf
+
+theorem natural_sqrt_monotone {m n : ℕ} (h : m ≤ n) : Nat.sqrt m ≤ Nat.sqrt n :=
+  Nat.sqrt_le_sqrt h
+
+theorem natural_sqrt_square (n : ℕ) : Nat.sqrt (n^2) = n := Nat.sqrt_eq' n
+
+theorem real_sqrt_upper_iff_square (x y : ℝ) (hy : 0 ≤ y) :
+    Real.sqrt x ≤ y ↔ x ≤ y^2 := Real.sqrt_le_left hy
+
+end SECNext100Definitions
+-- END next100 imported-definition semantic bridges
 
 -- END material-imported-definition audit
