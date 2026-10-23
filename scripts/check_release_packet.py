@@ -30,7 +30,8 @@ def sha(data):
 
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
-    require(re.fullmatch(r'topology/[a-z0-9-]+', project), 'Invalid project path')
+    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot', project),
+            'Invalid project path')
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
     paths = git('ls-tree', '-r', '--name-only', commit + ':' + project).decode().splitlines()
@@ -58,6 +59,56 @@ def status_errors(files):
                 continue
             errors.append(name + ': stale blanket pending/completion account')
     return sorted(set(errors))
+
+
+def check_kernel_account(report, protected):
+    """Check legacy/current receipt consistency, not independent report authenticity.
+
+    The current pinned pipeline requires Lean/NanoDa and records con-ron as an
+    advisory replay. Historical protected configurations required both kernels.
+    Actual artifact provenance and capacity authentication still need review.
+    """
+    required = set(protected['external_kernels'])
+    names = [row['name'] for row in report['kernels']]
+    require(len(names) == len(set(names)), 'Duplicate accepted kernel')
+    accepted = set(names)
+    log = report['comparator_log_tail']
+    for message in ['nanoda kernel accepts the solution',
+                    'Lean default kernel accepts the solution', 'Your solution is okay!']:
+        require(message in log, 'Missing actual kernel/comparison acceptance')
+    if required == {'nanoda', 'con-ron'}:
+        require(accepted == required, 'Missing independent kernel')
+        require('con-ron kernel accepts the solution' in log,
+                'Missing actual kernel/comparison acceptance')
+        return
+    require(required == {'nanoda'} and accepted in ({'nanoda'}, {'nanoda', 'con-ron'}),
+            'Unsupported protected kernel account')
+    attempts = report.get('kernel_attempts', [])
+    require(len(attempts) == 1 and attempts[0].get('name') == 'con-ron',
+            'Missing advisory con-ron attempt')
+    attempt = attempts[0]
+    budget = attempt.get('budget_seconds')
+    require(type(budget) is int and 0 <= budget <= 1800, 'Invalid advisory kernel budget')
+    require(isinstance(attempt.get('detail'), str) and attempt['detail'].strip(),
+            'Missing advisory kernel evidence')
+    argv = attempt.get('argv', [])
+    require(len(argv) == 3 and pathlib.PurePosixPath(argv[0]).name == 'con-ron'
+            and re.fullmatch(r'--jobs=[1-9][0-9]*', argv[1]) and argv[2] == '--verified',
+            'Advisory replay is not the verified-export invocation')
+    require(isinstance(attempt.get('status'), str) and isinstance(attempt.get('reason'), str)
+            and (attempt.get('exit_code') is None or type(attempt['exit_code']) is int),
+            'Invalid advisory kernel result fields')
+    outcome = (attempt.get('status'), attempt.get('reason'), attempt.get('exit_code'))
+    if outcome == ('accepted', 'complete', 0):
+        require(accepted == {'nanoda', 'con-ron'}, 'Accepted advisory kernel not recorded')
+    else:
+        require(outcome in {('declined', 'unsupported-inductive', 2),
+                            ('declined', 'fuel-exhausted', 3),
+                            ('declined', 'capacity', None)}, 'Unrecognized advisory kernel outcome')
+        require(accepted == {'nanoda'}, 'Declined kernel incorrectly listed as accepted')
+        warning = ('con-ron declined (' + attempt['reason'] +
+                   '); mandatory Lean and NanoDa checks passed.')
+        require(warning in report.get('warnings', []), 'Missing advisory decline warning')
 
 
 def bind_full(report, fields, files):
@@ -89,13 +140,9 @@ def bind_full(report, fields, files):
             protected['challenge_module'].endswith('.Challenge'), 'Unprotected Challenge')
     for kind in ['challenge', 'solution']:
         require(report[kind]['module'] == config[kind + '_module'], kind + ' module mismatch')
-    require(set(protected['external_kernels']) == {'nanoda', 'con-ron'} and
-            {k['name'] for k in report['kernels']} == {'nanoda', 'con-ron'}, 'Missing independent kernel')
+    check_kernel_account(report, protected)
     require(report['challenge']['trust_level'] == 'high' and report['challenge']['untrusted_sources'] == [],
             'Challenge provenance is not high trust')
-    for message in ['con-ron kernel accepts the solution', 'nanoda kernel accepts the solution',
-                    'Lean default kernel accepts the solution', 'Your solution is okay!']:
-        require(message in report['comparator_log_tail'], 'Missing actual kernel/comparison acceptance')
 
 
 def check_archive(data, files):
@@ -115,7 +162,8 @@ def check_status(root, commit, project, historical_report=None):
     material_manifest = 'verification/material-imported-definitions.json'
     if project in {'topology/kuratowski-ulam', 'topology/locally-compact-baire',
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',
-                   'topology/banach-mazur-category', 'topology/strong-choquet-polish'}:
+                   'topology/banach-mazur-category', 'topology/strong-choquet-polish',
+                   'algebraic-hodge/ddbar-pilot'}:
         require(material_manifest in files, 'Missing material imported-definition evidence')
     if material_manifest in files:
         # Audit the proposed source bytes, never a later working directory.
@@ -154,6 +202,10 @@ def check_status(root, commit, project, historical_report=None):
 
 
 def check_packet(root, packet, report_bytes, report_digest, archive_bytes):
+    hold = packet.get('submission_hold', {})
+    require(isinstance(hold, dict) and type(hold.get('active', False)) is bool,
+            'Invalid submission hold')
+    require(not hold.get('active', False), 'Submission hold is active; prerequisite approval is unconfirmed')
     fields = packet.get('proposed_submission_fields', packet.get('submission_fields', packet))
     require(fields['repository'] == REPOSITORY, 'Wrong repository')
     ledger_path = pathlib.Path(root) / 'RELEASE-HANDOFFS.json'
