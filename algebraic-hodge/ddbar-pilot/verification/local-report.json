@@ -1,0 +1,139 @@
+{
+  "status": "pass",
+  "scope": "Cloud local Lean build, transitive axiom audit, pinned-source consistency; not full degeneration or Palomar verification",
+  "checked_at": "2026-10-23T00:06:54.592751+00:00",
+  "source_commit": "43a2585e83ce0b6fbc09bf6b60d0f15f6743f506",
+  "source_worktree_status_before_report": [
+    "?? algebraic-hodge/ddbar-pilot/verification/axioms.log",
+    "?? algebraic-hodge/ddbar-pilot/verification/build.log",
+    "?? algebraic-hodge/ddbar-pilot/verification/local-report.json"
+  ],
+  "lean_version": "Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "source_sha256": {
+    "AxiomAudit.lean": "aa7debef8e17c0e86bdf488c934858f24365b7da06822c93defb5653ee5ab05c",
+    "Indexing.lean": "2a21798599e549bf16c27cd53e86215313c26185ae11e643ecee22eff0cba70c",
+    "Integration.lean": "e8f61e07208d27985a7d6e4cfdd229bc50b9e07ff0fd37a6c7ca2c58696a0d79",
+    "PLAN.md": "23213e91d4ba53625bc442a5a9b48c777d1a85e50f81a4db7f9ab2d6d477efd4",
+    "README.md": "55bb0b5d7e3b88832699ee1ee15756891d610178c60b64793b2a64a3dc78e319",
+    "REVIEW.md": "0c7c3640cb123c38b1ebca910288d0edf9adf8d7c92b2d04e81b27a4de6f50d4",
+    "Representative.lean": "0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8",
+    "SignBridge.lean": "5cf99fcababd32c73451857307c2fa800255f0f2b5131c82bfebb4139d85ac0a",
+    "TotalRepresentative.lean": "d3cc3162bace9746351e3d003fdeda84aa825a61b1df4e64fe5d406a951e1a47",
+    "lake-manifest.json": "26acfec1d2476828314e9769053fca35a777371d116e118841dd8a3599700523",
+    "lakefile.toml": "c307be63da1645731900080629a59bf7c76222221dfa3b71a45c70a06834fd30",
+    "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "scripts/verify.py": "a5d8999a531fdf3fde61dc7af4c7206738597a8515fad3a2347597358068672d",
+    "verification/palomar-toolchains.json": "fd40347e4b586e7c42233b35f11efb006d25033b9a7ded9565719edf7aa98354",
+    "verification/policy-snapshot.json": "d231e629ec46dc15de1e339d3b9073f60026b11bd73967470e47e6a302edca45",
+    "verification/upstream-inventory.json": "7efbcf3042866a56b746faf54b19d07af641e850cb8aba11170dcf8ad44c7ffd"
+  },
+  "build_log_sha256": "c7cdae24802fc510b194ea7a0c814f4df0988b25fd4d35e4257dfdd8dcd0c1e4",
+  "axiom_log_sha256": "23b3612e9a4e59d40ab0605dafe201243f67d6e8e2d4be22c05d80fb7b61af0f",
+  "audited_declarations": {
+    "AlgebraicHodgePilot.total": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.ImageKernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.exists_closed_correction": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalHomologyIso": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.verticalClass": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.exists_closed_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_anticommute": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.sign_twist_involutive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_squared": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_ker": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.signedVertical_range": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.total_closed_of_biclosed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.exists_total_closed_representative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.canonicalCoordinates": [],
+    "AlgebraicHodgePilot.canonicalCoordinates_totalDegree": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.canonicalCoordinates_differentialDegree": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.e1Data": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.e1Data_first_left": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "AlgebraicHodgePilot.e1Data_first_right": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "upstream_files_authenticated": 10,
+  "full_e1_degeneration_proved": false,
+  "associated_filtered_spectral_sequence_constructed": false,
+  "protected_comparator_run": false,
+  "external_kernel_checks_run": false,
+  "challenge_rendered": false,
+  "palomar_intake_attempted": false,
+  "publication_role_check": "arthurpalomar742 already has write; observed via connected GitHub read-only tool"
+}
