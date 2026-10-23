@@ -1298,3 +1298,8 @@ name = "GaussianPaperTableEncodingControls"
 
 [[lean_lib]]
 name = "ConeEncodingControls"
+
+# Source-only copies compiled in separate protected module environments.
+[[lean_lib]]
+name = "ProtectedSources"
+globs = ["ProtectedSources.+"]

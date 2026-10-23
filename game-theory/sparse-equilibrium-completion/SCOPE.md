@@ -15,6 +15,20 @@ external receipt bound to the exact commit and tree, covering source consistency
 build, protected comparison, exports and kernels. The constituent cohorts have separate bounded
 checks and internal AI reviews; those receipts do not verify the assembled tree.
 
+The protected context preserves the same 373 source-module boundaries in
+`ProtectedSources/`. Each copy changes only project import tokens to protected
+aliases; declaration bodies, public names and canonical mathematical sources
+remain fixed. `SECChallenge` imports these copies, while `SECSolution` imports
+the canonical modules. The 432 default targets reach 805 local modules; the
+independent protected phase compiles 373 copies and one aggregator in a fresh
+isolated directory. These verification copies add no mathematical results.
+The earlier monolithic integration at `89f353b412f612555265cf902844107522d595b3`
+passed its first ten native gates but failed exact protected-value comparison
+because compiler-generated helper references differed; its final export-kernel
+gate did not run. That failed source and evidence are retained. This changed
+protected layout requires its own fresh exact-commit comparison and kernel
+checks with the unchanged pinned comparator and no definition holes.
+
 Historical commit `b5a0fbfd6968db1bda7aae252660bac2236a2b68` passed all 12
 native verification gates, with external receipt SHA256
 `bf22645dc036d9de36240c26ae31849ff96ce561f923fda3d3cd9b341c82ff7b`.

@@ -11,12 +11,14 @@ if not __debug__ or sys.flags.optimize:
     raise SystemExit('Source checks refuse assertion-disabled Python optimization modes')
 
 from assemble_challenge import assemble, MODULES
+from protected_sources import validate as validate_protected
 
 root = Path(__file__).resolve().parents[1]
 cfg = json.loads((root / 'comparator.json').read_text())
 source = (root / 'SparseCompletion.lean').read_text()
 challenge = (root / 'SECChallenge.lean').read_text()
-assert challenge == assemble(root), 'Challenge must contain the exact assembled public source bodies'
+assert challenge == assemble(root), 'Challenge must aggregate the exact protected source modules'
+protected_source_map = validate_protected(root)
 all_source = '\n'.join((root/(name+'.lean')).read_text() for name in MODULES)
 for filename in [name+'.lean' for name in MODULES] + ['SECChallenge.lean', 'SECSolution.lean', 'AxiomAudit.lean']:
     text = (root / filename).read_text()
@@ -94,10 +96,22 @@ axiom_controls = {'returncode': axiom_controls_run.returncode,
     'stdout': axiom_controls_run.stdout, 'stderr': axiom_controls_run.stderr,
     'test_sha256': hashlib.sha256((root/'scripts/test_axiom_reports.py').read_bytes()).hexdigest(),
     'checker_sha256': hashlib.sha256((root/'scripts/check_axiom_reports.py').read_bytes()).hexdigest()}
+protected_controls_run = subprocess.run([sys.executable, str(root/'scripts/test_protected_sources.py')],
+    cwd=root, text=True, capture_output=True, check=False)
+assert protected_controls_run.returncode == 0, protected_controls_run.stdout+protected_controls_run.stderr
+protected_controls = {'returncode': protected_controls_run.returncode,
+    'stdout': protected_controls_run.stdout, 'stderr': protected_controls_run.stderr}
+input_controls_run = subprocess.run([sys.executable, str(root/'scripts/test_verification_inputs.py')],
+    cwd=root, text=True, capture_output=True, check=False)
+assert input_controls_run.returncode == 0, input_controls_run.stdout+input_controls_run.stderr
+input_controls = {'returncode': input_controls_run.returncode,
+    'stdout': input_controls_run.stdout, 'stderr': input_controls_run.stderr}
 files = [p for p in root.rglob('*') if p.is_file() and '.lake' not in p.parts
          and p.suffix not in ['.olean', '.ilean', '.log'] and '__pycache__' not in p.parts]
 print(json.dumps({'check': 'sparse-equilibrium-completion-source-consistency', 'result': 'pass',
     'selected_theorems': cfg['theorem_names'], 'identifier_regression_controls': identifier_controls,
     'axiom_report_regression_controls': axiom_controls,
+    'protected_source_map': protected_source_map, 'protected_source_regression_controls': protected_controls,
+    'input_envelope_regression_controls': input_controls,
     'sha256': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)},
     'limits': 'Not a proof build, source-fidelity review, canonical verifier, or release clearance'}, indent=2))
