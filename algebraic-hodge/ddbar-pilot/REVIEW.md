@@ -1,74 +1,105 @@
 # Internal mathematical and semantic review
 
-This is internal AI review, not human mathematical review, external peer
-review, or Palomar editorial review. It supports a pilot, not intake readiness.
+This account concerns the continuation from representative lemmas to the
+actual column spectral sequence and bounded convergence. The six-module
+checkpoint account is preserved unchanged in
+[verification/checkpoint-review.md](verification/checkpoint-review.md).
+Its old hashes, twenty-declaration audit and unproved milestones are historical,
+not the current status. The exact-source continuation receipt and source
+binding are retained separately under `verification/continuation/`.
 
-The primary agent implemented Integration, Representative, SignBridge,
-TotalRepresentative, and AxiomAudit. A separate reviewer agent independently
-checked those files, inspected the pinned mathlib definitions and the cited
-mathematical sources, and separately ran
-`lake env lean -DwarningAsError=true FILE` on each of the six Lean modules.
-Every command exited 0 and the source hashes remained unchanged. The reviewer
-authored Indexing; its formulas and proof contracts were independently checked
-by the primary agent, rather than treating the author's self-review as
-independent review. Both agents use the same Lean kernel and dependency cache;
-these are not independent-kernel checks.
+Review is internal AI review using the same Lean kernel and dependency cache.
+It is not human mathematical review, external peer review, an independent
+kernel check, or Palomar editorial review. The primary contributor authored
+the column-filtration, quotient-page, representative, differential,
+spectral-sequence, infinity and bounded-stabilization proofs. A separate
+reviewer checked their statements, hypotheses, actual operators and source
+meaning. That reviewer authored `CohomologyClass` and `GradedCohomology`; the
+primary contributor independently read and freshly compiled both, checking
+that their canonical class map targets actual `C.homology n` and that its
+kernel is exactly the incoming differential's range. The reviewer authored
+the older indexing blueprint, which the primary contributor independently
+checked. Authorship is not counted as independent review.
 
-Reviewed source hashes:
+## Statement and semantic findings
 
-| File | SHA256 |
-| --- | --- |
-| Integration.lean | `e8f61e07208d27985a7d6e4cfdd229bc50b9e07ff0fd37a6c7ca2c58696a0d79` |
-| Representative.lean | `0d891530dfc123651194116596ef3110e5bb4cc3a57068450461c2ec1c6580a8` |
-| SignBridge.lean | `5cf99fcababd32c73451857307c2fa800255f0f2b5131c82bfebb4139d85ac0a` |
-| TotalRepresentative.lean | `d3cc3162bace9746351e3d003fdeda84aa825a61b1df4e64fe5d406a951e1a47` |
-| Indexing.lean | `2a21798599e549bf16c27cd53e86215313c26185ae11e643ecee22eff0cba70c` |
-| AxiomAudit.lean | `aa7debef8e17c0e86bdf488c934858f24365b7da06822c93defb5653ee5ab05c` |
+- `ImageKernel` is an explicit equality of submodules of actual bicomplex
+  components. The local proof constructs an actual preimage of h(x), corrects
+  by v(b), and proves both closure equations and actual homology-class equality.
+  The identity used is one direction of the classical d′d″ condition, sufficient
+  for degeneration of the column filtration. No symmetric/converse theorem is
+  inferred.
+- The filtration is the span of real total summand inclusions. Its leading
+  projections come from totalDesc and its differential formulas use the actual
+  signed total differential. The filtration record contains only submodules,
+  monotonicity, and preservation by the differential.
+- Page numerators retain the condition D(x)∈F(p+r), page boundaries retain
+  filtered primitives, and the denominator inclusion is proved. The differential
+  is D descended by liftQ, defined without the d′d″ hypothesis. The generic
+  square-zero proof uses the actual D²=0 law.
+- E1 identifies with actual vertical homology without d′d″. For r≥1, zero
+  leading class implies membership in the genuine page denominator. The
+  incoming identity makes leading components of total boundaries vertically
+  exact, and the outgoing identity supplies biclosed representatives. These
+  establish all-page comparisons and every higher differential's vanishing.
+- The packaged mathlib spectral sequence retains those actual quotient objects
+  and induced operators in conventional degree (r,1−r). Its page homology
+  isomorphisms are tied to the homology projection by `zeroPageHomologyIso_π`
+  and to standard quotient classes by `associatedSequence_transition`.
+  Degeneration does not enter the page or differential definitions; proved
+  zero-differential theorems discharge the complex laws and recurrence.
+- The infinity numerator is Fp∩kerD and its denominator is
+  (Fp+1∩kerD)+(Fp∩rangeD). The generic graded comparison uses the range of
+  filtered cocycles' actual cohomology classes, not a supplied quotient standing
+  in for cohomology. Its representative rule is canonical.
+- `HorizontalSupport` and `RectangularSupport` express actual component
+  vanishing via carrier subsingletons. The finite-filtration proof uses genuine
+  total summand maps. For U<p+r and p−r+1≤L the actual page numerator and
+  denominator become the infinity submodules. The eventual bound is
+  max(1,U−p+1,p−L+1). Thus bounded convergence is established by submodule
+  stabilization, not merely by finding abstractly isomorphic pages.
 
-The reviewer found the representative hypothesis is an explicit submodule
-identity on actual differentials. The proof chooses a genuine preimage of
-`h x`, corrects by `v b`, and proves both closure equations. The homology
-statement uses `homologyIsoSc'` and `moduleCatHomologyIso`; equality of
-classes follows from the actual boundary witness `-b`. Neither the conclusion
-nor a dimension equality is supplied as an assumption. Boundedness is absent
-because the local proof does not use it; this is an honest stronger local
-statement, not a proof of the bounded global target.
+## Source fidelity and scope
 
-The sign lemmas concern actual linear maps and prove anticommutation,
-square-zero, involution, and kernel/range preservation in every characteristic.
-They do not reconstruct arbitrary external anticommuting double complexes.
-The total representative is mapped by `K.ιTotal` and its closure is proved
-with mathlib's total differential. This is soundness into a genuine complex.
-No filtered page or degeneration result is asserted.
+DGMS §§5.15–5.17 supplies the classical source. Its §5.17 equivalence also
+contains both filtrations and their n-oppositeness, which are not claimed.
+Chen–Ho–Teh's non-E0 hypothesis is not silently removed: this project gives
+its own direct proof for every r≥1, including earlier degeneration. Stelzig's
+square/zigzag decomposition is context, not an imported theorem here.
+The initial scoped overlap search is documented in PLAN; no universal
+prior-art audit or mathematical novelty claim follows.
 
-The primary agent's independent indexing review checked total degree and
-each interval equation. Under the differential shift `(p,q) ↦ (p+r,q+1-r)`,
-the equations `i₀(r,p,q)=i₂(p+r,q+1-r)` and
-`i₁(p,q)=i₃(r,p+r,q+1-r)` hold. The adjacent-page equations and the bounds
-require `r≥1` and are proved in Lean. At `r=1` the outer intervals are
-identities. The shear `(2p+q+1,-p-1,r+1)` preserves total degree and maps the
-differential degree correctly. These checks establish indexing data only;
-the filtration/quotient/first-page association is still missing.
+The sign bridge is an actual operator sign involution. Reconstruction of an
+independently specified anticommuting complex and categorical totalization
+comparison are outside its proved contract. The concrete quotient construction
+has conventional E1 indexing justified by its first-page computation; it does
+not claim a `HasSpectralSequence` instance or an abstract mapping-cone spectral
+object comparison.
 
-Source fidelity: the local representative proof is one componentwise
-direction of DGMS §5.15(b), consistent with §5.16. The full §5.17 equivalence
-also involves opposite filtrations, so degeneration alone must not be stated
-as its equivalent. Chen–Ho–Teh and Stelzig substantiate the broader classical
-target and its audience in algebraic Hodge theory and homological algebra.
-No mathematical novelty is claimed. The current local result alone has not
-been established to meet Palomar's research-interest threshold.
+The release inventories remain preliminary. The original literal-source
+inventory is retained, with continuation excerpts for quotient descent,
+submodule images/inverse images, actual zero-map homology data, total summand
+maps and conventional spectral-sequence indexing. Exact-pin source and excerpt
+checks are mechanical evidence, not a completeness or semantic-fidelity proof.
+A complete selected-declaration dependency expansion and separate
+Challenge/Solution bridges remain release gates.
 
-The audit enumerates 20 declarations and reports only `propext`,
-`Classical.choice`, and `Quot.sound`; `canonicalCoordinates` needs no axioms.
-Text inspection found no proof holes, custom axiom declarations, `unsafe`,
-`implemented_by`, or `native_decide` in the six reviewed modules.
+## Verification and remaining limits
 
-Review limits: scoped overlap search, no full global prior-art audit, no
-Challenge/Solution comparison, no external-kernel verification, no rendered
-Challenge, and no release-packet review. The material imported-definition
-inventory is preliminary; its completeness and future entrypoint bridges must
-be independently re-reviewed before release. Documentation was checked
-against the listed declarations and the explicit unproved milestones.
-The separate reviewer checked the retained excerpt-to-declaration associations;
-two initial bicomplex excerpt ranges and a theorem/definition distinction in
-the Chen–Ho–Teh source account were corrected before final verification.
+`AxiomAudit.lean` enumerates the local public definitions and theorems,
+including the generic cohomology and graded comparisons, actual sequence,
+bounded stabilization and final theorem. The verifier compares every returned
+name with that list and permits only `propext`, `Classical.choice`, and
+`Quot.sound`. It rejects proof holes, custom axiom declarations and unsafe or
+native shortcuts. The continuation receipt, rather than the old checkpoint
+report, identifies the exact tested commit, all source digests, audit count,
+logs, Lean version and dependency pin. Reviewed-source hashes are recorded in
+the separate continuation review receipt; later evidence-only additions do
+not assert a fresh post-merge or whole-commit run.
+
+No protected Comparator, external kernel, Challenge rendering, metadata
+intake, Palomar registration or editorial acceptance has run for this project.
+Final authorship and responsible-maintainer metadata require explicit role
+assignment. A serious-research-interest assessment and exact release packet
+review are still necessary before a Palomar-ready handoff. Draft PR40 remains
+the only campaign and no submission is authorized by these notes.

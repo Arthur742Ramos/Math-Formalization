@@ -1,70 +1,102 @@
-# Algebraic Hodge pilot: closed representatives
+# Algebraic Hodge pilot: column E1 degeneration
 
-**Compiled pilot; full E1 degeneration remains unproved.** This independent
-project formalizes the representative step of the classical algebraic
-`d′d″` argument in genuine mathlib bicomplexes over a field. It is not a
-compact-Kähler analytic theorem, a new mathematical result, or a Palomar
-submission packet.
+This independent Lean project formalizes the classical algebraic implication
+from explicit image/kernel identities to E1 degeneration of the column-filtered
+total complex. The pages are actual filtered quotients, the differentials are
+induced by the actual total differential, and bounded convergence is proved by
+stabilization of those quotient submodules. Local verification receipts are
+kept separately under `verification/continuation/`; the earlier six-module
+checkpoint in `verification/local-report.json` did not establish degeneration.
+This is a draft research pilot, not a Palomar submission packet.
 
-For a commuting bicomplex `K`, write `h` and `v` for its actual horizontal
-and vertical linear maps. The explicit hypothesis at `(p+1,q)` is
+For a mathlib commuting bicomplex `K` over a field, the hypothesis
+`ImageKernel K p q` is the explicit equality
 
 ```
 range(h : K[p,q] → K[p+1,q]) ∩ ker(v : K[p+1,q] → K[p+1,q+1])
   = range(h ∘ v : K[p,q-1] → K[p+1,q]).
 ```
 
-`exists_closed_correction` proves that a vertical cocycle `x` has a correction
-`b` with `y = x - v b` killed by both operators.
-`exists_closed_representative` quantifies over the column's actual
-`HomologicalComplex.homology` object, using mathlib's canonical
-kernel/quotient comparison to prove that `y` represents the given class.
-`exists_total_closed_representative` also proves that its summand inclusion
-is a cocycle in mathlib's actual total complex. These local statements need
-neither boundedness nor finite dimensionality. The future global target is
-bounded double complexes satisfying the explicit identities in every degree.
+The global assumption is this identity for every integer `p,q`. It is one
+componentwise direction of the classical d′d″ condition and suffices for this
+one-filtration implication. No representative, dimension equality, or
+degeneration conclusion is supplied as input. No finite dimensionality is
+assumed. Rectangular boundedness means the actual vector spaces are zero
+outside an integer rectangle, expressed as `Subsingleton` of their carriers.
+The convergence proof uses only its weaker consequence, finite horizontal
+support.
 
-`SignBridge.lean` proves that replacing `v` by `(-1)^p v` anticommutes with
-`h`, squares to zero, preserves kernels and ranges, and is involutive. These
-are operator lemmas on genuine complexes; reconstruction of a commuting
-bicomplex from independently specified anticommuting data and the full
-totalization comparison remain future work.
+The main entrypoint is [E1Degeneration.lean](E1Degeneration.lean):
 
-`Indexing.lean` supplies genuine `SpectralSequenceDataCore` starting at page 1
-with differential degree `(r,1-r)`. Its interval formulas and coordinate
-shear are proved. No associated filtered total complex, `HasSpectralSequence`
-instance, page comparison, higher differential vanishing, or E-infinity
-comparison is claimed. Coordinate arithmetic is only indexing infrastructure.
+| Declaration | Proved contract |
+| --- | --- |
+| `exists_closed_representative` | Every actual vertical cohomology class has a representative killed by both operators. `exists_closed_correction` separately exposes its vertical correction witness. |
+| `Column.firstPageIso` | The genuine first quotient page is isomorphic to actual column cohomology, without a d′d″ hypothesis. |
+| `Column.all_differentials_zero` | The actual induced differential vanishes for **every integer r ≥ 1**, at every bidegree. |
+| `Column.associatedSequence` | A mathlib `CohomologicalSpectralSequence (ModuleCat k) 1` with those quotient pages and induced differentials. |
+| `Column.associatedSequence_transition` | Its recurrence agrees with quotient classes on common cycle representatives; `zeroPageHomologyIso_π` identifies the actual homology projection. |
+| `Column.eventually_stable` | Under finite horizontal support, actual numerator and denominator submodules eventually equal their stable counterparts. |
+| `Filtered.infinityGradedIso` | The stable quotient is canonically the associated graded of actual total cohomology, with its induced filtration. |
+| `Column.bounded_e1_degeneration` | Under rectangular boundedness and the explicit identities, all higher differentials vanish and the actual quotients eventually stabilize. |
+| `Column.boundedStableGradedIso` | The stabilized pages identify with the associated graded of actual total cohomology. |
+
+`Filtered.Filtration` stores only decreasing submodules and differential
+preservation. The standard page formula, in total degree n, is
+
+```
+Zr(p,n) = Fp Tot^n ∩ D⁻¹(F(p+r) Tot^(n+1))
+Br(p,n) = Fp Tot^n ∩ D(F(p-r) Tot^(n-1))
+Er(p,n) = Zr(p,n) / (Z(r-1)(p+1,n) + B(r-1)(p,n)).
+```
+
+The denominator is restricted to `Zr` by a proved inclusion. The column
+filtration is the span of genuine total summands with column at least p.
+The conventional bidegree is `(p,q)` with `n=p+q`, and the descended total
+differential has degree `(r,1-r)`. The first-page computation justifies E1
+indexing directly; no E2 object is renamed E1. `Indexing.lean` retains a
+separate spectral-object indexing blueprint, but the present construction
+uses the concrete quotient route. Comparison with mathlib's abstract
+mapping-cone `SpectralObject.spectralSequence` constructor is not claimed.
+
+`SignBridge.lean` proves the operator bridge `v ↦ (-1)^p v`: anticommutation,
+square-zero, unchanged kernels/ranges, and involution. The formal theorem is
+stated for mathlib's commuting bicomplexes with signed totalization.
+Reconstruction from an independently specified anticommuting double-complex
+category and a full categorical totalization comparison remain future work.
+The compact-Kähler analytic theorem, DGMS's converse/opposite-filtration
+statement, noncommutative Kaledin theorem, and computational paths are outside
+this pilot. ComputationalPathsLean is not imported.
 
 Build with Lean `leanprover/lean4:v4.35.0-rc2` and mathlib
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`:
 
 ```sh
-lake exe cache get Mathlib.Algebra.Homology.TotalComplex Mathlib.Algebra.Homology.ShortComplex.ModuleCat Mathlib.Algebra.Homology.SpectralObject.SpectralSequence
 lake build
-lake env lean AxiomAudit.lean
+lake env lean -DwarningAsError=true AxiomAudit.lean
+python3 scripts/verify.py
 ```
 
-The cloud check used the existing matching dependency checkout through an
-ignored `.lake/packages` link; no existing topology or paper source was
-changed. A fresh checkout can let Lake obtain the pinned dependencies normally.
-Verification records identify source digests and distinguish source commits
-from later evidence-only commits. The audited transitive axioms are restricted
-to `propext`, `Classical.choice`, and `Quot.sound`. No proof holes, new axioms,
-or `native_decide` are used. Protected Comparator, external-kernel validation,
-and Challenge rendering have not been run for this pilot.
+The cloud uses an ignored link to an existing dependency checkout with exactly
+these pins. No topology or paper sources are changed. The verifier checks
+source stability, pins, retained upstream excerpts, all local modules, and
+transitive axiom dependencies of the declarations listed in `AxiomAudit.lean`.
+Only `propext`, `Classical.choice`, and `Quot.sound` are allowed; no proof holes,
+new axioms, `unsafe`, `implemented_by`, or `native_decide` are used. The final
+receipt identifies the tested source commit and digests. A later evidence-only
+commit is distinguished from that source, rather than represented as a fresh
+whole-commit verification. Protected Comparator, external kernels, Challenge
+rendering, and Palomar intake have not run for this project.
 
-See [PLAN.md](PLAN.md) for the remaining dependency graph and
-[REVIEW.md](REVIEW.md) for independent AI review and its limits. Code and
-documentation were produced with OpenAI Codex assistance; no human proof
-contribution or human mathematical review is asserted. The repository owner
-is not automatically credited as the author of these proofs. No final
-authorship or maintainer metadata is assigned to this pilot. The repository's
-Apache-2.0 license applies; mathlib authorship remains with its cited sources.
+See [PLAN.md](PLAN.md) and [REVIEW.md](REVIEW.md) for source fidelity, review
+scope, and remaining release gates. This is AI-assisted work; internal review
+is by another AI agent using the same Lean kernel, with the primary agent
+reviewing that agent's contributions. No human proof contribution or human
+mathematical review is asserted. Final author/maintainer metadata has not been
+assigned. The repository's Apache-2.0 license applies; upstream attribution is
+retained in the source inventories.
 
 Sources: [DGMS §§5.15–5.17](https://www.math.stonybrook.edu/~dennis/publications/PDF/DS-pub-0024.pdf),
 [Chen–Ho–Teh, v2](https://arxiv.org/abs/1506.06451v2), and
-[Stelzig, v3](https://arxiv.org/abs/1812.00865v3). DGMS is the source being
-adapted; the other papers supply context and alternative proof architecture.
-The scalar correction is classical. Neither novelty nor registry acceptance
-has been established.
+[Stelzig, v3](https://arxiv.org/abs/1812.00865v3). This formalizes a classical
+implication; mathematical novelty and Palomar editorial acceptance are not
+claimed. Draft PR40 is the sole campaign for this work.

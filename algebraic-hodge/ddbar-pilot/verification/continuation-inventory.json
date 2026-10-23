@@ -1,0 +1,196 @@
+{
+  "status": "preliminary-pilot-inventory",
+  "schema": "pilot-source-inventory-1",
+  "dependency": {
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+  },
+  "scope": "Continuation additions to upstream-inventory.json. Literal exact-pin excerpts and semantic notes, not complete release-schema dependency expansion. No Challenge/Solution entrypoint or Comparator claim.",
+  "source_files": [
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Defs.lean",
+      "sha256": "f1735fb71af000fc2047c5e6456fa2b31d0f5443d23a169ac25a6ce388fe2b78",
+      "git_blob_sha1": "ceec21a0216a4bb5187d1f87c5a068caf26b7f62",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Nathaniel Thomas. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes H\u00f6lzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 40,
+          "last_line": 58,
+          "declarations": [
+            "Submodule"
+          ],
+          "meaning": "A subset with additive and scalar closure, ordered by inclusion. The filtration and support tests refer to actual vector spaces.",
+          "sha256": "6d46254fae78e0a78e80fd4ca347d3198455e98f9aeec435e49063aedf196b43",
+          "text": "  to themselves form a module. -/\nstructure Submodule (R : Type u) (M : Type v) [Semiring R] [AddCommMonoid M] [Module R M] : Type v\n    extends AddSubmonoid M, SubMulAction R M\n\n/-- Reinterpret a `Submodule` as an `AddSubmonoid`. -/\nadd_decl_doc Submodule.toAddSubmonoid\n\n/-- Reinterpret a `Submodule` as a `SubMulAction`. -/\nadd_decl_doc Submodule.toSubMulAction\n\nnamespace Submodule\n\nvariable [Semiring R] [AddCommMonoid M] [Module R M]\n\ninstance setLike : SetLike (Submodule R M) M where\n  coe s := s.carrier\n  coe_injective p q h := by cases p; cases q; congr; exact SetLike.coe_injective h\n\ninstance : PartialOrder (Submodule R M) := .ofSetLike (Submodule R M) M\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Map.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Map.lean",
+      "sha256": "f0b02929b7aeeb359f7c9f207a7d78d3013ecf9a5e2e167431cf85422894ebc2",
+      "git_blob_sha1": "56d22fe8c8ac84bf173514e5283440e673e58b3d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Fr\u00e9d\u00e9ric Dupuis,\n  Heather Macbeth\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 52,
+          "last_line": 63,
+          "declarations": [
+            "Submodule.map"
+          ],
+          "meaning": "Actual image submodule of a linear map; page boundaries use the image of filtered primitives.",
+          "sha256": "43c7d9bf8328545441dd94462a3c9b822fa099a626bb091b158d37a2ba84eee7",
+          "text": "/-- The pushforward of a submodule `p \u2286 M` by `f : M \u2192 M\u2082` -/\ndef map (f : M \u2192\u209b\u2097[\u03c3\u2081\u2082] M\u2082) (p : Submodule R M) : Submodule R\u2082 M\u2082 :=\n  { p.toAddSubmonoid.map f with\n    carrier := f '' p\n    smul_mem' := by\n      rintro c x \u27e8y, hy, rfl\u27e9\n      obtain \u27e8a, rfl\u27e9 := \u03c3\u2081\u2082.surjective c\n      exact \u27e8_, p.smul_mem a hy, map_smul\u209b\u2097 f _ _\u27e9 }\n\n@[simp]\ntheorem map_coe (f : M \u2192\u209b\u2097[\u03c3\u2081\u2082] M\u2082) (p : Submodule R M) : (map f p : Set M\u2082) = f '' p :=\n  rfl\n"
+        },
+        {
+          "first_line": 170,
+          "last_line": 180,
+          "declarations": [
+            "Submodule.comap"
+          ],
+          "meaning": "Actual inverse image submodule; cycle conditions are inverse images under total D and denominators are restricted along subtype inclusion.",
+          "sha256": "2fef0745a4245d0f10214979089d0ddabb74442edd3efc25e0afabeb14be3156",
+          "text": "/-- The pullback of a submodule `p \u2286 M\u2082` along `f : M \u2192 M\u2082` -/\n@[implicit_reducible]\ndef comap (f : M \u2192\u209b\u2097[\u03c3\u2081\u2082] M\u2082) (p : Submodule R\u2082 M\u2082) : Submodule R M :=\n  { p.toAddSubmonoid.comap f with\n    carrier := f \u207b\u00b9' p\n    -- Note: https://github.com/leanprover-community/mathlib4/pull/8386 added `map_smul\u209b\u2097 _`\n    smul_mem' := fun a x h => by simp [p.smul_mem (\u03c3\u2081\u2082 a) h, map_smul\u209b\u2097 _] }\n\n@[simp]\ntheorem comap_coe (f : M \u2192\u209b\u2097[\u03c3\u2081\u2082] M\u2082) (p : Submodule R\u2082 M\u2082) : (comap f p : Set M) = f \u207b\u00b9' p :=\n  rfl\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Quotient/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean",
+      "sha256": "ddb08efd66c7dd6f5e142ac3e1edc1189ea30de276f1e78f4193d6ee80676fb3",
+      "git_blob_sha1": "2c25d9a529dfd044d3bf88361d79a3e8de23fda3",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 40,
+          "last_line": 64,
+          "declarations": [
+            "Submodule.quotientRel",
+            "Submodule.hasQuotient",
+            "Submodule.Quotient.mk"
+          ],
+          "meaning": "Actual module quotient by the additive subgroup of the specified submodule, not a freely supplied type.",
+          "sha256": "1cbde97009242429c371dfeff9c65af989674417863cbec51e69d0c6da80eefd",
+          "text": "/-- The equivalence relation associated to a submodule `p`, defined by `x \u2248 y` iff `-x + y \u2208 p`.\n\nNote this is equivalent to `y - x \u2208 p`, but defined this way to be defeq to the `AddSubgroup`\nversion, where commutativity can't be assumed. -/\ndef quotientRel : Setoid M :=\n  QuotientAddGroup.leftRel p.toAddSubgroup\n\ntheorem quotientRel_def {x y : M} : p.quotientRel x y \u2194 x - y \u2208 p :=\n  Iff.trans\n    (by\n      rw [quotientRel, leftRel_apply, sub_eq_add_neg, neg_add, neg_neg]\n      rfl)\n    neg_mem_iff\n\n/-- The quotient of a module `M` by a submodule `p \u2286 M`. -/\ninstance hasQuotient : HasQuotient M (Submodule R M) :=\n  \u27e8fun p => Quotient (quotientRel p)\u27e9\n\nnamespace Quotient\n/-- Map associating to an element of `M` the corresponding element of `M/p`,\nwhen `p` is a submodule of `M`. -/\ndef mk {p : Submodule R M} : M \u2192 M \u29f8 p :=\n  Quotient.mk''\n\ntheorem mk'_eq_mk' {p : Submodule R M} (x : M) :\n"
+        },
+        {
+          "first_line": 226,
+          "last_line": 237,
+          "declarations": [
+            "Submodule.mkQ",
+            "Submodule.mkQ_surjective"
+          ],
+          "meaning": "Canonical surjective linear quotient map; classes are generated by actual cycles.",
+          "sha256": "87ac2674258a09578708ce0c528ed2762ef9141aebd2eb2b1474015d83c3ee77",
+          "text": "/-- The map from a module `M` to the quotient of `M` by a submodule `p` as a linear map. -/\ndef mkQ : M \u2192\u2097[R] M \u29f8 p where\n  toFun := Quotient.mk\n  map_add' := by simp\n  map_smul' := by simp\n\n@[simp]\ntheorem mkQ_apply (x : M) : p.mkQ x = Quotient.mk x :=\n  rfl\n\ntheorem mkQ_surjective : Function.Surjective p.mkQ := by\n  rintro \u27e8x\u27e9; exact \u27e8x, rfl\u27e9\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Quotient/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Basic.lean",
+      "sha256": "564aad5ee0111df700cb30aca030018f26939ed1c307f19ee6d9ac02b6bc4312",
+      "git_blob_sha1": "4a0da4567b8b41ad8120b46809c6270e0a00bf14",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes H\u00f6lzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes H\u00f6lzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 116,
+          "last_line": 127,
+          "declarations": [
+            "Submodule.liftQ",
+            "Submodule.liftQ_apply"
+          ],
+          "meaning": "Descent of an actual linear map through a quotient, requiring its kernel contain the denominator.",
+          "sha256": "9479fb8d21fe62bcb065a5eedf0da28e6b95c1acd1e7fa58619c413f8383561e",
+          "text": "/-- The map from the quotient of `M` by a submodule `p` to `M\u2082` induced by a linear map `f : M \u2192 M\u2082`\nvanishing on `p`, as a linear map. -/\ndef liftQ (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) (h : p \u2264 ker f) : M \u29f8 p \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082 :=\n  { QuotientAddGroup.lift p.toAddSubgroup f.toAddMonoidHom h with\n    map_smul' := by rintro a \u27e8x\u27e9; exact f.map_smul\u209b\u2097 a x }\n\n@[simp]\ntheorem liftQ_apply (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) {h} (x : M) : p.liftQ f h (Quotient.mk x) = f x :=\n  rfl\n\n@[simp]\ntheorem liftQ_mkQ (f : M \u2192\u209b\u2097[\u03c4\u2081\u2082] M\u2082) (h) : (p.liftQ f h).comp p.mkQ = f := by ext; rfl\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/ShortComplex/LeftHomology.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/ShortComplex/LeftHomology.lean",
+      "sha256": "0ca1a7c430c74bfadfb61f126109bc155953563526702a385d50d8d26ddbda80",
+      "git_blob_sha1": "09103be0097f0884291ab0600425a78927802c0e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 45,
+          "last_line": 64,
+          "declarations": [
+            "ShortComplex.LeftHomologyData"
+          ],
+          "meaning": "Cycles and homology with actual categorical kernel and cokernel universal properties.",
+          "sha256": "5156d560196136496e6ea660f417acff89de736aea0daf5b148737f7aaaf68a8",
+          "text": "`\u03c0 : K \u27f6 H` such that `i` identifies `K` to the kernel of `g : S.X\u2082 \u27f6 S.X\u2083`,\nand that `\u03c0` identifies `H` to the cokernel of the induced map `f' : S.X\u2081 \u27f6 K` -/\nstructure LeftHomologyData where\n  /-- a choice of kernel of `S.g : S.X\u2082 \u27f6 S.X\u2083` -/\n  K : C\n  /-- a choice of cokernel of the induced morphism `S.f' : S.X\u2081 \u27f6 K` -/\n  H : C\n  /-- the inclusion of cycles in `S.X\u2082` -/\n  i : K \u27f6 S.X\u2082\n  /-- the projection from cycles to the (left) homology -/\n  \u03c0 : K \u27f6 H\n  /-- the kernel condition for `i` -/\n  wi : i \u226b S.g = 0\n  /-- `i : K \u27f6 S.X\u2082` is a kernel of `g : S.X\u2082 \u27f6 S.X\u2083` -/\n  hi : IsLimit (KernelFork.of\u03b9 i wi)\n  /-- the cokernel condition for `\u03c0` -/\n  w\u03c0 : hi.lift (KernelFork.of\u03b9 _ S.zero) \u226b \u03c0 = 0\n  /-- `\u03c0 : K \u27f6 H` is a cokernel of the induced morphism `S.f' : S.X\u2081 \u27f6 K` -/\n  h\u03c0 : IsColimit (CokernelCofork.of\u03c0 \u03c0 w\u03c0)\n\n"
+        },
+        {
+          "first_line": 207,
+          "last_line": 219,
+          "declarations": [
+            "ShortComplex.LeftHomologyData.ofZeros"
+          ],
+          "meaning": "When both differentials are proved zero, identity cycles and identity quotient give actual homology data. The pilot supplies proved zero laws, never assumed degeneration.",
+          "sha256": "41dba7f54e18c61ae30a35f20dc18d38ee935e26511039335ce3903bf9cd8c9f",
+          "text": "/-- When both `S.f` and `S.g` are zero, the middle object `S.X\u2082` gives a left homology data on S -/\n@[simps]\ndef ofZeros (hf : S.f = 0) (hg : S.g = 0) : S.LeftHomologyData where\n  K := S.X\u2082\n  H := S.X\u2082\n  i := \ud835\udfd9 _\n  \u03c0 := \ud835\udfd9 _\n  wi := by rw [id_comp, hg]\n  hi := KernelFork.IsLimit.ofId _ hg\n  w\u03c0 := by\n    change S.f \u226b \ud835\udfd9 _ = 0\n    simp only [hf, zero_comp]\n  h\u03c0 := CokernelCofork.IsColimit.ofId _ hf\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/SpectralSequence/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/SpectralSequence/Basic.lean",
+      "sha256": "637c66009dfd06128b455e5593ca17e1144314b4996afcf7f2b26871c1c647b3",
+      "git_blob_sha1": "4cf6043b1cd59cc410791df5c764e1ece0a9a675",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2026 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 108,
+          "last_line": 112,
+          "declarations": [
+            "CohomologicalSpectralSequence"
+          ],
+          "meaning": "Mathlib spectral sequence with integer pages and differential bidegree (r,1-r); pilot starts at r=1 by an explicit first-page computation.",
+          "sha256": "ea1ed8ae7c6ff0f204682ff780f20ae0ef9f637678fcde6d38052a1f6966cf11",
+          "text": "/-- A cohomological spectral sequence has differentials given by the\nvector `(r, 1 - r)` on the `r`th page. -/\nabbrev CohomologicalSpectralSequence :=\n  SpectralSequence C (fun r \u21a6 ComplexShape.up' (\u27e8r, 1 - r\u27e9 : \u2124 \u00d7 \u2124))\n\n"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Homology/TotalComplex.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Homology/TotalComplex.lean",
+      "sha256": "e223f14193a2a9de9cb0d62c9eaf71a4d5ce90d644a8b088dd3e40c7b7ca4e9e",
+      "git_blob_sha1": "2e4d80bf9f4c4592c727bcff16c6ad48c85b8231",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Jo\u00ebl Riou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jo\u00ebl Riou\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 345,
+          "last_line": 356,
+          "declarations": [
+            "HomologicalComplex\u2082.totalDesc",
+            "HomologicalComplex\u2082.\u03b9_totalDesc"
+          ],
+          "meaning": "Maps from the actual total object specified on its genuine summands; used for leading projections and finite-filtration proofs.",
+          "sha256": "de4d0915db6df7914ee9b3ac4af76ab277b42620c302021940d3e3664946b209",
+          "text": "  (f : \u2200 (i\u2081 : I\u2081) (i\u2082 : I\u2082) (_ : ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082 (i\u2081, i\u2082) = i\u2081\u2082), (K.X i\u2081).X i\u2082 \u27f6 A)\n\n/-- Given a bicomplex `K`, this is a constructor for morphisms from `(K.total c\u2081\u2082).X i\u2081\u2082`. -/\nnoncomputable def totalDesc : (K.total c\u2081\u2082).X i\u2081\u2082 \u27f6 A :=\n  K.toGradedObject.descMapObj _ (fun \u27e8i\u2081, i\u2082\u27e9 hi => f i\u2081 i\u2082 hi)\n\nset_option backward.isDefEq.respectTransparency false in\n@[reassoc (attr := simp)]\nlemma \u03b9_totalDesc (i\u2081 : I\u2081) (i\u2082 : I\u2082) (hi : ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082 (i\u2081, i\u2082) = i\u2081\u2082) :\n    K.\u03b9Total c\u2081\u2082 i\u2081 i\u2082 i\u2081\u2082 hi \u226b K.totalDesc f = f i\u2081 i\u2082 hi := by\n  simp [totalDesc, \u03b9Total]\n\n"
+        },
+        {
+          "first_line": 363,
+          "last_line": 370,
+          "declarations": [
+            "HomologicalComplex\u2082.total.hom_ext"
+          ],
+          "meaning": "Total summand inclusions are jointly epimorphic; supports the proof Fp=Tot below the support bound.",
+          "sha256": "ddcbb207d09173e46794252862fc34a49c8f11f45f98bfa9d9fe50d7ec622177",
+          "text": "@[ext]\nlemma hom_ext {A : C} {i\u2081\u2082 : I\u2081\u2082} {f g : (K.total c\u2081\u2082).X i\u2081\u2082 \u27f6 A}\n    (h : \u2200 (i\u2081 : I\u2081) (i\u2082 : I\u2082) (hi : ComplexShape.\u03c0 c\u2081 c\u2082 c\u2081\u2082 (i\u2081, i\u2082) = i\u2081\u2082),\n      K.\u03b9Total c\u2081\u2082 i\u2081 i\u2082 i\u2081\u2082 hi \u226b f = K.\u03b9Total c\u2081\u2082 i\u2081 i\u2082 i\u2081\u2082 hi \u226b g) : f = g := by\n  apply GradedObject.mapObj_ext\n  rintro \u27e8i\u2081, i\u2082\u27e9 hi\n  exact h i\u2081 i\u2082 hi\n\n"
+        }
+      ]
+    }
+  ]
+}

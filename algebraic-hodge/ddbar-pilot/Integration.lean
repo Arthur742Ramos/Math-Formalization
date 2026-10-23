@@ -14,7 +14,7 @@ namespace AlgebraicHodgePilot
 abbrev Bicomplex (k : Type) [Field k] :=
   HomologicalComplex₂ (ModuleCat k) (ComplexShape.up ℤ) (ComplexShape.up ℤ)
 
-noncomputable def total {k : Type} [Field k] (K : Bicomplex k) :
+noncomputable abbrev total {k : Type} [Field k] (K : Bicomplex k) :
     CochainComplex (ModuleCat k) ℤ := K.total (ComplexShape.up ℤ)
 
 -- The arbitrary starting-page parameter really accepts 1. This does NOT
