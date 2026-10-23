@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "schema_url": "https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/99c678e569c7c4c0772db297c5ddd5e4c9b6322e/schema/v0.4.schema.json",
+  "schema_sha256": "25ff6b25ca4511635aff4443cf20480c15e59dddf19591c730950b442ea54fce",
+  "metadata_sha256": "27363e33f18f1a83a059c6d8a5fb2ab3e39aac34bf3b86093b3dc4b9be126371",
+  "scope": "Upstream v0.4 JSON schema shape; not Palomar editorial acceptance"
+}

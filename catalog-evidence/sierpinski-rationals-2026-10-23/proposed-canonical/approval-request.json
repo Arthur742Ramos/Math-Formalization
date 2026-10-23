@@ -1,0 +1,24 @@
+{
+  "authorization": "pending-specific-user-approval",
+  "action": "Exactly one canonical full mechanical preflight and one Challenge-rendering preflight",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
+  "project_path": "topology/sierpinski-rationals",
+  "comparator_config_path": "topology/sierpinski-rationals/comparator.json",
+  "formalization_metadata_path": "topology/sierpinski-rationals/formalization.yaml",
+  "pipeline_commit": "ad5db9e7ff8b17523d73aeb244aaeabcde810c64",
+  "execution_profile": "palomar-standard-v1",
+  "scope": "Mechanical full verification and rendering only. No registry intake/registration, credentials, account/security changes, merge or paid costs authorized.",
+  "dispatches": 0,
+  "callers": {
+    "palomar-sierpinski-renderer.yml": "8e6ef68d63be37de44079f31e92b2f4df533babf74b9ede353bea3f8a9d62d40",
+    "palomar-sierpinski-full.yml": "9058001d1e406e89543e4b8120033e49d9050eb63342dee9aca939f4e6bec8dd"
+  },
+  "status": "Pinned full/renderer interfaces checked; caller drafts prepared, neither installed nor dispatched. Approval remains pending.",
+  "required_runner_security_approval": {
+    "target": "Only the two fresh disposable GitHub-hosted verification/render runners",
+    "source": "PalomarSubmission ad5db9e7ff8b17523d73aeb244aaeabcde810c64/scripts/install_bwrap.sh:43-52",
+    "operation": "On AppArmor-restricted Ubuntu, install and load /etc/apparmor.d/palomar-bwrap granting userns to the installed bubblewrap binary path. The helper does not lower the global restriction.",
+    "status": "Pending explicit approval; no security change performed"
+  }
+}

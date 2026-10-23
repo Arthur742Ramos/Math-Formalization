@@ -1,5 +1,5 @@
 {
-  "status": "native-proof-byte-pass; exact-commit native replay unconfirmed",
+  "status": "historical-checkpoint-superseded",
   "recorded_date": "2026-10-23",
   "repository": "Arthur742Ramos/Math-Formalization",
   "source_commit": "d33817461fadbe8d7498a237b0c5bc27dc044afb",
@@ -86,5 +86,7 @@
     "status": "preliminary proof-byte evidence substantiated",
     "scope": "All 41 preliminary artifact hashes, checker mechanism, frozen source bindings and exact-source preparatory build receipts were independently inspected by an internal AI reviewer. Exact-commit remaining native completion is unconfirmed. No human/external peer review.",
     "recorded_date": "2026-10-23"
-  }
+  },
+  "historical_snapshot_commit": "326577d60489d388dea89dd3177172e979f88b9a",
+  "superseded_by": "exact-native-receipt.json"
 }
