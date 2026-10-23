@@ -135,6 +135,10 @@ def main():
                 receipt['tool_source_changed'] = True
             if report.exists():
                 receipt['report_sha256'] = hashlib.sha256(report.read_bytes()).hexdigest()
+        except Exception as error:
+            receipt['status'] = 'error'
+            receipt['error'] = str(error)
+            raise
         finally:
             receipt['finished_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
             (evidence / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')

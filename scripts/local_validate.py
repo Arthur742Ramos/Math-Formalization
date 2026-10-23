@@ -10,6 +10,7 @@ from pathlib import Path
 import signal
 import subprocess
 import tempfile
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / 'validation/workflow-inventory.json'
@@ -38,6 +39,22 @@ def run(command, cwd, env, log, seconds):
             except ProcessLookupError:
                 pass
             process.wait()
+            # Signal delivery is asynchronous. Do not release the shared lock
+            # while a live descendant is still being terminated.
+            for _ in range(500):
+                live = False
+                for stat in Path('/proc').glob('[0-9]*/stat'):
+                    try:
+                        fields = stat.read_text().rsplit(')', 1)[1].split()
+                        if int(fields[2]) == process.pid and fields[0] not in {'Z', 'X'}:
+                            live = True
+                    except (FileNotFoundError, ProcessLookupError, PermissionError):
+                        continue
+                if not live:
+                    break
+                time.sleep(0.01)
+            else:
+                raise RuntimeError('timed-out process group has not terminated; inspect before more work')
             return 124
 
 
@@ -113,6 +130,10 @@ def main():
             if git('status', '--porcelain', '--untracked-files=all') or git('rev-parse', 'HEAD') != receipt['commit']:
                 receipt['status'] = 'fail'
                 receipt['source_changed'] = True
+        except Exception as error:
+            receipt['status'] = 'error'
+            receipt['error'] = str(error)
+            raise
         finally:
             receipt['finished_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
             (receipt_dir / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')

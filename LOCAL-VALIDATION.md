@@ -134,6 +134,10 @@ rendering visually. A process exit code of zero alone is insufficient; wrappers
 require a passing canonical report as well. Reconcile any canonical-version
 interface change explicitly before execution; do not patch canonical safeguards.
 The wrappers are local preflight adapters, not registry intake clients.
+If Palomar's current external protocol requires a hosted reusable-workflow
+receipt, a local CLI pass does not satisfy that external prerequisite. Report
+the protocol incompatibility as an intake blocker under the local-only direction;
+do not launch a hosted replacement, invent a hosted URL or claim the gate passed.
 
 ## Final gates and receipt review
 
