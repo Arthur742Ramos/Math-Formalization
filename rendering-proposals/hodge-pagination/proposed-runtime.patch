@@ -1,0 +1,31 @@
+--- a/scripts/render_challenge.py
++++ b/scripts/render_challenge.py
+@@ -310,8 +310,19 @@
+     } catch (_) {
+       declarations = [];
+     }
+-    if (!Array.isArray(declarations) || declarations.length === 0) return true;
++    if (!Array.isArray(declarations)) return false;
+     const source = document.querySelector("section.code-content");
++    const navigation = source?.querySelector("nav.palomar-source-navigation");
++    if (declarations.length === 0) {
++      if (source && navigation) {
++        const main = document.createElement("main");
++        main.id = "main-content";
++        main.className = "palomar-declaration-surface";
++        main.append(source);
++        document.body.replaceChildren(main);
++      }
++      return true;
++    }
+     if (!source) return false;
+ 
+     const selected = [];
+@@ -342,6 +353,7 @@
+         anchor.replaceWith(...anchor.childNodes);
+       }
+     }
++    if (navigation) content.prepend(navigation);
+     main.append(content);
+     document.body.replaceChildren(main);
+     document.title = "Compared Challenge declaration";

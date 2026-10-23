@@ -1,0 +1,11 @@
+{
+  "scope": "Credential-free migration transport; NOT release acceptance",
+  "published_base_commit": "e9847bf6a0bad30e6b0cedc1950a910e843266c2",
+  "archive": "hodge-migration.tar.gz",
+  "archive_sha256": "07ee428a5669a03128c3048bb9d513af69c88c4baec900357b3e67c0b9c3cb3c",
+  "archive_bytes": 10385561,
+  "inner_manifest_sha256": "2ff2d268cd166ae53e5a7cecb39318f2d209ec18679b1485bcda41714540e493",
+  "active_computation": "none; two inactive zombies preserved",
+  "hosted_allowance": "consumed; no new approval",
+  "proposal_review": "incomplete; unverified/inert"
+}

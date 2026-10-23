@@ -1,0 +1,13 @@
+# Unreviewed Hodge pagination prototype — migration checkpoint
+
+This is inert development work, **not an accepted canonical renderer or a release-ready correction**. No workflow invokes it. Migration paused development before complete independent review and provider integration.
+
+The original protected source is `7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb`; its verification passed, and its single approved rendering failed at the 8 MiB raw file cap. The native original page measured 14,388,056 bytes. Current Verso emits all commands on one page before the Palomar browser runtime isolates the 25 compared declarations. Those selected command blocks total 1,114,182 bytes.
+
+`proposed-verso.patch` targets Verso `9f8096e40b31715b1d8d5997f15a0bd832f7e37d`. Its optional third argument is a JSON array of compared names. It keeps whole commands on four full-source pages and builds a compared entrypoint; it rejects an oversized single command rather than splitting a proof or raising limits. This prototype is restricted to the single Hodge module; global selected-name handling is not a generic multi-module API. The unchanged two-argument mode still produces the original monolithic page.
+
+`route_pages.py` routes Hodge definition/docstring/xref links and accounts for the sanitizer's `Challenge/index.html` relocation. It preserves full-source navigation. Input search JavaScript is not rewritten; the canonical sanitizer discards input JS, so raw Verso search support is not claimed. `proposed-runtime.patch` preserves source navigation in the compared view and strips unused layout from full-source views. Both patches remain inert.
+
+Native prototype composition retained all 181 rendered code blocks, including proof-state text, in original order, and all 25 selected declarations exactly once. Its artifact totals 15,956,211 bytes; largest file 4,206,197 bytes. Existing sanitizer functions/limits were used with the explicitly proposed runtime and a schema-1 diagnostic metadata fixture. This was **not** a canonical run, sandbox replay, core-notation audit or browser acceptance. Nine route regressions and three synthetic native renderer rejection controls completed; synthetic malformed JSON is not a valid Lean proof or a kernel counterexample.
+
+No foundation Lean source or metadata is changed here. Discarded proof/refactoring experiments and logs are retained in the migration archive. Current canonical pipeline `07a02bae1e85c75ae349d0e75195162d16d41e21` cannot invoke this pagination API. It needs authenticated upstream integration, independently reviewed invocation/routing/runtime/coverage changes, and a pinned provider revision before another bounded plan can be ready. No new protected run, retry, credential or security setup is authorized.
