@@ -42,15 +42,15 @@ def snapshot(root, commit, project):
 def status_errors(files):
     """Reject the known stale completed-gate account; human review remains required."""
     stages = r'(?:canonical|protected Comparator|independent.kernel|NanoDa|con-ron|Challenge.rendering)'
-    denial = (r'(?:remain(?:s)?\s+(?:separate\s+)?(?:outstanding|unperformed|pending)|'
+    denial = (r'(?:remain(?:s)?\s+(?:separate\s+)?(?:outstanding|unperformed|unfulfilled|pending)|'
               r'have\s+not\s+run|has\s+not\s+run|(?:are|is)\s+(?:still\s+)?unperformed|'
               r'unperformed\s+(?:gates|at))')
     pattern = re.compile(stages + r'(?:(?![.!?;]|\n\s*\n).){0,350}?' + denial, re.I | re.S)
     errors = []
-    for name in ['formalization.yaml', 'README.md', 'REVIEW.md', 'VERIFICATION.md', 'AUDIT.md']:
+    for name in ['formalization.yaml', 'README.md', 'REVIEW.md', 'VERIFICATION.md', 'AUDIT.md', 'PLAN.md', 'RUN-PLAN.md']:
         if name not in files:
             continue
-        text = files[name].decode()
+        text = files[name].decode().replace('**', '')
         for match in pattern.finditer(text):
             # Only an explicitly future-qualified subject is exempt. A mixed
             # full-verification/browser clause must not hide a stale full claim.

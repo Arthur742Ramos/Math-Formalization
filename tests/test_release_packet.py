@@ -30,7 +30,10 @@ class MaterialDefinitionHandoff(unittest.TestCase):
                       '__pycache__' not in p.relative_to(package).parts}
 
     def check(self):
-        with mock.patch.object(guard, 'snapshot', return_value=self.files):
+        # Inventory-only fixtures do not certify the package's release prose.
+        # Real frozen-status regressions below exercise that gate independently.
+        with mock.patch.object(guard, 'snapshot', return_value=self.files), \
+                mock.patch.object(guard, 'status_errors', return_value=[]):
             return guard.check_status(ROOT, '0' * 40, self.PROJECT)
 
     def test_complete_frozen_material_evidence_passes(self):
@@ -208,6 +211,18 @@ class ReleasePacketTests(unittest.TestCase):
                 files[name] += b'\nCanonical protected Comparator and NanoDa checks remain unperformed for this package.\n'
                 with self.assertRaisesRegex(ValueError, 'stale blanket'):
                     self.check_fixture(files=files)
+
+    def test_unfulfilled_and_bold_unrun_stage_claims_rejected(self):
+        for name in ['README.md', 'REVIEW.md', 'PLAN.md', 'RUN-PLAN.md']:
+            for text in [b'Protected Comparator and NanoDa remain unfulfilled for this candidate.',
+                         b'Canonical checks have **not** run for this package.']:
+                with self.subTest(file=name, text=text):
+                    self.assertTrue(guard.status_errors({name: text}))
+
+    def test_frozen_hodge_unfulfilled_account_is_not_ready(self):
+        files = guard.snapshot(ROOT, '7eec3b8c5864af8571fb9c0be3a5f8ce281d7cbb',
+                               'algebraic-hodge/ddbar-pilot')
+        self.assertIn('REVIEW.md: stale blanket pending/completion account', guard.status_errors(files))
 
     def test_truthful_later_source_and_visual_pending_positive(self):
         files = dict(self.files)
