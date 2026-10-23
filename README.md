@@ -167,7 +167,10 @@ python3 scripts/check_catalog.py --package-checks
 
 Use `--online` only when public-record access is available. These checks preserve
 and reconcile evidence; they do not rerun Lean or certify a new registry review.
-The existing catalog workflow performs these checks and public record binding.
+All necessary validation runs locally under [the local validation policy](LOCAL-VALIDATION.md).
+Repository CI is retired; preserved hosted receipts describe only their recorded sources.
+Use `python3 scripts/local_validate.py catalog` for the complete local root gates.
+Public-record checks remain available with `--online` when access is available.
 
 Project code uses the [Apache-2.0 license](LICENSE). Retained upstream sources
 preserve their attribution and license headers. Existing standalone repositories
