@@ -2,8 +2,9 @@
 
 This project proves a classical conditional algebraic degeneration theorem for
 actual mathlib bicomplexes over a field. It supplies a proof-complete,
-Mathlib-only Challenge and Solution compiled separately from shared proof-complete source. It is a draft package
-for mechanical preflight, not a Palomar submission or verified intake handoff.
+Mathlib-only Challenge and Solution compiled separately from shared proof-complete source.
+Verification, rendering and intake are accounted for per exact source in immutable
+release receipts; this source text alone does not certify any release stage.
 
 For commuting squares, `ImageKernel K p q` is the actual operator identity
 
@@ -73,8 +74,9 @@ closures. The eight selected theorems and seventeen definitions are unchanged. T
 `Lake.Check.compareAt`, exact selected definition values, a random Challenge
 module alias, and rejection controls, rather than accepting type-definitional
 equality alone. Writable local checks do not establish protected verification.
-The corrected source still needs its own approved canonical run. No retry,
-rendering or intake is authorized; the PR41 Palomar-approval hold remains active.
+Protected execution and intake authority come from explicit project authorization,
+not this file. Completed and pending stages, prerequisite registration and actual
+run identifiers are recorded in exact-source release receipts outside frozen source.
 
 Pins are Lean `leanprover/lean4:v4.35.0-rc2` and mathlib
 `065356127b1dc0016f66b7283ce0ce2c4055aa55`. Ordinary cloud commands are:
@@ -104,9 +106,10 @@ a protected Comparator verdict or independent-kernel replay.
 
 Protected comparison and its negative controls, external kernels, rendering,
 browser inspection and the final release-packet guard remain separate gates.
-The current host's namespace probe fails; no security workaround is attempted.
-[RUN-PLAN.md](RUN-PLAN.md) identifies the exact runner/setup/resource approval
-needed for canonical execution. The exact original one-run approval was used; budget/workflow/storage facts are settled. No further run is authorized. No workflow is active for this package.
+A historical authoring-cloud namespace probe failed; this does not describe
+subsequent disposable hosted runners. [RUN-PLAN.md](RUN-PLAN.md) gives the
+source-bound execution protocol. Applicable approvals and actual workflow state
+are recorded with their run receipts, rather than asserted globally here.
 
 The formal domain is mathlib's commuting squares and signed totalization.
 `SignBridge.lean` proves an operator sign involution, anticommutation,
@@ -128,5 +131,5 @@ Classical sources: [DGMS §§5.15–5.17](https://www.math.stonybrook.edu/~denni
 [Chen–Ho–Teh v2](https://arxiv.org/abs/1506.06451v2), and
 [Stelzig v3](https://arxiv.org/abs/1812.00865v3). Mathematical novelty and
 editorial acceptance are not claimed. See [PLAN.md](PLAN.md) and
-[REVIEW.md](REVIEW.md). PR40 remains the sole draft campaign; unrelated
+[REVIEW.md](REVIEW.md). PR40 is the existing campaign; unrelated
 mathematical projects and their pins are preserved.

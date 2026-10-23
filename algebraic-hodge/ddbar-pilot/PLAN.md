@@ -112,7 +112,7 @@ render/inspect Challenge, review the exact immutable release packet and run
 `scripts/check_release_packet.py` with its exact-source full report. Current
 local Lean/axiom checks satisfy none of those external release gates by
 implication. No Palomar submission, credentials, security changes, charges or
-new legal acceptance occur here. PR40 remains a draft.
+new legal acceptance occur here. PR40 remains the existing campaign; its current state is recorded externally.
 
 ## Current package milestone
 
@@ -139,10 +139,10 @@ expansion boundaries are reviewed explicitly. Both entrypoint bridge modules
 compile. The shared validator's apostrophe-final identifier bug was corrected
 with regression coverage; no other project's mathematics or pins changed.
 
-RUN-PLAN.md is the exact execution boundary: the current cloud cannot set up
-bubblewrap user namespaces. The inert caller template is outside active
-workflow directories. One predictive full preflight requires specific approval
-of the immutable source, pinned pipeline, disposable zero-cost hosted runner,
-runner-local setup and 19,800-second budget, with storage/cache costs independently
-confirmed as zero before execution. Protected controls, external
-kernels and later rendering are not represented as completed.
+RUN-PLAN.md specifies the source-bound execution protocol. Historical authoring
+cloud namespace failures are distinct from disposable hosted runner results.
+Reviewed plans record the actual immutable source, pipeline, caller bytes,
+runner security scope and resource bounds. Per-run receipts record actual
+protected controls, kernel outcomes and rendering; this mathematical plan
+neither asserts those stages are pending globally nor certifies completion.
+Applicable approvals and prerequisite registration are recorded externally.

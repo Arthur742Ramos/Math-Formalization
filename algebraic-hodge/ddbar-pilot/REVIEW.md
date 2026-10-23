@@ -120,7 +120,7 @@ limited to 73 uses of `lia -abstractProof`, retaining generated arithmetic proof
 inline. The pinned Grind implementation changes proof storage, not the goal,
 hypotheses or kernel checking. No supporting theorem holes are added. This does not protect the canonical statement
 surface or validate exported proofs/definition values, so it is explicitly not
-Comparator acceptance. Canonical protected execution remains required.
+Comparator acceptance. Actual protected results require their own source-bound receipts.
 
 ## Verification and remaining limits
 
@@ -145,11 +145,12 @@ AI contribution disclosure. No human proof contribution or human/external
 review is invented from those roles.
 
 The pinned metadata/config validators are read-only local checks. Protected
-Comparator and its positive/negative controls, NanoDa/con-ron, rendering,
-browser inspection and final release-packet guard remain unfulfilled for this
-candidate. RUN-PLAN documents the current namespace failure and exact approval
-needed for a disposable hosted run, with zero-charge storage/cache eligibility
-confirmed separately before execution. No host workaround, new credential,
-charges, terms acceptance or submission occurs. Draft PR40 remains the only
-campaign. Serious-research-interest/editorial qualification and a final
-exact-packet review are still necessary before verified intake handoff.
+comparison, actual kernel outcomes, rendering, visual inspection and the full
+release-packet guard are recorded separately for each exact tested source.
+Local compilation and AI review do not imply those other results. RUN-PLAN
+specifies the execution protocol; applicable action-time authorization and
+budget facts are retained with each reviewed plan and run receipt. Source
+snapshots and later evidence-only or status-only commits remain distinct.
+Serious-research-interest/editorial qualification and exact-packet review are
+separate from mechanical verification. No human review or registry acceptance
+is inferred from an execution report.
