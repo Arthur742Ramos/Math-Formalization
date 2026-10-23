@@ -1,3 +1,2 @@
 module
-
-public import KnasterReichbach.Cylinders
+public import KnasterReichbach.Extension

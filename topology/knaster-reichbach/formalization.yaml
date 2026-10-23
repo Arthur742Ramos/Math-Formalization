@@ -1,0 +1,113 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Knaster–Reichbach homeomorphism extension on Cantor space",
+    "description": "Every homeomorphism between closed nowhere-dense subsets of Cantor space extends to a homeomorphism of the entire Cantor space, with exact pointwise agreement. Cantor space is the usual product topology on Nat -> Bool. Empty prescribed subsets are included. The proof constructs matched finite clopen refinements by alternating binary coordinate splits, then obtains mutually inverse continuous limit maps. Classical result; no novelty or priority claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN"
+    ],
+    "msc2020": [
+      "54C20",
+      "54F65",
+      "54E45"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Notion d’homogénéité et prolongements des homéomorphies",
+      "authors": [
+        "B. Knaster",
+        "M. Reichbach"
+      ],
+      "type": "paper",
+      "id": "https://eudml.org/doc/213323",
+      "relationship": "formalizes",
+      "note": "Fundamenta Mathematicae 40 (1953), 180–193. Bibliography inspected; original scan inaccessible, so direct original-proof inspection is not claimed."
+    },
+    {
+      "title": "On homogeneity of Cantor cubes",
+      "authors": [
+        "E. Shchepin",
+        "V. Valov"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2109.07214v2",
+      "relationship": "formalizes",
+      "note": "Introduction states the classical closed nowhere-dense extension theorem for compact perfect zero-dimensional metric spaces. This package proves the canonical Cantor-space case, not the nonmetrizable generalization."
+    },
+    {
+      "title": "Homeomorphisms on a Cantor set with subsequentially dense orbits",
+      "authors": [
+        "Andrzej Gutek"
+      ],
+      "type": "other",
+      "id": "https://www.tntech.edu/cas/pdf/math/techreports/TR-2012-4.pdf",
+      "relationship": "formalizes",
+      "note": "2012 technical report, Theorem 2.5 states the target; Theorem 2.6 uses it in a dynamical extension construction. These additional dynamical properties are not formalized."
+    },
+    {
+      "title": "Homogeneity of profinite graphs",
+      "authors": [
+        "W. Kubiś",
+        "A. Kucharski",
+        "S. Turek"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2602.15696v2",
+      "relationship": "background",
+      "note": "Current research uses a Knaster–Reichbach type extension theorem for a generic profinite graph; graph-preserving extensions are not claimed here."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses pinned cylinder bases, closed-subspace clopen extension via profinite separation, compact nested intersections and compact-codomain closed-graph continuity. Matching, refinement iteration and the ambient extension are proved here. Bounded independent audit found no equivalent theorem at this pin."
+    }
+  ],
+  "status": {
+    "scope": "One selected full Knaster–Reichbach extension theorem and the CantorSpace abbreviation; all construction obligations discharged internally.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "No mathematical gap identified by internal AI source review. Exact-source native, protected comparison, kernel, canonical full/render and release evidence are recorded separately; no unperformed gate is claimed complete.",
+    "attribution_status": "Campaign roles preserved; substantive Codex authorship disclosed; no human proof contribution inferred."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored cylinder decomposition, reserved-point clopen trace extension, matched binary partitions, compatible limits, proof and packaging. A separate internal AI reviewer inspected mathematical scope and source; no human mathematical review is asserted."
+      }
+    ],
+    "notes": "Human proof contribution and backend costs are not independently attested."
+  },
+  "fidelity": {
+    "divergences": "Canonical Cantor-space case only. Both subsets must be ambient closed and nowhere dense, with the existing subtype topologies. No Nonempty, extension-existence or refinement-existence assumptions are added. Output is an actual ambient homeomorphism with pointwise agreement."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI mathematical/source-fidelity reviewer"
+    ],
+    "notes": "Construction and full theorem reviewed; exact source hashes are retained in a private immutable receipt. Final packaging and mechanical/release evidence still require their own review. No human or external peer review claimed."
+  },
+  "acknowledgements": "Classical theorem due to Knaster and Reichbach; modern statements checked against Shchepin–Valov and Gutek. Lean and Mathlib authors provide the cited library infrastructure. Campaign attribution and maintainership are distinct from substantive Codex proof authorship."
+}

@@ -2,7 +2,14 @@
 
 The sole intended final target is: every homeomorphism between closed nowhere-dense subsets of Cantor space extends to an autohomeomorphism of the whole Cantor space, agreeing pointwise on the prescribed subset. Empty prescribed subsets are included. Cantor space means the usual product topology on `ℕ → Bool`.
 
-This is preparation, not a completed proof or verified submission. The final extension theorem is not yet declared. Each declaration in the source is proved without holes or new axioms; foundational cylinder lemmas are being developed first. No provider PR, intake or registry claim is made for this package.
+The full theorem is implemented as `KnasterReichbach.exists_homeomorph_extension`.
+It constructs a genuine ambient homeomorphism, taking only closedness,
+nowhere-density and the prescribed subtype homeomorphism as assumptions.
+All proof/library declarations have proofs without holes or new axioms.
+Independent internal AI mathematical/source review found no blocker.
+This is not yet a verified release: exact-source mechanical, canonical,
+rendering and final packet receipts are recorded separately. No provider PR
+or registry intake has been created for this package.
 
 ## Mathematical sources and scope
 
@@ -11,25 +18,30 @@ This is preparation, not a completed proof or verified submission. The final ext
 - A. Gutek, 2012 technical report, Theorem 2.5, https://www.tntech.edu/cas/pdf/math/techreports/TR-2012-4.pdf: independently inspected formulation of the Cantor-space extension theorem.
 - W. Kubiś, A. Kucharski and S. Turek, *Homogeneity of profinite graphs*, arXiv:2602.15696v2 (2026): a current Knaster–Reichbach type theorem illustrates a research audience; its graph-structure extension is not a target here.
 
-The substantive construction will be a compatible back-and-forth refinement of clopen partitions, preserving the given partial homeomorphism and forcing vanishing mesh on both sides. Existence of that refinement and the global extension are proof obligations, not hypotheses to be assumed. No mathematical novelty or global formalization priority is claimed.
+The substantive construction alternates compatible finite clopen refinements, preserving the given partial homeomorphism and forcing agreement on longer prefixes on both sides. Refinement existence and the global extension are proved internally. No mathematical novelty or global formalization priority is claimed.
 
-## Implemented groundwork
+## Proof construction
 
-`KnasterReichbach/Cylinders.lean` proves cylinder nesting, equal-depth disjointness,
-arbitrarily deep avoidance of a closed nowhere-dense set, and the first-escape
-decomposition of the complement of a closed set into countably many nonempty,
-pairwise disjoint clopen cylinders. The empty prescribed set is permitted.
-These are construction lemmas, not the ambient extension theorem.
+`Cylinders.lean` proves the countable first-escape clopen partition of a closed
+set's complement and arbitrarily deep avoidance of a closed nowhere-dense set.
+`ClopenExtension.lean` lifts clopen traces while reserving opposite outside points.
+`MatchedPartitions.lean` alternates source and target binary coordinate splits,
+retaining matched empty cells and preserving the exact trace of the given map.
+`CompatibleLimit.lean` uses compact nested fibers, coordinatewise uniqueness and
+the compact-codomain closed-graph theorem to construct a homeomorphism.
+`Extension.lean` constructs all those relations and proves exact agreement.
+No refinement or extension existence premise is assumed in the final theorem.
 
-The next obligations are compatible matched refinements around the given
-homeomorphism, shrinking mesh on both sides, total mutually inverse limit maps,
-continuity and exact agreement on the prescribed closed set.
+The Comparator selects the final theorem and compares the `CantorSpace`
+abbreviation's definition value. `KRChallenge` contains a standalone proof from
+Mathlib imports; `KRSolution` imports the independently compiled project modules.
+Challenge and Solution semantic entrypoints check the literal `Nat -> Bool`
+product-space formulation separately. Standard allowed axioms are only
+`propext`, `Quot.sound` and `Classical.choice`.
 
-An internal independent scope audit approved this target for development;
-it did not certify the unfinished extension theorem. Public registry searches
-for Knaster and Reichbach returned no matches on 2026-10-23; a broader
-homeomorphism search returned seven results and no equivalent title.
-This is a bounded overlap audit, not a global novelty claim.
+Public registry searches for Knaster and Reichbach returned no matches on
+2026-10-23; a broader homeomorphism search found no equivalent title.
+This is a bounded audit, not a global novelty or priority claim.
 
 ## Attribution and validation
 

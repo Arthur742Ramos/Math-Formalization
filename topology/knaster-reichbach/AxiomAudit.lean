@@ -1,0 +1,6 @@
+module
+public import KRSolution
+#print axioms KnasterReichbach.exists_homeomorph_extension
+#print axioms KnasterReichbach.match_clopen_split
+#print axioms KnasterReichbach.extensionRelations
+#print axioms KnasterReichbach.CompatibleRelations.homeomorph
