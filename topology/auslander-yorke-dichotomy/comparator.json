@@ -1,0 +1,15 @@
+{
+  "challenge_module": "DichotomyChallenge",
+  "solution_module": "DichotomySolution",
+  "theorem_names": [
+    "AuslanderYorke.equicontinuous_of_stable_open_sets",
+    "AuslanderYorke.minimal_dichotomy",
+    "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

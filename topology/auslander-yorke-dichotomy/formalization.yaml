@@ -1,0 +1,91 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Auslander–Yorke dichotomy for minimal metric maps",
+    "description": "For a continuous map of a metric space with every forward natural orbit dense, either the map is sensitive in the open-set pair sense or its natural iterate family is equicontinuous at every point. Stable open sets are propagated using dense orbits and finite early-time continuity. On nonempty spaces nonsensitivity is equivalent to equicontinuity; no compactness or uniform-equicontinuity assertion is required.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.DS",
+      "math.GN"
+    ],
+    "msc2020": [
+      "37B05",
+      "37B02"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Equicontinuity, transitivity and sensitivity: The Auslander–Yorke dichotomy revisited",
+      "authors": [
+        "Chris Good",
+        "Robert Leek",
+        "Joel Mitchell"
+      ],
+      "type": "paper",
+      "id": "doi:10.3934/dcds.2020121",
+      "relationship": "independently-proves",
+      "note": "Authors PDF https://web.mat.bham.ac.uk/C.Good/research/pdfs/ets pp1–2 definitions/classical dichotomy, published DCDS40(2020)2441–2474. The compact metric classical result is distinguished from the direct pointwise version here: compactness is unnecessary for pointwise equicontinuity. No general uniform-equicontinuity or non-autonomous/general-action theorem is claimed. Minimal means every forward orbit dense; sensitivity uses open-set pairs; no novelty claim."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "relationship": "adapts",
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/2fae123025f57f2f74220c01ffea7148fc6e3a11/topology/weak-mixing-minimal-product",
+      "note": "Literal Minimal dense-forward-orbit definition retained with credit; no prior proof imported."
+    },
+    {
+      "relationship": "related",
+      "id": "https://palomar-registry.org/entry?id=PALOMAR-2026-10-20-000017&version=1",
+      "note": "Registered compact Hausdorff commutative-semigroup regional-proximal/equicontinuous-factor/natural-extension TheoremsA–F inspected. Related subject, not the selected sensitivity dichotomy; not imported."
+    },
+    {
+      "relationship": "uses",
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "note": "Exact metric, density, finite-open-intersection and actual Equicontinuous predicates retained. Bounded pinned-library/main/openPR/registry coverage, not exhaustive or private novelty clearance."
+    }
+  ],
+  "status": {
+    "scope": "Pointwise natural-iterate equicontinuity versus open-set pair sensitivity, dense forward minimality and continuity; nonempty hypothesis only in exclusivity equivalence.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "Exact-source readiness is established by immutable external local native/canonical/render/visual/review receipts; a build alone is not full certification.",
+    "attribution_status": "Three campaign authors/maintainers preserved; Codex direct proof/internal AI reviews disclosed. No human proof contribution inferred."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored stable-open-set propagation via actual dense-orbit witnesses, finite early-iterate neighborhood control, the negation dichotomy and metric incompatibility argument. Separate internal AI scope/source/evidence reviews, no human/external review asserted."
+      }
+    ],
+    "notes": "No novelty/editorial acceptance inferred."
+  },
+  "fidelity": {
+    "divergences": "Minimal is forall x Dense(range(n=>f^[n]x)); natural time includes0. Sensitive is existsdelta>0 forallnonemptyopenU existsn,pairinU with strict distance>delta. EmptyX makes this literal Sensitive convention vacuouslytrue and Equicontinuous true; the unrestricted OR is not exclusive there. The iff nonsensitive/equicontinuous explicitly requires NonemptyX. Stable open sets may depend on epsilon; pointwise equicontinuity neighborhoods may depend on point and epsilon. No global uniform-equicontinuity modulus claimed. No compactness, surjectivity, invertibility, nontriviality or no-isolated-points premise and no minimal-implies-surjective inference. No weak-mixing assumption or stronger thick/multi/syndetic sensitivity theorem. Open-set pair formulation is retained literally; no separate anchored or positive-time equivalence is asserted."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI mathematical/source-fidelity reviewer"
+    ],
+    "notes": "Scope before development; implementation/package and exact-source machine/release evidence independently reviewed separately. No human/external review asserted."
+  },
+  "acknowledgements": "Classical Auslander–Yorke theorem and Good/Leek/Mitchell source credited; literal prior dense-orbit definition, Mathlib and Lean attribution retained."
+}
