@@ -2128,6 +2128,68 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Weak mixing and thick common multi-sensitivity",
+      "path": "topology/weak-mixing-thick-multisensitivity",
+      "scope": "One positive constant gives every finite family of nonempty open sets common thick positive separation times for continuous surjective weakly mixing maps on nontrivial metric spaces.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "fa2cdbd172e7bf754c30840f8ccc8af3e90eab92",
+        "tree": "e84e8595f59c59d4fdf8b1b5d25407b01e48cf3a"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "418d8be4e8a3dffd5d08927723eb5f53fb255e349b8b6c5fff5ca7cfcba0894c",
+        "WeakMixingCore.lean": "21ec7c7701b3ae93d90b69b7525294659d582afe9cb14be24598e520553b6b2a",
+        "SensitivitySolution.lean": "61bc6c1ecd1bac084ae202ceed70a1cfadeb6e40301aaef5176956d2e3d4b72c",
+        "CORE-DEFINITIONS.md": "0b3f1013dc1d61a6e6ecfc7316fd6b41229e5f56d5de4bea46037572ae0b29b0",
+        "AxiomAudit.lean": "2e2737b9a43c7e4cd7c003fd836d1526003ee762df8f19bbacd5a7187a6c8f2e",
+        "HittingThicknessCore.lean": "25abe030a4b6a86d702e88a10b2887ca1bd4d67feef8b441bcca90a52ba660cb",
+        "SensitivityChallenge.lean": "aafd3175184284f7d3778a3b25ee9868af96a46079766a841d48e336534ad3b0",
+        "ChallengeTests.lean": "d87086abd54a4fecbf10c73950acaff3a6d24729eed72ddb47206732cd6fbb28",
+        "formalization.yaml": "8cb48afc613c3f1113ed6672287df277371068439de1011f8d156e7340c73a62",
+        "lakefile.toml": "6b3ec05526949cb7787eb24b89c6edfb0865e955df9235824416824faf374c71",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "448cb5c2a6d983e8076206d4aa22275037f921b377ad766281484f61e4bba61a",
+        "lake-manifest.json": "405f4c8b078bfa297a7258f1dd90e912473d04fc2b463e0f93d7ca2173d3e7c8",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "ThickSensitivity.lean": "07938aceba9bf5df361fb0b2b8bf17a81932c7b0486448d9978a13cc8bc75ffa",
+        "README.md": "dd54eff0acb4b01d942364d7d96b0477709ef83cd2f435dbbf70176660734bda",
+        "comparator.json": "9c7171c3cefd3daf44ad0212fb8646aded4b370af59dee612053c2e8bcd58af5"
+      },
+      "theorem_names": [
+        "ThickSensitive.separated_open_targets",
+        "ThickSensitive.finite_hitting_thick",
+        "ThickSensitive.weakMixing_thick_multisensitive"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "2f3a3da95becdcde05112b67c7b7416f24e62b0a1e5eb8edb84792a2f42d8030"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }

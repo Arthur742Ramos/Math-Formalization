@@ -1,0 +1,5 @@
+module
+public import SensitivitySolution
+#print axioms ThickSensitive.separated_open_targets
+#print axioms ThickSensitive.finite_hitting_thick
+#print axioms ThickSensitive.weakMixing_thick_multisensitive
