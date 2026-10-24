@@ -1796,8 +1796,8 @@
       "scope": "A continuous self-map of a nonempty topological space with transitive square has transitive finite diagonal powers, via a genuine hitting-time refinement and finite induction.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "f78e70fd05d6b92bd01cbf36817ef417b2643440",
-        "tree": "a14ca8b5983ae9cf0a0000038e226634a70513c3"
+        "commit": "7801f89d71af80f29a3dcd02eb0691edcf5663b6",
+        "tree": "806b187a280dc40195dda8ea75e861a8a991de1f"
       },
       "source_files_sha256": {
         "SemanticTests.lean": "5c8dc40537e43c342a6fd7e1ea71aec27914f2b9e94a918a2e63003f3cc2c2bb",
@@ -1807,7 +1807,7 @@
         "WeakMixingPower.lean": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
         "ChallengeTests.lean": "c81f9c8b8944c9835b18a1802324d7fa7526aa93eb9df2069ba3b88a1aec79f6",
         "MixingChallenge.lean": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
-        "formalization.yaml": "47cbfea1cc5c27a013bdcbb344c82c6e8096e9f68d4f47589b707c156a5ce511",
+        "formalization.yaml": "ebf1813297dd284c74b38cd738edd23c4bb924c8213e452405b4e5241e5592a9",
         "lakefile.toml": "7a77713d46c3ec5e1547062ab598129de6374c0edafd14e3217845a87d6f08b0",
         "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
         "MATERIAL-DEFINITIONS.md": "1788de0378ada17e46eb56544fa00756e008f56bdcac2f33e3d2c048ad821ce5",
@@ -1847,10 +1847,37 @@
         "mathematical_source": "pass",
         "implementation": "pass",
         "receipts_sha256": {
-          "complete_mathematical_source_and_package": "f54d65ee521e8180139ec1a84b3851319363ef7617f2fa1d9008b7ee7812344f"
+          "complete_mathematical_source_and_package": "f54d65ee521e8180139ec1a84b3851319363ef7617f2fa1d9008b7ee7812344f",
+          "metadata_correction_and_current_package": "012710fc718ed28d6c3ee02a5d7fc04818f93586e44368cd518c9405f52ea265"
         }
       },
-      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+      "evidence_scope": "Dated pre-canonical checkpoint after classification correction to MSC37B05/37B02. Proof/config/pins unchanged. Earlier local preparation failure is preserved externally; only later exact-source reports establish canonical readiness.",
+      "source_history": [
+        {
+          "source_snapshot": {
+            "commit": "f78e70fd05d6b92bd01cbf36817ef417b2643440",
+            "tree": "a14ca8b5983ae9cf0a0000038e226634a70513c3"
+          },
+          "source_files_sha256": {
+            "SemanticTests.lean": "5c8dc40537e43c342a6fd7e1ea71aec27914f2b9e94a918a2e63003f3cc2c2bb",
+            "CORE-DEFINITIONS.md": "ed8a77a5139f54f9bb5f1678c17d9716193df3ff8a79d8c1cfa58d6fa80cd671",
+            "MixingSolution.lean": "7a5ff3f66ebb9bf455f8430f76b9980ef0f24a903af7218aefc0b1f84d6fb241",
+            "AxiomAudit.lean": "3dce1bff5602cbb50194ec0d6f8ed66716c20a8c72410092d8fe0c968264b2ad",
+            "WeakMixingPower.lean": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+            "ChallengeTests.lean": "c81f9c8b8944c9835b18a1802324d7fa7526aa93eb9df2069ba3b88a1aec79f6",
+            "MixingChallenge.lean": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+            "formalization.yaml": "47cbfea1cc5c27a013bdcbb344c82c6e8096e9f68d4f47589b707c156a5ce511",
+            "lakefile.toml": "7a77713d46c3ec5e1547062ab598129de6374c0edafd14e3217845a87d6f08b0",
+            "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+            "MATERIAL-DEFINITIONS.md": "1788de0378ada17e46eb56544fa00756e008f56bdcac2f33e3d2c048ad821ce5",
+            "lake-manifest.json": "79da83bc99ade42dc77ae60d25a3a3d8e086fee204f98fb8632162df194a43aa",
+            "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+            "README.md": "3b832de33a858ef7ac2dd8cff68db51e3480537d830c51a394e537e24ab0be56",
+            "comparator.json": "84da41a1c13c7a7ab9656996563d61ebf11d454ddea17db6a79617197a251365"
+          },
+          "scope": "Original reviewed preparation snapshot; its metadata used invalid secondaryMSC54H20. Local canonical prepare at288061d stopped before proof execution; not a canonical proof pass."
+        }
+      ]
     }
   ]
 }

@@ -250,4 +250,6 @@ Square-transitivity equivalence, hitting-time refinement, finite common hitting 
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Furstenberg weak mixing and finite diagonal powers](topology/furstenberg-weak-mixing) | A continuous self-map of a nonempty topological space with transitive square has transitive finite diagonal powers, via a genuine hitting-time refinement and finite induction. | Preparation; not submitted | [`f78e70f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/f78e70fd05d6b92bd01cbf36817ef417b2643440/topology/furstenberg-weak-mixing) |
+| [Furstenberg weak mixing and finite diagonal powers](topology/furstenberg-weak-mixing) | A continuous self-map of a nonempty topological space with transitive square has transitive finite diagonal powers, via a genuine hitting-time refinement and finite induction. | Preparation; not submitted | [`7801f89`](https://github.com/Arthur742Ramos/Math-Formalization/tree/7801f89d71af80f29a3dcd02eb0691edcf5663b6/topology/furstenberg-weak-mixing) |
+
+Weak-mixing preparation classification was corrected to MSC2020 37B05/37B02. The earlier local preparation at `288061d6e8fd352fa1f29779905994b0518dd698` rejected obsolete secondary54H20 before proof execution. The original failure remains external immutable evidence; later exact-source reports are required for release readiness.
