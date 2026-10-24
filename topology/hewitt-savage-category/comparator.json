@@ -1,0 +1,14 @@
+{
+  "challenge_module": "HSChallenge",
+  "solution_module": "HSSolution",
+  "theorem_names": [
+    "HewittSavage.category_zero_one",
+    "HewittSavage.polish_sequence_zero_one"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
