@@ -269,3 +269,11 @@ Late open self-returns, countable metric return stages, actual G-delta and resid
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Nonwandering systems and generic recurrent points](topology/nonwandering-recurrence) | For continuous maps on Baire metric spaces, nonwandering is equivalent to density of the actual recurrent set, which is G-delta. Residual membership and arbitrarily late positive returns are constructed separately. | Preparation; not submitted | [`c170938`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c1709384a5e78e6e13d60b14b9affa6bfd6f386a/topology/nonwandering-recurrence) |
+
+## Weak-mixing minimal product preparation
+
+Surjectivity, arbitrarily late thick hitting blocks, compact-cover syndetic gaps and actual heterogeneous product transitivity are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Weak mixing times minimality: transitivity of the product](topology/weak-mixing-minimal-product) | A continuous weakly mixing map on nonempty compact Hausdorff X has transitive actual product with a continuous pointwise forward-minimal map on nonempty compact Y. | Preparation; not submitted | [`c35deaf`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c35deaffa9c703d13714623303d161189bf544da/topology/weak-mixing-minimal-product) |
