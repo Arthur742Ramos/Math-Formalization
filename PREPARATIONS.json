@@ -1445,8 +1445,8 @@
       "scope": "Invariant closed nowhere-dense Cantor-subset dynamics extends to an ambient homeomorphism with a dense forward orbit; empty subset included.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "05802f6ce60296c60acc11452a1d8207cc9c0704",
-        "tree": "a3cf298517d880ec502e1aee3642f39a77dbea5a"
+        "commit": "23630432032ac99852b0107558afa1fe32aee7b5",
+        "tree": "83e5e68c3e60b25733393fa1031f95c944fd0b0c"
       },
       "source_files_sha256": {
         "SemanticTests.lean": "4452062e017403569531c9c735984b3994e2b7829572e7e0b035e08cdedbcc6e",
@@ -1455,7 +1455,7 @@
         "AxiomAudit.lean": "57b68a59fa093b0751fc3b64f58fb34ae25be24a283935d4a390384b41b8c941",
         "ChallengeTests.lean": "977a7bde14c7e6ab11d3ddd3f4e2949b215774a2afb6fb347a0a938b87d84ab9",
         "CantorDynamics.lean": "c5c926f4e8ca93acfe87f8a21f4f31a22a232764c44f40a70b4f23ab7778abac",
-        "formalization.yaml": "6192e077152af82ba9306f482c98731617315f5cf772cf1685a9513e31dea775",
+        "formalization.yaml": "88cef60a1a64964559bae80f5774c4ba8394d2dac3d3f51544cb01cf52d3a989",
         "lakefile.toml": "6a07be8cf329c714b414e3474fe5f90a7adcacac78310a6e59c62d81acad8077",
         "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
         "MATERIAL-DEFINITIONS.md": "07f41051652c2c5b6fcf37537b9b6ec064d9f40de306bb55a9066cd47f38db61",
