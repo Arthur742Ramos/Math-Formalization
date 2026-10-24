@@ -1,0 +1,736 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "IsClosed",
+    "closure",
+    "Continuous",
+    "TopologicalSpace.induced",
+    "Filter",
+    "IsCompact",
+    "CompactSpace",
+    "Dense",
+    "Set.range",
+    "Finset",
+    "Nat.iterate",
+    "ClusterPt",
+    "T2Space",
+    "Filter.principal",
+    "Filter.NeBot"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.hitting_thick",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Actual supplied open-set topology; actual binary product is infimum of the two projection-induced topologies.",
+      "dependency_expansion": "Actual supplied open-set topology; actual binary product is infimum of the two projection-induced topologies.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed",
+        "Product-heterogeneous-topology"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.hitting_thick",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Open in the supplied topology; target preimages and actual product rectangles are open.",
+      "dependency_expansion": "Open in the supplied topology; target preimages and actual product rectangles are open.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Complement open in supplied topology; the continuous compact image is closed in Hausdorff X.",
+      "dependency_expansion": "Complement open in supplied topology; the continuous compact image is closed in Hausdorff X.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Intersection of closed supersets in the supplied topology; used for image density/closed image surjectivity.",
+      "dependency_expansion": "Intersection of closed supersets in the supplied topology; used for image density/closed image surjectivity.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.hitting_thick",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "All open preimages are open. Both f and g continuous; compactness and density supply no inverse continuity.",
+      "dependency_expansion": "All open preimages are open. Both f and g continuous; compactness and density supply no inverse continuity.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Inverse-image topology along a projection; actual heterogeneous product, not a box or assumed rectangle topology.",
+      "dependency_expansion": "Inverse-image topology along a projection; actual heterogeneous product, not a box or assumed rectangle topology.",
+      "definition_excerpt": "induced",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "induced",
+        "Pi.product-topology",
+        "cantor-Bool-topology",
+        "subtype-topology"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Filter",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Literal pinned filter/neighborhood dependency of compactness and closure; no additional hypothesis beyond the displayed compactness/topology contracts.",
+      "dependency_expansion": "Literal pinned filter/neighborhood dependency of compactness and closure; no additional hypothesis beyond the displayed compactness/topology contracts.",
+      "definition_excerpt": "Filter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Filter"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Every nonbottom filter on the set has a cluster point there; used via the finite open-subcover theorem, not metric sequential compactness.",
+      "dependency_expansion": "Every nonbottom filter on the set has a cluster point there; used via the finite open-subcover theorem, not metric sequential compactness.",
+      "definition_excerpt": "KR-IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsCompact"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "The whole supplied space is compact; finite open preimage subcovers produce a uniform bound in Y, and compact image closure is used for surjectivity in X.",
+      "dependency_expansion": "The whole supplied space is compact; finite open preimage subcovers produce a uniform bound in Y, and compact image closure is used for surjectivity in X.",
+      "definition_excerpt": "KR-CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "KR-CompactSpace"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Every ambient point lies in closure of the set. Minimality quantifies density of every actual natural orbit, with all starts included.",
+      "dependency_expansion": "Every ambient point lies in closure of the set. Minimality quantifies density of every actual natural orbit, with all starts included.",
+      "definition_excerpt": "Dynamics-Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Dense"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Set.range",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Existential image of every natural time or domain point; orbit density and image-surjectivity use literal ranges.",
+      "dependency_expansion": "Existential image of every natural time or domain point; orbit density and image-surjectivity use literal ranges.",
+      "definition_excerpt": "Dynamics-Set.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Set.range"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Finset",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.hitting_thick",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Finite constraint indices and compact subcover indices, including finite sup to bound gaps.",
+      "dependency_expansion": "Finite constraint indices and compact subcover indices, including finite sup to bound gaps.",
+      "definition_excerpt": "E0-Finset",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "E0-Finset"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Nat.iterate",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.hitting_thick",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Natural zero is identity and successor applies the same map. Actual iterates obey additive composition; all product coordinates share one time.",
+      "dependency_expansion": "Natural zero is identity and successor applies the same map. Actual iterates obey additive composition; all product coordinates share one time.",
+      "definition_excerpt": "Mixing-Nat.iterate",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mixing-Nat.iterate"
+      ],
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "ClusterPt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Nonbottom intersection of the actual neighborhood filter and given filter; compactness cluster point, not deleted-neighborhood accumulation.",
+      "dependency_expansion": "Nonbottom intersection of the actual neighborhood filter and given filter; compactness cluster point, not deleted-neighborhood accumulation. The irreducible_def nhds is retained literally: infimum of principal filters of open sets containing the point.",
+      "definition_excerpt": "Product-ClusterPt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Product-ClusterPt",
+        "Product-nhds"
+      ],
+      "proof_status": "Exact pinned literal fields retained. Compiled entrypoint bridges and independent fidelity review have separate scope."
+    },
+    {
+      "name": "T2Space",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-T2Space",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-T2Space"
+      ],
+      "meaning": "Distinct X points have disjoint open neighborhoods, and compact subsets of X are closed. No T2 hypothesis on Y.",
+      "dependency_expansion": "Distinct X points have disjoint open neighborhoods, and compact subsets of X are closed. No T2 hypothesis on Y.",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "role": "proof-dependency",
+      "proof_status": "Retained literal fields; separate Challenge/Solution semantic routes compiled. Independent review owns completeness and fidelity."
+    },
+    {
+      "name": "Filter.principal",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Filter containing exactly supersets of the given set; compactness quantifies filters concentrated on that set.",
+      "dependency_expansion": "Filter containing exactly supersets of the given set; compactness quantifies filters concentrated on that set.",
+      "definition_excerpt": "Product-Filter.principal",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Product-Filter.principal"
+      ],
+      "proof_status": "Exact pinned literal fields retained. Compiled entrypoint bridges and independent fidelity review have separate scope."
+    },
+    {
+      "name": "Filter.NeBot",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "meaning": "Filter differs from bottom, equivalently excludes the empty set; compactness quantifies nontrivial filters.",
+      "dependency_expansion": "Filter differs from bottom, equivalently excludes the empty set; compactness quantifies nontrivial filters.",
+      "definition_excerpt": "Product-Filter.NeBot",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Product-Filter.NeBot"
+      ],
+      "proof_status": "Exact pinned literal fields retained. Compiled entrypoint bridges and independent fidelity review have separate scope."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "IsClosed",
+          "first_line": 107,
+          "last_line": 109,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n",
+          "sha256": "b781df1f94b7e9a0b16791daa67c0bad5d4446809fc5e63093140999f5ae536a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L109"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "name": "Dynamics-Dense",
+          "first_line": 142,
+          "last_line": 151,
+          "text": "def coborder (s : Set X) : Set X :=\n  (closure s \\ s)ᶜ\n\n/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n\n/-- `f : α → X` has dense range if its range (image) is a dense subset of `X`. -/\ndef DenseRange {α : Type*} (f : α → X) := Dense (range f)\n\n",
+          "sha256": "5abd81a951e2f05fdf71701b59f3de4693e2d8e9ab6cfd467aee69b393489e91",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L142-L151"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-Bool-topology",
+          "first_line": 572,
+          "last_line": 576,
+          "text": "instance : DiscreteTopology PUnit := ⟨rfl⟩\ninstance : IndiscreteTopology PUnit := inferInstance\n\ninstance : TopologicalSpace Bool := ⊥\ninstance : DiscreteTopology Bool := ⟨rfl⟩\n",
+          "sha256": "2d8bbbaa7265a7f44dd244c394855aa4f2fccb8128ba008672e414bc4393a5d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "induced",
+          "first_line": 64,
+          "last_line": 67,
+          "text": "def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n",
+          "sha256": "878b69c8488a10bac25ce164587ebbe29156ddb4fddd3fe1e9a3911d8bdd8110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67"
+        },
+        {
+          "name": "subtype-topology",
+          "first_line": 76,
+          "last_line": 79,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n\n",
+          "sha256": "eca619b73151480553afac7b4bb4246ad51da55154961c48653ddd5f3074b012",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pi.product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "KR-IsCompact",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "KR-CompactSpace",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "ClusterPt",
+          "first_line": 275,
+          "last_line": 276,
+          "text": "def ClusterPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝 x ⊓ F)\n",
+          "sha256": "f90d95be3fde4dbf0316ba4196c035f85b5644f00fddb70c4f0826ea538d6ed7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L275-L276"
+        },
+        {
+          "name": "Product-ClusterPt",
+          "first_line": 275,
+          "last_line": 276,
+          "text": "def ClusterPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝 x ⊓ F)\n",
+          "sha256": "f90d95be3fde4dbf0316ba4196c035f85b5644f00fddb70c4f0826ea538d6ed7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L275-L276"
+        },
+        {
+          "name": "Product-nhds",
+          "first_line": 126,
+          "last_line": 131,
+          "text": "\n/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n",
+          "sha256": "26e585bb1a5374b24c1bdbf46188a29b1ae1af446b56f6386e17e60c3fed91de",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L126-L131"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        },
+        {
+          "name": "Product-Filter.principal",
+          "first_line": 147,
+          "last_line": 152,
+          "text": "/-- The principal filter of `s` is the collection of all supersets of `s`. -/\ndef principal (s : Set α) : Filter α where\n  sets := { t | s ⊆ t }\n  univ_sets := subset_univ s\n  sets_of_superset hx := Subset.trans hx\n  inter_sets := subset_inter\n",
+          "sha256": "a8b6e4b506b80002160679a9d8b0907df0e884140c4f8e2a1622e8f9fac20bb0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L147-L152"
+        },
+        {
+          "name": "Product-Filter.NeBot",
+          "first_line": 268,
+          "last_line": 273,
+          "text": "/-- A filter is `NeBot` if it is not equal to `⊥`, or equivalently the empty set does not belong to\nthe filter. Bourbaki include this assumption in the definition of a filter but we prefer to have a\n`CompleteLattice` structure on `Filter _`, so we use a typeclass argument in lemmas instead. -/\nclass NeBot (f : Filter α) : Prop where\n  /-- The filter is nontrivial: `f ≠ ⊥` or equivalently, `∅ ∉ f`. -/\n  ne' : f ≠ ⊥\n",
+          "sha256": "7b238aa6b07920753724a6aacc6fba696790ce141d1e7d7faf636839261d878e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L268-L273"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "Dynamics-Set.range",
+          "first_line": 170,
+          "last_line": 174,
+          "text": "\nThis function is more flexible than `f '' univ`, as the image requires that the domain is in Type\nand not an arbitrary Sort. -/\ndef range (f : ι → α) : Set α := {x | ∃ y, f y = x}\n\n",
+          "sha256": "e6ee1efb980a5f122abcaf5821358ebef2188a6bb7ec77e9df84b364e37e00c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L170-L174"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean",
+      "sha256": "ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d",
+      "git_blob_sha1": "e94299ba14677e4193e7004cf77bf70c1ca6e065",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Finset",
+          "first_line": 75,
+          "last_line": 79,
+          "text": "structure Finset (α : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset α\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
+          "sha256": "7060271efbf43760a549ba990bf6441680ded1d3465c11a6856ecc7a6ca7b551",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Function/Iterate.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean",
+      "sha256": "bf42e948bbf3fae276cd05b8e53d1d143feec96f95d81675bee103010e210339",
+      "git_blob_sha1": "48324196626b2d62726e7e89fad332133c62e604",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-Nat.iterate",
+          "first_line": 41,
+          "last_line": 43,
+          "text": "def Nat.iterate {α : Sort u} (op : α → α) : ℕ → α → α\n  | 0, a => a\n  | succ k, a => iterate op k (op a)\n",
+          "sha256": "8197110f3911f9fba49b3571a56d29281c8ece9bda7297d8ac65024e88af77b1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L41-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Compactness/Lindelof.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Lindelof.lean",
+      "sha256": "e75a097a0ac483a700c8eb13d91246dd151d3e34edf331f8fcb4f4f15fbe505d",
+      "git_blob_sha1": "cf1dc92979e8bceb698d5d862049056ec9b51779",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Josha Dekker. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Josha Dekker\n-/\n",
+      "excerpts": [
+        {
+          "name": "IsLindelof",
+          "first_line": 51,
+          "last_line": 52,
+          "text": "def IsLindelof (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f] [CountableInterFilter f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n",
+          "sha256": "f1a6863f56a4fc1ee2c35b7289d501ce927906faa41abe43608f6157b9a21215",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Lindelof.lean#L51-L52"
+        },
+        {
+          "name": "isLindelof_iff_countable_subcover",
+          "first_line": 292,
+          "last_line": 296,
+          "text": "theorem isLindelof_iff_countable_subcover :\n    IsLindelof s ↔ ∀ {ι : Type u} (U : ι → Set X),\n      (∀ i, IsOpen (U i)) → (s ⊆ ⋃ i, U i) → ∃ t : Set ι, t.Countable ∧ s ⊆ ⋃ i ∈ t, U i :=\n  ⟨fun hs ↦ hs.elim_countable_subcover, isLindelof_of_countable_subcover⟩\n\n",
+          "sha256": "f48e69c31df0490ea0344e3a73151d5746ff08eb032d4235ad55f989f5ffc4b7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Lindelof.lean#L292-L296"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Separation/Hausdorff.lean",
+      "sha256": "95c58f7ad7ef3ea627d5af8d2427c7d7e08a47207ed084e51945217f32566f06",
+      "git_blob_sha1": "c7c9a4de3b9c0ea0eef31a6f5b98170c89b7f98d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-T2Space",
+          "first_line": 81,
+          "last_line": 91,
+          "text": "/-- A T₂ space, also known as a Hausdorff space, is one in which for every\n  `x ≠ y` there exists disjoint open sets around `x` and `y`. This is\n  the most widely used of the separation axioms. -/\n@[mk_iff]\nclass T2Space (X : Type u) [TopologicalSpace X] : Prop where\n  /-- Every two points in a Hausdorff space admit disjoint open neighbourhoods. -/\n  t2 : Pairwise fun x y => ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v\n\n/-- Two different points can be separated by open sets. -/\ntheorem t2_separation [T2Space X] {x y : X} (h : x ≠ y) :\n    ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v :=\n",
+          "sha256": "e875f4f7c4e62052292e8ce7f9e0caac25e7dd18a47fc9e6dec7240de02cdd81",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean#L81-L91"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Product-heterogeneous-topology",
+          "first_line": 53,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeTests",
+      "path": "ChallengeTests.lean",
+      "sha256": "a7f31d4c893c51da076d47bab48db18debfed45024f9ca6bab41d73e77a7f899"
+    },
+    {
+      "module": "SemanticTests",
+      "path": "SemanticTests.lean",
+      "sha256": "08dcc0e45eab218f96fb07be996c33b54a139e8cd6f2c3eb6666b7c18b70dc3c"
+    }
+  ],
+  "scope": "Compact Hausdorff surjectivity, inclusive hitting thickness/syndeticity and actual heterogeneous product transitivity. No metric, invertibility or hidden onto premise; Y need not be Hausdorff. Independent review owns completeness.",
+  "local_fixed_definitions": [
+    {
+      "name": "Furstenberg.Hit",
+      "path": "WeakMixingCore.lean",
+      "sha256": "80659bcd07ea5be8cc9f71e35c16dce8533bf4bddc80f18ffb5e9ac6d071ae9a",
+      "meaning": "Actual natural hitting witness."
+    },
+    {
+      "name": "Furstenberg.Transitive",
+      "path": "WeakMixingCore.lean",
+      "sha256": "80659bcd07ea5be8cc9f71e35c16dce8533bf4bddc80f18ffb5e9ac6d071ae9a",
+      "meaning": "Open-pair hitting in actual topology."
+    },
+    {
+      "name": "Furstenberg.WeakMixing",
+      "path": "WeakMixingCore.lean",
+      "sha256": "80659bcd07ea5be8cc9f71e35c16dce8533bf4bddc80f18ffb5e9ac6d071ae9a",
+      "meaning": "Two-pair common hitting, proved equivalent to square transitivity."
+    },
+    {
+      "name": "Furstenberg.pairMap",
+      "path": "WeakMixingCore.lean",
+      "sha256": "80659bcd07ea5be8cc9f71e35c16dce8533bf4bddc80f18ffb5e9ac6d071ae9a",
+      "meaning": "Binary coordinate map."
+    },
+    {
+      "name": "Furstenberg.diagonal",
+      "path": "WeakMixingCore.lean",
+      "sha256": "80659bcd07ea5be8cc9f71e35c16dce8533bf4bddc80f18ffb5e9ac6d071ae9a",
+      "meaning": "Pi coordinate map."
+    },
+    {
+      "name": "WeakMinimal.Thick",
+      "path": "WeakMixingMinimal.lean",
+      "sha256": "2ab2fa36c1da6f858cadaa4a2a7bc828301ab44f9816a58c6e0e71f79c6df682",
+      "meaning": "Arbitrarily late inclusive blocks offsets0..L."
+    },
+    {
+      "name": "WeakMinimal.Syndetic",
+      "path": "WeakMixingMinimal.lean",
+      "sha256": "2ab2fa36c1da6f858cadaa4a2a7bc828301ab44f9816a58c6e0e71f79c6df682",
+      "meaning": "Uniform inclusive forward gap0..K."
+    },
+    {
+      "name": "WeakMinimal.Minimal",
+      "path": "WeakMixingMinimal.lean",
+      "sha256": "2ab2fa36c1da6f858cadaa4a2a7bc828301ab44f9816a58c6e0e71f79c6df682",
+      "meaning": "Every actual forward natural orbit dense."
+    },
+    {
+      "name": "WeakMinimal.productMap",
+      "path": "WeakMixingMinimal.lean",
+      "sha256": "2ab2fa36c1da6f858cadaa4a2a7bc828301ab44f9816a58c6e0e71f79c6df682",
+      "meaning": "Actual heterogeneous binary dynamics."
+    }
+  ]
+}
