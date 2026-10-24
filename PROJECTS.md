@@ -219,3 +219,11 @@ The qualified infinite-Baire-product theorem and Polish-sequence corollary are p
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Category Hewitt–Savage zero-one law for infinite Baire products](topology/hewitt-savage-category) | A Baire-property subset of an infinite Baire product invariant under finite-support coordinate permutations is meagre or comeagre; Polish sequences are a corollary. | Preparation; not submitted | [`2e77e7e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2e77e7edb6f1483ed100cdcdcb5e0b4358973d7a/topology/hewitt-savage-category) |
+
+## Pettis automatic continuity preparation
+
+The Pettis neighborhood lemma and automatic-continuity theorem are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Pettis automatic continuity for Baire-to-separable topological groups](topology/pettis-automatic-continuity) | A BP-measurable homomorphism from a Baire topological group to a separable topological group is continuous; nonmeagre BP neighborhood lemma proved internally. | Preparation; not submitted | [`226aca0`](https://github.com/Arthur742Ramos/Math-Formalization/tree/226aca05603f09731592cfef71d0a4b030181cc3/topology/pettis-automatic-continuity) |
