@@ -293,3 +293,11 @@ Separated open metric targets, finite common hitting thickness and positive comm
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Weak mixing and thick common multi-sensitivity](topology/weak-mixing-thick-multisensitivity) | One positive constant gives every finite family of nonempty open sets common thick positive separation times for continuous surjective weakly mixing maps on nontrivial metric spaces. | Preparation; not submitted | [`fa2cdbd`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fa2cdbd172e7bf754c30840f8ccc8af3e90eab92/topology/weak-mixing-thick-multisensitivity) |
+
+## Auslander–Yorke metric minimal dichotomy preparation
+
+Stable-open propagation, the pointwise minimal dichotomy and its nonempty incompatibility equivalence are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Auslander–Yorke dichotomy for minimal metric maps](topology/auslander-yorke-dichotomy) | A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity. | Preparation; not submitted | [`947b3e8`](https://github.com/Arthur742Ramos/Math-Formalization/tree/947b3e8d6f6f200e4ae2cbac1b080399146dea7f/topology/auslander-yorke-dichotomy) |

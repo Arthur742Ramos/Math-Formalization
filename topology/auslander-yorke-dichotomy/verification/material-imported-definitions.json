@@ -1,0 +1,863 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "Continuous",
+    "Nat.iterate",
+    "Filter",
+    "MetricSpace",
+    "PseudoMetricSpace",
+    "UniformSpace",
+    "Set.Nonempty",
+    "Metric.ball",
+    "EquicontinuousAt",
+    "Equicontinuous",
+    "uniformity",
+    "IsClosed",
+    "closure",
+    "Dense",
+    "Set.range",
+    "Finset"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Open-set topology underlying the metric on X and actual iterate family.",
+      "dependency_expansion": "Open-set topology underlying the metric on X and actual iterate family.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed",
+        "Pettis-expansion-nhds",
+        "Regular-subtype-topology",
+        "E0-Pi-product-topology",
+        "Mixing-binary-product-topology"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Open sets for literal sensitivity and stable sets; continuous iterated preimages and finite intersections yield a neighborhood.",
+      "dependency_expansion": "Open sets for literal sensitivity and stable sets; continuous iterated preimages and finite intersections yield a neighborhood.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "hypothesis",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "f has open preimages; all finite early iterates and the hitting iterate are continuous. Explicit in all three selected results.",
+      "dependency_expansion": "f has open preimages; all finite early iterates and the hitting iterate are continuous. Explicit in all three selected results.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Nat.iterate",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Actual forward natural iteration: time0 identity, successor applies f; add-composition divides early and tail times. No positive-time-only equivalence claimed.",
+      "dependency_expansion": "Actual forward natural iteration: time0 identity, successor applies f; add-composition divides early and tail times. No positive-time-only equivalence claimed.",
+      "definition_excerpt": "Mixing-Nat.iterate",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mixing-Nat.iterate"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Filter",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Neighborhood/uniformity filter infrastructure of actual pointwise equicontinuity; no residual or asymptotic premise.",
+      "dependency_expansion": "Neighborhood/uniformity filter infrastructure of actual pointwise equicontinuity; no residual or asymptotic premise.",
+      "definition_excerpt": "Filter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Filter"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "MetricSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Genuine real-distance metric X, with topology/uniformity compatible as in pinned class fields. No compactness or global uniform-equicontinuity premise.",
+      "dependency_expansion": "Genuine real-distance metric X, with topology/uniformity compatible as in pinned class fields. No compactness or global uniform-equicontinuity premise.",
+      "definition_excerpt": "MetricSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "MetricSpace",
+        "PseudoMetricSpace",
+        "Dist",
+        "UniformSpace",
+        "Metric.isOpen_iff"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "PseudoMetricSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Inherited compatible pseudo-metric fields under MetricSpace, not a replacement of the stated metric hypothesis.",
+      "dependency_expansion": "Inherited compatible pseudo-metric fields under MetricSpace, not a replacement of the stated metric hypothesis.",
+      "definition_excerpt": "PseudoMetricSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "PseudoMetricSpace",
+        "Dist",
+        "UniformSpace",
+        "Metric.isOpen_iff",
+        "Bornology",
+        "Metric.isBounded_iff"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "UniformSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Inherited compatible uniformity used by EquicontinuousAt; family is the actual natural iterates.",
+      "dependency_expansion": "Inherited compatible uniformity used by EquicontinuousAt; family is the actual natural iterates.",
+      "definition_excerpt": "UniformSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "UniformSpace",
+        "UniformSpace.Core",
+        "Filter",
+        "Filter.principal",
+        "Filter.map-Tendsto",
+        "Filter.comap",
+        "nhds",
+        "mem_nhds_iff",
+        "Filter.order",
+        "Filter.product"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Set.Nonempty",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Actual point membership for open U; Nonempty X is explicit only in selected exclusivity iff. Stable/dichotomy results permit empty X.",
+      "dependency_expansion": "Actual point membership for open U; Nonempty X is explicit only in selected exclusivity iff. Stable/dichotomy results permit empty X.",
+      "definition_excerpt": "Set.Nonempty",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Nonempty"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Metric.ball",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Real-distance open ball. Early iterates land in an epsilon-ball; exclusivity uses a ball around a chosen actual x.",
+      "dependency_expansion": "Real-distance open ball. Early iterates land in an epsilon-ball; exclusivity uses a ball around a chosen actual x.",
+      "definition_excerpt": "Metric.ball",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Metric.ball",
+        "MetricSpace",
+        "PseudoMetricSpace",
+        "Metric.isOpen_iff"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "EquicontinuousAt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "At one x, for every positive epsilon there is a positive radius controlling every actual natural iterate for all nearby y; radius may depend on x. Exact metric equivalence compiled.",
+      "dependency_expansion": "At one x, for every positive epsilon there is a positive radius controlling every actual natural iterate for all nearby y; radius may depend on x. Exact metric equivalence compiled.",
+      "definition_excerpt": "Equicont-EquicontinuousAt",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Equicont-EquicontinuousAt",
+        "Equicont-metric-characterization"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Equicontinuous",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "For every x actual EquicontinuousAt of the natural iterate family, not a global uniform-equicontinuity modulus. Empty X vacuous.",
+      "dependency_expansion": "For every x actual EquicontinuousAt of the natural iterate family, not a global uniform-equicontinuity modulus. Empty X vacuous.",
+      "definition_excerpt": "Equicont-Equicontinuous",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Equicont-Equicontinuous"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "uniformity",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Compatible entourage filter of the metric; part of actual pointwise equicontinuity definition.",
+      "dependency_expansion": "Compatible entourage filter of the metric; part of actual pointwise equicontinuity definition.",
+      "definition_excerpt": "Equicont-uniformity",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Equicont-uniformity"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Complement is open; retained as dependency expansion of closure and density, not a new closed-space premise.",
+      "dependency_expansion": "Complement is open; retained as dependency expansion of closure and density, not a new closed-space premise.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Pinned closed-set closure; its open-neighborhood characterization is compiled separately. No compactness assumed.",
+      "dependency_expansion": "Pinned closed-set closure; its open-neighborhood characterization is compiled separately. No compactness assumed.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Every point lies in the closure; equivalently meets each nonempty open U. Applied to every actual forward orbit in literal Minimal.",
+      "dependency_expansion": "Every point lies in the closure; equivalently meets each nonempty open U. Applied to every actual forward orbit in literal Minimal.",
+      "definition_excerpt": "Dynamics-Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Dense"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Set.range",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Actual values of n mapped to f^[n]x, not an orbit closure or omega-limit set. Includes time0.",
+      "dependency_expansion": "Actual values of n mapped to f^[n]x, not an orbit closure or omega-limit set. Includes time0.",
+      "definition_excerpt": "Dynamics-Set.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Set.range"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    },
+    {
+      "name": "Finset",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "meaning": "Finite early-time intersection indexed by range k, internal proof dependency; no finite-index main hypothesis.",
+      "dependency_expansion": "Finite early-time intersection indexed by range k, internal proof dependency; no finite-index main hypothesis.",
+      "definition_excerpt": "E0-Finset",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "E0-Finset"
+      ],
+      "proof_status": "Pinned literal definitions/bridges retained; separate Challenge and Solution semantic routes compile. Independent review checks completeness/fidelity."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "name": "IsClosed",
+          "first_line": 107,
+          "last_line": 109,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n",
+          "sha256": "b781df1f94b7e9a0b16791daa67c0bad5d4446809fc5e63093140999f5ae536a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L109"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "Dynamics-Dense",
+          "first_line": 142,
+          "last_line": 151,
+          "text": "def coborder (s : Set X) : Set X :=\n  (closure s \\ s)ᶜ\n\n/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n\n/-- `f : α → X` has dense range if its range (image) is a dense subset of `X`. -/\ndef DenseRange {α : Type*} (f : α → X) := Dense (range f)\n\n",
+          "sha256": "5abd81a951e2f05fdf71701b59f3de4693e2d8e9ab6cfd467aee69b393489e91",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L142-L151"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Regular-subtype-topology",
+          "first_line": 76,
+          "last_line": 78,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n",
+          "sha256": "8bd24be4718ccace8cdaeccd59ff803b4182398fc8155d587b444ffe2c5b7b4b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L78"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Pi-product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pettis-expansion-nhds",
+          "first_line": 125,
+          "last_line": 131,
+          "text": "open scoped Topology\n\n/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n",
+          "sha256": "a661bbae79afb88483674f8654cdee71eb1897360a7912c97b7b40e021aca646",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L125-L131"
+        },
+        {
+          "name": "nhds",
+          "first_line": 127,
+          "last_line": 134,
+          "text": "/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n\n@[inherit_doc]\nscoped[Topology] notation \"𝓝\" => nhds\n",
+          "sha256": "50aa67ca57c8473255d83882eea110cc29269ae9a77d58cae57886b24f0bfa07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L127-L134"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Function/Iterate.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean",
+      "sha256": "bf42e948bbf3fae276cd05b8e53d1d143feec96f95d81675bee103010e210339",
+      "git_blob_sha1": "48324196626b2d62726e7e89fad332133c62e604",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-Nat.iterate",
+          "first_line": 41,
+          "last_line": 43,
+          "text": "def Nat.iterate {α : Sort u} (op : α → α) : ℕ → α → α\n  | 0, a => a\n  | succ k, a => iterate op k (op a)\n",
+          "sha256": "8197110f3911f9fba49b3571a56d29281c8ece9bda7297d8ac65024e88af77b1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L41-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-binary-product-topology",
+          "first_line": 53,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        },
+        {
+          "name": "Filter.order",
+          "first_line": 183,
+          "last_line": 190,
+          "text": "  le f g := ∀ ⦃U : Set α⦄, U ∈ g → U ∈ f\n  le_antisymm a b h₁ h₂ := filter_eq <| Subset.antisymm h₂ h₁\n  le_refl a := Subset.rfl\n  le_trans a b c h₁ h₂ := Subset.trans h₂ h₁\n\ntheorem le_def : f ≤ g ↔ ∀ x ∈ g, x ∈ f :=\n  Iff.rfl\n\n",
+          "sha256": "a99ab18fd794b2e2b76c56bfa8532bcb16e403417f304a87285b776cb5782aca",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L183-L190"
+        },
+        {
+          "name": "Filter.product",
+          "first_line": 444,
+          "last_line": 452,
+          "text": "/-- Product of filters. This is the filter generated by Cartesian products\nof elements of the component filters. -/\ninstance instSProd : SProd (Filter α) (Filter β) (Filter (α × β)) where\n  sprod f g := f.comap Prod.fst ⊓ g.comap Prod.snd\n\ntheorem prod_eq_inf (f : Filter α) (g : Filter β) : f ×ˢ g = f.comap Prod.fst ⊓ g.comap Prod.snd :=\n  rfl\n\n/-- The product of an indexed family of filters. -/\n",
+          "sha256": "9ef3719fef82cd6404287f98980c3054bbce035b372a7bd938e80fccdc056a78",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L444-L452"
+        },
+        {
+          "name": "Filter.principal",
+          "first_line": 147,
+          "last_line": 158,
+          "text": "/-- The principal filter of `s` is the collection of all supersets of `s`. -/\ndef principal (s : Set α) : Filter α where\n  sets := { t | s ⊆ t }\n  univ_sets := subset_univ s\n  sets_of_superset hx := Subset.trans hx\n  inter_sets := subset_inter\n\n@[inherit_doc]\nscoped notation \"𝓟\" => Filter.principal\n\n@[simp] theorem mem_principal : s ∈ 𝓟 t ↔ t ⊆ s := Iff.rfl\n\n",
+          "sha256": "b9ac7078f265922dbe9c103f5320642c8b0341f855d674b959a051d39edcee33",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L147-L158"
+        },
+        {
+          "name": "Filter.map-Tendsto",
+          "first_line": 405,
+          "last_line": 423,
+          "text": "\n/-- Unexpander printing `Filter.EventuallySubset l s t` as `s ≤ᶠ[l] t`. -/\n@[app_unexpander Filter.EventuallySubset]\nmeta def unexpandEventuallySubset : Lean.PrettyPrinter.Unexpander\n  | `($_ $l $s $t) => `($s ≤ᶠ[$l] $t)\n  | _ => throw ()\n\n/-- The forward map of a filter -/\ndef map (m : α → β) (f : Filter α) : Filter β where\n  sets := preimage m ⁻¹' f.sets\n  univ_sets := univ_mem\n  sets_of_superset hs st := mem_of_superset hs fun _x hx ↦ st hx\n  inter_sets hs ht := inter_mem hs ht\n\n/-- `Filter.Tendsto` is the generic \"limit of a function\" predicate.\n  `Tendsto f l₁ l₂` asserts that for every `l₂` neighborhood `a`,\n  the `f`-preimage of `a` is an `l₁` neighborhood. -/\ndef Tendsto (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :=\n  l₁.map f ≤ l₂\n",
+          "sha256": "e6f89a53ff1df261c7705955e27a8d227354e5926f369e20b02c35ad98be4313",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L405-L423"
+        },
+        {
+          "name": "Filter.comap",
+          "first_line": 425,
+          "last_line": 439,
+          "text": "/-- The inverse map of a filter. A set `s` belongs to `Filter.comap m f` if either of the following\nequivalent conditions hold.\n\n1. There exists a set `t ∈ f` such that `m ⁻¹' t ⊆ s`. This is used as a definition.\n2. The set `kernImage m s = {y | ∀ x, m x = y → x ∈ s}` belongs to `f`, see `Filter.mem_comap'`.\n3. The set `(m '' sᶜ)ᶜ` belongs to `f`, see `Filter.mem_comap_iff_compl` and\n   `Filter.compl_mem_comap`.\n-/\ndef comap (m : α → β) (f : Filter β) : Filter α where\n  sets := { s | ∃ t ∈ f, m ⁻¹' t ⊆ s }\n  univ_sets := ⟨univ, univ_mem, subset_univ _⟩\n  sets_of_superset := fun ⟨a', ha', ma'a⟩ ab => ⟨a', ha', ma'a.trans ab⟩\n  inter_sets := fun ⟨a', ha₁, ha₂⟩ ⟨b', hb₁, hb₂⟩ =>\n    ⟨a' ∩ b', inter_mem ha₁ hb₁, inter_subset_inter ha₂ hb₂⟩\n\n",
+          "sha256": "362366ce36802bc59b3b10b58727f2c6636d06fcf2d31241e21f8d26a375d782",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L425-L439"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Defs.lean",
+      "sha256": "cc1f7ad1c82dc79235c23718b6915211d4707a9e6e5bc68ee78ec85f024c45d9",
+      "git_blob_sha1": "10910c95e518dfacb8d4fcb88d7e689315791952",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Robert Y. Lewis, Johannes Hölzl, Mario Carneiro, Sébastien Gouëzel\n-/\n",
+      "excerpts": [
+        {
+          "name": "MetricSpace",
+          "first_line": 54,
+          "last_line": 71,
+          "text": "/-- A metric space is a type endowed with a `ℝ`-valued distance `dist` satisfying\n`dist x y = 0 ↔ x = y`, commutativity `dist x y = dist y x`, and the triangle inequality\n`dist x z ≤ dist x y + dist y z`.\n\nSee pseudometric spaces (`PseudoMetricSpace`) for the similar class with the `dist x y = 0 ↔ x = y`\nassumption weakened to `dist x x = 0`.\n\nAny metric space is a T1 topological space and a uniform space (see `TopologicalSpace`, `T1Space`,\n`UniformSpace`), where the topology and uniformity come from the metric.\n\nWe make the uniformity/topology part of the data instead of deriving it from the metric.\nThis e.g. ensures that we do not get a diamond when doing\n`[MetricSpace α] [MetricSpace β] : TopologicalSpace (α × β)`:\nThe product metric and product topology agree, but not definitionally so.\nSee Note [forgetful inheritance]. -/\n@[wikidata Q180953]\nclass MetricSpace (α : Type u) : Type u extends PseudoMetricSpace α where\n  eq_of_dist_eq_zero : ∀ {x y : α}, dist x y = 0 → x = y\n",
+          "sha256": "5b56d60557f748a59780862ed4ee67767eb50c1e00b5a5ca2fde9be6cdd68c7e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Defs.lean#L54-L71"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Pseudo/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean",
+      "sha256": "13cd9bc80e44bf7b61a55b5b1c2993058ac995f8803a6fb58c230c23a1d0fa35",
+      "git_blob_sha1": "912bc464320d8ea70f002255c59e9f79d41f6ac2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Robert Y. Lewis, Johannes Hölzl, Mario Carneiro, Sébastien Gouëzel\n-/\n",
+      "excerpts": [
+        {
+          "name": "Dist",
+          "first_line": 100,
+          "last_line": 108,
+          "text": "\n/-- The distance function (given an ambient metric space on `α`), which returns\na real number `dist x y` given `x y : α`. This type class does not enforce non-negativity. -/\n@[ext]\nclass Dist (α : Type*) where\n  /-- Distance between two points -/\n  dist : α → α → ℝ\n\nexport Dist (dist)\n",
+          "sha256": "db01a57fd9285c10d2dfa5a5015cf57d0ac68b497028b697181e603289d9fc04",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L100-L108"
+        },
+        {
+          "name": "PseudoMetricSpace",
+          "first_line": 124,
+          "last_line": 153,
+          "text": "set_option backward.privateInPublic.warn false in\n/-- A pseudometric space is a type endowed with a `ℝ`-valued distance `dist` satisfying\nreflexivity `dist x x = 0`, commutativity `dist x y = dist y x`, and the triangle inequality\n`dist x z ≤ dist x y + dist y z`.\n\nNote that we do not require `dist x y = 0 → x = y`. See metric spaces (`MetricSpace`) for the\nsimilar class with that stronger assumption.\n\nAny pseudometric space is a topological space and a uniform space (see `TopologicalSpace`,\n`UniformSpace`), where the topology and uniformity come from the metric.\nNote that a T1 pseudometric space is just a metric space.\n\nWe make the uniformity/topology part of the data instead of deriving it from the metric. This e.g.\nensures that we do not get a diamond when doing\n`[PseudoMetricSpace α] [PseudoMetricSpace β] : TopologicalSpace (α × β)`:\nThe product metric and product topology agree, but not definitionally so.\nSee Note [forgetful inheritance]. -/\nclass PseudoMetricSpace (α : Type u) : Type u extends Dist α where\n  dist_self : ∀ x : α, dist x x = 0\n  dist_comm : ∀ x y : α, dist x y = dist y x\n  dist_triangle : ∀ x y z : α, dist x z ≤ dist x y + dist y z\n  /-- Extended distance between two points -/\n  edist : α → α → ℝ≥0∞ := fun x y => ENNReal.ofNNReal (.mk (dist x y) (dist_nonneg' _ ‹_› ‹_› ‹_›))\n  edist_dist : ∀ x y : α, edist x y = ENNReal.ofReal (dist x y) := by\n    intro x y; exact ENNReal.coe_nnreal_eq _\n  toUniformSpace : UniformSpace α := .ofDist dist dist_self dist_comm dist_triangle\n  uniformity_dist : 𝓤 α = ⨅ ε > 0, 𝓟 { p : α × α | dist p.1 p.2 < ε } := by intros; rfl\n  toBornology : Bornology α := Bornology.ofDist dist dist_comm dist_triangle\n  cobounded_sets : (Bornology.cobounded α).sets =\n    { s | ∃ C : ℝ, ∀ x ∈ sᶜ, ∀ y ∈ sᶜ, dist x y ≤ C } := by intros; rfl\n",
+          "sha256": "a0d4f299a39e8aa7ba8f7db608e624ed07b23dc5de029b5215d6bed2274daca4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L124-L153"
+        },
+        {
+          "name": "Metric.isBounded_iff",
+          "first_line": 625,
+          "last_line": 629,
+          "text": "theorem isBounded_iff {s : Set α} :\n    IsBounded s ↔ ∃ C : ℝ, ∀ ⦃x⦄, x ∈ s → ∀ ⦃y⦄, y ∈ s → dist x y ≤ C := by\n  rw [isBounded_def, ← Filter.mem_sets, @PseudoMetricSpace.cobounded_sets α, mem_ofPred_eq,\n    compl_compl]\n\n",
+          "sha256": "7dd22941d9b0880008d4085c57ff057daf39d91cab6f6076cfe9ef2873a5eaae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L625-L629"
+        },
+        {
+          "name": "Metric.isOpen_iff",
+          "first_line": 833,
+          "last_line": 841,
+          "text": "    (𝓝 x).HasBasis (fun _ => True) fun n : ℕ => closedBall x (r ^ n) :=\n  nhds_basis_uniformity (uniformity_basis_dist_le_pow h0 h1)\n\ntheorem isOpen_iff : IsOpen s ↔ ∀ x ∈ s, ∃ ε > 0, ball x ε ⊆ s := by\n  simp only [isOpen_iff_mem_nhds, mem_nhds_iff]\n\n@[simp] theorem isOpen_ball : IsOpen (ball x ε) :=\n  isOpen_iff.2 fun _ => exists_ball_subset_ball\n\n",
+          "sha256": "2cb15902c148b72cec105db174db8b3cf474f25885869836b8f9bcc319bcc105",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L833-L841"
+        },
+        {
+          "name": "Metric.ball",
+          "first_line": 368,
+          "last_line": 375,
+          "text": "/-- `ball x ε` is the set of all points `y` with `dist y x < ε` -/\n@[wikidata Q838611]\ndef ball (x : α) (ε : ℝ) : Set α :=\n  { y | dist y x < ε }\n\n@[simp]\ntheorem mem_ball : y ∈ ball x ε ↔ dist y x < ε :=\n  Iff.rfl\n",
+          "sha256": "9254e95110ac29f8ddd4f9c3efd54b1c170b0977361801dc39aa766eb7cdf894",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L368-L375"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/UniformSpace/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean",
+      "sha256": "0678d9754b2f7c95f4ca1c62ff0fe923bfff83092e890b26d524040be1f1a47c",
+      "git_blob_sha1": "3f068a41cafe8605be201dd24b3843bcbba45a6e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "UniformSpace.Core",
+          "first_line": 129,
+          "last_line": 140,
+          "text": "/-- This core description of a uniform space is outside of the type class hierarchy. It is useful\n  for constructions of uniform spaces, when the topology is derived from the uniform space. -/\nstructure UniformSpace.Core (α : Type u) where\n  /-- The uniformity filter. Once `UniformSpace` is defined, `𝓤 α` (`_root_.uniformity`) becomes the\n  normal form. -/\n  uniformity : Filter (α × α)\n  /-- Every set in the uniformity filter includes the diagonal. -/\n  refl : 𝓟 SetRel.id ≤ uniformity\n  /-- If `s ∈ uniformity`, then `Prod.swap ⁻¹' s ∈ uniformity`. -/\n  symm : Tendsto Prod.swap uniformity uniformity\n  /-- For every set `u ∈ uniformity`, there exists `v ∈ uniformity` such that `v ○ v ⊆ u`. -/\n  comp : (uniformity.lift' fun s => s ○ s) ≤ uniformity\n",
+          "sha256": "5313987700fb612d91a82f7603e0ae3fe6cda1b5d64773c26afedb74c7f1bb37",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean#L129-L140"
+        },
+        {
+          "name": "UniformSpace",
+          "first_line": 185,
+          "last_line": 209,
+          "text": "-- the topological structure is embedded in the uniform structure\n-- to avoid instance diamond issues. See Note [forgetful inheritance].\n/-- A uniform space is a generalization of the \"uniform\" topological aspects of a\n  metric space. It consists of a filter on `α × α` called the \"uniformity\", which\n  satisfies properties analogous to the reflexivity, symmetry, and triangle properties\n  of a metric.\n\n  A metric space has a natural uniformity, and a uniform space has a natural topology.\n  A topological group also has a natural uniformity, even when it is not metrizable. -/\n@[wikidata Q652446]\nclass UniformSpace (α : Type u) extends TopologicalSpace α where\n  /-- The uniformity filter. -/\n  protected uniformity : Filter (α × α)\n  /-- If `s ∈ uniformity`, then `Prod.swap ⁻¹' s ∈ uniformity`. -/\n  protected symm : Tendsto Prod.swap uniformity uniformity\n  /-- For every set `u ∈ uniformity`, there exists `v ∈ uniformity` such that `v ○ v ⊆ u`. -/\n  protected comp : (uniformity.lift' fun s => s ○ s) ≤ uniformity\n  /-- The uniformity agrees with the topology: the neighborhoods filter of each point `x`\n  is equal to `Filter.comap (Prod.mk x) (𝓤 α)`. -/\n  protected nhds_eq_comap_uniformity (x : α) : 𝓝 x = comap (Prod.mk x) uniformity\n\n/-- The uniformity is a filter on α × α (inferred from an ambient uniform space\n  structure on α). -/\ndef uniformity (α : Type u) [UniformSpace α] : Filter (α × α) :=\n  @UniformSpace.uniformity α _\n",
+          "sha256": "a67f56908a4cffd4c4c069fff92e9f5256c8d56e81e6c5e074c827feac86bc13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean#L185-L209"
+        },
+        {
+          "name": "Equicont-uniformity",
+          "first_line": 208,
+          "last_line": 209,
+          "text": "def uniformity (α : Type u) [UniformSpace α] : Filter (α × α) :=\n  @UniformSpace.uniformity α _\n",
+          "sha256": "70e4af5f2ccf0181a8b36a9a26d4ad20f87256e86f3f78a7fd57947823b24411",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Defs.lean#L208-L209"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Neighborhoods.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean",
+      "sha256": "ef0e4d65986641366ffcc380a613f210207fee31e8640e1488a8cae41395383a",
+      "git_blob_sha1": "8bfc6cc6c85396ab77a34b0725508d165b3903f4",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "mem_nhds_iff",
+          "first_line": 64,
+          "last_line": 66,
+          "text": "theorem mem_nhds_iff : s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t :=\n  (nhds_basis_opens x).mem_iff.trans <| exists_congr fun _ =>\n    ⟨fun h => ⟨h.2, h.1.2, h.1.1⟩, fun h => ⟨⟨h.2.2, h.2.1⟩, h.1⟩⟩\n",
+          "sha256": "3920d4125f26e7f74ea0eb050f41fa4c4f00ef056b57524cd6b93066efb1d515",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean#L64-L66"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Bornology/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bornology/Basic.lean",
+      "sha256": "427d7eff3bd67d3b8a3ba2df3636786b248405f789871161145d274f929d466e",
+      "git_blob_sha1": "4b142e1d604446eafb9ee39b6a39a492d687c997",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Jireh Loreaux. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jireh Loreaux\n-/\n",
+      "excerpts": [
+        {
+          "name": "Bornology",
+          "first_line": 48,
+          "last_line": 55,
+          "text": "/-- A **bornology** on a type `α` is a filter of cobounded sets which contains the cofinite filter.\nSuch spaces are equivalently specified by their bounded sets, see `Bornology.ofBounded`\nand `Bornology.ext_iff_isBounded` -/\nclass Bornology (α : Type*) where\n  /-- The filter of cobounded sets in a bornology. -/\n  cobounded (α) : Filter α\n  /-- The cobounded filter in a bornology is smaller than the cofinite filter. -/\n  le_cofinite (α) : cobounded ≤ cofinite\n",
+          "sha256": "6b90100aad31395953206030fe496a5a526e9db1473af7893d4213fc9d139bd8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bornology/Basic.lean#L48-L55"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean",
+      "sha256": "4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7",
+      "git_blob_sha1": "866ef6ab673f737a4ffbb7b2138402d5c76e6c05",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Nonempty",
+          "first_line": 277,
+          "last_line": 281,
+          "text": "/-- The property `s.Nonempty` expresses the fact that the set `s` is not empty. It should be used\nin theorem assumptions instead of `∃ x, x ∈ s` or `s ≠ ∅` as it gives access to a nice API thanks\nto the dot notation. -/\nprotected def Nonempty (s : Set α) : Prop :=\n  ∃ x, x ∈ s\n",
+          "sha256": "cb3870fa0008d18792a7122276c41e3e45998a2f2defae575b4225f0a2cf53de",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L277-L281"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/UniformSpace/Equicontinuity.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Equicontinuity.lean",
+      "sha256": "5473a2d34367dfc09f52602d6ca97d4c59e8c28c26bd3535e84f52bf9b70b40a",
+      "git_blob_sha1": "48fa4eba65d381f5e61ad0a9e10d755c06d02b2d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Anatole Dedecker. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Anatole Dedecker\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equicont-EquicontinuousAt",
+          "first_line": 94,
+          "last_line": 98,
+          "text": "/-- A family `F : ι → X → α` of functions from a topological space to a uniform space is\n*equicontinuous at `x₀ : X`* if, for all entourages `U ∈ 𝓤 α`, there is a neighborhood `V` of `x₀`\nsuch that, for all `x ∈ V` and for all `i : ι`, `F i x` is `U`-close to `F i x₀`. -/\ndef EquicontinuousAt (F : ι → X → α) (x₀ : X) : Prop :=\n  ∀ U ∈ 𝓤 α, ∀ᶠ x in 𝓝 x₀, ∀ i, (F i x₀, F i x) ∈ U\n",
+          "sha256": "d8d0177b9abb698479ba6e3739ca428073f285991437a198d0e4683fb4524250",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Equicontinuity.lean#L94-L98"
+        },
+        {
+          "name": "Equicont-Equicontinuous",
+          "first_line": 117,
+          "last_line": 120,
+          "text": "/-- A family `F : ι → X → α` of functions from a topological space to a uniform space is\n*equicontinuous* on all of `X` if it is equicontinuous at each point of `X`. -/\ndef Equicontinuous (F : ι → X → α) : Prop :=\n  ∀ x₀, EquicontinuousAt F x₀\n",
+          "sha256": "62543888beb797536850538a25a6268214c929011d8eb44fd28511235dcddb98",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Equicontinuity.lean#L117-L120"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Equicontinuity.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Equicontinuity.lean",
+      "sha256": "efa04bff777656cd09ebdf11e1d0614ad3012987958ff880f5054b8e9c6d827f",
+      "git_blob_sha1": "c5446dbbddd6a4838ddb7213cc1ad703b1b10363",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Anatole Dedecker. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Anatole Dedecker\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equicont-metric-characterization",
+          "first_line": 53,
+          "last_line": 56,
+          "text": "/-- Characterization of equicontinuity for families of functions between (pseudo) metric spaces. -/\ntheorem equicontinuousAt_iff {ι : Type*} [PseudoMetricSpace β] {F : ι → β → α} {x₀ : β} :\n    EquicontinuousAt F x₀ ↔ ∀ ε > 0, ∃ δ > 0, ∀ x, dist x x₀ < δ → ∀ i, dist (F i x₀) (F i x) < ε :=\n  nhds_basis_ball.equicontinuousAt_iff uniformity_basis_dist\n",
+          "sha256": "bacab8d990382a8697cf490d70f8f1483466900216252aba8d4ec70d18c77279",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Equicontinuity.lean#L53-L56"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "Dynamics-Set.range",
+          "first_line": 170,
+          "last_line": 174,
+          "text": "\nThis function is more flexible than `f '' univ`, as the image requires that the domain is in Type\nand not an arbitrary Sort. -/\ndef range (f : ι → α) : Set α := {x | ∃ y, f y = x}\n\n",
+          "sha256": "e6ee1efb980a5f122abcaf5821358ebef2188a6bb7ec77e9df84b364e37e00c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L170-L174"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean",
+      "sha256": "ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d",
+      "git_blob_sha1": "e94299ba14677e4193e7004cf77bf70c1ca6e065",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Finset",
+          "first_line": 75,
+          "last_line": 79,
+          "text": "structure Finset (α : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset α\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
+          "sha256": "7060271efbf43760a549ba990bf6441680ded1d3465c11a6856ecc7a6ca7b551",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeTests",
+      "path": "ChallengeTests.lean",
+      "sha256": "fbd6c8a3cc8c9fca87276a47eeaa2bf5f159d88915fbeab36c05dbd77e52f3c2"
+    },
+    {
+      "module": "SemanticTests",
+      "path": "SemanticTests.lean",
+      "sha256": "0415d1068f4b14da3edc9d8c67c0d8d26d68333da743df9a748bf3f26b667683"
+    }
+  ],
+  "scope": "Continuous minimal metric maps: stable-open propagation gives actual pointwise equicontinuity; sensitivity OR equicontinuity including emptybothtrue; nonsensitivity iff equicontinuity requires NonemptyX. No compact/uniform/surjective premise.",
+  "local_fixed_definitions": [
+    {
+      "name": "AuslanderYorke.Minimal",
+      "path": "AuslanderYorke.lean",
+      "sha256": "637014eb0669f7ace9f6487af3b753b65fc76bacf3a920c897cf1e483584afdd",
+      "meaning": "Every forward natural orbit is dense, includes0; literal credited prior definition."
+    },
+    {
+      "name": "AuslanderYorke.Sensitive",
+      "path": "AuslanderYorke.lean",
+      "sha256": "637014eb0669f7ace9f6487af3b753b65fc76bacf3a920c897cf1e483584afdd",
+      "meaning": "Uniform positive threshold, each nonempty open set has one time and separated pair; emptyX vacuouslytrue. No anchored/positive-time equivalence asserted."
+    }
+  ]
+}
