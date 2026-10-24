@@ -1,0 +1,5 @@
+module
+public import PettisSolution
+#print axioms PettisAutomatic.mul_inv_mem_nhds_one
+#print axioms PettisAutomatic.continuous_of_baire_preimages
+#print axioms PettisAutomatic.exists_nonmeagre_right_preimage

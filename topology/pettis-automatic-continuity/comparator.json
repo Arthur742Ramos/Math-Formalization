@@ -1,0 +1,14 @@
+{
+  "challenge_module": "PettisChallenge",
+  "solution_module": "PettisSolution",
+  "theorem_names": [
+    "PettisAutomatic.mul_inv_mem_nhds_one",
+    "PettisAutomatic.continuous_of_baire_preimages"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
