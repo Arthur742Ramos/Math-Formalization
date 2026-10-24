@@ -1,0 +1,17 @@
+{
+  "challenge_module": "ProductChallenge",
+  "solution_module": "ProductSolution",
+  "theorem_names": [
+    "WeakMinimal.surjective_of_weakMixing",
+    "WeakMinimal.hitting_thick",
+    "WeakMinimal.minimal_hitting_syndetic",
+    "WeakMinimal.thick_meets_syndetic",
+    "WeakMinimal.weakMixing_minimal_product"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

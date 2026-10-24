@@ -1,0 +1,41 @@
+{
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "source_path": "Init/Prelude.lean",
+  "source_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+  "sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+  "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+  "excerpts": [
+    {
+      "name": "Nonempty",
+      "first_line": 839,
+      "last_line": 841,
+      "text": "class inductive Nonempty (\u03b1 : Sort u) : Prop where\n  /-- If `val : \u03b1`, then `\u03b1` is nonempty. -/\n  | intro (val : \u03b1) : Nonempty \u03b1\n",
+      "sha256": "409b9d791b14a599f13bb14741bdfbfc112bc04bd4fc41d9924083fa47df7598"
+    },
+    {
+      "name": "Fin",
+      "first_line": 2450,
+      "last_line": 2464,
+      "text": "structure Fin (n : Nat) where\n  /-- Creates a `Fin n` from `i : Nat` and a proof that `i < n`. -/\n  mk ::\n  /--\n  The number that is strictly less than `n`.\n\n  `Fin.val` is a coercion, so any `Fin n` can be used in a position where a `Nat` is expected.\n  -/\n  val  : Nat\n  /--\n  The number `val` is strictly less than the bound `n`.\n  -/\n  isLt : LT.lt val n\n\nattribute [coe] Fin.val\n",
+      "sha256": "d8fb9619764c4aa58e9e5711ade60c25cfbb290071f1553f1456579f778a4732"
+    }
+  ],
+  "scope": "Core logical nonemptiness and finite-index data, authenticated against the exact installed compiler source. Mathematical bridges compile through both entrypoints; not claimed as Mathlib source.",
+  "additional_sources": [
+    {
+      "source_path": "Init/Data/Function.lean",
+      "source_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Function.lean",
+      "sha256": "88217ed8ec91da1ec655c8a10f737b659a4570b4c05dbd6b084162a3157cf030",
+      "upstream_header": "/-\nCopyright (c) 2024 Lean FRO. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kim Morrison\n-/\n",
+      "excerpts": [
+        {
+          "name": "Function.Surjective",
+          "first_line": 59,
+          "last_line": 63,
+          "text": "/-- A function `f : \u03b1 \u2192 \u03b2` is called surjective if every `b : \u03b2` is equal to `f a`\nfor some `a : \u03b1`. -/\n@[expose]\ndef Surjective (f : \u03b1 \u2192 \u03b2) : Prop :=\n  \u2200 b, Exists fun a => f a = b\n",
+          "sha256": "81f3c1294b8b4f215a4b094823922dbd95234cd6a53280e94f6fd6d7280c0148"
+        }
+      ]
+    }
+  ]
+}

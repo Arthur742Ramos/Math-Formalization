@@ -1,0 +1,84 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Weak mixing times minimality: transitivity of the product",
+    "description": "A continuous weakly mixing self-map of a nonempty compact Hausdorff space has a transitive actual heterogeneous product with any continuous pointwise forward-minimal self-map of a nonempty compact space. Surjectivity, arbitrarily late thick hitting blocks, syndetic hitting gaps and their intersection are proved.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.DS",
+      "math.GN"
+    ],
+    "msc2020": [
+      "37B05",
+      "37B02"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Notes on Topological Dynamics",
+      "authors": [
+        "Michael Hochman"
+      ],
+      "type": "paper",
+      "id": "https://math.huji.ac.il/~mhochman/courses/TD2022/notes-v3.pdf",
+      "relationship": "formalizes",
+      "note": "Author-hosted June15 2022 Lemma1.15 and Propositions6.10–6.11 directly inspected. Compact metric source is explicitly generalized to compact Hausdorff X and compact topological Y. Natural time includes zero. Surjectivity is proved, not presumed from source conventions."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "relationship": "adapts",
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/9e5b57dba2ba9423cc8f12ff934bd07d86394c47/topology/furstenberg-weak-mixing",
+      "note": "WeakMixingCore retains credited finite-family refinement and square-transitivity equivalence; inherited core is not a new contribution. New proof work is surjectivity, thickness, compact-cover uniform gaps and heterogeneous product transitivity."
+    },
+    {
+      "relationship": "uses",
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "note": "Credits actual product topology, compactness finite subcovers, Hausdorff separation, density and natural iteration. Bounded main/openPR/pinned source/public registry searches found no equivalent target; no exhaustive novelty or private-intake clearance claimed."
+    }
+  ],
+  "status": {
+    "scope": "Forward weak-mixing–minimal product transitivity with separately proved hitting-time infrastructure; zero definition holes.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "Exact-source release readiness is established by immutable external local machine/render/review receipts; a build alone is not full certification.",
+    "attribution_status": "Campaign roles preserved; new Codex proof and inherited finite-power proof distinguished; no human proof contribution inferred."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored surjectivity, arbitrary-late block, compact-cover syndeticity and heterogeneous product proof. Separate independent internal AI scope/source/release reviews; no human or external review claimed."
+      }
+    ],
+    "notes": "No novelty or editorial acceptance inferred."
+  },
+  "fidelity": {
+    "divergences": "Source compact metric scope generalized to nonempty compact Hausdorff X and nonempty compact topological Y. Main needs Continuous f,g; literal two-pair WeakMixing f is proved equivalent to actual square transitivity in credited core. Minimal g means every forward natural orbit is dense. Nat time0 included; Thick uses inclusive offsets0..L with arbitrarily late startN; Syndetic uses inclusive gap0..K, allowing K0. Helper hitting_thick requires explicit Surjective f but no compactness/separation; main derives it. minimal_hitting_syndetic needs compactY, continuity, minimality, nonempty sourceU and nonempty open targetV; source need not be open and YNonempty is supplied by U. No converse, product minimality, product weak mixing, dense-orbit product assertion, measure statement or disjointness claim."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI mathematical/source-fidelity reviewer"
+    ],
+    "notes": "Scope reviewed before development; implementation, package and exact-source machine/release evidence reviewed separately. No human/external review asserted."
+  },
+  "acknowledgements": "Hochman Lemma1.15 and Propositions6.10–6.11 credited. Prior Furstenberg finite-family core, Mathlib and Lean core attribution retained."
+}

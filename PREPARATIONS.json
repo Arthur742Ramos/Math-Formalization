@@ -2004,6 +2004,69 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Weak mixing times minimality: transitivity of the product",
+      "path": "topology/weak-mixing-minimal-product",
+      "scope": "A continuous weakly mixing map on nonempty compact Hausdorff X has transitive actual product with a continuous pointwise forward-minimal map on nonempty compact Y.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "c35deaffa9c703d13714623303d161189bf544da",
+        "tree": "4cd43aeac0225f79bb5b4b601edc0530ba6c2435"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "08dcc0e45eab218f96fb07be996c33b54a139e8cd6f2c3eb6666b7c18b70dc3c",
+        "WeakMixingCore.lean": "80659bcd07ea5be8cc9f71e35c16dce8533bf4bddc80f18ffb5e9ac6d071ae9a",
+        "CORE-DEFINITIONS.md": "073db05e559e7980bf02bbb140888d9bcaaf7cca35b6bb131933dea3bdb59ada",
+        "ProductChallenge.lean": "f61f08e1ca60d86c27297d04dab2e70fb76668be2d55271dc4412dc164ef9ca4",
+        "ProductSolution.lean": "ad1bb5e26e58ce7f6d9a95a5c4a6afa503f4343480bb1f5cb4036a7c566847ef",
+        "AxiomAudit.lean": "5740cd4863e64befd35b24895ec49034f174806a64ad39af1c1fa5ed5e88980a",
+        "ChallengeTests.lean": "a7f31d4c893c51da076d47bab48db18debfed45024f9ca6bab41d73e77a7f899",
+        "WeakMixingMinimal.lean": "2ab2fa36c1da6f858cadaa4a2a7bc828301ab44f9816a58c6e0e71f79c6df682",
+        "formalization.yaml": "eef3a68c8b574ae24b8178921fcea7dc53de519e26f6a49ee076da9338ffb345",
+        "lakefile.toml": "dd89358589328f5468e75f446ec97856fec9977e2579458c3188bd9c7629a279",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "7e23a0989e2f3a2bfd0f312a81ad8234d1a4f7eb7f65acde7c2b14a30c261eb4",
+        "lake-manifest.json": "08e278b1f5f5e57a2f75ce53cd4e6786cf453fec6c7bf7ff09551cd1a3dbd793",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "f5a58cda53f84f227e8c0bfc819e25817834c6a1c3c9d074662b30b8ce05b003",
+        "comparator.json": "95fb5f253120409b2cd146317157d9d6d4218dc7a51e66b5343f6f7455e7e419"
+      },
+      "theorem_names": [
+        "WeakMinimal.surjective_of_weakMixing",
+        "WeakMinimal.hitting_thick",
+        "WeakMinimal.minimal_hitting_syndetic",
+        "WeakMinimal.thick_meets_syndetic",
+        "WeakMinimal.weakMixing_minimal_product"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "3081d9141d80a7a4c3680bec65bbe56a04551a6b3320f702a313cc704e8c9f51"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
