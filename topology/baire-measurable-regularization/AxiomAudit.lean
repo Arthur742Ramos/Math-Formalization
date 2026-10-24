@@ -1,0 +1,6 @@
+module
+public import RegularSolution
+#print axioms BaireRegularization.bpPreimages_iff_continuous_restriction
+#print axioms BaireRegularization.exists_dense_continuous_restriction
+#print axioms BaireRegularization.exists_continuous_restriction
+#print axioms BaireRegularization.bpPreimages_of_restriction
