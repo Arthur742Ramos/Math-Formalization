@@ -86,7 +86,7 @@
     {
       "name": "Continuous",
       "declaration_kind": "structure",
-      "role": "hypothesis-and-proof-dependency",
+      "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
         "StrongTransitive.countable_power_transitive",
