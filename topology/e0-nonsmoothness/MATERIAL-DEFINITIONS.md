@@ -23,6 +23,7 @@ Selected: EZero.finite_flip_mixing, EZero.zero_one, EZero.generically_constant, 
 - `Set.Countable`: The corresponding subtype is countable.
 - `IsClosed`: The complement is open, used in closure and nowhere-density.
 - `Continuous`: Actual continuity of the Boolean xor homeomorphisms; invariant maps need only BP preimages, not continuity.
+- `TopologicalSpace.induced`: Inverse-image topology along a coordinate evaluation. The actual Cantor topology is the infimum of these induced discrete-Boolean coordinate topologies, not a separately imposed topology.
 - `Filter`: An upward-closed family of sets containing the universe and closed under finite intersections; bottom is permitted until properness is proved.
 - `interior`: The largest open subset contained in the set; applied to closure in nowhere-density.
 - `BaireSpace`: Countable intersections of open dense subsets are dense. Inferred for the actual nonempty Cantor product in the category arguments, not added as a selected premise; finite_flip_mixing itself needs no Baire assumption.
@@ -628,6 +629,15 @@ Authors: Johannes Hölzl, Mario Carneiro
 -/
 ```
 
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576
+```lean
+instance : DiscreteTopology PUnit := ⟨rfl⟩
+instance : IndiscreteTopology PUnit := inferInstance
+
+instance : TopologicalSpace Bool := ⊥
+instance : DiscreteTopology Bool := ⟨rfl⟩
+```
+
 https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L70-L74
 ```lean
 def generateFrom (g : Set (Set α)) : TopologicalSpace α where
@@ -662,11 +672,52 @@ Authors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad
 -/
 ```
 
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67
+```lean
+def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where
+  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s
+  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩
+  isOpen_inter := by
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L79
+```lean
+instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :
+    TopologicalSpace (Subtype p) :=
+  induced (↑) t
+
+```
+
 https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L78
 ```lean
 instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :
     TopologicalSpace (Subtype p) :=
   induced (↑) t
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean
+SHA256 `47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Patrick Massot
+-/
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68
+```lean
+instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :
+    TopologicalSpace ((i : ι) → Y i) :=
+  ⨅ i, induced (fun f => f i) (t₂ i)
+```
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68
+```lean
+instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :
+    TopologicalSpace ((i : ι) → Y i) :=
+  ⨅ i, induced (fun f => f i) (t₂ i)
 ```
 
 https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean
@@ -824,22 +875,4 @@ structure Finset (α : Type*) where
   val : Multiset α
   /-- `val` contains no duplicates -/
   nodup : Nodup val
-```
-
-https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean
-SHA256 `47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f`
-
-```lean
-/-
-Copyright (c) 2017 Johannes Hölzl. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Johannes Hölzl, Mario Carneiro, Patrick Massot
--/
-```
-
-https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68
-```lean
-instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :
-    TopologicalSpace ((i : ι) → Y i) :=
-  ⨅ i, induced (fun f => f i) (t₂ i)
 ```

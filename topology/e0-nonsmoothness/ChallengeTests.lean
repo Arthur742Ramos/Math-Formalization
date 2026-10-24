@@ -7,6 +7,8 @@ example : EZero.CantorSpace = (ℕ → Bool) := rfl
 example (x y : EZero.CantorSpace) : EZero.E0 x y ↔ ∃ N : ℕ, ∀ n, N ≤ n → x n = y n := Iff.rfl
 example : (inferInstance : TopologicalSpace Bool) = ⊥ := rfl
 example : (inferInstance : TopologicalSpace EZero.CantorSpace) = Pi.topologicalSpace := rfl
+example : (inferInstance : TopologicalSpace EZero.CantorSpace) =
+    ⨅ n : ℕ, TopologicalSpace.induced (fun x : ℕ → Bool => x n) (⊥ : TopologicalSpace Bool) := rfl
 example : BaireSpace EZero.CantorSpace := inferInstance
 example (s : Finset ℕ) (x : EZero.CantorSpace) (n : ℕ) :
     EZero.flip s x n = Bool.xor (decide (n ∈ s)) (x n) := rfl

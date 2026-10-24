@@ -28,6 +28,7 @@
     "Set.Countable",
     "IsClosed",
     "Continuous",
+    "TopologicalSpace.induced",
     "Filter",
     "interior",
     "BaireSpace",
@@ -523,6 +524,29 @@
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
         "open-image-Continuous"
+      ],
+      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "EZero.finite_flip_mixing",
+        "EZero.zero_one",
+        "EZero.generically_constant",
+        "EZero.no_baire_reduction",
+        "EZero.no_borel_reduction"
+      ],
+      "meaning": "Inverse-image topology along a coordinate evaluation. The actual Cantor topology is the infimum of these induced discrete-Boolean coordinate topologies, not a separately imposed topology.",
+      "dependency_expansion": "Inverse-image topology along a coordinate evaluation. The actual Cantor topology is the infimum of these induced discrete-Boolean coordinate topologies, not a separately imposed topology.",
+      "definition_excerpt": "induced",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "induced",
+        "Pi.product-topology",
+        "cantor-Bool-topology",
+        "subtype-topology"
       ],
       "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
     },
@@ -1205,6 +1229,14 @@
       "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
       "excerpts": [
         {
+          "name": "cantor-Bool-topology",
+          "first_line": 572,
+          "last_line": 576,
+          "text": "instance : DiscreteTopology PUnit := ⟨rfl⟩\ninstance : IndiscreteTopology PUnit := inferInstance\n\ninstance : TopologicalSpace Bool := ⊥\ninstance : DiscreteTopology Bool := ⟨rfl⟩\n",
+          "sha256": "2d8bbbaa7265a7f44dd244c394855aa4f2fccb8128ba008672e414bc4393a5d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576"
+        },
+        {
           "name": "Regular-TopologicalSpace.generateFrom",
           "first_line": 70,
           "last_line": 74,
@@ -1239,12 +1271,54 @@
       "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
       "excerpts": [
         {
+          "name": "induced",
+          "first_line": 64,
+          "last_line": 67,
+          "text": "def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n",
+          "sha256": "878b69c8488a10bac25ce164587ebbe29156ddb4fddd3fe1e9a3911d8bdd8110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67"
+        },
+        {
+          "name": "subtype-topology",
+          "first_line": 76,
+          "last_line": 79,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n\n",
+          "sha256": "eca619b73151480553afac7b4bb4246ad51da55154961c48653ddd5f3074b012",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L79"
+        },
+        {
           "name": "Regular-subtype-topology",
           "first_line": 76,
           "last_line": 78,
           "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n",
           "sha256": "8bd24be4718ccace8cdaeccd59ff803b4182398fc8155d587b444ffe2c5b7b4b",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L78"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pi.product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        },
+        {
+          "name": "E0-Pi-product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
         }
       ]
     },
@@ -1379,24 +1453,6 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
         }
       ]
-    },
-    {
-      "path": "Mathlib/Topology/Constructions.lean",
-      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
-      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
-      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
-      "license": "Apache-2.0",
-      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
-      "excerpts": [
-        {
-          "name": "E0-Pi-product-topology",
-          "first_line": 66,
-          "last_line": 68,
-          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
-          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
-          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
-        }
-      ]
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -1404,12 +1460,12 @@
     {
       "module": "ChallengeTests",
       "path": "ChallengeTests.lean",
-      "sha256": "dbe8482a4bc3cfb72f0708a8499b5ad5a4ecd7bd5630910af6fd1a695b6e25c3"
+      "sha256": "abe646405ee22e04d0d284b413f7354f837ef12b199edc7f61d9ff23ae52c8aa"
     },
     {
       "module": "SemanticTests",
       "path": "SemanticTests.lean",
-      "sha256": "cb57bc446803edda7644bf5eaf7b6d8c41d5e8f6242d6c9ad81ed171b5d8515f"
+      "sha256": "4679252fb253793702f04717bf565937abe566f3207b747da96a8fc21ecbbecb"
     }
   ],
   "scope": "Actual Cantor product and eventual equality, finite-change homeomorphisms, invariant BP category arguments, T0 second-countable target and explicit Borel structures; exact retained definitions and separately compiled semantic bridges. Independent review owns completeness and fidelity.",
