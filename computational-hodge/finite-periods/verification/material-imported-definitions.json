@@ -1,0 +1,2568 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "required_declarations": [
+    "WithLp",
+    "WithLp.equiv",
+    "WithLp.linearEquiv",
+    "PiLp",
+    "EuclideanSpace",
+    "Inner",
+    "InnerProductSpace",
+    "Fintype",
+    "FiniteDimensional",
+    "Module.Finite",
+    "Submodule.FG",
+    "Submodule.span",
+    "Cauchy",
+    "IsComplete",
+    "CompleteSpace",
+    "Submodule.orthogonal",
+    "Submodule.HasOrthogonalProjection",
+    "Submodule.orthogonalProjectionOnto",
+    "Submodule.starProjection",
+    "ContinuousLinearMap",
+    "Submodule.subtypeL",
+    "Submodule.projectionOntoL",
+    "LinearMap",
+    "LinearMap.comp",
+    "LinearMap.pi",
+    "Submodule",
+    "Submodule.subtype",
+    "LinearMap.ker",
+    "LinearMap.range",
+    "Submodule.comap",
+    "Submodule.quotientRel",
+    "Submodule.Quotient.mk",
+    "Submodule.mkQ",
+    "Submodule.quotEquivOfEq",
+    "Submodule.liftQ",
+    "LinearEquiv",
+    "LinearMap.quotKerEquivRange",
+    "LinearMap.quotKerEquivOfSurjective",
+    "Quotient.out",
+    "TopologicalSpace",
+    "Continuous",
+    "ContinuousMap",
+    "Path",
+    "Path.refl",
+    "Path.symm",
+    "Path.trans",
+    "ContinuousMap.Homotopy",
+    "ContinuousMap.HomotopyWith",
+    "ContinuousMap.HomotopyRel",
+    "Path.Homotopy",
+    "Path.Homotopic",
+    "Path.segment",
+    "Path.Homotopy.reflTransSymm"
+  ],
+  "material_declarations": [
+    {
+      "name": "WithLp",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A type wrapper carrying ofLp data; the underlying functions are accessed through an actual equivalence.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "WithLp",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "WithLp"
+      ],
+      "dependency_expansion": "A type wrapper carrying ofLp data; the underlying functions are accessed through an actual equivalence. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "WithLp.equiv",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The wrapper-to-underlying-type equivalence, not equality of types.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "WithLp.equiv",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "WithLp.equiv"
+      ],
+      "dependency_expansion": "The wrapper-to-underlying-type equivalence, not equality of types. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "WithLp.linearEquiv",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The linear equivalence between the WithLp wrapper and its underlying module.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "WithLp.linearEquiv",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "WithLp.linearEquiv"
+      ],
+      "dependency_expansion": "The linear equivalence between the WithLp wrapper and its underlying module. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "PiLp",
+      "declaration_kind": "abbrev",
+      "role": "proof-dependency",
+      "meaning": "WithLp applied to a dependent function space; its function coercion evaluates ofLp.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "PiLp",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "PiLp"
+      ],
+      "dependency_expansion": "WithLp applied to a dependent function space; its function coercion evaluates ofLp. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "EuclideanSpace",
+      "declaration_kind": "abbrev",
+      "role": "proof-dependency",
+      "meaning": "PiLp with exponent two and constant scalar fibers, giving the finite real coefficient space.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "EuclideanSpace",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "EuclideanSpace",
+        "Euclidean_inner"
+      ],
+      "dependency_expansion": "PiLp with exponent two and constant scalar fibers, giving the finite real coefficient space. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Inner",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "The actual scalar-valued pairing on vectors.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero"
+      ],
+      "definition_excerpt": "Inner",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Inner"
+      ],
+      "dependency_expansion": "The actual scalar-valued pairing on vectors. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "InnerProductSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "Inner product compatible with the norm and scalar/module operations; the coefficient space uses its actual finite-sum instance.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero"
+      ],
+      "definition_excerpt": "InnerProductSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "InnerProductSpace"
+      ],
+      "dependency_expansion": "Inner product compatible with the norm and scalar/module operations; the coefficient space uses its actual finite-sum instance. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Fintype",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "An exhaustive finite enumeration of primitive generators, not an assumed finite point or relation space.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "Fintype",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Fintype"
+      ],
+      "dependency_expansion": "An exhaustive finite enumeration of primitive generators, not an assumed finite point or relation space. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "FiniteDimensional",
+      "declaration_kind": "abbrev",
+      "role": "proof-dependency",
+      "meaning": "Module.Finite: a finite spanning set for a module over the field.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "FiniteDimensional",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "FiniteDimensional"
+      ],
+      "dependency_expansion": "Module.Finite: a finite spanning set for a module over the field. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Module.Finite",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "Finite generation of the top submodule.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Module.Finite",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Module.Finite"
+      ],
+      "dependency_expansion": "Finite generation of the top submodule. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.FG",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Existence of a finite set whose span is the submodule.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.FG",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.FG"
+      ],
+      "dependency_expansion": "Existence of a finite set whose span is the submodule. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.span",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The least submodule containing the specified vectors.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.span",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.span"
+      ],
+      "dependency_expansion": "The least submodule containing the specified vectors. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Cauchy",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "A nontrivial filter whose pair filter tends to the uniformity.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Cauchy",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Cauchy"
+      ],
+      "dependency_expansion": "A nontrivial filter whose pair filter tends to the uniformity. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "IsComplete",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Cauchy filters supported in the set converge to a point in it.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "IsComplete",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IsComplete"
+      ],
+      "dependency_expansion": "Cauchy filters supported in the set converge to a point in it. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "CompleteSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "Completeness of the whole uniform space; derived for Exact from finite dimensionality.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "CompleteSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CompleteSpace",
+        "finite_complete"
+      ],
+      "dependency_expansion": "Completeness of the whole uniform space; derived for Exact from finite dimensionality. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.orthogonal",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Vectors whose actual inner product with every vector of the submodule is zero.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero"
+      ],
+      "definition_excerpt": "Submodule.orthogonal",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.orthogonal"
+      ],
+      "dependency_expansion": "Vectors whose actual inner product with every vector of the submodule is zero. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.HasOrthogonalProjection",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "Existence of a submodule vector with orthogonal residual, inferred from completeness here rather than supplied as a Hodge assumption.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.HasOrthogonalProjection",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Submodule.HasOrthogonalProjection"
+      ],
+      "dependency_expansion": "Existence of a submodule vector with orthogonal residual, inferred from completeness here rather than supplied as a Hodge assumption. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.orthogonalProjectionOnto",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The bundled continuous linear projection into the submodule subtype.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.orthogonalProjectionOnto",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.orthogonalProjectionOnto",
+        "projection_residual"
+      ],
+      "dependency_expansion": "The bundled continuous linear projection into the submodule subtype. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.starProjection",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Projection followed by subtype inclusion into the ambient coefficient space.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.starProjection",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.starProjection",
+        "projection_residual"
+      ],
+      "dependency_expansion": "Projection followed by subtype inclusion into the ambient coefficient space. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "ContinuousLinearMap",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A linear map with actual continuity, used by orthogonal projection.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "ContinuousLinearMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ContinuousLinearMap"
+      ],
+      "dependency_expansion": "A linear map with actual continuity, used by orthogonal projection. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.subtypeL",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The continuous linear inclusion of a submodule.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.subtypeL",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.subtypeL"
+      ],
+      "dependency_expansion": "The continuous linear inclusion of a submodule. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.projectionOntoL",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The continuous projection supplied by a topological direct complement.",
+      "used_by": [
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv"
+      ],
+      "definition_excerpt": "Submodule.projectionOntoL",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.projectionOntoL"
+      ],
+      "dependency_expansion": "The continuous projection supplied by a topological direct complement. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "An additive scalar-compatible map; period, d0 and d1 use actual operations.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "LinearMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearMap"
+      ],
+      "dependency_expansion": "An additive scalar-compatible map; period, d0 and d1 use actual operations. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap.comp",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Actual composition of linear maps.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "LinearMap.comp",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap.comp"
+      ],
+      "dependency_expansion": "Actual composition of linear maps. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap.pi",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "A family of linear functionals assembled into a function-valued linear map, used for every named cell.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "LinearMap.pi",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap.pi"
+      ],
+      "dependency_expansion": "A family of linear functionals assembled into a function-valued linear map, used for every named cell. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A carrier closed under zero, addition and scalar multiplication.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "Submodule",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Submodule"
+      ],
+      "dependency_expansion": "A carrier closed under zero, addition and scalar multiplication. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.subtype",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The actual linear subtype inclusion.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.subtype",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.subtype"
+      ],
+      "dependency_expansion": "The actual linear subtype inclusion. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap.ker",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The submodule of vectors sent to zero.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "LinearMap.ker",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap.ker"
+      ],
+      "dependency_expansion": "The submodule of vectors sent to zero. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap.range",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The image submodule, so exactness requires an actual potential witness.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.Cochain",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.omega"
+      ],
+      "definition_excerpt": "LinearMap.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap.range"
+      ],
+      "dependency_expansion": "The image submodule, so exactness requires an actual potential witness. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.comap",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The inverse-image submodule; boundaries are restricted to closed cochains before quotienting.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.comap",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.comap"
+      ],
+      "dependency_expansion": "The inverse-image submodule; boundaries are restricted to closed cochains before quotienting. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.quotientRel",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The additive quotient relation induced by the submodule; its difference-membership interpretation is proved in quotientRel_def.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.quotientRel",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Submodule.quotientRel",
+        "quotientRel_def"
+      ],
+      "dependency_expansion": "The additive quotient relation induced by the submodule; its difference-membership interpretation is proved in quotientRel_def. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.Quotient.mk",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The map to the actual additive quotient carrier.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.Quotient.mk",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.Quotient.mk"
+      ],
+      "dependency_expansion": "The map to the actual additive quotient carrier. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.mkQ",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The quotient map bundled as a linear map.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.mkQ",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.mkQ"
+      ],
+      "dependency_expansion": "The quotient map bundled as a linear map. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.quotEquivOfEq",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "A linear identification between quotients by proved equal submodules.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.quotEquivOfEq",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.quotEquivOfEq"
+      ],
+      "dependency_expansion": "A linear identification between quotients by proved equal submodules. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Submodule.liftQ",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Descent of a linear map that kills the quotient submodule, with a checked representative computation.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing"
+      ],
+      "definition_excerpt": "Submodule.liftQ",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Submodule.liftQ"
+      ],
+      "dependency_expansion": "Descent of a linear map that kills the quotient submodule, with a checked representative computation. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearEquiv",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A linear map with a two-sided inverse, rather than an assumed abstract cohomology identification.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.hodgeEquiv_preserves_periods"
+      ],
+      "definition_excerpt": "LinearEquiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearEquiv"
+      ],
+      "dependency_expansion": "A linear map with a two-sided inverse, rather than an assumed abstract cohomology identification. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap.quotKerEquivRange",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The proved first isomorphism theorem for a linear map.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.hodgeEquiv_preserves_periods"
+      ],
+      "definition_excerpt": "LinearMap.quotKerEquivRange",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap.quotKerEquivRange"
+      ],
+      "dependency_expansion": "The proved first isomorphism theorem for a linear map. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "LinearMap.quotKerEquivOfSurjective",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The first isomorphism theorem with an actual proved surjectivity witness.",
+      "used_by": [
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.hodgeEquiv_preserves_periods"
+      ],
+      "definition_excerpt": "LinearMap.quotKerEquivOfSurjective",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "LinearMap.quotKerEquivOfSurjective"
+      ],
+      "dependency_expansion": "The first isomorphism theorem with an actual proved surjectivity witness. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Quotient.out",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Classical choice of a representative of an existing quotient class, with out_eq; no global basepoint or connectivity is assumed.",
+      "used_by": [
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.componentRoot",
+        "ComputationalHodge.rootTrace",
+        "ComputationalHodge.potential"
+      ],
+      "definition_excerpt": "Quotient.out",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Quotient.out"
+      ],
+      "dependency_expansion": "Classical choice of a representative of an existing quotient class, with out_eq; no global basepoint or connectivity is assumed. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "meaning": "A topology on the point and step carriers; no metric or manifold structure on A is assumed.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.componentSetoid",
+        "ComputationalHodge.componentRoot",
+        "ComputationalHodge.rootTrace",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.system",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation",
+        "ComputationalHodge.ParallelEdges.edgeTopology"
+      ],
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace"
+      ],
+      "dependency_expansion": "A topology on the point and step carriers; no metric or manifold structure on A is assumed. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "Inverse images of open sets are open.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.componentSetoid",
+        "ComputationalHodge.componentRoot",
+        "ComputationalHodge.rootTrace",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.system",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation",
+        "ComputationalHodge.ParallelEdges.edgeTopology"
+      ],
+      "definition_excerpt": "Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Continuous"
+      ],
+      "dependency_expansion": "Inverse images of open sets are open. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "ContinuousMap",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A function with an actual continuity proof.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.componentSetoid",
+        "ComputationalHodge.componentRoot",
+        "ComputationalHodge.rootTrace",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.system",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation",
+        "ComputationalHodge.ParallelEdges.edgeTopology"
+      ],
+      "definition_excerpt": "ContinuousMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ContinuousMap"
+      ],
+      "dependency_expansion": "A function with an actual continuity proof. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A continuous interval map with its two actual endpoint equations.",
+      "used_by": [
+        "ComputationalHodge.period_d0",
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.exact_iff_zero_loop_periods",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.period",
+        "ComputationalHodge.d0",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Exact",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.componentSetoid",
+        "ComputationalHodge.componentRoot",
+        "ComputationalHodge.rootTrace",
+        "ComputationalHodge.potential",
+        "ComputationalHodge.ParallelEdges.system",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Path"
+      ],
+      "dependency_expansion": "A continuous interval map with its two actual endpoint equations. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.refl",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The constant continuous path.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path.refl",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.refl"
+      ],
+      "dependency_expansion": "The constant continuous path. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.symm",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Reversal of an actual continuous path.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path.symm",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.symm"
+      ],
+      "dependency_expansion": "Reversal of an actual continuous path. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.trans",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Binary parametrized concatenation; it is not identified with equal-slot flattening.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path.trans",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.trans"
+      ],
+      "dependency_expansion": "Binary parametrized concatenation; it is not identified with equal-slot flattening. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "ContinuousMap.Homotopy",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A jointly continuous interval family connecting two continuous maps.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "ContinuousMap.Homotopy",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ContinuousMap.Homotopy"
+      ],
+      "dependency_expansion": "A jointly continuous interval family connecting two continuous maps. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "ContinuousMap.HomotopyWith",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "A homotopy satisfying a specified constraint throughout the interval.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "ContinuousMap.HomotopyWith",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "ContinuousMap.HomotopyWith"
+      ],
+      "dependency_expansion": "A homotopy satisfying a specified constraint throughout the interval. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "ContinuousMap.HomotopyRel",
+      "declaration_kind": "abbrev",
+      "role": "proof-dependency",
+      "meaning": "HomotopyWith the constraint of agreeing on a specified subset.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "ContinuousMap.HomotopyRel",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "ContinuousMap.HomotopyRel"
+      ],
+      "dependency_expansion": "HomotopyWith the constraint of agreeing on a specified subset. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.Homotopy",
+      "declaration_kind": "abbrev",
+      "role": "proof-dependency",
+      "meaning": "A homotopy relative to both interval endpoints; not arbitrary endpoint-changing motion.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path.Homotopy",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.Homotopy"
+      ],
+      "dependency_expansion": "A homotopy relative to both interval endpoints; not arbitrary endpoint-changing motion. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.Homotopic",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Nonempty actual endpoint-fixed homotopy type.",
+      "used_by": [
+        "ComputationalHodge.d1_d0",
+        "ComputationalHodge.closed_iff_rewrite_invariant",
+        "ComputationalHodge.quotientPeriod_compose",
+        "ComputationalHodge.unique_harmonic_representative",
+        "ComputationalHodge.hodgeEquiv_preserves_periods",
+        "ComputationalHodge.periodPairing_compose",
+        "ComputationalHodge.harmonic_determined_by_periods",
+        "ComputationalHodge.periodPairing_separates",
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.d1",
+        "ComputationalHodge.Closed",
+        "ComputationalHodge.Harmonic",
+        "ComputationalHodge.Boundaries",
+        "ComputationalHodge.H1",
+        "ComputationalHodge.harmonicProjection",
+        "ComputationalHodge.hodgeEquiv",
+        "ComputationalHodge.pathSetoid",
+        "ComputationalHodge.quotientPeriod",
+        "ComputationalHodge.compose",
+        "ComputationalHodge.cohomologyPeriod",
+        "ComputationalHodge.periodPairing",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path.Homotopic",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.Homotopic"
+      ],
+      "dependency_expansion": "Nonempty actual endpoint-fixed homotopy type. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.segment",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The actual straight segment continuous path from zero to one in the real-line example.",
+      "used_by": [
+        "ComputationalHodge.ParallelEdges.omega_harmonic",
+        "ComputationalHodge.ParallelEdges.omega_loop_period",
+        "ComputationalHodge.ParallelEdges.omega_not_exact",
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null",
+        "ComputationalHodge.ParallelEdges.parallel_harmonic_zero",
+        "ComputationalHodge.ParallelEdges.rewrite_changes_periods",
+        "ComputationalHodge.ParallelEdges.system",
+        "ComputationalHodge.ParallelEdges.freePresentation",
+        "ComputationalHodge.ParallelEdges.parallelPresentation"
+      ],
+      "definition_excerpt": "Path.segment",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.segment"
+      ],
+      "dependency_expansion": "The actual straight segment continuous path from zero to one in the real-line example. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    },
+    {
+      "name": "Path.Homotopy.reflTransSymm",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The explicit contraction of a path followed by its reversal, proving the example ambient loop is null-homotopic.",
+      "used_by": [
+        "ComputationalHodge.ParallelEdges.loop_geometrically_null"
+      ],
+      "definition_excerpt": "Path.Homotopy.reflTransSymm",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.Homotopy.reflTransSymm",
+        "null_homotopy_parameter"
+      ],
+      "dependency_expansion": "The explicit contraction of a path followed by its reversal, proving the example ambient loop is null-homotopic. Exact alias/parent definitions and supporting results are retained below. Lean core logic, Setoid, Quotient, equality, Fin and classical choice are the explicit compiler-checked infrastructure boundary; no analytic integration or ambient completeness is inferred.",
+      "proof_status": "Separate ChallengeSemantics and SolutionSemantics check literal operators, quotient membership, finite-sum inner product and the derived projection instance. Compilation and kernels have separate exact-source receipts; byte/schema checks alone prove no mathematical fidelity."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Analysis/Normed/Lp/WithLp.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Lp/WithLp.lean",
+      "sha256": "f02507031f01c655e61dd1894b74a3452b2f8aedcba55dda9fa0d60e4db0d57d",
+      "git_blob_sha1": "674fcd22069892bf600d122ab78a46b836cb584e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Eric Wieser. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Eric Wieser\n-/",
+      "excerpts": [
+        {
+          "name": "WithLp",
+          "first_line": 50,
+          "last_line": 55,
+          "text": "structure WithLp (p : ℝ≥0∞) (V : Type*) where\n  /-- Converts an element of `V` to an element of `WithLp p V`. -/\n  toLp (p) ::\n  /-- Converts an element of `WithLp p V` to an element of `V`. -/\n  ofLp : V\n\n",
+          "sha256": "72d63eb19589f9d69995d39cd27c2290024f8860068998de44a0b91d0f630346",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Lp/WithLp.lean#L50-L55"
+        },
+        {
+          "name": "WithLp.equiv",
+          "first_line": 72,
+          "last_line": 76,
+          "text": "protected def equiv : WithLp p V ≃ V where\n  toFun := ofLp\n  invFun := toLp p\n  left_inv _ := rfl\n  right_inv _ := rfl\n",
+          "sha256": "4bb366ceb93d7966febd76a925911069eaf4d20d85cc5a7bab41148211dc8d2b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Lp/WithLp.lean#L72-L76"
+        },
+        {
+          "name": "WithLp.linearEquiv",
+          "first_line": 237,
+          "last_line": 245,
+          "text": "protected def linearEquiv [Semiring K] [AddCommGroup V] [Module K V] : WithLp p V ≃ₗ[K] V where\n  __ := WithLp.addEquiv p V\n  map_smul' _ _ := rfl\n\nlemma coe_linearEquiv [Semiring K] [AddCommGroup V] [Module K V] :\n    ⇑(WithLp.linearEquiv p K V) = ofLp := rfl\n\nlemma coe_symm_linearEquiv [Semiring K] [AddCommGroup V] [Module K V] :\n    ⇑(WithLp.linearEquiv p K V).symm = toLp p := rfl\n",
+          "sha256": "631ab254c010c62b17d258ce0d9c1671d1ce89550a3c4e25b78ec6b38b1644ae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Lp/WithLp.lean#L237-L245"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Normed/Lp/PiLp.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Lp/PiLp.lean",
+      "sha256": "4f8af8ea06fcf3fee8f104ce25a245e2e226741ddb5cc1d9d8161fa15b24163c",
+      "git_blob_sha1": "6c289edbb398379d9c641919628c040a4cbf728b",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Jireh Loreaux\n-/",
+      "excerpts": [
+        {
+          "name": "PiLp",
+          "first_line": 87,
+          "last_line": 96,
+          "text": "abbrev PiLp (p : ℝ≥0∞) {ι : Type*} (α : ι → Type*) : Type _ :=\n  WithLp p (∀ i : ι, α i)\n\n/-The following should not be a `FunLike` instance because then the coercion `⇑` would get\nunfolded to `FunLike.coe` instead of `WithLp.equiv`. -/\ninstance (p : ℝ≥0∞) {ι : Type*} (α : ι → Type*) : CoeFun (PiLp p α) (fun _ ↦ (i : ι) → α i) where\n  coe := ofLp\n\ninstance (p : ℝ≥0∞) {ι : Type*} (α : ι → Type*) [∀ i, Inhabited (α i)] : Inhabited (PiLp p α) :=\n  ⟨toLp p fun _ => default⟩\n",
+          "sha256": "f9849d5b4e1cb3606b498415b709781223a9ea76a9ecd4c16a6fd7037e2744a2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Lp/PiLp.lean#L87-L96"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/InnerProductSpace/PiL2.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/PiL2.lean",
+      "sha256": "cd53aaefb8b1db37ebfc5afd37d9747dfd767da2292990f958255720b1cbab18",
+      "git_blob_sha1": "776b1d9db543076086c02d067ae364489d2fb5ca",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Joseph Myers. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Joseph Myers, Sébastien Gouëzel, Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "EuclideanSpace",
+          "first_line": 114,
+          "last_line": 115,
+          "text": "abbrev EuclideanSpace (𝕜 : Type*) (n : Type*) : Type _ :=\n  PiLp 2 fun _ : n => 𝕜\n",
+          "sha256": "08244271bba9bc63f43a819f9bf6a0c56d16b7a255db6fe552cfce961d7c8566",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/PiL2.lean#L114-L115"
+        },
+        {
+          "name": "Euclidean_inner",
+          "first_line": 103,
+          "last_line": 106,
+          "text": "\ntheorem PiLp.inner_apply {ι : Type*} [Fintype ι] {f : ι → Type*} [∀ i, NormedAddCommGroup (f i)]\n    [∀ i, InnerProductSpace 𝕜 (f i)] (x y : PiLp 2 f) : ⟪x, y⟫ = ∑ i, ⟪x i, y i⟫ :=\n  rfl\n",
+          "sha256": "c8f3bab550481037c066ba59c8a64b4d4e9a7086b72c227157dbb515126d7acf",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/PiL2.lean#L103-L106"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/InnerProductSpace/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Defs.lean",
+      "sha256": "57823255e4a6e017197098517b8d33fef6821922b31212e4b5e224e5e81fe14b",
+      "git_blob_sha1": "85ea5d834ba27836e30d811ad7d98d6cf9629ec1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Zhouhang Zhou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou, Sébastien Gouëzel, Frédéric Dupuis\n-/",
+      "excerpts": [
+        {
+          "name": "Inner",
+          "first_line": 81,
+          "last_line": 86,
+          "text": "class Inner (𝕜 E : Type*) where\n  /-- The inner product function. -/\n  inner (𝕜) : E → E → 𝕜\n\nexport Inner (inner)\n\n",
+          "sha256": "ad7e64e60cd3aa6c30f89dd19838bf36bc8c4713108e92b79dc5c7175f2deb2c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Defs.lean#L81-L86"
+        },
+        {
+          "name": "InnerProductSpace",
+          "first_line": 109,
+          "last_line": 118,
+          "text": "class InnerProductSpace (𝕜 : Type*) (E : Type*) [RCLike 𝕜] [SeminormedAddCommGroup E] extends\n    NormedSpace 𝕜 E, Inner 𝕜 E where\n  /-- The inner product induces the norm. -/\n  norm_sq_eq_re_inner : ∀ x : E, ‖x‖ ^ 2 = re (inner x x)\n  /-- The inner product is *Hermitian*, taking the `conj` swaps the arguments. -/\n  conj_inner_symm : ∀ x y, conj (inner y x) = inner x y\n  /-- The inner product is additive in the first coordinate. -/\n  add_left : ∀ x y z, inner (x + y) z = inner x z + inner y z\n  /-- The inner product is conjugate linear in the first coordinate. -/\n  smul_left : ∀ x y r, inner (r • x) y = conj r * inner x y\n",
+          "sha256": "75be73e9df5461a6a591258888058bff44f706498f4294bd3bb35bb05ff0818c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Defs.lean#L109-L118"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean",
+      "sha256": "e69e8e7a3605d293a7ef6c4a7aaefde3191da4f33b43b7be09963eec2e44965c",
+      "git_blob_sha1": "ee6ad77ee3befe5863cc58c91f784b0aa0564e07",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "name": "Fintype",
+          "first_line": 57,
+          "last_line": 65,
+          "text": "class Fintype (α : Type*) where\n  /-- The `Finset` containing all elements of a `Fintype` -/\n  elems : Finset α\n  /-- A proof that `elems` contains every element of the type -/\n  complete : ∀ x : α, x ∈ elems\n\n/-! ### Preparatory lemmas -/\n\nnamespace Finset\n",
+          "sha256": "23fe84d706d7a907975cf4ccfac4970ec22c5b256b99f7aff3d3277f9533f5df",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L57-L65"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/FiniteDimensional/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/FiniteDimensional/Defs.lean",
+      "sha256": "a3e88c4fe00ba476440d68a1568afecf6be685a488b5b8718f6b2ef969a15fa4",
+      "git_blob_sha1": "5a31310be11d1f1248eb1f8aa9f0959f1ba4e9de",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Chris Hughes. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Chris Hughes\n-/",
+      "excerpts": [
+        {
+          "name": "FiniteDimensional",
+          "first_line": 74,
+          "last_line": 75,
+          "text": "abbrev FiniteDimensional (K V : Type*) [DivisionRing K] [AddCommGroup V] [Module K V] :=\n  Module.Finite K V\n",
+          "sha256": "591e6b0650250e7dc3fd866cb7e9d3aa31191176e6ce27aa85c27884d492686e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/FiniteDimensional/Defs.lean#L74-L75"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/RingTheory/Finiteness/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/RingTheory/Finiteness/Defs.lean",
+      "sha256": "c22de11b826e235da8f48da713e7d22dba05c884c4982f64babeff3490a4a98b",
+      "git_blob_sha1": "e6c84f5229785bee769abce19b52d51e03d2ca63",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Johan Commelin. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johan Commelin\n-/",
+      "excerpts": [
+        {
+          "name": "Module.Finite",
+          "first_line": 122,
+          "last_line": 126,
+          "text": "protected class Module.Finite [Semiring R] [AddCommMonoid M] [Module R M] : Prop where\n  of_fg_top ::\n    fg_top : (⊤ : Submodule R M).FG\n\nattribute [inherit_doc Module.Finite] Module.Finite.fg_top\n",
+          "sha256": "2e85e09a9453ac8f4bd66e897603e7680237f3b77b3e9d32cef8bfe6658dbfae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/RingTheory/Finiteness/Defs.lean#L122-L126"
+        },
+        {
+          "name": "Submodule.FG",
+          "first_line": 47,
+          "last_line": 49,
+          "text": "def FG (N : Submodule R M) : Prop :=\n  ∃ S : Finset M, span R ↑S = N\n\n",
+          "sha256": "3ed87f31c0598cb3d3e5f09f102437fb019e86a0e684702ab3e022c8155e3eac",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/RingTheory/Finiteness/Defs.lean#L47-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Span/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Span/Defs.lean",
+      "sha256": "a0403eb6f96f384672a7b52d7ddb94405d3d3b1c43f699facc3e99ef8b0c00c6",
+      "git_blob_sha1": "1fa4ca034f300129c42b38d023f33ff077585abf",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.span",
+          "first_line": 46,
+          "last_line": 49,
+          "text": "def span (s : Set M) : Submodule R M :=\n  sInf { p | s ⊆ p }\n\n/-- An `R`-submodule of `M` is principal if it is generated by one element. -/\n",
+          "sha256": "787362c62c64f9dd51c4d57ffa26c1d1ed17f2e1cb8b641bc12681a083fc2802",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Span/Defs.lean#L46-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/UniformSpace/Cauchy.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean",
+      "sha256": "68117051ca85f05bbde595bbbb1dae4b57052c6d3d0fcda3059551b2527874b4",
+      "git_blob_sha1": "86640c96b74c3a4161ecae8151f0cdec46f6d64c",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "name": "Cauchy",
+          "first_line": 32,
+          "last_line": 34,
+          "text": "def Cauchy (f : Filter α) :=\n  NeBot f ∧ f ×ˢ f ≤ 𝓤 α\n\n",
+          "sha256": "2b8c00addd6baff86d2a34b727729aa485781eea8c1741e220318c13fd40a45d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean#L32-L34"
+        },
+        {
+          "name": "IsComplete",
+          "first_line": 37,
+          "last_line": 38,
+          "text": "def IsComplete (s : Set α) :=\n  ∀ f, Cauchy f → f ≤ 𝓟 s → ∃ x ∈ s, f ≤ 𝓝 x\n",
+          "sha256": "da72a0b62ba6fcc4061281d0570653b1269c6d0a7d439b18b090b220639cf430",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean#L37-L38"
+        },
+        {
+          "name": "CompleteSpace",
+          "first_line": 371,
+          "last_line": 378,
+          "text": "class CompleteSpace (α : Type u) [UniformSpace α] : Prop where\n  /-- In a complete uniform space, every Cauchy filter converges. -/\n  complete : ∀ {f : Filter α}, Cauchy f → ∃ x, f ≤ 𝓝 x\n\ntheorem isComplete_univ {α : Type u} [UniformSpace α] [CompleteSpace α] :\n    IsComplete (univ : Set α) := fun f hf _ => by\n  rcases CompleteSpace.complete hf with ⟨x, hx⟩\n  exact ⟨x, mem_univ x, hx⟩\n",
+          "sha256": "7734ff40b840168f13f286dc451985cd880455dcccee8f80117170b1c7d50bf2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean#L371-L378"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/InnerProductSpace/Orthogonal.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Orthogonal.lean",
+      "sha256": "a72a848fec37640c3a1e589075b3a24ed1eda19009b5493f7a2535f92ef98d04",
+      "git_blob_sha1": "0f349bcd1adcfc5fd6bc344ad81dcf7d62b55541",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Zhouhang Zhou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou, Sébastien Gouëzel, Frédéric Dupuis\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.orthogonal",
+          "first_line": 43,
+          "last_line": 55,
+          "text": "def orthogonal : Submodule 𝕜 E where\n  carrier := { v | ∀ u ∈ K, ⟪u, v⟫ = 0 }\n  zero_mem' _ _ := inner_zero_right _\n  add_mem' hx hy u hu := by rw [inner_add_right, hx u hu, hy u hu, add_zero]\n  smul_mem' c x hx u hu := by rw [inner_smul_right, hx u hu, mul_zero]\n\n@[inherit_doc]\nnotation:1200 K \"ᗮ\" => orthogonal K\n\n/-- `v ∈ Kᗮ` if and only if `⟪u, v⟫ = 0` for all `u ∈ K`. -/\ntheorem mem_orthogonal (v : E) : v ∈ Kᗮ ↔ ∀ u ∈ K, ⟪u, v⟫ = 0 :=\n  Iff.rfl\n\n",
+          "sha256": "7834415fef5b7396835da8ecf23b3eb6190c2eb14683bd017c2532f3187021f7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Orthogonal.lean#L43-L55"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean",
+      "sha256": "dcda6e9b00d2325757b882e565564fc34e15bab772aad166f2f02b4b26961d09",
+      "git_blob_sha1": "c95ac529df8d18aa9fce3ee6eda52dbd48502e1e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Zhouhang Zhou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou, Frédéric Dupuis, Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.HasOrthogonalProjection",
+          "first_line": 49,
+          "last_line": 60,
+          "text": "class HasOrthogonalProjection (K : Submodule 𝕜 E) : Prop where\n  exists_orthogonal (v : E) : ∃ w ∈ K, v - w ∈ Kᗮ\n\nvariable (K : Submodule 𝕜 E)\n\ninstance (priority := 100) HasOrthogonalProjection.ofCompleteSpace [CompleteSpace K] :\n    K.HasOrthogonalProjection where\n  exists_orthogonal v := by\n    rcases K.exists_norm_eq_iInf_of_complete_subspace (completeSpace_coe_iff_isComplete.mp ‹_›) v\n      with ⟨w, hwK, hw⟩\n    refine ⟨w, hwK, (K.mem_orthogonal' _).2 ?_⟩\n    rwa [← K.norm_eq_iInf_iff_inner_eq_zero hwK]\n",
+          "sha256": "6fa1673f11381bdf2a91a82bd5fcfb8574c0447d0bfcd074700496955cb63458",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean#L49-L60"
+        },
+        {
+          "name": "Submodule.orthogonalProjectionOnto",
+          "first_line": 121,
+          "last_line": 121,
+          "text": "def orthogonalProjectionOnto : E →L[𝕜] K := K.projectionOntoL Kᗮ K.isTopCompl_orthogonal\n",
+          "sha256": "7a826ee0aba8f5074294554132f6cb1a21aef7d418480c999417b8beaa937d07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean#L121-L121"
+        },
+        {
+          "name": "Submodule.starProjection",
+          "first_line": 132,
+          "last_line": 133,
+          "text": "def starProjection (U : Submodule 𝕜 E) [U.HasOrthogonalProjection] :\n    E →L[𝕜] E := U.subtypeL ∘L U.orthogonalProjectionOnto\n",
+          "sha256": "f2799cc427250537176826e5018cd211fd2f6d52c34a3c386a7d3ffdcb8c3103",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean#L132-L133"
+        },
+        {
+          "name": "projection_residual",
+          "first_line": 160,
+          "last_line": 177,
+          "text": "\n@[deprecated (since := \"2026-06-10\")] alias orthogonalProjectionFn_mem := starProjection_apply_mem\n\n/-- The characterization of the orthogonal projection. -/\n@[simp]\ntheorem starProjection_inner_eq_zero (v w : E) (hw : w ∈ K) : ⟪v - K.starProjection v, w⟫ = 0 := by\n  suffices v - K.projection Kᗮ K.isCompl_orthogonal v ∈ Kᗮ from inner_eq_zero_symm.mp <| this w hw\n  simp [← projection_eq_self_sub_projection]\n\n@[deprecated (since := \"2026-06-10\")] alias orthogonalProjectionFn_inner_eq_zero :=\n  starProjection_inner_eq_zero\n\n/-- The difference of `v` from its orthogonal projection onto `K` is in `Kᗮ`. -/\n@[simp]\ntheorem sub_starProjection_mem_orthogonal (v : E) : v - K.starProjection v ∈ Kᗮ := by\n  intro w hw\n  rw [inner_eq_zero_symm]\n  exact starProjection_inner_eq_zero _ _ hw\n",
+          "sha256": "670f232932091d52e29414bddf8d349cfdb6b931909ccb3669529033c3e7b464",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean#L160-L177"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean",
+      "sha256": "d081051ca12363eeb95590a88decc17fd18f5bdc76c7fb30748f48ffc854d379",
+      "git_blob_sha1": "5fcb4432855e52781f08acce8e96afc667aa2f20",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jan-David Salchow, Sébastien Gouëzel, Jean Lo, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "ContinuousLinearMap",
+          "first_line": 60,
+          "last_line": 65,
+          "text": "structure ContinuousLinearMap {R : Type*} {S : Type*} [Semiring R] [Semiring S] (σ : R →+* S)\n    (M : Type*) [TopologicalSpace M] [AddCommMonoid M] (M₂ : Type*) [TopologicalSpace M₂]\n    [AddCommMonoid M₂] [Module R M] [Module S M₂] extends M →ₛₗ[σ] M₂ where\n  cont : Continuous toFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n\n",
+          "sha256": "875bab42f51009b2465b31752dc6181775c406f39bfa95e9d6f69085a9627bcd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean#L60-L65"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Restrict.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Restrict.lean",
+      "sha256": "c18d85d95c67c576783d9be561e9f8a2318cc1efd0dbb28060c9d47d6a573aea",
+      "git_blob_sha1": "f24e553b076afd45562521c35549dc7cca60e0ea",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jan-David Salchow, Sébastien Gouëzel, Jean Lo, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.subtypeL",
+          "first_line": 47,
+          "last_line": 51,
+          "text": "def subtypeL (p : Submodule R M) : p →L[R] M where\n  toLinearMap := p.subtype\n\n@[simp, norm_cast]\ntheorem toLinearMap_subtypeL (p : Submodule R M) : (p.subtypeL : p →ₗ[R] M) = p.subtype := rfl\n",
+          "sha256": "ce8bd28601610a6c526c385581db91762700aef31d3a624815d3b5d7941e8399",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Restrict.lean#L47-L51"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/Module/Complement.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/Complement.lean",
+      "sha256": "ea947529899c67508b6762a4d08f096520822095b0d892556811eaf97bff2a93",
+      "git_blob_sha1": "bd5e684d973093335b34d081ab7c007ff98611bc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2026 Anatole Dedecker. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Anatole Dedecker, Sharvil Kesarwani\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.projectionOntoL",
+          "first_line": 161,
+          "last_line": 166,
+          "text": "noncomputable def projectionOntoL (h : IsTopCompl p q) : M →L[R] p :=\n  ⟨p.projectionOnto q h.isCompl, h.continuous_projectionOnto⟩\n\n@[simp]\ntheorem toLinearMap_projectionOntoL (h : IsTopCompl p q) :\n    p.projectionOntoL q h = p.projectionOnto q h.isCompl :=\n",
+          "sha256": "e2912d0ded932b82387bea6faeeb065c4d311dfa35ec74aceea71bd3eed79dd3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/Complement.lean#L161-L166"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "sha256": "aea1c354ffc798aaa5397f2f58124bc2ed7b29d24227ae568d3f5745f839570d",
+      "git_blob_sha1": "5f68ae60b4f22094ae57c9e4ef28be13925e8ef7",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro, Anne Baanen,\n  Frédéric Dupuis, Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "LinearMap",
+          "first_line": 85,
+          "last_line": 99,
+          "text": "structure LinearMap {R S : Type*} [Semiring R] [Semiring S] (σ : R →+* S) (M : Type*)\n    (M₂ : Type*) [AddCommMonoid M] [AddCommMonoid M₂] [Module R M] [Module S M₂] extends\n    AddHom M M₂, MulActionHom σ M M₂\n\n/-- The `MulActionHom` underlying a `LinearMap`. -/\nadd_decl_doc LinearMap.toMulActionHom\n\n/-- The `AddHom` underlying a `LinearMap`. -/\nadd_decl_doc LinearMap.toAddHom\n\n/-- `M →ₛₗ[σ] N` is the type of `σ`-semilinear maps from `M` to `N`. -/\nnotation:25 M \" →ₛₗ[\" σ:25 \"] \" M₂:0 => LinearMap σ M M₂\n\n/-- `M →ₗ[R] N` is the type of `R`-linear maps from `M` to `N`. -/\nnotation:25 M \" →ₗ[\" R:25 \"] \" M₂:0 => LinearMap (RingHom.id R) M M₂\n",
+          "sha256": "6525d10cebd045b6a31eafece6ac8f70768c3e3506ecf010dbe1776a00985a11",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean#L85-L99"
+        },
+        {
+          "name": "LinearMap.comp",
+          "first_line": 479,
+          "last_line": 487,
+          "text": "def comp [RingHomCompTriple σ₁₂ σ₂₃ σ₁₃] (f : M₂ →ₛₗ[σ₂₃] M₃) (g : M₁ →ₛₗ[σ₁₂] M₂) :\n    M₁ →ₛₗ[σ₁₃] M₃ where\n  toFun x := f (g x)\n  map_add' := by simp only [map_add, forall_const]\n  -- Note that https://github.com/leanprover-community/mathlib4/pull/8386 changed `map_smulₛₗ` to `map_smulₛₗ _`\n  map_smul' r x := by simp only [map_smulₛₗ _, RingHomCompTriple.comp_apply]\n\nvariable [RingHomCompTriple σ₁₂ σ₂₃ σ₁₃]\nvariable (f : M₂ →ₛₗ[σ₂₃] M₃) (g : M₁ →ₛₗ[σ₁₂] M₂)\n",
+          "sha256": "84303aaf92cb71e425993ee76ca2deccb410064ba73962ba09d2f393ee6390b1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean#L479-L487"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Pi.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Pi.lean",
+      "sha256": "d297e47c0b724513841774f50ecf57aa4d9baf9d0c48b83c4a9e06f38de42abb",
+      "git_blob_sha1": "2e07533a94214028c74467bc126885c7c8ea9c74",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Eric Wieser\n-/",
+      "excerpts": [
+        {
+          "name": "LinearMap.pi",
+          "first_line": 56,
+          "last_line": 63,
+          "text": "def pi (f : (i : ι) → M₂ →ₗ[R] φ i) : M₂ →ₗ[R] (i : ι) → φ i :=\n  { AddHom.pi fun i => (f i).toAddHom with\n    toFun := fun c i => f i c\n    map_smul' := fun _ _ => funext fun i => (f i).map_smul _ _ }\n\n@[simp]\ntheorem pi_apply (f : (i : ι) → M₂ →ₗ[R] φ i) (c : M₂) (i : ι) : pi f c i = f i c :=\n  rfl\n",
+          "sha256": "bbaba06a494aef3111bac6788d60334fc16827ae4ac1f986ed66e97aa9429c5b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Pi.lean#L56-L63"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Defs.lean",
+      "sha256": "f1735fb71af000fc2047c5e6456fa2b31d0f5443d23a169ac25a6ce388fe2b78",
+      "git_blob_sha1": "ceec21a0216a4bb5187d1f87c5a068caf26b7f62",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Nathaniel Thomas. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule",
+          "first_line": 41,
+          "last_line": 51,
+          "text": "structure Submodule (R : Type u) (M : Type v) [Semiring R] [AddCommMonoid M] [Module R M] : Type v\n    extends AddSubmonoid M, SubMulAction R M\n\n/-- Reinterpret a `Submodule` as an `AddSubmonoid`. -/\nadd_decl_doc Submodule.toAddSubmonoid\n\n/-- Reinterpret a `Submodule` as a `SubMulAction`. -/\nadd_decl_doc Submodule.toSubMulAction\n\nnamespace Submodule\n\n",
+          "sha256": "47a795a290700f5a177a40e964f4afe5f45b66ce2b8256a298d781c0ae326082",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Defs.lean#L41-L51"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/LinearMap.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/LinearMap.lean",
+      "sha256": "51b927c0a53b41f443cb053f81d6c065e0e462f1a016ea813111a0ecfa81f145",
+      "git_blob_sha1": "d38e89bc23eb28cf2f2ddd6906bd88e9ae2cdb03",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.subtype",
+          "first_line": 82,
+          "last_line": 86,
+          "text": "protected def subtype : p →ₗ[R] M where\n  toFun := Subtype.val\n  map_add' := by simp\n  map_smul' := by simp\n\n",
+          "sha256": "e768d491bab623e9024ca63492d3df6c116edfb5888067b00a1f8bc2831d0980",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/LinearMap.lean#L82-L86"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Ker.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Ker.lean",
+      "sha256": "6820cd12f24bc4d7b00c6e508c2d2ecaff39549d74be47430eb76cd8b6ee34ee",
+      "git_blob_sha1": "c64fd7feb84fc02de4f53ec66b9bc0d7a30b1fa2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "LinearMap.ker",
+          "first_line": 60,
+          "last_line": 65,
+          "text": "def ker (f : M →ₛₗ[τ₁₂] M₂) : Submodule R M :=\n  comap f ⊥\n\n@[simp]\ntheorem mem_ker {f : M →ₛₗ[τ₁₂] M₂} {y} : y ∈ ker f ↔ f y = 0 :=\n  mem_bot R₂\n",
+          "sha256": "522bf254e1b91ec540646fb88a3790697262a4a3dc82631d66259807de3042c2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Ker.lean#L60-L65"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Range.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Range.lean",
+      "sha256": "5d3c93d9b771e9aec611a0221bc138f9491dd2c37c3babcf42c2acbe570a4d45",
+      "git_blob_sha1": "5ea20b9bee1b24bbf5a32bedfa428bb1a84c129a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "LinearMap.range",
+          "first_line": 57,
+          "last_line": 66,
+          "text": "def range [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) : Submodule R₂ M₂ :=\n  (map f ⊤).copy (Set.range f) Set.image_univ.symm\n\ntheorem coe_range [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) : (range f : Set M₂) = Set.range f :=\n  rfl\n\ntheorem range_toAddSubmonoid [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂) :\n    (range f).toAddSubmonoid = AddMonoidHom.mrange f :=\n  rfl\n\n",
+          "sha256": "84b34dd1c434053c235d01f14b5c0c1326bc8af6f7843100c04b31b08e5f9f3a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Range.lean#L57-L66"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Submodule/Map.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Map.lean",
+      "sha256": "f0b02929b7aeeb359f7c9f207a7d78d3013ecf9a5e2e167431cf85422894ebc2",
+      "git_blob_sha1": "56d22fe8c8ac84bf173514e5283440e673e58b3d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis,\n  Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.comap",
+          "first_line": 172,
+          "last_line": 180,
+          "text": "def comap (f : M →ₛₗ[σ₁₂] M₂) (p : Submodule R₂ M₂) : Submodule R M :=\n  { p.toAddSubmonoid.comap f with\n    carrier := f ⁻¹' p\n    -- Note: https://github.com/leanprover-community/mathlib4/pull/8386 added `map_smulₛₗ _`\n    smul_mem' := fun a x h => by simp [p.smul_mem (σ₁₂ a) h, map_smulₛₗ _] }\n\n@[simp]\ntheorem comap_coe (f : M →ₛₗ[σ₁₂] M₂) (p : Submodule R₂ M₂) : (comap f p : Set M) = f ⁻¹' p :=\n  rfl\n",
+          "sha256": "324298f875d272923780e809b8b39fb6c5178062dd8684d03cb12d4973d077aa",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Submodule/Map.lean#L172-L180"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Quotient/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean",
+      "sha256": "ddb08efd66c7dd6f5e142ac3e1edc1189ea30de276f1e78f4193d6ee80676fb3",
+      "git_blob_sha1": "2c25d9a529dfd044d3bf88361d79a3e8de23fda3",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.quotientRel",
+          "first_line": 44,
+          "last_line": 45,
+          "text": "def quotientRel : Setoid M :=\n  QuotientAddGroup.leftRel p.toAddSubgroup\n",
+          "sha256": "0a8d91d24e17412765c61640ecbb08a91b1d394c5020bbd6325ee3ee0d2e42dd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L44-L45"
+        },
+        {
+          "name": "Submodule.Quotient.mk",
+          "first_line": 61,
+          "last_line": 62,
+          "text": "def mk {p : Submodule R M} : M → M ⧸ p :=\n  Quotient.mk''\n",
+          "sha256": "dcd5ae98da79a623213ff0f0e8294cc7b3953e2f43c259bfcadf6398fc1f03cb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L61-L62"
+        },
+        {
+          "name": "Submodule.mkQ",
+          "first_line": 227,
+          "last_line": 234,
+          "text": "def mkQ : M →ₗ[R] M ⧸ p where\n  toFun := Quotient.mk\n  map_add' := by simp\n  map_smul' := by simp\n\n@[simp]\ntheorem mkQ_apply (x : M) : p.mkQ x = Quotient.mk x :=\n  rfl\n",
+          "sha256": "6821ca87635d38075fed501b5d2436091775136ca51e708e72e59e4aacc5fcdf",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L227-L234"
+        },
+        {
+          "name": "Submodule.quotEquivOfEq",
+          "first_line": 252,
+          "last_line": 261,
+          "text": "def quotEquivOfEq (h : p = p') : (M ⧸ p) ≃ₗ[R] M ⧸ p' :=\n  { @Quotient.congr _ _ (quotientRel p) (quotientRel p') (Equiv.refl _) fun a b => by\n      subst h\n      rfl with\n    map_add' := by\n      rintro ⟨x⟩ ⟨y⟩\n      rfl\n    map_smul' := by\n      rintro x ⟨y⟩\n      rfl }\n",
+          "sha256": "26a5e3ce54473d29b0ce774c8f3b5321f7a62be90393f1e9cd7a253f7b9c64c6",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L252-L261"
+        },
+        {
+          "name": "quotientRel_def",
+          "first_line": 47,
+          "last_line": 58,
+          "text": "theorem quotientRel_def {x y : M} : p.quotientRel x y ↔ x - y ∈ p :=\n  Iff.trans\n    (by\n      rw [quotientRel, leftRel_apply, sub_eq_add_neg, neg_add, neg_neg]\n      rfl)\n    neg_mem_iff\n\n/-- The quotient of a module `M` by a submodule `p ⊆ M`. -/\ninstance hasQuotient : HasQuotient M (Submodule R M) :=\n  ⟨fun p => Quotient (quotientRel p)⟩\n\nnamespace Quotient\n",
+          "sha256": "1a930cf924a0b6c03c16e8fb6b1ae7af43b00dc948e3c0ac8550dcf8ac6f6f43",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Defs.lean#L47-L58"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Quotient/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Basic.lean",
+      "sha256": "564aad5ee0111df700cb30aca030018f26939ed1c307f19ee6d9ac02b6bc4312",
+      "git_blob_sha1": "4a0da4567b8b41ad8120b46809c6270e0a00bf14",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "name": "Submodule.liftQ",
+          "first_line": 118,
+          "last_line": 127,
+          "text": "def liftQ (f : M →ₛₗ[τ₁₂] M₂) (h : p ≤ ker f) : M ⧸ p →ₛₗ[τ₁₂] M₂ :=\n  { QuotientAddGroup.lift p.toAddSubgroup f.toAddMonoidHom h with\n    map_smul' := by rintro a ⟨x⟩; exact f.map_smulₛₗ a x }\n\n@[simp]\ntheorem liftQ_apply (f : M →ₛₗ[τ₁₂] M₂) {h} (x : M) : p.liftQ f h (Quotient.mk x) = f x :=\n  rfl\n\n@[simp]\ntheorem liftQ_mkQ (f : M →ₛₗ[τ₁₂] M₂) (h) : (p.liftQ f h).comp p.mkQ = f := by ext; rfl\n",
+          "sha256": "feaa6457fcf9b0295f761ce949737ba4e20ffffa26ddbdec6369a96393a4bf65",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Quotient/Basic.lean#L118-L127"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/Equiv/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Equiv/Defs.lean",
+      "sha256": "fea6294b3b6d6bdda0f62eb99a5977e4a73bbca7bf98e1be83c158c79e0e197a",
+      "git_blob_sha1": "c755408694c1453e874ea6512506b4713679f8a2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro, Anne Baanen,\n  Frédéric Dupuis, Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "name": "LinearEquiv",
+          "first_line": 49,
+          "last_line": 58,
+          "text": "structure LinearEquiv {R : Type*} {S : Type*} [Semiring R] [Semiring S] (σ : R →+* S)\n  {σ' : S →+* R} [RingHomInvPair σ σ'] [RingHomInvPair σ' σ] (M : Type*) (M₂ : Type*)\n  [AddCommMonoid M] [AddCommMonoid M₂] [Module R M] [Module S M₂] extends LinearMap σ M M₂, M ≃+ M₂\n\nattribute [coe] LinearEquiv.toLinearMap\n\n/-- The linear map underlying a linear equivalence. -/\nadd_decl_doc LinearEquiv.toLinearMap\n\n/-- The additive equivalence of types underlying a linear equivalence. -/\n",
+          "sha256": "ab3edb9384dfbaaf70bfc9dc0c7f0204120a2959e5791ea4cfab11e0925d8d0c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/Equiv/Defs.lean#L49-L58"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Isomorphisms.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Isomorphisms.lean",
+      "sha256": "9b09cba140051ca8b9aa93f6cf22a85c3d9fd4d1c108939c6a6e0b44a0192d73",
+      "git_blob_sha1": "842f0ca7aeffd55210345de77c6911af22c68d03",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "name": "LinearMap.quotKerEquivRange",
+          "first_line": 39,
+          "last_line": 44,
+          "text": "noncomputable def quotKerEquivRange : (M ⧸ LinearMap.ker f) ≃ₗ[R] LinearMap.range f :=\n  -- TODO: We should fix this definition so that `fₗ.quotKerEquivRange.toAddEquiv` is definitionally\n  -- equal to `QuotientAddGroup.quotientKerEquivRange f.toAddMonoidHom`.\n  (LinearEquiv.ofInjective ((LinearMap.ker f).liftQ f <| le_rfl) <|\n        ker_eq_bot.mp <| Submodule.ker_liftQ_eq_bot _ _ _ (le_refl (LinearMap.ker f))).trans\n    (LinearEquiv.ofEq _ _ <| Submodule.range_liftQ _ _ _)\n",
+          "sha256": "07ef842eb34cb9c93a8d542731980a39562b8deafb8ceddf1585d922bdf6227d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Isomorphisms.lean#L39-L44"
+        },
+        {
+          "name": "LinearMap.quotKerEquivOfSurjective",
+          "first_line": 47,
+          "last_line": 59,
+          "text": "noncomputable def quotKerEquivOfSurjective (f : M →ₗ[R] M₂) (hf : Function.Surjective f) :\n    (M ⧸ LinearMap.ker f) ≃ₗ[R] M₂ :=\n  f.quotKerEquivRange.trans <| .ofTop (LinearMap.range f) <| range_eq_top.2 hf\n\n@[simp]\ntheorem quotKerEquivRange_apply_mk (x : M) :\n    (f.quotKerEquivRange (Submodule.Quotient.mk x) : M₂) = f x :=\n  rfl\n\n@[simp]\ntheorem quotKerEquivOfSurjective_apply_mk (hf : Function.Surjective f) (x : M) :\n    (f.quotKerEquivOfSurjective hf (Submodule.Quotient.mk x) : M₂) = f x :=\n  rfl\n",
+          "sha256": "5ce0ab076b970fc3861e3008da304e9ad2b70086c2d7edc7d607d9c60611dac7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Isomorphisms.lean#L47-L59"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Quot.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Quot.lean",
+      "sha256": "14af0ddf94e04029ce230f6635d339578d906014206fe4c3fc2a3f6bc25cb1a2",
+      "git_blob_sha1": "f1a7041eb6f2b670c4d7af246ad5a6afca689a42",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/",
+      "excerpts": [
+        {
+          "name": "Quotient.out",
+          "first_line": 375,
+          "last_line": 380,
+          "text": "noncomputable def Quotient.out {s : Setoid α} : Quotient s → α :=\n  Quot.out\n\n@[simp]\ntheorem Quotient.out_eq {s : Setoid α} (q : Quotient s) : ⟦q.out⟧ = q :=\n  Quot.out_eq q\n",
+          "sha256": "fa7ea03b1ff54754ae878dc0772d5c4ea536a15cf0ba06788adefd6d89bc0c57",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Quot.lean#L375-L380"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/",
+      "excerpts": [
+        {
+          "name": "TopologicalSpace",
+          "first_line": 73,
+          "last_line": 85,
+          "text": "class TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n",
+          "sha256": "ad41b506009c9b2858fb370f8585b8ae8f9b29e30391866640e7a230de0fe954",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L73-L85"
+        },
+        {
+          "name": "Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/ContinuousMap/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/ContinuousMap/Defs.lean",
+      "sha256": "a4de4f3ae5c6d605a4c2449db2ace372e83b430e44da6919c808d633142711e3",
+      "git_blob_sha1": "6985046a8207cc94e5405c0f79191ed9f0bef5cc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Nicolò Cavalleri. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nicolò Cavalleri, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "name": "ContinuousMap",
+          "first_line": 33,
+          "last_line": 40,
+          "text": "structure ContinuousMap (X Y : Type*) [TopologicalSpace X] [TopologicalSpace Y] where\n  /-- The function `X → Y` -/\n  protected toFun : X → Y\n  /-- Proposition that `toFun` is continuous -/\n  protected continuous_toFun : Continuous toFun := by fun_prop\n\n/-- `C(X, Y)` is the type of continuous maps from `X` to `Y`. -/\nnotation \"C(\" X \", \" Y \")\" => ContinuousMap X Y\n",
+          "sha256": "3100e2e484f3c37bbf36ebf5cc0f43e31c2d4575d009f7784bcd0912d41e71be",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/ContinuousMap/Defs.lean#L33-L40"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Path.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean",
+      "sha256": "91c8fa5452d85bc35258afd61de0b694e82ae483d35d9257b599ce7eaddab038",
+      "git_blob_sha1": "5d9635ef4ad6dd478f60ca07e612646c670705ad",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Patrick Massot. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Patrick Massot\n-/",
+      "excerpts": [
+        {
+          "name": "Path",
+          "first_line": 60,
+          "last_line": 64,
+          "text": "structure Path (x y : X) extends C(I, X) where\n  /-- The start point of a `Path`. -/\n  source' : toFun 0 = x\n  /-- The end point of a `Path`. -/\n  target' : toFun 1 = y\n",
+          "sha256": "8598575701a8e8841b54b8071a1ef9f45d619e9ea5f118578266bd6bfca31412",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L60-L64"
+        },
+        {
+          "name": "Path.refl",
+          "first_line": 143,
+          "last_line": 147,
+          "text": "def refl (x : X) : Path x x where\n  toContinuousMap := .const I x\n  source' := rfl\n  target' := rfl\n\n",
+          "sha256": "08e2237eb19cb6346d69db83734faa5ed2db58b70d85aa0cfcd4df7d23d0fbc7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L143-L147"
+        },
+        {
+          "name": "Path.symm",
+          "first_line": 153,
+          "last_line": 158,
+          "text": "def symm (γ : Path x y) : Path y x where\n  toFun := γ ∘ σ\n  continuous_toFun := by fun_prop\n  source' := by simp\n  target' := by simp\n\n",
+          "sha256": "638ddf18d1fc6e37ef680ddc103fed2d82eee1fe3c184f821b02655030fe756f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L153-L158"
+        },
+        {
+          "name": "Path.trans",
+          "first_line": 277,
+          "last_line": 292,
+          "text": "def trans (γ : Path x y) (γ' : Path y z) : Path x z where\n  toFun := (fun t : ℝ => if t ≤ 1 / 2 then γ.extend (2 * t) else γ'.extend (2 * t - 1)) ∘ (↑)\n  continuous_toFun := by\n    refine\n      (Continuous.if_le ?_ ?_ continuous_id continuous_const (by simp)).comp\n        continuous_subtype_val <;>\n    fun_prop\n  source' := by simp\n  target' := by norm_num\n\n@[grind =]\ntheorem trans_apply (γ : Path x y) (γ' : Path y z) (t : I) :\n    (γ.trans γ') t =\n      if h : (t : ℝ) ≤ 1 / 2 then γ ⟨2 * t, (mul_pos_mem_iff zero_lt_two).2 ⟨t.2.1, h⟩⟩\n      else γ' ⟨2 * t - 1, two_mul_sub_one_mem_iff.2 ⟨(not_le.1 h).le, t.2.2⟩⟩ :=\n  show ite _ _ _ = _ by split_ifs <;> rw [extend_apply]\n",
+          "sha256": "5435276a5d76d8864359bf02e853278bb243f68b6b7891a701e5a64aaa25f6e2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L277-L292"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homotopy/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Basic.lean",
+      "sha256": "e983c30f4006516e0e300c887bee86d838abdcc1d8659362abf8d9324eaa912a",
+      "git_blob_sha1": "f9dcf8fadd7028c7849734757a36d41581ec9b52",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Shing Tak Lam. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Shing Tak Lam\n-/",
+      "excerpts": [
+        {
+          "name": "ContinuousMap.Homotopy",
+          "first_line": 77,
+          "last_line": 83,
+          "text": "structure Homotopy (f₀ f₁ : C(X, Y)) extends C(I × X, Y) where\n  /-- value of the homotopy at 0 -/\n  map_zero_left : ∀ x, toFun (0, x) = f₀ x\n  /-- value of the homotopy at 1 -/\n  map_one_left : ∀ x, toFun (1, x) = f₁ x\n\nsection\n",
+          "sha256": "2f1bc830478dd76ce99772f4920abe1522da98939618e70181efce2c49382254",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Basic.lean#L77-L83"
+        },
+        {
+          "name": "ContinuousMap.HomotopyWith",
+          "first_line": 386,
+          "last_line": 392,
+          "text": "structure HomotopyWith (f₀ f₁ : C(X, Y)) (P : C(X, Y) → Prop) extends Homotopy f₀ f₁ where\n  -- TODO: use `toHomotopy.curry t`\n  /-- the intermediate maps of the homotopy satisfy the property -/\n  prop' : ∀ t, P ⟨fun x ↦ toFun (t, x), continuous_toFun.comp (by fun_prop)⟩\n\nnamespace HomotopyWith\n\n",
+          "sha256": "bb4cca39fd26b55d1cbf7aec9bd4cfae7d8ae01896581c90755d0b0a81b25b9d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Basic.lean#L386-L392"
+        },
+        {
+          "name": "ContinuousMap.HomotopyRel",
+          "first_line": 542,
+          "last_line": 543,
+          "text": "abbrev HomotopyRel (f₀ f₁ : C(X, Y)) (S : Set X) :=\n  HomotopyWith f₀ f₁ fun f ↦ ∀ x ∈ S, f x = f₀ x\n",
+          "sha256": "fee25fdc08c25f154c365b33ab9e3d8b847a3980d210c56ce8d06f616fe694cd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Basic.lean#L542-L543"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homotopy/Path.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Path.lean",
+      "sha256": "8eb18db7d886898d9bc9e3d9ea91ff6ac5fb958b0beebf26ae71c7f632fa895e",
+      "git_blob_sha1": "dcc6999ae4dfa0c2904c5f1fcabdbce3569e2bc8",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Shing Tak Lam. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Shing Tak Lam\n-/",
+      "excerpts": [
+        {
+          "name": "Path.Homotopy",
+          "first_line": 50,
+          "last_line": 51,
+          "text": "abbrev Homotopy (p₀ p₁ : Path x₀ x₁) :=\n  ContinuousMap.HomotopyRel p₀.toContinuousMap p₁.toContinuousMap {0, 1}\n",
+          "sha256": "024eab2a7dca4f0f3f00ca45d3e589683fd3523be5c7d7d601dbc58247f4c3f2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Path.lean#L50-L51"
+        },
+        {
+          "name": "Path.Homotopic",
+          "first_line": 241,
+          "last_line": 242,
+          "text": "def Homotopic (p₀ p₁ : Path x₀ x₁) : Prop :=\n  Nonempty (p₀.Homotopy p₁)\n",
+          "sha256": "a4f726ede264833dd0581f6b263831fd2e2d2b5175689dc0a222ca2b10e18d3a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homotopy/Path.lean#L241-L242"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Convex/PathConnected.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/PathConnected.lean",
+      "sha256": "e361be68d7c22691466bb61dbcbce809cd0fee45b4d0fb578c937ce6504bcadc",
+      "git_blob_sha1": "c5da8f29df4a031dca76a347554d87316f346a11",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Patrick Massot. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Patrick Massot, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "name": "Path.segment",
+          "first_line": 35,
+          "last_line": 40,
+          "text": "protected def segment (a b : E) : Path a b where\n  toFun t := lineMap a b (t : ℝ)\n  continuous_toFun := by dsimp [lineMap]; fun_prop\n  source' := by simp\n  target' := by simp\n\n",
+          "sha256": "38e0b8e65409455194449d10ec7b45f121ebbe11b4163de3af6c335f67cb8097",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Convex/PathConnected.lean#L35-L40"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/AlgebraicTopology/FundamentalGroupoid/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/AlgebraicTopology/FundamentalGroupoid/Basic.lean",
+      "sha256": "8cfce24311c16e1e624e01e6bd2ace37fe6be4647340c901681235129acf41b2",
+      "git_blob_sha1": "8aeb04d0cb5ca85c96d9ddd8434f442fc2cb328f",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Shing Tak Lam. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Shing Tak Lam\n-/",
+      "excerpts": [
+        {
+          "name": "Path.Homotopy.reflTransSymm",
+          "first_line": 62,
+          "last_line": 73,
+          "text": "def reflTransSymm (p : Path x₀ x₁) : Homotopy (Path.refl x₀) (p.trans p.symm) where\n  toFun x := p ⟨reflTransSymmAux x, reflTransSymmAux_mem_I x⟩\n  continuous_toFun := by fun_prop\n  map_zero_left := by simp [reflTransSymmAux]\n  map_one_left x := by\n    simp only [reflTransSymmAux, Path.trans]\n    cases le_or_gt (x : ℝ) 2⁻¹ with\n    | inl hx => simp [hx, ← extend_apply]\n    | inr hx =>\n      have : p.extend (2 - 2 * ↑x) = p.extend (1 - (2 * ↑x - 1)) := by ring_nf\n      simpa [hx.not_ge, ← extend_apply]\n  prop' t := by norm_num [reflTransSymmAux]\n",
+          "sha256": "574b7f25538abfa8be93d674911c98a857a4020f3093529cb9ff3eb928f24e6e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/AlgebraicTopology/FundamentalGroupoid/Basic.lean#L62-L73"
+        },
+        {
+          "name": "null_homotopy_parameter",
+          "first_line": 42,
+          "last_line": 58,
+          "text": "def reflTransSymmAux (x : I × I) : ℝ :=\n  if (x.2 : ℝ) ≤ 1 / 2 then x.1 * 2 * x.2 else x.1 * (2 - 2 * x.2)\n\n@[continuity, fun_prop]\ntheorem continuous_reflTransSymmAux : Continuous reflTransSymmAux :=\n  continuous_if_le (by fun_prop) (by fun_prop) (by fun_prop) (by fun_prop) (by grind)\n\ntheorem reflTransSymmAux_mem_I (x : I × I) : reflTransSymmAux x ∈ I := by\n  dsimp only [reflTransSymmAux]\n  split_ifs\n  · constructor\n    · apply mul_nonneg <;> grind\n    · rw [mul_assoc]\n      apply (mul_le_of_le_one_left ?_ ?_).trans ?_ <;> grind\n  · constructor\n    · apply mul_nonneg <;> grind\n    · apply (mul_le_of_le_one_left ?_ ?_).trans ?_ <;> grind\n",
+          "sha256": "6e78d7fa56a315dc3f0edc523ff9cb571f5420c0d39705d8874127647c2bac38",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/AlgebraicTopology/FundamentalGroupoid/Basic.lean#L42-L58"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/Module/FiniteDimension.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/FiniteDimension.lean",
+      "sha256": "aae1cf2eb90fc1b11375074ec2bb8eccc904e3221d1ee4bfa65b806d971d9367",
+      "git_blob_sha1": "b145c6f6f798571ca4680cf424fa53796437524e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Anatole Dedecker. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Anatole Dedecker\n-/",
+      "excerpts": [
+        {
+          "name": "finite_complete",
+          "first_line": 504,
+          "last_line": 512,
+          "text": "variable (𝕜 E : Type*) [NontriviallyNormedField 𝕜]\n  [CompleteSpace 𝕜] [AddCommGroup E] [UniformSpace E] [T2Space E] [IsUniformAddGroup E]\n  [Module 𝕜 E] [ContinuousSMul 𝕜 E]\n\ninclude 𝕜 in\ntheorem FiniteDimensional.complete [FiniteDimensional 𝕜 E] : CompleteSpace E := by\n  set e := ContinuousLinearEquiv.ofFinrankEq (@finrank_fin_fun 𝕜 _ _ (finrank 𝕜 E)).symm\n  have : IsUniformEmbedding e.toEquiv.symm := e.symm.isUniformEmbedding\n  exact (completeSpace_congr this).1 inferInstance\n",
+          "sha256": "2d175f7cc1dba92ed18f15e29f5e6596200dc53c2e51897e50150ef86274bc87",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Algebra/Module/FiniteDimension.lean#L504-L512"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeSemantics",
+      "path": "ChallengeSemantics.lean",
+      "sha256": "6bccde770d1f508d99002190a935469d2abb999f6c8c7cd0a9a0b8e3ecd1a805"
+    },
+    {
+      "module": "SolutionSemantics",
+      "path": "SolutionSemantics.lean",
+      "sha256": "7d1513a3e8244388ded1a83b2a8a7c6bc3fc15b2ca1fc929e769e2637b238827"
+    }
+  ]
+}

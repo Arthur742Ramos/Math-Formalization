@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "6837c9d97f658e9a48d7a665acdb9bd9fd091586ccbe113202afc712f8bead3e"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "bb22a4555f351e1399201df673a942fa94fc13ef31ed2d2382388daa169ed23a"
+    },
+    {
+      "path": "PeriodSeparation.lean",
+      "sha256": "da750e7a23f8d2e016ec1b9605e55ef656a18b5ec8972964ad0643e7512da816"
+    },
+    {
+      "path": "Examples.lean",
+      "sha256": "f2f067aabf60be727caf335bb1e4c2aa74a1c45f2f99c5bc9dc05642664191ec"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.Analysis.Convex.PathConnected",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.Basic"
+  ],
+  "sha256": "fbc0979825e08b738a690a799c49b4a0934efde2fb3bacfacbae99821c3acce2",
+  "lines": 625,
+  "bytes": 26313,
+  "transformation": "Remove module/public-import/public-section directives only; copy every other source line and complete proof in source order. Challenge and Solution share one implementation, not independent proofs."
+}

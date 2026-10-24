@@ -1,0 +1,115 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Harmonic representatives and period separation for computational-path presentations",
+    "description": "For finite primitive-step sets in the scoped geometric computational-path model, actual signed trace periods define a cochain complex. Closedness is equivalent to invariance under the entire scoped rewrite relation. Orthogonal projection constructs the unique harmonic representative of every degree-one presentation cohomology class, preserves all loop periods, and induces an actual linear equivalence. Vanishing of all loop periods is equivalent to being a coboundary, without connectivity assumptions; periods separate cohomology and harmonic representatives. A nonzero parallel-edge model and a named-rewrite control expose the distinction from ambient geometric homotopy. Discrete presentation cohomology only, not analytic or Kahler Hodge theory.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT",
+      "math.LO"
+    ],
+    "msc2020": [
+      "18G35",
+      "18B40",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, arXiv:2608.04228v3, sections 2 and 6",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Uses the exact endpoint-changing GeometricTrace and all fourteen scoped rewrite constructors from the attributed source port. Does not assert geometric completeness or reproduce the quotient-topology results."
+    },
+    {
+      "title": "Hodge Laplacians on Graphs, arXiv:1507.05379v4, section 2 and Theorems 5.2-5.3",
+      "authors": [
+        "Lek-Heng Lim"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/1507.05379v4",
+      "relationship": "adapts",
+      "note": "Classical finite-dimensional harmonic-representative construction via the orthogonal complement of exact cochains. The presented model has finite degree-one space but can have infinitely many named relations. No graph-to-manifold or full Laplacian theorem is claimed."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, arXiv:0811.1067v2, sections 4.2-4.3",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Context and audience for degree-one cochain decomposition. No statistical-ranking theorem or numerical algorithm is asserted formalized."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Minimal literal definition excerpts, MIT attribution retained. Ported from Lean4.32 to4.35; exact source and adaptation manifest included."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/ComputationalPathsLean/tree/257c659b7973aeda900d86a5da73b208712c7523",
+      "relationship": "related",
+      "note": "Core and Hodge modules audited for scope and overlap. The raw equality-indexed Path and degree-shadow Hodge certificates are not used as actual cochain or analytic operator laws."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses actual Euclidean inner products, submodules, quotient modules and orthogonal projection. Projection existence is derived from finite dimensionality, not assumed as a bridge."
+    }
+  ],
+  "status": {
+    "scope": "Finite-generator, degree-one presentation cohomology and its harmonic/loop-period description, with all-basepoint period separation.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof holes or added axioms in selected contracts. Named rules may be infinite; only the primitive-step carrier is assumed finite. This is presentation cohomology, not ambient singular or de Rham cohomology: the parallel-edge loop is geometrically null-homotopic in the real line but has a nonzero free-presentation period. No geometric-completeness, continuum limit, smooth differential-form, analytic/Kahler Hodge or novelty claim. Exact-source local/canonical/review stages are certified only by their own external immutable receipts; no registry acceptance is claimed.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "The actual scoped endpoint-changing trace model is used rather than proof-irrelevant equality metadata. Named cells exhaust every P.rule witness. All-basepoint periods characterize exactness without assuming connectivity. The harmonic result uses finite-dimensional cochain orthogonality; it does not assert a Laplacian operator, a Hodge star or an ambient geometric comparison."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "The independent review distinguished mathematical contracts, literal upstream source fidelity, native compilation, protected comparison, independent kernels, rendering and editorial acceptance. Same Lean toolchain and dependency cache; no human or external peer review inferred."
+  }
+}
