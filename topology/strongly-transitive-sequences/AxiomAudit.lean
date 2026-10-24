@@ -1,0 +1,7 @@
+module
+public import StrongSolution
+#print axioms StrongTransitive.residual_dense_orbits
+#print axioms StrongTransitive.countable_power_transitive
+#print axioms StrongTransitive.dense_prefix_orbit
+#print axioms StrongTransitive.residual_strong_sequences
+#print axioms StrongTransitive.exists_dense_Gdelta_strong_sequences
