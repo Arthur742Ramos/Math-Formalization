@@ -30,7 +30,7 @@ def sha(data):
 
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
-    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot', project),
+    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods', project),
             'Invalid project path')
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
@@ -242,7 +242,7 @@ def check_status(root, commit, project, historical_report=None):
     if project in {'topology/kuratowski-ulam', 'topology/locally-compact-baire',
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',
                    'topology/banach-mazur-category', 'topology/strong-choquet-polish',
-                   'algebraic-hodge/ddbar-pilot'}:
+                   'algebraic-hodge/ddbar-pilot', 'computational-hodge/finite-periods'}:
         require(material_manifest in files, 'Missing material imported-definition evidence')
     if material_manifest in files:
         # Audit the proposed source bytes, never a later working directory.
