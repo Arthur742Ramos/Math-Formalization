@@ -1,0 +1,376 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "Continuous",
+    "TopologicalSpace.induced",
+    "Finset",
+    "Nat.iterate"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "Furstenberg.weakMixing_iff_product_transitive",
+        "Furstenberg.hitting_refinement",
+        "Furstenberg.finite_refinement",
+        "Furstenberg.finite_simultaneous_hitting",
+        "Furstenberg.finite_power_transitive"
+      ],
+      "meaning": "The supplied topology on X and its actual binary/Pi product topology; no Baire, metric, separation or countability property is implicit.",
+      "dependency_expansion": "The supplied topology on X and its actual binary/Pi product topology; no Baire, metric, separation or countability property is implicit.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed",
+        "Pettis-expansion-nhds",
+        "Regular-subtype-topology",
+        "E0-Pi-product-topology",
+        "Mixing-binary-product-topology"
+      ],
+      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "Furstenberg.weakMixing_iff_product_transitive",
+        "Furstenberg.hitting_refinement",
+        "Furstenberg.finite_refinement",
+        "Furstenberg.finite_simultaneous_hitting",
+        "Furstenberg.finite_power_transitive"
+      ],
+      "meaning": "Open in the supplied topology; the refinement produces genuinely open W,Z by continuity of iterated preimages. Product opens are tested through actual rectangles or finite-coordinate boxes.",
+      "dependency_expansion": "Open in the supplied topology; the refinement produces genuinely open W,Z by continuity of iterated preimages. Product opens are tested through actual rectangles or finite-coordinate boxes.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "hypothesis",
+      "used_by": [
+        "Furstenberg.hitting_refinement",
+        "Furstenberg.finite_refinement",
+        "Furstenberg.finite_simultaneous_hitting",
+        "Furstenberg.finite_power_transitive"
+      ],
+      "meaning": "Inverse images of all opens are open for f. Iteration preserves continuity, ensuring each refined pair remains open; not a hidden bijectivity/surjectivity assumption.",
+      "dependency_expansion": "Inverse images of all opens are open for f. Iteration preserves continuity, ensuring each refined pair remains open; not a hidden bijectivity/surjectivity assumption.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Furstenberg.weakMixing_iff_product_transitive",
+        "Furstenberg.hitting_refinement",
+        "Furstenberg.finite_refinement",
+        "Furstenberg.finite_simultaneous_hitting",
+        "Furstenberg.finite_power_transitive"
+      ],
+      "meaning": "Inverse-image topology along each actual coordinate projection; binary product is the infimum of the two induced topologies and Pi product the infimum over coordinates.",
+      "dependency_expansion": "Inverse-image topology along each actual coordinate projection; binary product is the infimum of the two induced topologies and Pi product the infimum over coordinates.",
+      "definition_excerpt": "induced",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "induced",
+        "Pi.product-topology",
+        "cantor-Bool-topology",
+        "subtype-topology"
+      ],
+      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+    },
+    {
+      "name": "Finset",
+      "declaration_kind": "structure",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "Furstenberg.finite_refinement",
+        "Furstenberg.finite_simultaneous_hitting",
+        "Furstenberg.finite_power_transitive"
+      ],
+      "meaning": "A duplicate-free finite multiset of constraint indices; the induction retains a nonempty open pair refining every previously accumulated hitting condition. Empty family is explicitly included.",
+      "dependency_expansion": "A duplicate-free finite multiset of constraint indices; the induction retains a nonempty open pair refining every previously accumulated hitting condition. Empty family is explicitly included.",
+      "definition_excerpt": "E0-Finset",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "E0-Finset"
+      ],
+      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+    },
+    {
+      "name": "Nat.iterate",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "Furstenberg.weakMixing_iff_product_transitive",
+        "Furstenberg.hitting_refinement",
+        "Furstenberg.finite_refinement",
+        "Furstenberg.finite_simultaneous_hitting",
+        "Furstenberg.finite_power_transitive"
+      ],
+      "meaning": "The zero iterate is identity; the successor iterate applies f once then the previous iterate. Time is a natural number including zero. Commutativity of powers follows from additive iteration laws, not from an invertibility premise.",
+      "dependency_expansion": "The zero iterate is identity; the successor iterate applies f once then the previous iterate. Time is a natural number including zero. Commutativity of powers follows from additive iteration laws, not from an invertibility premise.",
+      "definition_excerpt": "Mixing-Nat.iterate",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mixing-Nat.iterate"
+      ],
+      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-Bool-topology",
+          "first_line": 572,
+          "last_line": 576,
+          "text": "instance : DiscreteTopology PUnit := ⟨rfl⟩\ninstance : IndiscreteTopology PUnit := inferInstance\n\ninstance : TopologicalSpace Bool := ⊥\ninstance : DiscreteTopology Bool := ⟨rfl⟩\n",
+          "sha256": "2d8bbbaa7265a7f44dd244c394855aa4f2fccb8128ba008672e414bc4393a5d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "induced",
+          "first_line": 64,
+          "last_line": 67,
+          "text": "def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n",
+          "sha256": "878b69c8488a10bac25ce164587ebbe29156ddb4fddd3fe1e9a3911d8bdd8110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67"
+        },
+        {
+          "name": "subtype-topology",
+          "first_line": 76,
+          "last_line": 79,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n\n",
+          "sha256": "eca619b73151480553afac7b4bb4246ad51da55154961c48653ddd5f3074b012",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L79"
+        },
+        {
+          "name": "Regular-subtype-topology",
+          "first_line": 76,
+          "last_line": 78,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n",
+          "sha256": "8bd24be4718ccace8cdaeccd59ff803b4182398fc8155d587b444ffe2c5b7b4b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L78"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pi.product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        },
+        {
+          "name": "E0-Pi-product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pettis-expansion-nhds",
+          "first_line": 125,
+          "last_line": 131,
+          "text": "open scoped Topology\n\n/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n",
+          "sha256": "a661bbae79afb88483674f8654cdee71eb1897360a7912c97b7b40e021aca646",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L125-L131"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean",
+      "sha256": "ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d",
+      "git_blob_sha1": "e94299ba14677e4193e7004cf77bf70c1ca6e065",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Finset",
+          "first_line": 75,
+          "last_line": 79,
+          "text": "structure Finset (α : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset α\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
+          "sha256": "7060271efbf43760a549ba990bf6441680ded1d3465c11a6856ecc7a6ca7b551",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Function/Iterate.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean",
+      "sha256": "bf42e948bbf3fae276cd05b8e53d1d143feec96f95d81675bee103010e210339",
+      "git_blob_sha1": "48324196626b2d62726e7e89fad332133c62e604",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-Nat.iterate",
+          "first_line": 41,
+          "last_line": 43,
+          "text": "def Nat.iterate {α : Sort u} (op : α → α) : ℕ → α → α\n  | 0, a => a\n  | succ k, a => iterate op k (op a)\n",
+          "sha256": "8197110f3911f9fba49b3571a56d29281c8ece9bda7297d8ac65024e88af77b1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L41-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-binary-product-topology",
+          "first_line": 53,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeTests",
+      "path": "ChallengeTests.lean",
+      "sha256": "c81f9c8b8944c9835b18a1802324d7fa7526aa93eb9df2069ba3b88a1aec79f6"
+    },
+    {
+      "module": "SemanticTests",
+      "path": "SemanticTests.lean",
+      "sha256": "5c8dc40537e43c342a6fd7e1ea71aec27914f2b9e94a918a2e63003f3cc2c2bb"
+    }
+  ],
+  "scope": "Literal open-set forward-iterate transitivity and weak mixing; continuity, finite constraints and actual product topologies. Core Nonempty/Fin definitions retained separately with exact compiler pin and semantic bridges, not misattributed to Mathlib. Independent review owns completeness/fidelity.",
+  "local_fixed_definitions": [
+    {
+      "name": "Furstenberg.Hit",
+      "path": "WeakMixingPower.lean",
+      "sha256": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+      "meaning": "Existence of an actual source point whose natural iterate enters the target set."
+    },
+    {
+      "name": "Furstenberg.Transitive",
+      "path": "WeakMixingPower.lean",
+      "sha256": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+      "meaning": "Every pair of nonempty opens has a natural hitting time; no dense-orbit claim."
+    },
+    {
+      "name": "Furstenberg.WeakMixing",
+      "path": "WeakMixingPower.lean",
+      "sha256": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+      "meaning": "Every two nonempty open pairs have a simultaneous natural hitting time; proved equivalent to actual square transitivity."
+    },
+    {
+      "name": "Furstenberg.pairMap",
+      "path": "WeakMixingPower.lean",
+      "sha256": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+      "meaning": "Actual coordinatewise map on the binary product."
+    },
+    {
+      "name": "Furstenberg.diagonal",
+      "path": "WeakMixingPower.lean",
+      "sha256": "9cfff9e524b717dd6634aea123234e5f04b59bbfb5a8a7c7c08f3d7aa9b5c20e",
+      "meaning": "Actual coordinatewise map on the function product."
+    }
+  ]
+}

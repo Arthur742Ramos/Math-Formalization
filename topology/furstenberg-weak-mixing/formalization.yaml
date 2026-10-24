@@ -1,0 +1,89 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Furstenberg weak mixing and finite diagonal powers",
+    "description": "For a continuous self-map of a nonempty topological space, square transitivity implies transitivity of every finite diagonal power, including power zero. A genuine open-pair refinement and finite induction give a common natural forward hitting time for any finite family of nonempty open pairs. The literal two-pair condition is proved equivalent to actual square transitivity.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.DS",
+      "math.GN"
+    ],
+    "msc2020": [
+      "37B05",
+      "37B02"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Notes on Topological Dynamics",
+      "authors": [
+        "Michael Hochman"
+      ],
+      "type": "paper",
+      "id": "https://math.huji.ac.il/~mhochman/courses/TD2022/notes-v3.pdf",
+      "relationship": "formalizes",
+      "note": "Author-hosted June15 2022 notes section6.2 Lemmas6.6–7 and Proposition6.8 directly read including proofs. The hitting-refinement/intersection construction is formalized for continuous self-maps of arbitrary nonempty topological spaces. Proposition6.11 supplies research context (weak-mixing times in products with minimal systems), not an additional formalized claim."
+    },
+    {
+      "title": "Revisiting Variations in Topological Transitivity",
+      "authors": [
+        "Anima Nagar"
+      ],
+      "type": "paper",
+      "id": "arXiv:1906.00712v4",
+      "relationship": "formalizes",
+      "note": "Section2.3 Proposition2.28 and Lemma2.29 directly read in https://arxiv.org/html/1906.00712v4. Credits Furstenberg intersection and Abelian-action finite-power significance. This package only treats natural iterates of one map; it does not claim general monoid-action extensions or rely on the source general noncommutative FIP phrasing."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "relationship": "uses",
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "note": "Credits natural iteration, continuity/preimages and actual binary/Pi product topology. Dynamics/Transitive.lean basic action transitivity read in full; bounded equivalent-statement searches found no weak-mixing refinement/finite-power theorem."
+    }
+  ],
+  "status": {
+    "scope": "Square-transitivity equivalence, open hitting-time refinement, finite accumulated refinement, common finite-family hitting and actual finite diagonal power transitivity; zero definition holes.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "Exact-source release readiness is established by immutable external local machine/render/review receipts; a build alone is not full certification.",
+    "attribution_status": "Campaign roles preserved; substantive Codex formalization and classical/upstream credits disclosed. No human proof contribution inferred."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored product-rectangle equivalence, commuting-iterate refinement, finite invariant induction and actual finite-product construction. Separate internal AI scope, implementation and release reviews; no human/external peer review claimed."
+      }
+    ],
+    "notes": "No novelty, human proof contribution or editorial acceptance inferred."
+  },
+  "fidelity": {
+    "divergences": "Natural forward times include zero. Transitive means open-set hitting, not dense-orbit existence. WeakMixing is literal simultaneous hitting of two nonempty open pairs and is proved equivalent to actual square-map transitivity. Only the finite-family/power statements assume Nonempty X; product equivalence and pair refinement have no global nonemptiness premise. No Baire, countability, metric, compactness, surjectivity, perfection or invertibility premise is used. Actual binary and finite Pi product topologies and diagonal iterates are audited. Empty finite families and the zeroth power are included explicitly. General Abelian actions, measure mixing, thick hitting, strongly transitive points and minimal-product conclusions are not claimed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI mathematical/source-fidelity reviewer"
+    ],
+    "notes": "Scope reviewed before development. Complete implementation and packaging/machine/release evidence reviewed separately. No human/external review asserted."
+  },
+  "acknowledgements": "Furstenberg intersection/finite-powers theorem credited through directly inspected Hochman and Nagar sources. Mathlib and Lean core attribution retained."
+}

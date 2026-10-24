@@ -1,0 +1,7 @@
+module
+public import MixingSolution
+#print axioms Furstenberg.weakMixing_iff_product_transitive
+#print axioms Furstenberg.hitting_refinement
+#print axioms Furstenberg.finite_refinement
+#print axioms Furstenberg.finite_simultaneous_hitting
+#print axioms Furstenberg.finite_power_transitive

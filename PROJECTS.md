@@ -243,3 +243,13 @@ Finite-flip mixing, generic constancy and BP/Borel non-reduction are proved and 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Generic ergodicity and non-smoothness of E₀](topology/e0-nonsmoothness) | Literal E0 on the actual Boolean Cantor product has generic ergodicity and admits no BP or Borel reduction to equality in any second countable T0 target. | Preparation; not submitted | [`2c22ecd`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2c22ecd1459b49b96e685677e62a14c1facea936/topology/e0-nonsmoothness) |
+
+## Furstenberg weak-mixing finite powers preparation
+
+Square-transitivity equivalence, hitting-time refinement, finite common hitting and finite diagonal power transitivity are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Furstenberg weak mixing and finite diagonal powers](topology/furstenberg-weak-mixing) | A continuous self-map of a nonempty topological space with transitive square has transitive finite diagonal powers, via a genuine hitting-time refinement and finite induction. | Preparation; not submitted | [`7801f89`](https://github.com/Arthur742Ramos/Math-Formalization/tree/7801f89d71af80f29a3dcd02eb0691edcf5663b6/topology/furstenberg-weak-mixing) |
+
+Weak-mixing preparation classification was corrected to MSC2020 37B05/37B02. The earlier local preparation at `288061d6e8fd352fa1f29779905994b0518dd698` rejected obsolete secondary54H20 before proof execution. The original failure remains external immutable evidence; later exact-source reports are required for release readiness.
