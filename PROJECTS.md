@@ -261,3 +261,11 @@ Countable-product transitivity, residual dense-orbit construction and coherent d
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Generic strongly transitive sequences in weakly mixing Polish systems](topology/strongly-transitive-sequences) | A continuous weakly mixing self-map of a nonempty Polish space has a nonempty dense G-delta family of countable sequences whose every finite prefix has a dense synchronized forward orbit. | Preparation; not submitted | [`186f049`](https://github.com/Arthur742Ramos/Math-Formalization/tree/186f049add025752c1ceef8940848366d0a62e6d/topology/strongly-transitive-sequences) |
+
+## Nonwandering generic recurrence preparation
+
+Late open self-returns, countable metric return stages, actual G-delta and residual recurrence, and Baire-dependent density equivalence are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Nonwandering systems and generic recurrent points](topology/nonwandering-recurrence) | For continuous maps on Baire metric spaces, nonwandering is equivalent to density of the actual recurrent set, which is G-delta. Residual membership and arbitrarily late positive returns are constructed separately. | Preparation; not submitted | [`c170938`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c1709384a5e78e6e13d60b14b9affa6bfd6f386a/topology/nonwandering-recurrence) |

@@ -1941,6 +1941,69 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Nonwandering systems and generic recurrent points",
+      "path": "topology/nonwandering-recurrence",
+      "scope": "For continuous maps on Baire metric spaces, nonwandering is equivalent to density of the actual recurrent set, which is G-delta. Residual membership and arbitrarily late positive returns are constructed separately.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "c1709384a5e78e6e13d60b14b9affa6bfd6f386a",
+        "tree": "f01b3f1ada9a354ce9361940bb4101fb24a2b01d"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "ea498a082dd0ee17e8ec924cbf7ea4ebbb1da7b2f332ab4e67ef129bcf38f3d4",
+        "CORE-DEFINITIONS.md": "058da1c406ef23719f475c2c2e69c33123eca8454b88c7addc0317b984b76744",
+        "AxiomAudit.lean": "5841dc26fb726803d0b9298684ab25bb742224afe9f932ed0531e718e49a7ac4",
+        "RecurrenceChallenge.lean": "2ea440b06ff728d0b41b1d35431e7dc54336cd030f8d412c7b36ed80690d3ea4",
+        "ChallengeTests.lean": "391f81f8f3c8ab6a08a46ef7b38927428eacab5e6239ea3e1290bcb2dbc8d28c",
+        "BirkhoffRecurrence.lean": "2ea440b06ff728d0b41b1d35431e7dc54336cd030f8d412c7b36ed80690d3ea4",
+        "RecurrenceSolution.lean": "76640008edc6a54885c869bcbfa44b8090d083cd81ace5701b6ccf847e0dedf7",
+        "formalization.yaml": "3642961b21bc39b6ee9c5d8dc989625436594fdeef1c88fa1cd0ecd3926a968f",
+        "lakefile.toml": "d819435959a6e29526740a30a7be492d7f2e093a0c8cd7eea9c03cd91a7e8b56",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "4f27397343d6c6905568c87688882ba59dbfef8a50d76f3b7bf362f38b9b9d35",
+        "lake-manifest.json": "a0b928a96b7e2f7e7d2441126c8776171cb44dfb399effafd06f8fe169a3d19a",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "18fdb38cff144eca2c3353a18373ed4b493e77a2724f21ad0f4581df83bffb71",
+        "comparator.json": "0ef055ccce98c6a0097ceb50f53c7e0ca8163cc0245ea47a7120bd5ce54347d5"
+      },
+      "theorem_names": [
+        "CategoryRecurrence.nonwandering_iff_late_returns",
+        "CategoryRecurrence.recurrent_iff_return_stages",
+        "CategoryRecurrence.isGdelta_recurrent",
+        "CategoryRecurrence.dense_return_stage",
+        "CategoryRecurrence.residual_recurrent",
+        "CategoryRecurrence.nonwandering_iff_dense_recurrent"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "221ae63dc18e0c529ce1c2b33a65193d2bd6b3fea47d5cbb43b6cb3574713355"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
