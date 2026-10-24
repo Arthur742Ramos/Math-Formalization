@@ -277,3 +277,11 @@ Surjectivity, arbitrarily late thick hitting blocks, compact-cover syndetic gaps
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Weak mixing times minimality: transitivity of the product](topology/weak-mixing-minimal-product) | A continuous weakly mixing map on nonempty compact Hausdorff X has transitive actual product with a continuous pointwise forward-minimal map on nonempty compact Y. | Preparation; not submitted | [`c35deaf`](https://github.com/Arthur742Ramos/Math-Formalization/tree/c35deaffa9c703d13714623303d161189bf544da/topology/weak-mixing-minimal-product) |
+
+## Weak-mixing equicontinuous factor preparation
+
+Semiconjugacy factor transfer and a direct metric epsilon obstruction to even one equicontinuity point are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Weak mixing and equicontinuous metric factors](topology/weak-mixing-equicontinuous-factors) | Weak mixing transfers to continuous surjective semiconjugate factors; one equicontinuity point forces a weakly mixing metric space to be subsingleton, and every equicontinuous metric factor is subsingleton. | Preparation; not submitted | [`0cfe96c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0cfe96c106a23009506b8b781d5083586ddd6617/topology/weak-mixing-equicontinuous-factors) |

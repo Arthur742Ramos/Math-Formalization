@@ -2067,6 +2067,67 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Weak mixing and equicontinuous metric factors",
+      "path": "topology/weak-mixing-equicontinuous-factors",
+      "scope": "Weak mixing transfers to continuous surjective semiconjugate factors; one equicontinuity point forces a weakly mixing metric space to be subsingleton, and every equicontinuous metric factor is subsingleton.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "0cfe96c106a23009506b8b781d5083586ddd6617",
+        "tree": "a0b5d81390231e5b2fdca57a43de6fd596411513"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "47b5ccca99fbec57e7285c1729a66136adb76afa14babd23617e8d4e905487e8",
+        "WeakMixingCore.lean": "b90758eeb313ca145dafee512cc0b89a6380a4201a2964ecf63eee030321d217",
+        "CORE-DEFINITIONS.md": "16f29426759bb8c6ca9da6cff96e2915b203cacf40d931fd5d261022e123d9df",
+        "EquicontSolution.lean": "321ef0f8c4acc3f4e0014da7b752a80593fdc61af621240a37e93577e7ed8a8f",
+        "AxiomAudit.lean": "f733362040cb49c4cd7301fe6f9a458cb2b3642210c98c4e32501c7146c1d22e",
+        "WeakMixingFactors.lean": "e4b3b67a9162de6d9f4c353ab8bfcc60620e75ef7124495b8a3e03d059a7e2e9",
+        "ChallengeTests.lean": "ba5135a4da3e92a6502b3b525ac1622171d13e28485e92d18b32258dd5a10e27",
+        "EquicontChallenge.lean": "2c7e99cc4147e4dac5d5fbdd0c4f46d9941a3e86c73758327308d29486942823",
+        "formalization.yaml": "50d0f88a67312d605a8e06685d5810e066bd66f23ab0e87db56ce9bb5be691d4",
+        "lakefile.toml": "3a646633499c9c47ed757057ff47676be5da8366a12fe6617286a9d0fe51142f",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "dbcf164914125e05d5d8ed5a16efb44a4e78620ab00ba38a7ad352e8a8528e51",
+        "lake-manifest.json": "ffa970776fe836c93bb09df37ddb9a20a456e6ef7a2b9ae688b5feee09d46cc5",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "5710cf4fc398dc03519ffc58cac94ae205dd7b25660179054c6b1497ad79d3c1",
+        "comparator.json": "0ca7c17726e346e54677524adf3dff6fc852725cd2ea336ac5b0244e2f3cac4c"
+      },
+      "theorem_names": [
+        "MixingFactor.weakMixing_factor",
+        "MixingFactor.subsingleton_of_equicontinuousAt",
+        "MixingFactor.equicontinuous_factor_subsingleton"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "4d51c3a7070f0090924c484b615c81ee2d3a03fd690e0bb4fdc0b6034b28dab8"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }

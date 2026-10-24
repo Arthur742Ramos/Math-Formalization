@@ -1,0 +1,5 @@
+module
+public import EquicontSolution
+#print axioms MixingFactor.weakMixing_factor
+#print axioms MixingFactor.subsingleton_of_equicontinuousAt
+#print axioms MixingFactor.equicontinuous_factor_subsingleton

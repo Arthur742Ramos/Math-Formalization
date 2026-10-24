@@ -1,0 +1,27 @@
+name = "weakMixingEquicontinuousFactors"
+version = "0.1.0"
+defaultTargets = ["WeakMixingFactors", "WeakMixingCore", "EquicontChallenge", "EquicontSolution", "AxiomAudit", "ChallengeTests", "SemanticTests"]
+moreLeanArgs = ["-j1", "-M4096", "-DwarningAsError=true"]
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+[[lean_lib]]
+name = "WeakMixingFactors"
+[[lean_lib]]
+name = "WeakMixingCore"
+
+[[lean_lib]]
+name = "EquicontChallenge"
+
+[[lean_lib]]
+name = "EquicontSolution"
+
+[[lean_lib]]
+name = "AxiomAudit"
+
+[[lean_lib]]
+name = "ChallengeTests"
+
+[[lean_lib]]
+name = "SemanticTests"
