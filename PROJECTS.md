@@ -285,3 +285,11 @@ Semiconjugacy factor transfer and a direct metric epsilon obstruction to even on
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Weak mixing and equicontinuous metric factors](topology/weak-mixing-equicontinuous-factors) | Weak mixing transfers to continuous surjective semiconjugate factors; one equicontinuity point forces a weakly mixing metric space to be subsingleton, and every equicontinuous metric factor is subsingleton. | Preparation; not submitted | [`0cfe96c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0cfe96c106a23009506b8b781d5083586ddd6617/topology/weak-mixing-equicontinuous-factors) |
+
+## Weak-mixing thick multi-sensitivity preparation
+
+Separated open metric targets, finite common hitting thickness and positive common thick multi-sensitivity are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Weak mixing and thick common multi-sensitivity](topology/weak-mixing-thick-multisensitivity) | One positive constant gives every finite family of nonempty open sets common thick positive separation times for continuous surjective weakly mixing maps on nontrivial metric spaces. | Preparation; not submitted | [`fa2cdbd`](https://github.com/Arthur742Ramos/Math-Formalization/tree/fa2cdbd172e7bf754c30840f8ccc8af3e90eab92/topology/weak-mixing-thick-multisensitivity) |
