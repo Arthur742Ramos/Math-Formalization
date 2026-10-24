@@ -1,0 +1,17 @@
+{
+  "challenge_module": "E0Challenge",
+  "solution_module": "E0Solution",
+  "theorem_names": [
+    "EZero.finite_flip_mixing",
+    "EZero.zero_one",
+    "EZero.generically_constant",
+    "EZero.no_baire_reduction",
+    "EZero.no_borel_reduction"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
