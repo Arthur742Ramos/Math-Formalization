@@ -203,3 +203,11 @@ The full invariant-subset theorem is proved and independently internally reviewe
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Cantor dynamical extension with a dense forward orbit](topology/cantor-dynamical-extension) | Invariant closed nowhere-dense Cantor-subset dynamics extends to an ambient homeomorphism with a dense forward orbit; empty subset included. | Preparation; not submitted | [`2363043`](https://github.com/Arthur742Ramos/Math-Formalization/tree/23630432032ac99852b0107558afa1fe32aee7b5/topology/cantor-dynamical-extension) |
+
+## Mycielski Cantor independent-set preparation
+
+The localized binary-relation theorem is proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Mycielski Cantor independent set for dense-open binary relations](topology/mycielski-cantor-independent) | Every nonempty open subset of a perfect Polish space contains a closed Cantor copy whose ordered distinct points satisfy every member of a countable dense-open family of binary relations. | Preparation; not submitted | [`be14984`](https://github.com/Arthur742Ramos/Math-Formalization/tree/be149845da3fcff14d3a010278bb7be8aeb99c57/topology/mycielski-cantor-independent) |
