@@ -1,0 +1,15 @@
+{
+  "challenge_module": "EquicontChallenge",
+  "solution_module": "EquicontSolution",
+  "theorem_names": [
+    "MixingFactor.weakMixing_factor",
+    "MixingFactor.subsingleton_of_equicontinuousAt",
+    "MixingFactor.equicontinuous_factor_subsingleton"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
