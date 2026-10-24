@@ -249,5 +249,39 @@ class StrongChoquetQualifiedEvidence(ImportedDefinitionEvidence):
         with self.assertRaises(ValueError): check(self.project)
 
 
+class AbbreviationEvidence(unittest.TestCase):
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        self.project = pathlib.Path(temp.name) / 'project'
+        shutil.copytree(ROOT / 'computational-hodge/finite-periods', self.project,
+                        ignore=shutil.ignore_patterns('.lake', '__pycache__'))
+        self.file = self.project / 'verification/material-imported-definitions.json'
+        self.data = json.loads(self.file.read_text())
+
+    def test_actual_euclidean_and_finite_dimensional_aliases_pass(self):
+        result = check(self.project)
+        self.assertIn('EuclideanSpace', result['material_declarations'])
+        self.assertIn('FiniteDimensional', result['material_declarations'])
+
+    def test_abbreviation_cannot_be_mislabelled_definition(self):
+        row = next(d for d in self.data['material_declarations'] if d['name'] == 'EuclideanSpace')
+        self.assertEqual(row['declaration_kind'], 'abbrev')
+        row['declaration_kind'] = 'def'
+        self.file.write_text(json.dumps(self.data))
+        with self.assertRaises(ValueError): check(self.project)
+
+    def test_abbreviation_cannot_claim_class_fields(self):
+        row = next(d for d in self.data['material_declarations'] if d['name'] == 'EuclideanSpace')
+        row['bridge_kind'] = 'class-fields'
+        self.file.write_text(json.dumps(self.data))
+        with self.assertRaises(ValueError): check(self.project)
+
+    def test_abbreviation_name_boundary_remains_exact(self):
+        self.assertTrue(declaration_header_matches('abbrev EuclideanSpace := PiLp 2', 'abbrev', 'EuclideanSpace'))
+        self.assertFalse(declaration_header_matches('abbrev EuclideanSpaceExtra := PiLp 2', 'abbrev', 'EuclideanSpace'))
+        self.assertFalse(declaration_header_matches('def EuclideanSpace := PiLp 2', 'abbrev', 'EuclideanSpace'))
+
+
 if __name__ == '__main__':
     unittest.main()

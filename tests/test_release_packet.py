@@ -92,6 +92,35 @@ class HodgeSourcePath(unittest.TestCase):
                 guard.snapshot(ROOT, '0' * 40, path)
 
 
+class ComputationalHodgeMaterialHandoff(MaterialDefinitionHandoff):
+    PROJECT = 'computational-hodge/finite-periods'
+
+    def test_stale_frozen_bridge_blocks_handoff(self):
+        self.files['ChallengeSemantics.lean'] = b'module\n'
+        with self.assertRaises(ValueError):
+            self.check()
+
+
+class ComputationalHodgeSourcePath(unittest.TestCase):
+    def test_exact_computational_hodge_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'Challenge.lean\n', b'module\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, 'computational-hodge/finite-periods')
+        self.assertEqual(files, {'Challenge.lean': b'module\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':computational-hodge/finite-periods/Challenge.lean')
+
+    def test_other_or_traversing_computational_paths_are_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['computational-hodge/other',
+                         'computational-hodge/finite-periods/../finite-periods',
+                         '/computational-hodge/finite-periods']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,

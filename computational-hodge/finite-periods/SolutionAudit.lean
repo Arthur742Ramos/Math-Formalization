@@ -1,0 +1,45 @@
+module
+
+public import Solution
+
+#print axioms ComputationalHodge.period_d0
+#print axioms ComputationalHodge.d1_d0
+#print axioms ComputationalHodge.closed_iff_rewrite_invariant
+#print axioms ComputationalHodge.quotientPeriod_compose
+#print axioms ComputationalHodge.unique_harmonic_representative
+#print axioms ComputationalHodge.hodgeEquiv_preserves_periods
+#print axioms ComputationalHodge.periodPairing_compose
+#print axioms ComputationalHodge.exact_iff_zero_loop_periods
+#print axioms ComputationalHodge.harmonic_determined_by_periods
+#print axioms ComputationalHodge.periodPairing_separates
+#print axioms ComputationalHodge.ParallelEdges.omega_harmonic
+#print axioms ComputationalHodge.ParallelEdges.omega_loop_period
+#print axioms ComputationalHodge.ParallelEdges.omega_not_exact
+#print axioms ComputationalHodge.ParallelEdges.loop_geometrically_null
+#print axioms ComputationalHodge.ParallelEdges.parallel_harmonic_zero
+#print axioms ComputationalHodge.ParallelEdges.rewrite_changes_periods
+#print axioms ComputationalHodge.Cochain
+#print axioms ComputationalHodge.period
+#print axioms ComputationalHodge.d0
+#print axioms ComputationalHodge.d1
+#print axioms ComputationalHodge.Closed
+#print axioms ComputationalHodge.Exact
+#print axioms ComputationalHodge.Harmonic
+#print axioms ComputationalHodge.Boundaries
+#print axioms ComputationalHodge.H1
+#print axioms ComputationalHodge.harmonicProjection
+#print axioms ComputationalHodge.hodgeEquiv
+#print axioms ComputationalHodge.pathSetoid
+#print axioms ComputationalHodge.quotientPeriod
+#print axioms ComputationalHodge.compose
+#print axioms ComputationalHodge.cohomologyPeriod
+#print axioms ComputationalHodge.periodPairing
+#print axioms ComputationalHodge.componentSetoid
+#print axioms ComputationalHodge.componentRoot
+#print axioms ComputationalHodge.rootTrace
+#print axioms ComputationalHodge.potential
+#print axioms ComputationalHodge.ParallelEdges.system
+#print axioms ComputationalHodge.ParallelEdges.freePresentation
+#print axioms ComputationalHodge.ParallelEdges.omega
+#print axioms ComputationalHodge.ParallelEdges.parallelPresentation
+#print axioms ComputationalHodge.ParallelEdges.edgeTopology
