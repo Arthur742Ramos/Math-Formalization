@@ -300,4 +300,4 @@ Stable-open propagation, the pointwise minimal dichotomy and its nonempty incomp
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Auslander–Yorke dichotomy for minimal metric maps](topology/auslander-yorke-dichotomy) | A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity. | Preparation; not submitted | [`1b54a5c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/1b54a5c7078534f3bb7e553161c2a1317dfc4eb8/topology/auslander-yorke-dichotomy) |
+| [Auslander–Yorke dichotomy for minimal metric maps](topology/auslander-yorke-dichotomy) | A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity. | Preparation; not submitted | [`947b3e8`](https://github.com/Arthur742Ramos/Math-Formalization/tree/947b3e8d6f6f200e4ae2cbac1b080399146dea7f/topology/auslander-yorke-dichotomy) |

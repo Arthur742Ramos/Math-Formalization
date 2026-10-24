@@ -2197,8 +2197,8 @@
       "scope": "A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "1b54a5c7078534f3bb7e553161c2a1317dfc4eb8",
-        "tree": "2db2756dfd5a561dfed42dbb4a0aa1bc6c429504"
+        "commit": "947b3e8d6f6f200e4ae2cbac1b080399146dea7f",
+        "tree": "3dcd061ac02f2fefb1f1325a0f64e8f084551060"
       },
       "source_files_sha256": {
         "SemanticTests.lean": "0415d1068f4b14da3edc9d8c67c0d8d26d68333da743df9a748bf3f26b667683",
