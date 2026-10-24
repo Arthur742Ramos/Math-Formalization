@@ -1,0 +1,31 @@
+{
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "source_path": "Init/Prelude.lean",
+  "source_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+  "sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+  "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+  "excerpts": [
+    {
+      "name": "Nat",
+      "first_line": 1359,
+      "last_line": 1373,
+      "text": "inductive Nat where\n  /--\n  Zero, the smallest natural number.\n\n  Using `Nat.zero` explicitly should usually be avoided in favor of the literal `0`, which is the\n  [simp normal form](lean-manual://section/simp-normal-forms).\n  -/\n  | zero : Nat\n  /--\n  The successor of a natural number `n`.\n\n  Using `Nat.succ n` should usually be avoided in favor of `n + 1`, which is the [simp normal\n  form](lean-manual://section/simp-normal-forms).\n  -/\n  | succ (n : Nat) : Nat\n",
+      "sha256": "c85f7d91cbc1d37e4da50203f65f07b0c8ea98a2eaf8821c1589ee8fdf80d4b8"
+    },
+    {
+      "name": "Nat.le",
+      "first_line": 2022,
+      "last_line": 2026,
+      "text": "protected inductive Nat.le (n : Nat) : Nat → Prop\n  /-- Non-strict inequality is reflexive: `n ≤ n` -/\n  | refl     : Nat.le n n\n  /-- If `n ≤ m`, then `n ≤ m + 1`. -/\n  | step {m} : Nat.le n m → Nat.le n (succ m)\n",
+      "sha256": "0dc3ace1d2ca2216f5a632d1bccf78d399ce39f58f34dc8b30507a167eb3f816"
+    },
+    {
+      "name": "Nat.lt",
+      "first_line": 2036,
+      "last_line": 2040,
+      "text": "@[implicit_reducible] protected def Nat.lt (n m : Nat) : Prop :=\n  Nat.le (succ n) m\n\ninstance instLTNat : LT Nat where\n  lt := Nat.lt\n",
+      "sha256": "5745c81e8ad8c7ca6bad8558c94ce5c2357d25ebd8362cbbfb7959381b9b9a23"
+    }
+  ],
+  "scope": "Exact natural constructors and strict-order semantics for positive/late return times, at the compiler pin."
+}
