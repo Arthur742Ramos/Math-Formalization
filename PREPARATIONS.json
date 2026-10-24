@@ -1878,6 +1878,69 @@
           "scope": "Original reviewed preparation snapshot; its metadata used invalid secondaryMSC54H20. Local canonical prepare at288061d stopped before proof execution; not a canonical proof pass."
         }
       ]
+    },
+    {
+      "name": "Generic strongly transitive sequences in weakly mixing Polish systems",
+      "path": "topology/strongly-transitive-sequences",
+      "scope": "A continuous weakly mixing self-map of a nonempty Polish space has a nonempty dense G-delta family of countable sequences whose every finite prefix has a dense synchronized forward orbit.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "186f049add025752c1ceef8940848366d0a62e6d",
+        "tree": "42dce7b961136723ce4d89653269ae4c090aea4c"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "a7d04a4ddbd4c356da69bf69aba37c446da1bc005b5314ff2077b3c7b24609fe",
+        "StrongTransitive.lean": "22eee643672bc60968dc35a562c799338cb8fe63147813c79450302b5c92d38f",
+        "WeakMixingCore.lean": "479aa6a5d3fe9cd88d748a943ff677e3d27ffaf3066b4517cac67f5fe1087976",
+        "StrongChallenge.lean": "996bd1ab704f64b0a47317c923944dd769c30538137b8c427a7f3eae29f261c1",
+        "CORE-DEFINITIONS.md": "ed8a77a5139f54f9bb5f1678c17d9716193df3ff8a79d8c1cfa58d6fa80cd671",
+        "AxiomAudit.lean": "a6b82e73b896c86915d3824ddbc90cc7a93ff4acb292e49112120465c215d788",
+        "ChallengeTests.lean": "7dd87183d575a0c1f37a3f7f7efc7600e654f6161c13f0807c07e40e54b92b91",
+        "StrongSolution.lean": "364341c8f05dc6bfc802c19320ebdd8dd73ede511a826d965fb5cfd12d06211c",
+        "formalization.yaml": "f9c3f131bf99457cc2b9d439ed5f0c34dbd37d4cc3a13bcde1a0ef07830fc28e",
+        "lakefile.toml": "60ef2226e67b9d30f4fa7c172c14384d389209d21422166154a975d8970761d5",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "94be90d6a7511373e7c539ad837fdee399872a0da5ff130ae38903a9df7c0057",
+        "lake-manifest.json": "c14dcda64fc61dc57872491f3049ddcd66d9a6f6115253212d146bf16f62d9d1",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "ba1253530f2210b8e8e34ca255f7d8469d30b91afccc07715e16d2e3ec355ff9",
+        "comparator.json": "5dff4a4e23dd7e73f524e72847c06958c7e3312c5d50a80af2ef376510211a3a"
+      },
+      "theorem_names": [
+        "StrongTransitive.residual_dense_orbits",
+        "StrongTransitive.countable_power_transitive",
+        "StrongTransitive.dense_prefix_orbit",
+        "StrongTransitive.residual_strong_sequences",
+        "StrongTransitive.exists_dense_Gdelta_strong_sequences"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "ec987566764d0c8f22ec8899763c41bb4f09f47e18dcf6d11ca195fe94e50297"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
