@@ -211,3 +211,11 @@ The localized binary-relation theorem is proved and independently internally rev
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Mycielski Cantor independent set for dense-open binary relations](topology/mycielski-cantor-independent) | Every nonempty open subset of a perfect Polish space contains a closed Cantor copy whose ordered distinct points satisfy every member of a countable dense-open family of binary relations. | Preparation; not submitted | [`be14984`](https://github.com/Arthur742Ramos/Math-Formalization/tree/be149845da3fcff14d3a010278bb7be8aeb99c57/topology/mycielski-cantor-independent) |
+
+## Category Hewitt–Savage preparation
+
+The qualified infinite-Baire-product theorem and Polish-sequence corollary are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Category Hewitt–Savage zero-one law for infinite Baire products](topology/hewitt-savage-category) | A Baire-property subset of an infinite Baire product invariant under finite-support coordinate permutations is meagre or comeagre; Polish sequences are a corollary. | Preparation; not submitted | [`2e77e7e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2e77e7edb6f1483ed100cdcdcb5e0b4358973d7a/topology/hewitt-savage-category) |

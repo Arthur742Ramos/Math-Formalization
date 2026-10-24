@@ -1552,6 +1552,64 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Category Hewitt–Savage zero-one law for infinite Baire products",
+      "path": "topology/hewitt-savage-category",
+      "scope": "A Baire-property subset of an infinite Baire product invariant under finite-support coordinate permutations is meagre or comeagre; Polish sequences are a corollary.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "2e77e7edb6f1483ed100cdcdcb5e0b4358973d7a",
+        "tree": "880ad75389b4dee6852ca70a531d772a19f62f0e"
+      },
+      "source_files_sha256": {
+        "HSChallenge.lean": "63fea72db171ef32882a151c49a258990d0716a6fe42ffdc01762bd1b1144849",
+        "SemanticTests.lean": "2243f2890e6897fced3e20395f399a2aa9068ba06b42b2be70f74485f997c1b7",
+        "HewittSavage.lean": "65a8775cfb252c2b45308e6cbdb2b82c174efa1994a4df01bb4bbcfc6f472d32",
+        "AxiomAudit.lean": "08314da1d2a2cbf43fb36d80b6d9280c132a6790f9ba136a495b517fb47ade0a",
+        "ChallengeTests.lean": "0ba72f6c44eb19307acda1e527742eec886c79524ebe7fd9261ed176a880746e",
+        "HSSolution.lean": "7af56dfa7c80bb1654b45315fd58e8239f1f50b7b7c707f0737522efa2267a80",
+        "formalization.yaml": "aec81546179c06bfd9a9f7553e9c333155f38724034c833838b226a8b3d60a4f",
+        "lakefile.toml": "aee2d99656182ba2dec83343413e5712e9d219fd0d65aa9a79ee50580512bee2",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "7d9de89717a16c60ff999e3e00faa932759603cee654db5fdf497d39e1756756",
+        "lake-manifest.json": "c926cf22d865c6fd4aedf80789112477c1d16d5c5e507c146ae1b7c6cfcdf459",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "ad3a9ef3db48a7c9bcc4a8f1477ff85e6f44af42b9892558e3a677059324df73",
+        "comparator.json": "8fd98f0e759032e3da71bab62e72d5565d9751136d2d655138a9c8697105188d"
+      },
+      "theorem_names": [
+        "HewittSavage.category_zero_one",
+        "HewittSavage.polish_sequence_zero_one"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "963ca667902216bba6a5adbc5b31fcf860f53e07838b846b79a4b31eec46deb8"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
