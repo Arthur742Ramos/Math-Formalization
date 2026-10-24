@@ -1610,6 +1610,64 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Pettis automatic continuity for Baire-to-separable topological groups",
+      "path": "topology/pettis-automatic-continuity",
+      "scope": "A BP-measurable homomorphism from a Baire topological group to a separable topological group is continuous; nonmeagre BP neighborhood lemma proved internally.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "226aca05603f09731592cfef71d0a4b030181cc3",
+        "tree": "ff3c4ce140edf91c0835d2a8039adf092a98d199"
+      },
+      "source_files_sha256": {
+        "PettisSolution.lean": "5225270db34ac9aefa509efd5cd42c724b587468bffa7559c3b3883aecae4f4b",
+        "SemanticTests.lean": "3822937d0e00f90d55612353c8e095e887a9956269077de5fb14d87e99882402",
+        "PettisChallenge.lean": "e5fd0160b808c1186504990d8599c29df6767c65aff4b114fdf98d160466d136",
+        "AxiomAudit.lean": "0b3888f0a6d8b8b7bd2e5f18488807e833481196121c4608ef48b6e3deb181e1",
+        "ChallengeTests.lean": "52c34a2ba082ba5419ece1112007951d7b258b7ffc24a25dae95b9d596e23d10",
+        "formalization.yaml": "7f12aec17b91775ebbfc8cea3f403ef69e060f2e939f244ef972c365651ed541",
+        "lakefile.toml": "025ce2deeb8373629b6382f2f9b44890fa936bde2987ba104b76c6a6a305ecf7",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "ecf16e88bde5d0e26967f8590a4b817491a9ba45400e02b9318467aca833773a",
+        "lake-manifest.json": "b7f3454bae1266b7ce34ab2599744d0d1cca0c44c36a50c2ef7e4f8b830dc109",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "PettisAutomatic.lean": "33f6b0061349749ef7f8350b636558e65858f5b15c71f3b28e93c3ab094990ed",
+        "README.md": "36b543278394204c226d8a871ee929688e668a7823128666f605674eabeadd2e",
+        "comparator.json": "43710e937db0186098fbcb518ff18d5c6412c5e23241b2fbd8a986f1fde17fd5"
+      },
+      "theorem_names": [
+        "PettisAutomatic.mul_inv_mem_nhds_one",
+        "PettisAutomatic.continuous_of_baire_preimages"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "5f7d10343d5384d58eee400f7a85aad3f9fe1da864cae5a7c6d3021fdbf58923"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
