@@ -1,0 +1,92 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Mycielski Cantor independent set for dense-open binary relations",
+    "description": "Every nonempty open subset U of a perfect Polish space X contains a closed topological embedding e of Cantor space Nat -> Bool such that every ordered pair of distinct image points lies in each member of a countable family of dense-open subsets R_n of X × X. Coordinated finite refinements enforce all ordered pairs, have closure nesting and vanishing diameter; ambient completeness yields the Cantor limit map. Single-Cantor binary-relation scope only; no novelty claim.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.GN",
+      "math.LO"
+    ],
+    "msc2020": [
+      "54H05",
+      "03E15",
+      "54E52"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Independent sets in topological algebras",
+      "authors": [
+        "Jan Mycielski"
+      ],
+      "type": "paper",
+      "id": "https://eudml.org/doc/213780",
+      "relationship": "formalizes",
+      "note": "Fundamenta Mathematicae55(1964),139–147. Originalscanreturned403; bibliographic attribution, not a direct original-proof-inspection claim."
+    },
+    {
+      "title": "A dynamical version of Kuratowski–Mycielski theorem and invariant chaotic sets",
+      "authors": [
+        "Jian Li",
+        "Jie Lu",
+        "Yuanfen Xiao"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/1801.10266v1",
+      "relationship": "formalizes",
+      "note": "Introduction directly states the stronger binary dense-Gdelta/sigma-Cantor theorem and explains chaotic-set applications. This package proves only the localized single-Cantor countable-dense-open binary-relation case, not dense sigma-Cantor unions, arbitrary arities or dynamical invariance."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "relationship": "uses",
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "note": "Pinned CantorScheme supplies totality, continuity and injectivity of an internally constructed shrinking scheme. Its existing perfect-set Cantor injection does not impose countably many ordered-pair relations. Joint-projection openness, coordinated relation-compatible finite refinement, stage iteration and the full independent-set construction are proved here."
+    }
+  ],
+  "status": {
+    "scope": "One full localized single-Cantor binary-relation theorem with zero definition holes.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "No mathematical gap identified in independent internal AI implementation/source-fidelity review. Exact-source machine, canonical, rendered-readability and final release status is established by immutable external receipts; compilation alone is not full release certification.",
+    "attribution_status": "Campaign authors/maintainers preserved; substantive Codex formalization, no human proof contribution inferred."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored finite joint-projection, independent-tuple, coordinated refinement, fusion stages and Cantor independent-set proofs and packaging. Separate internal AI scope/implementation/source reviews; no human or external peer review claimed."
+      }
+    ],
+    "notes": "Human proof contributions and external editorial acceptance are not inferred."
+  },
+  "fidelity": {
+    "divergences": "Single-Cantor localized binary-relation case only. Supplied topology is preserved by the compatible complete metric. U must be nonempty and open; X is perfect and Polish. Every R_n is open and dense in the actual product X×X. All ordered distinct Cantor points are covered, without symmetry or diagonal-membership assumptions. Fusion existence and the Cantor embedding are proved, not premises."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI mathematical/source-fidelity reviewer"
+    ],
+    "notes": "Scope and three implementation modules reviewed. Packaging and exact-source machine/release evidence have their own required reviews; no human/external review asserted."
+  },
+  "acknowledgements": "Classical result attributed to Jan Mycielski. Li–Lu–Xiao supply the directly inspected modern theorem/application account. Felix Weilacher and other Mathlib authors supply the credited CantorScheme and perfect-space infrastructure. This project proves coordinated relation-compatible fusion rather than assuming it."
+}
