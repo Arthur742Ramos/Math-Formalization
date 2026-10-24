@@ -1,0 +1,18 @@
+{
+  "challenge_module": "RecurrenceChallenge",
+  "solution_module": "RecurrenceSolution",
+  "theorem_names": [
+    "CategoryRecurrence.nonwandering_iff_late_returns",
+    "CategoryRecurrence.recurrent_iff_return_stages",
+    "CategoryRecurrence.isGdelta_recurrent",
+    "CategoryRecurrence.dense_return_stage",
+    "CategoryRecurrence.residual_recurrent",
+    "CategoryRecurrence.nonwandering_iff_dense_recurrent"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

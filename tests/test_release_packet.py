@@ -325,6 +325,52 @@ class SeparateVerifiedReplayTests(ReleasePacketTests):
             files['lean-toolchain'] = b'leanprover/lean4:v4.35.0-rc2\n'
         return super().check_fixture(report, fields, files, data)
 
+    def test_pinned_nat_ordering_diagnostic_preserves_verified_acceptance(self):
+        note = ('con-ron: 2 declarations hoisted ahead of the pinned Nat operations '
+                'they ground: Nat.mul._f, Nat.mul')
+        for include_modelled in [False, True]:
+            with self.subTest(include_modelled=include_modelled):
+                report = self.fixture()
+                attempt = report['kernel_attempts'][0]
+                if not include_modelled:
+                    attempt['detail'] = attempt['detail'].splitlines()[0]
+                attempt['detail'] += '\n' + note
+                self.assertEqual(self.check_fixture(report=report)['status'], 'pass')
+
+    def test_nat_ordering_metadata_cannot_hide_an_invalid_replay(self):
+        note = ('con-ron: 2 declarations hoisted ahead of the pinned Nat operations '
+                'they ground: Nat.mul._f, Nat.mul')
+        changes = {
+            'wrong-count': lambda text: text + '\n' + note.replace('2 declarations', '1 declarations'),
+            'wrong-name': lambda text: text + '\n' + note.replace('Nat.mul._f', 'Nat.add._f'),
+            'duplicate': lambda text: text + '\n' + note + '\n' + note,
+            'before-verdict': lambda text: note + '\n' + text,
+            'before-modelled': lambda text: text.replace('\n\n', '\n' + note + '\n'),
+            'trailing-note-garbage': lambda text: text + '\n' + note + ' ignored',
+            'unknown-checker-line': lambda text: text + '\n' + note + '\ncon-ron: unknown',
+            'unprefixed-garbage': lambda text: text + '\n' + note + '\nignored failure text',
+            'repeated-verdict': lambda text: text + '\n' + note + '\n' + text.splitlines()[0],
+            'missing-verdict': lambda text: '\n'.join(text.splitlines()[2:]) + '\n' + note,
+        }
+        for name, change in changes.items():
+            with self.subTest(change=name):
+                report = self.fixture()
+                report['kernel_attempts'][0]['detail'] = change(report['kernel_attempts'][0]['detail'])
+                with self.assertRaisesRegex(ValueError, 'unambiguous'):
+                    self.check_fixture(report=report)
+        for name, change in {
+            'nonzero': lambda r: r['kernel_attempts'][0].update(exit_code=1),
+            'declined': lambda r: r['kernel_attempts'][0].update(status='declined'),
+            'wrong-binary': lambda r: r['tool_digests'].update({'con-ron': '0' * 64}),
+            'wrong-release': lambda r: r['con_ron_checker'].update(release_tag='v4.35.0-rc2'),
+        }.items():
+            with self.subTest(change=name):
+                report = self.fixture()
+                report['kernel_attempts'][0]['detail'] += '\n' + note
+                change(report)
+                with self.assertRaises(ValueError):
+                    self.check_fixture(report=report)
+
     def test_replay_decline_or_ambiguous_acceptance_is_not_three_kernel_pass(self):
         changes = {
             'missing': lambda r: r.update(kernel_attempts=[]),

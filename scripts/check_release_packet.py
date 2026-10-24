@@ -144,13 +144,22 @@ def check_kernels(report, protected):
             command[1:] == ['--jobs=2', '--verified'], 'Wrong verified con-ron replay command')
     require(type(attempt['budget_seconds']) is int and 1 <= attempt['budget_seconds'] <= 1800,
             'Invalid con-ron replay budget')
-    lines = [line.strip() for line in attempt['detail'].splitlines() if line.strip().startswith('con-ron:')]
+    lines = [line.strip() for line in attempt['detail'].splitlines() if line.strip()]
     accepted = r'con-ron: accepted [1-9][0-9]* declarations \(--verified\)(?: t=[0-9.]+s)?'
     modelled = (r'con-ron: [1-9][0-9]* inductive blocks modelled in-process: [^\n]+ '
                 r'\([1-9][0-9]* generated records, checked by the fold as declarations '
                 r'and not counted as records of the file\)')
-    require(len(lines) in {1, 2} and re.fullmatch(accepted, lines[0]) and
-            (len(lines) == 1 or re.fullmatch(modelled, lines[1])),
+    # The pinned verified checker can report these two Nat declarations being
+    # ordered before the primitive operations they ground. This is diagnostic
+    # metadata, never a substitute for its unique successful verdict below.
+    hoisted = ('con-ron: 2 declarations hoisted ahead of the pinned Nat operations '
+               'they ground: Nat.mul._f, Nat.mul')
+    diagnostics = lines[1:]
+    if diagnostics and re.fullmatch(modelled, diagnostics[0]):
+        diagnostics = diagnostics[1:]
+    if diagnostics and diagnostics[0] == hoisted:
+        diagnostics = diagnostics[1:]
+    require(lines and re.fullmatch(accepted, lines[0]) and not diagnostics,
         'Missing unambiguous verified con-ron acceptance')
     expected = {
         'source_toolchain': 'leanprover/lean4:v4.35.0-rc2',

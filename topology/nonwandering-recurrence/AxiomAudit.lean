@@ -1,0 +1,8 @@
+module
+public import RecurrenceSolution
+#print axioms CategoryRecurrence.nonwandering_iff_late_returns
+#print axioms CategoryRecurrence.recurrent_iff_return_stages
+#print axioms CategoryRecurrence.isGdelta_recurrent
+#print axioms CategoryRecurrence.dense_return_stage
+#print axioms CategoryRecurrence.residual_recurrent
+#print axioms CategoryRecurrence.nonwandering_iff_dense_recurrent
