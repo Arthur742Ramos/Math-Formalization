@@ -1,0 +1,15 @@
+{
+  "challenge_module": "SensitivityChallenge",
+  "solution_module": "SensitivitySolution",
+  "theorem_names": [
+    "ThickSensitive.separated_open_targets",
+    "ThickSensitive.finite_hitting_thick",
+    "ThickSensitive.weakMixing_thick_multisensitive"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

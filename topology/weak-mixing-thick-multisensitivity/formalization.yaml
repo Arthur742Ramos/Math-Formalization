@@ -1,0 +1,103 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Weak mixing and thick common multi-sensitivity",
+    "description": "A continuous surjective weakly mixing map on a nontrivial metric space admits one positive separation constant such that every finite family of nonempty open sets has arbitrarily long, arbitrarily late blocks of common positive separation times. Witness pairs may depend on the set and time. Finite-family common hitting thickness and separated open targets are proved.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.DS",
+      "math.GN"
+    ],
+    "msc2020": [
+      "37B05",
+      "37B02"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Thickly Syndetical Sensitivity of Topological Dynamical System",
+      "authors": [
+        "Heng Liu",
+        "Li Liao",
+        "Lidong Wang"
+      ],
+      "type": "paper",
+      "id": "doi:10.1155/2014/583431",
+      "relationship": "independently-proves",
+      "note": "Official PDF https://onlinelibrary.wiley.com/doi/pdf/10.1155/2014/583431 definitions and Theorem6 directly inspected. Source assumes compact metric/no isolated points/continuous surjective maps and proves ordinary thick sensitivity. Formal scope explicitly strengthens this to common finite-family thick blocks and drops compactness/no-isolated-points premises while retaining continuity/surjectivity and nontriviality. Direct hitting-refinement proof replaces the source hyperspace proof."
+    },
+    {
+      "title": "Multi-sensitivity, Lyapunov numbers and almost automorphic maps",
+      "authors": [
+        "Wen Huang",
+        "Sergii Kolyada",
+        "Guohua Zhang"
+      ],
+      "type": "paper",
+      "id": "https://archive.mpim-bonn.mpg.de/2658/1/preprint_2014_52.pdf",
+      "relationship": "adapts",
+      "note": "MPIM2014(52) multi-sensitivity definitions and Proposition4.1 directly inspected. Ordinary multi-sensitivity asks finite-family intersection nonempty; formal main gives thick common positive times. No transitive converse, M-system/minimal equivalence or entropy theorem claimed."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "relationship": "adapts",
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/9e5b57dba2ba9423cc8f12ff934bd07d86394c47/topology/furstenberg-weak-mixing",
+      "note": "WeakMixingCore finite-refinement infrastructure retained with credit; inherited proofs not newly claimed."
+    },
+    {
+      "relationship": "adapts",
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/2fae123025f57f2f74220c01ffea7148fc6e3a11/topology/weak-mixing-minimal-product",
+      "note": "Literal Thick definition and hitting_thick theorem retained verbatim in HittingThicknessCore. New contribution is finite common hitting thickness, separated targets and positive common multi-sensitivity."
+    },
+    {
+      "relationship": "uses",
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "note": "Exact metric/open-set, finite-set and iteration infrastructure credited. Bounded pinned-library/repository/public registry searches found no equivalent sensitivity target; no exhaustive/private novelty clearance inferred."
+    }
+  ],
+  "status": {
+    "scope": "Witnessed metric separation at positive natural times, thick common finite-family blocks with one uniform constant; empty family included.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "Exact-source release readiness is established by immutable external local machine/render/review receipts; a build alone is not full certification.",
+    "attribution_status": "Three campaign authors/maintainers preserved. Codex new proof and credited infrastructure distinguished; no human proof contribution inferred."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored separated metric targets, finite-family thickness using one refining pair, Bool-doubled constraints and positive-time block proof. Separate internal AI scope/source/evidence reviews; no human/external review claimed."
+      }
+    ],
+    "notes": "No novelty/editorial acceptance inferred."
+  },
+  "fidelity": {
+    "divergences": "Main assumes MetricSpace X, Nontrivial X, Continuous f, Surjective f and literal WeakMixing f. No compactness, minimality or separate no-isolated-points premise; does not derive surjectivity. One delta>0 precedes all k and U:Fin k→Set X. Set of times has explicit 0<n and all i have a pair x,y∈Ui with strict distance separation. Pairs may vary with i,n and block offset; no one fixed tuple across a block, tuplewise/IP or thickly-syndetic/cofinite sensitivity claim. k0 yields positive times, with no indexed point choice. Thick means forall lengths L/lower bounds N, exists start m>=N and all offsets0..L lie in the set. Underlying iterates include time0; main separation times exclude it via startN+1. Finite common-hit helper uses arbitrary topological nonempty X with continuity/surjectivity/weak mixing; geometric helper needs only nontrivial metric X. No invalid intersection-of-arbitrary-thick-sets argument or bounded-diameter API is used."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI mathematical/source-fidelity reviewer"
+    ],
+    "notes": "Scope before development; implementation/package and exact-source machine/release evidence independently reviewed separately. No human/external review asserted."
+  },
+  "acknowledgements": "Liu/Liao/Wang Theorem6 and Huang/Kolyada/Zhang multi-sensitivity definitions/Proposition4.1 credited; inherited finite-refinement and hitting-thickness sources, Mathlib and Lean attribution retained."
+}
