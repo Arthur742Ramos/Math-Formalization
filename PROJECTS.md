@@ -253,3 +253,11 @@ Square-transitivity equivalence, hitting-time refinement, finite common hitting 
 | [Furstenberg weak mixing and finite diagonal powers](topology/furstenberg-weak-mixing) | A continuous self-map of a nonempty topological space with transitive square has transitive finite diagonal powers, via a genuine hitting-time refinement and finite induction. | Preparation; not submitted | [`7801f89`](https://github.com/Arthur742Ramos/Math-Formalization/tree/7801f89d71af80f29a3dcd02eb0691edcf5663b6/topology/furstenberg-weak-mixing) |
 
 Weak-mixing preparation classification was corrected to MSC2020 37B05/37B02. The earlier local preparation at `288061d6e8fd352fa1f29779905994b0518dd698` rejected obsolete secondary54H20 before proof execution. The original failure remains external immutable evidence; later exact-source reports are required for release readiness.
+
+## Generic strongly transitive sequence preparation
+
+Countable-product transitivity, residual dense-orbit construction and coherent dense finite-prefix orbits are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Generic strongly transitive sequences in weakly mixing Polish systems](topology/strongly-transitive-sequences) | A continuous weakly mixing self-map of a nonempty Polish space has a nonempty dense G-delta family of countable sequences whose every finite prefix has a dense synchronized forward orbit. | Preparation; not submitted | [`186f049`](https://github.com/Arthur742Ramos/Math-Formalization/tree/186f049add025752c1ceef8940848366d0a62e6d/topology/strongly-transitive-sequences) |

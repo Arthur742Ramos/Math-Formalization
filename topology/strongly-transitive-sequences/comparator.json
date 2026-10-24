@@ -1,0 +1,17 @@
+{
+  "challenge_module": "StrongChallenge",
+  "solution_module": "StrongSolution",
+  "theorem_names": [
+    "StrongTransitive.residual_dense_orbits",
+    "StrongTransitive.countable_power_transitive",
+    "StrongTransitive.dense_prefix_orbit",
+    "StrongTransitive.residual_strong_sequences",
+    "StrongTransitive.exists_dense_Gdelta_strong_sequences"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
