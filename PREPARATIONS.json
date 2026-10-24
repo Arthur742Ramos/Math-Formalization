@@ -1728,6 +1728,67 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Generic ergodicity and non-smoothness of E₀",
+      "path": "topology/e0-nonsmoothness",
+      "scope": "Literal E0 on the actual Boolean Cantor product has generic ergodicity and admits no BP or Borel reduction to equality in any second countable T0 target.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "2c22ecd1459b49b96e685677e62a14c1facea936",
+        "tree": "04520a3edf7593ebcaea9f0b2da6c370bb5fd6ec"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "4679252fb253793702f04717bf565937abe566f3207b747da96a8fc21ecbbecb",
+        "AxiomAudit.lean": "7beede64d02bf65d28718a28158e278457a4a39c39e48892321113129bb58870",
+        "ChallengeTests.lean": "abe646405ee22e04d0d284b413f7354f837ef12b199edc7f61d9ff23ae52c8aa",
+        "E0Solution.lean": "1c47d66ee5f98ababb9e18522594ece7da3c4c9a8bc0ef2a79095c88c908b78c",
+        "formalization.yaml": "fd3544fa6fdc260b22f6cfb3296a0178b7d75d3564558b735deea2393280591f",
+        "lakefile.toml": "4dc55e2731d0fa62c9cb0a15d0f47faa61a9451080b35d117c3150fbc8f20625",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "1e5a4cca7b99f4f7f7d72bab31c506f6cafa81e60c1fe087da610ab2a6557597",
+        "E0Challenge.lean": "d1e2c989846f7c329227b8e34cf3bbb70a0432b2ca031f71b76b850600bab979",
+        "lake-manifest.json": "6ccfd684d516db541266d0ce6109dce957c826a70454fb37c91dd04fbec44813",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "d181dc103cacb240e057548969c4ce264151bc4e4938b96c36b6a89a51b9a302",
+        "EZero.lean": "0dd77b1f8ee9a50b9362310f315d9bfa0072714a25cb95beeb10db9b28af06a2",
+        "comparator.json": "57504d7f9fd89ea9ccd00d9442ecac04c3099ac0f4b5572a13bbec78cbf21c06"
+      },
+      "theorem_names": [
+        "EZero.finite_flip_mixing",
+        "EZero.zero_one",
+        "EZero.generically_constant",
+        "EZero.no_baire_reduction",
+        "EZero.no_borel_reduction"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "85d5b576cd0b24a2a19e906f137502b2bc37fc0405ac02230a84d44f21aadc21"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
