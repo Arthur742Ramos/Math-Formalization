@@ -6,7 +6,7 @@ Actual countable and finite Pi products, natural forward orbits, dense ranges, r
 
 - `TopologicalSpace`: A supplied open-set topology closed under finite intersections and arbitrary unions; binary/Pi product topologies are actual projection-induced topologies, not box topologies.
 - `IsOpen`: Open in the supplied topology; iterated inverse images of basis opens are open, and finite cylinders lie inside arbitrary product opens.
-- `Continuous`: All open preimages are open for f; iteration and actual coordinatewise/Pi maps preserve continuity. No invertibility or surjectivity is assumed.
+- `Continuous`: Continuity of f is an explicit premise of residual_dense_orbits, countable_power_transitive and the two main results. dense_prefix_orbit has no Continuous f premise: it proves continuity only of the actual coordinate projection. Open preimages and coordinate maps have their actual supplied topologies; no invertibility is assumed.
 - `TopologicalSpace.induced`: Inverse-image topology along a coordinate map; actual Pi topology is the infimum of the coordinate-induced topologies.
 - `Finset`: Duplicate-free finite multiset of cylinder-coordinate constraints; both source and target supports are united and padded by univ.
 - `Nat.iterate`: Zero is identity and successor applies f then the previous iterate. All coordinate constraints share the same natural time, including zero.

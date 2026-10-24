@@ -66,7 +66,7 @@
     {
       "name": "IsOpen",
       "declaration_kind": "def",
-      "role": "hypothesis-and-conclusion",
+      "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
         "StrongTransitive.countable_power_transitive",
@@ -86,7 +86,7 @@
     {
       "name": "Continuous",
       "declaration_kind": "structure",
-      "role": "hypothesis",
+      "role": "hypothesis-and-proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
         "StrongTransitive.countable_power_transitive",
@@ -94,8 +94,8 @@
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
-      "meaning": "All open preimages are open for f; iteration and actual coordinatewise/Pi maps preserve continuity. No invertibility or surjectivity is assumed.",
-      "dependency_expansion": "All open preimages are open for f; iteration and actual coordinatewise/Pi maps preserve continuity. No invertibility or surjectivity is assumed.",
+      "meaning": "Continuity of f is an explicit premise of residual_dense_orbits, countable_power_transitive and the two main results. dense_prefix_orbit has no Continuous f premise: it proves continuity only of the actual coordinate projection. Open preimages and coordinate maps have their actual supplied topologies; no invertibility is assumed.",
+      "dependency_expansion": "Continuity of f is an explicit premise of residual_dense_orbits, countable_power_transitive and the two main results. dense_prefix_orbit has no Continuous f premise: it proves continuity only of the actual coordinate projection. Open preimages and coordinate maps have their actual supplied topologies; no invertibility is assumed.",
       "definition_excerpt": "open-image-Continuous",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
@@ -129,11 +129,9 @@
     {
       "name": "Finset",
       "declaration_kind": "structure",
-      "role": "hypothesis-and-conclusion",
+      "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
         "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -149,7 +147,7 @@
     {
       "name": "Nat.iterate",
       "declaration_kind": "def",
-      "role": "definition",
+      "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
         "StrongTransitive.countable_power_transitive",
@@ -211,11 +209,9 @@
     {
       "name": "residual",
       "declaration_kind": "def",
-      "role": "proof-dependency",
+      "role": "conclusion",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -238,8 +234,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -263,8 +257,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -287,8 +279,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -308,8 +298,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -349,8 +337,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -386,12 +372,8 @@
     {
       "name": "BaireSpace",
       "declaration_kind": "class",
-      "role": "hypothesis",
+      "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
-        "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
       "meaning": "Countable intersections of open dense sets are dense. Supplied for the actual countable Polish product only for dense/nonempty G-delta extraction.",
@@ -408,10 +390,6 @@
       "declaration_kind": "def",
       "role": "conclusion",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
-        "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
       "meaning": "The actual subset is the intersection of a countable family of ambient open sets; density and nonemptiness are additional conclusions.",
@@ -429,8 +407,6 @@
       "role": "hypothesis",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -449,8 +425,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -469,8 +443,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -489,9 +461,6 @@
       "declaration_kind": "class",
       "role": "hypothesis",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -509,9 +478,6 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -529,9 +495,6 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -549,9 +512,6 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -587,11 +547,8 @@
     {
       "name": "MetricSpace",
       "declaration_kind": "class",
-      "role": "hypothesis",
+      "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -613,9 +570,6 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
@@ -638,9 +592,6 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
-        "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
-        "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
       ],
