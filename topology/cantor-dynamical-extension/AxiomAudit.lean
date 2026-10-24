@@ -1,0 +1,5 @@
+module
+public import DynamicsSolution
+#print axioms CantorDynamics.exists_extension_dense_forward_orbit
+#print axioms CantorDynamics.exists_ambient_orbitEmbedding
+#print axioms CantorDynamics.shift_exists_dense_forward_orbit

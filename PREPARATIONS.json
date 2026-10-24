@@ -1438,6 +1438,63 @@
         "pull_request": "https://github.com/Arthur742Ramos/Math-Formalization/pull/45",
         "branch": "topology/knaster-reichbach"
       }
+    },
+    {
+      "name": "Cantor dynamical extension with a dense forward orbit",
+      "path": "topology/cantor-dynamical-extension",
+      "scope": "Invariant closed nowhere-dense Cantor-subset dynamics extends to an ambient homeomorphism with a dense forward orbit; empty subset included.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "23630432032ac99852b0107558afa1fe32aee7b5",
+        "tree": "83e5e68c3e60b25733393fa1031f95c944fd0b0c"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "4452062e017403569531c9c735984b3994e2b7829572e7e0b035e08cdedbcc6e",
+        "DynamicsChallenge.lean": "7c7838378892d78fb069354bf57f9c46cc598ce3bbb480b20c06087bc95ce826",
+        "DynamicsSolution.lean": "2cac63df6ab36710fd8cb21952ece44f42f8cc7a095629a99c76ed808c3a1c66",
+        "AxiomAudit.lean": "57b68a59fa093b0751fc3b64f58fb34ae25be24a283935d4a390384b41b8c941",
+        "ChallengeTests.lean": "977a7bde14c7e6ab11d3ddd3f4e2949b215774a2afb6fb347a0a938b87d84ab9",
+        "CantorDynamics.lean": "c5c926f4e8ca93acfe87f8a21f4f31a22a232764c44f40a70b4f23ab7778abac",
+        "formalization.yaml": "88cef60a1a64964559bae80f5774c4ba8394d2dac3d3f51544cb01cf52d3a989",
+        "lakefile.toml": "6a07be8cf329c714b414e3474fe5f90a7adcacac78310a6e59c62d81acad8077",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "07f41051652c2c5b6fcf37537b9b6ec064d9f40de306bb55a9066cd47f38db61",
+        "lake-manifest.json": "b572a7699c08e440a7aa3d65767f33bc3d434dc34c706b1c9a84ab89503064f2",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "afa51bafedc10449a136336fe022d81600ab040a4fda6ffbcf24a9b7dae4ebc4",
+        "comparator.json": "f4a82d975972a98e7c9801254a8f5d92efbb17a2ee1c1748eabd7ff000dd10a4"
+      },
+      "theorem_names": [
+        "CantorDynamics.exists_extension_dense_forward_orbit"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "e7222d4e5e43af441fd761752349a2dee95895216c799373082a528a3f3f7b3a"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "challenge_module": "DynamicsChallenge",
+  "solution_module": "DynamicsSolution",
+  "theorem_names": [
+    "CantorDynamics.exists_extension_dense_forward_orbit"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
