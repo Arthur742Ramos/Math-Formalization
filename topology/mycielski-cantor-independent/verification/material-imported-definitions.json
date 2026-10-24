@@ -1,0 +1,859 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "IsClosed",
+    "closure",
+    "Continuous",
+    "Homeomorph",
+    "TopologicalSpace.induced",
+    "Filter",
+    "Equiv",
+    "IsCompact",
+    "CompactSpace",
+    "Dense",
+    "Set.range",
+    "PolishSpace",
+    "SecondCountableTopology",
+    "TopologicalSpace.IsCompletelyMetrizableSpace",
+    "CompleteSpace",
+    "Cauchy",
+    "PerfectSpace",
+    "Preperfect",
+    "AccPt",
+    "Topology.IsInducing",
+    "Topology.IsEmbedding",
+    "Topology.IsClosedEmbedding"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "The supplied topology on X is preserved by compatible metrization; the domain has the standard Cantor product topology.",
+      "dependency_expansion": "The supplied topology on X is preserved by compatible metrization; the domain has the standard Cantor product topology. The actual product topology on X times X is the infimum of the topologies induced by its two coordinate projections. Every R_n is open and dense in this topology.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed",
+        "Mycielski-instTopologicalSpaceProd"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "The open-set predicate of the supplied topology, applied to the localization U and to every binary relation R_n in the actual product topology.",
+      "dependency_expansion": "The open-set predicate of the supplied topology, applied to the localization U and to every binary relation R_n in the actual product topology.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "conclusion",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "A set whose complement is open; the final Cantor image range is closed in X.",
+      "dependency_expansion": "A set whose complement is open; the final Cantor image range is closed in X.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Intersection of all closed supersets; equivalently every neighborhood intersects the original set.",
+      "dependency_expansion": "Intersection of all closed supersets; equivalently every neighborhood intersects the original set. Literal definitions and dependencies are retained below; semantic bridges compile separately through both entrypoints.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Preimages of open sets are open. The final embedding e is continuous; coordinate-splitting homeomorphisms in the proof are continuous in both directions.",
+      "dependency_expansion": "Preimages of open sets are open. The final embedding e is continuous; coordinate-splitting homeomorphisms in the proof are continuous in both directions.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "Homeomorph",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "A bijection continuous in both directions, used in the proof to split two distinct product coordinates.",
+      "dependency_expansion": "A bijection continuous in both directions, used in the proof to split two distinct product coordinates.",
+      "definition_excerpt": "characterization-Homeomorph",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "characterization-Homeomorph"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Preimages of codomain opens define the induced topology; closed embedding requires the domain topology to equal it.",
+      "dependency_expansion": "Preimages of codomain opens define the induced topology; closed embedding requires the domain topology to equal it.",
+      "definition_excerpt": "induced",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "induced",
+        "Pi.product-topology",
+        "cantor-Bool-topology",
+        "subtype-topology"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "Filter",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "An upward-closed collection of sets containing univ and closed under finite intersections; bottom is allowed until NeBot is supplied.",
+      "dependency_expansion": "An upward-closed collection of sets containing univ and closed under finite intersections; bottom is allowed until NeBot is supplied.",
+      "definition_excerpt": "Filter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Filter"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "Equiv",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Forward and inverse maps with left and right inverse laws; Homeomorph adds continuity.",
+      "dependency_expansion": "Forward and inverse maps with left and right inverse laws; Homeomorph adds continuity.",
+      "definition_excerpt": "Equiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Equiv"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Filter compactness, used only for compactness of the Cantor source in the continuous-injective-to-closed-embedding step; ambient X is not assumed compact.",
+      "dependency_expansion": "Filter compactness, used only for compactness of the Cantor source in the continuous-injective-to-closed-embedding step; ambient X is not assumed compact.",
+      "definition_excerpt": "KR-IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsCompact"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Compactness of an entire type. The Cantor domain is compact; no compactness premise on X, U or closed metric balls is imposed.",
+      "dependency_expansion": "Compactness of an entire type. The Cantor domain is compact; no compactness premise on X, U or closed metric balls is imposed.",
+      "definition_excerpt": "KR-CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "KR-CompactSpace"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Every point belongs to the closure of the relation subset in the actual product topology.",
+      "dependency_expansion": "Every point belongs to the closure of the relation subset in the actual product topology.",
+      "definition_excerpt": "Dynamics-Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Dense"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "Set.range",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "The set of all image values e(s), with s in the whole Cantor space.",
+      "dependency_expansion": "The set of all image values e(s), with s in the whole Cantor space.",
+      "definition_excerpt": "Dynamics-Set.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Set.range"
+      ],
+      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+    },
+    {
+      "name": "PolishSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Second-countable topology and existence of a compatible complete metric; no replacement by a different topology.",
+      "dependency_expansion": "Second-countable topology and existence of a compatible complete metric; no replacement by a different topology. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-PolishSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-PolishSpace"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "SecondCountableTopology",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "A countable family of sets generates the supplied topology.",
+      "dependency_expansion": "A countable family of sets generates the supplied topology. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-SecondCountableTopology",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-SecondCountableTopology"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyMetrizableSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "There exists a metric inducing exactly the supplied topology and complete in its uniformity.",
+      "dependency_expansion": "There exists a metric inducing exactly the supplied topology and complete in its uniformity. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-TopologicalSpace.IsCompletelyMetrizableSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-TopologicalSpace.IsCompletelyMetrizableSpace"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "CompleteSpace",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Every nontrivial Cauchy filter converges in the ambient complete space; an open subspace is not assumed complete.",
+      "dependency_expansion": "Every nontrivial Cauchy filter converges in the ambient complete space; an open subspace is not assumed complete. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-CompleteSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-CompleteSpace"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "Cauchy",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "A nonbottom filter whose product is finer than the uniformity.",
+      "dependency_expansion": "A nonbottom filter whose product is finer than the uniformity. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-Cauchy",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mycielski-Cauchy"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "PerfectSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "The universe is preperfect: no point is isolated. The class permits an empty space, but the final nonempty open U supplies nonemptiness.",
+      "dependency_expansion": "The universe is preperfect: no point is isolated. The class permits an empty space, but the final nonempty open U supplies nonemptiness. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-PerfectSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-PerfectSpace"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "Preperfect",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Every point of the set is an accumulation point of that set.",
+      "dependency_expansion": "Every point of the set is an accumulation point of that set. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-Preperfect",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mycielski-Preperfect"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "AccPt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "The intersection of the punctured-neighborhood filter and the set filter is nonbottom.",
+      "dependency_expansion": "The intersection of the punctured-neighborhood filter and the set filter is nonbottom. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-AccPt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mycielski-AccPt"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "Topology.IsInducing",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "Domain topology equals the topology induced through the map from the codomain.",
+      "dependency_expansion": "Domain topology equals the topology induced through the map from the codomain. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-Topology.IsInducing",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-Topology.IsInducing"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "Topology.IsEmbedding",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "An inducing map that is injective.",
+      "dependency_expansion": "An inducing map that is injective. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-Topology.IsEmbedding",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-Topology.IsEmbedding"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    },
+    {
+      "name": "Topology.IsClosedEmbedding",
+      "declaration_kind": "structure",
+      "role": "conclusion",
+      "used_by": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "meaning": "An inducing injective map whose range is closed. It supplies the actual Cantor copy, not a merely continuous map.",
+      "dependency_expansion": "An inducing injective map whose range is closed. It supplies the actual Cantor copy, not a merely continuous map. The retained literal source and separately compiled class/field/equivalence bridges expand this meaning.",
+      "definition_excerpt": "Mycielski-Topology.IsClosedEmbedding",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Mycielski-Topology.IsClosedEmbedding"
+      ],
+      "proof_status": "Retained pinned definition; separate semantic entrypoints and independent fidelity review required."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "IsClosed",
+          "first_line": 107,
+          "last_line": 109,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n",
+          "sha256": "b781df1f94b7e9a0b16791daa67c0bad5d4446809fc5e63093140999f5ae536a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L109"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "name": "KR-IsClopen",
+          "first_line": 107,
+          "last_line": 128,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n/-- A set is clopen if it is both closed and open. -/\ndef IsClopen (s : Set X) : Prop :=\n  IsClosed s ∧ IsOpen s\n\n/--\nA set is locally closed if it is the intersection of some open set and some closed set.\nAlso see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n\n",
+          "sha256": "8a72b06cf891fafa013b869483315af987edc828296e80b6c2352137e87f4855",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L128"
+        },
+        {
+          "name": "KR-interior",
+          "first_line": 112,
+          "last_line": 128,
+          "text": "def IsClopen (s : Set X) : Prop :=\n  IsClosed s ∧ IsOpen s\n\n/--\nA set is locally closed if it is the intersection of some open set and some closed set.\nAlso see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n\n",
+          "sha256": "1ed8f54be20e509b4bfcae3f0793fd70de22792b0aff94e184114f5fa374d57f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L112-L128"
+        },
+        {
+          "name": "Dynamics-Dense",
+          "first_line": 142,
+          "last_line": 151,
+          "text": "def coborder (s : Set X) : Set X :=\n  (closure s \\ s)ᶜ\n\n/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n\n/-- `f : α → X` has dense range if its range (image) is a dense subset of `X`. -/\ndef DenseRange {α : Type*} (f : α → X) := Dense (range f)\n\n",
+          "sha256": "5abd81a951e2f05fdf71701b59f3de4693e2d8e9ab6cfd467aee69b393489e91",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L142-L151"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-Bool-topology",
+          "first_line": 572,
+          "last_line": 576,
+          "text": "instance : DiscreteTopology PUnit := ⟨rfl⟩\ninstance : IndiscreteTopology PUnit := inferInstance\n\ninstance : TopologicalSpace Bool := ⊥\ninstance : DiscreteTopology Bool := ⟨rfl⟩\n",
+          "sha256": "2d8bbbaa7265a7f44dd244c394855aa4f2fccb8128ba008672e414bc4393a5d9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L572-L576"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homeomorph/Defs.lean",
+      "sha256": "4d27914014d20e4b9a6af97ebd7e7bea7451cc37a96dbd102b6d21c9a3f0eb72",
+      "git_blob_sha1": "7c7e9c3c815eb873ab5e637aaac83e4cdf80f39d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Reid Barton. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Sébastien Gouëzel, Zhouhang Zhou, Reid Barton\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Homeomorph",
+          "first_line": 42,
+          "last_line": 50,
+          "text": "/-- Homeomorphism between `X` and `Y`, also called topological isomorphism -/\nstructure Homeomorph (X : Type*) (Y : Type*) [TopologicalSpace X] [TopologicalSpace Y]\n    extends X ≃ Y where\n  /-- The forward map of a homeomorphism is a continuous function. -/\n  continuous_toFun : Continuous toFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n  /-- The inverse map of a homeomorphism is a continuous function. -/\n  continuous_invFun : Continuous invFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n",
+          "sha256": "0b946359899cb78e8004065cc44729b505a4bff977bbf44444b74f5da935a5d4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean#L42-L50"
+        },
+        {
+          "name": "Dynamics-homeomorph-group",
+          "first_line": 169,
+          "last_line": 189,
+          "text": "@[simps -isSimp]\ninstance : Group (X ≃ₜ X) where\n  mul f g := g.trans f\n  mul_assoc f g h := rfl\n  one := .refl X\n  one_mul f := rfl\n  mul_one f := rfl\n  inv := .symm\n  inv_mul_cancel := self_trans_symm\n\n@[simp]\ntheorem one_apply (x : X) : (1 : X ≃ₜ X) x = x := rfl\n\n@[simp]\ntheorem inv_apply (f : X ≃ₜ X) (x : X) : f⁻¹ x = f.symm x := rfl\n\n@[simp]\ntheorem mul_apply (f g : X ≃ₜ X) (x : X) : (f * g) x = f (g x) := rfl\n\nprotected theorem bijective (h : X ≃ₜ Y) : Function.Bijective h :=\n  h.toEquiv.bijective\n",
+          "sha256": "a533dd5f1389166c62f5d4ddfd82f3dab3a88577b2751fd4f010cc4e9c475ed1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean#L169-L189"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Defs.lean",
+      "sha256": "c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8",
+      "git_blob_sha1": "7821cb864d27388f46fd335a5f2fbc5d3be358ff",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equiv",
+          "first_line": 62,
+          "last_line": 77,
+          "text": "universe u v w z\n\nvariable {α : Sort u} {β : Sort v} {γ : Sort w}\n\n/-- `α ≃ β` is the type of functions from `α → β` with a two-sided inverse. -/\nstructure Equiv (α β : Sort*) where\n  /-- The forward map of an equivalence.\n\n  Do NOT use directly. Use the coercion instead. -/\n  protected toFun : α → β\n  /-- The backward map of an equivalence.\n\n  Do NOT use `e.invFun` directly. Use the coercion of `e.symm` instead. -/\n  protected invFun : β → α\n  protected left_inv : LeftInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n  protected right_inv : RightInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n",
+          "sha256": "c7e7f6bc3d3c61f2670e8d068ee61fd95c4d4affb63eb44970e73def8333fbd0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L62-L77"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "induced",
+          "first_line": 64,
+          "last_line": 67,
+          "text": "def induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n",
+          "sha256": "878b69c8488a10bac25ce164587ebbe29156ddb4fddd3fe1e9a3911d8bdd8110",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L64-L67"
+        },
+        {
+          "name": "subtype-topology",
+          "first_line": 76,
+          "last_line": 79,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n\n",
+          "sha256": "eca619b73151480553afac7b4bb4246ad51da55154961c48653ddd5f3074b012",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L79"
+        },
+        {
+          "name": "Mycielski-Topology.IsInducing",
+          "first_line": 128,
+          "last_line": 135,
+          "text": "/-- A function `f : X → Y` between topological spaces is inducing if the topology on `X` is induced\nby the topology on `Y` through `f`, meaning that a set `s : Set X` is open iff it is the preimage\nunder `f` of some open set `t : Set Y`. -/\n@[fun_prop, mk_iff]\nstructure IsInducing (f : X → Y) : Prop where\n  /-- The topology on the domain is equal to the induced topology. -/\n  eq_induced : tX = tY.induced f\n\n",
+          "sha256": "0f1c38b1287d0486b58daafe66b68b74140e762a487d52627c5e2856f8890e0e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L128-L135"
+        },
+        {
+          "name": "Mycielski-Topology.IsEmbedding",
+          "first_line": 144,
+          "last_line": 150,
+          "text": "/-- A function between topological spaces is an embedding if it is injective,\n  and for all `s : Set X`, `s` is open iff it is the preimage of an open set. -/\n@[fun_prop, mk_iff]\nstructure IsEmbedding (f : X → Y) : Prop extends IsInducing f where\n  /-- A topological embedding is injective. -/\n  injective : Function.Injective f\n\n",
+          "sha256": "3149ef9c35a39a561e601eaf7139f4f8103210904ad2e40cc7b10dbf6768c375",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L144-L150"
+        },
+        {
+          "name": "Mycielski-Topology.IsClosedEmbedding",
+          "first_line": 157,
+          "last_line": 162,
+          "text": "/-- A closed embedding is an embedding with closed image. -/\n@[fun_prop, mk_iff]\nstructure IsClosedEmbedding (f : X → Y) : Prop extends IsEmbedding f where\n  /-- The range of a closed embedding is a closed set. -/\n  isClosed_range : IsClosed <| range f\n\n",
+          "sha256": "58bbfe2186b8873ef039f75235e208e6a56e7b07e3356fb170315e38ecb03cb3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L157-L162"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pi.product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "KR-IsCompact",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "KR-CompactSpace",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "Mycielski-AccPt",
+          "first_line": 283,
+          "last_line": 286,
+          "text": "/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n",
+          "sha256": "5b9c87379963ecd9b39f25869d8dfe0aa53e9861b3cd97fb69cfcb94ae036548",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L283-L286"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/GDelta/Basic.lean",
+      "sha256": "839130eb18758aa2bfcbe3ef40c98fcf9e0827458293fbdb5d04a5ec43b2d08a",
+      "git_blob_sha1": "feae671419368d0d284d9ed57c536b6b54afba33",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "KR-IsNowhereDense",
+          "first_line": 195,
+          "last_line": 203,
+          "text": "section IsMeagre\nopen Function TopologicalSpace Set\nvariable [TopologicalSpace X]\n\n/-- A set is called **nowhere dense** iff its closure has empty interior. -/\ndef IsNowhereDense (s : Set X) := interior (closure s) = ∅\n\n/-- The empty set is nowhere dense. -/\n@[simp]\n",
+          "sha256": "c5b71a313201b36a2d1db9faca9c7457e5b0f9161d24fe6d08a96123fee5eecf",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L195-L203"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "Dynamics-Set.range",
+          "first_line": 170,
+          "last_line": 174,
+          "text": "\nThis function is more flexible than `f '' univ`, as the image requires that the domain is in Type\nand not an arbitrary Sort. -/\ndef range (f : ι → α) : Set α := {x | ∃ y, f y = x}\n\n",
+          "sha256": "e6ee1efb980a5f122abcaf5821358ebef2188a6bb7ec77e9df84b364e37e00c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L170-L174"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Polish.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Polish.lean",
+      "sha256": "71c9682ea53f194d1587fbd41695e35cc7fb8f51b1503f695ba4adfb15c52059",
+      "git_blob_sha1": "ec205e848d4f8eabd112e1eb2c68327c0fac206a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mycielski-PolishSpace",
+          "first_line": 56,
+          "last_line": 64,
+          "text": "/-- A Polish space is a topological space with second countable topology, that can be endowed\nwith a metric for which it is complete.\n\nTo endow a Polish space with a complete metric space structure, do\n`letI := upgradeIsCompletelyMetrizable α`.\n-/\nclass PolishSpace (α : Type*) [h : TopologicalSpace α] : Prop\n    extends SecondCountableTopology α, IsCompletelyMetrizableSpace α\n\n",
+          "sha256": "566d3c3af81e172c45cb79cc334d76a5bed37586223a6f4fe94aac9c48885213",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Polish.lean#L56-L64"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Bases.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean",
+      "sha256": "fbd29cb53487d8ff54efda38cd831d4966a19a052654ef39a09352753986d1d6",
+      "git_blob_sha1": "4165527ffdf10c235881bc6738e99ad2bf6b1b07",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mycielski-SecondCountableTopology",
+          "first_line": 791,
+          "last_line": 797,
+          "text": "variable (α) in\n/-- A second-countable space is one with a countable basis. -/\nclass _root_.SecondCountableTopology : Prop where\n  /-- There exists a countable set of sets that generates the topology. -/\n  is_open_generated_countable : ∃ b : Set (Set α), b.Countable ∧ t = TopologicalSpace.generateFrom b\n\nprotected theorem IsTopologicalBasis.secondCountableTopology {b : Set (Set α)}\n",
+          "sha256": "fe51ee26a1586b00a8cae9d9f2c2460299d8bc4c737c897f1d811c8ee6ad9ba5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L791-L797"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Metrizable/CompletelyMetrizable.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/CompletelyMetrizable.lean",
+      "sha256": "45e2fe2d79f14e9cf4e87f13f413eef94b418384fc3eaad3dce7b1a730ed54c9",
+      "git_blob_sha1": "a09f9b3b228345d4c4648901cbaa79885a10349f",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2025 Etienne Marion. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Etienne Marion\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mycielski-TopologicalSpace.IsCompletelyMetrizableSpace",
+          "first_line": 150,
+          "last_line": 157,
+          "text": "/-- A topological space is completely metrizable if there exists a metric space structure\ncompatible with the topology which makes the space complete.\nTo endow such a space with a compatible distance, use\n`letI := upgradeIsCompletelyMetrizable X`. -/\nclass IsCompletelyMetrizableSpace (X : Type*) [t : TopologicalSpace X] : Prop where\n  complete : ∃ m : MetricSpace X, m.toUniformSpace.toTopologicalSpace = t ∧\n    @CompleteSpace X m.toUniformSpace\n\n",
+          "sha256": "ae423dd006f9376d13fbfd960a74c25be4fa7257197d71e5b052976e578eafd3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Metrizable/CompletelyMetrizable.lean#L150-L157"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/UniformSpace/Cauchy.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean",
+      "sha256": "68117051ca85f05bbde595bbbb1dae4b57052c6d3d0fcda3059551b2527874b4",
+      "git_blob_sha1": "86640c96b74c3a4161ecae8151f0cdec46f6d64c",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mycielski-CompleteSpace",
+          "first_line": 368,
+          "last_line": 373,
+          "text": "/-- A complete space is defined here using uniformities. A uniform space\n  is complete if every Cauchy filter converges. -/\n@[wikidata Q848569]\nclass CompleteSpace (α : Type u) [UniformSpace α] : Prop where\n  /-- In a complete uniform space, every Cauchy filter converges. -/\n  complete : ∀ {f : Filter α}, Cauchy f → ∃ x, f ≤ 𝓝 x\n",
+          "sha256": "11cb273661eccc126e169d1905a8f37fd8f8d051d7118fa067f22b116b366c75",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean#L368-L373"
+        },
+        {
+          "name": "Mycielski-Cauchy",
+          "first_line": 27,
+          "last_line": 33,
+          "text": "\n/-- A filter `f` is Cauchy if for every entourage `r`, there exists an\n  `s ∈ f` such that `s × s ⊆ r`. This is a generalization of Cauchy\n  sequences, because if `a : ℕ → α` then the filter of sets containing\n  cofinitely many of the `a n` is Cauchy iff `a` is a Cauchy sequence. -/\ndef Cauchy (f : Filter α) :=\n  NeBot f ∧ f ×ˢ f ≤ 𝓤 α\n",
+          "sha256": "093fba2cb6e2058042cdafb8d2367864e3fec7907ad47cc9288a6509d2c35cc5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UniformSpace/Cauchy.lean#L27-L33"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Perfect.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean",
+      "sha256": "40c4a61f6a8a9f923674520215130f4ffd77ba4f69fb8ee0ba5ed5d461637f7f",
+      "git_blob_sha1": "562e3496db8f6ee7ca09dd1ba85944372aab6851",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Felix Weilacher. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Felix Weilacher\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mycielski-PerfectSpace",
+          "first_line": 96,
+          "last_line": 103,
+          "text": "/--\nA topological space `X` is said to be perfect if its universe is a perfect set.\nEquivalently, this means that `𝓝[≠] x ≠ ⊥` for every point `x : X`.\n-/\n@[mk_iff perfectSpace_def]\nclass PerfectSpace : Prop where\n  univ_preperfect : Preperfect (Set.univ : Set α)\n\n",
+          "sha256": "f2d1474f1d80d59872dc2c80217a31d5a7a5d834e3c405ce5440579c4acd9638",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean#L96-L103"
+        },
+        {
+          "name": "Mycielski-Preperfect",
+          "first_line": 74,
+          "last_line": 80,
+          "text": "\n/-- A set `C` is preperfect if all of its points are accumulation points of itself.\nIf `α` is a T1 space, this is equivalent to the closure of `C` being perfect,\nsee `preperfect_iff_perfect_closure`. This property is also called dense-in-itself. -/\ndef Preperfect (C : Set α) : Prop :=\n  ∀ x ∈ C, AccPt x (𝓟 C)\n\n",
+          "sha256": "cbb88bf652f545c900ce0b25334769e271ac94e740bdf68b783e04a71ba2dee7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Perfect.lean#L74-L80"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mycielski-instTopologicalSpaceProd",
+          "first_line": 53,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeTests",
+      "path": "ChallengeTests.lean",
+      "sha256": "0e602c2fe514089c20ae6e26dcdb922a129e61f8eb19d909c90e0f069a276047"
+    },
+    {
+      "module": "SemanticTests",
+      "path": "SemanticTests.lean",
+      "sha256": "90c13c821e6cfd3745bc2105bee8e70d178ac851f19a82db4521f81e2aa4bbd2"
+    }
+  ],
+  "scope": "Selected input/output meanings and their material expansions, plus the credited topology/compactness proof infrastructure. Not an inventory of logical syntax or every tactic. Independent review owns completeness."
+}

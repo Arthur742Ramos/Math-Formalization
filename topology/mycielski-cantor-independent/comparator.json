@@ -1,0 +1,13 @@
+{
+  "challenge_module": "MycielskiChallenge",
+  "solution_module": "MycielskiSolution",
+  "theorem_names": [
+    "Mycielski.exists_cantor_independent"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

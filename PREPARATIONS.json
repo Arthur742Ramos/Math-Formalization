@@ -1495,6 +1495,63 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Mycielski Cantor independent set for dense-open binary relations",
+      "path": "topology/mycielski-cantor-independent",
+      "scope": "Every nonempty open subset of a perfect Polish space contains a closed Cantor copy whose ordered distinct points satisfy every member of a countable dense-open family of binary relations.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "be149845da3fcff14d3a010278bb7be8aeb99c57",
+        "tree": "802f4747ecd984248aef410f2e9161fd98ef3429"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "90c13c821e6cfd3745bc2105bee8e70d178ac851f19a82db4521f81e2aa4bbd2",
+        "MycielskiChallenge.lean": "3d707f6d99da3c7cf01da714b8183d1b55e95daf937edea35ff193744408ec70",
+        "Mycielski.lean": "963f24ef75e60ae70d4542ebb5f999b6fcd43cf608ea51977b84a3c2976022f5",
+        "AxiomAudit.lean": "ffab360a77b000fd328e30f2909df07b25388980e3610023b3fd098a3a1b979b",
+        "ChallengeTests.lean": "0e602c2fe514089c20ae6e26dcdb922a129e61f8eb19d909c90e0f069a276047",
+        "formalization.yaml": "22b0b3994a9078b0b8bda4d57d4105afdaa2ff946e2646b65f9ee97ecb0ae59e",
+        "lakefile.toml": "4c913fcaf4a9d53afe264587032fa2bdb325c42b3278c0240bb9bad3cc3ff18b",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "05a1e0e449d9bbd7806161471259390ec804b526f8cc50d62822126500ddb2a5",
+        "MycielskiSolution.lean": "580a5780666ccd6731cc7d3b25f03358d479fb39862401626cf9e2fd0b1e4ad3",
+        "lake-manifest.json": "28d100d8b8b5b9d0d9ae2fb280d3bafca448b7a6f9aa90f3f0170196cc1543d1",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "4c062b4d332bbb4392727a7158bdb5ea7748990b9c0ebe7361a794a09f2b1abe",
+        "comparator.json": "abf69ee97ee672156ef35ca42e8f09c1dbb0a289e3e3ed01005e9d10b2283e94"
+      },
+      "theorem_names": [
+        "Mycielski.exists_cantor_independent"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "d8ab0284d47b32e6a44861b65fc547ab909fefa80942d909c9e72ad952d6159a"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
