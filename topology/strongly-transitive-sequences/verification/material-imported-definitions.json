@@ -61,7 +61,7 @@
         "E0-Pi-product-topology",
         "Mixing-binary-product-topology"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "IsOpen",
@@ -81,7 +81,7 @@
       "bridge_excerpts": [
         "topology-open-closed"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Continuous",
@@ -101,7 +101,7 @@
       "bridge_excerpts": [
         "open-image-Continuous"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "TopologicalSpace.induced",
@@ -124,7 +124,7 @@
         "cantor-Bool-topology",
         "subtype-topology"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Finset",
@@ -142,7 +142,7 @@
       "bridge_excerpts": [
         "E0-Finset"
       ],
-      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Nat.iterate",
@@ -162,7 +162,7 @@
       "bridge_excerpts": [
         "Mixing-Nat.iterate"
       ],
-      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Dense",
@@ -170,7 +170,6 @@
       "role": "conclusion",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
         "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
@@ -183,7 +182,7 @@
         "Dense",
         "dense_iff_inter_open"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "closure",
@@ -191,7 +190,6 @@
       "role": "proof-dependency",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
         "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
@@ -204,7 +202,7 @@
         "interior-closure",
         "topology-open-closed"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "residual",
@@ -226,7 +224,7 @@
         "Filter.countableGenerate",
         "Filter.mem_countableGenerate_iff"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "CountableInterFilter",
@@ -249,7 +247,7 @@
         "Filter.mem_countableGenerate_iff",
         "countableInterFilter_residual"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Filter.countableGenerate",
@@ -271,7 +269,7 @@
         "Filter.mem_countableGenerate_iff",
         "CountableInterFilter"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Countable",
@@ -290,7 +288,7 @@
         "Countable",
         "Set.Countable"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Set.Countable",
@@ -309,7 +307,7 @@
         "Set.Countable",
         "Countable"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "IsClosed",
@@ -329,7 +327,7 @@
       "bridge_excerpts": [
         "IsClosed"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Filter",
@@ -347,7 +345,7 @@
       "bridge_excerpts": [
         "Filter"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "interior",
@@ -367,7 +365,7 @@
       "bridge_excerpts": [
         "KR-interior"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "BaireSpace",
@@ -383,7 +381,7 @@
       "bridge_excerpts": [
         "HS-BaireSpace"
       ],
-      "proof_status": "Exact pinned definitions and dependency expansion retained; separate Challenge/Solution semantic bridges and independent review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "IsGδ",
@@ -399,7 +397,7 @@
       "bridge_excerpts": [
         "Regular-IsGδ"
       ],
-      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "SecondCountableTopology",
@@ -417,7 +415,7 @@
       "bridge_excerpts": [
         "Regular-SecondCountableTopology"
       ],
-      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "IsTopologicalBasis",
@@ -435,7 +433,7 @@
       "bridge_excerpts": [
         "Regular-IsTopologicalBasis"
       ],
-      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "TopologicalSpace.generateFrom",
@@ -454,7 +452,7 @@
         "Regular-TopologicalSpace.generateFrom",
         "Regular-GenerateOpen"
       ],
-      "proof_status": "Pinned literal fields, compiled semantic bridges and independent fidelity review required."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "PolishSpace",
@@ -471,7 +469,7 @@
       "bridge_excerpts": [
         "Mycielski-PolishSpace"
       ],
-      "proof_status": "Pinned literal source and dependency expansion retained; separate Challenge/Solution semantic bridges compile. Independent review owns completeness and fidelity."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "TopologicalSpace.IsCompletelyMetrizableSpace",
@@ -488,7 +486,7 @@
       "bridge_excerpts": [
         "Mycielski-TopologicalSpace.IsCompletelyMetrizableSpace"
       ],
-      "proof_status": "Pinned literal source and dependency expansion retained; separate Challenge/Solution semantic bridges compile. Independent review owns completeness and fidelity."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "CompleteSpace",
@@ -505,7 +503,7 @@
       "bridge_excerpts": [
         "Mycielski-CompleteSpace"
       ],
-      "proof_status": "Pinned literal source and dependency expansion retained; separate Challenge/Solution semantic bridges compile. Independent review owns completeness and fidelity."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Cauchy",
@@ -522,7 +520,7 @@
       "bridge_excerpts": [
         "Mycielski-Cauchy"
       ],
-      "proof_status": "Pinned literal source and dependency expansion retained; separate Challenge/Solution semantic bridges compile. Independent review owns completeness and fidelity."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "Set.range",
@@ -530,7 +528,6 @@
       "role": "conclusion",
       "used_by": [
         "StrongTransitive.residual_dense_orbits",
-        "StrongTransitive.countable_power_transitive",
         "StrongTransitive.dense_prefix_orbit",
         "StrongTransitive.residual_strong_sequences",
         "StrongTransitive.exists_dense_Gdelta_strong_sequences"
@@ -542,7 +539,7 @@
       "bridge_excerpts": [
         "Dynamics-Set.range"
       ],
-      "proof_status": "Literal/field and proved-equivalence bridges compile separately through MycielskiChallenge and MycielskiSolution; independent review owns inventory completeness."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "MetricSpace",
@@ -563,7 +560,7 @@
         "UniformSpace",
         "Metric.isOpen_iff"
       ],
-      "proof_status": "Both independent entrypoint modules retain literal, class-field and proved bridges. Actual source-bound Lean build receipts establish compilation. Independent mathematical review assesses inventory completeness and use-specific fidelity; hashes alone establish neither. Full canonical, rendering, editorial and registry evidence have separate scopes."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "PseudoMetricSpace",
@@ -585,7 +582,7 @@
         "Bornology",
         "Metric.isBounded_iff"
       ],
-      "proof_status": "Both independent entrypoint modules retain literal, class-field and proved bridges. Actual source-bound Lean build receipts establish compilation. Independent mathematical review assesses inventory completeness and use-specific fidelity; hashes alone establish neither. Full canonical, rendering, editorial and registry evidence have separate scopes."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     },
     {
       "name": "UniformSpace",
@@ -611,7 +608,7 @@
         "Filter.order",
         "Filter.product"
       ],
-      "proof_status": "Both independent entrypoint modules retain literal, class-field and proved bridges. Actual source-bound Lean build receipts establish compilation. Independent mathematical review assesses inventory completeness and use-specific fidelity; hashes alone establish neither. Full canonical, rendering, editorial and registry evidence have separate scopes."
+      "proof_status": "Exact pinned literal fields retained; separate StrongChallenge and StrongSolution semantic routes compile. Completeness and mathematical fidelity require independent review."
     }
   ],
   "source_files": [
