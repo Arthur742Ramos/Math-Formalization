@@ -227,3 +227,11 @@ The Pettis neighborhood lemma and automatic-continuity theorem are proved and in
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Pettis automatic continuity for Baire-to-separable topological groups](topology/pettis-automatic-continuity) | A BP-measurable homomorphism from a Baire topological group to a separable topological group is continuous; nonmeagre BP neighborhood lemma proved internally. | Preparation; not submitted | [`226aca0`](https://github.com/Arthur742Ramos/Math-Formalization/tree/226aca05603f09731592cfef71d0a4b030181cc3/topology/pettis-automatic-continuity) |
+
+## Baire-measurable regularization preparation
+
+The regularization characterization and density corollary are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Baire-measurable regularization on comeagre G-delta subspaces](topology/baire-measurable-regularization) | Baire measurability is equivalent to continuity restricted to a comeagre G-delta subspace for second countable targets; density corollary assumes a Baire source. | Preparation; not submitted | [`7969037`](https://github.com/Arthur742Ramos/Math-Formalization/tree/79690373d521a50637b3a5f84d8da6ccdd543f2a/topology/baire-measurable-regularization) |

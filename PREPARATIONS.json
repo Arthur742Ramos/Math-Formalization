@@ -1668,6 +1668,66 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Baire-measurable regularization on comeagre G-delta subspaces",
+      "path": "topology/baire-measurable-regularization",
+      "scope": "Baire measurability is equivalent to continuity restricted to a comeagre G-delta subspace for second countable targets; density corollary assumes a Baire source.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "79690373d521a50637b3a5f84d8da6ccdd543f2a",
+        "tree": "b86418c6121e5e9da9ce6d0f69cce59e80c10e26"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "942078f35d4f9541c7f3a56e56e14bc260001dd04dc9ed000d9712a387650240",
+        "RegularChallenge.lean": "be2abaaf6168e8937ce0aceb99fce4c058d1a2f820a1ae7946d90cc5f1e43df5",
+        "RegularSolution.lean": "5fad78564d55cbe41ea9d7aadf1f4604fcda670111b5ad6d28100ff106ecf6ff",
+        "AxiomAudit.lean": "4dc8cce0a381b982a1dac880f01821b455b298fde5f4423d1e6a37e6aa864f55",
+        "ChallengeTests.lean": "7cd8490a04959e3a0efe0bbaabb8d81f305dd7688712a821ced2eaa02139be40",
+        "formalization.yaml": "3e2ef968878343a76bfa59378d8ec637161b0856fe43482bffe0524df375263d",
+        "lakefile.toml": "2fac71e2fc2cf80ab4be90879ac409ae9054127c09a372dfd0289e088007dc50",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "cf695d09428d4a333a07697b728cad5bdfb0ee1ca9033ff1d4cd535869c5dc2c",
+        "lake-manifest.json": "2ed5db661709feaf80e886e26e925143cd9ff0dce652d4e74747e797061af7f4",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "dfdc2f96b8c3a516f7386627eb5c29cdd625d1fefb4bc18cac661d073881ec93",
+        "BaireRegularization.lean": "be2abaaf6168e8937ce0aceb99fce4c058d1a2f820a1ae7946d90cc5f1e43df5",
+        "comparator.json": "dad0ad146548d4eefa95bab6be7755591dd2871d39333c6177852ca58fc62caa"
+      },
+      "theorem_names": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
+        "BaireRegularization.bpPreimages_iff_continuous_restriction",
+        "BaireRegularization.exists_dense_continuous_restriction"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "70b33a2fda6895f9cc215adefd2007381efbe2233ff98778e772be1034571783"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
