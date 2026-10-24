@@ -1,0 +1,17 @@
+{
+  "challenge_module": "MixingChallenge",
+  "solution_module": "MixingSolution",
+  "theorem_names": [
+    "Furstenberg.weakMixing_iff_product_transitive",
+    "Furstenberg.hitting_refinement",
+    "Furstenberg.finite_refinement",
+    "Furstenberg.finite_simultaneous_hitting",
+    "Furstenberg.finite_power_transitive"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
