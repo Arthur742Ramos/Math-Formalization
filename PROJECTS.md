@@ -195,3 +195,11 @@ The full mathematical proof is implemented and internally reviewed; source is pu
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`2c4a33f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2c4a33f20ad3169169a1659e097e7832ba428db2/topology/knaster-reichbach) (dated status checkpoint) |
+
+## Cantor dynamical extension preparation
+
+The full invariant-subset theorem is proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Cantor dynamical extension with a dense forward orbit](topology/cantor-dynamical-extension) | Invariant closed nowhere-dense Cantor-subset dynamics extends to an ambient homeomorphism with a dense forward orbit; empty subset included. | Preparation; not submitted | [`05802f6`](https://github.com/Arthur742Ramos/Math-Formalization/tree/05802f6ce60296c60acc11452a1d8207cc9c0704/topology/cantor-dynamical-extension) |
