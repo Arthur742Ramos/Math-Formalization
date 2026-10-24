@@ -235,3 +235,11 @@ The regularization characterization and density corollary are proved and indepen
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Baire-measurable regularization on comeagre G-delta subspaces](topology/baire-measurable-regularization) | Baire measurability is equivalent to continuity restricted to a comeagre G-delta subspace for second countable targets; density corollary assumes a Baire source. | Preparation; not submitted | [`7969037`](https://github.com/Arthur742Ramos/Math-Formalization/tree/79690373d521a50637b3a5f84d8da6ccdd543f2a/topology/baire-measurable-regularization) |
+
+## E0 generic ergodicity and non-smoothness preparation
+
+Finite-flip mixing, generic constancy and BP/Borel non-reduction are proved and independently internally reviewed. The following is a dated pre-canonical checkpoint; later exact-source receipts are retained separately. No intake has been created.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Generic ergodicity and non-smoothness of E₀](topology/e0-nonsmoothness) | Literal E0 on the actual Boolean Cantor product has generic ergodicity and admits no BP or Borel reduction to equality in any second countable T0 target. | Preparation; not submitted | [`2c22ecd`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2c22ecd1459b49b96e685677e62a14c1facea936/topology/e0-nonsmoothness) |
