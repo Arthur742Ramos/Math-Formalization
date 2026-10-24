@@ -2190,6 +2190,66 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Auslander–Yorke dichotomy for minimal metric maps",
+      "path": "topology/auslander-yorke-dichotomy",
+      "scope": "A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "1b54a5c7078534f3bb7e553161c2a1317dfc4eb8",
+        "tree": "2db2756dfd5a561dfed42dbb4a0aa1bc6c429504"
+      },
+      "source_files_sha256": {
+        "SemanticTests.lean": "0415d1068f4b14da3edc9d8c67c0d8d26d68333da743df9a748bf3f26b667683",
+        "CORE-DEFINITIONS.md": "4588ffec75a986a5b6e6137dded64886c8b6988873a400966536a69a87ed6195",
+        "AxiomAudit.lean": "ef8ac034f0fa80ecd74320864d79e325366637ae78c6cbf997848e4b0cb41972",
+        "DichotomySolution.lean": "f98b849485e27a0fec1df26b811a202f1ba81151fbd357c1251777c0b779a496",
+        "AuslanderYorke.lean": "637014eb0669f7ace9f6487af3b753b65fc76bacf3a920c897cf1e483584afdd",
+        "ChallengeTests.lean": "fbd6c8a3cc8c9fca87276a47eeaa2bf5f159d88915fbeab36c05dbd77e52f3c2",
+        "DichotomyChallenge.lean": "637014eb0669f7ace9f6487af3b753b65fc76bacf3a920c897cf1e483584afdd",
+        "formalization.yaml": "e18d003362b7c394d44b413a4fa3fa7b66ec51f05dc41008f519ea13ef3a9a12",
+        "lakefile.toml": "a6cff3cd176c5489e7019d0660b384bf68bd606cce1e18aaba96f28dc62ee4f7",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "e6cda5a82e8b1a9e8844d953798c077fe99d3c83423ac7c0987aad2a47150a47",
+        "lake-manifest.json": "6ccbf254586062d6303548ef68e48ab1711d4f2c4f6ef7597c652ca81aba0943",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "README.md": "966fd5091586b5f3b04c076e7c5c30806f6a0a3a0e76afce1d8b6be2a211becd",
+        "comparator.json": "66ee12a1ef8d0de16ecd8f2d046271e19f168b4089b2e13839bddceb2dba37c7"
+      },
+      "theorem_names": [
+        "AuslanderYorke.equicontinuous_of_stable_open_sets",
+        "AuslanderYorke.minimal_dichotomy",
+        "AuslanderYorke.minimal_not_sensitive_iff_equicontinuous"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "complete_mathematical_source_and_package": "b74841eb29432d7a7339ea76e8a516ced143fd292faeaa74cf19320610ffdb9f"
+        }
+      },
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
     }
   ]
 }
