@@ -44,6 +44,8 @@
       "declaration_kind": "class",
       "role": "hypothesis",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -64,6 +66,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -81,6 +85,8 @@
       "declaration_kind": "def",
       "role": "conclusion",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -99,6 +105,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -117,6 +125,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -138,6 +148,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -158,6 +170,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -177,6 +191,8 @@
       "declaration_kind": "def",
       "role": "hypothesis",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -208,6 +224,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -228,6 +246,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -248,6 +268,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -268,6 +290,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -291,6 +315,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -310,6 +336,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -330,6 +358,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -350,6 +380,8 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -372,6 +404,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -393,6 +427,8 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -411,6 +447,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -429,6 +467,8 @@
       "declaration_kind": "class",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -446,6 +486,8 @@
       "declaration_kind": "structure",
       "role": "conclusion",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -463,6 +505,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -483,6 +527,8 @@
       "declaration_kind": "structure",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -500,6 +546,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -517,7 +565,6 @@
       "declaration_kind": "class",
       "role": "hypothesis",
       "used_by": [
-        "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
       "meaning": "Every countable intersection of open dense sets is dense in X; assumed only for the density corollary.",
@@ -534,6 +581,7 @@
       "declaration_kind": "def",
       "role": "conclusion",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -551,6 +599,7 @@
       "declaration_kind": "class",
       "role": "hypothesis",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -568,6 +617,7 @@
       "declaration_kind": "structure",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -585,6 +635,8 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
+        "BaireRegularization.bpPreimages_of_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -603,6 +655,7 @@
       "declaration_kind": "def",
       "role": "proof-dependency",
       "used_by": [
+        "BaireRegularization.exists_continuous_restriction",
         "BaireRegularization.bpPreimages_iff_continuous_restriction",
         "BaireRegularization.exists_dense_continuous_restriction"
       ],
@@ -1202,12 +1255,12 @@
     {
       "module": "ChallengeTests",
       "path": "ChallengeTests.lean",
-      "sha256": "867abdc0790135b10685318d9ba2c552b8d6dd261be7bb7c22b10b47a92e9aff"
+      "sha256": "7cd8490a04959e3a0efe0bbaabb8d81f305dd7688712a821ced2eaa02139be40"
     },
     {
       "module": "SemanticTests",
       "path": "SemanticTests.lean",
-      "sha256": "4e2851c873254b31f0b7e0a9d5318ba1214d58ddf11e346b543f5c53ddfe851c"
+      "sha256": "942078f35d4f9541c7f3a56e56e14bc260001dd04dc9ed000d9712a387650240"
     }
   ],
   "scope": "Selected BP/open-preimage, countable target topology, actual subtype continuity and residual/G-delta/density conclusions with exact dependency expansion and separately compiled semantic bridges. Independent review owns completeness and fidelity.",

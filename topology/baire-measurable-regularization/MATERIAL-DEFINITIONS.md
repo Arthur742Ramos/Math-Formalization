@@ -1,6 +1,6 @@
 # Material imported definitions
 
-Selected: BaireRegularization.bpPreimages_iff_continuous_restriction, BaireRegularization.exists_dense_continuous_restriction.
+Selected: BaireRegularization.exists_continuous_restriction, BaireRegularization.bpPreimages_of_restriction, BaireRegularization.bpPreimages_iff_continuous_restriction, BaireRegularization.exists_dense_continuous_restriction.
 
 - `TopologicalSpace`: The actual supplied source and target topologies.
 - `IsOpen`: Open in the supplied source/target topology, or the actual induced subtype topology; relative opens are restrictions of ambient opens.

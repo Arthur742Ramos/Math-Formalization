@@ -36,8 +36,10 @@ ambient open representatives of relatively open preimages and residual
 agreement. No continuous-restriction conclusion is assumed as a premise of
 the forward theorem. RegularChallenge contains the complete standalone proof
 from Mathlib imports; RegularSolution imports the separate source module.
-The two selected names are bpPreimages_iff_continuous_restriction and
-exists_dense_continuous_restriction in namespace BaireRegularization.
+The four selected names are exists_continuous_restriction,
+bpPreimages_of_restriction, bpPreimages_iff_continuous_restriction and
+exists_dense_continuous_restriction in namespace BaireRegularization. Selecting
+the construction and converse exposes the substantive proofs in the renderer.
 
 Independent internal AI scope and implementation/source-fidelity reviews pass.
 Exact-source release readiness is established by immutable external local

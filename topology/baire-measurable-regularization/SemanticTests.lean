@@ -5,6 +5,8 @@ open Set Filter TopologicalSpace
 open scoped Topology symmDiff
 #check BaireRegularization.bpPreimages_iff_continuous_restriction
 #check BaireRegularization.exists_dense_continuous_restriction
+#check BaireRegularization.exists_continuous_restriction
+#check BaireRegularization.bpPreimages_of_restriction
 example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
     [SecondCountableTopology Y] (f : X → Y) :
     (∀ U : Set Y, IsOpen U → BaireMeasurableSet (f ⁻¹' U)) ↔

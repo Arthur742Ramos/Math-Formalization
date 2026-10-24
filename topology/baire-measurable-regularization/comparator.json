@@ -2,6 +2,8 @@
   "challenge_module": "RegularChallenge",
   "solution_module": "RegularSolution",
   "theorem_names": [
+    "BaireRegularization.exists_continuous_restriction",
+    "BaireRegularization.bpPreimages_of_restriction",
     "BaireRegularization.bpPreimages_iff_continuous_restriction",
     "BaireRegularization.exists_dense_continuous_restriction"
   ],
