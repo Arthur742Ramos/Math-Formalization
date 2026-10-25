@@ -1,0 +1,120 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Analytic circle Hodge decomposition and computational periods",
+    "description": "For actual continuous real coefficients on AddCircle 1, construct a normalized actual circle potential with C1 real cover pullback and prove coefficient equals its mean plus potential derivative. Mean zero exactly characterizes these actual derivatives; differentiability plus derivative zero characterizes harmonic constants, unique modulo analytic exact coefficients. Prove ordinary integral orthogonality and energy Pythagoras. Derive genuine C1 lifted loop integrals from chain-rule FTC, prove every ambient class has a smooth representative, and identify all such analytic integrals with periods of a proved actual computational harmonic cochain.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual endpoint-changing geometric traces, continuous primitive system and scoped presentation declarations retained with complete used proofs and immutable mappings. Raw geometric traces can have corners; ordinary line integration is asserted for proved C1 representatives of their actual ambient classes."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group/degree-one period context. This package proves an explicit flat one-dimensional coefficient model and its actual computational period bridge, without a global manifold differential-form or singular/deRham comparison theorem."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete Hodge context. Analytic orthogonality here is proved using the actual ordinary interval integral, and the computational harmonic cochain uses the existing actual finite operators."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods",
+      "relationship": "builds-on",
+      "note": "Complete actual cochain/trace/reconstruction/circle-lift declarations and circle winding injectivity/integrality proofs retained with source mapping. New result treats nonconstant actual circle coefficients, actual periodic potentials and genuine ordinary analytic integrals."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/loop-characters",
+      "relationship": "builds-on",
+      "note": "Actual circle primitive, rooting, ordinary winding character and its unit period retained. Finite Exact circleSystem is zero; it is explicitly distinguished from nontrivial analytic ExactCoefficient."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual MIT geometric trace model and existing circle/torus classification credited. An overlap audit found no genuine intervalIntegral/Bochner/derivative implementation in this pinned predecessor; classical classification itself is not claimed new."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned ordinary Bochner interval integral, periodic integration, quotient descent, actual derivative and C1 APIs, mean-value theorem, real-circle covering/lifting/monodromy and actual finite Euclidean harmonic subspace. Generic classical calculus is attributed infrastructure; no analytic/computational bridge is assumed."
+    }
+  ],
+  "status": {
+    "scope": "Actual continuous flat-circle coefficients: analytic mean/periodic-derivative Hodge decomposition, integral orthogonality/energy, and genuine C1 ambient-loop integrals equal actual computational harmonic periods.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Analytic coefficients are actual continuous functions on the real circle, interpreted relative to the flat one-dimensional coordinate trivialization. Analytic exactness uses an actual circle potential with C1 real cover; harmonicity includes differentiability before derivative zero. Ordinary line integration is proved for global C1 real lifted representatives; existence for every ambient class is proved, but direct integration of raw cornered trace realizations is not constructed. No manifold cotangent bundle, full differential-form/deRham complex or comparison, Laplacian, higher-dimensional/Kahler theorem, L2 quotient construction, numerical algorithm, novelty or editorial acceptance is claimed. Classical inverse/lift constructions are noncomputable. Exact validation and review outcomes remain in separately bound receipts.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Starts with actual continuous functions on AddCircle 1, derives real-cover periodicity, constructs the mean-subtracted primitive by ordinary interval integration and descends it through the actual quotient. Actual derivative and periodic endpoints prove analytic exactness and harmonic uniqueness. Differentiability is required because deriv is totalized outside its differentiability domain. Chain-rule FTC proves the ordinary loop integral formula; circle lift uniqueness identifies endpoint with actual winding, and winding injectivity/integrality prove smooth representative existence. The finite actual harmonic cochain is constructed using actual rooted computational loops; the kernel theorem relates analytic ExactCoefficient to the mean map, not to a false equality with finite Exact circleSystem."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope review before implementation preferred nonconstant actual-circle coefficients over a constant-covector FTC wrapper. It required actual quotient potential descent, guarded harmonic differentiability, proved C1 representative existence, and explicit distinction from raw cornered trace integration and manifold theorems. Independent authoring mathematical review found no contract blocker; source/provenance/material and final exact-source evidence review are separate. No human or external peer review is inferred."
+  }
+}

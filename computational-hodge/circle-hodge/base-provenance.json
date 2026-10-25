@@ -1,0 +1,174 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "4599f63826a84657c4a5e8f74cf471251d9849ff",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/SourcePaths.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/SourcePaths.lean",
+          "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+          "start_character": 0,
+          "end_character": 2551,
+          "first_line": 1,
+          "last_line": 68,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/Periods.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/Periods.lean",
+          "source_sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0",
+          "start_character": 0,
+          "end_character": 3188,
+          "first_line": 1,
+          "last_line": 92,
+          "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+    },
+    {
+      "path": "Harmonic.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/Harmonic.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/Harmonic.lean",
+          "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+          "start_character": 0,
+          "end_character": 582,
+          "first_line": 1,
+          "last_line": 19,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/LoopImage.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/LoopImage.lean",
+          "source_sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+          "start_character": 0,
+          "end_character": 4172,
+          "first_line": 1,
+          "last_line": 94,
+          "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/CircleWinding.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/CircleWinding.lean",
+          "source_sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6",
+          "start_character": 0,
+          "end_character": 3501,
+          "first_line": 1,
+          "last_line": 75,
+          "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+    },
+    {
+      "path": "Reconstruction.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/TorusReconstruction.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/TorusReconstruction.lean",
+          "source_sha256": "43cd478450e889aa891b4c193d5f77bd115c6191956cdb6e89c307bd3395800d",
+          "start_character": 0,
+          "end_character": 6426,
+          "first_line": 1,
+          "last_line": 143,
+          "sha256": "43cd478450e889aa891b4c193d5f77bd115c6191956cdb6e89c307bd3395800d"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [
+        {
+          "old": "public import TorusGeometry",
+          "new": "public import CircleWinding"
+        }
+      ],
+      "sha256": "b0f56e94c02646adf2c142ac1cfd419c65f308cb7ef55f1b8c13546dea47685e"
+    },
+    {
+      "path": "CircleGeometry.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/torus-periods/TorusGeometry.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/torus-periods/TorusGeometry.lean",
+          "source_sha256": "b9a2aaf6fb7670fe756fdd2e9b910bfe321a38d5d8cdd4ab5f64c24ff712b03e",
+          "start_character": 0,
+          "end_character": 1335,
+          "first_line": 1,
+          "last_line": 33,
+          "sha256": "0c9b5a0e58c424ddb00c163044076a5bd851a855780e92ef4a14724756157511"
+        },
+        {
+          "source_path": "computational-hodge/loop-characters/CharacterExample.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4599f63826a84657c4a5e8f74cf471251d9849ff/computational-hodge/loop-characters/CharacterExample.lean",
+          "source_sha256": "ca138222df407903f79c133f0ed6eea73e2eaa447bd84aa824ba101dbdcd64ab",
+          "start_character": 3472,
+          "end_character": 4311,
+          "first_line": 75,
+          "last_line": 97,
+          "sha256": "291e54cbda558d86dea1c770970a5eedac204a0a7f48059834bef2b1bd103de2"
+        }
+      ],
+      "separator": "end ComputationalHodge.CircleHodge\n\nnamespace ComputationalHodge.LoopCharacters\nopen ComputationalPaths.Path.GeometricTopology\n",
+      "suffix": "end ComputationalHodge.LoopCharacters\n",
+      "replacements": [
+        {
+          "old": "public import CircleWinding",
+          "new": "public import Reconstruction"
+        },
+        {
+          "old": "public import Mathlib.Topology.Homotopy.Product\n",
+          "new": ""
+        },
+        {
+          "old": "namespace ComputationalHodge.TorusPeriods",
+          "new": "namespace ComputationalHodge.CircleHodge"
+        }
+      ],
+      "sha256": "98c65225702da65c460d873f48da6289f8809d6767f55ba03b0cf090b8935ffc"
+    }
+  ]
+}
