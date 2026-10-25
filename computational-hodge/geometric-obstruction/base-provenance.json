@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+  "scope": "Nine complete-declaration dependency subsets from verified PR61. Every retained declaration keeps its complete proof; only listed imports/namespace closures adapted. No new mathematical proof-body adaptation. Prior packages remain unchanged.",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/geometric-descent/SourcePaths.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/SourcePaths.lean",
+      "source_sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 5599,
+          "start_line": 1,
+          "end_line": 143,
+          "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "",
+      "replacements": [],
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/geometric-descent/Periods.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Periods.lean",
+      "source_sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 4437,
+          "start_line": 1,
+          "end_line": 122,
+          "sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "",
+      "replacements": [],
+      "sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287"
+    },
+    {
+      "path": "Chains.lean",
+      "source_path": "computational-hodge/geometric-descent/Chains.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Chains.lean",
+      "source_sha256": "7649f7dd27f45107d16ad63619244c050321a9d4232f648345326311c914d21c",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 5015,
+          "start_line": 1,
+          "end_line": 120,
+          "sha256": "7649f7dd27f45107d16ad63619244c050321a9d4232f648345326311c914d21c"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "",
+      "replacements": [],
+      "sha256": "7649f7dd27f45107d16ad63619244c050321a9d4232f648345326311c914d21c"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/geometric-descent/Harmonic.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Harmonic.lean",
+      "source_sha256": "b368d53c7103be4cd6eea044230b1f5c401446771d3205b4cb735044500abd93",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 558,
+          "start_line": 1,
+          "end_line": 17,
+          "sha256": "32a05d882edb338b0e7091dc39bceb5f6028591daf1d3443c3787a6aef7035bb"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "\nend ComputationalHodge\n",
+      "replacements": [],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "Homology.lean",
+      "source_path": "computational-hodge/geometric-descent/Homology.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Homology.lean",
+      "source_sha256": "b10275580c83777a8709b30d98d3e352fb4fcac61055d0ab4acff13ad1cc77ec",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 634,
+          "start_line": 1,
+          "end_line": 16,
+          "sha256": "ed24dba3007bac283291f12454428552d3b8c2769d3b29f3f1252fc8b2c75a2f"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "\nend ComputationalHodge.PresentationHomology\n",
+      "replacements": [],
+      "sha256": "574d2a4e43bde31fe981e01dc1bc2b59582555a476c6f6f1a2fc88248bcfb101"
+    },
+    {
+      "path": "Realization.lean",
+      "source_path": "computational-hodge/geometric-descent/Realization.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Realization.lean",
+      "source_sha256": "27046ed3c8e26d5c80fa89565e705a0997e7cb39376424c1b0b555df3321c5d2",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 120,
+          "start_line": 1,
+          "end_line": 4,
+          "sha256": "6daace2ec1a97f74f5cd362b132dda40e8c88439e822ff618e35ee22932fc7ad"
+        },
+        {
+          "start_character": 2522,
+          "end_character": 3157,
+          "start_line": 71,
+          "end_line": 84,
+          "sha256": "a9ead73bbbaa0b135befb14aba79521675f1c0690e41ed272cad6ea1ce612bab"
+        },
+        {
+          "start_character": 5275,
+          "end_character": 7334,
+          "start_line": 126,
+          "end_line": 166,
+          "sha256": "67d2feac2c2ab23b81d79f2bd9381865aa00818e21889ecb804cb28ea939d3b9"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "",
+      "replacements": [
+        {
+          "old": "public import Duality",
+          "new": "public import Homology"
+        }
+      ],
+      "sha256": "cdf579575575f531e34027e490742f66c1ca4220d2ec57a6a4111b69da6f0a78"
+    },
+    {
+      "path": "Descent.lean",
+      "source_path": "computational-hodge/geometric-descent/Descent.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Descent.lean",
+      "source_sha256": "fc89f18f1e4cbd1d2fe6631c02e6ce59a0dfd7661a079e9c6336aea54bf7266e",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 371,
+          "start_line": 1,
+          "end_line": 11,
+          "sha256": "f4d8232a4d90252f30d13068f8d6c75dcb7820fb59b84fda54e910f77ee00049"
+        },
+        {
+          "start_character": 983,
+          "end_character": 1788,
+          "start_line": 28,
+          "end_line": 44,
+          "sha256": "677772774730d1dd2cb445c9f96ee6192f1d9ec5785d3864c252f090b3f4b051"
+        },
+        {
+          "start_character": 2851,
+          "end_character": 4383,
+          "start_line": 69,
+          "end_line": 102,
+          "sha256": "bad3d00f20df68fce7aafc947e58d23595bae62500bc0c91c168f172f3602343"
+        },
+        {
+          "start_character": 6810,
+          "end_character": 7218,
+          "start_line": 154,
+          "end_line": 163,
+          "sha256": "f4e429fa4627c43a81633def77205bb64c3bb656fe843fff93a6cb30ba0570c4"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "",
+      "replacements": [],
+      "sha256": "b04258650786e3dde24db15710cec1cc67966dc5284c5cd3f074139bfd6b1057"
+    },
+    {
+      "path": "Examples.lean",
+      "source_path": "computational-hodge/geometric-descent/Examples.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/Examples.lean",
+      "source_sha256": "2b2feda75e7caf7964e15ae83cff17a8519b93182978317117ea14e7b524594b",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 710,
+          "start_line": 1,
+          "end_line": 17,
+          "sha256": "3a732df8f00c75f9cff110beda407448de29a4637e691feea6be31c0a7509792"
+        },
+        {
+          "start_character": 925,
+          "end_character": 1178,
+          "start_line": 22,
+          "end_line": 26,
+          "sha256": "de03437f664b9d8558781e8a65030ecc57728e07b4f2bcd59dd85fd0b82a8ff6"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "\nend ComputationalHodge.PresentationHomology.OneLoop\n",
+      "replacements": [
+        {
+          "old": "public import Duality",
+          "new": "public import Harmonic"
+        }
+      ],
+      "sha256": "160700e378efc7ce6fada55e850040abe9d1d99baee8ddba56363b8b54eaff34"
+    },
+    {
+      "path": "GeometryExample.lean",
+      "source_path": "computational-hodge/geometric-descent/GeometryExample.lean",
+      "source_commit": "7796c0937290beb0eba7688ab93ebf57b2318e0a",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent/GeometryExample.lean",
+      "source_sha256": "2f8c6fec3bee98e278594c95d446a64d2cd9795eaa708f8b7471582c30751746",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 336,
+          "start_line": 1,
+          "end_line": 11,
+          "sha256": "c0143441ad2121f62dce70e96722ebf126eb29bd763a40f06aeb2530e17f37e9"
+        }
+      ],
+      "separator": "\n",
+      "appended_namespace_closure": "\nend ComputationalHodge.GeometricDescent\n",
+      "replacements": [],
+      "sha256": "a6b8d79e6e2b76492b15eb0991944db90d62fb8731852236d14fe1bb016fd6d9"
+    }
+  ]
+}
