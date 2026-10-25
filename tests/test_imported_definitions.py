@@ -283,5 +283,33 @@ class AbbreviationEvidence(unittest.TestCase):
         self.assertFalse(declaration_header_matches('def EuclideanSpace := PiLp 2', 'abbrev', 'EuclideanSpace'))
 
 
+
+class ActualLeanDeclarationSyntax(unittest.TestCase):
+    def test_exact_pinned_named_instance_theorem_and_irreducible_def(self):
+        for kind, name, body in [
+            ('instance', 'Complex.instNorm', 'instance instNorm : Norm C where'),
+            ('theorem', 'Path.Homotopic.map', 'nonrec theorem map (h : P) : Q := h'),
+            ('irreducible_def', 'Complex.exp', 'irreducible_def exp (z : C) : C := limit z'),
+        ]:
+            self.assertTrue(declaration_header_matches(body, kind, name))
+            self.assertFalse(declaration_header_matches(body.replace(name.split('.')[-1], name.split('.')[-1] + 'Extra', 1), kind, name))
+            self.assertFalse(declaration_header_matches('fake ' + body, kind, name))
+            self.assertFalse(declaration_header_matches(body, 'def', name))
+
+    def test_theorem_and_irreducible_body_cannot_claim_literal_unfolding(self):
+        project = ROOT / 'computational-hodge/unit-circle-geometry'
+        with tempfile.TemporaryDirectory() as td:
+            clone = pathlib.Path(td) / 'project'
+            shutil.copytree(project, clone, ignore=shutil.ignore_patterns('.lake', '__pycache__'))
+            manifest = clone / 'verification/material-imported-definitions.json'
+            original = json.loads(manifest.read_text())
+            self.assertEqual(check(clone)['upstream_origin'], 'not-checked')
+            for name in ['Complex.exp', 'Complex.star_def', 'Path.Homotopic.map']:
+                data = copy.deepcopy(original)
+                next(x for x in data['material_declarations'] if x['name'] == name)['bridge_kind'] = 'literal-unfolding'
+                manifest.write_text(json.dumps(data))
+                with self.assertRaisesRegex(ValueError, 'Incorrect literal/class/proved bridge kind'):
+                    check(clone)
+
 if __name__ == '__main__':
     unittest.main()
