@@ -1,0 +1,47 @@
+{
+  "upstream_commit": "ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+  "excerpts": [
+    {
+      "repository": "Arthur742Ramos/TopologicalComputationalPaths",
+      "commit": "ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "path": "ComputationalPaths/Path/Topology/OpenGeometricComputationalPath.lean",
+      "source_sha256": "0cf5310328c6890e2151bb2b8c4ecce080f1af79d77c2849f75a20ea13da7b91",
+      "start_marker": "structure GeometricStepSystem",
+      "end_marker": "/-- Computational depth",
+      "excerpt_sha256": "ec057dc644e5e301a345cd398257a1b9aafb544c66d36716fdc303aeb9aa9b38",
+      "port_chunk_sha256": "9df01764ac8f5b1318a5bd5a4da3587aa5587976c0860a94260dc0fa1be0e1ae",
+      "namespace_closure_added": true,
+      "first_line": 36,
+      "last_line": 60
+    },
+    {
+      "repository": "Arthur742Ramos/TopologicalComputationalPaths",
+      "commit": "ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "path": "ComputationalPaths/Path/Topology/ContinuousGeometricStepSystem.lean",
+      "source_sha256": "7469e897e5fabb4ee3dd60004eaec5f173be09e7a18b7043c152f14f546ce41b",
+      "start_marker": "structure ContinuousGeometricStepSystem",
+      "end_marker": "namespace ContinuousGeometricStepSystem",
+      "excerpt_sha256": "6eecae5bfb13163032dd61f170941e46d9b03d8bc65aaab12b675a566aa6ba33",
+      "port_chunk_sha256": "6eecae5bfb13163032dd61f170941e46d9b03d8bc65aaab12b675a566aa6ba33",
+      "namespace_closure_added": false,
+      "first_line": 30,
+      "last_line": 36
+    },
+    {
+      "repository": "Arthur742Ramos/TopologicalComputationalPaths",
+      "commit": "ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "path": "ComputationalPaths/Path/Topology/ScopedGeometricRewrite.lean",
+      "source_sha256": "0f6a7d741be2797edb64c34fd7d6a1125037c4f88a1dc72ef7089744f8836ad6",
+      "start_marker": "structure ScopedGeometricRewritePresentation",
+      "end_marker": "/-! ## Scoped closure -/",
+      "excerpt_sha256": "65e667b7eb211892a7abf17b76da4550b9d68830fb2cbb312710cc9837b727df",
+      "port_chunk_sha256": "65e667b7eb211892a7abf17b76da4550b9d68830fb2cbb312710cc9837b727df",
+      "namespace_closure_added": false,
+      "first_line": 37,
+      "last_line": 48
+    }
+  ],
+  "adaptation": "Imports/module/public visibility/enclosing namespaces plus explicit end GeometricTrace closure after first excerpt; upstream excerpt and port chunk hashes recorded separately.",
+  "original_toolchain": "leanprover/lean4:v4.32.0",
+  "port_toolchain": "leanprover/lean4:v4.35.0-rc2"
+}

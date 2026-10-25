@@ -361,6 +361,30 @@ class UnitCircleGeometrySourcePath(unittest.TestCase):
             command.assert_not_called()
 
 
+class AutomaticLiftsMaterialHandoff(ComputationalHodgeMaterialHandoff):
+    PROJECT = 'computational-hodge/automatic-lifts'
+
+
+class AutomaticLiftsSourcePath(unittest.TestCase):
+    def test_exact_automatic_lifts_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'Challenge.lean\n', b'module\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, 'computational-hodge/automatic-lifts')
+        self.assertEqual(files, {'Challenge.lean': b'module\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':computational-hodge/automatic-lifts/Challenge.lean')
+
+    def test_other_or_traversing_automatic_lifts_paths_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['computational-hodge/automatic-lifts/../finite-periods',
+                         'computational-hodge/automatic-lifts/other',
+                         'computational-hodge/new-project', '/computational-hodge/automatic-lifts']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,

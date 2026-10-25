@@ -30,7 +30,7 @@ def sha(data):
 
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
-    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry', project),
+    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts', project),
             'Invalid project path')
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
@@ -243,7 +243,7 @@ def check_status(root, commit, project, historical_report=None):
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',
                    'topology/banach-mazur-category', 'topology/strong-choquet-polish',
                    'algebraic-hodge/ddbar-pilot', 'computational-hodge/finite-periods',
-                   'computational-hodge/presentation-homology', 'computational-hodge/geometric-descent', 'computational-hodge/geometric-obstruction', 'computational-hodge/loop-characters', 'computational-hodge/torus-periods', 'computational-hodge/circle-hodge', 'computational-hodge/trace-integrals', 'computational-hodge/ac-lifts', 'computational-hodge/dirichlet', 'computational-hodge/unit-circle-geometry'}:
+                   'computational-hodge/presentation-homology', 'computational-hodge/geometric-descent', 'computational-hodge/geometric-obstruction', 'computational-hodge/loop-characters', 'computational-hodge/torus-periods', 'computational-hodge/circle-hodge', 'computational-hodge/trace-integrals', 'computational-hodge/ac-lifts', 'computational-hodge/dirichlet', 'computational-hodge/unit-circle-geometry', 'computational-hodge/automatic-lifts'}:
         require(material_manifest in files, 'Missing material imported-definition evidence')
     if material_manifest in files:
         # Audit the proposed source bytes, never a later working directory.
