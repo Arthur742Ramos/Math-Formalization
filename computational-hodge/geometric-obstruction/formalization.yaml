@@ -1,0 +1,115 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Geometric harmonic correction and null-loop obstruction",
+    "description": "For a finite-generator continuous geometric step system and a sound scoped rewrite presentation P, split every P-harmonic cochain into a canonical geometric harmonic correction and an orthogonal obstruction in the actual nullhomotopic computational-loop span intersected with the old relation orthogonal complement. The quotient map identifies this obstruction space linearly and isometrically with the actual kernel of the natural geometric homology map, using its inherited quotient norm. Every geometric harmonic competitor satisfies an exact Pythagorean approximation identity; the correction is the unique closest one, and the error equals the norm of the kernel class. A constant-path generator has nonzero obstruction and zero correction.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT",
+      "math.LO"
+    ],
+    "msc2020": [
+      "18G35",
+      "18B40",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Retains the actual endpoint-changing geometric traces and fourteen scoped rewrite constructors through exact attributed source excerpts. The geometric presentation uses actual endpoint-fixed path homotopy. Null-loop relation-span comparison is inherited from PR61 and not claimed as new."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2, Theorems4.7 and5.1",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite Hodge orthogonal decomposition and least-squares context. This project connects actual computational-path geometric relations to a quotient-norm kernel and correction error; it does not formalize the ranking estimator, pseudoinverse or numerical algorithm from this paper."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/7796c0937290beb0eba7688ab93ebf57b2318e0a/computational-hodge/geometric-descent",
+      "relationship": "builds-on",
+      "note": "Exact complete-declaration slices from nine PR61 modules, with provenance and two import adjustments. The prior geometric presentation, actual null-loop span and homology map are retained; new results construct the correction and isometric kernel obstruction. Older source remains unchanged."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology",
+      "relationship": "builds-on",
+      "note": "Earlier actual incidence-chain homology and harmonic representative framework, reused through the PR61 subset. Generic projection existence is attributed, not claimed new."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual geometric traces and scoped rewrite definitions retained literally with MIT source attribution. Only represented computational paths are in scope."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/ComputationalPathsLean/tree/257c659b7973aeda900d86a5da73b208712c7523",
+      "relationship": "related",
+      "note": "Inspected for overlap. Equality-indexed raw paths and degree-shadow Hodge certificates are not substituted for the actual cochain or geometric operator laws here."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Actual finite Euclidean spaces, finite-support incidence, submodules, canonical quotient norm, orthogonal projections and quotientEquivOrthogonal. Classical library projection and best-approximation theory are credited; the actual geometric kernel restriction and correction contract are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Finite-generator computational-path geometric harmonic correction and actual quotient-norm homology-kernel obstruction.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Vertices and rule types need not be finite, connected or nonempty. Orthogonal projection is noncomputable/classical, not a numerical algorithm. The actual quotient norm is inherited rather than invented by transport. Only represented computational paths are used; no ambient singular/deRham comparison, integral homology, analytic/Kahler Hodge, novelty, registry or editorial acceptance is claimed. Correction need not preserve the old cohomology class. Kernel zero implies no real-span obstruction, not geometric rewrite completeness. Exact-source checks and review outcomes have separate immutable receipts.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Uses actual Path.Homotopic of realized traces, the actual span of null-loop word chains and the actual old-to-geometric quotient homology map. No decomposition or metric bridge is assumed: the obstruction map is b to its old homology class; bijectivity is proved using old relation projection, and norm preservation follows from the inherited quotient norm via pinned quotientEquivOrthogonal. The correction error identity holds for every geometric harmonic competitor. No ordinary product isometry is asserted."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI mathematical/source scope review required the actual quotient-norm kernel isometry as core and distinguished the new geometric bridge from generic classical projection theory. No human proof contribution or external review is inferred. Final source, exact verification, rendering, browser and packet evidence have separately bound receipts."
+  }
+}
