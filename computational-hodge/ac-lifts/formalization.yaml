@@ -1,0 +1,125 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Absolutely continuous computational circle periods",
+    "description": "Ordinary interval integration for arbitrary absolutely continuous real lifts of based unit-circle loops. Prove actual covering-lift agreement on the interval and derivative agreement in its interior, derive integrability via a Lipschitz primitive and AC chain rule/FTC, then prove mean periods, actual raw computational-trace recovery, homotopy-compatible harmonic periods and uniqueness. A proved square-root primitive is AC but not Lipschitz on the interval.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals",
+      "relationship": "builds-on",
+      "note": "PR66 handles actual finite computational traces by global Lipschitz and finite-corner proofs. This successor admits arbitrary interval-AC real lifts, derives weighted integrability and FTC without finite/countable exceptional hypotheses, and proves exact recovery of the raw trace integral. Earlier PR64 already handles full ambient torus/circle character reconstruction, so that alternative was rejected as duplicate."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned AC predicate, primitive Lipschitz bound, Lipschitz-after-AC composition, a.e. differentiability, derivative integrability and AC FTC are credited generic infrastructure. The actual circle/computational/harmonic bridge is proved here, not supplied by an analytic bridge hypothesis."
+    }
+  ],
+  "status": {
+    "scope": "Actual ordinary periods of arbitrary interval-absolutely-continuous real lifts on the explicit flat circle, with exact raw computational-trace recovery and actual finite harmonic periods.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. AC regularity, initial value zero and integral endpoint modulo one are explicit assumptions on a real lift; integrability and the period formula are proved. No finite/countable exceptional set, global Lipschitz bound or outside-interval regularity is assumed. Actual covering-lift equality is on[0,1], derivative agreement in its interior. Homotopy-to-supplied-trace is an explicit hypothesis of the harmonic bridge; a new every-loop finite-trace classification is not claimed. No arbitrary continuous/nonrectifiable path integration, all-rectifiable-circle-loop lifting theorem, arbitrary reparameterization, general manifold/deRham/Kahler comparison, Laplacian or numerical algorithm. Analytic potential/exactness results remain in the predecessor. Exact release outcomes are recorded separately.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "The ordinary integral uses the actual projected path and the derivative of the supplied actual real lift. Its equality with the integral against the actual covering-lift derivative is proved, using interval equality only. Compact coefficient boundedness gives a globally Lipschitz ordinary primitive; composition with interval-AC lift is AC. Derivative integrability of this composition and an a.e. chain rule establish weighted integrability, then the genuine AC FTC derives the period formula. All raw finite traces embed using their actual lift without smoothing. The square-root primitive proves the class is strictly broader than interval-Lipschitz lifts. Harmonic membership uses actual retained Closed/Exact predicates."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope review rejected ambient completeness as already present in PR64, and approved unrestricted interval-AC lifts. Authoring review checked the interval-only actual lift boundary, a.e. chain rule/integrability order and nonvacuous unit-trace harmonic uniqueness. Full exact-source validation and final evidence review are separately source-bound; no human or external peer review is inferred."
+  }
+}
