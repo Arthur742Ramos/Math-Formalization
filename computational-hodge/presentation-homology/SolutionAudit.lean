@@ -1,0 +1,47 @@
+module
+import Solution
+
+#print axioms ComputationalHodge.PresentationHomology.wordChain_period
+#print axioms ComputationalHodge.PresentationHomology.boundary_word
+#print axioms ComputationalHodge.PresentationHomology.boundary_pair
+#print axioms ComputationalHodge.PresentationHomology.boundary_squared
+#print axioms ComputationalHodge.PresentationHomology.relations_eq_span
+#print axioms ComputationalHodge.PresentationHomology.cycles_eq_exact_orthogonal
+#print axioms ComputationalHodge.PresentationHomology.closed_eq_relations_orthogonal
+#print axioms ComputationalHodge.PresentationHomology.loopSpan_eq_cycles
+#print axioms ComputationalHodge.PresentationHomology.homologyHodge_mk
+#print axioms ComputationalHodge.PresentationHomology.chainProjection_difference
+#print axioms ComputationalHodge.PresentationHomology.loopClass_compose
+#print axioms ComputationalHodge.PresentationHomology.loopClass_refl
+#print axioms ComputationalHodge.PresentationHomology.loopClass_reverse
+#print axioms ComputationalHodge.PresentationHomology.loopClasses_span
+#print axioms ComputationalHodge.PresentationHomology.pairing_mk
+#print axioms ComputationalHodge.PresentationHomology.periodDuality_mk
+#print axioms ComputationalHodge.PresentationHomology.pairing_loopClass
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.generator_nonzero
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.integral_period
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.fractional_not_single_loop
+#print axioms ComputationalHodge.PresentationHomology.wordChain
+#print axioms ComputationalHodge.PresentationHomology.boundary₁
+#print axioms ComputationalHodge.PresentationHomology.vertexEval
+#print axioms ComputationalHodge.PresentationHomology.Cycles
+#print axioms ComputationalHodge.PresentationHomology.boundary₂
+#print axioms ComputationalHodge.PresentationHomology.Relations
+#print axioms ComputationalHodge.PresentationHomology.LoopSpan
+#print axioms ComputationalHodge.PresentationHomology.ChainBoundaries
+#print axioms ComputationalHodge.PresentationHomology.ChainH1
+#print axioms ComputationalHodge.PresentationHomology.chainHarmonicProjection
+#print axioms ComputationalHodge.PresentationHomology.homologyHodgeEquiv
+#print axioms ComputationalHodge.PresentationHomology.loopCycle
+#print axioms ComputationalHodge.PresentationHomology.loopClass
+#print axioms ComputationalHodge.PresentationHomology.reverse
+#print axioms ComputationalHodge.PresentationHomology.cycleEvaluation
+#print axioms ComputationalHodge.PresentationHomology.evaluationMap
+#print axioms ComputationalHodge.PresentationHomology.pairing
+#print axioms ComputationalHodge.PresentationHomology.periodDuality
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.system
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.presentation
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.coefficient
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.closedCoefficient
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.cohomologyClass
+#print axioms ComputationalHodge.PresentationHomology.OneLoop.generator

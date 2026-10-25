@@ -1,0 +1,129 @@
+# Presentation homology and computational-path period duality
+
+This extends the finite-period Hodge bridge with actual chain homology. Signed
+edge counts of computational paths give boundary maps, a quotient homology space,
+harmonic representatives and a perfect pairing with presentation cohomology.
+
+## Mathematical contract
+
+Let `S` be the user's continuous geometric step system on a topological space `A`,
+with finite primitive-step type `E`, and let `P` be a scoped geometric rewrite
+presentation. Vertices and named rules may be infinite. Each named rule has its
+actual endpoint-fixed geometric homotopy witness. All fourteen scoped rewrite
+constructors are retained from the attributed upstream definitions.
+
+The chain spaces and maps are literal constructions:
+
+```
+C0 = A ->0 R                 finitely supported vertex chains
+C1 = EuclideanSpace R E      signed edge coefficients
+C2 = Cell P ->0 R            finitely supported named-rule chains
+
+wordChain(identity) = 0
+wordChain(edge e)   = standard_basis(e)
+wordChain(p;q)     = wordChain(p) + wordChain(q)
+wordChain(p^-1)    = -wordChain(p)
+
+boundary1(basis(e)) = single(target(e),1) - single(source(e),1)
+boundary2(c) = sum over c.support of c(x) * (wordChain(x.left)-wordChain(x.right))
+```
+
+Here `Cell P` includes every actual named-rule witness. Finite support concerns
+each chain, and imposes no finiteness assumption on `A` or `Cell P`.
+`boundary_word` telescopes to the target minus the source; `boundary_squared`
+proves `boundary1 o boundary2 = 0`. Thus `Relations = range boundary2` is a
+subspace of `Cycles = ker boundary1` and
+`ChainH1 = Cycles / Relations-in-Cycles` is an actual quotient module.
+
+The coefficient identity `inner(wordChain p,omega) = period p omega` connects
+these chains to PR59's actual trace-period recursion. Algebraic evaluation on
+vertex chains pairs `boundary1` with `d0`. Degree-zero cochains remain **all**
+functions `A -> R`; the Dirac potentials used in the proof need not be continuous.
+No Hilbert structure on vertex/rule chains is assumed.
+
+The proofs identify `Cycles = Exact-perp` and `Closed = Relations-perp`.
+Finite `E` gives the required finite-dimensionality and orthogonal projections.
+The homology representative is constructed as `z - projection_Relations(z)`.
+Its kernel and surjectivity establish `homologyHodgeEquiv`, an actual linear
+equivalence between `ChainH1` and the existing harmonic space.
+
+Coefficient evaluation descends through both quotients. The resulting
+`periodDuality : H1 P equiv_linear Module.Dual R (ChainH1 P)` is perfect: its
+injectivity is proved, and proved finite-dimensional rank equality supplies
+surjectivity. `Module.Dual` is the algebraic space of all linear maps to `R`.
+It is not silently replaced with a continuous dual. The representative formula
+is the actual coefficient inner product.
+
+Each **based loop** quotient maps to homology. The map respects actual quotient
+composition, identity and quotient reversal, and agrees with PR59's period
+pairing. Images over **all basepoints span over R**. An arbitrary path has
+boundary `[target]-[source]`; this construction assigns a homology class only
+to loops. No connectivity assumption is inserted.
+
+## A checked obstruction to stronger claims
+
+The example has one vertex and one computational generator, realized by the
+actual constant continuous path. Its free-presentation homology generator is
+nonzero and evaluates to one. Against the unit coefficient, every actual word
+has an integer period. Therefore
+half the generator, although a valid real homology class, cannot equal the image
+of **any** loop quotient. The formal statement is `fractional_not_single_loop`.
+
+This distinguishes real spanning from surjectivity of the unlinearized loop map.
+Integral homology, a raw-loop abelianization universal property, CW realization,
+ambient singular/de Rham comparison, geometric completeness and analytic/Kahler
+Hodge theory remain outside the proved scope. The construction uses classical
+choice and noncomputable orthogonal projection; it supplies no numerical solver.
+Classical results are credited, and no novelty or editorial acceptance is claimed.
+
+## Source and validation identity
+
+Four complete modules from the verified finite-period bridge at
+`5810a77833131ae3b171fd632b2370079345fd9f` are reused byte-for-byte.
+`base-provenance.json` binds those files. The original three upstream definition
+excerpts remain bound by `source-provenance.json`, with MIT attribution retained
+in `SOURCE-LICENSE.txt`. The new development follows the repository's Apache-2.0
+license. Prior submission artifacts and intakes are separate from this package.
+
+`scripts/make_surface.py` retains all eight mathematical modules, including every
+declaration and complete proof, in both standalone interfaces. Challenge and
+Solution share one disclosed implementation; they are not independent proofs.
+The ordered source hashes, transformation, exact imports and generated bytes
+are recorded in `surface-manifest.json`. No mathematical source is pruned.
+
+The toolchain is Lean4.35.0-rc2, compiler11acb17, with Mathlib pinned at
+`065356127b1dc0016f66b7283ce0ce2c4055aa55`. `comparator.json` selects twenty
+theorems and twenty-four definitions. Separate semantic entrypoints check actual
+finite-support sums, basis incidence, quotient membership, finite-dimensional
+instances and the algebraic dual. Three axiom audits permit only `propext`,
+`Classical.choice` and `Quot.sound`.
+
+Run the complete native build and consistency checks locally:
+
+```sh
+lake build
+python3 scripts/make_surface.py --check
+python3 scripts/check_package.py
+python3 scripts/check_interfaces.py
+```
+
+Exact-source native, canonical full, renderer, browser and independent-review
+outcomes belong to their separate immutable receipts. Source prose certifies no
+stage, publication state or registry acceptance. All author-side validation is
+local; repository-hosted CI remains retired.
+
+## Attribution and classical context
+
+Human author and responsible-maintainer roles continue the established Hodge
+campaign assignments: Arthur Freitas Ramos, Ruy Jose Guerra Barretto de Queiroz
+and David Barros Hulak. OpenAI Codex supplied the substantive new proofs and
+packaging, with separate internal AI scope/source/evidence review. These roles
+do not imply human proof contributions or human/external peer review.
+
+The path definitions follow [Topological Semantics for Scoped Computational
+Paths, v3](https://arxiv.org/abs/2608.04228v3). The earlier bridge supplies the
+proved all-loop-period characterization of exactness. The harmonic construction
+uses the classical finite-dimensional framework of [Lim, sections2 and5](https://arxiv.org/pdf/1507.05379v4).
+[Hatcher, section2.2 and Theorem2A.1](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf)
+provides context for chain boundaries and the distinction between loops and
+homology. The topological identifications in those results are not claimed here.

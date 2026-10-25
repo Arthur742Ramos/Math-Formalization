@@ -1,0 +1,117 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Presentation chain homology and perfect computational-path period duality",
+    "description": "Signed chains of actual scoped geometric computational paths define a real presentation chain complex with finitely supported vertex and rule chains. For finite primitive generators, explicit orthogonal projection identifies degree-one chain homology with the existing harmonic space. Coefficient evaluation descends through both homology and cohomology quotients and yields an actual linear equivalence to the algebraic dual. All-basepoint loop classes span real homology and preserve quotient path composition and reversal. A one-loop model has nonzero homology and a fractional class not represented by any single loop. No ambient singular/de Rham comparison or raw-loop abelianization theorem is claimed.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT",
+      "math.LO"
+    ],
+    "msc2020": [
+      "18G35",
+      "18B40",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, arXiv:2608.04228v3, sections 2 and 6",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Uses the exact endpoint-changing GeometricTrace and all fourteen scoped rewrite constructors from the attributed source port. Does not assert geometric completeness or reproduce the quotient-topology results."
+    },
+    {
+      "title": "Hodge Laplacians on Graphs, arXiv:1507.05379v4, section 2 and Theorems 5.2-5.3",
+      "authors": [
+        "Lek-Heng Lim"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/1507.05379v4",
+      "relationship": "adapts",
+      "note": "Classical finite-dimensional harmonic-representative construction via the orthogonal complement of exact cochains. The presented model has finite degree-one space but can have infinitely many named relations. No graph-to-manifold or full Laplacian theorem is claimed."
+    },
+    {
+      "title": "Algebraic Topology, section2.2 and Theorem2A.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical context for presentation boundaries and loops versus homology. No CW realization, integral/singular Hurewicz theorem or raw-loop abelianization universal property is formalized here."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods",
+      "relationship": "builds-on",
+      "note": "Four complete exact-source modules reused; base-provenance.json authenticates the copied bytes. New results construct actual finitely supported chains, quotient homology and perfect algebraic period duality."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Minimal literal definition excerpts, MIT attribution retained. Ported from Lean4.32 to4.35; exact source and adaptation manifest included."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/ComputationalPathsLean/tree/257c659b7973aeda900d86a5da73b208712c7523",
+      "relationship": "related",
+      "note": "Core and Hodge modules audited for scope and overlap. The raw equality-indexed Path and degree-shadow Hodge certificates are not used as actual cochain or analytic operator laws."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses actual Euclidean inner products, submodules, quotient modules and orthogonal projection. Projection existence is derived from finite dimensionality, not assumed as a bridge."
+    }
+  ],
+  "status": {
+    "scope": "Finite-generator real presentation chain homology, harmonic identification and perfect cohomology/homology period pairing, with all-basepoint loop-image spanning.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or added axioms. Only the primitive-step type is finite; vertices and named rules may be infinite. Degree-zero cochains are ALL functions, not continuous functions. Loop images span over the real field, but individual loops do not cover every real class: the fractional one-loop counterexample is proved. No integral homology, raw-loop abelianization, CW realization, ambient singular/de Rham comparison, analytic/Kahler Hodge, numerical algorithm or novelty claim. Exact-source local/canonical/visual/review results are certified by separate immutable receipts; no registry acceptance is inferred.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "The actual endpoint-changing trace and all fourteen rewrite constructors are retained. Vertex and rule chains are genuinely finitely supported. Boundary evaluation pairs with all degree-zero functions, without imposing continuity or a Hilbert structure on vertices/rules. Harmonic existence and both quotient descents are constructed. Perfectness is an actual equivalence to Module.Dual, using proved finite-dimensional surjectivity. No geometric completeness or comparison is assumed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and mathematical/source review distinguished actual chain maps, quotient descents, all-basepoint span, algebraic perfectness, fractional counterexample and ambient geometric limitations. Machine builds and final source/evidence review have separately bound receipts; no human or external peer review is inferred."
+  }
+}
