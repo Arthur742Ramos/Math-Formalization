@@ -1,0 +1,195 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "dc936b47c4dad84455e82e7104ee3411f27f4a83",
+  "scope": "Complete used predecessor declarations and proofs retained at exact named boundaries. Only unused finite-corner, paused-example and old circlePath wrapper families omitted. Published predecessors unchanged.",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2551,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2118,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+        }
+      ],
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 714,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+        }
+      ],
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1174,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+        }
+      ],
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/CircleData.lean",
+      "source_sha256": "b70cb968d675e1f75012f6d408037ba553877164278e8508e12d1618d9c75a4d",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 891,
+          "sha256": "b70cb968d675e1f75012f6d408037ba553877164278e8508e12d1618d9c75a4d"
+        }
+      ],
+      "sha256": "b70cb968d675e1f75012f6d408037ba553877164278e8508e12d1618d9c75a4d"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/RawLift.lean",
+      "source_sha256": "72f60466eb1d6534a604363da17e345e556616543017297531a0a00497c7c1cd",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 5922,
+          "sha256": "0f5384a0e95f58952c1837d52373954dcf8273dcd9bee620613ae27b75d0cf10"
+        },
+        {
+          "start_character": 8993,
+          "end_character": 12975,
+          "sha256": "a3a627a7a3b73634f8543f05b718963ae7cc10f706f03b974307e615deedec8a"
+        }
+      ],
+      "sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/CirclePeriods.lean",
+      "source_sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 3094,
+          "sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff"
+        }
+      ],
+      "sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff"
+    },
+    {
+      "path": "LiftFoundation.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/LiftFoundation.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/LiftFoundation.lean",
+      "source_sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1762,
+          "sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff"
+        }
+      ],
+      "sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff"
+    },
+    {
+      "path": "TraceFoundation.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/TraceFoundation.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/TraceFoundation.lean",
+      "source_sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1146,
+          "sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438"
+        }
+      ],
+      "sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438"
+    },
+    {
+      "path": "Energy.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/Energy.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/Energy.lean",
+      "source_sha256": "50d573ba67d916cde88f7d38c3a62900832a6cad385bd6c7a18713f55f2f6ae1",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 7255,
+          "sha256": "0daf14ab7e5e2a841347b19e6b75ffe93618bb9f341729a765573f7a0e2ee271"
+        },
+        {
+          "start_character": 8218,
+          "end_character": 8488,
+          "sha256": "448eed898360a33e507588a16c50b64b583747061752228480d263891dc1546a"
+        }
+      ],
+      "sha256": "8d5bb800bbb911c4bb6459e4755a040b1dffa75f8ea30849ccee893a344f57f0"
+    },
+    {
+      "path": "Ambient.lean",
+      "source_path": "computational-hodge/unit-circle-geometry/Ambient.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/dc936b47c4dad84455e82e7104ee3411f27f4a83/computational-hodge/unit-circle-geometry/Ambient.lean",
+      "source_sha256": "257e0c01fed663b668a142a2cc29c91b85dc056fd677caa99e084a294b0b52eb",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 6756,
+          "sha256": "21dc03fc7e402dfb5ac798ae0cdb76a48c0c0f4ef0cfbec66b0e8f37b178280b"
+        },
+        {
+          "start_character": 7428,
+          "end_character": 9033,
+          "sha256": "433543db392bbda48850b09cd3cdb13b0e8e6d9310a069e1117eaaa58a81c2b0"
+        },
+        {
+          "start_character": 9224,
+          "end_character": 9266,
+          "sha256": "6b79c5ab038827353052cb5dc3a80531c4ff9a4729720ab8bd30c5aa6d739a24"
+        }
+      ],
+      "sha256": "3e819e75ab112e5b1b079a05aa19ccbcf645c298b06e672d5474c3f0f3397ea2"
+    }
+  ]
+}

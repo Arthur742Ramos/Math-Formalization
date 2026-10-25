@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "unformatted_sha256": "5ced5ac94410fac65536134971d78f810d610679fb0edc9babea6da12ab32435",
+  "layout": {
+    "empty_code_lines_removed": 144,
+    "ordinary_signature_line_joins": 83,
+    "proof_body_line_joins": 0,
+    "open_command_joins": 0
+  },
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "sha256": "b70cb968d675e1f75012f6d408037ba553877164278e8508e12d1618d9c75a4d"
+    },
+    {
+      "path": "RawLift.lean",
+      "sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff"
+    },
+    {
+      "path": "LiftFoundation.lean",
+      "sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff"
+    },
+    {
+      "path": "TraceFoundation.lean",
+      "sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438"
+    },
+    {
+      "path": "Energy.lean",
+      "sha256": "8d5bb800bbb911c4bb6459e4755a040b1dffa75f8ea30849ccee893a344f57f0"
+    },
+    {
+      "path": "Ambient.lean",
+      "sha256": "3e819e75ab112e5b1b079a05aa19ccbcf645c298b06e672d5474c3f0f3397ea2"
+    },
+    {
+      "path": "Automatic.lean",
+      "sha256": "25711953e0ef5839f4529ff489fce2911968b4adb06dd87791f5a59f941deb61"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+    "Mathlib.Topology.Covering.AddCircle",
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+    "Mathlib.Analysis.Calculus.Deriv.Basic",
+    "Mathlib.Analysis.Calculus.Deriv.Add",
+    "Mathlib.Analysis.Calculus.Deriv.Mul",
+    "Mathlib.Analysis.Calculus.Deriv.Comp",
+    "Mathlib.Topology.MetricSpace.Lipschitz",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+    "Mathlib.Analysis.Calculus.MeanValue",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+    "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+    "Mathlib.MeasureTheory.Integral.CircleIntegral",
+    "Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds"
+  ],
+  "sha256": "5549d58c0fc45165b21d7506c59f07d61b4b4b7cc710504907ad48856b535ecc",
+  "lines": 996,
+  "bytes": 56522,
+  "transformation": "Remove module/import/visibility directives; remove empty lines outside comments/strings and reflow ordinary top-level declaration signatures only. No proof-body or open-command joins. Retain every declaration and complete proof of ordered modular sources; fresh elaboration and review remain required. Challenge and Solution share one implementation, not independent proofs."
+}
