@@ -1,0 +1,233 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "69fc594b9bac4757f44b9647618f581931e2af2a",
+  "scope": "Complete used predecessor proofs retained. Density and Primitive use exact declared source fragments with structural import/namespace/scoped-notation headers only. All other modules retain exact predecessor bytes. Prior packages unchanged.",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/metric-hodge/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2551,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/metric-hodge/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2118,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+        }
+      ],
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/metric-hodge/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/metric-hodge/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 714,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+        }
+      ],
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/metric-hodge/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1174,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+        }
+      ],
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/metric-hodge/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1170,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+        }
+      ],
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/metric-hodge/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/RawLift.lean",
+      "source_sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 9904,
+          "sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f"
+        }
+      ],
+      "sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/metric-hodge/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/CirclePeriods.lean",
+      "source_sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 3094,
+          "sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff"
+        }
+      ],
+      "sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff"
+    },
+    {
+      "path": "LiftFoundation.lean",
+      "source_path": "computational-hodge/automatic-lifts/LiftFoundation.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/automatic-lifts/LiftFoundation.lean",
+      "source_sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1762,
+          "sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff"
+        }
+      ],
+      "sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff"
+    },
+    {
+      "path": "TraceFoundation.lean",
+      "source_path": "computational-hodge/automatic-lifts/TraceFoundation.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/automatic-lifts/TraceFoundation.lean",
+      "source_sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1146,
+          "sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438"
+        }
+      ],
+      "sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438"
+    },
+    {
+      "path": "Energy.lean",
+      "source_path": "computational-hodge/automatic-lifts/Energy.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/automatic-lifts/Energy.lean",
+      "source_sha256": "8d5bb800bbb911c4bb6459e4755a040b1dffa75f8ea30849ccee893a344f57f0",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 7525,
+          "sha256": "8d5bb800bbb911c4bb6459e4755a040b1dffa75f8ea30849ccee893a344f57f0"
+        }
+      ],
+      "sha256": "8d5bb800bbb911c4bb6459e4755a040b1dffa75f8ea30849ccee893a344f57f0"
+    },
+    {
+      "path": "Density.lean",
+      "source_path": "computational-hodge/metric-hodge/Metric.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/Metric.lean",
+      "source_sha256": "1ef4681ef6a5eb4da88d46c0607f18adad5a9ab690af3f4e72ac6159ba540787",
+      "qualify_circle": false,
+      "prefix": "module\npublic import Energy\npublic import Mathlib.Analysis.SpecialFunctions.Complex.Circle\npublic import Mathlib.MeasureTheory.Measure.OpenPos\n@[expose] public section\nnamespace ComputationalHodge.MetricHodge\nopen ComputationalHodge.CircleHodge MeasureTheory Set\n",
+      "suffix": "\nend ComputationalHodge.MetricHodge\n",
+      "parts": [
+        {
+          "start_character": 447,
+          "end_character": 1404,
+          "sha256": "17c5bf8054c0bfabd62a6a3f4f2e07cd25afb3393ab3e140ceae4c7ab7d56a7a"
+        },
+        {
+          "start_character": 12280,
+          "end_character": 13034,
+          "sha256": "f3c487b34d2451e25879adc13bd5026f36af84b03d9914624f45fac1f18fa474"
+        }
+      ],
+      "sha256": "1e479a93fae60b22091eb1e85525f897ae66612e45e3b2b260f84aad215f91d8"
+    },
+    {
+      "path": "Primitive.lean",
+      "source_path": "computational-hodge/metric-hodge/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/69fc594b9bac4757f44b9647618f581931e2af2a/computational-hodge/metric-hodge/ACAnalysis.lean",
+      "source_sha256": "b0b5baba161878541f7bef8f101e30870c406bd7d006499413dd488366631e0e",
+      "qualify_circle": false,
+      "prefix": "module\npublic import Density\n@[expose] public section\nnamespace ComputationalHodge.ACLifts\nopen ComputationalHodge.CircleHodge\nopen MeasureTheory Set\nopen scoped NNReal\n",
+      "suffix": "\nend ComputationalHodge.ACLifts\n",
+      "parts": [
+        {
+          "start_character": 3057,
+          "end_character": 4447,
+          "sha256": "d14f1d7c8df4b165aeea07aaaa66df8ff6bfb8b16865c01664079f4ab227cf4c"
+        }
+      ],
+      "sha256": "c2803e9aa6e3ba0281306bbcad86b109a0196242924ac507451b3a9fe1c91531"
+    }
+  ]
+}
