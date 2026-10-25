@@ -1,0 +1,135 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Bounded weighted-circle Green operator and computational obstruction",
+    "description": "Construct an actual continuous linear Green solution map on the closed weighted-mean-zero C0 circle Banach subspace, with integral-derived supnorm and derivative/flux stability estimates, exact C2 image and Poisson inverse identities. Prove weighted pairing symmetry/strict positivity and characterize compatibility by actual raw computational-path and finite harmonic periods, with a nonzero compatible example for every positive C1 density.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Sections9.2-9.3",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Primary classical scalar-Laplacian/adjoint and elliptic-estimate context, Sections9.2-9.3. Precise one-dimensional C0 bounds here are proved directly, not quoted as that source theorem; no general Fredholm/compactness/weak-solution regularity claim."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson",
+      "relationship": "builds-on",
+      "note": "PR73 supplies actual coordinate weighted Poisson solutions; this successor proves quantitative bounds and an actual continuous linear C0 solution operator rather than assuming analytic control. Earlier actual raw integration/finite cochain foundations are retained with exact proof adaptations. PR72 path-energy minimization is distinct."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned normed continuous-function spaces, continuous linear maps, closed-kernel completeness and ordinary calculus/integration are credited infrastructure. Actual integral-derived Green control and computational-period kernel characterization are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Bounded coordinate circle Green solution operator on the actual closed C0 computational-period obstruction kernel, with C2 image, stability and ordinary weighted pairing positivity.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Positive C1 density ds=rho dx, period-one coordinate and continuous forcing. Actual C0 closed kernel is Banach; C2 is only an image certificate, not declared complete. Quantitative statements are proved pointwise supnorm bounds for the constructed continuous linear map, not a separately formalized scalar operator-norm inequality. No closed-range/uniform coercive lower bound, Hilbert self-adjoint realization, compactness/spectral/Sobolev/weak elliptic regularity/general Fredholm or manifold/analytic/Kahler Hodge/deRham theorem, intrinsic metric/cotangent or complex-circle arclength2*pi identification, or numerical algorithm. Exact release outcomes are separately source-bound.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual indexed binary computational traces, real lifts/realization, ordinary raw integrals and finite harmonic cochains are retained. The H subspace is exactly the actual weighted-mean kernel in normed continuous coefficients. Bounds are derived from actual primitives/positive density, not supplied. The Green map is a genuine ContinuousLinearMap H H; its actual image is exactly C2, with actual Poisson identities. Symmetry/strict positivity concern the ordinary integral pairing, not a completed Hilbert realization. Classical one-dimensional analytic construction, no novelty claim."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and authoring mathematical/source review checked actual C0 closed/Banach subspace versus C2 image, quantitative integral bounds, actual continuous linear construction, inverse/range and stability contracts, ordinary weighted pairing positivity and nonvacuous actual trace obstruction/example. Complete-source packaging, exact imported-definition fidelity and final evidence require separately source-bound reviews. No human/external peer review inferred."
+  }
+}
