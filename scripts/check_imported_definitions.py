@@ -28,7 +28,7 @@ def sha(data):
 def declaration_header_matches(body, kind, name, *, legacy=False):
     """Lean identifiers may end in apostrophes, which are not Python word chars."""
     prefix = r'(?m)^def ' if legacy else (
-        r'(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?' + kind +
+        r'(?m)^(?:@\[[^\n]*\] )?(?:protected )?(?:noncomputable )?(?:nonrec )?' + kind +
         r" (?:[A-Za-z_][\w']*\.)*")
     return re.search(prefix + re.escape(name.split('.')[-1]) + r"(?![\w'])", body) is not None
 
@@ -141,12 +141,14 @@ def check(project, dependency_root=None):
                 require(declaration[key] in excerpts, 'Missing semantic/complement bridge')
         else:
             kind = declaration['declaration_kind']
-            require(kind in {'def', 'abbrev', 'class', 'structure'}, 'Unknown declaration kind')
+            require(kind in {'def', 'abbrev', 'class', 'structure', 'instance', 'theorem', 'irreducible_def'}, 'Unknown declaration kind')
             require(declaration_header_matches(body, kind, name),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
-            allowed = {'class-fields'} if kind in {'class', 'structure'} else {
-                'literal-unfolding', 'proved-equivalence'}
+            allowed = ({'class-fields'} if kind in {'class', 'structure'} else
+                       {'proved-contract'} if kind == 'theorem' else
+                       {'proved-equivalence'} if kind == 'irreducible_def' else
+                       {'literal-unfolding', 'proved-equivalence'})
             require(bridge in allowed, 'Incorrect literal/class/proved bridge kind')
             refs = declaration['bridge_excerpts']
             require(refs and len(refs) == len(set(refs)) and all(n in excerpts for n in refs),

@@ -1,0 +1,202 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/dirichlet/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2551,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ],
+      "suffix": "",
+      "qualify_circle_alias": false,
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/dirichlet/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/Periods.lean",
+      "source_sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1259,
+          "sha256": "e166c67d75a63be750c2219a464b2ced07ee298e0ba754c33a61ff76bcacba6b"
+        },
+        {
+          "start_character": 1639,
+          "end_character": 2475,
+          "sha256": "6683092fbf0ccae04c6eaa825e1a1871ccdaf1ad83aa0bf34ad4fd39e4c6d3b1"
+        }
+      ],
+      "suffix": "end ComputationalHodge\n",
+      "qualify_circle_alias": false,
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/dirichlet/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ],
+      "suffix": "",
+      "qualify_circle_alias": false,
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/dirichlet/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/LoopImage.lean",
+      "source_sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 357,
+          "sha256": "d295d19f5cd3fe7a07e8793f2dc3d9645244da8eccfc78215c26f5ca9570bb7a"
+        },
+        {
+          "start_character": 3528,
+          "end_character": 3847,
+          "sha256": "bbe445ce4f762b85a0dd5183a4545be7bc08b2d77a20a40022f629bef6d4dd4b"
+        }
+      ],
+      "suffix": "end ComputationalHodge.LoopCharacters\n",
+      "qualify_circle_alias": false,
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/dirichlet/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/CircleWinding.lean",
+      "source_sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 904,
+          "sha256": "448f81b86b07df6cdf7489389da2254c02ddedd10a659d7894940aed29b3c2c9"
+        },
+        {
+          "start_character": 2918,
+          "end_character": 3150,
+          "sha256": "a8c82a6e104f712acba303c5d8c7d3edc5baf533f6bccf54cf36b1e16aee1d03"
+        }
+      ],
+      "suffix": "end ComputationalHodge.LoopCharacters\n",
+      "qualify_circle_alias": false,
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/dirichlet/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 334,
+          "sha256": "1a7232721323173ae355cea9c977745cf54559dd591650d9d69cedcd761c30cd"
+        },
+        {
+          "start_character": 613,
+          "end_character": 1170,
+          "sha256": "5d9a9d3df22d5cbd6741976dbcb8a33395848712c84a830d735158a20ad9f404"
+        }
+      ],
+      "suffix": "",
+      "qualify_circle_alias": false,
+      "sha256": "b70cb968d675e1f75012f6d408037ba553877164278e8508e12d1618d9c75a4d"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/dirichlet/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/RawLift.lean",
+      "source_sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 12735,
+          "sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72"
+        }
+      ],
+      "suffix": "",
+      "qualify_circle_alias": true,
+      "sha256": "72f60466eb1d6534a604363da17e345e556616543017297531a0a00497c7c1cd"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/dirichlet/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/CirclePeriods.lean",
+      "source_sha256": "d09e57ad3d1f70983abf52f010a64c084e7e90ac2d4b016c8b19e0910c0b11a5",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 3008,
+          "sha256": "6f5e448ebe16956d7ee4ceb7f10c26ff78176d57786f9ddb48717b1112aea7fa"
+        }
+      ],
+      "suffix": "end ComputationalHodge.TraceIntegrals\n",
+      "qualify_circle_alias": true,
+      "sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff"
+    },
+    {
+      "path": "LiftFoundation.lean",
+      "source_path": "computational-hodge/dirichlet/LiftFoundation.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/LiftFoundation.lean",
+      "source_sha256": "dc5a260da8436e535e4c47041eeadece997d15822fa1b10340b453dab8781ed6",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1683,
+          "sha256": "637621a5ff3cabd7b7fe8e6f4253f7070258d030ac39cd9a6db41e227122a261"
+        }
+      ],
+      "suffix": "end ComputationalHodge.ACLifts\n",
+      "qualify_circle_alias": true,
+      "sha256": "0f26e9096b8ed2269797a7aca92a348e9853982e1b45e0a94e07c1f3ab6ba7ff"
+    },
+    {
+      "path": "TraceFoundation.lean",
+      "source_path": "computational-hodge/dirichlet/TraceFoundation.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/TraceFoundation.lean",
+      "source_sha256": "a291f078069726ac933df7dd2b3ed66320a379206dd78fa9be33e6f67ed05ff9",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1134,
+          "sha256": "a291f078069726ac933df7dd2b3ed66320a379206dd78fa9be33e6f67ed05ff9"
+        }
+      ],
+      "suffix": "",
+      "qualify_circle_alias": true,
+      "sha256": "39b88418c1231af5619ec209437f0332e9c2ad730652dc5b24f768a856a8b438"
+    },
+    {
+      "path": "Energy.lean",
+      "source_path": "computational-hodge/dirichlet/Energy.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet/Energy.lean",
+      "source_sha256": "db9beb6bea92551ff8267121eb3e32c940e15170a20ac89f3065aa1289d09f84",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 8419,
+          "sha256": "efcd5125a016d662284d3432eb8f01651ccdc48188fe1343819bfa86eb218688"
+        }
+      ],
+      "suffix": "end ComputationalHodge.Dirichlet\n",
+      "qualify_circle_alias": true,
+      "sha256": "50d573ba67d916cde88f7d38c3a62900832a6cad385bd6c7a18713f55f2f6ae1"
+    }
+  ]
+}

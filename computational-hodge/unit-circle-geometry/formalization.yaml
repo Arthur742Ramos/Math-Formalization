@@ -1,0 +1,145 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Actual unit-circle angular periods and energy",
+    "description": "Actual canonical complex unit-circle realization of computational paths. Prove real chain-rule derivative and angular real-linear covector pullback a.e., ordinary angular integrability and endpoint/computational/harmonic periods for every AC lift, squared-speed energy comparison and finite-energy equivalence, curve-rigid minima, mapped circle-subtype homotopy and strict paused-trace energy.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Section5.1",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Classical energy/constant-speed context, credited; actual interval-AC computational realization bridge is proved here."
+    },
+    {
+      "title": "The Dirichlet Problem as a Minimization Problem",
+      "authors": [
+        "Tsogtgerel Gantumur"
+      ],
+      "type": "other",
+      "id": "https://www.math.mcgill.ca/gantumur/math580f18/dirichletnotes.pdf",
+      "relationship": "related",
+      "note": "Classical Dirichlet variational principle; this project proves the explicit one-dimensional flat-circle lift instance, not the general PDE theorem."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b4ce30abfa165ad9c4905acbd1dd99813b4ad4e9/computational-hodge/dirichlet",
+      "relationship": "builds-on",
+      "note": "PR68 proves real-lift Dirichlet minima and leaves geometric comparison outside its scope. This successor derives the actual canonical embedded-curve derivative, angular covector pullback and ambient squared-speed integral relation; it does not define ambient energy as a scalar multiple or assume an analytic bridge."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned canonical AddCircle.toCircle, actual complex unit sphere, circleMap derivative proof, complex norm/conjugation, real chain rule and interval-AC differentiability are credited infrastructure. Actual computational realization, angular-form pairing and guarded ambient curve-energy consequences are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Actual canonical complex unit-circle realization, ordinary angular covector periods and ambient squared-speed energy for supplied interval-AC circle lifts, connected to actual computational traces and finite harmonic cochains.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Supplied interval-AC real lifts start at zero and have integral endpoint modulo one. Actual derivative comparison is interior/AE, not global or endpointwise across clamping. Angular integrability needs no finite-energy assumption; ambient squared-speed integrability is separately equivalent to explicit lift FiniteEnergy. Competitor homotopy is in the original circle, not the ambient complex plane. Curve rigidity uses actual embedding injectivity and covering uniqueness. No arbitrary ambient AC curve lifting, field-closedness throughout the plane, general manifold/deRham/Kahler analytic Hodge, intrinsic tangent-bundle identification, Sobolev completion or numerical algorithm. Totalized energy equality alone asserts no integrability. Exact release outcomes remain separately source-bound.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "embed is the actual canonical quotient-to-unit-circle map followed by complex coercion. The curve uses the actual projected loop clamped to the interval. The complex derivative is derived from the actual circleMap chain rule, then angular pairing and squared-speed formulas follow a.e. Ordinary integrals are integrated derivatives/covector values, not stipulated periods or scalar-defined energy. The covector is an actual real-linear map. Actual raw trace realization and retained harmonic cochains provide the computational bridge. Mapped homotopy remains in the unit-circle subtype; original-circle homotopy controls winding comparisons."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope/source review required actual canonical embedding and chain-rule/angular pullback proofs, finite-energy iff, curve-level rigidity, actual circle-subtype homotopy and raw trace period/energy connections. It explicitly rejected using homotopy in the whole complex plane as a winding-class hypothesis. Source/provenance, exact-commit checks and final evidence review remain separately recorded; no human or external peer review is inferred."
+  }
+}
