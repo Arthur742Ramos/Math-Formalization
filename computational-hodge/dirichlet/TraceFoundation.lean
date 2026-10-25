@@ -1,0 +1,25 @@
+module
+public import LiftFoundation
+@[expose] public section
+namespace ComputationalHodge.ACLifts
+open ComputationalPaths.Path.GeometricTopology
+open ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge
+open ComputationalHodge.TraceIntegrals
+open MeasureTheory Set
+open scoped NNReal Topology unitInterval
+/-- Every actual raw finite computational trace is admitted without smoothing it. -/
+noncomputable def fromTrace (p : Trace 0 0) : ACLift :=
+  ⟨actualLift p,by
+    obtain ⟨K,hK⟩ := rawLift_lipschitz p
+    rw [← actualLift_eq_rawLift] at hK
+    exact hK.lipschitzOnWith.absolutelyContinuousOnInterval,
+    by rw [actualLift_eq_rawLift,rawLift_zero],
+    by rw [actualLift_eq_rawLift,rawLift_one];simp⟩
+theorem projected_fromTrace (p : Trace 0 0) :
+    projectedLoop (fromTrace p)=GeometricTrace.realize p := by
+  ext t
+  change ((actualLift p (t : ℝ) : ℝ) : Circle)=GeometricTrace.realize p t
+  have h := congrFun (circleCover.liftPath_lifts
+    (GeometricTrace.realize p).toContinuousMap 0 (by simp)) t
+  simpa [actualLift,circleLift,Set.projIcc_of_mem zero_le_one t.property] using h
+end ComputationalHodge.ACLifts

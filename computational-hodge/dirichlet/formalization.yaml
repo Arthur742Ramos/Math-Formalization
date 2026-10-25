@@ -1,0 +1,145 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Minimum-energy computational circle representatives",
+    "description": "Unique interval minimum-energy representatives for actual absolutely continuous unit-circle lifts of finite squared-derivative energy. Prove variance identity, equality rigidity, explicit endpoint-fixed homotopy, raw computational-trace finite energy, winding and harmonic-period minima, and strict nonminimality of a paused unit trace.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Section5.1",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Classical energy/constant-speed context, credited; actual interval-AC computational realization bridge is proved here."
+    },
+    {
+      "title": "The Dirichlet Problem as a Minimization Problem",
+      "authors": [
+        "Tsogtgerel Gantumur"
+      ],
+      "type": "other",
+      "id": "https://www.math.mcgill.ca/gantumur/math580f18/dirichletnotes.pdf",
+      "relationship": "related",
+      "note": "Classical Dirichlet variational principle; this project proves the explicit one-dimensional flat-circle lift instance, not the general PDE theorem."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts",
+      "relationship": "builds-on",
+      "note": "PR67 proves AC ordinary periods; this successor proves a variational minimizer, actual projected homotopy and equality rigidity. PR65 coefficient-energy splitting is prior; variance algebra alone is not the claimed new connection."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned interval absolute continuity, derivative measurability/integrability, AC FTC and zero-derivative constancy are credited infrastructure. Actual variational bounds, rigidity, explicit homotopy and finite computational-trace connection are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Unique minimum-energy interval representatives of actual finite-energy absolutely continuous lifts on the explicit flat circle, connected to actual computational traces and harmonic periods.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Interval-AC, zero initial value, integral endpoint modulo one are explicit lift assumptions. Squared-derivative integrability is explicit for arbitrary lifts and proved for every actual raw finite trace. Minimum uniqueness is only on[0,1]; real functions outside it are unrestricted. Energy is the ordinary integral without factor1/2; totalized integrals do not establish finite energy. No general manifold/deRham/Kahler analytic Hodge, Sobolev completion, arbitrary continuous-loop integral, all-AC finite-energy assertion, reparameterization invariance, Laplacian or numerical algorithm. The paused trace has strict energy>1; exact2 is not claimed. Exact release outcomes remain separate. No separate intrinsic Riemannian tangent-bundle identification is claimed.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual projected path and actual covering lift are retained. A real-lift linear interpolation constructs an actual endpoint-fixed projected homotopy. AC FTC and zero-derivative constancy prove the unique affine interval minimizer. Every computational trace has finite energy by its actual Lipschitz lift. Minimum equals its actual unit cochain period squared; the mean harmonic cochain is in actual Closed intersect Exact orthogonal. No assumed analytic bridge or abstract supplied quadratic identity."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope review required equality rigidity, actual homotopy, all raw traces finite energy and a strictly nonminimal actual paused trace. Variance alone was rejected as overlapping PR65. Full exact-source validation and independent final evidence review remain separately source-bound. No human or external peer review is inferred."
+  }
+}
