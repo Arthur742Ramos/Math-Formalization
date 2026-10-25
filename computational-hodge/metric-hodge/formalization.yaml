@@ -1,0 +1,135 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Positive-density circle Hodge representatives and computational periods",
+    "description": "Construct metric-dependent harmonic coefficient representatives for arbitrary positive continuous circle length densities. Prove ratio-derivative classification, actual analytic exact potential, ordinary weighted energy pointwise rigidity/orthogonality/Pythagoras and unique exact-class minimum, actual AC/raw computational period preservation and a concrete nonconstant positive density.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Sections9.1-9.3",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Classical metric Hodge-star, codifferential adjoint and unique minimum-energy principles. This project proves an explicit positive continuous-density circle coefficient instance and actual computational-period preservation, without an intrinsic smooth manifold Hodge identification."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/19026134ae8481e3e40205cb3c40e766a25fc060/computational-hodge/automatic-lifts",
+      "relationship": "builds-on",
+      "note": "Predecessors establish flat analytic exactness, nonconstant AC/raw trace integration and automatic circle lifts. This project changes the analytic density/star/energy/harmonic representative; it does not claim the existing AC period theorem as new. Exact source fragments from PR65,PR67 andPR70 retain complete used proofs."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned ordinary Bochner/circle Haar integration, full-support measure, real C1/AC calculus, periodic quotient descent, complex-circle example and finite cochain foundations are credited infrastructure. Positive-density harmonic classification, coordinate adjoint identity, actual exact potential, weighted energy rigidity/minimum and existing computational-period preservation are proved here. No ambient curve-energy theorem is claimed as a new result."
+    }
+  ],
+  "status": {
+    "scope": "Positive continuous-density analytic coefficient Hodge model on the actual period-one circle, with genuine AC/raw computational path periods.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Continuous positive coordinate length density rho uses ds=rho dx and energy integral alpha^2/rho; no intrinsic smooth metric/cotangent bundle identification, full differential-form/deRham/Laplacian complex or general manifold/Kahler analytic Hodge theorem is claimed. Codifferential output need not be continuous; differentiability guards harmonicity and the adjoint theorem assumes C1 ratio/test potential. Period-one dx is not identified with complex-circle arclength including2*pi. No arbitrary nonrectifiable path integration, Sobolev completion or numerical algorithm. Exact release outcomes are separately source-bound.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual indexed binary geometric traces, realization and harmonic cochains are retained. The new analytic density-dependent representative is distinct from the finite harmonic cochain; their connection is proved by actual ordinary AC/raw path periods. The coordinate stars, derivative codifferential and weighted integrals are defined literally; classification, adjoint identity, exact potential, energy rigidity and minima are proved, not assumed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI authoring review checked the continuous-density convention, derivative guard and adjoint hypotheses, actual periodic potential, pointwise energy rigidity, weighted splitting/minima, genuine period connections and concrete nonconstant example. Packaging/inventory and exact-commit native/kernel/canonical/render/browser/final evidence remain separately recorded. No human mathematical or external peer review is inferred."
+  }
+}
