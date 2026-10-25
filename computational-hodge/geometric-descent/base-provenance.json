@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "base_tested_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+  "base_merge_commit": "c77778166fb49d082b719379268cecb9cb5b2b55",
+  "base_package_tree": "89a43c37af58cb96424b8cc3cae079d91b0954ff",
+  "reuse": "Dependency-closed subset of complete predecessor declarations, not all predecessor modules or results.",
+  "files": [
+    {
+      "file": "SourcePaths.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/SourcePaths.lean",
+      "source_file_sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 5599,
+          "start_line": 1,
+          "end_line_exclusive": 144,
+          "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+        }
+      ],
+      "appended_namespace_closure": "",
+      "import_rewrites": [],
+      "proof_adaptations": [],
+      "retained_file_sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    },
+    {
+      "file": "Periods.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/Periods.lean",
+      "source_file_sha256": "6837c9d97f658e9a48d7a665acdb9bd9fd091586ccbe113202afc712f8bead3e",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 4093,
+          "start_line": 1,
+          "end_line_exclusive": 114,
+          "sha256": "883dce07443afd3a61e41ebacea4da98dd7455f92460fa23a1fac6bff0b5e6fd"
+        },
+        {
+          "start_char": 4496,
+          "end_char_exclusive": 4817,
+          "start_line": 124,
+          "end_line_exclusive": 132,
+          "sha256": "914540ee2bcc6876ebb0af5961dc7f89e577328ab42c88ad3bbb17e11c4b9fa6"
+        }
+      ],
+      "appended_namespace_closure": "end ComputationalHodge\n",
+      "import_rewrites": [],
+      "proof_adaptations": [],
+      "retained_file_sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    },
+    {
+      "file": "Harmonic.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/Harmonic.lean",
+      "source_file_sha256": "bb22a4555f351e1399201df673a942fa94fc13ef31ed2d2382388daa169ed23a",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 849,
+          "start_line": 1,
+          "end_line_exclusive": 24,
+          "sha256": "0bb3331ee3e292e8d31bf43fdcc5b234bce42f8d84fc4fd8030101f0f61f05ae"
+        },
+        {
+          "start_char": 5526,
+          "end_char_exclusive": 6501,
+          "start_line": 117,
+          "end_line_exclusive": 139,
+          "sha256": "12fdf449b1e2f46ef01dd78280a18bbcb4b12f63ced253d936d1c5ff144c18b8"
+        }
+      ],
+      "appended_namespace_closure": "end ComputationalHodge\n",
+      "import_rewrites": [],
+      "proof_adaptations": [],
+      "retained_file_sha256": "b368d53c7103be4cd6eea044230b1f5c401446771d3205b4cb735044500abd93",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    },
+    {
+      "file": "Chains.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/Chains.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/Chains.lean",
+      "source_file_sha256": "9eb039ecc2d6e44a0f52d98dec28666c7383e11752ce8e4dc16dd0800ddaffc2",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 4824,
+          "start_line": 1,
+          "end_line_exclusive": 117,
+          "sha256": "22cfcb638b1796dc6fe8a0b049f6797beb0097416d148370a6531caea94eea79"
+        }
+      ],
+      "appended_namespace_closure": "end ComputationalHodge.PresentationHomology\n",
+      "import_rewrites": [
+        {
+          "old": "public import PeriodSeparation",
+          "new": "public import Harmonic"
+        }
+      ],
+      "proof_adaptations": [
+        {
+          "declaration": "ComputationalHodge.PresentationHomology.boundary_word",
+          "original_declaration": "theorem boundary_word {S : GeometricStepSystem A E} {a b : A} (p : GeometricTrace S a b) :\n    boundary\u2081 S (wordChain p) = Finsupp.single b 1 - Finsupp.single a 1 := by\n  induction p with\n  | refl a => simp [wordChain]\n  | single e => exact (EuclideanSpace.basisFun E \u211d).toBasis.constr_basis \u211d _ e\n  | trans p q hp hq => simp only [wordChain, map_add, hp, hq]; abel\n  | symm p hp => simp only [wordChain, map_neg, hp]; abel\n\n",
+          "adapted_declaration": "theorem boundary_word {S : GeometricStepSystem A E} {a b : A} (p : GeometricTrace S a b) :\n    boundary\u2081 S (wordChain p) = Finsupp.single b 1 - Finsupp.single a 1 := by\n  induction p with\n  | refl a => exact (map_zero _).trans (sub_self (Finsupp.single a 1)).symm\n  | single e => exact (EuclideanSpace.basisFun E \u211d).toBasis.constr_basis \u211d _ e\n  | trans p q hp hq =>\n    exact (map_add _ _ _).trans ((congrArg\u2082 (\u00b7 + \u00b7) hp hq).trans\n      ((add_comm _ _).trans (sub_add_sub_cancel _ _ _)))\n  | symm p hp =>\n    exact (map_neg _ _).trans ((congrArg Neg.neg hp).trans (neg_sub _ _))\n\n",
+          "original_sha256": "e90231954742f7cbfd6222bd221eea5e182944bcab9cc85dbfa88f14f7e67526",
+          "adapted_sha256": "ebcdd7b02e2f1b24ad62fc32ea18bef58c767a2feac60847ea5bfa19970419d7",
+          "unchanged_statement_sha256": "a80971dd7b42d2875ee4d41a359fda29e070b1e3b663a9b42bff14f2bd5a2e4e",
+          "reason": "Strict native comparison identified unequal proof bodies across separate generated modules. The unchanged theorem is proved with explicit public additive identities instead of normalization automation. No contract or comparator check is weakened."
+        }
+      ],
+      "retained_file_sha256": "7649f7dd27f45107d16ad63619244c050321a9d4232f648345326311c914d21c",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    },
+    {
+      "file": "Homology.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/Homology.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/Homology.lean",
+      "source_file_sha256": "1fef9f3a76343dcc753021a1805e123acc85ac184a20fcf2c6b52bdeffd58037",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 634,
+          "start_line": 1,
+          "end_line_exclusive": 17,
+          "sha256": "ed24dba3007bac283291f12454428552d3b8c2769d3b29f3f1252fc8b2c75a2f"
+        },
+        {
+          "start_char": 4022,
+          "end_char_exclusive": 5010,
+          "start_line": 85,
+          "end_line_exclusive": 106,
+          "sha256": "639e4f274d6db8a5eb64b797e728db7f85f8be9d6c01361cb8a1c3510668b459"
+        }
+      ],
+      "appended_namespace_closure": "end ComputationalHodge.PresentationHomology\n",
+      "import_rewrites": [],
+      "proof_adaptations": [],
+      "retained_file_sha256": "b10275580c83777a8709b30d98d3e352fb4fcac61055d0ab4acff13ad1cc77ec",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    },
+    {
+      "file": "Duality.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/Duality.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/Duality.lean",
+      "source_file_sha256": "d056be4cba6e9d7e6f92adc12e7ed6a74aa97a8ef2f5eaf9894514adf0acc486",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 2311,
+          "start_line": 1,
+          "end_line_exclusive": 53,
+          "sha256": "ad96515c587ff61a19e8fd7396635743a30918b222e92328acc0e0be3c4f1501"
+        },
+        {
+          "start_char": 4282,
+          "end_char_exclusive": 4725,
+          "start_line": 94,
+          "end_line_exclusive": 102,
+          "sha256": "c565f37ae044a21e48322ddb76b7dcdf1f8be522c57e3c2eb98cabba37749f19"
+        }
+      ],
+      "appended_namespace_closure": "",
+      "import_rewrites": [],
+      "proof_adaptations": [],
+      "retained_file_sha256": "cc8d6903eeb3b9c4391647c84dbd3bfe8e092f539ef2e077d2f8bc9b51a5200a",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    },
+    {
+      "file": "Examples.lean",
+      "source_commit": "4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956",
+      "source_path": "computational-hodge/presentation-homology/Examples.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology/Examples.lean",
+      "source_file_sha256": "9049bac64cc30681f4c6d4aa6535718b5f95b69095d2d67892dfe26084243631",
+      "retained_slices": [
+        {
+          "start_char": 0,
+          "end_char_exclusive": 1461,
+          "start_line": 1,
+          "end_line_exclusive": 37,
+          "sha256": "ea5d0eeaadf306dea40d0dd8d020067213ab94a71a34b062feed3befc2a929da"
+        }
+      ],
+      "appended_namespace_closure": "end ComputationalHodge.PresentationHomology.OneLoop\n",
+      "import_rewrites": [],
+      "proof_adaptations": [],
+      "retained_file_sha256": "2b2feda75e7caf7964e15ae83cff17a8519b93182978317117ea14e7b524594b",
+      "scope": "Complete source-mapped declarations and proofs with original enclosing binders; any explicit same-statement proof adaptation is recorded in full. Only unused predecessor theorem families omitted; every new theorem and its required predecessor closure remains visible."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "b368d53c7103be4cd6eea044230b1f5c401446771d3205b4cb735044500abd93"
+    },
+    {
+      "path": "Chains.lean",
+      "sha256": "7649f7dd27f45107d16ad63619244c050321a9d4232f648345326311c914d21c"
+    },
+    {
+      "path": "Homology.lean",
+      "sha256": "b10275580c83777a8709b30d98d3e352fb4fcac61055d0ab4acff13ad1cc77ec"
+    },
+    {
+      "path": "Duality.lean",
+      "sha256": "cc8d6903eeb3b9c4391647c84dbd3bfe8e092f539ef2e077d2f8bc9b51a5200a"
+    },
+    {
+      "path": "Examples.lean",
+      "sha256": "2b2feda75e7caf7964e15ae83cff17a8519b93182978317117ea14e7b524594b"
+    },
+    {
+      "path": "Realization.lean",
+      "sha256": "27046ed3c8e26d5c80fa89565e705a0997e7cb39376424c1b0b555df3321c5d2"
+    },
+    {
+      "path": "Descent.lean",
+      "sha256": "fc89f18f1e4cbd1d2fe6631c02e6ce59a0dfd7661a079e9c6336aea54bf7266e"
+    },
+    {
+      "path": "GeometryExample.lean",
+      "sha256": "2f8c6fec3bee98e278594c95d446a64d2cd9795eaa708f8b7471582c30751746"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.LinearAlgebra.Finsupp.LinearCombination",
+    "Mathlib.Analysis.InnerProductSpace.Projection.Submodule",
+    "Mathlib.LinearAlgebra.Dual.Lemmas",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.Basic"
+  ],
+  "sha256": "e0cedb9dd340dea814861b48517599652048f0b1a2593339c94a00a28b42ab84",
+  "lines": 908,
+  "bytes": 39033,
+  "transformation": "Remove module/public-import/public-section directives only; copy every other source line and complete proof in source order. Challenge and Solution share one implementation, not independent proofs."
+}
