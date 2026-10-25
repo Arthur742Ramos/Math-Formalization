@@ -1,0 +1,29 @@
+{
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "commit": "5810a77833131ae3b171fd632b2370079345fd9f",
+  "project_path": "computational-hodge/finite-periods",
+  "license": "Apache-2.0; SourcePaths MIT excerpts retain SOURCE-LICENSE.txt",
+  "scope": "These four complete modules are reused byte-for-byte. The prior Example and submission artifacts are not copied as new results.",
+  "files": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods/SourcePaths.lean"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "6837c9d97f658e9a48d7a665acdb9bd9fd091586ccbe113202afc712f8bead3e",
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods/Periods.lean"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "bb22a4555f351e1399201df673a942fa94fc13ef31ed2d2382388daa169ed23a",
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods/Harmonic.lean"
+    },
+    {
+      "path": "PeriodSeparation.lean",
+      "sha256": "da750e7a23f8d2e016ec1b9605e55ef656a18b5ec8972964ad0643e7512da816",
+      "url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods/PeriodSeparation.lean"
+    }
+  ]
+}

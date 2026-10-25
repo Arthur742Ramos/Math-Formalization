@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "6837c9d97f658e9a48d7a665acdb9bd9fd091586ccbe113202afc712f8bead3e"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "bb22a4555f351e1399201df673a942fa94fc13ef31ed2d2382388daa169ed23a"
+    },
+    {
+      "path": "PeriodSeparation.lean",
+      "sha256": "da750e7a23f8d2e016ec1b9605e55ef656a18b5ec8972964ad0643e7512da816"
+    },
+    {
+      "path": "Chains.lean",
+      "sha256": "9eb039ecc2d6e44a0f52d98dec28666c7383e11752ce8e4dc16dd0800ddaffc2"
+    },
+    {
+      "path": "Homology.lean",
+      "sha256": "1fef9f3a76343dcc753021a1805e123acc85ac184a20fcf2c6b52bdeffd58037"
+    },
+    {
+      "path": "Duality.lean",
+      "sha256": "d056be4cba6e9d7e6f92adc12e7ed6a74aa97a8ef2f5eaf9894514adf0acc486"
+    },
+    {
+      "path": "Examples.lean",
+      "sha256": "9049bac64cc30681f4c6d4aa6535718b5f95b69095d2d67892dfe26084243631"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.LinearAlgebra.Finsupp.LinearCombination",
+    "Mathlib.Analysis.InnerProductSpace.Projection.Submodule",
+    "Mathlib.LinearAlgebra.Dual.Lemmas"
+  ],
+  "sha256": "50fbd02c74e6e840ff8055ba738d24926b6136605d49f3c640873c88d30d9eb7",
+  "lines": 965,
+  "bytes": 43504,
+  "transformation": "Remove module/public-import/public-section directives only; copy every other source line and complete proof in source order. Challenge and Solution share one implementation, not independent proofs."
+}
