@@ -1,0 +1,201 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "4891b2c040ae03aa91fa66c8e7f7075bc2643a6f",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/SourcePaths.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/SourcePaths.lean",
+          "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+          "start_character": 0,
+          "end_character": 2551,
+          "first_line": 1,
+          "last_line": 68,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/Periods.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/Periods.lean",
+          "source_sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0",
+          "start_character": 0,
+          "end_character": 3188,
+          "first_line": 1,
+          "last_line": 92,
+          "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+    },
+    {
+      "path": "Harmonic.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/Harmonic.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/Harmonic.lean",
+          "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+          "start_character": 0,
+          "end_character": 582,
+          "first_line": 1,
+          "last_line": 19,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/LoopImage.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/LoopImage.lean",
+          "source_sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+          "start_character": 0,
+          "end_character": 4172,
+          "first_line": 1,
+          "last_line": 94,
+          "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/CircleWinding.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/CircleWinding.lean",
+          "source_sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6",
+          "start_character": 0,
+          "end_character": 3501,
+          "first_line": 1,
+          "last_line": 75,
+          "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+    },
+    {
+      "path": "CircleData.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/CircleData.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/CircleData.lean",
+          "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+          "start_character": 0,
+          "end_character": 1170,
+          "first_line": 1,
+          "last_line": 39,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/RawLift.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/RawLift.lean",
+          "source_sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72",
+          "start_character": 0,
+          "end_character": 12735,
+          "first_line": 1,
+          "last_line": 298,
+          "sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72"
+        }
+      ],
+      "separator": "",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "prefix": "",
+      "parts": [
+        {
+          "source_path": "computational-hodge/trace-integrals/RawPeriods.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/RawPeriods.lean",
+          "source_sha256": "7e769aedaface2e021f7770a451bac32827905f25bb93a54f879822721bccb04",
+          "start_character": 0,
+          "end_character": 1603,
+          "first_line": 1,
+          "last_line": 38,
+          "sha256": "7d3043fee7e214ab55fa64e04db7f8186349f05fdfe09d2ce7572d4c5f19ff94"
+        },
+        {
+          "source_path": "computational-hodge/trace-integrals/RawAnalysis.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/RawAnalysis.lean",
+          "source_sha256": "3cf8333935d9a1da6017fa730bbc9cc2cf313434db0cca8116f4e043b939a090",
+          "start_character": 4429,
+          "end_character": 4591,
+          "first_line": 90,
+          "last_line": 92,
+          "sha256": "7fb203771ce878c1dccf7595da49a917c38e7ad8f5456fd47290686d1f2fcf3d"
+        },
+        {
+          "source_path": "computational-hodge/trace-integrals/RawPeriods.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/RawPeriods.lean",
+          "source_sha256": "7e769aedaface2e021f7770a451bac32827905f25bb93a54f879822721bccb04",
+          "start_character": 1603,
+          "end_character": 2850,
+          "first_line": 39,
+          "last_line": 67,
+          "sha256": "74990b7b92c94787b67567afe56aaa4cfbc84f0994159827033ca797d2dad220"
+        },
+        {
+          "source_path": "computational-hodge/trace-integrals/RawAnalysis.lean",
+          "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/4891b2c040ae03aa91fa66c8e7f7075bc2643a6f/computational-hodge/trace-integrals/RawAnalysis.lean",
+          "source_sha256": "3cf8333935d9a1da6017fa730bbc9cc2cf313434db0cca8116f4e043b939a090",
+          "start_character": 467,
+          "end_character": 734,
+          "first_line": 14,
+          "last_line": 18,
+          "sha256": "45dabcee8abcf395f3c97a7cfb44b1272dde07783f7ed60d8d6a3997de19b3b6"
+        }
+      ],
+      "separator": "",
+      "suffix": "end ComputationalHodge.TraceIntegrals\n",
+      "replacements": [
+        [
+          "public import RawAnalysis",
+          "public import RawLift"
+        ]
+      ],
+      "sha256": "d09e57ad3d1f70983abf52f010a64c084e7e90ac2d4b016c8b19e0910c0b11a5"
+    }
+  ]
+}
