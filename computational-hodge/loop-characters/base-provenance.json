@@ -1,0 +1,77 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "5492d3284741fe4a598ae2031205f5bb024f2d6c",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_commit": "5492d3284741fe4a598ae2031205f5bb024f2d6c",
+      "source_path": "computational-hodge/geometric-obstruction/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5492d3284741fe4a598ae2031205f5bb024f2d6c/computational-hodge/geometric-obstruction/SourcePaths.lean",
+      "source_sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 5599,
+          "start_line": 1,
+          "end_line": 143,
+          "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "",
+      "replacements": []
+    },
+    {
+      "path": "Periods.lean",
+      "source_commit": "5492d3284741fe4a598ae2031205f5bb024f2d6c",
+      "source_path": "computational-hodge/geometric-obstruction/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5492d3284741fe4a598ae2031205f5bb024f2d6c/computational-hodge/geometric-obstruction/Periods.lean",
+      "source_sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287",
+      "sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 4437,
+          "start_line": 1,
+          "end_line": 122,
+          "sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "",
+      "replacements": []
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_commit": "5492d3284741fe4a598ae2031205f5bb024f2d6c",
+      "source_path": "computational-hodge/finite-periods/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/5492d3284741fe4a598ae2031205f5bb024f2d6c/computational-hodge/finite-periods/Harmonic.lean",
+      "source_sha256": "bb22a4555f351e1399201df673a942fa94fc13ef31ed2d2382388daa169ed23a",
+      "sha256": "f04ef9a39b222c188c89b3a8ee6d905f246f0be7f5f952279f0e20389b92ea42",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 5149,
+          "start_line": 1,
+          "end_line": 110,
+          "sha256": "8efa1e9be9fbc176b47769cb69f37141f16635788ed9a12ce1c5c8df6d1600d7"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "end ComputationalHodge\n",
+      "replacements": [
+        {
+          "kind": "record-law-term-proof",
+          "old": "  map_add' \u03c9 \u03b7 := by\n    apply Subtype.ext\n    change ((\u03c9 : Cochain E) + \u03b7) - (Exact S).starProjection (\u03c9 + \u03b7) = _\n    rw [map_add]\n    change _ = ((\u03c9 : Cochain E) - (Exact S).starProjection \u03c9) +\n      ((\u03b7 : Cochain E) - (Exact S).starProjection \u03b7)\n    abel\n",
+          "new": "  map_add' \u03c9 \u03b7 := Subtype.ext <|\n    (congrArg (fun z : Cochain E => ((\u03c9 : Cochain E) + \u03b7) - z)\n      ((Exact S).starProjection.map_add (\u03c9 : Cochain E) (\u03b7 : Cochain E))).trans\n      (add_sub_add_comm (\u03c9 : Cochain E) (\u03b7 : Cochain E)\n        ((Exact S).starProjection \u03c9) ((Exact S).starProjection \u03b7))\n"
+        },
+        {
+          "kind": "record-law-term-proof",
+          "old": "  map_smul' r \u03c9 := by\n    apply Subtype.ext\n    change r \u2022 (\u03c9 : Cochain E) - (Exact S).starProjection (r \u2022 (\u03c9 : Cochain E)) = _\n    rw [map_smul]\n    exact (smul_sub r (\u03c9 : Cochain E) ((Exact S).starProjection \u03c9)).symm\n",
+          "new": "  map_smul' r \u03c9 := Subtype.ext <|\n    (congrArg (fun z : Cochain E => r \u2022 (\u03c9 : Cochain E) - z)\n      ((Exact S).starProjection.map_smul r (\u03c9 : Cochain E))).trans\n      (smul_sub r (\u03c9 : Cochain E) ((Exact S).starProjection \u03c9)).symm\n"
+        }
+      ]
+    }
+  ]
+}

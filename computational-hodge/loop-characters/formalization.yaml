@@ -1,0 +1,125 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Harmonic characters of represented computational loops",
+    "description": "For a finite-generator continuous geometric step system, form the actual subgroup of the ambient fundamental group represented by realized computational loops. If every active computational endpoint is connected to a fixed root by a computational trace, integration gives a linear equivalence from geometric harmonic cochains to algebraic real characters of this subgroup. Construct coefficients from rooted edge loops, prove zero based-loop periods equivalent to actual exactness, and obtain a unique harmonic representative independent of rooting choices. A concrete unit additive circle loop has real winding one by covering-space lifting and yields a nonzero harmonic representative.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT",
+      "math.LO"
+    ],
+    "msc2020": [
+      "18G35",
+      "18B40",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual endpoint-changing geometric traces, continuous systems and fourteen scoped rewrite constructors are retained literally. Fundamental-group elements and homotopies remain in the ambient space, not the finite active endpoint subspace."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical degree-one fundamental-group/cohomology context, especially Theorem2A.1. This package proves a finite computational represented-subgroup period correspondence, not singular Hurewicz or universal coefficients."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite Hodge/orthogonal projection context. No ranking or numerical algorithm is formalized."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/5492d3284741fe4a598ae2031205f5bb024f2d6c/computational-hodge/geometric-obstruction",
+      "relationship": "builds-on",
+      "note": "PR62 actual finite coefficient and path definitions retained, with source mapping. New result passes from geometric homotopy invariance to characters of the actual ambient represented-loop subgroup; not another correction or quotient-norm result."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods",
+      "relationship": "builds-on",
+      "note": "Prior finite Hodge projection and exact loop-period preservation reused through the current merge. All retained declaration statements and operator formulas remain unchanged. Two record-law tactic proofs are replaced by explicit equality terms to avoid module-dependent generated helper constants; exact adaptations are recorded in base-provenance.json. No representative existence is assumed."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual MIT geometric trace/scoped definitions and prior circle lifting strategy are credited. The current pinned Mathlib now supplies the covering and path-lifting APIs; no full circle fundamental-group classification is imported or claimed."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/ComputationalPathsLean/tree/257c659b7973aeda900d86a5da73b208712c7523",
+      "relationship": "related",
+      "note": "Inspected for overlap. Raw equality paths or formal Hodge certificates are not substituted for geometric realization or actual harmonic cochains."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Actual fundamental group as vertex-group endomorphisms, endpoint-fixed homotopy quotient, subgroups, ordinary algebraic characters, finite Euclidean projection and covering/path lifting. FundamentalGroup multiplication reverses path concatenation; real addition commutativity is used explicitly."
+    }
+  ],
+  "status": {
+    "scope": "Finite computational geometric harmonic cochains and algebraic real characters of the actual represented ambient fundamental-group subgroup, with a concrete circle nonzero example.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Only generator E is finite. The rooting hypothesis concerns computational endpoints plus the root, not all ambient points; endpoints from other computational components are excluded by that explicit hypothesis. The represented subgroup can be infinite and nonabelian; no ambient fundamental-group surjectivity, continuity of characters, singular/deRham comparison, analytic/Kahler Hodge theorem or novelty/registry acceptance is claimed. Orthogonal projection and inverse maps are classical/noncomputable, not numerical algorithms. The circle example proves winding one and nonzero harmonicity, not a full pi1 classification. Exact-source validation and review outcomes have separate immutable receipts.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Uses the actual image subgroup in FundamentalGroup A a, with closure proved by realized trace operations. Character functions obey the usual algebraic group law and are explicitly equivalent to homomorphisms into Multiplicative real numbers. Edge coefficients are reconstructed using active rooted edge loops; all geometric closedness and zero-period exactness obligations are proved, including inactive ambient points. Harmonic character existence, uniqueness and rooting independence are derived using actual projection, not supplied as hypotheses. All paths and homotopies remain ambient."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope/source review corrected an overstrong all-ambient rooting hypothesis before implementation and required the actual ambient subgroup, ordinary character equivalence, inactive-point treatment and proved harmonic correspondence. Independent review also identified the current pinned covering API enabling a concrete circle example. No human proof contribution or external peer review is inferred. Final exact-source verification/rendering/browser/packet review evidence is recorded separately."
+  }
+}
