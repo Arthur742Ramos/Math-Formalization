@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+    },
+    {
+      "path": "CircleData.lean",
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72"
+    },
+    {
+      "path": "RawAnalysis.lean",
+      "sha256": "3cf8333935d9a1da6017fa730bbc9cc2cf313434db0cca8116f4e043b939a090"
+    },
+    {
+      "path": "RawPeriods.lean",
+      "sha256": "7e769aedaface2e021f7770a451bac32827905f25bb93a54f879822721bccb04"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+    "Mathlib.Topology.Covering.AddCircle",
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+    "Mathlib.Analysis.Calculus.Deriv.Basic",
+    "Mathlib.Analysis.Calculus.Deriv.Add",
+    "Mathlib.Analysis.Calculus.Deriv.Mul",
+    "Mathlib.Analysis.Calculus.Deriv.Comp",
+    "Mathlib.Topology.MetricSpace.Lipschitz",
+    "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+    "Mathlib.MeasureTheory.Integral.DivergenceTheorem",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus"
+  ],
+  "sha256": "eec80058d6ec15adfd09627f3399da436df9016704a67580fcfca91b995fa059",
+  "lines": 879,
+  "bytes": 38439,
+  "transformation": "Remove module/public-import/public-section directives only; copy every other source line and complete proof in source order. Challenge and Solution share one implementation, not independent proofs."
+}
