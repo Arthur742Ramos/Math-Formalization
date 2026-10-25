@@ -1,0 +1,112 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Geometric realization kernel and computational-path period descent",
+    "description": "For a finite-generator continuous geometric step system, actual endpoint-fixed path homotopies define a geometric saturation of a sound scoped rewrite presentation. Geometric relation chains equal the real span of nullhomotopic computational-loop chains. The natural map from presentation homology to saturated homology is surjective, with kernel exactly the span of original null-loop homology classes. Cohomology pulls back injectively; its image is the annihilator of that kernel under the existing coefficient pairing. Harmonic and period descent are characterized by zero periods on nullhomotopic computational loops. An explicit constant-path generator is nonzero before saturation and killed by geometry.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT",
+      "math.LO"
+    ],
+    "msc2020": [
+      "18G35",
+      "18B40",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Uses the actual endpoint-changing traces and all fourteen scoped rewrite constructors. Existing realization soundness and universal geometric-presentation comparison are attributed setup; the homology kernel is the new extension."
+    },
+    {
+      "title": "Algebraic Topology, section1.1 and Theorem2A.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical context for path homotopy, loops and degree-one homology. This project does not identify its quotient with ambient singular homology or prove the integral Hurewicz theorem."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4e31c311d97be4e2eb8c8fe6b8f5ec1ffc3c2956/computational-hodge/presentation-homology",
+      "relationship": "builds-on",
+      "note": "A dependency-closed subset of complete predecessor declarations/proofs is retained with exact Git-source slices and hashes. The new result is the nullhomotopic-loop kernel and dual descent criterion; prior Hodge existence/perfectness is not asserted as a newly proved result."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods",
+      "relationship": "builds-on",
+      "note": "Earlier verified finite-period foundation, reused through the explicitly source-mapped PR60 declaration subset. The new project proves a geometric realization kernel and descent criterion; it does not claim the predecessor Hodge/perfect-duality results as new."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Literal geometric-trace and scoped-rewrite definition excerpts plus the complete realization-soundness proof, with exact pinned source manifests and MIT attribution. Existing universal-presentation and represented-class comparisons are attributed setup."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/ComputationalPathsLean/tree/257c659b7973aeda900d86a5da73b208712c7523",
+      "relationship": "related",
+      "note": "Core and Hodge modules audited for scope and overlap. The raw equality-indexed Path and degree-shadow Hodge certificates are not used as actual cochain or analytic operator laws."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Uses actual Euclidean edge inner products, finite-support maps, spans, submodules, quotient modules and continuous endpoint-fixed path homotopies. Finite edge coordinates support the retained orthogonality argument. No new projection-existence or analytic comparison theorem is claimed."
+    }
+  ],
+  "status": {
+    "scope": "Finite-generator computational-path geometric realization kernel, represented homotopy-class quotient, and exact homology/cohomology period descent criterion.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Vertices and named rules need not be finite, connected or nonempty. The quotient equivalence covers only ambient path-homotopy classes represented by traces, not every ambient path. The kernel is a real linear span; zero homology kernel does not imply path-level geometric completeness. A general harmonic correction need not preserve the old cohomology class; unchanged descent requires vanishing null-loop periods. No ambient singular/de Rham identification, integral homology, analytic/Kahler Hodge, numerical solver, novelty, registry or editorial acceptance is claimed. Exact-source validation and review outcomes are recorded in separate immutable receipts.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Uses actual Path.Homotopic of realized endpoint-changing traces. The saturation field is that concrete predicate, its soundness follows by identity, and rewrite soundness is proved by the complete attributed upstream induction. Null-loop span equality uses actual concatenation and path-homotopy cancellation, not an assumed geometric completeness hypothesis. Homology is covariantly surjective, cohomology contravariantly injective. The annihilator and harmonic criteria are proved for the actual quotient pairing. Degree-zero cochains remain all vertex functions."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope/source review distinguished attributed upstream realization setup from the new null-loop kernel, duality and strictness results. No human proof contribution or human/external peer review is inferred. Final source, compilation, canonical/rendering, visual and evidence checks have separately bound receipts."
+  }
+}
