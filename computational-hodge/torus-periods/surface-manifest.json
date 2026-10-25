@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+    },
+    {
+      "path": "TorusGeometry.lean",
+      "sha256": "b9a2aaf6fb7670fe756fdd2e9b910bfe321a38d5d8cdd4ab5f64c24ff712b03e"
+    },
+    {
+      "path": "TorusReconstruction.lean",
+      "sha256": "43cd478450e889aa891b4c193d5f77bd115c6191956cdb6e89c307bd3395800d"
+    },
+    {
+      "path": "TorusHarmonic.lean",
+      "sha256": "7e9d8cb3dddbf4634168a0a057416fb401798cb96a182aee82927767b9751f20"
+    },
+    {
+      "path": "TorusCharacters.lean",
+      "sha256": "e50844e75ef13c82336f63bc0f339e5664591adf5d821a12c219c769c4c508fd"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+    "Mathlib.Topology.Covering.AddCircle",
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.Topology.Homotopy.Product",
+    "Mathlib.Analysis.Convex.Contractible"
+  ],
+  "sha256": "174abab79ff57e3dae284ed74238afb62a356dca831438dd19dcdef57dd7a2b4",
+  "lines": 840,
+  "bytes": 36008,
+  "transformation": "Remove module/public-import/public-section directives only; copy every other source line and complete proof in source order. Challenge and Solution share one implementation, not independent proofs."
+}

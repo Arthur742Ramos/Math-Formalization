@@ -1,0 +1,135 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Ambient torus characters from computational harmonic periods",
+    "description": "For any finite discrete coordinate type E, actual unit-winding computational loops in the ambient torus E to AddCircle 1 represent every ambient fundamental-group class. Prove actual closed cochains are all coefficients, actual endpoint gradients vanish, and actual harmonic cochains correspond linearly to all ordinary algebraic real characters of the ambient fundamental group. Integration on every computational loop, unique harmonic reconstruction and inverse coefficients are explicit; the empty coordinate type is included.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.AT",
+      "math.LO"
+    ],
+    "msc2020": [
+      "18G35",
+      "18B40",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Retains literal actual geometric trace, continuous step-system and scoped presentation declarations. Unused scoped rewrite closure is omitted and not claimed; all used declarations and complete proofs are visible."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical degree-one fundamental-group/cohomology context, especially Theorem2A.1. This package proves a finite computational represented-subgroup period correspondence, not singular Hurewicz or universal coefficients."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite Hodge/orthogonal projection context. No ranking or numerical algorithm is formalized."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/329bbd9f2d1136e728a569ff95caa7a149a420c8/computational-hodge/loop-characters",
+      "relationship": "builds-on",
+      "note": "Complete retained subgroup, rooting, reconstruction and circle winding proof slices are mapped to this immutable predecessor. New contribution proves ambient completeness for the coordinate system and identifies actual harmonic cochains with all ambient characters."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/5492d3284741fe4a598ae2031205f5bb024f2d6c/computational-hodge/geometric-obstruction",
+      "relationship": "builds-on",
+      "note": "Retains the minimal actual harmonic definition and complete operator/proof prefixes through the immutable predecessor. This extension proves ambient coordinate completeness and all-ambient character reconstruction."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/5810a77833131ae3b171fd632b2370079345fd9f/computational-hodge/finite-periods",
+      "relationship": "builds-on",
+      "note": "Prior finite Euclidean cochain/operator infrastructure is classical and credited. This package uses the minimal actual harmonic definition, with no projection construction or record-law proof adaptations. Actual harmonicity is proved from vanishing gradients and geometric closedness."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual MIT trace/continuous-system/scoped-presentation definitions and prior circle-lifting strategy are credited. The current pinned covering API supplies classical lifting and monodromy infrastructure; unused rewrite closure is omitted."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/ComputationalPathsLean/tree/257c659b7973aeda900d86a5da73b208712c7523",
+      "relationship": "related",
+      "note": "Inspected for overlap. Raw equality paths or formal Hodge certificates are not substituted for geometric realization or actual harmonic cochains."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Actual ambient fundamental group, endpoint-fixed homotopy quotient, finite Euclidean cochains, orthogonal complement, ordinary algebraic characters, real-circle covering/monodromy and product path-class operations. FundamentalGroup multiplication reverses path concatenation; no singular/deRham comparison is assumed."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/blob/ea1367d99c7d2f3794f1299cce5b18379e9093a7/ComputationalPaths/Path/Topology/FiniteTorusWinding.lean",
+      "relationship": "related",
+      "note": "Existing user work already treats finite torus classification and matrix naturality. Neither classification nor arbitrary finite indexing is claimed as new here. This package proves a source-faithful actual computational harmonic/all-ambient-character bridge using the pinned modern covering API."
+    }
+  ],
+  "status": {
+    "scope": "Actual finite computational harmonic cochains and all ambient algebraic real characters for the finite coordinate torus; proved ambient trace completeness and explicit period/coefficient formula.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. E is finite and explicitly discrete, including empty E. Primitives are actual unit-winding coordinate loops. Infinite coordinates or higher winding generators need not generate all ambient classes. Characters are algebraic, not assumed continuous. No ambient singular/deRham cohomology comparison, analytic/Kahler Hodge theorem, higher degree, matrix isometry, numerical algorithm, novelty or editorial acceptance is claimed. Classical lifts and equivalence inverses are noncomputable. Full exact-source acceptance and review require separate receipts.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Uses actual ambient torus paths and endpoint-fixed homotopy classes. Integral winding and injectivity follow from real circle covering/monodromy and product path-class extensionality. Finite products of integer powers of actual represented coordinate loops prove all ambient classes have finite computational representatives. Actual d0 vanishes, all cochains satisfy all geometric homotopy relations by character reconstruction, and harmonicity plus all-ambient character correspondence are proved rather than postulated."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope review approved the explicit finite/discrete/unit-winding hypotheses, empty index case and the substantive ambient-completeness/actual harmonic-character connection. It identified extensive prior finite-torus classification overlap, which is credited. Final independent source/evidence review and exact validation outcomes remain separately bound; no human or external peer review is inferred."
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "329bbd9f2d1136e728a569ff95caa7a149a420c8",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_commit": "329bbd9f2d1136e728a569ff95caa7a149a420c8",
+      "source_path": "computational-hodge/loop-characters/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/329bbd9f2d1136e728a569ff95caa7a149a420c8/computational-hodge/loop-characters/SourcePaths.lean",
+      "source_sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235",
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 2505,
+          "start_line": 1,
+          "end_line": 67,
+          "sha256": "a24934aa8ec590f332cee4ddd3f30afa1de8291fe93ec9142ad95d5574d60918"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "end ComputationalPaths.Path.GeometricTopology\n",
+      "replacements": []
+    },
+    {
+      "path": "Periods.lean",
+      "source_commit": "329bbd9f2d1136e728a569ff95caa7a149a420c8",
+      "source_path": "computational-hodge/loop-characters/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/329bbd9f2d1136e728a569ff95caa7a149a420c8/computational-hodge/loop-characters/Periods.lean",
+      "source_sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287",
+      "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 3165,
+          "start_line": 1,
+          "end_line": 91,
+          "sha256": "39c741fc21408059f2151555afc1080a0923fdfa0f0ccbd8de4b5a02c66c6f70"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "end ComputationalHodge\n",
+      "replacements": []
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_commit": "329bbd9f2d1136e728a569ff95caa7a149a420c8",
+      "source_path": "computational-hodge/geometric-obstruction/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/329bbd9f2d1136e728a569ff95caa7a149a420c8/computational-hodge/geometric-obstruction/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "start_line": 1,
+          "end_line": 19,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "",
+      "replacements": []
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_commit": "329bbd9f2d1136e728a569ff95caa7a149a420c8",
+      "source_path": "computational-hodge/loop-characters/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/329bbd9f2d1136e728a569ff95caa7a149a420c8/computational-hodge/loop-characters/LoopImage.lean",
+      "source_sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 4172,
+          "start_line": 1,
+          "end_line": 94,
+          "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "",
+      "replacements": []
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_commit": "329bbd9f2d1136e728a569ff95caa7a149a420c8",
+      "source_path": "computational-hodge/loop-characters/CharacterExample.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/329bbd9f2d1136e728a569ff95caa7a149a420c8/computational-hodge/loop-characters/CharacterExample.lean",
+      "source_sha256": "ca138222df407903f79c133f0ed6eea73e2eaa447bd84aa824ba101dbdcd64ab",
+      "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6",
+      "ranges": [
+        {
+          "start_character": 0,
+          "end_character": 3472,
+          "start_line": 1,
+          "end_line": 74,
+          "sha256": "d0d227957c42aacfbfdfd6783694d75ea67d8b29d6931e4bc69da32d4cc00913"
+        }
+      ],
+      "separator": "",
+      "appended_namespace_closure": "end ComputationalHodge.LoopCharacters\n",
+      "replacements": [
+        {
+          "old": "public import HarmonicCharacters",
+          "new": "public import LoopImage"
+        }
+      ]
+    }
+  ],
+  "reconstruction": {
+    "path": "TorusReconstruction.lean",
+    "sha256": "43cd478450e889aa891b4c193d5f77bd115c6191956cdb6e89c307bd3395800d",
+    "prefix": "module\npublic import TorusGeometry\n@[expose] public section\n\n",
+    "separator": "end ComputationalHodge.LoopCharacters\n\n",
+    "suffix": "end ComputationalHodge.LoopCharacters\n",
+    "parts": [
+      {
+        "source_path": "computational-hodge/loop-characters/Characters.lean",
+        "source_sha256": "669716fdf9b073907cdab685ff5f91dc704b1bcc12613aa0d01dd61155949064",
+        "start_character": 57,
+        "end_character": 1562,
+        "sha256": "468968154ebf606773ec03811c8c503be396b1a359828b1775505e2e96ec7999"
+      },
+      {
+        "source_path": "computational-hodge/loop-characters/Reconstruction.lean",
+        "source_sha256": "a21b57ec13b03d789228c5169b0dd5958e0152ed88e88949c865ffb4ae6d62d1",
+        "start_character": 58,
+        "end_character": 4841,
+        "sha256": "70f4f64166711a66111eddb6aad7a8876dd5183111b29bbd03e089af45abb9bc"
+      }
+    ],
+    "replacements": []
+  }
+}
