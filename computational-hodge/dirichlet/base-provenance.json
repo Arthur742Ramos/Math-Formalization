@@ -1,0 +1,131 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "2a2e0ea39a2decd56d338d2a329ee7035bea2628",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/ac-lifts/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "start_character": 0,
+      "end_character": 2551,
+      "excerpt_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/ac-lifts/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/Periods.lean",
+      "source_sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0",
+      "start_character": 0,
+      "end_character": 3188,
+      "excerpt_sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "2141e10e779940a1e09f4dfe180efeb5eb211a146c56216f8677100050bca7c0"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/ac-lifts/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "start_character": 0,
+      "end_character": 582,
+      "excerpt_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/ac-lifts/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/LoopImage.lean",
+      "source_sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+      "start_character": 0,
+      "end_character": 4172,
+      "excerpt_sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/ac-lifts/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/CircleWinding.lean",
+      "source_sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6",
+      "start_character": 0,
+      "end_character": 3501,
+      "excerpt_sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "fe40821533e30760014c5bf704ef3d00ace228b8934191984ac31725bf8044a6"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/ac-lifts/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "start_character": 0,
+      "end_character": 1170,
+      "excerpt_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/ac-lifts/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/RawLift.lean",
+      "source_sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72",
+      "start_character": 0,
+      "end_character": 12735,
+      "excerpt_sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "6e2a936078fb20dd8718ce5b3cb073fd33364a7175f8b97857533e2272eacb72"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/ac-lifts/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/CirclePeriods.lean",
+      "source_sha256": "d09e57ad3d1f70983abf52f010a64c084e7e90ac2d4b016c8b19e0910c0b11a5",
+      "start_character": 0,
+      "end_character": 3313,
+      "excerpt_sha256": "d09e57ad3d1f70983abf52f010a64c084e7e90ac2d4b016c8b19e0910c0b11a5",
+      "suffix": "",
+      "replacements": [],
+      "sha256": "d09e57ad3d1f70983abf52f010a64c084e7e90ac2d4b016c8b19e0910c0b11a5"
+    },
+    {
+      "path": "LiftFoundation.lean",
+      "source_path": "computational-hodge/ac-lifts/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/ACAnalysis.lean",
+      "source_sha256": "315e268ed7183e62a18437c4161cef5d953d46237ab64e77964358c189349475",
+      "start_character": 0,
+      "end_character": 2346,
+      "excerpt_sha256": "a76b090b59035c71691d62010b44ee6fe128ce8627a45a4795d552358091cabf",
+      "suffix": "end ComputationalHodge.ACLifts\n",
+      "replacements": [],
+      "sha256": "dc5a260da8436e535e4c47041eeadece997d15822fa1b10340b453dab8781ed6"
+    },
+    {
+      "path": "TraceFoundation.lean",
+      "source_path": "computational-hodge/ac-lifts/ACPeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2a2e0ea39a2decd56d338d2a329ee7035bea2628/computational-hodge/ac-lifts/ACPeriods.lean",
+      "source_sha256": "804cba763c8ae83b96e20bdfda1e42add8a30be5e2d88b65db0991639de1f3ab",
+      "start_character": 0,
+      "end_character": 1099,
+      "excerpt_sha256": "c58d04700e0ce1259282bb784c5b20102f7d3f8906bb7ad9d6807b57e4341105",
+      "suffix": "end ComputationalHodge.ACLifts\n",
+      "replacements": [
+        [
+          "public import ACAnalysis",
+          "public import LiftFoundation"
+        ]
+      ],
+      "sha256": "a291f078069726ac933df7dd2b3ed66320a379206dd78fa9be33e6f67ed05ff9"
+    }
+  ]
+}
