@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "5c9f3b7dc6a0cf8f132e9daee863c5810004a542fc657f44adc8528047d5a235"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "7b38bb9446abb3b4f8fca6b2c9aeb1c31ca4b40fde80042649acc77e6f580287"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "f04ef9a39b222c188c89b3a8ee6d905f246f0be7f5f952279f0e20389b92ea42"
+    },
+    {
+      "path": "LoopImage.lean",
+      "sha256": "5a419bc2c94a6083dde724a994cf43579e7fcf58af1fb49ab58663cced2c3bde"
+    },
+    {
+      "path": "Characters.lean",
+      "sha256": "669716fdf9b073907cdab685ff5f91dc704b1bcc12613aa0d01dd61155949064"
+    },
+    {
+      "path": "Reconstruction.lean",
+      "sha256": "a21b57ec13b03d789228c5169b0dd5958e0152ed88e88949c865ffb4ae6d62d1"
+    },
+    {
+      "path": "HarmonicCharacters.lean",
+      "sha256": "a9687c973c0ae8257e0bad797c78bb5e8a72485803fb723b42e198d047cda1ee"
+    },
+    {
+      "path": "CharacterExample.lean",
+      "sha256": "ca138222df407903f79c133f0ed6eea73e2eaa447bd84aa824ba101dbdcd64ab"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+    "Mathlib.Topology.Covering.AddCircle",
+    "Mathlib.Topology.Homotopy.Lifting"
+  ],
+  "sha256": "2f4f14c22b469e775c895f8478e0706cdf4a583c4bd7487e7bce1c7147d63cb2",
+  "lines": 872,
+  "bytes": 38025,
+  "transformation": "Remove module/public-import/public-section directives only; copy every other source line and complete proof in source order. Challenge and Solution share one implementation, not independent proofs."
+}
