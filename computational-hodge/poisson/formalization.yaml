@@ -1,0 +1,135 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Constructed weighted circle Poisson solutions and computational-period obstruction",
+    "description": "For positive C1 circle length density and continuous forcing, construct an actual C2 weighted Poisson solution exactly when the weighted forcing mean vanishes. Prove Green identity, pairing symmetry/nonnegativity, kernel constants and unique weighted-mean normalization. Connect compatibility to ordinary raw computational-path integrals and finite harmonic periods; exhibit nonconstant density, solution and forcing.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Sections9.2-9.3",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Primary classical geometer-sign scalar Laplacian, adjoint/Green and Hodge elliptic-solvability context. The candidate proves an explicit one-dimensional coordinate C1-density/C2-solution case by actual primitives, with a computational-period obstruction; no general Fredholm, intrinsic manifold or weak-solution elliptic regularity theorem is asserted."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4c59309073cf570f3c18202bda9010b457c377ee/computational-hodge/metric-hodge",
+      "relationship": "builds-on",
+      "note": "PR65 supplies actual periodic potentials, PR67 actual AC/raw trace integration and PR71 the coordinate metric adjoint model. PR72 constructs actual path-energy minimizers. This successor introduces an actual second-order scalar Laplacian and constructed periodic Poisson solution with computational obstruction. Existing results are retained/credited, not claimed as new."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned ordinary Bochner/circle Haar integration, C1/C2/AC calculus, periodic quotient descent, complex cosine and finite cochain definitions are credited infrastructure. The actual weighted scalar operator, two-primitives solution, Green pairing, compatibility/uniqueness and computational-period obstruction are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Positive C1-density coordinate circle Laplacian on an actual C2 circle-function submodule, explicit Poisson solvability and computational-path period obstruction.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Coordinate ds=rho dx; nonnegative geometer Laplacian is -((uprime/rho)prime)/rho. Density is C1 and positive, forcing continuous, solutions C2. Only weighted-mean normalization is imposed. Green is a constructed normalized solution map; linearity, boundedness and a closed self-adjoint Sobolev realization are not established. Pairing symmetry is an actual integral identity. No general functional-analytic Fredholm/spectral theorem, intrinsic manifold/cotangent-bundle or general analytic/Kahler Hodge/deRham identification, weak-solution elliptic regularity, complex-circle arclength2*pi identification or numerical algorithm. Exact release outcomes are separately source-bound.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual indexed binary computational traces, real lifts/realization, ordinary raw integrals and finite harmonic cochains are retained. The weighted Laplacian is an actual continuous circle coefficient on a proved C2 domain; derivative periodicity and flux C1 regularity are derived. Two ordinary periodic primitives construct the normalized solution, not a supplied Green solver. Solvability iff all actual computational periods vanish is proved. The analytic coordinate result is classical; no novelty is claimed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and mathematical authoring review checked actual C2/C1 domain, sign, continuity/periodicity, Green identity, constructed primitives/normalization, kernel and solvability quantifiers, nonvacuous actual trace obstruction and nonconstant density/solution/forcing example. Packaging/inventory/exact-commit evidence require separately source-bound review. No human or external peer review is inferred."
+  }
+}
