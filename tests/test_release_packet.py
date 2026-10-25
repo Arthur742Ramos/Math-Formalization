@@ -217,6 +217,30 @@ class LoopCharactersSourcePath(unittest.TestCase):
             command.assert_not_called()
 
 
+class TorusPeriodsMaterialHandoff(ComputationalHodgeMaterialHandoff):
+    PROJECT = 'computational-hodge/torus-periods'
+
+
+class TorusPeriodsSourcePath(unittest.TestCase):
+    def test_exact_torus_periods_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'Challenge.lean\n', b'module\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, 'computational-hodge/torus-periods')
+        self.assertEqual(files, {'Challenge.lean': b'module\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':computational-hodge/torus-periods/Challenge.lean')
+
+    def test_other_or_traversing_torus_period_paths_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['computational-hodge/torus-periods/../finite-periods',
+                         'computational-hodge/torus-periods/other',
+                         'computational-hodge/new-project', '/computational-hodge/torus-periods']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,
