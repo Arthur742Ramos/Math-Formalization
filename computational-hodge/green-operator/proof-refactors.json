@@ -1,0 +1,138 @@
+{
+  "source_commit": "d32c712e54f77f95acdedd92f3a3a0526cda3bbf",
+  "scope": "No statement/definition changes; genuine proof refactors of exact retained predecessor fragments. Original complete proofs and replacements retained for independent review.",
+  "rewrites": [
+    {
+      "module": "RawLift.lean",
+      "theorem": "trace_endpoints",
+      "old_declaration": "theorem trace_endpoints {a b : CircleHodge.Circle} (p : Trace a b) : a=b := by\n  induction p with\n  | refl _ => rfl\n  | single _ => rfl\n  | trans p q hp hq => exact hp.trans hq\n  | symm p hp => exact hp.symm\n\n",
+      "new_declaration": "theorem trace_endpoints {a b : CircleHodge.Circle} (p : Trace a b) : a=b := by induction p <;> aesop\n\n",
+      "insert_before": null,
+      "statement_sha256": "dc9070646bc1873bd3c9e9f3b7107fd7043f1144a051426b1af60a76523a8d56",
+      "before_module_sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f",
+      "after_module_sha256": "b688ba58ea13e44c8be6035298d83b8f8565f89d2810fa478959e712a2f24c70",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_zero",
+      "old_declaration": "theorem rawLift_zero {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 0=0 := by\n  induction p with\n  | refl _ => rfl\n  | single _ => norm_num [rawLift,clamp]\n  | trans p q hp hq => norm_num [rawLift,hp]\n  | symm p hp => simp [rawLift]\n\n",
+      "new_declaration": "theorem rawLift_zero {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 0=0 := by induction p <;> simp_all [rawLift,clamp]\n\n",
+      "insert_before": null,
+      "statement_sha256": "f9243c1c6205f7a504fa0d4f9c87522b51038bba51382320af42db1ef69e1cb8",
+      "before_module_sha256": "b688ba58ea13e44c8be6035298d83b8f8565f89d2810fa478959e712a2f24c70",
+      "after_module_sha256": "77031147526153f96349e27f468ca45baf9177fc1f14d683e7335323c7774e6d",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_continuous",
+      "old_declaration": "theorem rawLift_continuous {a b : CircleHodge.Circle} (p : Trace a b) : Continuous (rawLift p) := by\n  induction p with\n  | refl _ => exact continuous_const\n  | single _ => unfold rawLift clamp; fun_prop\n  | trans p q hp hq =>\n    apply Continuous.if_le\n      (hp.comp (continuous_const.mul continuous_id))\n      (continuous_const.add (hq.comp ((continuous_const.mul continuous_id).sub continuous_const)))\n      continuous_id continuous_const\n    intro x hx\n    change x=(1 : ℝ)/2 at hx\n    subst x\n    norm_num [rawLift_zero]\n  | symm p hp => exact (hp.comp (continuous_const.sub continuous_id)).sub continuous_const\n\n",
+      "new_declaration": "theorem rawLift_continuous {a b : CircleHodge.Circle} (p : Trace a b) : Continuous (rawLift p) := (rawLift_lipschitz p).choose_spec.continuous\n\n",
+      "insert_before": "theorem rawLift_one_coe",
+      "statement_sha256": "8385805dd1ab379a25b16983d9daadbade81736c0d7290e3f595b8fee4ab73db",
+      "before_module_sha256": "77031147526153f96349e27f468ca45baf9177fc1f14d683e7335323c7774e6d",
+      "after_module_sha256": "b5c6652ba99225930dc760ec2fea7a41fc66e85d39824e89b3319ec0427a9625",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "affine_lipschitz",
+      "old_declaration": "theorem affine_lipschitz (a b : ℝ) : LipschitzWith ‖a‖₊ (fun x : ℝ => a*x+b) := by\n  apply lipschitzWith_iff_dist_le_mul.mpr\n  intro x y\n  change |(a*x+b)-(a*y+b)| ≤ |a| * |x-y|\n  have h : (a*x+b)-(a*y+b)=a*(x-y) := by ring\n  rw [h,abs_mul]\n\n",
+      "new_declaration": "theorem affine_lipschitz (a b : ℝ) : LipschitzWith ‖a‖₊ (fun x : ℝ => a*x+b) := by simpa only [Function.comp_def,smul_eq_mul,one_mul] using (isometry_add_right b).lipschitzWith.comp (lipschitzWith_smul a)\n\n",
+      "insert_before": null,
+      "statement_sha256": "3d19831753daa50b062acf4e7a80c0b40e4cb77351fb446c760a2c9c6ca7092b",
+      "before_module_sha256": "b5c6652ba99225930dc760ec2fea7a41fc66e85d39824e89b3319ec0427a9625",
+      "after_module_sha256": "3ea336fb4020bbfafa161ec80a740ee4c10a796f5e5680f2b6477571d32b15e5",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "shift_lipschitz",
+      "old_declaration": "theorem shift_lipschitz {f : ℝ → ℝ} {K : ℝ≥0} (hf : LipschitzWith K f) (c : ℝ) :\n    LipschitzWith K (fun x => c+f x) := by\n  apply lipschitzWith_iff_dist_le_mul.mpr\n  intro x y\n  simpa only [Real.dist_eq,add_sub_add_left_eq_sub] using hf.dist_le_mul x y\n\n",
+      "new_declaration": "theorem shift_lipschitz {f : ℝ → ℝ} {K : ℝ≥0} (hf : LipschitzWith K f) (c : ℝ) :\n    LipschitzWith K (fun x => c+f x) := by simpa only [Function.comp_def,one_mul] using (isometry_add_left c).lipschitzWith.comp hf\n\n",
+      "insert_before": null,
+      "statement_sha256": "3ed3ef01aa600c8f888a6fbdf25028eaa1e50a5713b36d8e7a0117db6dd58fdb",
+      "before_module_sha256": "3ea336fb4020bbfafa161ec80a740ee4c10a796f5e5680f2b6477571d32b15e5",
+      "after_module_sha256": "0fe30933cec4e0d3bfc1322fe388ebc99e7731dce2f60a8a7926c77ac1dd5cd0",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "cut_lipschitz",
+      "old_declaration": "theorem cut_lipschitz {f g : ℝ → ℝ} {K L : ℝ≥0} {c : ℝ}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x≤c then f x else g x) := by\n  have cross (x y : ℝ) (hx : x≤c) (hy : c≤y) :\n      dist (f x) (g y)≤((K+L : ℝ≥0) : ℝ)*dist x y := by\n    calc\n      dist (f x) (g y)≤dist (f x) (f c)+dist (f c) (g y) := dist_triangle _ _ _\n      _ = dist (f x) (f c)+dist (g c) (g y) := by rw [hc]\n      _ ≤ (K : ℝ)*dist x c+(L : ℝ)*dist c y :=\n        add_le_add (hf.dist_le_mul x c) (hg.dist_le_mul c y)\n      _ ≤ ((K+L : ℝ≥0) : ℝ)*dist x y := by\n        simp only [Real.dist_eq,abs_of_nonpos (sub_nonpos.mpr hx),\n          abs_of_nonpos (sub_nonpos.mpr hy),\n          abs_of_nonpos (sub_nonpos.mpr (hx.trans hy)),NNReal.coe_add]\n        nlinarith [mul_nonneg K.coe_nonneg (sub_nonneg.mpr hy),\n          mul_nonneg L.coe_nonneg (sub_nonneg.mpr hx)]\n  apply lipschitzWith_iff_dist_le_mul.mpr\n  intro x y\n  by_cases hx : x≤c <;> by_cases hy : y≤c\n  · simp only [ite_eq_left hx,ite_eq_left hy]\n    exact (hf.dist_le_mul x y).trans (by\n      simp only [NNReal.coe_add];nlinarith [mul_nonneg L.coe_nonneg (dist_nonneg (x := x) (y := y))])\n  · simpa only [ite_eq_left hx,ite_eq_right hy] using cross x y hx (not_le.mp hy).le\n  · simpa only [ite_eq_right hx,ite_eq_left hy,dist_comm] using cross y x hy (not_le.mp hx).le\n  · simp only [ite_eq_right hx,ite_eq_right hy]\n    exact (hg.dist_le_mul x y).trans (by\n      simp only [NNReal.coe_add];nlinarith [mul_nonneg K.coe_nonneg (dist_nonneg (x := x) (y := y))])\n\n",
+      "new_declaration": "theorem cut_lipschitz {f g : ℝ → ℝ} {K L : ℝ≥0} {c : ℝ}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x≤c then f x else g x) := by\n  have cross (x y : ℝ) (hx : x≤c) (hy : c≤y) :\n      dist (f x) (g y)≤((K+L : ℝ≥0) : ℝ)*dist x y := by\n    calc\n      dist (f x) (g y)≤dist (f x) (f c)+dist (f c) (g y) := dist_triangle _ _ _\n      _ = dist (f x) (f c)+dist (g c) (g y) := by rw [hc]\n      _ ≤ (K : ℝ)*dist x c+(L : ℝ)*dist c y :=\n        add_le_add (hf.dist_le_mul x c) (hg.dist_le_mul c y)\n      _ ≤ ((K+L : ℝ≥0) : ℝ)*dist x y := by\n        simp only [Real.dist_eq,abs_of_nonpos (sub_nonpos.mpr hx),\n          abs_of_nonpos (sub_nonpos.mpr hy),\n          abs_of_nonpos (sub_nonpos.mpr (hx.trans hy)),NNReal.coe_add]\n        nlinarith [mul_nonneg K.coe_nonneg (sub_nonneg.mpr hy),\n          mul_nonneg L.coe_nonneg (sub_nonneg.mpr hx)]\n  apply lipschitzWith_iff_dist_le_mul.mpr\n  intro x y\n  by_cases hx : x≤c <;> by_cases hy : y≤c\n  · simpa only [ite_eq_left hx,ite_eq_left hy] using (hf.weaken (le_add_of_nonneg_right (bot_le : (0 : ℝ≥0)≤L))).dist_le_mul x y\n  · simpa only [ite_eq_left hx,ite_eq_right hy] using cross x y hx (not_le.mp hy).le\n  · simpa only [ite_eq_right hx,ite_eq_left hy,dist_comm] using cross y x hy (not_le.mp hx).le\n  · simpa only [ite_eq_right hx,ite_eq_right hy] using (hg.weaken (le_add_of_nonneg_left (bot_le : (0 : ℝ≥0)≤K))).dist_le_mul x y\n\n",
+      "insert_before": null,
+      "statement_sha256": "8609f730317397b3e482792eee904695dcad72a5ce5ade65de2556d4f86c8992",
+      "before_module_sha256": "0fe30933cec4e0d3bfc1322fe388ebc99e7731dce2f60a8a7926c77ac1dd5cd0",
+      "after_module_sha256": "a36ca97eec8e567fe31bf090d7c807ebfca6b60165da5c2940b6b09edf1bc408",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "Potential.lean",
+      "theorem": "realPotential_hasDerivAt",
+      "old_declaration": "theorem realPotential_hasDerivAt (α : Coefficient) (x : ℝ) :\n    HasDerivAt (realPotential α) (cover α x-mean α) x := by\n  have hi : HasDerivAt (fun u : ℝ => ∫ t in (0 : ℝ)..u,cover α t) (cover α x) x :=\n    intervalIntegral.integral_hasDerivAt_right\n      ((cover_continuous α).intervalIntegrable 0 x)\n      (cover_continuous α).aestronglyMeasurable.stronglyMeasurableAtFilter\n      (cover_continuous α).continuousAt\n  have hm : HasDerivAt (fun u : ℝ => u*mean α) (mean α) x := by\n    simpa using (hasDerivAt_id x).mul_const (mean α)\n  exact hi.sub hm\n\n",
+      "new_declaration": "theorem realPotential_hasDerivAt (α : Coefficient) (x : ℝ) :\n    HasDerivAt (realPotential α) (cover α x-mean α) x := (intervalIntegral.integral_hasDerivAt_right ((cover_continuous α).intervalIntegrable 0 x)\n    (cover_continuous α).aestronglyMeasurable.stronglyMeasurableAtFilter (cover_continuous α).continuousAt).sub\n    (by simpa using (hasDerivAt_id x).mul_const (mean α))\n\n",
+      "insert_before": null,
+      "statement_sha256": "6a75a2cc4202ef03ccf6a610c06adeebb7b4285c921c6aa6e190178602b3d20b",
+      "before_module_sha256": "9c344db19ab06db85e3a74286bfbcf67b0a7d6c848da7ff4cb5c042f0abbede9",
+      "after_module_sha256": "399b3fd96f400392886698caf134e41e46cbff401f9574984f5c6b8b185d9c4a",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "Potential.lean",
+      "theorem": "realPotential_contDiff",
+      "old_declaration": "theorem realPotential_contDiff (α : Coefficient) : ContDiff ℝ 1 (realPotential α) := by\n  apply contDiff_one_iff_deriv.mpr\n  refine ⟨fun x => (realPotential_hasDerivAt α x).differentiableAt,?_⟩\n  have h : deriv (realPotential α)=fun x => cover α x-mean α :=\n    funext (fun x => (realPotential_hasDerivAt α x).deriv)\n  rw [h]\n  exact (cover_continuous α).sub continuous_const\n\n",
+      "new_declaration": "theorem realPotential_contDiff (α : Coefficient) : ContDiff ℝ 1 (realPotential α) := contDiff_one_iff_deriv.mpr ⟨fun x => (realPotential_hasDerivAt α x).differentiableAt,\n    ((cover_continuous α).sub continuous_const).congr (fun x => (realPotential_hasDerivAt α x).deriv.symm)⟩\n\n",
+      "insert_before": null,
+      "statement_sha256": "83cb60044686918e9ade70b5cd7b15be3c8febac408ea040406edffa70554036",
+      "before_module_sha256": "399b3fd96f400392886698caf134e41e46cbff401f9574984f5c6b8b185d9c4a",
+      "after_module_sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "ACAnalysis.lean",
+      "theorem": "lineIntegral_eq_cover",
+      "old_declaration": "theorem lineIntegral_eq_cover (α : Coefficient) (L : ACLift) :\n    lineIntegral α L=∫ t in (0 : ℝ)..1,cover α (L.val t)*deriv L.val t := by\n  apply intervalIntegral.integral_congr\n  intro t ht\n  have h : t∈Icc (0 : ℝ) 1 := by simpa [uIcc_of_le zero_le_one] using ht\n  simp only [projectedLoop,cover,Set.projIcc_of_mem zero_le_one h,Path.coe_mk_mk]\n",
+      "new_declaration": "theorem lineIntegral_eq_cover (α : Coefficient) (L : ACLift) :\n    lineIntegral α L=∫ t in (0 : ℝ)..1,cover α (L.val t)*deriv L.val t := by\n  apply intervalIntegral.integral_congr\n  intro t ht\n  have h : t∈Icc (0 : ℝ) 1 := by simpa [uIcc_of_le zero_le_one] using ht\n  exact congrArg (fun s : Icc (0 : ℝ) 1 => α (projectedLoop L s)*deriv L.val t) (Set.projIcc_of_mem zero_le_one h)\n\n",
+      "insert_before": null,
+      "statement_sha256": "cfef5d6e75ccd002c2d8a7cb0c1ebc3f6a5a7eb30aac828664f3409f31f5949c",
+      "before_module_sha256": "6748eeba8f872c9b18d1ec16aa6d69bcf10e40481d5152c3678533887f8c7280",
+      "after_module_sha256": "cd6835d1242f87ff52225262916b8fcbe4a51bc21b4c06bb21f3ada8bf736ee6",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "ACAnalysis.lean",
+      "theorem": "line_integrand_integrable",
+      "old_declaration": "theorem line_integrand_integrable (α : Coefficient) (L : ACLift) :\n    IntervalIntegrable\n      (fun t => α (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv L.val t) volume 0 1 := by\n  apply (cover_integrand_integrable α L).congr\n  intro t ht\n  have h : t∈Icc (0 : ℝ) 1 := by\n    simpa only [uIcc_of_le zero_le_one] using (uIoc_subset_uIcc ht)\n  simp only [projectedLoop,cover,Set.projIcc_of_mem zero_le_one h,Path.coe_mk_mk]\n",
+      "new_declaration": "theorem line_integrand_integrable (α : Coefficient) (L : ACLift) :\n    IntervalIntegrable\n      (fun t => α (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv L.val t) volume 0 1 := by\n  apply (cover_integrand_integrable α L).congr\n  intro t ht\n  have h : t∈Icc (0 : ℝ) 1 := by\n    simpa only [uIcc_of_le zero_le_one] using (uIoc_subset_uIcc ht)\n  exact (congrArg (fun s : Icc (0 : ℝ) 1 => α (projectedLoop L s)*deriv L.val t) (Set.projIcc_of_mem zero_le_one h)).symm\n\n",
+      "insert_before": null,
+      "statement_sha256": "966512948c13d8902de8f0580a34eff8f850f8c1b5c9f242dac5ac66cfa6fec4",
+      "before_module_sha256": "cd6835d1242f87ff52225262916b8fcbe4a51bc21b4c06bb21f3ada8bf736ee6",
+      "after_module_sha256": "73e04af7f323bf9ad05d650fff6fe2e582dbdce677b09b8ba3afd08101f9f279",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "cosine_half",
+      "old_declaration": "theorem cosine_half : cosine ((1/2 : ℝ) : CircleHodge.Circle)= -1 := by\n  change cover cosine (1/2)= -1\n  rw [cosine_cover]\n  have he : 2*Real.pi*(1/2 : ℝ)=Real.pi := by ring\n  rw [he,Real.cos_pi]\n",
+      "new_declaration": "theorem cosine_half : cosine ((1/2 : ℝ) : CircleHodge.Circle)= -1 := (cosine_cover (1/2)).trans (by convert Real.cos_pi using 1;congr 1;ring)\n\n",
+      "insert_before": null,
+      "statement_sha256": "4a0a536e233861bc63159d868e4f64e5734c76c50f09a8cc7a5b1733af5f72af",
+      "before_module_sha256": "3110ee90134a5e5695076b8ae2fcceb7c4b14a8b9b750accfcdb025610a012fd",
+      "after_module_sha256": "e99d177c593e4365ec85b1f1881ca07313b0fe0803a178a7c37c7cb7524044bd",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "cosine_nonconstant",
+      "old_declaration": "theorem cosine_nonconstant : ¬∃ c : ℝ,cosine=constant c := by\n  rintro ⟨c,h⟩\n  have h0:=congrArg (fun f : Coefficient => f 0) h\n  have hh:=congrArg (fun f : Coefficient => f ((1/2 : ℝ) : CircleHodge.Circle)) h\n  change cosine 0=c at h0\n  change cosine ((1/2 : ℝ) : CircleHodge.Circle)=c at hh\n  rw [cosine_zero] at h0\n  rw [cosine_half] at hh\n  linarith\n",
+      "new_declaration": "theorem cosine_nonconstant : ¬∃ c : ℝ,cosine=constant c := by\n  rintro ⟨c,h⟩\n  have he:=congrArg (fun f : Coefficient => f 0-f ((1/2 : ℝ) : CircleHodge.Circle)) h\n  norm_num [cosine_zero,cosine_half,constant] at he\n\n",
+      "insert_before": null,
+      "statement_sha256": "ae5384d8ed201c3c2a99c5408f48388b1d2d3db9bf1a1619ef951d503b240c4b",
+      "before_module_sha256": "e99d177c593e4365ec85b1f1881ca07313b0fe0803a178a7c37c7cb7524044bd",
+      "after_module_sha256": "206002edf030de673ad11d12f370ead36413160120052eab443a47cc984831eb",
+      "scope": "Genuine proof refactor; exact theorem statement retained, fresh Lean/kernel and independent review required."
+    }
+  ]
+}

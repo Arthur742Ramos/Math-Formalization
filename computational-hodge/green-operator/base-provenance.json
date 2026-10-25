@@ -1,0 +1,398 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "d32c712e54f77f95acdedd92f3a3a0526cda3bbf",
+  "scope": "Complete required predecessor declarations/proofs retained with exact immutable Git fragments. Remove unrelated corollaries only, preserve actual raw realization/ordinary integration and all-cell harmonic closedness. Prior sources unchanged. Fresh native/kernel/source-fidelity review required.",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/poisson/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2551,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+          "first_line": 1,
+          "last_line": 68,
+          "start_context": "/-\nCopyright (c) 2025 Computational Paths contributors.\nUpstream excerpts are MIT licensed; see SOURCE-LICENSE.txt.\nPorted at the exact revision recorded in source-provenance.json.",
+          "following_context": ""
+        }
+      ],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/poisson/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2118,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+          "first_line": 1,
+          "last_line": 61,
+          "start_context": "module\n\npublic import SourcePaths\npublic import Mathlib.Analysis.InnerProductSpace.PiL2\n\n@[expose] public section\nnamespace ComputationalHodge\nopen ComputationalPaths.Path.Geometri",
+          "following_context": ""
+        }
+      ],
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/poisson/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+          "first_line": 1,
+          "last_line": 19,
+          "start_context": "module\n\npublic import Periods\npublic import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional\npublic import Mathlib.LinearAlgebra.Isomorphisms\n\n@[expose] public secti",
+          "following_context": ""
+        }
+      ],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/poisson/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 714,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+          "first_line": 1,
+          "last_line": 18,
+          "start_context": "module\npublic import Harmonic\npublic import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup\n@[expose] public section\n\nnamespace ComputationalHodge.LoopCharacters\nope",
+          "following_context": ""
+        }
+      ],
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/poisson/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1174,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+          "first_line": 1,
+          "last_line": 30,
+          "start_context": "module\npublic import LoopImage\npublic import Mathlib.Topology.Covering.AddCircle\npublic import Mathlib.Topology.Homotopy.Lifting\n@[expose] public section\n\nnamespace ComputationalHo",
+          "following_context": ""
+        }
+      ],
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/poisson/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1170,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+          "first_line": 1,
+          "last_line": 39,
+          "start_context": "module\npublic import CircleWinding\npublic import Harmonic\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic\n@[expose] public section\n\nnamespace ComputationalHo",
+          "following_context": ""
+        }
+      ],
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/poisson/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/RawLift.lean",
+      "source_sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 9904,
+          "sha256": "7c3306c98b94fe4e09795b16a54c43cbb75e54cc645ae28621f46a694897211f",
+          "first_line": 1,
+          "last_line": 233,
+          "start_context": "module\npublic import CircleData\npublic import Mathlib.Analysis.Calculus.Deriv.Basic\npublic import Mathlib.Analysis.Calculus.Deriv.Add\npublic import Mathlib.Analysis.Calculus.Deriv.",
+          "following_context": ""
+        }
+      ],
+      "sha256": "a36ca97eec8e567fe31bf090d7c807ebfca6b60165da5c2940b6b09edf1bc408"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/poisson/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/CirclePeriods.lean",
+      "source_sha256": "3bd560b5dd189bca118a74d3fc32e03209cdcc83fdce2ac0c51bb51dce0796ff",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 217,
+          "sha256": "aa396764406408f84c10fc15f556836a38befa23871d51c7e4f29aeac00c9ab9",
+          "first_line": 1,
+          "last_line": 8,
+          "start_context": "module\npublic import RawLift\n@[expose] public section\n\nnamespace ComputationalHodge.TraceIntegrals\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharac",
+          "following_context": "def unitCochain : Cochain Unit := WithLp.toLp 2 (fun _ => 1)\ndef unitTrace : Trace 0 0 := .single ()\nnoncomputable def meanCochain (\u03b1 : Coefficient) : Cochain Unit := WithLp.toLp 2"
+        },
+        {
+          "start_character": 278,
+          "end_character": 851,
+          "sha256": "f3bdd6d4fb197826f7815b93625ed5119cd32fd28954178078d0654e0cd5fe54",
+          "first_line": 10,
+          "last_line": 19,
+          "start_context": "def unitTrace : Trace 0 0 := .single ()\nnoncomputable def meanCochain (\u03b1 : Coefficient) : Cochain Unit := WithLp.toLp 2 (fun _ => mean \u03b1)\n\ntheorem period_mean_count (\u03b1 : Coefficien",
+          "following_context": "\ntheorem period_unit_count {a b : CircleHodge.Circle} (p : Trace a b) : period p unitCochain=(count p : \u211d) := by\n  induction p with\n  | refl _ => simp [period,count]\n  | single _ ="
+        },
+        {
+          "start_character": 1221,
+          "end_character": 3094,
+          "sha256": "3e3d061c96c92a99e078f59d9392e721f8254c811fdf4ceceb7f1f3746fa85eb",
+          "first_line": 28,
+          "last_line": 71,
+          "start_context": "theorem count_zero_of_source_ne {a b : CircleHodge.Circle} (p : Trace a b) : a\u22600 \u2192 count p=0 := by\n  induction p with\n  | refl _ => exact fun _ => rfl\n  | single _ => exact fun h =",
+          "following_context": ""
+        }
+      ],
+      "sha256": "79bf84c3e4a3966019885c2b68b29957a21a43813da3a9022d852bb4d3251c27"
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "source_path": "computational-hodge/poisson/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/ACAnalysis.lean",
+      "source_sha256": "b0b5baba161878541f7bef8f101e30870c406bd7d006499413dd488366631e0e",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1164,
+          "sha256": "921fc914262f9a79f0e0e23e065d480b491d9bb2ef6bbd983159e97a119cdc57",
+          "first_line": 1,
+          "last_line": 23,
+          "start_context": "module\npublic import CirclePeriods\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun\npublic import Mathlib.Analysis.Calculus.MeanValue\npublic im",
+          "following_context": "theorem actual_lift_on_interval (L : ACLift) (t : unitInterval) :\n    circleLift (projectedLoop L) t=L.val (t : \u211d) := by\n  let F : C(unitInterval,\u211d) := \u27e8fun t => L.val (t : \u211d),\n   "
+        },
+        {
+          "start_character": 2394,
+          "end_character": 2643,
+          "sha256": "013296f8a7f472ee372182659779103f6f4200212735e07174689b48982b0eb6",
+          "first_line": 46,
+          "last_line": 48,
+          "start_context": "/-- Ordinary integration on this actual projected curve, against its real-lift derivative. -/\nnoncomputable def lineIntegral (\u03b1 : Coefficient) (L : ACLift) : \u211d :=\n  \u222b t in (0 : \u211d).",
+          "following_context": "theorem lineIntegral_eq_actual (\u03b1 : Coefficient) (L : ACLift) :\n    lineIntegral \u03b1 L=\u222b t in (0 : \u211d)..1,\n      \u03b1 (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv (coveringLif"
+        },
+        {
+          "start_character": 3057,
+          "end_character": 6594,
+          "sha256": "10a2b5f545e39e246a15a0ffbdb59140c6f7aeb6659c61683e4da05202c1c895",
+          "first_line": 56,
+          "last_line": 116,
+          "start_context": "noncomputable def primitive (\u03b1 : Coefficient) (u : \u211d) : \u211d :=\n  \u222b x in (0 : \u211d)..u,cover \u03b1 x\ntheorem primitive_hasDerivAt (\u03b1 : Coefficient) (x : \u211d) :\n    HasDerivAt (primitive \u03b1) (co",
+          "following_context": "theorem lineIntegral_homotopic (\u03b1 : Coefficient) (L M : ACLift)\n    (h : _root_.Path.Homotopic (projectedLoop L) (projectedLoop M)) :\n    lineIntegral \u03b1 L=lineIntegral \u03b1 M := by\n  "
+        },
+        {
+          "start_character": 6886,
+          "end_character": 6917,
+          "sha256": "b6946852a778a01cd002982ab4256b5dfcdbbac4692b6eb3b73b7ce51273b3cb",
+          "first_line": 122,
+          "last_line": 122,
+          "start_context": "end ComputationalHodge.ACLifts\n",
+          "following_context": ""
+        }
+      ],
+      "sha256": "73e04af7f323bf9ad05d650fff6fe2e582dbdce677b09b8ba3afd08101f9f279"
+    },
+    {
+      "path": "ACPeriods.lean",
+      "source_path": "computational-hodge/poisson/ACPeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/ACPeriods.lean",
+      "source_sha256": "8a8903bc6c3c4bb6b0afb255c77609c95bbb586179631b49e1a85cd18243167f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1635,
+          "sha256": "33f0b2ef3a84f07c21f04f970990c2ff14dd4f53158d19a0c011ecbd2fc4a50e",
+          "first_line": 1,
+          "last_line": 35,
+          "start_context": "module\npublic import ACAnalysis\n@[expose] public section\nnamespace ComputationalHodge.ACLifts\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharacters ",
+          "following_context": "theorem lineIntegral_computational_harmonic (\u03b1 : Coefficient) (L : ACLift) (p : Trace 0 0)\n    (h : _root_.Path.Homotopic (projectedLoop L) (GeometricTrace.realize p)) :\n    lineIn"
+        },
+        {
+          "start_character": 2763,
+          "end_character": 2794,
+          "sha256": "b6946852a778a01cd002982ab4256b5dfcdbbac4692b6eb3b73b7ce51273b3cb",
+          "first_line": 63,
+          "last_line": 63,
+          "start_context": "end ComputationalHodge.ACLifts\n",
+          "following_context": ""
+        }
+      ],
+      "sha256": "f48cde19f4f8c105cbf38cfe191f6cc054dfdd8a424f096009c417fc9ffa03b9"
+    },
+    {
+      "path": "Potential.lean",
+      "source_path": "computational-hodge/poisson/Potential.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/Potential.lean",
+      "source_sha256": "8dfe5766f67b67030d8f0c54181215e4d061d14e68c7fe2a720eb44d2fbbd85d",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2014,
+          "sha256": "9d7fcd275b318e02f593c52c7f018d25c965c12f134d80739158f0ee0ec90f3d",
+          "first_line": 1,
+          "last_line": 46,
+          "start_context": "module\npublic import ACPeriods\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff\npublic import Mathlib.Analysis.Calculus.MeanValue\n@[expose] public section\nnam",
+          "following_context": "theorem potential_cover (\u03b1 : Coefficient) : cover (potential \u03b1)=realPotential \u03b1 := rfl\n\ntheorem potential_zero (\u03b1 : Coefficient) : potential \u03b1 0=0 := by\n  change realPotential \u03b1 0="
+        },
+        {
+          "start_character": 2220,
+          "end_character": 2689,
+          "sha256": "b07b808f2ce9019f05aa9a36a977c38e8eb3c4c7cdf51364476c4d1be6d3c3e8",
+          "first_line": 53,
+          "last_line": 62,
+          "start_context": "theorem potential_contDiff (\u03b1 : Coefficient) : ContDiff \u211d 1 (cover (potential \u03b1)) :=\n  realPotential_contDiff \u03b1\n\ntheorem potential_deriv (\u03b1 : Coefficient) (x : \u211d) :\n    deriv (cove",
+          "following_context": "\n/-- Differentiability is essential: `deriv` is totalized at nonsmooth points. -/\ndef HarmonicCoefficient (\u03b1 : Coefficient) : Prop :=\n  Differentiable \u211d (cover \u03b1) \u2227 \u2200 x,deriv (cove"
+        },
+        {
+          "start_character": 2967,
+          "end_character": 3660,
+          "sha256": "570b1679505132c4584b37a81420b87093876ef65979e3383cc2aab613ca7b29",
+          "first_line": 71,
+          "last_line": 84,
+          "start_context": "theorem mean_sub (\u03b1 \u03b2 : Coefficient) : mean (\u03b1-\u03b2)=mean \u03b1-mean \u03b2 := by\n  change (\u222b x in (0 : \u211d)..1,cover \u03b1 x-cover \u03b2 x)=_\n  exact intervalIntegral.integral_sub ((cover_continuous \u03b1)",
+          "following_context": "\ntheorem mean_zero_iff_exact (\u03b1 : Coefficient) : mean \u03b1=0 \u2194 ExactCoefficient \u03b1 := by\n  constructor\n  \u00b7 intro h\n    exact \u27e8potential \u03b1,potential_contDiff \u03b1,fun x => by simpa [h] usi"
+        },
+        {
+          "start_character": 4281,
+          "end_character": 4316,
+          "sha256": "1860bd8c45414d7ef6b2d31b7383f8fb1f98f372774e8130b724a8582b822dfb",
+          "first_line": 105,
+          "last_line": 105,
+          "start_context": "end ComputationalHodge.CircleHodge\n",
+          "following_context": ""
+        }
+      ],
+      "sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a"
+    },
+    {
+      "path": "Density.lean",
+      "source_path": "computational-hodge/poisson/Density.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/Density.lean",
+      "source_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1196,
+          "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+          "first_line": 1,
+          "last_line": 24,
+          "start_context": "module\npublic import Potential\npublic import Mathlib.MeasureTheory.Measure.OpenPos\n@[expose] public section\nnamespace ComputationalHodge.MetricHodge\nopen ComputationalHodge.CircleH",
+          "following_context": ""
+        }
+      ],
+      "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+    },
+    {
+      "path": "Poisson.lean",
+      "source_path": "computational-hodge/poisson/Poisson.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d32c712e54f77f95acdedd92f3a3a0526cda3bbf/computational-hodge/poisson/Poisson.lean",
+      "source_sha256": "bbd5a2c3130803c579b3389275d3d05a7b60186057515dd88793ca86f080be5f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 13838,
+          "sha256": "01e81e44e248b64e0856b4aba1f9b36b5231907330b465e789092a8975009d52",
+          "first_line": 1,
+          "last_line": 227,
+          "start_context": "module\npublic import Density\npublic import Mathlib.Analysis.Calculus.ContDiff.Deriv\npublic import Mathlib.Analysis.Calculus.ContDiff.Operations\npublic import Mathlib.Analysis.Speci",
+          "following_context": "theorem solvable_iff (\u03c1 : RegularDensity) (f : Coefficient) :\n    (\u2203 u : C2Coefficient,laplacian \u03c1 u=f) \u2194 weightedMean \u03c1 f=0 := by\n  constructor\n  \u00b7 rintro \u27e8u,rfl\u27e9;exact weightedMe"
+        },
+        {
+          "start_character": 14124,
+          "end_character": 14891,
+          "sha256": "d48b8d76d6fbabdd2b925133c16f380883373280938734a1670bb42836c7af4d",
+          "first_line": 233,
+          "last_line": 246,
+          "start_context": "theorem solutions_differ_constant (\u03c1 : RegularDensity) (u v : C2Coefficient) :\n    laplacian \u03c1 u=laplacian \u03c1 v \u2194 \u2203 c : \u211d,u.val-v.val=constant c := by\n  change laplacian \u03c1 u=laplaci",
+          "following_context": "theorem unique_normalized_iff (\u03c1 : RegularDensity) (f : Coefficient) :\n    (\u2203! u : C2Coefficient,laplacian \u03c1 u=f \u2227 weightedMean \u03c1 u.val=0) \u2194 weightedMean \u03c1 f=0 := by\n  constructor\n"
+        },
+        {
+          "start_character": 16665,
+          "end_character": 17258,
+          "sha256": "93038e03a372d132bfe6e4961006a99a4aeb5c005aef958c18aea1a87165aa79",
+          "first_line": 276,
+          "last_line": 284,
+          "start_context": "theorem pairing_symmetry (\u03c1 : RegularDensity) (u v : C2Coefficient) :\n    (\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover v.val x)=\n      \u222b x in (0 : \u211d)..1,cover",
+          "following_context": "theorem quadratic_nonnegative (\u03c1 : RegularDensity) (u : C2Coefficient) :\n    0\u2264\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover u.val x := by\n  rw [green_identity]"
+        },
+        {
+          "start_character": 17585,
+          "end_character": 19050,
+          "sha256": "e4527aa7b61693f662937d33eb9c032fa9e9d1186bc97ffc5a548e841caf2f80",
+          "first_line": 290,
+          "last_line": 323,
+          "start_context": "theorem green_laplacian_eq_normalize (\u03c1 : RegularDensity) (u : C2Coefficient) :\n    green \u03c1 (laplacian \u03c1 u)=normalize \u03c1 u := by\n  apply normalized_unique \u03c1\n  \u00b7 rw [green_solves_pro",
+          "following_context": "noncomputable def sampleDensity : RegularDensity := \u27e8\u27e8constant 2+cosine,by\n  intro q\n  have h : |cosine q|\u22641 := by simpa [cosine] using Complex.abs_re_le_norm (AddCircle.toCircle q"
+        },
+        {
+          "start_character": 20590,
+          "end_character": 20621,
+          "sha256": "9ecccd18a7dfc07c9a55d2d9498738ef717921c7254e3dc8aacdcdf2fff3a4f0",
+          "first_line": 359,
+          "last_line": 359,
+          "start_context": "end ComputationalHodge.Poisson\n",
+          "following_context": ""
+        }
+      ],
+      "sha256": "206002edf030de673ad11d12f370ead36413160120052eab443a47cc984831eb"
+    }
+  ],
+  "proof_refactors": "proof-refactors.json"
+}
