@@ -1,0 +1,165 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Full circle differential range and computational-path compatibility",
+    "description": "For every positive C1 period-one real scalar circle density and every real shift, prove unrestricted actual C2 shifted-Laplacian solvability iff ordinary weighted-integral orthogonality to every unrestricted actual homogeneous C2 mode. Zero shift is equivalent to actual raw/cochain computational-path periods; off zero constant forcing1 has an explicit actual solution despite a strictly positive genuine unit-trace period.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.FA",
+      "math.CA"
+    ],
+    "msc2020": [
+      "47A53",
+      "34B05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Lecture34 Sturm-Liouville Theory, sections30.2-30.3",
+      "authors": [
+        "Y. H. Kim"
+      ],
+      "type": "other",
+      "id": "https://www.math.ubc.ca/~yhkim/yhkim-home/teaching/Math257/M257-316Notes_Lecture34.pdf",
+      "relationship": "related",
+      "note": "Lagrange identity and distinct-eigenvalue orthogonality provide classical context. Actual periodic boundary cancellation and ds=rho dx convention are proved in the retained source, without assuming the separated-boundary eigenbasis/completeness results. No mathematical novelty is claimed."
+    },
+    {
+      "title": "A proof of the Fredholm alternative, section2",
+      "authors": [
+        "Terence Tao"
+      ],
+      "type": "other",
+      "id": "https://terrytao.wordpress.com/2011/04/10/a-proof-of-the-fredholm-alternative/",
+      "relationship": "related",
+      "note": "Riesz-lemma proof gives the classical compact-operator context. The pinned general-field library theorem is applied to the actual real closed invariant C0 subspace; no finite-rank approximation premise, Hilbert norm identification or novelty claim is used."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Exact pinned Mathlib supplies actual circle, measure, differentiation, continuous-operator and generic compact Fredholm definitions and theorem producers. Actual closed weighted-orthogonality subspace, invariant restriction, normalized C2 reconstruction and raw/cochain computational-path range criterion are proved here. No assumed bridge or general analytic Hodge identification is supplied."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/fredholm-circle",
+      "relationship": "builds-on",
+      "note": "PR76 actual Green/Fredholm transfer and compactness definitions/proofs are retained through exact current public-Git fragments. PR78 supplies the normalized resonant-range sufficiency argument. This extension completes the unrestricted constant sector and retains the required exact proof fragments."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/resonance-obstruction",
+      "relationship": "builds-on",
+      "note": "PR77 supplies actual weighted pairing positivity and necessary orthogonality. Its external flat cosine example establishes a concrete resonance; its source and acceptance evidence remain unchanged."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/green-operator",
+      "relationship": "builds-on",
+      "note": "PR74 supplies actual weighted Green symmetry and C0 bounds. Complete required proofs are retained, with independently reviewed exact-statement refactors."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/poisson",
+      "relationship": "builds-on",
+      "note": "PR73 supplies actual periodic Green identity and C2 differential constructions; exact source fragments and complete refactored proofs retain periodic cancellation and all regularity hypotheses."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range",
+      "relationship": "builds-on",
+      "note": "PR78 proves actual normalized resonant range. Required proof fragments are retained with exact published-base statement/proof provenance; the new source completes the unrestricted constant sector and proves the precise zero/off-zero path-period distinction."
+    }
+  ],
+  "status": {
+    "scope": "For every positive C1 period-one real scalar circle density and every real shift, prove unrestricted actual C2 shifted-Laplacian solvability iff ordinary weighted-integral orthogonality to every unrestricted actual homogeneous C2 mode. Zero shift is equivalent to actual raw/cochain computational-path periods; off zero constant forcing1 has an explicit actual solution despite a strictly positive genuine unit-trace period.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No proof holes or new axioms. Real scalar period-one circle only. No claim every forcing is solvable off zero: nonconstant resonant modes may obstruct. No uniqueness/canonical orthogonal representative, uniform near-resonance bound, eigenbasis/spectral completeness, Hilbert completion/unbounded self-adjoint domain, general analytic/manifold/Kahler Hodge/deRham, intrinsic ambient cotangent identification, numerical solver or novelty claim. Final release gates are separate exact-source evidence.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Retained literal indexed binary computational traces and actual realizations/covering lifts include all trace corners, actual AC regularity and ordinary projected-curve integration. The complete normalized Green/closed invariant C0 orthogonality proof is retained. For arbitrary forcing, prove projection orthogonality and reconstruct with u0-constantC2((weightedMean f/meanrho)/mu) off zero. At zero, testing the actual constant homogeneous mode yields the genuine raw/cochain criterion. Pairing is an ordinary integral, not identified with C0 norm or an unconstructed Hilbert completion."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope/core proof review completed; exact final source and release gates have separate immutable receipts. No human/external peer review or registry acceptance inferred."
+  }
+}
