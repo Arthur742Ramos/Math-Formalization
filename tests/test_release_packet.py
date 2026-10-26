@@ -649,6 +649,30 @@ class PositiveResolventSourcePath(unittest.TestCase):
             command.assert_not_called()
 
 
+class ResolventLimitMaterialHandoff(ComputationalHodgeMaterialHandoff):
+    PROJECT = 'computational-hodge/resolvent-limit'
+
+
+class ResolventLimitSourcePath(unittest.TestCase):
+    def test_exact_resolvent_limit_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'Challenge.lean\n', b'module\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, 'computational-hodge/resolvent-limit')
+        self.assertEqual(files, {'Challenge.lean': b'module\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':computational-hodge/resolvent-limit/Challenge.lean')
+
+    def test_other_or_traversing_resolvent_limit_paths_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['computational-hodge/resolvent-limit/../finite-periods',
+                         'computational-hodge/resolvent-limit/other',
+                         'computational-hodge/new-project', '/computational-hodge/resolvent-limit']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,

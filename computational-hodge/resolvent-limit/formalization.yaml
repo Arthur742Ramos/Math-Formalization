@@ -1,0 +1,180 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Zero-resolvent recovery and computational loops",
+    "description": "For positive C1 density on the real scalar period-one circle, recover the actual normalized Green solution and scalar constant harmonic projection from the actual positive resolvent as its parameter tends to zero. Prove quantitative small-parameter C0 estimates and genuine convergence for every positive parameter family over an arbitrary filter. Characterize zero harmonic residue by actual based computational-loop raw/cochain periods and prove scaled-resolvent period preservation.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.FA",
+      "math.CA"
+    ],
+    "msc2020": [
+      "47A53",
+      "34B05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "A proof of the Fredholm alternative",
+      "authors": [
+        "Terence Tao"
+      ],
+      "type": "other",
+      "id": "https://terrytao.wordpress.com/2011/04/10/a-proof-of-the-fredholm-alternative/",
+      "relationship": "related",
+      "note": "Classical compact-operator Fredholm alternative context. The retained reduced_bijective proof applies the actual compact scaled Green operator at spectral parameter 1. Here the shift is minus kappa, and negative nonresonance is proved by comparison before constructing the reduced inverse. An explicit constant correction restores all continuous forcing. No compact-identity finite-kernel theorem is claimed in this package."
+    },
+    {
+      "title": "Week9 Lectures,Math6451: Maximum principle for Elliptic Equations,pp1-2",
+      "authors": [
+        "Saleh Tanveer"
+      ],
+      "type": "other",
+      "id": "https://people.math.osu.edu/tanveer.1/m6451/week9.new.pdf",
+      "relationship": "related",
+      "note": "Classical extremum/comparison context. Our proof is for the actual compact scalar weighted circle with geometer sign and strictly positive constant zero-order term, not a general elliptic theorem or novelty claim."
+    },
+    {
+      "title": "Perturbation Theory for Linear Operators, reprint of1980edition,III section6.5,printedp180,equations6.30-6.34",
+      "authors": [
+        "Tosio Kato"
+      ],
+      "type": "other",
+      "id": "https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kato1.pdf",
+      "relationship": "related",
+      "note": "Classical reduced-resolvent and constant spectral-term context only. Our real scalar weighted-circle C0 recovery is proved directly using actual normalized Green identities and estimates. No general spectral projection, complex Laurent expansion or Moore-Penrose theorem is formalized."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/fredholm-circle",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/resonance-obstruction",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/green-operator",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/poisson",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/dc6a74a0c5ed9bebf2d28e2dc98518d226b1feb3/computational-hodge/full-circle-range",
+      "relationship": "builds-on",
+      "note": "Credited immutable infrastructure/predecessor. Complete public PR81 prerequisites, exact statement-preserving final proof replacements and omission boundaries are recorded in base-provenance.json and proof-refactors.json. Prior receipts do not verify the new source."
+    }
+  ],
+  "status": {
+    "scope": "For positive C1 density on the real scalar period-one circle, recover the actual normalized Green solution and scalar constant harmonic projection from the actual positive resolvent as its parameter tends to zero. Prove quantitative small-parameter C0 estimates and genuine convergence for every positive parameter family over an arbitrary filter. Characterize zero harmonic residue by actual based computational-loop raw/cochain periods and prove scaled-resolvent period preservation.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Scalar weighted circle only. Limits are in C0 for each forcing, not an asserted operator-norm, C2 or Hilbert convergence theorem. The harmonic projection is a scalar constant, not an analytic one-form or the finite cochain itself. No general analytic/manifold/Kahler Hodge, deRham/cohomology identification, Moore-Penrose framework, complex holomorphic Laurent expansion, spectral basis, semigroup, strong positivity, numerical solver or novelty claim. Actual period statements quantify only based loops Trace 0 0, not arbitrary open paths. Exact-source release evidence is external.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual user indexed binary trace composition/reversal, realized circle curves, covering lifts, all corners and AC/FTC integrals remain literal. Existing Green and positive resolvent constructions remain actual differential C2 solutions. Same-statement proof replacements are explicitly recorded in proof-refactors.json with public-to-final module hashes; no proof text is hidden. Scalar harmonicPart is the constant weighted mean divided by density mass. Both limits quantify any positive parameter family with Tendsto to zero in any filter and conclude actual inherited C0 norm topology. No assumed bridge, completeness on C2 or spectral theorem substitutes for these proofs."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI precise-scope and original compiled-core mathematical/source review established the intended actual differential/loop contracts. Complete final proof-refactor, imported-definition, semantic/native/kernel/canonical/render/browser/packet and independent release evidence is source-bound outside the frozen source; no human/external peer review or registry acceptance follows."
+  }
+}

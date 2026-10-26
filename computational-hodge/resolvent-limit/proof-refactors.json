@@ -1,0 +1,116 @@
+{
+  "source_commit": "f81c7b401ca4af8f74860ec3e3cf1273d1be2b05",
+  "scope": "Genuine concise complete proof replacements of exactly unchanged public statements. Each before/after module and statement hash is authenticated; no proof-body line joining or mathematical-content hiding. All replacements require fresh exact-source compilation, semantics, kernels and independent review.",
+  "rewrites": [
+    {
+      "module": "Positive.lean",
+      "theorem": "second_derivative_nonneg",
+      "kind": "proof",
+      "before_module_sha256": "0ab75fb5ce1341f639388b72c0f5adbb85471fe97b7733ce644c643cb40d5ecf",
+      "after_module_sha256": "e1e599e46a2669863ffd1c9d037d5bce5adf6b7adb4f5c0b388dd0039fb1773e",
+      "statement_sha256": "2fb3052b7d86caad59b5433a3f4c1eb4ff39c40d7ce25a269c4f5ffc470c54f9",
+      "old_declaration": "theorem second_derivative_nonneg {f : ℝ → ℝ} {x : ℝ}\n    (hm : IsLocalMin f x) (hc : ContinuousAt f x) : 0 ≤ deriv (deriv f) x := by\n  by_contra hn\n  have hx := isLocalMax_of_deriv_deriv_neg (lt_of_not_ge hn) hm.deriv_eq_zero hc\n  have he : f =ᶠ[𝓝 x] (fun _ => f x) := by\n    filter_upwards [hm,hx] with y hy hy'\n    exact le_antisymm hy' hy\n  have hd : deriv f =ᶠ[𝓝 x] (fun _ => (0 : ℝ)) := he.deriv.mono (fun y hy => hy.trans (deriv_const y (f x)))\n  have hz : deriv (deriv f) x=0 := hd.deriv_eq.trans (deriv_const x 0)\n  exact (ne_of_lt (lt_of_not_ge hn)) hz\n\n",
+      "new_declaration": "theorem second_derivative_nonneg {f : ℝ → ℝ} {x : ℝ}\n    (hm : IsLocalMin f x) (hc : ContinuousAt f x) : 0 ≤ deriv (deriv f) x := by\n  by_contra hn\n  have he : f =ᶠ[𝓝 x] (fun _ => f x) := (Filter.Eventually.and hm (isLocalMax_of_deriv_deriv_neg (lt_of_not_ge hn) hm.deriv_eq_zero hc)).mono (fun _ hy => le_antisymm hy.2 hy.1)\n  have hd : deriv f =ᶠ[𝓝 x] (fun _ => (0:ℝ)) := he.deriv.mono (fun y hy => hy.trans (deriv_const y (f x)))\n  exact (ne_of_lt (lt_of_not_ge hn)) (hd.deriv_eq.trans (deriv_const x 0))\n\n"
+    },
+    {
+      "module": "Positive.lean",
+      "theorem": "laplacian_at_min",
+      "kind": "proof",
+      "before_module_sha256": "e1e599e46a2669863ffd1c9d037d5bce5adf6b7adb4f5c0b388dd0039fb1773e",
+      "after_module_sha256": "e914c0a87a9a1f74b7170981fff7d2a4c25f675e5bb4955eed960ef0302923d3",
+      "statement_sha256": "86c988bae0c4d05dd5ccd8506016bcc89fc3328acb5598e99ab38288a6970939",
+      "old_declaration": "theorem laplacian_at_min (ρ : RegularDensity) (u : C2Coefficient) (x : ℝ)\n    (hm : ∀ q, u.val (x : CircleHodge.Circle) ≤ u.val q) :\n    laplacian ρ u (x : CircleHodge.Circle) ≤ 0 := by\n  have hl : IsLocalMin (cover u.val) x := Filter.Eventually.of_forall (fun y => hm (y : CircleHodge.Circle))\n  have hd : deriv (cover u.val) x=0 := hl.deriv_eq_zero\n  have hdd := second_derivative_nonneg hl ((cover_continuous u.val).continuousAt)\n  have hr : 0 < cover ρ.val.val x := ρ.val.property (x : CircleHodge.Circle)\n  have hf : deriv (cover (flux ρ u)) x=deriv (deriv (cover u.val)) x / cover ρ.val.val x := by\n    change deriv (deriv (cover u.val) / cover ρ.val.val) x=_\n    rw [deriv_div ((contDiff_one_iff_deriv.mp (c2_deriv_c1 u)).1 x)\n      ((contDiff_one_iff_deriv.mp ρ.property).1 x) hr.ne',hd]\n    field_simp [hr.ne']\n    ring\n  change -(deriv (cover (flux ρ u)) x) / cover ρ.val.val x ≤ 0\n  rw [hf]\n  exact div_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr (div_nonneg hdd hr.le)) hr.le\n\n",
+      "new_declaration": "theorem laplacian_at_min (ρ : RegularDensity) (u : C2Coefficient) (x : ℝ)\n    (hm : ∀ q, u.val (x : CircleHodge.Circle) ≤ u.val q) :\n    laplacian ρ u (x : CircleHodge.Circle) ≤ 0 := by\n  have hl : IsLocalMin (cover u.val) x := Filter.Eventually.of_forall (fun y => hm (y : CircleHodge.Circle))\n  have hdd := second_derivative_nonneg hl ((cover_continuous u.val).continuousAt)\n  have hr := ρ.val.property (x : CircleHodge.Circle)\n  change -(deriv (deriv (cover u.val)/cover ρ.val.val) x)/cover ρ.val.val x≤0\n  rw [deriv_div ((contDiff_one_iff_deriv.mp (c2_deriv_c1 u)).1 x) ((contDiff_one_iff_deriv.mp ρ.property).1 x) (ne_of_gt hr),hl.deriv_eq_zero,zero_mul,sub_zero]\n  exact div_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr (div_nonneg (mul_nonneg hdd hr.le) (sq_nonneg _))) hr.le\n\n"
+    },
+    {
+      "module": "Positive.lean",
+      "theorem": "supremum_bound",
+      "kind": "proof",
+      "before_module_sha256": "e914c0a87a9a1f74b7170981fff7d2a4c25f675e5bb4955eed960ef0302923d3",
+      "after_module_sha256": "5c29d4c0b38f7b7557f85e03c6660525033a02554bb74952c4ccb2923513a04d",
+      "statement_sha256": "e29a5b3b14982ebe8e4dae00cf1d25c31cdbce35d3a7fd449b59e7d80a6b8eb2",
+      "old_declaration": "theorem supremum_bound (ρ : RegularDensity) (κ : ℝ) (hκ : 0<κ) (u : C2Coefficient) :\n    ‖u.val‖ ≤ κ⁻¹*‖positive ρ κ u‖ := by\n  let M : ℝ := ‖positive ρ κ u‖/κ\n  have hM : 0≤M := div_nonneg (norm_nonneg _) hκ.le\n  have he : κ*M=‖positive ρ κ u‖ := by dsimp [M];rw [mul_comm,div_mul_cancel₀ _ hκ.ne']\n  have hu : ∀ q, u.val q≤M := comparison ρ κ hκ u (constantC2 M) (fun q => by\n    rw [positive_constant]\n    change positive ρ κ u q≤κ*M\n    rw [he]\n    exact le_trans (le_abs_self _) ((positive ρ κ u).norm_coe_le_norm q))\n  have hl : ∀ q, -M≤u.val q := comparison ρ κ hκ (constantC2 (-M)) u (fun q => by\n    rw [positive_constant]\n    change κ*(-M)≤positive ρ κ u q\n    rw [mul_neg,he]\n    exact neg_le_of_abs_le ((positive ρ κ u).norm_coe_le_norm q))\n  have hn : ‖u.val‖≤M := (ContinuousMap.norm_le _ hM).mpr (fun q => abs_le.mpr ⟨hl q,hu q⟩)\n  simpa only [M,div_eq_mul_inv,mul_comm] using hn\n\n",
+      "new_declaration": "theorem supremum_bound (ρ : RegularDensity) (κ : ℝ) (hκ : 0<κ) (u : C2Coefficient) :\n    ‖u.val‖ ≤ κ⁻¹*‖positive ρ κ u‖ := by\n  let M : ℝ := ‖positive ρ κ u‖/κ\n  have he : κ*M=‖positive ρ κ u‖ := by dsimp [M];rw [mul_comm,div_mul_cancel₀ _ hκ.ne']\n  have hu : ∀ q,u.val q≤M := comparison ρ κ hκ u (constantC2 M) (fun q => by\n    simpa only [positive_constant,constant,ContinuousMap.const_apply,he] using le_trans (le_abs_self _) ((positive ρ κ u).norm_coe_le_norm q))\n  have hl : ∀ q,-M≤u.val q := comparison ρ κ hκ (constantC2 (-M)) u (fun q => by\n    simpa only [positive_constant,constant,ContinuousMap.const_apply,mul_neg,he] using neg_le_of_abs_le ((positive ρ κ u).norm_coe_le_norm q))\n  simpa only [M,div_eq_mul_inv,mul_comm] using (ContinuousMap.norm_le _ (div_nonneg (norm_nonneg _) hκ.le)).mpr (fun q => abs_le.mpr ⟨hl q,hu q⟩)\n\n"
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "cut_lipschitz",
+      "kind": "proof",
+      "before_module_sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae",
+      "after_module_sha256": "2ab939544e0b3d46a4ccbe33ce290efb4a3fc3fa70867f3c984008af70737c9f",
+      "statement_sha256": "434d983c8a583116be3c90786938c9842a30dfeec58329646a381a7c5e69c166",
+      "old_declaration": "theorem cut_lipschitz {f g : ℝ → ℝ} {K L : ℝ≥0} {c : ℝ}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x≤c then f x else g x) := by\n  have hl : LipschitzWith K (fun x => f (min c x)) := by\n    simpa only [Function.comp_def,id_eq,mul_one] using hf.comp (LipschitzWith.id.const_min c)\n  have hr : LipschitzWith L (fun x => g (max c x)) := by\n    simpa only [Function.comp_def,id_eq,mul_one] using hg.comp (LipschitzWith.id.const_max c)\n  have hh : LipschitzWith (K+L) (fun x => f (min c x)+g (max c x)-f c) := by\n    simpa only [Function.comp_def,one_mul,sub_eq_add_neg] using\n      (isometry_add_right (-f c)).lipschitzWith.comp (hl.add hr)\n  convert hh using 1\n  funext x\n  split_ifs with hx\n  · simp only [min_eq_right hx,max_eq_left hx,hc,add_sub_cancel_right]\n  · simp only [min_eq_left (not_le.mp hx).le,max_eq_right (not_le.mp hx).le,add_sub_cancel_left]\n\n",
+      "new_declaration": "theorem cut_lipschitz {f g : ℝ → ℝ} {K L : ℝ≥0} {c : ℝ}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x≤c then f x else g x) := by\n  have hh : LipschitzWith (K+L) (fun x => f (min c x)+g (max c x)-f c) := by\n    simpa only [Function.comp_def,id_eq,mul_one,one_mul,sub_eq_add_neg] using (isometry_add_right (-f c)).lipschitzWith.comp\n      ((hf.comp (LipschitzWith.id.const_min c)).add (hg.comp (LipschitzWith.id.const_max c)))\n  convert hh using 1\n  funext x\n  split_ifs with hx\n  · simp only [min_eq_right hx,max_eq_left hx,hc,add_sub_cancel_right]\n  · simp only [min_eq_left (not_le.mp hx).le,max_eq_right (not_le.mp hx).le,add_sub_cancel_left]\n\n"
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_lipschitz",
+      "kind": "proof",
+      "before_module_sha256": "2ab939544e0b3d46a4ccbe33ce290efb4a3fc3fa70867f3c984008af70737c9f",
+      "after_module_sha256": "12cce71e4cf27a6e0221f703c2da2cad72d9f2de4a3b543baa03b35a732354c3",
+      "statement_sha256": "39ff400fcda54043aa0fda0757010e0f04860c0a07ff0ca1bf7e5c390e6f5d35",
+      "old_declaration": "theorem rawLift_lipschitz {a b : CircleHodge.Circle} (p : Trace a b) :\n    ∃ K : ℝ≥0,LipschitzWith K (rawLift p) := by\n  induction p with\n  | refl _ => exact ⟨0,LipschitzWith.const 0⟩\n  | single _ => exact ⟨1,(LipschitzWith.id.const_min 1).const_max 0⟩\n  | trans p q hp hq =>\n    obtain ⟨⟨K,hK⟩,⟨L,hL⟩⟩ := And.intro hp hq\n    have hl : LipschitzWith (K*‖(2 : ℝ)‖₊) (fun x => rawLift p (2*x)) := by\n      simpa only [Function.comp_def,add_zero] using hK.comp (affine_lipschitz 2 0)\n    have hr : LipschitzWith (L*‖(2 : ℝ)‖₊) (fun x => rawLift q (2*x-1)) := by\n      simpa only [Function.comp_def,sub_eq_add_neg] using hL.comp (affine_lipschitz 2 (-1))\n    refine ⟨K*‖(2 : ℝ)‖₊+L*‖(2 : ℝ)‖₊,?_⟩\n    exact cut_lipschitz hl (shift_lipschitz hr (rawLift p 1)) (by norm_num [rawLift_zero])\n  | symm p hp =>\n    obtain ⟨K,hK⟩ := hp\n    have h : LipschitzWith (K*‖(-1 : ℝ)‖₊) (fun x => rawLift p (1-x)) := by\n      simpa only [Function.comp_def,neg_one_mul,neg_add_eq_sub] using hK.comp (affine_lipschitz (-1) 1)\n    refine ⟨K*‖(-1 : ℝ)‖₊,?_⟩\n    change LipschitzWith (K*‖(-1 : ℝ)‖₊) (fun x => rawLift p (1-x)-rawLift p 1)\n    simpa only [sub_eq_add_neg,add_comm] using shift_lipschitz h (-rawLift p 1)\n\n",
+      "new_declaration": "theorem rawLift_lipschitz {a b : CircleHodge.Circle} (p : Trace a b) :\n    ∃ K : ℝ≥0,LipschitzWith K (rawLift p) := by\n  induction p with\n  | refl _ => exact ⟨0,LipschitzWith.const 0⟩\n  | single _ => exact ⟨1,(LipschitzWith.id.const_min 1).const_max 0⟩\n  | trans p q hp hq => exact hp.elim (fun K hK => hq.elim (fun L hL => ⟨K*‖(2:ℝ)‖₊+L*‖(2:ℝ)‖₊,\n      cut_lipschitz (by simpa only [Function.comp_def,add_zero] using hK.comp (affine_lipschitz 2 0))\n        (shift_lipschitz (by simpa only [Function.comp_def,sub_eq_add_neg] using hL.comp (affine_lipschitz 2 (-1))) (rawLift p 1)) (by norm_num [rawLift_zero])⟩))\n  | symm p hp => exact hp.elim (fun K hK => ⟨K*‖(-1:ℝ)‖₊,by\n      change LipschitzWith (K*‖(-1:ℝ)‖₊) (fun x => rawLift p (1-x)-rawLift p 1)\n      simpa only [sub_eq_add_neg,add_comm,Function.comp_def,neg_one_mul] using\n        shift_lipschitz (hK.comp (affine_lipschitz (-1) 1)) (-rawLift p 1)⟩)\n\n"
+    },
+    {
+      "module": "CompactGreen.lean",
+      "theorem": "cover_derivative_bound",
+      "kind": "proof",
+      "before_module_sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641",
+      "after_module_sha256": "49bc5524157ea94a2fd0b309dc4253c75ad3e0209f3045aa5746b1f6b983bc2c",
+      "statement_sha256": "6dae625aeb10bea36e9f59d83e4454d191ee5fe7515f18450e40b49dd142bb21",
+      "old_declaration": "theorem cover_derivative_bound (ρ : RegularDensity) (B : ℝ) (f : forcingBall ρ B) (x : ℝ) :\n    ‖deriv (cover (greenMap ρ f.val).val) x‖≤slopeBound ρ B := by\n  have hm := (mean_pos ρ.val).le\n  calc\n    _ = ‖gradient (solution ρ f.val) (x : CircleHodge.Circle)‖ := rfl\n    _ ≤ ‖gradient (solution ρ f.val)‖ := (gradient (solution ρ f.val)).norm_coe_le_norm _\n    _ ≤ 2*mean ρ.val.val*‖ρ.val.val‖*‖f.val‖ := greenMap_gradient_bound ρ f.val\n    _ ≤ _ := mul_le_mul_of_nonneg_left (f.property.trans (le_max_right 0 B)) (by positivity)\n\n",
+      "new_declaration": "theorem cover_derivative_bound (ρ : RegularDensity) (B : ℝ) (f : forcingBall ρ B) (x : ℝ) :\n    ‖deriv (cover (greenMap ρ f.val).val) x‖≤slopeBound ρ B := ((gradient (solution ρ f.val)).norm_coe_le_norm (x:CircleHodge.Circle)).trans ((greenMap_gradient_bound ρ f.val).trans\n    (mul_le_mul_of_nonneg_left (f.property.trans (le_max_right 0 B))\n      (mul_nonneg (mul_nonneg (by norm_num) (mean_pos ρ.val).le) (norm_nonneg ρ.val.val))))\n\n"
+    },
+    {
+      "module": "Fredholm.lean",
+      "theorem": "eigen_to_resonant",
+      "kind": "proof",
+      "before_module_sha256": "30ec32ed2adaf2f5c61dba4b7bbbd547ec2d66b0dc303afb7e702533b6a6ed3a",
+      "after_module_sha256": "dedb48fd35ef7623ea497ea72411dd325e076a5ad83d21e52b17e1cdd5818715",
+      "statement_sha256": "482ff226dfc0ad79a7acfd76f2ae2635582cdcebf0eecb83f9d984955107e0f4",
+      "old_declaration": "theorem eigen_to_resonant (ρ : RegularDensity) (μ : ℝ)\n    (h : Module.End.HasEigenvalue (μ•greenMap ρ : Compatible ρ →L[ℝ] Compatible ρ).toLinearMap 1) :\n    Resonant ρ μ := by\n  obtain ⟨f,hf⟩:=h.exists_hasEigenvector\n  have he : μ•greenMap ρ f=f := by simpa using hf.apply_eq_smul\n  refine ⟨liftData ρ f,?_,?_⟩\n  · intro hz\n    change (greenMap ρ f).val=0 at hz\n    apply hf.2\n    rw [← he]\n    exact Subtype.ext (by change μ•(greenMap ρ f).val=0;rw [hz,smul_zero])\n  · rw [shifted_lift]\n    change f.val-μ•(greenMap ρ f).val=0\n    exact sub_eq_zero.mpr (congrArg Subtype.val he).symm\n",
+      "new_declaration": "theorem eigen_to_resonant (ρ : RegularDensity) (μ : ℝ)\n    (h : Module.End.HasEigenvalue (μ•greenMap ρ : Compatible ρ →L[ℝ] Compatible ρ).toLinearMap 1) :\n    Resonant ρ μ := by\n  obtain ⟨f,hf⟩ := h.exists_hasEigenvector\n  have he : μ•greenMap ρ f=f := by simpa using hf.apply_eq_smul\n  exact ⟨liftData ρ f,fun hz => hf.2 (he.symm.trans ((congrArg (fun g : Compatible ρ => μ•g) (Subtype.ext hz)).trans (smul_zero μ))),\n    (shifted_lift ρ μ f).trans (sub_eq_zero.mpr (congrArg Subtype.val he).symm)⟩\n\n"
+    },
+    {
+      "module": "Fredholm.lean",
+      "theorem": "reduced_bijective",
+      "kind": "proof",
+      "before_module_sha256": "dedb48fd35ef7623ea497ea72411dd325e076a5ad83d21e52b17e1cdd5818715",
+      "after_module_sha256": "f531ecbd7cc8e89b40f8c55a8d8ce85203d0ba765631c64487472c28f14d211d",
+      "statement_sha256": "b3f7c0692e9095b2e266205cc4bfb36e38e71f38b6d79012ba1b8b1f66967ec2",
+      "old_declaration": "theorem reduced_bijective (ρ : RegularDensity) (μ : ℝ) (h : ¬Resonant ρ μ) :\n    Function.Bijective (reduced ρ μ) := by\n  have hc : IsCompactOperator (μ•greenMap ρ : Compatible ρ →L[ℝ] Compatible ρ) :=\n    (green_isCompactOperator ρ).smul μ\n  rcases IsCompactOperator.hasEigenvalue_or_mem_resolventSet (𝕜 := ℝ) (X := Compatible ρ) (T:=μ•greenMap ρ) hc (one_ne_zero : (1 : ℝ)≠0) with he|hi\n  · exact (h (eigen_to_resonant ρ μ he)).elim\n  · rw [spectrum.mem_resolventSet_iff] at hi\n    apply (ContinuousLinearMap.isUnit_iff_bijective (𝕜 := ℝ) (E := Compatible ρ)).mp\n    simpa [reduced] using hi\n\n",
+      "new_declaration": "theorem reduced_bijective (ρ : RegularDensity) (μ : ℝ) (h : ¬Resonant ρ μ) :\n    Function.Bijective (reduced ρ μ) := by\n  rcases IsCompactOperator.hasEigenvalue_or_mem_resolventSet (𝕜 := ℝ) (X := Compatible ρ) (T:=μ•greenMap ρ) ((green_isCompactOperator ρ).smul μ) (one_ne_zero : (1:ℝ)≠0) with he|hi\n  · exact (h (eigen_to_resonant ρ μ he)).elim\n  · rw [spectrum.mem_resolventSet_iff] at hi\n    exact (ContinuousLinearMap.isUnit_iff_bijective (𝕜 := ℝ) (E := Compatible ρ)).mp (by simpa [reduced] using hi)\n\n"
+    },
+    {
+      "module": "Positive.lean",
+      "theorem": "exists_solution",
+      "kind": "proof",
+      "before_module_sha256": "5c29d4c0b38f7b7557f85e03c6660525033a02554bb74952c4ccb2923513a04d",
+      "after_module_sha256": "9565bf21f3afbbcd1664b395686559950142dad8b5ba5784dd73aa099be7527b",
+      "statement_sha256": "f022701c376a4138e566c2f2c59199868ccc9cd38dc4dc8e48a6431ccc279067",
+      "old_declaration": "theorem exists_solution (ρ : RegularDensity) (κ : ℝ) (hκ : 0<κ) (f : Coefficient) :\n    ∃ u : C2Coefficient, positive ρ κ u=f := by\n  let g : Compatible ρ := ⟨projectForcing ρ f,project_mean_zero ρ f⟩\n  obtain ⟨u,hu,_⟩ := unique_solvability ρ (-κ) (negative_nonresonant ρ κ hκ) g\n  let a : ℝ := (weightedMean ρ f/mean ρ.val.val)/κ\n  refine ⟨u.val+constantC2 a,?_⟩\n  have he : positive ρ κ u.val=projectForcing ρ f := (positive_eq_fullShifted ρ κ u.val).trans hu\n  have ha : κ*a=weightedMean ρ f/mean ρ.val.val := by dsimp [a];rw [mul_comm,div_mul_cancel₀ _ hκ.ne']\n  rw [positive,laplacian_add,laplacian_of_constant ρ (constantC2 a) a rfl]\n  ext q\n  have hq := congrArg (fun z : Coefficient => z q) he\n  change laplacian ρ u.val q+κ*u.val.val q=f q-weightedMean ρ f/mean ρ.val.val at hq\n  change laplacian ρ u.val q+0+κ*(u.val.val q+a)=f q\n  nlinarith\n\n",
+      "new_declaration": "theorem exists_solution (ρ : RegularDensity) (κ : ℝ) (hκ : 0<κ) (f : Coefficient) :\n    ∃ u : C2Coefficient, positive ρ κ u=f := by\n  obtain ⟨u,hu,_⟩ := unique_solvability ρ (-κ) (negative_nonresonant ρ κ hκ) ⟨projectForcing ρ f,project_mean_zero ρ f⟩\n  refine ⟨u.val+constantC2 (κ⁻¹*(weightedMean ρ f/mean ρ.val.val)),?_⟩\n  have he : positive ρ κ u.val=projectForcing ρ f := (positive_eq_fullShifted ρ κ u.val).trans hu\n  have ha : κ*(κ⁻¹*(weightedMean ρ f/mean ρ.val.val))=weightedMean ρ f/mean ρ.val.val := by rw [← mul_assoc,mul_inv_cancel₀ hκ.ne',one_mul]\n  rw [positive,laplacian_add,laplacian_of_constant ρ (constantC2 _) _ rfl]\n  ext q\n  have hq := congrArg (fun z : Coefficient => z q) he\n  change laplacian ρ u.val q+κ*u.val.val q=f q-weightedMean ρ f/mean ρ.val.val at hq\n  change laplacian ρ u.val q+0+κ*(u.val.val q+κ⁻¹*(weightedMean ρ f/mean ρ.val.val))=f q\n  nlinarith\n\n"
+    },
+    {
+      "module": "Green.lean",
+      "theorem": "laplacian_smul",
+      "kind": "proof",
+      "before_module_sha256": "5c97a8951c15cae39eddf940aa5e5b7d8205663a48bd18921d9389168da50dd3",
+      "after_module_sha256": "31161627708c0decf3705b9d53844b09027c486cd245a6f7b674c3e6bcdabbaf",
+      "statement_sha256": "97424b11fb42e6f8bb5b9c91974ee87e7c05db4a5c9dd29d9185434884230061",
+      "old_declaration": "theorem laplacian_smul (ρ : RegularDensity) (c : ℝ) (u : C2Coefficient) :\n    laplacian ρ (c•u)=c•laplacian ρ u := by\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  change -(deriv (cover (flux ρ (c•u))) x)/cover ρ.val.val x=_\n  rw [flux_smul]\n  change -(deriv (fun t => c*cover (flux ρ u) t) x)/cover ρ.val.val x=c*(-deriv (cover (flux ρ u)) x/cover ρ.val.val x)\n  rw [(((contDiff_one_iff_deriv.mp (flux_c1 ρ u)).1 x).hasDerivAt.const_mul c).deriv]\n  change -(c*deriv (cover (flux ρ u)) x)/cover ρ.val.val x=c*(-deriv (cover (flux ρ u)) x/cover ρ.val.val x)\n  ring\n",
+      "new_declaration": "theorem laplacian_smul (ρ : RegularDensity) (c : ℝ) (u : C2Coefficient) :\n    laplacian ρ (c•u)=c•laplacian ρ u := ContinuousMap.ext fun q => Quotient.inductionOn q fun x => by\n  change -(deriv (cover (flux ρ (c•u))) x)/cover ρ.val.val x=_\n  rw [flux_smul]\n  change -(deriv (fun t => c*cover (flux ρ u) t) x)/cover ρ.val.val x=c*(-deriv (cover (flux ρ u)) x/cover ρ.val.val x)\n  rw [(((contDiff_one_iff_deriv.mp (flux_c1 ρ u)).1 x).hasDerivAt.const_mul c).deriv]\n  change -(c*deriv (cover (flux ρ u)) x)/cover ρ.val.val x=c*(-deriv (cover (flux ρ u)) x/cover ρ.val.val x)\n  ring\n\n"
+    },
+    {
+      "module": "Fredholm.lean",
+      "theorem": "shifted_lift",
+      "kind": "proof",
+      "before_module_sha256": "f531ecbd7cc8e89b40f8c55a8d8ce85203d0ba765631c64487472c28f14d211d",
+      "after_module_sha256": "bfc57b525185a40fabb8558333ca35a6b2ad622677836a4ae4ba4bc809ce3095",
+      "statement_sha256": "22951e890a573d526a5dd91da636e7aed864ede48ad45eab74dc59c098e9263c",
+      "old_declaration": "theorem shifted_lift (ρ : RegularDensity) (μ : ℝ) (f : Compatible ρ) :\n    shifted ρ μ (liftData ρ f)=(reduced ρ μ f).val := by\n  change laplacian ρ (solution ρ f)-μ•(solution ρ f).val=f.val-μ•(solution ρ f).val\n  rw [solution_solves]\n",
+      "new_declaration": "theorem shifted_lift (ρ : RegularDensity) (μ : ℝ) (f : Compatible ρ) :\n    shifted ρ μ (liftData ρ f)=(reduced ρ μ f).val := congrArg (fun g : Coefficient => g-μ•(solution ρ f).val) (solution_solves ρ f)\n\n"
+    }
+  ]
+}
