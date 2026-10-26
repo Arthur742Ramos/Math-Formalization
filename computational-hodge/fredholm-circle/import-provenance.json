@@ -1,0 +1,1795 @@
+{
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "original_imports": [
+    "Mathlib.Topology.Homotopy.Path",
+    "Mathlib.Analysis.InnerProductSpace.PiL2",
+    "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+    "Mathlib.LinearAlgebra.Isomorphisms",
+    "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+    "Mathlib.Topology.Covering.AddCircle",
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+    "Mathlib.Analysis.Calculus.Deriv.Basic",
+    "Mathlib.Analysis.Calculus.Deriv.Add",
+    "Mathlib.Analysis.Calculus.Deriv.Mul",
+    "Mathlib.Analysis.Calculus.Deriv.Comp",
+    "Mathlib.Topology.MetricSpace.Lipschitz",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+    "Mathlib.Analysis.Calculus.MeanValue",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+    "Mathlib.MeasureTheory.Measure.OpenPos",
+    "Mathlib.Analysis.Calculus.ContDiff.Deriv",
+    "Mathlib.Analysis.Calculus.ContDiff.Operations",
+    "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+    "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+    "Mathlib.Topology.ContinuousMap.Compact",
+    "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+    "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+    "Mathlib.Analysis.Normed.Operator.Compact.Basic",
+    "Mathlib.Topology.Sequences",
+    "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative"
+  ],
+  "retained_imports": [
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+    "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+    "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+    "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+    "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative"
+  ],
+  "witnesses": [
+    {
+      "omitted": "Mathlib.Topology.Homotopy.Path",
+      "retained": "Mathlib.Topology.Homotopy.Lifting",
+      "path": [
+        "Mathlib.Topology.Homotopy.Lifting",
+        "Mathlib.Topology.Homotopy.Path"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.MeasureTheory.Integral.DominatedConvergence",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2",
+        "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2",
+        "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.MeasureTheory.Integral.DominatedConvergence",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2",
+        "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional"
+      ]
+    },
+    {
+      "omitted": "Mathlib.LinearAlgebra.Isomorphisms",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.LinearAlgebra.Matrix.Diagonal",
+        "Mathlib.LinearAlgebra.Dimension.LinearMap",
+        "Mathlib.LinearAlgebra.Dimension.RankNullity",
+        "Mathlib.LinearAlgebra.Isomorphisms"
+      ]
+    },
+    {
+      "omitted": "Mathlib.LinearAlgebra.Isomorphisms",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.LinearAlgebra.Matrix.Diagonal",
+        "Mathlib.LinearAlgebra.Dimension.LinearMap",
+        "Mathlib.LinearAlgebra.Dimension.RankNullity",
+        "Mathlib.LinearAlgebra.Isomorphisms"
+      ]
+    },
+    {
+      "omitted": "Mathlib.LinearAlgebra.Isomorphisms",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+        "Mathlib.Analysis.Normed.Module.FiniteDimension",
+        "Mathlib.LinearAlgebra.Dimension.LinearMap",
+        "Mathlib.LinearAlgebra.Dimension.RankNullity",
+        "Mathlib.LinearAlgebra.Isomorphisms"
+      ]
+    },
+    {
+      "omitted": "Mathlib.LinearAlgebra.Isomorphisms",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+        "Mathlib.Analysis.SpecialFunctions.Complex.Log",
+        "Mathlib.Analysis.SpecialFunctions.Complex.Arg",
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Angle",
+        "Mathlib.Analysis.Normed.Group.AddCircle",
+        "Mathlib.Analysis.Normed.Group.Quotient",
+        "Mathlib.LinearAlgebra.Isomorphisms"
+      ]
+    },
+    {
+      "omitted": "Mathlib.LinearAlgebra.Isomorphisms",
+      "retained": "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+      "path": [
+        "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+        "Mathlib.LinearAlgebra.Eigenspace.Basic",
+        "Mathlib.LinearAlgebra.FiniteDimensional.Lemmas",
+        "Mathlib.LinearAlgebra.Dimension.DivisionRing",
+        "Mathlib.LinearAlgebra.Dimension.RankNullity",
+        "Mathlib.LinearAlgebra.Isomorphisms"
+      ]
+    },
+    {
+      "omitted": "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+      "retained": "Mathlib.Topology.Homotopy.Lifting",
+      "path": [
+        "Mathlib.Topology.Homotopy.Lifting",
+        "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Covering.AddCircle",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+        "Mathlib.Topology.Covering.AddCircle"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.Analysis.Calculus.Deriv.Add",
+        "Mathlib.Analysis.Calculus.Deriv.Basic"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.Deriv.Comp",
+        "Mathlib.Analysis.Calculus.Deriv.Basic"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Calculus.Deriv.Comp",
+        "Mathlib.Analysis.Calculus.Deriv.Basic"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Add",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.Analysis.Calculus.Deriv.Add"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Add",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.Analysis.Calculus.Deriv.Add"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Add",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.Deriv.ZPow",
+        "Mathlib.Analysis.Calculus.Deriv.Shift",
+        "Mathlib.Analysis.Calculus.Deriv.Add"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Mul",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+        "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Calculus.Deriv.Mul"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Mul",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Calculus.Deriv.Mul"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Comp",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+        "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Calculus.Deriv.Comp"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Comp",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.Deriv.Comp"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.Deriv.Comp",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Calculus.Deriv.Comp"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Haar.Quotient",
+        "Mathlib.MeasureTheory.Group.FundamentalDomain",
+        "Mathlib.MeasureTheory.Integral.Bochner.Set",
+        "Mathlib.Topology.ContinuousMap.Compact",
+        "Mathlib.Analysis.Normed.Group.InfiniteSum",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Topology.MetricSpace.Algebra",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+        "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Normed.Group.AddTorsor",
+        "Mathlib.Topology.MetricSpace.IsometricSMul",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+        "Mathlib.Analysis.Normed.Operator.BoundedLinearMaps",
+        "Mathlib.Analysis.Normed.Module.Multilinear.Basic",
+        "Mathlib.Topology.Algebra.MetricSpace.Lipschitz",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+        "Mathlib.Analysis.Complex.Circle",
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic",
+        "Mathlib.Analysis.SpecialFunctions.Exp",
+        "Mathlib.Topology.Algebra.MetricSpace.Lipschitz",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.SpecialFunctions.ExpDeriv",
+        "Mathlib.Analysis.SpecialFunctions.Exp",
+        "Mathlib.Topology.Algebra.MetricSpace.Lipschitz",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+      "path": [
+        "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+        "Mathlib.Topology.ContinuousMap.Bounded.Basic",
+        "Mathlib.Topology.Bornology.BoundedOperation",
+        "Mathlib.Analysis.Normed.Ring.Lemmas",
+        "Mathlib.Topology.MetricSpace.Dilation",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "retained": "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+      "path": [
+        "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+        "Mathlib.Analysis.Normed.Module.RieszLemma",
+        "Mathlib.Topology.MetricSpace.HausdorffDistance",
+        "Mathlib.Topology.MetricSpace.IsometricSMul",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.MeanValue",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+        "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+        "Mathlib.Analysis.Calculus.MeanValue"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.MeanValue",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.MeanValue"
+      ]
+    },
+    {
+      "omitted": "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus"
+      ]
+    },
+    {
+      "omitted": "Mathlib.MeasureTheory.Measure.OpenPos",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Group.LIntegral",
+        "Mathlib.MeasureTheory.Group.Measure",
+        "Mathlib.MeasureTheory.Measure.Prod",
+        "Mathlib.MeasureTheory.Measure.OpenPos"
+      ]
+    },
+    {
+      "omitted": "Mathlib.MeasureTheory.Measure.OpenPos",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Group.LIntegral",
+        "Mathlib.MeasureTheory.Group.Measure",
+        "Mathlib.MeasureTheory.Measure.Prod",
+        "Mathlib.MeasureTheory.Measure.OpenPos"
+      ]
+    },
+    {
+      "omitted": "Mathlib.MeasureTheory.Measure.OpenPos",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.MeasureTheory.Integral.DominatedConvergence",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Group.LIntegral",
+        "Mathlib.MeasureTheory.Group.Measure",
+        "Mathlib.MeasureTheory.Measure.Prod",
+        "Mathlib.MeasureTheory.Measure.OpenPos"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.ContDiff.Deriv",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.Analysis.Calculus.ContDiff.Deriv"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.ContDiff.Deriv",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.SpecialFunctions.ExpDeriv",
+        "Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas",
+        "Mathlib.Analysis.Calculus.ContDiff.Deriv"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Calculus.ContDiff.Operations",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.SpecialFunctions.ExpDeriv",
+        "Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas",
+        "Mathlib.Analysis.Calculus.ContDiff.Operations"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.ContinuousMap.Compact",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Haar.Quotient",
+        "Mathlib.MeasureTheory.Group.FundamentalDomain",
+        "Mathlib.MeasureTheory.Integral.Bochner.Set",
+        "Mathlib.Topology.ContinuousMap.Compact"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.ContinuousMap.Compact",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap",
+        "Mathlib.MeasureTheory.Integral.Bochner.Set",
+        "Mathlib.Topology.ContinuousMap.Compact"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.ContinuousMap.Compact",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.MeasureTheory.Integral.Bochner.FundThmCalculus",
+        "Mathlib.MeasureTheory.Integral.Bochner.Set",
+        "Mathlib.Topology.ContinuousMap.Compact"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+        "Mathlib.Analysis.InnerProductSpace.PiL2",
+        "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+        "Mathlib.Analysis.Normed.Module.RCLike.Basic",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+        "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.Deriv.Comp",
+        "Mathlib.Analysis.Calculus.Deriv.Basic",
+        "Mathlib.Analysis.Normed.Operator.Bilinear",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+        "Mathlib.Analysis.Complex.Circle",
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic",
+        "Mathlib.Analysis.SpecialFunctions.Exp",
+        "Mathlib.Analysis.Complex.Asymptotics",
+        "Mathlib.Analysis.Complex.Basic",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "retained": "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+      "path": [
+        "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+        "Mathlib.Analysis.Normed.Module.RieszLemma",
+        "Mathlib.Analysis.Normed.Module.RCLike.Basic",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Analysis.Normed.Operator.Compact.Basic",
+      "retained": "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+      "path": [
+        "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+        "Mathlib.Analysis.Normed.Operator.Compact.Basic"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+        "Mathlib.MeasureTheory.Measure.Haar.Quotient",
+        "Mathlib.MeasureTheory.Group.FundamentalDomain",
+        "Mathlib.MeasureTheory.Integral.Bochner.Set",
+        "Mathlib.Topology.ContinuousMap.Compact",
+        "Mathlib.Analysis.Normed.Group.InfiniteSum",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.Topology.Algebra.Module.PerfectSpace",
+        "Mathlib.Analysis.SpecificLimits.Normed",
+        "Mathlib.Analysis.Asymptotics.Lemmas",
+        "Mathlib.Analysis.Normed.Group.Bounded",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+        "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+        "Mathlib.Analysis.Normed.Module.FiniteDimension",
+        "Mathlib.Analysis.Normed.Group.Lemmas",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+        "Mathlib.Analysis.Complex.Circle",
+        "Mathlib.Analysis.Normed.Field.UnitBall",
+        "Mathlib.Analysis.Normed.Group.BallSphere",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.Calculus.MeanValue",
+        "Mathlib.Analysis.Normed.Module.Convex",
+        "Mathlib.Analysis.Normed.Group.Pointwise",
+        "Mathlib.Analysis.Normed.Group.Bounded",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+      "path": [
+        "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+        "Mathlib.Topology.ContinuousMap.Bounded.Basic",
+        "Mathlib.Topology.Bornology.BoundedOperation",
+        "Mathlib.Analysis.Normed.Ring.Lemmas",
+        "Mathlib.Analysis.Normed.Group.Bounded",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "omitted": "Mathlib.Topology.Sequences",
+      "retained": "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+      "path": [
+        "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+        "Mathlib.Analysis.Normed.Operator.Banach",
+        "Mathlib.Analysis.Normed.Group.InfiniteSum",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Sequences"
+      ]
+    }
+  ],
+  "source_files": [
+    {
+      "module": "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+      "path": "Mathlib/AlgebraicTopology/FundamentalGroupoid/FundamentalGroup.lean",
+      "sha256": "415e59cdbff01d813d4ae589c9d073da284c0d2df4e47a788784d1a565c04689",
+      "public_imports": [
+        "Mathlib.AlgebraicTopology.FundamentalGroupoid.Basic",
+        "Mathlib.CategoryTheory.Conj",
+        "Mathlib.CategoryTheory.Groupoid",
+        "Mathlib.Topology.Category.TopCat.Basic",
+        "Mathlib.Topology.Connected.PathConnected",
+        "Mathlib.Topology.Homotopy.Path"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Asymptotics.Lemmas",
+      "path": "Mathlib/Analysis/Asymptotics/Lemmas.lean",
+      "sha256": "4c3a384229557b00e5ccb25ca62faf12ee80b1900699383f7c70cc398b04ea4d",
+      "public_imports": [
+        "Mathlib.Analysis.Asymptotics.Ring",
+        "Mathlib.Analysis.Normed.Group.Bounded",
+        "Mathlib.Analysis.Normed.Group.InfiniteSum",
+        "Mathlib.Analysis.Normed.MulAction",
+        "Mathlib.Topology.OpenPartialHomeomorph.Continuity",
+        "Mathlib.Order.Filter.AtTopBot.Archimedean"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.ContDiff.Deriv",
+      "path": "Mathlib/Analysis/Calculus/ContDiff/Deriv.lean",
+      "sha256": "3033d2b35bcfdad1ab06168dee62c8587215de8fa049caa85e5445c54d4fb98c",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.ContDiff.Comp"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.ContDiff.Operations",
+      "path": "Mathlib/Analysis/Calculus/ContDiff/Operations.lean",
+      "sha256": "2a5fd66cb597c253e023f1072948e1a591f64ba0ee747a6a89139fc7c8c980eb",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.ContDiff.Comp",
+        "Mathlib.Analysis.Calculus.Deriv.Inverse",
+        "Mathlib.Topology.OpenPartialHomeomorph.IsImage"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+      "path": "Mathlib/Analysis/Calculus/ContDiff/RCLike.lean",
+      "sha256": "b03d464ce0afa64e64de75333f18b543372e53193a9ff82811a38a26ffff5931",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.ContDiff.Defs",
+        "Mathlib.Analysis.Calculus.MeanValue"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.Add",
+      "path": "Mathlib/Analysis/Calculus/Deriv/Add.lean",
+      "sha256": "0c337370d60b27ce270b4efb71ecf5c7a2a11ddf2cda2ad19ba1049d7174b47c",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Basic",
+        "Mathlib.Analysis.Calculus.FDeriv.Add"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "path": "Mathlib/Analysis/Calculus/Deriv/Basic.lean",
+      "sha256": "f4c0077cb0e87c857f1fcfea2c9c6263d1a3dee9fa8403893e00debf28a4356b",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.FDeriv.Const",
+        "Mathlib.Analysis.Calculus.TangentCone.DimOne",
+        "Mathlib.Analysis.Calculus.TangentCone.Real",
+        "Mathlib.Analysis.Normed.Operator.Bilinear"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.Comp",
+      "path": "Mathlib/Analysis/Calculus/Deriv/Comp.lean",
+      "sha256": "16a41715830ec582c91cb5262e2defab08052d7e749bb91ee059905c0b0e1847",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Basic",
+        "Mathlib.Analysis.Calculus.FDeriv.Comp",
+        "Mathlib.Analysis.Calculus.FDeriv.RestrictScalars"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.Mul",
+      "path": "Mathlib/Analysis/Calculus/Deriv/Mul.lean",
+      "sha256": "9a5f4cda6bdba50954d27879160adfdb7d408b41c49dde6343cd03a30227b242",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Support",
+        "Mathlib.Analysis.Calculus.FDeriv.Mul",
+        "Mathlib.Analysis.Calculus.FDeriv.Add",
+        "Mathlib.Analysis.Calculus.FDeriv.CompCLM"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.Shift",
+      "path": "Mathlib/Analysis/Calculus/Deriv/Shift.lean",
+      "sha256": "9d71d5b273b2a3f9d16c1794f5f2639d8888aa47fdfbd26cef26cac3f0a4b51c",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Add",
+        "Mathlib.Analysis.Calculus.Deriv.Comp",
+        "Mathlib.Analysis.Calculus.Deriv.CompMul"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.Slope",
+      "path": "Mathlib/Analysis/Calculus/Deriv/Slope.lean",
+      "sha256": "6eb8a54304caac1b8a37d8fa4206d868c4dc1aeb4722b37f281f2d74fbe3f81e",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Add",
+        "Mathlib.LinearAlgebra.AffineSpace.Slope",
+        "Mathlib.Topology.Algebra.Module.PerfectSpace"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.Deriv.ZPow",
+      "path": "Mathlib/Analysis/Calculus/Deriv/ZPow.lean",
+      "sha256": "27246daa816ff8dd0d309638df0a7b45c61549bf4834c79b9c7859de7f9cbb9c",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Pow",
+        "Mathlib.Analysis.Calculus.Deriv.Inv",
+        "Mathlib.Analysis.Calculus.Deriv.Shift"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+      "path": "Mathlib/Analysis/Calculus/FDeriv/Measurable.lean",
+      "sha256": "5fef7d93549afbdd095b2fef6d042c236fd2a581dbb46c2d5326757e479e3efd",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Basic",
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.Analysis.Normed.Operator.BoundedLinearMaps",
+        "Mathlib.Analysis.Normed.Module.FiniteDimension",
+        "Mathlib.MeasureTheory.Constructions.BorelSpace.ContinuousLinearMap",
+        "Mathlib.MeasureTheory.Function.StronglyMeasurable.AEStronglyMeasurable"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas",
+      "path": "Mathlib/Analysis/Calculus/IteratedDeriv/Lemmas.lean",
+      "sha256": "2938694d3f8f120a8c47d905efe4f8ab06579a3235d1a5a7d5a026c76e3bb797",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.ContDiff.Deriv",
+        "Mathlib.Analysis.Calculus.ContDiff.Operations",
+        "Mathlib.Analysis.Calculus.Deriv.Mul",
+        "Mathlib.Analysis.Calculus.Deriv.Shift",
+        "Mathlib.Analysis.Calculus.IteratedDeriv.Defs"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.LogDeriv",
+      "path": "Mathlib/Analysis/Calculus/LogDeriv.lean",
+      "sha256": "ddf40334bdb3eb843196346f864978255d149bbf69858c55cbf5d9ec742495c6",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.ZPow",
+        "Mathlib.Analysis.Calculus.MeanValue"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Calculus.MeanValue",
+      "path": "Mathlib/Analysis/Calculus/MeanValue.lean",
+      "sha256": "7e1e6f097fe92a2493ea5b4bc9a1896c850514604f26f863f812906fb500b856",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.AffineMap",
+        "Mathlib.Analysis.Calculus.Deriv.Comp",
+        "Mathlib.Analysis.Calculus.Deriv.Mul",
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.Analysis.Normed.Group.AddTorsor",
+        "Mathlib.Analysis.Normed.Module.Convex",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Topology.Instances.RealVectorSpace",
+        "Mathlib.Topology.LocallyConstant.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Complex.Asymptotics",
+      "path": "Mathlib/Analysis/Complex/Asymptotics.lean",
+      "sha256": "5e0d9a0fda0f8cd935d52dee9a2f9982b18a2a52e373cc90e772a7b1b1101192",
+      "public_imports": [
+        "Mathlib.Analysis.Complex.Basic",
+        "Mathlib.Analysis.Asymptotics.Theta"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Complex.Basic",
+      "path": "Mathlib/Analysis/Complex/Basic.lean",
+      "sha256": "36c55b3cf65b410972ed631abef1cb74c397327c8ccb30952dc5941c59c0d930",
+      "public_imports": [
+        "Mathlib.Analysis.Complex.Order",
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Basic.Complex.BigOperators",
+        "Mathlib.LinearAlgebra.Complex.Module",
+        "Mathlib.Topology.Algebra.Algebra.Equiv",
+        "Mathlib.Topology.Algebra.InfiniteSum.Module",
+        "Mathlib.Topology.Algebra.Module.ContinuousLinearMap.RestrictScalars",
+        "Mathlib.Topology.Instances.RealVectorSpace"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Complex.Circle",
+      "path": "Mathlib/Analysis/Complex/Circle.lean",
+      "sha256": "9e86cf381c989d2f768d771973cfca8c606a91f4b1d56b522d2b49db0f54e086",
+      "public_imports": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic",
+        "Mathlib.Analysis.Normed.Field.UnitBall",
+        "Mathlib.Tactic.CrossRefAttribute"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "path": "Mathlib/Analysis/InnerProductSpace/PiL2.lean",
+      "sha256": "cd53aaefb8b1db37ebfc5afd37d9747dfd767da2292990f958255720b1cbab18",
+      "public_imports": [
+        "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+        "Mathlib.Analysis.Normed.Lp.PiLp",
+        "Mathlib.Analysis.Normed.Lp.Matrix",
+        "Mathlib.LinearAlgebra.FiniteDimensional.Lemmas",
+        "Mathlib.LinearAlgebra.UnitaryGroup",
+        "Mathlib.Tactic.CrossRefAttribute",
+        "Mathlib.Util.Superscript",
+        "Mathlib.LinearAlgebra.Matrix.InvariantBasisNumber"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional",
+      "path": "Mathlib/Analysis/InnerProductSpace/Projection/FiniteDimensional.lean",
+      "sha256": "57ae7baf81f7eb2888bf2665f51280c6ff920b7ef7400952e3f3eae92836ad22",
+      "public_imports": [
+        "Mathlib.Analysis.InnerProductSpace.Projection.Basic",
+        "Mathlib.Analysis.InnerProductSpace.Projection.Reflection",
+        "Mathlib.Analysis.InnerProductSpace.Projection.Submodule",
+        "Mathlib.Algebra.DirectSum.Decomposition",
+        "Mathlib.Analysis.Normed.Module.RCLike.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Field.UnitBall",
+      "path": "Mathlib/Analysis/Normed/Field/UnitBall.lean",
+      "sha256": "a672f0dd0e7fe37dbea5ef2b33e36c454e6f945314660066e3bc20af50a6e0d4",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Field.Lemmas",
+        "Mathlib.Analysis.Normed.Group.BallSphere"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.AddCircle",
+      "path": "Mathlib/Analysis/Normed/Group/AddCircle.lean",
+      "sha256": "a1d30f7eb7fa7d6d9b1105d668151062d9c0e6cb48e9873f20754d6dd89a0616",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Quotient",
+        "Mathlib.Analysis.Normed.Module.Ball.Pointwise"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.AddTorsor",
+      "path": "Mathlib/Analysis/Normed/Group/AddTorsor.lean",
+      "sha256": "d5dd240886b1daf6ce77d4d3fd0de435a9562fed8d988e8511301f2a54ca0d38",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Constructions",
+        "Mathlib.Analysis.Normed.Group.Submodule",
+        "Mathlib.LinearAlgebra.AffineSpace.AffineSubspace.Basic",
+        "Mathlib.Topology.Algebra.Group.Torsor",
+        "Mathlib.Topology.MetricSpace.IsometricSMul"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.BallSphere",
+      "path": "Mathlib/Analysis/Normed/Group/BallSphere.lean",
+      "sha256": "8f90359a57ef11a10189ee976b6a47df04ee4ee17ffd79bb138c1677b3802cac",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Uniform"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.Bounded",
+      "path": "Mathlib/Analysis/Normed/Group/Bounded.lean",
+      "sha256": "5e93b1cc169d5d5a4c0f7361ef09b0b481c881d3f32b0067deb6c62d90c3ed78",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.MetricSpace.Bounded",
+        "Mathlib.Order.Filter.Pointwise"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.Continuity",
+      "path": "Mathlib/Analysis/Normed/Group/Continuity.lean",
+      "sha256": "b398a2f48b8c17d309d5abeaf1d847f96c15b93485ff91aa3ca1ab22d54444cd",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Basic",
+        "Mathlib.Topology.Algebra.Ring.Real",
+        "Mathlib.Topology.Instances.ENNReal.Lemmas",
+        "Mathlib.Topology.Metrizable.Uniformity",
+        "Mathlib.Topology.Sequences"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.InfiniteSum",
+      "path": "Mathlib/Analysis/Normed/Group/InfiniteSum.lean",
+      "sha256": "84c9f196d25f4c8790a4ecdb8ca47dd85a29430c69fd5f4bad45a8a6ee02f1ea",
+      "public_imports": [
+        "Mathlib.Algebra.BigOperators.Intervals",
+        "Mathlib.Analysis.Normed.Group.Real",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Topology.Instances.NNReal.Lemmas",
+        "Mathlib.Topology.Algebra.InfiniteSum.ENNReal"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.Lemmas",
+      "path": "Mathlib/Analysis/Normed/Group/Lemmas.lean",
+      "sha256": "06c2d1361c55657540f8da34192f0f7ff9931811f27942778572badefa3e8546",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Topology.MetricSpace.HausdorffDistance"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.Pointwise",
+      "path": "Mathlib/Analysis/Normed/Group/Pointwise.lean",
+      "sha256": "039e98a60521470a25161dce07af93b0a3fef8e9b9a970d3a815d5bd97c285d7",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Bounded",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Topology.MetricSpace.Thickening"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.Quotient",
+      "path": "Mathlib/Analysis/Normed/Group/Quotient.lean",
+      "sha256": "8ef997e842b043b9d19bee40bef6bab9c0ab14d6cb925edfcfe50a2f5c16a2e5",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Module.Basic",
+        "Mathlib.Analysis.Normed.Group.Hom",
+        "Mathlib.Analysis.Normed.Operator.LinearIsometry",
+        "Mathlib.LinearAlgebra.Isomorphisms",
+        "Mathlib.RingTheory.Ideal.Quotient.Operations",
+        "Mathlib.Topology.MetricSpace.HausdorffDistance"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Group.Uniform",
+      "path": "Mathlib/Analysis/Normed/Group/Uniform.lean",
+      "sha256": "a51edacdba0c9a0000006c1f962319561955f1c6162b75e03aeeb78db62f935d",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Continuity",
+        "Mathlib.Topology.Algebra.IsUniformGroup.Basic",
+        "Mathlib.Topology.MetricSpace.Algebra",
+        "Mathlib.Topology.MetricSpace.IsometricSMul"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Module.Convex",
+      "path": "Mathlib/Analysis/Normed/Module/Convex.lean",
+      "sha256": "a7435b5aa41d555e03056bb22332e825906d3cbe425e0e63aff5492db2cbdbeb",
+      "public_imports": [
+        "Mathlib.Analysis.Convex.Jensen",
+        "Mathlib.Analysis.Convex.PathConnected",
+        "Mathlib.Analysis.Convex.Topology",
+        "Mathlib.Analysis.Normed.Group.Pointwise",
+        "Mathlib.Analysis.Normed.Module.Basic",
+        "Mathlib.Analysis.Normed.Module.RCLike.Real"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Module.FiniteDimension",
+      "path": "Mathlib/Analysis/Normed/Module/FiniteDimension.lean",
+      "sha256": "c087f3dc60f0e5791bb3710642ac395014225a26f712e049dbb47b7cd2b3c053",
+      "public_imports": [
+        "Mathlib.Analysis.Asymptotics.AsymptoticEquivalent",
+        "Mathlib.Analysis.Normed.Group.Lemmas",
+        "Mathlib.Analysis.Normed.Affine.Isometry",
+        "Mathlib.Analysis.Normed.Operator.NormedSpace",
+        "Mathlib.Analysis.Normed.Module.RieszLemma",
+        "Mathlib.Analysis.Normed.Module.Ball.Pointwise",
+        "Mathlib.Analysis.SpecificLimits.Normed",
+        "Mathlib.Topology.Algebra.AffineSubspace",
+        "Mathlib.Topology.Algebra.Module.FiniteDimension",
+        "Mathlib.Topology.Algebra.InfiniteSum.Module",
+        "Mathlib.Topology.Instances.Matrix",
+        "Mathlib.LinearAlgebra.Dimension.LinearMap"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Module.Multilinear.Basic",
+      "path": "Mathlib/Analysis/Normed/Module/Multilinear/Basic.lean",
+      "sha256": "da569ac52efd30d2697dca3fe6abf17412a76517583aaef07cb5f7f7dab44581",
+      "public_imports": [
+        "Mathlib.Logic.Embedding.Basic",
+        "Mathlib.Data.Fintype.CardEmbedding",
+        "Mathlib.Topology.Algebra.MetricSpace.Lipschitz",
+        "Mathlib.Topology.Algebra.Module.Multilinear.Topology",
+        "Mathlib.Analysis.Normed.Operator.Bilinear"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Module.RCLike.Basic",
+      "path": "Mathlib/Analysis/Normed/Module/RCLike/Basic.lean",
+      "sha256": "afb13be1d4a1aa5f2c11a5540a247fa39d728f628ba188887b6ed556a401d0a6",
+      "public_imports": [
+        "Mathlib.Analysis.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Module.RCLike.Real",
+        "Mathlib.Analysis.Normed.Module.Span",
+        "Mathlib.Analysis.Normed.Operator.Basic",
+        "Mathlib.Analysis.Normed.Operator.NormedSpace"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Module.RieszLemma",
+      "path": "Mathlib/Analysis/Normed/Module/RieszLemma.lean",
+      "sha256": "541a233d596aeb6c26d4e9c1bbfc624da1c869cd6ac11d2f42ef0bc14e002643",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Module.RCLike.Real",
+        "Mathlib.Analysis.Normed.Module.RCLike.Basic",
+        "Mathlib.Analysis.Normed.Module.Seminorm.Basic",
+        "Mathlib.Topology.MetricSpace.HausdorffDistance"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Operator.Banach",
+      "path": "Mathlib/Analysis/Normed/Operator/Banach.lean",
+      "sha256": "536901affe7bb431e39ef1384233f3e0ee65c3d1c8dd6f9a3157818488b1c38b",
+      "public_imports": [
+        "Mathlib.Algebra.Algebra.Spectrum.Basic",
+        "Mathlib.Topology.Baire.Lemmas",
+        "Mathlib.Topology.Baire.CompleteMetrizable",
+        "Mathlib.Analysis.Normed.Operator.NormedSpace",
+        "Mathlib.Analysis.Normed.Group.InfiniteSum",
+        "Mathlib.Analysis.Normed.Group.AddTorsor"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Operator.Bilinear",
+      "path": "Mathlib/Analysis/Normed/Operator/Bilinear.lean",
+      "sha256": "5ccbf881492c435b839474ca19c12396c158a154ed7ca9d6640b2c0ce1a06714",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Operator.NNNorm",
+        "Mathlib.Analysis.Normed.Operator.LinearIsometry",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Operator.BoundedLinearMaps",
+      "path": "Mathlib/Analysis/Normed/Operator/BoundedLinearMaps.lean",
+      "sha256": "5edca0e233a81357a3d614f6bb3318e9e112b96e6d59d9e23a337ec043aa447d",
+      "public_imports": [
+        "Mathlib.Analysis.Asymptotics.Prod",
+        "Mathlib.Analysis.Normed.Module.Multilinear.Basic",
+        "Mathlib.Analysis.Normed.Operator.Mul",
+        "Mathlib.Analysis.Normed.Ring.Units",
+        "Mathlib.Tactic.CrossRefAttribute",
+        "Mathlib.Topology.Algebra.Module.ContinuousLinearMap.Invertible"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Operator.Compact.Basic",
+      "path": "Mathlib/Analysis/Normed/Operator/Compact/Basic.lean",
+      "sha256": "2b83e756d8c12fd569eae9f2a519086f333e7407f4168f4ce188a7a95feba37f",
+      "public_imports": [
+        "Mathlib.Analysis.LocallyConvex.Bounded",
+        "Mathlib.Tactic.CrossRefAttribute",
+        "Mathlib.Topology.Algebra.Module.Spaces.ContinuousLinearMap"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative",
+      "path": "Mathlib/Analysis/Normed/Operator/Compact/FredholmAlternative.lean",
+      "sha256": "2cc61d4a105ba216737e47bc98edf5f6a1507011d3603e5ee6694f6ef65dff82",
+      "public_imports": [
+        "Mathlib.Algebra.Order.Ring.Star",
+        "Mathlib.Analysis.Normed.Module.RieszLemma",
+        "Mathlib.Analysis.Normed.Operator.Banach",
+        "Mathlib.Analysis.Normed.Operator.BoundedLinearMaps",
+        "Mathlib.Analysis.Normed.Operator.Compact.Basic",
+        "Mathlib.LinearAlgebra.Eigenspace.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+      "path": "Mathlib/Analysis/Normed/Operator/ContinuousLinearMap.lean",
+      "sha256": "a5bc6904f1abe7b2c6e9b1e2d946095bb0633815a31bf44fa8bb3ded3aa767b1",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Analysis.Normed.MulAction",
+        "Mathlib.LinearAlgebra.DFinsupp",
+        "Mathlib.Topology.Algebra.Module.Equiv"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.Normed.Ring.Lemmas",
+      "path": "Mathlib/Analysis/Normed/Ring/Lemmas.lean",
+      "sha256": "c5612d5d0407f188c22f47040d1823177afc8e223cd1cfa4d2accace638a73e6",
+      "public_imports": [
+        "Mathlib.Algebra.Order.GroupWithZero.Finset",
+        "Mathlib.Analysis.Normed.Group.Bounded",
+        "Mathlib.Analysis.Normed.Group.Int",
+        "Mathlib.Analysis.Normed.Group.Uniform",
+        "Mathlib.Analysis.Normed.Ring.Basic",
+        "Mathlib.Topology.MetricSpace.Dilation"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "path": "Mathlib/Analysis/RCLike/Basic.lean",
+      "sha256": "ce67954ac97fcf9ab9cbaabbaad69d7c9395b78b234f1552ad9b0ffd7983bc3a",
+      "public_imports": [
+        "Mathlib.Algebra.Algebra.IsSimpleRing",
+        "Mathlib.Algebra.BigOperators.Balance",
+        "Mathlib.Algebra.Order.BigOperators.Expect",
+        "Mathlib.Algebra.Order.Star.Basic",
+        "Mathlib.Analysis.CStarAlgebra.Basic",
+        "Mathlib.Analysis.Normed.Operator.ContinuousLinearMap",
+        "Mathlib.Analysis.Normed.Ring.Finite",
+        "Mathlib.Analysis.Real.Sqrt",
+        "Mathlib.Tactic.LinearCombination"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Complex.Arg",
+      "path": "Mathlib/Analysis/SpecialFunctions/Complex/Arg.lean",
+      "sha256": "1d5235cf145b64f8fd01c81ac7d3d6080b595fd6e1eb8abb06cbdc53e113fbce",
+      "public_imports": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Angle",
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Inverse"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+      "path": "Mathlib/Analysis/SpecialFunctions/Complex/Circle.lean",
+      "sha256": "d63cf63b6eea1b5fe73a314d61f18056d7b3fcaa419b298a28e6a8ebc614214a",
+      "public_imports": [
+        "Mathlib.Analysis.Complex.Circle",
+        "Mathlib.Analysis.SpecialFunctions.Complex.Log",
+        "Mathlib.Topology.Covering.AddCircle",
+        "Mathlib.Analysis.Convex.PathConnected"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Complex.Log",
+      "path": "Mathlib/Analysis/SpecialFunctions/Complex/Log.lean",
+      "sha256": "e3e7b5122318c59a7f391c87fecdc23e250f0702af5f6e4199cf530d78155a60",
+      "public_imports": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Arg",
+        "Mathlib.Analysis.SpecialFunctions.Log.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Exp",
+      "path": "Mathlib/Analysis/SpecialFunctions/Exp.lean",
+      "sha256": "872bb4bedf06b545327750dffe0c911c29fc6bd67f1fddb2df59d0ff5b0bd84c",
+      "public_imports": [
+        "Mathlib.Analysis.Complex.Asymptotics",
+        "Mathlib.Analysis.Complex.Trigonometric",
+        "Mathlib.Analysis.SpecificLimits.Normed",
+        "Mathlib.Topology.Algebra.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.ExpDeriv",
+      "path": "Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean",
+      "sha256": "d73b5159fee4d0c7ed3f7ff31ffd091f13cfbaf0e0006cba696bb2413a16b597",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike",
+        "Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas",
+        "Mathlib.Analysis.Complex.RealDeriv",
+        "Mathlib.Analysis.SpecialFunctions.Exp",
+        "Mathlib.Analysis.SpecialFunctions.Exponential"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Angle",
+      "path": "Mathlib/Analysis/SpecialFunctions/Trigonometric/Angle.lean",
+      "sha256": "680b5c7d7efd61908b2c54b1dc3dcb1d04d104c6ced4e31a2ea5060d5df7730a",
+      "public_imports": [
+        "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic",
+        "Mathlib.Analysis.Normed.Group.AddCircle",
+        "Mathlib.Algebra.CharZero.Quotient",
+        "Mathlib.Topology.Instances.Sign"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic",
+      "path": "Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean",
+      "sha256": "c8933a580347acc3ee7cf731a9034cff1d6e818be36d9323876d1f12a7b25ee4",
+      "public_imports": [
+        "Mathlib.Algebra.Field.NegOnePow",
+        "Mathlib.Algebra.Field.Periodic",
+        "Mathlib.Algebra.Polynomial.Eval.Defs",
+        "Mathlib.Algebra.QuadraticDiscriminant",
+        "Mathlib.Analysis.SpecialFunctions.Exp"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+      "path": "Mathlib/Analysis/SpecialFunctions/Trigonometric/Deriv.lean",
+      "sha256": "c44a764cdb0db89c4c0fcfcc385bb904d2f4081ae5bd018785b84dbeb8d7744f",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.LogDeriv",
+        "Mathlib.Analysis.SpecialFunctions.ExpDeriv"
+      ]
+    },
+    {
+      "module": "Mathlib.Analysis.SpecificLimits.Normed",
+      "path": "Mathlib/Analysis/SpecificLimits/Normed.lean",
+      "sha256": "281b0bb77fdc58f9c98d50cc626303bf30d7302c48d3ae8522d071ad07d40480",
+      "public_imports": [
+        "Mathlib.Algebra.Algebra.Spectrum.Quasispectrum",
+        "Mathlib.Algebra.BigOperators.Module",
+        "Mathlib.Algebra.Order.Field.Power",
+        "Mathlib.Analysis.Asymptotics.Lemmas",
+        "Mathlib.Analysis.Normed.Ring.InfiniteSum",
+        "Mathlib.Analysis.Normed.Module.Basic",
+        "Mathlib.Analysis.Normed.Order.Lattice",
+        "Mathlib.Analysis.SpecificLimits.Basic",
+        "Mathlib.Combinatorics.Enumerative.Stirling",
+        "Mathlib.Data.List.TFAE",
+        "Mathlib.Data.Nat.Choose.Bounds",
+        "Mathlib.Data.Nat.Choose.Sum",
+        "Mathlib.Order.Filter.AtTopBot.ModEq",
+        "Mathlib.Tactic.NoncommRing"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.Dimension.DivisionRing",
+      "path": "Mathlib/LinearAlgebra/Dimension/DivisionRing.lean",
+      "sha256": "4cf83646f18ba1f530cee1fbfc4b71f2f0ca720919ca51e7f7abb8e2bb56cf91",
+      "public_imports": [
+        "Mathlib.LinearAlgebra.Basis.VectorSpace",
+        "Mathlib.LinearAlgebra.Dimension.RankNullity",
+        "Mathlib.LinearAlgebra.FreeModule.StrongRankCondition"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.Dimension.LinearMap",
+      "path": "Mathlib/LinearAlgebra/Dimension/LinearMap.lean",
+      "sha256": "cf3c6bd78106cdf16089da28e4bb7bc31a6e39ac70a10815b1dcebb9589e2233",
+      "public_imports": [
+        "Mathlib.Algebra.Module.Projective",
+        "Mathlib.LinearAlgebra.Dimension.FreeAndStrongRankCondition",
+        "Mathlib.LinearAlgebra.Basis.VectorSpace",
+        "Mathlib.LinearAlgebra.Dimension.RankNullity"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.Dimension.RankNullity",
+      "path": "Mathlib/LinearAlgebra/Dimension/RankNullity.lean",
+      "sha256": "28293c24ecb9ccd12d4249c62526759f381ac0469145994c2fcfc27f4c37e15a",
+      "public_imports": [
+        "Mathlib.LinearAlgebra.Dimension.Constructions",
+        "Mathlib.LinearAlgebra.Dimension.Finite",
+        "Mathlib.LinearAlgebra.Isomorphisms",
+        "Mathlib.Logic.Equiv.Fin.Rotate"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.Eigenspace.Basic",
+      "path": "Mathlib/LinearAlgebra/Eigenspace/Basic.lean",
+      "sha256": "a62b802bd9b081a20e30716e1c25cbdacbfcc0cad0cad7db304e61d21c7211b5",
+      "public_imports": [
+        "Mathlib.Algebra.Algebra.Spectrum.Basic",
+        "Mathlib.Algebra.Module.LinearMap.Basic",
+        "Mathlib.LinearAlgebra.FiniteDimensional.Lemmas",
+        "Mathlib.LinearAlgebra.GeneralLinearGroup.Basic",
+        "Mathlib.RingTheory.Nilpotent.Basic",
+        "Mathlib.RingTheory.Nilpotent.Defs",
+        "Mathlib.RingTheory.Nilpotent.Lemmas",
+        "Mathlib.Tactic.Peel"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.FiniteDimensional.Lemmas",
+      "path": "Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean",
+      "sha256": "fd2f40b42aac48256b11c2a395db0544cd441b04a9f75350d7c46f353fc7d912",
+      "public_imports": [
+        "Mathlib.LinearAlgebra.Dimension.DivisionRing",
+        "Mathlib.LinearAlgebra.Dimension.FreeAndStrongRankCondition",
+        "Mathlib.LinearAlgebra.FiniteDimensional.Basic",
+        "Mathlib.Tactic.IntervalCases"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.Isomorphisms",
+      "path": "Mathlib/LinearAlgebra/Isomorphisms.lean",
+      "sha256": "9b09cba140051ca8b9aa93f6cf22a85c3d9fd4d1c108939c6a6e0b44a0192d73",
+      "public_imports": [
+        "Mathlib.LinearAlgebra.Quotient.Basic",
+        "Mathlib.LinearAlgebra.Quotient.Card"
+      ]
+    },
+    {
+      "module": "Mathlib.LinearAlgebra.Matrix.Diagonal",
+      "path": "Mathlib/LinearAlgebra/Matrix/Diagonal.lean",
+      "sha256": "4134f64fdb7a43917faa628ee01ea47b01d78f8f80d63b04457462d43ab4ca14",
+      "public_imports": [
+        "Mathlib.LinearAlgebra.Dimension.LinearMap",
+        "Mathlib.LinearAlgebra.Matrix.ToLin",
+        "Mathlib.LinearAlgebra.FreeModule.StrongRankCondition"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+      "path": "Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean",
+      "sha256": "e70ff0aea2f3cdc2a4aa519c999679132a3a0c3e79b1447e09a03af1c36fdc9d",
+      "public_imports": [
+        "Mathlib.Analysis.BoundedVariation",
+        "Mathlib.Order.SuccPred.IntervalSucc",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+        "Mathlib.Analysis.Calculus.ContDiff.RCLike"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Group.FundamentalDomain",
+      "path": "Mathlib/MeasureTheory/Group/FundamentalDomain.lean",
+      "sha256": "8e98b10408bbcb7249d39e7a3160e4881f67183407edcf4c8baabf1f15443c6f",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Integral.Bochner.Set"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Group.LIntegral",
+      "path": "Mathlib/MeasureTheory/Group/LIntegral.lean",
+      "sha256": "888f8706dd9c4ef82b6b4bf5c0767bf19a9dfbad4289a7a836ffd536c88ee86c",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Group.Measure"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Group.Measure",
+      "path": "Mathlib/MeasureTheory/Group/Measure.lean",
+      "sha256": "cba62e69e14aafd9e79c41c3209cc75828e5bd7e3bcf46e5af7d8281e43696bd",
+      "public_imports": [
+        "Mathlib.Algebra.Group.Pointwise.Set.Card",
+        "Mathlib.GroupTheory.Complement",
+        "Mathlib.MeasureTheory.Group.Action",
+        "Mathlib.MeasureTheory.Group.Pointwise",
+        "Mathlib.MeasureTheory.Measure.Prod",
+        "Mathlib.Topology.Algebra.Module.Equiv",
+        "Mathlib.Topology.ContinuousMap.CocompactMap"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap",
+      "path": "Mathlib/MeasureTheory/Integral/Bochner/ContinuousLinearMap.lean",
+      "sha256": "6ea617bf048a892185ec4ea2d06ec101a950f323c0fa35d2d8a75b28622f5eba",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Operator.CompleteCodomain",
+        "Mathlib.MeasureTheory.Integral.Bochner.Set",
+        "Mathlib.Topology.ContinuousMap.ContinuousMapZero"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.Bochner.FundThmCalculus",
+      "path": "Mathlib/MeasureTheory/Integral/Bochner/FundThmCalculus.lean",
+      "sha256": "3d0bd4cf26ca321bf5f764546312f0befa51850b6891d88c61001fa1e9b5e766",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Integral.Bochner.Set"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.Bochner.Set",
+      "path": "Mathlib/MeasureTheory/Integral/Bochner/Set.lean",
+      "sha256": "6f72e6c2a2ab3173fe6c51896535196ce5df3ab93bccb9c2237e84fd850108ea",
+      "public_imports": [
+        "Mathlib.Combinatorics.Enumerative.InclusionExclusion",
+        "Mathlib.MeasureTheory.Function.LocallyIntegrable",
+        "Mathlib.MeasureTheory.Integral.Bochner.SumMeasure",
+        "Mathlib.Topology.ContinuousMap.Compact",
+        "Mathlib.Topology.MetricSpace.ThickenedIndicator"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.DominatedConvergence",
+      "path": "Mathlib/MeasureTheory/Integral/DominatedConvergence.lean",
+      "sha256": "8b992825c893a377d5be8c370fae94c31dbee29d6b4bfbe0a3cd36bd5438a3d7",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean",
+      "sha256": "65f3d7028d8d7c1b36830a2a0a3002acbd4cc59deac2aaba986a6e3e3db5a630",
+      "public_imports": [
+        "Mathlib.Algebra.BigOperators.Group.Finset.Gaps",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean",
+      "sha256": "97e7a2efda146d0d1280f23d660cc07655dd7c48b51631752e9aa94deaa18ab9",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap",
+        "Mathlib.MeasureTheory.Measure.Interval",
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+        "Mathlib.MeasureTheory.Topology"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/ContDiff.lean",
+      "sha256": "a145c095e7ec27798127ebec32cac958e9479c1015cff2a98a72fe7acc2a478d",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.ContDiff.Deriv",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.DerivIntegrable",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/DerivIntegrable.lean",
+      "sha256": "3fb58136643c88bd7bf3dfd55eb22bc46237f995799ea7dbfafeda49d523b572",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Function.AbsolutelyContinuous",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Slope"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean",
+      "sha256": "5fd64054d9ae8bfce585ff809933a756bcf2d224ef144ae24c8fe8870c68050c",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Comp",
+        "Mathlib.Analysis.Calculus.FDeriv.Measurable",
+        "Mathlib.MeasureTheory.Integral.Bochner.FundThmCalculus",
+        "Mathlib.MeasureTheory.Integral.Bochner.VitaliCaratheodory",
+        "Mathlib.MeasureTheory.Integral.DominatedConvergence",
+        "Mathlib.Analysis.Calculus.TangentCone.Prod"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/LebesgueDifferentiationThm.lean",
+      "sha256": "90f2c410524867085a99a5f39e5e858875d355a9a35936d6ab4641daf6ae4339",
+      "public_imports": [
+        "Mathlib.Analysis.Calculus.Deriv.Slope",
+        "Mathlib.MeasureTheory.Covering.OneDim",
+        "Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/Periodic.lean",
+      "sha256": "c29cf7392ddbd5acbe615c55fc36315e65bd7563c84f0118273666ef523bd403",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+        "Mathlib.MeasureTheory.Measure.Haar.Quotient",
+        "Mathlib.Topology.Algebra.Order.Floor"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Measure.Haar.OfBasis",
+      "path": "Mathlib/MeasureTheory/Measure/Haar/OfBasis.lean",
+      "sha256": "f9a552df475ecbf1715b4ac85515967bf534ee2484037b49dc4e392eb36d4761",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Measure.Haar.Basic",
+        "Mathlib.Analysis.InnerProductSpace.PiL2"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Measure.Haar.Quotient",
+      "path": "Mathlib/MeasureTheory/Measure/Haar/Quotient.lean",
+      "sha256": "20a7a7e30f3b4fc43623e8c2cf7ef5a4534f2f8d1d9c9744caededde5a77d1c5",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Group.FundamentalDomain",
+        "Mathlib.MeasureTheory.Integral.DominatedConvergence"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Measure.Lebesgue.Basic",
+      "path": "Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean",
+      "sha256": "628bcfc45fabd59501cdebf1cc3a8003ef3aba18fc7de4710ca9ffc1033b32d7",
+      "public_imports": [
+        "Mathlib.LinearAlgebra.Matrix.Diagonal",
+        "Mathlib.MeasureTheory.Group.LIntegral",
+        "Mathlib.MeasureTheory.Integral.Marginal",
+        "Mathlib.MeasureTheory.Measure.Stieltjes",
+        "Mathlib.MeasureTheory.Measure.Haar.OfBasis"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar",
+      "path": "Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean",
+      "sha256": "6c224cd565104f7f921deb1c00d43f25d94cb41ee0b07f1c924b3b985fdcb46d",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Measure.Lebesgue.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Measure.OpenPos",
+      "path": "Mathlib/MeasureTheory/Measure/OpenPos.lean",
+      "sha256": "e58615b60bff5e995e3133b6e5bf35d22e5f7fded53f23ccd99301926cef5676",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Constructions.BorelSpace.Basic",
+        "Mathlib.MeasureTheory.Measure.Typeclasses.NullSingletonClass",
+        "Mathlib.MeasureTheory.Measure.Typeclasses.Probability"
+      ]
+    },
+    {
+      "module": "Mathlib.MeasureTheory.Measure.Prod",
+      "path": "Mathlib/MeasureTheory/Measure/Prod.lean",
+      "sha256": "62b4007fc8e0a0ddca557fcdacbe649752764d09c7a97763a5450146cb9d03c9",
+      "public_imports": [
+        "Mathlib.MeasureTheory.Measure.GiryMonad",
+        "Mathlib.MeasureTheory.Measure.OpenPos",
+        "Mathlib.MeasureTheory.Measure.Doubling"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Algebra.MetricSpace.Lipschitz",
+      "path": "Mathlib/Topology/Algebra/MetricSpace/Lipschitz.lean",
+      "sha256": "806cabe95afa23daf8f296ec44fff88a2815394fa97584ff2a769eaeaa669107",
+      "public_imports": [
+        "Mathlib.Topology.Algebra.Order.Field",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Algebra.Module.PerfectSpace",
+      "path": "Mathlib/Topology/Algebra/Module/PerfectSpace.lean",
+      "sha256": "44b771c20b63f2dd799918bea19d24ec78314cc5d0396311ca8229ff62b0d2c6",
+      "public_imports": [
+        "Mathlib.Analysis.SpecificLimits.Normed",
+        "Mathlib.Topology.Perfect"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Bornology.BoundedOperation",
+      "path": "Mathlib/Topology/Bornology/BoundedOperation.lean",
+      "sha256": "c30215eda6a6a4706d950aa9add4ca8ac4693cad902d0b2cb18a5f26e6decf69",
+      "public_imports": [
+        "Mathlib.Analysis.Normed.Group.Basic",
+        "Mathlib.Topology.MetricSpace.ProperSpace.Real",
+        "Mathlib.Analysis.Normed.Ring.Lemmas"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+      "path": "Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean",
+      "sha256": "999b52f01003c82317fb85b709121ef2fe1be026ff5a08fbfb7e6dfe0fa99cc1",
+      "public_imports": [
+        "Mathlib.Topology.ContinuousMap.Bounded.Basic",
+        "Mathlib.Topology.MetricSpace.Equicontinuity"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.ContinuousMap.Bounded.Basic",
+      "path": "Mathlib/Topology/ContinuousMap/Bounded/Basic.lean",
+      "sha256": "f59a34d28b21cd7c8f1c6142bd3f4910cfca60f792ebff63630968b7bd9524a7",
+      "public_imports": [
+        "Mathlib.Topology.Algebra.Indicator",
+        "Mathlib.Topology.Bornology.BoundedOperation",
+        "Mathlib.Topology.ContinuousMap.Algebra"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.ContinuousMap.Compact",
+      "path": "Mathlib/Topology/ContinuousMap/Compact.lean",
+      "sha256": "cc91fa4f82ab7f5f49df5a69fb20e859e5e660cd03c8fd6f021ea5ea892fc5e6",
+      "public_imports": [
+        "Mathlib.Topology.ContinuousMap.Bounded.Star",
+        "Mathlib.Topology.ContinuousMap.Star",
+        "Mathlib.Topology.UniformSpace.Compact",
+        "Mathlib.Topology.CompactOpen",
+        "Mathlib.Topology.Sets.Compacts",
+        "Mathlib.Analysis.Normed.Group.InfiniteSum"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Covering.AddCircle",
+      "path": "Mathlib/Topology/Covering/AddCircle.lean",
+      "sha256": "21e214b64c40eeb73dd1fb3b9e3047c59693aad10b590deef864a2bfd4837f25",
+      "public_imports": [
+        "Mathlib.Algebra.Algebra.Defs",
+        "Mathlib.Topology.Covering.Quotient",
+        "Mathlib.Topology.Instances.AddCircle.Defs"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Homotopy.Lifting",
+      "path": "Mathlib/Topology/Homotopy/Lifting.lean",
+      "sha256": "47b44da5cc6f4d708c6d234a8abceea6a6852da69cd5e25c70c8e34deda9b47c",
+      "public_imports": [
+        "Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup",
+        "Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected",
+        "Mathlib.Topology.Connected.LocallyPathConnected",
+        "Mathlib.Topology.Covering.Quotient",
+        "Mathlib.Topology.Homotopy.Path",
+        "Mathlib.Topology.UnitInterval"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Homotopy.Path",
+      "path": "Mathlib/Topology/Homotopy/Path.lean",
+      "sha256": "8eb18db7d886898d9bc9e3d9ea91ff6ac5fb958b0beebf26ae71c7f632fa895e",
+      "public_imports": [
+        "Mathlib.Topology.Homotopy.Basic",
+        "Mathlib.Topology.Connected.PathConnected",
+        "Mathlib.Analysis.Convex.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.MetricSpace.Algebra",
+      "path": "Mathlib/Topology/MetricSpace/Algebra.lean",
+      "sha256": "45a542a44282b3f29708002bc313f5a5d815edd9508895aea8be4315a3ea800e",
+      "public_imports": [
+        "Mathlib.Topology.Algebra.MulAction",
+        "Mathlib.Topology.Algebra.SeparationQuotient.Basic",
+        "Mathlib.Topology.Algebra.UniformMulAction",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.MetricSpace.Dilation",
+      "path": "Mathlib/Topology/MetricSpace/Dilation.lean",
+      "sha256": "6b0ea8522242e72646396318c9a3eb7375634df382fb68f2e04fc579fa986362",
+      "public_imports": [
+        "Mathlib.Topology.MetricSpace.Antilipschitz",
+        "Mathlib.Topology.MetricSpace.Isometry",
+        "Mathlib.Topology.MetricSpace.Lipschitz",
+        "Mathlib.Data.FunLike.Basic"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.MetricSpace.HausdorffDistance",
+      "path": "Mathlib/Topology/MetricSpace/HausdorffDistance.lean",
+      "sha256": "9bdca849e0d34aee7a027af90d5d0fc5ba04b9a0742ed2c882ed577904fe41f9",
+      "public_imports": [
+        "Mathlib.Analysis.SpecificLimits.Basic",
+        "Mathlib.Topology.MetricSpace.IsometricSMul",
+        "Mathlib.Tactic.Finiteness"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.MetricSpace.IsometricSMul",
+      "path": "Mathlib/Topology/MetricSpace/IsometricSMul.lean",
+      "sha256": "200a2c973fd15e6b95fe4be293c7d210b90a9e49942c6f8a3b267f6024fab89a",
+      "public_imports": [
+        "Mathlib.Algebra.GroupWithZero.Pointwise.Set.Basic",
+        "Mathlib.Topology.Algebra.ConstMulAction",
+        "Mathlib.Topology.EMetricSpace.MulOpposite",
+        "Mathlib.Topology.MetricSpace.Isometry",
+        "Mathlib.Topology.MetricSpace.Lipschitz"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.MetricSpace.Lipschitz",
+      "path": "Mathlib/Topology/MetricSpace/Lipschitz.lean",
+      "sha256": "abdafde82be94189e4779892c3cb06e3b1afa387167f0d9292680ee66d2ed0c2",
+      "public_imports": [
+        "Mathlib.Order.Interval.Set.ProjIcc",
+        "Mathlib.Topology.Bornology.Hom",
+        "Mathlib.Topology.EMetricSpace.Lipschitz",
+        "Mathlib.Topology.Maps.Proper.Basic",
+        "Mathlib.Topology.MetricSpace.Basic",
+        "Mathlib.Topology.MetricSpace.Bounded"
+      ]
+    },
+    {
+      "module": "Mathlib.Topology.Sequences",
+      "path": "Mathlib/Topology/Sequences.lean",
+      "sha256": "a6a3be606e290b87bfb3b6619adcfbb64287f2474b22e804232e7ce9e4586b4c",
+      "public_imports": [
+        "Mathlib.Topology.Defs.Sequences",
+        "Mathlib.Topology.Metrizable.Basic"
+      ]
+    }
+  ],
+  "scope": "Omit only redundant public trusted Mathlib imports using exact pinned public-import paths. Every required custom declaration and complete proof remains in the generated source. Fresh compilation and independent review required."
+}

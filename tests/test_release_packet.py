@@ -505,6 +505,30 @@ class CompactGreenSourcePath(unittest.TestCase):
             command.assert_not_called()
 
 
+class FredholmCircleMaterialHandoff(ComputationalHodgeMaterialHandoff):
+    PROJECT = 'computational-hodge/fredholm-circle'
+
+
+class FredholmCircleSourcePath(unittest.TestCase):
+    def test_exact_fredholm_circle_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'Challenge.lean\n', b'module\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, 'computational-hodge/fredholm-circle')
+        self.assertEqual(files, {'Challenge.lean': b'module\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':computational-hodge/fredholm-circle/Challenge.lean')
+
+    def test_other_or_traversing_fredholm_circle_paths_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['computational-hodge/fredholm-circle/../finite-periods',
+                         'computational-hodge/fredholm-circle/other',
+                         'computational-hodge/new-project', '/computational-hodge/fredholm-circle']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,
