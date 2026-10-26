@@ -1,0 +1,180 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Canonical circle solutions and computational paths",
+    "description": "For every positive C1 real scalar period-one circle density and every real shift, prove the actual unrestricted C2 homogeneous kernel finite-dimensional, construct its weighted Gram projection and canonicalize each solvable shifted-Laplacian equation to its unique kernel-orthogonal actual C2 solution. Prove weighted L2 mass Pythagoras and unique minimum; at zero shift prove actual raw/cochain computational-path compatibility iff one canonical solution and identify it with normalized Green.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.FA",
+      "math.CA"
+    ],
+    "msc2020": [
+      "47A53",
+      "34B05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Lecture34 Sturm-Liouville Theory, sections30.2-30.3",
+      "authors": [
+        "Y. H. Kim"
+      ],
+      "type": "other",
+      "id": "https://www.math.ubc.ca/~yhkim/yhkim-home/teaching/Math257/M257-316Notes_Lecture34.pdf",
+      "relationship": "related",
+      "note": "Classical one-dimensional weighted differential-operator context. This package proves finite actual kernel and least weighted squared-function mass on a solvable equation coset; it does not claim separated-boundary eigenbasis/completeness or a Dirichlet-energy minimum."
+    },
+    {
+      "title": "A proof of the Fredholm alternative, Proposition4",
+      "authors": [
+        "Terence Tao"
+      ],
+      "type": "other",
+      "id": "https://terrytao.wordpress.com/2011/04/10/a-proof-of-the-fredholm-alternative/",
+      "relationship": "related",
+      "note": "Classical finite-multiplicity context for a nonzero compact-operator eigenvalue. The proof here restricts actual compact muG to the closed reduced kernel and derives finite dimensionality from compact identity. No finite-rank approximation premise or novelty claim."
+    },
+    {
+      "title": "Introduction to Differential Geometry, preliminary May26,2022, sections9.2-9.3 pp85-87",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Classical orthogonal projection and least squared-norm context. Our affine solution coset modulo the actual shifted differential kernel is not identified with manifold cohomology; the general Hodge theorem in these notes is not claimed."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Exact pinned Mathlib supplies actual circle/calculus/continuous functions, compact restriction and compact-identity finite-dimensionality, and algebraic finite-dimensional bilinear duality. Actual differential-kernel transfer, Gram construction, canonicalization and computational-path bridge are proved here. No assumed bridge or general Hodge identification."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/fredholm-circle",
+      "relationship": "builds-on",
+      "note": "Credited predecessor campaign source. Exact needed public PR79 fragments are retained through base-provenance.json; unused range-sufficiency and adjoint declarations are omitted whole, with the earlier public versions preserved. The current theorem constructs canonical representatives for solvable actual equations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/resonance-obstruction",
+      "relationship": "builds-on",
+      "note": "Credited predecessor campaign source. Exact needed public PR79 fragments are retained through base-provenance.json; unused range-sufficiency and adjoint declarations are omitted whole, with the earlier public versions preserved. The current theorem constructs canonical representatives for solvable actual equations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/green-operator",
+      "relationship": "builds-on",
+      "note": "Credited predecessor campaign source. Exact needed public PR79 fragments are retained through base-provenance.json; unused range-sufficiency and adjoint declarations are omitted whole, with the earlier public versions preserved. The current theorem constructs canonical representatives for solvable actual equations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/poisson",
+      "relationship": "builds-on",
+      "note": "Credited predecessor campaign source. Exact needed public PR79 fragments are retained through base-provenance.json; unused range-sufficiency and adjoint declarations are omitted whole, with the earlier public versions preserved. The current theorem constructs canonical representatives for solvable actual equations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range",
+      "relationship": "builds-on",
+      "note": "Credited predecessor campaign source. Exact needed public PR79 fragments are retained through base-provenance.json; unused range-sufficiency and adjoint declarations are omitted whole, with the earlier public versions preserved. The current theorem constructs canonical representatives for solvable actual equations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/dc6a74a0c5ed9bebf2d28e2dc98518d226b1feb3/computational-hodge/full-circle-range",
+      "relationship": "builds-on",
+      "note": "PR79 separately proves unrestricted forcing-mode solvability characterization. The current package retains only needed full-operator/raw compatibility fragments, proves actual finite kernel and canonical least-mass solution choice, and does not repackage the omitted all-forcing range proof as a new result."
+    }
+  ],
+  "status": {
+    "scope": "For every positive C1 real scalar period-one circle density and every real shift, prove the actual unrestricted C2 homogeneous kernel finite-dimensional, construct its weighted Gram projection and canonicalize each solvable shifted-Laplacian equation to its unique kernel-orthogonal actual C2 solution. Prove weighted L2 mass Pythagoras and unique minimum; at zero shift prove actual raw/cochain computational-path compatibility iff one canonical solution and identify it with normalized Green.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Real scalar period-one circle only. The all-shift primary theorem concerns solvable equations; it does not assert every forcing is solvable or reprove the separate PR79 forcing-mode range characterization. The minimized mass is the weighted integral of u squared, with no Dirichlet derivative-energy minimum claim. No general analytic/manifold/Kahler Hodge/deRham theorem, cohomology-class identification, Hilbert completion, C2 Banach assumption, unbounded self-adjoint realization, spectral basis/completeness, uniform near-resonance bound, numerical solver or novelty is claimed. Exact-source release evidence is separate.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Literal user endpoint-indexed binary computational traces, actual realization/covering lifts, every trace corner, AC regularity and projected-curve integrals are retained. Finite actual C2 kernel follows from compact identity restriction on the reduced C0 kernel, proved Green recovery off zero and actual constant-kernel evaluation at zero. The inverse Gram map is constructed only on that proved finite actual kernel using its algebraic dual and strict positive ordinary weighted integral pairing. No ambient C2/Hilbert projection or norm identification is assumed. Every actual C2 competitor on the same forcing coset is quantified; zero-shift raw/cochain equivalences and normalized Green identification are proved."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and prototype-core mathematical/source review completed. Exact final source, material semantics and every required local native/kernel/canonical/render/browser/packet gate have separate source-bound review and evidence. No human/external peer review or registry acceptance is inferred."
+  }
+}

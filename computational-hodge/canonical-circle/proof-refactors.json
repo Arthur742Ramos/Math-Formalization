@@ -1,0 +1,5 @@
+{
+  "source_commit": "dc6a74a0c5ed9bebf2d28e2dc98518d226b1feb3",
+  "scope": "No new changes to retained published predecessor proof bodies. Exact PR79 fragments, including its already-reviewed historical proof refactors, are authenticated by base-provenance.json. New Canonical source is directly authored and separately reviewed; private authoring attempts are not public provenance.",
+  "rewrites": []
+}
