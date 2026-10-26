@@ -1,0 +1,26 @@
+{
+  "source_commit": "3aac0109c4f2bfffc9c70fc1eb3e1c2bc163a0a3",
+  "scope": "Genuine complete statement-preserving predecessor proof replacements. Each original and resulting declaration and module hash is authenticated; no proof-body line joining. Fresh compilation and independent review are required.",
+  "rewrites": [
+    {
+      "module": "CompactGreen.lean",
+      "theorem": "coefficient_ascoli",
+      "kind": "proof",
+      "before_module_sha256": "49bc5524157ea94a2fd0b309dc4253c75ad3e0209f3045aa5746b1f6b983bc2c",
+      "after_module_sha256": "7785a3fe851d609940f8c8cdc9f50c7cedeb639ce0a22107d5e02216ee2acced",
+      "statement_sha256": "5f093a9d7084d7bbccb3094a754a532309ccea6ac96bfb9e13593c76ef909f23",
+      "old_declaration": "theorem coefficient_ascoli (S : Set Coefficient) (C : ℝ)\n    (hb : ∀ g∈S,‖g‖≤C) (he : Equicontinuous (fun g : S => (g.val : CircleHodge.Circle → ℝ))) :\n    IsCompact (closure S) := by\n  let e : Coefficient ≃ₜ BoundedContinuousFunction CircleHodge.Circle ℝ :=\n    (ContinuousMap.equivBoundedOfCompact CircleHodge.Circle ℝ).toHomeomorphOfIsInducing\n      (ContinuousMap.isUniformEmbedding_equivBoundedOfCompact CircleHodge.Circle ℝ).isInducing\n  let pull : (e '' S) → S := fun f => ⟨e.symm f.val,by\n    obtain ⟨g,hg,hge⟩:=f.property\n    rw [← hge,e.symm_apply_apply]\n    exact hg⟩\n  have hA : IsCompact (closure (e '' S)) := BoundedContinuousFunction.arzela_ascoli\n    (Icc (-C) C) isCompact_Icc (e '' S)\n    (fun f x hf => by\n      obtain ⟨g,hg,rfl⟩:=hf\n      change -C≤g x ∧ g x≤C\n      exact abs_le.mp (by simpa only [Real.norm_eq_abs] using (g.norm_coe_le_norm x).trans (hb g hg)))\n    (he.comp pull)\n  exact (e.isClosedEmbedding.isCompact_preimage hA).closure_of_subset\n    (fun g hg => subset_closure ⟨g,hg,rfl⟩)\n",
+      "new_declaration": "theorem coefficient_ascoli (S : Set Coefficient) (C : ℝ)\n    (hb : ∀ g∈S,‖g‖≤C) (he : Equicontinuous (fun g : S => (g.val : CircleHodge.Circle → ℝ))) :\n    IsCompact (closure S) := by\n  let e : Coefficient ≃ₜ BoundedContinuousFunction CircleHodge.Circle ℝ :=\n    (ContinuousMap.equivBoundedOfCompact CircleHodge.Circle ℝ).toHomeomorphOfIsInducing\n      (ContinuousMap.isUniformEmbedding_equivBoundedOfCompact CircleHodge.Circle ℝ).isInducing\n  let pull : (e '' S) → S := (e.toEquiv.image S).symm\n  have hA : IsCompact (closure (e '' S)) := BoundedContinuousFunction.arzela_ascoli\n    (Icc (-C) C) isCompact_Icc (e '' S)\n    (fun f x hf => by\n      obtain ⟨g,hg,rfl⟩:=hf\n      change -C≤g x ∧ g x≤C\n      exact abs_le.mp (by simpa only [Real.norm_eq_abs] using (g.norm_coe_le_norm x).trans (hb g hg)))\n    (he.comp pull)\n  exact (e.isClosedEmbedding.isCompact_preimage hA).closure_of_subset\n    (fun g hg => subset_closure ⟨g,hg,rfl⟩)\n"
+    },
+    {
+      "module": "Positive.lean",
+      "theorem": "exists_solution",
+      "kind": "proof",
+      "before_module_sha256": "aa27df03c53d2650ad3ada11bf4b0d1dc43590f750d83cc4319fba810acada1a",
+      "after_module_sha256": "9a39e22058f58c5821ed2bd36244c76b44447dfd6e22804c70d0466013a0fe0d",
+      "statement_sha256": "f022701c376a4138e566c2f2c59199868ccc9cd38dc4dc8e48a6431ccc279067",
+      "old_declaration": "theorem exists_solution (ρ : RegularDensity) (κ : ℝ) (hκ : 0<κ) (f : Coefficient) :\n    ∃ u : C2Coefficient, positive ρ κ u=f := by\n  obtain ⟨u,hu,_⟩ := unique_solvability ρ (-κ) (negative_nonresonant ρ κ hκ) ⟨projectForcing ρ f,project_mean_zero ρ f⟩\n  refine ⟨u.val+constantC2 (κ⁻¹*(weightedMean ρ f/mean ρ.val.val)),?_⟩\n  have he : positive ρ κ u.val=projectForcing ρ f := (positive_eq_fullShifted ρ κ u.val).trans hu\n  have ha : κ*(κ⁻¹*(weightedMean ρ f/mean ρ.val.val))=weightedMean ρ f/mean ρ.val.val := by rw [← mul_assoc,mul_inv_cancel₀ hκ.ne',one_mul]\n  rw [positive,laplacian_add,laplacian_of_constant ρ (constantC2 _) _ rfl]\n  ext q\n  have hq := congrArg (fun z : Coefficient => z q) he\n  change laplacian ρ u.val q+κ*u.val.val q=f q-weightedMean ρ f/mean ρ.val.val at hq\n  change laplacian ρ u.val q+0+κ*(u.val.val q+κ⁻¹*(weightedMean ρ f/mean ρ.val.val))=f q\n  nlinarith\n",
+      "new_declaration": "theorem exists_solution (ρ : RegularDensity) (κ : ℝ) (hκ : 0<κ) (f : Coefficient) :\n    ∃ u : C2Coefficient, positive ρ κ u=f  := by\n  obtain ⟨u,hu,_⟩ := unique_solvability ρ (-κ) (negative_nonresonant ρ κ hκ) ⟨projectForcing ρ f,project_mean_zero ρ f⟩\n  refine ⟨u.val-constantC2 (-(weightedMean ρ f/mean ρ.val.val)/κ),?_⟩\n  have he : fullShifted ρ (-κ) u.val=projectForcing ρ f := hu\n  rw [positive_sub,positive_eq_fullShifted ρ κ u.val,he,positive_constant]\n  ext q\n  change f q-weightedMean ρ f/mean ρ.val.val-κ*(-(weightedMean ρ f/mean ρ.val.val)/κ)=f q\n  field_simp [hκ.ne']; ring\n"
+    }
+  ]
+}
