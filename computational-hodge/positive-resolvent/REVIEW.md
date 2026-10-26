@@ -1,0 +1,5 @@
+# Review scope
+
+Independent internal AI precise-scope and compiled-core mathematical/source review addressed the actual minimum/comparison principles, literal weighted operator sign and critical-point quotient calculation, derived negative nonresonance, actual full-forcing C2 construction and sharp C0 resolvent. The mean/raw/cochain scaling is only for actual based loop traces Trace 0 0. No C2 Banach, general Hodge, open-path scaling or strong-positivity premise is supplied.
+
+Exact retained predecessor fragments, complete generated proofs and doc associations require separate source-fidelity review. The imported inventory must cover local extrema, actual neighborhood equality and derivative congruence, compact minimum attainment, supremum norm bounds and the generated additive continuity producer for mkContinuous. Separate compiled Challenge and Solution semantics check literal contracts. Final exact-source local native/kernel/canonical/render/browser/packet and independent release receipts remain authoritative for their recorded source and scope. No external peer review or registry acceptance follows.

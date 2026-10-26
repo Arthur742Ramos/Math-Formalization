@@ -1,0 +1,5 @@
+{
+  "source_commit": "aaf87528cf88d5c68912c54d559e34381fbbdffe",
+  "scope": "Every retained predecessor statement and complete proof is an exact public Git fragment. Only whole unused declarations and explicit header imports are omitted. New Positive proofs, including concise term reconstructions, are authored here and require their own fresh validation; no predecessor proof rewrite is claimed.",
+  "rewrites": []
+}
