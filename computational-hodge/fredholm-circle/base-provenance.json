@@ -1,0 +1,391 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "d6d42a1b3979e23289ed393ce467b1dcf260c9dc",
+  "source_project": "computational-hodge/compact-green",
+  "scope": "Complete required predecessor declarations/proofs retained from accepted PR75 Git fragments. Only unused whole declarations omitted. Statements and definitions unchanged; complete original and replacement proofs for genuine proof refactors are retained in proof-refactors.json. Fresh native/kernel/source-fidelity review required.",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/compact-green/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2551,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+          "first_line": 1,
+          "last_line": 68,
+          "start_context": "/-\nCopyright (c) 2025 Computational Paths contributors.\nUpstream excerpts are MIT licensed; see SOURCE-LICENSE.txt.\nPorted at the exact revision recorded in source-provenance.json.",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/compact-green/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2118,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+          "first_line": 1,
+          "last_line": 61,
+          "start_context": "module\n\npublic import SourcePaths\npublic import Mathlib.Analysis.InnerProductSpace.PiL2\n\n@[expose] public section\nnamespace ComputationalHodge\nopen ComputationalPaths.Path.Geometri",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/compact-green/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+          "first_line": 1,
+          "last_line": 19,
+          "start_context": "module\n\npublic import Periods\npublic import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional\npublic import Mathlib.LinearAlgebra.Isomorphisms\n\n@[expose] public secti",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/compact-green/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 714,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+          "first_line": 1,
+          "last_line": 18,
+          "start_context": "module\npublic import Harmonic\npublic import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup\n@[expose] public section\n\nnamespace ComputationalHodge.LoopCharacters\nope",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/compact-green/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1174,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+          "first_line": 1,
+          "last_line": 30,
+          "start_context": "module\npublic import LoopImage\npublic import Mathlib.Topology.Covering.AddCircle\npublic import Mathlib.Topology.Homotopy.Lifting\n@[expose] public section\n\nnamespace ComputationalHo",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/compact-green/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1170,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+          "first_line": 1,
+          "last_line": 39,
+          "start_context": "module\npublic import CircleWinding\npublic import Harmonic\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic\n@[expose] public section\n\nnamespace ComputationalHo",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/compact-green/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/RawLift.lean",
+      "source_sha256": "a36ca97eec8e567fe31bf090d7c807ebfca6b60165da5c2940b6b09edf1bc408",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 9009,
+          "sha256": "a36ca97eec8e567fe31bf090d7c807ebfca6b60165da5c2940b6b09edf1bc408",
+          "first_line": 1,
+          "last_line": 198,
+          "start_context": "module\npublic import CircleData\npublic import Mathlib.Analysis.Calculus.Deriv.Basic\npublic import Mathlib.Analysis.Calculus.Deriv.Add\npublic import Mathlib.Analysis.Calculus.Deriv.",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/compact-green/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/CirclePeriods.lean",
+      "source_sha256": "79bf84c3e4a3966019885c2b68b29957a21a43813da3a9022d852bb4d3251c27",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2663,
+          "sha256": "79bf84c3e4a3966019885c2b68b29957a21a43813da3a9022d852bb4d3251c27",
+          "first_line": 1,
+          "last_line": 62,
+          "start_context": "module\npublic import RawLift\n@[expose] public section\n\nnamespace ComputationalHodge.TraceIntegrals\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharac",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "79bf84c3e4a3966019885c2b68b29957a21a43813da3a9022d852bb4d3251c27"
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "source_path": "computational-hodge/compact-green/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/ACAnalysis.lean",
+      "source_sha256": "73e04af7f323bf9ad05d650fff6fe2e582dbdce677b09b8ba3afd08101f9f279",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 5056,
+          "sha256": "73e04af7f323bf9ad05d650fff6fe2e582dbdce677b09b8ba3afd08101f9f279",
+          "first_line": 1,
+          "last_line": 90,
+          "start_context": "module\npublic import CirclePeriods\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun\npublic import Mathlib.Analysis.Calculus.MeanValue\npublic im",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "5049009d6bf82f00e3336dcdeee4ef6b4783bca673d6b73efc001bf49e92bf93"
+    },
+    {
+      "path": "ACPeriods.lean",
+      "source_path": "computational-hodge/compact-green/ACPeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/ACPeriods.lean",
+      "source_sha256": "f48cde19f4f8c105cbf38cfe191f6cc054dfdd8a424f096009c417fc9ffa03b9",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1666,
+          "sha256": "f48cde19f4f8c105cbf38cfe191f6cc054dfdd8a424f096009c417fc9ffa03b9",
+          "first_line": 1,
+          "last_line": 36,
+          "start_context": "module\npublic import ACAnalysis\n@[expose] public section\nnamespace ComputationalHodge.ACLifts\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharacters ",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "f48cde19f4f8c105cbf38cfe191f6cc054dfdd8a424f096009c417fc9ffa03b9"
+    },
+    {
+      "path": "Potential.lean",
+      "source_path": "computational-hodge/compact-green/Potential.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/Potential.lean",
+      "source_sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2939,
+          "sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a",
+          "first_line": 1,
+          "last_line": 60,
+          "start_context": "module\npublic import ACPeriods\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff\npublic import Mathlib.Analysis.Calculus.MeanValue\n@[expose] public section\nnam",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a"
+    },
+    {
+      "path": "Density.lean",
+      "source_path": "computational-hodge/compact-green/Density.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/Density.lean",
+      "source_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1196,
+          "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+          "first_line": 1,
+          "last_line": 24,
+          "start_context": "module\npublic import Potential\npublic import Mathlib.MeasureTheory.Measure.OpenPos\n@[expose] public section\nnamespace ComputationalHodge.MetricHodge\nopen ComputationalHodge.CircleH",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+    },
+    {
+      "path": "Poisson.lean",
+      "source_path": "computational-hodge/compact-green/Poisson.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/Poisson.lean",
+      "source_sha256": "d446963606c18ffad21b37249525cb88a3170e7fb5607249cf57a6d9737826d5",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 12881,
+          "sha256": "cc9fd02399c7290204e64aa97273f5c79a63a89852538d0926c1a7adf9a22b3e",
+          "first_line": 1,
+          "last_line": 213,
+          "start_context": "module\npublic import Density\npublic import Mathlib.Analysis.Calculus.ContDiff.Deriv\npublic import Mathlib.Analysis.Calculus.ContDiff.Operations\npublic import Mathlib.Analysis.Speci",
+          "following_context": "\nnoncomputable def cosine : Coefficient where\n  toFun q := (AddCircle.toCircle q : \u2102).re\n  continuous_toFun := by fun_prop\ntheorem cosine_cover (x : \u211d) : cover cosine x=Real.cos (2"
+        },
+        {
+          "start_character": 13833,
+          "end_character": 13864,
+          "sha256": "9ecccd18a7dfc07c9a55d2d9498738ef717921c7254e3dc8aacdcdf2fff3a4f0",
+          "first_line": 235,
+          "last_line": 235,
+          "start_context": "end ComputationalHodge.Poisson\n",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [
+        "cosine",
+        "cosine_cover",
+        "cosineC2",
+        "cosine_zero",
+        "cosine_half",
+        "cosine_nonconstant"
+      ],
+      "sha256": "56667d584e9633e1dad4e3bfc18c54c549f9ae8717c16381f19fd58e77775f63"
+    },
+    {
+      "path": "Green.lean",
+      "source_path": "computational-hodge/compact-green/Green.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/Green.lean",
+      "source_sha256": "caebcdf4032ef610c321f54ab9153be6016a797a0c3ebfa728059222ef6addb8",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 10657,
+          "sha256": "a996de1d59e652f735980b7be84e4fa9321b8924eadb4ca4989913daa18a6821",
+          "first_line": 1,
+          "last_line": 152,
+          "start_context": "module\npublic import Poisson\npublic import Mathlib.Topology.ContinuousMap.Compact\npublic import Mathlib.Analysis.Normed.Operator.ContinuousLinearMap\n@[expose] public section\nnamesp",
+          "following_context": "theorem greenMap_injective (\u03c1 : RegularDensity) : Function.Injective (greenMap \u03c1) :=\n  fun f g h => Subtype.ext ((solution_solves \u03c1 f).symm.trans\n    ((congrArg (laplacian \u03c1) (show"
+        },
+        {
+          "start_character": 10958,
+          "end_character": 12135,
+          "sha256": "bf323b38ce953d8a0d8d79c28670d675468695c3737313f6fcfb2b3a9e2a4eae",
+          "first_line": 156,
+          "last_line": 174,
+          "start_context": "\ntheorem gradient_constant (c : \u211d) : gradient (constantC2 c)=0 := by\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  exact deriv_const x c\ntheorem gradient_normali",
+          "following_context": "/-- A concrete nonzero compatible forcing for every admitted density; not a vacuous zero space. -/\nnoncomputable def exampleForcing (\u03c1 : RegularDensity) : Compatible \u03c1 :=\n  \u27e8laplac"
+        },
+        {
+          "start_character": 12554,
+          "end_character": 12591,
+          "sha256": "63a79fae24bddf38607e4e593ff207d8715bca1ac5236184f436396f923a7796",
+          "first_line": 180,
+          "last_line": 180,
+          "start_context": "end ComputationalHodge.GreenOperator\n",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [
+        "greenMap_injective",
+        "exampleForcing",
+        "exampleForcing_nonzero"
+      ],
+      "sha256": "1e8fe288804d539a82e0b1a149da2f18df16b38bdcbdad4a536e5fe05e584622"
+    },
+    {
+      "path": "CompactGreen.lean",
+      "source_path": "computational-hodge/compact-green/CompactGreen.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green/CompactGreen.lean",
+      "source_sha256": "477e09707d2f7a690bef566735354e8b8186e97bdf99a67c1a0c08383b850e26",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 5301,
+          "sha256": "14d42e8ec42eee4e670e5ffe3a939ad3bbb1f7dd42043109f68683f250b616f3",
+          "first_line": 1,
+          "last_line": 99,
+          "start_context": "module\npublic import Green\npublic import Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli\npublic import Mathlib.Analysis.Normed.Operator.Compact.Basic\npublic import Mathlib.Topo",
+          "following_context": "\ntheorem green_bounded_precompact (\u03c1 : RegularDensity) {S : Set (Compatible \u03c1)}\n    (hS : Bornology.IsBounded S) : IsCompact (closure (greenMap \u03c1 '' S)) := by\n  obtain \u27e8B,hB\u27e9:=hS.e"
+        },
+        {
+          "start_character": 7290,
+          "end_character": 7326,
+          "sha256": "fedacb34c42c9d8dc96404c74ae9cad94e0f6da14ab1fa2839894d0e58a90474",
+          "first_line": 139,
+          "last_line": 139,
+          "start_context": "end ComputationalHodge.CompactGreen\n",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [
+        "green_bounded_precompact",
+        "green_subsequence",
+        "subsequence_with_raw_periods",
+        "green_nonzero"
+      ],
+      "sha256": "a79b257153343e1458c3579be4e0e5f27bfeec77103892868dc5940b1e995843"
+    }
+  ],
+  "proof_refactors": "proof-refactors.json"
+}

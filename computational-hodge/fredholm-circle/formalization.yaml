@@ -1,0 +1,145 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Shifted weighted-circle Laplacian Fredholm alternative and computational periods",
+    "description": "For every positive C1 period-one-circle density and every real shift, prove the actual normalized C2 shifted-Laplacian alternative: a nonzero homogeneous eigenfunction or unique normalized C2 solutions for all compatible C0 forcings. Construct the nonresonant bounded linear solution map, prove stability and zero-shift reduction, and establish actual raw computational-trace period vanishing as necessary and sufficient for nonresonant solvability.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Sections9.2-9.3",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Primary Hodge/compactness context in Proposition 9.3.4(2) and Theorem 9.3.6(1), Section 9.3. This package uses the retained circle C0 Ascoli route and generic compact-operator Fredholm theory; no Sobolev/Rellich or general Hodge theorem is formalized."
+    },
+    {
+      "title": "A proof of the Fredholm alternative",
+      "authors": [
+        "Terence Tao"
+      ],
+      "type": "other",
+      "id": "https://terrytao.wordpress.com/2011/04/10/a-proof-of-the-fredholm-alternative/",
+      "relationship": "related",
+      "note": "Theorem 1 and the second Riesz-lemma proof provide classical compact-operator context, matching the route credited by pinned Mathlib. The first proof has an approximability restriction and is not the proof claimed here. The new work is the actual weighted-circle differential/period transfer, not a new abstract Fredholm theorem."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/d6d42a1b3979e23289ed393ce467b1dcf260c9dc/computational-hodge/compact-green",
+      "relationship": "builds-on",
+      "note": "PR75 supplies the actual compact Green map on the closed C0 compatibility Banach space. This successor proves its actual normalized C2 shifted-Laplacian/period transfer and constructs a bounded nonresonant solution map. Complete required predecessor proofs remain as exact fragments plus six explicitly recorded statement-preserving proof refactors."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned generic compact-operator Fredholm alternative and Banach bounded-inverse infrastructure are credited. The actual weighted-circle normalized C2/reduced equation equivalence, solution construction and computational-period obstruction results are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Actual normalized C2 shifted weighted-circle Laplacian Fredholm alternative, bounded nonresonant C0 solution operator with C2 reconstruction, and computational-period obstruction equivalence.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Actual positive C1 coordinate density, period-one scalar circle, C0 supremum norm and normalized C2 domain. No C2 Banach assertion, explicit or uniform near-resonance stability constant, spectral basis/eigenvalue enumeration/finite resonant dimension, Hilbert self-adjoint realization, orthogonal forcing criterion at resonance, general Fredholm index, Sobolev/Rellich/weak elliptic regularity, general analytic/manifold/Kahler Hodge/deRham theorem, intrinsic metric/cotangent/complex-circle arclength identification, numerical solver or novelty claim. PR75 C0 limits are not upgraded to C2. Release outcomes remain separate source-bound evidence.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual indexed binary computational traces, circle realization/covering lifts, ordinary line integrals and finite harmonic cochains remain the obstruction model. The actual Green map and normalized C2/laplacian inverses are proved, not assumed. Generic Mathlib Fredholm applies to mu*G at nonzero parameter 1 for every real mu. The resulting solution is reconstructed through G, proving C2 regularity; no C2 completeness or arbitrary-limit regularity is assumed. Actual raw periods characterize the nonresonant forcing obstruction. No full resonant orthogonal-range or general Hodge theorem is claimed."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and mathematical review covered all 19 new theorem/eight definition contracts, 15 exact predecessor fragment mappings and six exact-statement proof refactors. Generated packaging/material fidelity and final release evidence have separate source-bound checks/reviews. No human or external peer review is inferred."
+  }
+}
