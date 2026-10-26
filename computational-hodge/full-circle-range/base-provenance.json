@@ -1,0 +1,440 @@
+{
+  "source_repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "8f8c93c47168a56e1a60730593b177df890d7488",
+  "scope": "Complete required proof texts are exact public PR78 Git fragments, already incorporating its reviewed inherited proof refactors. This successor initially omits only unused whole declarations, preserving module headers and all retained mathematical statements, definitions and proof text. Any further genuine proof refactor must have a separate exact-statement transformation chain and independent review.",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/resonant-range/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/SourcePaths.lean",
+      "source_sha256": "a6101aeb53675ce2b94f8d02022f27de63a7f02199173bf4a715445718a62b39",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2551,
+          "sha256": "a6101aeb53675ce2b94f8d02022f27de63a7f02199173bf4a715445718a62b39",
+          "first_line": 1,
+          "last_line": 66,
+          "start_context": "/-\nCopyright (c) 2025 Computational Paths contributors.\nUpstream excerpts are MIT licensed; see SOURCE-LICENSE.txt.\nPorted at the exact revision recorded in source-provenance.json.",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "a6101aeb53675ce2b94f8d02022f27de63a7f02199173bf4a715445718a62b39"
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/resonant-range/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2118,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+          "first_line": 1,
+          "last_line": 61,
+          "start_context": "module\n\npublic import SourcePaths\npublic import Mathlib.Analysis.InnerProductSpace.PiL2\n\n@[expose] public section\nnamespace ComputationalHodge\nopen ComputationalPaths.Path.Geometri",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/resonant-range/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 582,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+          "first_line": 1,
+          "last_line": 19,
+          "start_context": "module\n\npublic import Periods\npublic import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional\npublic import Mathlib.LinearAlgebra.Isomorphisms\n\n@[expose] public secti",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/resonant-range/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 714,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+          "first_line": 1,
+          "last_line": 18,
+          "start_context": "module\npublic import Harmonic\npublic import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup\n@[expose] public section\n\nnamespace ComputationalHodge.LoopCharacters\nope",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/resonant-range/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1174,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+          "first_line": 1,
+          "last_line": 30,
+          "start_context": "module\npublic import LoopImage\npublic import Mathlib.Topology.Covering.AddCircle\npublic import Mathlib.Topology.Homotopy.Lifting\n@[expose] public section\n\nnamespace ComputationalHo",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/resonant-range/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1170,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+          "first_line": 1,
+          "last_line": 39,
+          "start_context": "module\npublic import CircleWinding\npublic import Harmonic\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic\n@[expose] public section\n\nnamespace ComputationalHo",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/resonant-range/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/RawLift.lean",
+      "source_sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 7160,
+          "sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae",
+          "first_line": 1,
+          "last_line": 130,
+          "start_context": "module\npublic import CircleData\npublic import Mathlib.Analysis.Calculus.Deriv.Basic\npublic import Mathlib.Analysis.Calculus.Deriv.Add\npublic import Mathlib.Analysis.Calculus.Deriv.",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/resonant-range/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/CirclePeriods.lean",
+      "source_sha256": "02900d27791e5d56e1258ea9f1f40ba8eebce26f9f7a71c7d6bc97d9221483a7",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2662,
+          "sha256": "02900d27791e5d56e1258ea9f1f40ba8eebce26f9f7a71c7d6bc97d9221483a7",
+          "first_line": 1,
+          "last_line": 57,
+          "start_context": "module\npublic import RawLift\n@[expose] public section\n\nnamespace ComputationalHodge.TraceIntegrals\nopen ComputationalPaths.Path.GeometricTopology ComputationalHodge.LoopCharacters ",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "02900d27791e5d56e1258ea9f1f40ba8eebce26f9f7a71c7d6bc97d9221483a7"
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "source_path": "computational-hodge/resonant-range/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/ACAnalysis.lean",
+      "source_sha256": "cc65b3edbfa5888abc1e3c6ca8502eea3c940d983bfb142fb8a81d639336181b",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 4924,
+          "sha256": "cc65b3edbfa5888abc1e3c6ca8502eea3c940d983bfb142fb8a81d639336181b",
+          "first_line": 1,
+          "last_line": 84,
+          "start_context": "module\npublic import CirclePeriods\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun\npublic import Mathlib.Analysis.Calculus.MeanValue\npublic im",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "cc65b3edbfa5888abc1e3c6ca8502eea3c940d983bfb142fb8a81d639336181b"
+    },
+    {
+      "path": "ACPeriods.lean",
+      "source_path": "computational-hodge/resonant-range/ACPeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/ACPeriods.lean",
+      "source_sha256": "7b77a0e683c6c352cd4ce25042cd2ecba8fb70fff4edeaef141ccac76c497fc3",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1651,
+          "sha256": "7b77a0e683c6c352cd4ce25042cd2ecba8fb70fff4edeaef141ccac76c497fc3",
+          "first_line": 1,
+          "last_line": 33,
+          "start_context": "module\npublic import ACAnalysis\n@[expose] public section\nnamespace ComputationalHodge.ACLifts\nopen ComputationalPaths.Path.GeometricTopology ComputationalHodge.LoopCharacters Compu",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "7b77a0e683c6c352cd4ce25042cd2ecba8fb70fff4edeaef141ccac76c497fc3"
+    },
+    {
+      "path": "Potential.lean",
+      "source_path": "computational-hodge/resonant-range/Potential.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Potential.lean",
+      "source_sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 2939,
+          "sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a",
+          "first_line": 1,
+          "last_line": 60,
+          "start_context": "module\npublic import ACPeriods\npublic import Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff\npublic import Mathlib.Analysis.Calculus.MeanValue\n@[expose] public section\nnam",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a"
+    },
+    {
+      "path": "Density.lean",
+      "source_path": "computational-hodge/resonant-range/Density.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Density.lean",
+      "source_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1196,
+          "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+          "first_line": 1,
+          "last_line": 24,
+          "start_context": "module\npublic import Potential\npublic import Mathlib.MeasureTheory.Measure.OpenPos\n@[expose] public section\nnamespace ComputationalHodge.MetricHodge\nopen ComputationalHodge.CircleH",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+    },
+    {
+      "path": "Poisson.lean",
+      "source_path": "computational-hodge/resonant-range/Poisson.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Poisson.lean",
+      "source_sha256": "34924e3b4a0ab7c153cc292e0494f3c214ddc9798440cc3e81c453db8d744023",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 14638,
+          "sha256": "34924e3b4a0ab7c153cc292e0494f3c214ddc9798440cc3e81c453db8d744023",
+          "first_line": 1,
+          "last_line": 226,
+          "start_context": "module\npublic import Density\npublic import Mathlib.Analysis.Calculus.ContDiff.Deriv\npublic import Mathlib.Analysis.Calculus.ContDiff.Operations\npublic import Mathlib.Analysis.Speci",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "34924e3b4a0ab7c153cc292e0494f3c214ddc9798440cc3e81c453db8d744023"
+    },
+    {
+      "path": "Green.lean",
+      "source_path": "computational-hodge/resonant-range/Green.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Green.lean",
+      "source_sha256": "3614cd4ac05977d5f981f16a03a41c4e9ce78cc5047e804f639be19bc9ee457a",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 11939,
+          "sha256": "3614cd4ac05977d5f981f16a03a41c4e9ce78cc5047e804f639be19bc9ee457a",
+          "first_line": 1,
+          "last_line": 170,
+          "start_context": "module\npublic import Poisson\npublic import Mathlib.Topology.ContinuousMap.Compact\npublic import Mathlib.Analysis.Normed.Operator.ContinuousLinearMap\n@[expose] public section\nnamesp",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "3614cd4ac05977d5f981f16a03a41c4e9ce78cc5047e804f639be19bc9ee457a"
+    },
+    {
+      "path": "CompactGreen.lean",
+      "source_path": "computational-hodge/resonant-range/CompactGreen.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/CompactGreen.lean",
+      "source_sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 5104,
+          "sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641",
+          "first_line": 1,
+          "last_line": 89,
+          "start_context": "module\npublic import Green\npublic import Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli\npublic import Mathlib.Analysis.Normed.Operator.Compact.Basic\npublic import Mathlib.Topo",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [],
+      "sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641"
+    },
+    {
+      "path": "Fredholm.lean",
+      "source_path": "computational-hodge/resonant-range/Fredholm.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Fredholm.lean",
+      "source_sha256": "5b441f4c1f0aec20d64f1e2b9c2ad5efb4b7a4f873638f27f5a40f5ec9b0ee8c",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1254,
+          "sha256": "8c3d63b3e7544fb86e784242bd044733d2841e0889f1e6cabcbb0c195024e30d",
+          "first_line": 1,
+          "last_line": 20,
+          "start_context": "module\npublic import CompactGreen\npublic import Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative\n@[expose] public section\nnamespace ComputationalHodge.CircleFredholm\nop",
+          "following_context": "\ntheorem shifted_compatible (\u03c1 : RegularDensity) (\u03bc : \u211d) (u : Domain \u03c1) :\n    shifted \u03c1 \u03bc u\u2208compatibleSpace \u03c1 :=\n  (compatibleSpace \u03c1).sub_mem (weightedMean_laplacian \u03c1 u.val)\n    "
+        },
+        {
+          "start_character": 1478,
+          "end_character": 1516,
+          "sha256": "50be41d6470ae85dcbb7c782e1a165b087b9cd3a5827945b5589413ae422831f",
+          "first_line": 26,
+          "last_line": 26,
+          "start_context": "end ComputationalHodge.CircleFredholm\n",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [
+        "shifted_compatible"
+      ],
+      "sha256": "67e21797ee0acc92e5d14c406b92994982593c051c9666599c80cfa36457def3"
+    },
+    {
+      "path": "Resonance.lean",
+      "source_path": "computational-hodge/resonant-range/Resonance.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Resonance.lean",
+      "source_sha256": "d02c46a9a42c04d5726142fca7d3e56ae1616e9458b06c42a0d00c1da2508203",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 1831,
+          "sha256": "3eaa75d2ea7230afc3bc212489191e1d432e7b2432d510058ccc6f63c2b817b0",
+          "first_line": 1,
+          "last_line": 33,
+          "start_context": "module\npublic import Fredholm\n@[expose] public section\nnamespace ComputationalHodge.ResonanceObstruction\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge Computat",
+          "following_context": "\ntheorem normalized_kernel_zero (\u03c1 : RegularDensity) (u : Domain \u03c1) (hz : laplacian \u03c1 u.val=0) :\n    u.val.val=0 := by\n  obtain \u27e8c,hc\u27e9:=(kernel_iff_constant \u03c1 u.val).mp hz\n  have h"
+        },
+        {
+          "start_character": 2188,
+          "end_character": 2519,
+          "sha256": "b7d2c7a17bfeda34041d6237b6ed2abcfca6f82abcb8cadb762d26fc71680550",
+          "first_line": 40,
+          "last_line": 44,
+          "start_context": "\ntheorem forcing_orthogonal (\u03c1 : RegularDensity) (\u03bc : \u211d) (u v : C2Coefficient) (f : Coefficient)\n    (hv : laplacian \u03c1 v=\u03bc\u2022v.val) (hu : laplacian \u03c1 u-\u03bc\u2022u.val=f) : pairing \u03c1 f v.val",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [
+        "normalized_kernel_zero"
+      ],
+      "sha256": "f3ecca4e551c96318446cd3f11bdd8a8ac3563d29013b0d49fd57feed2eb1709"
+    },
+    {
+      "path": "Range.lean",
+      "source_path": "computational-hodge/resonant-range/Range.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/8f8c93c47168a56e1a60730593b177df890d7488/computational-hodge/resonant-range/Range.lean",
+      "source_sha256": "2b055f9a7565284f0c91cbe9a28bf7ff8a02e03cb3d2c2cd04884e91ee09b7d2",
+      "qualify_circle": false,
+      "prefix": "",
+      "suffix": "",
+      "parts": [
+        {
+          "start_character": 0,
+          "end_character": 6113,
+          "sha256": "fd2126c72d7ad1da0dedd6f8bb681727d66fadf8af8ea18266547818596e8d5d",
+          "first_line": 1,
+          "last_line": 103,
+          "start_context": "module\npublic import Resonance\npublic import Mathlib.Analysis.Normed.Operator.Mul\n@[expose] public section\nnamespace ComputationalHodge.ResonantRange\nopen ComputationalHodge.Circle",
+          "following_context": "theorem necessary_modes (\u03c1 : RegularDensity) (\u03bc : \u211d) (f : Coefficient)\n    (u : C2Coefficient) (hu : laplacian \u03c1 u-\u03bc\u2022u.val=f)\n    (v : Domain \u03c1) (hv : shifted \u03c1 \u03bc v=0) : pairing \u03c1 "
+        },
+        {
+          "start_character": 7918,
+          "end_character": 7955,
+          "sha256": "058eaa9ab6da0880069b111ef55a43567f510cbd6431d8948bc7605556d3ea91",
+          "first_line": 133,
+          "last_line": 133,
+          "start_context": "end ComputationalHodge.ResonantRange\n",
+          "following_context": ""
+        }
+      ],
+      "omitted_whole_declarations": [
+        "necessary_modes",
+        "solvable_iff_raw_and_modes",
+        "solvable_iff_cochain_and_modes",
+        "zero_homogeneous",
+        "zero_criterion"
+      ],
+      "sha256": "6b9b3a4427cf582994029fdff4c481e18b8582be348550c629ad129c71f5113d"
+    }
+  ]
+}

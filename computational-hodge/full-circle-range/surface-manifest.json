@@ -1,0 +1,475 @@
+{
+  "schema_version": 4,
+  "documentation_header_placement": [
+    {
+      "declaration": "ComputationalHodge.period",
+      "original_docstring": "/-- The actual signed integral of edge coefficients along a computational trace. -/\n",
+      "original_sha256": "8440d551de3c53f968602da31d0416402ef5b6cff463f0f17aeb130063773562",
+      "prose": "The actual signed integral of edge coefficients along a computational trace.",
+      "replacement": "/-- The actual signed integral of edge coefficients along a computational trace. -/ ",
+      "start_character": 3418,
+      "end_character": 3502,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.d0",
+      "original_docstring": "/-- The degree-zero coboundary, with actual source and target evaluations. -/\n",
+      "original_sha256": "5b70d1e0ca308d244986994fa1b1c0c24c4c36032fb1f5ae947177d2e6ba9c00",
+      "prose": "The degree-zero coboundary, with actual source and target evaluations.",
+      "replacement": "/-- The degree-zero coboundary, with actual source and target evaluations. -/ ",
+      "start_character": 3706,
+      "end_character": 3784,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.Cell",
+      "original_docstring": "/-- All named rules, including their endpoints: no unlisted-rule assumption. -/\n",
+      "original_sha256": "57d6bb03700fb0f98be9bc42d4826d6085b970354c2922116c9a6a3dd2fe9272",
+      "prose": "All named rules, including their endpoints: no unlisted-rule assumption.",
+      "replacement": "/-- All named rules, including their endpoints: no unlisted-rule assumption. -/ ",
+      "start_character": 4293,
+      "end_character": 4373,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.d1",
+      "original_docstring": "/-- The next coboundary evaluates every named relation's actual period difference. -/\n",
+      "original_sha256": "5490c2bd876957b083b0802bea77831eeca12bd5e19be46580f6e825386d594b",
+      "prose": "The next coboundary evaluates every named relation's actual period difference.",
+      "replacement": "/-- The next coboundary evaluates every named relation's actual period difference. -/ ",
+      "start_character": 4597,
+      "end_character": 4683,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.LoopCharacters.geometricPresentation",
+      "original_docstring": "/-- Complete geometric relations are actual endpoint-fixed path homotopies. -/\n",
+      "original_sha256": "39bca9541e36ea7b0ec78eabfbd182d8eb4a050d2df184a2290b71b0bbc76500",
+      "prose": "Complete geometric relations are actual endpoint-fixed path homotopies.",
+      "replacement": "/-- Complete geometric relations are actual endpoint-fixed path homotopies. -/ ",
+      "start_character": 5696,
+      "end_character": 5775,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.LoopCharacters.circleCover",
+      "original_docstring": "/-- The ordinary covering of the unit additive circle by the real line. -/\n",
+      "original_sha256": "5a068a3069ffdba67abe8632bb2fb89be28b0e916dc197be92e3784ecd57c9f7",
+      "prose": "The ordinary covering of the unit additive circle by the real line.",
+      "replacement": "/-- The ordinary covering of the unit additive circle by the real line. -/ ",
+      "start_character": 6164,
+      "end_character": 6239,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.LoopCharacters.circleSystem",
+      "original_docstring": "/-- One actual circle loop as a finite computational generator. -/\n",
+      "original_sha256": "5d569de1ee5d92213858de98a8bc578761626755962a52875424ca41a33af781",
+      "prose": "One actual circle loop as a finite computational generator.",
+      "replacement": "/-- One actual circle loop as a finite computational generator. -/ ",
+      "start_character": 7712,
+      "end_character": 7779,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.TraceIntegrals.rawLift",
+      "original_docstring": "/-- A finite piecewise-affine construction from the actual trace syntax.\nEquality with the actual covering lift is proved separately. -/\n",
+      "original_sha256": "19c9a8aa91923104ee4bd08e46e9c1a8fbac9f303700eedf2977c28718be0898",
+      "prose": "A finite piecewise-affine construction from the actual trace syntax. Equality with the actual covering lift is proved separately.",
+      "replacement": "/-- A finite piecewise-affine construction from the actual trace syntax. Equality with the actual covering lift is proved separately. -/ ",
+      "start_character": 8546,
+      "end_character": 8683,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.TraceIntegrals.actualLift",
+      "original_docstring": "/-- The actual covering lift of the actual path, extended by the interval projection. -/\n",
+      "original_sha256": "69309bbf17cbb21b6bce8129fc92ac790bd0ebbc94125a7fde9878155bacc7c5",
+      "prose": "The actual covering lift of the actual path, extended by the interval projection.",
+      "replacement": "/-- The actual covering lift of the actual path, extended by the interval projection. -/ ",
+      "start_character": 13977,
+      "end_character": 14066,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.ACLifts.ACLift",
+      "original_docstring": "/-- A real lift with regularity only on the interval, not a presumed period formula. -/\n",
+      "original_sha256": "e56f0e69e873ba98febf3068552251f87a856880ff298110d95aaed07cd9f0f4",
+      "prose": "A real lift with regularity only on the interval, not a presumed period formula.",
+      "replacement": "/-- A real lift with regularity only on the interval, not a presumed period formula. -/ ",
+      "start_character": 17680,
+      "end_character": 17768,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.ACLifts.lineIntegral",
+      "original_docstring": "/-- Ordinary integration on this actual projected curve, against its real-lift derivative. -/\n",
+      "original_sha256": "593ba53f3f48ba173731ae15a5c0dc199f7c730480512f6d4049558e8c13d33b",
+      "prose": "Ordinary integration on this actual projected curve, against its real-lift derivative.",
+      "replacement": "/-- Ordinary integration on this actual projected curve, against its real-lift derivative. -/ ",
+      "start_character": 18313,
+      "end_character": 18407,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.ACLifts.fromTrace",
+      "original_docstring": "/-- Every actual raw finite computational trace is admitted without smoothing it. -/\n",
+      "original_sha256": "896ed2ec92750e97d38b943ed2bea3b08988aa8bf90fdcb76371e2dfb5e149b0",
+      "prose": "Every actual raw finite computational trace is admitted without smoothing it.",
+      "replacement": "/-- Every actual raw finite computational trace is admitted without smoothing it. -/ ",
+      "start_character": 22176,
+      "end_character": 22261,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CircleHodge.realPotential",
+      "original_docstring": "/-- A genuine real primitive with its mean term removed. -/\n",
+      "original_sha256": "7458aee7b44ee400d17743441c3961ebce9c6d3e7233de03631fcf239e512539",
+      "prose": "A genuine real primitive with its mean term removed.",
+      "replacement": "/-- A genuine real primitive with its mean term removed. -/ ",
+      "start_character": 23567,
+      "end_character": 23627,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CircleHodge.potential",
+      "original_docstring": "/-- The primitive descends to an actual continuous function on the circle. -/\n",
+      "original_sha256": "4676a42515696b9f7a96a143c6972244fe28b14bf3815f78fe3c8a029926519d",
+      "prose": "The primitive descends to an actual continuous function on the circle.",
+      "replacement": "/-- The primitive descends to an actual continuous function on the circle. -/ ",
+      "start_character": 24807,
+      "end_character": 24885,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CircleHodge.ExactCoefficient",
+      "original_docstring": "/-- Exactness requires an actual circle potential and its actual C\u00b9 derivative. -/\n",
+      "original_sha256": "795a62c4e5f891ce50cc7a8f04fcdb53426ca8a5076cb8336633d64431963730",
+      "prose": "Exactness requires an actual circle potential and its actual C\u00b9 derivative.",
+      "replacement": "/-- Exactness requires an actual circle potential and its actual C\u00b9 derivative. -/ ",
+      "start_character": 25326,
+      "end_character": 25409,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.MetricHodge.Density",
+      "original_docstring": "/-- Positive continuous length density. The coordinate convention is ds=\u03c1 dx. -/\n",
+      "original_sha256": "0c72edf75d5a18638d56365056d689fa53a8c09590c96afac2794b93c4afb1de",
+      "prose": "Positive continuous length density. The coordinate convention is ds=\u03c1 dx.",
+      "replacement": "/-- Positive continuous length density. The coordinate convention is ds=\u03c1 dx. -/ ",
+      "start_character": 26282,
+      "end_character": 26363,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.Poisson.RegularDensity",
+      "original_docstring": "/-- Positive C\u00b9 length density, in the coordinate convention ds=\u03c1 dx. -/\n",
+      "original_sha256": "19f9bb2afabc0e40205aee042cd71705ae0617d371ef8086eda1a78793fd9c0d",
+      "prose": "Positive C\u00b9 length density, in the coordinate convention ds=\u03c1 dx.",
+      "replacement": "/-- Positive C\u00b9 length density, in the coordinate convention ds=\u03c1 dx. -/ ",
+      "start_character": 27578,
+      "end_character": 27651,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.Poisson.C2Space",
+      "original_docstring": "/-- Actual C\u00b2 circle functions, not arbitrary real functions with totalized derivatives. -/\n",
+      "original_sha256": "e10a6e5beb269f8544ba849cb6d4f09c7366bce57faa8c84ed5069cdeded0d9b",
+      "prose": "Actual C\u00b2 circle functions, not arbitrary real functions with totalized derivatives.",
+      "replacement": "/-- Actual C\u00b2 circle functions, not arbitrary real functions with totalized derivatives. -/ ",
+      "start_character": 27720,
+      "end_character": 27812,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.Poisson.laplacian",
+      "original_docstring": "/-- The actual continuous circle Laplacian \u03b4d, with the nonnegative geometer's sign. -/\n",
+      "original_sha256": "7b255be71a88e7ce061c839cad1917e6ce6caa2e7d7668f16ad53b3a5fc19801",
+      "prose": "The actual continuous circle Laplacian \u03b4d, with the nonnegative geometer's sign.",
+      "replacement": "/-- The actual continuous circle Laplacian \u03b4d, with the nonnegative geometer's sign. -/ ",
+      "start_character": 29662,
+      "end_character": 29750,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.Poisson.green",
+      "original_docstring": "/-- Constructed normalized Green solution to the forcing with its weighted constant projection removed. -/\n",
+      "original_sha256": "5c5aaa464476127200031c21779356a98556ac5c74d96bbf5ef3403c1bf10f0c",
+      "prose": "Constructed normalized Green solution to the forcing with its weighted constant projection removed.",
+      "replacement": "/-- Constructed normalized Green solution to the forcing with its weighted constant projection removed. -/ ",
+      "start_character": 39570,
+      "end_character": 39677,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.GreenOperator.meanFunctional",
+      "original_docstring": "/-- Actual continuous weighted-mean functional, bounded using the positive density integral. -/\n",
+      "original_sha256": "a4ef41ffec5d9f756f9b1dccc4a07c7df99e20b4d7cac1bcefb09a050242f172",
+      "prose": "Actual continuous weighted-mean functional, bounded using the positive density integral.",
+      "replacement": "/-- Actual continuous weighted-mean functional, bounded using the positive density integral. -/ ",
+      "start_character": 43137,
+      "end_character": 43233,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.GreenOperator.compatibleSpace",
+      "original_docstring": "/-- Closed subspace of continuous forcing with vanishing actual computational obstruction. -/\n",
+      "original_sha256": "28230670a3d4fccbde0dddd30769091b116629a4e5243075d536006ee544f749",
+      "prose": "Closed subspace of continuous forcing with vanishing actual computational obstruction.",
+      "replacement": "/-- Closed subspace of continuous forcing with vanishing actual computational obstruction. -/ ",
+      "start_character": 43484,
+      "end_character": 43578,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.GreenOperator.potential_weight_bound",
+      "original_docstring": "/-- A quantitative actual primitive estimate; the bound is proved, not assumed for Green. -/\n",
+      "original_sha256": "1fb6df5ae73380417de448da04b04a8dac252a129c98210ce6d87eafb6112292",
+      "prose": "A quantitative actual primitive estimate; the bound is proved, not assumed for Green.",
+      "replacement": "/-- A quantitative actual primitive estimate; the bound is proved, not assumed for Green. -/ ",
+      "start_character": 44338,
+      "end_character": 44431,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.GreenOperator.greenMap",
+      "original_docstring": "/-- A bounded linear endomorphism of the actual closed C0 forcing subspace, with a C2 image. -/\n",
+      "original_sha256": "2bda95c4b3e9f8cc50f375cd551a9fa7e022c4a4b73b04271205d70f02b93f05",
+      "prose": "A bounded linear endomorphism of the actual closed C0 forcing subspace, with a C2 image.",
+      "replacement": "/-- A bounded linear endomorphism of the actual closed C0 forcing subspace, with a C2 image. -/ ",
+      "start_character": 50696,
+      "end_character": 50792,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.GreenOperator.pairing",
+      "original_docstring": "/-- Ordinary weighted integral pairing; no Hilbert completion or self-adjoint realization. -/\n",
+      "original_sha256": "7fd047b0a670ec71fd0de460ed7311222ca04e6efbcf9b4782eff57c6b408be9",
+      "prose": "Ordinary weighted integral pairing; no Hilbert completion or self-adjoint realization.",
+      "replacement": "/-- Ordinary weighted integral pairing; no Hilbert completion or self-adjoint realization. -/ ",
+      "start_character": 52543,
+      "end_character": 52637,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CompactGreen.forcingBall",
+      "original_docstring": "/-- The actual closed forcing ball for the inherited C0 supremum norm. -/\n",
+      "original_sha256": "ec6bfd175d40f73534ca4aedf420b3d895e2f88b0035b2a9291369d61789c3b5",
+      "prose": "The actual closed forcing ball for the inherited C0 supremum norm.",
+      "replacement": "/-- The actual closed forcing ball for the inherited C0 supremum norm. -/ ",
+      "start_character": 53572,
+      "end_character": 53646,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CompactGreen.coefficientImage",
+      "original_docstring": "/-- Actual Green images as continuous circle coefficients. -/\n",
+      "original_sha256": "d571d77048170a3631f682bae6de4d9024f046b6d5b2f29bcf9311425e49a86b",
+      "prose": "Actual Green images as continuous circle coefficients.",
+      "replacement": "/-- Actual Green images as continuous circle coefficients. -/ ",
+      "start_character": 53727,
+      "end_character": 53789,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CompactGreen.green_ball_precompact",
+      "original_docstring": "/-- Bounded forcing gives a relatively compact family of actual Green solutions in H. -/\n",
+      "original_sha256": "280c9bdd1f9a0ffff43018a780ed066bfb4e622409293d277c62b10723782155",
+      "prose": "Bounded forcing gives a relatively compact family of actual Green solutions in H.",
+      "replacement": "/-- Bounded forcing gives a relatively compact family of actual Green solutions in H. -/ ",
+      "start_character": 57229,
+      "end_character": 57318,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.CircleFredholm.Domain",
+      "original_docstring": "/-- Actual normalized twice continuously differentiable circle functions; no Banach claim. -/\n",
+      "original_sha256": "db11327ae6d2e9f07a39fd3e14f5f84cda59fed1db3f74db2fcdfee37e080a23",
+      "prose": "Actual normalized twice continuously differentiable circle functions; no Banach claim.",
+      "replacement": "/-- Actual normalized twice continuously differentiable circle functions; no Banach claim. -/ ",
+      "start_character": 58424,
+      "end_character": 58518,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.ResonantRange.modeFunctional",
+      "original_docstring": "/-- Continuous literal weighted integral, in the original C0 norm. -/\n",
+      "original_sha256": "37bcdb58f49c55f00eed44843d80b2bf2d2964916b1e5c78892187ed8ed97e62",
+      "prose": "Continuous literal weighted integral, in the original C0 norm.",
+      "replacement": "/-- Continuous literal weighted integral, in the original C0 norm. -/ ",
+      "start_character": 61681,
+      "end_character": 61751,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.ResonantRange.orthogonalSpace",
+      "original_docstring": "/-- Orthogonality to the actual reduced kernel, with no Hilbert-space identification. -/\n",
+      "original_sha256": "48b618dd11b2cace7111e710a32cac044be86541305f720c3d720974d95bbf1c",
+      "prose": "Orthogonality to the actual reduced kernel, with no Hilbert-space identification.",
+      "replacement": "/-- Orthogonality to the actual reduced kernel, with no Hilbert-space identification. -/ ",
+      "start_character": 62143,
+      "end_character": 62232,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.ResonantRange.restricted_bijective",
+      "original_docstring": "/-- Fredholm is applied on the actual closed C0 subspace at nonzero parameter1. -/\n",
+      "original_sha256": "2f29360590d67ebd704bdffe5bf753a980fab7bff55ae97704fcf03b07a3ae87",
+      "prose": "Fredholm is applied on the actual closed C0 subspace at nonzero parameter1.",
+      "replacement": "/-- Fredholm is applied on the actual closed C0 subspace at nonzero parameter1. -/ ",
+      "start_character": 65152,
+      "end_character": 65235,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.FullCircleRange.fullShifted",
+      "original_docstring": "/-- Actual geometer-sign operator on all C2 coefficients, without normalization. -/\n",
+      "original_sha256": "dd07b63791b999dd9e28316ba72a6135d1ba4d23a842928513f5efd0a598127a",
+      "prose": "Actual geometer-sign operator on all C2 coefficients, without normalization.",
+      "replacement": "/-- Actual geometer-sign operator on all C2 coefficients, without normalization. -/ ",
+      "start_character": 67286,
+      "end_character": 67370,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.FullCircleRange.normalization_commutes",
+      "original_docstring": "/-- Normalization and the actual shifted operator commute with forcing projection. -/\n",
+      "original_sha256": "4c90c465bf34bdbc3e6835bf2de70223a38b8e493c6c5375af05c54fe622f563",
+      "prose": "Normalization and the actual shifted operator commute with forcing projection.",
+      "replacement": "/-- Normalization and the actual shifted operator commute with forcing projection. -/ ",
+      "start_character": 69318,
+      "end_character": 69404,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.FullCircleRange.reconstruct",
+      "original_docstring": "/-- Reconstruct the unrestricted equation with the correct constant-sector sign. -/\n",
+      "original_sha256": "2e72da3b8637428eeeaebac9f211e180f99a99df09773f3dd42716ffde8a5a38",
+      "prose": "Reconstruct the unrestricted equation with the correct constant-sector sign.",
+      "replacement": "/-- Reconstruct the unrestricted equation with the correct constant-sector sign. -/ ",
+      "start_character": 69677,
+      "end_character": 69761,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.FullCircleRange.solvable_iff_modes",
+      "original_docstring": "/-- Full actual C2 Fredholm range, with every homogeneous C2 competitor quantified. -/\n",
+      "original_sha256": "2bbccdc0f196196fbbbfa8fada14d8d57b04a5c5712f541f930f8c6adb5afb53",
+      "prose": "Full actual C2 Fredholm range, with every homogeneous C2 competitor quantified.",
+      "replacement": "/-- Full actual C2 Fredholm range, with every homogeneous C2 competitor quantified. -/ ",
+      "start_character": 71458,
+      "end_character": 71545,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    },
+    {
+      "declaration": "ComputationalHodge.FullCircleRange.off_zero_periods_not_necessary",
+      "original_docstring": "/-- Off zero, genuine nonzero trace periods do not preclude an actual C2 solution. -/\n",
+      "original_sha256": "228faf55341205f7edf28aa0c64b5887cde25ffae0721422a48ede2db8492693",
+      "prose": "Off zero, genuine nonzero trace periods do not preclude an actual C2 solution.",
+      "replacement": "/-- Off zero, genuine nonzero trace periods do not preclude an actual C2 solution. -/ ",
+      "start_character": 72910,
+      "end_character": 72996,
+      "association": "Per-declaration Lean docstring association retained; modular docstrings unchanged."
+    }
+  ],
+  "unformatted_sha256": "312b10ba3b5dd180a2736bd7723e2d7185459460df3b842b06773c417c95ac28",
+  "layout": {
+    "empty_code_lines_removed": 138,
+    "ordinary_signature_line_joins": 119,
+    "proof_body_line_joins": 0,
+    "open_command_joins": 0,
+    "documentation_header_joins": 37
+  },
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "a6101aeb53675ce2b94f8d02022f27de63a7f02199173bf4a715445718a62b39"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "sha256": "28d4d28c3276f4f28dd440ac7f55183979e865c6b56007bcfa8f930d3c7f2268"
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "sha256": "5be5e4889b15b439aaf50982f3005a5f08186f978f9657c1c5e3df0aa3e31111"
+    },
+    {
+      "path": "ACPeriods.lean",
+      "sha256": "5cc4c580ab6c43dfc66c06e96194af828934694d0b65af690ef6abd648f4e1c0"
+    },
+    {
+      "path": "Potential.lean",
+      "sha256": "e752613ba6318425f3e0b3c2ff6836fe43ac5151ecf6f391b78e6527eaba2267"
+    },
+    {
+      "path": "Density.lean",
+      "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+    },
+    {
+      "path": "Poisson.lean",
+      "sha256": "34924e3b4a0ab7c153cc292e0494f3c214ddc9798440cc3e81c453db8d744023"
+    },
+    {
+      "path": "Green.lean",
+      "sha256": "9bb622f3bac47bf63774a51a6c3e10db8cd9b2b8ec070eb3726393c3bc92209f"
+    },
+    {
+      "path": "CompactGreen.lean",
+      "sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641"
+    },
+    {
+      "path": "Fredholm.lean",
+      "sha256": "67e21797ee0acc92e5d14c406b92994982593c051c9666599c80cfa36457def3"
+    },
+    {
+      "path": "Resonance.lean",
+      "sha256": "f3ecca4e551c96318446cd3f11bdd8a8ac3563d29013b0d49fd57feed2eb1709"
+    },
+    {
+      "path": "Range.lean",
+      "sha256": "5cc9943da1182558a9355ec5ab85d868a2ce3db1f0c8227001ef1b6b20051b15"
+    },
+    {
+      "path": "FullRange.lean",
+      "sha256": "6ad684a1f5a2f7ccb5171ae3e9ed77e300ed4a2675e9915607a6ffb955fa455d"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+    "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+    "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+    "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+    "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative"
+  ],
+  "sha256": "64538018866c48f2cb77f594ede3b8a0ad3880bfc7ded5e4859b9373542779ba",
+  "lines": 985,
+  "bytes": 75987,
+  "transformation": "Remove module/visibility directives; replace custom imports by complete source and minimize only witnessed redundant trusted Mathlib imports; remove empty lines outside comments/strings and reflow ordinary top-level declaration signatures and preserve plain docstring prose with its original declaration through header placement after ordinary signature layout. Modular docstrings stay unchanged; combined per-declaration Lean doc metadata is retained. No proof-body or open-command joins. Retain every declaration and complete proof of ordered modular sources; fresh elaboration and review remain required. Challenge and Solution share one implementation, not independent proofs."
+}

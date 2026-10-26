@@ -1,0 +1,106 @@
+{
+  "source_commit": "8f8c93c47168a56e1a60730593b177df890d7488",
+  "scope": "Exact published predecessor statement headers and complete public-base/final proof bodies. Failed intermediate authoring attempts remain private and are not release evidence. New FullRange source has its own direct native and independent review, not claimed as inherited public proof.",
+  "rewrites": [
+    {
+      "module": "CirclePeriods.lean",
+      "theorem": "winding_realize_count",
+      "kind": "proof",
+      "old_declaration": "theorem winding_realize_count (p : Trace 0 0) : winding (GeometricTrace.realize p)=(count p : \u211d) := by\n  exact (rawLift_eq_cover p 1).symm.trans (rawLift_one p)\n\n",
+      "new_declaration": "theorem winding_realize_count (p : Trace 0 0) : winding (GeometricTrace.realize p)=(count p : \u211d) := (rawLift_eq_cover p 1).symm.trans (rawLift_one p)\n",
+      "statement_sha256": "769f32791e2a7785707c205db90e95081f5266bed4c3c83405634049e54ac855",
+      "before_module_sha256": "02900d27791e5d56e1258ea9f1f40ba8eebce26f9f7a71c7d6bc97d9221483a7",
+      "after_module_sha256": "28d4d28c3276f4f28dd440ac7f55183979e865c6b56007bcfa8f930d3c7f2268"
+    },
+    {
+      "module": "ACAnalysis.lean",
+      "theorem": "primitive_comp_ac",
+      "kind": "proof",
+      "old_declaration": "theorem primitive_comp_ac (\u03b1 : Coefficient) (L : ACLift) :\n    AbsolutelyContinuousOnInterval (fun t => primitive \u03b1 (L.val t)) 0 1 := by\n  obtain \u27e8K,hK\u27e9 := primitive_lipschitz \u03b1\n  exact hK.comp_absolutelyContinuousOnInterval L.property.1\n",
+      "new_declaration": "theorem primitive_comp_ac (\u03b1 : Coefficient) (L : ACLift) :\n    AbsolutelyContinuousOnInterval (fun t => primitive \u03b1 (L.val t)) 0 1 := (primitive_lipschitz \u03b1).choose_spec.comp_absolutelyContinuousOnInterval L.property.1\n",
+      "statement_sha256": "7cb468ccc2f939212cccac1156c4406d802262a8d5b2677191d65f4a71869d5c",
+      "before_module_sha256": "cc65b3edbfa5888abc1e3c6ca8502eea3c940d983bfb142fb8a81d639336181b",
+      "after_module_sha256": "48ef132060b39847677997fed14687fc70608339947092fdc61ddf72299f3d87"
+    },
+    {
+      "module": "ACAnalysis.lean",
+      "theorem": "cover_integrand_integrable",
+      "kind": "proof",
+      "old_declaration": "theorem cover_integrand_integrable (\u03b1 : Coefficient) (L : ACLift) :\n    IntervalIntegrable (fun t => cover \u03b1 (L.val t)*deriv L.val t) volume 0 1 := by\n  apply (primitive_comp_ac \u03b1 L).intervalIntegrable_deriv.congr_ae\n  exact (ae_restrict_mem measurableSet_uIoc).and (ae_restrict_of_ae (chain_rule_ae \u03b1 L)) |>.mono\n    (fun t ht => ht.2 (uIoc_subset_uIcc ht.1))\n",
+      "new_declaration": "theorem cover_integrand_integrable (\u03b1 : Coefficient) (L : ACLift) :\n    IntervalIntegrable (fun t => cover \u03b1 (L.val t)*deriv L.val t) volume 0 1 := (primitive_comp_ac \u03b1 L).intervalIntegrable_deriv.congr_ae\n    (((ae_restrict_mem measurableSet_uIoc).and (ae_restrict_of_ae (chain_rule_ae \u03b1 L))).mono\n      (fun _t ht => ht.2 (uIoc_subset_uIcc ht.1)))\n",
+      "statement_sha256": "5f119c49af50bc100d6c3e2483447551933a0f72fa7ac1af35731b3ef3eb6a24",
+      "before_module_sha256": "48ef132060b39847677997fed14687fc70608339947092fdc61ddf72299f3d87",
+      "after_module_sha256": "0bbcfce0a51d6a3d5713ba4c81e16012116e86930a478b7a0a423995d7d193e9"
+    },
+    {
+      "module": "ACAnalysis.lean",
+      "theorem": "lineIntegral_eq_cover",
+      "kind": "proof",
+      "old_declaration": "theorem lineIntegral_eq_cover (\u03b1 : Coefficient) (L : ACLift) :\n    lineIntegral \u03b1 L=\u222b t in (0 : \u211d)..1,cover \u03b1 (L.val t)*deriv L.val t := by\n  apply intervalIntegral.integral_congr\n  intro t ht\n  have h : t\u2208Icc (0 : \u211d) 1 := by simpa [uIcc_of_le zero_le_one] using ht\n  exact congrArg (fun s : Icc (0 : \u211d) 1 => \u03b1 (projectedLoop L s)*deriv L.val t) (Set.projIcc_of_mem zero_le_one h)\n\n",
+      "new_declaration": "theorem lineIntegral_eq_cover (\u03b1 : Coefficient) (L : ACLift) :\n    lineIntegral \u03b1 L=\u222b t in (0 : \u211d)..1,cover \u03b1 (L.val t)*deriv L.val t := intervalIntegral.integral_congr (fun t ht =>\n    congrArg (fun s : Icc (0 : \u211d) 1 => \u03b1 (projectedLoop L s)*deriv L.val t)\n      (Set.projIcc_of_mem zero_le_one (by simpa only [uIcc_of_le zero_le_one] using ht)))\n",
+      "statement_sha256": "8f7bcd0f55df58cae6f973af7e04d4813b150beade865205d8ab4edd29d260ee",
+      "before_module_sha256": "0bbcfce0a51d6a3d5713ba4c81e16012116e86930a478b7a0a423995d7d193e9",
+      "after_module_sha256": "e569da35dbeba46e79452ef312b93edeb2535c67f9cd5ebdfd01a8046b14ffb9"
+    },
+    {
+      "module": "ACAnalysis.lean",
+      "theorem": "line_integrand_integrable",
+      "kind": "proof",
+      "old_declaration": "theorem line_integrand_integrable (\u03b1 : Coefficient) (L : ACLift) :\n    IntervalIntegrable\n      (fun t => \u03b1 (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv L.val t) volume 0 1 := by\n  apply (cover_integrand_integrable \u03b1 L).congr\n  intro t ht\n  have h : t\u2208Icc (0 : \u211d) 1 := by\n    simpa only [uIcc_of_le zero_le_one] using (uIoc_subset_uIcc ht)\n  exact (congrArg (fun s : Icc (0 : \u211d) 1 => \u03b1 (projectedLoop L s)*deriv L.val t) (Set.projIcc_of_mem zero_le_one h)).symm\n\n",
+      "new_declaration": "theorem line_integrand_integrable (\u03b1 : Coefficient) (L : ACLift) :\n    IntervalIntegrable\n      (fun t => \u03b1 (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv L.val t) volume 0 1 := (cover_integrand_integrable \u03b1 L).congr (fun t ht =>\n    (congrArg (fun s : Icc (0 : \u211d) 1 => \u03b1 (projectedLoop L s)*deriv L.val t)\n      (Set.projIcc_of_mem zero_le_one (by simpa only [uIcc_of_le zero_le_one] using uIoc_subset_uIcc ht))).symm)\n",
+      "statement_sha256": "a458d37b04cb6f99f223fa528fdab5651d95914b8d3453f5273521ddfc01fe83",
+      "before_module_sha256": "e569da35dbeba46e79452ef312b93edeb2535c67f9cd5ebdfd01a8046b14ffb9",
+      "after_module_sha256": "5be5e4889b15b439aaf50982f3005a5f08186f978f9657c1c5e3df0aa3e31111"
+    },
+    {
+      "module": "ACPeriods.lean",
+      "theorem": "projected_fromTrace",
+      "kind": "proof",
+      "old_declaration": "theorem projected_fromTrace (p : Trace 0 0) :\n    projectedLoop (fromTrace p)=GeometricTrace.realize p := by\n  ext t\n  change ((actualLift p (t : \u211d) : \u211d) : CircleHodge.Circle)=GeometricTrace.realize p t\n  have h := congrFun (circleCover.liftPath_lifts\n    (GeometricTrace.realize p).toContinuousMap 0 (by simp)) t\n  simpa [actualLift,circleLift,Set.projIcc_of_mem zero_le_one t.property] using h\n",
+      "new_declaration": "theorem projected_fromTrace (p : Trace 0 0) :\n    projectedLoop (fromTrace p)=GeometricTrace.realize p := DFunLike.ext _ _ (fun t => by\n    simpa [projectedLoop,fromTrace,actualLift,circleLift,Set.projIcc_of_mem zero_le_one t.property] using\n      congrFun (circleCover.liftPath_lifts (GeometricTrace.realize p).toContinuousMap 0 (by simp)) t)\n",
+      "statement_sha256": "c3c0639bccaaf0f48bddc14daeb00413b12e67e5d74bca1ea452018ba5a503de",
+      "before_module_sha256": "7b77a0e683c6c352cd4ce25042cd2ecba8fb70fff4edeaef141ccac76c497fc3",
+      "after_module_sha256": "f96c23089c81e450a35c210a77a356f9545a258cb880045b44cfa3fdb3fe6b77"
+    },
+    {
+      "module": "ACPeriods.lean",
+      "theorem": "fromTrace",
+      "kind": "proof",
+      "old_declaration": "noncomputable def fromTrace (p : Trace 0 0) : ACLift :=\n  \u27e8actualLift p,by\n    obtain \u27e8K,hK\u27e9 := rawLift_lipschitz p\n    rw [\u2190 actualLift_eq_rawLift] at hK\n    exact hK.lipschitzOnWith.absolutelyContinuousOnInterval,\n    by rw [actualLift_eq_rawLift,rawLift_zero],\n    by rw [actualLift_eq_rawLift,rawLift_one];simp\u27e9\n",
+      "new_declaration": "noncomputable def fromTrace (p : Trace 0 0) : ACLift := \u27e8actualLift p,\n    (actualLift_eq_rawLift p).symm \u25b8 (rawLift_lipschitz p).choose_spec.lipschitzOnWith.absolutelyContinuousOnInterval,\n    (congrFun (actualLift_eq_rawLift p) 0).trans (rawLift_zero p),\n    (congrArg (fun f : \u211d\u2192\u211d => (f 1 : CircleHodge.Circle)) (actualLift_eq_rawLift p)).trans (rawLift_one_coe p)\u27e9\n",
+      "statement_sha256": "1de537d30cd47f0183cc823d14bf678477720530572a4060c3ca0c7bbb4c81f6",
+      "before_module_sha256": "f96c23089c81e450a35c210a77a356f9545a258cb880045b44cfa3fdb3fe6b77",
+      "after_module_sha256": "5cc4c580ab6c43dfc66c06e96194af828934694d0b65af690ef6abd648f4e1c0"
+    },
+    {
+      "module": "Potential.lean",
+      "theorem": "exact_mean_zero",
+      "kind": "proof",
+      "old_declaration": "theorem exact_mean_zero {\u03b1 : Coefficient} (h : ExactCoefficient \u03b1) : mean \u03b1=0 := by\n  obtain \u27e8F,hF,hd\u27e9 := h\n  have h := intervalIntegral.integral_deriv_of_contDiffOn_Icc hF.contDiffOn (by norm_num : (0 : \u211d)\u22641)\n  have he : (\u222b x in (0 : \u211d)..1,deriv (cover F) x)=mean \u03b1 :=\n    intervalIntegral.integral_congr (fun x _ => hd x)\n  rw [he] at h\n  have hp := cover_periodic F 0\n  simp only [zero_add] at hp\n  exact h.trans (sub_eq_zero.mpr hp)\n",
+      "new_declaration": "theorem exact_mean_zero {\u03b1 : Coefficient} (h : ExactCoefficient \u03b1) : mean \u03b1=0 := by\n  obtain \u27e8F,hF,hd\u27e9 := h\n  exact (intervalIntegral.integral_congr (fun x _ => (hd x).symm)).trans\n    ((intervalIntegral.integral_deriv_of_contDiffOn_Icc hF.contDiffOn (by norm_num : (0 : \u211d)\u22641)).trans\n      (sub_eq_zero.mpr (by simpa only [zero_add] using cover_periodic F 0)))\n",
+      "statement_sha256": "d781194cfc2fa6fe26e9aef86c06939593fbb4cd60e250c67636976d187d9cd5",
+      "before_module_sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a",
+      "after_module_sha256": "e752613ba6318425f3e0b3c2ff6836fe43ac5151ecf6f391b78e6527eaba2267"
+    },
+    {
+      "module": "Green.lean",
+      "theorem": "weightedMean_add",
+      "kind": "proof",
+      "old_declaration": "theorem weightedMean_add (\u03c1 : RegularDensity) (f g : Coefficient) :\n    weightedMean \u03c1 (f+g)=weightedMean \u03c1 f+weightedMean \u03c1 g := by\n  unfold weightedMean\n  rw [mul_add]\n  exact intervalIntegral.integral_add ((cover_continuous (\u03c1.val.val*f)).intervalIntegrable 0 1)\n    ((cover_continuous (\u03c1.val.val*g)).intervalIntegrable 0 1)\n",
+      "new_declaration": "theorem weightedMean_add (\u03c1 : RegularDensity) (f g : Coefficient) :\n    weightedMean \u03c1 (f+g)=weightedMean \u03c1 f+weightedMean \u03c1 g := (congrArg mean (mul_add \u03c1.val.val f g)).trans\n    (intervalIntegral.integral_add ((cover_continuous (\u03c1.val.val*f)).intervalIntegrable 0 1)\n      ((cover_continuous (\u03c1.val.val*g)).intervalIntegrable 0 1))\n",
+      "statement_sha256": "4d1974ac8226283f02dc3e9150d3136f8bb51d237e615460880fc4dd7b52d08d",
+      "before_module_sha256": "3614cd4ac05977d5f981f16a03a41c4e9ce78cc5047e804f639be19bc9ee457a",
+      "after_module_sha256": "9bb622f3bac47bf63774a51a6c3e10db8cd9b2b8ec070eb3726393c3bc92209f"
+    },
+    {
+      "module": "Range.lean",
+      "theorem": "restricted_bijective",
+      "kind": "proof",
+      "old_declaration": "theorem restricted_bijective (\u03c1 : RegularDensity) (\u03bc : \u211d) :\n    Function.Bijective (restrictedReduced \u03c1 \u03bc) := by\n  rcases IsCompactOperator.hasEigenvalue_or_mem_resolventSet\n    (\ud835\udd5c := \u211d) (X := orthogonalSpace \u03c1 \u03bc) (T:=restrictedOperator \u03c1 \u03bc)\n    (restricted_compact \u03c1 \u03bc) (one_ne_zero : (1 : \u211d)\u22600) with he|hi\n  \u00b7 exact (restricted_not_eigen \u03c1 \u03bc he).elim\n  \u00b7 rw [spectrum.mem_resolventSet_iff] at hi\n    obtain \u27e8e,he\u27e9:=hi\n    have he_apply (x : orthogonalSpace \u03c1 \u03bc) : e.val x=restrictedReduced \u03c1 \u03bc x := by\n      rw [he]\n      ext q\n      simp [restrictedReduced,restrictedOperator,reduced]\n    have hl (x : orthogonalSpace \u03c1 \u03bc) : e.inv (e.val x)=x :=\n      congrArg (fun A : orthogonalSpace \u03c1 \u03bc \u2192L[\u211d] orthogonalSpace \u03c1 \u03bc => A x) e.inv_val\n    have hr (x : orthogonalSpace \u03c1 \u03bc) : e.val (e.inv x)=x :=\n      congrArg (fun A : orthogonalSpace \u03c1 \u03bc \u2192L[\u211d] orthogonalSpace \u03c1 \u03bc => A x) e.val_inv\n    exact \u27e8fun x y h => (hl x).symm.trans\n      ((congrArg (fun z => e.inv z) ((he_apply x).trans (h.trans (he_apply y).symm))).trans (hl y)),\n      fun y => \u27e8e.inv y,(he_apply (e.inv y)).symm.trans (hr y)\u27e9\u27e9\n",
+      "new_declaration": "theorem restricted_bijective (\u03c1 : RegularDensity) (\u03bc : \u211d) :\n    Function.Bijective (restrictedReduced \u03c1 \u03bc) := by\n  rcases IsCompactOperator.hasEigenvalue_or_mem_resolventSet\n    (\ud835\udd5c := \u211d) (X := orthogonalSpace \u03c1 \u03bc) (T:=restrictedOperator \u03c1 \u03bc)\n    (restricted_compact \u03c1 \u03bc) (one_ne_zero : (1 : \u211d)\u22600) with he|hi\n  \u00b7 exact (restricted_not_eigen \u03c1 \u03bc he).elim\n  \u00b7 obtain \u27e8e,he\u27e9 := spectrum.mem_resolventSet_iff.mp hi\n    have he' : e.val=restrictedReduced \u03c1 \u03bc := by\n      rw [he]\n      ext x q\n      simp [restrictedReduced,restrictedOperator,reduced]\n    have hb : Function.Bijective e.val := (ContinuousLinearEquiv.ofUnit e).bijective\n    exact he' \u25b8 hb\n",
+      "statement_sha256": "7bfda0c26b9450111d5fac20e0805dfdb09250f59a438d5486a871233c0924d9",
+      "before_module_sha256": "6b9b3a4427cf582994029fdff4c481e18b8582be348550c629ad129c71f5113d",
+      "after_module_sha256": "5cc9943da1182558a9355ec5ab85d868a2ce3db1f0c8227001ef1b6b20051b15"
+    }
+  ]
+}
