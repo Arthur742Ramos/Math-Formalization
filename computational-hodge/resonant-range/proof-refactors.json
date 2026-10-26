@@ -1,0 +1,513 @@
+{
+  "source_commit": "6dde225210537c4744b84b36a0ecd72a38710199",
+  "scope": "Genuine exact-statement complete proof refactors; full original/replacement source and module hash chains preserved. Fresh compilation, kernels and independent review required.",
+  "rewrites": [
+    {
+      "module": "Resonance.lean",
+      "theorem": "pairing_comm",
+      "old_declaration": "theorem pairing_comm (\u03c1 : RegularDensity) (f g : Coefficient) : pairing \u03c1 f g=pairing \u03c1 g f := by\n  unfold pairing\n  congr 1\n  ext q\n  change \u03c1.val.val q*f q*g q=\u03c1.val.val q*g q*f q\n  ring\n",
+      "new_declaration": "theorem pairing_comm (\u03c1 : RegularDensity) (f g : Coefficient) : pairing \u03c1 f g=pairing \u03c1 g f := congrArg mean (mul_right_comm \u03c1.val.val f g)\n\n",
+      "statement_sha256": "055d883e14aec25c6cdc5364b8ce4ed8ecc1be40f03d514d88e0eb6ddf081adb",
+      "before_module_sha256": "e0a9ceb2672601e5af552cea6a77a3ca2c92970ab3f3618d6047f179c6b7029d",
+      "after_module_sha256": "eab9818c464c64108feb188e4f6dc7cf46c939b7b57dd75e076ad8f12407643f",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "Resonance.lean",
+      "theorem": "pairing_sub_left",
+      "old_declaration": "theorem pairing_sub_left (\u03c1 : RegularDensity) (f g h : Coefficient) :\n    pairing \u03c1 (f-g) h=pairing \u03c1 f h-pairing \u03c1 g h := by\n  have he : \u03c1.val.val*(f-g)*h=\u03c1.val.val*f*h-\u03c1.val.val*g*h := by\n    ext q\n    change \u03c1.val.val q*(f q-g q)*h q=\u03c1.val.val q*f q*h q-\u03c1.val.val q*g q*h q\n    ring\n  rw [pairing,he,mean_sub]\n  rfl\n",
+      "new_declaration": "theorem pairing_sub_left (\u03c1 : RegularDensity) (f g h : Coefficient) :\n    pairing \u03c1 (f-g) h=pairing \u03c1 f h-pairing \u03c1 g h := by\n  unfold pairing\n  rw [mul_sub,sub_mul,mean_sub]\n\n",
+      "statement_sha256": "4c24c8bb719e0b993aadb7680926fa4240c4da22dd2f7a66c84e0d7068f74d4b",
+      "before_module_sha256": "eab9818c464c64108feb188e4f6dc7cf46c939b7b57dd75e076ad8f12407643f",
+      "after_module_sha256": "da315596a4a491435fa15d42aea9e8b90b3f278c81c63b9ed446c2f86d660b31",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "Resonance.lean",
+      "theorem": "pairing_smul_left",
+      "old_declaration": "theorem pairing_smul_left (\u03c1 : RegularDensity) (c : \u211d) (f g : Coefficient) :\n    pairing \u03c1 (c\u2022f) g=c*pairing \u03c1 f g := by\n  have he : \u03c1.val.val*(c\u2022f)*g=c\u2022(\u03c1.val.val*f*g) := by\n    ext q\n    change \u03c1.val.val q*(c*f q)*g q=c*(\u03c1.val.val q*f q*g q)\n    ring\n  rw [pairing,he,mean_smul]\n  rfl\n",
+      "new_declaration": "theorem pairing_smul_left (\u03c1 : RegularDensity) (c : \u211d) (f g : Coefficient) :\n    pairing \u03c1 (c\u2022f) g=c*pairing \u03c1 f g := by\n  unfold pairing\n  rw [mul_smul_comm,smul_mul_assoc,mean_smul]\n  rfl\n\n",
+      "statement_sha256": "965a2505e4a36b3ac721f219d344599121ac65243a4d8c2cef34344de945e3fb",
+      "before_module_sha256": "da315596a4a491435fa15d42aea9e8b90b3f278c81c63b9ed446c2f86d660b31",
+      "after_module_sha256": "d371e774b2f840a4652395a73bff0d66627611f42c732a5fc0fe40be839b7028",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "Green.lean",
+      "theorem": "weightedMean_smul",
+      "old_declaration": "theorem weightedMean_smul (\u03c1 : RegularDensity) (c : \u211d) (f : Coefficient) :\n    weightedMean \u03c1 (c\u2022f)=c*weightedMean \u03c1 f := by\n  have h : \u03c1.val.val*(c\u2022f)=c\u2022(\u03c1.val.val*f) := by ext q;change _*(c*_) = c*(_*_);ring\n  rw [weightedMean,h,mean_smul]\n  rfl\n",
+      "new_declaration": "theorem weightedMean_smul (\u03c1 : RegularDensity) (c : \u211d) (f : Coefficient) :\n    weightedMean \u03c1 (c\u2022f)=c*weightedMean \u03c1 f := by\n  rw [weightedMean,mul_smul_comm,mean_smul]\n  rfl\n\n",
+      "statement_sha256": "1b8fda4a109049e845a2fcb52956316b376778b203af2dff50487374463209da",
+      "before_module_sha256": "1b647b96a527396af3d36ab43c1f384d5a632148b838e7ad00fc1a1d8796bf67",
+      "after_module_sha256": "cbeb4d6c8da6b80bbc75072718f2935c3b5206806f0a127c642855dc0593ed18",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "gradient_sub",
+      "old_declaration": "theorem gradient_sub (u v : C2Coefficient) : gradient (u-v)=gradient u-gradient v := by\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  exact deriv_sub ((contDiff_one_iff_deriv.mp (c2_c1 u)).1 x) ((contDiff_one_iff_deriv.mp (c2_c1 v)).1 x)\n",
+      "new_declaration": "theorem gradient_sub (u v : C2Coefficient) : gradient (u-v)=gradient u-gradient v := ContinuousMap.ext fun q => Quotient.inductionOn q fun x =>\n  deriv_sub ((contDiff_one_iff_deriv.mp (c2_c1 u)).1 x) ((contDiff_one_iff_deriv.mp (c2_c1 v)).1 x)\n\n",
+      "statement_sha256": "885425d63ae18ab14f127ddeb687ce8b26556cc848b2146187145af3d3de6679",
+      "before_module_sha256": "20f172ca40697df669460224f99d264e0052752c9fb5628c81f43bbbaf23ff23",
+      "after_module_sha256": "b51d5c902ea675f79947e16a3078c895a00f7dfd914c1d01d2188fae18d4057a",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "flux_sub",
+      "old_declaration": "theorem flux_sub (\u03c1 : RegularDensity) (u v : C2Coefficient) : flux \u03c1 (u-v)=flux \u03c1 u-flux \u03c1 v := by\n  ext q\n  change gradient (u-v) q/\u03c1.val.val q=gradient u q/\u03c1.val.val q-gradient v q/\u03c1.val.val q\n  rw [gradient_sub]\n  change (gradient u q-gradient v q)/\u03c1.val.val q=_\n  ring\n",
+      "new_declaration": "theorem flux_sub (\u03c1 : RegularDensity) (u v : C2Coefficient) : flux \u03c1 (u-v)=flux \u03c1 u-flux \u03c1 v := ContinuousMap.ext fun q =>\n  (congrArg (fun f : Coefficient => f q/\u03c1.val.val q) (gradient_sub u v)).trans (sub_div _ _ _)\n\n",
+      "statement_sha256": "3360b7b73c17a273fc00c3abc07b27e3b637da7756e964fe402f8dad9148ff57",
+      "before_module_sha256": "b51d5c902ea675f79947e16a3078c895a00f7dfd914c1d01d2188fae18d4057a",
+      "after_module_sha256": "1834476f89d39d0d644ff2aad753c6843ceef26ab39550b512234d2a9fea92c0",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_one",
+      "old_declaration": "theorem rawLift_one {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 1=(count p : \u211d) := by\n  induction p with\n  | refl _ => norm_num [rawLift,count]\n  | single _ => norm_num [rawLift,clamp,count]\n  | trans p q hp hq => norm_num [rawLift,count,hp,hq]\n  | symm p hp => simp [rawLift,count,rawLift_zero,hp]\n\n/-- Real-cut gluing; the nonoptimal sum bound keeps the contract elementary. -/\n",
+      "new_declaration": "theorem rawLift_one {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 1=(count p : \u211d) := by\n  induction p <;> simp_all [rawLift,count,clamp,rawLift_zero] <;> norm_num\n\n",
+      "statement_sha256": "5e3a6708319c61bdcd55419df788d3ae2767f0f64febcb9aeb5d5c63d7383a05",
+      "before_module_sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37",
+      "after_module_sha256": "42b97d89af52ee8129410fc53f08065d1f06a0f02eec3172d3e23c8d06be4c24",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_one_coe",
+      "old_declaration": "theorem rawLift_one_coe {a b : CircleHodge.Circle} (p : Trace a b) : ((rawLift p 1 : \u211d) : CircleHodge.Circle)=0 := by\n  rw [rawLift_one]\n  apply (AddCircle.coe_eq_zero_iff (p := (1 : \u211d))).mpr\n  exact \u27e8count p,by simp\u27e9\n\n",
+      "new_declaration": "theorem rawLift_one_coe {a b : CircleHodge.Circle} (p : Trace a b) : ((rawLift p 1 : \u211d) : CircleHodge.Circle)=0 := (congrArg (fun x : \u211d => (x : CircleHodge.Circle)) (rawLift_one p)).trans\n  ((AddCircle.coe_eq_zero_iff (p := (1 : \u211d))).mpr \u27e8count p,by simp\u27e9)\n\n",
+      "statement_sha256": "3e9d9e4f680b64bf3ed8620f8ee6880ea63e62363e516327b72d1d81941fa046",
+      "before_module_sha256": "42b97d89af52ee8129410fc53f08065d1f06a0f02eec3172d3e23c8d06be4c24",
+      "after_module_sha256": "d3692c09266eecdf0c4936b6c6f5c5985dc52d0cfbf654869a8449ec2ccf3bf2",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "cut_lipschitz",
+      "old_declaration": "theorem cut_lipschitz {f g : \u211d \u2192 \u211d} {K L : \u211d\u22650} {c : \u211d}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x\u2264c then f x else g x) := by\n  have cross (x y : \u211d) (hx : x\u2264c) (hy : c\u2264y) :\n      dist (f x) (g y)\u2264((K+L : \u211d\u22650) : \u211d)*dist x y := by\n    calc\n      dist (f x) (g y)\u2264dist (f x) (f c)+dist (f c) (g y) := dist_triangle _ _ _\n      _ = dist (f x) (f c)+dist (g c) (g y) := by rw [hc]\n      _ \u2264 (K : \u211d)*dist x c+(L : \u211d)*dist c y :=\n        add_le_add (hf.dist_le_mul x c) (hg.dist_le_mul c y)\n      _ \u2264 ((K+L : \u211d\u22650) : \u211d)*dist x y := by\n        simp only [Real.dist_eq,abs_of_nonpos (sub_nonpos.mpr hx),\n          abs_of_nonpos (sub_nonpos.mpr hy),\n          abs_of_nonpos (sub_nonpos.mpr (hx.trans hy)),NNReal.coe_add]\n        nlinarith [mul_nonneg K.coe_nonneg (sub_nonneg.mpr hy),\n          mul_nonneg L.coe_nonneg (sub_nonneg.mpr hx)]\n  apply lipschitzWith_iff_dist_le_mul.mpr\n  intro x y\n  by_cases hx : x\u2264c <;> by_cases hy : y\u2264c\n  \u00b7 simpa only [ite_eq_left hx,ite_eq_left hy] using (hf.weaken (le_add_of_nonneg_right (bot_le : (0 : \u211d\u22650)\u2264L))).dist_le_mul x y\n  \u00b7 simpa only [ite_eq_left hx,ite_eq_right hy] using cross x y hx (not_le.mp hy).le\n  \u00b7 simpa only [ite_eq_right hx,ite_eq_left hy,dist_comm] using cross y x hy (not_le.mp hx).le\n  \u00b7 simpa only [ite_eq_right hx,ite_eq_right hy] using (hg.weaken (le_add_of_nonneg_left (bot_le : (0 : \u211d\u22650)\u2264K))).dist_le_mul x y\n\n",
+      "new_declaration": "theorem cut_lipschitz {f g : \u211d \u2192 \u211d} {K L : \u211d\u22650} {c : \u211d}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x\u2264c then f x else g x) := by\n  have hl : LipschitzWith K (fun x => f (min c x)) := by\n    simpa only [Function.comp_def,mul_one] using hf.comp (LipschitzWith.id.const_min c)\n  have hr : LipschitzWith L (fun x => g (max c x)) := by\n    simpa only [Function.comp_def,mul_one] using hg.comp (LipschitzWith.id.const_max c)\n  convert (hl.add hr).sub_const (f c) using 1\n  funext x\n  split_ifs with hx\n  \u00b7 simp only [min_eq_right hx,max_eq_left hx,hc,add_sub_cancel_right]\n  \u00b7 simp only [min_eq_left (not_le.mp hx).le,max_eq_right (not_le.mp hx).le,add_sub_cancel_left]\n\n",
+      "statement_sha256": "434d983c8a583116be3c90786938c9842a30dfeec58329646a381a7c5e69c166",
+      "before_module_sha256": "d3692c09266eecdf0c4936b6c6f5c5985dc52d0cfbf654869a8449ec2ccf3bf2",
+      "after_module_sha256": "90a42de10d24134db071dfc68f7a33ec419d3247551dbc13f9d37594097b177e",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "actualLift_eq_rawLift",
+      "old_declaration": "theorem actualLift_eq_rawLift (p : Trace 0 0) : actualLift p=rawLift p := by\n  funext t\n  unfold actualLift\n  rw [\u2190rawLift_eq_cover p]\n  exact rawLift_clamp p t\n\n",
+      "new_declaration": "theorem actualLift_eq_rawLift (p : Trace 0 0) : actualLift p=rawLift p := funext fun t => (rawLift_eq_cover p (Set.projIcc 0 1 zero_le_one t)).symm.trans (rawLift_clamp p t)\n\n",
+      "statement_sha256": "bccf4bc77c65fb934d3e11c93bc1ad188143a9413d60483c87ba3c65bfc9b155",
+      "before_module_sha256": "90a42de10d24134db071dfc68f7a33ec419d3247551dbc13f9d37594097b177e",
+      "after_module_sha256": "c68db1253c0b8e88500e7d98ff6be96973a89c2d4c4d2d95eefbf5617f72e677",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "CirclePeriods.lean",
+      "theorem": "count_zero_of_source_ne",
+      "old_declaration": "theorem count_zero_of_source_ne {a b : CircleHodge.Circle} (p : Trace a b) : a\u22600 \u2192 count p=0 := by\n  induction p with\n  | refl _ => exact fun _ => rfl\n  | single _ => exact fun h => (h rfl).elim\n  | trans p q hp hq =>\n    intro h\n    rw [count,hp h,hq (fun hb => h ((trace_endpoints p).trans hb)),zero_add]\n  | symm p hp =>\n    intro h\n    rw [count,hp (fun ha => h ((trace_endpoints p).symm.trans ha)),neg_zero]\n\n",
+      "new_declaration": "theorem count_zero_of_source_ne {a b : CircleHodge.Circle} (p : Trace a b) : a\u22600 \u2192 count p=0 := by\n  induction p <;> simp_all [count] <;> grind [trace_endpoints]\n\n",
+      "statement_sha256": "5bfc58f3b4433964f0519d237a2084b126c831c25e2b7c031edc79023b4f7216",
+      "before_module_sha256": "79bf84c3e4a3966019885c2b68b29957a21a43813da3a9022d852bb4d3251c27",
+      "after_module_sha256": "d71843d41081ebeba66976c88790c630b57ffc65b00798ea1b2d833772f2c5d6",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "CompactGreen.lean",
+      "theorem": "image_equicontinuous",
+      "old_declaration": "theorem image_equicontinuous (\u03c1 : RegularDensity) (B : \u211d) :\n    Equicontinuous (fun g : coefficientImage \u03c1 B => (g.val : CircleHodge.Circle \u2192 \u211d)) := by\n  rw [equicontinuous_iff_continuous]\n  apply isQuotientMap_quotient_mk'.continuous_iff.mpr\n  exact equicontinuous_iff_continuous.mp (image_cover_equicontinuous \u03c1 B)\n\n/-- Classical Ascoli transferred through the actual compact-domain function equivalence. -/\n",
+      "new_declaration": "theorem image_equicontinuous (\u03c1 : RegularDensity) (B : \u211d) :\n    Equicontinuous (fun g : coefficientImage \u03c1 B => (g.val : CircleHodge.Circle \u2192 \u211d)) := equicontinuous_iff_continuous.mpr (isQuotientMap_quotient_mk'.continuous_iff.mpr\n  (equicontinuous_iff_continuous.mp (image_cover_equicontinuous \u03c1 B)))\n\n",
+      "statement_sha256": "375220932f36f802ec70489c49ef1436634410aeda138152b85a1baeca732a71",
+      "before_module_sha256": "a79b257153343e1458c3579be4e0e5f27bfeec77103892868dc5940b1e995843",
+      "after_module_sha256": "6d218e34c4c93e211423e130dcf85b4c2a5d076c52a06f8836e94678cc7c7139",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "CompactGreen.lean",
+      "theorem": "green_ball_precompact",
+      "old_declaration": "theorem green_ball_precompact (\u03c1 : RegularDensity) (B : \u211d) :\n    IsCompact (closure (greenMap \u03c1 '' forcingBall \u03c1 B)) := by\n  have he : IsClosedEmbedding (Subtype.val : Compatible \u03c1 \u2192 Coefficient) :=\n    (compatible_closed \u03c1).isClosedEmbedding_subtypeVal\n  exact (he.isCompact_preimage (coefficientImage_precompact \u03c1 B)).closure_of_subset\n    (by rintro g \u27e8f,hf,rfl\u27e9;exact subset_closure \u27e8f,hf,rfl\u27e9)\n\n",
+      "new_declaration": "theorem green_ball_precompact (\u03c1 : RegularDensity) (B : \u211d) :\n    IsCompact (closure (greenMap \u03c1 '' forcingBall \u03c1 B)) := ((compatible_closed \u03c1).isClosedEmbedding_subtypeVal.isCompact_preimage\n  (coefficientImage_precompact \u03c1 B)).closure_of_subset\n    (by rintro g \u27e8f,hf,rfl\u27e9;exact subset_closure \u27e8f,hf,rfl\u27e9)\n\n",
+      "statement_sha256": "1bfdf9f19413937ecf4668cf85c9d90ca18fa4938ea2cd61114b32ba3f909999",
+      "before_module_sha256": "6d218e34c4c93e211423e130dcf85b4c2a5d076c52a06f8836e94678cc7c7139",
+      "after_module_sha256": "21614c1b350acf784bd366aaf1dd3e3d28085b680365b1e6b933582472a480e9",
+      "scope": "Statement unchanged; complete replacement proof supplied. Not a proof-body formatter join."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_one",
+      "old_declaration": "theorem rawLift_one {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 1=(count p : \u211d) := by\n  induction p <;> simp_all [rawLift,count,clamp,rawLift_zero] <;> norm_num\n\n",
+      "new_declaration": "theorem rawLift_one {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 1=(count p : \u211d) := by\n  induction p <;> simp_all [rawLift,count,clamp,rawLift_zero] <;> norm_num <;> assumption\n\n",
+      "statement_sha256": "5e3a6708319c61bdcd55419df788d3ae2767f0f64febcb9aeb5d5c63d7383a05",
+      "before_module_sha256": "c68db1253c0b8e88500e7d98ff6be96973a89c2d4c4d2d95eefbf5617f72e677",
+      "after_module_sha256": "f2d8622e0b42cbb1d2de8b00ab5b690bf9a51f84db6f0c9d4b020a7b88d8b70d",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "cut_lipschitz",
+      "old_declaration": "theorem cut_lipschitz {f g : \u211d \u2192 \u211d} {K L : \u211d\u22650} {c : \u211d}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x\u2264c then f x else g x) := by\n  have hl : LipschitzWith K (fun x => f (min c x)) := by\n    simpa only [Function.comp_def,mul_one] using hf.comp (LipschitzWith.id.const_min c)\n  have hr : LipschitzWith L (fun x => g (max c x)) := by\n    simpa only [Function.comp_def,mul_one] using hg.comp (LipschitzWith.id.const_max c)\n  convert (hl.add hr).sub_const (f c) using 1\n  funext x\n  split_ifs with hx\n  \u00b7 simp only [min_eq_right hx,max_eq_left hx,hc,add_sub_cancel_right]\n  \u00b7 simp only [min_eq_left (not_le.mp hx).le,max_eq_right (not_le.mp hx).le,add_sub_cancel_left]\n\n",
+      "new_declaration": "theorem cut_lipschitz {f g : \u211d \u2192 \u211d} {K L : \u211d\u22650} {c : \u211d}\n    (hf : LipschitzWith K f) (hg : LipschitzWith L g) (hc : f c=g c) :\n    LipschitzWith (K+L) (fun x => if x\u2264c then f x else g x) := by\n  have hl : LipschitzWith K (fun x => f (min c x)) := by\n    simpa only [Function.comp_def,id_eq,mul_one] using hf.comp (LipschitzWith.id.const_min c)\n  have hr : LipschitzWith L (fun x => g (max c x)) := by\n    simpa only [Function.comp_def,id_eq,mul_one] using hg.comp (LipschitzWith.id.const_max c)\n  have hh : LipschitzWith (K+L) (fun x => f (min c x)+g (max c x)-f c) := by\n    simpa only [Function.comp_def,one_mul,sub_eq_add_neg] using\n      (isometry_add_right (-f c)).lipschitzWith.comp (hl.add hr)\n  convert hh using 1\n  funext x\n  split_ifs with hx\n  \u00b7 simp only [min_eq_right hx,max_eq_left hx,hc,add_sub_cancel_right]\n  \u00b7 simp only [min_eq_left (not_le.mp hx).le,max_eq_right (not_le.mp hx).le,add_sub_cancel_left]\n\n",
+      "statement_sha256": "434d983c8a583116be3c90786938c9842a30dfeec58329646a381a7c5e69c166",
+      "before_module_sha256": "f2d8622e0b42cbb1d2de8b00ab5b690bf9a51f84db6f0c9d4b020a7b88d8b70d",
+      "after_module_sha256": "196eea147a92c0cd552bbe9da150d3da11eaee7d670245527f204d67001d0b85",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_eq_cover",
+      "old_declaration": "theorem rawLift_eq_cover (p : Trace 0 0) (t : unitInterval) :\n    rawLift p (t : \u211d)=circleLift (GeometricTrace.realize p) t := by\n  have h : (\u27e8fun t : unitInterval => rawLift p (t : \u211d),\n      (rawLift_continuous p).comp continuous_subtype_val\u27e9 : C(unitInterval,\u211d))=\n      circleLift (GeometricTrace.realize p) := by\n    apply (circleCover.eq_liftPath_iff' _).mpr\n    constructor\n    \u00b7 funext u\n      simpa using rawLift_projects p u\n    \u00b7 exact rawLift_zero p\n  exact congrArg (fun f : C(unitInterval,\u211d) => f t) h\n\n",
+      "new_declaration": "theorem rawLift_eq_cover (p : Trace 0 0) (t : unitInterval) :\n    rawLift p (t : \u211d)=circleLift (GeometricTrace.realize p) t := congrArg (fun f : C(unitInterval,\u211d) => f t)\n  (show (\u27e8fun t : unitInterval => rawLift p (t : \u211d),(rawLift_continuous p).comp continuous_subtype_val\u27e9 : C(unitInterval,\u211d))=circleLift (GeometricTrace.realize p) from\n    (circleCover.eq_liftPath_iff' _).mpr \u27e8funext (fun u => by simpa using rawLift_projects p u),rawLift_zero p\u27e9)\n\n",
+      "statement_sha256": "2a9f3fe77795cef63b2342a200d382b91e878d8faf7ad785a0ff611f08bd5a67",
+      "before_module_sha256": "196eea147a92c0cd552bbe9da150d3da11eaee7d670245527f204d67001d0b85",
+      "after_module_sha256": "72ba135ac87f9ab2571cda2a68636ec14240aa55d71817cec8bc63f7dfad6421",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "laplacian_of_constant",
+      "old_declaration": "theorem laplacian_of_constant (\u03c1 : RegularDensity) (u : C2Coefficient) (c : \u211d) (hu : u.val=constant c) :\n    laplacian \u03c1 u=0 := by\n  have hf : flux \u03c1 u=0 := by\n    ext q\n    induction q using Quotient.inductionOn with | _ x =>\n    change deriv (cover u.val) x/cover \u03c1.val.val x=0\n    rw [hu]\n    change deriv (fun _ : \u211d => c) x/cover \u03c1.val.val x=0\n    rw [deriv_const,zero_div]\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  change -(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x=0\n  rw [hf]\n  change -(deriv (fun _ : \u211d => 0) x)/cover \u03c1.val.val x=0\n  rw [deriv_const,neg_zero,zero_div]\n",
+      "new_declaration": "theorem laplacian_of_constant (\u03c1 : RegularDensity) (u : C2Coefficient) (c : \u211d) (hu : u.val=constant c) :\n    laplacian \u03c1 u=0 := by\n  have hg : gradient u=0 := ContinuousMap.ext fun q => Quotient.inductionOn q fun x =>\n    (congrArg (fun f : Coefficient => deriv (cover f) x) hu).trans (deriv_const x c)\n  have hf : flux \u03c1 u=0 := ContinuousMap.ext fun q =>\n    (congrArg (fun f : Coefficient => f q/\u03c1.val.val q) hg).trans (zero_div _)\n  exact ContinuousMap.ext fun q => Quotient.inductionOn q fun x => by\n    change -(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x=0\n    rw [hf]\n    simp [cover]\n\n",
+      "statement_sha256": "27f3e530e68ee7744101679886ad6ff78cf189bf342d9519d65c81cbf4722280",
+      "before_module_sha256": "1834476f89d39d0d644ff2aad753c6843ceef26ab39550b512234d2a9fea92c0",
+      "after_module_sha256": "032b10c15e7f1719c6684612536ba9092b1b80069f68d2fb091c26755fcb19fb",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "normalized_unique",
+      "old_declaration": "theorem normalized_unique (\u03c1 : RegularDensity) (u v : C2Coefficient)\n    (he : laplacian \u03c1 u=laplacian \u03c1 v) (hu : weightedMean \u03c1 u.val=0) (hv : weightedMean \u03c1 v.val=0) : u=v := by\n  obtain \u27e8c,hc\u27e9:=(solutions_differ_constant \u03c1 u v).mp he\n  have hm:=congrArg (weightedMean \u03c1) hc\n  rw [weightedMean_sub,hu,hv,weightedMean_constant,sub_self] at hm\n  have h0 : c=0 := (mul_eq_zero.mp hm.symm).resolve_right (ne_of_gt (mean_pos \u03c1.val))\n  apply Subtype.ext\n  apply sub_eq_zero.mp\n  rw [hc,h0]\n  rfl\n",
+      "new_declaration": "theorem normalized_unique (\u03c1 : RegularDensity) (u v : C2Coefficient)\n    (he : laplacian \u03c1 u=laplacian \u03c1 v) (hu : weightedMean \u03c1 u.val=0) (hv : weightedMean \u03c1 v.val=0) : u=v := by\n  obtain \u27e8c,hc\u27e9:=(solutions_differ_constant \u03c1 u v).mp he\n  have hm : c*mean \u03c1.val.val=0 := by\n    simpa only [weightedMean_sub,hu,hv,sub_self,weightedMean_constant] using (congrArg (weightedMean \u03c1) hc).symm\n  exact Subtype.ext (sub_eq_zero.mp (hc.trans (by rw [(mul_eq_zero.mp hm).resolve_right (ne_of_gt (mean_pos \u03c1.val))];rfl)))\n\n",
+      "statement_sha256": "8ea93d1084f48f847c172ffae0ab2158325457124457634413357c4fe0d277cf",
+      "before_module_sha256": "032b10c15e7f1719c6684612536ba9092b1b80069f68d2fb091c26755fcb19fb",
+      "after_module_sha256": "1560b61191a995701b1797771e68610143039d19985fa8f9993c88e56a46716e",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Green.lean",
+      "theorem": "gradient_constant",
+      "old_declaration": "theorem gradient_constant (c : \u211d) : gradient (constantC2 c)=0 := by\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  exact deriv_const x c\n",
+      "new_declaration": "theorem gradient_constant (c : \u211d) : gradient (constantC2 c)=0 := ContinuousMap.ext fun q => Quotient.inductionOn q fun x => deriv_const x c\n\n",
+      "statement_sha256": "a8042e8db7783ab71668ff570bf22c90da4950a45b7c4a4fca4793fb0c40d921",
+      "before_module_sha256": "cbeb4d6c8da6b80bbc75072718f2935c3b5206806f0a127c642855dc0593ed18",
+      "after_module_sha256": "d69b12edfedf62f8c10e69e6a9aa4b12bc7a6bb672e9d9779a539d291f388fd2",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "CompactGreen.lean",
+      "theorem": "green_isCompactOperator",
+      "old_declaration": "theorem green_isCompactOperator (\u03c1 : RegularDensity) : IsCompactOperator (greenMap \u03c1) := by\n  apply (isCompactOperator_iff_exists_mem_nhds_isCompact_closure_image (greenMap \u03c1)).mpr\n  refine \u27e8forcingBall \u03c1 1,?_,green_ball_precompact \u03c1 1\u27e9\n  have he : forcingBall \u03c1 1=Metric.closedBall (0 : Compatible \u03c1) 1 := by\n    ext f\n    rw [Metric.mem_closedBall,dist_zero_right]\n    rfl\n  rw [he]\n  exact Metric.closedBall_mem_nhds _ zero_lt_one\n",
+      "new_declaration": "theorem green_isCompactOperator (\u03c1 : RegularDensity) : IsCompactOperator (greenMap \u03c1) := (isCompactOperator_iff_exists_mem_nhds_isCompact_closure_image (greenMap \u03c1)).mpr\n  \u27e8forcingBall \u03c1 1,by simpa only [forcingBall,Metric.closedBall,dist_zero_right] using\n    (Metric.closedBall_mem_nhds (0 : Compatible \u03c1) zero_lt_one),green_ball_precompact \u03c1 1\u27e9\n\n",
+      "statement_sha256": "117077e0ca3526bdd16968d9ae9bc20e91f312bef3ffa9e103ca2c3f9e526ee5",
+      "before_module_sha256": "21614c1b350acf784bd366aaf1dd3e3d28085b680365b1e6b933582472a480e9",
+      "after_module_sha256": "7eeb5dba63cc515d3ca03021ae7e2bf912ce629485de9ed56ac3a2af630d2cae",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "RawLift.lean",
+      "theorem": "rawLift_one",
+      "old_declaration": "theorem rawLift_one {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 1=(count p : \u211d) := by\n  induction p <;> simp_all [rawLift,count,clamp,rawLift_zero] <;> norm_num <;> assumption\n\n",
+      "new_declaration": "theorem rawLift_one {a b : CircleHodge.Circle} (p : Trace a b) : rawLift p 1=(count p : \u211d) := by\n  induction p <;> simp_all [rawLift,count,clamp,rawLift_zero]; norm_num; assumption\n\n",
+      "statement_sha256": "5e3a6708319c61bdcd55419df788d3ae2767f0f64febcb9aeb5d5c63d7383a05",
+      "before_module_sha256": "72ba135ac87f9ab2571cda2a68636ec14240aa55d71817cec8bc63f7dfad6421",
+      "after_module_sha256": "814c43daf103c27125a3d51f0b63565e7ad714f3d62a4a2c1cba3c33c98a24fd",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "ACAnalysis.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge\nopen ComputationalHodge.TraceIntegrals\nopen MeasureTheory Set\n",
+      "new_declaration": "open ComputationalPaths.Path.GeometricTopology ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge ComputationalHodge.TraceIntegrals MeasureTheory Set\n",
+      "before_module_sha256": "5049009d6bf82f00e3336dcdeee4ef6b4783bca673d6b73efc001bf49e92bf93",
+      "after_module_sha256": "cc65b3edbfa5888abc1e3c6ca8502eea3c940d983bfb142fb8a81d639336181b",
+      "ordered_open_names": [
+        "ComputationalPaths.Path.GeometricTopology",
+        "ComputationalHodge.LoopCharacters",
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.TraceIntegrals",
+        "MeasureTheory",
+        "Set"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "ACPeriods.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge\nopen ComputationalHodge.TraceIntegrals\nopen MeasureTheory Set\n",
+      "new_declaration": "open ComputationalPaths.Path.GeometricTopology ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge ComputationalHodge.TraceIntegrals MeasureTheory Set\n",
+      "before_module_sha256": "f48cde19f4f8c105cbf38cfe191f6cc054dfdd8a424f096009c417fc9ffa03b9",
+      "after_module_sha256": "7b77a0e683c6c352cd4ce25042cd2ecba8fb70fff4edeaef141ccac76c497fc3",
+      "ordered_open_names": [
+        "ComputationalPaths.Path.GeometricTopology",
+        "ComputationalHodge.LoopCharacters",
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.TraceIntegrals",
+        "MeasureTheory",
+        "Set"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "CirclePeriods.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge\n",
+      "new_declaration": "open ComputationalPaths.Path.GeometricTopology ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge\n",
+      "before_module_sha256": "d71843d41081ebeba66976c88790c630b57ffc65b00798ea1b2d833772f2c5d6",
+      "after_module_sha256": "73e6ddfa8e6278c9326578cd2cfe2b0cc57b946d27a8806bfaf70af63ad6b2a1",
+      "ordered_open_names": [
+        "ComputationalPaths.Path.GeometricTopology",
+        "ComputationalHodge.LoopCharacters",
+        "ComputationalHodge.CircleHodge"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "CompactGreen.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.GreenOperator\nopen ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals\nopen MeasureTheory Set Filter Function Topology\n",
+      "new_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.GreenOperator ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals MeasureTheory Set Filter Function Topology\n",
+      "before_module_sha256": "7eeb5dba63cc515d3ca03021ae7e2bf912ce629485de9ed56ac3a2af630d2cae",
+      "after_module_sha256": "b77482eb0e8b08254fad1b2d894945e004c5f49b6e8c5b259f14b14311bdf99d",
+      "ordered_open_names": [
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.MetricHodge",
+        "ComputationalHodge.Poisson",
+        "ComputationalHodge.GreenOperator",
+        "ComputationalHodge.ACLifts",
+        "ComputationalHodge.TraceIntegrals",
+        "MeasureTheory",
+        "Set",
+        "Filter",
+        "Function",
+        "Topology"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "Fredholm.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson\nopen ComputationalHodge.GreenOperator ComputationalHodge.CompactGreen\nopen ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals\nopen MeasureTheory Set Function Topology Module\n",
+      "new_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.GreenOperator ComputationalHodge.CompactGreen ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals MeasureTheory Set Function Topology Module\n",
+      "before_module_sha256": "0dc748a95fb88f5ac77aed08ee3350683b2f6a1f0ae9eb0fb94d3eddcb872f3b",
+      "after_module_sha256": "5b441f4c1f0aec20d64f1e2b9c2ad5efb4b7a4f873638f27f5a40f5ec9b0ee8c",
+      "ordered_open_names": [
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.MetricHodge",
+        "ComputationalHodge.Poisson",
+        "ComputationalHodge.GreenOperator",
+        "ComputationalHodge.CompactGreen",
+        "ComputationalHodge.ACLifts",
+        "ComputationalHodge.TraceIntegrals",
+        "MeasureTheory",
+        "Set",
+        "Function",
+        "Topology",
+        "Module"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "Green.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson\nopen ComputationalHodge.ACLifts ComputationalHodge.LoopCharacters ComputationalHodge.TraceIntegrals\nopen ComputationalPaths.Path.GeometricTopology MeasureTheory Set\n",
+      "new_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.ACLifts ComputationalHodge.LoopCharacters ComputationalHodge.TraceIntegrals ComputationalPaths.Path.GeometricTopology MeasureTheory Set\n",
+      "before_module_sha256": "d69b12edfedf62f8c10e69e6a9aa4b12bc7a6bb672e9d9779a539d291f388fd2",
+      "after_module_sha256": "2ea583217ed320726a1b2d35c477cfd626eec4a9cd378aba73917177fed4b108",
+      "ordered_open_names": [
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.MetricHodge",
+        "ComputationalHodge.Poisson",
+        "ComputationalHodge.ACLifts",
+        "ComputationalHodge.LoopCharacters",
+        "ComputationalHodge.TraceIntegrals",
+        "ComputationalPaths.Path.GeometricTopology",
+        "MeasureTheory",
+        "Set"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "Poisson.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.LoopCharacters\nopen ComputationalHodge.TraceIntegrals ComputationalHodge.ACLifts ComputationalHodge.MetricHodge\nopen MeasureTheory Set\n",
+      "new_declaration": "open ComputationalPaths.Path.GeometricTopology ComputationalHodge.CircleHodge ComputationalHodge.LoopCharacters ComputationalHodge.TraceIntegrals ComputationalHodge.ACLifts ComputationalHodge.MetricHodge MeasureTheory Set\n",
+      "before_module_sha256": "1560b61191a995701b1797771e68610143039d19985fa8f9993c88e56a46716e",
+      "after_module_sha256": "fcc159b312770db006502dc4523f8abf02b3bd6050f32d965ef961ad470a1afe",
+      "ordered_open_names": [
+        "ComputationalPaths.Path.GeometricTopology",
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.LoopCharacters",
+        "ComputationalHodge.TraceIntegrals",
+        "ComputationalHodge.ACLifts",
+        "ComputationalHodge.MetricHodge",
+        "MeasureTheory",
+        "Set"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "RawLift.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.LoopCharacters\nopen ComputationalHodge.CircleHodge\n",
+      "new_declaration": "open ComputationalPaths.Path.GeometricTopology ComputationalHodge.LoopCharacters ComputationalHodge.CircleHodge\n",
+      "before_module_sha256": "814c43daf103c27125a3d51f0b63565e7ad714f3d62a4a2c1cba3c33c98a24fd",
+      "after_module_sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae",
+      "ordered_open_names": [
+        "ComputationalPaths.Path.GeometricTopology",
+        "ComputationalHodge.LoopCharacters",
+        "ComputationalHodge.CircleHodge"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "kind": "adjacent-open-header",
+      "module": "Resonance.lean",
+      "theorem": null,
+      "old_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson\nopen ComputationalHodge.GreenOperator ComputationalHodge.CircleFredholm\nopen ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals ComputationalHodge.LoopCharacters\nopen MeasureTheory Set\n",
+      "new_declaration": "open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.GreenOperator ComputationalHodge.CircleFredholm ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals ComputationalHodge.LoopCharacters MeasureTheory Set\n",
+      "before_module_sha256": "d371e774b2f840a4652395a73bff0d66627611f42c732a5fc0fe40be839b7028",
+      "after_module_sha256": "961409091e91b5124a0607129bd74dbe78a427eb8479ce0ba51763bd0554f95f",
+      "ordered_open_names": [
+        "ComputationalHodge.CircleHodge",
+        "ComputationalHodge.MetricHodge",
+        "ComputationalHodge.Poisson",
+        "ComputationalHodge.GreenOperator",
+        "ComputationalHodge.CircleFredholm",
+        "ComputationalHodge.ACLifts",
+        "ComputationalHodge.TraceIntegrals",
+        "ComputationalHodge.LoopCharacters",
+        "MeasureTheory",
+        "Set"
+      ],
+      "scope": "Consolidate adjacent unscoped open commands in original order; all namespace names and all mathematical declaration/proof bytes unchanged."
+    },
+    {
+      "module": "CirclePeriods.lean",
+      "theorem": "count_zero_of_source_ne",
+      "old_declaration": "theorem count_zero_of_source_ne {a b : CircleHodge.Circle} (p : Trace a b) : a\u22600 \u2192 count p=0 := by\n  induction p <;> simp_all [count] <;> grind [trace_endpoints]\n\n",
+      "new_declaration": "theorem count_zero_of_source_ne {a b : CircleHodge.Circle} (p : Trace a b) : a\u22600 \u2192 count p=0 := by\n  induction p with\n  | refl _ => exact fun _ => rfl\n  | single _ => exact fun h => (h rfl).elim\n  | trans p q hp hq => exact fun h => by rw [count,hp h,hq (fun hb => h ((trace_endpoints p).trans hb)),zero_add]\n  | symm p hp => exact fun h => by rw [count,hp (fun ha => h ((trace_endpoints p).symm.trans ha)),neg_zero]\n\n",
+      "statement_sha256": "5bfc58f3b4433964f0519d237a2084b126c831c25e2b7c031edc79023b4f7216",
+      "before_module_sha256": "73e6ddfa8e6278c9326578cd2cfe2b0cc57b946d27a8806bfaf70af63ad6b2a1",
+      "after_module_sha256": "02900d27791e5d56e1258ea9f1f40ba8eebce26f9f7a71c7d6bc97d9221483a7",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Resonance.lean",
+      "theorem": "pairing_positive",
+      "old_declaration": "theorem pairing_positive (\u03c1 : RegularDensity) (f : Coefficient) (hf : f\u22600) : 0<pairing \u03c1 f f := by\n  obtain \u27e8q,hq\u27e9 : \u2203 q,f q\u22600 := by\n    by_contra h\n    apply hf\n    ext q\n    exact not_ne_iff.mp (not_exists.mp h q)\n  rw [pairing,mean_circle]\n  apply integral_pos_of_integrable_nonneg_nonzero (\u03c1.val.val*f*f).continuous\n    (continuous_integrable (\u03c1.val.val*f*f).continuous)\n    (fun q => by\n      change 0\u2264\u03c1.val.val q*f q*f q\n      simpa only [mul_assoc] using mul_nonneg (\u03c1.val.property q).le (mul_self_nonneg (f q)))\n  change \u03c1.val.val q*f q*f q\u22600\n  exact mul_ne_zero (mul_ne_zero (density_ne \u03c1.val q) hq) hq\n\n",
+      "new_declaration": "theorem pairing_positive (\u03c1 : RegularDensity) (f : Coefficient) (hf : f\u22600) : 0<pairing \u03c1 f f := by\n  obtain \u27e8q,hq\u27e9 : \u2203 q,f q\u22600 := by simpa using DFunLike.exists_ne hf\n  rw [pairing,mean_circle]\n  exact integral_pos_of_integrable_nonneg_nonzero (\u03c1.val.val*f*f).continuous\n    (continuous_integrable (\u03c1.val.val*f*f).continuous)\n    (fun t => by change 0\u2264\u03c1.val.val t*f t*f t;simpa only [mul_assoc] using mul_nonneg (\u03c1.val.property t).le (mul_self_nonneg (f t)))\n    (show \u03c1.val.val q*f q*f q\u22600 from mul_ne_zero (mul_ne_zero (density_ne \u03c1.val q) hq) hq)\n\n",
+      "statement_sha256": "9a9a275870cb12d22c06bc03d1908470a0c9e5f631adae240baa41768e191fbf",
+      "before_module_sha256": "961409091e91b5124a0607129bd74dbe78a427eb8479ce0ba51763bd0554f95f",
+      "after_module_sha256": "e1f06bc01de2bee75af6d382302e9f3e19c49db562ba902e51ea47a89a0b52d4",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Resonance.lean",
+      "theorem": "normalized_kernel_zero",
+      "old_declaration": "theorem normalized_kernel_zero (\u03c1 : RegularDensity) (u : Domain \u03c1) (hz : laplacian \u03c1 u.val=0) :\n    u.val.val=0 := by\n  obtain \u27e8c,hc\u27e9:=(kernel_iff_constant \u03c1 u.val).mp hz\n  have hm : weightedMean \u03c1 u.val.val=0 := u.property\n  rw [hc,weightedMean_constant] at hm\n  have h0 : c=0 := (mul_eq_zero.mp hm).resolve_right (ne_of_gt (mean_pos \u03c1.val))\n  rw [hc,h0]\n  rfl\n/-- Necessary orthogonality for actual shifted solutions; all C2 competitors are covered. -/\n",
+      "new_declaration": "theorem normalized_kernel_zero (\u03c1 : RegularDensity) (u : Domain \u03c1) (hz : laplacian \u03c1 u.val=0) :\n    u.val.val=0 := by\n  obtain \u27e8c,hc\u27e9:=(kernel_iff_constant \u03c1 u.val).mp hz\n  have hm : c*mean \u03c1.val.val=0 := by simpa only [hc,weightedMean_constant] using u.property\n  exact hc.trans (by rw [(mul_eq_zero.mp hm).resolve_right (ne_of_gt (mean_pos \u03c1.val))];rfl)\n\n",
+      "statement_sha256": "9f33d00868f5f4aba924d6b0d11aab1c43318cf7270127aa88f9bb10b27853b6",
+      "before_module_sha256": "e1f06bc01de2bee75af6d382302e9f3e19c49db562ba902e51ea47a89a0b52d4",
+      "after_module_sha256": "13570210b41270d9ae210acc622516ce6ccbe0e9054e5aaf2e22aa4063751bc0",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Green.lean",
+      "theorem": "greenMap_pairing_symmetry",
+      "old_declaration": "theorem greenMap_pairing_symmetry (\u03c1 : RegularDensity) (f g : Compatible \u03c1) :\n    pairing \u03c1 f.val (greenMap \u03c1 g).val=pairing \u03c1 g.val (greenMap \u03c1 f).val := by\n  change (\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover f.val x*cover (solution \u03c1 g).val x)=\n    \u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover g.val x*cover (solution \u03c1 f).val x\n  calc\n    _ = \u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (solution \u03c1 f).val x*cover g.val x := by\n      simpa only [solution_solves] using pairing_symmetry \u03c1 (solution \u03c1 f) (solution \u03c1 g)\n    _ = _ := intervalIntegral.integral_congr (fun x _ => by ring)\n",
+      "new_declaration": "theorem greenMap_pairing_symmetry (\u03c1 : RegularDensity) (f g : Compatible \u03c1) :\n    pairing \u03c1 f.val (greenMap \u03c1 g).val=pairing \u03c1 g.val (greenMap \u03c1 f).val := by\n  have h:=pairing_symmetry \u03c1 (solution \u03c1 f) (solution \u03c1 g)\n  rw [solution_solves,solution_solves] at h\n  exact h.trans (intervalIntegral.integral_congr (fun x _ => by ring))\n\n",
+      "statement_sha256": "734e0a7b55a11fcf33e769846b0bbc4e1451a1d5cafca54751126297048764f5",
+      "before_module_sha256": "2ea583217ed320726a1b2d35c477cfd626eec4a9cd378aba73917177fed4b108",
+      "after_module_sha256": "a914eaf8d19d88e2bef906f4e750bf4d3522e181aabb2272e619ba9550f794f4",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "green_identity",
+      "old_declaration": "theorem green_identity (\u03c1 : RegularDensity) (u v : C2Coefficient) :\n    (\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover v.val x)=\n      \u222b x in (0 : \u211d)..1,cover (gradient u) x*cover (gradient v) x/cover \u03c1.val.val x := by\n  have hi:=((flux_c1 \u03c1 u).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1)).integral_mul_deriv_eq_deriv_mul\n    ((c2_c1 v).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1))\n  have hp:=cover_periodic (flux \u03c1 u) 0\n  have hq:=cover_periodic v.val 0\n  simp only [zero_add] at hp hq\n  rw [hp,hq,sub_self,zero_sub] at hi\n  have hl : (fun x => cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover v.val x)=\n      fun x => -(deriv (cover (flux \u03c1 u)) x*cover v.val x) := by\n    funext x\n    change cover \u03c1.val.val x*(-(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x)*cover v.val x=_\n    field_simp [show cover \u03c1.val.val x\u22600 from density_ne \u03c1.val (x : CircleHodge.Circle)]\n  have hr : (fun x => cover (gradient u) x*cover (gradient v) x/cover \u03c1.val.val x)=\n      fun x => cover (flux \u03c1 u) x*deriv (cover v.val) x := by\n    funext x\n    change deriv (cover u.val) x*deriv (cover v.val) x/cover \u03c1.val.val x=\n      (deriv (cover u.val) x/cover \u03c1.val.val x)*deriv (cover v.val) x\n    ring\n  rw [hl,hr,intervalIntegral.integral_neg]\n  exact hi.symm\n\n",
+      "new_declaration": "theorem green_identity (\u03c1 : RegularDensity) (u v : C2Coefficient) :\n    (\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover v.val x)=\n      \u222b x in (0 : \u211d)..1,cover (gradient u) x*cover (gradient v) x/cover \u03c1.val.val x := by\n  have hi:=((flux_c1 \u03c1 u).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1)).integral_mul_deriv_eq_deriv_mul\n    ((c2_c1 v).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1))\n  have hp:=cover_periodic (flux \u03c1 u) 0\n  have hq:=cover_periodic v.val 0\n  simp only [zero_add] at hp hq\n  rw [hp,hq,sub_self,zero_sub] at hi\n  calc\n    _ = \u222b x in (0 : \u211d)..1,-(deriv (cover (flux \u03c1 u)) x*cover v.val x) :=\n      intervalIntegral.integral_congr (fun x _ => by\n        change cover \u03c1.val.val x*(-(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x)*cover v.val x=_\n        field_simp [show cover \u03c1.val.val x\u22600 from density_ne \u03c1.val (x : CircleHodge.Circle)])\n    _ = _ := (intervalIntegral.integral_neg _).trans (hi.symm.trans\n      (intervalIntegral.integral_congr (fun x _ => by\n        change (deriv (cover u.val) x/cover \u03c1.val.val x)*deriv (cover v.val) x=deriv (cover u.val) x*deriv (cover v.val) x/cover \u03c1.val.val x\n        ring)))\n\n",
+      "statement_sha256": "57468cade6edec895debcb75ad6a0a1f81dde742c82430d681acef988080ef8b",
+      "before_module_sha256": "fcc159b312770db006502dc4523f8abf02b3bd6050f32d965ef961ad470a1afe",
+      "after_module_sha256": "4d6eabe6de198b9c2e197d2d61f447f3363a5ed7ce0122ba48da00262bcd9023",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "laplacian_of_constant",
+      "old_declaration": "theorem laplacian_of_constant (\u03c1 : RegularDensity) (u : C2Coefficient) (c : \u211d) (hu : u.val=constant c) :\n    laplacian \u03c1 u=0 := by\n  have hg : gradient u=0 := ContinuousMap.ext fun q => Quotient.inductionOn q fun x =>\n    (congrArg (fun f : Coefficient => deriv (cover f) x) hu).trans (deriv_const x c)\n  have hf : flux \u03c1 u=0 := ContinuousMap.ext fun q =>\n    (congrArg (fun f : Coefficient => f q/\u03c1.val.val q) hg).trans (zero_div _)\n  exact ContinuousMap.ext fun q => Quotient.inductionOn q fun x => by\n    change -(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x=0\n    rw [hf]\n    simp [cover]\n\n",
+      "new_declaration": "theorem laplacian_of_constant (\u03c1 : RegularDensity) (u : C2Coefficient) (c : \u211d) (hu : u.val=constant c) :\n    laplacian \u03c1 u=0 := by\n  have hg : gradient u=0 := ContinuousMap.ext fun q => Quotient.inductionOn q fun x =>\n    (congrArg (fun f : Coefficient => deriv (cover f) x) hu).trans (deriv_const x c)\n  have hf : flux \u03c1 u=0 := ContinuousMap.ext fun q =>\n    (congrArg (fun f : Coefficient => f q/\u03c1.val.val q) hg).trans (zero_div _)\n  exact ContinuousMap.ext fun q => Quotient.inductionOn q fun x => by\n    change -(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x=0\n    rw [hf]\n    change -(deriv (fun _ : \u211d => (0 : \u211d)) x)/cover \u03c1.val.val x=0\n    simp only [deriv_const,neg_zero,zero_div]\n\n",
+      "statement_sha256": "27f3e530e68ee7744101679886ad6ff78cf189bf342d9519d65c81cbf4722280",
+      "before_module_sha256": "4d6eabe6de198b9c2e197d2d61f447f3363a5ed7ce0122ba48da00262bcd9023",
+      "after_module_sha256": "b061a99ff8d9b71ffea235ef4fc6296558ef9f06f837bbfbf201aabed997ced1",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "green_identity",
+      "old_declaration": "theorem green_identity (\u03c1 : RegularDensity) (u v : C2Coefficient) :\n    (\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover v.val x)=\n      \u222b x in (0 : \u211d)..1,cover (gradient u) x*cover (gradient v) x/cover \u03c1.val.val x := by\n  have hi:=((flux_c1 \u03c1 u).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1)).integral_mul_deriv_eq_deriv_mul\n    ((c2_c1 v).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1))\n  have hp:=cover_periodic (flux \u03c1 u) 0\n  have hq:=cover_periodic v.val 0\n  simp only [zero_add] at hp hq\n  rw [hp,hq,sub_self,zero_sub] at hi\n  calc\n    _ = \u222b x in (0 : \u211d)..1,-(deriv (cover (flux \u03c1 u)) x*cover v.val x) :=\n      intervalIntegral.integral_congr (fun x _ => by\n        change cover \u03c1.val.val x*(-(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x)*cover v.val x=_\n        field_simp [show cover \u03c1.val.val x\u22600 from density_ne \u03c1.val (x : CircleHodge.Circle)])\n    _ = _ := (intervalIntegral.integral_neg _).trans (hi.symm.trans\n      (intervalIntegral.integral_congr (fun x _ => by\n        change (deriv (cover u.val) x/cover \u03c1.val.val x)*deriv (cover v.val) x=deriv (cover u.val) x*deriv (cover v.val) x/cover \u03c1.val.val x\n        ring)))\n\n",
+      "new_declaration": "theorem green_identity (\u03c1 : RegularDensity) (u v : C2Coefficient) :\n    (\u222b x in (0 : \u211d)..1,cover \u03c1.val.val x*cover (laplacian \u03c1 u) x*cover v.val x)=\n      \u222b x in (0 : \u211d)..1,cover (gradient u) x*cover (gradient v) x/cover \u03c1.val.val x := by\n  have hi:=((flux_c1 \u03c1 u).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1)).integral_mul_deriv_eq_deriv_mul\n    ((c2_c1 v).contDiffOn.absolutelyContinuousOnInterval (a:=0) (b:=1))\n  have hp:=cover_periodic (flux \u03c1 u) 0\n  have hq:=cover_periodic v.val 0\n  simp only [zero_add] at hp hq\n  rw [hp,hq,sub_self,zero_sub] at hi\n  calc\n    _ = \u222b x in (0 : \u211d)..1,-(deriv (cover (flux \u03c1 u)) x*cover v.val x) :=\n      intervalIntegral.integral_congr (fun x _ => by\n        change cover \u03c1.val.val x*(-(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x)*cover v.val x=_\n        field_simp [show cover \u03c1.val.val x\u22600 from density_ne \u03c1.val (x : CircleHodge.Circle)])\n    _ = _ := intervalIntegral.integral_neg.trans (hi.symm.trans\n      (intervalIntegral.integral_congr (fun x _ => by\n        change (deriv (cover u.val) x/cover \u03c1.val.val x)*deriv (cover v.val) x=deriv (cover u.val) x*deriv (cover v.val) x/cover \u03c1.val.val x\n        ring)))\n\n",
+      "statement_sha256": "57468cade6edec895debcb75ad6a0a1f81dde742c82430d681acef988080ef8b",
+      "before_module_sha256": "b061a99ff8d9b71ffea235ef4fc6296558ef9f06f837bbfbf201aabed997ced1",
+      "after_module_sha256": "584c5f8c969026d156914fb33c044918955369fba21a06c82ba6ea01475f225d",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Green.lean",
+      "theorem": "greenMap_pairing_symmetry",
+      "old_declaration": "theorem greenMap_pairing_symmetry (\u03c1 : RegularDensity) (f g : Compatible \u03c1) :\n    pairing \u03c1 f.val (greenMap \u03c1 g).val=pairing \u03c1 g.val (greenMap \u03c1 f).val := by\n  have h:=pairing_symmetry \u03c1 (solution \u03c1 f) (solution \u03c1 g)\n  rw [solution_solves,solution_solves] at h\n  exact h.trans (intervalIntegral.integral_congr (fun x _ => by ring))\n\n",
+      "new_declaration": "theorem greenMap_pairing_symmetry (\u03c1 : RegularDensity) (f g : Compatible \u03c1) :\n    pairing \u03c1 f.val (greenMap \u03c1 g).val=pairing \u03c1 g.val (greenMap \u03c1 f).val := by\n  have h:=pairing_symmetry \u03c1 (solution \u03c1 f) (solution \u03c1 g)\n  rw [solution_solves,solution_solves] at h\n  exact h.trans (intervalIntegral.integral_congr (fun x _ => by\n    change cover \u03c1.val.val x*cover (solution \u03c1 f).val x*cover g.val x=cover \u03c1.val.val x*cover g.val x*cover (solution \u03c1 f).val x\n    ring))\n\n",
+      "statement_sha256": "734e0a7b55a11fcf33e769846b0bbc4e1451a1d5cafca54751126297048764f5",
+      "before_module_sha256": "a914eaf8d19d88e2bef906f4e750bf4d3522e181aabb2272e619ba9550f794f4",
+      "after_module_sha256": "3614cd4ac05977d5f981f16a03a41c4e9ce78cc5047e804f639be19bc9ee457a",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "module": "Poisson.lean",
+      "theorem": "kernel_iff_constant",
+      "old_declaration": "theorem kernel_iff_constant (\u03c1 : RegularDensity) (u : C2Coefficient) :\n    laplacian \u03c1 u=0 \u2194 \u2203 c : \u211d,u.val=constant c := by\n  constructor\n  \u00b7 intro he\n    have hz (x : \u211d) : deriv (cover (flux \u03c1 u)) x=0 := by\n      have h:=congrArg (fun f : Coefficient => cover f x) he\n      change -(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x=0 at h\n      exact neg_eq_zero.mp ((div_eq_zero_iff.mp h).resolve_right (density_ne \u03c1.val (x : CircleHodge.Circle)))\n    have hc (x : \u211d) : cover (flux \u03c1 u) x=cover (flux \u03c1 u) 0 :=\n      is_const_of_deriv_eq_zero (contDiff_one_iff_deriv.mp (flux_c1 \u03c1 u)).1 hz x 0\n    have hg : gradient u=(cover (flux \u03c1 u) 0)\u2022\u03c1.val.val := by\n      ext q\n      induction q using Quotient.inductionOn with | _ x =>\n      exact (div_eq_iff (density_ne \u03c1.val (x : CircleHodge.Circle))).mp (hc x)\n    have hm : mean (gradient u)=0 := exact_mean_zero \u27e8u.val,c2_c1 u,fun _ => rfl\u27e9\n    rw [hg,mean_smul] at hm\n    have h0 : cover (flux \u03c1 u) 0=0 := (mul_eq_zero.mp hm).resolve_right (ne_of_gt (mean_pos \u03c1.val))\n    have hd (x : \u211d) : deriv (cover u.val) x=0 := by\n      have h:=congrArg (fun f : Coefficient => cover f x) hg\n      rw [h0,zero_smul] at h\n      change deriv (cover u.val) x=0 at h\n      exact h\n    refine \u27e8cover u.val 0,?_\u27e9\n    ext q\n    induction q using Quotient.inductionOn with | _ x =>\n    exact is_const_of_deriv_eq_zero (contDiff_one_iff_deriv.mp (c2_c1 u)).1 hd x 0\n  \u00b7 rintro \u27e8c,hc\u27e9;exact laplacian_of_constant \u03c1 u c hc\n\n",
+      "new_declaration": "theorem kernel_iff_constant (\u03c1 : RegularDensity) (u : C2Coefficient) :\n    laplacian \u03c1 u=0 \u2194 \u2203 c : \u211d,u.val=constant c := by\n  constructor\n  \u00b7 intro he\n    have hz (x : \u211d) : deriv (cover (flux \u03c1 u)) x=0 := by\n      have h:=congrArg (fun f : Coefficient => cover f x) he\n      change -(deriv (cover (flux \u03c1 u)) x)/cover \u03c1.val.val x=0 at h\n      exact neg_eq_zero.mp ((div_eq_zero_iff.mp h).resolve_right (density_ne \u03c1.val (x : CircleHodge.Circle)))\n    have hc (x : \u211d) : cover (flux \u03c1 u) x=cover (flux \u03c1 u) 0 :=\n      is_const_of_deriv_eq_zero (contDiff_one_iff_deriv.mp (flux_c1 \u03c1 u)).1 hz x 0\n    have hg : gradient u=(cover (flux \u03c1 u) 0)\u2022\u03c1.val.val := by\n      ext q\n      induction q using Quotient.inductionOn with | _ x =>\n      exact (div_eq_iff (density_ne \u03c1.val (x : CircleHodge.Circle))).mp (hc x)\n    have hm : mean (gradient u)=0 := exact_mean_zero \u27e8u.val,c2_c1 u,fun _ => rfl\u27e9\n    rw [hg,mean_smul] at hm\n    have h0 : cover (flux \u03c1 u) 0=0 := (mul_eq_zero.mp hm).resolve_right (ne_of_gt (mean_pos \u03c1.val))\n    have hd (x : \u211d) : deriv (cover u.val) x=0 :=\n      (congrArg (fun f : Coefficient => cover f x) hg).trans (by rw [h0,zero_smul];rfl)\n    refine \u27e8cover u.val 0,?_\u27e9\n    ext q\n    induction q using Quotient.inductionOn with | _ x =>\n    exact is_const_of_deriv_eq_zero (contDiff_one_iff_deriv.mp (c2_c1 u)).1 hd x 0\n  \u00b7 rintro \u27e8c,hc\u27e9;exact laplacian_of_constant \u03c1 u c hc\n\n",
+      "statement_sha256": "3b784f10f47b4b1d54d6afcf91cfb9c96a8c39d19560d1f282661b57632e2f28",
+      "before_module_sha256": "584c5f8c969026d156914fb33c044918955369fba21a06c82ba6ea01475f225d",
+      "after_module_sha256": "34924e3b4a0ab7c153cc292e0494f3c214ddc9798440cc3e81c453db8d744023",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required.",
+      "source_proof_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/6dde225210537c4744b84b36a0ecd72a38710199/computational-hodge/fredholm-circle/Poisson.lean"
+    },
+    {
+      "module": "CompactGreen.lean",
+      "theorem": "green_isCompactOperator",
+      "old_declaration": "theorem green_isCompactOperator (\u03c1 : RegularDensity) : IsCompactOperator (greenMap \u03c1) := (isCompactOperator_iff_exists_mem_nhds_isCompact_closure_image (greenMap \u03c1)).mpr\n  \u27e8forcingBall \u03c1 1,by simpa only [forcingBall,Metric.closedBall,dist_zero_right] using\n    (Metric.closedBall_mem_nhds (0 : Compatible \u03c1) zero_lt_one),green_ball_precompact \u03c1 1\u27e9\n\n",
+      "new_declaration": "theorem green_isCompactOperator (\u03c1 : RegularDensity) : IsCompactOperator (greenMap \u03c1) := (isCompactOperator_iff_exists_mem_nhds_isCompact_closure_image (greenMap \u03c1)).mpr\n  \u27e8forcingBall \u03c1 1,(show forcingBall \u03c1 1=Metric.closedBall (0 : Compatible \u03c1) 1 from\n    Set.ext (fun f => by rw [Metric.mem_closedBall,dist_zero_right];rfl)).symm \u25b8\n      Metric.closedBall_mem_nhds _ zero_lt_one,green_ball_precompact \u03c1 1\u27e9\n\n",
+      "statement_sha256": "117077e0ca3526bdd16968d9ae9bc20e91f312bef3ffa9e103ca2c3f9e526ee5",
+      "before_module_sha256": "b77482eb0e8b08254fad1b2d894945e004c5f49b6e8c5b259f14b14311bdf99d",
+      "after_module_sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    },
+    {
+      "kind": "comment-whitespace-reflow",
+      "module": "SourcePaths.lean",
+      "theorem": null,
+      "old_declaration": "/-! Minimal literal source port of the user's endpoint-changing trace and scoped\nrewrite definitions. Only imports, module visibility and enclosing namespaces\nare adapted. No claim about equality-indexed raw Path or HoTT is made. -/",
+      "new_declaration": "/-! Minimal literal source port of the user's endpoint-changing trace and scoped rewrite definitions. Only imports, module visibility and enclosing namespaces are adapted. No claim about equality-indexed raw Path or HoTT is made. -/",
+      "before_module_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "after_module_sha256": "a6101aeb53675ce2b94f8d02022f27de63a7f02199173bf4a715445718a62b39",
+      "scope": "Reflow existing editorial port comment only; every word and mathematical declaration/proof byte retained."
+    },
+    {
+      "module": "Resonance.lean",
+      "theorem": "pairing_smul_left",
+      "old_declaration": "theorem pairing_smul_left (\u03c1 : RegularDensity) (c : \u211d) (f g : Coefficient) :\n    pairing \u03c1 (c\u2022f) g=c*pairing \u03c1 f g := by\n  unfold pairing\n  rw [mul_smul_comm,smul_mul_assoc,mean_smul]\n  rfl\n\n",
+      "new_declaration": "theorem pairing_smul_left (\u03c1 : RegularDensity) (c : \u211d) (f g : Coefficient) :\n    pairing \u03c1 (c\u2022f) g=c*pairing \u03c1 f g := by\n  unfold pairing\n  rw [mul_smul_comm,smul_mul_assoc,mean_smul]\n\n",
+      "statement_sha256": "965a2505e4a36b3ac721f219d344599121ac65243a4d8c2cef34344de945e3fb",
+      "before_module_sha256": "13570210b41270d9ae210acc622516ce6ccbe0e9054e5aaf2e22aa4063751bc0",
+      "after_module_sha256": "d02c46a9a42c04d5726142fca7d3e56ae1616e9458b06c42a0d00c1da2508203",
+      "scope": "Exact-statement complete proof refactor/correction; original/replacement preserved. Fresh verification required."
+    }
+  ]
+}

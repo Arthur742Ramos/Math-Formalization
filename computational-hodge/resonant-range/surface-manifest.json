@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "unformatted_sha256": "b407ad06823ec32cbdd35312f7bf2b44c777d337c6f81a9d85d2e9bcfb3b3ad6",
+  "layout": {
+    "empty_code_lines_removed": 141,
+    "ordinary_signature_line_joins": 106,
+    "proof_body_line_joins": 0,
+    "open_command_joins": 0
+  },
+  "ordered_sources": [
+    {
+      "path": "SourcePaths.lean",
+      "sha256": "a6101aeb53675ce2b94f8d02022f27de63a7f02199173bf4a715445718a62b39"
+    },
+    {
+      "path": "Periods.lean",
+      "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+    },
+    {
+      "path": "Harmonic.lean",
+      "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+    },
+    {
+      "path": "LoopImage.lean",
+      "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+    },
+    {
+      "path": "CircleWinding.lean",
+      "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+    },
+    {
+      "path": "CircleData.lean",
+      "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+    },
+    {
+      "path": "RawLift.lean",
+      "sha256": "e84d7b96f852ba7cbed0001f59b761bf1c7b081d577d22a17780c350b31bffae"
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "sha256": "02900d27791e5d56e1258ea9f1f40ba8eebce26f9f7a71c7d6bc97d9221483a7"
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "sha256": "cc65b3edbfa5888abc1e3c6ca8502eea3c940d983bfb142fb8a81d639336181b"
+    },
+    {
+      "path": "ACPeriods.lean",
+      "sha256": "7b77a0e683c6c352cd4ce25042cd2ecba8fb70fff4edeaef141ccac76c497fc3"
+    },
+    {
+      "path": "Potential.lean",
+      "sha256": "1bc874ebfa7c8229161a7a865b70d2d6d886b70b9d22555fcac08c0acfc3605a"
+    },
+    {
+      "path": "Density.lean",
+      "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+    },
+    {
+      "path": "Poisson.lean",
+      "sha256": "34924e3b4a0ab7c153cc292e0494f3c214ddc9798440cc3e81c453db8d744023"
+    },
+    {
+      "path": "Green.lean",
+      "sha256": "3614cd4ac05977d5f981f16a03a41c4e9ce78cc5047e804f639be19bc9ee457a"
+    },
+    {
+      "path": "CompactGreen.lean",
+      "sha256": "48555b5bde07d28a409b83c4705e17034e2769be5d9cb6c8eee5acf5cf00a641"
+    },
+    {
+      "path": "Fredholm.lean",
+      "sha256": "5b441f4c1f0aec20d64f1e2b9c2ad5efb4b7a4f873638f27f5a40f5ec9b0ee8c"
+    },
+    {
+      "path": "Resonance.lean",
+      "sha256": "d02c46a9a42c04d5726142fca7d3e56ae1616e9458b06c42a0d00c1da2508203"
+    },
+    {
+      "path": "Range.lean",
+      "sha256": "2b055f9a7565284f0c91cbe9a28bf7ff8a02e03cb3d2c2cd04884e91ee09b7d2"
+    }
+  ],
+  "mathlib_imports": [
+    "Mathlib.Topology.Homotopy.Lifting",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.ContDiff",
+    "Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+    "Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv",
+    "Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli",
+    "Mathlib.Analysis.Normed.Operator.Compact.FredholmAlternative"
+  ],
+  "sha256": "8521fd29ba88a441ce3a93c0d1b5f868c5f0acfb4a700c58d8ff99e70f30e794",
+  "lines": 999,
+  "bytes": 72350,
+  "transformation": "Remove module/visibility directives; replace custom imports by complete source and minimize only witnessed redundant trusted Mathlib imports; remove empty lines outside comments/strings and reflow ordinary top-level declaration signatures only. No proof-body or open-command joins. Retain every declaration and complete proof of ordered modular sources; fresh elaboration and review remain required. Challenge and Solution share one implementation, not independent proofs."
+}
