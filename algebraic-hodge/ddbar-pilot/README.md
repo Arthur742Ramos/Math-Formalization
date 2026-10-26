@@ -6,11 +6,23 @@ Mathlib-only Challenge and Solution compiled separately from shared proof-comple
 Verification, rendering and intake are accounted for per exact source in immutable
 release receipts; this source text alone does not certify any release stage.
 
-The current local repair uses generated Challenge SHA256
+Completed local checks are recorded for source commit
+`369287b2df9d41160da84a44a7c9c7b6336649f5`: the full verification report
+(SHA256 `39a5883d89e0dc8323167ae8c6d308b52f5fcd29c00d9058c32f355fbb5ce4cb`)
+and rendering report
+(SHA256 `96f6a26d5c9cfe98f87336bab729530f8e49e631e21aecf1bfe3698b9e94fc23`)
+each record PASS with errors `[]`. The rendering report identifies generated
+Challenge SHA256
 `cab2875daf0f96d37d371f37bafb2cbabb1d47692377942913b8445c760a57b6`.
-Earlier receipts below concern their recorded historical sources. This candidate
-requires fresh validation and rendering receipts; no canonical acceptance,
-registry intake or merge is claimed for it.
+These reports attest only to that immutable source, not to later documentation
+revisions. Historical browser inspection, independent review and merge are
+recorded in the release summary; the original final binding and review receipts,
+including `final-public-evidence-binding.json`, were not available for renewed
+authentication in this correction. Those summary claims are not fresh evidence.
+Earlier failure receipts remain historical. Required checks for later exact
+sources are recorded in their own external immutable release receipts; no
+baseline receipt is relabeled as a check of a corrected commit. Editorial
+clearance and public registration remain pending.
 
 For commuting squares, `ImageKernel K p q` is the actual operator identity
 
