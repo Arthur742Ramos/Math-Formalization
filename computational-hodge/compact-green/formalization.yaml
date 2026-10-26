@@ -1,0 +1,135 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Compact weighted-circle Green operator and computational periods",
+    "description": "Prove actual compactness of the existing Green solution map on the closed weighted-mean-zero C0 Banach subspace for every positive C1 circle density. Derive uniform real-cover Lipschitz control, genuine quotient equicontinuity and Ascoli compactness, then compact bounded-forcing image closure and a supremum-norm convergent strictly increasing subsequence with actual weighted raw computational-trace and harmonic-cochain periods zero.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CA",
+      "math.AT"
+    ],
+    "msc2020": [
+      "26A46",
+      "55Q05",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, Sections9.2-9.3",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Primary context: Proposition 9.3.4(2) and Theorem 9.3.6(1), in Section 9.3 explain compactness in the Hodge argument. This package proves a one-dimensional C0 Ascoli route, not that source Sobolev/Rellich theorem or general Hodge result."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b265cdd4cb62128de847c2aee244ad66daa7223b/computational-hodge/green-operator",
+      "relationship": "builds-on",
+      "note": "PR74 supplies actual Green construction, closed C0 compatibility Banach space and proved value/gradient estimates. This successor proves its previously open compactness, without assuming an abstract bridge. Required complete accepted predecessor proofs are retained as exact fragments; unused inverse/pairing corollaries remain predecessor results."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual endpoint-indexed geometric traces, binary concatenation/reversal and continuous realization retained with exact source mapping. Pinned analytic-API overlap searches found no ordinary intervalIntegral/Bochner/derivative implementation; this is not an exhaustive mathematical novelty claim."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned classical Ascoli, compact-operator predicate, uniform function topology, normed continuous maps and compactness/sequence infrastructure are credited imports. The actual Green operator control, quotient descent, compact image and genuine computational-period limit conclusions are proved here."
+    }
+  ],
+  "status": {
+    "scope": "Actual compact circle Green operator on the closed C0 computational-period obstruction kernel; bounded-image compact closure and compatible supremum-norm subsequential limits.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "No holes or new axioms. Positive C1 coordinate density ds=rho dx, period-one circle and actual C0 supremum norm. Limits of Green images of merely bounded forcing are asserted C0/compatible only, not C2, in range(G), or limits of a convergent forcing subsequence. No closed-range/coercive lower bound, Hilbert self-adjoint/spectral theorem, Rellich/Sobolev/weak elliptic regularity, general Fredholm/manifold/analytic/Kahler Hodge/deRham theorem, intrinsic metric/cotangent or complex-circle arclength 2*pi identification, numerical algorithm or novelty claim. Exact release outcomes are separately source-bound.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual indexed binary computational traces, circle realization/raw lifts, ordinary integrals and finite harmonic cochains remain the obstruction model. The Green map is the actual PR74 continuous linear map on its actual closed C0 kernel. Compactness is proved by derivative-derived common control, UniformFun quotient descent, exact Ascoli and closed-subtype transfer, not supplied as an assumption. The actual C0 limit retains mean/raw/cochain period vanishing; no unsupported C2/range/forcing limit claim. Classical one-dimensional construction, no general analytic Hodge or numerical solver."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI precise scope, 13-theorem/four-definition mathematical authoring review and exact 14-fragment/27-to-eight public-import source review completed. The current exact package, material inventory and final evidence require separate source-bound checks/reviews. No human or external peer review inferred."
+  }
+}
