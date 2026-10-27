@@ -88,8 +88,8 @@ Every package file and Git mode must match the previously tested commit except
 those explicitly allowed bytes. The metadata must parse strictly and all other
 fields, including authors, maintainers, theorem scope, sources and license, must
 remain semantically identical. Added, removed, renamed, symlinked or mode-changed
-files, or any proof, Comparator, semantic, dependency, toolchain or render-input
-change, are ineligible and require the ordinary native/full/render gates.
+files, or any proof, Comparator, semantic, dependency, toolchain or file actually
+read as a renderer input change, are ineligible and require ordinary checks.
 
 Run final-commit catalog and package/schema/status checks, compare the exact
 source archive, and use `scripts/check_status_only_evidence.py` with original
@@ -99,8 +99,11 @@ boundary review. That review must examine the entire diff, README/metadata
 claims, pinned imports, workspace/root inputs, dependency closure, renderer
 impact, size/license effects and original evidence. Because the renderer may
 copy the whole repository, package equality alone does not prove whole-run or
-render equivalence. If the boundary cannot be established, do not use this path.
-Authenticate actual historical artifacts separately; hashes and the guard do
+render equivalence. The review must establish the boundary of the selected
+historical proof-source claim; if it cannot, do not use this path. A changed
+whole checkout remains unverified and the old render is historical, not a
+current-source render pass. Authenticate actual historical artifacts separately;
+hashes and the guard do
 not establish reviewer independence or provenance. Perform applicable focused
 checks and independently review the final receipt.
 
