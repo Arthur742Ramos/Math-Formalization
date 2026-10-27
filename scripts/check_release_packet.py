@@ -238,6 +238,11 @@ def check_status(root, commit, project, historical_report=None):
     files = snapshot(root, commit, project)
     errors = status_errors(files)
     require(not errors, '; '.join(errors))
+    # An intake for the original KR source was observed on 2026-10-27.
+    # A later handoff must not repeat its undated pre-intake assertion.
+    if project == 'topology/knaster-reichbach':
+        require('no registry intake has been created' not in files['README.md'].decode().lower(),
+                'Knaster-Reichbach README has a stale no-intake assertion')
     material_manifest = 'verification/material-imported-definitions.json'
     if project in {'topology/kuratowski-ulam', 'topology/locally-compact-baire',
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',

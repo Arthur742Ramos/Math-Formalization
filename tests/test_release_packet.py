@@ -822,6 +822,15 @@ class ReleasePacketTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Submission hold is active'):
             guard.check_packet(ROOT, packet, body, guard.sha(body), archive(self.files))
 
+    def test_knaster_reichbach_old_no_intake_claim_is_stale(self):
+        with self.assertRaisesRegex(ValueError, 'stale no-intake assertion'):
+            guard.check_status(ROOT, 'caf9b142e9b7061c364499b5994dae4ab5bf4071',
+                               'topology/knaster-reichbach')
+
+    def test_knaster_reichbach_corrected_status_passes(self):
+        guard.check_status(ROOT, '557f0ac4a016b770c160bf48b99de19ca406175a',
+                           'topology/knaster-reichbach')
+
     def test_actual_historical_source_rejected_for_stale_packaged_claims(self):
         with self.assertRaisesRegex(ValueError, 'stale blanket'):
             guard.check_status(ROOT, OLD, PROJECT)
