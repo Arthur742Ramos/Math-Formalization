@@ -1,0 +1,19 @@
+{
+  "name": "Function.Surjective",
+  "dependency": "Lean compiler core",
+  "compiler_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+  "path": "Init/Data/Function.lean",
+  "url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/Function.lean#L59-L63",
+  "source_sha256": "88217ed8ec91da1ec655c8a10f737b659a4570b4c05dbd6b084162a3157cf030",
+  "first_line": 59,
+  "last_line": 63,
+  "excerpt": "/-- A function `f : α → β` is called surjective if every `b : β` is equal to `f a`\nfor some `a : α`. -/\n@[expose]\ndef Surjective (f : α → β) : Prop :=\n  ∀ b, Exists fun a => f a = b\n",
+  "excerpt_sha256": "81f3c1294b8b4f215a4b094823922dbd95234cd6a53280e94f6fd6d7280c0148",
+  "meaning": "For every target value there exists an input with exactly that function value. Actual existence, not merely dense range.",
+  "used_by": [
+    "ComputationalHodge.Arclength.coordinate",
+    "ComputationalHodge.Arclength.inverse",
+    "ComputationalHodge.Arclength.coordinate_hasDerivAt"
+  ],
+  "compiled_bridge": "ChallengeSemantics and SolutionSemantics expand Function.Surjective by Iff.rfl. Generic core logical/type/function primitives are the infrastructure boundary, not invented Mathlib definitions."
+}
