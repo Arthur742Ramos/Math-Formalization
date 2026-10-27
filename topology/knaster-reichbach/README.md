@@ -8,12 +8,20 @@ nowhere-density and the prescribed subtype homeomorphism as assumptions.
 All proof/library declarations have proofs without holes or new axioms.
 Independent internal AI mathematical/source review found no blocker.
 The source is published in [PR45](https://github.com/Arthur742Ramos/Math-Formalization/pull/45).
-Local canonical full verification and rendering passed for predecessor
-`320b363a9b8ea37f7b2176689040668b19eb21e8`; immutable report digests are recorded in
-[local validation history](verification/local-history.json). That history does
-not certify later source bytes. Release requires exact-source final reports,
-browser inspection and final packet review for the final commit. Their receipts
-must be retained outside the frozen source; no registry intake has been created.
+Local canonical full verification and rendering passed on 2026-10-23 for
+source `caf9b142e9b7061c364499b5994dae4ab5bf4071`. The full report SHA-256 is
+`d48ccb356f846e5b389a88c578bb72f84ea963e123642088277b9b04fbb4b1b8`;
+the render report SHA-256 is
+`d7de474965b1b6fab41c188394c1b197795d8d70f81f298521a2e7a1f95e5cb0`.
+The selected rendered theorem and proof were inspected; final proof-state
+expansion was not visibly confirmed. An independent internal AI final packet
+review was completed for that source. Earlier predecessor results remain in
+[local validation history](verification/local-history.json).
+
+An intake for `caf9b142` was submitted on 2026-10-27. Its mechanical
+verification and rendering passed. Registration was not established at the
+last observation. These historical results do not certify this later source;
+its exact-source checks and review must be recorded separately.
 
 ## Mathematical sources and scope
 
@@ -51,4 +59,4 @@ This is a bounded audit, not a global novelty or priority claim.
 
 Established campaign authors and responsible maintainers remain Arthur Freitas Ramos, David Barros Hulak, and Ruy Jose Guerra Barretto de Queiroz; these roles do not assert a human proof contribution or review. OpenAI Codex authors the formalization. Independent internal AI review is separate from human or external editorial review.
 
-Lean is pinned to 4.35.0-rc2 and Mathlib to 065356127b1dc0016f66b7283ce0ce2c4055aa55. All necessary validation runs locally under root AGENTS.md. Source-bound proof, comparison, negative-control, axiom, independent-kernel, rendering and release review gates remain required before any verified handoff or submission. Dependency cache reuse is upstream infrastructure only, never a claim of fresh project verification.
+Lean is pinned to 4.35.0-rc2 and Mathlib to 065356127b1dc0016f66b7283ce0ce2c4055aa55. All necessary validation runs locally under root AGENTS.md. Source-bound proof, comparison, negative-control, axiom, independent-kernel, rendering and release review evidence must be assessed for the exact source before a verified handoff or submission. Dependency cache reuse is upstream infrastructure only, never a claim of fresh project verification.
