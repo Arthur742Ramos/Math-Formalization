@@ -88,8 +88,9 @@ Every package file and Git mode must match the previously tested commit except
 those explicitly allowed bytes. The metadata must parse strictly and all other
 fields, including authors, maintainers, theorem scope, sources and license, must
 remain semantically identical. Added, removed, renamed, symlinked or mode-changed
-files, or any proof, Comparator, semantic, dependency, toolchain or file actually
-read as a renderer input change, are ineligible and require ordinary checks.
+files, or any proof, Comparator, semantic, dependency, toolchain or
+proof-affecting input change, are ineligible and require ordinary checks.
+Historical rendering is never relabelled a current-source render pass.
 
 Run final-commit catalog and package/schema/status checks, compare the exact
 source archive, and use `scripts/check_status_only_evidence.py` with original
