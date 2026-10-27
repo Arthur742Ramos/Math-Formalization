@@ -387,7 +387,7 @@ def check_preparations(rows, verified_paths):
             assert re.fullmatch(r'[0-9a-f]{64}', digest)
         matching = [row for row in rows if '](' + path + ')' in row]
         assert len(matching) == 1
-        label = ('Intake submitted; corrected source unverified' if path == 'topology/knaster-reichbach' and p.get('current_intake_status') else
+        label = ('2026-10-27 checkpoint: intake submitted; corrected source unverified' if path == 'topology/knaster-reichbach' and p.get('current_intake_status') else
                  'Source-account correction' if 'status_correction' in p else
                  'User-confirmed registered; public ID unconfirmed' if p['state'] == 'user-reported-registered' else
                  'User-reported submitted' if p['state'] == 'user-reported-submitted' else
