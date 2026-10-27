@@ -5,6 +5,7 @@ import importlib.util
 import io
 import json
 import pathlib
+import subprocess
 import tarfile
 import unittest
 import sys
@@ -828,8 +829,16 @@ class ReleasePacketTests(unittest.TestCase):
                                'topology/knaster-reichbach')
 
     def test_knaster_reichbach_corrected_status_passes(self):
-        guard.check_status(ROOT, '557f0ac4a016b770c160bf48b99de19ca406175a',
-                           'topology/knaster-reichbach')
+        head = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
+        guard.check_status(ROOT, head, 'topology/knaster-reichbach')
+
+    def test_knaster_reichbach_ambiguous_native_account_rejected(self):
+        old = b'Exact-source native, protected comparison, kernel, canonical full/render and release evidence are recorded separately.'
+        self.assertIn('formalization.yaml: ambiguous exact-source evidence account',
+                      guard.status_errors({'formalization.yaml': old}))
+        current = (ROOT / 'topology/knaster-reichbach/formalization.yaml').read_bytes()
+        self.assertNotIn('formalization.yaml: ambiguous exact-source evidence account',
+                         guard.status_errors({'formalization.yaml': current}))
 
     def test_actual_historical_source_rejected_for_stale_packaged_claims(self):
         with self.assertRaisesRegex(ValueError, 'stale blanket'):
