@@ -146,7 +146,7 @@ def check(root, packet, archive, historical_commit, full_path, full_sha,
             scope.get('historical_repository_tree') == repo_tree(historical_commit) and scope.get('corrected_repository_tree') == repo_tree(corrected) and
             scope.get('repository_diff_sha256') == sha(diff) and scope.get('pipeline_commit') == pipeline and
             scope.get('historical_full_report_sha256') == full_sha and scope.get('historical_render_report_sha256') == render_sha and
-            scope.get('proof_input_boundary') == 'unchanged' and scope.get('render_impact_reviewed') is True and
+            scope.get('selected_proof_inputs') == 'byte-identical' and scope.get('whole_checkout_verification') == 'not-run' and scope.get('render_impact_reviewed') is True and
             scope.get('claims_match_evidence') is True and scope.get('attribution_accurate') is True and scope.get('unresolved_blockers') == [] and
             isinstance(scope.get('reviewer'), str) and scope['reviewer'].strip() and
             isinstance(scope.get('findings'), list) and scope['findings'], 'Missing or mismatched independent boundary review')
@@ -157,7 +157,7 @@ def check(root, packet, archive, historical_commit, full_path, full_sha,
             'historical_render_report_sha256': render_sha, 'corrected_metadata_sha256': sha(new['formalization.yaml']),
             'corrected_archive_sha256': sha(pathlib.Path(archive).read_bytes()),
             'current_source_full': 'not run', 'current_source_render': 'not run',
-            'scope': 'Source and historical evidence bindings only; independent current-source review, historical artifact authentication, current service requirements, duplicate checks and any service verification remain separate.'}
+            'scope': 'Historical selected proof-source evidence only. The complete corrected checkout and renderer have not been freshly verified. Independent review of this receipt, historical artifact authentication, current service requirements, duplicate checks and service verification remain separate.'}
 
 
 def main():

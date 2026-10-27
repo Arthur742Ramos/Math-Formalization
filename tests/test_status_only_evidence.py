@@ -58,7 +58,7 @@ class EvidenceChain(unittest.TestCase):
         self.project, self.pipeline = 'topology/example', 'c'*40
         self.full_sha, self.render_sha, self.fa_sha, self.ra_sha, self.review_sha, self.fr_sha, self.scope_sha = [x*64 for x in '1234567']
         self.repo = 'Arthur742Ramos/Math-Formalization'
-        meta = {'project': {'authors': ['A']}, 'status': {'known_gaps': 'old'}, 'review': {'notes': 'old'}}
+        meta = {'project': {'authors': ['A']}, 'status': {'known_gaps': 'old', 'sorry_count': 0}, 'review': {'notes': 'old'}}
         config = {'challenge_module': 'Challenge', 'solution_module': 'Solution', 'theorem_names': ['t'], 'definition_names': []}
         self.old = {'README.md': b'old', 'formalization.yaml': json.dumps(meta).encode(), 'comparator.json': json.dumps(config).encode(), 'Challenge.lean': b'theorem', 'Solution.lean': b'proof', 'lakefile.toml': b'', 'lean-toolchain': b'lean'}
         self.new = dict(self.old, **{'README.md': b'new'})
@@ -73,7 +73,7 @@ class EvidenceChain(unittest.TestCase):
         self.ra = adapter('render', self.render_sha, ['prepare', 'execute'])
         self.review = {'status': 'pass_final_independent_release_review', 'source_commit': self.old_commit, 'full_report_sha256': self.full_sha, 'render_report_sha256': self.render_sha, 'render_receipt_sha256': self.ra_sha, 'pipeline_commit': self.pipeline, 'independent_full_review_sha256': self.fr_sha, 'package_tree': 'oldpkg'}
         self.fr = {'status': 'pass_full_report_authentication', 'source_commit': self.old_commit, 'pipeline_commit': self.pipeline, 'package_tree': 'oldpkg', 'report_sha256': self.full_sha, 'receipt_sha256': self.fa_sha}
-        self.scope = {'status': 'pass', 'kind': 'independent-source-boundary-review', 'historical_commit': self.old_commit, 'corrected_commit': self.new_commit, 'historical_package_tree': 'oldpkg', 'corrected_package_tree': 'newpkg', 'historical_repository_tree': 'oldroot', 'corrected_repository_tree': 'newroot', 'repository_diff_sha256': reuse.sha(b'diff'), 'pipeline_commit': self.pipeline, 'historical_full_report_sha256': self.full_sha, 'historical_render_report_sha256': self.render_sha, 'historical_bwrap_sha256': '8'*64, 'historical_full_inputs_sha256': '9'*64, 'historical_render_inputs_sha256': '9'*64, 'proof_input_boundary': 'unchanged', 'render_impact_reviewed': True, 'claims_match_evidence': True, 'attribution_accurate': True, 'unresolved_blockers': [], 'reviewer': 'independent reviewer', 'findings': ['reviewed repository projection']}
+        self.scope = {'status': 'pass', 'kind': 'independent-source-boundary-review', 'historical_commit': self.old_commit, 'corrected_commit': self.new_commit, 'historical_package_tree': 'oldpkg', 'corrected_package_tree': 'newpkg', 'historical_repository_tree': 'oldroot', 'corrected_repository_tree': 'newroot', 'repository_diff_sha256': reuse.sha(b'diff'), 'pipeline_commit': self.pipeline, 'historical_full_report_sha256': self.full_sha, 'historical_render_report_sha256': self.render_sha, 'historical_bwrap_sha256': '8'*64, 'historical_full_inputs_sha256': '9'*64, 'historical_render_inputs_sha256': '9'*64, 'selected_proof_inputs': 'byte-identical', 'whole_checkout_verification': 'not-run', 'render_impact_reviewed': True, 'claims_match_evidence': True, 'attribution_accurate': True, 'unresolved_blockers': [], 'reviewer': 'independent reviewer', 'findings': ['reviewed repository projection']}
         self.objects = {'full': self.full, 'render': self.render, 'fa': self.fa, 'ra': self.ra, 'review': self.review, 'fr': self.fr, 'scope': self.scope}
 
     def check(self):
@@ -107,7 +107,7 @@ class EvidenceChain(unittest.TestCase):
                 obj[key] = before
 
     def test_unreviewed_claims_or_repository_boundary_rejected(self):
-        for key, wrong in [('proof_input_boundary','unknown'), ('claims_match_evidence',False), ('attribution_accurate',False), ('render_impact_reviewed',False), ('unresolved_blockers',['unresolved']), ('repository_diff_sha256','0'*64)]:
+        for key, wrong in [('selected_proof_inputs','unknown'), ('whole_checkout_verification','pass'), ('claims_match_evidence',False), ('attribution_accurate',False), ('render_impact_reviewed',False), ('unresolved_blockers',['unresolved']), ('repository_diff_sha256','0'*64)]:
             with self.subTest(key=key):
                 before = self.scope[key]; self.scope[key] = wrong
                 with self.assertRaises(ValueError): self.run_check()
@@ -118,9 +118,9 @@ class EvidenceChain(unittest.TestCase):
         with self.assertRaises(ValueError): self.check()
 
     def test_mode_change_or_symlink_fails(self):
-        modes = dict(self.modes, **{'Proof.lean': '100755'})
+        modes = dict(self.modes, **{'Challenge.lean': '100755'})
         with self.assertRaises(ValueError): classify(self.old, self.new, self.modes, modes)
-        modes = dict(self.modes, **{'Proof.lean': '120000'})
+        modes = dict(self.modes, **{'Challenge.lean': '120000'})
         with self.assertRaises(ValueError): classify(self.old, self.new, modes, modes)
 
     def test_duplicate_metadata_key_fails(self):
@@ -134,6 +134,8 @@ class EvidenceChain(unittest.TestCase):
         with self.assertRaises(ValueError): self.check()
 
     def test_bool_integer_float_and_nonfinite_are_not_equal(self):
+        self.assertEqual(0, False)  # Demonstrates why raw Python object equality is insufficient.
+        self.assertEqual(0, 0.0)
         for value in [False, 0.0, float('nan'), float('inf')]:
             with self.subTest(value=value):
                 previous = self.new['formalization.yaml']
