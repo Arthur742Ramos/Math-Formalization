@@ -1,0 +1,140 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Arclength conjugacy and geometric resonance",
+    "description": "For a positive C1 scalar density on the period-one circle, construct the actual arclength coordinate and its C2 pullback inverse, prove conjugacy of the weighted Laplacian with the flat one, and connect an explicit first resonant mode and its raw/cochain periods to actual computational traces and covering winding.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.DG",
+      "math.SP"
+    ],
+    "msc2020": [
+      "58J50",
+      "34L10",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "Actual geometric trace syntax and realization retained literally with attributed pinned upstream mapping. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, 2022, sections 5.1 and 9.2",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Classical geometric and Laplace operator context. The actual normalized coordinate and one-dimensional conjugacy are proved here; no mathematical novelty is claimed."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/arclength",
+      "relationship": "builds-on",
+      "note": "The actual normalized real arclength coordinate and inverse are retained with exact pinned proof-fragment provenance."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction",
+      "relationship": "builds-on",
+      "note": "The actual trace, raw and cochain periods, weighted Laplacian, Green identity and resonance obstruction are retained with exact pinned proof-fragment provenance."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual indexed binary computational trace and realization are retained with pinned upstream mapping and MIT attribution."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Actual covering, calculus, inverse regularity, integration and trigonometric machinery are credited; proofs of their connection to this path model are included."
+    }
+  ],
+  "status": {
+    "scope": "For a positive C1 scalar density on the period-one circle, construct the actual arclength coordinate and its C2 pullback inverse, prove conjugacy of the weighted Laplacian with the flat one, and connect an explicit first resonant mode and its raw/cochain periods to actual computational traces and covering winding.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Scalar real period-one circle and positive C1 length density only. The all-n result concerns mapped-loop phase winding, not a complete eigenmode family or spectrum. No spectrum completeness, multiplicity, general manifold, analytic Kahler or de Rham Hodge theorem, arbitrary open-path result, numerical solver or mathematical novelty claim. Release outcomes are separate exact-source evidence.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Actual indexed binary computational traces, realized based loops, covering lifts, ordinary integrable weighted line integrals and finite harmonic cochains remain literal. The normalized coordinate and inverse are constructed from the density. The Laplacian conjugacy is proved on every actual C2 coefficient. The explicitly constructed first cosine mode has zero raw/cochain periods and no C2 solution at its positive resonant shift. All-n winding describes the constructed phase loop only."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and authoring mathematics review covered the source-bound prototype. Final exact-source local verification, imported-definition fidelity, package and artifact reviews are recorded separately. No human or external peer review is inferred."
+  }
+}

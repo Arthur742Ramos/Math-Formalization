@@ -1,0 +1,584 @@
+{
+  "scope": "Exact line-level public predecessor mapping; changed header/comment text and omitted complete declarations are recorded explicitly. Independently authored new proof modules are not represented as predecessor fragments.",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "73ee0d0c2f25a2191edf15e14e124c8f8cfeb467",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/resonance-obstruction/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "candidate_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 68,
+          "output_first_line": 1,
+          "output_last_line": 68,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ]
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "candidate_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 61,
+          "output_first_line": 1,
+          "output_last_line": 61,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+        }
+      ]
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "candidate_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 19,
+          "output_first_line": 1,
+          "output_last_line": 19,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ]
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/resonance-obstruction/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "candidate_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 18,
+          "output_first_line": 1,
+          "output_last_line": 18,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+        }
+      ]
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/resonance-obstruction/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "candidate_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 30,
+          "output_first_line": 1,
+          "output_last_line": 30,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+        }
+      ]
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/resonance-obstruction/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "candidate_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 39,
+          "output_first_line": 1,
+          "output_last_line": 39,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+        }
+      ]
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/resonance-obstruction/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/RawLift.lean",
+      "source_sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37",
+      "candidate_sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 158,
+          "output_first_line": 1,
+          "output_last_line": 158,
+          "sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37"
+        }
+      ]
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/resonance-obstruction/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/CirclePeriods.lean",
+      "source_sha256": "79bf84c3e4a3966019885c2b68b29957a21a43813da3a9022d852bb4d3251c27",
+      "candidate_sha256": "6ad554d094f1fd4c24d6e7fb1935a05466375438c2f466d12358a1d5858686ce",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 8,
+          "output_first_line": 1,
+          "output_last_line": 8,
+          "sha256": "aa396764406408f84c10fc15f556836a38befa23871d51c7e4f29aeac00c9ab9"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 9,
+          "source_last_line": 9,
+          "output_first_line": 9,
+          "output_last_line": 8,
+          "removed_source_sha256": "ef9bc8c0ff96d74a7039887b69af4757804e72ac09162947340f11d41867848a",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 10,
+          "source_last_line": 62,
+          "output_first_line": 9,
+          "output_last_line": 61,
+          "sha256": "33705cd7bb6b71ccfa21d6eca18ece08aa9218b43d864fec437ce1886521a87e"
+        }
+      ]
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "source_path": "computational-hodge/resonance-obstruction/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/ACAnalysis.lean",
+      "source_sha256": "5049009d6bf82f00e3336dcdeee4ef6b4783bca673d6b73efc001bf49e92bf93",
+      "candidate_sha256": "5049009d6bf82f00e3336dcdeee4ef6b4783bca673d6b73efc001bf49e92bf93",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 87,
+          "output_first_line": 1,
+          "output_last_line": 87,
+          "sha256": "5049009d6bf82f00e3336dcdeee4ef6b4783bca673d6b73efc001bf49e92bf93"
+        }
+      ]
+    },
+    {
+      "path": "ACPeriods.lean",
+      "source_path": "computational-hodge/resonance-obstruction/ACPeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/ACPeriods.lean",
+      "source_sha256": "f48cde19f4f8c105cbf38cfe191f6cc054dfdd8a424f096009c417fc9ffa03b9",
+      "candidate_sha256": "e9bcff9f980f7ed4c34d3f38b67194e711716a6930433acad4bb6b8264452994",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 29,
+          "output_first_line": 1,
+          "output_last_line": 29,
+          "sha256": "b115db52e7748c6e2385c8e91db15e0080f0e8bc89ab31d896716a870290f304"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 30,
+          "source_last_line": 35,
+          "output_first_line": 30,
+          "output_last_line": 30,
+          "removed_source_sha256": "62d07084d6d9c6ea189b07d32c45c7d27c73fea9d851eef713a491916d8d95e8",
+          "added_text": "\n",
+          "added_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 36,
+          "source_last_line": 36,
+          "output_first_line": 31,
+          "output_last_line": 31,
+          "sha256": "b6946852a778a01cd002982ab4256b5dfcdbbac4692b6eb3b73b7ce51273b3cb"
+        }
+      ]
+    },
+    {
+      "path": "Potential.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Potential.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Potential.lean",
+      "source_sha256": "07e60f1e0ac074842301a844372056c2583071fb8456b7f2e33f58cf9b8cc8ab",
+      "candidate_sha256": "07e60f1e0ac074842301a844372056c2583071fb8456b7f2e33f58cf9b8cc8ab",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 25,
+          "output_first_line": 1,
+          "output_last_line": 25,
+          "sha256": "07e60f1e0ac074842301a844372056c2583071fb8456b7f2e33f58cf9b8cc8ab"
+        }
+      ]
+    },
+    {
+      "path": "Density.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Density.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Density.lean",
+      "source_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "candidate_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 24,
+          "output_first_line": 1,
+          "output_last_line": 24,
+          "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+        }
+      ]
+    },
+    {
+      "path": "Poisson.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Poisson.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Poisson.lean",
+      "source_sha256": "3c087cf17939b19b0594a8c68977e1d1737131e45ea11661743666ee2482b25a",
+      "candidate_sha256": "4a118e1c36b5070437066b00562cad79999e392f6669d4a37379c2f6f50fdee1",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 54,
+          "output_first_line": 1,
+          "output_last_line": 54,
+          "sha256": "ba293c18e53a41036f14f24a612f9207d8ab32e1330cb93a00b14df6381c79f6"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 55,
+          "source_last_line": 73,
+          "output_first_line": 55,
+          "output_last_line": 54,
+          "removed_source_sha256": "4c7b4996ab7cf3130a4939e051e698214f78bf9894943639af8a6ba09ca1f549",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 74,
+          "source_last_line": 81,
+          "output_first_line": 55,
+          "output_last_line": 62,
+          "sha256": "16ecca77b468bdba4bb827f4d5dbba4e4dd642aee42fa71ef34b5d7784c5b294"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 82,
+          "source_last_line": 109,
+          "output_first_line": 63,
+          "output_last_line": 62,
+          "removed_source_sha256": "d70614a354b0f03cdc821025a5e4163d554ca2903c2b721aa3b34e8a93bfc91a",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 110,
+          "source_last_line": 141,
+          "output_first_line": 63,
+          "output_last_line": 94,
+          "sha256": "a45eec3bfbec535338f559a1e1098064a6944f963ba518dd35e3d7d2427e5ddc"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 142,
+          "source_last_line": 147,
+          "output_first_line": 95,
+          "output_last_line": 94,
+          "removed_source_sha256": "43ddb271c524b63e3d96f174c300723df731e0371a983a4d25e1c1ca9b615148",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 148,
+          "source_last_line": 161,
+          "output_first_line": 95,
+          "output_last_line": 108,
+          "sha256": "03d77fbde2157d4abee96884da26d92ed4e59a69903ec27860496a6cafdaea2f"
+        }
+      ]
+    },
+    {
+      "path": "Green.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Green.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Green.lean",
+      "source_sha256": "6512cbe247b3dcd25011d11bf1611d8e197a72ca526d4993651fa998b62077f5",
+      "candidate_sha256": "6512cbe247b3dcd25011d11bf1611d8e197a72ca526d4993651fa998b62077f5",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 14,
+          "output_first_line": 1,
+          "output_last_line": 14,
+          "sha256": "6512cbe247b3dcd25011d11bf1611d8e197a72ca526d4993651fa998b62077f5"
+        }
+      ]
+    },
+    {
+      "path": "Fredholm.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Fredholm.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Fredholm.lean",
+      "source_sha256": "56bfa7717cfacf45f33fba46a9fe25e23e4f9ebc66b0b31d9bfbdc672aafe355",
+      "candidate_sha256": "7f03260eca043d86203868072d535b2fe1084e10ef66230ee41a2e47d953b241",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 8,
+          "output_first_line": 1,
+          "output_last_line": 8,
+          "sha256": "1a026c54ce1ca9814d11b2151c43c2b48d9ac627fafae904cbfdbf75ee80c7ad"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 9,
+          "source_last_line": 13,
+          "output_first_line": 9,
+          "output_last_line": 9,
+          "removed_source_sha256": "099ea5355ad6f7e0a20c97e7c0511ef7dfd8e482b37f240b8e9bfd6f883a192d",
+          "added_text": "\n",
+          "added_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 14,
+          "source_last_line": 14,
+          "output_first_line": 10,
+          "output_last_line": 10,
+          "sha256": "50be41d6470ae85dcbb7c782e1a165b087b9cd3a5827945b5589413ae422831f"
+        }
+      ]
+    },
+    {
+      "path": "Resonance.lean",
+      "source_path": "computational-hodge/resonance-obstruction/Resonance.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/resonance-obstruction/Resonance.lean",
+      "source_sha256": "3f1817f472c6f5348d890cc3806740bed443d000b7d89134f3b5f5e41a755421",
+      "candidate_sha256": "009a612fa98f79bdbd58b367c16268e270c48fcfc4faaa1840ef1a3ad9b9f4c8",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 53,
+          "output_first_line": 1,
+          "output_last_line": 53,
+          "sha256": "aac991307dc0d0fadefbc9341c7045b8ec1fe14779b944b97ad52dc4046a6a56"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 54,
+          "source_last_line": 90,
+          "output_first_line": 54,
+          "output_last_line": 53,
+          "removed_source_sha256": "5dd4a7a5ee4af2dee3ee5798d338bdee6bf5be60554cd99b1449e30cb7cbb4db",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 91,
+          "source_last_line": 94,
+          "output_first_line": 54,
+          "output_last_line": 57,
+          "sha256": "d0852f544f82aa704973cc791bd64f76b60b2d230f26457275c07a8bc28fee2a"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 95,
+          "source_last_line": 97,
+          "output_first_line": 58,
+          "output_last_line": 57,
+          "removed_source_sha256": "ec3a9371c6bf4edfc3d55b6244ce38c6f8a5d75cfdb4997b070dd940b5ec4756",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 98,
+          "source_last_line": 108,
+          "output_first_line": 58,
+          "output_last_line": 68,
+          "sha256": "4c7d0b3f873b4f8b8b26c2217af0191b6b338b0f3d245af6ce34647e45fa34c4"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 109,
+          "source_last_line": 119,
+          "output_first_line": 69,
+          "output_last_line": 69,
+          "removed_source_sha256": "3bad0cbb14bb4e09c3c81874da45b7657c5af0dff7e514b1d527a08a2f7ad41d",
+          "added_text": "/-- The constant unit density on the scalar circle. -/\n",
+          "added_sha256": "3a70a1b7cf98291b44a41e65e92652a173c1cc9dcb3f2fffe1c1e0ac2674692a"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 120,
+          "source_last_line": 123,
+          "output_first_line": 70,
+          "output_last_line": 73,
+          "sha256": "9d01a0bd4005cd2be3130a8034f671003fe3a44981e6b3ec9aeb6809e6e15115"
+        },
+        {
+          "operation": "insert",
+          "source_first_line": 124,
+          "source_last_line": 123,
+          "output_first_line": 74,
+          "output_last_line": 74,
+          "removed_source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "added_text": "\n",
+          "added_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 124,
+          "source_last_line": 146,
+          "output_first_line": 75,
+          "output_last_line": 97,
+          "sha256": "bd809d425a1d88ba838f38691cd91f7ed0a612ae861c37b2c6fe78da28ac8c76"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 147,
+          "source_last_line": 164,
+          "output_first_line": 98,
+          "output_last_line": 97,
+          "removed_source_sha256": "c06118a459b5643ece9faf1875c4fc2d190d9a51236ee7657c50af3a4b5f0ee0",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 165,
+          "source_last_line": 165,
+          "output_first_line": 98,
+          "output_last_line": 98,
+          "sha256": "b662337ebd20e237b03878b9f6ec497171104645c94f3d98c9f9eb680ba85dbc"
+        }
+      ]
+    },
+    {
+      "path": "ArclengthCoordinate.lean",
+      "source_path": "computational-hodge/arclength/Arclength.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/73ee0d0c2f25a2191edf15e14e124c8f8cfeb467/computational-hodge/arclength/Arclength.lean",
+      "source_sha256": "abfc5abdb93490e7dc3bd6361f6472149d92865325e782f8055d57e1cf602b79",
+      "candidate_sha256": "6af420c2dd4e00a8fcd392a0feabb081d05c4b5da43831773957259ddeeb5e9b",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 1,
+          "output_first_line": 1,
+          "output_last_line": 1,
+          "sha256": "ac255051373b0ee71bcaf575bd128f969f0c464493b83a8a7fe64226c3e14077"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 2,
+          "source_last_line": 2,
+          "output_first_line": 2,
+          "output_last_line": 2,
+          "removed_source_sha256": "c5e00066e7f54d272f6503e8420b7615d731f7c90213e731a54eeeb4d720b130",
+          "added_text": "public import Resonance\n",
+          "added_sha256": "2922c9c9dea6691fd23c69bd748c9e117d7248e463ba31053b809415c75c9537"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 3,
+          "source_last_line": 11,
+          "output_first_line": 3,
+          "output_last_line": 11,
+          "sha256": "a6ea2fec44c8de4d4f6533940f381a383dc8057ae2b5c1d3e429f6475ae327ee"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 12,
+          "source_last_line": 12,
+          "output_first_line": 12,
+          "output_last_line": 12,
+          "removed_source_sha256": "81a6e77ba6488743f4b6fdc591c1364d1c7c95b2061793b5048d7363316a71d9",
+          "added_text": "open ComputationalHodge.MetricHodge\n",
+          "added_sha256": "009d6f4c0979182a0576374afc360e3daf523a416a066c9178dd208115e1ade2"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 13,
+          "source_last_line": 15,
+          "output_first_line": 13,
+          "output_last_line": 15,
+          "sha256": "843409212241a1cef7cb792e8278048600780f3a18d786660dee17efde2cd60e"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 16,
+          "source_last_line": 23,
+          "output_first_line": 16,
+          "output_last_line": 15,
+          "removed_source_sha256": "65bb99d9a118eaa89b065452f94edd456f871c366fc16f9c7288487a190d7ac4",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 24,
+          "source_last_line": 28,
+          "output_first_line": 16,
+          "output_last_line": 20,
+          "sha256": "4186377ff9dac80eee898c453cc33bb7953540f22bf18c88456f5c852c161a00"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 29,
+          "source_last_line": 36,
+          "output_first_line": 21,
+          "output_last_line": 20,
+          "removed_source_sha256": "ce37c59007faffcd10a6a88a00f570054a4505912ccaf6e5330365228678f0bb",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 37,
+          "source_last_line": 70,
+          "output_first_line": 21,
+          "output_last_line": 54,
+          "sha256": "5af07cfba691c542665f22372ae2b744e6c6dbe64bff81aa25907c58efe02d4e"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 71,
+          "source_last_line": 298,
+          "output_first_line": 55,
+          "output_last_line": 54,
+          "removed_source_sha256": "f1d9363ee2d3e8058afc9f5bc0e44dd1df35f393882b922d39f7ae354be6aed1",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 299,
+          "source_last_line": 300,
+          "output_first_line": 55,
+          "output_last_line": 56,
+          "sha256": "70447a3ab909accf762dd7cb51b1dc1ce450ecc872b92c0c51b894dc2185fdb9"
+        }
+      ]
+    }
+  ]
+}
