@@ -14,8 +14,10 @@ dependencies and concurrent work. Read more specific instructions and relevant
   executable local replacements and exact retired command/pipeline references.
   Run `python3 scripts/local_validate.py catalog` on the final committed source.
   For changed packages, also run their complete local native commands and the
-  pinned canonical full verifier and Challenge renderer locally. A catalog or
-  package consistency check alone never certifies a mathematical package.
+  pinned canonical full verifier and Challenge renderer locally, except the
+  narrow historical-proof-evidence carry-forward described in
+  `LOCAL-VALIDATION.md`. A catalog or package consistency check alone never
+  certifies a mathematical package.
 - Preserve exact-source/toolchain verification, clean builds of affected proof,
   Challenge, Solution and semantic entrypoints, compiler checks, protected
   Comparator and definition-value checks, all required independent kernels,
@@ -150,6 +152,9 @@ dependencies and concurrent work. Read more specific instructions and relevant
   claim an edited commit passed a predecessor's run. A later status-only source
   still needs its own exact-source report before verified intake handoff; place
   that report outside the frozen source to avoid a status-edit/verification loop.
+  A separately identified status-only candidate may instead carry reviewed
+  historical proof evidence under `LOCAL-VALIDATION.md`; it is not a verified
+  exact-source handoff, and Palomar's own exact-source checks remain required.
 - Before handing off verified fields run `scripts/check_release_packet.py` with
   the exact packet and its exact-source full report. Review and preserve its
   receipt independently. Use its status-only mode during correction, but never
