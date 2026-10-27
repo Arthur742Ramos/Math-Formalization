@@ -190,11 +190,11 @@ Exact evidence and the unsuccessful first control attempt are retained in
 
 ## Knaster–Reichbach preparation (published source)
 
-The full mathematical proof is implemented and internally reviewed; source is published in [PR45](https://github.com/Arthur742Ramos/Math-Formalization/pull/45). Local canonical full verification and rendering passed for predecessor `320b363a9b8ea37f7b2176689040668b19eb21e8`, as recorded in the package history. The snapshot below is a later status correction: at this dated preparation checkpoint its own exact-source final gates were not established. Later source-bound reports and final review must be recorded externally without editing the frozen status account. No registry intake has been created.
+The full mathematical proof is implemented and internally reviewed; the original source was published in [PR45](https://github.com/Arthur742Ramos/Math-Formalization/pull/45). Local canonical full verification and rendering passed for `caf9b142e9b7061c364499b5994dae4ab5bf4071`. An intake for that source was submitted on 2026-10-27. The corrected source below requires its own exact-source checks and review; later receipts are retained externally.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Preparation; not submitted | [`2c4a33f`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2c4a33f20ad3169169a1659e097e7832ba428db2/topology/knaster-reichbach) (dated status checkpoint) |
+| [Knaster–Reichbach homeomorphism extension on Cantor space](topology/knaster-reichbach) | Ambient extension of homeomorphisms between closed nowhere-dense subsets of Cantor space, including empty subsets. | Intake submitted; corrected source unverified | [`557f0ac`](https://github.com/Arthur742Ramos/Math-Formalization/tree/557f0ac4a016b770c160bf48b99de19ca406175a/topology/knaster-reichbach) (status correction) |
 
 ## Cantor dynamical extension preparation
 
