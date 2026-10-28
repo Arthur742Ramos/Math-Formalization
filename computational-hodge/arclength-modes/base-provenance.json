@@ -1,0 +1,529 @@
+{
+  "scope": "Exact immutable PR85 predecessor mapping. Complete added and removed fragments are retained; independent proof and source fidelity review is separate. Whole omitted modules are recorded explicitly. New Fourier and mode declarations are independently authored.",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "candidate_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 68,
+          "output_first_line": 1,
+          "output_last_line": 68,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ]
+    },
+    {
+      "path": "Periods.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Periods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Periods.lean",
+      "source_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "candidate_sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 61,
+          "output_first_line": 1,
+          "output_last_line": 61,
+          "sha256": "9bf6fbdb2cb62d5b3d19928350cb1a58b98dcbedc3aa461e7e3ab4fea6c26325"
+        }
+      ]
+    },
+    {
+      "path": "Harmonic.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Harmonic.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Harmonic.lean",
+      "source_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "candidate_sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 19,
+          "output_first_line": 1,
+          "output_last_line": 19,
+          "sha256": "c21836c78c81f75933655ceab9a19b9cf76fda5c263609d4c2e876d6906e31ae"
+        }
+      ]
+    },
+    {
+      "path": "LoopImage.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/LoopImage.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/LoopImage.lean",
+      "source_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "candidate_sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 18,
+          "output_first_line": 1,
+          "output_last_line": 18,
+          "sha256": "e0a1959c39a435af4ac87358521eecf6cc72634f625dba2ee4cef92e2773613a"
+        }
+      ]
+    },
+    {
+      "path": "CircleWinding.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/CircleWinding.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/CircleWinding.lean",
+      "source_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "candidate_sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 30,
+          "output_first_line": 1,
+          "output_last_line": 30,
+          "sha256": "74c6b58830c71d82ff1d0c757f331eda20bf65b3b6663947098e61c480b106f4"
+        }
+      ]
+    },
+    {
+      "path": "CircleData.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/CircleData.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/CircleData.lean",
+      "source_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "candidate_sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 39,
+          "output_first_line": 1,
+          "output_last_line": 39,
+          "sha256": "68fcb95f5260455546e31c925bbbdb248570578ab0b2091f72b3f7a0e7de817f"
+        }
+      ]
+    },
+    {
+      "path": "RawLift.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/RawLift.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/RawLift.lean",
+      "source_sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37",
+      "candidate_sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 158,
+          "output_first_line": 1,
+          "output_last_line": 158,
+          "sha256": "8c1b41eac52a49904db23e07f8674c80b0b29ea705b75cfea7cc44081bf55f37"
+        }
+      ]
+    },
+    {
+      "path": "CirclePeriods.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/CirclePeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/CirclePeriods.lean",
+      "source_sha256": "6ad554d094f1fd4c24d6e7fb1935a05466375438c2f466d12358a1d5858686ce",
+      "candidate_sha256": "6ad554d094f1fd4c24d6e7fb1935a05466375438c2f466d12358a1d5858686ce",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 61,
+          "output_first_line": 1,
+          "output_last_line": 61,
+          "sha256": "6ad554d094f1fd4c24d6e7fb1935a05466375438c2f466d12358a1d5858686ce"
+        }
+      ]
+    },
+    {
+      "path": "ACAnalysis.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/ACAnalysis.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/ACAnalysis.lean",
+      "source_sha256": "5049009d6bf82f00e3336dcdeee4ef6b4783bca673d6b73efc001bf49e92bf93",
+      "candidate_sha256": "8278fb062cf7fbba83d78086e0a8528af790fd02c313393820201e834333112c",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 46,
+          "output_first_line": 1,
+          "output_last_line": 46,
+          "sha256": "90c33f68fce4c15641eb15fcf225da85a2d6a99d42180122a575d7a76a0ce35b"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 47,
+          "source_last_line": 51,
+          "output_first_line": 47,
+          "output_last_line": 46,
+          "removed_text": "theorem cover_integrand_integrable (α : Coefficient) (L : ACLift) :\n    IntervalIntegrable (fun t => cover α (L.val t)*deriv L.val t) volume 0 1 := by\n  apply (primitive_comp_ac α L).intervalIntegrable_deriv.congr_ae\n  exact (ae_restrict_mem measurableSet_uIoc).and (ae_restrict_of_ae (chain_rule_ae α L)) |>.mono\n    (fun t ht => ht.2 (uIoc_subset_uIcc ht.1))\n",
+          "removed_source_sha256": "4ced830c9e2750ccfef9a5d6139051ff286ac430eb4d90e6f6584bfe2198681e",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 52,
+          "source_last_line": 58,
+          "output_first_line": 47,
+          "output_last_line": 53,
+          "sha256": "fc61fd89456bb2cd358981860341195763dfa90c48898bdc4078a3e9d1140c3e"
+        },
+        {
+          "operation": "insert",
+          "source_first_line": 59,
+          "source_last_line": 58,
+          "output_first_line": 54,
+          "output_last_line": 54,
+          "removed_text": "",
+          "removed_source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "added_text": "/-- The actual projected-curve integrand is interval integrable. -/\n",
+          "added_sha256": "223b04d67d0da8e0cfe2cc0c9ac462813920213d83c33b73af58c99cc9c4af50"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 59,
+          "source_last_line": 59,
+          "output_first_line": 55,
+          "output_last_line": 55,
+          "sha256": "cecdd9ddeb668df04deb5dc5a097ddd10ae79f4c2aaf2411490518aeaafda533"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 60,
+          "source_last_line": 66,
+          "output_first_line": 56,
+          "output_last_line": 63,
+          "removed_text": "    IntervalIntegrable\n      (fun t => α (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv L.val t) volume 0 1 := by\n  apply (cover_integrand_integrable α L).congr\n  intro t ht\n  have h : t∈Icc (0 : ℝ) 1 := by\n    simpa only [uIcc_of_le zero_le_one] using (uIoc_subset_uIcc ht)\n  exact (congrArg (fun s : Icc (0 : ℝ) 1 => α (projectedLoop L s)*deriv L.val t) (Set.projIcc_of_mem zero_le_one h)).symm\n",
+          "removed_source_sha256": "6dd009c94365a4d6e6efdab54c28a98f2caf463b6b6d9dd2eaf20172482279fd",
+          "added_text": "    IntervalIntegrable (fun t => α (projectedLoop L (Set.projIcc 0 1 zero_le_one t))*deriv L.val t) volume 0 1 := by\n  apply (primitive_comp_ac α L).intervalIntegrable_deriv.congr_ae\n  filter_upwards [ae_restrict_mem measurableSet_uIoc, ae_restrict_of_ae (chain_rule_ae α L)] with t ht hd\n  have h : t ∈ Icc (0 : ℝ) 1 := by simpa [uIcc_of_le zero_le_one] using (uIoc_subset_uIcc ht)\n  have hp : (Set.projIcc 0 1 zero_le_one t : ℝ) = t := by rw [Set.projIcc_of_mem zero_le_one h]\n  change deriv (fun x => primitive α (L.val x)) t = α ((L.val (Set.projIcc 0 1 zero_le_one t : ℝ) : ℝ) : CircleHodge.Circle) * deriv L.val t\n  rw [hp]\n  exact hd (uIoc_subset_uIcc ht)\n",
+          "added_sha256": "d64e0b9cdfad8272133eb54d12696559e8e539b0f4124cb38357582e60f9f2d5"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 67,
+          "source_last_line": 87,
+          "output_first_line": 64,
+          "output_last_line": 84,
+          "sha256": "acdd30c0b951b5422a97bce261988730650c062c4d490a8e55fe0b2efcdaf647"
+        }
+      ]
+    },
+    {
+      "path": "ACPeriods.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/ACPeriods.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/ACPeriods.lean",
+      "source_sha256": "e9bcff9f980f7ed4c34d3f38b67194e711716a6930433acad4bb6b8264452994",
+      "candidate_sha256": "e9bcff9f980f7ed4c34d3f38b67194e711716a6930433acad4bb6b8264452994",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 31,
+          "output_first_line": 1,
+          "output_last_line": 31,
+          "sha256": "e9bcff9f980f7ed4c34d3f38b67194e711716a6930433acad4bb6b8264452994"
+        }
+      ]
+    },
+    {
+      "path": "Potential.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Potential.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Potential.lean",
+      "source_sha256": "07e60f1e0ac074842301a844372056c2583071fb8456b7f2e33f58cf9b8cc8ab",
+      "candidate_sha256": "07e60f1e0ac074842301a844372056c2583071fb8456b7f2e33f58cf9b8cc8ab",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 25,
+          "output_first_line": 1,
+          "output_last_line": 25,
+          "sha256": "07e60f1e0ac074842301a844372056c2583071fb8456b7f2e33f58cf9b8cc8ab"
+        }
+      ]
+    },
+    {
+      "path": "Density.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Density.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Density.lean",
+      "source_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "candidate_sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 24,
+          "output_first_line": 1,
+          "output_last_line": 24,
+          "sha256": "a25a5584410b51503fe788bb8cd18590f4079ec1f29e625861b2b1b8f0693f4c"
+        }
+      ]
+    },
+    {
+      "path": "Poisson.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Poisson.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Poisson.lean",
+      "source_sha256": "4a118e1c36b5070437066b00562cad79999e392f6669d4a37379c2f6f50fdee1",
+      "candidate_sha256": "b6abed980be962617f2639441242c5d33acb168897aa8ab127f655d9f4662b4c",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 101,
+          "output_first_line": 1,
+          "output_last_line": 101,
+          "sha256": "4bf5cf982d93f615db3ef37c24da89f1910df0b7d13612c8b3942c16c53b4d18"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 102,
+          "source_last_line": 107,
+          "output_first_line": 102,
+          "output_last_line": 102,
+          "removed_text": "noncomputable def cosineC2 : C2Coefficient := ⟨cosine,by\n  have he : cover cosine=fun x => Real.cos (2*Real.pi*x) := funext cosine_cover\n  change ContDiff ℝ 2 (cover cosine)\n  rw [he]\n  fun_prop⟩\ntheorem cosine_zero : cosine 0=1 := by norm_num [cosine]\n",
+          "removed_source_sha256": "197b9822b8aaed345d591a19289d847e4d31821185b0ad34fc71a1645fe56187",
+          "added_text": "\n",
+          "added_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 108,
+          "source_last_line": 108,
+          "output_first_line": 103,
+          "output_last_line": 103,
+          "sha256": "9ecccd18a7dfc07c9a55d2d9498738ef717921c7254e3dc8aacdcdf2fff3a4f0"
+        }
+      ]
+    },
+    {
+      "path": "Green.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Green.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Green.lean",
+      "source_sha256": "6512cbe247b3dcd25011d11bf1611d8e197a72ca526d4993651fa998b62077f5",
+      "candidate_sha256": "6512cbe247b3dcd25011d11bf1611d8e197a72ca526d4993651fa998b62077f5",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 14,
+          "output_first_line": 1,
+          "output_last_line": 14,
+          "sha256": "6512cbe247b3dcd25011d11bf1611d8e197a72ca526d4993651fa998b62077f5"
+        }
+      ]
+    },
+    {
+      "path": "Fredholm.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Fredholm.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Fredholm.lean",
+      "source_sha256": "7f03260eca043d86203868072d535b2fe1084e10ef66230ee41a2e47d953b241",
+      "candidate_sha256": "7f03260eca043d86203868072d535b2fe1084e10ef66230ee41a2e47d953b241",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 10,
+          "output_first_line": 1,
+          "output_last_line": 10,
+          "sha256": "7f03260eca043d86203868072d535b2fe1084e10ef66230ee41a2e47d953b241"
+        }
+      ]
+    },
+    {
+      "path": "Resonance.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Resonance.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Resonance.lean",
+      "source_sha256": "009a612fa98f79bdbd58b367c16268e270c48fcfc4faaa1840ef1a3ad9b9f4c8",
+      "candidate_sha256": "3df2131ea795a7ff5f898ed10fc71067fbf239188e342356df6f6fa23af541a8",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 74,
+          "output_first_line": 1,
+          "output_last_line": 74,
+          "sha256": "95a57dc56c52c03fb209654994c859b5d655c3dcb9bd42d2c7b665f1d53bcaf4"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 75,
+          "source_last_line": 97,
+          "output_first_line": 75,
+          "output_last_line": 75,
+          "removed_text": "noncomputable def frequency : ℝ := (2*Real.pi)^2\ntheorem frequency_positive : 0<frequency := by unfold frequency;positivity\ntheorem cosine_eigen : laplacian flatDensity cosineC2=frequency•cosine := by\n  have h1 (x : ℝ) : HasDerivAt (cover cosine) (-(2*Real.pi)*Real.sin (2*Real.pi*x)) x := by\n    rw [show cover cosine=(fun t => Real.cos (2*Real.pi*t)) from funext cosine_cover]\n    have h:=(((hasDerivAt_id x).const_mul (2*Real.pi)).cos)\n    simp only [id_eq,mul_one] at h\n    convert h using 1; ring\n  have h2 (x : ℝ) : HasDerivAt (fun t => -(2*Real.pi)*Real.sin (2*Real.pi*t))\n      (-frequency*Real.cos (2*Real.pi*x)) x := by\n    have h:=((((hasDerivAt_id x).const_mul (2*Real.pi)).sin).const_mul (-(2*Real.pi)))\n    simp only [id_eq,mul_one] at h\n    convert h using 1; dsimp only [frequency]; ring\n  have hd : deriv (cover cosine)=(fun t => -(2*Real.pi)*Real.sin (2*Real.pi*t)) :=\n    funext (fun x => (h1 x).deriv)\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  change cover (laplacian flatDensity cosineC2) x=frequency*cover cosine x\n  rw [laplacian_cover]\n  change -(deriv (fun t => deriv (cover cosine) t/(1 : ℝ)) x)/1=frequency*cover cosine x\n  simp only [div_one]\n  rw [hd,(h2 x).deriv,cosine_cover]\n  ring\n",
+          "removed_source_sha256": "bd809d425a1d88ba838f38691cd91f7ed0a612ae861c37b2c6fe78da28ac8c76",
+          "added_text": "\n",
+          "added_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 98,
+          "source_last_line": 98,
+          "output_first_line": 76,
+          "output_last_line": 76,
+          "sha256": "b662337ebd20e237b03878b9f6ec497171104645c94f3d98c9f9eb680ba85dbc"
+        }
+      ]
+    },
+    {
+      "path": "ArclengthCoordinate.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/ArclengthCoordinate.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/ArclengthCoordinate.lean",
+      "source_sha256": "6af420c2dd4e00a8fcd392a0feabb081d05c4b5da43831773957259ddeeb5e9b",
+      "candidate_sha256": "6af420c2dd4e00a8fcd392a0feabb081d05c4b5da43831773957259ddeeb5e9b",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 56,
+          "output_first_line": 1,
+          "output_last_line": 56,
+          "sha256": "6af420c2dd4e00a8fcd392a0feabb081d05c4b5da43831773957259ddeeb5e9b"
+        }
+      ]
+    },
+    {
+      "path": "CoordinateRegularity.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/CoordinateRegularity.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/CoordinateRegularity.lean",
+      "source_sha256": "e102457f377c7fee0e6613eb3d3a9e8964e4beb3db143e96ed9e19f34f17a3e7",
+      "candidate_sha256": "e89417412e15939319b15dee6a7acba216be67a3e36d0d72d26c3c0d0ee42e04",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 25,
+          "output_first_line": 1,
+          "output_last_line": 25,
+          "sha256": "286b8d159387668f1718b91510f268a86c189e1e80952d95a7a49dff77b94dbd"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 26,
+          "source_last_line": 31,
+          "output_first_line": 26,
+          "output_last_line": 26,
+          "removed_text": "/-- The inverse coordinate is C², using positivity of the actual density. -/\ntheorem inverse_contDiff_two (ρ : RegularDensity) : ContDiff ℝ 2 (inverse ρ.val) := by\n  change ContDiff ℝ 2 ((coordinateHomeomorph ρ.val).symm : ℝ → ℝ)\n  exact (coordinateHomeomorph ρ.val).contDiff_symm_deriv\n    (fun x => ne_of_gt (div_pos (ρ.val.property _) (mean_pos ρ.val)))\n    (coordinate_hasDerivAt ρ.val) (coordinate_contDiff_two ρ)\n",
+          "removed_source_sha256": "dbcfcdef52a3b82732cff5ca393c11fa9db58ac0f3ec1d88bbb6f3d9c3797c23",
+          "added_text": "\n",
+          "added_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 32,
+          "source_last_line": 32,
+          "output_first_line": 27,
+          "output_last_line": 27,
+          "sha256": "18291af6308bf54b3090aed967e56808936b2318db8b8f54966416b4b4b265c3"
+        }
+      ]
+    },
+    {
+      "path": "Conjugacy.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/Conjugacy.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/Conjugacy.lean",
+      "source_sha256": "8e5ea2596bc85f63a1b88f7c7396136f54c8b688665342d780abbca072b624c4",
+      "candidate_sha256": "8e5ea2596bc85f63a1b88f7c7396136f54c8b688665342d780abbca072b624c4",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 63,
+          "output_first_line": 1,
+          "output_last_line": 63,
+          "sha256": "8e5ea2596bc85f63a1b88f7c7396136f54c8b688665342d780abbca072b624c4"
+        }
+      ]
+    },
+    {
+      "path": "TracePhase.lean",
+      "source_path": "computational-hodge/arclength-conjugacy/TracePhase.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/TracePhase.lean",
+      "source_sha256": "2b3ae88638c8b8d820a98f4ecd2a258002dd4c766be2aefe08854102bdb969c0",
+      "candidate_sha256": "e2c022aecc8f8b97d0e035e170d793d76cf509df57ba68a70e20e51cbcee8b47",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 1,
+          "output_first_line": 1,
+          "output_last_line": 1,
+          "sha256": "ac255051373b0ee71bcaf575bd128f969f0c464493b83a8a7fe64226c3e14077"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 2,
+          "source_last_line": 2,
+          "output_first_line": 2,
+          "output_last_line": 2,
+          "removed_text": "public import CircleCoordinate\n",
+          "removed_source_sha256": "f613c75687c0983bb144a370593a34d16babe5331ba356d4ab14755e02868d86",
+          "added_text": "public import Conjugacy\n",
+          "added_sha256": "89094dba2d19dd60e68b02d93c17711a9bb0835cf3ef32ca7fab0df59763a174"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 3,
+          "source_last_line": 42,
+          "output_first_line": 3,
+          "output_last_line": 42,
+          "sha256": "87b0e9ee6ea34cd5dedc2461283a419ba32ddf742836d6eabb2a0ce8769bcabe"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 43,
+          "source_last_line": 50,
+          "output_first_line": 43,
+          "output_last_line": 42,
+          "removed_text": "theorem phaseLoop_apply (ρ : RegularDensity) (n : ℕ) (p : Trace 0 0) (t : unitInterval) :\n    phaseLoop ρ n p t = n • circleCoordinate ρ (GeometricTrace.realize p t) := by\n  change ((tracePhase ρ n p (t : ℝ) : ℝ) : CircleHodge.Circle) = _\n  have hp := congrArg (fun q : _root_.Path (0 : CircleHodge.Circle) 0 => q t) (projected_fromTrace p)\n  change ((actualLift p (t : ℝ) : ℝ) : CircleHodge.Circle) = GeometricTrace.realize p t at hp\n  rw [← hp, circleCoordinate_mk]\n  simp [tracePhase]\n\n",
+          "removed_source_sha256": "93800df50199f61940a2e3165125a9396b587fc3b81edf4228ec244b944f1d31",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 51,
+          "source_last_line": 65,
+          "output_first_line": 43,
+          "output_last_line": 57,
+          "sha256": "cd9284a867e174d72a4f2e8e75e83ac7c0711877383707dbb02ea70aab1d01fd"
+        }
+      ]
+    }
+  ],
+  "omitted_modules": [
+    {
+      "path": "computational-hodge/arclength-conjugacy/CircleCoordinate.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/CircleCoordinate.lean",
+      "source_sha256": "d56fe29daa2e31f52d25046a90e014df4b45099e817b9e68df6d6fbd638335b7",
+      "complete_text": "module\npublic import Conjugacy\n@[expose] public section\nnamespace ComputationalHodge.ArclengthSpectrum\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge\nopen ComputationalHodge.Poisson ComputationalHodge.Arclength\n\ntheorem inverse_shift (ρ : RegularDensity) (x : ℝ) (n : ℤ) :\n    inverse ρ.val (x + n) = inverse ρ.val x + n := by\n  apply (coordinate_strictMono ρ.val).injective\n  rw [coordinate_inverse, coordinate_shift, coordinate_inverse]\n\ntheorem coordinate_circle_periodic (ρ : RegularDensity) :\n    Function.Periodic (fun x : ℝ => (coordinate ρ.val x : CircleHodge.Circle)) 1 := by\n  intro x\n  change (coordinate ρ.val (x + 1) : CircleHodge.Circle) = (coordinate ρ.val x : CircleHodge.Circle)\n  have h : coordinate ρ.val (x + 1) = coordinate ρ.val x + 1 := by\n    simpa using coordinate_shift ρ.val x 1\n  rw [h]\n  exact AddCircle.coe_add_period 1 _\n\ntheorem inverse_circle_periodic (ρ : RegularDensity) :\n    Function.Periodic (fun x : ℝ => (inverse ρ.val x : CircleHodge.Circle)) 1 := by\n  intro x\n  change (inverse ρ.val (x + 1) : CircleHodge.Circle) = (inverse ρ.val x : CircleHodge.Circle)\n  have h : inverse ρ.val (x + 1) = inverse ρ.val x + 1 := by\n    simpa using inverse_shift ρ x 1\n  rw [h]\n  exact AddCircle.coe_add_period 1 _\n\n/-- The actual based quotient-circle homeomorphism induced by arclength. -/\nnoncomputable def circleCoordinate (ρ : RegularDensity) : CircleHodge.Circle ≃ₜ CircleHodge.Circle where\n  toFun := (coordinate_circle_periodic ρ).lift\n  invFun := (inverse_circle_periodic ρ).lift\n  left_inv := by\n    intro q\n    induction q using Quotient.inductionOn with | _ x =>\n    change ((inverse ρ.val (coordinate ρ.val x) : ℝ) : CircleHodge.Circle) = (x : CircleHodge.Circle)\n    rw [inverse_coordinate]\n  right_inv := by\n    intro q\n    induction q using Quotient.inductionOn with | _ x =>\n    change ((coordinate ρ.val (inverse ρ.val x) : ℝ) : CircleHodge.Circle) = (x : CircleHodge.Circle)\n    rw [coordinate_inverse]\n  continuous_toFun := ((AddCircle.continuous_mk' (1 : ℝ)).comp (coordinate_contDiff_two ρ).continuous).quotient_liftOn' _\n  continuous_invFun := ((AddCircle.continuous_mk' (1 : ℝ)).comp (inverse_contDiff_two ρ).continuous).quotient_liftOn' _\n\ntheorem circleCoordinate_mk (ρ : RegularDensity) (x : ℝ) :\n    circleCoordinate ρ (x : CircleHodge.Circle) = (coordinate ρ.val x : CircleHodge.Circle) := rfl\ntheorem circleCoordinate_zero (ρ : RegularDensity) : circleCoordinate ρ 0 = 0 := by\n  change (coordinate ρ.val 0 : CircleHodge.Circle) = 0\n  rw [coordinate_zero]\n  rfl\n\ntheorem pullback_apply (ρ : RegularDensity) (u : Coefficient) (q : CircleHodge.Circle) :\n    pullback ρ u q = u (circleCoordinate ρ q) := by\n  induction q using Quotient.inductionOn with | _ x => rfl\n\n/-- Pullback has the inverse induced by the actual inverse coordinate. -/\nnoncomputable def inversePullback (ρ : RegularDensity) (u : Coefficient) : Coefficient where\n  toFun q := u ((circleCoordinate ρ).symm q)\n  continuous_toFun := u.continuous.comp (circleCoordinate ρ).symm.continuous\n\ntheorem pullback_inversePullback (ρ : RegularDensity) (u : Coefficient) :\n    pullback ρ (inversePullback ρ u) = u := by\n  ext q\n  rw [pullback_apply]\n  change u ((circleCoordinate ρ).symm (circleCoordinate ρ q)) = u q\n  rw [Homeomorph.symm_apply_apply]\n\ntheorem inversePullback_pullback (ρ : RegularDensity) (u : Coefficient) :\n    inversePullback ρ (pullback ρ u) = u := by\n  ext q\n  change pullback ρ u ((circleCoordinate ρ).symm q) = u q\n  rw [pullback_apply, Homeomorph.apply_symm_apply]\n\nnoncomputable def inversePullbackC2 (ρ : RegularDensity) (u : C2Coefficient) : C2Coefficient :=\n  ⟨inversePullback ρ u.val, by\n    change ContDiff ℝ 2 (fun x => cover u.val (inverse ρ.val x))\n    exact (show ContDiff ℝ 2 (cover u.val) from u.property).comp (inverse_contDiff_two ρ)⟩\n\n/-- The inverse is constructed from the inverse arclength coordinate. -/\nnoncomputable def pullbackC2Equiv (ρ : RegularDensity) : C2Coefficient ≃ C2Coefficient where\n  toFun := pullbackC2 ρ\n  invFun := inversePullbackC2 ρ\n  left_inv := by\n    intro u\n    apply Subtype.ext\n    exact inversePullback_pullback ρ u.val\n  right_inv := by\n    intro u\n    apply Subtype.ext\n    exact pullback_inversePullback ρ u.val\nend ComputationalHodge.ArclengthSpectrum\n",
+      "reason": "Unused predecessor declarations are excluded from the successor; original source remains unchanged."
+    },
+    {
+      "path": "computational-hodge/arclength-conjugacy/ArclengthMode.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/ArclengthMode.lean",
+      "source_sha256": "250c7373bdde87e093e8122b62adbfb03ecbcd6d82ca7df43d3dc179ae3a9829",
+      "complete_text": "module\npublic import Conjugacy\n@[expose] public section\nnamespace ComputationalHodge.ArclengthSpectrum\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.LoopCharacters\nopen ComputationalHodge.TraceIntegrals ComputationalHodge.ACLifts\nopen ComputationalHodge.MetricHodge ComputationalHodge.Poisson\nopen ComputationalHodge.GreenOperator ComputationalHodge.CircleFredholm\nopen ComputationalHodge.ResonanceObstruction ComputationalHodge.Arclength\n\nnoncomputable def geometricCosine (ρ : RegularDensity) : C2Coefficient := pullbackC2 ρ cosineC2\nnoncomputable def geometricFrequency (ρ : RegularDensity) : ℝ :=\n  (mean ρ.val.val)⁻¹ ^ 2 * frequency\n\ntheorem geometricFrequency_positive (ρ : RegularDensity) : 0 < geometricFrequency ρ := by\n  unfold geometricFrequency\n  exact mul_pos (sq_pos_of_pos (inv_pos.mpr (mean_pos ρ.val))) frequency_positive\n\ntheorem geometricCosine_eigen (ρ : RegularDensity) :\n    laplacian ρ (geometricCosine ρ) = geometricFrequency ρ • (geometricCosine ρ).val := by\n  rw [show geometricCosine ρ = pullbackC2 ρ cosineC2 from rfl, laplacian_pullback, cosine_eigen]\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  change (mean ρ.val.val)⁻¹ ^ 2 * cover (pullback ρ (frequency • cosine)) x =\n    geometricFrequency ρ * cover (pullback ρ cosine) x\n  rw [cover_pullback, cover_pullback]\n  change (mean ρ.val.val)⁻¹ ^ 2 * (frequency * cover cosine (coordinate ρ.val x)) = _\n  unfold geometricFrequency\n  ring\n\ntheorem geometricCosine_nonzero (ρ : RegularDensity) : (geometricCosine ρ).val ≠ 0 := by\n  intro h\n  have he := congrArg (fun f : Coefficient => f 0) h\n  change cover (pullback ρ cosine) 0 = 0 at he\n  rw [cover_pullback, coordinate_zero, cosine_cover] at he\n  norm_num at he\n\ntheorem geometricCosine_mean_zero (ρ : RegularDensity) :\n    weightedMean ρ (geometricCosine ρ).val = 0 := by\n  have h := weightedMean_laplacian ρ (geometricCosine ρ)\n  rw [geometricCosine_eigen, weightedMean_smul] at h\n  exact (mul_eq_zero.mp h).resolve_left (ne_of_gt (geometricFrequency_positive ρ))\n\nnoncomputable def geometricCosineMode (ρ : RegularDensity) : Domain ρ :=\n  ⟨geometricCosine ρ, geometricCosine_mean_zero ρ⟩\n\n/-- The actual arclength mode supplies a nonzero period-compatible obstruction for every density. -/\ntheorem geometricCosine_obstruction (ρ : RegularDensity) :\n    (geometricCosine ρ).val ≠ 0 ∧\n    (∀ p : Trace 0 0, lineIntegral (ρ.val.val * (geometricCosine ρ).val) (fromTrace p) = 0) ∧\n    (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * (geometricCosine ρ).val)).val = 0) ∧\n    ¬ ∃ u : C2Coefficient,\n      laplacian ρ u - geometricFrequency ρ • u.val = (geometricCosine ρ).val :=\n  ⟨geometricCosine_nonzero ρ, (mode_periods ρ (geometricCosineMode ρ)).1,\n    (mode_periods ρ (geometricCosineMode ρ)).2,\n    mode_obstructed ρ (geometricFrequency ρ) (geometricCosine ρ)\n      (geometricCosine_nonzero ρ) (geometricCosine_eigen ρ)⟩\nend ComputationalHodge.ArclengthSpectrum\n",
+      "reason": "Unused predecessor declarations are excluded from the successor; original source remains unchanged."
+    },
+    {
+      "path": "computational-hodge/arclength-conjugacy/NonflatExample.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/NonflatExample.lean",
+      "source_sha256": "b4471700d3093885cccf57b7d022c6f75a9149e9494b71ddabb13a629d3d33f8",
+      "complete_text": "module\npublic import CircleCoordinate\n@[expose] public section\nnamespace ComputationalHodge.ArclengthSpectrum\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge\nopen ComputationalHodge.Poisson ComputationalHodge.Arclength\n\ntheorem cosine_half : cosine ((1 / 2 : ℝ) : CircleHodge.Circle) = -1 := by\n  have h := cosine_cover (1 / 2)\n  change cosine ((1 / 2 : ℝ) : CircleHodge.Circle) = _ at h\n  rw [show 2 * Real.pi * (1 / 2 : ℝ) = Real.pi by ring, Real.cos_pi] at h\n  exact h\n\n/-- A positive, nonconstant C¹ density from the existing circle construction. -/\nnoncomputable def sampleDensity : RegularDensity := ⟨⟨constant 2 + cosine, by\n  intro q\n  have h : |cosine q| ≤ 1 := by simpa [cosine] using Complex.abs_re_le_norm (AddCircle.toCircle q : ℂ)\n  change 0 < 2 + cosine q\n  linarith [(abs_le.mp h).1]⟩, by\n  change ContDiff ℝ 1 (fun x => 2 + cover cosine x)\n  exact contDiff_const.add (c2_c1 cosineC2)⟩\n\ntheorem sampleDensity_nonconstant : ¬ ∃ c : ℝ, sampleDensity.val.val = constant c := by\n  rintro ⟨c, h⟩\n  have h0 := congrArg (fun f : Coefficient => f 0) h\n  have h1 := congrArg (fun f : Coefficient => f ((1 / 2 : ℝ) : CircleHodge.Circle)) h\n  change 2 + cosine 0 = c at h0\n  change 2 + cosine ((1 / 2 : ℝ) : CircleHodge.Circle) = c at h1\n  rw [cosine_zero] at h0\n  rw [cosine_half] at h1\n  linarith\n\n/-- If the real arclength coordinate were the identity, the density would be constant. -/\ntheorem coordinate_id_implies_constant (ρ : RegularDensity) (h : coordinate ρ.val = id) :\n    ρ.val.val = constant (mean ρ.val.val) := by\n  ext q\n  induction q using Quotient.inductionOn with | _ x =>\n  change cover ρ.val.val x = mean ρ.val.val\n  have hd := congrArg (fun f : ℝ → ℝ => deriv f x) h\n  rw [(coordinate_hasDerivAt ρ.val x).deriv, (hasDerivAt_id x).deriv] at hd\n  exact (div_eq_one_iff_eq (ne_of_gt (mean_pos ρ.val))).mp hd\n\ntheorem sample_coordinate_nonidentity : coordinate sampleDensity.val ≠ id := by\n  intro h\n  exact sampleDensity_nonconstant ⟨mean sampleDensity.val.val, coordinate_id_implies_constant sampleDensity h⟩\nend ComputationalHodge.ArclengthSpectrum\n",
+      "reason": "Unused predecessor declarations are excluded from the successor; original source remains unchanged."
+    },
+    {
+      "path": "computational-hodge/arclength-conjugacy/FirstPathMode.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/2b7444b551a9a6f8c4e3fe1de51bc7debe614c6d/computational-hodge/arclength-conjugacy/FirstPathMode.lean",
+      "source_sha256": "20647b546c2943903abffbd38de7237bb620de7b29b5f0e156d618469cb54ab8",
+      "complete_text": "module\npublic import ArclengthMode\npublic import TracePhase\n@[expose] public section\nnamespace ComputationalHodge.ArclengthSpectrum\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.Poisson\nopen ComputationalHodge.TraceIntegrals ComputationalHodge.ACLifts\nopen scoped unitInterval\n\n/-- The geometric eigenmode on the actual trace is the cosine of its arclength phase. -/\ntheorem geometricCosine_on_trace (ρ : RegularDensity) (p : Trace 0 0) (t : unitInterval) :\n    (geometricCosine ρ).val (GeometricTrace.realize p t) =\n      Real.cos (2 * Real.pi * tracePhase ρ 1 p (t : ℝ)) := by\n  have hp := congrArg (fun q : _root_.Path (0 : CircleHodge.Circle) 0 => q t) (projected_fromTrace p)\n  change ((actualLift p (t : ℝ) : ℝ) : CircleHodge.Circle) = GeometricTrace.realize p t at hp\n  rw [← hp]\n  change cover (pullback ρ cosine) (actualLift p t) = _\n  rw [cover_pullback, cosine_cover]\n  simp [tracePhase]\nend ComputationalHodge.ArclengthSpectrum\n",
+      "reason": "Unused predecessor declarations are excluded from the successor; original source remains unchanged."
+    }
+  ]
+}
