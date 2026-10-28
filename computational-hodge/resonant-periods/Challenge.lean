@@ -83,7 +83,51 @@ def evaluation (e : E) : Cochain E →ₗ[ℝ] ℝ where
   toFun ω := ω e
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
-/-- The actual signed integral of edge coefficients along a computational trace. -/
+/-- The actual signed integral of edge coefficients along a computational trace.
+Verbatim source listings of five declarations; the actual declarations remain in place.
+```lean
+namespace ComputationalPaths.Path.GeometricTopology
+universe u v
+structure GeometricStepSystem (A : Type u) [TopologicalSpace A] (Step : Type v) where
+  src : Step → A
+  tgt : Step → A
+  realize : (s : Step) → _root_.Path (src s) (tgt s)
+inductive GeometricTrace {A : Type u} [TopologicalSpace A] {Step : Type v}
+    (S : GeometricStepSystem A Step) : A → A → Type (max u v) where
+  | refl (a : A) : GeometricTrace S a a
+  | single (s : Step) : GeometricTrace S (S.src s) (S.tgt s)
+  | trans {a b c : A} :
+      GeometricTrace S a b → GeometricTrace S b c → GeometricTrace S a c
+  | symm {a b : A} : GeometricTrace S a b → GeometricTrace S b a
+structure ContinuousGeometricStepSystem (A : Type u) [TopologicalSpace A] (Step : Type v) [TopologicalSpace Step] extends GeometricStepSystem A Step where
+  continuous_src : Continuous src
+  continuous_tgt : Continuous tgt
+  continuous_realize :
+    Continuous (fun s => (realize s).toContinuousMap)
+structure ScopedGeometricRewritePresentation {A : Type u} [TopologicalSpace A] {Step : Type v} [TopologicalSpace Step] (S : ContinuousGeometricStepSystem A Step) where
+  rule : ∀ {a b : A},
+    GeometricTrace S.toGeometricStepSystem a b →
+      GeometricTrace S.toGeometricStepSystem a b → Prop
+  sound_rule : ∀ {a b : A}
+    {p q : GeometricTrace S.toGeometricStepSystem a b},
+    rule p q →
+      _root_.Path.Homotopic
+        (GeometricTrace.realize p) (GeometricTrace.realize q)
+end ComputationalPaths.Path.GeometricTopology
+namespace ComputationalHodge
+open ComputationalPaths.Path.GeometricTopology
+universe u v
+variable {A : Type u} [TopologicalSpace A] {E : Type v} [Fintype E]
+variable [TopologicalSpace E] {S : ContinuousGeometricStepSystem A E}
+structure Cell (P : ScopedGeometricRewritePresentation S) where
+  src : A
+  tgt : A
+  left : GeometricTrace S.toGeometricStepSystem src tgt
+  right : GeometricTrace S.toGeometricStepSystem src tgt
+  rule : P.rule left right
+end ComputationalHodge
+```
+-/
 def period {S : GeometricStepSystem A E} {a b : A} : GeometricTrace S a b → Cochain E →ₗ[ℝ] ℝ
   | .refl _ => 0
   | .single e => evaluation e
@@ -744,7 +788,6 @@ theorem wronskian_integral_zero (U Q C S ρ F : ℝ → ℝ) (k : ℝ)
   rw [intervalIntegral.integral_neg, hp, sub_self, neg_eq_zero] at hi
   exact hi
 
-
 theorem wronskian_pair (U Q C S R F : ℝ → ℝ) (k : ℝ)
     (hU : ∀ x, HasDerivAt U (R x * Q x) x)
     (hQ : ∀ x, HasDerivAt Q (-R x * (k ^ 2 * U x + F x)) x)
@@ -775,11 +818,11 @@ theorem curved_mode_data (ρ : RegularDensity) (n : ℕ) :
   let C := cover (curvedCosine ρ n).val
   let S := cover (curvedSine ρ n).val
   have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by
-    change cover (pullback ρ (cosineN n)) x = _
-    simp only [cover_pullback, cosineN_cover, angular, mul_assoc]
+    simp only [show C = cover (pullback ρ (cosineN n)) from rfl,
+      cover_pullback, cosineN_cover, angular, mul_assoc]
   have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by
-    change cover (pullback ρ (sineN n)) x = _
-    simp only [cover_pullback, sineN_cover, angular, mul_assoc]
+    simp only [show S = cover (pullback ρ (sineN n)) from rfl,
+      cover_pullback, sineN_cover, angular, mul_assoc]
   let R := cover ρ.val.val
   let k := angular n / mean ρ.val.val
   have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by
@@ -837,8 +880,6 @@ theorem mode_pairings (ρ : RegularDensity) (n : ℕ) (u : C2Coefficient) (f : C
   have hs : Continuous (fun x => R x * F x * S x) :=
     (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedSine ρ n).val)
   exact wronskian_pair U Q C S R F k hU hQ hC hS hc hs hu0 hq0 hc0 hs0
-
-
 open ComputationalHodge.DirectResonancePrototype
 open scoped ContDiff
 noncomputable def weightedSolution (k : ℝ) (A B C S : ℝ → ℝ) (x : ℝ) : ℝ :=
@@ -869,7 +910,6 @@ theorem weighted_solution_derivatives (A B C S R F : ℝ → ℝ) (k x : ℝ)
       field_simp [hk]
       have hc : R x * F x * (C x ^ 2 + S x ^ 2) = R x * F x := by rw [hunit]; ring
       nlinarith [hc]
-
 
 theorem solution_from_cover (ρ : RegularDensity) (f : Coefficient) (lam : ℝ) (U Q : ℝ → ℝ)
     (hU : ∀ x, HasDerivAt U (cover ρ.val.val x * Q x) x)
@@ -940,7 +980,6 @@ theorem weighted_direct_solution (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f
   clear hc hs
   rw [← hk2]
   exact solution_from_cover ρ f (k ^ 2) U Q (fun x => (hdu x).1) (fun x => (hdu x).2) hu2 hup
-
 
 theorem direct_solvable_iff_two_pairings (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ pairing ρ f (curvedCosine ρ n).val = 0 ∧ pairing ρ f (curvedSine ρ n).val = 0 := by
   constructor
