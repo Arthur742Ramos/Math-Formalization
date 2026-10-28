@@ -2,12 +2,116 @@
 import copy
 import json
 import pathlib
+import os
+import subprocess
 import sys
+import tempfile
 import unittest
+from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from check_preparations import check_status_correction, check_verified, check_user_submission_report, check_unconfirmed_intake, check_user_registration_report, check_material_definition_correction, check_locally_compact_definition_preparation, check_material_audit_binding
+import check_preparations as prep
+
+
+class NarrowStatusCorrectionBindings(unittest.TestCase):
+    def setUp(self):
+        self.old = {'README.md': b'old', 'formalization.yaml': json.dumps({
+            'project': {'authors': ['A']}, 'status': {'known_gaps': 'old'},
+            'review': {'notes': 'old'}}).encode(), 'Proof.lean': b'proof',
+            'comparator.json': b'{}', 'lean-toolchain': b'lean', 'lake-manifest.json': b'{}'}
+        self.new = dict(self.old, **{'README.md': b'new'})
+        self.old_modes = {name: '100644' for name in self.old}
+        self.new_modes = dict(self.old_modes)
+        self.trees = {'old:topology/example': 'oldtree', 'verified:topology/example': 'oldtree',
+                      'corrected:topology/example': 'newtree', 'HEAD:topology/example': 'newtree'}
+        self.p = {'path': 'topology/example', 'state': 'reviewed-preparation-not-submitted',
+                  'current_source_snapshot': {'commit': 'corrected', 'tree': 'newtree'},
+                  'current_source_full': 'not-established', 'current_source_rendering': 'not-established',
+                  'status_correction': {'kind': 'narrow-status-only-evidence-carry',
+                    'historical_source': 'old', 'historical_evidence_source': 'verified',
+                    'corrected_source': 'corrected', 'corrected_tree': 'newtree',
+                    'changed_files': ['README.md']}}
+
+    def check(self):
+        def git(_operation, name): return self.trees[name]
+        def snapshot(_root, commit, _project): return self.old if commit == 'old' else self.new
+        def modes(_root, commit, _project): return self.old_modes if commit == 'old' else self.new_modes
+        with mock.patch.object(prep, 'git', side_effect=git), mock.patch.object(prep, 'snapshot', side_effect=snapshot), \
+             mock.patch.object(prep, 'modes', side_effect=modes), mock.patch.object(prep.subprocess, 'run'):
+            check_status_correction(self.p, 'old', 'oldtree')
+
+    def test_status_only_correction_binds_old_and_new_trees(self):
+        self.check()
+
+    def test_changed_proof_configuration_or_mode_is_rejected(self):
+        for name in ('Proof.lean', 'comparator.json', 'lean-toolchain', 'lake-manifest.json'):
+            with self.subTest(name=name):
+                value = self.new[name]; self.new[name] += b'changed'
+                with self.assertRaises(ValueError): self.check()
+                self.new[name] = value
+        self.new_modes['Proof.lean'] = '100755'
+        with self.assertRaises(ValueError): self.check()
+
+    def test_file_set_and_non_status_metadata_changes_are_rejected(self):
+        self.new['extra.lean'] = b'theorem extra'
+        with self.assertRaises(ValueError): self.check()
+        del self.new['extra.lean']
+        meta = json.loads(self.new['formalization.yaml'])
+        meta['project']['authors'] = ['B']
+        self.new['formalization.yaml'] = json.dumps(meta).encode()
+        with self.assertRaises(ValueError): self.check()
+
+    def test_evidence_and_current_tree_cannot_be_misbound(self):
+        for key in ('verified:topology/example', 'corrected:topology/example', 'HEAD:topology/example'):
+            with self.subTest(key=key):
+                value = self.trees[key]; self.trees[key] = 'wrong'
+                with self.assertRaises(AssertionError): self.check()
+                self.trees[key] = value
+        self.p['current_source_full'] = 'pass'
+        with self.assertRaises(AssertionError): self.check()
+
+    def test_nonancestor_is_rejected(self):
+        import subprocess
+        for pair in [('old', 'verified'), ('verified', 'corrected'), ('corrected', 'HEAD')]:
+            def reject_pair(argv, **_kwargs):
+                if tuple(argv[-2:]) == pair:
+                    raise subprocess.CalledProcessError(1, argv)
+            with self.subTest(pair=pair), \
+                 mock.patch.object(prep, 'git', side_effect=lambda _op, name: self.trees[name]), \
+                 mock.patch.object(prep.subprocess, 'run', side_effect=reject_pair):
+                with self.assertRaises(subprocess.CalledProcessError):
+                    check_status_correction(self.p, 'old', 'oldtree')
+
+    def test_merged_sibling_evidence_is_not_a_lineage(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = pathlib.Path(folder)
+            env = dict(os.environ, GIT_AUTHOR_NAME='Test', GIT_AUTHOR_EMAIL='test@example.invalid',
+                       GIT_COMMITTER_NAME='Test', GIT_COMMITTER_EMAIL='test@example.invalid')
+            def git(*args):
+                return subprocess.check_output(['git', '-C', folder, *args], env=env, text=True,
+                                               stderr=subprocess.DEVNULL).strip()
+            git('init', '-q')
+            project = root / 'topology/example'; project.mkdir(parents=True)
+            for name, data in self.old.items(): (project / name).write_bytes(data)
+            git('add', '.'); git('commit', '-qm', 'checkpoint')
+            old, oldtree = git('rev-parse', 'HEAD'), git('rev-parse', 'HEAD:topology/example')
+            (root / 'evidence-marker').write_text('evidence')
+            git('add', '.'); git('commit', '-qm', 'verified')
+            verified = git('rev-parse', 'HEAD')
+            git('checkout', '-q', '--detach', old)
+            (project / 'README.md').write_bytes(b'new')
+            git('add', '.'); git('commit', '-qm', 'correction')
+            corrected, newtree = git('rev-parse', 'HEAD'), git('rev-parse', 'HEAD:topology/example')
+            git('merge', '-q', '--no-ff', '-m', 'merge sibling', verified)
+            p = copy.deepcopy(self.p)
+            p['current_source_snapshot'] = {'commit': corrected, 'tree': newtree}
+            p['status_correction'].update(historical_source=old, historical_evidence_source=verified,
+                                          corrected_source=corrected, corrected_tree=newtree)
+            with mock.patch.object(prep, 'ROOT', root):
+                with self.assertRaises(subprocess.CalledProcessError):
+                    check_status_correction(p, old, oldtree)
 
 
 class FixedGameAuditBindings(unittest.TestCase):

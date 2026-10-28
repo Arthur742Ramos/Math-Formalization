@@ -7,6 +7,7 @@ import subprocess
 
 from check_readiness import check_full_report
 from check_release_packet import bind_full, snapshot
+from check_status_only_evidence import classify, modes
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -18,6 +19,26 @@ def git(*args):
 def check_status_correction(p, source, tree):
     """Preserve the historical source while allowing only the reviewed status repair."""
     change = p['status_correction']
+    if change['kind'] == 'narrow-status-only-evidence-carry':
+        assert p['state'] == 'reviewed-preparation-not-submitted'
+        assert change['historical_source'] == source
+        corrected = p['current_source_snapshot']
+        assert change['corrected_source'] == corrected['commit']
+        assert change['corrected_tree'] == corrected['tree']
+        assert git('rev-parse', source + ':' + p['path']) == tree
+        assert git('rev-parse', change['historical_evidence_source'] + ':' + p['path']) == tree
+        assert git('rev-parse', corrected['commit'] + ':' + p['path']) == corrected['tree']
+        assert git('rev-parse', 'HEAD:' + p['path']) == corrected['tree']
+        for earlier, later in ((source, change['historical_evidence_source']),
+                               (change['historical_evidence_source'], corrected['commit']),
+                               (corrected['commit'], 'HEAD')):
+            subprocess.run(['git', '-C', str(ROOT), 'merge-base', '--is-ancestor', earlier, later], check=True)
+        old = snapshot(ROOT, source, p['path'])
+        new = snapshot(ROOT, corrected['commit'], p['path'])
+        changed = classify(old, new, modes(ROOT, source, p['path']), modes(ROOT, corrected['commit'], p['path']))
+        assert change['changed_files'] == changed
+        assert p['current_source_full'] == p['current_source_rendering'] == 'not-established'
+        return
     assert change['kind'] == 'verification-status-account'
     assert p['state'] in {'status-correction-awaiting-exact-source-verification',
                           'status-correction-full-verified'}
