@@ -43,7 +43,7 @@ def main():
   text=(ROOT/filename).read_text();surface=text[text.index('structure GeometricStepSystem'):text.index('end ComputationalPaths.Path.GeometricTopology')]
   assert surface==expected_surface
  base=json.loads((ROOT/'base-provenance.json').read_text());commit='f9c1eec39bd7f6d4873e1281e2e1de62d80b3750';assert base['source_commit']==commit
- assert sha((ROOT/'base-provenance.json').read_bytes())=='f1bf67f950e814f6a067e707682247849d3e8c6985859d2412604bb07a291e7e'
+ assert sha((ROOT/'base-provenance.json').read_bytes())=='a330b598cfeb0ea25d52a7275ae27f7df633c3b2f3b67e245e6faae6b1327c6e'
  assert base['repository']=='Arthur742Ramos/Math-Formalization'
  assert len(base['modules'])==3 and {m['path'] for m in base['modules']}=={'SourcePaths.lean','Challenge.lean','Solution.lean'}
  for m in base['modules']:
@@ -60,9 +60,9 @@ def main():
    i=j;k=l
   assert i==len(old) and k==len(new)
  config=json.loads((ROOT/'comparator.json').read_text());selected=config['theorem_names']+config['definition_names']
- assert sha((ROOT/'comparator.json').read_bytes())=='03ffdfcc031932501ef1ade4a7b86a7927fb8f63a326d87427a828d369476628'
+ assert sha((ROOT/'comparator.json').read_bytes())=='55c5dd7482183a3c54aef00bfbc14d46ded32d40d81dd32b9c8f69a4e1beacb7'
  assert config['challenge_module']=='Challenge' and config['solution_module']=='Solution'
- assert len(config['theorem_names'])==12 and len(config['definition_names'])==25 and len(set(selected))==37
+ assert len(config['theorem_names'])==71 and len(config['definition_names'])==57 and len(set(selected))==128
  assert config['permitted_axioms']==['propext','Classical.choice','Quot.sound']
  assert (ROOT/'lean-toolchain').read_text().strip()=='leanprover/lean4:v4.35.0-rc2'
  assert (ROOT/'lake-manifest.json').read_bytes()==git(args.predecessor_root,'show',commit+':computational-hodge/arclength-modes/lake-manifest.json')

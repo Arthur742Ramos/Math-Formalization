@@ -18,6 +18,65 @@ The result concerns the actual computational traces and weighted scalar circle e
 - `ComputationalHodge.ACLifts.projected_fromTrace`
 - `ComputationalHodge.ACLifts.line_integrand_integrable`
 - `ComputationalHodge.ACLifts.lineIntegral_fromTrace_harmonic`
+- `ComputationalHodge.ACLifts.chain_rule_ae`
+- `ComputationalHodge.ACLifts.endpoint_integral`
+- `ComputationalHodge.ACLifts.lineIntegral_eq_cover`
+- `ComputationalHodge.ACLifts.lineIntegral_eq_endpoint`
+- `ComputationalHodge.ACLifts.lineIntegral_eq_mean`
+- `ComputationalHodge.ACLifts.primitive_comp_ac`
+- `ComputationalHodge.ACLifts.primitive_hasDerivAt`
+- `ComputationalHodge.ACLifts.primitive_lipschitz`
+- `ComputationalHodge.Arclength.coordinate_hasDerivAt`
+- `ComputationalHodge.Arclength.coordinate_shift`
+- `ComputationalHodge.ArclengthSpectrum.coordinate_contDiff_two`
+- `ComputationalHodge.ArclengthSpectrum.coordinate_cover_periodic`
+- `ComputationalHodge.ArclengthSpectrum.cosineN_cover`
+- `ComputationalHodge.ArclengthSpectrum.cover_pullback`
+- `ComputationalHodge.ArclengthSpectrum.sineN_cover`
+- `ComputationalHodge.CircleHodge.cover_continuous`
+- `ComputationalHodge.CircleHodge.cover_periodic`
+- `ComputationalHodge.DirectResonancePrototype.primitive_contDiff_one`
+- `ComputationalHodge.DirectResonancePrototype.primitive_periodic_of_zero`
+- `ComputationalHodge.LoopCharacters.circleCover`
+- `ComputationalHodge.LoopCharacters.winding_homotopic`
+- `ComputationalHodge.MetricHodge.continuous_integrable`
+- `ComputationalHodge.MetricHodge.density_ne`
+- `ComputationalHodge.MetricHodge.mean_circle`
+- `ComputationalHodge.MetricHodge.mean_pos`
+- `ComputationalHodge.MetricHodge.mean_smul`
+- `ComputationalHodge.Poisson.c2_c1`
+- `ComputationalHodge.Poisson.c2_deriv_c1`
+- `ComputationalHodge.Poisson.cosine_cover`
+- `ComputationalHodge.Poisson.flux_c1`
+- `ComputationalHodge.Poisson.laplacian_cover`
+- `ComputationalHodge.Poisson.periodic_deriv`
+- `ComputationalHodge.ResonantPeriodsPrototype.curved_mode_data`
+- `ComputationalHodge.ResonantPeriodsPrototype.pairing_implies_trace`
+- `ComputationalHodge.ResonantPeriodsPrototype.solution_c2`
+- `ComputationalHodge.ResonantPeriodsPrototype.solution_from_cover`
+- `ComputationalHodge.ResonantPeriodsPrototype.unit_trace_integral`
+- `ComputationalHodge.ResonantPeriodsPrototype.wronskian_derivative`
+- `ComputationalHodge.ResonantPeriodsPrototype.wronskian_pair`
+- `ComputationalHodge.TraceIntegrals.actualLift_eq_rawLift`
+- `ComputationalHodge.TraceIntegrals.affine_lipschitz`
+- `ComputationalHodge.TraceIntegrals.circle_exact_eq_bot`
+- `ComputationalHodge.TraceIntegrals.count_homotopic`
+- `ComputationalHodge.TraceIntegrals.count_zero_of_source_ne`
+- `ComputationalHodge.TraceIntegrals.cut_lipschitz`
+- `ComputationalHodge.TraceIntegrals.meanCochain_closed`
+- `ComputationalHodge.TraceIntegrals.period_mean_count`
+- `ComputationalHodge.TraceIntegrals.rawLift_clamp`
+- `ComputationalHodge.TraceIntegrals.rawLift_continuous`
+- `ComputationalHodge.TraceIntegrals.rawLift_eq_cover`
+- `ComputationalHodge.TraceIntegrals.rawLift_lipschitz`
+- `ComputationalHodge.TraceIntegrals.rawLift_one`
+- `ComputationalHodge.TraceIntegrals.rawLift_one_coe`
+- `ComputationalHodge.TraceIntegrals.rawLift_outside`
+- `ComputationalHodge.TraceIntegrals.rawLift_projects`
+- `ComputationalHodge.TraceIntegrals.rawLift_zero`
+- `ComputationalHodge.TraceIntegrals.shift_lipschitz`
+- `ComputationalHodge.TraceIntegrals.trace_endpoints`
+- `ComputationalHodge.TraceIntegrals.winding_realize_count`
 - `ComputationalHodge.ResonantPeriodsPrototype.weightedSolution`
 - `ComputationalHodge.ResonantPeriodsPrototype.weightedFlux`
 - `ComputationalHodge.ArclengthSpectrum.curvedFrequency`
@@ -43,6 +102,38 @@ The result concerns the actual computational traces and weighted scalar circle e
 - `ComputationalHodge.ACLifts.projectedLoop`
 - `ComputationalHodge.TraceIntegrals.count`
 - `ComputationalHodge.ResonantPeriodsPrototype.unitTrace`
+- `ComputationalHodge.ACLifts.ACLift`
+- `ComputationalHodge.ACLifts.primitive`
+- `ComputationalHodge.ArclengthSpectrum.angular`
+- `ComputationalHodge.ArclengthSpectrum.cosineN`
+- `ComputationalHodge.ArclengthSpectrum.cosineNC2`
+- `ComputationalHodge.ArclengthSpectrum.frequencyN`
+- `ComputationalHodge.ArclengthSpectrum.pullbackC2`
+- `ComputationalHodge.ArclengthSpectrum.sineN`
+- `ComputationalHodge.ArclengthSpectrum.sineNC2`
+- `ComputationalHodge.CircleHodge.Circle`
+- `ComputationalHodge.CircleHodge.constant`
+- `ComputationalHodge.Closed`
+- `ComputationalHodge.Cochain`
+- `ComputationalHodge.Exact`
+- `ComputationalHodge.LoopCharacters.circleLift`
+- `ComputationalHodge.LoopCharacters.circleSystem`
+- `ComputationalHodge.LoopCharacters.geometricPresentation`
+- `ComputationalHodge.LoopCharacters.onceAround`
+- `ComputationalHodge.LoopCharacters.winding`
+- `ComputationalHodge.MetricHodge.Density`
+- `ComputationalHodge.Poisson.C2Space`
+- `ComputationalHodge.Poisson.cosine`
+- `ComputationalHodge.Poisson.derivativeCoefficient`
+- `ComputationalHodge.Poisson.flux`
+- `ComputationalHodge.Poisson.gradient`
+- `ComputationalHodge.Poisson.weightedMean`
+- `ComputationalHodge.TraceIntegrals.clamp`
+- `ComputationalHodge.TraceIntegrals.meanCochain`
+- `ComputationalHodge.d0`
+- `ComputationalHodge.d1`
+- `ComputationalHodge.evaluation`
+- `ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize`
 
 ## Material meanings
 
@@ -52,7 +143,7 @@ A type wrapper carrying ofLp data; the underlying functions are accessed through
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -64,7 +155,7 @@ The wrapper-to-underlying-type equivalence, not equality of types.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -76,7 +167,7 @@ The linear equivalence between the WithLp wrapper and its underlying module.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -88,7 +179,7 @@ WithLp applied to a dependent function space; its function coercion evaluates of
 
 Kind: `abbrev`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -100,7 +191,7 @@ PiLp with exponent two and constant scalar fibers, giving the finite real coeffi
 
 Kind: `abbrev`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -112,7 +203,7 @@ The actual scalar-valued pairing on vectors.
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -124,7 +215,7 @@ Inner product compatible with the norm and scalar/module operations; the coeffic
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -136,7 +227,7 @@ An exhaustive finite enumeration of primitive generators, not an assumed finite 
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -148,7 +239,7 @@ Actual submodule of vectors orthogonal to every vector of the given submodule. U
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -160,7 +251,7 @@ Actual continuous linear map with its normed and continuity structure, used by t
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -172,7 +263,7 @@ An additive scalar-compatible map; period, d0 and d1 use actual operations.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -184,7 +275,7 @@ Actual composition of linear maps.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -196,7 +287,7 @@ A family of linear functionals assembled into a function-valued linear map, used
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -208,7 +299,7 @@ A carrier predicate closed under zero, addition and scalar multiplication. The r
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -220,7 +311,7 @@ The submodule of vectors sent to zero.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -232,7 +323,7 @@ The actual image submodule of a linear map; its membership includes an actual pr
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -244,7 +335,7 @@ Actual inverse image of a submodule under a linear map. Conservative linear-alge
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -256,7 +347,7 @@ A linear map with a two-sided inverse, rather than an assumed abstract cohomolog
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -268,7 +359,7 @@ A topology on the point and step carriers; no metric or manifold structure on A 
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -280,7 +371,7 @@ Inverse images of open sets are open.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -292,7 +383,7 @@ A function with an actual continuity proof.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -304,7 +395,7 @@ A continuous interval map with its two actual endpoint equations.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -316,7 +407,7 @@ The constant continuous path.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -328,7 +419,7 @@ Reversal of an actual continuous path.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -340,7 +431,7 @@ Binary parametrized concatenation; it is not identified with equal-slot flatteni
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -352,7 +443,7 @@ A jointly continuous interval family connecting two continuous maps.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -364,7 +455,7 @@ A homotopy satisfying a specified constraint throughout the interval.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -376,7 +467,7 @@ HomotopyWith the constraint of agreeing on a specified subset.
 
 Kind: `abbrev`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -388,7 +479,7 @@ A homotopy relative to both interval endpoints; not arbitrary endpoint-changing 
 
 Kind: `abbrev`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -400,7 +491,7 @@ Nonempty actual endpoint-fixed homotopy type.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -412,7 +503,7 @@ Actual equivalence constructed from a bijective function by classical inverse ch
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -424,7 +515,7 @@ The actual Mathlib set type is a predicate on its element type; it is not treate
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -436,7 +527,7 @@ Actual image of a specified set under a function. Conservative retained realizat
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -448,7 +539,7 @@ Literal predicate-to-set constructor used by set-builder notation.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -460,7 +551,7 @@ Actual image of the whole domain of a function. Conservative dependency infrastr
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -472,7 +563,7 @@ Ordinary identity- and product-preserving function. With target Multiplicative r
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -484,7 +575,7 @@ Actual real quotient by the subgroup of integer multiples of the period. The con
 
 Kind: `abbrev`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -496,7 +587,7 @@ Every ambient point has an evenly covered neighborhood with the actual fiber. Us
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -508,7 +599,7 @@ Classically chosen continuous path lift with specified starting lift, from a pro
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -520,7 +611,7 @@ Actual function with an identity-preservation field, inherited by MonoidHom. In 
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -532,7 +623,7 @@ Actual function with product-preservation field, inherited by MonoidHom. Tagged 
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -544,7 +635,7 @@ Carrier subset with multiplication closure; the actual first parent of Subgroup.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -556,7 +647,7 @@ Actual multiplication-closed subset containing identity, inherited by Subgroup b
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -568,7 +659,7 @@ The actual discrete fiber and local covering-trivialization condition at a point
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -580,7 +671,7 @@ Actual discrete-topology property; retained as conservative infrastructure, with
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -592,7 +683,7 @@ Actual integrability on both oriented Ioc intervals.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -604,7 +695,7 @@ Actual ordinary oriented Bochner integral: forward Ioc integral minus backward I
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -616,7 +707,7 @@ Actual integrability against the measure restricted to the set.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -628,7 +719,7 @@ Actual almost-everywhere strong measurability and finite norm integral.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -640,7 +731,7 @@ Actual lintegral of enorm is finite.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -652,7 +743,7 @@ Actual pointwise approximation by simple functions.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -664,7 +755,7 @@ Actual a.e. equality with a strongly measurable function.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -676,7 +767,7 @@ Actual Frechet derivative with one-dimensional scalar linear map.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -688,7 +779,7 @@ The actual local scalar derivative predicate at the stated point. Used for the n
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -700,7 +791,7 @@ Actual Frechet derivative evaluated at one; totalized when nondifferentiable.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -712,7 +803,7 @@ Actual little-o TVS remainder condition, not a formal derivative certificate.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -724,7 +815,7 @@ Actual Frechet derivative at the point.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -736,7 +827,7 @@ Existence of an actual Frechet derivative at the point.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -748,7 +839,7 @@ Actual Frechet differentiability at every point, retained as generic calculus de
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -760,7 +851,7 @@ The actual equation f(x+T)=f(x) at every point. The proof establishes periodicit
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -772,7 +863,7 @@ Actual scalar-to-vector linear map and evaluation used by HasDerivAt.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -784,7 +875,7 @@ Actual global extended-distance bound with a nonnegative real constant. Selected
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -796,7 +887,7 @@ Actual subtype of nonnegative real numbers, not an unconstrained bound.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -808,7 +899,7 @@ Actual finiteness of the set subtype; underlying finite class is an equivalence 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -820,7 +911,7 @@ Actual countability of the set subtype; underlying class supplies an injection i
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -832,7 +923,7 @@ Actual existence of an injection into Nat, retained as conservative metric and m
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -844,7 +935,7 @@ Actual compactness predicate. Compactness of the actual period-one circle suppli
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -856,7 +947,7 @@ Actual compactness of the whole space; the real-circle instance is proved and re
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -868,7 +959,7 @@ Actual bornological boundedness through the cobounded complement, with its norm-
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -880,7 +971,7 @@ Actual interval projection by clamping, used to extend the actual covering lift 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -892,7 +983,7 @@ Actual filter convergence of finite sums of image distances as disjoint source i
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -904,7 +995,7 @@ Actual comap of total finite source-distance sum along the real zero-neighborhoo
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -916,7 +1007,7 @@ Actual finite-index interval endpoints in uIcc and pairwise disjoint uIoc interv
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -928,7 +1019,7 @@ Actual nonnegative edistance bound for all pairs in the specified set. Retained 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -940,7 +1031,7 @@ Actual conull-set filter; quantified assertions mean the set of failures has mea
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -952,7 +1043,7 @@ Actual membership of the predicate truth set in the filter, underlying almost-ev
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -964,7 +1055,7 @@ Actual Icc between infimum and supremum of endpoints; for real ordered0≤1 this
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -976,7 +1067,7 @@ Actual Ioc between minimum and maximum of endpoints, used by interval integral a
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -988,7 +1079,7 @@ Actual pointwise equality on a specified set; retained as conservative infrastru
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1000,7 +1091,7 @@ Actual strict lower and weak upper endpoint inequalities; the interval integral 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1012,7 +1103,7 @@ The actual closed order interval, used in the retained absolute-continuity and i
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1024,7 +1115,7 @@ Actual complex unit circle as Submonoid.unitSphere complex numbers, with inherit
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1036,7 +1127,7 @@ Actual submonoid with carrier Metric.sphere0 1; multiplication and unit are prov
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1048,7 +1139,7 @@ Actual set of points with distance to the given center equal to the specified ra
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1060,7 +1151,7 @@ Actual periodic lift of the proved scaled Circle.exp map. At period1 its represe
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1072,7 +1163,7 @@ Actual Quotient.liftOn of a function whose period c is proved; integer-multiple 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1084,7 +1175,7 @@ Actual continuous map sending real t to Complex.exp(t*i) together with a proof i
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1096,7 +1187,7 @@ Actual complex number structure. New direct use is the actual cosine/toCircle ex
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1108,7 +1199,7 @@ Actual real-to-complex embedding with imaginary coordinate zero and its coercion
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1120,7 +1211,7 @@ Actual complex imaginary unit with real coordinate0 and imaginary coordinate1.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1132,7 +1223,7 @@ Actual complex norm is the nonnegative real square root of Complex.normSq. Its l
 
 Kind: `instance`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1144,7 +1235,7 @@ Actual ring endomorphism whose function is star, denoted conj in ComplexConjugat
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1156,7 +1247,7 @@ Actual irreducible definition is the Cauchy limit of exp-prime, the Taylor parti
 
 Kind: `irreducible_def`. Role: `proof-dependency`. Bridge: `proved-equivalence`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1168,7 +1259,7 @@ Actual Cauchy sequence of partial sums of z^m/m!, with its convergence proof fie
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1180,7 +1271,7 @@ Actual real pi constant in the proved cosine cover cos(2*pi*x). Period-one dx is
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1192,7 +1283,7 @@ Actual subtype value max r0 and its nonnegative proof.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1204,7 +1295,7 @@ Actual Tendsto of the image pair map from source uniformity to target uniformity
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1216,7 +1307,7 @@ An actual continuous equivalence with a continuous inverse. Its presence in the 
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1228,7 +1319,7 @@ The actual condition that every nonempty open set has nonzero measure. Its retai
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1240,7 +1331,7 @@ Actual class extending finite measure on compact sets, additive left invariance 
 
 Kind: `class`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1252,7 +1343,7 @@ Actual quotient measurable space with volume equal to ENNReal.ofReal(T) times no
 
 Kind: `instance`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1264,7 +1355,7 @@ The actual ordinary Bochner integral, totalized outside its integrability domain
 
 Kind: `irreducible_def`. Role: `proof-dependency`. Bridge: `proved-equivalence`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1276,7 +1367,7 @@ Actual Tendsto from the neighborhood-within filter to the target neighborhood.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1288,7 +1379,7 @@ Actual pointwise ContinuousWithinAt at each member of the set. It is not global 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1300,7 +1391,7 @@ The actual Mathlib differentiability predicate over the indicated scalar field. 
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `proved-equivalence`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1312,7 +1403,7 @@ Actual global Taylor-field class with zeroth value f, Frechet derivative fields 
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1324,7 +1415,7 @@ Actual Frechet derivative-at-filter specialization to the neighborhood-within fi
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1336,7 +1427,7 @@ Actual complex sine defined from the two complex exponentials. Retained cosine d
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1348,7 +1439,7 @@ Actual complex cosine defined as the average of the two complex exponentials.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1360,7 +1451,7 @@ Actual real part of complex sine applied to a real input.
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1372,7 +1463,7 @@ Actual real part of complex cosine applied to a real input. Its all-order smooth
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1384,7 +1475,7 @@ The actual real cosine chain-rule contract, including the negative sine factor. 
 
 Kind: `theorem`. Role: `proof-dependency`. Bridge: `proved-contract`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1396,7 +1487,7 @@ The actual first-order real sine chain-rule contract, including the cosine facto
 
 Kind: `theorem`. Role: `proof-dependency`. Bridge: `proved-contract`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1408,7 +1499,7 @@ The actual derivative contract for a constant multiple, with its within-set and 
 
 Kind: `theorem`. Role: `proof-dependency`. Bridge: `proved-contract`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1420,7 +1511,7 @@ Actual preservation of strict inequality at every ordered pair, not nondecreasin
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1432,7 +1523,7 @@ Actual abbreviation of RelIso for the non-strict order relations, hence an equiv
 
 Kind: `abbrev`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1444,7 +1535,7 @@ Actual equivalence with map_rel_iff field relating the two binary relations.
 
 Kind: `structure`. Role: `proof-dependency`. Bridge: `class-fields`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -1456,7 +1547,7 @@ Actual order-isomorphism construction from a strictly monotone function and prov
 
 Kind: `def`. Role: `proof-dependency`. Bridge: `literal-unfolding`.
 
-The selected declarations listed above have a transitive constant-name match in the bounded diagnostic. Read the retained literal definition and cited source context for the mathematical meaning; the match alone is not a completeness or centrality claim.
+At least one selected declaration has a transitive constant-name match for this material in the bounded diagnostic; exact matched users are recorded in the machine-readable inventory. Read the retained literal definition and cited source context for its mathematical meaning; matching alone is not a completeness or centrality claim.
 
 The selected mathematical declarations and semantic entrypoints require their own exact-source compilation and independent fidelity review; this inventory does not substitute for either.
 
@@ -9219,4 +9310,147 @@ Excerpt SHA256: `0dcf1c12453ad0d54f6c4441db7fd8724f809ed56d57dd9f3bf64e302036137
 @[to_additive]
 protected theorem Periodic.div [Add α] [Div β] (hf : Periodic f c) (hg : Periodic g c) :
     Periodic (f / g) c := by simp_all
+```
+
+## Path parameter interval
+
+### `unitInterval`
+
+The actual path-parameter set is the closed real interval [0,1]. Its subtype contains exactly the real points between those endpoints. Both semantic entrypoints state the displayed equality by unfolding the pinned alias; exact-source compilation is required. The direct signature probe identifies the selected uses recorded in the inventory.
+
+Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UnitInterval.lean
+
+Full source SHA256: `afaccfe8ef4d9ea05189b3bd50e0dbf58cb6b4e3f86441b2d4d55aef06c2626b`.
+
+```lean
+/-
+Copyright (c) 2020 Patrick Massot. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Patrick Massot, Kim Morrison
+-/
+```
+
+Excerpt: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UnitInterval.lean#L29-L41
+
+```lean
+
+
+/-- The unit interval `[0,1]` in ℝ. -/
+abbrev unitInterval : Set ℝ :=
+  Set.Icc 0 1
+
+@[inherit_doc]
+scoped[unitInterval] notation "I" => unitInterval
+
+namespace unitInterval
+
+theorem zero_mem : (0 : ℝ) ∈ I :=
+  ⟨le_rfl, zero_le_one⟩
+```
+
+Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Group/Defs.lean
+
+Full source SHA256: `0ec9b0c39ec290d7f98f77dc5f91a030dbf85f36547c6c3ddaa43eb4f65f070b`.
+
+```lean
+/-
+Copyright (c) 2018 Patrick Massot. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Patrick Massot, Johannes Hölzl, Yaël Dillies
+-/
+```
+
+Excerpt: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Group/Defs.lean#L64-L68
+
+```lean
+/-- Auxiliary class, endowing a type `α` with a function `nnnorm : α → ℝ≥0` with notation `‖x‖₊`. -/
+@[notation_class]
+class NNNorm (E : Type*) where
+  /-- the `ℝ≥0`-valued norm function. -/
+  nnnorm : E → ℝ≥0
+```
+
+Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Group/Basic.lean
+
+Full source SHA256: `105fb616f544fc3c820249ef539a67784c901bd8eb42073ec8b0e1446b6fbf82`.
+
+```lean
+/-
+Copyright (c) 2018 Patrick Massot. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Patrick Massot, Johannes Hölzl, Yaël Dillies
+-/
+```
+
+Excerpt: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Group/Basic.lean#L363-L372
+
+```lean
+
+section NNNorm
+
+-- See note [lower instance priority]
+@[to_additive]
+instance (priority := 100) SeminormedGroup.toNNNorm : NNNorm E :=
+  ⟨fun a => .mk ‖a‖ (norm_nonneg' a)⟩
+
+@[to_additive (attr := simp, norm_cast) coe_nnnorm]
+theorem coe_nnnorm' (a : E) : (‖a‖₊ : ℝ) = ‖a‖ := rfl
+```
+
+Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Group/Real.lean
+
+Full source SHA256: `a6ddd804ecb9619781ccaaa05979c3bb7d2fc38fcc8412105fb0a8c0e20f8d82`.
+
+```lean
+/-
+Copyright (c) 2018 Patrick Massot. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Patrick Massot, Johannes Hölzl, Yaël Dillies
+-/
+```
+
+Excerpt: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Normed/Group/Real.lean#L54-L58
+
+```lean
+
+@[simp]
+theorem norm_eq_abs (r : ℝ) : ‖r‖ = |r| :=
+  rfl
+
+```
+
+## Nonnegative norm in the Lipschitz constant
+
+### `NNNorm`
+
+The class provides an ℝ≥0-valued norm. In `ComputationalHodge.TraceIntegrals.affine_lipschitz`, the selected real coefficient has a nonnegative norm whose real coercion is its absolute value. The additive coercion theorem is generated from the displayed `to_additive` producer; it is stated in both semantic entrypoints, pending exact-source compilation, rather than attributed to literal additive source text.
+
+## Extended nonnegative-real exponent carrier
+
+### `ENNReal`
+
+The carrier is the nonnegative real type with an adjoined top element. Here it appears in the exponent parameter of the retained `WithLp` and `EuclideanSpace` constructions; it does not turn the resulting cochains into measures. The equality below is stated in both semantic entrypoints and requires exact-source compilation.
+
+Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/ENNReal/Basic.lean
+
+Full source SHA256: `211629947deb3d78a8541202d33a9fed3d4c8f22215daea3d7d37209a824d947`.
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Yury Kudryashov
+-/
+```
+
+Excerpt: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/ENNReal/Basic.lean#L99-L105
+
+```lean
+
+/-- The extended nonnegative real numbers. This is usually denoted [0, ∞],
+  and is relevant as the codomain of a measure. -/
+def ENNReal := WithTop ℝ≥0
+
+@[inherit_doc]
+scoped[ENNReal] notation "ℝ≥0∞" => ENNReal
 ```

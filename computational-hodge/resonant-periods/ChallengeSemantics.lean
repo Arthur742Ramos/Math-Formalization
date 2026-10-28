@@ -151,4 +151,14 @@ example (f g : ℝ → ℝ) (T : ℝ) (hf : Function.Periodic f T) (hg : Functio
 example (f g : ℝ → ℝ) (T : ℝ) (hf : Function.Periodic f T) (hg : Function.Periodic g T) :
     Function.Periodic (f / g) T := hf.div hg
 end ComputationalHodge.ResonantPeriodsPrototype.Semantics
+
+-- The path parameter carrier is the literal closed real interval.
+example : unitInterval = Set.Icc (0 : ℝ) 1 := rfl
+
+-- The real nonnegative norm used as a Lipschitz bound has absolute value as its real coercion.
+example (a : ℝ) : (‖a‖₊ : ℝ) = |a| := by
+  simpa only [Real.norm_eq_abs] using (coe_nnnorm a)
+
+-- The exponent carrier for WithLp adjoins infinity to the nonnegative reals.
+example : ENNReal = WithTop NNReal := rfl
 -- END material-imported-definition audit
