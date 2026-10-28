@@ -218,7 +218,7 @@ The qualified infinite-Baire-product theorem and Polish-sequence corollary are p
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Category Hewitt–Savage zero-one law for infinite Baire products](topology/hewitt-savage-category) | A Baire-property subset of an infinite Baire product invariant under finite-support coordinate permutations is meagre or comeagre; Polish sequences are a corollary. | Preparation; not submitted | [`2e77e7e`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2e77e7edb6f1483ed100cdcdcb5e0b4358973d7a/topology/hewitt-savage-category) |
+| [Category Hewitt–Savage zero-one law for infinite Baire products](topology/hewitt-savage-category) | A Baire-property subset of an infinite Baire product invariant under finite-support coordinate permutations is meagre or comeagre; Polish sequences are a corollary. | Source-account correction; prior intake requested changes | [`e4317c5`](https://github.com/Arthur742Ramos/Math-Formalization/tree/e4317c5c02332e009e120f12d5244b8b7a29656d/topology/hewitt-savage-category) |
 
 ## Pettis automatic continuity preparation
 
