@@ -70,7 +70,7 @@
       "Quot.sound",
       "Classical.choice"
     ],
-    "known_gaps": "No mathematical gap identified by independent internal AI implementation/source-fidelity review. Exact-source release readiness is established by immutable external machine/render/review receipts; a Lean build alone is not full certification.",
+    "known_gaps": "No mathematical gap identified by independent internal AI implementation/source-fidelity review. A Lean build alone is not full certification.",
     "attribution_status": "Campaign authors/maintainers preserved; substantive Codex work and adapted prior helper disclosed, no human proof contribution inferred."
   },
   "automation": {

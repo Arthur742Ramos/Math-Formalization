@@ -44,10 +44,9 @@ zero definition holes; the fixed FiniteMoves body remains protected in the
 selected statement closure.
 
 Independent internal AI scope and implementation/source-fidelity reviews pass.
-Exact-source release readiness is established by immutable external local
-verification, rendered-readability and review receipts. A build alone is not
-full release certification. Only propext, Quot.sound and Classical.choice are
-permitted axioms. No registry submission or registration is claimed here.
+A build alone is not full release certification. Only propext, Quot.sound and
+Classical.choice are permitted axioms. Palomar verification and registration
+are separate.
 
 Campaign authors and responsible maintainers: Arthur Freitas Ramos, David
 Barros Hulak and Ruy Jose Guerra Barretto de Queiroz. OpenAI Codex performs the
