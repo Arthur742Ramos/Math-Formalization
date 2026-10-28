@@ -87,7 +87,7 @@
       "Quot.sound",
       "Classical.choice"
     ],
-    "known_gaps": "No mathematical gap identified by internal AI source review. Exact-source native, protected comparison, kernel, canonical full/render and release evidence are recorded separately; no unperformed gate is claimed complete.",
+    "known_gaps": "No mathematical gap identified by internal AI source review. For source caf9b142e9b7061c364499b5994dae4ab5bf4071, local canonical full verification and rendering passed. Native semantic, axiom, negative-control and kernel evidence from predecessor 320b363a9b8ea37f7b2176689040668b19eb21e8 was carried forward only for the reviewed identical proof, configuration, metadata and pin bytes. Later source requires its own applicable checks and evidence review.",
     "attribution_status": "Campaign roles preserved; substantive Codex authorship disclosed; no human proof contribution inferred."
   },
   "automation": {
@@ -107,7 +107,7 @@
     "reviewers": [
       "Independent internal AI mathematical/source-fidelity reviewer"
     ],
-    "notes": "Construction and full theorem reviewed; exact source hashes are retained in a private immutable receipt. Final packaging and mechanical/release evidence still require their own review. No human or external peer review claimed."
+    "notes": "Construction and full theorem reviewed; exact source hashes are retained in a private immutable receipt. Final packaging and mechanical/release evidence for source caf9b142e9b7061c364499b5994dae4ab5bf4071 received separate internal AI review; later source requires its own evidence review. No human or external peer review claimed."
   },
   "acknowledgements": "Classical theorem due to Knaster and Reichbach; modern statements checked against Shchepin–Valov and Gutek. Lean and Mathlib authors provide the cited library infrastructure. Campaign attribution and maintainership are distinct from substantive Codex proof authorship."
 }

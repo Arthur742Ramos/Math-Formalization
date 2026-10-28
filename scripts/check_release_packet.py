@@ -58,6 +58,9 @@ def status_errors(files):
             if future and not re.search(r'\band\b', match[0][:future.start()], re.I):
                 continue
             errors.append(name + ': stale blanket pending/completion account')
+    metadata = files.get('formalization.yaml', b'').decode().lower()
+    if ('exact-source native, protected comparison, kernel, canonical full/render and release evidence are recorded separately' in metadata):
+        errors.append('formalization.yaml: ambiguous exact-source evidence account')
     return sorted(set(errors))
 
 
@@ -236,6 +239,11 @@ def check_archive(data, files):
 
 def check_status(root, commit, project, historical_report=None):
     files = snapshot(root, commit, project)
+    # An intake for the original KR source was observed on 2026-10-27.
+    # A later handoff must not repeat its undated pre-intake assertion.
+    if project == 'topology/knaster-reichbach':
+        require('no registry intake has been created' not in files['README.md'].decode().lower(),
+                'Knaster-Reichbach README has a stale no-intake assertion')
     errors = status_errors(files)
     require(not errors, '; '.join(errors))
     material_manifest = 'verification/material-imported-definitions.json'

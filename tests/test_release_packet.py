@@ -5,6 +5,7 @@ import importlib.util
 import io
 import json
 import pathlib
+import subprocess
 import tarfile
 import unittest
 import sys
@@ -821,6 +822,23 @@ class ReleasePacketTests(unittest.TestCase):
         body = json.dumps(self.fixture()).encode()
         with self.assertRaisesRegex(ValueError, 'Submission hold is active'):
             guard.check_packet(ROOT, packet, body, guard.sha(body), archive(self.files))
+
+    def test_knaster_reichbach_old_no_intake_claim_is_stale(self):
+        with self.assertRaisesRegex(ValueError, 'stale no-intake assertion'):
+            guard.check_status(ROOT, 'caf9b142e9b7061c364499b5994dae4ab5bf4071',
+                               'topology/knaster-reichbach')
+
+    def test_knaster_reichbach_corrected_status_passes(self):
+        head = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
+        guard.check_status(ROOT, head, 'topology/knaster-reichbach')
+
+    def test_knaster_reichbach_ambiguous_native_account_rejected(self):
+        old = b'Exact-source native, protected comparison, kernel, canonical full/render and release evidence are recorded separately.'
+        self.assertIn('formalization.yaml: ambiguous exact-source evidence account',
+                      guard.status_errors({'formalization.yaml': old}))
+        current = (ROOT / 'topology/knaster-reichbach/formalization.yaml').read_bytes()
+        self.assertNotIn('formalization.yaml: ambiguous exact-source evidence account',
+                         guard.status_errors({'formalization.yaml': current}))
 
     def test_actual_historical_source_rejected_for_stale_packaged_claims(self):
         with self.assertRaisesRegex(ValueError, 'stale blanket'):
