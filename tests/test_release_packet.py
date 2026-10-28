@@ -722,6 +722,41 @@ class ArclengthConjugacySourcePath(unittest.TestCase):
             command.assert_not_called()
 
 
+class ArclengthModesReleasePath(unittest.TestCase):
+    PROJECT = 'computational-hodge/arclength-modes'
+
+    def test_exact_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'Challenge.lean\n', b'module\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, self.PROJECT)
+        self.assertEqual(files, {'Challenge.lean': b'module\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':' + self.PROJECT + '/Challenge.lean')
+
+    def test_nearby_and_traversing_paths_are_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in [self.PROJECT + '/../finite-periods', self.PROJECT + '/other',
+                         'computational-hodge/arclength-modes-extra', '/' + self.PROJECT]:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+    def test_missing_material_evidence_is_rejected(self):
+        with (mock.patch.object(guard, 'snapshot', return_value={'README.md': b'No stale status.'}),
+              mock.patch.object(guard, 'status_errors', return_value=[])):
+            with self.assertRaisesRegex(ValueError, 'Missing material imported-definition evidence'):
+                guard.check_status(ROOT, '0' * 40, self.PROJECT)
+
+    def test_present_material_evidence_is_checked(self):
+        files = {'verification/material-imported-definitions.json': b'{}'}
+        with (mock.patch.object(guard, 'snapshot', return_value=files),
+              mock.patch.object(guard, 'status_errors', return_value=[]),
+              mock.patch.object(guard, 'check_imported_definitions') as check):
+            self.assertEqual(guard.check_status(ROOT, '0' * 40, self.PROJECT), files)
+            check.assert_called_once()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,
