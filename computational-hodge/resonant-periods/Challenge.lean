@@ -280,25 +280,20 @@ theorem rawLift_outside {a b : CircleHodge.Circle} (p : Trace a b) : ∀ t : ℝ
   | trans p q hp hq =>
     intro t; constructor
     · intro ht
-      have h : t ≤ (1 : ℝ)/2 := by linarith
-      have h2 : 2*t ≤ 0 := by linarith
-      simpa only [rawLift,ite_eq_left h] using (hp (2*t)).1 h2
+      simpa only [rawLift, ite_eq_left (show t ≤ (1 : ℝ)/2 by linarith)] using
+        (hp (2*t)).1 (by linarith)
     · intro ht
-      have hn : ¬ t ≤ (1 : ℝ)/2 := by linarith
-      have hone : ¬ (1 : ℝ) ≤ 1/2 := by norm_num
-      have h2 : 1 ≤ 2*t-1 := by linarith
       change (if t ≤ (1 : ℝ)/2 then rawLift p (2*t) else rawLift p 1 + rawLift q (2*t-1)) =
         (if (1 : ℝ) ≤ (1 : ℝ)/2 then rawLift p (2*1) else rawLift p 1 + rawLift q (2*1-1))
-      rw [ite_eq_right hn,ite_eq_right hone,(hq (2*t-1)).2 h2]
+      rw [ite_eq_right (show ¬ t ≤ (1 : ℝ)/2 by linarith),
+        ite_eq_right (show ¬ (1 : ℝ) ≤ 1/2 by norm_num), (hq (2*t-1)).2 (by linarith)]
       norm_num
   | symm p hp =>
     intro t; constructor
     · intro ht
-      have h : 1 ≤ 1-t := by linarith
-      simpa only [rawLift,sub_self] using sub_eq_zero.mpr ((hp (1-t)).2 h)
+      simpa only [rawLift,sub_self] using sub_eq_zero.mpr ((hp (1-t)).2 (by linarith))
     · intro ht
-      have h : 1-t ≤ 0 := by linarith
-      simp only [rawLift,sub_self,(hp (1-t)).1 h,rawLift_zero]
+      simp only [rawLift,sub_self,(hp (1-t)).1 (by linarith),rawLift_zero]
 theorem rawLift_clamp {a b : CircleHodge.Circle} (p : Trace a b) (t : ℝ) : rawLift p (Set.projIcc 0 1 zero_le_one t : ℝ)=rawLift p t := by
   by_cases h0 : t≤0
   · rw [Set.projIcc_of_le_left zero_le_one h0]
@@ -750,9 +745,58 @@ theorem wronskian_integral_zero (U Q C S ρ F : ℝ → ℝ) (k : ℝ)
   exact hi
 
 
+theorem wronskian_pair (U Q C S R F : ℝ → ℝ) (k : ℝ)
+    (hU : ∀ x, HasDerivAt U (R x * Q x) x)
+    (hQ : ∀ x, HasDerivAt Q (-R x * (k ^ 2 * U x + F x)) x)
+    (hC : ∀ x, HasDerivAt C (-k * R x * S x) x)
+    (hS : ∀ x, HasDerivAt S (k * R x * C x) x)
+    (hc : Continuous (fun x => R x * F x * C x)) (hs : Continuous (fun x => R x * F x * S x))
+    (hu : U 1 = U 0) (hq : Q 1 = Q 0) (hcx : C 1 = C 0) (hsx : S 1 = S 0) :
+    (∫ x in (0 : ℝ)..1, R x * F x * C x) = 0 ∧ (∫ x in (0 : ℝ)..1, R x * F x * S x) = 0 := by
+  have hp : Q 1 * C 1 + k * U 1 * S 1 = Q 0 * C 0 + k * U 0 * S 0 := by rw [hu, hq, hcx, hsx]
+  have h := wronskian_integral_zero U Q C S R F k hU hQ hC hS hc hp
+  have hCS (x : ℝ) : HasDerivAt S (-k * R x * (-C x)) x := by
+    convert hS x using 1; ring
+  have hSC (x : ℝ) : HasDerivAt (fun x => -C x) (k * R x * S x) x := by
+    convert (hC x).neg using 1; ring
+  have hps : Q 1 * S 1 + k * U 1 * (-C 1) = Q 0 * S 0 + k * U 0 * (-C 0) := by rw [hu, hq, hcx, hsx]
+  exact ⟨h, wronskian_integral_zero U Q S (fun x => -C x) R F k hU hQ hCS hSC hs hps⟩
+
 open ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge
 open ComputationalHodge.Poisson ComputationalHodge.Arclength
 open ComputationalHodge.GreenOperator ComputationalHodge.ArclengthSpectrum
+
+theorem curved_mode_data (ρ : RegularDensity) (n : ℕ) :
+    (∀ x, HasDerivAt (cover (curvedCosine ρ n).val)
+      (-(angular n / mean ρ.val.val) * cover ρ.val.val x * cover (curvedSine ρ n).val x) x) ∧
+    (∀ x, HasDerivAt (cover (curvedSine ρ n).val)
+      ((angular n / mean ρ.val.val) * cover ρ.val.val x * cover (curvedCosine ρ n).val x) x) ∧
+    (∀ x, cover (curvedCosine ρ n).val x ^ 2 + cover (curvedSine ρ n).val x ^ 2 = 1) := by
+  let C := cover (curvedCosine ρ n).val
+  let S := cover (curvedSine ρ n).val
+  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by
+    change cover (pullback ρ (cosineN n)) x = _
+    simp only [cover_pullback, cosineN_cover, angular, mul_assoc]
+  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by
+    change cover (pullback ρ (sineN n)) x = _
+    simp only [cover_pullback, sineN_cover, angular, mul_assoc]
+  let R := cover ρ.val.val
+  let k := angular n / mean ρ.val.val
+  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by
+    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos
+    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]
+    dsimp [k, R]
+    convert h using 1; ring
+  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by
+    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin
+    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]
+    dsimp [k, R]
+    convert h using 1; ring
+  refine ⟨hC,hS,?_⟩
+  intro x
+  change C x ^ 2 + S x ^ 2 = 1
+  rw [hcval, hsval]
+  nlinarith [Real.sin_sq_add_cos_sq (angular n * coordinate ρ.val x)]
 
 theorem mode_pairings (ρ : RegularDensity) (n : ℕ) (u : C2Coefficient) (f : Coefficient)
     (hu : laplacian ρ u - curvedFrequency ρ n • u.val = f) :
@@ -761,8 +805,6 @@ theorem mode_pairings (ρ : RegularDensity) (n : ℕ) (u : C2Coefficient) (f : C
   let U := cover u.val
   let Q := cover (flux ρ u)
   let F := cover f
-  let C := cover (curvedCosine ρ n).val
-  let S := cover (curvedSine ρ n).val
   let k := angular n / mean ρ.val.val
   have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)
   have hR (x : ℝ) : R x ≠ 0 := density_ne ρ.val (x : CircleHodge.Circle)
@@ -782,55 +824,19 @@ theorem mode_pairings (ρ : RegularDensity) (n : ℕ) (u : C2Coefficient) (f : C
     rw [hk]
     field_simp [hR x] at he ⊢
     linarith
-  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by
-    change cover (pullback ρ (cosineN n)) x = _
-    rw [cover_pullback, cosineN_cover]
-    congr 1
-    dsimp [angular]
-    ring
-  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by
-    change cover (pullback ρ (sineN n)) x = _
-    rw [cover_pullback, sineN_cover]
-    congr 1
-    dsimp [angular]
-    ring
-  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by
-    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos
-    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]
-    dsimp [k, R]
-    convert h using 1; ring
-  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by
-    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin
-    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]
-    dsimp [k, R]
-    convert h using 1; ring
+  clear hu hm hR hk
+  let C := cover (curvedCosine ρ n).val
+  let S := cover (curvedSine ρ n).val
+  obtain ⟨hC,hS,_⟩ := curved_mode_data ρ n
   have hc : Continuous (fun x => R x * F x * C x) :=
     (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedCosine ρ n).val)
-  have hp : Q 1 * C 1 + k * U 1 * S 1 = Q 0 * C 0 + k * U 0 * S 0 := by
-    have hu0 := cover_periodic u.val 0
-    have hq0 := cover_periodic (flux ρ u) 0
-    have hc0 := cover_periodic (curvedCosine ρ n).val 0
-    have hs0 := cover_periodic (curvedSine ρ n).val 0
-    simp only [zero_add] at hu0 hq0 hc0 hs0
-    dsimp [Q, C, U, S]
-    rw [hu0, hq0, hc0, hs0]
-  have h := wronskian_integral_zero U Q C S R F k hU hQ hC hS hc hp
-  have hCS (x : ℝ) : HasDerivAt S (-k * R x * (-C x)) x := by
-    convert hS x using 1; ring
-  have hSC (x : ℝ) : HasDerivAt (fun x => -C x) (k * R x * S x) x := by
-    convert (hC x).neg using 1; ring
+  have hu0 : U 1 = U 0 := by simpa only [zero_add] using cover_periodic u.val 0
+  have hq0 : Q 1 = Q 0 := by simpa only [zero_add] using cover_periodic (flux ρ u) 0
+  have hc0 : C 1 = C 0 := by simpa only [zero_add] using cover_periodic (curvedCosine ρ n).val 0
+  have hs0 : S 1 = S 0 := by simpa only [zero_add] using cover_periodic (curvedSine ρ n).val 0
   have hs : Continuous (fun x => R x * F x * S x) :=
     (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedSine ρ n).val)
-  have hps : Q 1 * S 1 + k * U 1 * (-C 1) = Q 0 * S 0 + k * U 0 * (-C 0) := by
-    have hu0 := cover_periodic u.val 0
-    have hq0 := cover_periodic (flux ρ u) 0
-    have hc0 := cover_periodic (curvedCosine ρ n).val 0
-    have hs0 := cover_periodic (curvedSine ρ n).val 0
-    simp only [zero_add] at hu0 hq0 hc0 hs0
-    dsimp [Q, C, U, S]
-    rw [hu0, hq0, hc0, hs0]
-  have h' := wronskian_integral_zero U Q S (fun x => -C x) R F k hU hQ hCS hSC hs hps
-  exact ⟨h, h'⟩
+  exact wronskian_pair U Q C S R F k hU hQ hC hS hc hs hu0 hq0 hc0 hs0
 
 
 open ComputationalHodge.DirectResonancePrototype
@@ -852,105 +858,88 @@ theorem weighted_solution_derivatives (A B C S R F : ℝ → ℝ) (k x : ℝ)
   constructor
   · have h := ((hC.mul hB).sub (hS.mul hA)).div_const k
     convert h using 1
-    · funext t; rfl
+    · rfl
     · dsimp [weightedFlux]
       field_simp
       ring
   · have h := ((hS.mul hB).add (hC.mul hA)).neg
     convert h using 1
-    · funext t; rfl
+    · rfl
     · dsimp [weightedSolution]
       field_simp [hk]
       have hc : R x * F x * (C x ^ 2 + S x ^ 2) = R x * F x := by rw [hunit]; ring
       nlinarith [hc]
 
 
+theorem solution_from_cover (ρ : RegularDensity) (f : Coefficient) (lam : ℝ) (U Q : ℝ → ℝ)
+    (hU : ∀ x, HasDerivAt U (cover ρ.val.val x * Q x) x)
+    (hQ : ∀ x, HasDerivAt Q (-cover ρ.val.val x * (lam * U x + cover f x)) x)
+    (hu2 : ContDiff ℝ 2 U) (hup : Function.Periodic U 1) :
+    ∃ u : C2Coefficient, laplacian ρ u - lam • u.val = f := by
+  have hderiv : deriv U = fun x => cover ρ.val.val x * Q x := funext fun x => (hU x).deriv
+  let u : Coefficient := ⟨hup.lift, hu2.continuous.quotient_liftOn' _⟩
+  let u2 : C2Coefficient := ⟨u,hu2⟩
+  refine ⟨u2,?_⟩
+  ext q
+  induction q using Quotient.inductionOn with | _ x =>
+  change cover (laplacian ρ u2) x - lam * U x = cover f x
+  rw [laplacian_cover]
+  change -(deriv (fun t => deriv U t / cover ρ.val.val t) x) / cover ρ.val.val x - lam * U x = cover f x
+  have hf : (fun t => deriv U t / cover ρ.val.val t) = Q := by
+    funext t
+    rw [hderiv]
+    field_simp [show cover ρ.val.val t ≠ 0 from density_ne ρ.val (t : CircleHodge.Circle)]
+  rw [hf, (hQ x).deriv]
+  field_simp [show cover ρ.val.val x ≠ 0 from density_ne ρ.val (x : CircleHodge.Circle)]
+  ring
+
+theorem solution_c2 (R U Q : ℝ → ℝ) (hR : ContDiff ℝ 1 R) (hQ : ContDiff ℝ 1 Q)
+    (hU : ∀ x, HasDerivAt U (R x * Q x) x) : ContDiff ℝ 2 U := by
+  have hderiv : deriv U = fun x => R x * Q x := funext fun x => (hU x).deriv
+  change ContDiff ℝ ((1 : ℕ∞ω)+1) U
+  apply contDiff_succ_iff_deriv.mpr
+  refine ⟨fun x => (hU x).differentiableAt, by norm_num, ?_⟩
+  rw [hderiv]
+  exact hR.mul hQ
+
 theorem weighted_direct_solution (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient)
     (hc : pairing ρ f (curvedCosine ρ n).val = 0)
     (hs : pairing ρ f (curvedSine ρ n).val = 0) :
     ∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f := by
+  let k := angular n / mean ρ.val.val
+  have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)
+  have hn' : (0 : ℝ) < n := by exact_mod_cast hn
+  have ha : angular n ≠ 0 := by unfold angular; positivity
+  have hk : k ≠ 0 := div_ne_zero ha hm
+  have hk2 : k ^ 2 = curvedFrequency ρ n := by
+    dsimp [k, curvedFrequency, frequencyN]
+    field_simp [hm]
   let R := cover ρ.val.val
   let F := cover f
   let C := cover (curvedCosine ρ n).val
   let S := cover (curvedSine ρ n).val
   let A := primitive (ρ.val.val * f * (curvedCosine ρ n).val)
   let B := primitive (ρ.val.val * f * (curvedSine ρ n).val)
-  let k := angular n / mean ρ.val.val
+  have hmode := curved_mode_data ρ n
   let U := weightedSolution k A B C S
   let Q := weightedFlux A B C S
-  have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)
-  have hn' : (0 : ℝ) < n := by exact_mod_cast hn
-  have ha : angular n ≠ 0 := by unfold angular; positivity
-  have hk : k ≠ 0 := div_ne_zero ha hm
-  have hR (x : ℝ) : R x ≠ 0 := density_ne ρ.val (x : CircleHodge.Circle)
-  have hk2 : k ^ 2 = curvedFrequency ρ n := by
-    dsimp [k, curvedFrequency, frequencyN]
-    field_simp [hm]
-  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by
-    change cover (pullback ρ (cosineN n)) x = _
-    rw [cover_pullback, cosineN_cover]
-    congr 1
-    dsimp [angular]
-    ring
-  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by
-    change cover (pullback ρ (sineN n)) x = _
-    rw [cover_pullback, sineN_cover]
-    congr 1
-    dsimp [angular]
-    ring
-  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by
-    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos
-    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]
-    dsimp [k, R]
-    convert h using 1; ring
-  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by
-    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin
-    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]
-    dsimp [k, R]
-    convert h using 1; ring
-  have hA (x : ℝ) : HasDerivAt A (R x * F x * C x) x := primitive_hasDerivAt _ x
-  have hB (x : ℝ) : HasDerivAt B (R x * F x * S x) x := primitive_hasDerivAt _ x
-  have hunit (x : ℝ) : C x ^ 2 + S x ^ 2 = 1 := by
-    rw [hcval, hsval]
-    nlinarith [Real.sin_sq_add_cos_sq (angular n * coordinate ρ.val x)]
-  have hdu (x : ℝ) := weighted_solution_derivatives A B C S R F k x hk (hunit x) (hA x) (hB x) (hC x) (hS x)
-  have hderiv : deriv U = fun x => R x * Q x := funext fun x => (hdu x).1.deriv
-  have hA1 : ContDiff ℝ 1 A := primitive_contDiff_one _
-  have hB1 : ContDiff ℝ 1 B := primitive_contDiff_one _
-  have hC1 : ContDiff ℝ 1 C := c2_c1 (curvedCosine ρ n)
-  have hS1 : ContDiff ℝ 1 S := c2_c1 (curvedSine ρ n)
+  have hdu (x : ℝ) := weighted_solution_derivatives A B C S R F k x hk (hmode.2.2 x)
+    (primitive_hasDerivAt (ρ.val.val * f * (curvedCosine ρ n).val) x)
+    (primitive_hasDerivAt (ρ.val.val * f * (curvedSine ρ n).val) x) (hmode.1 x) (hmode.2.1 x)
+  clear hmode hn hn' ha hk hm
   have hQ1 : ContDiff ℝ 1 Q := by
     dsimp [Q, weightedFlux]
-    exact ((hS1.mul hB1).add (hC1.mul hA1)).neg
-  have hu2 : ContDiff ℝ 2 U := by
-    change ContDiff ℝ ((1 : ℕ∞ω)+1) U
-    apply contDiff_succ_iff_deriv.mpr
-    refine ⟨fun x => (hdu x).1.differentiableAt, by norm_num, ?_⟩
-    rw [hderiv]
-    exact ρ.property.mul hQ1
-  have hAp : Function.Periodic A 1 := primitive_periodic_of_zero _ hc
-  have hBp : Function.Periodic B 1 := primitive_periodic_of_zero _ hs
-  have hCp : Function.Periodic C 1 := cover_periodic (curvedCosine ρ n).val
-  have hSp : Function.Periodic S 1 := cover_periodic (curvedSine ρ n).val
+    exact (((c2_c1 (curvedSine ρ n)).mul (primitive_contDiff_one _)).add
+      ((c2_c1 (curvedCosine ρ n)).mul (primitive_contDiff_one _))).neg
+  have hu2 : ContDiff ℝ 2 U := solution_c2 R U Q ρ.property hQ1 (fun x => (hdu x).1)
+  clear hQ1
   have hup : Function.Periodic U 1 := by
-    intro x
-    dsimp [U, weightedSolution]
-    rw [hAp x, hBp x, hCp x, hSp x]
-  let u : Coefficient := ⟨hup.lift, hu2.continuous.quotient_liftOn' _⟩
-  let u2 : C2Coefficient := ⟨u,hu2⟩
-  refine ⟨u2,?_⟩
-  ext q
-  induction q using Quotient.inductionOn with | _ x =>
-  change cover (laplacian ρ u2) x - curvedFrequency ρ n * U x = F x
-  rw [laplacian_cover]
-  change -(deriv (fun t => deriv U t / R t) x) / R x - curvedFrequency ρ n * U x = F x
-  have hf : (fun t => deriv U t / R t) = Q := by
-    funext t
-    rw [hderiv]
-    field_simp [hR t]
-  rw [hf, (hdu x).2.deriv, ← hk2]
-  field_simp [hR x]
-  ring
+    change Function.Periodic ((C * B - S * A) / fun _ => k) 1
+    exact (((cover_periodic (curvedCosine ρ n).val).mul (primitive_periodic_of_zero _ hs)).sub
+      ((cover_periodic (curvedSine ρ n).val).mul (primitive_periodic_of_zero _ hc))).div (fun _ => rfl)
+  clear hc hs
+  rw [← hk2]
+  exact solution_from_cover ρ f (k ^ 2) U Q (fun x => (hdu x).1) (fun x => (hdu x).2) hu2 hup
 
 
 theorem direct_solvable_iff_two_pairings (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ pairing ρ f (curvedCosine ρ n).val = 0 ∧ pairing ρ f (curvedSine ρ n).val = 0 := by

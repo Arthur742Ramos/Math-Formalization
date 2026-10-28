@@ -4143,11 +4143,12 @@
       "name": "Real.sin_sq_add_cos_sq",
       "declaration_kind": "theorem",
       "role": "proof-dependency",
-      "meaning": "The actual real identity sin(x)^2+cos(x)^2=1, used in the weighted solution derivative.",
+      "meaning": "The real identity sin(x)^2+cos(x)^2=1, used in the shared arclength-mode data for both mode orthogonality and the weighted solution.",
       "used_by": [
         "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods",
         "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods",
         "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
+        "ComputationalHodge.ResonantPeriodsPrototype.mode_pairings",
         "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
       ],
       "used_by_scope": "candidate-list-transitive-constant-name-graph",
@@ -5986,6 +5987,30 @@
           "text": "/-- Lift a periodic function to a function from the quotient group. -/\ndef Periodic.lift [AddGroup α] (h : Periodic f c) (x : α ⧸ AddSubgroup.zmultiples c) : β :=\n  Quotient.liftOn' x f fun a b h' => by\n    rw [QuotientAddGroup.leftRel_apply] at h'\n    obtain ⟨k, hk⟩ := h'\n    exact (h.zsmul k _).symm.trans (congr_arg f (add_eq_of_eq_neg_add hk))\n\n",
           "sha256": "278c09c1207137491ba11e39c6cb8d5681191cb893597e53e1aa32656cb0ace1",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/Periodic.lean#L216-L222"
+        },
+        {
+          "name": "rp-periodic-context",
+          "first_line": 30,
+          "last_line": 36,
+          "text": "@[expose] public section\n\nassert_not_exists Field\n\nvariable {α β γ : Type*} {f g : α → β} {c c₁ c₂ x : α}\n\nnamespace Function\n",
+          "sha256": "389cab21730a1570ac7965b2bd1dfbe007f56034d589219c7fdeb80f4b5732b9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/Periodic.lean#L30-L36"
+        },
+        {
+          "name": "rp-periodic-mul",
+          "first_line": 56,
+          "last_line": 58,
+          "text": "@[to_additive]\nprotected theorem Periodic.mul [Add α] [Mul β] (hf : Periodic f c) (hg : Periodic g c) :\n    Periodic (f * g) c := by simp_all\n",
+          "sha256": "6faaa3e00f732c8050932de575aa74c940c373e6726ba585af63b4c24209bc2e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/Periodic.lean#L56-L58"
+        },
+        {
+          "name": "rp-periodic-div-to-additive",
+          "first_line": 60,
+          "last_line": 62,
+          "text": "@[to_additive]\nprotected theorem Periodic.div [Add α] [Div β] (hf : Periodic f c) (hg : Periodic g c) :\n    Periodic (f / g) c := by simp_all\n",
+          "sha256": "0dcf1c12453ad0d54f6c4441db7fd8724f809ed56d57dd9f3bf64e3020361370",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Ring/Periodic.lean#L60-L62"
         }
       ]
     },
@@ -8370,12 +8395,12 @@
     {
       "module": "ChallengeSemantics",
       "path": "ChallengeSemantics.lean",
-      "sha256": "44b7e37a28143b1879c4702854c958c5e836053f0276dfadcf500bf5f58166b3"
+      "sha256": "2ce2614489d8c7822684b402f58aae412a2b4c58123f4ca973d0d139282d3664"
     },
     {
       "module": "SolutionSemantics",
       "path": "SolutionSemantics.lean",
-      "sha256": "8839650e0782d47c8941524bc816dd3c9aab00321dc9311e329b65a2c5050824"
+      "sha256": "efbcf6ceee4bb5805d564fe1212b53b793fd62e8459675e8f33a704ad74dfa46"
     }
   ],
   "semantic_expansions": [
@@ -8581,6 +8606,51 @@
         "rp-appendix-7-context-0"
       ],
       "evidence_scope": "Applied in Challenge source; exact selected dependency relationships require separate review."
+    },
+    {
+      "name": "Function.Periodic.mul",
+      "meaning": "Pointwise multiplication of two functions with the same period is periodic with that period.",
+      "source_excerpts": [
+        "rp-periodic-context",
+        "rp-periodic-mul"
+      ],
+      "used_by": [
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods",
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods",
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
+        "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
+      ],
+      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; the semantic bridges are specified in both entrypoints and require exact-source compilation."
+    },
+    {
+      "name": "Function.Periodic.sub",
+      "meaning": "Pointwise subtraction of two functions with the same period is periodic with that period. This declaration is generated by to_additive from the division producer.",
+      "source_excerpts": [
+        "rp-periodic-context",
+        "rp-periodic-div-to-additive"
+      ],
+      "used_by": [
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods",
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods",
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
+        "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
+      ],
+      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; the semantic bridges are specified in both entrypoints and require exact-source compilation."
+    },
+    {
+      "name": "Function.Periodic.div",
+      "meaning": "Pointwise division of two functions with the same period is periodic with that period, without a denominator-nonzero hypothesis.",
+      "source_excerpts": [
+        "rp-periodic-context",
+        "rp-periodic-div-to-additive"
+      ],
+      "used_by": [
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods",
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods",
+        "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
+        "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
+      ],
+      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; the semantic bridges are specified in both entrypoints and require exact-source compilation."
     }
   ]
 }

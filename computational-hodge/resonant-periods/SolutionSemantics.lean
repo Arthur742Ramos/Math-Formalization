@@ -143,5 +143,12 @@ example (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) :
   · intro h
     obtain ⟨u,hu⟩ := (direct_solvable_iff_cochain_mode_periods ρ n hn f).mpr h
     exact ⟨u.val,u.property,hu⟩
+-- Literal contracts used to make the weighted solution periodic.
+example (f g : ℝ → ℝ) (T : ℝ) (hf : Function.Periodic f T) (hg : Function.Periodic g T) :
+    Function.Periodic (f * g) T := hf.mul hg
+example (f g : ℝ → ℝ) (T : ℝ) (hf : Function.Periodic f T) (hg : Function.Periodic g T) :
+    Function.Periodic (f - g) T := hf.sub hg
+example (f g : ℝ → ℝ) (T : ℝ) (hf : Function.Periodic f T) (hg : Function.Periodic g T) :
+    Function.Periodic (f / g) T := hf.div hg
 end ComputationalHodge.ResonantPeriodsPrototype.Semantics
 -- END material-imported-definition audit
