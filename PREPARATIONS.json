@@ -1614,7 +1614,21 @@
           "complete_mathematical_source_and_package": "963ca667902216bba6a5adbc5b31fcf860f53e07838b846b79a4b31eec46deb8"
         }
       },
-      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+      "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks.",
+      "current_source_snapshot": {
+        "commit": "e4317c5c02332e009e120f12d5244b8b7a29656d",
+        "tree": "953f1e4938a8c6edbf6fda30921ce5fee99404fb"
+      },
+      "status_correction": {
+        "kind": "narrow-status-only-evidence-carry",
+        "historical_source": "2e77e7edb6f1483ed100cdcdcb5e0b4358973d7a",
+        "historical_evidence_source": "d2805a37b3f40462e8e3c20e1f3d04c2be1ec28b",
+        "corrected_source": "e4317c5c02332e009e120f12d5244b8b7a29656d",
+        "corrected_tree": "953f1e4938a8c6edbf6fda30921ce5fee99404fb",
+        "changed_files": ["README.md", "formalization.yaml"]
+      },
+      "current_source_full": "not-established",
+      "current_source_rendering": "not-established"
     },
     {
       "name": "Pettis automatic continuity for Baire-to-separable topological groups",
