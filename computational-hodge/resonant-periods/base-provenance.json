@@ -1,0 +1,582 @@
+{
+  "scope": "Exact line-level mapping from the verified public PR86 source. Equal spans are byte-identical. Changed lines include omissions, formatting, and new proofs; this mapping alone does not establish declaration-level semantic fidelity. Challenge and Solution share identical candidate proof text.",
+  "repository": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "f9c1eec39bd7f6d4873e1281e2e1de62d80b3750",
+  "modules": [
+    {
+      "path": "SourcePaths.lean",
+      "source_path": "computational-hodge/arclength-modes/SourcePaths.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/f9c1eec39bd7f6d4873e1281e2e1de62d80b3750/computational-hodge/arclength-modes/SourcePaths.lean",
+      "source_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "candidate_sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 68,
+          "output_first_line": 1,
+          "output_last_line": 68,
+          "sha256": "167d79d7e1d9a27457922a8793c5452ca614c7e278553cf73c70a07cd1f0230a"
+        }
+      ]
+    },
+    {
+      "path": "Challenge.lean",
+      "source_path": "computational-hodge/arclength-modes/Challenge.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/f9c1eec39bd7f6d4873e1281e2e1de62d80b3750/computational-hodge/arclength-modes/Challenge.lean",
+      "source_sha256": "745b7bd92cae64503383ad5f5ff6b002be9ec2ea2d4a19f76fcd967926ee38a2",
+      "candidate_sha256": "835bb96b82281850c5421497799d1b31d45f2c7bc2e83fbf94757f83b5aa1069",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 442,
+          "output_first_line": 1,
+          "output_last_line": 442,
+          "sha256": "16c5351dd49a0950aae5864190c917e07832eb0ad6f8d54be6a530ae0fe1f9fb"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 443,
+          "source_last_line": 458,
+          "output_first_line": 443,
+          "output_last_line": 442,
+          "removed_source_sha256": "b7f6091812952558baa6b8551fd1f03c394eacad6aa75d9721348381484da3af",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 459,
+          "source_last_line": 518,
+          "output_first_line": 443,
+          "output_last_line": 502,
+          "sha256": "97678a1eb85ff2d90926357cbe1005ae4d05449a6854f884a34e9dbfea1761b5"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 519,
+          "source_last_line": 553,
+          "output_first_line": 503,
+          "output_last_line": 502,
+          "removed_source_sha256": "83bfcce2e21d87155b344aa9843d0f09e3b49734cf1059d8175dfbb442c29c61",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 554,
+          "source_last_line": 564,
+          "output_first_line": 503,
+          "output_last_line": 513,
+          "sha256": "ec3b42b1ebc7c31d77c23d3b65614c6fffb06935710b9ceefbfbeb641b6ba746"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 565,
+          "source_last_line": 568,
+          "output_first_line": 514,
+          "output_last_line": 513,
+          "removed_source_sha256": "8d8b93808c3665d9f05f3d88521fb53ee23beec069b7380b6e9351b5e1969508",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 569,
+          "source_last_line": 571,
+          "output_first_line": 514,
+          "output_last_line": 516,
+          "sha256": "38aeab3f9b11616d85cfae4964cd49846662ec59d05cfaec307cdd1d34add218"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 572,
+          "source_last_line": 572,
+          "output_first_line": 517,
+          "output_last_line": 517,
+          "removed_source_sha256": "09f83b5d2a8a110ff95803e1f5c265e9f2f70172f8f901fe22bd5f3710877d6b",
+          "added_text": "namespace ComputationalHodge.ResonanceObstruction\n",
+          "added_sha256": "43e1fdf604750f5886b4cfbef3fe60c9e93cb95a55295ba82d32fedc3f4a1de8"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 573,
+          "source_last_line": 574,
+          "output_first_line": 518,
+          "output_last_line": 519,
+          "sha256": "33d148c145caab51e7feee33b2de4768f50256d31dd78f1058d1d7f48c836c00"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 575,
+          "source_last_line": 580,
+          "output_first_line": 520,
+          "output_last_line": 519,
+          "removed_source_sha256": "eccff2c3c308bfe5d95a4602e903a88402ac89a5760e41b420f31ffac1a70f6e",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 581,
+          "source_last_line": 583,
+          "output_first_line": 520,
+          "output_last_line": 522,
+          "sha256": "ac1b0efb7439e01bc3d1f283ca2a77e7fd686b589a4dbd2a9c2d6b64e907ca18"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 584,
+          "source_last_line": 636,
+          "output_first_line": 523,
+          "output_last_line": 522,
+          "removed_source_sha256": "42d6de262fe5d7913fa3e6caba042d5000ffc83cdc75407963f9f6f2eeca1164",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 637,
+          "source_last_line": 647,
+          "output_first_line": 523,
+          "output_last_line": 533,
+          "sha256": "83e5df20b0b72e97957b9e31e6dce50a1ab2d8d601091b01348d16f807990d74"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 648,
+          "source_last_line": 648,
+          "output_first_line": 534,
+          "output_last_line": 533,
+          "removed_source_sha256": "334343ec67f800f84dc8222a186a7157e0806b480b8ab6d106e685ad811c954d",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 649,
+          "source_last_line": 660,
+          "output_first_line": 534,
+          "output_last_line": 545,
+          "sha256": "8bc6f20193ecaf1511bd4100f96ae153863176b50dc4199d473af65bca785002"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 661,
+          "source_last_line": 681,
+          "output_first_line": 546,
+          "output_last_line": 545,
+          "removed_source_sha256": "979cf0ffb7add9f52643a7ce19bb1c6d3da23e95cb42ec312bf661e2bec35052",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 682,
+          "source_last_line": 720,
+          "output_first_line": 546,
+          "output_last_line": 584,
+          "sha256": "f952cc3fc3b9249d40e94b333f749ea8b4b9209d4a03852f0f8e910dabeaa2be"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 721,
+          "source_last_line": 791,
+          "output_first_line": 585,
+          "output_last_line": 584,
+          "removed_source_sha256": "ee0fe4b8cf83dea087f45c3bb205d0c7bc3d0ea04830dcc3795290b101e9976b",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 792,
+          "source_last_line": 825,
+          "output_first_line": 585,
+          "output_last_line": 618,
+          "sha256": "1bc0e8ed4d79add3e61ee9a01b1282d5fde5c0163797fe2457153697698333b3"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 826,
+          "source_last_line": 879,
+          "output_first_line": 619,
+          "output_last_line": 618,
+          "removed_source_sha256": "e481baa48094fad067ec278aa7930b45b0026e7d83b6aa98704220de0021c008",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 880,
+          "source_last_line": 884,
+          "output_first_line": 619,
+          "output_last_line": 623,
+          "sha256": "f771b350b149480213cf83557b763f059da82156f90770e59df173c23202752f"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 885,
+          "source_last_line": 885,
+          "output_first_line": 624,
+          "output_last_line": 624,
+          "removed_source_sha256": "0efe4d9f1348512387d6433dc3786c2403be0c98afbe25857aa841aebde656c2",
+          "added_text": "open ComputationalHodge.GreenOperator\n",
+          "added_sha256": "12b8605d3ca7c7461fd4b081434118756305a39b3041e9a8989e567d27a03a88"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 886,
+          "source_last_line": 893,
+          "output_first_line": 625,
+          "output_last_line": 632,
+          "sha256": "818b2f4d584e9e4fafbd4d20dd382cd52a3e10797236bc71a827a2ce49b1ce0d"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 894,
+          "source_last_line": 894,
+          "output_first_line": 633,
+          "output_last_line": 854,
+          "removed_source_sha256": "408e612b1c4069dab9619d19935337e67658131eee7734027f498ce373e67a46",
+          "added_text": "end ComputationalHodge.ArclengthSpectrum\nnamespace ComputationalHodge.DirectResonancePrototype\nopen ComputationalHodge.CircleHodge ComputationalHodge.ACLifts\nopen ComputationalHodge.ArclengthSpectrum\nopen MeasureTheory Set\ntheorem primitive_periodic_of_zero (α : Coefficient) (hmean : mean α = 0) : Function.Periodic (primitive α) 1 := by\n  intro x\n  have h := (cover_periodic α).intervalIntegral_add_zsmul_eq (1 : ℤ) x\n    (fun a b => (cover_continuous α).intervalIntegrable a b)\n  rw [(cover_periodic α).intervalIntegral_add_eq x 0] at h\n  simp only [zero_add, zsmul_eq_mul, mul_one, Int.cast_one] at h\n  have ha := intervalIntegral.integral_add_adjacent_intervals\n    ((cover_continuous α).intervalIntegrable (μ:=volume) 0 x)\n    ((cover_continuous α).intervalIntegrable (μ:=volume) x (x+1))\n  unfold primitive\n  rw [← ha, h]\n  simp only [one_mul]\n  change _ + mean α = _\n  rw [hmean, add_zero]\nopen ComputationalHodge.Poisson ComputationalHodge.ResonanceObstruction\nopen scoped ContDiff\ntheorem primitive_contDiff_one (α : Coefficient) : ContDiff ℝ 1 (primitive α) := by\n  apply contDiff_one_iff_deriv.mpr\n  refine ⟨fun x => (primitive_hasDerivAt α x).differentiableAt, ?_⟩\n  have h : deriv (primitive α) = cover α := funext fun x => (primitive_hasDerivAt α x).deriv\n  rw [h]\n  exact cover_continuous α\nend ComputationalHodge.DirectResonancePrototype\nnamespace ComputationalHodge.ArclengthSpectrum\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.Arclength ComputationalHodge.ResonanceObstruction\nopen scoped ContDiff\nopen ComputationalHodge.ACLifts ComputationalHodge.GreenOperator\nopen MeasureTheory Set\nend ComputationalHodge.ArclengthSpectrum\nnamespace ComputationalHodge.ResonantPeriodsPrototype\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge\nopen ComputationalHodge.Poisson ComputationalHodge.GreenOperator\nopen ComputationalHodge.ResonanceObstruction ComputationalHodge.ACLifts\nopen ComputationalHodge.TraceIntegrals ComputationalHodge.LoopCharacters\nopen ComputationalHodge.ArclengthSpectrum\ntheorem pairing_implies_trace (ρ : RegularDensity) (f v : Coefficient) (h : pairing ρ f v = 0) (p : Trace 0 0) : lineIntegral (ρ.val.val * f * v) (fromTrace p) = 0 := by\n  rw [lineIntegral_eq_mean]\n  change pairing ρ f v * (fromTrace p).val 1 = 0\n  rw [h, zero_mul]\ndef unitTrace : Trace 0 0 := .single ()\ntheorem unit_trace_integral (α : Coefficient) : lineIntegral α (fromTrace unitTrace) = mean α := by\n  rw [lineIntegral_eq_mean]\n  change mean α * actualLift unitTrace 1 = mean α\n  rw [actualLift_eq_rawLift, rawLift_one]\n  simp [unitTrace, count]\ntheorem trace_periods_iff_pairing (ρ : RegularDensity) (f v : Coefficient) : (∀ p : Trace 0 0, lineIntegral (ρ.val.val * f * v) (fromTrace p) = 0) ↔ pairing ρ f v = 0 := by\n  constructor\n  · intro hp\n    have h := hp unitTrace\n    rw [unit_trace_integral] at h\n    exact h\n  · intro h p\n    exact pairing_implies_trace ρ f v h p\ntheorem cochain_periods_iff_pairing (ρ : RegularDensity) (f v : Coefficient) : (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * f * v)).val = 0) ↔ pairing ρ f v = 0 := by\n  simpa only [lineIntegral_fromTrace_harmonic] using trace_periods_iff_pairing ρ f v\nend ComputationalHodge.ResonantPeriodsPrototype\nnamespace ComputationalHodge.ResonantPeriodsPrototype\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.Poisson\nopen ComputationalHodge.ResonanceObstruction ComputationalHodge.GreenOperator\nopen ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals ComputationalHodge.ArclengthSpectrum\ntheorem wronskian_derivative (U Q C S : ℝ → ℝ) (ρ F : ℝ → ℝ) (k x : ℝ)\n    (hU : HasDerivAt U (ρ x * Q x) x)\n    (hQ : HasDerivAt Q (-ρ x * (k ^ 2 * U x + F x)) x)\n    (hC : HasDerivAt C (-k * ρ x * S x) x)\n    (hS : HasDerivAt S (k * ρ x * C x) x) :\n    HasDerivAt (fun t => Q t * C t + k * U t * S t) (-(ρ x * F x * C x)) x := by\n  have h := (hQ.mul hC).add ((hU.mul hS).const_mul k)\n  convert h using 1\n  · funext t; simp only [Pi.add_apply, Pi.mul_apply]; ring\n  · ring\n\ntheorem wronskian_integral_zero (U Q C S ρ F : ℝ → ℝ) (k : ℝ)\n    (hU : ∀ x, HasDerivAt U (ρ x * Q x) x)\n    (hQ : ∀ x, HasDerivAt Q (-ρ x * (k ^ 2 * U x + F x)) x)\n    (hC : ∀ x, HasDerivAt C (-k * ρ x * S x) x)\n    (hS : ∀ x, HasDerivAt S (k * ρ x * C x) x)\n    (hc : Continuous (fun x => ρ x * F x * C x))\n    (hp : Q 1 * C 1 + k * U 1 * S 1 = Q 0 * C 0 + k * U 0 * S 0) :\n    (∫ x in (0 : ℝ)..1, ρ x * F x * C x) = 0 := by\n  have hi := intervalIntegral.integral_eq_sub_of_hasDerivAt\n    (fun x _ => wronskian_derivative U Q C S ρ F k x (hU x) (hQ x) (hC x) (hS x))\n    (hc.neg.intervalIntegrable 0 1)\n  rw [intervalIntegral.integral_neg, hp, sub_self, neg_eq_zero] at hi\n  exact hi\n\n\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge\nopen ComputationalHodge.Poisson ComputationalHodge.Arclength\nopen ComputationalHodge.GreenOperator ComputationalHodge.ArclengthSpectrum\n\ntheorem mode_pairings (ρ : RegularDensity) (n : ℕ) (u : C2Coefficient) (f : Coefficient)\n    (hu : laplacian ρ u - curvedFrequency ρ n • u.val = f) :\n    pairing ρ f (curvedCosine ρ n).val = 0 ∧ pairing ρ f (curvedSine ρ n).val = 0 := by\n  let R := cover ρ.val.val\n  let U := cover u.val\n  let Q := cover (flux ρ u)\n  let F := cover f\n  let C := cover (curvedCosine ρ n).val\n  let S := cover (curvedSine ρ n).val\n  let k := angular n / mean ρ.val.val\n  have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)\n  have hR (x : ℝ) : R x ≠ 0 := density_ne ρ.val (x : CircleHodge.Circle)\n  have hk : k ^ 2 = curvedFrequency ρ n := by\n    dsimp [k, curvedFrequency, frequencyN]\n    field_simp [hm]\n  have hU (x : ℝ) : HasDerivAt U (R x * Q x) x := by\n    have h := ((contDiff_one_iff_deriv.mp (c2_c1 u)).1 x).hasDerivAt\n    convert h using 1\n    change cover ρ.val.val x * (deriv (cover u.val) x / cover ρ.val.val x) = _\n    field_simp [show cover ρ.val.val x ≠ 0 from density_ne ρ.val (x : CircleHodge.Circle)]\n  have hQ (x : ℝ) : HasDerivAt Q (-R x * (k ^ 2 * U x + F x)) x := by\n    have h := ((contDiff_one_iff_deriv.mp (flux_c1 ρ u)).1 x).hasDerivAt\n    have he := congrArg (fun g : Coefficient => cover g x) hu\n    change -(deriv Q x) / R x - curvedFrequency ρ n * U x = F x at he\n    convert h using 1\n    rw [hk]\n    field_simp [hR x] at he ⊢\n    linarith\n  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (cosineN n)) x = _\n    rw [cover_pullback, cosineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (sineN n)) x = _\n    rw [cover_pullback, sineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos\n    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin\n    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hc : Continuous (fun x => R x * F x * C x) :=\n    (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedCosine ρ n).val)\n  have hp : Q 1 * C 1 + k * U 1 * S 1 = Q 0 * C 0 + k * U 0 * S 0 := by\n    have hu0 := cover_periodic u.val 0\n    have hq0 := cover_periodic (flux ρ u) 0\n    have hc0 := cover_periodic (curvedCosine ρ n).val 0\n    have hs0 := cover_periodic (curvedSine ρ n).val 0\n    simp only [zero_add] at hu0 hq0 hc0 hs0\n    dsimp [Q, C, U, S]\n    rw [hu0, hq0, hc0, hs0]\n  have h := wronskian_integral_zero U Q C S R F k hU hQ hC hS hc hp\n  have hCS (x : ℝ) : HasDerivAt S (-k * R x * (-C x)) x := by\n    convert hS x using 1; ring\n  have hSC (x : ℝ) : HasDerivAt (fun x => -C x) (k * R x * S x) x := by\n    convert (hC x).neg using 1; ring\n  have hs : Continuous (fun x => R x * F x * S x) :=\n    (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedSine ρ n).val)\n  have hps : Q 1 * S 1 + k * U 1 * (-C 1) = Q 0 * S 0 + k * U 0 * (-C 0) := by\n    have hu0 := cover_periodic u.val 0\n    have hq0 := cover_periodic (flux ρ u) 0\n    have hc0 := cover_periodic (curvedCosine ρ n).val 0\n    have hs0 := cover_periodic (curvedSine ρ n).val 0\n    simp only [zero_add] at hu0 hq0 hc0 hs0\n    dsimp [Q, C, U, S]\n    rw [hu0, hq0, hc0, hs0]\n  have h' := wronskian_integral_zero U Q S (fun x => -C x) R F k hU hQ hCS hSC hs hps\n  exact ⟨h, h'⟩\n\n\nopen ComputationalHodge.DirectResonancePrototype\nopen scoped ContDiff\nnoncomputable def weightedSolution (k : ℝ) (A B C S : ℝ → ℝ) (x : ℝ) : ℝ :=\n  (C x * B x - S x * A x) / k\n\ndef weightedFlux (A B C S : ℝ → ℝ) (x : ℝ) : ℝ :=\n  -(S x * B x + C x * A x)\n\ntheorem weighted_solution_derivatives (A B C S R F : ℝ → ℝ) (k x : ℝ)\n    (hk : k ≠ 0) (hunit : C x ^ 2 + S x ^ 2 = 1)\n    (hA : HasDerivAt A (R x * F x * C x) x)\n    (hB : HasDerivAt B (R x * F x * S x) x)\n    (hC : HasDerivAt C (-k * R x * S x) x)\n    (hS : HasDerivAt S (k * R x * C x) x) :\n    HasDerivAt (weightedSolution k A B C S) (R x * weightedFlux A B C S x) x ∧\n    HasDerivAt (weightedFlux A B C S) (-R x * (k ^ 2 * weightedSolution k A B C S x + F x)) x := by\n  constructor\n  · have h := ((hC.mul hB).sub (hS.mul hA)).div_const k\n    convert h using 1\n    · funext t; rfl\n    · dsimp [weightedFlux]\n      field_simp\n      ring\n  · have h := ((hS.mul hB).add (hC.mul hA)).neg\n    convert h using 1\n    · funext t; rfl\n    · dsimp [weightedSolution]\n      field_simp [hk]\n      have hc : R x * F x * (C x ^ 2 + S x ^ 2) = R x * F x := by rw [hunit]; ring\n      nlinarith [hc]\n\n\ntheorem weighted_direct_solution (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient)\n    (hc : pairing ρ f (curvedCosine ρ n).val = 0)\n    (hs : pairing ρ f (curvedSine ρ n).val = 0) :\n    ∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f := by\n  let R := cover ρ.val.val\n  let F := cover f\n  let C := cover (curvedCosine ρ n).val\n  let S := cover (curvedSine ρ n).val\n  let A := primitive (ρ.val.val * f * (curvedCosine ρ n).val)\n  let B := primitive (ρ.val.val * f * (curvedSine ρ n).val)\n  let k := angular n / mean ρ.val.val\n  let U := weightedSolution k A B C S\n  let Q := weightedFlux A B C S\n  have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)\n",
+          "added_sha256": "cda9be76291d3543a7068f6e07e69ef0bedc48f341a6d5ec362128b80c980064"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 895,
+          "source_last_line": 895,
+          "output_first_line": 855,
+          "output_last_line": 855,
+          "sha256": "932c2ccc1f36213a6d9bf1649d73361b03b11f9b49056971676bd778a037f5b4"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 896,
+          "source_last_line": 900,
+          "output_first_line": 856,
+          "output_last_line": 914,
+          "removed_source_sha256": "54cc6cdeb39b05ae7500daea62fe8aae0046c122764b582e44811bee0cc8dd81",
+          "added_text": "  have ha : angular n ≠ 0 := by unfold angular; positivity\n  have hk : k ≠ 0 := div_ne_zero ha hm\n  have hR (x : ℝ) : R x ≠ 0 := density_ne ρ.val (x : CircleHodge.Circle)\n  have hk2 : k ^ 2 = curvedFrequency ρ n := by\n    dsimp [k, curvedFrequency, frequencyN]\n    field_simp [hm]\n  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (cosineN n)) x = _\n    rw [cover_pullback, cosineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (sineN n)) x = _\n    rw [cover_pullback, sineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos\n    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin\n    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hA (x : ℝ) : HasDerivAt A (R x * F x * C x) x := primitive_hasDerivAt _ x\n  have hB (x : ℝ) : HasDerivAt B (R x * F x * S x) x := primitive_hasDerivAt _ x\n  have hunit (x : ℝ) : C x ^ 2 + S x ^ 2 = 1 := by\n    rw [hcval, hsval]\n    nlinarith [Real.sin_sq_add_cos_sq (angular n * coordinate ρ.val x)]\n  have hdu (x : ℝ) := weighted_solution_derivatives A B C S R F k x hk (hunit x) (hA x) (hB x) (hC x) (hS x)\n  have hderiv : deriv U = fun x => R x * Q x := funext fun x => (hdu x).1.deriv\n  have hA1 : ContDiff ℝ 1 A := primitive_contDiff_one _\n  have hB1 : ContDiff ℝ 1 B := primitive_contDiff_one _\n  have hC1 : ContDiff ℝ 1 C := c2_c1 (curvedCosine ρ n)\n  have hS1 : ContDiff ℝ 1 S := c2_c1 (curvedSine ρ n)\n  have hQ1 : ContDiff ℝ 1 Q := by\n    dsimp [Q, weightedFlux]\n    exact ((hS1.mul hB1).add (hC1.mul hA1)).neg\n  have hu2 : ContDiff ℝ 2 U := by\n    change ContDiff ℝ ((1 : ℕ∞ω)+1) U\n    apply contDiff_succ_iff_deriv.mpr\n    refine ⟨fun x => (hdu x).1.differentiableAt, by norm_num, ?_⟩\n    rw [hderiv]\n    exact ρ.property.mul hQ1\n  have hAp : Function.Periodic A 1 := primitive_periodic_of_zero _ hc\n  have hBp : Function.Periodic B 1 := primitive_periodic_of_zero _ hs\n  have hCp : Function.Periodic C 1 := cover_periodic (curvedCosine ρ n).val\n  have hSp : Function.Periodic S 1 := cover_periodic (curvedSine ρ n).val\n  have hup : Function.Periodic U 1 := by\n    intro x\n    dsimp [U, weightedSolution]\n    rw [hAp x, hBp x, hCp x, hSp x]\n  let u : Coefficient := ⟨hup.lift, hu2.continuous.quotient_liftOn' _⟩\n  let u2 : C2Coefficient := ⟨u,hu2⟩\n  refine ⟨u2,?_⟩\n",
+          "added_sha256": "db4487dd691c65f853ef51a44ec530f1d5d1f6b94e44a443e5a0c5d3744c3757"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 901,
+          "source_last_line": 902,
+          "output_first_line": 915,
+          "output_last_line": 916,
+          "sha256": "92e776ba770255bf2d90d733d438490fd6909c1686c20f824612ef0d86ae663a"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 903,
+          "source_last_line": 906,
+          "output_first_line": 917,
+          "output_last_line": 925,
+          "removed_source_sha256": "a1e77ea60e4e25c837b9d4ab93f2f46ba773c41ee5ee5bf55432d088970df2a1",
+          "added_text": "  change cover (laplacian ρ u2) x - curvedFrequency ρ n * U x = F x\n  rw [laplacian_cover]\n  change -(deriv (fun t => deriv U t / R t) x) / R x - curvedFrequency ρ n * U x = F x\n  have hf : (fun t => deriv U t / R t) = Q := by\n    funext t\n    rw [hderiv]\n    field_simp [hR t]\n  rw [hf, (hdu x).2.deriv, ← hk2]\n  field_simp [hR x]\n",
+          "added_sha256": "e17698901fb4a55d0ba275359177302c0162ece78ee041aad452d349fb8f1300"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 907,
+          "source_last_line": 907,
+          "output_first_line": 926,
+          "output_last_line": 926,
+          "sha256": "731c35db544f160e23c24ab1a168c42556375369f86465f7af33dc67f73386c5"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 908,
+          "source_last_line": 999,
+          "output_first_line": 927,
+          "output_last_line": 945,
+          "removed_source_sha256": "d3f08e5169ce9e17e19c0d8d9e2c944b31f4f65c42dfc64a6cf477a57116c970",
+          "added_text": "\n\ntheorem direct_solvable_iff_two_pairings (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ pairing ρ f (curvedCosine ρ n).val = 0 ∧ pairing ρ f (curvedSine ρ n).val = 0 := by\n  constructor\n  · rintro ⟨u, hu⟩\n    exact mode_pairings ρ n u f hu\n  · rintro ⟨hc,hs⟩\n    exact weighted_direct_solution ρ n hn f hc hs\ntheorem direct_solvable_iff_raw_mode_periods (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ (∀ p : Trace 0 0, lineIntegral (ρ.val.val * f * (curvedCosine ρ n).val) (fromTrace p) = 0) ∧ (∀ p : Trace 0 0, lineIntegral (ρ.val.val * f * (curvedSine ρ n).val) (fromTrace p) = 0) := by\n  rw [direct_solvable_iff_two_pairings ρ n hn f,\n    trace_periods_iff_pairing ρ f (curvedCosine ρ n).val,\n    trace_periods_iff_pairing ρ f (curvedSine ρ n).val]\ntheorem direct_solvable_iff_cochain_mode_periods (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * f * (curvedCosine ρ n).val)).val = 0) ∧ (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * f * (curvedSine ρ n).val)).val = 0) := by\n  rw [direct_solvable_iff_two_pairings ρ n hn f,\n    cochain_periods_iff_pairing ρ f (curvedCosine ρ n).val,\n    cochain_periods_iff_pairing ρ f (curvedSine ρ n).val]\nend ComputationalHodge.ResonantPeriodsPrototype\n#print axioms ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods\n#print axioms ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods\n",
+          "added_sha256": "cf5983eadff226cdb178ca85486df983cefb79d0e01978d19b47060de324fbc2"
+        }
+      ]
+    },
+    {
+      "path": "Solution.lean",
+      "source_path": "computational-hodge/arclength-modes/Challenge.lean",
+      "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/blob/f9c1eec39bd7f6d4873e1281e2e1de62d80b3750/computational-hodge/arclength-modes/Challenge.lean",
+      "source_sha256": "745b7bd92cae64503383ad5f5ff6b002be9ec2ea2d4a19f76fcd967926ee38a2",
+      "candidate_sha256": "835bb96b82281850c5421497799d1b31d45f2c7bc2e83fbf94757f83b5aa1069",
+      "operations": [
+        {
+          "operation": "equal",
+          "source_first_line": 1,
+          "source_last_line": 442,
+          "output_first_line": 1,
+          "output_last_line": 442,
+          "sha256": "16c5351dd49a0950aae5864190c917e07832eb0ad6f8d54be6a530ae0fe1f9fb"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 443,
+          "source_last_line": 458,
+          "output_first_line": 443,
+          "output_last_line": 442,
+          "removed_source_sha256": "b7f6091812952558baa6b8551fd1f03c394eacad6aa75d9721348381484da3af",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 459,
+          "source_last_line": 518,
+          "output_first_line": 443,
+          "output_last_line": 502,
+          "sha256": "97678a1eb85ff2d90926357cbe1005ae4d05449a6854f884a34e9dbfea1761b5"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 519,
+          "source_last_line": 553,
+          "output_first_line": 503,
+          "output_last_line": 502,
+          "removed_source_sha256": "83bfcce2e21d87155b344aa9843d0f09e3b49734cf1059d8175dfbb442c29c61",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 554,
+          "source_last_line": 564,
+          "output_first_line": 503,
+          "output_last_line": 513,
+          "sha256": "ec3b42b1ebc7c31d77c23d3b65614c6fffb06935710b9ceefbfbeb641b6ba746"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 565,
+          "source_last_line": 568,
+          "output_first_line": 514,
+          "output_last_line": 513,
+          "removed_source_sha256": "8d8b93808c3665d9f05f3d88521fb53ee23beec069b7380b6e9351b5e1969508",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 569,
+          "source_last_line": 571,
+          "output_first_line": 514,
+          "output_last_line": 516,
+          "sha256": "38aeab3f9b11616d85cfae4964cd49846662ec59d05cfaec307cdd1d34add218"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 572,
+          "source_last_line": 572,
+          "output_first_line": 517,
+          "output_last_line": 517,
+          "removed_source_sha256": "09f83b5d2a8a110ff95803e1f5c265e9f2f70172f8f901fe22bd5f3710877d6b",
+          "added_text": "namespace ComputationalHodge.ResonanceObstruction\n",
+          "added_sha256": "43e1fdf604750f5886b4cfbef3fe60c9e93cb95a55295ba82d32fedc3f4a1de8"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 573,
+          "source_last_line": 574,
+          "output_first_line": 518,
+          "output_last_line": 519,
+          "sha256": "33d148c145caab51e7feee33b2de4768f50256d31dd78f1058d1d7f48c836c00"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 575,
+          "source_last_line": 580,
+          "output_first_line": 520,
+          "output_last_line": 519,
+          "removed_source_sha256": "eccff2c3c308bfe5d95a4602e903a88402ac89a5760e41b420f31ffac1a70f6e",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 581,
+          "source_last_line": 583,
+          "output_first_line": 520,
+          "output_last_line": 522,
+          "sha256": "ac1b0efb7439e01bc3d1f283ca2a77e7fd686b589a4dbd2a9c2d6b64e907ca18"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 584,
+          "source_last_line": 636,
+          "output_first_line": 523,
+          "output_last_line": 522,
+          "removed_source_sha256": "42d6de262fe5d7913fa3e6caba042d5000ffc83cdc75407963f9f6f2eeca1164",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 637,
+          "source_last_line": 647,
+          "output_first_line": 523,
+          "output_last_line": 533,
+          "sha256": "83e5df20b0b72e97957b9e31e6dce50a1ab2d8d601091b01348d16f807990d74"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 648,
+          "source_last_line": 648,
+          "output_first_line": 534,
+          "output_last_line": 533,
+          "removed_source_sha256": "334343ec67f800f84dc8222a186a7157e0806b480b8ab6d106e685ad811c954d",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 649,
+          "source_last_line": 660,
+          "output_first_line": 534,
+          "output_last_line": 545,
+          "sha256": "8bc6f20193ecaf1511bd4100f96ae153863176b50dc4199d473af65bca785002"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 661,
+          "source_last_line": 681,
+          "output_first_line": 546,
+          "output_last_line": 545,
+          "removed_source_sha256": "979cf0ffb7add9f52643a7ce19bb1c6d3da23e95cb42ec312bf661e2bec35052",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 682,
+          "source_last_line": 720,
+          "output_first_line": 546,
+          "output_last_line": 584,
+          "sha256": "f952cc3fc3b9249d40e94b333f749ea8b4b9209d4a03852f0f8e910dabeaa2be"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 721,
+          "source_last_line": 791,
+          "output_first_line": 585,
+          "output_last_line": 584,
+          "removed_source_sha256": "ee0fe4b8cf83dea087f45c3bb205d0c7bc3d0ea04830dcc3795290b101e9976b",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 792,
+          "source_last_line": 825,
+          "output_first_line": 585,
+          "output_last_line": 618,
+          "sha256": "1bc0e8ed4d79add3e61ee9a01b1282d5fde5c0163797fe2457153697698333b3"
+        },
+        {
+          "operation": "delete",
+          "source_first_line": 826,
+          "source_last_line": 879,
+          "output_first_line": 619,
+          "output_last_line": 618,
+          "removed_source_sha256": "e481baa48094fad067ec278aa7930b45b0026e7d83b6aa98704220de0021c008",
+          "added_text": "",
+          "added_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 880,
+          "source_last_line": 884,
+          "output_first_line": 619,
+          "output_last_line": 623,
+          "sha256": "f771b350b149480213cf83557b763f059da82156f90770e59df173c23202752f"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 885,
+          "source_last_line": 885,
+          "output_first_line": 624,
+          "output_last_line": 624,
+          "removed_source_sha256": "0efe4d9f1348512387d6433dc3786c2403be0c98afbe25857aa841aebde656c2",
+          "added_text": "open ComputationalHodge.GreenOperator\n",
+          "added_sha256": "12b8605d3ca7c7461fd4b081434118756305a39b3041e9a8989e567d27a03a88"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 886,
+          "source_last_line": 893,
+          "output_first_line": 625,
+          "output_last_line": 632,
+          "sha256": "818b2f4d584e9e4fafbd4d20dd382cd52a3e10797236bc71a827a2ce49b1ce0d"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 894,
+          "source_last_line": 894,
+          "output_first_line": 633,
+          "output_last_line": 854,
+          "removed_source_sha256": "408e612b1c4069dab9619d19935337e67658131eee7734027f498ce373e67a46",
+          "added_text": "end ComputationalHodge.ArclengthSpectrum\nnamespace ComputationalHodge.DirectResonancePrototype\nopen ComputationalHodge.CircleHodge ComputationalHodge.ACLifts\nopen ComputationalHodge.ArclengthSpectrum\nopen MeasureTheory Set\ntheorem primitive_periodic_of_zero (α : Coefficient) (hmean : mean α = 0) : Function.Periodic (primitive α) 1 := by\n  intro x\n  have h := (cover_periodic α).intervalIntegral_add_zsmul_eq (1 : ℤ) x\n    (fun a b => (cover_continuous α).intervalIntegrable a b)\n  rw [(cover_periodic α).intervalIntegral_add_eq x 0] at h\n  simp only [zero_add, zsmul_eq_mul, mul_one, Int.cast_one] at h\n  have ha := intervalIntegral.integral_add_adjacent_intervals\n    ((cover_continuous α).intervalIntegrable (μ:=volume) 0 x)\n    ((cover_continuous α).intervalIntegrable (μ:=volume) x (x+1))\n  unfold primitive\n  rw [← ha, h]\n  simp only [one_mul]\n  change _ + mean α = _\n  rw [hmean, add_zero]\nopen ComputationalHodge.Poisson ComputationalHodge.ResonanceObstruction\nopen scoped ContDiff\ntheorem primitive_contDiff_one (α : Coefficient) : ContDiff ℝ 1 (primitive α) := by\n  apply contDiff_one_iff_deriv.mpr\n  refine ⟨fun x => (primitive_hasDerivAt α x).differentiableAt, ?_⟩\n  have h : deriv (primitive α) = cover α := funext fun x => (primitive_hasDerivAt α x).deriv\n  rw [h]\n  exact cover_continuous α\nend ComputationalHodge.DirectResonancePrototype\nnamespace ComputationalHodge.ArclengthSpectrum\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge ComputationalHodge.Poisson ComputationalHodge.Arclength ComputationalHodge.ResonanceObstruction\nopen scoped ContDiff\nopen ComputationalHodge.ACLifts ComputationalHodge.GreenOperator\nopen MeasureTheory Set\nend ComputationalHodge.ArclengthSpectrum\nnamespace ComputationalHodge.ResonantPeriodsPrototype\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge\nopen ComputationalHodge.Poisson ComputationalHodge.GreenOperator\nopen ComputationalHodge.ResonanceObstruction ComputationalHodge.ACLifts\nopen ComputationalHodge.TraceIntegrals ComputationalHodge.LoopCharacters\nopen ComputationalHodge.ArclengthSpectrum\ntheorem pairing_implies_trace (ρ : RegularDensity) (f v : Coefficient) (h : pairing ρ f v = 0) (p : Trace 0 0) : lineIntegral (ρ.val.val * f * v) (fromTrace p) = 0 := by\n  rw [lineIntegral_eq_mean]\n  change pairing ρ f v * (fromTrace p).val 1 = 0\n  rw [h, zero_mul]\ndef unitTrace : Trace 0 0 := .single ()\ntheorem unit_trace_integral (α : Coefficient) : lineIntegral α (fromTrace unitTrace) = mean α := by\n  rw [lineIntegral_eq_mean]\n  change mean α * actualLift unitTrace 1 = mean α\n  rw [actualLift_eq_rawLift, rawLift_one]\n  simp [unitTrace, count]\ntheorem trace_periods_iff_pairing (ρ : RegularDensity) (f v : Coefficient) : (∀ p : Trace 0 0, lineIntegral (ρ.val.val * f * v) (fromTrace p) = 0) ↔ pairing ρ f v = 0 := by\n  constructor\n  · intro hp\n    have h := hp unitTrace\n    rw [unit_trace_integral] at h\n    exact h\n  · intro h p\n    exact pairing_implies_trace ρ f v h p\ntheorem cochain_periods_iff_pairing (ρ : RegularDensity) (f v : Coefficient) : (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * f * v)).val = 0) ↔ pairing ρ f v = 0 := by\n  simpa only [lineIntegral_fromTrace_harmonic] using trace_periods_iff_pairing ρ f v\nend ComputationalHodge.ResonantPeriodsPrototype\nnamespace ComputationalHodge.ResonantPeriodsPrototype\nopen ComputationalPaths.Path.GeometricTopology\nopen ComputationalHodge.CircleHodge ComputationalHodge.Poisson\nopen ComputationalHodge.ResonanceObstruction ComputationalHodge.GreenOperator\nopen ComputationalHodge.ACLifts ComputationalHodge.TraceIntegrals ComputationalHodge.ArclengthSpectrum\ntheorem wronskian_derivative (U Q C S : ℝ → ℝ) (ρ F : ℝ → ℝ) (k x : ℝ)\n    (hU : HasDerivAt U (ρ x * Q x) x)\n    (hQ : HasDerivAt Q (-ρ x * (k ^ 2 * U x + F x)) x)\n    (hC : HasDerivAt C (-k * ρ x * S x) x)\n    (hS : HasDerivAt S (k * ρ x * C x) x) :\n    HasDerivAt (fun t => Q t * C t + k * U t * S t) (-(ρ x * F x * C x)) x := by\n  have h := (hQ.mul hC).add ((hU.mul hS).const_mul k)\n  convert h using 1\n  · funext t; simp only [Pi.add_apply, Pi.mul_apply]; ring\n  · ring\n\ntheorem wronskian_integral_zero (U Q C S ρ F : ℝ → ℝ) (k : ℝ)\n    (hU : ∀ x, HasDerivAt U (ρ x * Q x) x)\n    (hQ : ∀ x, HasDerivAt Q (-ρ x * (k ^ 2 * U x + F x)) x)\n    (hC : ∀ x, HasDerivAt C (-k * ρ x * S x) x)\n    (hS : ∀ x, HasDerivAt S (k * ρ x * C x) x)\n    (hc : Continuous (fun x => ρ x * F x * C x))\n    (hp : Q 1 * C 1 + k * U 1 * S 1 = Q 0 * C 0 + k * U 0 * S 0) :\n    (∫ x in (0 : ℝ)..1, ρ x * F x * C x) = 0 := by\n  have hi := intervalIntegral.integral_eq_sub_of_hasDerivAt\n    (fun x _ => wronskian_derivative U Q C S ρ F k x (hU x) (hQ x) (hC x) (hS x))\n    (hc.neg.intervalIntegrable 0 1)\n  rw [intervalIntegral.integral_neg, hp, sub_self, neg_eq_zero] at hi\n  exact hi\n\n\nopen ComputationalHodge.CircleHodge ComputationalHodge.MetricHodge\nopen ComputationalHodge.Poisson ComputationalHodge.Arclength\nopen ComputationalHodge.GreenOperator ComputationalHodge.ArclengthSpectrum\n\ntheorem mode_pairings (ρ : RegularDensity) (n : ℕ) (u : C2Coefficient) (f : Coefficient)\n    (hu : laplacian ρ u - curvedFrequency ρ n • u.val = f) :\n    pairing ρ f (curvedCosine ρ n).val = 0 ∧ pairing ρ f (curvedSine ρ n).val = 0 := by\n  let R := cover ρ.val.val\n  let U := cover u.val\n  let Q := cover (flux ρ u)\n  let F := cover f\n  let C := cover (curvedCosine ρ n).val\n  let S := cover (curvedSine ρ n).val\n  let k := angular n / mean ρ.val.val\n  have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)\n  have hR (x : ℝ) : R x ≠ 0 := density_ne ρ.val (x : CircleHodge.Circle)\n  have hk : k ^ 2 = curvedFrequency ρ n := by\n    dsimp [k, curvedFrequency, frequencyN]\n    field_simp [hm]\n  have hU (x : ℝ) : HasDerivAt U (R x * Q x) x := by\n    have h := ((contDiff_one_iff_deriv.mp (c2_c1 u)).1 x).hasDerivAt\n    convert h using 1\n    change cover ρ.val.val x * (deriv (cover u.val) x / cover ρ.val.val x) = _\n    field_simp [show cover ρ.val.val x ≠ 0 from density_ne ρ.val (x : CircleHodge.Circle)]\n  have hQ (x : ℝ) : HasDerivAt Q (-R x * (k ^ 2 * U x + F x)) x := by\n    have h := ((contDiff_one_iff_deriv.mp (flux_c1 ρ u)).1 x).hasDerivAt\n    have he := congrArg (fun g : Coefficient => cover g x) hu\n    change -(deriv Q x) / R x - curvedFrequency ρ n * U x = F x at he\n    convert h using 1\n    rw [hk]\n    field_simp [hR x] at he ⊢\n    linarith\n  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (cosineN n)) x = _\n    rw [cover_pullback, cosineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (sineN n)) x = _\n    rw [cover_pullback, sineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos\n    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin\n    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hc : Continuous (fun x => R x * F x * C x) :=\n    (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedCosine ρ n).val)\n  have hp : Q 1 * C 1 + k * U 1 * S 1 = Q 0 * C 0 + k * U 0 * S 0 := by\n    have hu0 := cover_periodic u.val 0\n    have hq0 := cover_periodic (flux ρ u) 0\n    have hc0 := cover_periodic (curvedCosine ρ n).val 0\n    have hs0 := cover_periodic (curvedSine ρ n).val 0\n    simp only [zero_add] at hu0 hq0 hc0 hs0\n    dsimp [Q, C, U, S]\n    rw [hu0, hq0, hc0, hs0]\n  have h := wronskian_integral_zero U Q C S R F k hU hQ hC hS hc hp\n  have hCS (x : ℝ) : HasDerivAt S (-k * R x * (-C x)) x := by\n    convert hS x using 1; ring\n  have hSC (x : ℝ) : HasDerivAt (fun x => -C x) (k * R x * S x) x := by\n    convert (hC x).neg using 1; ring\n  have hs : Continuous (fun x => R x * F x * S x) :=\n    (cover_continuous ρ.val.val).mul (cover_continuous f) |>.mul (cover_continuous (curvedSine ρ n).val)\n  have hps : Q 1 * S 1 + k * U 1 * (-C 1) = Q 0 * S 0 + k * U 0 * (-C 0) := by\n    have hu0 := cover_periodic u.val 0\n    have hq0 := cover_periodic (flux ρ u) 0\n    have hc0 := cover_periodic (curvedCosine ρ n).val 0\n    have hs0 := cover_periodic (curvedSine ρ n).val 0\n    simp only [zero_add] at hu0 hq0 hc0 hs0\n    dsimp [Q, C, U, S]\n    rw [hu0, hq0, hc0, hs0]\n  have h' := wronskian_integral_zero U Q S (fun x => -C x) R F k hU hQ hCS hSC hs hps\n  exact ⟨h, h'⟩\n\n\nopen ComputationalHodge.DirectResonancePrototype\nopen scoped ContDiff\nnoncomputable def weightedSolution (k : ℝ) (A B C S : ℝ → ℝ) (x : ℝ) : ℝ :=\n  (C x * B x - S x * A x) / k\n\ndef weightedFlux (A B C S : ℝ → ℝ) (x : ℝ) : ℝ :=\n  -(S x * B x + C x * A x)\n\ntheorem weighted_solution_derivatives (A B C S R F : ℝ → ℝ) (k x : ℝ)\n    (hk : k ≠ 0) (hunit : C x ^ 2 + S x ^ 2 = 1)\n    (hA : HasDerivAt A (R x * F x * C x) x)\n    (hB : HasDerivAt B (R x * F x * S x) x)\n    (hC : HasDerivAt C (-k * R x * S x) x)\n    (hS : HasDerivAt S (k * R x * C x) x) :\n    HasDerivAt (weightedSolution k A B C S) (R x * weightedFlux A B C S x) x ∧\n    HasDerivAt (weightedFlux A B C S) (-R x * (k ^ 2 * weightedSolution k A B C S x + F x)) x := by\n  constructor\n  · have h := ((hC.mul hB).sub (hS.mul hA)).div_const k\n    convert h using 1\n    · funext t; rfl\n    · dsimp [weightedFlux]\n      field_simp\n      ring\n  · have h := ((hS.mul hB).add (hC.mul hA)).neg\n    convert h using 1\n    · funext t; rfl\n    · dsimp [weightedSolution]\n      field_simp [hk]\n      have hc : R x * F x * (C x ^ 2 + S x ^ 2) = R x * F x := by rw [hunit]; ring\n      nlinarith [hc]\n\n\ntheorem weighted_direct_solution (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient)\n    (hc : pairing ρ f (curvedCosine ρ n).val = 0)\n    (hs : pairing ρ f (curvedSine ρ n).val = 0) :\n    ∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f := by\n  let R := cover ρ.val.val\n  let F := cover f\n  let C := cover (curvedCosine ρ n).val\n  let S := cover (curvedSine ρ n).val\n  let A := primitive (ρ.val.val * f * (curvedCosine ρ n).val)\n  let B := primitive (ρ.val.val * f * (curvedSine ρ n).val)\n  let k := angular n / mean ρ.val.val\n  let U := weightedSolution k A B C S\n  let Q := weightedFlux A B C S\n  have hm : mean ρ.val.val ≠ 0 := ne_of_gt (mean_pos ρ.val)\n",
+          "added_sha256": "cda9be76291d3543a7068f6e07e69ef0bedc48f341a6d5ec362128b80c980064"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 895,
+          "source_last_line": 895,
+          "output_first_line": 855,
+          "output_last_line": 855,
+          "sha256": "932c2ccc1f36213a6d9bf1649d73361b03b11f9b49056971676bd778a037f5b4"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 896,
+          "source_last_line": 900,
+          "output_first_line": 856,
+          "output_last_line": 914,
+          "removed_source_sha256": "54cc6cdeb39b05ae7500daea62fe8aae0046c122764b582e44811bee0cc8dd81",
+          "added_text": "  have ha : angular n ≠ 0 := by unfold angular; positivity\n  have hk : k ≠ 0 := div_ne_zero ha hm\n  have hR (x : ℝ) : R x ≠ 0 := density_ne ρ.val (x : CircleHodge.Circle)\n  have hk2 : k ^ 2 = curvedFrequency ρ n := by\n    dsimp [k, curvedFrequency, frequencyN]\n    field_simp [hm]\n  have hcval (x : ℝ) : C x = Real.cos (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (cosineN n)) x = _\n    rw [cover_pullback, cosineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hsval (x : ℝ) : S x = Real.sin (angular n * coordinate ρ.val x) := by\n    change cover (pullback ρ (sineN n)) x = _\n    rw [cover_pullback, sineN_cover]\n    congr 1\n    dsimp [angular]\n    ring\n  have hC (x : ℝ) : HasDerivAt C (-k * R x * S x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).cos\n    rw [show C = (fun t => Real.cos (angular n * coordinate ρ.val t)) from funext hcval, hsval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hS (x : ℝ) : HasDerivAt S (k * R x * C x) x := by\n    have h := ((coordinate_hasDerivAt ρ.val x).const_mul (angular n)).sin\n    rw [show S = (fun t => Real.sin (angular n * coordinate ρ.val t)) from funext hsval, hcval x]\n    dsimp [k, R]\n    convert h using 1; ring\n  have hA (x : ℝ) : HasDerivAt A (R x * F x * C x) x := primitive_hasDerivAt _ x\n  have hB (x : ℝ) : HasDerivAt B (R x * F x * S x) x := primitive_hasDerivAt _ x\n  have hunit (x : ℝ) : C x ^ 2 + S x ^ 2 = 1 := by\n    rw [hcval, hsval]\n    nlinarith [Real.sin_sq_add_cos_sq (angular n * coordinate ρ.val x)]\n  have hdu (x : ℝ) := weighted_solution_derivatives A B C S R F k x hk (hunit x) (hA x) (hB x) (hC x) (hS x)\n  have hderiv : deriv U = fun x => R x * Q x := funext fun x => (hdu x).1.deriv\n  have hA1 : ContDiff ℝ 1 A := primitive_contDiff_one _\n  have hB1 : ContDiff ℝ 1 B := primitive_contDiff_one _\n  have hC1 : ContDiff ℝ 1 C := c2_c1 (curvedCosine ρ n)\n  have hS1 : ContDiff ℝ 1 S := c2_c1 (curvedSine ρ n)\n  have hQ1 : ContDiff ℝ 1 Q := by\n    dsimp [Q, weightedFlux]\n    exact ((hS1.mul hB1).add (hC1.mul hA1)).neg\n  have hu2 : ContDiff ℝ 2 U := by\n    change ContDiff ℝ ((1 : ℕ∞ω)+1) U\n    apply contDiff_succ_iff_deriv.mpr\n    refine ⟨fun x => (hdu x).1.differentiableAt, by norm_num, ?_⟩\n    rw [hderiv]\n    exact ρ.property.mul hQ1\n  have hAp : Function.Periodic A 1 := primitive_periodic_of_zero _ hc\n  have hBp : Function.Periodic B 1 := primitive_periodic_of_zero _ hs\n  have hCp : Function.Periodic C 1 := cover_periodic (curvedCosine ρ n).val\n  have hSp : Function.Periodic S 1 := cover_periodic (curvedSine ρ n).val\n  have hup : Function.Periodic U 1 := by\n    intro x\n    dsimp [U, weightedSolution]\n    rw [hAp x, hBp x, hCp x, hSp x]\n  let u : Coefficient := ⟨hup.lift, hu2.continuous.quotient_liftOn' _⟩\n  let u2 : C2Coefficient := ⟨u,hu2⟩\n  refine ⟨u2,?_⟩\n",
+          "added_sha256": "db4487dd691c65f853ef51a44ec530f1d5d1f6b94e44a443e5a0c5d3744c3757"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 901,
+          "source_last_line": 902,
+          "output_first_line": 915,
+          "output_last_line": 916,
+          "sha256": "92e776ba770255bf2d90d733d438490fd6909c1686c20f824612ef0d86ae663a"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 903,
+          "source_last_line": 906,
+          "output_first_line": 917,
+          "output_last_line": 925,
+          "removed_source_sha256": "a1e77ea60e4e25c837b9d4ab93f2f46ba773c41ee5ee5bf55432d088970df2a1",
+          "added_text": "  change cover (laplacian ρ u2) x - curvedFrequency ρ n * U x = F x\n  rw [laplacian_cover]\n  change -(deriv (fun t => deriv U t / R t) x) / R x - curvedFrequency ρ n * U x = F x\n  have hf : (fun t => deriv U t / R t) = Q := by\n    funext t\n    rw [hderiv]\n    field_simp [hR t]\n  rw [hf, (hdu x).2.deriv, ← hk2]\n  field_simp [hR x]\n",
+          "added_sha256": "e17698901fb4a55d0ba275359177302c0162ece78ee041aad452d349fb8f1300"
+        },
+        {
+          "operation": "equal",
+          "source_first_line": 907,
+          "source_last_line": 907,
+          "output_first_line": 926,
+          "output_last_line": 926,
+          "sha256": "731c35db544f160e23c24ab1a168c42556375369f86465f7af33dc67f73386c5"
+        },
+        {
+          "operation": "replace",
+          "source_first_line": 908,
+          "source_last_line": 999,
+          "output_first_line": 927,
+          "output_last_line": 945,
+          "removed_source_sha256": "d3f08e5169ce9e17e19c0d8d9e2c944b31f4f65c42dfc64a6cf477a57116c970",
+          "added_text": "\n\ntheorem direct_solvable_iff_two_pairings (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ pairing ρ f (curvedCosine ρ n).val = 0 ∧ pairing ρ f (curvedSine ρ n).val = 0 := by\n  constructor\n  · rintro ⟨u, hu⟩\n    exact mode_pairings ρ n u f hu\n  · rintro ⟨hc,hs⟩\n    exact weighted_direct_solution ρ n hn f hc hs\ntheorem direct_solvable_iff_raw_mode_periods (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ (∀ p : Trace 0 0, lineIntegral (ρ.val.val * f * (curvedCosine ρ n).val) (fromTrace p) = 0) ∧ (∀ p : Trace 0 0, lineIntegral (ρ.val.val * f * (curvedSine ρ n).val) (fromTrace p) = 0) := by\n  rw [direct_solvable_iff_two_pairings ρ n hn f,\n    trace_periods_iff_pairing ρ f (curvedCosine ρ n).val,\n    trace_periods_iff_pairing ρ f (curvedSine ρ n).val]\ntheorem direct_solvable_iff_cochain_mode_periods (ρ : RegularDensity) (n : ℕ) (hn : 0 < n) (f : Coefficient) : (∃ u : C2Coefficient, laplacian ρ u - curvedFrequency ρ n • u.val = f) ↔ (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * f * (curvedCosine ρ n).val)).val = 0) ∧ (∀ p : Trace 0 0, period p (meanHarmonic (ρ.val.val * f * (curvedSine ρ n).val)).val = 0) := by\n  rw [direct_solvable_iff_two_pairings ρ n hn f,\n    cochain_periods_iff_pairing ρ f (curvedCosine ρ n).val,\n    cochain_periods_iff_pairing ρ f (curvedSine ρ n).val]\nend ComputationalHodge.ResonantPeriodsPrototype\n#print axioms ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods\n#print axioms ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods\n",
+          "added_sha256": "cf5983eadff226cdb178ca85486df983cefb79d0e01978d19b47060de324fbc2"
+        }
+      ]
+    }
+  ]
+}

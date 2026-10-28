@@ -1,0 +1,50 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_raw_mode_periods",
+    "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_cochain_mode_periods",
+    "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
+    "ComputationalHodge.ResonantPeriodsPrototype.mode_pairings",
+    "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution",
+    "ComputationalHodge.ResonantPeriodsPrototype.weighted_solution_derivatives",
+    "ComputationalHodge.ResonantPeriodsPrototype.wronskian_integral_zero",
+    "ComputationalHodge.ResonantPeriodsPrototype.trace_periods_iff_pairing",
+    "ComputationalHodge.ResonantPeriodsPrototype.cochain_periods_iff_pairing",
+    "ComputationalHodge.ACLifts.projected_fromTrace",
+    "ComputationalHodge.ACLifts.line_integrand_integrable",
+    "ComputationalHodge.ACLifts.lineIntegral_fromTrace_harmonic"
+  ],
+  "definition_names": [
+    "ComputationalHodge.ResonantPeriodsPrototype.weightedSolution",
+    "ComputationalHodge.ResonantPeriodsPrototype.weightedFlux",
+    "ComputationalHodge.ArclengthSpectrum.curvedFrequency",
+    "ComputationalHodge.ArclengthSpectrum.curvedCosine",
+    "ComputationalHodge.ArclengthSpectrum.curvedSine",
+    "ComputationalHodge.TraceIntegrals.Trace",
+    "ComputationalHodge.TraceIntegrals.rawLift",
+    "ComputationalHodge.TraceIntegrals.actualLift",
+    "ComputationalHodge.TraceIntegrals.meanHarmonic",
+    "ComputationalHodge.ACLifts.lineIntegral",
+    "ComputationalHodge.ACLifts.fromTrace",
+    "ComputationalHodge.CircleHodge.Coefficient",
+    "ComputationalHodge.CircleHodge.cover",
+    "ComputationalHodge.Poisson.RegularDensity",
+    "ComputationalHodge.Poisson.C2Coefficient",
+    "ComputationalHodge.Poisson.laplacian",
+    "ComputationalHodge.period",
+    "ComputationalHodge.Harmonic",
+    "ComputationalHodge.Arclength.coordinate",
+    "ComputationalHodge.ArclengthSpectrum.pullback",
+    "ComputationalHodge.CircleHodge.mean",
+    "ComputationalHodge.GreenOperator.pairing",
+    "ComputationalHodge.ACLifts.projectedLoop",
+    "ComputationalHodge.TraceIntegrals.count",
+    "ComputationalHodge.ResonantPeriodsPrototype.unitTrace"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ]
+}
