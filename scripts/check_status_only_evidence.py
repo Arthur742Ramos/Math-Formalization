@@ -1,9 +1,11 @@
 """Validate a narrowly scoped status-only evidence reuse; never certify a fresh run."""
 import argparse
+import io
 import json
 import pathlib
 import re
 import subprocess
+import tarfile
 
 from check_release_packet import bind_full, check_archive, check_status, require, sha, snapshot
 
@@ -59,6 +61,18 @@ def modes(root, commit, project):
     return result
 
 
+def check_archive_modes(data, expected_modes):
+    """Require the archive's regular-file permissions to match Git exactly."""
+    with tarfile.open(fileobj=io.BytesIO(data), mode='r:*') as archive:
+        members = archive.getmembers()
+        names = [member.name.removeprefix('./') for member in members]
+        require(len(names) == len(set(names)) and set(names) == set(expected_modes), 'Archive mode file set mismatch')
+        for member, name in zip(members, names):
+            require(member.isfile() and expected_modes[name] in {'100644', '100755'}, 'Invalid archive entry mode')
+            expected = 0o644 if expected_modes[name] == '100644' else 0o755
+            require(member.mode == expected, 'Archive mode mismatch: ' + name)
+
+
 def _read_authenticated(path, expected, label):
     require(isinstance(expected, str) and re.fullmatch(r'[0-9a-f]{64}', expected), label + ' expected digest missing')
     data = pathlib.Path(path).read_bytes()
@@ -82,9 +96,11 @@ def check(root, packet, archive, historical_commit, full_path, full_sha,
                     'Blocked or superseded source: ' + row['reason'])
     require(historical_commit != corrected, 'Historical and corrected commits must differ')
     old, new = snapshot(root, historical_commit, project), snapshot(root, corrected, project)
-    changes = classify(old, new, modes(root, historical_commit, project), modes(root, corrected, project))
+    current_modes = modes(root, corrected, project)
+    changes = classify(old, new, modes(root, historical_commit, project), current_modes)
     check_status(root, corrected, project)
     check_archive(pathlib.Path(archive).read_bytes(), new)
+    check_archive_modes(pathlib.Path(archive).read_bytes(), current_modes)
     full = _read_authenticated(full_path, full_sha, 'Historical full report')
     render = _read_authenticated(render_path, render_sha, 'Historical render report')
     fa = _read_authenticated(full_adapter_path, full_adapter_sha, 'Historical full adapter')

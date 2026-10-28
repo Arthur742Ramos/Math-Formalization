@@ -1,14 +1,16 @@
 import copy
+import io
 import json
 import pathlib
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_status_only_evidence import classify
+from check_status_only_evidence import classify, check_archive_modes
 import check_status_only_evidence as reuse
 
 
@@ -51,6 +53,19 @@ class StatusOnlyEvidence(unittest.TestCase):
                 with self.assertRaises(ValueError): self.check()
                 self.new['formalization.yaml'] = previous
 
+    def test_archive_executable_mode_must_match_git(self):
+        def archive_with(mode):
+            buffer = io.BytesIO()
+            with tarfile.open(fileobj=buffer, mode='w') as archive:
+                info = tarfile.TarInfo('Proof.lean'); info.size = 1; info.mode = mode
+                archive.addfile(info, io.BytesIO(b'x'))
+            return buffer.getvalue()
+        check_archive_modes(archive_with(0o755), {'Proof.lean': '100755'})
+        with self.assertRaisesRegex(ValueError, 'Archive mode mismatch'):
+            check_archive_modes(archive_with(0o644), {'Proof.lean': '100755'})
+        with self.assertRaisesRegex(ValueError, 'Archive mode mismatch'):
+            check_archive_modes(archive_with(0o4755), {'Proof.lean': '100755'})
+
 
 class EvidenceChain(unittest.TestCase):
     def setUp(self):
@@ -89,7 +104,7 @@ class EvidenceChain(unittest.TestCase):
             if report['source']['commit'] != fields['commit']: raise ValueError('wrong full source')
         with tempfile.TemporaryDirectory() as directory:
             archive = pathlib.Path(directory)/'archive.tar'; archive.write_bytes(b'archive')
-            with mock.patch.object(reuse, 'snapshot', side_effect=lambda root, commit, project: self.old if commit == self.old_commit else self.new), mock.patch.object(reuse, 'modes', return_value=self.modes), mock.patch.object(reuse, 'check_status'), mock.patch.object(reuse, 'check_archive'), mock.patch.object(reuse, 'bind_full', side_effect=binder), mock.patch.object(reuse, '_read_authenticated', side_effect=lambda path, expected, label: self.objects[path]), mock.patch.object(reuse.subprocess, 'check_output', side_effect=git_output):
+            with mock.patch.object(reuse, 'snapshot', side_effect=lambda root, commit, project: self.old if commit == self.old_commit else self.new), mock.patch.object(reuse, 'modes', return_value=self.modes), mock.patch.object(reuse, 'check_status'), mock.patch.object(reuse, 'check_archive'), mock.patch.object(reuse, 'check_archive_modes'), mock.patch.object(reuse, 'bind_full', side_effect=binder), mock.patch.object(reuse, '_read_authenticated', side_effect=lambda path, expected, label: self.objects[path]), mock.patch.object(reuse.subprocess, 'check_output', side_effect=git_output):
                 return reuse.check(pathlib.Path(directory), {'proposed_submission_fields': self.fields, 'pipeline_commit': self.pipeline}, archive, self.old_commit, 'full', self.full_sha, 'fa', self.fa_sha, 'render', self.render_sha, 'ra', self.ra_sha, 'review', self.review_sha, 'fr', self.fr_sha, 'scope', self.scope_sha)
 
     def test_bound_history_is_not_relabelled_fresh(self):
