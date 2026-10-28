@@ -79,6 +79,45 @@ compiled artifacts; prepare a fresh owned checkout for a new run. Do not delete
 or reuse another owner's build tree. Dependency cache authentication remains a
 separate gate.
 
+## Narrow status-only historical proof evidence
+
+A later source that changes only a package README and the two metadata text
+fields `status.known_gaps` and `review.notes` may be considered for a separate
+**historical-proof-evidence carry-forward**, not a fresh full or render pass.
+Every package file and Git mode must match the previously tested commit except
+those explicitly allowed bytes. The metadata must parse strictly and all other
+fields, including authors, maintainers, theorem scope, sources and license, must
+remain semantically identical. Added, removed, renamed, symlinked or mode-changed
+files, or any proof, Comparator, semantic, dependency, toolchain or
+proof-affecting input change, are ineligible and require ordinary checks.
+Historical rendering is never relabelled a current-source render pass.
+
+Run final-commit catalog and package/schema/status checks, compare the exact
+source archive, and use `scripts/check_status_only_evidence.py` with original
+full/render reports and adapter receipts, their independently recorded digests,
+and both the original independent evidence review and a new independent source
+boundary review. That review must examine the entire diff, README/metadata
+claims, pinned imports, workspace/root inputs, dependency closure, renderer
+impact, size/license effects and original evidence. Because the renderer may
+copy the whole repository, package equality alone does not prove whole-run or
+render equivalence. The review must establish the boundary of the selected
+historical proof-source claim; if it cannot, do not use this path. A changed
+whole checkout remains unverified and the old render is historical, not a
+current-source render pass. Authenticate actual historical artifacts separately;
+hashes and the guard do
+not establish reviewer independence or provenance. Perform applicable focused
+checks and independently review the final receipt.
+
+The carry-forward result must identify both exact commits, original report
+digests and changed files, and state `current_source_full=not run` and
+`current_source_render=not run`. It may support a carefully labelled source
+merge or candidate submission only after those reviews, not a verified
+exact-source handoff. The existing exact-source `check_release_packet.py` mode
+remains strict. Palomar's current intake, verification, cooldown and review
+requirements remain separate and cannot be satisfied by this local result.
+Do not use this exception to bypass an actual denied security, protection or
+capacity action, or to call a predecessor report a new-source pass.
+
 ## Canonical full verification and rendering
 
 A native Lake build does not replace canonical protected comparison, source
