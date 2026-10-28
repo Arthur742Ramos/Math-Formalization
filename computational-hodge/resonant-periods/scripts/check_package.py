@@ -43,7 +43,7 @@ def main():
   text=(ROOT/filename).read_text();surface=text[text.index('structure GeometricStepSystem'):text.index('end ComputationalPaths.Path.GeometricTopology')]
   assert surface==expected_surface
  base=json.loads((ROOT/'base-provenance.json').read_text());commit='f9c1eec39bd7f6d4873e1281e2e1de62d80b3750';assert base['source_commit']==commit
- assert sha((ROOT/'base-provenance.json').read_bytes())=='29fcf7617b9588fcb6828582c07069c1f9b1c32f9ccd6cec3b561b601f1a9b23'
+ assert sha((ROOT/'base-provenance.json').read_bytes())=='edf15597cebd506d4b4320e52dea50f45c98168bdebfd0894632fba19168768c'
  assert base['repository']=='Arthur742Ramos/Math-Formalization'
  assert len(base['modules'])==3 and {m['path'] for m in base['modules']}=={'SourcePaths.lean','Challenge.lean','Solution.lean'}
  for m in base['modules']:

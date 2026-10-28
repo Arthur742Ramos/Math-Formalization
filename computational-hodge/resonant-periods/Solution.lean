@@ -269,9 +269,36 @@ theorem rawLift_projects {a b : CircleHodge.Circle} (p : Trace a b) (t : unitInt
   | symm p hp =>
     simpa only [rawLift,GeometricTrace.realize,_root_.Path.symm_apply,Function.comp_apply,unitInterval.coe_symm_eq,AddCircle.coe_sub,rawLift_one_coe,sub_zero,trace_endpoints p] using hp (σ t)
 theorem rawLift_outside {a b : CircleHodge.Circle} (p : Trace a b) : ∀ t : ℝ,(t≤0 → rawLift p t=0) ∧ (1≤t → rawLift p t=rawLift p 1) := by
-  induction p <;> intro t <;> constructor <;> intro ht
-  all_goals simp only [rawLift,clamp,min_def,max_def] at *
-  all_goals grind [rawLift_zero]
+  induction p with
+  | refl a => intro t; simp [rawLift]
+  | single s =>
+    intro t; constructor
+    · intro ht
+      simp [rawLift,clamp,min_eq_right (show t ≤ (1 : ℝ) by linarith),max_eq_left ht]
+    · intro ht
+      simp [rawLift,clamp,min_eq_left ht]
+  | trans p q hp hq =>
+    intro t; constructor
+    · intro ht
+      have h : t ≤ (1 : ℝ)/2 := by linarith
+      have h2 : 2*t ≤ 0 := by linarith
+      simpa only [rawLift,ite_eq_left h] using (hp (2*t)).1 h2
+    · intro ht
+      have hn : ¬ t ≤ (1 : ℝ)/2 := by linarith
+      have hone : ¬ (1 : ℝ) ≤ 1/2 := by norm_num
+      have h2 : 1 ≤ 2*t-1 := by linarith
+      change (if t ≤ (1 : ℝ)/2 then rawLift p (2*t) else rawLift p 1 + rawLift q (2*t-1)) =
+        (if (1 : ℝ) ≤ (1 : ℝ)/2 then rawLift p (2*1) else rawLift p 1 + rawLift q (2*1-1))
+      rw [ite_eq_right hn,ite_eq_right hone,(hq (2*t-1)).2 h2]
+      norm_num
+  | symm p hp =>
+    intro t; constructor
+    · intro ht
+      have h : 1 ≤ 1-t := by linarith
+      simpa only [rawLift,sub_self] using sub_eq_zero.mpr ((hp (1-t)).2 h)
+    · intro ht
+      have h : 1-t ≤ 0 := by linarith
+      simp only [rawLift,sub_self,(hp (1-t)).1 h,rawLift_zero]
 theorem rawLift_clamp {a b : CircleHodge.Circle} (p : Trace a b) (t : ℝ) : rawLift p (Set.projIcc 0 1 zero_le_one t : ℝ)=rawLift p t := by
   by_cases h0 : t≤0
   · rw [Set.projIcc_of_le_left zero_le_one h0]
