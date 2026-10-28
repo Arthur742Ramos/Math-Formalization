@@ -1,0 +1,148 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Resonant weighted-circle solvability and computational-path periods",
+    "description": "For every positive C1 density ρ on the real period-one circle, let m be its positive mean. For every natural n > 0 and continuous forcing f, the actual shifted equation Δρ u − λₙ u = f has an unrestricted actual C2 circle solution exactly when both based computational-trace periods of ρ·f·Cₙ and ρ·f·Sₙ vanish, where λₙ = (2πn/m)² and on the real cover Cₙ(x) = cos(2πn T(x)) and Sₙ(x) = sin(2πn T(x)), with T the normalized arclength coordinate. An equivalent condition uses their actual finite harmonic-cochain periods.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.DG",
+      "math.SP"
+    ],
+    "msc2020": [
+      "58J50",
+      "34L10",
+      "03B35"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Topological Semantics for Scoped Computational Paths, version3",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "Ruy J. G. B. de Queiroz",
+        "Anjolina Grisi de Oliveira",
+        "Tiago M. L. de Veras"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/2608.04228v3",
+      "relationship": "adapts",
+      "note": "SourcePaths preserves the attributed pinned upstream excerpt port with its documented namespace closure; the Challenge and Solution surfaces retain the same trace definitions after whitespace and signature reformatting. Every finite based circle trace is treated, including raw nested concatenations, reversals, reflexive paths and corners."
+    },
+    {
+      "title": "Algebraic Topology, Sections 2.A and 3.1",
+      "authors": [
+        "Allen Hatcher"
+      ],
+      "type": "book",
+      "id": "https://pi.math.cornell.edu/~hatcher/AT/AT.pdf",
+      "relationship": "related",
+      "note": "Classical fundamental-group and degree-one period context, not a new circle classification."
+    },
+    {
+      "title": "Statistical ranking and combinatorial Hodge theory, version2",
+      "authors": [
+        "Xiaoye Jiang",
+        "Lek-Heng Lim",
+        "Yuan Yao",
+        "Yinyu Ye"
+      ],
+      "type": "paper",
+      "id": "https://arxiv.org/abs/0811.1067v2",
+      "relationship": "related",
+      "note": "Classical finite/discrete harmonic context. Existing actual finite Euclidean Closed, Exact and Harmonic are retained; harmonicity follows from proved actual realized-homotopy period invariance."
+    },
+    {
+      "title": "Absolutely Continuous Functions, Chapter3, Math418 notes",
+      "authors": [
+        "Rong Jia"
+      ],
+      "type": "other",
+      "id": "https://sites.ualberta.ca/~rjia/Math418/Notes/chap3.pdf",
+      "relationship": "related",
+      "note": "Classical AC calculus, derivative integrability/FTC and Lipschitz composition context. This formalization does not claim a new classical analytic theorem."
+    },
+    {
+      "title": "Introduction to Differential Geometry, 2022, sections 5.1 and 9.2",
+      "authors": [
+        "Danny Calegari"
+      ],
+      "type": "other",
+      "id": "https://math.uchicago.edu/~dannyc/courses/riem_geo_2019/differential_geometry.pdf",
+      "relationship": "related",
+      "note": "Classical geometric and Laplace operator context. The present result concerns the scalar weighted circle; no mathematical novelty is claimed."
+    },
+    {
+      "title": "Weighted eigenfunction estimates with applications to compressed sensing",
+      "authors": [
+        "Nicolas Burq",
+        "Semyon Dyatlov",
+        "Rachel Ward",
+        "Maciej Zworski"
+      ],
+      "type": "paper",
+      "id": "https://math.berkeley.edu/~zworski/bdwz.pdf",
+      "relationship": "related",
+      "note": "Classical circle eigenfunction and periodicity context; no claim that this paper states the computational-trace theorem."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/e5b052c1663ecfb02848a0e6987d2d570d2dc439/computational-hodge/arclength-modes",
+      "relationship": "builds-on",
+      "note": "Builds on prior weighted-circle mode and computational-trace constructions; this project uses a direct weighted-coordinate proof and does not claim the predecessor inverse/conjugacy declarations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "builds-on",
+      "note": "Actual indexed computational trace and realization are retained with exact upstream mapping and MIT attribution."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned Mathlib supplies Fourier monomials, calculus, covering and integration foundations; the density-operator and actual trace-period connections are proved in this project."
+    }
+  ],
+  "status": {
+    "scope": "For every positive C1 density ρ on the real period-one circle, let m be its positive mean. For every natural n > 0 and continuous forcing f, the actual shifted equation Δρ u − λₙ u = f has an unrestricted actual C2 circle solution exactly when both based computational-trace periods of ρ·f·Cₙ and ρ·f·Sₙ vanish, where λₙ = (2πn/m)² and on the real cover Cₙ(x) = cos(2πn T(x)) and Sₙ(x) = sin(2πn T(x)), with T the normalized arclength coordinate. An equivalent condition uses their actual finite harmonic-cochain periods.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Real scalar period-one circle and positive C1 density only; no general manifold, analytic Kahler or de Rham Hodge theorem, full spectral classification, novelty, or external peer-review claim. Exact-source release outcomes require separately bound evidence.",
+    "attribution_status": "The named human author and responsible-maintainer roles continue the established Hodge campaign assignments. Substantive new proofs and packaging were supplied by OpenAI Codex; these role assignments do not infer human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging, with separate internal AI mathematical, source-fidelity and artifact review. Exact reviewed source and completed validation are recorded outside frozen source."
+      }
+    ],
+    "notes": "Material AI contribution is explicit; no human proof contribution, human mathematical review, or independent kernel verification is inferred from account ownership or role assignment."
+  },
+  "fidelity": {
+    "divergences": "Uses actual endpoint-indexed binary computational traces, their realization and ordinary integrable lifted-loop periods, and finite harmonic-cochain periods. Necessity is proved by a weighted Wronskian identity; sufficiency is constructed directly from periodic mode-weighted primitives. The predecessor inverse-coordinate and Laplacian-conjugacy results are not claimed as reproduced here."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Separate internal AI mathematical and source-fidelity reviewer"
+    ],
+    "notes": "Independent internal AI scope and authoring-source review; exact-source verification and final artifact review require separately bound evidence. No human or external peer review is inferred."
+  }
+}
