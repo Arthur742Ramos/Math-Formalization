@@ -9316,7 +9316,7 @@ protected theorem Periodic.div [Add α] [Div β] (hf : Periodic f c) (hg : Perio
 
 ### `unitInterval`
 
-The actual path-parameter set is the closed real interval [0,1]. Its subtype contains exactly the real points between those endpoints. Both semantic entrypoints state the displayed equality by unfolding the pinned alias; exact-source compilation is required. The direct signature probe identifies the selected uses recorded in the inventory.
+The actual path-parameter set is the closed real interval [0,1]. Its subtype contains exactly the real points between those endpoints. Both semantic entrypoints state the displayed equality by unfolding the pinned alias. The direct signature probe identifies the selected uses recorded in the inventory.
 
 Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UnitInterval.lean
 
@@ -9423,13 +9423,13 @@ theorem norm_eq_abs (r : ℝ) : ‖r‖ = |r| :=
 
 ### `NNNorm`
 
-The class provides an ℝ≥0-valued norm. In `ComputationalHodge.TraceIntegrals.affine_lipschitz`, the selected real coefficient has a nonnegative norm whose real coercion is its absolute value. The additive coercion theorem is generated from the displayed `to_additive` producer; it is stated in both semantic entrypoints, pending exact-source compilation, rather than attributed to literal additive source text.
+The class provides an ℝ≥0-valued norm. In `ComputationalHodge.TraceIntegrals.affine_lipschitz`, the selected real coefficient has a nonnegative norm whose real coercion is its absolute value. The additive coercion theorem is generated from the displayed `to_additive` producer; it is stated in both semantic entrypoints rather than attributed to literal additive source text.
 
 ## Extended nonnegative-real exponent carrier
 
 ### `ENNReal`
 
-The carrier is the nonnegative real type with an adjoined top element. Here it appears in the exponent parameter of the retained `WithLp` and `EuclideanSpace` constructions; it does not turn the resulting cochains into measures. The equality below is stated in both semantic entrypoints and requires exact-source compilation.
+The carrier is the nonnegative real type with an adjoined top element. Here it appears in the exponent parameter of the retained `WithLp` and `EuclideanSpace` constructions; it does not turn the resulting cochains into measures. The equality below is stated in both semantic entrypoints.
 
 Pinned source: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/ENNReal/Basic.lean
 

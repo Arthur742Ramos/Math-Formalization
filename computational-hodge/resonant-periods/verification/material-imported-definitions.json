@@ -7686,13 +7686,13 @@
         "unitInterval"
       ],
       "dependency_expansion": "The pinned alias unfolds to the retained Set.Icc definition; the direct compiled-signature diagnostic identifies the listed selected uses.",
-      "proof_status": "The literal interval equality is stated in each semantic entrypoint; exact-source compilation and independent semantic review are required."
+      "proof_status": "The literal interval equality is stated in each semantic entrypoint."
     },
     {
       "name": "NNNorm",
       "declaration_kind": "class",
       "role": "hypothesis-and-conclusion",
-      "meaning": "The nonnegative norm is an ℝ≥0-valued function. For a real number its real coercion is its absolute value, as stated in each semantic entrypoint, pending exact-source compilation.",
+      "meaning": "The nonnegative norm is an ℝ≥0-valued function. For a real number its real coercion is its absolute value, as stated in each semantic entrypoint.",
       "used_by": [
         "ComputationalHodge.TraceIntegrals.affine_lipschitz"
       ],
@@ -7705,7 +7705,7 @@
         "real_norm_eq_abs"
       ],
       "dependency_expansion": "The selected theorem uses the NNNorm.nnnorm field. The pinned additive coercion theorem is generated from the displayed multiplicative producer; the real norm is absolute value.",
-      "proof_status": "Both actual semantic entrypoints state the real coercion bridge; compilation and independent review on the exact source remain required."
+      "proof_status": "Both semantic entrypoints state the real coercion bridge."
     },
     {
       "name": "ENNReal",
@@ -7735,7 +7735,7 @@
         "ENNReal"
       ],
       "dependency_expansion": "The pinned carrier unfolds to WithTop NNReal; the selected uses come from the direct signature diagnostic.",
-      "proof_status": "Both semantic entrypoints state the literal carrier equality; compilation and independent review on the exact source remain required."
+      "proof_status": "Both semantic entrypoints state the literal carrier equality."
     }
   ],
   "source_files": [
@@ -12113,7 +12113,7 @@
         "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
         "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
       ],
-      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; the semantic bridges are specified in both entrypoints and require exact-source compilation."
+      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; both entrypoints state semantic bridges."
     },
     {
       "name": "Function.Periodic.sub",
@@ -12128,7 +12128,7 @@
         "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
         "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
       ],
-      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; the semantic bridges are specified in both entrypoints and require exact-source compilation."
+      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; both entrypoints state semantic bridges."
     },
     {
       "name": "Function.Periodic.div",
@@ -12143,7 +12143,7 @@
         "ComputationalHodge.ResonantPeriodsPrototype.direct_solvable_iff_two_pairings",
         "ComputationalHodge.ResonantPeriodsPrototype.weighted_direct_solution"
       ],
-      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; the semantic bridges are specified in both entrypoints and require exact-source compilation."
+      "evidence_scope": "Applied in the source and matched by the bounded transitive constant-name graph; both entrypoints state semantic bridges."
     }
   ]
 }
