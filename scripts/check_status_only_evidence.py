@@ -80,6 +80,39 @@ def _read_authenticated(path, expected, label):
     return json.loads(data)
 
 
+def check_hewitt_historical_reviews(review, full_review, fields, historical_commit, pipeline,
+                                    old_tree, old_repo_tree, full_sha, full_adapter_sha,
+                                    render_sha, render_adapter_sha, full_review_sha,
+                                    full_inputs_sha, render_inputs_sha):
+    """Authenticate the original, differently shaped PR 48 review receipts."""
+    require(fields['project_path'] == 'topology/hewitt-savage-category' and
+            historical_commit == 'd2805a37b3f40462e8e3c20e1f3d04c2be1ec28b',
+            'Unsupported historical review schema')
+    for item in (review, full_review):
+        require(item.get('schema_version') == 1 and item.get('repository') == fields['repository'] and
+                item.get('project') == fields['project_path'] and item.get('source_commit') == historical_commit and
+                item.get('pipeline_commit') == pipeline and item.get('package_tree') == old_tree and
+                item.get('whole_tree') == old_repo_tree and isinstance(item.get('reviewer'), str) and
+                item['reviewer'].strip() and isinstance(item.get('scope'), str) and item['scope'].strip(),
+                'Historical review identity mismatch')
+    require(full_review.get('result') == 'pass' and full_review.get('report', {}).get('status') == 'pass' and
+            full_review['report'].get('stage') == 'complete' and full_review['report'].get('errors') == [],
+            'Historical full review did not pass')
+    full_files = full_review.get('files_sha256', {})
+    require(full_files.get('full-3ud7ag1m/report.json') == full_sha and
+            full_files.get('full-3ud7ag1m/receipt.json') == full_adapter_sha and
+            full_files.get('full-inputs.json') == full_inputs_sha, 'Historical full review evidence mismatch')
+    require(review.get('result') == 'pass-conditional-on-immediate-merge-state-recheck' and
+            review.get('render', {}).get('status') == 'pass' and review['render'].get('stage') == 'complete' and
+            review['render'].get('errors') == [], 'Historical final review did not pass')
+    files, carried = review.get('files_sha256', {}), review.get('carried_evidence', {})
+    require(carried.get('full_report_sha256') == full_sha and carried.get('full_receipt_sha256') == full_adapter_sha and
+            files.get('hewitt-savage-full-report-review.json') == full_review_sha and
+            files.get('render-58s8adi4/report.json') == render_sha and
+            files.get('render-58s8adi4/receipt.json') == render_adapter_sha and
+            files.get('render-inputs.json') == render_inputs_sha, 'Historical final review evidence mismatch')
+
+
 def check(root, packet, archive, historical_commit, full_path, full_sha,
           full_adapter_path, full_adapter_sha, render_path, render_sha,
           render_adapter_path, render_adapter_sha, review_path, review_sha, full_review_path, full_review_sha,
@@ -154,19 +187,26 @@ def check(root, packet, archive, historical_commit, full_path, full_sha,
             render.get('lean_toolchain') == old['lean-toolchain'].decode().strip(), 'Historical rendering format or toolchain mismatch')
     require(render.get('surface', {}).get('declarations') == json.loads(old['comparator.json'])['theorem_names'] + json.loads(old['comparator.json'])['definition_names'],
             'Historical render surface mismatch')
-    require(review.get('status') == 'pass_final_independent_release_review' and
-            review.get('source_commit') == historical_commit and review.get('full_report_sha256') == full_sha and
-            review.get('render_report_sha256') == render_sha and review.get('render_receipt_sha256') == render_adapter_sha and
-            review.get('pipeline_commit') == pipeline and review.get('independent_full_review_sha256') == full_review_sha,
-            'Historical independent review mismatch')
     tree = lambda commit: subprocess.check_output(['git', '-C', str(root), 'rev-parse', commit + ':' + project], text=True).strip()
     require(packet.get('source_package_tree') == tree(corrected), 'Packet package tree mismatch')
-    require(review.get('package_tree') == tree(historical_commit) and
-            full_review.get('status') == 'pass_full_report_authentication' and full_review.get('source_commit') == historical_commit and
-            full_review.get('pipeline_commit') == pipeline and full_review.get('package_tree') == tree(historical_commit) and
-            full_review.get('report_sha256') == full_sha and full_review.get('receipt_sha256') == full_adapter_sha,
-            'Historical full review or package binding mismatch')
     repo_tree = lambda commit: subprocess.check_output(['git', '-C', str(root), 'rev-parse', commit + '^{tree}'], text=True).strip()
+    if (project, historical_commit) == ('topology/hewitt-savage-category',
+                                        'd2805a37b3f40462e8e3c20e1f3d04c2be1ec28b'):
+        check_hewitt_historical_reviews(review, full_review, fields, historical_commit, pipeline,
+                                        tree(historical_commit), repo_tree(historical_commit), full_sha, full_adapter_sha,
+                                        render_sha, render_adapter_sha, full_review_sha,
+                                        fa['inputs_sha256'], ra['inputs_sha256'])
+    else:
+        require(review.get('status') == 'pass_final_independent_release_review' and
+                review.get('source_commit') == historical_commit and review.get('full_report_sha256') == full_sha and
+                review.get('render_report_sha256') == render_sha and review.get('render_receipt_sha256') == render_adapter_sha and
+                review.get('pipeline_commit') == pipeline and review.get('independent_full_review_sha256') == full_review_sha,
+                'Historical independent review mismatch')
+        require(review.get('package_tree') == tree(historical_commit) and
+                full_review.get('status') == 'pass_full_report_authentication' and full_review.get('source_commit') == historical_commit and
+                full_review.get('pipeline_commit') == pipeline and full_review.get('package_tree') == tree(historical_commit) and
+                full_review.get('report_sha256') == full_sha and full_review.get('receipt_sha256') == full_adapter_sha,
+                'Historical full review or package binding mismatch')
     diff = subprocess.check_output(['git', '-C', str(root), 'diff', '--no-ext-diff', '--binary', historical_commit, corrected])
     require(scope.get('status') == 'pass' and scope.get('kind') == 'independent-source-boundary-review' and
             scope.get('historical_commit') == historical_commit and scope.get('corrected_commit') == corrected and

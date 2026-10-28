@@ -14,6 +14,53 @@ from check_status_only_evidence import classify, check_archive_modes
 import check_status_only_evidence as reuse
 
 
+class HewittHistoricalReviewSchema(unittest.TestCase):
+    def setUp(self):
+        self.fields = {'repository': 'Arthur742Ramos/Math-Formalization', 'project_path': 'topology/hewitt-savage-category'}
+        self.commit = 'd2805a37b3f40462e8e3c20e1f3d04c2be1ec28b'
+        self.pipeline, self.tree, self.repo_tree = 'p'*40, 't'*40, 'r'*40
+        self.full, self.fa, self.render, self.ra, self.fr, self.fi, self.ri = [x*64 for x in '1234567']
+        common = {'schema_version': 1, 'repository': self.fields['repository'], 'project': self.fields['project_path'],
+                  'source_commit': self.commit, 'pipeline_commit': self.pipeline, 'package_tree': self.tree,
+                  'whole_tree': self.repo_tree, 'reviewer': 'independent internal AI', 'scope': 'historical evidence'}
+        self.full_review = dict(common, result='pass', report={'status': 'pass', 'stage': 'complete', 'errors': []},
+            files_sha256={'full-3ud7ag1m/report.json': self.full, 'full-3ud7ag1m/receipt.json': self.fa, 'full-inputs.json': self.fi})
+        self.review = dict(common, result='pass-conditional-on-immediate-merge-state-recheck',
+            render={'status': 'pass', 'stage': 'complete', 'errors': []},
+            carried_evidence={'full_report_sha256': self.full, 'full_receipt_sha256': self.fa},
+            files_sha256={'hewitt-savage-full-report-review.json': self.fr, 'render-58s8adi4/report.json': self.render,
+                          'render-58s8adi4/receipt.json': self.ra, 'render-inputs.json': self.ri})
+
+    def check(self):
+        return reuse.check_hewitt_historical_reviews(self.review, self.full_review, self.fields, self.commit,
+            self.pipeline, self.tree, self.repo_tree, self.full, self.fa, self.render, self.ra, self.fr, self.fi, self.ri)
+
+    def test_original_review_schema_passes(self):
+        self.check()
+
+    def test_identity_and_evidence_mutations_fail(self):
+        cases = [(self.fields, 'project_path', 'topology/other'),
+                 (self.full_review, 'schema_version', 2), (self.full_review, 'whole_tree', 'x'*40),
+                 (self.full_review, 'source_commit', 'x'*40), (self.full_review, 'pipeline_commit', 'x'*40),
+                 (self.full_review, 'reviewer', ''), (self.full_review, 'result', 'fail'),
+                 (self.full_review['report'], 'stage', 'partial'), (self.full_review['report'], 'errors', ['error']),
+                 (self.full_review['files_sha256'], 'full-3ud7ag1m/report.json', 'x'*64),
+                 (self.full_review['files_sha256'], 'full-3ud7ag1m/receipt.json', 'x'*64),
+                 (self.full_review['files_sha256'], 'full-inputs.json', 'x'*64),
+                 (self.review, 'result', 'pass'), (self.review['render'], 'errors', ['error']),
+                 (self.review['files_sha256'], 'hewitt-savage-full-report-review.json', 'x'*64),
+                 (self.review['files_sha256'], 'render-58s8adi4/report.json', 'x'*64),
+                 (self.review['files_sha256'], 'render-58s8adi4/receipt.json', 'x'*64),
+                 (self.review['files_sha256'], 'render-inputs.json', 'x'*64),
+                 (self.review['carried_evidence'], 'full_report_sha256', 'x'*64)]
+        for obj, key, bad in cases:
+            with self.subTest(key=key):
+                before = obj[key]
+                obj[key] = bad
+                with self.assertRaises(ValueError): self.check()
+                obj[key] = before
+
+
 class StatusOnlyEvidence(unittest.TestCase):
     def setUp(self):
         metadata = {'project': {'authors': ['A'], 'license': 'Apache-2.0'},
@@ -126,6 +173,20 @@ class EvidenceChain(unittest.TestCase):
                 before = obj[key]; obj[key] = wrong
                 with self.assertRaises(ValueError): self.run_check()
                 obj[key] = before
+
+    def test_hewitt_source_cannot_fall_back_to_legacy_review_schema(self):
+        old_commit, old_project = self.old_commit, self.project
+        self.old_commit = 'd2805a37b3f40462e8e3c20e1f3d04c2be1ec28b'
+        self.project = 'topology/hewitt-savage-category'
+        def replace(value):
+            if isinstance(value, dict): return {k: replace(v) for k, v in value.items()}
+            if isinstance(value, list): return [replace(v) for v in value]
+            if isinstance(value, str): return value.replace(old_commit, self.old_commit).replace(old_project, self.project)
+            return value
+        self.fields = replace(self.fields)
+        self.objects = replace(self.objects)
+        with self.assertRaisesRegex(ValueError, 'Historical review identity mismatch'):
+            self.run_check()
 
     def test_unreviewed_claims_or_repository_boundary_rejected(self):
         for key, wrong in [('selected_proof_inputs','unknown'), ('whole_checkout_verification','pass'), ('claims_match_evidence',False), ('attribution_accurate',False), ('render_impact_reviewed',False), ('unresolved_blockers',['unresolved']), ('repository_diff_sha256','0'*64)]:
