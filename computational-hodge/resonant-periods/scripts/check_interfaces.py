@@ -40,6 +40,12 @@ public def main : IO Unit := do
   se := { se with constMap := se.constMap.insert n (.defnInfo { v with value := mkConst ``False }) }
  IO.ofExcept (Lake.Check.compareAt ce se THEOREMS DEFINITIONS PRIMITIVES)
  IO.println "EXACT_COMPARATOR pass"
+ -- This negative control must exercise the separate value-closure check.
+ -- The altered definition is now selected, so the normal literal-value
+ -- assertion below would otherwise reject it before closure is examined.
+ if control == "closure" then
+  IO.ofExcept (Lake.Check.compareAt ce se THEOREMS #[] (DEFINITIONS ++ PRIMITIVES))
+  throw (IO.userError "closure negative control unexpectedly passed")
  for n in NAMES do
   let some ci := ce.constMap[n]? | throw (IO.userError s!"missing Challenge {n}")
   let some si := se.constMap[n]? | throw (IO.userError s!"missing Solution {n}")
