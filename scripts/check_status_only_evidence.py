@@ -99,8 +99,19 @@ def check(root, packet, archive, historical_commit, full_path, full_sha,
     current_modes = modes(root, corrected, project)
     changes = classify(old, new, modes(root, historical_commit, project), current_modes)
     check_status(root, corrected, project)
-    check_archive(pathlib.Path(archive).read_bytes(), new)
-    check_archive_modes(pathlib.Path(archive).read_bytes(), current_modes)
+    archive_path = pathlib.Path(archive)
+    archive_bytes = archive_path.read_bytes()
+    check_archive(archive_bytes, new)
+    check_archive_modes(archive_bytes, current_modes)
+    source_archive = packet['source_archive']
+    require(source_archive.get('file') == archive_path.name and source_archive.get('sha256') == sha(archive_bytes) and
+            source_archive.get('files') == len(new), 'Packet archive binding mismatch')
+    config = json.loads(new['comparator.json'])
+    challenge_name = config['challenge_module'].replace('.', '/') + '.lean'
+    for key, name in [('metadata_sha256', 'formalization.yaml'), ('comparator_sha256', 'comparator.json'),
+                      ('challenge_sha256', challenge_name), ('lake_manifest_sha256', 'lake-manifest.json')]:
+        require(packet.get(key) == sha(new[name]), 'Packet digest mismatch: ' + key)
+    require(packet.get('lean_toolchain') == new['lean-toolchain'].decode().strip(), 'Packet toolchain mismatch')
     full = _read_authenticated(full_path, full_sha, 'Historical full report')
     render = _read_authenticated(render_path, render_sha, 'Historical render report')
     fa = _read_authenticated(full_adapter_path, full_adapter_sha, 'Historical full adapter')
@@ -149,6 +160,7 @@ def check(root, packet, archive, historical_commit, full_path, full_sha,
             review.get('pipeline_commit') == pipeline and review.get('independent_full_review_sha256') == full_review_sha,
             'Historical independent review mismatch')
     tree = lambda commit: subprocess.check_output(['git', '-C', str(root), 'rev-parse', commit + ':' + project], text=True).strip()
+    require(packet.get('source_package_tree') == tree(corrected), 'Packet package tree mismatch')
     require(review.get('package_tree') == tree(historical_commit) and
             full_review.get('status') == 'pass_full_report_authentication' and full_review.get('source_commit') == historical_commit and
             full_review.get('pipeline_commit') == pipeline and full_review.get('package_tree') == tree(historical_commit) and

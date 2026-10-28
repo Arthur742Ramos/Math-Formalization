@@ -75,7 +75,7 @@ class EvidenceChain(unittest.TestCase):
         self.repo = 'Arthur742Ramos/Math-Formalization'
         meta = {'project': {'authors': ['A']}, 'status': {'known_gaps': 'old', 'sorry_count': 0}, 'review': {'notes': 'old'}}
         config = {'challenge_module': 'Challenge', 'solution_module': 'Solution', 'theorem_names': ['t'], 'definition_names': []}
-        self.old = {'README.md': b'old', 'formalization.yaml': json.dumps(meta).encode(), 'comparator.json': json.dumps(config).encode(), 'Challenge.lean': b'theorem', 'Solution.lean': b'proof', 'lakefile.toml': b'', 'lean-toolchain': b'lean'}
+        self.old = {'README.md': b'old', 'formalization.yaml': json.dumps(meta).encode(), 'comparator.json': json.dumps(config).encode(), 'Challenge.lean': b'theorem', 'Solution.lean': b'proof', 'lakefile.toml': b'', 'lake-manifest.json': b'{}', 'lean-toolchain': b'lean'}
         self.new = dict(self.old, **{'README.md': b'new'})
         self.modes = {name: '100644' for name in self.old}
         self.fields = {'repository': self.repo, 'project_path': self.project, 'commit': self.new_commit, 'comparator_config_path': self.project+'/comparator.json', 'formalization_metadata_path': self.project+'/formalization.yaml'}
@@ -104,8 +104,14 @@ class EvidenceChain(unittest.TestCase):
             if report['source']['commit'] != fields['commit']: raise ValueError('wrong full source')
         with tempfile.TemporaryDirectory() as directory:
             archive = pathlib.Path(directory)/'archive.tar'; archive.write_bytes(b'archive')
+            packet = {'proposed_submission_fields': self.fields, 'pipeline_commit': self.pipeline,
+                      'source_archive': {'file': archive.name, 'sha256': reuse.sha(b'archive'), 'files': len(self.new)},
+                      'source_package_tree': 'newpkg', 'metadata_sha256': reuse.sha(self.new['formalization.yaml']),
+                      'comparator_sha256': reuse.sha(self.new['comparator.json']), 'challenge_sha256': reuse.sha(self.new['Challenge.lean']),
+                      'lake_manifest_sha256': reuse.sha(self.new['lake-manifest.json']), 'lean_toolchain': 'lean'}
+            packet.update(getattr(self, 'packet_override', {}))
             with mock.patch.object(reuse, 'snapshot', side_effect=lambda root, commit, project: self.old if commit == self.old_commit else self.new), mock.patch.object(reuse, 'modes', return_value=self.modes), mock.patch.object(reuse, 'check_status'), mock.patch.object(reuse, 'check_archive'), mock.patch.object(reuse, 'check_archive_modes'), mock.patch.object(reuse, 'bind_full', side_effect=binder), mock.patch.object(reuse, '_read_authenticated', side_effect=lambda path, expected, label: self.objects[path]), mock.patch.object(reuse.subprocess, 'check_output', side_effect=git_output):
-                return reuse.check(pathlib.Path(directory), {'proposed_submission_fields': self.fields, 'pipeline_commit': self.pipeline}, archive, self.old_commit, 'full', self.full_sha, 'fa', self.fa_sha, 'render', self.render_sha, 'ra', self.ra_sha, 'review', self.review_sha, 'fr', self.fr_sha, 'scope', self.scope_sha)
+                return reuse.check(pathlib.Path(directory), packet, archive, self.old_commit, 'full', self.full_sha, 'fa', self.fa_sha, 'render', self.render_sha, 'ra', self.ra_sha, 'review', self.review_sha, 'fr', self.fr_sha, 'scope', self.scope_sha)
 
     def test_bound_history_is_not_relabelled_fresh(self):
         result = self.run_check()
@@ -127,6 +133,12 @@ class EvidenceChain(unittest.TestCase):
                 before = self.scope[key]; self.scope[key] = wrong
                 with self.assertRaises(ValueError): self.run_check()
                 self.scope[key] = before
+
+    def test_wrong_packet_archive_metadata_and_tree_rejected(self):
+        for key, wrong in [('source_archive', {'file':'other.tar','sha256':'0'*64,'files':len(self.new)}), ('metadata_sha256','0'*64), ('comparator_sha256','0'*64), ('challenge_sha256','0'*64), ('lake_manifest_sha256','0'*64), ('lean_toolchain','wrong'), ('source_package_tree','wrong')]:
+            with self.subTest(key=key):
+                self.packet_override = {key: wrong}
+                with self.assertRaises(ValueError): self.run_check()
 
     def test_new_or_removed_file_fails(self):
         self.new['Secret.lean'] = b'x'
