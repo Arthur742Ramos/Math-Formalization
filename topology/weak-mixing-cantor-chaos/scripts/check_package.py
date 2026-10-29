@@ -26,7 +26,7 @@ lake = tomllib.loads((p / "lakefile.toml").read_text(encoding="utf-8"))
 assert {"CantorChaos", "ChaosChallenge", "ChaosSolution", "SemanticChallenge",
         "SemanticSolution", "AxiomAudit", "Mycielski"} <= set(lake["defaultTargets"])
 challenge = (p / "ChaosChallenge.lean").read_bytes()
-assert challenge == (p / "CantorChaos.lean").read_bytes()
+subprocess.run([sys.executable, str(p / "scripts/build_challenge.py"), "--check"], check=True)
 assert (p / "ChaosSolution.lean").read_text(encoding="utf-8").startswith("module\npublic import CantorChaos\n")
 semantic_c = (p / "SemanticChallenge.lean").read_text(encoding="utf-8")
 semantic_s = (p / "SemanticSolution.lean").read_text(encoding="utf-8")

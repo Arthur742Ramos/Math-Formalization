@@ -32,9 +32,12 @@ single dense σ-Cantor scrambled union. See RESEARCH-NOTES.md for the bounded
 duplicate search and the scope of independent internal AI review.
 
 The three Mycielski modules are credited proof dependencies copied from the
-existing Mycielski package, not new selected results. ATTRIBUTION.md records
-their origin, license, campaign roles and inherited IP proof credits.
-Mathlib and Lean retain their own authorship.
+existing Mycielski package, not new selected results. The protected Challenge
+contains their full proof sections inline and imports only pinned Mathlib; the
+Solution uses the separately built local modules. The Challenge is generated
+from the credited sources and checked for exact textual agreement.
+ATTRIBUTION.md records origin, license, campaign roles and inherited IP proof
+credits. Mathlib and Lean retain their own authorship.
 
 Comparator selects the two CantorChaos theorems. Its definition-hole list is empty; the local definitions OpenTransitive, pairMap and DenseOrbit remain fixed, subject to definition-mutation controls. Separate semantic modules
 check the Challenge and Solution interfaces. When performed, source-bound verification,

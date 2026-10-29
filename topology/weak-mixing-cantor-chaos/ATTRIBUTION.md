@@ -15,7 +15,10 @@ OpenAI Codex, without inferred human proof contributions. The construction
 credits Mathlib's CantorScheme infrastructure and the classical Mycielski
 theorem: Jan Mycielski, “Independent sets in topological algebras”,
 https://eudml.org/doc/213780. The original scan was not inspected because
-access returned 403.
+access returned 403. ChaosChallenge.lean includes these full proof sections
+inline for protected compilation; scripts/build_challenge.py reconstructs and
+checks their source text. CantorChaos.lean and the Solution retain the local
+module structure. This repackaging does not change their attribution.
 
 The new draft adapts the generic orbit construction and late-return,
 square-punctured and iteration fragments of
