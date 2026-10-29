@@ -1,8 +1,10 @@
 # Determination patterns in infinite dependency models — Lean draft
 
-This is an incomplete, independently reviewable Lean development of selected
-results from the [Isabelle source snapshot](https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5).
-It is not yet a complete manuscript formalization, a release or a Palomar entry.
+This is an independently reviewable Lean development of selected results from
+the substantive prior [Isabelle formalization](https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5).
+The central pattern theorem at commit `5d035afa3d50bc9a4c3058232d5b5a2c57475026`
+is registered as [PALOMAR-2026-10-29-000039 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-29-000039&version=1).
+That entry selects the central theorem, not every result in this draft package.
 The principal numbered manuscript statements have been compared with the
 extracted version-6 text; the private manuscript bytes match the version-6 SHA-256. Final
 release-wide paper-to-source and evidence review remain open.
@@ -91,3 +93,8 @@ or registry registration is implied by the checks described here.
 [MANUSCRIPT-EXAMPLES.md](MANUSCRIPT-EXAMPLES.md) maps the explicit
 observation, shared-source, source-label, and majority-input examples and
 records which explanatory statements remain outside their scope.
+
+The [statement-level manuscript fidelity review](MANUSCRIPT-FIDELITY-5d.md)
+records the reviewed `5d` snapshot and its remaining boundaries. This successor
+adds the separately checked four-gate classification; the registered Palomar
+entry continues to identify its own earlier commit and selected theorem.

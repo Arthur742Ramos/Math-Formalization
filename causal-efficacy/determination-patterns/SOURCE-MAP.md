@@ -56,3 +56,11 @@ out at recorded file hashes; they are not human peer review or kernel checks.
 proves admissible total extension, relevance and operator preservation, and
 restriction in the other direction. The two encodings need not be equal as
 total functions outside the effective parent inputs or at roots.
+
+## Statement-level manuscript review
+
+The independent internal AI statement-level review of the exact version-6
+manuscript against the 5d snapshot is recorded in [MANUSCRIPT-FIDELITY-5d.md](MANUSCRIPT-FIDELITY-5d.md).
+That snapshot did not separately state the unrestricted four-gate classification;
+this successor adds it in `DeterminationPatterns/PaperBinaryGates.lean`. The review
+does not assert human review, cross-kernel verification or release certification.

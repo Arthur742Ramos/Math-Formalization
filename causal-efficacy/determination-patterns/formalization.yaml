@@ -24,9 +24,9 @@ sources:
     note: Selected mathematical results from the revised working draft of 28 October 2026; the manuscript is not bundled in this repository.
   - title: Causal efficacy Isabelle extension
     type: formalization
-    relationship: background
+    relationship: adapts
     id: https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5
-    note: Public companion source; this Lean development uses semantic bridges rather than a cross-kernel import.
+    note: Prior Isabelle/HOL formalization and substantive mathematical source for this Lean development; Lean proofs are separate and do not import Isabelle proof objects.
   - title: Foundations and Limits of Essentially Ordered Causal Regress Arguments
     type: formalization
     relationship: background
@@ -40,5 +40,16 @@ automation:
   methods:
     - method: AI-assisted formalization and proof development
       framework: OpenAI Codex
+related_formalizations:
+  - id: https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5
+    relationship: Prior Isabelle/HOL formalization of the same mathematical results.
+    note: Separate proof systems and proof objects; semantic correspondence is reviewed, not a cross-kernel proof.
 review:
-  status: Internal AI review and local checks; no human mathematical review or external peer review claimed.
+  status: >-
+    Independent internal AI statement-level review compared manuscript version 6
+    with Lean commit 5d035afa3d50bc9a4c3058232d5b5a2c57475026. All numbered
+    results have corresponding Lean declarations. This successor adds the
+    independently reviewed four-gate classification that was not explicit in
+    5d. Release-wide source and evidence review remains open; this is not a
+    human proof review, exhaustive supporting-proof audit, or cross-kernel
+    verification. The Palomar registration names the earlier 5d central theorem.

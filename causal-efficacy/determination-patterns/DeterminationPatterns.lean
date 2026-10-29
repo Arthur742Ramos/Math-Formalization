@@ -9,3 +9,4 @@ public import DeterminationPatterns.PaperExamples
 public import DeterminationPatterns.PaperGrounded
 public import DeterminationPatterns.PaperStageOmega
 public import DeterminationPatterns.PaperGraphExamples
+public import DeterminationPatterns.PaperBinaryGates
