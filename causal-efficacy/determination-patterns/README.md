@@ -25,12 +25,16 @@ edge relevance; and independent variation of all ambiguous vertices is not
 claimed. The labelled-spine occurrence gate differs from the Isabelle witness
 by a complement while proving the same existential property.
 
+Arthur Freitas Ramos is the formalization author and responsible maintainer.
+The earlier AFP baseline is by Arthur Freitas Ramos, David Barros Hulak and
+Ruy Jose Guerra Barretto de Queiroz, as credited below.
+
 OpenAI Codex authored substantive Lean proofs and packaging; separate internal
 AI reviewers checked selected statements and source fidelity. No human proof
 contribution or human mathematical review is inferred. The Lake build and
 internal AI source reviews are preliminary evidence only.
 The precise Isabelle–Lean semantic interpretation is described in
-`CROSS-SYSTEM.md`; it is not a cross-kernel proof. Final patch/evidence review, release metadata and authorship,
+`CROSS-SYSTEM.md`; it is not a cross-kernel proof. Final patch/evidence review and release metadata and authorship review,
 release-wide protected Comparator and definition-value checks, independent
 kernel checks, canonical verification and rendering remain outstanding. Local draft Comparator checks and bundled kernel replays passed on the
 source revisions identified in the historical receipts; they are not the
