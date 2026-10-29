@@ -1,0 +1,18 @@
+name: Minimal multiple recurrence Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-multiple-corrected-a6fd933
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: a6fd933f00c83a82c4d7ab510d17ae62e87dc75f
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: multicor0001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/minimal-multiple-recurrence","comparator_config_path":"topology/minimal-multiple-recurrence/comparator.json","formalization_metadata_path":"topology/minimal-multiple-recurrence/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
