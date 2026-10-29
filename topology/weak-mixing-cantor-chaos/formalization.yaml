@@ -7,7 +7,7 @@
     "responsible_maintainers": ["Arthur Freitas Ramos", "David Barros Hulak", "Ruy Jose Guerra Barretto de Queiroz"],
     "license": "Apache-2.0"
   },
-  "classification": {"arxiv": ["math.DS", "math.GN"], "msc2020": ["37B05", "54H20"]},
+  "classification": {"arxiv": ["math.DS", "math.GN"], "msc2020": ["37B05"]},
   "sources": [
     {"title": "On Li–Yorke pairs", "authors": ["François Blanchard", "Eli Glasner", "Sergii Kolyada", "Alejandro Maass"], "type": "paper", "id": "https://www.imath.kiev.ua/~skolyada/LY.pdf", "relationship": "formalizes", "note": "Weak mixing and independent transitive sets; this localized binary Cantor-family consequence does not assert the stronger all-arity or dense Mycielski conclusions."},
     {"title": "Independent sets in topological algebras", "authors": ["Jan Mycielski"], "type": "paper", "id": "https://eudml.org/doc/213780", "relationship": "background", "note": "Classical source for the separately credited binary Cantor fusion dependency; original scan access returned 403."}

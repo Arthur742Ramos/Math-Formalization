@@ -37,7 +37,7 @@ their origin, license, campaign roles and inherited IP proof credits.
 Mathlib and Lean retain their own authorship.
 
 Comparator selects the two CantorChaos theorems. Its definition-hole list is empty; the local definitions OpenTransitive, pairMap and DenseOrbit remain fixed, subject to definition-mutation controls. Separate semantic modules
-check the Challenge and Solution interfaces. Source-bound verification,
+check the Challenge and Solution interfaces. When performed, source-bound verification,
 dependency authentication, independent kernels, axiom audits and rendering
-are recorded in external receipts for each tested source; a local Lean build
+are recorded in external receipts identifying their tested source; a local Lean build
 alone is not a release or registration result.
