@@ -4,7 +4,7 @@ This is an incomplete, independently reviewable Lean development of selected
 results from the [Isabelle source snapshot](https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5).
 It is not yet a complete manuscript formalization, a release or a Palomar entry.
 The principal numbered manuscript statements have been compared with the
-Library-extracted version-6 text; independently verifying the local manuscript
+extracted version-6 text; independently verifying the local manuscript
 bytes and completing final paper-to-source review remain open.
 
 The current Lean development includes exact relevant forced-on/forced-off/

@@ -3,11 +3,10 @@
 Isabelle source: `causal-efficacy-isabelle@544f9084c00f4373581d230610e471fe445579e5`.
 The Isabelle pattern file SHA-256 is `045fb8504696235decbe1140f25de2373e2920ed8e76c20254fe794d58dd5202`.
 This table maps selected source declarations. The principal numbered statements
-below have also been compared against Library-extracted text of the 16-page
-manuscript version 6, whose Library-provided SHA-256 is
+below have also been compared against extracted text of the 16-page
+manuscript version 6, whose reported SHA-256 is
 `3d50d7a574f95620c6fabd10eb5bb158d8092ff22c4bdc76e4d172ae3ea499f5`.
-The materialized PDF bytes are not accessible to this execution host, so an
-independent local byte-hash check and final manuscript/source review remain open.
+An independent byte-hash check and final manuscript/source review remain open.
 
 | Source declaration(s) | Lean declaration(s) | Coverage and boundary |
 | --- | --- | --- |
