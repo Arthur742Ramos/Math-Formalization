@@ -279,7 +279,10 @@ theorem all_contexts_unique_iff_opposite_repeats {α : Type u} (l : Nat → α) 
       intro diff
       exact noPair ⟨i, hi, j, hj, labels, diff⟩
     obtain ⟨N, same⟩ := tail
+    clear notOpp
     let u : α → Bool := fun b => boolOf (∃ i, N ≤ i ∧ l i = b ∧ g i = false)
+    have forcing := (spine_unique_iff_cofinal_forcing l g u).mp (all u)
+    clear all
     have unequal : ∀ n, N ≤ n → g n ≠ u (l n) := by
       intro n hn
       cases gn : g n with
@@ -295,7 +298,6 @@ theorem all_contexts_unique_iff_opposite_repeats {α : Type u} (l : Nat → α) 
           cases eq
         have uf : u (l n) = false := by simp [u, boolOf, no]
         simp [uf]
-    have forcing := (spine_unique_iff_cofinal_forcing l g u).mp (all u)
     obtain ⟨n, hn, eq⟩ := forcing N
     exact unequal n hn eq
   · intro opp u
@@ -542,6 +544,7 @@ theorem labelled_context_determinate_iff {α : Type u} (l : Nat → α) (g : Nat
   constructor
   · intro det u
     obtain ⟨X, fx, unique⟩ := det (LabelContext u) (label_context_legal l u)
+    clear det
     let v : Region Nat := fun n => X (.link n)
     have state := label_fixed_as_state l g u X fx
     have sol : SpineSolution l g u v := by
@@ -555,8 +558,10 @@ theorem labelled_context_determinate_iff {α : Type u} (l : Nat → α) (g : Nat
     exact labelled_state_injective u w v eq
   · intro all U ctx
     rw [legal_label_context l U ctx]
+    clear ctx
     let u := fun b => boolOf (U (.root b))
     obtain ⟨v, sol, unique⟩ := all u
+    clear all
     refine ⟨LabelState u v, (label_state_fixed_iff l g u v).mpr sol, ?_⟩
     intro X fx
     let w : Region Nat := fun n => X (.link n)
@@ -597,6 +602,7 @@ theorem two_relevant_singletons_agree {β : Type u} (p q : β) (f : Region β �
       ¬ f S ∧ f (fun z => z = q ∨ S z)) :
     f (fun z => z = p) ↔ f (fun z => z = q) := by
   classical
+  clear _neq
   obtain ⟨Sp, hSp, np, pp⟩ := rp
   obtain ⟨Sq, hSq, nq, pq⟩ := rq
   have psub : Sub Sp (fun z => z = q) := by
@@ -604,21 +610,26 @@ theorem two_relevant_singletons_agree {β : Type u} (p q : β) (f : Region β �
     rcases (hSp hz).1 with hzP | hzQ
     · exact False.elim ((hSp hz).2 hzP)
     · exact hzQ
+  clear hSp
   have qsub : Sub Sq (fun z => z = p) := by
     intro z hz
     rcases (hSq hz).1 with hzP | hzQ
     · exact hzP
     · exact False.elim ((hSq hz).2 hzQ)
+  clear hSq
   have cp := subset_singleton_cases Sp q psub
   have cq := subset_singleton_cases Sq p qsub
+  clear psub qsub
   constructor
-  · intro fp
+  · clear cp np pp Sp
+    intro fp
     rcases cq with empty | single
     · subst Sq
       simpa using pq
     · subst Sq
       exact False.elim (nq fp)
-  · intro fq
+  · clear cq nq pq Sq
+    intro fq
     rcases cp with empty | single
     · subst Sp
       simpa using pp
@@ -635,15 +646,18 @@ theorem two_relevant_inputs_classify {β : Type u} (p q : β) (f : Region β →
       PropGate (boolOf (f (fun z => z = p))) (X p) (X q) := by
   classical
   have singles := two_relevant_singletons_agree p q f neq rp rq
+  clear neq rp rq
   by_cases hp : X p <;> by_cases hq : X q
-  · have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun z => z = p ∨ z = q) := by
+  · clear singles zero
+    have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun z => z = p ∨ z = q) := by
       funext z; apply propext
       constructor
       · intro h; exact h.2
       · intro h; rcases h with rfl | rfl <;> simp [hp, hq]
     rw [eq]
     by_cases hf : f (fun z => z = p) <;> simp [PropGate, boolOf, hf, hp, hq, one]
-  · have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun z => z = p) := by
+  · clear singles zero one
+    have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun z => z = p) := by
       funext z; apply propext
       constructor
       · rintro ⟨_, hz | hz⟩
@@ -652,7 +666,8 @@ theorem two_relevant_inputs_classify {β : Type u} (p q : β) (f : Region β →
       · intro hz; subst z; exact ⟨hp, Or.inl rfl⟩
     rw [eq]
     by_cases hf : f (fun z => z = p) <;> simp [PropGate, boolOf, hf, hp, hq]
-  · have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun z => z = q) := by
+  · clear zero one
+    have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun z => z = q) := by
       funext z; apply propext
       constructor
       · rintro ⟨_, hz | hz⟩
@@ -665,7 +680,8 @@ theorem two_relevant_inputs_classify {β : Type u} (p q : β) (f : Region β →
       simp [PropGate, boolOf, hf, hp, hq, hqf]
     · have hqf : ¬ f (fun z => z = q) := fun h => hf (singles.mpr h)
       simp [PropGate, boolOf, hf, hp, hq, hqf]
-  · have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun _ => False) := by
+  · clear singles one
+    have eq : (fun z => X z ∧ (z = p ∨ z = q)) = (fun _ => False) := by
       funext z; apply propext
       constructor
       · rintro ⟨hzX, hz | hz⟩
@@ -720,6 +736,7 @@ theorem relevant_context_operator_reduction {α : Type u} (l : Nat → α)
   | root b => simp [Step, Parents, LabelDependency]
   | link n =>
     have eq := relevant_mechanism_gate_reduction l f adm rel n X
+    clear adm rel
     have gateEq : PropGate (ExtractGate l f n)
         (X (.root (l n)) ∧ Parents (fun _ => True) (LabelDependency l) (.link n) (.root (l n)))
         (X (.link (n+1)) ∧ Parents (fun _ => True) (LabelDependency l) (.link n) (.link (n+1))) ↔
