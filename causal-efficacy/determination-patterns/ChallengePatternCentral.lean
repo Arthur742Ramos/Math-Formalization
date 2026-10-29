@@ -271,6 +271,119 @@ theorem status_mechanism_admissible {α : Type u} {C L Z Q : Region α}
           exact False.elim (hnone q hqp)
       · exact Or.inl ⟨⟨q, hqp, hqq, hqp⟩, fun _ h => h.1⟩
 
+/-- An edge into a forced-on vertex is relevant for the OR gate. -/
+theorem status_relevant_L {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
+    (hl : L x) (hy : Parents C D x y) :
+    ∃ S : Region α, Sub S (fun z => Parents C D x z ∧ z ≠ y) ∧
+      ¬ StatusMechanism C D L Z Q x S ∧
+        StatusMechanism C D L Z Q x (fun z => z = y ∨ S z) := by
+  classical
+  refine ⟨(fun _ => False), ?_, ?_, ?_⟩
+  · intro z hz; exact False.elim hz
+  · simp only [StatusMechanism, hl, ↓reduceIte, OrGate]
+    intro h
+    rcases h with hnone | ⟨_, _, bad⟩
+    · exact hnone y hy
+    · exact False.elim bad
+  · simp only [StatusMechanism, hl, ↓reduceIte, OrGate]
+    exact Or.inr ⟨y, hy, Or.inl rfl⟩
+
+/-- An edge into a forced-off vertex is relevant for the AND gate. -/
+theorem status_relevant_Z {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
+    (hl : ¬ L x) (hz : Z x) (hy : Parents C D x y) :
+    ∃ S : Region α, Sub S (fun z => Parents C D x z ∧ z ≠ y) ∧
+      ¬ StatusMechanism C D L Z Q x S ∧
+        StatusMechanism C D L Z Q x (fun z => z = y ∨ S z) := by
+  classical
+  refine ⟨(fun z => Parents C D x z ∧ z ≠ y), ?_, ?_, ?_⟩
+  · intro z h; exact h
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, AndGate]
+    intro h
+    exact (h y hy).2 rfl
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, AndGate]
+    intro z hp
+    by_cases heq : z = y
+    · exact Or.inl heq
+    · exact Or.inr ⟨hp, heq⟩
+
+/-- A forced-on parent is relevant for the ambiguous split gate. -/
+theorem status_relevant_Q_L {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
+    (part : StatusPartition C L Z Q) (hl : ¬ L x) (hz : ¬ Z x)
+    (hy : Parents C D x y) (hyL : L y) {q : α}
+    (hqP : Parents C D x q) (hqQ : Q q) :
+    ∃ S : Region α, Sub S (fun z => Parents C D x z ∧ z ≠ y) ∧
+      ¬ StatusMechanism C D L Z Q x S ∧
+        StatusMechanism C D L Z Q x (fun z => z = y ∨ S z) := by
+  classical
+  have hqne : q ≠ y := by
+    intro eq
+    subst q
+    exact (part.2.2.1 y) ⟨hyL, hqQ⟩
+  let S : Region α := fun z => z = q ∨ (Parents C D x z ∧ L z ∧ z ≠ y)
+  refine ⟨S, ?_, ?_, ?_⟩
+  · intro z h
+    rcases h with eq | ⟨hp, _, hne⟩
+    · subst z; exact ⟨hqP, hqne⟩
+    · exact ⟨hp, hne⟩
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
+    intro h
+    rcases h with ⟨_, hall⟩ | ⟨z, hp, hz', hS⟩
+    · have hSy := hall y ⟨hy, hyL⟩
+      rcases hSy with heq | ⟨_, _, hne⟩
+      · exact hqne heq.symm
+      · exact hne rfl
+    · rcases hS with heq | ⟨_, hL, _⟩
+      · subst z; exact (part.2.2.2 q) ⟨hz', hqQ⟩
+      · exact (part.2.1 z) ⟨hL, hz'⟩
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
+    apply Or.inl
+    constructor
+    · exact ⟨q, hqP, hqQ, Or.inr (Or.inl rfl)⟩
+    · intro z ⟨hp, hL⟩
+      by_cases heq : z = y
+      · exact Or.inl heq
+      · exact Or.inr (Or.inr ⟨hp, hL, heq⟩)
+
+/-- A forced-off parent is relevant for the ambiguous split gate. -/
+theorem status_relevant_Q_Z {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
+    (hl : ¬ L x) (hz : ¬ Z x) (hy : Parents C D x y) (hyZ : Z y) :
+    ∃ S : Region α, Sub S (fun z => Parents C D x z ∧ z ≠ y) ∧
+      ¬ StatusMechanism C D L Z Q x S ∧
+        StatusMechanism C D L Z Q x (fun z => z = y ∨ S z) := by
+  classical
+  refine ⟨(fun _ => False), ?_, ?_, ?_⟩
+  · intro z h; exact False.elim h
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
+    intro h
+    rcases h with ⟨⟨_, _, _, bad⟩, _⟩ | ⟨_, _, _, bad⟩ <;> exact False.elim bad
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
+    exact Or.inr ⟨y, hy, hyZ, Or.inl rfl⟩
+
+/-- An ambiguous parent is relevant for the ambiguous split gate. -/
+theorem status_relevant_Q_Q {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
+    (part : StatusPartition C L Z Q) (hl : ¬ L x) (hz : ¬ Z x)
+    (hy : Parents C D x y) (hyQ : Q y) :
+    ∃ S : Region α, Sub S (fun z => Parents C D x z ∧ z ≠ y) ∧
+      ¬ StatusMechanism C D L Z Q x S ∧
+        StatusMechanism C D L Z Q x (fun z => z = y ∨ S z) := by
+  classical
+  let S : Region α := fun z => Parents C D x z ∧ L z
+  refine ⟨S, ?_, ?_, ?_⟩
+  · intro z ⟨hp, hL⟩
+    constructor
+    · exact hp
+    · intro heq
+      subst z
+      exact (part.2.2.1 y) ⟨hL, hyQ⟩
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
+    intro h
+    rcases h with ⟨⟨z, _, hQ, ⟨_, hL⟩⟩, _⟩ | ⟨z, _, hZ, ⟨_, hL⟩⟩
+    · exact (part.2.2.1 z) ⟨hL, hQ⟩
+    · exact (part.2.1 z) ⟨hL, hZ⟩
+  · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
+    exact Or.inl ⟨⟨y, hy, hyQ, Or.inl rfl⟩, fun _ h => Or.inr h⟩
+
+
 theorem status_mechanism_relevant {α : Type u} {C L Z Q : Region α}
     {D : α → α → Prop} (part : StatusPartition C L Z Q)
     (qp : ∀ x, Q x → ∃ y, Parents C D x y ∧ Q y) :
@@ -278,84 +391,19 @@ theorem status_mechanism_relevant {α : Type u} {C L Z Q : Region α}
   classical
   intro x hx y hy
   by_cases hl : L x
-  · refine ⟨(fun _ => False), ?_, ?_, ?_⟩
-    · intro z hz; exact False.elim hz
-    · simp only [StatusMechanism, hl, ↓reduceIte, OrGate]
-      intro h
-      rcases h with hnone | ⟨_, _, bad⟩
-      · exact hnone y hy
-      · exact False.elim bad
-    · simp only [StatusMechanism, hl, ↓reduceIte, OrGate]
-      exact Or.inr ⟨y, hy, Or.inl rfl⟩
+  · exact status_relevant_L hl hy
   · by_cases hz : Z x
-    · refine ⟨(fun z => Parents C D x z ∧ z ≠ y), ?_, ?_, ?_⟩
-      · intro z h; exact h
-      · simp only [StatusMechanism, hl, hz, ↓reduceIte, AndGate]
-        intro h
-        exact (h y hy).2 rfl
-      · simp only [StatusMechanism, hl, hz, ↓reduceIte, AndGate]
-        intro z hp
-        by_cases heq : z = y
-        · exact Or.inl heq
-        · exact Or.inr ⟨hp, heq⟩
+    · exact status_relevant_Z hl hz hy
     · have hq : Q x := by
         rcases (part.1 x).mp hx with h | h | h
         · exact False.elim (hl h)
         · exact False.elim (hz h)
         · exact h
-      have yCases := (part.1 y).mp hy.1
-      rcases yCases with hyL | hyZ | hyQ
+      rcases (part.1 y).mp hy.1 with hyL | hyZ | hyQ
       · obtain ⟨q, hqP, hqQ⟩ := qp x hq
-        have hqne : q ≠ y := by
-          intro eq
-          subst q
-          exact (part.2.2.1 y) ⟨hyL, hqQ⟩
-        let S : Region α := fun z => z = q ∨ (Parents C D x z ∧ L z ∧ z ≠ y)
-        refine ⟨S, ?_, ?_, ?_⟩
-        · intro z h
-          rcases h with eq | ⟨hp, _, hne⟩
-          · subst z; exact ⟨hqP, hqne⟩
-          · exact ⟨hp, hne⟩
-        · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-          intro h
-          rcases h with ⟨_, hall⟩ | ⟨z, hp, hz', hS⟩
-          · have hSy := hall y ⟨hy, hyL⟩
-            rcases hSy with heq | ⟨_, _, hne⟩
-            · exact hqne heq.symm
-            · exact hne rfl
-          · rcases hS with heq | ⟨_, hL, _⟩
-            · subst z; exact (part.2.2.2 q) ⟨hz', hqQ⟩
-            · exact (part.2.1 z) ⟨hL, hz'⟩
-        · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-          apply Or.inl
-          constructor
-          · exact ⟨q, hqP, hqQ, Or.inr (Or.inl rfl)⟩
-          · intro z ⟨hp, hL⟩
-            by_cases heq : z = y
-            · exact Or.inl heq
-            · exact Or.inr (Or.inr ⟨hp, hL, heq⟩)
-      · refine ⟨(fun _ => False), ?_, ?_, ?_⟩
-        · intro z h; exact False.elim h
-        · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-          intro h
-          rcases h with ⟨⟨_, _, _, bad⟩, _⟩ | ⟨_, _, _, bad⟩ <;> exact False.elim bad
-        · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-          exact Or.inr ⟨y, hy, hyZ, Or.inl rfl⟩
-      · let S : Region α := fun z => Parents C D x z ∧ L z
-        refine ⟨S, ?_, ?_, ?_⟩
-        · intro z ⟨hp, hL⟩
-          constructor
-          · exact hp
-          · intro heq
-            subst z
-            exact (part.2.2.1 y) ⟨hL, hyQ⟩
-        · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-          intro h
-          rcases h with ⟨⟨z, _, hQ, ⟨_, hL⟩⟩, _⟩ | ⟨z, _, hZ, ⟨_, hL⟩⟩
-          · exact (part.2.2.1 z) ⟨hL, hQ⟩
-          · exact (part.2.1 z) ⟨hL, hZ⟩
-        · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-          exact Or.inl ⟨⟨y, hy, hyQ, Or.inl rfl⟩, fun _ h => Or.inr h⟩
+        exact status_relevant_Q_L part hl hz hy hyL hqP hqQ
+      · exact status_relevant_Q_Z hl hz hy hyZ
+      · exact status_relevant_Q_Q part hl hz hy hyQ
 
 /-! ## Sufficiency: fixed points and extrema -/
 
@@ -367,6 +415,86 @@ theorem path_last_or_seed {α : Type u} {A B : Region α} {D : α → α → Pro
   | refl _ => exact Or.inl hb
   | step path _ edge => exact Or.inr ⟨_, path_target path, edge⟩
 
+/-- The update sends the proposed forced-on region into itself. -/
+theorem status_low_forward {α : Type u} {C L Z Q U : Region α} {D : α → α → Prop}
+    (part : StatusPartition C L Z Q) (ul : Sub U L) (zp : ∀ x, Z x → (∀ y, ¬ Parents C D x y) ∨ ∃ y, Parents C D x y ∧ Z y) :
+    Sub (Step C D (StatusMechanism C D L Z Q) U L) L := by
+  classical
+  intro x h
+  rcases h with hu | ⟨hxC, ⟨p, hp⟩, hf⟩
+  · exact ul hu
+  · by_cases hxL : L x
+    · exact hxL
+    · by_cases hxZ : Z x
+      · simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, AndGate] at hf
+        rcases zp x hxZ with hroot | ⟨y, hyP, hyZ⟩
+        · exact False.elim (hroot p hp)
+        · exact False.elim ((part.2.1 y) ⟨(hf y hyP).1, hyZ⟩)
+      · simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, SplitGate] at hf
+        rcases hf with ⟨⟨y, _, hyQ, hyL, _⟩, _⟩ | ⟨y, _, hyZ, hyL, _⟩
+        · exact False.elim ((part.2.2.1 y) ⟨hyL, hyQ⟩)
+        · exact False.elim ((part.2.1 y) ⟨hyL, hyZ⟩)
+
+/-- Every proposed forced-on vertex is in its update. -/
+theorem status_low_backward {α : Type u} {C L Z Q U : Region α} {D : α → α → Prop}
+    (lc : Sub L C) (lu : ∀ x, L x → U x ∨ ∃ y, Parents C D x y ∧ L y) :
+    Sub L (Step C D (StatusMechanism C D L Z Q) U L) := by
+  classical
+  intro x hxL
+  rcases lu x hxL with hu | ⟨y, hyP, hyL⟩
+  · exact Or.inl hu
+  · apply Or.inr
+    refine ⟨lc hxL, ⟨y, hyP⟩, ?_⟩
+    simp only [StatusMechanism, hxL, ↓reduceIte, OrGate]
+    exact Or.inr ⟨y, hyP, hyL, hyP⟩
+
+/-- The update preserves the carrier outside the forced-off region. -/
+theorem status_high_forward {α : Type u} {C L Z Q U : Region α} {D : α → α → Prop}
+    (part : StatusPartition C L Z Q) (ul : Sub U L)
+    (lc : Sub L C) (unotz : ∀ x, U x → ¬ Z x) (zp : ∀ x, Z x → (∀ y, ¬ Parents C D x y) ∨ ∃ y, Parents C D x y ∧ Z y) :
+    Sub (Step C D (StatusMechanism C D L Z Q) U (fun x => C x ∧ ¬ Z x)) (fun x => C x ∧ ¬ Z x) := by
+  classical
+  intro x h
+  rcases h with hu | ⟨hxC, ⟨p, hp⟩, hf⟩
+  · exact ⟨lc (ul hu), unotz x hu⟩
+  · refine ⟨hxC, ?_⟩
+    intro hxZ
+    have hxL : ¬ L x := by intro hl; exact (part.2.1 x) ⟨hl, hxZ⟩
+    simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, AndGate] at hf
+    rcases zp x hxZ with hroot | ⟨y, hyP, hyZ⟩
+    · exact hroot p hp
+    · exact (hf y hyP).1.2 hyZ
+
+/-- Every carrier vertex outside the forced-off region is in its update. -/
+theorem status_high_backward {α : Type u} {C L Z Q U : Region α} {D : α → α → Prop}
+    (part : StatusPartition C L Z Q) (lc : Sub L C) (qc : Sub Q C) (lu : ∀ x, L x → U x ∨ ∃ y, Parents C D x y ∧ L y)
+    (qp : ∀ x, Q x → ∃ y, Parents C D x y ∧ Q y) :
+    Sub (fun x => C x ∧ ¬ Z x) (Step C D (StatusMechanism C D L Z Q) U (fun x => C x ∧ ¬ Z x)) := by
+  classical
+  intro x ⟨hxC, hxNotZ⟩
+  by_cases hxL : L x
+  · rcases lu x hxL with hu | ⟨y, hyP, hyL⟩
+    · exact Or.inl hu
+    · apply Or.inr
+      refine ⟨hxC, ⟨y, hyP⟩, ?_⟩
+      simp only [StatusMechanism, hxL, ↓reduceIte, OrGate]
+      exact Or.inr ⟨y, hyP, ⟨lc hyL, fun hz => (part.2.1 y) ⟨hyL, hz⟩⟩, hyP⟩
+  · have hxQ : Q x := by
+      rcases (part.1 x).mp hxC with h | h | h
+      · exact False.elim (hxL h)
+      · exact False.elim (hxNotZ h)
+      · exact h
+    obtain ⟨q, hqP, hqQ⟩ := qp x hxQ
+    apply Or.inr
+    refine ⟨hxC, ⟨q, hqP⟩, ?_⟩
+    simp only [StatusMechanism, hxL, hxNotZ, ↓reduceIte, SplitGate]
+    apply Or.inl
+    constructor
+    · exact ⟨q, hqP, hqQ, ⟨qc hqQ, fun hz => (part.2.2.2 q) ⟨hz, hqQ⟩⟩, hqP⟩
+    · intro y ⟨hyP, hyL⟩
+      exact ⟨⟨lc hyL, fun hz => (part.2.1 y) ⟨hyL, hz⟩⟩, hyP⟩
+
+
 theorem status_two_fixed_points {α : Type u} {C L Z Q U : Region α}
     {D : α → α → Prop} (part : StatusPartition C L Z Q)
     (cond : PatternConditions C D U L Z Q) :
@@ -377,12 +505,14 @@ theorem status_two_fixed_points {α : Type u} {C L Z Q U : Region α}
   have zc : Sub Z C := by intro x hx; exact (part.1 x).mpr (Or.inr (Or.inl hx))
   have qc : Sub Q C := by intro x hx; exact (part.1 x).mpr (Or.inr (Or.inr hx))
   have lu : ∀ x, L x → U x ∨ ∃ y, Parents C D x y ∧ L y := by
+    clear zc qc
     intro x hx
     have reach : InternalReach L D U x := by rw [cond.2.2.1]; exact hx
     rcases path_last_or_seed reach with hu | ⟨y, hyL, hD⟩
     · exact Or.inl hu
     · exact Or.inr ⟨y, ⟨lc hyL, hD⟩, hyL⟩
   have zp : ∀ x, Z x → (∀ y, ¬ Parents C D x y) ∨ ∃ y, Parents C D x y ∧ Z y := by
+    clear lc qc lu
     intro x hx
     have reach : InternalReach Z D (fun x => Roots C D x ∧ ¬ U x) x := by
       rw [cond.2.2.2.1]; exact hx
@@ -395,65 +525,10 @@ theorem status_two_fixed_points {α : Type u} {C L Z Q U : Region α}
   constructor
   · apply funext
     intro x
-    apply propext
-    constructor
-    · intro h
-      rcases h with hu | ⟨hxC, ⟨p, hp⟩, hf⟩
-      · exact cond.1 hu
-      · by_cases hxL : L x
-        · exact hxL
-        · by_cases hxZ : Z x
-          · simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, AndGate] at hf
-            rcases zp x hxZ with hroot | ⟨y, hyP, hyZ⟩
-            · exact False.elim (hroot p hp)
-            · exact False.elim ((part.2.1 y) ⟨(hf y hyP).1, hyZ⟩)
-          · simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, SplitGate] at hf
-            rcases hf with ⟨⟨y, _, hyQ, hyL, _⟩, _⟩ | ⟨y, _, hyZ, hyL, _⟩
-            · exact False.elim ((part.2.2.1 y) ⟨hyL, hyQ⟩)
-            · exact False.elim ((part.2.1 y) ⟨hyL, hyZ⟩)
-    · intro hxL
-      rcases lu x hxL with hu | ⟨y, hyP, hyL⟩
-      · exact Or.inl hu
-      · apply Or.inr
-        refine ⟨lc hxL, ⟨y, hyP⟩, ?_⟩
-        simp only [StatusMechanism, hxL, ↓reduceIte, OrGate]
-        exact Or.inr ⟨y, hyP, hyL, hyP⟩
+    exact propext ⟨fun h => status_low_forward part cond.1 zp h, fun h => status_low_backward lc lu h⟩
   · apply funext
     intro x
-    apply propext
-    constructor
-    · intro h
-      rcases h with hu | ⟨hxC, ⟨p, hp⟩, hf⟩
-      · exact ⟨lc (cond.1 hu), unotz x hu⟩
-      · refine ⟨hxC, ?_⟩
-        intro hxZ
-        have hxL : ¬ L x := by intro hl; exact (part.2.1 x) ⟨hl, hxZ⟩
-        simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, AndGate] at hf
-        rcases zp x hxZ with hroot | ⟨y, hyP, hyZ⟩
-        · exact hroot p hp
-        · exact (hf y hyP).1.2 hyZ
-    · intro ⟨hxC, hxNotZ⟩
-      by_cases hxL : L x
-      · rcases lu x hxL with hu | ⟨y, hyP, hyL⟩
-        · exact Or.inl hu
-        · apply Or.inr
-          refine ⟨hxC, ⟨y, hyP⟩, ?_⟩
-          simp only [StatusMechanism, hxL, ↓reduceIte, OrGate]
-          exact Or.inr ⟨y, hyP, ⟨lc hyL, fun hz => (part.2.1 y) ⟨hyL, hz⟩⟩, hyP⟩
-      · have hxQ : Q x := by
-          rcases (part.1 x).mp hxC with h | h | h
-          · exact False.elim (hxL h)
-          · exact False.elim (hxNotZ h)
-          · exact h
-        obtain ⟨q, hqP, hqQ⟩ := cond.2.2.2.2 x hxQ
-        apply Or.inr
-        refine ⟨hxC, ⟨q, hqP⟩, ?_⟩
-        simp only [StatusMechanism, hxL, hxNotZ, ↓reduceIte, SplitGate]
-        apply Or.inl
-        constructor
-        · exact ⟨q, hqP, hqQ, ⟨qc hqQ, fun hz => (part.2.2.2 q) ⟨hz, hqQ⟩⟩, hqP⟩
-        · intro y ⟨hyP, hyL⟩
-          exact ⟨⟨lc hyL, fun hz => (part.2.1 y) ⟨hyL, hz⟩⟩, hyP⟩
+    exact propext ⟨fun h => status_high_forward part cond.1 lc unotz zp h, fun h => status_high_backward part lc qc lu cond.2.2.2.2 h⟩
 
 theorem status_forces_paths {α : Type u} {C L Z Q U X : Region α}
     {D : α → α → Prop} (part : StatusPartition C L Z Q)
@@ -477,6 +552,7 @@ theorem status_forces_paths {α : Type u} {C L Z Q U X : Region α}
     · exact (ctx hu).1
     · exact hc
   have lpath : ∀ x, InternalReach L D U x → X x := by
+    clear zc xc ctx part cond fixed
     intro x h
     obtain ⟨b, hb, path⟩ := h
     induction path with
@@ -492,6 +568,7 @@ theorem status_forces_paths {α : Type u} {C L Z Q U X : Region α}
       rw [fixedF] at hf
       exact hf
   have zpath : ∀ x, InternalReach Z D (fun x => Roots C D x ∧ ¬ U x) x → ¬ X x := by
+    clear lc ux xc ctx fixed lpath
     intro x h
     obtain ⟨b, ⟨hbRoot, hbNotU⟩, path⟩ := h
     induction path with
