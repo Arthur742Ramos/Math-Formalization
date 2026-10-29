@@ -1,0 +1,12 @@
+{
+  "challenge_module": "ChallengeRegionSuff",
+  "solution_module": "SolutionRegion",
+  "theorem_names": [
+    "DeterminationPatterns.region_conditions_sufficient"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

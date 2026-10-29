@@ -1,0 +1,10 @@
+{
+  "challenge_module": "ChallengePattern",
+  "solution_module": "SolutionPattern",
+  "theorem_names": [
+    "DeterminationPatterns.exact_relevant_pattern_realization",
+    "DeterminationPatterns.realized_pattern_necessary",
+    "DeterminationPatterns.pattern_witness_extrema"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}

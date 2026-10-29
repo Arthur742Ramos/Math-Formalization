@@ -1,0 +1,27 @@
+name = "determination-patterns"
+version = "0.1.0"
+defaultTargets = ["DeterminationPatterns"]
+
+[[lean_lib]]
+name = "DeterminationPatterns"
+
+[[lean_lib]]
+name = "ChallengePattern"
+
+[[lean_lib]]
+name = "SolutionPattern"
+
+[[lean_lib]]
+name = "ChallengeRegionNec"
+
+[[lean_lib]]
+name = "ChallengeRegionSuff"
+
+[[lean_lib]]
+name = "SolutionRegion"
+
+[[lean_lib]]
+name = "ChallengeSource"
+
+[[lean_lib]]
+name = "SolutionSource"

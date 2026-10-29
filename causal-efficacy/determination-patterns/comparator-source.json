@@ -1,0 +1,16 @@
+{
+  "challenge_module": "ChallengeSource",
+  "solution_module": "SolutionSource",
+  "theorem_names": [
+    "DeterminationPatterns.determined_iff_fixed_agreement",
+    "DeterminationPatterns.active_determinate_internal_root_path",
+    "DeterminationPatterns.active_determined_region_eq_least",
+    "DeterminationPatterns.unique_contextual_solution_extrema",
+    "DeterminationPatterns.active_determined_nonroot_has_distinct_root"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
