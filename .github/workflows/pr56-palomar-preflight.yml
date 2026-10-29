@@ -1,0 +1,18 @@
+name: PR56 Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-pr56-20261029
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: fb6ad2cee4571c3a9611e21d7e05a4f04838dcf4
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: pr56test0001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/weak-mixing-equicontinuous-factors","comparator_config_path":"topology/weak-mixing-equicontinuous-factors/comparator.json","formalization_metadata_path":"topology/weak-mixing-equicontinuous-factors/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
