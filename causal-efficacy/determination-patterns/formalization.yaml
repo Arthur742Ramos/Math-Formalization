@@ -1,0 +1,44 @@
+version: v0.4
+project:
+  name: Determination Patterns in Infinite Dependency Models
+  description: >-
+    A Lean development of determination in infinite Boolean dependency models,
+    including pattern realization, attainable determinate regions, contextual
+    uniqueness, source-labelled spines, and a copy-majority representation.
+    The Comparator configurations select separately scoped parts of this
+    development; no single component is asserted to cover the whole paper.
+  authors:
+    - name: Arthur Freitas Ramos
+      github: Arthur742Ramos
+  responsible_maintainers:
+    - name: Arthur Freitas Ramos
+      github: Arthur742Ramos
+  license: Apache-2.0
+classification:
+  arxiv: [math.LO]
+  msc2020: [03B35, 06A06]
+sources:
+  - title: Determination Patterns in Infinite Dependency Models
+    type: paper
+    relationship: formalizes
+    note: Selected mathematical results from the revised working draft of 28 October 2026; the manuscript is not bundled in this repository.
+  - title: Causal efficacy Isabelle extension
+    type: formalization
+    relationship: background
+    id: https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5
+    note: Public companion source; this Lean development uses semantic bridges rather than a cross-kernel import.
+  - title: Foundations and Limits of Essentially Ordered Causal Regress Arguments
+    type: formalization
+    relationship: background
+    authors:
+      - Arthur Freitas Ramos
+      - David Barros Hulak
+      - Ruy Jose Guerra Barretto de Queiroz
+    id: https://isa-afp.org/entries/Thomistic_Causal_Arguments.html
+    note: Earlier AFP baseline and underlying work; retained notices are described in SOURCE-ATTRIBUTION.md.
+automation:
+  methods:
+    - method: AI-assisted formalization and proof development
+      framework: OpenAI Codex
+review:
+  status: Internal AI review and local checks; no human mathematical review or external peer review claimed.
