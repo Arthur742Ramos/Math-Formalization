@@ -70,3 +70,15 @@ example : IPTransitive.HasPositiveFiniteSums
     true true ({true} : Set Bool) ho hy
   intro V hV hyV
   refine ⟨1, by decide, ?_, ?_⟩ <;> simpa using hyV
+
+example : {n : ℕ | ∃ z ∈ (Set.univ : Set (PUnit × PUnit)),
+    (IPTransitive.pairMap (id : PUnit → PUnit))^[n] z ∈ Set.univ}.Infinite := by
+  have ht : IPTransitive.OpenTransitive (IPTransitive.pairMap (id : PUnit → PUnit)) := by
+    intro U V hU ⟨u, hu⟩ hV ⟨v, hv⟩
+    refine ⟨0, u, hu, ?_⟩
+    change u ∈ V
+    have huv : u = v := Subsingleton.elim u v
+    subst u
+    exact hv
+  exact IPTransitive.weak_mixing_infinite_hits (id : PUnit → PUnit) continuous_id ht
+    Set.univ Set.univ isOpen_univ Set.univ_nonempty isOpen_univ Set.univ_nonempty

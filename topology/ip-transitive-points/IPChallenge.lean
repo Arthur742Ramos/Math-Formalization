@@ -388,4 +388,44 @@ theorem exists_dense_Gdelta_ip_transitive {X : Type*} [TopologicalSpace X] [T2Sp
     ∃ C : Set X, IsGδ C ∧ Dense C ∧ C.Nonempty ∧ ∀ x ∈ C, IsIPTransitivePoint f x := by
   obtain ⟨C, hC, hG, hd⟩ := mem_residual.mp (residual_ip_transitive f hf ht)
   exact ⟨C, hG, hd, hd.nonempty, hC⟩
+/-- Square transitivity in the time-zero convention implies arbitrarily late
+square hitting times, including in the singleton case. -/
+theorem weak_mixing_hits_after {X : Type*} [TopologicalSpace X] [T2Space X]
+    [SecondCountableTopology X] [BaireSpace X]
+    (f : X → X) (hf : Continuous f) (ht : OpenTransitive (pairMap f))
+    (U V : Set (X × X)) (hU : IsOpen U) (hnU : U.Nonempty)
+    (hV : IsOpen V) (hnV : V.Nonempty) (N : ℕ) :
+    ∃ n : ℕ, N ≤ n ∧ ∃ z ∈ U, (pairMap f)^[n] z ∈ V := by
+  classical
+  by_cases hsub : Subsingleton X
+  · have : Subsingleton X := hsub
+    obtain ⟨z, hz⟩ := hnU
+    obtain ⟨w, hw⟩ := hnV
+    refine ⟨N, le_rfl, z, hz, ?_⟩
+    have he : (pairMap f)^[N] z = w := Subsingleton.elim _ _
+    simpa only [he] using hw
+  · have : Nontrivial X := not_subsingleton_iff_nontrivial.mp hsub
+    have hpair : Continuous (pairMap f) :=
+      (hf.comp continuous_fst).prodMk (hf.comp continuous_snd)
+    have hsections := eventually_residual_sections (residual_dense_orbits (pairMap f) hpair ht)
+    obtain ⟨⟨u, v⟩, huv⟩ := hnU
+    obtain ⟨A, B, hA, hB, huA, hvB, hAB⟩ := isOpen_prod_iff.mp hU u v huv
+    obtain ⟨x, hxA, hxgood⟩ := (dense_of_mem_residual hsections).inter_open_nonempty A hA ⟨u, huA⟩
+    obtain ⟨y, hyB, hxy⟩ := (dense_of_mem_residual hxgood).inter_open_nonempty B hB ⟨v, hvB⟩
+    have : ∀ z : X × X, NeBot (𝓝[≠] z) := square_punctured_neBot f ht
+    obtain ⟨n, hn, hv⟩ := dense_hits_after
+      (fun n : ℕ => (pairMap f)^[n] (x, y)) hxy V hV hnV N
+    exact ⟨n, hn, (x, y), hAB ⟨hxA, hyB⟩, hv⟩
+/-- The square hitting-time set is infinite, matching the source convention. -/
+theorem weak_mixing_infinite_hits {X : Type*} [TopologicalSpace X] [T2Space X]
+    [SecondCountableTopology X] [BaireSpace X]
+    (f : X → X) (hf : Continuous f) (ht : OpenTransitive (pairMap f))
+    (U V : Set (X × X)) (hU : IsOpen U) (hnU : U.Nonempty)
+    (hV : IsOpen V) (hnV : V.Nonempty) :
+    {n : ℕ | ∃ z ∈ U, (pairMap f)^[n] z ∈ V}.Infinite := by
+  apply Nat.frequently_atTop_iff_infinite.mp
+  rw [frequently_atTop]
+  intro N
+  obtain ⟨n, hn, z, hz, hv⟩ := weak_mixing_hits_after f hf ht U V hU hnU hV hnV N
+  exact ⟨n, hn, z, hz, hv⟩
 end IPTransitive

@@ -2,6 +2,7 @@
   "challenge_module": "IPChallenge",
   "solution_module": "IPSolution",
   "theorem_names": [
+    "IPTransitive.weak_mixing_infinite_hits",
     "IPTransitive.positive_pair_returns_yield_ip",
     "IPTransitive.residual_ip_transitive",
     "IPTransitive.exists_dense_Gdelta_ip_transitive"
