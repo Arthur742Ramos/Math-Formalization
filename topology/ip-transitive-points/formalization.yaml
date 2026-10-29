@@ -68,7 +68,7 @@
       "Quot.sound",
       "Classical.choice"
     ],
-    "known_gaps": "Development draft: local package build, export comparison and independent kernel checks passed at commit 3682b48899ed5e305e1f2eb2e938255b44dc0e0a using pinned dependency artifacts. Later status edits were not covered by that build. Fresh dependency rebuild, protected source-bound canonical Comparator, rendering, release and editorial checks remain pending.",
+    "known_gaps": "Historical local checks at 3682b48899ed5e305e1f2eb2e938255b44dc0e0a used pinned dependency artifacts and compared supplied exports. For submitted commit 29395b6292afbeeb58a57df0c9af5c538a793c9c, Palomar exact-source mechanical report b91f6bcc0ca925ed26519114f4c48c56b8b06f9de02e45af0b0a0dd21b5e68c1 passed the protected Comparator and independent-kernel checks; it records Mathlib cache use and a preferred Challenge-size warning. Official rendering of that submitted commit also passed, report eeb75cc05f60fb56f032845052e6dd260c1802e0a6a01c29855eab635c583915. These historical results do not certify later revisions; consult external exact-source verification and rendering receipts for each later commit. No later pass, visual inspection, fresh dependency rebuild, registration or editorial approval is asserted here.",
     "attribution_status": "The established topology campaign author and responsible-maintainer roles are retained separately; Codex authored material Lean proof code and adapted prior credited fragments. No human proof contribution inferred."
   },
   "automation": {
@@ -88,7 +88,7 @@
     "reviewers": [
       "Independent internal AI mathematical/source-fidelity reviewer"
     ],
-    "notes": "Statement, convention bridge, metadata, imported-definition source evidence and local validation scope independently reviewed by an internal AI reviewer. Full source-bound canonical verification and release review remain pending; no human or external peer review claimed."
+    "notes": "Statement, convention bridge, metadata, imported-definition source evidence and local validation scope independently reviewed by an internal AI reviewer. The submitted 29395b6292afbeeb58a57df0c9af5c538a793c9c has a passing Palomar exact-source mechanical report and official render; those checks are historical for this corrected revision. Use external exact-source receipts for later revisions; no later pass, human or external peer review is claimed here."
   },
   "acknowledgements": "Li's theorem and the exact prior topology proof fragments are credited. Mathlib and Lean retain their own authorship and licenses."
 }
