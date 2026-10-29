@@ -1145,7 +1145,10 @@
         "last_line": 2462
       }
     ],
-    "status": "Installed toolchain source captured locally; upstream Git source binding not yet independently authenticated.",
-    "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n"
+    "status": "Installed source matches the upstream immutable GitHub blob at the toolchain-reported commit; excerpts and semantic bridges are reviewed separately.",
+    "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+    "upstream_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+    "upstream_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+    "upstream_git_blob_sha1": "f87ee970af5149d74434f09a89aedff1a8fdb2d2"
   }
 }

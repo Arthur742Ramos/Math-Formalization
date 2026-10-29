@@ -740,7 +740,7 @@ class inductive Finite (α : Sort*) : Prop
 
 ## Lean core supplement
 
-The selected corollary assumes core `Nonempty X`, distinct from `Set.Nonempty`. `Finite` refers to core `Fin`. These snippets and attribution header come from the installed toolchain source; exact upstream Git authentication remains pending. Full installed-file SHA256 `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`.
+The selected corollary assumes core `Nonempty X`, distinct from `Set.Nonempty`. `Finite` refers to core `Fin`. These snippets and attribution header come from the installed toolchain source. Its Git blob `f87ee970af5149d74434f09a89aedff1a8fdb2d2` matches [upstream Prelude](https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean) at the toolchain-reported commit. Full installed-file SHA256 `cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39`.
 
 ```lean
 /-
