@@ -42,8 +42,8 @@ automation:
       framework: OpenAI Codex
 related_formalizations:
   - id: https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5
-    relationship: Prior Isabelle/HOL formalization of the same mathematical results.
-    note: Separate proof systems and proof objects; semantic correspondence is reviewed, not a cross-kernel proof.
+    relationship: adapts
+    note: Lean re-proves and adapts corresponding results from this prior Isabelle/HOL formalization; the proof objects and kernels are separate, with no Isabelle proof-object import.
 review:
   status: >-
     Independent internal AI statement-level review compared manuscript version 6
