@@ -62,3 +62,6 @@ The principal numbered statements were independently compared against extracted 
 fresh independent review of the complete final patch, exact source, proof and
 release evidence remains needed. This account does not establish novelty,
 metaphysical adequacy, human review or external acceptance.
+
+For the natural-number, gate and copy-representation interpretations, see
+[REPRESENTATION-CROSSWALK.md](REPRESENTATION-CROSSWALK.md).
