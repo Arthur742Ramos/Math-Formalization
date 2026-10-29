@@ -1,0 +1,18 @@
+name: IP-transitive points Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-ip-corrected-2beccde
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 2beccde9cbc4d96e4248662417d1490a2140eb9f
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: ipcorr000001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/ip-transitive-points","comparator_config_path":"topology/ip-transitive-points/comparator.json","formalization_metadata_path":"topology/ip-transitive-points/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
