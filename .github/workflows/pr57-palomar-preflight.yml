@@ -1,0 +1,18 @@
+name: PR57 Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-pr57-20261029
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: b1bfaf3132bfe83accdb4e18519cb4064a858f76
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: pr57test0001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/weak-mixing-thick-multisensitivity","comparator_config_path":"topology/weak-mixing-thick-multisensitivity/comparator.json","formalization_metadata_path":"topology/weak-mixing-thick-multisensitivity/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
