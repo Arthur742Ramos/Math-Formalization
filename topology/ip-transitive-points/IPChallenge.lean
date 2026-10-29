@@ -1,6 +1,5 @@
 /-
-Copyright (c) 2026 Arthur Freitas Ramos, David Barros Hulak,
-Ruy Jose Guerra Barretto de Queiroz. Released under the root Apache-2.0 license.
+Released under the root Apache-2.0 license.
 Material Lean proof authorship: OpenAI Codex.
 Research source: Jian Li, Transitive points via Furstenberg family,
 Topology and its Applications 158 (2011), Theorem 3.2.
