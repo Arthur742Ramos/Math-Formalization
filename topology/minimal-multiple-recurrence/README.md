@@ -1,0 +1,11 @@
+# Multiple recurrence in minimal systems
+
+Development draft. For a continuous self-map of a compact space whose every forward orbit is dense, every nonempty open set U contains a point x for which f^(i n)(x) lies in U for every 0 ≤ i ≤ d, with n positive and as large as any prescribed bound. On a second-countable compact space, the points with this simultaneous return property at every open neighborhood form a residual set. On a nonempty Baire space this contains a nonempty dense G-delta set.
+
+In particular, for each such point, neighborhood U and finite F ⊂ ℕ, there is a positive n, arbitrarily large, for which f^(k n)(x) belongs to U for every k in F. This is the finite-multiplier form of multiplicative thickness of neighborhood-return times. It does not assert that return times to arbitrary open sets away from x have this property.
+
+The mathematical sources are [Furstenberg and Weiss, Theorem 1.5](https://doi.org/10.1007/BF02790008), and [Glasscock, Koutsogiannis and Richter, Theorems 1.7–1.8](https://arxiv.org/abs/1809.08702). The latter places the neighborhood-return conclusion in the study of multiplicative structure in return-time sets. The proof uses Mathlib's `Combinatorics.exists_mono_homothetic_copy` (van der Waerden via Hales–Jewett) and compactness of a finite preimage cover. `ForwardMinimal` means every forward orbit is dense; no invertibility is assumed. The result does not claim the stronger arbitrary-open theorem of Glasscock–Koutsogiannis–Richter.
+
+An adjacent [Lean Eval benchmark](https://lean-lang.org/eval/problems/furstenberg_topological/) asks for existence of a multiply recurrent point for a compact metric homeomorphism without assuming minimality. The present result has different hypotheses and a generic conclusion; no formalization priority or editorial acceptance is claimed.
+
+Authors: Arthur Freitas Ramos, David Barros Hulak, and Ruy Jose Guerra Barretto de Queiroz. Responsible maintainers: Arthur Freitas Ramos, David Barros Hulak, and Ruy Jose Guerra Barretto de Queiroz. Material Lean proof authored by OpenAI Codex. This is an in-progress source snapshot: exact package build, Comparator, independent kernels, dependency provenance, official rendering, release review and registry outcomes remain pending. Internal AI review is not human peer review.

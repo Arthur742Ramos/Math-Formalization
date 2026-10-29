@@ -1,0 +1,12 @@
+{
+  "challenge_module": "RecurrenceChallenge",
+  "solution_module": "RecurrenceSolution",
+  "theorem_names": [
+    "MultipleRecurrence.minimal_multiple_recurrence_after",
+    "MultipleRecurrence.residual_multiply_recurrent",
+    "MultipleRecurrence.finite_multipliers_return",
+    "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}
