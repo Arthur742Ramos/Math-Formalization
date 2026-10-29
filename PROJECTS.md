@@ -309,3 +309,11 @@ The theorem and source scope received independent internal AI review. Local buil
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Generic IP-transitive points in weakly mixing systems](topology/ip-transitive-points) | For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite. | Preparation; not submitted | [`efb8423`](https://github.com/Arthur742Ramos/Math-Formalization/tree/efb8423946e3249662324994d7501df11291a365/topology/ip-transitive-points) |
+
+## Minimal multiple recurrence preparation
+
+The statement, source and retained provenance received independent internal AI review. Earlier local build and kernel checks use the same proof inputs; exact-source canonical verification and official rendering remain pending. No intake was created by this task.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Multiple recurrence and multiplicatively thick returns in minimal systems](topology/minimal-multiple-recurrence) | A compact forward-minimal continuous system has arbitrarily late positive simultaneous open-set returns along finite arithmetic progressions; on second-countable spaces, generic points have multiplicatively thick neighborhood returns. | Preparation; not submitted | [`2e15417`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2e15417f117323c654af638e9c72617dcc92f501/topology/minimal-multiple-recurrence) |

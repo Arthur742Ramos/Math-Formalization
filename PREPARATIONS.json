@@ -2330,6 +2330,77 @@
         }
       },
       "evidence_scope": "Reviewed preparation; previous package snapshot 36a2788b4e13fb16768561340005552514b21e51 (tree 819a03673bd9ec4c9b469dd839902c366469fc77). The 36291bd local package build and kernel/export comparison cover unchanged proof and semantic sources, not this corrected snapshot as an exact-source canonical run. Canonical full verification, fresh dependency build, rendering and registry submission remain pending."
+    },
+    {
+      "name": "Multiple recurrence and multiplicatively thick returns in minimal systems",
+      "path": "topology/minimal-multiple-recurrence",
+      "scope": "A compact forward-minimal continuous system has arbitrarily late positive simultaneous open-set returns along finite arithmetic progressions; on second-countable spaces, generic points have multiplicatively thick neighborhood returns.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "2e15417f117323c654af638e9c72617dcc92f501",
+        "tree": "60f0b570a422a18aa1e7cd82215fba6887cbd313"
+      },
+      "source_files_sha256": {
+        "comparator.json": "e9600c0d8bf8b0c148bf046a09f68082cd243d67bb7cc572893c2f7f6f67abd7",
+        "formalization.yaml": "cf47c83f1075ed124d061b372d8dc8413e7929a0a5a8dd46301c2b28b25de4f9",
+        "lake-manifest.json": "5854953df5eade25bd08dc3f29452b4f8330cc0add4c8063294b8960003f1b77",
+        "lakefile.toml": "499fd0ec5ac03dc5f45da64ac6b8e0b51438ce1af3b2f344ec9d890e8f374efe",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "MATERIAL-DEFINITIONS.md": "914aa85f989b6f109bccc5abad6436bcb7e4fd0a8199ae3468042d6dd87a2857",
+        "MultipleRecurrence.lean": "3d5490417904438fe845782dfa55558ef95af5241ee62d449d2876538e6c3bd0",
+        "README.md": "70ed81f58f845627800f6ecfb3216c0f3986dcfa11c2d6c88e66e3af76940cf3",
+        "RecurrenceChallenge.lean": "3d5490417904438fe845782dfa55558ef95af5241ee62d449d2876538e6c3bd0",
+        "RecurrenceSolution.lean": "be907f2f766ec4f4454b170b9fbd5f4f5a541eb6d6f5011ceb98a3fb085b13ca",
+        "SemanticChallenge.lean": "e6e763a4b9bd2300984d8d6ee4dcdbcb65bdd5d76f1ef25ba7be83e033e5646d",
+        "SemanticSolution.lean": "c0216aeb9f8f642706c572db4198eff162f3b7eea082dbccd9726ad1d777a46e"
+      },
+      "theorem_names": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.finite_multipliers_return",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "material_definition_audit": {
+        "source_commit": "2e15417f117323c654af638e9c72617dcc92f501",
+        "manifest": "verification/material-imported-definitions.json",
+        "schema_version": 2,
+        "material_declarations": 30,
+        "upstream_files": 20,
+        "literal_excerpts": 43,
+        "semantic_tests": [
+          "SemanticChallenge.lean",
+          "SemanticSolution.lean"
+        ]
+      },
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "independent_draft_review": "fdd57a69a3af9d3c7cfd78af8ff307c122247ec13509283b57c1fa1298afd5d5",
+          "mathematical_source_review": "3c3177c6fc6765b26fe398205233df96b2a3d59110f7735c23922d1cbddaa1f9"
+        }
+      },
+      "evidence_scope": "Reviewed draft. Local build, Comparator, independent kernels and direct Verso results refer to earlier ade9847 source; two definition controls refer to 7d7c253, with reviewed unchanged proof/config and matching exports. NanoDa reported no typechecker errors but did report an axiom pretty-printer error. Fresh dependencies, current-source canonical full verification, official rendering and visual review remain pending; no intake was created by this task."
     }
   ]
 }
