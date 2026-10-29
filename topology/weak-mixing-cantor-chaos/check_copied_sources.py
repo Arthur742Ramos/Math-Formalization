@@ -6,7 +6,7 @@ import sys
 import uuid
 
 workloads = Path("/home/formalization/workloads")
-package = Path("/mnt/q/Codex/2026-10-29/topology-chaos/topology/weak-mixing-cantor-chaos")
+package = Path(__file__).resolve().parent
 retained = workloads / "pr43/mycielski-source/topology/mycielski-cantor-independent"
 scheduler = workloads / "validation-policy/.git/local-setup/scheduling/parallel_workloads.py"
 if "--inside" in sys.argv:
@@ -51,3 +51,4 @@ with open(workloads / ".heavy-verification.lock", "r") as lock:
         "--", "python3", str(package / "check_copied_sources.py"), "--inside",
     ]
     sys.exit(subprocess.run(cmd, check=False).returncode)
+
