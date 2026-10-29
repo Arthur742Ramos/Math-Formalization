@@ -1,0 +1,12 @@
+{
+  "challenge_module": "ChallengePatternCentral",
+  "solution_module": "SolutionPatternCentral",
+  "theorem_names": [
+    "DeterminationPatterns.exact_pattern_from_components"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

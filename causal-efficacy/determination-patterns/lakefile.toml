@@ -94,3 +94,15 @@ name = "ChallengePatternNec"
 
 [[lean_lib]]
 name = "SolutionPatternExtrema"
+
+[[lean_lib]]
+name = "ChallengePatternCentral"
+
+[[lean_lib]]
+name = "SolutionPatternCentral"
+
+[[lean_lib]]
+name = "ChallengeRepresentationBridge"
+
+[[lean_lib]]
+name = "SolutionRepresentationBridge"

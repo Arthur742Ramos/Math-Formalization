@@ -1,0 +1,17 @@
+{
+  "challenge_module": "ChallengeRepresentationBridge",
+  "solution_module": "SolutionRepresentationBridge",
+  "theorem_names": [
+    "DeterminationPatterns.spine_gate_boolean_equation",
+    "DeterminationPatterns.spine_gate_false_false",
+    "DeterminationPatterns.spine_gate_false_true",
+    "DeterminationPatterns.spine_gate_true_false",
+    "DeterminationPatterns.spine_gate_true_true",
+    "DeterminationPatterns.index_successor"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
