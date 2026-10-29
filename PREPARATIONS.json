@@ -2397,10 +2397,28 @@
         "implementation": "pass",
         "receipts_sha256": {
           "independent_draft_review": "fdd57a69a3af9d3c7cfd78af8ff307c122247ec13509283b57c1fa1298afd5d5",
-          "mathematical_source_review": "3c3177c6fc6765b26fe398205233df96b2a3d59110f7735c23922d1cbddaa1f9"
+          "mathematical_source_review": "3c3177c6fc6765b26fe398205233df96b2a3d59110f7735c23922d1cbddaa1f9",
+          "multiple_status_source_review": "7a6a50cb5ca00eb2ba9043f0bee1f571e480fe3cd936468c882af56a79ee3d6f"
         }
       },
-      "evidence_scope": "Reviewed draft. Local build, Comparator, independent kernels and direct Verso results refer to earlier ade9847 source; two definition controls refer to 7d7c253, with reviewed unchanged proof/config and matching exports. NanoDa reported no typechecker errors but did report an axiom pretty-printer error. Fresh dependencies, current-source canonical full verification, official rendering and visual review remain pending; no intake was created by this task."
+      "evidence_scope": "The dated preparation fields refer to the older package snapshot. The hosted Palomar preflight for source 4a77e29daf4eeafcee4380052bc4ca62977e41ec passed its protected Comparator and independent-kernel checks; report SHA-256 23a2b063d00bc9b7749e956c357e0d5b5066d1bf2f59123324b0757244f8c8dd. Earlier local build/kernel checks refer to ade9847 and fixed-definition controls to 7d7c253 with reviewed unchanged proof/config and matching exports. Local NanoDa reported no typechecker errors and an axiom pretty-printer error. The current correction changes only README and metadata status text. Current-source full verification and official rendering are not established; this structural catalog classification is not the full conditional evidence-reuse guard. Visual, editorial and registration outcomes are not asserted.",
+      "current_source_snapshot": {
+        "commit": "842c704cf3205039a20255209dc58d7b2d1e56ee",
+        "tree": "6fc500f5932e4ddfbc86ec61c42d033dfa8ac8e2"
+      },
+      "status_correction": {
+        "kind": "narrow-status-only-evidence-carry",
+        "historical_source": "2e15417f117323c654af638e9c72617dcc92f501",
+        "historical_evidence_source": "4a77e29daf4eeafcee4380052bc4ca62977e41ec",
+        "corrected_source": "842c704cf3205039a20255209dc58d7b2d1e56ee",
+        "corrected_tree": "6fc500f5932e4ddfbc86ec61c42d033dfa8ac8e2",
+        "changed_files": [
+          "README.md",
+          "formalization.yaml"
+        ]
+      },
+      "current_source_full": "not-established",
+      "current_source_rendering": "not-established"
     }
   ]
 }

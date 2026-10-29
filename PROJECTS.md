@@ -312,8 +312,8 @@ The theorem and source scope received independent internal AI review. Local buil
 
 ## Minimal multiple recurrence preparation
 
-The statement, source and retained provenance received independent internal AI review. Earlier local build and kernel checks use the same proof inputs; exact-source canonical verification and official rendering remain pending. No intake was created by this task.
+The statement, source and retained provenance received independent internal AI review. The hosted preflight passed for source `4a77e29`; the corrected source is a separate status revision with its own verification and official rendering unestablished. The structural catalog classification is not the complete conditional evidence-reuse guard. No registration or editorial approval is asserted.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Multiple recurrence and multiplicatively thick returns in minimal systems](topology/minimal-multiple-recurrence) | A compact forward-minimal continuous system has arbitrarily late positive simultaneous open-set returns along finite arithmetic progressions; on second-countable spaces, generic points have multiplicatively thick neighborhood returns. | Preparation; not submitted | [`2e15417`](https://github.com/Arthur742Ramos/Math-Formalization/tree/2e15417f117323c654af638e9c72617dcc92f501/topology/minimal-multiple-recurrence) |
+| [Multiple recurrence and multiplicatively thick returns in minimal systems](topology/minimal-multiple-recurrence) | A compact forward-minimal continuous system has arbitrarily late positive simultaneous open-set returns along finite arithmetic progressions; on second-countable spaces, generic points have multiplicatively thick neighborhood returns. | Source-account correction; current-source checks unestablished | [`842c704`](https://github.com/Arthur742Ramos/Math-Formalization/tree/842c704cf3205039a20255209dc58d7b2d1e56ee/topology/minimal-multiple-recurrence) |
