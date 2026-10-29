@@ -68,7 +68,7 @@
       "Quot.sound",
       "Classical.choice"
     ],
-    "known_gaps": "Development draft: exact-source local package build reused pinned dependency artifacts; local export comparison and independent kernel checks passed. Fresh dependency rebuild, protected source-bound canonical Comparator, rendering, release and editorial checks remain pending.",
+    "known_gaps": "Development draft: local package build, export comparison and independent kernel checks passed at commit 3682b48899ed5e305e1f2eb2e938255b44dc0e0a using pinned dependency artifacts. Later status edits were not covered by that build. Fresh dependency rebuild, protected source-bound canonical Comparator, rendering, release and editorial checks remain pending.",
     "attribution_status": "The established topology campaign author and responsible-maintainer roles are retained separately; Codex authored material Lean proof code and adapted prior credited fragments. No human proof contribution inferred."
   },
   "automation": {
