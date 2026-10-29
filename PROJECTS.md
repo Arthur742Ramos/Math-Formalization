@@ -301,3 +301,11 @@ Stable-open propagation, the pointwise minimal dichotomy and its nonempty incomp
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Auslander–Yorke dichotomy for minimal metric maps](topology/auslander-yorke-dichotomy) | A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity. | Preparation; not submitted | [`947b3e8`](https://github.com/Arthur742Ramos/Math-Formalization/tree/947b3e8d6f6f200e4ae2cbac1b080399146dea7f/topology/auslander-yorke-dichotomy) |
+
+## Generic IP-transitive points preparation
+
+The theorem and source scope received independent internal AI review. Local build and export checks cover unchanged proof inputs from the earlier draft; exact-source canonical verification and rendering remain pending. No intake was created by this task.
+
+| Project | Scope | Public Palomar status | Source snapshot |
+| --- | --- | --- | --- |
+| [Generic IP-transitive points in weakly mixing systems](topology/ip-transitive-points) | For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite. | Preparation; not submitted | [`36a2788`](https://github.com/Arthur742Ramos/Math-Formalization/tree/36a2788b4e13fb16768561340005552514b21e51/topology/ip-transitive-points) |

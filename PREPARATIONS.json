@@ -2269,6 +2269,66 @@
         }
       },
       "evidence_scope": "Dated pre-canonical checkpoint for this exact frozen source. Later exact-source local reports remain external; not-established is not a permanent claim about future checks."
+    },
+    {
+      "name": "Generic IP-transitive points in weakly mixing systems",
+      "path": "topology/ip-transitive-points",
+      "scope": "For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "36a2788b4e13fb16768561340005552514b21e51",
+        "tree": "819a03673bd9ec4c9b469dd839902c366469fc77"
+      },
+      "source_files_sha256": {
+        "comparator.json": "ae0c5394375021536dde6f4f561231bbd3d99437c0989c8395b966f5de54f0ad",
+        "formalization.yaml": "366b8e12cd1d834c5230c6390058d137b2a7636500b18cb2a9209632276b8d9d",
+        "IPChallenge.lean": "1015a041761b754f73d68c3d9aa45f7fb9649c9fa1073d5b1d514b793fcddc67",
+        "IPSolution.lean": "35ab766cf932e1cfeaad56cb3221a221d26d4f039e2e40c00fb7eac76ebfbf27",
+        "IPTransitive.lean": "1015a041761b754f73d68c3d9aa45f7fb9649c9fa1073d5b1d514b793fcddc67",
+        "lake-manifest.json": "4af34b05e18004d63d22c3c3534a393e6061913d2867054cf39c8a2f560cceab",
+        "lakefile.toml": "ab926e3b60bfa4f718dee91aeead005ffb77db5e4eb0d2bcf06ed618bdb95df3",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+        "MATERIAL-DEFINITIONS.md": "ce27b397efdbfa4999d483d7edd2d3f20d2c00faa5fb8bd2281e3196543ac485",
+        "README.md": "f9d12ef149bb7c6c2103fb22a685f2e7ea420673009bc35ffb9e2dbcb41e0bbb",
+        "SemanticChallenge.lean": "eeb09a263ffd33d7a86b70a658fec32b8ce8b8ad9f409ef3ac39c699fe1e260d",
+        "SemanticSolution.lean": "a79da6ba4e7a5e570959e7b80bb51ce75624a8c46c2f8122d9958c4c651d2ef5"
+      },
+      "theorem_names": [
+        "IPTransitive.weak_mixing_infinite_hits",
+        "IPTransitive.positive_pair_returns_yield_ip",
+        "IPTransitive.residual_ip_transitive",
+        "IPTransitive.exists_dense_Gdelta_ip_transitive"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "mathematical_scope": "15645db72380f71105eb669e2fd94518941966f0f1312e034ba56fe16ab9b400",
+          "final_proof_static_source_review": "7a76616529f5c31d7d1f4393325ac9764213af430fe8c18cb73afd184ce12ee4",
+          "package_snapshot_and_checker": "f500ad39155991718b13451eb39a53af553f3842131fc86627672016ee9756f7"
+        }
+      },
+      "evidence_scope": "Dated reviewed package checkpoint; previous 36291bd package build and local kernel/export comparison cover the unchanged proof and semantic sources, not this commit as an exact-source canonical run. Canonical full verification, fresh dependency build, rendering and registry submission remain pending."
     }
   ]
 }
