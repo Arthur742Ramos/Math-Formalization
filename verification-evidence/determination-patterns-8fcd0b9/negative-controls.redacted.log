@@ -1,0 +1,73 @@
+{"admitted": {"workload": "paper", "kind": "native", "memory_gib": 4, "cpus": 4, "pid": 3639, "start_tick": "1115395", "unit": "math-paper-6f5f8edb40.scope", "started_at": "2026-10-29T02:15:20.212699+00:00"}, "aggregate_memory_gib": 4, "receipt": "<scheduler>/math-paper-6f5f8edb40.scope.json"}
+153dbe24dd5640c67b0b33de0d9a0e7983a344fc37d6d159aa62fe4ea6063ba2  <local-bwrap>
+bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38  <lean-toolchain>/bin/lean
+8ba83c98f76562d03b8dbc33f1057151ba6cbb121679dde76b2260ccc90495e1  <lean-toolchain>/bin/lake
+resolved-lean=<lean-toolchain>/bin/lean
+resolved-lake=<lean-toolchain>/bin/lake
+2618b4b1f7ca4e86ae4d108b63a8430df6e4a53d0a41ca642eb6b1e9fae8e89b  <negative-copy-rules>/ChallengePatternRules.lean
+9dd65897df6145a99eae72b526d6dcc24878a196fb931ede89232970a9011310  <negative-copy-rules>/comparator-pattern-rules.json
+archive-copy-audit=pass files= 121 only changed= ChallengePatternRules.lean
+abbc63f7c5726ec8d3e7e1cc281c1b9eb7398ea95b6a2750a8f1d9d43e35fb69  ChallengePatternRules.lean
+9dd65897df6145a99eae72b526d6dcc24878a196fb931ede89232970a9011310  comparator-pattern-rules.json
+Resolving dependencies
+Building ChallengePatternRules
+✔ [2/3] Built ChallengePatternRules (435ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.status_mechanism_admissible, DeterminationPatterns.status_mechanism_relevant, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengePatternRules
+Building SolutionPattern
+✔ [2/8] Built DeterminationPatterns.Core (316ms)
+✔ [3/8] Built DeterminationPatterns.Bridges (334ms)
+✔ [4/8] Built DeterminationPatterns.Patterns (295ms)
+✔ [5/8] Built DeterminationPatterns.Witness (417ms)
+✔ [6/8] Built DeterminationPatterns.Necessity (344ms)
+✔ [7/8] Built SolutionPattern (247ms)
+Build completed successfully (8 jobs).
+error: Const does not match between challenge and target 'DeterminationPatterns.Parents'
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.status_mechanism_admissible, DeterminationPatterns.status_mechanism_relevant, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionPattern
+error: Const does not match between challenge and target 'DeterminationPatterns.Parents'
+split-negative=rules altered-Parents-syntax-rejected=pass
+ab6b3a3c0cf636d5a8b0d68556b9eb145ca39d2eb82530e218efd7dea6dc68dd  <negative-copy-extrema>/ChallengePatternExtrema.lean
+cdaa36fe8cc45140ce17f35a85536afc3a6af865abce13f76007091fd3665658  <negative-copy-extrema>/comparator-pattern-extrema.json
+archive-copy-audit=pass files= 121 only changed= ChallengePatternExtrema.lean
+41d7022dea1e72f2797b30002169579d008d87e0f65bb4141f52ec12c3690ace  ChallengePatternExtrema.lean
+cdaa36fe8cc45140ce17f35a85536afc3a6af865abce13f76007091fd3665658  comparator-pattern-extrema.json
+Resolving dependencies
+Building ChallengePatternExtrema
+✔ [2/3] Built ChallengePatternExtrema (486ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.witness_extrema_of_admissible, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengePatternExtrema
+Building SolutionPatternExtrema
+✔ [2/9] Built DeterminationPatterns.Core (320ms)
+✔ [3/9] Built DeterminationPatterns.Bridges (379ms)
+✔ [4/9] Built DeterminationPatterns.Patterns (289ms)
+✔ [5/9] Built DeterminationPatterns.Witness (404ms)
+✔ [6/9] Built DeterminationPatterns.Necessity (334ms)
+✔ [7/9] Built DeterminationPatterns.PatternComponents (276ms)
+✔ [8/9] Built SolutionPatternExtrema (229ms)
+Build completed successfully (9 jobs).
+error: Const does not match between challenge and target 'DeterminationPatterns.Step'
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.witness_extrema_of_admissible, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionPatternExtrema
+error: Const does not match between challenge and target 'DeterminationPatterns.Step'
+split-negative=extrema altered-Parents-syntax-rejected=pass
+f8454ac08647edfdc04882bda254e8317a17339893c36701ebaac37962f6b3e6  <negative-copy-nec>/ChallengePatternNec.lean
+a7b32b2acf9125dd9f6ac6953c8a24a94517f2ccda84c044982834c3d3948b59  <negative-copy-nec>/comparator-pattern-nec.json
+archive-copy-audit=pass files= 121 only changed= ChallengePatternNec.lean
+899dfa0a6f028a37ca13a023975bad87bd16f303568150d5b5925791b81634b4  ChallengePatternNec.lean
+a7b32b2acf9125dd9f6ac6953c8a24a94517f2ccda84c044982834c3d3948b59  comparator-pattern-nec.json
+Resolving dependencies
+Building ChallengePatternNec
+✔ [2/3] Built ChallengePatternNec (527ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.realized_pattern_necessary, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengePatternNec
+Building SolutionPattern
+✔ [2/8] Built DeterminationPatterns.Core (370ms)
+✔ [3/8] Built DeterminationPatterns.Bridges (384ms)
+✔ [4/8] Built DeterminationPatterns.Patterns (332ms)
+✔ [5/8] Built DeterminationPatterns.Witness (432ms)
+✔ [6/8] Built DeterminationPatterns.Necessity (341ms)
+✔ [7/8] Built SolutionPattern (231ms)
+Build completed successfully (8 jobs).
+error: Const does not match between challenge and target 'DeterminationPatterns.PatternConditions'
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.realized_pattern_necessary, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionPattern
+error: Const does not match between challenge and target 'DeterminationPatterns.PatternConditions'
+split-negative=nec altered-Parents-syntax-rejected=pass

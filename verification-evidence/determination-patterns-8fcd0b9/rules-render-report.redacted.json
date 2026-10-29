@@ -1,0 +1,67 @@
+{
+  "artifact_tree_sha256": "a1bf2e5b35bb62eec6a8552dd3fe0c45e95705db000392636cffab19f1ea4ada",
+  "bwrap_source_tag": "v0.12.0",
+  "entrypoint": "Challenge/index.html",
+  "errors": [],
+  "format": "verso-html",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "limits": {
+    "artifact_bytes": 26214400,
+    "artifact_files": 2000,
+    "artifact_nodes": 4000,
+    "build_file_bytes": 2147483648,
+    "memory_bytes": 12884901888,
+    "open_files": 4096,
+    "per_file_bytes": 8388608,
+    "tasks": 512,
+    "wall_seconds": 21600,
+    "workspace_bytes": 12884901888
+  },
+  "mathlib_cache": {
+    "bytes": 0,
+    "downloaded": 0,
+    "requested": 0
+  },
+  "prepared_at": "2026-10-29T02:05:30Z",
+  "rendered_at": "2026-10-29T02:08:48Z",
+  "renderer_commit": "14aa8d6b3c2f14a8540605e37144560b9a00e7e7",
+  "schema_version": 3,
+  "source": {
+    "challenge_path": "causal-efficacy/determination-patterns/ChallengePatternRules.lean",
+    "challenge_sha256": "2618b4b1f7ca4e86ae4d108b63a8430df6e4a53d0a41ca642eb6b1e9fae8e89b",
+    "commit": "8fcd0b9cce6b46a2ff8a50693a5bea4344c55a6c",
+    "comparator_config_path": "causal-efficacy/determination-patterns/comparator-pattern-rules.json",
+    "lakefile_path": "causal-efficacy/determination-patterns/lakefile.toml",
+    "lean_toolchain_path": "causal-efficacy/determination-patterns/lean-toolchain",
+    "project_path": "causal-efficacy/determination-patterns",
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "repository_url": "https://github.com/Arthur742Ramos/Math-Formalization",
+    "solution_path": "causal-efficacy/determination-patterns/SolutionPattern.lean"
+  },
+  "stage": "complete",
+  "status": "pass",
+  "surface": {
+    "audit_declarations": [
+      {
+        "declaration": "theorem DeterminationPatterns.status_mechanism_admissible.{u} {\u03b1 : Type u} {C L Z Q : DeterminationPatterns.Region \u03b1}\n  {D : \u03b1 \u2192 \u03b1 \u2192 Prop} (part : DeterminationPatterns.StatusPartition C L Z Q)\n  (qp : \u2200 (x : \u03b1) (a : @Q x), Exists fun y => And (@DeterminationPatterns.Parents \u03b1 C D x y) (@Q y)) :\n  DeterminationPatterns.Mechanism C D (DeterminationPatterns.StatusMechanism C D L Z Q)",
+        "name": "DeterminationPatterns.status_mechanism_admissible"
+      },
+      {
+        "declaration": "theorem DeterminationPatterns.status_mechanism_relevant.{u} {\u03b1 : Type u} {C L Z Q : DeterminationPatterns.Region \u03b1}\n  {D : \u03b1 \u2192 \u03b1 \u2192 Prop} (part : DeterminationPatterns.StatusPartition C L Z Q)\n  (qp : \u2200 (x : \u03b1) (a : @Q x), Exists fun y => And (@DeterminationPatterns.Parents \u03b1 C D x y) (@Q y)) :\n  DeterminationPatterns.Relevant C D (DeterminationPatterns.StatusMechanism C D L Z Q)",
+        "name": "DeterminationPatterns.status_mechanism_relevant"
+      }
+    ],
+    "declarations": [
+      "DeterminationPatterns.status_mechanism_admissible",
+      "DeterminationPatterns.status_mechanism_relevant"
+    ],
+    "imports": [],
+    "module_doc": "The explicit pattern witness is admissible and edge-relevant.",
+    "schema_version": 3,
+    "solution_imports": [
+      "DeterminationPatterns.Necessity"
+    ]
+  },
+  "verso_commit": "9f8096e40b31715b1d8d5997f15a0bd832f7e37d",
+  "workflow_url": "<local evidence path withheld>"
+}

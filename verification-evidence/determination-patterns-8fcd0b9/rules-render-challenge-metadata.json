@@ -1,0 +1,22 @@
+{
+  "audit_declarations": [
+    {
+      "declaration": "theorem DeterminationPatterns.status_mechanism_admissible.{u} {\u03b1 : Type u} {C L Z Q : DeterminationPatterns.Region \u03b1}\n  {D : \u03b1 \u2192 \u03b1 \u2192 Prop} (part : DeterminationPatterns.StatusPartition C L Z Q)\n  (qp : \u2200 (x : \u03b1) (a : @Q x), Exists fun y => And (@DeterminationPatterns.Parents \u03b1 C D x y) (@Q y)) :\n  DeterminationPatterns.Mechanism C D (DeterminationPatterns.StatusMechanism C D L Z Q)",
+      "name": "DeterminationPatterns.status_mechanism_admissible"
+    },
+    {
+      "declaration": "theorem DeterminationPatterns.status_mechanism_relevant.{u} {\u03b1 : Type u} {C L Z Q : DeterminationPatterns.Region \u03b1}\n  {D : \u03b1 \u2192 \u03b1 \u2192 Prop} (part : DeterminationPatterns.StatusPartition C L Z Q)\n  (qp : \u2200 (x : \u03b1) (a : @Q x), Exists fun y => And (@DeterminationPatterns.Parents \u03b1 C D x y) (@Q y)) :\n  DeterminationPatterns.Relevant C D (DeterminationPatterns.StatusMechanism C D L Z Q)",
+      "name": "DeterminationPatterns.status_mechanism_relevant"
+    }
+  ],
+  "declarations": [
+    "DeterminationPatterns.status_mechanism_admissible",
+    "DeterminationPatterns.status_mechanism_relevant"
+  ],
+  "imports": [],
+  "module_doc": "The explicit pattern witness is admissible and edge-relevant.",
+  "schema_version": 3,
+  "solution_imports": [
+    "DeterminationPatterns.Necessity"
+  ]
+}

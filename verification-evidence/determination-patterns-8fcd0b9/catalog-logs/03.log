@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "project": "<catalog-checkout>/topology/locally-compact-baire",
+  "material_declarations": [
+    "BaireSpace",
+    "R1Space",
+    "LocallyCompactSpace",
+    "CompactSpace",
+    "IsCompact",
+    "Dense",
+    "IsG\u03b4",
+    "Set.PairwiseDisjoint",
+    "IsOpen",
+    "closure"
+  ],
+  "retained_source_files": 15,
+  "retained_excerpts": 35,
+  "upstream_origin": "not-checked",
+  "upstream_files_authenticated": 0,
+  "bridge_compilation": "separate actual Lean build required",
+  "scope": "Retained evidence consistency; inventory completeness and mathematical fidelity require independent review."
+}

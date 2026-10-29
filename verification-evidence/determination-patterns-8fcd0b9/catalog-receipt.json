@@ -1,0 +1,67 @@
+{
+  "commit": "8fcd0b9cce6b46a2ff8a50693a5bea4344c55a6c",
+  "tree": "4cbc10849b914fbc996ffc21c00299c01aa1f528",
+  "target": "catalog",
+  "started_at": "2026-10-29T02:16:26.003290+00:00",
+  "scope": "Local commands only; not independent review, canonical full verification or registry intake.",
+  "steps": [
+    {
+      "command": "python3 scripts/check_catalog.py --package-checks",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "00.log",
+      "sha256": "4cc6da1b77a6487c04191c85167d9f437c517c1d4a9b85727c7985e1f8c2cacc"
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -v",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "01.log",
+      "sha256": "78a2df23fb9585fd9e8913bfe351ccc2183e50b53bb404c3b14269b89f5206c7"
+    },
+    {
+      "command": "python3 scripts/check_imported_definitions.py --project-path topology/kuratowski-ulam",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "02.log",
+      "sha256": "89aa9c3060c119671ef8a7f9ba671d63536ba0eb6cd079836f4648133861f0cf"
+    },
+    {
+      "command": "python3 scripts/check_imported_definitions.py --project-path topology/locally-compact-baire",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "03.log",
+      "sha256": "d1a59b4a67aee1e741cd79db1cdcbf9c466be9f52dbd04dad0a3be2bb15e8798"
+    },
+    {
+      "command": "python3 scripts/check_imported_definitions.py --project-path topology/banach-mazur-baire",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "04.log",
+      "sha256": "c713394dd20ca3ad7fc6911280745a376de7b195958081004c6013c8305a8b78"
+    },
+    {
+      "command": "python3 scripts/check_imported_definitions.py --project-path topology/banach-mazur-category",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "05.log",
+      "sha256": "62cb95be28e9a89ad4119cd8e3df7817d6f267d0d9f6314461dd7b3495de5242"
+    },
+    {
+      "command": "python3 scripts/check_imported_definitions.py --project-path topology/strong-choquet-polish",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "06.log",
+      "sha256": "41eca109f47db7bb0075e2b7f75eddf513a2d07ee6d35e9aad3c8480d40cf987"
+    },
+    {
+      "command": "python3 scripts/check_release_packet.py --project-path topology/collectionwise-normal --commit 8fcd0b9cce6b46a2ff8a50693a5bea4344c55a6c --historical-report catalog-evidence/collectionwise-2026-10-18/full-report.json",
+      "directory": "root",
+      "exit_code": 0,
+      "log": "07.log",
+      "sha256": "83000da5bb478718185412a82e8566eb5c1e1fb90cf62c97f079560e21b86b97"
+    }
+  ],
+  "status": "pass",
+  "finished_at": "2026-10-29T02:16:50.369259+00:00"
+}

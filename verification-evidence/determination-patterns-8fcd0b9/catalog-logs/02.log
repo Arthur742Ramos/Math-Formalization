@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "project": "<catalog-checkout>/topology/kuratowski-ulam",
+  "material_declarations": [
+    "BaireMeasurableSet"
+  ],
+  "retained_source_files": 5,
+  "retained_excerpts": 16,
+  "upstream_origin": "not-checked",
+  "upstream_files_authenticated": 0,
+  "bridge_compilation": "separate actual Lean build required",
+  "scope": "Retained evidence consistency; inventory completeness and mathematical fidelity require independent review."
+}

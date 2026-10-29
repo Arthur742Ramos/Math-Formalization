@@ -1,0 +1,53 @@
+{
+  "scope": "Checkout paths are redacted; original and public digests are retained.",
+  "logs": [
+    {
+      "file": "00.log",
+      "original_sha256": "4cc6da1b77a6487c04191c85167d9f437c517c1d4a9b85727c7985e1f8c2cacc",
+      "public_sha256": "4cc6da1b77a6487c04191c85167d9f437c517c1d4a9b85727c7985e1f8c2cacc",
+      "redacted": false
+    },
+    {
+      "file": "01.log",
+      "original_sha256": "78a2df23fb9585fd9e8913bfe351ccc2183e50b53bb404c3b14269b89f5206c7",
+      "public_sha256": "78a2df23fb9585fd9e8913bfe351ccc2183e50b53bb404c3b14269b89f5206c7",
+      "redacted": false
+    },
+    {
+      "file": "02.log",
+      "original_sha256": "89aa9c3060c119671ef8a7f9ba671d63536ba0eb6cd079836f4648133861f0cf",
+      "public_sha256": "84defa73531ed8b8989c95bc8992ef1907ef2805b63af1ea30a26f859f83125d",
+      "redacted": true
+    },
+    {
+      "file": "03.log",
+      "original_sha256": "d1a59b4a67aee1e741cd79db1cdcbf9c466be9f52dbd04dad0a3be2bb15e8798",
+      "public_sha256": "ae611db0ab9446621a6e26e8f994fe9d38ce78f351087c412229979a79157e01",
+      "redacted": true
+    },
+    {
+      "file": "04.log",
+      "original_sha256": "c713394dd20ca3ad7fc6911280745a376de7b195958081004c6013c8305a8b78",
+      "public_sha256": "9c6a7360212a74e845900dbb0754220c014dfcadd1fb75651a161857b607efce",
+      "redacted": true
+    },
+    {
+      "file": "05.log",
+      "original_sha256": "62cb95be28e9a89ad4119cd8e3df7817d6f267d0d9f6314461dd7b3495de5242",
+      "public_sha256": "e4c0ddf1027b79750bb3e6502b7f7e9299ecc4e5f7208df5cf4194765ea5aaff",
+      "redacted": true
+    },
+    {
+      "file": "06.log",
+      "original_sha256": "41eca109f47db7bb0075e2b7f75eddf513a2d07ee6d35e9aad3c8480d40cf987",
+      "public_sha256": "cc0bad1d63f9727c60adc6aad815ac2cc66fd68c268ae91be85a465ea162eb34",
+      "redacted": true
+    },
+    {
+      "file": "07.log",
+      "original_sha256": "83000da5bb478718185412a82e8566eb5c1e1fb90cf62c97f079560e21b86b97",
+      "public_sha256": "83000da5bb478718185412a82e8566eb5c1e1fb90cf62c97f079560e21b86b97",
+      "redacted": false
+    }
+  ]
+}

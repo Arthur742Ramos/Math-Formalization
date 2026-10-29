@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "scope": "Saved evidence and source bindings; no new Lean/Comparator execution or registry certification",
+  "projects": 17,
+  "selected_theorems": 114,
+  "selected_definitions": 36,
+  "full_success_equal_package_trees": 17,
+  "named_renderer_success": 13,
+  "registered_preview_only": 3,
+  "rendering_not_established": 1,
+  "official_registrations_evidenced": 10,
+  "user_reported_ids_unconfirmed": 2,
+  "other_registration_outcomes_unknown": 5,
+  "supplemental_selected_axiom_reports": 21,
+  "sorgenfrey_hosted_axiom_reports": 12,
+  "sorgenfrey_selected_theorems_covered": 7
+}
+{
+  "status": "pass",
+  "commit": "8fcd0b9cce6b46a2ff8a50693a5bea4344c55a6c",
+  "audited_projects": 17,
+  "separate_preparations": 25,
+  "registered": 10,
+  "preserved_package_trees": 17,
+  "lean_source_headers_checked": 982,
+  "package_consistency_checks": [
+    "topology/composants",
+    "topology/order-arcs",
+    "topology/hyperspace-components",
+    "topology/sorgenfrey-covering",
+    "topology/whitney-reversibility",
+    "topology/michael-biquotient",
+    "topology/dowker-characterization",
+    "topology/perfect-paracompact",
+    "topology/nagata-smirnov",
+    "topology/smirnov-local-metrization",
+    "topology/perfect-metrizable-images",
+    "topology/alexandroff-urysohn",
+    "topology/sneider-diagonal",
+    "topology/compact-countable-network",
+    "topology/countable-coordinate-factorization",
+    "topology/hewitt-marczewski-pondiczery",
+    "topology/sigma-product-frechet"
+  ],
+  "public_records_checked": [],
+  "scope": "Catalog, separate frozen preparations, preserved source trees and existing package consistency checks. No Lean build or new Palomar review."
+}

@@ -1,0 +1,71 @@
+{
+  "artifact_tree_sha256": "a1bf2e5b35bb62eec6a8552dd3fe0c45e95705db000392636cffab19f1ea4ada",
+  "files": [
+    {
+      "bytes": 31259,
+      "path": "-verso-docs.json",
+      "sha256": "0e7e330c795567498390ab17cdee32716eed135b85a22adfb13077241434ea9d"
+    },
+    {
+      "bytes": 4716,
+      "path": "-verso-search/README.txt",
+      "sha256": "c2592e93a155651c869ea357d9b4c8bbd28920eb841b6a7c984841fd5fe9993a"
+    },
+    {
+      "bytes": 120,
+      "path": "-verso-search/domain-mappers.d.ts",
+      "sha256": "b347aa85cd1497191ce7e7166ef113e7c4c83f79345a6a4f7816a2155a5f7665"
+    },
+    {
+      "bytes": 2845,
+      "path": "-verso-search/fuzzysort.d.ts",
+      "sha256": "7c3f3de27ad6eb8ab420f1aade753483e1a597820ff7b5d80fa210e1c6f7c4e5"
+    },
+    {
+      "bytes": 233,
+      "path": "-verso-search/jsconfig.json",
+      "sha256": "6ae5ab90515f1ad5d923aca1616366dc67a1961b78c0285d02e4182791df7796"
+    },
+    {
+      "bytes": 2274,
+      "path": "-verso-search/licenses.md",
+      "sha256": "437e3dad49ac48ebfeabcaaf4c020b6580b13690b24ca0c5b31e4f3c797b0e43"
+    },
+    {
+      "bytes": 3421664,
+      "path": "Challenge/index.html",
+      "sha256": "5cad159fce159a70629c58aa52bf9a90b730f41725ee32bfb257f28bc6a49552"
+    },
+    {
+      "bytes": 1424,
+      "path": "challenge-metadata.json",
+      "sha256": "fbe46b138c766625192e47cf14c50fa1dfa8170ca4ad12c2957be2e47c2fcc67"
+    },
+    {
+      "bytes": 44274,
+      "path": "palomar-render.css",
+      "sha256": "f16b4aa1e470cb136215b68cf37d60122ed4cfb3daf1ff3d761f87867a24f8d7"
+    },
+    {
+      "bytes": 16471,
+      "path": "palomar-sanitize.js",
+      "sha256": "37003e46e52ea8ca4ab4dc59e99a5fa35c4db8e029abddd7c4996df8b94815f6"
+    },
+    {
+      "bytes": 7820,
+      "path": "palomar-verso.js",
+      "sha256": "332773edafa3ac712ec3fba31d4c6ece2339693958873a9020a9be1bddb22538"
+    },
+    {
+      "bytes": 12030,
+      "path": "search/index.html",
+      "sha256": "140520877e6b7442f471c668ffe209523e1ae312b5cae4e691711b7f9f48cb66"
+    },
+    {
+      "bytes": 3168,
+      "path": "xref.json",
+      "sha256": "43e4028c41182076ff56c2ef8529beb948dc3cab881f9d8953166a9b745c67f1"
+    }
+  ],
+  "schema_version": 1
+}
