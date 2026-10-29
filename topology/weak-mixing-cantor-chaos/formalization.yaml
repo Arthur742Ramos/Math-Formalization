@@ -1,0 +1,32 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Weak mixing and local Cantor scrambled families",
+    "description": "A continuous square-transitive self-map of a nontrivial perfect Polish metric space has a globally uniform positive separation scale, and each nonempty open set contains a closed Cantor embedding whose distinct pairs return arbitrarily late both close and separated.",
+    "authors": ["Arthur Freitas Ramos", "David Barros Hulak", "Ruy Jose Guerra Barretto de Queiroz"],
+    "responsible_maintainers": ["Arthur Freitas Ramos", "David Barros Hulak", "Ruy Jose Guerra Barretto de Queiroz"],
+    "license": "Apache-2.0"
+  },
+  "classification": {"arxiv": ["math.DS", "math.GN"], "msc2020": ["37B05", "54H20"]},
+  "sources": [
+    {"title": "On Li–Yorke pairs", "authors": ["François Blanchard", "Eli Glasner", "Sergii Kolyada", "Alejandro Maass"], "type": "paper", "id": "https://www.imath.kiev.ua/~skolyada/LY.pdf", "relationship": "formalizes", "note": "Weak mixing and independent transitive sets; this localized binary Cantor-family consequence does not assert the stronger all-arity or dense Mycielski conclusions."},
+    {"title": "Independent sets in topological algebras", "authors": ["Jan Mycielski"], "type": "paper", "id": "https://eudml.org/doc/213780", "relationship": "background", "note": "Classical source for the separately credited binary Cantor fusion dependency; original scan access returned 403."}
+  ],
+  "related_formalizations": [
+    {"relationship": "builds-on", "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/a6fd933f00c83a82c4d7ab510d17ae62e87dc75f/topology/mycielski-cantor-independent", "note": "The three Mycielski modules are copied credited proof dependencies; they are not selected as new results."},
+    {"relationship": "builds-on", "id": "https://github.com/Arthur742Ramos/Math-Formalization/blob/a6fd933f00c83a82c4d7ab510d17ae62e87dc75f/topology/ip-transitive-points/IPTransitive.lean", "note": "Generic-orbit and late-return fragments, with upstream credits retained in ATTRIBUTION.md."},
+    {"relationship": "builds-on", "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55", "note": "Pinned topological, metric, Polish and CantorScheme infrastructure."}
+  ],
+  "status": {
+    "scope": "Localized Cantor families of pairwise dense square orbits and uniformly scrambled pairs, with arbitrarily late returns.",
+    "sorry_count": 0,
+    "sorry_in_definitions": 0,
+    "axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "known_gaps": "Exact-source proof, dependency, comparator, kernel, axiom and rendering outcomes are established only by separately identified receipts for the tested source. Compilation is not a canonical or release result.",
+    "attribution_status": "Established campaign author and maintainer roles retained; Codex authored material Lean proof. No human proof contribution inferred."
+  },
+  "automation": {"methods": [{"method": "agent", "tool_setup": "OpenAI Codex developed the Lean proof using credited repository dependencies. An independent internal AI reviewer assessed the mathematical and source scope."}], "notes": "No human or external peer review inferred."},
+  "fidelity": {"divergences": "Nontrivial perfect Polish metric X, continuous f and square open-transitivity are explicit; the topology admits a compatible complete metric but the supplied metric need not be complete. No compactness, surjectivity, invariance, dense sigma-Cantor union or all-arity conclusion is asserted. Time zero is permitted in transitivity; output returns are arbitrarily late."},
+  "review": {"status": "agent-reviewed", "reviewers": ["Independent internal AI mathematical/source-fidelity reviewer"], "notes": "The mathematical target and development proof received independent internal AI review; packaging, imported-definition completeness and exact-source evidence require their own review."},
+  "acknowledgements": "Blanchard, Glasner, Kolyada and Maass are credited for the dynamical context; Mycielski and prior repository proof authors are credited for the Cantor fusion dependency."
+}

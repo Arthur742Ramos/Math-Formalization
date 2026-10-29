@@ -23,6 +23,6 @@ with open(lock_path, "r") as lock:
         "pr43", "--class", "native", "--memory-gib", "6", "--seconds", "240",
         "--cwd", workloads + "/pr43/mycielski-source/topology/mycielski-cantor-independent",
         "--", "/home/formalization/.elan/bin/lake", "env", "lean", "-j1", "-M4096",
-        "/mnt/q/Codex/2026-10-29/topology-chaos/topology/weak-mixing-cantor-chaos/ChaosDraft.lean",
+        "/mnt/q/Codex/2026-10-29/topology-chaos/topology/weak-mixing-cantor-chaos/CantorChaos.lean",
     ]
     sys.exit(subprocess.run(cmd, check=False).returncode)

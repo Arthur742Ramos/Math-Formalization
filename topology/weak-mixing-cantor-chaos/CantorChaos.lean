@@ -6,8 +6,11 @@ topology/ip-transitive-points/IPTransitive.lean at a6fd933f00c83a82c4d7ab510d17a
 Mycielski.exists_cantor_independent from the same tree, blob
 c0c0615effc8abd76b78470a6e61261d0aad8b94. Both are Apache-2.0.
 -/
-import Mycielski.Independent
-import Mathlib.Tactic
+module
+public import Mycielski.Independent
+public import Mathlib.Tactic
+
+@[expose] public section
 
 open Set Function TopologicalSpace
 

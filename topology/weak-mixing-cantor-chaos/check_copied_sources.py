@@ -21,7 +21,9 @@ if "--inside" in sys.argv:
     env = dict(os.environ, LEAN_PATH=":".join(search))
     lean = "/home/formalization/.elan/toolchains/leanprover--lean4---v4.35.0-rc2/bin/lean"
     for module in ["Mycielski/FusionStep", "Mycielski/Scheme",
-                   "Mycielski/Independent", "ChaosDraft"]:
+                   "Mycielski/Independent", "Mycielski", "CantorChaos",
+                   "ChaosChallenge", "ChaosSolution", "SemanticChallenge",
+                   "SemanticSolution", "AxiomAudit"]:
         print(f"compiling {module}", flush=True)
         result = subprocess.run(
             [lean, "-j1", "-M4096", "-DwarningAsError=true",
@@ -29,7 +31,7 @@ if "--inside" in sys.argv:
             cwd=package, env=env, check=False)
         if result.returncode:
             sys.exit(result.returncode)
-    print("Copied fusion sources and draft elaborated with Q-based outputs.", flush=True)
+    print("Copied fusion sources and all package entrypoints elaborated with Q-based outputs.", flush=True)
     sys.exit(0)
 stats = os.statvfs(workloads)
 available = stats.f_bavail * stats.f_frsize
@@ -45,7 +47,7 @@ with open(workloads / ".heavy-verification.lock", "r") as lock:
         sys.exit(3)
     cmd = [
         "python3", str(scheduler), "pr43", "--class", "native",
-        "--memory-gib", "6", "--seconds", "600", "--cwd", str(package),
+        "--memory-gib", "6", "--seconds", "1200", "--cwd", str(package),
         "--", "python3", str(package / "check_copied_sources.py"), "--inside",
     ]
     sys.exit(subprocess.run(cmd, check=False).returncode)

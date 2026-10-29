@@ -1,0 +1,10 @@
+{
+  "challenge_module": "ChaosChallenge",
+  "solution_module": "ChaosSolution",
+  "theorem_names": [
+    "CantorChaos.cantor_dense_pair_orbits",
+    "CantorChaos.cantor_uniform_scrambled"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}

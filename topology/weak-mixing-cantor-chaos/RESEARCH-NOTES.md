@@ -6,7 +6,7 @@ rendering, publication, or registry verification.
 Proposed result: let X be a nonempty perfect Polish metric space and f a
 continuous self-map on a space with at least two points such that the induced map on X × X is open-set transitive,
 with time zero permitted. There is a positive δ such that every nonempty open
-U contains an embedded Cantor set C for which every distinct pair x, y in C
+U contains a closed embedded Cantor set C for which every distinct pair x, y in C
 returns arbitrarily late to distance less than ε for every ε > 0 and also
 returns arbitrarily late to distance greater than δ. The witness times
 may depend on the fixed pair, threshold and lower bound; the family is fixed for U and δ is global.
@@ -39,5 +39,4 @@ strongly transitive sequences, and thick multisensitivity do not state the
 fixed Cantor-family conclusion. A differently named equivalent result cannot
 be ruled out by a text search.
 
-The draft imports the retained Mycielski build for development only. This
-does not establish a self-contained package or source-bound validation.
+The initial draft used retained Mycielski build artifacts. Later development checks compiled copied fusion sources into fresh Q: outputs while reusing pinned Mathlib artifacts. These checks do not establish a clean package build, canonical verification, or full source-bound validation.
