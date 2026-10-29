@@ -1,0 +1,21 @@
+{
+  "challenge_module": "ChallengeCopyMajority",
+  "solution_module": "SolutionCopyMajority",
+  "theorem_names": [
+    "DeterminationPatterns.expanded_projection_iff",
+    "DeterminationPatterns.projection_observation_preservation",
+    "DeterminationPatterns.every_projection_observation_preserved",
+    "DeterminationPatterns.copy_interventions_nonunique",
+    "DeterminationPatterns.copy_majority_all_contexts",
+    "DeterminationPatterns.original_link_interventions_unique",
+    "DeterminationPatterns.carrier_expanded_solution_bridge",
+    "DeterminationPatterns.copy_majority_admissible",
+    "DeterminationPatterns.copy_majority_relevant",
+    "DeterminationPatterns.copy_interventions_not_unique"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

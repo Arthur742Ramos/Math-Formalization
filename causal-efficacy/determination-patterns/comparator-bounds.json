@@ -1,0 +1,12 @@
+{
+  "challenge_module": "ChallengeBounds",
+  "solution_module": "SolutionInterval",
+  "theorem_names": [
+    "DeterminationPatterns.contextual_determination_interval"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

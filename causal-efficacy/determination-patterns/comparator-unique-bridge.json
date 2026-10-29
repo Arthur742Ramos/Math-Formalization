@@ -1,0 +1,14 @@
+{
+  "challenge_module": "ChallengeUniqueBridge",
+  "solution_module": "SolutionUniqueBridge",
+  "theorem_names": [
+    "DeterminationPatterns.accessible_carrier_iff_well_founded",
+    "DeterminationPatterns.whole_determined_iff_unique",
+    "DeterminationPatterns.well_founded_on_iff_restricted_relation"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

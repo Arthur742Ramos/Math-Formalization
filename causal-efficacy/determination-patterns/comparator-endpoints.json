@@ -1,0 +1,14 @@
+{
+  "challenge_module": "ChallengeEndpoints",
+  "solution_module": "SolutionInterval",
+  "theorem_names": [
+    "DeterminationPatterns.root_reachable_conditions",
+    "DeterminationPatterns.accessible_region_conditions",
+    "DeterminationPatterns.relevant_endpoint_attainment"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

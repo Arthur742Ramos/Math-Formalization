@@ -1,0 +1,14 @@
+{
+  "challenge_module": "ChallengeUniform",
+  "solution_module": "SolutionUniform",
+  "theorem_names": [
+    "DeterminationPatterns.local_foundation_iff_all_reachable",
+    "DeterminationPatterns.forest_copy_every_context_unique",
+    "DeterminationPatterns.some_mechanism_every_context_unique_iff_local_foundation"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

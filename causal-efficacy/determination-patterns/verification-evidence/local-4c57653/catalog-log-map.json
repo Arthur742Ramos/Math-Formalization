@@ -1,0 +1,53 @@
+{
+  "scope": "Original receipt hashes are preserved; local checkout paths in public logs are replaced with <checkout>.",
+  "logs": [
+    {
+      "file": "00.log",
+      "original_sha256": "f35522e7c1951de928127d240c3d71fedde34df8cf1714093f466f982b2648a6",
+      "public_sha256": "f35522e7c1951de928127d240c3d71fedde34df8cf1714093f466f982b2648a6",
+      "redacted": false
+    },
+    {
+      "file": "01.log",
+      "original_sha256": "399d91e1699cafe69067994ad881abfcca773f29a8002df7c5116afe57e1680f",
+      "public_sha256": "399d91e1699cafe69067994ad881abfcca773f29a8002df7c5116afe57e1680f",
+      "redacted": false
+    },
+    {
+      "file": "02.log",
+      "original_sha256": "7e2dcaaa5b3a3a9955d4eb637e2ebb6ab8abe5da08d00fe78e0e74feef84b9f2",
+      "public_sha256": "54f0be8aa30d770defae2dc6b88783659d3d86f4f2d7388fbeb5b2a0dca44482",
+      "redacted": true
+    },
+    {
+      "file": "03.log",
+      "original_sha256": "380bf899a7d57da4bbc41f001b2e400302028edd64483a4138f0f5c106c35121",
+      "public_sha256": "4767dbb4dcbd1d14b285a75868b9171e655a3e50db2fee61b53d8cf8d09fbee3",
+      "redacted": true
+    },
+    {
+      "file": "04.log",
+      "original_sha256": "5d5365621bdfe1680d4e231c63ee4975ca21777c07f56e823f9279d17462c988",
+      "public_sha256": "102a03bfb87b8b127387079eb7aa5d457d2b91d711f2dc1a40e38e984d5360d1",
+      "redacted": true
+    },
+    {
+      "file": "05.log",
+      "original_sha256": "53ac86ffda3f61fbd4b15734a44c580d93488a626551f40d75273256b6bd0139",
+      "public_sha256": "c4635b7a91f5edb0ccc955c6d70bb7f53a1e015641a9898e5d1ca68d6e0a6cba",
+      "redacted": true
+    },
+    {
+      "file": "06.log",
+      "original_sha256": "1762f1d95e883ab0d8bc53189cb772979cefdadf40147dd7649a681c718ea1ce",
+      "public_sha256": "73ebd4dd9e65b27e9007cb28e9180e6f619191f5aad60addc8d438fe442c0518",
+      "redacted": true
+    },
+    {
+      "file": "07.log",
+      "original_sha256": "01ccbba2745a505eb8849d488b974efdfabc020ac2ca714d40562814dd82eea8",
+      "public_sha256": "01ccbba2745a505eb8849d488b974efdfabc020ac2ca714d40562814dd82eea8",
+      "redacted": false
+    }
+  ]
+}

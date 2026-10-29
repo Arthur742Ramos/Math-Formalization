@@ -1,3 +1,4 @@
 module
 public import DeterminationPatterns.BooleanTransport
 public import DeterminationPatterns.PaperResults
+public import DeterminationPatterns.Interval

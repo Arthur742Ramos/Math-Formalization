@@ -31,3 +31,36 @@ name = "ChallengeGrounded"
 
 [[lean_lib]]
 name = "SolutionGrounded"
+
+[[lean_lib]]
+name = "ChallengeGateSpine"
+
+[[lean_lib]]
+name = "SolutionGateSpine"
+
+[[lean_lib]]
+name = "ChallengeCopyMajority"
+
+[[lean_lib]]
+name = "SolutionCopyMajority"
+
+[[lean_lib]]
+name = "ChallengeUniform"
+
+[[lean_lib]]
+name = "SolutionUniform"
+
+[[lean_lib]]
+name = "ChallengeBounds"
+
+[[lean_lib]]
+name = "ChallengeEndpoints"
+
+[[lean_lib]]
+name = "SolutionInterval"
+
+[[lean_lib]]
+name = "ChallengeUniqueBridge"
+
+[[lean_lib]]
+name = "SolutionUniqueBridge"

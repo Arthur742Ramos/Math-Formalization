@@ -1,0 +1,16 @@
+{
+  "challenge_module": "ChallengeGateSpine",
+  "solution_module": "SolutionGateSpine",
+  "theorem_names": [
+    "DeterminationPatterns.spine_unique_iff_cofinal_forcing",
+    "DeterminationPatterns.all_contexts_unique_iff_opposite_repeats",
+    "DeterminationPatterns.gate_synthesis_iff_repeated_sources",
+    "DeterminationPatterns.relevant_labelled_spine_synthesis_iff",
+    "DeterminationPatterns.relevant_synthesis_survives_all_hard_interventions"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

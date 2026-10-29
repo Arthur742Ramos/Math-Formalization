@@ -41,7 +41,21 @@ configurations are explained in `REGION-COMPARATOR.md`. A separate
 source-inference statements from Proposition 10. A groundedness draft
 `comparator-grounded.json` selects the credited general fixed-point theorem
 and its Proposition 11 specialization; its standalone editorial significance
-has not been established. These drafts and local
+has not been established. `comparator-gate-spine.json` selects the full
+relevant labelled-spine synthesis theorem, its forcing and gate-family
+characterizations, and a gate-equation intervention consequence for a gate
+family satisfying the opposite-repeats condition. `comparator-copy-majority.json`
+selects the expanded-system mechanism, uniqueness, observation-preservation
+and original-link intervention claims, together with the all-copy-clamp
+nonuniqueness example. `comparator-uniform.json` selects the unrestricted
+one-mechanism-for-all-contexts theorem and its forest construction. Two
+additional configurations select the fixed-context accessible/reachable bounds
+and relevant endpoint attainment; together they imply the SOME/ALL target
+criteria for target subsets of the carrier, whose biconditionals remain separately proved in the Lean package.
+`comparator-unique-bridge.json` selects the links between whole-carrier
+determination, uniqueness and restricted-relation well-foundedness. The
+all-mechanism/all-context biconditionals are proved in the package but are
+not directly selected in this bridge. These drafts and local
 experiments are not release certification. `RELEASE-PLAN.md` records the
 remaining release requirements.
 

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "source_commit": "4c57653ae4c5ddaea463863962a30135097fd103",
+  "source_tree": "398a1ddd3674dd6807fc0f24d964db66783a3eb0",
+  "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/tree/4c57653ae4c5ddaea463863962a30135097fd103/causal-efficacy/determination-patterns",
+  "scope": "Historical local validation of this exact commit. This is not canonical protected verification, rendering, editorial acceptance or registration. Later source changes require new checks.",
+  "lean": "4.35.0-rc2 (11acb17ec6b07a8f9e9173e6845197929540936b)",
+  "package_build": "pass",
+  "regressions": "pass",
+  "lexical_placeholder_scan": "pass; lexical only",
+  "comparator": "Five separate local --paranoid comparisons passed with bundled kernel replays.",
+  "axiom_audit": "67 declarations, including all 12 selected names; only propext, Classical.choice and Quot.sound or none.",
+  "review": "Independent internal AI source and evidence review; not human or external peer review.",
+  "configurations": {
+    "comparator-pattern.json": {
+      "sha256": "412d8cb378e40e7b79f82dd94eb6440f656a5303f4950248bb9a1c89ab44b981",
+      "theorem_names": [
+        "DeterminationPatterns.exact_relevant_pattern_realization",
+        "DeterminationPatterns.realized_pattern_necessary",
+        "DeterminationPatterns.pattern_witness_extrema"
+      ]
+    },
+    "comparator-region-nec.json": {
+      "sha256": "5bc939c7d81f07d0a24209043ecb22a9186407955b0fb9e68cfb84d6afbe3750",
+      "theorem_names": [
+        "DeterminationPatterns.determined_region_conditions"
+      ]
+    },
+    "comparator-region-suff.json": {
+      "sha256": "f570b277d72bc1c8efc154a6cd078cf57e12ffc351c8378a2cdb8e6903af1a40",
+      "theorem_names": [
+        "DeterminationPatterns.region_conditions_sufficient"
+      ]
+    },
+    "comparator-source.json": {
+      "sha256": "97221104f589fe6f3c279cebbde0e4aff19f47a063ccea176d14cc4ac99ddfdf",
+      "theorem_names": [
+        "DeterminationPatterns.determined_iff_fixed_agreement",
+        "DeterminationPatterns.active_determinate_internal_root_path",
+        "DeterminationPatterns.active_determined_region_eq_least",
+        "DeterminationPatterns.unique_contextual_solution_extrema",
+        "DeterminationPatterns.active_determined_nonroot_has_distinct_root"
+      ]
+    },
+    "comparator-grounded.json": {
+      "sha256": "8f3597faca4af29aa93875a1fa97269ea832ed4f679c89a3578717057c2388ad",
+      "theorem_names": [
+        "DeterminationPatterns.supported_fixed_iff_least",
+        "DeterminationPatterns.contextual_grounded_fixed_iff_least"
+      ]
+    }
+  },
+  "original_local_log_sha256": "c91dac4c6a0412ca19f4abab840db8c3ea1817e9919fddc8391677b5a7f47695",
+  "public_redacted_log_sha256": "4a1ed5fd1afd3d5132bd3f1b2be2fa37d2cdd4b5b6ace07fbc2e8247bbc8cfc1",
+  "redaction": "Absolute local filesystem paths replaced with generic labels; mathematical output otherwise retained.",
+  "axiom_input_sha256": "9519e9ad419dbc73a1fe2dc6a0183fcf9fc94083b95a79dc1b0f9497396619e3",
+  "axiom_output_sha256": "798103a5d4c3d775f5fe9e5642abac1bc089e3a9a6bec68729685a6e8d4a8dca",
+  "root_catalog": {
+    "status": "pass",
+    "scope": "Root catalog consistency and existing package checks, not certification or listing of this package.",
+    "steps": 8,
+    "receipt_sha256": "b433503c1ab7bea3a7c1c2efdb39eeb8fc39422d67ffd483f53d8dcae06a8aa5",
+    "logs": "See catalog-receipt.json and catalog-log-map.json; local checkout paths were redacted in public logs."
+  }
+}
