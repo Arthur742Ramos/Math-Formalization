@@ -1,0 +1,18 @@
+name: Labelled spine Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-gatespine-85abb84
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 85abb841023d81c6a418889907e66a6c000ca50e
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: gatespine001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"causal-efficacy/determination-patterns","comparator_config_path":"causal-efficacy/determination-patterns/comparator-gate-spine.json","formalization_metadata_path":"causal-efficacy/determination-patterns/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
