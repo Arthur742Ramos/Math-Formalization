@@ -304,8 +304,8 @@ Stable-open propagation, the pointwise minimal dichotomy and its nonempty incomp
 
 ## Generic IP-transitive points preparation
 
-The theorem and source scope received independent internal AI review. Local build and export checks cover unchanged proof inputs from the earlier draft; exact-source canonical verification and rendering remain pending. No intake was created by this task.
+The theorem and source scope received independent internal AI review. Palomar mechanical verification and rendering passed for submitted source `29395b6`; the corrected source is a separate status revision with its own verification and rendering unestablished. The structural catalog classification is not the complete conditional evidence-reuse guard. No registration or editorial approval is asserted.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Generic IP-transitive points in weakly mixing systems](topology/ip-transitive-points) | For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite. | Preparation; not submitted | [`efb8423`](https://github.com/Arthur742Ramos/Math-Formalization/tree/efb8423946e3249662324994d7501df11291a365/topology/ip-transitive-points) |
+| [Generic IP-transitive points in weakly mixing systems](topology/ip-transitive-points) | For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite. | Source-account correction; current-source checks unestablished | [`0401e87`](https://github.com/Arthur742Ramos/Math-Formalization/tree/0401e874020bfb5594112d972ad170353008f12a/topology/ip-transitive-points) |

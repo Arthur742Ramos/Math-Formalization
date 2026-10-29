@@ -2326,10 +2326,28 @@
           "mathematical_scope": "15645db72380f71105eb669e2fd94518941966f0f1312e034ba56fe16ab9b400",
           "final_proof_static_source_review": "7a76616529f5c31d7d1f4393325ac9764213af430fe8c18cb73afd184ce12ee4",
           "package_snapshot_and_checker": "f500ad39155991718b13451eb39a53af553f3842131fc86627672016ee9756f7",
-          "nanoda_disclosure_review": "2c09910eb509f34e121d13d2739fc201d966aa57d26db02f657bec62e766ca85"
+          "nanoda_disclosure_review": "2c09910eb509f34e121d13d2739fc201d966aa57d26db02f657bec62e766ca85",
+          "ip_status_source_review": "45cd70e41746449632c4409fcd487df7319b7fff7fcf11c117d4bd614805954d"
         }
       },
-      "evidence_scope": "Reviewed preparation; previous package snapshot 36a2788b4e13fb16768561340005552514b21e51 (tree 819a03673bd9ec4c9b469dd839902c366469fc77). The 36291bd local package build and kernel/export comparison cover unchanged proof and semantic sources, not this corrected snapshot as an exact-source canonical run. Canonical full verification, fresh dependency build, rendering and registry submission remain pending."
+      "evidence_scope": "Dated historical preparation fields retain the older snapshot. Submitted source 29395b6292afbeeb58a57df0c9af5c538a793c9c passed Palomar protected Comparator and independent kernels (mechanical report SHA-256 b91f6bcc0ca925ed26519114f4c48c56b8b06f9de02e45af0b0a0dd21b5e68c1) and official rendering (report SHA-256 eeb75cc05f60fb56f032845052e6dd260c1802e0a6a01c29855eab635c583915). The current correction has only README and metadata status changes. Current-source full verification and rendering are not established; the structural status-only catalog classification does not itself satisfy the full conditional evidence-reuse guard. Visual inspection and editorial or registration outcomes are not asserted.",
+      "current_source_snapshot": {
+        "commit": "0401e874020bfb5594112d972ad170353008f12a",
+        "tree": "6c6d528f619c40e392cd3ce9f7d7977a7d31ebbc"
+      },
+      "status_correction": {
+        "kind": "narrow-status-only-evidence-carry",
+        "historical_source": "efb8423946e3249662324994d7501df11291a365",
+        "historical_evidence_source": "29395b6292afbeeb58a57df0c9af5c538a793c9c",
+        "corrected_source": "0401e874020bfb5594112d972ad170353008f12a",
+        "corrected_tree": "6c6d528f619c40e392cd3ce9f7d7977a7d31ebbc",
+        "changed_files": [
+          "README.md",
+          "formalization.yaml"
+        ]
+      },
+      "current_source_full": "not-established",
+      "current_source_rendering": "not-established"
     }
   ]
 }
