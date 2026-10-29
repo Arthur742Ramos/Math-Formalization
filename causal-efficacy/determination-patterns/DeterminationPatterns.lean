@@ -7,3 +7,5 @@ public import DeterminationPatterns.PatternComponents
 public import DeterminationPatterns.RepresentationBridge
 public import DeterminationPatterns.PaperExamples
 public import DeterminationPatterns.PaperGrounded
+public import DeterminationPatterns.PaperStageOmega
+public import DeterminationPatterns.PaperGraphExamples

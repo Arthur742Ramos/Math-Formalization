@@ -18,10 +18,41 @@ import Isabelle proof objects or imply cross-kernel identity.
 | Majority successor sensitivity, pp. 9–10 | `majority_sensitive_at_fixed_source` | Both fixed Boolean source settings with the copy input opposite the source; the stated formal input need not be a compatible global solution. |
 
 These declarations are package-level results, not automatically protected
-Comparator targets. Figure graph structural properties, the finite-parent
-stage-ω iteration discussion, other groundedness illustrations, unrestricted
+Comparator targets. Other groundedness illustrations, unrestricted
 observation or intervention transport, and philosophical/literature conclusions
 are not claimed here as separately established results. Compare the existing
 source map for the general theorems and their assumptions. A local build or
 source review is not Palomar intake, canonical exact-source verification, or
 human peer review.
+
+## Stage-ω and spine graph coverage
+
+The version-6 manuscript introduces the universal-parent operator
+`A(X) = {x ∈ C | Parents(x) ⊆ X}` and observes that finite parent sets
+preserve increasing countable unions and give the least point by stage ω.
+`PaperStageOmega.lean` states this with finite covering lists for each
+carrier vertex and arbitrary carriers; it identifies the least point with
+`AccessibleRegion`. It also proves the corresponding ω result separately
+for an admissible contextual `Step`, whose `U` parameter may be any region;
+the manuscript's root contexts are a special case. Neither theorem asserts
+finite-stage stabilization, convergence of greatest fixed points, or a
+finite-parent condition on the principal realization results.
+
+The `DepthDependency` example witnesses a node accessible at
+`FoundationStep FoundationOmega` but absent from `FoundationOmega`; its
+graph does not satisfy `FiniteParentCover`. This is an explicit strict post-ω
+example, not a general transfinite ordinal iteration framework.
+
+`PaperGraphExamples.lean` gives the exact two distinct parents of each
+labelled link, exact roots, root distance one, acyclicity, and failure of
+well-foundedness for the possible-input graph; the common source in Figure 1
+has infinitely many successors. It separately defines sensitivity of a link's
+successor input at a fixed source context and proves its link-only relation
+well founded under cofinal forcing. That relation is not the global graph or
+an unrestricted state-specific causal graph. The manuscript presents the
+finite-parent observation and context-sensitive graph reading as explanatory
+arguments rather than additional numbered machine-checked results.
+
+These are package-level theorems, not direct selections in the current 19
+Comparator configurations; their presence does not establish protected
+comparison, render compliance or registry acceptance.
