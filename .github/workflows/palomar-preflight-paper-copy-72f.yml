@@ -1,0 +1,18 @@
+name: Paper copy-majority Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-paper-copy-72f6022
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 72f60228093835438744c37babc68d80e330f755
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: papercopy001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"causal-efficacy/determination-patterns","comparator_config_path":"causal-efficacy/determination-patterns/comparator-copy-majority.json","formalization_metadata_path":"causal-efficacy/determination-patterns/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
