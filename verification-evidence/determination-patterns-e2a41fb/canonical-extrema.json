@@ -1,0 +1,47 @@
+{
+  "scope": "Sanitized local canonical preflight for the extrema component only. This local run did not submit to, and provides no acceptance from, the registry.",
+  "source": "Arthur742Ramos/Math-Formalization",
+  "source_commit": "e2a41fb46531b444d4a104ea9bc4d277e06d9dc3",
+  "source_tree": "e0d0c016d6d974652040416b9bceb11f72aa96d5",
+  "pipeline_commit": "14aa8d6b3c2f14a8540605e37144560b9a00e7e7",
+  "status": "pass",
+  "stage": "complete",
+  "checked_at": "2026-10-29T02:58:25Z",
+  "config_path": "causal-efficacy/determination-patterns/comparator-pattern-extrema.json",
+  "config_sha256": "cdaa36fe8cc45140ce17f35a85536afc3a6af865abce13f76007091fd3665658",
+  "selected_theorems": [
+    "DeterminationPatterns.witness_extrema_of_admissible"
+  ],
+  "selected_definitions": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "challenge_sha256": "ab6b3a3c0cf636d5a8b0d68556b9eb145ca39d2eb82530e218efd7dea6dc68dd",
+  "solution_sha256": "c42df0357e6e16fbd2434ce2bfb826e6fc07c96802650eae1aa01ef7e6c0dc7c",
+  "protected_config_sha256": "53da160fb75e871590043323a957172d8be6a8f9981b00a5aea373ddb480d3b6",
+  "metadata_sha256": "24a200c77f6f40bec20a16d484b6b0e33575e8b94961c437a7367ac27992f3d9",
+  "bwrap_sha256": "cf66a7048e8d1168d2bc5fdfdc038cb3fb9d5630f6780828e55e8fc753ace7c7",
+  "pipeline_step_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "kernel_attempts": [
+    {
+      "name": "con-ron",
+      "status": "accepted",
+      "reason": "complete",
+      "exit_code": 0
+    }
+  ],
+  "comparator_log_tail": "Running nanoda kernel on solution\nnanoda kernel accepts the solution\nRunning Lean default kernel on solution\nLean default kernel accepts the solution\nYour solution is okay!",
+  "errors": [],
+  "warnings": [
+    "configured Challenge source exceeds the preferred 32 KiB / 300-line review surface"
+  ],
+  "original_local_report_sha256": "72d0bde61f46687065128ed556c5f299c405c087a451f2428061917ac04ca7d6",
+  "original_local_receipt_sha256": "79b09fee9698e61eb8e4535a0c494c9d8d9e851e4b2434c8db9dbe473af769aa",
+  "note": "The original local report and receipt are not published here; their hashes alone do not enable independent reconstruction."
+}
