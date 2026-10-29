@@ -320,8 +320,9 @@ The statement, source and retained provenance received independent internal AI r
 
 ## Weak-mixing Cantor chaos preparation
 
-The selected mathematical source and implementation received independent internal AI review. The referenced local package checkpoint is not yet a published remote revision; when performed, exact-source verification and rendering receipts are tracked separately. No external review or registration is asserted.
+The selected mathematical source and implementation received independent internal AI review. The original package snapshot 01fd1be was published as an ancestor of draft commit 14eba7e on 2026-10-29. The 14eba7e exact-source preflight failed at protected Challenge compilation because a project-local import was unavailable; repair checkpoint bb69049, prepared locally on 2026-10-29, inlines the credited proof; its locally prepared b7e4d8c successor corrects checker paths. When performed, source-bound verification and rendering receipts are tracked separately. No editorial acceptance or registration is asserted.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Weak mixing and local Cantor scrambled families](topology/weak-mixing-cantor-chaos) | For a continuous square-transitive map on a nontrivial perfect Polish metric space, each nonempty open set contains a Cantor family of pairwise dense square orbits; separately, a global positive scale gives arbitrarily late scrambling. | Preparation; not submitted | [`01fd1be`](https://github.com/Arthur742Ramos/Math-Formalization/tree/01fd1bebc505eb4e35575a3a33ce0033a757273a/topology/weak-mixing-cantor-chaos) |
+| [Weak mixing and local Cantor scrambled families](topology/weak-mixing-cantor-chaos) | For a continuous square-transitive map on a nontrivial perfect Polish metric space, each nonempty open set contains a Cantor family of pairwise dense square orbits; separately, a global positive scale gives arbitrarily late scrambling. | Preparation; not submitted | [`b7e4d8c`](https://github.com/Arthur742Ramos/Math-Formalization/tree/b7e4d8c4ab34ef7c4f271ee02a5a09279e2e442f/topology/weak-mixing-cantor-chaos) |
+

@@ -2426,25 +2426,25 @@
       "scope": "For a continuous square-transitive map on a nontrivial perfect Polish metric space, each nonempty open set contains a Cantor family of pairwise dense square orbits; separately, a global positive scale gives arbitrarily late scrambling.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
-        "tree": "b76de8290c01cbf62bd6f215e25cbe865b966cd9"
+        "commit": "b7e4d8c4ab34ef7c4f271ee02a5a09279e2e442f",
+        "tree": "1307b8f07732367cd712e0d81b4fa0264403ca78"
       },
       "source_files_sha256": {
         ".gitignore": "fde850d24186b6e99c8c0debd641fb3ab85198b109eb66f71a1fea02bd6ea1b3",
-        "ATTRIBUTION.md": "7dad5e53a114ab50b9942d617d419cc28bd6a81eee28b24e2194bf4ce18d0e7b",
+        "ATTRIBUTION.md": "c8859c1c9648d1780c01815985b572c5519ee2306e52166f12984d6ac7b5ddb5",
         "AxiomAudit.lean": "aaf51154d37eaefd2cd68d2684a8d272cf211435be1bc019889a035eacc70483",
         "CantorChaos.lean": "8aad1702f8a927683b04ba504fdd6e0e71a14dd6973d4c48580fbda54bcdad7f",
-        "ChaosChallenge.lean": "8aad1702f8a927683b04ba504fdd6e0e71a14dd6973d4c48580fbda54bcdad7f",
+        "ChaosChallenge.lean": "06009a368db3d10557ce736b3910b6a188434090adf1b46abd339b24fe96c550",
         "ChaosSolution.lean": "ff58c4f157e63f46333d6e8a56cd3169b62511a8358f4d2b7012fc8f31077063",
         "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
         "MATERIAL-DEFINITIONS.md": "c613913138cba301c7ff6e4616498698af0d506a36b145337fe98bcf8055f6bf",
         "Mycielski.lean": "963f24ef75e60ae70d4542ebb5f999b6fcd43cf608ea51977b84a3c2976022f5",
-        "README.md": "ee68f299961835806f97b382e6f7b357444d7db7094760746076211f6287187b",
+        "README.md": "bd316fda5bbe70206af8d4fe8e34a4131513724f842daa3ec0c7cf5b64229f07",
         "RESEARCH-NOTES.md": "af53af83c8263cc0eeb2bee679996a0108629ba60037e291814aa9dd2eef44ac",
         "SemanticChallenge.lean": "c79547afee730f754c37722b6b877243ccf1c872d304609386f167b0890835f2",
         "SemanticSolution.lean": "30f9e852be49858497452f24819b8b9bc14a0c368a24656dd83ae1aaf17af2b5",
-        "check_copied_sources.py": "a66838a176a0e3ba21fbdfd5f61c4c06bf9c28212fb3a1c49cccd368c9e3fbdf",
-        "check_draft.py": "e95aa0061b7b12c021043e8f613247e8545afe1a559e32dced7863b9560ddf27",
+        "check_copied_sources.py": "9d9b36f57869882238ecd39f3264918d8ce442899f2ba0dc1e13bce01081996e",
+        "check_draft.py": "f4a8751992d1af9254e21476dfd6d0b8c7a56481a3bbecfd8057884b6b933fc9",
         "comparator.json": "dc5e3aea9e211f510e44feba35967b81bcb38e4636945cabf9f0690fd86e71db",
         "formalization.yaml": "aa0bc725f58e9f1576551b9974cc69b7bda4c268dcbea2af0e786dfe6c061552",
         "lake-manifest.json": "cf7bb22ebedd12d795c9762e24444df2901cce3f6994bb32a03e47b83b990bd1",
@@ -2475,7 +2475,7 @@
       "registry_intakes_by_this_task": 0,
       "existing_public_id": null,
       "material_definition_audit": {
-        "source_commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
+        "source_commit": "b7e4d8c4ab34ef7c4f271ee02a5a09279e2e442f",
         "manifest": "verification/material-imported-definitions.json",
         "schema_version": 2,
         "material_declarations": 36,
@@ -2491,17 +2491,37 @@
         "mathematical_source": "pass",
         "implementation": "pass",
         "receipts_sha256": {
-          "source_review": "d43820016afaaa4660267fc7622168efe557036eddbcdc66a2cf50e92012b512"
-        }
+          "repair_source_review": "43f6f9ac8756e8a13ee2f2a89cba520896fda1a07d64983bab08e036b02a349f",
+          "checker_review": "787f864522851c64b9cc4f5de58baa3c01ba111a595b92e60e14684550abf8f2"
+        },
+        "implementation_scope": "Static repair-source and checker-path reviews only; imported proof was not independently reconstructed and kernel, canonical and rendering checks are separate."
       },
-      "evidence_scope": "Local source review covers the selected proof and credited fusion dependency without independently reconstructing its entire proof. An earlier Lake build used a line-ending-converted archive and retained pinned dependency artifacts; any Git-object-byte build is identified separately by its external receipt. Separate receipts identify the source, local checks and their limits. Full canonical verification, official rendering, editorial outcome and registration are not established by this preparation record. Root-level and nested file hashes are listed separately; the package tree binds all files.",
+      "evidence_scope": "The Challenge incorporates the full credited Mycielski proof inline to remove its project-local import; the Solution keeps separate local modules. The earlier 14eba7e preflight failed at protected Challenge compilation. Local repair checks and their limits are recorded externally; canonical verification, official rendering, editorial outcome and registration are not established for the repair checkpoint. The later b7e4d8c package changes only two local development check scripts; exact proof-input equality with bb69049 is recorded separately.",
       "nested_source_files_sha256": {
         "Mycielski/FusionStep.lean": "38a5c140a154e50d038d538735221f6aac7fc89924bba534a27d4fd8187897b5",
         "Mycielski/Independent.lean": "d39dd57abe993ff338ac19b6ed9b4c247686e369ab5264c9dd5f838068c64c05",
         "Mycielski/Scheme.lean": "f817f0754328f4daaf0799e92cc2d1f46c2b87b5605cd344283e2e15d2e831dd",
-        "scripts/check_package.py": "0fe86d2c8d4ddacb6ccb264aeb4c97caa6a30ddf369f568bbdd6c9e6163fac49",
+        "scripts/build_challenge.py": "ce44e6538a4a6c6606da234979e56b3c9246db5c913ee8d4581aad184ca1564f",
+        "scripts/check_package.py": "56001c627d1fce887a24873e69913f758008aaf1511da417d010808faac8c611",
         "scripts/generate_inventory.py": "89dd35490e09b73a208b5b9db123fe656b34f8f39418a5e36b9cf8b556619382",
         "verification/material-imported-definitions.json": "dd3ebaa642423b2b803b2792794c4a4b2204d57057f53ab28facc5036f4ca54b"
+      },
+      "historical_source_snapshot": {
+        "commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
+        "tree": "b76de8290c01cbf62bd6f215e25cbe865b966cd9"
+      },
+      "historical_preflight": {
+        "source_commit": "14eba7e10e07915d110e459dc94b8c42c9ba92cc",
+        "run_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/40972580906",
+        "status": "failed at canonical-challenge: project-local Mycielski import was unavailable in the protected search path"
+      },
+      "historical_review": {
+        "source_commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
+        "source_review_sha256": "d43820016afaaa4660267fc7622168efe557036eddbcdc66a2cf50e92012b512"
+      },
+      "repair_proof_checkpoint": {
+        "commit": "bb69049df13e3543c87dcb3a2db4c6136a6b64ee",
+        "tree": "99c4eaaa02cdc96b9a5bf0d5b27160f6d30229b4"
       }
     }
   ]
