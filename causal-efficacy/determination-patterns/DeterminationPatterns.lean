@@ -6,3 +6,4 @@ public import DeterminationPatterns.Interval
 public import DeterminationPatterns.PatternComponents
 public import DeterminationPatterns.RepresentationBridge
 public import DeterminationPatterns.PaperExamples
+public import DeterminationPatterns.PaperGrounded
