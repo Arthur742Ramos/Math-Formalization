@@ -33,8 +33,22 @@ Challenge was 369 lines and 15,401 bytes. The report warns that the preferred
 300-line review surface is exceeded; the preferred 32 KiB byte threshold was
 not exceeded. This warning remains open for substantive editorial review.
 
-For the Rules and extrema replays, con-ron reported acceptance of 528 and 536
-declarations respectively. In both, it reported one `Lean.Syntax` inductive
-block modeled in-process, with 30 generated records checked by the fold rather
-than counted as file records.
-This is a local preflight, with the same evidence and registry limits above.
+## Necessity component
+
+[`canonical-necessity.json`](canonical-necessity.json) records the separate
+local canonical pass for `realized_pattern_necessary`. It derives the pattern
+conditions from the partition, legal context, an admissible mechanism and the
+specified fixed-point extrema; it does not assume relevance or prove the
+existence direction. The Challenge was 391 lines and 14,962 bytes. The report
+warns that the preferred 300-line review surface is exceeded; the preferred
+32 KiB byte threshold was not exceeded. This warning remains open for
+substantive editorial review.
+
+For the Rules, extrema and necessity replays, con-ron reported acceptance of
+528, 536 and 536 declarations respectively. In each, it reported one
+`Lean.Syntax` inductive block modeled in-process, with 30 generated records
+checked by the fold rather than counted as file records. These are local
+preflights, with the same evidence and registry limits above. Treating the
+three configurations together also requires checking their shared definitions;
+the component passes do not alone establish the full equivalence as a single
+Comparator entry.
