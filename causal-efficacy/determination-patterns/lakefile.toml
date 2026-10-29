@@ -82,3 +82,15 @@ name = "ChallengeSharedClassification"
 
 [[lean_lib]]
 name = "SolutionSharedClassification"
+
+[[lean_lib]]
+name = "ChallengePatternRules"
+
+[[lean_lib]]
+name = "ChallengePatternExtrema"
+
+[[lean_lib]]
+name = "ChallengePatternNec"
+
+[[lean_lib]]
+name = "SolutionPatternExtrema"

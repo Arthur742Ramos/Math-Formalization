@@ -58,7 +58,7 @@ root entries need not agree, so this is not a bijection of total functions.
 claims, and `PaperResults.lean` gives its active-determined equality and direct
 contextual source consequences.
 
-The principal numbered statements were independently compared against extracted manuscript version 6 text; independently hashed local manuscript
-bytes and a fresh independent review of the complete final patch, exact source,
-proof and release evidence remain needed. This account does not establish novelty,
+The principal numbered statements were independently compared against extracted manuscript version 6 text; independent byte hashing of the private manuscript matched the recorded digest. A
+fresh independent review of the complete final patch, exact source, proof and
+release evidence remains needed. This account does not establish novelty,
 metaphysical adequacy, human review or external acceptance.

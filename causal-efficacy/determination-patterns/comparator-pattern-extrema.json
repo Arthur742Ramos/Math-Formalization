@@ -1,0 +1,12 @@
+{
+  "challenge_module": "ChallengePatternExtrema",
+  "solution_module": "SolutionPatternExtrema",
+  "theorem_names": [
+    "DeterminationPatterns.witness_extrema_of_admissible"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

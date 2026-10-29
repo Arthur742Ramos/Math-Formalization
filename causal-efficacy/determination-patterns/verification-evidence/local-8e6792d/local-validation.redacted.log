@@ -1,0 +1,540 @@
+Running as unit: run-r242700521b9b487b9d2adf9702a36774.scope; invocation ID: 545ca7bf424d48298440e830c83f399c
+start=2026-10-29T01:28:33Z
+limits memory.max=3221225472 swap.max=0 cpu.max=100000 100000 pids.max=128
+f611be4d54a9a5a55e2c666469bccde46a2966455418fa37750ead40ee3293e8  <evidence>/verify-8e6792d.sh
+448d4b675987dba285bf6943f4befb1029db145945ac49cda8d530f91805c370  <evidence>/prepare-8e-audit.py
+0204fa3041856033ec7c7a47d18d99152580260e1c66bbaee0784d916712a5b0  <evidence>/check-axiom-output-8e.py
+Cloning into '<checkout>'...
+HEAD is now at 8e6792d Add scoped ancestor and shared-spine comparator drafts
+head=8e6792d75b70b76e1987c07aed364337e73fbe28
+tree=a30f8a10c7f9bc498363c4d4b3e6f52d3329b681
+Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)
+153dbe24dd5640c67b0b33de0d9a0e7983a344fc37d6d159aa62fe4ea6063ba2  <local-bwrap>
+bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38  <lean-toolchain>/bin/lean
+8ba83c98f76562d03b8dbc33f1057151ba6cbb121679dde76b2260ccc90495e1  <lean-toolchain>/bin/lake
+ccd20c9ba4ad795e0969b9cd2dc386e58e4d885f7dcde6ce9d32101634ccb744  <lean-toolchain>/bin/leanchecker-paranoid
+baaec030a70c78562ced2c75866ab0d2410e81ce680b835179ed16570ad5ef97  <lean-toolchain>/bin/lean4lean
+8241c5e6baa29490aa118d382f97961b208ae730fdb96545c2abed74c9ece5a8  <lean-toolchain>/bin/nanoda_bin
+a6380d68b4fb364189821dd4692569c11536de0a1e3aaefea06028c0d67bb193  <lean-toolchain>/bin/con-leche
+4e5616d94374cae37324dad2594f6230c2bb2297240249fc78ff508f3bc5acef  <lean-toolchain>/bin/con-ron
+9e36e955a251b1313c8eb5b7fa101282d51df109d34d8bb7c1cfdf51985aba29  <lean-toolchain>/bin/leanchecker
+c5bc1a10a21e22cbb3671d65987cdef2076833b14182d823ccb2153adf2fa954  <lean-toolchain>/bin/leanexport
+9ac784670a1624c9b0f83f61c2c68163985cfd50f5c2fbe9699623311a5ce4bd  AFP-SOURCE-LICENSE.txt
+3be5580032d96ffab530425cfb6d7df147638e40946e2b0b6d78d8fe698b5912  CROSS-SYSTEM.md
+e27a6c68a9739fb91f55059dc8770b98657a76570ff481f27d9c15d28ab49c8b  ChallengeBounds.lean
+582911d93cc00404ccd88f8ca1990e2c031033db811c5abbb7e985941e6598df  ChallengeCopyMajority.lean
+616bbc77be3ef2a85f6e182733f8692e574c9a199e7398e0a9b62cd5ddc9fd3d  ChallengeEndpoints.lean
+c8c0e654e54033b9147edc3c4b1b26190f1ff12c63504b080395ef12ddde5f5d  ChallengeGateSpine.lean
+37e972ace5bd2f5d042a5082407e92deac13ed9c5e973728ba894645b7997e31  ChallengeGrounded.lean
+3fc537ceaeb61ec9402dd00076257632c71bed65b7fe51b7a0beb36e2561003a  ChallengePattern.lean
+ec063104797f150146dd328d41331e13d945fd95e3b1fe340fc81a1fc35511c3  ChallengeRegionNec.lean
+41c3c4c0cf9febb99159aaa15b4e90c5a19ffc7ea8c82097121cf507d74f8516  ChallengeRegionSuff.lean
+9e542688ad1b1d5403507c49209a2cf6a69a61b98606c883dfa2259179379761  ChallengeSharedClassification.lean
+c47c30d7c7712b7f69c6f85f5079b11c063842962b86774254c6d4e8c4d11f3c  ChallengeSingleParent.lean
+c447135945e8da7280ace5ff91a4d8ba7c4b5df1b3eeda0f81cd60d6cf28df8a  ChallengeSource.lean
+4ef5e34f3344c39a49fb80200d01d0a6412728e634ec188e9175644f946c56bd  ChallengeTargetAncestor.lean
+386435c24240e8e00ca7474e982a23857b56fae4227d72e5014e52206114127b  ChallengeUniform.lean
+5e97e5969193653d7a6f96ca4de1593f7c7b0e9bbfa13a9265d8b47a54ec3946  ChallengeUniqueBridge.lean
+3d58296cb6a5c78ffe29b5a756eceaf8eecf2b0d7fd2a649de2c21662ce11387  DeterminationPatterns.lean
+f90ceee525bfc33f3883dff7057cf08b45217311af00825864c1df3ed2d251f0  DeterminationPatterns/BooleanTransport.lean
+d42f3e16b497461a724e8a00a1feb1490e4e0f2372f6a063e572b9dcd094e156  DeterminationPatterns/Bridges.lean
+897e57646e4660b76a56b749f9ce694a3f2e93e53984f19c3bb7a1f2de768234  DeterminationPatterns/CopyMajority.lean
+341bf12b2edffded55bf01b8c4a3190afff7f2c8cb6ae8569713d279964a2140  DeterminationPatterns/Core.lean
+45940c8d4b0ad0df122ee48a8c6e80069e57899811c07038f918b0136cfa8e1b  DeterminationPatterns/Interval.lean
+f9af81dab3f21382b9df19f103739155ca83446e16ba6d0593ffd74d17929902  DeterminationPatterns/LabelledSpine.lean
+3ee933686565cf85244d3434c8ca48fb95cd4f0f6d0062a1003a0e2ccd784948  DeterminationPatterns/LocalInputs.lean
+9e92ec238ab484ed099738f1b65995a0b476d7fb47dd8e34722b4c0b0bb3bb0a  DeterminationPatterns/Necessity.lean
+dc955b01c4401d4e3f9061a42628e53f4624cdedba2243e6290f2de8eacaf02e  DeterminationPatterns/PaperResults.lean
+2ed8e96f5f913d24b6a3d19c8a57fd3c28af98085c402eb06a2eac7ef37b8e7d  DeterminationPatterns/Patterns.lean
+04b2a4ce98ed38a941203bc5f22af919ceab4b14a1bcb13b4b0268b0cba62adf  DeterminationPatterns/Quantifiers.lean
+c30a667f02fc9961e142778ad1bf847be3d19a449e29d51ad0240a2fbe588f01  DeterminationPatterns/Regions.lean
+6c867bc3e1171af0caa78027b1aa179c1051c141e9141e673a8db9ff25fad156  DeterminationPatterns/SharedSpine.lean
+c869628eda4fa958b0077778967d2cc21a9d25c3129191d90819e26b85a20e04  DeterminationPatterns/SourceInference.lean
+d749aeb233c3a0fc61666587f84a5242ca218c1fa698bad4b34d7f6b8c3b5132  DeterminationPatterns/SourceSemantics.lean
+54c9476690a6ae42645d1d535043171cabdeaa1f99a7765ddeff4d4a5e12635c  DeterminationPatterns/TargetScope.lean
+b1323983b6e78247e347d0cc2e32de2ed34d97433935d1e5e1be812a456b02dd  DeterminationPatterns/Uniform.lean
+12b75ac1ef291a27668e3fb8d155fb9a640538c66f79f0678813d2c78cc4a0ac  DeterminationPatterns/Witness.lean
+f6f50ab7dc73dde1ce1d9f0a172c54fdb943ec9a751220c2b0e2a961b944fc05  README.md
+a148d464d19aeae82973b2d5215e744afd67637e627c7cfb330722d13ee9cdd5  REGION-COMPARATOR.md
+eac8226de174baaaa0ac17dd2699981d63ff007c1aacf0ef5075fde5670049f3  RELEASE-PLAN.md
+d19f8c80df7f9ab21b209f6c6020e74c0d6b32ab6edb8f2467493e6e3ff56ed9  SOURCE-ATTRIBUTION.md
+01ed07e623c775e8d7391e35b0bec7feb2500a79c533332972591c0b3946a96a  SOURCE-LICENSE.txt
+379565a9bc328660c24a7aa93c69b83f5ad52633fe33c0a43a43c35d1a6ed167  SOURCE-MAP.md
+b93a994dde159a7a762fe6b3d66abc357366d80f9995fb02faba309c6234f339  SolutionCopyMajority.lean
+8709973f4bb244b8c98d2168b034b3fd3d0d09ea37131006f8199e4ed83c2799  SolutionGateSpine.lean
+4351ca44ab8cd0040adb8092682a938848b9788433468db5c4ba7d4cc1852ef0  SolutionGrounded.lean
+eeb39609e48de199872b22a827e1eb939c48b6fe937f261fe5d6572eef350c6f  SolutionInterval.lean
+14eef4b4d327108cf333a9bad3b228a81dbcd2aeb5536d4ab56e20133dba4382  SolutionPattern.lean
+b31199c4f7c6b4c3bc1006fe2305a3fd92607f23d5387f6ddb2b7d5995a4318a  SolutionRegion.lean
+256253f59db7509ed1296575037e6023e9c3088e431c4723eafde7197174e543  SolutionSharedClassification.lean
+d8bb02ba8195598a1103b0e7629413aeb329f50e109214a7fc8ad09dcf856936  SolutionSingleParent.lean
+97bfdaeee7e674529ce00269cd70cb3d3ced8ddd55d4d6887bf283ce47ff3ece  SolutionSource.lean
+d8bb02ba8195598a1103b0e7629413aeb329f50e109214a7fc8ad09dcf856936  SolutionTargetAncestor.lean
+91d7f738c7fa031fe6e39b849a9aeb6ebf93bb14c417aef6b45b3f877ee5d093  SolutionUniform.lean
+840f4721e30e952e5c313622929e3e7e58bbc35ef4e3189d2b45de476d076514  SolutionUniqueBridge.lean
+b42153b417e974a6b5cb8b7451075263bd777cb59b9a2b903a6bffdeff56282d  Tests.lean
+458df2c680e5b6ee4051323d2da7f061d89e1ea35b2736235778b24d594777e0  comparator-bounds.json
+9948d9f780c99c3f18cc796979c549c49d18cd50fc74cb1deac842b94ecea25e  comparator-copy-majority.json
+5cbcbf7190602e395d3abd3b459100ce32d3a46128c4658e76af0fb9113d0523  comparator-endpoints.json
+ed2060e4caf4166f46adcb31d522b220c8ef8edffd44b70d374d7404e87ecfc2  comparator-gate-spine.json
+8f3597faca4af29aa93875a1fa97269ea832ed4f679c89a3578717057c2388ad  comparator-grounded.json
+412d8cb378e40e7b79f82dd94eb6440f656a5303f4950248bb9a1c89ab44b981  comparator-pattern.json
+5bc939c7d81f07d0a24209043ecb22a9186407955b0fb9e68cfb84d6afbe3750  comparator-region-nec.json
+f570b277d72bc1c8efc154a6cd078cf57e12ffc351c8378a2cdb8e6903af1a40  comparator-region-suff.json
+8b6b130f0d80b8501a1330210fd5b9ff7f87c95570db9a814d04c4789db3c54d  comparator-shared-classification.json
+ce98e99ca06df00da19260330e6570101ac6e4277d03bf81d7537bbc8a162e8c  comparator-single-parent.json
+97221104f589fe6f3c279cebbde0e4aff19f47a063ccea176d14cc4ac99ddfdf  comparator-source.json
+5451ddaa313918dbec1561c48a28dbd6b984ea96fb782df1fd00a0b79b34001d  comparator-target-ancestor.json
+cdce636deb562a2eda6fe6e681f530f22070bc0e8ffa39f985bfe2746b64441b  comparator-uniform.json
+156285765ecbf25d869232b59271d5763e1bff53528ac150eddc80f830d1bee9  comparator-unique-bridge.json
+7c83ee1b10b9962bdcd627d27e4f1b6528b312d70b207ac7995a8c453d37e5ec  lake-manifest.json
+3634f1113ed3d0ae4584c5e9c1e50780ce18d127baa15f4a2a1cc800ff2c7c88  lakefile.toml
+f4085f5f49cb07b752ed5b171651770205bbbb73ea5445f0e14db04264e8506c  lean-toolchain
+445363da98628c9c6c3672e1dd882cde91abd9ce7aa8b629dfcafafaa0dbcd77  verification-evidence/local-225d287/axiom-input.txt
+f3b3d47e5a80192a8187c48dee5ee37ccab281a1d5b9def388582dcfe318430c  verification-evidence/local-225d287/axiom-output.txt
+cd952ec74ccf18c02c490469d41926e86e4585b154c63f24158a5fd6602d98bc  verification-evidence/local-225d287/catalog-log-map.json
+d1f46989c858926f8f8387a53a1eb395553acfb1df1627f38ad8de69a0f8706a  verification-evidence/local-225d287/catalog-logs/00.log
+6a91d94bb42291f2eff06d7ca2efcf851698795afa28e5935096dc057218323c  verification-evidence/local-225d287/catalog-logs/01.log
+54f0be8aa30d770defae2dc6b88783659d3d86f4f2d7388fbeb5b2a0dca44482  verification-evidence/local-225d287/catalog-logs/02.log
+4767dbb4dcbd1d14b285a75868b9171e655a3e50db2fee61b53d8cf8d09fbee3  verification-evidence/local-225d287/catalog-logs/03.log
+102a03bfb87b8b127387079eb7aa5d457d2b91d711f2dc1a40e38e984d5360d1  verification-evidence/local-225d287/catalog-logs/04.log
+c4635b7a91f5edb0ccc955c6d70bb7f53a1e015641a9898e5d1ca68d6e0a6cba  verification-evidence/local-225d287/catalog-logs/05.log
+73ebd4dd9e65b27e9007cb28e9180e6f619191f5aad60addc8d438fe442c0518  verification-evidence/local-225d287/catalog-logs/06.log
+548f06fec3038405b3174336f773d1e6977d7bc83a4be6fa55eb289b6117a805  verification-evidence/local-225d287/catalog-logs/07.log
+5bdbf41bf4789841a81cd672ad34fc751cdddaa092adb51f6fa801a5e0528a91  verification-evidence/local-225d287/catalog-receipt.json
+afa039cffa07010f90f5c0280218f9d9199a97a313b38cdabdc94e8607493495  verification-evidence/local-225d287/local-validation.redacted.log
+95fd8975fdd6a4fee14b60d5af5444996c67c24ed0b894951b916f2d6a6633f0  verification-evidence/local-225d287/receipt.json
+9519e9ad419dbc73a1fe2dc6a0183fcf9fc94083b95a79dc1b0f9497396619e3  verification-evidence/local-4c57653/axiom-input.txt
+798103a5d4c3d775f5fe9e5642abac1bc089e3a9a6bec68729685a6e8d4a8dca  verification-evidence/local-4c57653/axiom-output.txt
+5fe2075e5106b3ad20438c5611fe9f5f9e792b91f1cdc921de4c80d11788020c  verification-evidence/local-4c57653/catalog-log-map.json
+f35522e7c1951de928127d240c3d71fedde34df8cf1714093f466f982b2648a6  verification-evidence/local-4c57653/catalog-logs/00.log
+399d91e1699cafe69067994ad881abfcca773f29a8002df7c5116afe57e1680f  verification-evidence/local-4c57653/catalog-logs/01.log
+54f0be8aa30d770defae2dc6b88783659d3d86f4f2d7388fbeb5b2a0dca44482  verification-evidence/local-4c57653/catalog-logs/02.log
+4767dbb4dcbd1d14b285a75868b9171e655a3e50db2fee61b53d8cf8d09fbee3  verification-evidence/local-4c57653/catalog-logs/03.log
+102a03bfb87b8b127387079eb7aa5d457d2b91d711f2dc1a40e38e984d5360d1  verification-evidence/local-4c57653/catalog-logs/04.log
+c4635b7a91f5edb0ccc955c6d70bb7f53a1e015641a9898e5d1ca68d6e0a6cba  verification-evidence/local-4c57653/catalog-logs/05.log
+73ebd4dd9e65b27e9007cb28e9180e6f619191f5aad60addc8d438fe442c0518  verification-evidence/local-4c57653/catalog-logs/06.log
+01ccbba2745a505eb8849d488b974efdfabc020ac2ca714d40562814dd82eea8  verification-evidence/local-4c57653/catalog-logs/07.log
+b433503c1ab7bea3a7c1c2efdb39eeb8fc39422d67ffd483f53d8dcae06a8aa5  verification-evidence/local-4c57653/catalog-receipt.json
+4a1ed5fd1afd3d5132bd3f1b2be2fa37d2cdd4b5b6ace07fbc2e8247bbc8cfc1  verification-evidence/local-4c57653/local-validation.redacted.log
+739f40e6b8f8224868cf557c6e98a31ddd8dec8af78885c1a76a716d305cddbe  verification-evidence/local-4c57653/receipt.json
+prohibited-token-scan=passed (lexical only)
+✔ [2/21] Built DeterminationPatterns.Core (527ms)
+✔ [3/21] Built DeterminationPatterns.Bridges (506ms)
+✔ [4/21] Built DeterminationPatterns.Patterns (388ms)
+✔ [5/21] Built DeterminationPatterns.Witness (676ms)
+✔ [6/21] Built DeterminationPatterns.Necessity (475ms)
+✔ [7/21] Built DeterminationPatterns.Regions (567ms)
+✔ [8/21] Built DeterminationPatterns.Quantifiers (399ms)
+✔ [9/21] Built DeterminationPatterns.Interval (734ms)
+✔ [10/21] Built DeterminationPatterns.CopyMajority (1.4s)
+✔ [11/21] Built DeterminationPatterns.Uniform (616ms)
+✔ [12/21] Built DeterminationPatterns.SharedSpine (408ms)
+✔ [13/21] Built DeterminationPatterns.SourceSemantics (378ms)
+✔ [14/21] Built DeterminationPatterns.TargetScope (826ms)
+✔ [15/21] Built DeterminationPatterns.LocalInputs (1.9s)
+✔ [16/21] Built DeterminationPatterns.LabelledSpine (3.4s)
+✔ [17/21] Built DeterminationPatterns.PaperResults (828ms)
+✔ [18/21] Built DeterminationPatterns.SourceInference (446ms)
+✔ [19/21] Built DeterminationPatterns.BooleanTransport (752ms)
+✔ [20/21] Built DeterminationPatterns (265ms)
+Build completed successfully (21 jobs).
+clean-lake-build=pass
+package-regressions=pass
+Resolving dependencies
+Building ChallengeBounds
+✔ [2/3] Built ChallengeBounds (928ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.contextual_determination_interval, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeBounds
+Building SolutionInterval
+✔ [10/11] Built SolutionInterval (247ms)
+Build completed successfully (11 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.contextual_determination_interval, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionInterval
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 557 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 556 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 556 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-bounds.json paranoid=pass
+Resolving dependencies
+Building ChallengeCopyMajority
+✔ [2/3] Built ChallengeCopyMajority (944ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.expanded_projection_iff, DeterminationPatterns.projection_observation_preservation, DeterminationPatterns.every_projection_observation_preserved, DeterminationPatterns.copy_interventions_nonunique, DeterminationPatterns.copy_majority_all_contexts, DeterminationPatterns.original_link_interventions_unique, DeterminationPatterns.carrier_expanded_solution_bridge, DeterminationPatterns.copy_majority_admissible, DeterminationPatterns.copy_majority_relevant, DeterminationPatterns.copy_interventions_not_unique, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeCopyMajority
+Building SolutionCopyMajority
+✔ [10/11] Built SolutionCopyMajority (265ms)
+Build completed successfully (11 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.expanded_projection_iff, DeterminationPatterns.projection_observation_preservation, DeterminationPatterns.every_projection_observation_preserved, DeterminationPatterns.copy_interventions_nonunique, DeterminationPatterns.copy_majority_all_contexts, DeterminationPatterns.original_link_interventions_unique, DeterminationPatterns.carrier_expanded_solution_bridge, DeterminationPatterns.copy_majority_admissible, DeterminationPatterns.copy_majority_relevant, DeterminationPatterns.copy_interventions_not_unique, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionCopyMajority
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 585 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 584 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 584 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-copy-majority.json paranoid=pass
+Resolving dependencies
+Building ChallengeEndpoints
+✔ [2/3] Built ChallengeEndpoints (1.2s)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.root_reachable_conditions, DeterminationPatterns.accessible_region_conditions, DeterminationPatterns.relevant_endpoint_attainment, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeEndpoints
+Building SolutionInterval
+Build completed successfully (11 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.root_reachable_conditions, DeterminationPatterns.accessible_region_conditions, DeterminationPatterns.relevant_endpoint_attainment, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionInterval
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 583 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 582 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 582 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-endpoints.json paranoid=pass
+Resolving dependencies
+Building ChallengeGateSpine
+✔ [2/3] Built ChallengeGateSpine (1.0s)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.spine_unique_iff_cofinal_forcing, DeterminationPatterns.all_contexts_unique_iff_opposite_repeats, DeterminationPatterns.gate_synthesis_iff_repeated_sources, DeterminationPatterns.relevant_labelled_spine_synthesis_iff, DeterminationPatterns.relevant_synthesis_survives_all_hard_interventions, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeGateSpine
+Building SolutionGateSpine
+✔ [14/15] Built SolutionGateSpine (245ms)
+Build completed successfully (15 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.spine_unique_iff_cofinal_forcing, DeterminationPatterns.all_contexts_unique_iff_opposite_repeats, DeterminationPatterns.gate_synthesis_iff_repeated_sources, DeterminationPatterns.relevant_labelled_spine_synthesis_iff, DeterminationPatterns.relevant_synthesis_survives_all_hard_interventions, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionGateSpine
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 1531 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: 2 declarations hoisted ahead of the pinned Nat operations they ground: Nat.mul._f, Nat.mul
+con-leche: accepted 1530 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: 2 declarations hoisted ahead of the pinned Nat operations they ground: Nat.mul._f, Nat.mul
+con-ron: accepted 1530 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-gate-spine.json paranoid=pass
+Resolving dependencies
+Building ChallengeGrounded
+✔ [2/3] Built ChallengeGrounded (415ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.supported_fixed_iff_least, DeterminationPatterns.contextual_grounded_fixed_iff_least, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeGrounded
+Building SolutionGrounded
+✔ [4/5] Built SolutionGrounded (270ms)
+Build completed successfully (5 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.supported_fixed_iff_least, DeterminationPatterns.contextual_grounded_fixed_iff_least, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionGrounded
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 525 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 524 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 524 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-grounded.json paranoid=pass
+Resolving dependencies
+Building ChallengePattern
+✔ [2/3] Built ChallengePattern (1.2s)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.exact_relevant_pattern_realization, DeterminationPatterns.realized_pattern_necessary, DeterminationPatterns.pattern_witness_extrema, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengePattern
+Building SolutionPattern
+✔ [7/8] Built SolutionPattern (230ms)
+Build completed successfully (8 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.exact_relevant_pattern_realization, DeterminationPatterns.realized_pattern_necessary, DeterminationPatterns.pattern_witness_extrema, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionPattern
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 565 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 564 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 564 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-pattern.json paranoid=pass
+Resolving dependencies
+Building ChallengeRegionNec
+✔ [2/3] Built ChallengeRegionNec (907ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.determined_region_conditions, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeRegionNec
+Building SolutionRegion
+✔ [8/9] Built SolutionRegion (247ms)
+Build completed successfully (9 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.determined_region_conditions, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionRegion
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 550 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 549 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 549 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-region-nec.json paranoid=pass
+Resolving dependencies
+Building ChallengeRegionSuff
+✔ [2/3] Built ChallengeRegionSuff (1.1s)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.region_conditions_sufficient, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeRegionSuff
+Building SolutionRegion
+Build completed successfully (9 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.region_conditions_sufficient, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionRegion
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 570 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 569 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 569 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-region-suff.json paranoid=pass
+Resolving dependencies
+Building ChallengeSharedClassification
+✔ [2/3] Built ChallengeSharedClassification (571ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.shared_spine_region_conditions, DeterminationPatterns.shared_spine_initial_segments, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeSharedClassification
+Building SolutionSharedClassification
+✔ [12/13] Built SolutionSharedClassification (264ms)
+Build completed successfully (13 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.shared_spine_region_conditions, DeterminationPatterns.shared_spine_initial_segments, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionSharedClassification
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 583 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 582 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 582 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-shared-classification.json paranoid=pass
+Resolving dependencies
+Building ChallengeSingleParent
+✔ [2/3] Built ChallengeSingleParent (522ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.single_parent_accessible_iff_reachable, DeterminationPatterns.single_parent_step_copies, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeSingleParent
+Building SolutionSingleParent
+✔ [14/15] Built SolutionSingleParent (290ms)
+Build completed successfully (15 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.single_parent_accessible_iff_reachable, DeterminationPatterns.single_parent_step_copies, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionSingleParent
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 531 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 530 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 530 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-single-parent.json paranoid=pass
+Resolving dependencies
+Building ChallengeSource
+✔ [2/3] Built ChallengeSource (478ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.determined_iff_fixed_agreement, DeterminationPatterns.active_determinate_internal_root_path, DeterminationPatterns.active_determined_region_eq_least, DeterminationPatterns.unique_contextual_solution_extrema, DeterminationPatterns.active_determined_nonroot_has_distinct_root, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeSource
+Building SolutionSource
+✔ [16/17] Built SolutionSource (235ms)
+Build completed successfully (17 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.determined_iff_fixed_agreement, DeterminationPatterns.active_determinate_internal_root_path, DeterminationPatterns.active_determined_region_eq_least, DeterminationPatterns.unique_contextual_solution_extrema, DeterminationPatterns.active_determined_nonroot_has_distinct_root, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionSource
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 535 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 534 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 534 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-source.json paranoid=pass
+Resolving dependencies
+Building ChallengeTargetAncestor
+✔ [2/3] Built ChallengeTargetAncestor (421ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.target_accessibility_iff_ancestor_well_founded, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeTargetAncestor
+Building SolutionTargetAncestor
+✔ [14/15] Built SolutionTargetAncestor (253ms)
+Build completed successfully (15 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.target_accessibility_iff_ancestor_well_founded, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionTargetAncestor
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 483 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 482 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 482 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-target-ancestor.json paranoid=pass
+Resolving dependencies
+Building ChallengeUniform
+✔ [2/3] Built ChallengeUniform (755ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.local_foundation_iff_all_reachable, DeterminationPatterns.forest_copy_every_context_unique, DeterminationPatterns.some_mechanism_every_context_unique_iff_local_foundation, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeUniform
+Building SolutionUniform
+✔ [11/12] Built SolutionUniform (243ms)
+Build completed successfully (12 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.local_foundation_iff_all_reachable, DeterminationPatterns.forest_copy_every_context_unique, DeterminationPatterns.some_mechanism_every_context_unique_iff_local_foundation, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionUniform
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 680 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 679 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 679 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-uniform.json paranoid=pass
+Resolving dependencies
+Building ChallengeUniqueBridge
+✔ [2/3] Built ChallengeUniqueBridge (484ms)
+Build completed successfully (3 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.accessible_carrier_iff_well_founded, DeterminationPatterns.whole_determined_iff_unique, DeterminationPatterns.well_founded_on_iff_restricted_relation, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from ChallengeUniqueBridge
+Building SolutionUniqueBridge
+✔ [13/14] Built SolutionUniqueBridge (259ms)
+Build completed successfully (14 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, DeterminationPatterns.accessible_carrier_iff_well_founded, DeterminationPatterns.whole_determined_iff_unique, DeterminationPatterns.well_founded_on_iff_restricted_relation, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from SolutionUniqueBridge
+Running Lean paranoid kernel on solution
+Lean paranoid kernel accepts the solution
+Running lean4lean kernel on solution
+checked 532 declarations
+lean4lean kernel accepts the solution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running con-leche kernel on solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 531 declarations (--verified)
+con-leche kernel accepts the solution
+Running con-ron kernel on solution
+con-ron: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-ron: accepted 531 declarations (--verified)
+con-ron kernel accepts the solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+comparator=comparator-unique-bridge.json paranoid=pass
+configurations: 14 selected: 42 new audit names: 15 total: 82
+axiom audit passed: 82 declarations; permitted: Classical.choice, Quot.sound, propext
+d529668b4a9556d01ddabaea49f6656d72db11fedd53432646bc3a62bb3f7861  <evidence>/full-axioms-8e6792d.lean
+4e86c4cd11f083cc3beaf98749936a92b1194be86b516eba928752414b6bfbeb  <evidence>/final-axiom-output-8e6792d.txt
+end=2026-10-29T01:33:07Z cgroup_peak_bytes=500305920

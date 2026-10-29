@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "source_commit": "8e6792d75b70b76e1987c07aed364337e73fbe28",
+  "source_tree": "a30f8a10c7f9bc498363c4d4b3e6f52d3329b681",
+  "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8e6792d75b70b76e1987c07aed364337e73fbe28/causal-efficacy/determination-patterns",
+  "scope": "Historical local verification of this exact public commit, not canonical protected verification, rendering, editorial acceptance or registration. Later source changes require new checks.",
+  "lean": "4.35.0-rc2 (11acb17ec6b07a8f9e9173e6845197929540936b)",
+  "package_build": "pass",
+  "regressions": "pass",
+  "lexical_placeholder_scan": "pass; lexical only",
+  "comparator": "Fourteen local --paranoid comparisons passed with the recorded bundled kernel replays. con-leche and con-ron reported Lean.Syntax in-process modeling and two Nat multiplication declarations hoisted in the gate-spine run.",
+  "axiom_audit": "82 declarations, including all 42 selected names; only propext, Classical.choice and Quot.sound or none.",
+  "review": "Independent internal AI source and evidence review; not human or external peer review.",
+  "configurations": {
+    "comparator-bounds.json": {
+      "sha256": "458df2c680e5b6ee4051323d2da7f061d89e1ea35b2736235778b24d594777e0",
+      "theorem_names": [
+        "DeterminationPatterns.contextual_determination_interval"
+      ]
+    },
+    "comparator-copy-majority.json": {
+      "sha256": "9948d9f780c99c3f18cc796979c549c49d18cd50fc74cb1deac842b94ecea25e",
+      "theorem_names": [
+        "DeterminationPatterns.expanded_projection_iff",
+        "DeterminationPatterns.projection_observation_preservation",
+        "DeterminationPatterns.every_projection_observation_preserved",
+        "DeterminationPatterns.copy_interventions_nonunique",
+        "DeterminationPatterns.copy_majority_all_contexts",
+        "DeterminationPatterns.original_link_interventions_unique",
+        "DeterminationPatterns.carrier_expanded_solution_bridge",
+        "DeterminationPatterns.copy_majority_admissible",
+        "DeterminationPatterns.copy_majority_relevant",
+        "DeterminationPatterns.copy_interventions_not_unique"
+      ]
+    },
+    "comparator-endpoints.json": {
+      "sha256": "5cbcbf7190602e395d3abd3b459100ce32d3a46128c4658e76af0fb9113d0523",
+      "theorem_names": [
+        "DeterminationPatterns.root_reachable_conditions",
+        "DeterminationPatterns.accessible_region_conditions",
+        "DeterminationPatterns.relevant_endpoint_attainment"
+      ]
+    },
+    "comparator-gate-spine.json": {
+      "sha256": "ed2060e4caf4166f46adcb31d522b220c8ef8edffd44b70d374d7404e87ecfc2",
+      "theorem_names": [
+        "DeterminationPatterns.spine_unique_iff_cofinal_forcing",
+        "DeterminationPatterns.all_contexts_unique_iff_opposite_repeats",
+        "DeterminationPatterns.gate_synthesis_iff_repeated_sources",
+        "DeterminationPatterns.relevant_labelled_spine_synthesis_iff",
+        "DeterminationPatterns.relevant_synthesis_survives_all_hard_interventions"
+      ]
+    },
+    "comparator-grounded.json": {
+      "sha256": "8f3597faca4af29aa93875a1fa97269ea832ed4f679c89a3578717057c2388ad",
+      "theorem_names": [
+        "DeterminationPatterns.supported_fixed_iff_least",
+        "DeterminationPatterns.contextual_grounded_fixed_iff_least"
+      ]
+    },
+    "comparator-pattern.json": {
+      "sha256": "412d8cb378e40e7b79f82dd94eb6440f656a5303f4950248bb9a1c89ab44b981",
+      "theorem_names": [
+        "DeterminationPatterns.exact_relevant_pattern_realization",
+        "DeterminationPatterns.realized_pattern_necessary",
+        "DeterminationPatterns.pattern_witness_extrema"
+      ]
+    },
+    "comparator-region-nec.json": {
+      "sha256": "5bc939c7d81f07d0a24209043ecb22a9186407955b0fb9e68cfb84d6afbe3750",
+      "theorem_names": [
+        "DeterminationPatterns.determined_region_conditions"
+      ]
+    },
+    "comparator-region-suff.json": {
+      "sha256": "f570b277d72bc1c8efc154a6cd078cf57e12ffc351c8378a2cdb8e6903af1a40",
+      "theorem_names": [
+        "DeterminationPatterns.region_conditions_sufficient"
+      ]
+    },
+    "comparator-shared-classification.json": {
+      "sha256": "8b6b130f0d80b8501a1330210fd5b9ff7f87c95570db9a814d04c4789db3c54d",
+      "theorem_names": [
+        "DeterminationPatterns.shared_spine_region_conditions",
+        "DeterminationPatterns.shared_spine_initial_segments"
+      ]
+    },
+    "comparator-single-parent.json": {
+      "sha256": "ce98e99ca06df00da19260330e6570101ac6e4277d03bf81d7537bbc8a162e8c",
+      "theorem_names": [
+        "DeterminationPatterns.single_parent_accessible_iff_reachable",
+        "DeterminationPatterns.single_parent_step_copies"
+      ]
+    },
+    "comparator-source.json": {
+      "sha256": "97221104f589fe6f3c279cebbde0e4aff19f47a063ccea176d14cc4ac99ddfdf",
+      "theorem_names": [
+        "DeterminationPatterns.determined_iff_fixed_agreement",
+        "DeterminationPatterns.active_determinate_internal_root_path",
+        "DeterminationPatterns.active_determined_region_eq_least",
+        "DeterminationPatterns.unique_contextual_solution_extrema",
+        "DeterminationPatterns.active_determined_nonroot_has_distinct_root"
+      ]
+    },
+    "comparator-target-ancestor.json": {
+      "sha256": "5451ddaa313918dbec1561c48a28dbd6b984ea96fb782df1fd00a0b79b34001d",
+      "theorem_names": [
+        "DeterminationPatterns.target_accessibility_iff_ancestor_well_founded"
+      ]
+    },
+    "comparator-uniform.json": {
+      "sha256": "cdce636deb562a2eda6fe6e681f530f22070bc0e8ffa39f985bfe2746b64441b",
+      "theorem_names": [
+        "DeterminationPatterns.local_foundation_iff_all_reachable",
+        "DeterminationPatterns.forest_copy_every_context_unique",
+        "DeterminationPatterns.some_mechanism_every_context_unique_iff_local_foundation"
+      ]
+    },
+    "comparator-unique-bridge.json": {
+      "sha256": "156285765ecbf25d869232b59271d5763e1bff53528ac150eddc80f830d1bee9",
+      "theorem_names": [
+        "DeterminationPatterns.accessible_carrier_iff_well_founded",
+        "DeterminationPatterns.whole_determined_iff_unique",
+        "DeterminationPatterns.well_founded_on_iff_restricted_relation"
+      ]
+    }
+  },
+  "original_local_log_sha256": "7d96a5f25c4d352d44d2ad16af3e3c6aa026bf49da4ce70967f8811d6281c05d",
+  "public_redacted_log_sha256": "9b800c5ddfe15ab6fa9500401d183b899b0630523e879272efc4a96167847ffe",
+  "redaction": "Absolute local filesystem paths replaced with generic labels; mathematical output otherwise retained.",
+  "axiom_input_sha256": "d529668b4a9556d01ddabaea49f6656d72db11fedd53432646bc3a62bb3f7861",
+  "axiom_output_sha256": "4e86c4cd11f083cc3beaf98749936a92b1194be86b516eba928752414b6bfbeb",
+  "root_catalog": {
+    "status": "pass",
+    "scope": "Root catalog consistency and existing package checks, not certification or listing of this package.",
+    "steps": 8,
+    "receipt_sha256": "cbda8201b6881ad904305011e0a602d83034ee079182b00154837c3cd7cf97b8",
+    "logs": "See catalog-receipt.json and catalog-log-map.json; local checkout paths were redacted in public logs."
+  }
+}

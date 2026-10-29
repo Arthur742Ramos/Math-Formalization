@@ -4,8 +4,8 @@ This is an incomplete, independently reviewable Lean development of selected
 results from the [Isabelle source snapshot](https://github.com/Arthur742Ramos/causal-efficacy-isabelle/tree/544f9084c00f4373581d230610e471fe445579e5).
 It is not yet a complete manuscript formalization, a release or a Palomar entry.
 The principal numbered manuscript statements have been compared with the
-extracted version-6 text; independently verifying the local manuscript
-bytes and completing final paper-to-source review remain open.
+extracted version-6 text; the private manuscript bytes match the version-6 SHA-256. Final
+release-wide paper-to-source and evidence review remain open.
 
 The current Lean development includes exact relevant forced-on/forced-off/
 ambiguous pattern realization; exact attainable determinate regions and their
@@ -30,12 +30,11 @@ AI reviewers checked selected statements and source fidelity. No human proof
 contribution or human mathematical review is inferred. The Lake build and
 internal AI source reviews are preliminary evidence only.
 The precise Isabelle–Lean semantic interpretation is described in
-`CROSS-SYSTEM.md`; it is not a cross-kernel proof. Local verification of the
-manuscript bytes, independent final patch/evidence review, release metadata and authorship,
+`CROSS-SYSTEM.md`; it is not a cross-kernel proof. Final patch/evidence review, release metadata and authorship,
 release-wide protected Comparator and definition-value checks, independent
-kernel checks, canonical verification and rendering remain outstanding. A local
-pattern-only draft Comparator run and local bundled kernel replays passed; they
-are not the canonical release checks. Draft region necessity and sufficiency
+kernel checks, canonical verification and rendering remain outstanding. Local draft Comparator checks and bundled kernel replays passed on the
+source revisions identified in the historical receipts; they are not the
+canonical release checks. Draft region necessity and sufficiency
 configurations are explained in `REGION-COMPARATOR.md`. A separate
 `comparator-source.json` selects the fixed-context agreement and positive
 source-inference statements from Proposition 10. A groundedness draft
@@ -62,11 +61,18 @@ copying claims, and the shared-spine region classification. The two Proposition
 shared-spine attainable-region theorem are separately proved in the package;
 they are not directly selected by these three configurations. The shared-spine
 classification combines with the region directions after matching their shared
-definitions. These drafts and local
-experiments are not release certification. `RELEASE-PLAN.md` records the
+definitions. Three further draft configurations split pattern realization into
+witness admissibility/relevance, witness extrema under admissibility, and
+necessity. `exact_pattern_from_components` proves their composition in the
+common Lean model; cross-configuration definition identity and each rendered
+entry still require validation. Each entry has only its own selected scope.
+The original full pattern Challenge exceeded the renderer's per-file limit at
+commit 8e6792d; the split Challenges have not yet been rendered. These drafts
+and local experiments are not release certification. `RELEASE-PLAN.md` records the
 remaining release requirements. Historical, sanitized local verification
-records are available for [commit 225d287](verification-evidence/local-225d287/receipt.json)
-and [commit 4c57653](verification-evidence/local-4c57653/receipt.json). They
+records are available for [commit 8e6792d](verification-evidence/local-8e6792d/receipt.json),
+[commit 225d287](verification-evidence/local-225d287/receipt.json), and
+[commit 4c57653](verification-evidence/local-4c57653/receipt.json). They
 describe those exact earlier commits, not this later draft.
 
 The Isabelle extension's BSD-3-Clause notice is retained in

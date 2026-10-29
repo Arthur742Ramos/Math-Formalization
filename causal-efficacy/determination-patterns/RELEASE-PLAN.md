@@ -1,6 +1,6 @@
 # Comparator and verification status
 
-This package is a draft. Its fourteen current Comparator Challenges contain complete
+This package is a draft. Its seventeen current Comparator Challenges contain complete
 proofs without new axioms or proof holes. Each configuration must be checked against its own
 exact source revision; local experiments are not protected verification or
 editorial acceptance.
@@ -44,6 +44,16 @@ Proposition 5 or the shared-spine attainable-region theorem. The latter follows
 by combining the classification and separately selected region directions,
 subject to authenticating their common definitions. Each configuration requires an explicit statement of its scope; a
 single entry cannot be assumed to cover the whole manuscript.
+
+The complete pattern Challenge at commit 8e6792d produced a 15,094,535-byte
+raw HTML file, above the renderer's 8 MiB per-file cap; the provisional render
+failed during sanitization. Three additional draft
+Challenges split its necessity, witness admissibility/relevance, and witness
+extrema under admissibility. `exact_pattern_from_components` proves their
+composition in the common Lean model. The separate Challenges need explicit
+cross-configuration definition identity checks and individual rendering; their
+standalone editorial significance has not been established. No individual
+component is represented as the whole Theorem 2.
 
 Release preparation requires an independent final source and manuscript
 crosswalk review; exact-source compilation and axiom audit; protected

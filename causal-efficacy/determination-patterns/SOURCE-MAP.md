@@ -6,7 +6,7 @@ This table maps selected source declarations. The principal numbered statements
 below have also been compared against extracted text of the 16-page
 manuscript version 6, whose reported SHA-256 is
 `3d50d7a574f95620c6fabd10eb5bb158d8092ff22c4bdc76e4d172ae3ea499f5`.
-An independent byte-hash check and final manuscript/source review remain open.
+The private manuscript PDF bytes were independently checked against this hash. A final release-wide source and evidence review remains open.
 
 | Source declaration(s) | Lean declaration(s) | Coverage and boundary |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ An independent byte-hash check and final manuscript/source review remain open.
 | Determination: `some_mechanism_every_context_unique_iff_local_foundation` and whole-carrier fixed-context uniqueness results | Same names in `Uniform.lean` | One unrestricted admissible mechanism works for all legal contexts; its chosen parent function need not equal Isabelle's choice. |
 | Contexts: both all-mechanism/all-context uniqueness iff well-foundedness | Same names in `Uniform.lean` | The literal first-member/local-foundation and restricted well-foundedness bridges are in `SourceSemantics.lean`. |
 | Patterns: `shared_spine_attainable_initial_segments` | Same name in `SharedSpine.lean` | Source or full carrier/finite prefixes, including zero prefix. |
-| Source sharing: `relevant_labelled_spine_synthesis_iff`, `relevant_synthesis_survives_all_hard_interventions` | Same names in `LabelledSpine.lean` | Fixed labelled spine; one relevant mechanism for all contexts; arbitrary hard interventions on original links. The Lean occurrence parity is complementary to the Isabelle witness, not definitionally identical. |
+| Source sharing: `relevant_labelled_spine_synthesis_iff`, `relevant_synthesis_survives_all_hard_interventions` | Same names in `LabelledSpine.lean` | The first treats one relevant full-carrier mechanism for every context. The intervention result directly treats gate equations satisfying opposite repeats, with arbitrary sets of original links clamped; no separate intervened full-carrier transport is claimed. The Lean occurrence parity complements the Isabelle witness. |
 | Copy-majority: `copy_majority_all_contexts`, `original_link_interventions_unique`, `carrier_expanded_solution_bridge`, both observation-preservation claims and `copy_interventions_nonunique` | Same names in `CopyMajority.lean`, with source nonuniqueness represented by `copy_interventions_not_unique` | Includes normalized/relevant full carrier mechanism. The negative example clamps all added copies on and roots off; no arbitrary added-copy intervention guarantee is asserted. |
 | Patterns: `contextual_grounded_fixed_iff_least`, `active_determinate_internal_root_path` | Same names in `Bridges.lean` and `Patterns.lean` | Grounded fixed-point theorem has established antecedents; see source attribution. |
 | Revision extras: source-generated target, nonempty targets and dependent-target distinct root | Same names in `SourceInference.lean` | The source-inference declarations use `EfficacyStep`, the all-roots-on contextual operator. The least solution is required. The distinct-root result assumes a carrier parent (`Grounded` there means nonroot, not the grounded-fixed-point condition). |

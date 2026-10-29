@@ -1,0 +1,12 @@
+{
+  "challenge_module": "ChallengePatternNec",
+  "solution_module": "SolutionPattern",
+  "theorem_names": [
+    "DeterminationPatterns.realized_pattern_necessary"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
