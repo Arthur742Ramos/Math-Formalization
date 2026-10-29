@@ -87,3 +87,7 @@ Lean package does not bundle that baseline. Its upstream `sources/AFP-LICENSE.tx
 corresponds to `AFP-SOURCE-LICENSE.txt` in this package. See that attribution
 record for source authorship and mathematical antecedents. No human review, novelty, journal acceptance,
 or registry registration is implied by the checks described here.
+
+[MANUSCRIPT-EXAMPLES.md](MANUSCRIPT-EXAMPLES.md) maps the explicit
+observation, shared-source, source-label, and majority-input examples and
+records which explanatory statements remain outside their scope.
