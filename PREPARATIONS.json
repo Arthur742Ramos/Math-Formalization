@@ -2276,8 +2276,8 @@
       "scope": "For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
-        "commit": "36a2788b4e13fb16768561340005552514b21e51",
-        "tree": "819a03673bd9ec4c9b469dd839902c366469fc77"
+        "commit": "efb8423946e3249662324994d7501df11291a365",
+        "tree": "de9e7ff3f9bc478a84dbd2cc5f861b15382fb996"
       },
       "source_files_sha256": {
         "comparator.json": "ae0c5394375021536dde6f4f561231bbd3d99437c0989c8395b966f5de54f0ad",
@@ -2289,7 +2289,7 @@
         "lakefile.toml": "ab926e3b60bfa4f718dee91aeead005ffb77db5e4eb0d2bcf06ed618bdb95df3",
         "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
         "MATERIAL-DEFINITIONS.md": "ce27b397efdbfa4999d483d7edd2d3f20d2c00faa5fb8bd2281e3196543ac485",
-        "README.md": "f9d12ef149bb7c6c2103fb22a685f2e7ea420673009bc35ffb9e2dbcb41e0bbb",
+        "README.md": "1490c1e3e9a00de3dbf63da11de8b503f4973565f2f4b4e356ae4950dba17e15",
         "SemanticChallenge.lean": "eeb09a263ffd33d7a86b70a658fec32b8ce8b8ad9f409ef3ac39c699fe1e260d",
         "SemanticSolution.lean": "a79da6ba4e7a5e570959e7b80bb51ce75624a8c46c2f8122d9958c4c651d2ef5"
       },
@@ -2325,10 +2325,11 @@
         "receipts_sha256": {
           "mathematical_scope": "15645db72380f71105eb669e2fd94518941966f0f1312e034ba56fe16ab9b400",
           "final_proof_static_source_review": "7a76616529f5c31d7d1f4393325ac9764213af430fe8c18cb73afd184ce12ee4",
-          "package_snapshot_and_checker": "f500ad39155991718b13451eb39a53af553f3842131fc86627672016ee9756f7"
+          "package_snapshot_and_checker": "f500ad39155991718b13451eb39a53af553f3842131fc86627672016ee9756f7",
+          "nanoda_disclosure_review": "2c09910eb509f34e121d13d2739fc201d966aa57d26db02f657bec62e766ca85"
         }
       },
-      "evidence_scope": "Dated reviewed package checkpoint; previous 36291bd package build and local kernel/export comparison cover the unchanged proof and semantic sources, not this commit as an exact-source canonical run. Canonical full verification, fresh dependency build, rendering and registry submission remain pending."
+      "evidence_scope": "Reviewed preparation; previous package snapshot 36a2788b4e13fb16768561340005552514b21e51 (tree 819a03673bd9ec4c9b469dd839902c366469fc77). The 36291bd local package build and kernel/export comparison cover unchanged proof and semantic sources, not this corrected snapshot as an exact-source canonical run. Canonical full verification, fresh dependency build, rendering and registry submission remain pending."
     }
   ]
 }

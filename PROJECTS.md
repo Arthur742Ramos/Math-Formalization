@@ -308,4 +308,4 @@ The theorem and source scope received independent internal AI review. Local buil
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Generic IP-transitive points in weakly mixing systems](topology/ip-transitive-points) | For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite. | Preparation; not submitted | [`36a2788`](https://github.com/Arthur742Ramos/Math-Formalization/tree/36a2788b4e13fb16768561340005552514b21e51/topology/ip-transitive-points) |
+| [Generic IP-transitive points in weakly mixing systems](topology/ip-transitive-points) | For a continuous self-map of a second-countable Baire Hausdorff space with transitive square, a residual set has IP entering times into every nonempty open set; square hitting times are infinite. | Preparation; not submitted | [`efb8423`](https://github.com/Arthur742Ramos/Math-Formalization/tree/efb8423946e3249662324994d7501df11291a365/topology/ip-transitive-points) |
