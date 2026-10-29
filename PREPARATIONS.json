@@ -2419,6 +2419,82 @@
       },
       "current_source_full": "not-established",
       "current_source_rendering": "not-established"
+    },
+    {
+      "name": "Weak mixing and local Cantor scrambled families",
+      "path": "topology/weak-mixing-cantor-chaos",
+      "scope": "In each nonempty open set of a nontrivial perfect Polish metric space, a continuous square-transitive map admits a closed Cantor family with pairwise dense square orbits and a uniform positive separation scale.",
+      "state": "reviewed-preparation-not-submitted",
+      "source_snapshot": {
+        "commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
+        "tree": "b76de8290c01cbf62bd6f215e25cbe865b966cd9"
+      },
+      "source_files_sha256": {
+        ".gitignore": "fde850d24186b6e99c8c0debd641fb3ab85198b109eb66f71a1fea02bd6ea1b3",
+        "ATTRIBUTION.md": "7dad5e53a114ab50b9942d617d419cc28bd6a81eee28b24e2194bf4ce18d0e7b",
+        "AxiomAudit.lean": "aaf51154d37eaefd2cd68d2684a8d272cf211435be1bc019889a035eacc70483",
+        "CantorChaos.lean": "8aad1702f8a927683b04ba504fdd6e0e71a14dd6973d4c48580fbda54bcdad7f",
+        "ChaosChallenge.lean": "8aad1702f8a927683b04ba504fdd6e0e71a14dd6973d4c48580fbda54bcdad7f",
+        "ChaosSolution.lean": "ff58c4f157e63f46333d6e8a56cd3169b62511a8358f4d2b7012fc8f31077063",
+        "LICENSE": "5f3751276afe718ffa78ec1fc61490d4185712554bcb6a90059416dc424ce9a6",
+        "MATERIAL-DEFINITIONS.md": "c613913138cba301c7ff6e4616498698af0d506a36b145337fe98bcf8055f6bf",
+        "Mycielski.lean": "963f24ef75e60ae70d4542ebb5f999b6fcd43cf608ea51977b84a3c2976022f5",
+        "README.md": "ee68f299961835806f97b382e6f7b357444d7db7094760746076211f6287187b",
+        "RESEARCH-NOTES.md": "af53af83c8263cc0eeb2bee679996a0108629ba60037e291814aa9dd2eef44ac",
+        "SemanticChallenge.lean": "c79547afee730f754c37722b6b877243ccf1c872d304609386f167b0890835f2",
+        "SemanticSolution.lean": "30f9e852be49858497452f24819b8b9bc14a0c368a24656dd83ae1aaf17af2b5",
+        "check_copied_sources.py": "a66838a176a0e3ba21fbdfd5f61c4c06bf9c28212fb3a1c49cccd368c9e3fbdf",
+        "check_draft.py": "e95aa0061b7b12c021043e8f613247e8545afe1a559e32dced7863b9560ddf27",
+        "comparator.json": "dc5e3aea9e211f510e44feba35967b81bcb38e4636945cabf9f0690fd86e71db",
+        "formalization.yaml": "aa0bc725f58e9f1576551b9974cc69b7bda4c268dcbea2af0e786dfe6c061552",
+        "lake-manifest.json": "cf7bb22ebedd12d795c9762e24444df2901cce3f6994bb32a03e47b83b990bd1",
+        "lakefile.toml": "55447e6a586d5ea5b3352b3a0c2b4749b78b8f38ea5880777223628d0c3b7d79",
+        "lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a"
+      },
+      "theorem_names": [
+        "CantorChaos.cantor_dense_pair_orbits",
+        "CantorChaos.cantor_uniform_scrambled"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "material_definition_audit": {
+        "source_commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
+        "manifest": "verification/material-imported-definitions.json",
+        "schema_version": 2,
+        "material_declarations": 36,
+        "upstream_files": 25,
+        "literal_excerpts": 53,
+        "semantic_tests": [
+          "SemanticChallenge.lean",
+          "SemanticSolution.lean"
+        ]
+      },
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "source_review": "d43820016afaaa4660267fc7622168efe557036eddbcdc66a2cf50e92012b512"
+        }
+      },
+      "evidence_scope": "Local source review covers the selected proof and credited fusion dependency without independently reconstructing its entire proof. Clean Lake build for this exact package uses retained pinned dependency artifacts. Separate receipts identify the source, local checks and their limits. Full canonical verification, official rendering, editorial outcome and registration are not established by this preparation record."
     }
   ]
 }
