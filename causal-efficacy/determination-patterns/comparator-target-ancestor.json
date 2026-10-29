@@ -1,0 +1,12 @@
+{
+  "challenge_module": "ChallengeTargetAncestor",
+  "solution_module": "SolutionTargetAncestor",
+  "theorem_names": [
+    "DeterminationPatterns.target_accessibility_iff_ancestor_well_founded"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

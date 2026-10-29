@@ -64,3 +64,21 @@ name = "ChallengeUniqueBridge"
 
 [[lean_lib]]
 name = "SolutionUniqueBridge"
+
+[[lean_lib]]
+name = "ChallengeTargetAncestor"
+
+[[lean_lib]]
+name = "SolutionTargetAncestor"
+
+[[lean_lib]]
+name = "ChallengeSingleParent"
+
+[[lean_lib]]
+name = "SolutionSingleParent"
+
+[[lean_lib]]
+name = "ChallengeSharedClassification"
+
+[[lean_lib]]
+name = "SolutionSharedClassification"

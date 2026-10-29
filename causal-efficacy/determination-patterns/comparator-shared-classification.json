@@ -1,0 +1,13 @@
+{
+  "challenge_module": "ChallengeSharedClassification",
+  "solution_module": "SolutionSharedClassification",
+  "theorem_names": [
+    "DeterminationPatterns.shared_spine_region_conditions",
+    "DeterminationPatterns.shared_spine_initial_segments"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "project": "<checkout>/topology/banach-mazur-baire",
+  "material_declarations": [
+    "BaireSpace",
+    "Dense",
+    "Set.PairwiseDisjoint",
+    "IsOpen",
+    "closure",
+    "Set.Nonempty",
+    "IsEmpty",
+    "TopologicalSpace"
+  ],
+  "retained_source_files": 8,
+  "retained_excerpts": 12,
+  "upstream_origin": "not-checked",
+  "upstream_files_authenticated": 0,
+  "bridge_compilation": "separate actual Lean build required",
+  "scope": "Retained evidence consistency; inventory completeness and mathematical fidelity require independent review."
+}

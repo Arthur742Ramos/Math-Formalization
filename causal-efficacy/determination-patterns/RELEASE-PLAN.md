@@ -1,6 +1,6 @@
 # Comparator and verification status
 
-This package is a draft. Its eleven current Comparator Challenges contain complete
+This package is a draft. Its fourteen current Comparator Challenges contain complete
 proofs without new axioms or proof holes. Each configuration must be checked against its own
 exact source revision; local experiments are not protected verification or
 editorial acceptance.
@@ -36,7 +36,13 @@ SOME/ALL biconditionals themselves are proved in the Lean package but are not
 directly selected in these configurations. An eleventh, 223-line Challenge
 selects the whole-carrier uniqueness and restricted-well-foundedness bridges.
 The all-mechanism/all-context biconditionals remain separately proved in the
-Lean package and are not directly selected by this bridge. Each configuration requires an explicit statement of its scope; a
+Lean package and are not directly selected by this bridge. Three compact drafts
+select the ancestor-cone accessibility equivalence, two single-parent results,
+and the graph-specific shared-spine region classification. They do not directly
+select the two fixed-legal-context target-determination equivalences in
+Proposition 5 or the shared-spine attainable-region theorem. The latter follows
+by combining the classification and separately selected region directions,
+subject to authenticating their common definitions. Each configuration requires an explicit statement of its scope; a
 single entry cannot be assumed to cover the whole manuscript.
 
 Release preparation requires an independent final source and manuscript

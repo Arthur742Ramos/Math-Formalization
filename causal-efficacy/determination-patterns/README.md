@@ -55,9 +55,19 @@ criteria for target subsets of the carrier, whose biconditionals remain separate
 `comparator-unique-bridge.json` selects the links between whole-carrier
 determination, uniqueness and restricted-relation well-foundedness. The
 all-mechanism/all-context biconditionals are proved in the package but are
-not directly selected in this bridge. These drafts and local
+not directly selected in this bridge. Three additional drafts select the
+ancestor-cone accessibility equivalence, the single-parent accessibility and
+copying claims, and the shared-spine region classification. The two Proposition
+5 target-determination equivalences at a fixed legal context and the
+shared-spine attainable-region theorem are separately proved in the package;
+they are not directly selected by these three configurations. The shared-spine
+classification combines with the region directions after matching their shared
+definitions. These drafts and local
 experiments are not release certification. `RELEASE-PLAN.md` records the
-remaining release requirements.
+remaining release requirements. Historical, sanitized local verification
+records are available for [commit 225d287](verification-evidence/local-225d287/receipt.json)
+and [commit 4c57653](verification-evidence/local-4c57653/receipt.json). They
+describe those exact earlier commits, not this later draft.
 
 The Isabelle extension's BSD-3-Clause notice is retained in
 `SOURCE-LICENSE.txt`; the bundled AFP baseline has a separate retained notice

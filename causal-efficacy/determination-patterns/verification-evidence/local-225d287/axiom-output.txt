@@ -1,0 +1,126 @@
+'DeterminationPatterns.exact_relevant_pattern_realization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.realized_pattern_necessary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.exact_relevant_region_realization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.exact_region_realization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.attainable_regions_context_independent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.some_relevant_context_determination_iff_reachable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.some_context_determination_iff_reachable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.every_relevant_context_determination_iff_accessible' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.every_context_determination_iff_accessible' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.some_mechanism_every_context_unique_iff_local_foundation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.some_relevant_context_unique_iff_local_foundation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.some_context_unique_iff_local_foundation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.every_relevant_context_unique_iff_well_founded' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.every_context_unique_iff_well_founded' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.every_mechanism_every_context_unique_iff_well_founded' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.every_relevant_mechanism_every_context_unique_iff_well_founded' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.shared_spine_attainable_initial_segments' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.relevant_labelled_spine_synthesis_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.relevant_synthesis_survives_all_hard_interventions' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.copy_majority_admissible' depends on axioms: [propext, Quot.sound]
+'DeterminationPatterns.copy_majority_relevant' depends on axioms: [propext]
+'DeterminationPatterns.copy_majority_all_contexts' depends on axioms: [propext, Quot.sound]
+'DeterminationPatterns.original_link_interventions_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.carrier_expanded_solution_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.projection_observation_preservation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.every_projection_observation_preserved' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.copy_interventions_not_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.contextual_grounded_fixed_iff_least' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.active_determinate_internal_root_path' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.source_generated_target_has_root_ancestor' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.nonempty_source_generated_targets_have_root' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.dependent_source_generated_target_has_distinct_root' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.boolean_exact_pattern_realization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.boolean_mechanism_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.boolean_relevance_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.boolean_roots_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.boolean_step_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.boolean_least_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.boolean_greatest_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.root_reachable_iff_first_member' depends on axioms: [propext]
+'DeterminationPatterns.literal_local_foundation_iff' depends on axioms: [propext]
+'DeterminationPatterns.well_founded_on_iff_restricted_relation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.root_length_iff_edge_power' does not depend on any axioms
+'DeterminationPatterns.target_accessibility_iff_ancestor_well_founded' does not depend on any axioms
+'DeterminationPatterns.every_context_target_iff_ancestor_well_founded' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.single_parent_accessible_iff_reachable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.single_parent_some_iff_every_context_determination' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.single_parent_step_copies' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.extend_local_mechanism' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.extend_local_relevant_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.extend_local_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.paper_raw_local' depends on axioms: [propext, Quot.sound]
+'DeterminationPatterns.paper_mechanism_has_total_extension' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.paper_raw_on_parent_input' depends on axioms: [propext, Quot.sound]
+'DeterminationPatterns.total_mechanism_restricts_to_paper' does not depend on any axioms
+'DeterminationPatterns.paper_relevance_iff_total' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.paper_step_iff_total' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.paper_restriction_preserves_step' does not depend on any axioms
+'DeterminationPatterns.paper_restriction_preserves_relevance' does not depend on any axioms
+'DeterminationPatterns.active_determined_region_eq_least' depends on axioms: [propext, Quot.sound]
+'DeterminationPatterns.unique_contextual_solution_extrema' depends on axioms: [propext, Quot.sound]
+'DeterminationPatterns.active_determined_nonroot_has_distinct_root' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.pattern_witness_extrema' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.determined_region_conditions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.region_conditions_sufficient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.determined_iff_fixed_agreement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.supported_fixed_iff_least' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.accessible_carrier_iff_well_founded' does not depend on any axioms
+'DeterminationPatterns.accessible_region_conditions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.all_contexts_unique_iff_opposite_repeats' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'DeterminationPatterns.contextual_determination_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.copy_interventions_nonunique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.expanded_projection_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.forest_copy_every_context_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.gate_synthesis_iff_repeated_sources' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.local_foundation_iff_all_reachable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.relevant_endpoint_attainment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.root_reachable_conditions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.spine_unique_iff_cofinal_forcing' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DeterminationPatterns.whole_determined_iff_unique' depends on axioms: [propext, Classical.choice, Quot.sound]

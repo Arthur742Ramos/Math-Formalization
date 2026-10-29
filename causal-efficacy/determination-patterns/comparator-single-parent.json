@@ -1,0 +1,13 @@
+{
+  "challenge_module": "ChallengeSingleParent",
+  "solution_module": "SolutionSingleParent",
+  "theorem_names": [
+    "DeterminationPatterns.single_parent_accessible_iff_reachable",
+    "DeterminationPatterns.single_parent_step_copies"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

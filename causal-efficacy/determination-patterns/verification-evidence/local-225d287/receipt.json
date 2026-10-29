@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "source_commit": "225d287e5ee5ad19f5c0956cef38a5c011879fb3",
+  "source_tree": "4694c4640dfb9c4561474cce37cc305ca8875aa8",
+  "source_url": "https://github.com/Arthur742Ramos/Math-Formalization/tree/225d287e5ee5ad19f5c0956cef38a5c011879fb3/causal-efficacy/determination-patterns",
+  "scope": "Historical local verification of this exact public commit, not canonical protected verification, rendering, editorial acceptance or registration. Later source changes require new checks.",
+  "lean": "4.35.0-rc2 (11acb17ec6b07a8f9e9173e6845197929540936b)",
+  "package_build": "pass",
+  "regressions": "pass",
+  "lexical_placeholder_scan": "pass; lexical only",
+  "comparator": "Eleven local --paranoid comparisons passed with the recorded bundled kernel replays. con-leche and con-ron reported Lean.Syntax in-process modeling and two Nat multiplication declarations hoisted in the gate-spine run.",
+  "axiom_audit": "80 declarations, including all 37 selected names; only propext, Classical.choice and Quot.sound or none.",
+  "review": "Independent internal AI source and evidence review; not human or external peer review.",
+  "configurations": {
+    "comparator-bounds.json": {
+      "sha256": "458df2c680e5b6ee4051323d2da7f061d89e1ea35b2736235778b24d594777e0",
+      "theorem_names": [
+        "DeterminationPatterns.contextual_determination_interval"
+      ]
+    },
+    "comparator-copy-majority.json": {
+      "sha256": "9948d9f780c99c3f18cc796979c549c49d18cd50fc74cb1deac842b94ecea25e",
+      "theorem_names": [
+        "DeterminationPatterns.expanded_projection_iff",
+        "DeterminationPatterns.projection_observation_preservation",
+        "DeterminationPatterns.every_projection_observation_preserved",
+        "DeterminationPatterns.copy_interventions_nonunique",
+        "DeterminationPatterns.copy_majority_all_contexts",
+        "DeterminationPatterns.original_link_interventions_unique",
+        "DeterminationPatterns.carrier_expanded_solution_bridge",
+        "DeterminationPatterns.copy_majority_admissible",
+        "DeterminationPatterns.copy_majority_relevant",
+        "DeterminationPatterns.copy_interventions_not_unique"
+      ]
+    },
+    "comparator-endpoints.json": {
+      "sha256": "5cbcbf7190602e395d3abd3b459100ce32d3a46128c4658e76af0fb9113d0523",
+      "theorem_names": [
+        "DeterminationPatterns.root_reachable_conditions",
+        "DeterminationPatterns.accessible_region_conditions",
+        "DeterminationPatterns.relevant_endpoint_attainment"
+      ]
+    },
+    "comparator-gate-spine.json": {
+      "sha256": "ed2060e4caf4166f46adcb31d522b220c8ef8edffd44b70d374d7404e87ecfc2",
+      "theorem_names": [
+        "DeterminationPatterns.spine_unique_iff_cofinal_forcing",
+        "DeterminationPatterns.all_contexts_unique_iff_opposite_repeats",
+        "DeterminationPatterns.gate_synthesis_iff_repeated_sources",
+        "DeterminationPatterns.relevant_labelled_spine_synthesis_iff",
+        "DeterminationPatterns.relevant_synthesis_survives_all_hard_interventions"
+      ]
+    },
+    "comparator-grounded.json": {
+      "sha256": "8f3597faca4af29aa93875a1fa97269ea832ed4f679c89a3578717057c2388ad",
+      "theorem_names": [
+        "DeterminationPatterns.supported_fixed_iff_least",
+        "DeterminationPatterns.contextual_grounded_fixed_iff_least"
+      ]
+    },
+    "comparator-pattern.json": {
+      "sha256": "412d8cb378e40e7b79f82dd94eb6440f656a5303f4950248bb9a1c89ab44b981",
+      "theorem_names": [
+        "DeterminationPatterns.exact_relevant_pattern_realization",
+        "DeterminationPatterns.realized_pattern_necessary",
+        "DeterminationPatterns.pattern_witness_extrema"
+      ]
+    },
+    "comparator-region-nec.json": {
+      "sha256": "5bc939c7d81f07d0a24209043ecb22a9186407955b0fb9e68cfb84d6afbe3750",
+      "theorem_names": [
+        "DeterminationPatterns.determined_region_conditions"
+      ]
+    },
+    "comparator-region-suff.json": {
+      "sha256": "f570b277d72bc1c8efc154a6cd078cf57e12ffc351c8378a2cdb8e6903af1a40",
+      "theorem_names": [
+        "DeterminationPatterns.region_conditions_sufficient"
+      ]
+    },
+    "comparator-source.json": {
+      "sha256": "97221104f589fe6f3c279cebbde0e4aff19f47a063ccea176d14cc4ac99ddfdf",
+      "theorem_names": [
+        "DeterminationPatterns.determined_iff_fixed_agreement",
+        "DeterminationPatterns.active_determinate_internal_root_path",
+        "DeterminationPatterns.active_determined_region_eq_least",
+        "DeterminationPatterns.unique_contextual_solution_extrema",
+        "DeterminationPatterns.active_determined_nonroot_has_distinct_root"
+      ]
+    },
+    "comparator-uniform.json": {
+      "sha256": "cdce636deb562a2eda6fe6e681f530f22070bc0e8ffa39f985bfe2746b64441b",
+      "theorem_names": [
+        "DeterminationPatterns.local_foundation_iff_all_reachable",
+        "DeterminationPatterns.forest_copy_every_context_unique",
+        "DeterminationPatterns.some_mechanism_every_context_unique_iff_local_foundation"
+      ]
+    },
+    "comparator-unique-bridge.json": {
+      "sha256": "156285765ecbf25d869232b59271d5763e1bff53528ac150eddc80f830d1bee9",
+      "theorem_names": [
+        "DeterminationPatterns.accessible_carrier_iff_well_founded",
+        "DeterminationPatterns.whole_determined_iff_unique",
+        "DeterminationPatterns.well_founded_on_iff_restricted_relation"
+      ]
+    }
+  },
+  "original_local_log_sha256": "4c074491c4c17c81db83aa8fb2c1666cfa436711957e31e15c48b8fe9f5fa593",
+  "public_redacted_log_sha256": "afa039cffa07010f90f5c0280218f9d9199a97a313b38cdabdc94e8607493495",
+  "redaction": "Absolute local filesystem paths replaced with generic labels; mathematical output otherwise retained.",
+  "axiom_input_sha256": "445363da98628c9c6c3672e1dd882cde91abd9ce7aa8b629dfcafafaa0dbcd77",
+  "axiom_output_sha256": "f3b3d47e5a80192a8187c48dee5ee37ccab281a1d5b9def388582dcfe318430c",
+  "root_catalog": {
+    "status": "pass",
+    "scope": "Root catalog consistency and existing package checks, not certification or listing of this package.",
+    "steps": 8,
+    "receipt_sha256": "5bdbf41bf4789841a81cd672ad34fc751cdddaa092adb51f6fa801a5e0528a91",
+    "logs": "See catalog-receipt.json and catalog-log-map.json; local checkout paths were redacted in public logs."
+  }
+}
