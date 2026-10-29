@@ -1,0 +1,1229 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "Continuous",
+    "Finset",
+    "Nat.iterate",
+    "Dense",
+    "closure",
+    "residual",
+    "CountableInterFilter",
+    "Filter.countableGenerate",
+    "Countable",
+    "Set.Countable",
+    "IsClosed",
+    "Filter",
+    "interior",
+    "BaireSpace",
+    "IsGδ",
+    "SecondCountableTopology",
+    "IsTopologicalBasis",
+    "TopologicalSpace.generateFrom",
+    "Set.range",
+    "Set.Nonempty",
+    "IsCompact",
+    "CompactSpace",
+    "ClusterPt",
+    "Filter.principal",
+    "Filter.NeBot",
+    "nhds",
+    "IsCompact.elim_finite_subcover",
+    "Combinatorics.exists_mono_homothetic_copy"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.finite_multipliers_return",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Topology supplies open sets, including the axioms used for the finite intersection and countable-basis proof.",
+      "dependency_expansion": "Topology supplies open sets, including the axioms used for the finite intersection and countable-basis proof.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed",
+        "Pettis-expansion-nhds",
+        "Regular-subtype-topology",
+        "E0-Pi-product-topology",
+        "Mixing-binary-product-topology"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.finite_multipliers_return",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Openness is evaluated in the supplied ambient topology.",
+      "dependency_expansion": "Openness is evaluated in the supplied ambient topology.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "hypothesis",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Continuous f means preimages of open sets are open in the supplied topologies.",
+      "dependency_expansion": "Continuous f means preimages of open sets are open in the supplied topologies.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Finset",
+      "declaration_kind": "structure",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.finite_multipliers_return",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "A duplicate-free finite set represents the arbitrary finite multiplier set, including the empty set.",
+      "dependency_expansion": "Finset membership is membership in its underlying nodup multiset, using the pinned SetLike instance and Finset.mem_def.",
+      "definition_excerpt": "E0-Finset",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "E0-Finset",
+        "successor-Finset-membership"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Nat.iterate",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.finite_multipliers_return",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Natural forward iteration uses identity at zero and successor composition; no inverse iterates are assumed.",
+      "dependency_expansion": "Natural forward iteration uses identity at zero and successor composition; no inverse iterates are assumed.",
+      "definition_excerpt": "Mixing-Nat.iterate",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mixing-Nat.iterate"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Every point is in the closure of the designated set; the dense G-delta claim is not merely nonemptiness.",
+      "dependency_expansion": "Every point is in the closure of the designated set; the dense G-delta claim is not merely nonemptiness.",
+      "definition_excerpt": "Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dense",
+        "dense_iff_inter_open"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Closure is the complement of the interior of the complement; it supplies the literal Dense meaning.",
+      "dependency_expansion": "Closure is the complement of the interior of the complement; it supplies the literal Dense meaning.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "residual",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The filter generated by open dense sets under countable intersections and supersets; the countable-open intersection account is a proved bridge, not definitional equality.",
+      "dependency_expansion": "The filter generated by open dense sets under countable intersections and supersets; the countable-open intersection account is a proved bridge, not definitional equality.",
+      "definition_excerpt": "residual",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "residual",
+        "mem_residual_iff",
+        "countableInterFilter_residual",
+        "Filter.countableGenerate",
+        "Filter.mem_countableGenerate_iff"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "CountableInterFilter",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "A filter with countable intersections available; used through residual category constructions.",
+      "dependency_expansion": "A filter with countable intersections available; used through residual category constructions.",
+      "definition_excerpt": "CountableInterFilter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "CountableInterFilter",
+        "Filter.countableGenerate",
+        "Filter.CountableGenerateSets",
+        "Filter.ofCountableInter",
+        "Filter.mem_countableGenerate_iff",
+        "countableInterFilter_residual"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Filter.countableGenerate",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The filter generated by a family under countable intersections and supersets; it defines residual.",
+      "dependency_expansion": "The filter generated by a family under countable intersections and supersets; it defines residual.",
+      "definition_excerpt": "Filter.countableGenerate",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Filter.countableGenerate",
+        "Filter.CountableGenerateSets",
+        "Filter.ofCountableInter",
+        "Filter.mem_countableGenerate_iff",
+        "CountableInterFilter"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Countable",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The type admits an injection into the naturals, encoding at most countability.",
+      "dependency_expansion": "The type admits an injection into the naturals, encoding at most countability.",
+      "definition_excerpt": "Countable",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Countable",
+        "Set.Countable"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Set.Countable",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The subtype of elements of the set is Countable; open families in G-delta and residual bridges are at most countable.",
+      "dependency_expansion": "The subtype of elements of the set is Countable; open families in G-delta and residual bridges are at most countable.",
+      "definition_excerpt": "Set.Countable",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Countable",
+        "Countable"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "IsClosed",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "A set is closed when its complement is open; it supports closure.",
+      "dependency_expansion": "A set is closed when its complement is open; it supports closure.",
+      "definition_excerpt": "IsClosed",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "IsClosed"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Filter",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The structure of upward-closed collections closed under finite intersection and containing the universe; residual is a filter.",
+      "dependency_expansion": "The structure of upward-closed collections closed under finite intersection and containing the universe; residual is a filter.",
+      "definition_excerpt": "Filter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Filter"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "interior",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The largest open subset of a set; used in closure and topology expansion.",
+      "dependency_expansion": "The largest open subset of a set; used in closure and topology expansion.",
+      "definition_excerpt": "KR-interior",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-interior"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "BaireSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The explicit corollary hypothesis requires each natural-indexed intersection of open dense sets to be dense.",
+      "dependency_expansion": "The explicit corollary hypothesis requires each natural-indexed intersection of open dense sets to be dense.",
+      "definition_excerpt": "HS-BaireSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "HS-BaireSpace"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "IsGδ",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "An intersection of a countable family of ambient open sets; density and nonemptiness are separate corollary conclusions.",
+      "dependency_expansion": "An intersection of a countable family of ambient open sets; density and nonemptiness are separate corollary conclusions.",
+      "definition_excerpt": "Regular-IsGδ",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Regular-IsGδ"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "SecondCountableTopology",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The supplied topology is generated by a countable set of opens; a countable basis is obtained by a theorem.",
+      "dependency_expansion": "The supplied topology is generated by a countable set of opens; a countable basis is obtained by a theorem.",
+      "definition_excerpt": "Regular-SecondCountableTopology",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Regular-SecondCountableTopology"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "IsTopologicalBasis",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "A family of open sets with the basis refinement property, used to select a basis neighborhood inside each open neighborhood.",
+      "dependency_expansion": "A family of open sets with the basis refinement property, used to select a basis neighborhood inside each open neighborhood.",
+      "definition_excerpt": "Regular-IsTopologicalBasis",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Regular-IsTopologicalBasis"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "TopologicalSpace.generateFrom",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The topology generated by a family of designated opens, closed under topology axioms.",
+      "dependency_expansion": "The topology generated by a family of designated opens, closed under topology axioms.",
+      "definition_excerpt": "Regular-TopologicalSpace.generateFrom",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Regular-TopologicalSpace.generateFrom",
+        "Regular-GenerateOpen"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Set.range",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The image of the full index type; the natural orbit range includes time zero.",
+      "dependency_expansion": "The image of the full index type; the natural orbit range includes time zero.",
+      "definition_excerpt": "Dynamics-Set.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Set.range"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Set.Nonempty",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "An actual member exists; the open-set input and dense G-delta output each state nonemptiness.",
+      "dependency_expansion": "An actual member exists; the open-set input and dense G-delta output each state nonemptiness.",
+      "definition_excerpt": "Set.Nonempty",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Nonempty"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Every nonbottom filter on the set has a cluster point there; used via the finite open-subcover theorem, not metric sequential compactness.",
+      "dependency_expansion": "Every nonbottom filter on the set has a cluster point there; used via the finite open-subcover theorem, not metric sequential compactness.",
+      "definition_excerpt": "KR-IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsCompact"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The whole space is compact. A finite open preimage subcover supplies a uniform bound on return gaps.",
+      "dependency_expansion": "The whole space is compact. A finite open preimage subcover supplies a uniform bound on return gaps.",
+      "definition_excerpt": "KR-CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "KR-CompactSpace"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "ClusterPt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "A point is a cluster point of a filter if the filter has a nonbottom intersection with its neighborhood filter.",
+      "dependency_expansion": "A point is a cluster point of a filter if the filter has a nonbottom intersection with its neighborhood filter.",
+      "definition_excerpt": "Product-ClusterPt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Product-ClusterPt",
+        "Product-nhds"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Filter.principal",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Filter containing exactly supersets of the given set; compactness quantifies filters concentrated on that set.",
+      "dependency_expansion": "Filter containing exactly supersets of the given set; compactness quantifies filters concentrated on that set.",
+      "definition_excerpt": "Product-Filter.principal",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Product-Filter.principal"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "Filter.NeBot",
+      "declaration_kind": "class",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "Filter differs from bottom, equivalently excludes the empty set; compactness quantifies nontrivial filters.",
+      "dependency_expansion": "Filter differs from bottom, equivalently excludes the empty set; compactness quantifies nontrivial filters.",
+      "definition_excerpt": "Product-Filter.NeBot",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Product-Filter.NeBot"
+      ],
+      "proof_status": "Exact pinned source excerpts retained; checked semantic bridges and independent fidelity/completeness review are separate gates."
+    },
+    {
+      "name": "nhds",
+      "declaration_kind": "irreducible_def",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "The neighborhood filter is an infimum of principal filters on open neighborhoods.",
+      "dependency_expansion": "Membership is equivalently containment of an open neighborhood; this is a proved equivalence, not definitional equality.",
+      "definition_excerpt": "Product-nhds",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Product-nhds",
+        "successor-mem-nhds-iff"
+      ],
+      "proof_status": "Exact excerpts retained; semantic bridge and independent review are separate gates."
+    },
+    {
+      "name": "IsCompact.elim_finite_subcover",
+      "declaration_kind": "theorem",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "An open cover of a compact set has a finite subcover.",
+      "dependency_expansion": "This is a theorem derived from filter-based IsCompact, not its definitional expansion.",
+      "definition_excerpt": "successor-finite-subcover",
+      "bridge_kind": "proved-contract",
+      "bridge_excerpts": [
+        "successor-finite-subcover"
+      ],
+      "proof_status": "Exact theorem retained; separate Lean bridge and independent review required."
+    },
+    {
+      "name": "Combinatorics.exists_mono_homothetic_copy",
+      "declaration_kind": "theorem",
+      "role": "proof-dependency",
+      "used_by": [
+        "MultipleRecurrence.minimal_multiple_recurrence_after",
+        "MultipleRecurrence.residual_multiply_recurrent",
+        "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+      ],
+      "meaning": "For a finite subset of an additive commutative monoid and a finite coloring, a positive natural homothety and a translate are monochromatic.",
+      "dependency_expansion": "The proof uses this van der Waerden theorem on a finite set of natural multipliers, not a new combinatorial axiom.",
+      "definition_excerpt": "successor-van-der-waerden",
+      "bridge_kind": "proved-contract",
+      "bridge_excerpts": [
+        "successor-van-der-waerden"
+      ],
+      "proof_status": "Exact theorem retained; independent source-fidelity review remains required."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Basic/Countable/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Countable/Defs.lean",
+      "sha256": "d42047c8b18f28b7eba8ceca5867e472fcb8e840ac3499f88d3cd1d01451bb9f",
+      "git_blob_sha1": "2718dae9396dc0acff5f8b703d3587512b0281db",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Countable",
+          "first_line": 41,
+          "last_line": 46,
+          "text": "class Countable (α : Sort u) : Prop where\n  /-- A type `α` is countable if there exists an injective map `α → ℕ`. -/\n  exists_injective_nat' : ∃ f : α → ℕ, Injective f\n\nlemma Countable.exists_injective_nat (α : Sort u) [Countable α] : ∃ f : α → ℕ, Injective f :=\n  Countable.exists_injective_nat'\n",
+          "sha256": "551b5558571ec8d95682ed77589bddacda46501f10be4eef3efb6971e2a241e9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Countable/Defs.lean#L41-L46"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean",
+      "sha256": "ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d",
+      "git_blob_sha1": "e94299ba14677e4193e7004cf77bf70c1ca6e065",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Finset",
+          "first_line": 75,
+          "last_line": 79,
+          "text": "structure Finset (α : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset α\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
+          "sha256": "7060271efbf43760a549ba990bf6441680ded1d3465c11a6856ecc7a6ca7b551",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
+        },
+        {
+          "name": "successor-Finset-membership",
+          "first_line": 100,
+          "last_line": 106,
+          "text": "/-- Convert a finset to a set in the natural way. -/\ninstance : SetLike (Finset α) α where\n  coe s := {a | a ∈ s.1}\n  coe_injective s₁ s₂ h := (val_inj.symm.trans <| s₁.nodup.ext s₂.nodup).2 <| Set.ext_iff.mp h\n\ntheorem mem_def {a : α} {s : Finset α} : a ∈ s ↔ a ∈ s.1 :=\n  Iff.rfl\n",
+          "sha256": "1c1eeb6e3ef50087009fc677692b533a2ee9554ba15048565b58c7860b83d04f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L100-L106"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Countable.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Countable.lean",
+      "sha256": "047d0f370cc830214b8dba702ec49434af0072523561404e40a314d2a5f24b98",
+      "git_blob_sha1": "f5ffd2035308f61e38f10aad4df99b2405ec519a",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Countable",
+          "first_line": 40,
+          "last_line": 49,
+          "text": "namespace Set\n\n/-- A set `s` is countable if the corresponding subtype is countable,\ni.e., there exists an injective map `f : s → ℕ`.\n\nNote that this is an abbreviation, so `hs : Set.Countable s` in the proof context\nis the same as an instance `Countable s`.\nFor a constructive version, see `Encodable`.\n-/\nprotected def Countable (s : Set α) : Prop := Countable s\n",
+          "sha256": "029b5880e2f8d6ee503311ecdcfba5d91268eceeb5194b1788413175bcb3ccd5",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Countable.lean#L40-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean",
+      "sha256": "4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7",
+      "git_blob_sha1": "866ef6ab673f737a4ffbb7b2138402d5c76e6c05",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/\n",
+      "excerpts": [
+        {
+          "name": "Set.Nonempty",
+          "first_line": 277,
+          "last_line": 281,
+          "text": "/-- The property `s.Nonempty` expresses the fact that the set `s` is not empty. It should be used\nin theorem assumptions instead of `∃ x, x ∈ s` or `s ≠ ∅` as it gives access to a nice API thanks\nto the dot notation. -/\nprotected def Nonempty (s : Set α) : Prop :=\n  ∃ x, x ∈ s\n",
+          "sha256": "cb3870fa0008d18792a7122276c41e3e45998a2f2defae575b4225f0a2cf53de",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L277-L281"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "Dynamics-Set.range",
+          "first_line": 170,
+          "last_line": 174,
+          "text": "\nThis function is more flexible than `f '' univ`, as the image requires that the domain is in Type\nand not an arbitrary Sort. -/\ndef range (f : ι → α) : Set α := {x | ∃ y, f y = x}\n\n",
+          "sha256": "e6ee1efb980a5f122abcaf5821358ebef2188a6bb7ec77e9df84b364e37e00c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L170-L174"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Function/Iterate.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean",
+      "sha256": "bf42e948bbf3fae276cd05b8e53d1d143feec96f95d81675bee103010e210339",
+      "git_blob_sha1": "48324196626b2d62726e7e89fad332133c62e604",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-Nat.iterate",
+          "first_line": 41,
+          "last_line": 43,
+          "text": "def Nat.iterate {α : Sort u} (op : α → α) : ℕ → α → α\n  | 0, a => a\n  | succ k, a => iterate op k (op a)\n",
+          "sha256": "8197110f3911f9fba49b3571a56d29281c8ece9bda7297d8ac65024e88af77b1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L41-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/CountableInter.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountableInter.lean",
+      "sha256": "b6854464b88925956362116ea97e5e427b6955f99ab714d32900a15e00c230fd",
+      "git_blob_sha1": "e23749c7d2e55ce5ed83a21b279237a700d20a54",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "CountableInterFilter",
+          "first_line": 42,
+          "last_line": 44,
+          "text": "class CountableInterFilter (l : Filter α) : Prop where\n  /-- For a countable collection of sets `s ∈ l`, their intersection belongs to `l` as well. -/\n  countable_sInter_mem : ∀ S : Set (Set α), S.Countable → (∀ s ∈ S, s ∈ l) → ⋂₀ S ∈ l\n",
+          "sha256": "44b7bd0fac0b6bfe6b45ca4b2b7d3288e7393e3b5579fb69b8ffaa735f81c64e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountableInter.lean#L42-L44"
+        },
+        {
+          "name": "Filter.ofCountableInter",
+          "first_line": 166,
+          "last_line": 173,
+          "text": "def ofCountableInter (l : Set (Set α))\n    (hl : ∀ S : Set (Set α), S.Countable → S ⊆ l → ⋂₀ S ∈ l)\n    (h_mono : ∀ s t, s ∈ l → s ⊆ t → t ∈ l) : Filter α where\n  sets := l\n  univ_sets := @sInter_empty α ▸ hl _ countable_empty (empty_subset _)\n  sets_of_superset := h_mono _ _\n  inter_sets {s t} hs ht := sInter_pair s t ▸\n    hl _ ((countable_singleton _).insert _) (insert_subset_iff.2 ⟨hs, singleton_subset_iff.2 ht⟩)\n",
+          "sha256": "036aff58055fd3a9a2b02d1bbd9c5e25c308306ea4b271d584a4ee4dcab1d8e1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountableInter.lean#L166-L173"
+        },
+        {
+          "name": "Filter.CountableGenerateSets",
+          "first_line": 272,
+          "last_line": 277,
+          "text": "inductive CountableGenerateSets : Set α → Prop\n  | basic {s : Set α} : s ∈ g → CountableGenerateSets s\n  | univ : CountableGenerateSets univ\n  | superset {s t : Set α} : CountableGenerateSets s → s ⊆ t → CountableGenerateSets t\n  | sInter {S : Set (Set α)} :\n    S.Countable → (∀ s ∈ S, CountableGenerateSets s) → CountableGenerateSets (⋂₀ S)\n",
+          "sha256": "ec7ca973d1f36ca5d22efb8b061544d0281dc27e031826284c1ef2b25e685268",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountableInter.lean#L272-L277"
+        },
+        {
+          "name": "Filter.countableGenerate",
+          "first_line": 281,
+          "last_line": 283,
+          "text": "def countableGenerate : Filter α :=\n  ofCountableInter {s | CountableGenerateSets g s} (fun _ ↦ .sInter) fun _ _ ↦ .superset\nderiving CountableInterFilter\n",
+          "sha256": "89645c75f7deb78e4554be2929811f05679596397e24f2aa1e915787cbc332a3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountableInter.lean#L281-L283"
+        },
+        {
+          "name": "Filter.mem_countableGenerate_iff",
+          "first_line": 289,
+          "last_line": 305,
+          "text": "theorem mem_countableGenerate_iff {s : Set α} :\n    s ∈ countableGenerate g ↔ ∃ S : Set (Set α), S ⊆ g ∧ S.Countable ∧ ⋂₀ S ⊆ s := by\n  constructor <;> intro h\n  · induction h with\n    | @basic s hs => exact ⟨{s}, by simp [hs]⟩\n    | univ => exact ⟨∅, by simp⟩\n    | superset _ _ ih => refine Exists.imp (fun S => ?_) ih; tauto\n    | @sInter S Sct _ ih =>\n      choose T Tg Tct hT using ih\n      refine ⟨⋃ (s) (H : s ∈ S), T s H, by simpa, Sct.biUnion Tct, ?_⟩\n      apply subset_sInter\n      intro s H\n      exact subset_trans (sInter_subset_sInter (subset_iUnion₂ s H)) (hT s H)\n  rcases h with ⟨S, Sg, Sct, hS⟩\n  refine mem_of_superset ((countable_sInter_mem Sct).mpr ?_) hS\n  intro s H\n  exact CountableGenerateSets.basic (Sg H)\n",
+          "sha256": "e0d3509f8fac3e9e85dbc79d320898d9f852d3256c3f01d48615947797912677",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/CountableInter.lean#L289-L305"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        },
+        {
+          "name": "Product-Filter.principal",
+          "first_line": 147,
+          "last_line": 152,
+          "text": "/-- The principal filter of `s` is the collection of all supersets of `s`. -/\ndef principal (s : Set α) : Filter α where\n  sets := { t | s ⊆ t }\n  univ_sets := subset_univ s\n  sets_of_superset hx := Subset.trans hx\n  inter_sets := subset_inter\n",
+          "sha256": "a8b6e4b506b80002160679a9d8b0907df0e884140c4f8e2a1622e8f9fac20bb0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L147-L152"
+        },
+        {
+          "name": "Product-Filter.NeBot",
+          "first_line": 268,
+          "last_line": 273,
+          "text": "/-- A filter is `NeBot` if it is not equal to `⊥`, or equivalently the empty set does not belong to\nthe filter. Bourbaki include this assumption in the definition of a filter but we prefer to have a\n`CompleteLattice` structure on `Filter _`, so we use a typeclass argument in lemmas instead. -/\nclass NeBot (f : Filter α) : Prop where\n  /-- The filter is nontrivial: `f ≠ ⊥` or equivalently, `∅ ∉ f`. -/\n  ne' : f ≠ ⊥\n",
+          "sha256": "7b238aa6b07920753724a6aacc6fba696790ce141d1e7d7faf636839261d878e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L268-L273"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Bases.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean",
+      "sha256": "fbd29cb53487d8ff54efda38cd831d4966a19a052654ef39a09352753986d1d6",
+      "git_blob_sha1": "4165527ffdf10c235881bc6738e99ad2bf6b1b07",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Regular-IsTopologicalBasis",
+          "first_line": 73,
+          "last_line": 79,
+          "text": "structure IsTopologicalBasis (s : Set (Set α)) : Prop where\n  /-- For every point `x`, the set of `t ∈ s` such that `x ∈ t` is directed downwards. -/\n  exists_subset_inter : ∀ t₁ ∈ s, ∀ t₂ ∈ s, ∀ x ∈ t₁ ∩ t₂, ∃ t₃ ∈ s, x ∈ t₃ ∧ t₃ ⊆ t₁ ∩ t₂\n  /-- The sets from `s` cover the whole space. -/\n  sUnion_eq : ⋃₀ s = univ\n  /-- The topology is generated by sets from `s`. -/\n  eq_generateFrom : t = generateFrom s\n",
+          "sha256": "06ef0a524e711562ab10d1c840fe57620c7dd2df3111034ac2d8f81c0424ed42",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L73-L79"
+        },
+        {
+          "name": "Regular-SecondCountableTopology",
+          "first_line": 793,
+          "last_line": 795,
+          "text": "class _root_.SecondCountableTopology : Prop where\n  /-- There exists a countable set of sets that generates the topology. -/\n  is_open_generated_countable : ∃ b : Set (Set α), b.Countable ∧ t = TopologicalSpace.generateFrom b\n",
+          "sha256": "be0e6df4a04de8ef9819f4c545edf341efed762b08226cf4af131b90d05813b4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Bases.lean#L793-L795"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Closure.lean",
+      "sha256": "d4e49fd0b092d34d5db79261bfc58b69ad3383a113ff2a0f54c0912a8b9afb5c",
+      "git_blob_sha1": "557a4cd1768bc437e6f55fd9635ad07eba7c6080",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Closure.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "dense_iff_inter_open",
+          "first_line": 407,
+          "last_line": 416,
+          "text": "/-- A set is dense if and only if it has a nonempty intersection with each nonempty open set. -/\ntheorem dense_iff_inter_open :\n    Dense s ↔ ∀ U, IsOpen U → U.Nonempty → (U ∩ s).Nonempty := by\n  constructor <;> intro h\n  · rintro U U_op ⟨x, x_in⟩\n    exact mem_closure_iff.1 (h _) U U_op x_in\n  · intro x\n    rw [mem_closure_iff]\n    intro U U_op x_in\n    exact h U U_op ⟨_, x_in⟩\n",
+          "sha256": "9a409a04b115c02363949db371f217b2c698b697dc6265202576be7c5de7920f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Closure.lean#L407-L416"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean",
+      "sha256": "47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f",
+      "git_blob_sha1": "91a7136cc7b39e609f8becbf9e0785069bb2610d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Pi-product-topology",
+          "first_line": 66,
+          "last_line": 68,
+          "text": "instance Pi.topologicalSpace {ι : Type*} {Y : ι → Type v} [t₂ : (i : ι) → TopologicalSpace (Y i)] :\n    TopologicalSpace ((i : ι) → Y i) :=\n  ⨅ i, induced (fun f => f i) (t₂ i)\n",
+          "sha256": "8d6d3bc58b2c45da4e5c3bc1a5c7df8aa12981d05fd20ae4735702d0dcaf5c76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L66-L68"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-binary-product-topology",
+          "first_line": 53,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "IsClosed",
+          "first_line": 107,
+          "last_line": 109,
+          "text": "class IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n",
+          "sha256": "b781df1f94b7e9a0b16791daa67c0bad5d4446809fc5e63093140999f5ae536a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L107-L109"
+        },
+        {
+          "name": "KR-interior",
+          "first_line": 112,
+          "last_line": 128,
+          "text": "def IsClopen (s : Set X) : Prop :=\n  IsClosed s ∧ IsOpen s\n\n/--\nA set is locally closed if it is the intersection of some open set and some closed set.\nAlso see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n\n",
+          "sha256": "1ed8f54be20e509b4bfcae3f0793fd70de22792b0aff94e184114f5fa374d57f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L112-L128"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "Dense",
+          "first_line": 145,
+          "last_line": 147,
+          "text": "/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n",
+          "sha256": "2a52522d35b48a1b96df7fa73b15254b113108436e633e0e45e5bdffc455fbf8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L145-L147"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "name": "HS-BaireSpace",
+          "first_line": 234,
+          "last_line": 240,
+          "text": "\n/-- The property `BaireSpace α` means that the topological space `α` has the Baire property:\nany countable intersection of open dense subsets is dense.\nFormulated here when the source space is ℕ.\nUse `dense_iInter_of_isOpen` which works for any countable index type instead. -/\nclass BaireSpace (X : Type*) [TopologicalSpace X] : Prop where\n  baire_property : ∀ f : ℕ → Set X, (∀ n, IsOpen (f n)) → (∀ n, Dense (f n)) → Dense (⋂ n, f n)\n",
+          "sha256": "7614ea3d104da45e1dbea351cd0351468bd6aa4afb1190946be97027f7ec75b6",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L234-L240"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Pettis-expansion-nhds",
+          "first_line": 125,
+          "last_line": 131,
+          "text": "open scoped Topology\n\n/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n",
+          "sha256": "a661bbae79afb88483674f8654cdee71eb1897360a7912c97b7b40e021aca646",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L125-L131"
+        },
+        {
+          "name": "KR-IsCompact",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "KR-CompactSpace",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "Product-ClusterPt",
+          "first_line": 275,
+          "last_line": 276,
+          "text": "def ClusterPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝 x ⊓ F)\n",
+          "sha256": "f90d95be3fde4dbf0316ba4196c035f85b5644f00fddb70c4f0826ea538d6ed7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L275-L276"
+        },
+        {
+          "name": "Product-nhds",
+          "first_line": 126,
+          "last_line": 131,
+          "text": "\n/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all\nneighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the\ninfimum over the principal filters of all open sets containing `x`. -/\nirreducible_def nhds (x : X) : Filter X :=\n  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s\n",
+          "sha256": "26e585bb1a5374b24c1bdbf46188a29b1ae1af446b56f6386e17e60c3fed91de",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L126-L131"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Regular-subtype-topology",
+          "first_line": 76,
+          "last_line": 78,
+          "text": "instance _root_.instTopologicalSpaceSubtype {p : X → Prop} [t : TopologicalSpace X] :\n    TopologicalSpace (Subtype p) :=\n  induced (↑) t\n",
+          "sha256": "8bd24be4718ccace8cdaeccd59ff803b4182398fc8155d587b444ffe2c5b7b4b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L76-L78"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/GDelta/Basic.lean",
+      "sha256": "839130eb18758aa2bfcbe3ef40c98fcf9e0827458293fbdb5d04a5ec43b2d08a",
+      "git_blob_sha1": "feae671419368d0d284d9ed57c536b6b54afba33",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Regular-IsGδ",
+          "first_line": 63,
+          "last_line": 64,
+          "text": "def IsGδ (s : Set X) : Prop :=\n  ∃ T : Set (Set X), (∀ t ∈ T, IsOpen t) ∧ T.Countable ∧ s = ⋂₀ T\n",
+          "sha256": "79402e7bc52d3241322f5890fe92ff835eb881dccdc203b3be3254dc02ae1ac1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L63-L64"
+        },
+        {
+          "name": "residual",
+          "first_line": 169,
+          "last_line": 174,
+          "text": "/-- A set `s` is called *residual* if it includes a countable intersection of dense open sets. -/\ndef residual (X : Type*) [TopologicalSpace X] : Filter X :=\n  Filter.countableGenerate { t | IsOpen t ∧ Dense t }\n\ninstance countableInterFilter_residual : CountableInterFilter (residual X) := by\n  rw [residual]; infer_instance\n",
+          "sha256": "40511e662d43c822959d4d5eb99bb2eb56e8060e02b748a622b553f1b6c5d4f9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L169-L174"
+        },
+        {
+          "name": "countableInterFilter_residual",
+          "first_line": 173,
+          "last_line": 174,
+          "text": "instance countableInterFilter_residual : CountableInterFilter (residual X) := by\n  rw [residual]; infer_instance\n",
+          "sha256": "90d6a47baf82c8ba1a7b751378a659eb8d5aa2e11f374b01fb245b70e999e76b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L173-L174"
+        },
+        {
+          "name": "mem_residual_iff",
+          "first_line": 187,
+          "last_line": 192,
+          "text": "/-- A set is residual iff it includes a countable intersection of dense open sets. -/\ntheorem mem_residual_iff {s : Set X} :\n    s ∈ residual X ↔\n      ∃ S : Set (Set X), (∀ t ∈ S, IsOpen t) ∧ (∀ t ∈ S, Dense t) ∧ S.Countable ∧ ⋂₀ S ⊆ s :=\n  mem_countableGenerate_iff.trans <| by simp_rw [subset_def, mem_ofPred, forall_and, and_assoc]\n\n",
+          "sha256": "a6efd3171b43b5a21cb8b5320db08dfaf9b997326bfeb2fb19079975c84275f8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/GDelta/Basic.lean#L187-L192"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Regular-GenerateOpen",
+          "first_line": 62,
+          "last_line": 66,
+          "text": "inductive GenerateOpen (g : Set (Set α)) : Set α → Prop\n  | basic : ∀ s ∈ g, GenerateOpen g s\n  | univ : GenerateOpen g univ\n  | inter : ∀ s t, GenerateOpen g s → GenerateOpen g t → GenerateOpen g (s ∩ t)\n  | sUnion : ∀ S : Set (Set α), (∀ s ∈ S, GenerateOpen g s) → GenerateOpen g (⋃₀ S)\n",
+          "sha256": "5a839cda9139cd84bb9f4a5bf066b9a4fd2d39271ddbe3398e69022cdeb6763e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L62-L66"
+        },
+        {
+          "name": "Regular-TopologicalSpace.generateFrom",
+          "first_line": 70,
+          "last_line": 74,
+          "text": "def generateFrom (g : Set (Set α)) : TopologicalSpace α where\n  IsOpen := GenerateOpen g\n  isOpen_univ := GenerateOpen.univ\n  isOpen_inter := GenerateOpen.inter\n  isOpen_sUnion := GenerateOpen.sUnion\n",
+          "sha256": "88443a3d3daddfa154e56a0a2cec5f1b845c667160501bb5ef2594d7f99da9c7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L70-L74"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Neighborhoods.lean",
+      "sha256": "ef0e4d65986641366ffcc380a613f210207fee31e8640e1488a8cae41395383a",
+      "git_blob_sha1": "8bfc6cc6c85396ab77a34b0725508d165b3903f4",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "successor-mem-nhds-iff",
+          "first_line": 64,
+          "last_line": 65,
+          "text": "theorem mem_nhds_iff : s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t :=\n  (nhds_basis_opens x).mem_iff.trans <| exists_congr fun _ =>\n",
+          "sha256": "3c86c642b7412731d2e9dde2bd5cfdc4a3f405464a109ce342483d8c23d3cbd0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean#L64-L65"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Compactness/Compact.lean",
+      "sha256": "3fc7ffe7db4db0a2de07d6fdf0e65da486b3dced1f3bac4d58ab869a92f4ac64",
+      "git_blob_sha1": "30fc9322f4ce78f847a592b0035bf5edfc65f33c",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "successor-finite-subcover",
+          "first_line": 209,
+          "last_line": 212,
+          "text": "theorem IsCompact.elim_finite_subcover {ι : Type v} (hs : IsCompact s) (U : ι → Set X)\n    (hUo : ∀ i, IsOpen (U i)) (hsU : s ⊆ ⋃ i, U i) : ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=\n  hs.elim_directed_cover _ (fun _ => isOpen_biUnion fun i _ => hUo i)\n    (iUnion_eq_iUnion_finset U ▸ hsU)\n",
+          "sha256": "e5ea8803992dcbefa9c31a90fe4ebb765845b339379a0e7d40e8f419485898bf",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L209-L212"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Combinatorics/HalesJewett.lean",
+      "sha256": "4cc0296edfcff87cda8daf3fdf8e9650b0ca7cab4f9207b8deef360f749a6f67",
+      "git_blob_sha1": "af5bdd5a4f3889634fabd26415570b3e6a1db8d5",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/HalesJewett.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 David Wärn. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: David Wärn\n-/\n",
+      "excerpts": [
+        {
+          "name": "successor-van-der-waerden",
+          "first_line": 457,
+          "last_line": 460,
+          "text": "/-- A generalization of Van der Waerden's theorem: if `M` is a finitely colored commutative\nmonoid, and `S` is a finite subset, then there exists a monochromatic homothetic copy of `S`. -/\ntheorem exists_mono_homothetic_copy {M κ : Type*} [AddCommMonoid M] (S : Finset M) [Finite κ]\n    (C : M → κ) : ∃ a > 0, ∃ (b : M) (c : κ), ∀ s ∈ S, C (a • s + b) = c := by\n",
+          "sha256": "094b3b20729cac2c56044bd2d960c13394229ea8dc2f38c3ebbbd9a53a48fc7f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/HalesJewett.lean#L457-L460"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "module": "SemanticChallenge",
+      "path": "SemanticChallenge.lean",
+      "sha256": "e6e763a4b9bd2300984d8d6ee4dcdbcb65bdd5d76f1ef25ba7be83e033e5646d"
+    },
+    {
+      "module": "SemanticSolution",
+      "path": "SemanticSolution.lean",
+      "sha256": "c0216aeb9f8f642706c572db4198eff162f3b7eea082dbccd9726ad1d777a46e"
+    }
+  ],
+  "lean_core_supplement": {
+    "toolchain": "leanprover/lean4:v4.35.0-rc2",
+    "upstream_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+    "upstream_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+    "installed_file_sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+    "upstream_git_blob_sha1": "f87ee970af5149d74434f09a89aedff1a8fdb2d2",
+    "entries": [
+      {
+        "name": "Nonempty",
+        "first_line": 839,
+        "last_line": 841,
+        "excerpt": "class inductive Nonempty (α : Sort u) : Prop where\n  /-- If `val : α`, then `α` is nonempty. -/\n  | intro (val : α) : Nonempty α\n",
+        "excerpt_sha256": "409b9d791b14a599f13bb14741bdfbfc112bc04bd4fc41d9924083fa47df7598"
+      },
+      {
+        "name": "Nat",
+        "first_line": 1359,
+        "last_line": 1374,
+        "excerpt": "inductive Nat where\n  /--\n  Zero, the smallest natural number.\n\n  Using `Nat.zero` explicitly should usually be avoided in favor of the literal `0`, which is the\n  [simp normal form](lean-manual://section/simp-normal-forms).\n  -/\n  | zero : Nat\n  /--\n  The successor of a natural number `n`.\n\n  Using `Nat.succ n` should usually be avoided in favor of `n + 1`, which is the [simp normal\n  form](lean-manual://section/simp-normal-forms).\n  -/\n  | succ (n : Nat) : Nat\n\n",
+        "excerpt_sha256": "cbaaa94d9809a9e5828217eb92a57f926afda43ee2bac8d1f9e613c6b3941afb"
+      },
+      {
+        "name": "Nat.mul and Mul instance",
+        "first_line": 1911,
+        "last_line": 1917,
+        "excerpt": "protected def Nat.mul : (@& Nat) → (@& Nat) → Nat\n  | _, 0          => 0\n  | a, Nat.succ b => Nat.add (Nat.mul a b) a\n\ninstance instMulNat : Mul Nat where\n  mul := Nat.mul\n\n",
+        "excerpt_sha256": "ebd105321ff45e3836b388381ce959da26d45948fb6cc870b573eb50778e8c28"
+      },
+      {
+        "name": "Nat.le and Nat.lt",
+        "first_line": 2022,
+        "last_line": 2040,
+        "excerpt": "protected inductive Nat.le (n : Nat) : Nat → Prop\n  /-- Non-strict inequality is reflexive: `n ≤ n` -/\n  | refl     : Nat.le n n\n  /-- If `n ≤ m`, then `n ≤ m + 1`. -/\n  | step {m} : Nat.le n m → Nat.le n (succ m)\n\ninstance instLENat : LE Nat where\n  le := Nat.le\n\n/--\nStrict inequality of natural numbers, usually accessed via the `<` operator.\n\nIt is defined as `n < m = n + 1 ≤ m`.\n-/\n@[implicit_reducible] protected def Nat.lt (n m : Nat) : Prop :=\n  Nat.le (succ n) m\n\ninstance instLTNat : LT Nat where\n  lt := Nat.lt\n",
+        "excerpt_sha256": "74dfbc21b02a50197a0d8e3f4c8cfe7a3ab2456239406f831dffda032eb00712"
+      },
+      {
+        "name": "Fin",
+        "first_line": 2450,
+        "last_line": 2462,
+        "excerpt": "structure Fin (n : Nat) where\n  /-- Creates a `Fin n` from `i : Nat` and a proof that `i < n`. -/\n  mk ::\n  /--\n  The number that is strictly less than `n`.\n\n  `Fin.val` is a coercion, so any `Fin n` can be used in a position where a `Nat` is expected.\n  -/\n  val  : Nat\n  /--\n  The number `val` is strictly less than the bound `n`.\n  -/\n  isLt : LT.lt val n\n",
+        "excerpt_sha256": "4e796f28de5ab4b8ad7e64b8175f2d232a98d9ec564ad8dffab65b3671cdf376"
+      },
+      {
+        "name": "Nat.add and Add instance",
+        "first_line": 1890,
+        "last_line": 1895,
+        "excerpt": "protected def Nat.add : (@& Nat) → (@& Nat) → Nat\n  | a, Nat.zero   => a\n  | a, Nat.succ b => Nat.succ (Nat.add a b)\n\ninstance instAddNat : Add Nat where\n  add := Nat.add\n",
+        "excerpt_sha256": "383110056bb69cc7d3b21c1d079bee55729bc5dc2fc86870997c9552d251b15c"
+      }
+    ],
+    "status": "Installed file matches the previously authenticated upstream Git blob. Core excerpts and semantic meaning require separate independent review.",
+    "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+    "license": "Apache-2.0"
+  },
+  "supplemental_declarations": [
+    {
+      "path": "Mathlib/Basic/Finite/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Finite/Defs.lean",
+      "sha256": "1e94b38b09b4fc3acaff3c22f60ee46f960dd45ccc5392ca9993abbbb1ef8cad",
+      "git_blob_sha1": "454510b5bb72f4d9e517e4485bf7c27cea1d857f",
+      "upstream_header": "/-\nCopyright (c) 2022 Kyle Miller. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kyle Miller\n-/\n",
+      "first_line": 101,
+      "last_line": 102,
+      "excerpt": "class inductive Finite (α : Sort*) : Prop\n  | intro {n : ℕ} : α ≃ Fin n → Finite _\n",
+      "excerpt_sha256": "5c0b85ec6abd29e394d7f3938071764006ef02cfb14fc585ecc90e3a52e7f1f0",
+      "name": "Finite",
+      "meaning": "A finite type has an equivalence with Fin n for some natural n.",
+      "status": "Supplement: class inductive is not recognized by the stock definition header checker; source authentication and semantic bridge are separate."
+    }
+  ]
+}

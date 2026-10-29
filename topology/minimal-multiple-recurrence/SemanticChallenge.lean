@@ -1,7 +1,8 @@
 module
 public import RecurrenceChallenge
 
-open Set Function MultipleRecurrence
+open Set Function Filter TopologicalSpace MultipleRecurrence
+open scoped Topology
 
 example (S : Set ℕ) (h : Syndetic S) (N : ℕ) :
     ∃ a, N ≤ a ∧ 0 < a ∧ ∃ b, b ∈ S := by
@@ -62,3 +63,36 @@ theorem singleton_id_minimal : ForwardMinimal (id : PUnit → PUnit) := by
 example : ∃ C : Set PUnit, IsGδ C ∧ Dense C ∧ C.Nonempty ∧
     ∀ x ∈ C, MultiplyRecurrent (id : PUnit → PUnit) x :=
   exists_dense_Gdelta_multiply_recurrent id continuous_id singleton_id_minimal
+-- BEGIN material-imported-definition audit
+example {α : Type*} (a : α) (s : Finset α) : a ∈ s ↔ a ∈ s.val := Finset.mem_def
+example {α β : Type*} (f : α → β) (y : β) : y ∈ range f ↔ ∃ x, f x = y := Iff.rfl
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] (f : X → Y) :
+    Continuous f ↔ ∀ U : Set Y, IsOpen U → IsOpen (f ⁻¹' U) := continuous_def
+example {X : Type*} (f : X → X) (x : X) : f^[0] x = x := rfl
+example {X : Type*} (f : X → X) (n : ℕ) (x : X) : f^[n+1] x = f^[n] (f x) := rfl
+example {X : Type*} (s : Set X) : s.Nonempty ↔ ∃ x, x ∈ s := Iff.rfl
+example {X : Type*} [TopologicalSpace X] (C : Set X) :
+    Dense C ↔ ∀ x, x ∈ closure C := Iff.rfl
+example {X : Type*} [TopologicalSpace X] [CompactSpace X] : IsCompact (univ : Set X) :=
+  isCompact_univ
+example {X ι : Type*} [TopologicalSpace X] [CompactSpace X]
+    (U : ι → Set X) (hU : ∀ i, IsOpen (U i)) (hcover : univ ⊆ ⋃ i, U i) :
+    ∃ t : Finset ι, (univ : Set X) ⊆ ⋃ i ∈ t, U i :=
+  isCompact_univ.elim_finite_subcover U hU hcover
+example {X : Type*} [TopologicalSpace X] (f : X → X) : ForwardMinimal f ↔
+    ∀ x, Dense (range (fun n : ℕ => f^[n] x)) := Iff.rfl
+example {X : Type*} [TopologicalSpace X] (f : X → X) (x : X) :
+    MultiplyRecurrent f x ↔ ∀ U : Set X, IsOpen U → x ∈ U → ∀ d N : ℕ,
+      ∃ n, N ≤ n ∧ 0 < n ∧ ∀ i ≤ d, f^[i*n] x ∈ U := Iff.rfl
+example {X : Type*} [TopologicalSpace X] (x : X) (s : Set X) :
+    s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t := mem_nhds_iff
+example {X : Type*} [TopologicalSpace X] (A : Set X) : A ∈ residual X ↔
+    ∃ S : Set (Set X), (∀ U ∈ S, IsOpen U) ∧ (∀ U ∈ S, Dense U) ∧
+      S.Countable ∧ ⋂₀ S ⊆ A := mem_residual_iff
+example {X : Type*} [TopologicalSpace X] (C : Set X) :
+    IsGδ C ↔ ∃ T : Set (Set X), (∀ U ∈ T, IsOpen U) ∧ T.Countable ∧ C = ⋂₀ T := Iff.rfl
+example (α : Type*) : Nonempty α ↔ ∃ x : α, x = x := by
+  constructor
+  · rintro ⟨x⟩; exact ⟨x, rfl⟩
+  · rintro ⟨x, _⟩; exact ⟨x⟩
+-- END material-imported-definition audit
