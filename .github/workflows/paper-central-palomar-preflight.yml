@@ -1,0 +1,18 @@
+name: Paper central theorem Palomar preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-paper-central-20261029
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 6e3ce71c8a335d8099ac3cb3178d2edfb3e904b1
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: paper0000001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"causal-efficacy/determination-patterns","comparator_config_path":"causal-efficacy/determination-patterns/comparator-pattern-central.json","formalization_metadata_path":"causal-efficacy/determination-patterns/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
