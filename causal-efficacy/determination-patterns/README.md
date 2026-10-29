@@ -38,7 +38,10 @@ pattern-only draft Comparator run and local bundled kernel replays passed; they
 are not the canonical release checks. Draft region necessity and sufficiency
 configurations are explained in `REGION-COMPARATOR.md`. A separate
 `comparator-source.json` selects the fixed-context agreement and positive
-source-inference statements from Proposition 10. These drafts and local
+source-inference statements from Proposition 10. A groundedness draft
+`comparator-grounded.json` selects the credited general fixed-point theorem
+and its Proposition 11 specialization; its standalone editorial significance
+has not been established. These drafts and local
 experiments are not release certification. `RELEASE-PLAN.md` records the
 remaining release requirements.
 

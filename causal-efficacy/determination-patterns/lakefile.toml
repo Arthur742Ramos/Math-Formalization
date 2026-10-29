@@ -25,3 +25,9 @@ name = "ChallengeSource"
 
 [[lean_lib]]
 name = "SolutionSource"
+
+[[lean_lib]]
+name = "ChallengeGrounded"
+
+[[lean_lib]]
+name = "SolutionGrounded"

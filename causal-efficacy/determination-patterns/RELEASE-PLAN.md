@@ -1,6 +1,6 @@
 # Comparator and verification status
 
-This package is a draft. Its four current Comparator Challenges contain complete
+This package is a draft. Its five current Comparator Challenges contain complete
 proofs without new axioms or proof holes. Each configuration must be checked against its own
 exact source revision; local experiments are not protected verification or
 editorial acceptance.
@@ -14,9 +14,12 @@ three Challenges exceed the observed 300-line readability warning.
 
 `comparator-source.json` selects fixed-context agreement and the active-target
 consequences of Proposition 10. Its Challenge is 264 lines. It does not cover
-the paper's other families. Further configurations are needed for contextual
-SOME/ALL determinacy, uniform synthesis, labelled spines and representation
-examples. Each configuration requires an explicit statement of its scope; a
+the paper's other families. `comparator-grounded.json` selects an established grounded-fixed-point
+equivalence and its contextual specialization, credited to Bogaerts, Vennekens
+and Denecker. Its 166-line Challenge is below the observed readability warning;
+its eligibility as a standalone entry has not been established. Further
+configurations are needed for contextual SOME/ALL determinacy, uniform
+synthesis, labelled spines and representation examples. Each configuration requires an explicit statement of its scope; a
 single entry cannot be assumed to cover the whole manuscript.
 
 Release preparation requires an independent final source and manuscript

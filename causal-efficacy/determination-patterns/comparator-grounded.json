@@ -1,0 +1,13 @@
+{
+  "challenge_module": "ChallengeGrounded",
+  "solution_module": "SolutionGrounded",
+  "theorem_names": [
+    "DeterminationPatterns.supported_fixed_iff_least",
+    "DeterminationPatterns.contextual_grounded_fixed_iff_least"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
