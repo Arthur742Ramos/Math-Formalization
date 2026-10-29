@@ -1,0 +1,11 @@
+{
+  "challenge_module": "IPChallenge",
+  "solution_module": "IPSolution",
+  "theorem_names": [
+    "IPTransitive.positive_pair_returns_yield_ip",
+    "IPTransitive.residual_ip_transitive",
+    "IPTransitive.exists_dense_Gdelta_ip_transitive"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}
