@@ -68,7 +68,7 @@
       "Quot.sound",
       "Classical.choice"
     ],
-    "known_gaps": "Development draft: clean package build, protected Comparator, independent kernel, imported-definition completeness, rendering, exact-source release and editorial checks remain pending.",
+    "known_gaps": "Development draft: exact-source local package build reused pinned dependency artifacts; local export comparison and independent kernel checks passed. Fresh dependency rebuild, protected source-bound canonical Comparator, rendering, release and editorial checks remain pending.",
     "attribution_status": "The established topology campaign author and responsible-maintainer roles are retained separately; Codex authored material Lean proof code and adapted prior credited fragments. No human proof contribution inferred."
   },
   "automation": {
@@ -88,7 +88,7 @@
     "reviewers": [
       "Independent internal AI mathematical/source-fidelity reviewer"
     ],
-    "notes": "Source and the convention bridge independently reviewed; package metadata, imported-definition inventory and final exact-source evidence review remain pending. No human or external peer review claimed."
+    "notes": "Statement, convention bridge, metadata, imported-definition source evidence and local validation scope independently reviewed by an internal AI reviewer. Full source-bound canonical verification and release review remain pending; no human or external peer review claimed."
   },
   "acknowledgements": "Li's theorem and the exact prior topology proof fragments are credited. Mathlib and Lean retain their own authorship and licenses."
 }
