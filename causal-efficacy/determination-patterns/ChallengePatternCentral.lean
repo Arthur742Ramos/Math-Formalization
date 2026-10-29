@@ -144,40 +144,22 @@ theorem contextual_least_internal_paths {α : Type u} {C : Region α} {D : α �
   let R := InternalReach L D U
   have lm : Monotone F := step_monotone adm U
   have lf : Fixed F L := least_fixed lm
-  have rl : Sub R L := by
-    intro x h
-    rcases h with ⟨b, hb, hp⟩
-    exact path_target hp
-  have ul : Sub U L := by
-    intro x hu
-    have hf : F L x := Or.inl hu
-    rw [lf] at hf
-    exact hf
-  have pre : Sub (F R) R := by
-    intro x hx
-    have hxl : L x := by
-      have : F L x := lm R L rl hx
-      rw [lf] at this
-      exact this
-    rcases hx with hu | ⟨hc, ⟨p, hp⟩, hf⟩
-    · exact ⟨x, hu, InternalPath.refl x hxl⟩
-    · have parent : ∃ y, R y ∧ Parents C D x y := by
-        apply Classical.byContradiction
-        intro hn
-        have eq : (fun y => R y ∧ Parents C D x y) = (fun _ => False) := by
-          funext y
-          apply propext
-          constructor
-          · intro hy; exact hn ⟨y, hy⟩
-          · intro hy; exact False.elim hy
-        have hf0 : f x (fun _ => False) := by rw [← eq]; exact hf
-        have noParents := (adm x hc).2.1.mp hf0
-        exact noParents p hp
-      obtain ⟨y, ⟨b, hb, path⟩, hyP⟩ := parent
-      exact ⟨b, hb, InternalPath.step path hxl hyP.2⟩
-  apply funext
-  intro x
-  exact propext ⟨fun hx => rl hx, fun hx => least_le F R pre hx⟩
+  have rl : Sub R L := fun {x} ⟨_, _, hp⟩ => path_target hp
+  have pre : Sub (F R) R :=
+    fun {x} hx =>
+      let hxl : L x := Eq.mp (congrFun lf x) (lm R L rl hx)
+      hx.elim
+        (fun hu => ⟨x, hu, InternalPath.refl x hxl⟩)
+        (fun ⟨hc, ⟨p, hp⟩, hf⟩ =>
+          let parent : ∃ y, R y ∧ Parents C D x y :=
+            Classical.byContradiction (fun hn =>
+              let eq : (fun y => R y ∧ Parents C D x y) = (fun _ => False) :=
+                funext (fun y => propext ⟨fun hy => hn ⟨y, hy⟩, fun hy => False.elim hy⟩)
+              let hf0 : f x (fun _ => False) := Eq.mp (congrArg (f x) eq) hf
+              (adm x hc).2.1.mp hf0 p hp)
+          match parent with
+          | ⟨y, ⟨b, hb, path⟩, hyP⟩ => ⟨b, hb, InternalPath.step path hxl hyP.2⟩)
+  exact funext (fun _x => propext ⟨fun hx => rl hx, fun hx => least_le F R pre hx⟩)
 
 
 end DeterminationPatterns
@@ -232,12 +214,10 @@ theorem status_mechanism_admissible {α : Type u} {C L Z Q : Region α}
   intro x hx
   by_cases hl : L x
   · simp only [StatusMechanism, hl, ↓reduceIte]
-    constructor
-    · intro A B hAB h
-      rcases h with hnone | ⟨y, hp, hy⟩
-      · exact Or.inl hnone
-      · exact Or.inr ⟨y, hp, hAB hy⟩
-    constructor
+    refine ⟨?_, ?_, ?_⟩
+    · exact fun A B hAB h => h.elim
+        (fun hnone => Or.inl hnone)
+        (fun ⟨y, hp, hy⟩ => Or.inr ⟨y, hp, hAB hy⟩)
     · simp [OrGate]
     · by_cases hp : ∃ y, Parents C D x y
       · obtain ⟨y, hy⟩ := hp
@@ -245,31 +225,22 @@ theorem status_mechanism_admissible {α : Type u} {C L Z Q : Region α}
       · exact Or.inl (fun y hy => hp ⟨y, hy⟩)
   · by_cases hz : Z x
     · simp only [StatusMechanism, hl, hz, ↓reduceIte]
-      constructor
-      · intro A B hAB h y hy
-        exact hAB (h y hy)
-      constructor
-      · simp [AndGate]
-      · intro y hy; exact hy
-    · have hq : Q x := by
-        rcases (part.1 x).mp hx with h | h | h
-        · exact False.elim (hl h)
-        · exact False.elim (hz h)
-        · exact h
+      refine ⟨(fun A B hAB h y hy => hAB (h y hy)), ?_, fun y hy => hy⟩
+      simp [AndGate]
+    · have hq : Q x :=
+        ((part.1 x).mp hx).elim (fun h => False.elim (hl h))
+          (fun h => h.elim (fun h => False.elim (hz h)) id)
       obtain ⟨q, hqp, hqq⟩ := qp x hq
       simp only [StatusMechanism, hl, hz, ↓reduceIte]
-      constructor
-      · intro A B hAB h
-        rcases h with ⟨⟨y, hp, hq, hy⟩, ha⟩ | ⟨y, hp, hz, hy⟩
-        · exact Or.inl ⟨⟨y, hp, hq, hAB hy⟩, fun z hz => hAB (ha z hz)⟩
-        · exact Or.inr ⟨y, hp, hz, hAB hy⟩
-      constructor
-      · constructor
-        · intro h
-          rcases h with ⟨⟨_, _, _, bad⟩, _⟩ | ⟨_, _, _, bad⟩ <;> exact False.elim bad
-        · intro hnone
-          exact False.elim (hnone q hqp)
-      · exact Or.inl ⟨⟨q, hqp, hqq, hqp⟩, fun _ h => h.1⟩
+      refine ⟨?_, ?_, Or.inl ⟨⟨q, hqp, hqq, hqp⟩, fun _ h => h.1⟩⟩
+      · exact fun A B hAB h => h.elim
+          (fun ⟨⟨y, hp, hq, hy⟩, ha⟩ =>
+            Or.inl ⟨⟨y, hp, hq, hAB hy⟩, fun z hz => hAB (ha z hz)⟩)
+          (fun ⟨y, hp, hz, hy⟩ => Or.inr ⟨y, hp, hz, hAB hy⟩)
+      · exact ⟨fun h => h.elim
+          (fun ⟨⟨_, _, _, bad⟩, _⟩ => False.elim bad)
+          (fun ⟨_, _, _, bad⟩ => False.elim bad),
+        fun hnone => False.elim (hnone q hqp)⟩
 
 /-- An edge into a forced-on vertex is relevant for the OR gate. -/
 theorem status_relevant_L {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
@@ -315,34 +286,24 @@ theorem status_relevant_Q_L {α : Type u} {C L Z Q : Region α} {D : α → α �
       ¬ StatusMechanism C D L Z Q x S ∧
         StatusMechanism C D L Z Q x (fun z => z = y ∨ S z) := by
   classical
-  have hqne : q ≠ y := by
-    intro eq
-    subst q
-    exact (part.2.2.1 y) ⟨hyL, hqQ⟩
+  have hqne : q ≠ y :=
+    fun eq => (part.2.2.1 y) ⟨hyL, Eq.mp (congrArg Q eq) hqQ⟩
   let S : Region α := fun z => z = q ∨ (Parents C D x z ∧ L z ∧ z ≠ y)
   refine ⟨S, ?_, ?_, ?_⟩
-  · intro z h
-    rcases h with eq | ⟨hp, _, hne⟩
-    · subst z; exact ⟨hqP, hqne⟩
-    · exact ⟨hp, hne⟩
+  · exact fun {z} h => h.elim
+      (fun eq => Eq.mpr (congrArg (fun t => Parents C D x t ∧ t ≠ y) eq) ⟨hqP, hqne⟩)
+      (fun ⟨hp, _, hne⟩ => ⟨hp, hne⟩)
   · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-    intro h
-    rcases h with ⟨_, hall⟩ | ⟨z, hp, hz', hS⟩
-    · have hSy := hall y ⟨hy, hyL⟩
-      rcases hSy with heq | ⟨_, _, hne⟩
-      · exact hqne heq.symm
-      · exact hne rfl
-    · rcases hS with heq | ⟨_, hL, _⟩
-      · subst z; exact (part.2.2.2 q) ⟨hz', hqQ⟩
-      · exact (part.2.1 z) ⟨hL, hz'⟩
+    exact fun h => h.elim
+      (fun ⟨_, hall⟩ => (hall y ⟨hy, hyL⟩).elim
+        (fun eq => hqne eq.symm) (fun ⟨_, _, hne⟩ => hne rfl))
+      (fun ⟨z, _, hz', hS⟩ => hS.elim
+        (fun eq => (part.2.2.2 z) ⟨hz', Eq.mpr (congrArg Q eq) hqQ⟩)
+        (fun ⟨_, hL, _⟩ => (part.2.1 z) ⟨hL, hz'⟩))
   · simp only [StatusMechanism, hl, hz, ↓reduceIte, SplitGate]
-    apply Or.inl
-    constructor
-    · exact ⟨q, hqP, hqQ, Or.inr (Or.inl rfl)⟩
-    · intro z ⟨hp, hL⟩
-      by_cases heq : z = y
-      · exact Or.inl heq
-      · exact Or.inr (Or.inr ⟨hp, hL, heq⟩)
+    exact Or.inl ⟨⟨q, hqP, hqQ, Or.inr (Or.inl rfl)⟩,
+      fun z ⟨hp, hL⟩ => if eq : z = y then Or.inl eq
+        else Or.inr (Or.inr ⟨hp, hL, eq⟩)⟩
 
 /-- A forced-off parent is relevant for the ambiguous split gate. -/
 theorem status_relevant_Q_Z {α : Type u} {C L Z Q : Region α} {D : α → α → Prop} {x y : α}
@@ -504,31 +465,70 @@ theorem status_two_fixed_points {α : Type u} {C L Z Q U : Region α}
   have lc : Sub L C := by intro x hx; exact (part.1 x).mpr (Or.inl hx)
   have zc : Sub Z C := by intro x hx; exact (part.1 x).mpr (Or.inr (Or.inl hx))
   have qc : Sub Q C := by intro x hx; exact (part.1 x).mpr (Or.inr (Or.inr hx))
-  have lu : ∀ x, L x → U x ∨ ∃ y, Parents C D x y ∧ L y := by
-    clear zc qc
-    intro x hx
-    have reach : InternalReach L D U x := by rw [cond.2.2.1]; exact hx
-    rcases path_last_or_seed reach with hu | ⟨y, hyL, hD⟩
-    · exact Or.inl hu
-    · exact Or.inr ⟨y, ⟨lc hyL, hD⟩, hyL⟩
-  have zp : ∀ x, Z x → (∀ y, ¬ Parents C D x y) ∨ ∃ y, Parents C D x y ∧ Z y := by
-    clear lc qc lu
-    intro x hx
-    have reach : InternalReach Z D (fun x => Roots C D x ∧ ¬ U x) x := by
-      rw [cond.2.2.2.1]; exact hx
-    rcases path_last_or_seed reach with ⟨hroot, _⟩ | ⟨y, hyZ, hD⟩
-    · exact Or.inl hroot.2
-    · exact Or.inr ⟨y, ⟨zc hyZ, hD⟩, hyZ⟩
-  have unotz : ∀ x, U x → ¬ Z x := by
-    intro x hu hz
-    exact (part.2.1 x) ⟨cond.1 hu, hz⟩
-  constructor
-  · apply funext
-    intro x
-    exact propext ⟨fun h => status_low_forward part cond.1 zp h, fun h => status_low_backward lc lu h⟩
-  · apply funext
-    intro x
-    exact propext ⟨fun h => status_high_forward part cond.1 lc unotz zp h, fun h => status_high_backward part lc qc lu cond.2.2.2.2 h⟩
+  have lu : ∀ x, L x → U x ∨ ∃ y, Parents C D x y ∧ L y :=
+    fun x hx =>
+      match path_last_or_seed (Eq.mpr (congrFun cond.2.2.1 x) hx) with
+      | Or.inl hu => Or.inl hu
+      | Or.inr ⟨y, hyL, hD⟩ => Or.inr ⟨y, ⟨lc hyL, hD⟩, hyL⟩
+  have zp : ∀ x, Z x → (∀ y, ¬ Parents C D x y) ∨ ∃ y, Parents C D x y ∧ Z y :=
+    fun x hx =>
+      match path_last_or_seed (Eq.mpr (congrFun cond.2.2.2.1 x) hx) with
+      | Or.inl ⟨hroot, _⟩ => Or.inl hroot.2
+      | Or.inr ⟨y, hyZ, hD⟩ => Or.inr ⟨y, ⟨zc hyZ, hD⟩, hyZ⟩
+  have unotz : ∀ x, U x → ¬ Z x :=
+    fun x hu hz => (part.2.1 x) ⟨cond.1 hu, hz⟩
+  exact ⟨
+    funext (fun _x => propext ⟨fun h => status_low_forward part cond.1 zp h,
+                                fun h => status_low_backward lc lu h⟩),
+    funext (fun _x => propext ⟨fun h => status_high_forward part cond.1 lc unotz zp h,
+                                fun h => status_high_backward part lc qc lu cond.2.2.2.2 h⟩)⟩
+
+/-- An OR-gate fixed point contains every internal path from an active root. -/
+theorem or_paths_in_fixed {α : Type u} {C L U X : Region α}
+    {D : α → α → Prop} {f : α → Region α → Prop}
+    (lc : Sub L C)
+    (gate : ∀ x, L x → ∀ S, f x S ↔ OrGate (Parents C D x) S)
+    (fixed : Fixed (Step C D f U) X) :
+    Sub (InternalReach L D U) X := by
+  have ux : Sub U X := by
+    intro x hu
+    have h : Step C D f U X x := Or.inl hu
+    rw [fixed] at h
+    exact h
+  intro x h
+  obtain ⟨b, hb, path⟩ := h
+  induction path with
+  | refl _ => exact ux hb
+  | @step y x path hxL edge ih =>
+    have hp : Parents C D x y := ⟨lc (path_target path), edge⟩
+    have hf : Step C D f U X x :=
+      Or.inr ⟨lc hxL, ⟨y, hp⟩, (gate x hxL _).2 (Or.inr ⟨y, hp, ih, hp⟩)⟩
+    rw [fixed] at hf
+    exact hf
+
+/-- An AND-gate fixed point excludes paths from roots outside the context. -/
+theorem and_paths_outside_fixed {α : Type u} {C Z U X : Region α}
+    {D : α → α → Prop} {f : α → Region α → Prop}
+    (zc : Sub Z C) (unotz : ∀ x, U x → ¬ Z x)
+    (gate : ∀ x, Z x → ∀ S, f x S ↔ AndGate (Parents C D x) S)
+    (fixed : Fixed (Step C D f U) X) :
+    Sub (InternalReach Z D (fun x => Roots C D x ∧ ¬ U x)) (fun x => ¬ X x) := by
+  intro x h
+  obtain ⟨b, ⟨hbRoot, hbNotU⟩, path⟩ := h
+  induction path with
+  | refl _ =>
+    intro hbX
+    have hf : Step C D f U X b := by rw [fixed]; exact hbX
+    rcases hf with hu | ⟨_, ⟨p, hp⟩, _⟩
+    · exact hbNotU hu
+    · exact hbRoot.2 p hp
+  | @step y x path hxZ edge ih =>
+    intro hxX
+    have hp : Parents C D x y := ⟨zc (path_target path), edge⟩
+    have hf : Step C D f U X x := by rw [fixed]; exact hxX
+    rcases hf with hu | ⟨_, _, hGate⟩
+    · exact unotz x hu hxZ
+    · exact ih (((gate x hxZ _).1 hGate) y hp).1
 
 theorem status_forces_paths {α : Type u} {C L Z Q U X : Region α}
     {D : α → α → Prop} (part : StatusPartition C L Z Q)
@@ -536,70 +536,25 @@ theorem status_forces_paths {α : Type u} {C L Z Q U X : Region α}
     (fixed : Fixed (Step C D (StatusMechanism C D L Z Q) U) X) :
     Sub L X ∧ Sub X (fun x => C x ∧ ¬ Z x) := by
   classical
-  let F := Step C D (StatusMechanism C D L Z Q) U
-  have fixedF : F X = X := fixed
-  have lc : Sub L C := by intro x h; exact (part.1 x).mpr (Or.inl h)
-  have zc : Sub Z C := by intro x h; exact (part.1 x).mpr (Or.inr (Or.inl h))
-  have ux : Sub U X := by
-    intro x hu
-    have h : F X x := Or.inl hu
-    rw [fixedF] at h
-    exact h
-  have xc : Sub X C := by
-    intro x hx
-    have h : F X x := by rw [fixedF]; exact hx
-    rcases h with hu | ⟨hc, _, _⟩
-    · exact (ctx hu).1
-    · exact hc
-  have lpath : ∀ x, InternalReach L D U x → X x := by
-    clear zc xc ctx part cond fixed
-    intro x h
-    obtain ⟨b, hb, path⟩ := h
-    induction path with
-    | refl _ => exact ux hb
-    | @step y x path hxL edge ih =>
-      have hyL : L y := path_target path
-      have hp : Parents C D x y := ⟨lc hyL, edge⟩
-      have hf : F X x := by
-        apply Or.inr
-        refine ⟨lc hxL, ⟨y, hp⟩, ?_⟩
-        simp only [StatusMechanism, hxL, ↓reduceIte, OrGate]
-        exact Or.inr ⟨y, hp, ih, hp⟩
-      rw [fixedF] at hf
-      exact hf
-  have zpath : ∀ x, InternalReach Z D (fun x => Roots C D x ∧ ¬ U x) x → ¬ X x := by
-    clear lc ux xc ctx fixed lpath
-    intro x h
-    obtain ⟨b, ⟨hbRoot, hbNotU⟩, path⟩ := h
-    induction path with
-    | refl _ =>
-      intro hbX
-      have hf : F X b := by rw [fixedF]; exact hbX
-      rcases hf with hu | ⟨_, ⟨p, hp⟩, _⟩
-      · exact hbNotU hu
-      · exact hbRoot.2 p hp
-    | @step y x path hxZ edge ih =>
-      intro hxX
-      have hxL : ¬ L x := by intro hl; exact (part.2.1 x) ⟨hl, hxZ⟩
-      have hxNotU : ¬ U x := by intro hu; exact hxL (cond.1 hu)
-      have hyZ : Z y := path_target path
-      have hp : Parents C D x y := ⟨zc hyZ, edge⟩
-      have hf : F X x := by rw [fixedF]; exact hxX
-      rcases hf with hu | ⟨_, _, hGate⟩
-      · exact hxNotU hu
-      · simp only [StatusMechanism, hxL, hxZ, ↓reduceIte, AndGate] at hGate
-        exact ih (hGate y hp).1
-  constructor
-  · intro x hx
-    apply lpath x
-    rw [cond.2.2.1]
-    exact hx
-  · intro x hx
-    refine ⟨xc hx, ?_⟩
-    intro hz
-    apply zpath x ?_ hx
-    rw [cond.2.2.2.1]
-    exact hz
+  have lc : Sub L C := fun {x} h => (part.1 x).mpr (Or.inl h)
+  have zc : Sub Z C := fun {x} h => (part.1 x).mpr (Or.inr (Or.inl h))
+  have unotz : ∀ x, U x → ¬ Z x :=
+    fun x hu hz => (part.2.1 x) ⟨cond.1 hu, hz⟩
+  have ogate : ∀ x, L x → ∀ S, StatusMechanism C D L Z Q x S ↔ OrGate (Parents C D x) S := by
+    intro x hl S
+    simp [StatusMechanism, hl]
+  have agate : ∀ x, Z x → ∀ S, StatusMechanism C D L Z Q x S ↔ AndGate (Parents C D x) S := by
+    intro x hz S
+    have hl : ¬ L x := fun h => (part.2.1 x) ⟨h, hz⟩
+    simp [StatusMechanism, hl, hz]
+  have lpath := or_paths_in_fixed lc ogate fixed
+  have zpath := and_paths_outside_fixed zc unotz agate fixed
+  have xc : Sub X C :=
+    fun {x} hx => (Eq.mpr (congrFun fixed x) hx).elim
+      (fun hu => (ctx hu).1) (fun h => h.1)
+  exact ⟨
+    fun {x} hx => lpath (Eq.mpr (congrFun cond.2.2.1 x) hx),
+    fun {x} hx => ⟨xc hx, fun hz => zpath (Eq.mpr (congrFun cond.2.2.2.1 x) hz) hx⟩⟩
 
 /-- The stated OR/AND/split witness is admissible and edge-relevant, with
 least fixed point `L` and greatest fixed point the carrier outside `Z`. -/
@@ -608,28 +563,20 @@ theorem pattern_witness_extrema {α : Type u} {C L Z Q U : Region α}
     (cond : PatternConditions C D U L Z Q) (ctx : Sub U (Roots C D)) :
     let f := StatusMechanism C D L Z Q
     Mechanism C D f ∧ Relevant C D f ∧ Least (Step C D f U) = L ∧
-      Greatest (Step C D f U) = (fun x => C x ∧ ¬ Z x) := by
+      Greatest (Step C D f U) = (fun x => C x ∧ ¬ Z x) :=
   let f := StatusMechanism C D L Z Q
-  have adm : Mechanism C D f := status_mechanism_admissible part cond.2.2.2.2
-  have rel : Relevant C D f := status_mechanism_relevant part cond.2.2.2.2
-  have fixes := status_two_fixed_points part cond
-  have lowFix := least_fixed (step_monotone adm U)
-  have highFix := greatest_fixed (step_monotone adm U)
-  have lowForces := status_forces_paths part cond ctx lowFix
-  have highForces := status_forces_paths part cond ctx highFix
-  refine ⟨adm, rel, ?_, ?_⟩
-  · apply funext
-    intro x
-    apply propext
-    constructor
-    · intro hx; exact (fixed_bounds fixes.1).1 hx
-    · intro hx; exact lowForces.1 hx
-  · apply funext
-    intro x
-    apply propext
-    constructor
-    · intro hx; exact highForces.2 hx
-    · intro hx; exact (fixed_bounds fixes.2).2 hx
+  let adm : Mechanism C D f := status_mechanism_admissible part cond.2.2.2.2
+  let rel : Relevant C D f := status_mechanism_relevant part cond.2.2.2.2
+  let fixes := status_two_fixed_points part cond
+  let lowFix := least_fixed (step_monotone adm U)
+  let highFix := greatest_fixed (step_monotone adm U)
+  let lowForces := status_forces_paths part cond ctx lowFix
+  let highForces := status_forces_paths part cond ctx highFix
+  ⟨adm, rel,
+    funext (fun _x => propext ⟨fun hx => (fixed_bounds fixes.1).1 hx,
+                               fun hx => lowForces.1 hx⟩),
+    funext (fun _x => propext ⟨fun hx => highForces.2 hx,
+                               fun hx => (fixed_bounds fixes.2).2 hx⟩)⟩
 
 end DeterminationPatterns
 
@@ -684,38 +631,25 @@ theorem contextual_greatest_internal_zero_paths {α : Type u} {C U : Region α}
     refine ⟨gc hx, ?_⟩
     intro hr
     exact (rz hr).2 hx
-  have post : Sub Y (F Y) := by
-    intro x ⟨hxC, hxNotR⟩
-    by_cases hxG : G x
-    · have hFG : F G x := by rw [gf]; exact hxG
-      exact hm G Y gy hFG
-    · have hxZ : Z x := ⟨hxC, hxG⟩
-      have hxNotU : ¬ U x := by
-        intro hu
-        have hFG : F G x := Or.inl hu
-        rw [gf] at hFG
-        exact hxG hFG
-      have hparent : ∃ y, Parents C D x y := by
-        apply Classical.byContradiction
-        intro hnone
-        have root : Roots C D x := ⟨hxC, fun y hy => hnone ⟨y, hy⟩⟩
-        have rx : R x := ⟨x, ⟨root, hxNotU⟩, InternalPath.refl x hxZ⟩
-        exact hxNotR rx
-      have noR : ∀ y, Parents C D x y → ¬ R y := by
-        intro y hyP hyR
-        obtain ⟨b, hb, path⟩ := hyR
-        have rx : R x := ⟨b, hb, InternalPath.step path hxZ hyP.2⟩
-        exact hxNotR rx
-      have inputs : (fun y => Y y ∧ Parents C D x y) = Parents C D x := by
-        funext y
-        apply propext
-        constructor
-        · intro h; exact h.2
-        · intro hp; exact ⟨⟨hp.1, noR y hp⟩, hp⟩
-      apply Or.inr
-      refine ⟨hxC, hparent, ?_⟩
-      rw [inputs]
-      exact (adm x hxC).2.2
+  have post : Sub Y (F Y) :=
+    fun {x} ⟨hxC, hxNotR⟩ =>
+      if hxG : G x then
+        hm G Y gy (Eq.mpr (congrFun gf x) hxG)
+      else
+        let hxZ : Z x := ⟨hxC, hxG⟩
+        let hxNotU : ¬ U x :=
+          fun hu => hxG (Eq.mp (congrFun gf x) (Or.inl hu))
+        let hparent : ∃ y, Parents C D x y :=
+          Classical.byContradiction (fun hnone =>
+            hxNotR ⟨x, ⟨⟨hxC, fun y hy => hnone ⟨y, hy⟩⟩, hxNotU⟩,
+              InternalPath.refl x hxZ⟩)
+        let noR : ∀ y, Parents C D x y → ¬ R y :=
+          fun y hyP hyR =>
+            match hyR with
+            | ⟨b, hb, path⟩ => hxNotR ⟨b, hb, InternalPath.step path hxZ hyP.2⟩
+        let inputs : (fun y => Y y ∧ Parents C D x y) = Parents C D x :=
+          funext (fun y => propext ⟨And.right, fun hp => ⟨⟨hp.1, noR y hp⟩, hp⟩⟩)
+        Or.inr ⟨hxC, hparent, Eq.mpr (congrArg (f x) inputs) ((adm x hxC).2.2)⟩
   have yz : Sub Y G := le_greatest F Y post
   apply funext
   intro x
@@ -737,33 +671,19 @@ theorem ambiguity_has_ambiguous_parent {α : Type u} {C U : Region α}
   let F := Step C D f U
   let L := Least F
   let G := Greatest F
-  have hm : Monotone F := step_monotone adm U
-  have lf : Fixed F L := least_fixed hm
-  have gf : Fixed F G := greatest_fixed hm
-  have lg : Sub L G := (fixed_bounds gf).1
-  apply Classical.byContradiction
-  intro hn
-  have eq : (fun y => L y ∧ Parents C D x y) = (fun y => G y ∧ Parents C D x y) := by
-    funext y
-    apply propext
-    constructor
-    · intro h; exact ⟨lg h.1, h.2⟩
-    · intro h
-      have hyL : L y := by
-        apply Classical.byContradiction
-        intro hnot
-        exact hn ⟨y, h.2, h.1, hnot⟩
-      exact ⟨hyL, h.2⟩
-  have hfg : F G x := by rw [gf]; exact hxG
-  have hfl : F L x := by
-    rcases hfg with hu | ⟨hc, hp, hf⟩
-    · exact Or.inl hu
-    · apply Or.inr
-      refine ⟨hc, hp, ?_⟩
-      rw [eq]
-      exact hf
-  rw [lf] at hfl
-  exact hxNotL hfl
+  let hm : Monotone F := step_monotone adm U
+  let lf : Fixed F L := least_fixed hm
+  let gf : Fixed F G := greatest_fixed hm
+  let lg : Sub L G := (fixed_bounds gf).1
+  exact Classical.byContradiction (fun hn =>
+    let eq : (fun y => L y ∧ Parents C D x y) = (fun y => G y ∧ Parents C D x y) :=
+      funext (fun y => propext ⟨
+        fun h => ⟨lg h.1, h.2⟩,
+        fun h => ⟨Classical.byContradiction (fun hnot => hn ⟨y, h.2, h.1, hnot⟩), h.2⟩⟩)
+    let hfg : F G x := Eq.mpr (congrFun gf x) hxG
+    let hfl : F L x := hfg.elim (fun hu => Or.inl hu)
+      (fun ⟨hc, hp, hf⟩ => Or.inr ⟨hc, hp, Eq.mpr (congrArg (f x) eq) hf⟩)
+    hxNotL (Eq.mp (congrFun lf x) hfl))
 
 /-- Any admissible mechanism realizing these extremal regions satisfies the
 pattern conditions; edge relevance is not needed for this direction. -/
@@ -797,10 +717,12 @@ theorem realized_pattern_necessary {α : Type u} {C L Z Q U : Region α}
     intro hnz
     exact hnot (iff.mp ⟨hroot.1, hnz⟩)
   have lpath : InternalReach L D U = L := by
+    clear lf gf zc qc ul rootZ high part
     have h := contextual_least_internal_paths adm ctx
     rw [low] at h
     exact h
   have zpath : InternalReach Z D (fun x => Roots C D x ∧ ¬ U x) = Z := by
+    clear lf gf qc ul rootZ lpath low part
     have h := contextual_greatest_internal_zero_paths adm ctx
     rw [high] at h
     have zform : (fun x => C x ∧ ¬ (C x ∧ ¬ Z x)) = Z := by
@@ -815,21 +737,23 @@ theorem realized_pattern_necessary {α : Type u} {C L Z Q U : Region α}
         exact ⟨zc hz, fun h => h.2 hz⟩
     rw [zform] at h
     exact h
-  have qp : ∀ x, Q x → ∃ y, Parents C D x y ∧ Q y := by
-    intro x hxQ
-    have hxNotL : ¬ L x := by intro hl; exact (part.2.2.1 x) ⟨hl, hxQ⟩
-    have hxNotZ : ¬ Z x := by intro hz; exact (part.2.2.2 x) ⟨hz, hxQ⟩
-    have hxG : Greatest F x := by rw [high]; exact ⟨qc hxQ, hxNotZ⟩
-    have hxNotLeast : ¬ Least F x := by rw [low]; exact hxNotL
-    obtain ⟨y, hyP, hyG, hyNotLeast⟩ := ambiguity_has_ambiguous_parent adm ctx hxG hxNotLeast
-    have hyNotL : ¬ L y := by rw [← low]; exact hyNotLeast
-    have hyNotZ : ¬ Z y := by rw [high] at hyG; exact hyG.2
-    have hyQ : Q y := by
-      rcases (part.1 y).mp hyP.1 with hyL | hyZ | hyQ
-      · exact False.elim (hyNotL hyL)
-      · exact False.elim (hyNotZ hyZ)
-      · exact hyQ
-    exact ⟨y, hyP, hyQ⟩
+  have qp : ∀ x, Q x → ∃ y, Parents C D x y ∧ Q y :=
+    fun x hxQ =>
+      let hxNotL : ¬ L x := fun hl => (part.2.2.1 x) ⟨hl, hxQ⟩
+      let hxNotZ : ¬ Z x := fun hz => (part.2.2.2 x) ⟨hz, hxQ⟩
+      let hxG : Greatest F x := Eq.mpr (congrFun high x) ⟨qc hxQ, hxNotZ⟩
+      let hxNotLeast : ¬ Least F x :=
+        fun h => hxNotL (Eq.mp (congrFun low x) h)
+      match ambiguity_has_ambiguous_parent adm ctx hxG hxNotLeast with
+      | ⟨y, hyP, hyG, hyNotLeast⟩ =>
+        let hyNotL : ¬ L y :=
+          fun h => hyNotLeast (Eq.mpr (congrFun low y) h)
+        let hyNotZ : ¬ Z y := (Eq.mp (congrFun high y) hyG).2
+        let hyQ : Q y :=
+          ((part.1 y).mp hyP.1).elim
+            (fun h => False.elim (hyNotL h))
+            (fun h => h.elim (fun hz => False.elim (hyNotZ hz)) id)
+        ⟨y, hyP, hyQ⟩
   exact ⟨ul, rootZ, lpath, zpath, qp⟩
 
 /-! ## Exact pattern realization -/
