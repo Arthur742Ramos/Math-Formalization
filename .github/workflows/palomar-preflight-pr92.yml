@@ -1,0 +1,18 @@
+name: PR92 Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-pr92-20261029
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: c2bb0a6cdb42eb85da702174c66c474fac1f6103
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: pr92test0001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"computational-hodge/resonant-periods","comparator_config_path":"computational-hodge/resonant-periods/comparator.json","formalization_metadata_path":"computational-hodge/resonant-periods/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
