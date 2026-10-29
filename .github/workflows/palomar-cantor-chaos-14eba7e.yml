@@ -1,0 +1,18 @@
+name: Cantor chaos Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-cantor-chaos-14eba7e
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 14eba7e10e07915d110e459dc94b8c42c9ba92cc
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: cantchaos001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"topology/weak-mixing-cantor-chaos","comparator_config_path":"topology/weak-mixing-cantor-chaos/comparator.json","formalization_metadata_path":"topology/weak-mixing-cantor-chaos/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
