@@ -320,8 +320,8 @@ The statement, source and retained provenance received independent internal AI r
 
 ## Weak-mixing Cantor chaos preparation
 
-The selected mathematical source and implementation received independent internal AI review. The referenced local package checkpoint is not yet a published remote revision; exact-source verification and rendering receipts are tracked separately. No external review or registration is asserted.
+The selected mathematical source and implementation received independent internal AI review. The referenced local package checkpoint is not yet a published remote revision; when performed, exact-source verification and rendering receipts are tracked separately. No external review or registration is asserted.
 
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
-| [Weak mixing and local Cantor scrambled families](topology/weak-mixing-cantor-chaos) | In each nonempty open set of a nontrivial perfect Polish metric space, a continuous square-transitive map admits a closed Cantor family with pairwise dense square orbits and a uniform positive separation scale. | Preparation; not submitted | [`01fd1be`](https://github.com/Arthur742Ramos/Math-Formalization/tree/01fd1bebc505eb4e35575a3a33ce0033a757273a/topology/weak-mixing-cantor-chaos) |
+| [Weak mixing and local Cantor scrambled families](topology/weak-mixing-cantor-chaos) | For a continuous square-transitive map on a nontrivial perfect Polish metric space, each nonempty open set contains a Cantor family of pairwise dense square orbits; separately, a global positive scale gives arbitrarily late scrambling. | Preparation; not submitted | [`01fd1be`](https://github.com/Arthur742Ramos/Math-Formalization/tree/01fd1bebc505eb4e35575a3a33ce0033a757273a/topology/weak-mixing-cantor-chaos) |

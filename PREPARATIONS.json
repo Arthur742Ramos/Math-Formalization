@@ -2423,7 +2423,7 @@
     {
       "name": "Weak mixing and local Cantor scrambled families",
       "path": "topology/weak-mixing-cantor-chaos",
-      "scope": "In each nonempty open set of a nontrivial perfect Polish metric space, a continuous square-transitive map admits a closed Cantor family with pairwise dense square orbits and a uniform positive separation scale.",
+      "scope": "For a continuous square-transitive map on a nontrivial perfect Polish metric space, each nonempty open set contains a Cantor family of pairwise dense square orbits; separately, a global positive scale gives arbitrarily late scrambling.",
       "state": "reviewed-preparation-not-submitted",
       "source_snapshot": {
         "commit": "01fd1bebc505eb4e35575a3a33ce0033a757273a",
@@ -2494,7 +2494,15 @@
           "source_review": "d43820016afaaa4660267fc7622168efe557036eddbcdc66a2cf50e92012b512"
         }
       },
-      "evidence_scope": "Local source review covers the selected proof and credited fusion dependency without independently reconstructing its entire proof. Clean Lake build for this exact package uses retained pinned dependency artifacts. Separate receipts identify the source, local checks and their limits. Full canonical verification, official rendering, editorial outcome and registration are not established by this preparation record."
+      "evidence_scope": "Local source review covers the selected proof and credited fusion dependency without independently reconstructing its entire proof. An earlier Lake build used a line-ending-converted archive and retained pinned dependency artifacts; any Git-object-byte build is identified separately by its external receipt. Separate receipts identify the source, local checks and their limits. Full canonical verification, official rendering, editorial outcome and registration are not established by this preparation record. Root-level and nested file hashes are listed separately; the package tree binds all files.",
+      "nested_source_files_sha256": {
+        "Mycielski/FusionStep.lean": "38a5c140a154e50d038d538735221f6aac7fc89924bba534a27d4fd8187897b5",
+        "Mycielski/Independent.lean": "d39dd57abe993ff338ac19b6ed9b4c247686e369ab5264c9dd5f838068c64c05",
+        "Mycielski/Scheme.lean": "f817f0754328f4daaf0799e92cc2d1f46c2b87b5605cd344283e2e15d2e831dd",
+        "scripts/check_package.py": "0fe86d2c8d4ddacb6ccb264aeb4c97caa6a30ddf369f568bbdd6c9e6163fac49",
+        "scripts/generate_inventory.py": "89dd35490e09b73a208b5b9db123fe656b34f8f39418a5e36b9cf8b556619382",
+        "verification/material-imported-definitions.json": "dd3ebaa642423b2b803b2792794c4a4b2204d57057f53ab28facc5036f4ca54b"
+      }
     }
   ]
 }
