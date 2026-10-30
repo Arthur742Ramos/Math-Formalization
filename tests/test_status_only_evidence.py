@@ -81,6 +81,19 @@ class StatusOnlyEvidence(unittest.TestCase):
     def test_status_only_passes(self):
         self.assertEqual(self.check(), ['README.md', 'formalization.yaml'])
 
+    def test_paper_readme_only_and_named_comparator_boundary(self):
+        self.old['comparator-uniform.json'] = b'{"theorem_names":["uniform"]}'
+        self.new = copy.deepcopy(self.old)
+        self.new['README.md'] = b'revised status documentation'
+        modes = {name: '100644' for name in self.old}
+        self.assertEqual(classify(self.old, self.new, modes, modes), ['README.md'])
+        for name in ['Proof.lean', 'comparator-uniform.json']:
+            with self.subTest(name=name):
+                changed = dict(self.new)
+                changed[name] += b' changed'
+                with self.assertRaises(ValueError):
+                    classify(self.old, changed, modes, modes)
+
     def test_proof_comparator_toolchain_and_lock_changes_fail(self):
         for name in ['Proof.lean', 'comparator.json', 'lean-toolchain', 'lake-manifest.json']:
             with self.subTest(name=name):

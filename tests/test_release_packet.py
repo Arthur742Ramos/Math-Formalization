@@ -93,6 +93,27 @@ class HodgeSourcePath(unittest.TestCase):
                 guard.snapshot(ROOT, '0' * 40, path)
 
 
+class DeterminationPatternsSourcePath(unittest.TestCase):
+    def test_exact_determination_path_is_supported(self):
+        with mock.patch.object(guard.subprocess, 'check_output',
+                               side_effect=[b'README.md\n', b'documentation\n']) as command:
+            files = guard.snapshot(ROOT, '0' * 40, 'causal-efficacy/determination-patterns')
+        self.assertEqual(files, {'README.md': b'documentation\n'})
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][-1],
+                         '0' * 40 + ':causal-efficacy/determination-patterns/README.md')
+
+    def test_other_or_traversing_causal_paths_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['causal-efficacy/other',
+                         'causal-efficacy/determination-patterns/../other',
+                         'causal-efficacy/determination-patterns/other',
+                         '/causal-efficacy/determination-patterns']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class ComputationalHodgeMaterialHandoff(MaterialDefinitionHandoff):
     PROJECT = 'computational-hodge/finite-periods'
 
