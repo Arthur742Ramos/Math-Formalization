@@ -5,7 +5,7 @@ Furstenberg and Weiss, Topological dynamics and combinatorial number theory,
 Journal d'Analyse Mathématique 34 (1978), Theorem 1.5.
 Glasscock, Koutsogiannis and Richter, Multiplicative combinatorial properties
 of return time sets in minimal dynamical systems, Theorems 1.7 and 1.8.
-Development snapshot; verification and release checks remain pending.
+Verification and release evidence is tracked separately by exact source revision.
 -/
 module
 public import Mathlib.Combinatorics.HalesJewett

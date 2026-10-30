@@ -844,6 +844,31 @@ def archive(files):
     return out.getvalue()
 
 
+class SubmittedStatusCoverageTests(unittest.TestCase):
+    def test_blanket_pending_claim_is_scanned_across_submitted_text(self):
+        stale = b'Development snapshot; verification and release checks remain pending.'
+        for name in ['RecurrenceChallenge.lean', 'MultipleRecurrence.lean',
+                     'RecurrenceSolution.lean', 'SemanticChallenge.lean',
+                     'SemanticSolution.lean', 'README.md', 'formalization.yaml',
+                     'verification/evidence.json', 'scripts/package.py']:
+            with self.subTest(file=name):
+                self.assertTrue(guard.status_errors({name: stale}))
+                self.assertFalse(guard.status_errors({name: b'Verification and release evidence is tracked separately by exact source revision.'}))
+        actual = guard.snapshot(ROOT, '0280908b30f814b91792c6f938d3d684d88b97a2',
+                                'topology/minimal-multiple-recurrence')
+        errors = guard.status_errors(actual)
+        for name in ['MultipleRecurrence.lean', 'RecurrenceChallenge.lean']:
+            self.assertTrue(any(error.startswith(name + ':') for error in errors))
+
+    def test_pending_historical_context_requires_valid_date_in_same_clause(self):
+        good = b'As of 2026-10-29, verification and release checks remain pending.'
+        invalid = b'As of 2026-99-99, verification and release checks remain pending.'
+        separated = b'As of 2026-10-29, another fact; verification and release checks remain pending.'
+        self.assertFalse(guard.status_errors({'Challenge.lean': good}))
+        for text in [invalid, separated]:
+            self.assertTrue(guard.status_errors({'Challenge.lean': text}))
+
+
 class ReleasePacketTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

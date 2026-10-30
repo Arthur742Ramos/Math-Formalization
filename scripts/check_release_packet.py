@@ -48,10 +48,25 @@ def status_errors(files):
               r'unperformed\s+(?:gates|at))')
     pattern = re.compile(stages + r'(?:(?![.!?;]|\n\s*\n).){0,350}?' + denial, re.I | re.S)
     errors = []
-    for name in ['formalization.yaml', 'README.md', 'REVIEW.md', 'VERIFICATION.md', 'AUDIT.md', 'PLAN.md', 'RUN-PLAN.md']:
-        if name not in files:
-            continue
-        text = files[name].decode().replace('**', '')
+    for name, body in files.items():
+        try:
+            text = body.decode('utf-8').replace('**', '')
+        except UnicodeDecodeError:
+            continue  # Non-text attachments need a separate review.
+        # Known stale blanket, checked in every UTF-8 source file including Lean.
+        # An explicit valid historical date in the same clause is context,
+        # not proof that the historical claim is accurate.
+        blanket = re.compile(r'\bverification\s+and\s+release\s+checks\s+remain(?:s)?\s+pending\b', re.I)
+        for match in blanket.finditer(text):
+            boundaries = list(re.finditer(r'[.!?;]|\n\s*\n', text[:match.start()]))
+            start = boundaries[-1].end() if boundaries else 0
+            date = re.search(r'\bas\s+of\s+(\d{4}-\d{2}-\d{2})\b', text[start:match.start()], re.I)
+            try:
+                dated = bool(date and datetime.date.fromisoformat(date.group(1)))
+            except ValueError:
+                dated = False
+            if not dated:
+                errors.append(name + ': undated blanket verification/release pending claim')
         for match in pattern.finditer(text):
             # Only an explicitly future-qualified subject is exempt. A mixed
             # full-verification/browser clause must not hide a stale full claim.
