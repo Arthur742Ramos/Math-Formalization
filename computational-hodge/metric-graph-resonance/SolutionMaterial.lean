@@ -79,7 +79,7 @@ theorem derivative_normed_little_o_contract (f : ℝ → ℝ) (f' : ℝ →L[ℝ
       (fun p => f p.1 - f p.2 - f' (p.1 - p.2)) =o[L] (fun p => p.1 - p.2) :=
   hasFDerivAtFilter_iff_isLittleO
 
-theorem little_o_eventual_bound_contract (f g : ℝ → ℝ) (L : Filter ℝ) :
+theorem little_o_eventual_bound_contract {α : Type*} (f g : α → ℝ) (L : Filter α) :
     f =o[L] g ↔ ∀ ⦃c : ℝ⦄, 0 < c → ∀ᶠ x in L, ‖f x‖ ≤ c * ‖g x‖ :=
   isLittleO_iff
 
@@ -146,6 +146,51 @@ example {α : Type*} [Fintype α] (a : α) : a ∈ (Finset.univ : Finset α) :=
 theorem finite_univ_sum_contract {α : Type*} [Fintype α] (f : α → ℝ) :
     (∑ a : α, f a) = Finset.univ.sum f := rfl
 
+
+theorem ae_measure_null_contract (μ : Measure ℝ) (P : ℝ → Prop) :
+    (∀ᵐ x : ℝ ∂μ, P x) ↔ μ {x | ¬ P x} = 0 := MeasureTheory.ae_iff
+
+theorem filter_tendsto_contract {α β : Type*} (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
+    Tendsto f l₁ l₂ ↔ l₁.map f ≤ l₂ := Iff.rfl
+
+theorem filter_map_membership_contract {α β : Type*} (f : α → β) (l : Filter α) (s : Set β) :
+    s ∈ l.map f ↔ f ⁻¹' s ∈ l := Iff.rfl
+
+theorem filter_tendsto_preimage_contract {α β : Type*} (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
+    Tendsto f l₁ l₂ ↔ ∀ s ∈ l₂, f ⁻¹' s ∈ l₁ := Filter.tendsto_def
+
+theorem nhds_within_contract {α : Type*} [TopologicalSpace α] (x : α) (s : Set α) :
+    𝓝[s] x = 𝓝 x ⊓ 𝓟 s := rfl
+
+theorem nhds_open_sets_contract {α : Type*} [TopologicalSpace α] (x : α) :
+    𝓝 x = ⨅ s ∈ {s : Set α | x ∈ s ∧ IsOpen s}, 𝓟 s := by
+  rw [nhds_def]
+
+theorem mem_nhds_open_contract {α : Type*} [TopologicalSpace α] (x : α) (s : Set α) :
+    s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t := mem_nhds_iff
+
+theorem derivative_at_nhds_contract (f : ℝ → ℝ) (v x : ℝ) (s : Set ℝ) :
+    (HasDerivAt f v x ↔ HasDerivAtFilter f v (𝓝 x ×ˢ pure x)) ∧
+      (s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t) :=
+  ⟨Iff.rfl, mem_nhds_open_contract x s⟩
+
+theorem quotient_map_continuity_contract {α : Type*} [TopologicalSpace α] (r : α → α → Prop) :
+    Continuous (@Quot.mk α r) := continuous_quot_mk
+
+theorem quotient_topology_contract {α : Type*} [TopologicalSpace α] (r : α → α → Prop) :
+    (inferInstance : TopologicalSpace (Quot r)) = TopologicalSpace.coinduced (Quot.mk r) inferInstance := rfl
+
+theorem graph_quotient_topology_contract {V E : Type*} [TopologicalSpace V] [TopologicalSpace E]
+    (source target : E → V) :
+    (inferInstance : TopologicalSpace (MetricGraphPathPrototype.Graph source target)) =
+      TopologicalSpace.coinduced (Quot.mk (MetricGraphPathPrototype.EdgeGlue source target)) inferInstance := rfl
+
+theorem complex_sine_contract (z : ℂ) :
+    Complex.sin z = (Complex.exp (-z * Complex.I) - Complex.exp (z * Complex.I)) * Complex.I / 2 := rfl
+
+theorem complex_cosine_contract (z : ℂ) :
+    Complex.cos z = (Complex.exp (z * Complex.I) + Complex.exp (-z * Complex.I)) / 2 := rfl
+
 -- Independently elaborate the named contracts at the intended types.
 example {α : Type*} (s : Finset α) (f : α → ℝ) :
     s.sum f = (s.val.map f).sum := generated_sum_contract s f
@@ -154,6 +199,19 @@ example {α : Type*} [Fintype α] (f : α → ℝ) :
 example : (volume : Measure ℝ) = StieltjesFunction.id.measure := real_volume_contract
 example (P : ℝ → Prop) : (∀ᵐ x : ℝ ∂volume, P x) ↔ volume {x | ¬ P x} = 0 :=
   ae_real_volume_contract P
+#print axioms ae_measure_null_contract
+#print axioms filter_tendsto_contract
+#print axioms filter_map_membership_contract
+#print axioms filter_tendsto_preimage_contract
+#print axioms nhds_within_contract
+#print axioms nhds_open_sets_contract
+#print axioms mem_nhds_open_contract
+#print axioms derivative_at_nhds_contract
+#print axioms quotient_map_continuity_contract
+#print axioms quotient_topology_contract
+#print axioms graph_quotient_topology_contract
+#print axioms complex_sine_contract
+#print axioms complex_cosine_contract
 #print axioms generated_sum_contract
 #print axioms finite_univ_sum_contract
 #print axioms real_volume_contract

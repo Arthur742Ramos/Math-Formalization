@@ -11,10 +11,10 @@ That evidence applies to the tested commit and does not certify later changes.
 The local canonical Challenge render also passed for that tested commit;
 its report SHA-256 is
 `cdf3b1e41c44be2a90f7337be5282dbe229b5daf857974e596d90a7be605d7c3`.
-The material inventory and bridges in this successor are incomplete and
-uncompiled drafts. Current-source checks, visual inspection,
-semantic-provenance assessment and final release review require their own
-source-bound evidence.
+The material inventory and bridge package remain a development draft. Check
+applicable evidence against its exact tested source; inventory completeness,
+visual inspection, semantic-provenance assessment and final release review
+require separate assessment.
 
 For finite connected oriented unit-edge multigraphs, continuous edge forcing,
 and nonzero real `k` with `sin k = 0` and `cos k = 1`, the source characterizes

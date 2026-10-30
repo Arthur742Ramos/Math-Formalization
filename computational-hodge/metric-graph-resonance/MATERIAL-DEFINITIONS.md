@@ -2,7 +2,7 @@
 
 This file is a source-bound review draft. It is not a completed inventory, independent semantic review, compiled bridge or release evidence.
 
-The retained Finset.prod source generates Finset.sum via to_additive. The sum and finite-univ semantic bridges remain uncompiled. Actual Bochner integral and volume meaning remain subject to review.
+The retained Finset.prod source generates Finset.sum via to_additive. Check the sum and finite-univ semantic bridges against source-bound evidence. Actual Bochner integral and volume meaning remain subject to review.
 
 ## HasDerivAtFilter
 
@@ -316,7 +316,7 @@ Proof status: DRAFT: no current-successor bridge compilation, completeness or se
 
 The pinned real pi constant, used by the sine-square calculation and concrete three-edge forcing.
 
-Dependency expansion: Twice the selected real zero of cosine in the retained existence theorem. Further dependency closure and per-use accuracy remain subject to independent review.
+Dependency expansion: Twice Classical.choose exists_cos_eq_zero as written in the retained definition; the referenced existence theorem is not reproduced in that excerpt. Further dependency closure and per-use accuracy remain subject to independent review.
 
 Proof status: DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted.
 
@@ -1243,7 +1243,7 @@ The generated additive finite sum over the specified Finset; the unindexed finit
 
 The retained to_additive-annotated Finset.prod source generates Finset.sum. Actual generated sum and Finset.univ value/type contracts require separate compiled bridges.
 
-DRAFT: generated declaration, per-use completeness and both bridge builds remain unverified.
+DRAFT: generated declaration, per-use completeness and source-bound bridge evidence require separate assessment.
 
 **statement_or_definition**: MetricGraphResonanceIncidence.divergence, MetricGraphResonancePrototype.intervalGraphSolution, MetricGraphResonancePrototype.graphMomentConditions, MetricGraphResonanceIncidence.exists_divergence_of_sum_zero, MetricGraphResonancePrototype.theta_cosine_balance, MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals
 
@@ -1259,7 +1259,7 @@ The specific real volume measure equals the measure of the identity Stieltjes fu
 
 This theorem supplies the real-volume identification used in the stated real interval and almost-everywhere semantics. The Stieltjes measure and null-complement contracts require separate review and bridge compilation.
 
-DRAFT: per-use completeness, actual real-volume bridge and both source-bound builds remain unverified.
+DRAFT: per-use completeness, real-volume meaning and source-bound bridge evidence require separate assessment.
 
 **semantic_expansion**: MetricGraphPathPrototype.graphPotential, MetricGraphPathPrototype.rawPotential, MetricGraphPathPrototype.rawPotential_glue, MetricGraphPathPrototype.traceChartIntegral, MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference, MetricGraphResonancePrototype.cosine_moment_identity_interval, MetricGraphResonancePrototype.edge_moment_congr, MetricGraphResonancePrototype.forced_connected_graph_interval_iff, MetricGraphResonancePrototype.forced_oscillator_construct, MetricGraphResonancePrototype.full_period_sine_cosine_zero, MetricGraphResonancePrototype.graphMomentConditions, MetricGraphResonancePrototype.interval_graph_moments_necessary, MetricGraphResonancePrototype.interval_graph_moments_sufficient, MetricGraphResonancePrototype.sin_squared_positive, MetricGraphResonancePrototype.sine_moment_identity_interval, MetricGraphResonancePrototype.theta_cosine_balance, MetricGraphTraceDensity.concat_density_integrable, MetricGraphTraceDensity.concat_density_integral, MetricGraphTraceDensity.concat_right_integral, MetricGraphTraceDensity.reverse_density_integrable, MetricGraphTraceDensity.reverse_density_integral, MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments, MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals, MetricGraphTraceParametric.realizedTrace_ae_local_velocity, MetricGraphTraceParametric.traceDensity_integrable, MetricGraphTraceParametric.traceDensity_integral
 
@@ -1489,3 +1489,268 @@ through realization of the trans constructor. The statement of
 `MetricGraphTraceParametric.symm_chart` similarly uses `Path.symm`
 through realization of the symm constructor. These expansions add
 no hypotheses and retain the separately recorded proof dependencies.
+
+## Additional semantic support (review-only draft)
+
+The following exact pinned fragments and mappings are proposed support.
+They are not compiled bridge evidence or a completeness pass. Integrable
+branches of totalized integrals and eventual-filter expansions are meanings
+inside definitions, not additional hypotheses on selected theorems.
+
+### Mathlib/Order/Filter/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean
+
+SHA-256: `d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Jeremy Avigad
+-/
+```
+
+metric_Filter_map: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L413-L418
+
+```lean
+def map (m : α → β) (f : Filter α) : Filter β where
+  sets := preimage m ⁻¹' f.sets
+  univ_sets := univ_mem
+  sets_of_superset hs st := mem_of_superset hs fun _x hx ↦ st hx
+  inter_sets hs ht := inter_mem hs ht
+
+```
+
+metric_Filter_Tendsto: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L420-L423
+
+```lean
+  `Tendsto f l₁ l₂` asserts that for every `l₂` neighborhood `a`,
+  the `f`-preimage of `a` is an `l₁` neighborhood. -/
+def Tendsto (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :=
+  l₁.map f ≤ l₂
+```
+
+### Mathlib/Order/Filter/Tendsto.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Tendsto.lean
+
+SHA-256: `76800f92ca0414bd4f31e94719ac9cac2985bd2b083035380c3e32111e0405ce`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Jeremy Avigad
+-/
+```
+
+metric_Filter_tendsto_preimage: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Tendsto.lean#L31-L33
+
+```lean
+theorem tendsto_def {f : α → β} {l₁ : Filter α} {l₂ : Filter β} :
+    Tendsto f l₁ l₂ ↔ ∀ s ∈ l₂, f ⁻¹' s ∈ l₁ :=
+  Iff.rfl
+```
+
+### Mathlib/Topology/Defs/Filter.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean
+
+SHA-256: `3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad
+-/
+```
+
+metric_nhds_definition: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L126-L131
+
+```lean
+
+/-- A set is called a neighborhood of `x` if it contains an open set around `x`. The set of all
+neighborhoods of `x` forms a filter, the neighborhood filter at `x`, is here defined as the
+infimum over the principal filters of all open sets containing `x`. -/
+irreducible_def nhds (x : X) : Filter X :=
+  ⨅ s ∈ { s : Set X | x ∈ s ∧ IsOpen s }, 𝓟 s
+```
+
+metric_nhdsWithin_definition: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L136-L139
+
+```lean
+/-- The "neighborhood within" filter. Elements of `𝓝[s] x` are sets containing the
+intersection of `s` and a neighborhood of `x`. -/
+def nhdsWithin (x : X) (s : Set X) : Filter X :=
+  𝓝 x ⊓ 𝓟 s
+```
+
+### Mathlib/Topology/Constructions.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean
+
+SHA-256: `47de73fc60746ec4c31fa6e3fcb6d7fe8fbbcf5dbc88c0471fc017040a26467f`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Patrick Massot
+-/
+```
+
+metric_quotient_topology_instance: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L55-L56
+
+```lean
+instance {r : X → X → Prop} [t : TopologicalSpace X] : TopologicalSpace (Quot r) :=
+  coinduced (Quot.mk r) t
+```
+
+metric_continuous_quot_mk: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions.lean#L727-L728
+
+```lean
+theorem continuous_quot_mk : Continuous (@Quot.mk X r) :=
+  continuous_coinduced_rng
+```
+
+### Mathlib/Topology/Defs/Induced.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean
+
+SHA-256: `ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad
+-/
+```
+
+metric_coinduced_definition: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L79-L89
+
+```lean
+
+/-- Given `f : X → Y` and a topology on `X`,
+  the coinduced topology on `Y` is defined such that
+  `s : Set Y` is open if the preimage of `s` is open.
+  This is the finest topology that makes `f` continuous. -/
+@[instance_reducible]
+def coinduced (f : X → Y) (t : TopologicalSpace X) : TopologicalSpace Y where
+  IsOpen s := IsOpen (f ⁻¹' s)
+  isOpen_univ := t.isOpen_univ
+  isOpen_inter _ _ h₁ h₂ := h₁.inter h₂
+  isOpen_sUnion s h := by simpa only [preimage_sUnion] using isOpen_biUnion h
+```
+
+### Mathlib/Topology/Neighborhoods.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean
+
+SHA-256: `ef0e4d65986641366ffcc380a613f210207fee31e8640e1488a8cae41395383a`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad
+-/
+```
+
+metric_mem_nhds_open: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Neighborhoods.lean#L64-L66
+
+```lean
+theorem mem_nhds_iff : s ∈ 𝓝 x ↔ ∃ t ⊆ s, IsOpen t ∧ x ∈ t :=
+  (nhds_basis_opens x).mem_iff.trans <| exists_congr fun _ =>
+    ⟨fun h => ⟨h.2, h.1.2, h.1.1⟩, fun h => ⟨⟨h.2.2, h.2.1⟩, h.1⟩⟩
+```
+
+### Mathlib/Analysis/Complex/Trigonometric.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Trigonometric.lean
+
+SHA-256: `b63dc0d49ca3deb88ffb47292745448b2611bf2d43b4ea05931628f8aa286b3b`
+
+```lean
+/-
+Copyright (c) 2018 Chris Hughes. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Chris Hughes, Abhimanyu Pallavi Sudhir
+-/
+```
+
+metric_complex_sine_cosine: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Trigonometric.lean#L27-L35
+
+```lean
+/-- The complex sine function, defined via `exp` -/
+@[pp_nodot]
+def sin (z : ℂ) : ℂ :=
+  (exp (-z * I) - exp (z * I)) * I / 2
+
+/-- The complex cosine function, defined via `exp` -/
+@[pp_nodot]
+def cos (z : ℂ) : ℂ :=
+  (exp (z * I) + exp (-z * I)) / 2
+```
+
+- `MeasureTheory.Integrable` / semantic_expansion: `MetricGraphPathPrototype.graphPotential`, `MetricGraphPathPrototype.rawPotential`, `MetricGraphPathPrototype.rawPotential_glue`, `MetricGraphPathPrototype.traceChartIntegral`, `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`, `MetricGraphResonancePrototype.cosine_moment_identity_interval`, `MetricGraphResonancePrototype.edge_moment_congr`, `MetricGraphResonancePrototype.forced_connected_graph_interval_iff`, `MetricGraphResonancePrototype.forced_oscillator_construct`, `MetricGraphResonancePrototype.full_period_sine_cosine_zero`, `MetricGraphResonancePrototype.graphMomentConditions`, `MetricGraphResonancePrototype.interval_graph_moments_necessary`, `MetricGraphResonancePrototype.interval_graph_moments_sufficient`, `MetricGraphResonancePrototype.sin_squared_positive`, `MetricGraphResonancePrototype.sine_moment_identity_interval`, `MetricGraphResonancePrototype.theta_cosine_balance`, `MetricGraphTraceDensity.concat_density_integrable`, `MetricGraphTraceDensity.concat_density_integral`, `MetricGraphTraceDensity.concat_right_integral`, `MetricGraphTraceDensity.reverse_density_integrable`, `MetricGraphTraceDensity.reverse_density_integral`, `MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments`, `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`, `MetricGraphTraceParametric.traceDensity_integrable`, `MetricGraphTraceParametric.traceDensity_integral`
+
+- `MeasureTheory.ae` / semantic_expansion: `MetricGraphPathPrototype.graphPotential`, `MetricGraphPathPrototype.rawPotential`, `MetricGraphPathPrototype.rawPotential_glue`, `MetricGraphPathPrototype.traceChartIntegral`, `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`, `MetricGraphResonancePrototype.cosine_moment_identity_interval`, `MetricGraphResonancePrototype.edge_moment_congr`, `MetricGraphResonancePrototype.forced_connected_graph_interval_iff`, `MetricGraphResonancePrototype.forced_oscillator_construct`, `MetricGraphResonancePrototype.full_period_sine_cosine_zero`, `MetricGraphResonancePrototype.graphMomentConditions`, `MetricGraphResonancePrototype.interval_graph_moments_necessary`, `MetricGraphResonancePrototype.interval_graph_moments_sufficient`, `MetricGraphResonancePrototype.sin_squared_positive`, `MetricGraphResonancePrototype.sine_moment_identity_interval`, `MetricGraphResonancePrototype.theta_cosine_balance`, `MetricGraphTraceDensity.concat_density_integrable`, `MetricGraphTraceDensity.concat_density_integral`, `MetricGraphTraceDensity.concat_right_integral`, `MetricGraphTraceDensity.reverse_density_integrable`, `MetricGraphTraceDensity.reverse_density_integral`, `MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments`, `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`, `MetricGraphTraceParametric.traceDensity_integrable`, `MetricGraphTraceParametric.traceDensity_integral`
+
+- `Filter.Eventually` / semantic_expansion: `MetricGraphPathPrototype.graphPotential`, `MetricGraphPathPrototype.rawPotential`, `MetricGraphPathPrototype.rawPotential_glue`, `MetricGraphPathPrototype.traceChartIntegral`, `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`, `MetricGraphResonancePrototype.cosine_moment_identity_interval`, `MetricGraphResonancePrototype.cosine_wronskian`, `MetricGraphResonancePrototype.edge_moment_congr`, `MetricGraphResonancePrototype.forced_connected_graph_interval_iff`, `MetricGraphResonancePrototype.forced_oscillator_construct`, `MetricGraphResonancePrototype.full_period_sine_cosine_zero`, `MetricGraphResonancePrototype.graphMomentConditions`, `MetricGraphResonancePrototype.intervalGraphSolution`, `MetricGraphResonancePrototype.interval_graph_moments_necessary`, `MetricGraphResonancePrototype.interval_graph_moments_sufficient`, `MetricGraphResonancePrototype.sin_squared_positive`, `MetricGraphResonancePrototype.sine_moment_identity_interval`, `MetricGraphResonancePrototype.sine_wronskian`, `MetricGraphResonancePrototype.theta_cosine_balance`, `MetricGraphResonancePrototype.theta_forcing_obstruction`, `MetricGraphTraceDensity.concat_density_integrable`, `MetricGraphTraceDensity.concat_density_integral`, `MetricGraphTraceDensity.concat_right_integral`, `MetricGraphTraceDensity.reverse_density_integrable`, `MetricGraphTraceDensity.reverse_density_integral`, `MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments`, `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`, `MetricGraphTraceParametric.realizedTrace_ae_local_velocity`, `MetricGraphTraceParametric.traceDensity_integrable`, `MetricGraphTraceParametric.traceDensity_integral`
+
+- `TopologicalSpace` / statement_or_definition: `MetricGraphPathPrototype.traceChartIntegral`, `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`
+
+- `Continuous` / semantic_expansion: `MetricGraphPathPrototype.edgeStepSystem`, `MetricGraphTraceParametric.traceDensity`
+
+The graph topology is coinduced from the inherited sum/product
+topology on `V ⊕ (E × unitInterval)`. The selected statements do
+not assert discrete vertex/edge spaces, an embedding, or arbitrary
+path completeness. The real sin/cos source reduces to the stated
+complex formulas; no independent novelty claim is made.
+
+For the previously retained derivative, integrability and real-volume
+support excerpts, each support applies to every recorded use of its
+corresponding material row; direct, semantic and proof-only roles
+remain distinct in that row. These are draft mappings for review.
+
+The quotient-topology support applies to the following graph-specific
+selected uses; generic trace realization retains an arbitrary supplied topology:
+
+- `MetricGraphPathPrototype.edgePath`
+- `MetricGraphPathPrototype.edgeStepSystem`
+- `MetricGraphPathPrototype.traceChartIntegral`
+- `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`
+- `MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments`
+- `MetricGraphTraceParametric.exists_vertex_trace`
+- `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`
+- `MetricGraphTraceParametric.realizedTrace_ae_local_velocity`
+- `MetricGraphTraceParametric.single_chart`
+- `MetricGraphTraceParametric.symm_chart`
+- `MetricGraphTraceParametric.traceDensity`
+- `MetricGraphTraceParametric.traceDensity_integrable`
+- `MetricGraphTraceParametric.traceDensity_integral`
+- `MetricGraphTraceParametric.trans_chart_left`
+- `MetricGraphTraceParametric.trans_chart_right`
+
+## Derivative neighborhood support (draft)
+
+The pinned neighborhood definition and open-neighborhood theorem support
+the following HasDerivAt uses through its existing pair filter. This is a
+semantic expansion, not a new hypothesis. Source-bound elaboration and
+axiom review of the named bridge and importer remain separate checks.
+
+- `MetricGraphResonancePrototype.cosine_moment_identity_interval`
+- `MetricGraphResonancePrototype.cosine_wronskian`
+- `MetricGraphResonancePrototype.forced_connected_graph_interval_iff`
+- `MetricGraphResonancePrototype.forced_oscillator_construct`
+- `MetricGraphResonancePrototype.intervalGraphSolution`
+- `MetricGraphResonancePrototype.interval_graph_moments_necessary`
+- `MetricGraphResonancePrototype.interval_graph_moments_sufficient`
+- `MetricGraphResonancePrototype.sine_moment_identity_interval`
+- `MetricGraphResonancePrototype.sine_wronskian`
+- `MetricGraphResonancePrototype.theta_forcing_obstruction`
+- `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`
+- `MetricGraphTraceParametric.realizedTrace_ae_local_velocity`
