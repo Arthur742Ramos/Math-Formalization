@@ -4,6 +4,7 @@ import json
 import pathlib
 import re
 import subprocess
+import sys
 
 from check_readiness import check_full_report
 from check_release_packet import bind_full, snapshot
@@ -355,6 +356,59 @@ def check_material_audit_binding(p, source):
 
 
 
+def check_local_draft_row(p, row):
+    """Keep a local-only snapshot distinct from a public source or intake."""
+    assert p['state'] == 'local-development-draft'
+    assert p['path'] == 'topology/gottschalk-hedlund'
+    assert p['publication_status'] == 'local-only'
+    assert p['registry_public_status'] == 'unconfirmed'
+    assert re.fullmatch(r'\d{4}-\d{2}-\d{2}', p['catalog_checkpoint'])
+    assert 'Local draft; intake unconfirmed' in row
+    assert p['name'] in row and p['scope'] in row and f"`{p['source_snapshot']['commit']}`" in row
+    assert 'https://github.com/' not in row and 'PALOMAR-' not in row
+
+
+def check_preparation_source_reference(p, row, repository):
+    if p['state'] == 'local-development-draft':
+        check_local_draft_row(p, row)
+    else:
+        source = p.get('current_source_snapshot', p['source_snapshot'])['commit']
+        assert f'https://github.com/{repository}/tree/{source}/{p["path"]}' in row
+
+
+def check_local_draft_files(p, source, package):
+    """Bind every regular Git blob and working file without including untracked authoring files."""
+    base = p['source_files_sha256']
+    nested = p['nested_source_files_sha256']
+    assert not set(base) & set(nested)
+    expected = dict(base, **nested)
+    assert expected
+    for name, digest in expected.items():
+        pure = pathlib.PurePosixPath(name)
+        assert not pure.is_absolute() and pure.parts and all(x not in {'.', '..'} and '\\' not in x and ':' not in x for x in pure.parts)
+        assert re.fullmatch(r'[0-9a-f]{64}', digest)
+    raw = subprocess.check_output(['git', '-C', str(ROOT), 'ls-tree', '-r', '-z', source, '--', p['path']])
+    prefix = p['path'] + '/'
+    found = {}
+    for item in raw.split(b'\0'):
+        if not item:
+            continue
+        header, raw_name = item.split(b'\t', 1)
+        mode, kind, unused_object = header.decode('ascii').split()
+        name = raw_name.decode('utf-8')
+        assert mode == '100644' and kind == 'blob' and name.startswith(prefix)
+        rel = name[len(prefix):]
+        assert rel not in found
+        found[rel] = True
+    assert set(found) == set(expected)
+    for name, digest in expected.items():
+        data = subprocess.check_output(['git', '-C', str(ROOT), 'show', source + ':' + prefix + name])
+        assert hashlib.sha256(data).hexdigest() == digest
+        local = package.joinpath(*pathlib.PurePosixPath(name).parts)
+        assert local.is_file() and not local.is_symlink() and local.resolve().is_relative_to(package.resolve())
+        assert hashlib.sha256(local.read_bytes()).hexdigest() == digest
+
+
 def check_preparations(rows, verified_paths):
     data = json.loads((ROOT / 'PREPARATIONS.json').read_text())
     assert data['schema_version'] == 1
@@ -367,7 +421,8 @@ def check_preparations(rows, verified_paths):
         seen.add(path)
         assert p['state'] in {'reviewed-preparation-not-submitted', 'verified-preparation-not-submitted',
             'status-correction-awaiting-exact-source-verification', 'status-correction-full-verified',
-            'user-reported-submitted', 'user-reported-registered', 'verified-preparation-intake-unconfirmed'}
+            'user-reported-submitted', 'user-reported-registered', 'verified-preparation-intake-unconfirmed',
+            'local-development-draft'}
         source, tree = p['source_snapshot']['commit'], p['source_snapshot']['tree']
         assert re.fullmatch(r'[0-9a-f]{40}', source) and re.fullmatch(r'[0-9a-f]{40}', tree)
         assert git('rev-parse', source + ':' + path) == tree
@@ -392,7 +447,7 @@ def check_preparations(rows, verified_paths):
         assert p['definition_names'] == config['definition_names']
         assert p['authors'] == meta['project']['authors']
         assert p['responsible_maintainers'] == meta['project']['responsible_maintainers']
-        if p['state'] == 'reviewed-preparation-not-submitted':
+        if p['state'] in {'reviewed-preparation-not-submitted', 'local-development-draft'}:
             # Evidence at this dated preparation checkpoint, not a permanent
             # claim that later exact-source external checks have never run.
             assert p['canonical_full'] == p['rendering'] == 'not-established'
@@ -408,7 +463,8 @@ def check_preparations(rows, verified_paths):
             assert re.fullmatch(r'[0-9a-f]{64}', digest)
         matching = [row for row in rows if '](' + path + ')' in row]
         assert len(matching) == 1
-        label = ('2026-10-27 checkpoint: intake submitted; corrected source unverified' if path == 'topology/knaster-reichbach' and p.get('current_intake_status') else
+        label = ('Local draft; intake unconfirmed' if p['state'] == 'local-development-draft' else
+                 '2026-10-27 checkpoint: intake submitted; corrected source unverified' if path == 'topology/knaster-reichbach' and p.get('current_intake_status') else
                  'Source-account correction' if 'status_correction' in p else
                  'User-confirmed registered; public ID unconfirmed' if p['state'] == 'user-reported-registered' else
                  'User-reported submitted' if p['state'] == 'user-reported-submitted' else
@@ -418,9 +474,12 @@ def check_preparations(rows, verified_paths):
             label = 'Preparation; intake unconfirmed'
         assert label in matching[0]
         assert p['name'] in matching[0]
-        catalog_source = p.get('current_source_snapshot', p['source_snapshot'])['commit']
-        assert f'https://github.com/{data["repository"]}/tree/{catalog_source}/{path}' in matching[0]
-        result = subprocess.run(['python3', 'scripts/check_package.py'], cwd=package,
-                                capture_output=True, text=True)
+        check_preparation_source_reference(p, matching[0], data['repository'])
+        if p['state'] == 'local-development-draft':
+            check_local_draft_files(p, source, package)
+            command = [sys.executable, str(ROOT / 'scripts/check_gh_local_draft.py'), str(package)]
+        else:
+            command = ['python3', 'scripts/check_package.py']
+        result = subprocess.run(command, cwd=package, capture_output=True, text=True)
         assert result.returncode == 0, (path, result.stdout, result.stderr)
     return seen

@@ -325,3 +325,11 @@ The selected mathematical source and implementation received independent interna
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Weak mixing and local Cantor scrambled families](topology/weak-mixing-cantor-chaos) | For a continuous square-transitive map on a nontrivial perfect Polish metric space, each nonempty open set contains a Cantor family of pairwise dense square orbits; separately, a global positive scale gives arbitrarily late scrambling. | Preparation; not submitted | [`01fd1be`](https://github.com/Arthur742Ramos/Math-Formalization/tree/01fd1bebc505eb4e35575a3a33ce0033a757273a/topology/weak-mixing-cantor-chaos) |
+
+## Gottschalk-Hedlund local development draft
+
+The 2026-10-30 checkpoint is an unpublished local source snapshot. Its inventory and release checks remain separate from the local package consistency checks.
+
+| Project | Scope | Intake status | Source snapshot |
+| --- | --- | --- | --- |
+| [Gottschalk-Hedlund cohomological equation for minimal systems](topology/gottschalk-hedlund) | For a continuous forward-minimal map on a nonempty compact Hausdorff space, bounded real orbit sums are equivalent to a continuous transfer function, unique up to a constant; the transfer explicitly conjugates the additive skew product by a fiber translation. | Local draft; intake unconfirmed | Local commit `07211b8f436a05489bf05b16f1090d8e20d70aed` (not published by this task) |

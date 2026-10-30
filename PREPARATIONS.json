@@ -2503,6 +2503,82 @@
         "scripts/generate_inventory.py": "89dd35490e09b73a208b5b9db123fe656b34f8f39418a5e36b9cf8b556619382",
         "verification/material-imported-definitions.json": "dd3ebaa642423b2b803b2792794c4a4b2204d57057f53ab28facc5036f4ca54b"
       }
+    },
+    {
+      "name": "Gottschalk-Hedlund cohomological equation for minimal systems",
+      "path": "topology/gottschalk-hedlund",
+      "scope": "For a continuous forward-minimal map on a nonempty compact Hausdorff space, bounded real orbit sums are equivalent to a continuous transfer function, unique up to a constant; the transfer explicitly conjugates the additive skew product by a fiber translation.",
+      "state": "local-development-draft",
+      "publication_status": "local-only",
+      "registry_public_status": "unconfirmed",
+      "catalog_checkpoint": "2026-10-30",
+      "source_snapshot": {
+        "commit": "07211b8f436a05489bf05b16f1090d8e20d70aed",
+        "tree": "877557af0b5ae72c429541d07dd127b9a74cb7c3"
+      },
+      "source_files_sha256": {
+        "ATTRIBUTION.md": "3f5257b4da6e32bef136d1e2a2c3646e83f2db2a407ba2d20257b2d1ce10f5e3",
+        "comparator.json": "d69cdbe855bb4e060d19900296572a074485ecefb7a8ca6302b3581f3279489d",
+        "formalization.yaml": "b61f6e151aa10c9ac8e70d56122068720c4ccc9ba8c86b877e7a5b029925b6a2",
+        "GHChallenge.lean": "919a8b3085631816c1323dfb19542da5351098c9385a3963e01da1060b307de0",
+        "GHSolution.lean": "5d9dc087aaa5a5ea9f7609165c6d7417899d05f423ed44569a2393f22b4d7fa9",
+        "GottschalkHedlund.lean": "919a8b3085631816c1323dfb19542da5351098c9385a3963e01da1060b307de0",
+        "lake-manifest.json": "352416135c68edaf6d90bb2997327ea1cb1fa9182ab87ab4faedf622da33c974",
+        "lakefile.toml": "c77f998ea3b33dd5c4a266e978571cebf26f4ec4909c2c20db99fecb1115891a",
+        "lean-toolchain": "f4085f5f49cb07b752ed5b171651770205bbbb73ea5445f0e14db04264e8506c",
+        "LICENSE": "aa0f551e7243c3a23d0fb7df6f87b542785411994b3004e755cce203ef21ad5a",
+        "MATERIAL-DEFINITIONS.md": "cd383ca70088a39bdaf5e25546bbe95ba13a3420918bd163d539d6a0f7fd46ec",
+        "README.md": "b64b8b32b64d2aa05f87f0a51ea589efbcba4edfce4432a4236795d6af1a89fb",
+        "SemanticChallenge.lean": "533a13051b74787ca0233896d7843f5e6f9b546f4734516a6d4f595fd651ea01",
+        "SemanticSolution.lean": "63f5a2b3b943ead3f9619f2e2af4fcb2903fe57ca29a834bd84850a556eab665",
+        "SOURCE-MANIFEST.json": "163190f2dada8aaf0ecd7e185beb045fac6fca0f8a9ae60248095869a41c0373",
+        ".gitattributes": "32b28a47f22fed72e85b6600a12ebb8569fbbe2b869760678dfde794924e48f2"
+      },
+      "nested_source_files_sha256": {
+        "scripts/check_source_assembly.py": "06aedeb935a01c5260873c4f48b50fce87a39fa86313f55619b3838007e64671",
+        "sources/CocycleDevelopment.lean.txt": "dc770dbf3cb7686c175daa96a1eabc3310d787833a26ce2f0a2fbf17a7c330a7",
+        "sources/CompactSkewDevelopment.lean.txt": "123cd8aad1b8a4a20f2aa84bc7305505a1ecf5da7dc7b35ef6f02e93ebacabe8",
+        "sources/GottschalkHedlundDevelopment.lean.txt": "953d187e720fe4552f79d3cc5e46e808839f7ade83d19254b31dbd9e938925b2",
+        "sources/MinimalInvariantDevelopment.lean.txt": "f2df0f26e48d5e55dd59a940f291390108f97b33902e0929f0c113e3660205a2",
+        "sources/MinimalSkewFibers.lean.txt": "82eab82f4075a60999cb15051065c27ad993759ae162467dda2c9b375e712bd0",
+        "sources/ProjectionGraphDevelopment.lean.txt": "39c8fc7016e6e6fcd84125b92db9d6129da137c3f634e95e6d7694f04655ad67",
+        "sources/VerticalFiberDevelopment.lean.txt": "eed55f0a39b2abfa9f64bafdb36dbe3c18befe04f2829601925df59508127acb",
+        "verification/material-imported-definitions.json": "c50f0079edf610117470e8cd285e0453aa798fd452004a8c5477029fa8ad7823"
+      },
+      "theorem_names": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "definition_names": [],
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "responsible_maintainers": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "canonical_full": "not-established",
+      "rendering": "not-established",
+      "canonical_run": null,
+      "rendering_run": null,
+      "fresh_runner_security_approval": false,
+      "registry_submission_ready": false,
+      "registry_intakes_by_this_task": 0,
+      "existing_public_id": null,
+      "reviews": {
+        "kind": "independent-internal-AI",
+        "mathematical_source": "pass",
+        "implementation": "pass",
+        "receipts_sha256": {
+          "reviewed_handoff": "0f179f430560cb8eca84588a1c2932b69bb3e83a743fd557f1d7d8f1227ca69b"
+        },
+        "scope": "Statement and proof review; imported-definition completeness remains provisional."
+      },
+      "evidence_scope": "Local checkpoint for an unpublished draft. The independently reviewed development build and axiom reports use retained dependency artifacts. Definition completeness, canonical verification, independent kernels, rendering and editorial outcomes are separate."
     }
   ]
 }
