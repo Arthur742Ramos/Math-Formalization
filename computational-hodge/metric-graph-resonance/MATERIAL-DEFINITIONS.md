@@ -1227,3 +1227,10 @@ Independent source review identified the following selected definitions as local
 - `MetricGraphResonanceIncidence.vertexDelta` is the real-valued equality indicator of the named vertex, using decidable equality and the constants zero and one.
 - `MetricGraphTraceDensity.concatDensity` selects between the two real-valued functions under the `x ≤ 1/2` test, with the displayed doubling/rescaling and subtraction operations.
 - `MetricGraphTraceDensity.reverseDensity` is the scalar function `x ↦ -f (1 - x)`.
+
+## Nested unit-interval expansions
+
+The path parameter `unitInterval` is `Set.Icc (0 : ℝ) 1`; the following selected uses therefore also involve the named closed interval and its underlying set semantics. These are semantic expansions, not additional hypotheses.
+
+- `Set.Icc`: `MetricGraphPathPrototype.Graph`, `MetricGraphPathPrototype.edgePath`, `MetricGraphPathPrototype.edgePoint`, `MetricGraphPathPrototype.edgePoint_one`, `MetricGraphPathPrototype.edgePoint_zero`, `MetricGraphPathPrototype.edgeStepSystem`, `MetricGraphPathPrototype.graphPotential`, `MetricGraphPathPrototype.rawPotential`, `MetricGraphPathPrototype.rawPotential_glue`, `MetricGraphPathPrototype.traceChartIntegral`, `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`, `MetricGraphPathPrototype.vertex`, `MetricGraphTraceParametric.realizedTrace_ae_local_velocity`, `MetricGraphTraceParametric.single_chart`, `MetricGraphTraceParametric.symm_chart`, `MetricGraphTraceParametric.traceDensity`, `MetricGraphTraceParametric.trans_chart_left`, `MetricGraphTraceParametric.trans_chart_right`
+- `Set`: `MetricGraphPathPrototype.edgePoint_one`, `MetricGraphPathPrototype.edgePoint_zero`, `MetricGraphPathPrototype.edgeStepSystem`, `MetricGraphPathPrototype.vertex`, `MetricGraphTraceParametric.symm_chart`, `MetricGraphTraceParametric.trans_chart_left`, `MetricGraphTraceParametric.trans_chart_right`

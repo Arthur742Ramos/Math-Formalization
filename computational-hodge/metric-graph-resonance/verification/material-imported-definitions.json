@@ -360,6 +360,18 @@
       "role": "hypothesis-and-conclusion",
       "meaning": "The closed order interval; used for edge continuity and the unit-interval chart.",
       "used_by": [
+        "MetricGraphPathPrototype.Graph",
+        "MetricGraphPathPrototype.edgePath",
+        "MetricGraphPathPrototype.edgePoint",
+        "MetricGraphPathPrototype.edgePoint_one",
+        "MetricGraphPathPrototype.edgePoint_zero",
+        "MetricGraphPathPrototype.edgeStepSystem",
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphPathPrototype.vertex",
         "MetricGraphResonancePrototype.continuous_edge_extension",
         "MetricGraphResonancePrototype.cosine_moment_identity_interval",
         "MetricGraphResonancePrototype.edge_moment_congr",
@@ -371,7 +383,11 @@
         "MetricGraphResonancePrototype.theta_forcing_obstruction",
         "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
         "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
-        "MetricGraphTraceParametric.single_chart"
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
+        "MetricGraphTraceParametric.traceDensity",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
       ],
       "use_roles_draft": {
         "statement_or_definition": [
@@ -387,6 +403,26 @@
           "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
           "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
           "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "semantic_expansion": [
+          "MetricGraphPathPrototype.Graph",
+          "MetricGraphPathPrototype.edgePath",
+          "MetricGraphPathPrototype.edgePoint",
+          "MetricGraphPathPrototype.edgePoint_one",
+          "MetricGraphPathPrototype.edgePoint_zero",
+          "MetricGraphPathPrototype.edgeStepSystem",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphPathPrototype.vertex",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.traceDensity",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right"
         ]
       },
       "definition_excerpt": "Set.Icc",
@@ -1377,11 +1413,15 @@
         "MetricGraphPathPrototype.Graph",
         "MetricGraphPathPrototype.edgePath",
         "MetricGraphPathPrototype.edgePoint",
+        "MetricGraphPathPrototype.edgePoint_one",
+        "MetricGraphPathPrototype.edgePoint_zero",
+        "MetricGraphPathPrototype.edgeStepSystem",
         "MetricGraphPathPrototype.graphPotential",
         "MetricGraphPathPrototype.rawPotential",
         "MetricGraphPathPrototype.rawPotential_glue",
         "MetricGraphPathPrototype.traceChartIntegral",
         "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphPathPrototype.vertex",
         "MetricGraphResonancePrototype.continuous_edge_extension",
         "MetricGraphResonancePrototype.cosine_moment_identity_interval",
         "MetricGraphResonancePrototype.edge_moment_congr",
@@ -1405,9 +1445,12 @@
         "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
         "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
         "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
         "MetricGraphTraceParametric.traceDensity",
         "MetricGraphTraceParametric.traceDensity_integrable",
-        "MetricGraphTraceParametric.traceDensity_integral"
+        "MetricGraphTraceParametric.traceDensity_integral",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
       ],
       "use_roles_draft": {
         "semantic_expansion": [
@@ -1444,7 +1487,14 @@
           "MetricGraphTraceParametric.single_chart",
           "MetricGraphTraceParametric.traceDensity",
           "MetricGraphTraceParametric.traceDensity_integrable",
-          "MetricGraphTraceParametric.traceDensity_integral"
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphPathPrototype.edgePoint_one",
+          "MetricGraphPathPrototype.edgePoint_zero",
+          "MetricGraphPathPrototype.edgeStepSystem",
+          "MetricGraphPathPrototype.vertex",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right"
         ]
       },
       "definition_excerpt": "Set",
