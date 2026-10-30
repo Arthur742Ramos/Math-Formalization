@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "kind": "sanitized-derived-receipt",
+  "scope": "A reviewed summary derived from retained service reports; this is not the original report, a digital signature, or evidence that a later source revision passed.",
+  "source": {
+    "repository": "Arthur742Ramos/Math-Formalization",
+    "commit": "a6fd933f00c83a82c4d7ab510d17ae62e87dc75f",
+    "project_path": "topology/minimal-multiple-recurrence",
+    "challenge_sha256": "3d5490417904438fe845782dfa55558ef95af5241ee62d449d2876538e6c3bd0",
+    "solution_sha256": "be907f2f766ec4f4454b170b9fbd5f4f5a541eb6d6f5011ceb98a3fb085b13ca",
+    "comparator_sha256": "e9600c0d8bf8b0c148bf046a09f68082cd243d67bb7cc572893c2f7f6f67abd7",
+    "metadata_sha256": "42f6c774833d1040e3a4262a42deb3c6f7edbb40646dc5456caadad7bbcb7779",
+    "lakefile_sha256": "499fd0ec5ac03dc5f45da64ac6b8e0b51438ce1af3b2f344ec9d890e8f374efe",
+    "lake_manifest_sha256": "5854953df5eade25bd08dc3f29452b4f8330cc0add4c8063294b8960003f1b77",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+    "mathlib_revision": "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+  },
+  "service_mechanical": {
+    "status": "pass",
+    "stage": "complete",
+    "checked_at": "2026-10-29T22:28:26Z",
+    "original_report_sha256": "ff2e5819e1ddd747179944ad9b161758c17a2116e7f1ecd6bc6810e0bb30a2a3",
+    "protected_config_sha256": "5516fc2e5f1e3a540d0bfdfcb98c1f0a22c986fdd103d9d5c7d1b30bcad61182",
+    "scope": "The protected Comparator accepted the Solution using Lean and NanoDa; a separate con-ron replay accepted. A Mathlib cache was used. The original report is retained privately."
+  },
+  "service_challenge_render": {
+    "status": "pass",
+    "stage": "complete",
+    "original_report_sha256": "396349d7f4293b22e309c0d5b7e0bf7810bb7a9d0843ac60ab02baeb2a153d58",
+    "scope": "Official Challenge rendering passed for the named source and Challenge hash. The original report is retained privately."
+  },
+  "hosted_preflight": {
+    "status": "pass",
+    "original_report_sha256": "78c090421e3811d7f818c510b9c7e592410271954590ae2f7422675fe1c033b0",
+    "run_url": "https://github.com/Arthur742Ramos/Math-Formalization/actions/runs/40964138368",
+    "scope": "Separate hosted preflight whose report identifies the same source commit; the workflow head is not the candidate source."
+  },
+  "selected_theorems": [
+    "MultipleRecurrence.minimal_multiple_recurrence_after",
+    "MultipleRecurrence.residual_multiply_recurrent",
+    "MultipleRecurrence.finite_multipliers_return",
+    "MultipleRecurrence.exists_dense_Gdelta_multiply_recurrent"
+  ],
+  "review_boundary": "The report summaries do not claim human peer review, a pass for later source commits, visual inspection, editorial acceptance, release, or registration."
+}
+
