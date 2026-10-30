@@ -30,7 +30,7 @@ are recorded in `source-provenance.json` and `SOURCE-LICENSE.txt`. Challenge
 and Solution have common selected declaration headers but are different source
 files; Challenge also contains additional public proof helpers. Their semantic
 Comparator, dependency-provenance and independent-kernel checks remain pending.
-OpenAI Codex supplied substantive proofs and packaging. The proposed author and
-maintainer names are carried from a prior Hodge project; their roles for this
-project remain to be confirmed. They do not imply individual human proof
-contributions or human mathematical review.
+OpenAI Codex supplied substantive proofs and packaging. Arthur Freitas Ramos
+confirmed the listed authors and designated himself as the sole responsible
+maintainer. These roles do not imply individual human proof contributions or
+human mathematical review.
