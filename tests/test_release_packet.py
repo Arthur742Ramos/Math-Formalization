@@ -780,6 +780,36 @@ class ResonantPeriodsReleasePath(ArclengthModesReleasePath):
 class MetricGraphResonanceReleasePath(ArclengthModesReleasePath):
     PROJECT = 'computational-hodge/metric-graph-resonance'
 
+    @staticmethod
+    def material_fixture():
+        sums = ['MetricGraphResonanceIncidence.divergence',
+                'MetricGraphResonanceIncidence.divergenceLinear',
+                'MetricGraphResonanceIncidence.exists_divergence_of_sum_zero',
+                'MetricGraphResonancePrototype.intervalGraphSolution',
+                'MetricGraphResonancePrototype.graphMomentConditions',
+                'MetricGraphResonancePrototype.theta_cosine_balance',
+                'MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals']
+        volume = ['MetricGraphResonancePrototype.sin_squared_positive',
+                  'MetricGraphResonancePrototype.graphMomentConditions',
+                  'MetricGraphTraceDensity.concat_density_integrable',
+                  'MetricGraphTraceDensity.reverse_density_integrable',
+                  'MetricGraphTraceParametric.traceDensity_integrable',
+                  'MetricGraphTraceParametric.realizedTrace_ae_local_velocity',
+                  'MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals']
+        return {'required_declarations': ['Finset.sum', 'Real.volume_eq_stieltjes_id'],
+                'material_declarations': [{'name': 'Finset.sum', 'declaration_kind': 'generated_additive', 'used_by': sums,
+                                           'use_roles_draft': {'semantic_expansion': sums}},
+                                          {'name': 'Real.volume_eq_stieltjes_id', 'declaration_kind': 'theorem', 'used_by': volume,
+                                           'use_roles_draft': {'semantic_expansion': volume}}]}
+
+    def test_present_material_evidence_is_checked(self):
+        files = {'verification/material-imported-definitions.json': json.dumps(self.material_fixture()).encode()}
+        with (mock.patch.object(guard, 'snapshot', return_value=files),
+              mock.patch.object(guard, 'status_errors', return_value=[]),
+              mock.patch.object(guard, 'check_imported_definitions') as check):
+            self.assertEqual(guard.check_status(ROOT, '0' * 40, self.PROJECT), files)
+            check.assert_called_once()
+
     def test_nearby_and_traversing_paths_are_rejected_before_git(self):
         with mock.patch.object(guard.subprocess, 'check_output') as command:
             for path in [self.PROJECT + '/../finite-periods', self.PROJECT + '/other',
@@ -789,12 +819,38 @@ class MetricGraphResonanceReleasePath(ArclengthModesReleasePath):
             command.assert_not_called()
 
     def test_material_checker_failure_is_propagated(self):
-        files = {'verification/material-imported-definitions.json': b'{}'}
+        files = {'verification/material-imported-definitions.json': json.dumps(self.material_fixture()).encode()}
         with (mock.patch.object(guard, 'snapshot', return_value=files),
               mock.patch.object(guard, 'status_errors', return_value=[]),
               mock.patch.object(guard, 'check_imported_definitions', side_effect=ValueError('bad evidence'))):
             with self.assertRaisesRegex(ValueError, 'bad evidence'):
                 guard.check_status(ROOT, '0' * 40, self.PROJECT)
+
+    def test_required_generated_sum_and_volume_contracts(self):
+        for key in ('Finset.sum', 'Real.volume_eq_stieltjes_id'):
+            with self.subTest(missing=key):
+                data = self.material_fixture()
+                data['material_declarations'] = [r for r in data['material_declarations'] if r['name'] != key]
+                with self.assertRaisesRegex(ValueError, 'Missing required metric-graph material contract'):
+                    guard.check_metric_graph_material_contracts(data)
+            with self.subTest(missing_use=key):
+                data = self.material_fixture()
+                next(r for r in data['material_declarations'] if r['name'] == key)['used_by'] = []
+                with self.assertRaisesRegex(ValueError, 'Missing required metric-graph material use'):
+                    guard.check_metric_graph_material_contracts(data)
+            with self.subTest(wrong_kind=key):
+                data = self.material_fixture()
+                next(r for r in data['material_declarations'] if r['name'] == key)['declaration_kind'] = 'def'
+                with self.assertRaisesRegex(ValueError, 'Wrong metric-graph material contract kind'):
+                    guard.check_metric_graph_material_contracts(data)
+
+    def test_roles_must_cover_exact_uses(self):
+        for key in ('Finset.sum', 'Real.volume_eq_stieltjes_id'):
+            data = self.material_fixture()
+            row = next(r for r in data['material_declarations'] if r['name'] == key)
+            row['use_roles_draft']['semantic_expansion'] = row['used_by'][:-1]
+            with self.subTest(name=key), self.assertRaisesRegex(ValueError, 'roles do not cover uses'):
+                guard.check_metric_graph_material_contracts(data)
 
 
 class AdvisoryKernelAccount(unittest.TestCase):

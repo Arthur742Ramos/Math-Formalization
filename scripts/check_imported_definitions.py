@@ -40,6 +40,67 @@ def check_eqvgen_kind(name, kind, version):
             'Unsupported inductive name or declaration kind')
 
 
+def check_generated_sum_kind(name, kind, version):
+    require(not (version == 1 and name == 'Finset.sum'),
+            'Finset.sum requires pinned generated-additive evidence')
+    require(version == 1 or ((name == 'Finset.sum') == (kind == 'generated_additive')),
+            'Unsupported generated-additive name or declaration kind')
+
+
+def check_pinned_generated_sum(declaration, dep, source, excerpt):
+    """Bind this generated additive name to its exact pinned producer only."""
+    require(declaration['name'] == 'Finset.sum' and
+            declaration['producer'] == 'Finset.prod' and
+            declaration['bridge_kind'] == 'generated-additive',
+            'Unsupported generated-additive contract')
+    require(dep['name'] == 'mathlib' and
+            dep['repository'] == 'https://github.com/leanprover-community/mathlib4' and
+            dep['commit'] == '065356127b1dc0016f66b7283ce0ce2c4055aa55',
+            'Unsupported generated-additive dependency')
+    require(source['path'] == 'Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean' and
+            source['sha256'] == 'e935efa96ad9381658f3158f900d04589c46d7e933cab15f4d8632e1af85527f' and
+            source['git_blob_sha1'] == '0eec64f2576f4d449b44b877678fe95678cfc9f0' and
+            excerpt['first_line'] == 59 and excerpt['last_line'] == 69 and
+            excerpt['sha256'] == '26d8fa821bd539acece2d861933171554c86d441fbb32266ecc2ebc472639de1' and
+            sha(excerpt['text'].encode()) == excerpt['sha256'],
+            'Pinned generated-additive producer excerpt mismatch')
+
+
+def check_real_volume_kind(name, kind, version):
+    if name == 'Real.volume_eq_stieltjes_id':
+        require(version == 2 and kind == 'theorem',
+                'Real-volume contract requires pinned theorem evidence')
+
+
+def check_pinned_real_volume(declaration, dep, source, excerpt):
+    """Bind this real-volume theorem to its exact pinned source."""
+    require(declaration['name'] == 'Real.volume_eq_stieltjes_id' and
+            declaration['bridge_kind'] == 'proved-contract',
+            'Unsupported real-volume contract')
+    require(dep['name'] == 'mathlib' and
+            dep['repository'] == 'https://github.com/leanprover-community/mathlib4' and
+            dep['commit'] == '065356127b1dc0016f66b7283ce0ce2c4055aa55',
+            'Unsupported real-volume dependency')
+    require(source['path'] == 'Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean' and
+            source['sha256'] == '628bcfc45fabd59501cdebf1cc3a8003ef3aba18fc7de4710ca9ffc1033b32d7' and
+            source['git_blob_sha1'] == '84794cf74fa34664073bbf336adccdefb5bada62' and
+            excerpt['first_line'] == 54 and excerpt['last_line'] == 77 and
+            excerpt['sha256'] == '6566b8cc0ffee203b8c49deaf5306c682ca13346166373d0168d3c951b3817a6' and
+            sha(excerpt['text'].encode()) == excerpt['sha256'],
+            'Pinned real-volume theorem excerpt mismatch')
+
+
+def check_pinned_real_ae(source, excerpt):
+    """Authenticate the separately retained almost-everywhere characterization."""
+    require(source['path'] == 'Mathlib/MeasureTheory/OuterMeasure/AE.lean' and
+            source['sha256'] == 'de58d3b2aa42d801e9a268df285c32e5aa6ca7ffc5b42bf5eff8f12bda87a00d' and
+            source['git_blob_sha1'] == '1802fcab91bae1a8537d57413d45b28628d6d5b5' and
+            excerpt['first_line'] == 132 and excerpt['last_line'] == 136 and
+            excerpt['sha256'] == 'e5e156ce2adb28adce69979079b1f974df28d2d4ff50e1a81e1df2d47cafb9f4' and
+            sha(excerpt['text'].encode()) == excerpt['sha256'],
+            'Pinned almost-everywhere excerpt mismatch')
+
+
 def check_pinned_eqvgen(declaration, dep, source, excerpt):
     """A narrow representation of one pinned inductive; not semantic validation."""
     require(declaration['name'] == 'Relation.EqvGen' and
@@ -162,6 +223,8 @@ def check(project, dependency_root=None):
         body = excerpts[declaration['definition_excerpt']]
         if version == 1:
             check_eqvgen_kind(name, 'def', version)
+            check_generated_sum_kind(name, 'def', version)
+            check_real_volume_kind(name, 'def', version)
             require(declaration_header_matches(body, 'def', name, legacy=True),
                     'Definition evidence is not a definition')
             require(declaration['bridge_kind'] == 'proved-equivalence',
@@ -170,15 +233,25 @@ def check(project, dependency_root=None):
                 require(declaration[key] in excerpts, 'Missing semantic/complement bridge')
         else:
             kind = declaration['declaration_kind']
-            require(kind in {'def', 'abbrev', 'class', 'structure', 'instance', 'theorem', 'irreducible_def', 'inductive'}, 'Unknown declaration kind')
+            require(kind in {'def', 'abbrev', 'class', 'structure', 'instance', 'theorem', 'irreducible_def', 'inductive', 'generated_additive'}, 'Unknown declaration kind')
             check_eqvgen_kind(name, kind, version)
+            check_generated_sum_kind(name, kind, version)
+            check_real_volume_kind(name, kind, version)
             if kind == 'inductive':
                 source, excerpt = excerpt_evidence[declaration['definition_excerpt']]
                 check_pinned_eqvgen(declaration, dep, source, excerpt)
-            require(declaration_header_matches(body, kind, name),
+            if kind == 'generated_additive':
+                source, excerpt = excerpt_evidence[declaration['definition_excerpt']]
+                check_pinned_generated_sum(declaration, dep, source, excerpt)
+            if name == 'Real.volume_eq_stieltjes_id':
+                source, excerpt = excerpt_evidence[declaration['definition_excerpt']]
+                check_pinned_real_volume(declaration, dep, source, excerpt)
+            require(declaration_header_matches(body, 'def' if kind == 'generated_additive' else kind,
+                                               declaration['producer'] if kind == 'generated_additive' else name),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
-            allowed = ({'inductive-constructors'} if kind == 'inductive' else
+            allowed = ({'generated-additive'} if kind == 'generated_additive' else
+                       {'inductive-constructors'} if kind == 'inductive' else
                        {'class-fields'} if kind in {'class', 'structure'} else
                        {'proved-contract'} if kind == 'theorem' else
                        {'proved-equivalence'} if kind == 'irreducible_def' else
@@ -187,6 +260,13 @@ def check(project, dependency_root=None):
             refs = declaration['bridge_excerpts']
             require(refs and len(refs) == len(set(refs)) and all(n in excerpts for n in refs),
                     'Missing or invalid semantic bridge evidence')
+            if name in {'Finset.sum', 'Real.volume_eq_stieltjes_id'}:
+                require(declaration['definition_excerpt'] in refs,
+                        'Material bridge omits its pinned declaration excerpt')
+            if name == 'Real.volume_eq_stieltjes_id':
+                require('AE_null_complement_contract' in refs,
+                        'Real-volume bridge omits its almost-everywhere excerpt')
+                check_pinned_real_ae(*excerpt_evidence['AE_null_complement_contract'])
             require(declaration['dependency_expansion'].strip() and
                     declaration['proof_status'].strip(), 'Missing dependency or proof-status account')
     lake = tomllib.loads(local_file(project, 'lakefile.toml').read_text())
@@ -207,6 +287,17 @@ def check(project, dependency_root=None):
                         for f in ['challenge_module', 'solution_module']), 'Mixed duplicate entrypoints')
         require('-- BEGIN material-imported-definition audit' in body and
                 '-- END material-imported-definition audit' in body, 'Missing checked bridge block')
+        # These are structural checks only. Elaborating both modules and independently
+        # checking the explicit contract types remains a separate required gate.
+        required_contracts = []
+        if 'Finset.sum' in names:
+            required_contracts += ['generated_sum_contract', 'finite_univ_sum_contract']
+        if 'Real.volume_eq_stieltjes_id' in names:
+            required_contracts += ['real_volume_contract', 'ae_real_volume_contract']
+        for contract in required_contracts:
+            require(re.search(r'(?m)^theorem ' + re.escape(contract) + r'\b', body) and
+                    re.search(r'(?m)^#print axioms ' + re.escape(contract) + r'$', body),
+                    'Bridge missing named contract or axiom audit: ' + contract)
     require(entrypoints == {'challenge_module', 'solution_module'}, 'Missing entrypoint bridge coverage')
     return dict(status='pass', project=str(project), material_declarations=names,
                 retained_source_files=len(paths), retained_excerpts=len(excerpts),

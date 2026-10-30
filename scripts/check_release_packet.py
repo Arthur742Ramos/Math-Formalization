@@ -237,6 +237,53 @@ def check_archive(data, files):
             require(archive.extractfile(member).read() == files[name], 'Archive source bytes differ: ' + name)
 
 
+def check_metric_graph_material_contracts(data):
+    """Require the generated sum and real-volume accounts used by this packet.
+
+    The full source checker and independent semantic review remain separate.
+    """
+    required = {
+        'Finset.sum': ('generated_additive', {
+            'MetricGraphResonanceIncidence.divergence',
+            'MetricGraphResonanceIncidence.divergenceLinear',
+            'MetricGraphResonanceIncidence.exists_divergence_of_sum_zero',
+            'MetricGraphResonancePrototype.intervalGraphSolution',
+            'MetricGraphResonancePrototype.graphMomentConditions',
+            'MetricGraphResonancePrototype.theta_cosine_balance',
+            'MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals'}),
+        'Real.volume_eq_stieltjes_id': ('theorem', {
+            'MetricGraphResonancePrototype.sin_squared_positive',
+            'MetricGraphResonancePrototype.graphMomentConditions',
+            'MetricGraphTraceDensity.concat_density_integrable',
+            'MetricGraphTraceDensity.reverse_density_integrable',
+            'MetricGraphTraceParametric.traceDensity_integrable',
+            'MetricGraphTraceParametric.realizedTrace_ae_local_velocity',
+            'MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals'})}
+    require(isinstance(data, dict), 'Invalid metric-graph material evidence')
+    inventory = data.get('required_declarations', [])
+    rows = data.get('material_declarations', [])
+    require(isinstance(inventory, list) and isinstance(rows, list), 'Invalid metric-graph material evidence')
+    for name, (kind, uses) in required.items():
+        matches = [r for r in rows if isinstance(r, dict) and r.get('name') == name]
+        require(name in inventory and len(matches) == 1, 'Missing required metric-graph material contract: ' + name)
+        row = matches[0]
+        require(row.get('declaration_kind') == kind, 'Wrong metric-graph material contract kind: ' + name)
+        usage = row.get('used_by')
+        require(isinstance(usage, list) and all(isinstance(u, str) for u in usage) and uses <= set(usage),
+                'Missing required metric-graph material use: ' + name)
+        roles = row.get('use_roles_draft')
+        allowed_roles = {'statement_or_definition', 'semantic_expansion', 'proof_dependency',
+                         'transitive_proof_dependency', 'proof_semantic_expansion',
+                         'selected_definition_body'}
+        require(isinstance(roles, dict) and bool(roles) and set(roles) <= allowed_roles,
+                'Invalid metric-graph material roles: ' + name)
+        require(all(isinstance(v, list) and v and all(isinstance(u, str) for u in v)
+                    and len(v) == len(set(v)) for v in roles.values()),
+                'Invalid metric-graph material role members: ' + name)
+        require(set().union(*map(set, roles.values())) == set(usage),
+                'Metric-graph material roles do not cover uses: ' + name)
+
+
 def check_status(root, commit, project, historical_report=None):
     files = snapshot(root, commit, project)
     # An intake for the original KR source was observed on 2026-10-27.
@@ -254,6 +301,8 @@ def check_status(root, commit, project, historical_report=None):
                    'computational-hodge/presentation-homology', 'computational-hodge/geometric-descent', 'computational-hodge/geometric-obstruction', 'computational-hodge/loop-characters', 'computational-hodge/torus-periods', 'computational-hodge/circle-hodge', 'computational-hodge/trace-integrals', 'computational-hodge/ac-lifts', 'computational-hodge/dirichlet', 'computational-hodge/unit-circle-geometry', 'computational-hodge/automatic-lifts', 'computational-hodge/metric-hodge', 'computational-hodge/arclength', 'computational-hodge/poisson', 'computational-hodge/green-operator', 'computational-hodge/compact-green', 'computational-hodge/fredholm-circle', 'computational-hodge/resonance-obstruction', 'computational-hodge/resonant-range', 'computational-hodge/full-circle-range', 'computational-hodge/canonical-circle', 'computational-hodge/positive-resolvent', 'computational-hodge/resolvent-limit', 'computational-hodge/resolvent-calculus', 'computational-hodge/arclength-conjugacy', 'computational-hodge/arclength-modes', 'computational-hodge/resonant-periods', 'computational-hodge/metric-graph-resonance'}:
         require(material_manifest in files, 'Missing material imported-definition evidence')
     if material_manifest in files:
+        if project == 'computational-hodge/metric-graph-resonance':
+            check_metric_graph_material_contracts(json.loads(files[material_manifest]))
         # Audit the proposed source bytes, never a later working directory.
         # This is static consistency; pinned-origin and compilation are separate.
         with tempfile.TemporaryDirectory(prefix='material-definition-source-') as directory:

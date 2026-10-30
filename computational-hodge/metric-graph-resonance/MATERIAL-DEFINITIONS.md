@@ -1234,3 +1234,43 @@ The path parameter `unitInterval` is `Set.Icc (0 : ℝ) 1`; the following select
 
 - `Set.Icc`: `MetricGraphPathPrototype.Graph`, `MetricGraphPathPrototype.edgePath`, `MetricGraphPathPrototype.edgePoint`, `MetricGraphPathPrototype.edgePoint_one`, `MetricGraphPathPrototype.edgePoint_zero`, `MetricGraphPathPrototype.edgeStepSystem`, `MetricGraphPathPrototype.graphPotential`, `MetricGraphPathPrototype.rawPotential`, `MetricGraphPathPrototype.rawPotential_glue`, `MetricGraphPathPrototype.traceChartIntegral`, `MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference`, `MetricGraphPathPrototype.vertex`, `MetricGraphTraceParametric.realizedTrace_ae_local_velocity`, `MetricGraphTraceParametric.single_chart`, `MetricGraphTraceParametric.symm_chart`, `MetricGraphTraceParametric.traceDensity`, `MetricGraphTraceParametric.trans_chart_left`, `MetricGraphTraceParametric.trans_chart_right`
 - `Set`: `MetricGraphPathPrototype.edgePoint_one`, `MetricGraphPathPrototype.edgePoint_zero`, `MetricGraphPathPrototype.edgeStepSystem`, `MetricGraphPathPrototype.vertex`, `MetricGraphTraceParametric.symm_chart`, `MetricGraphTraceParametric.trans_chart_left`, `MetricGraphTraceParametric.trans_chart_right`
+
+## Generated finite sum and real volume: draft contracts
+
+### Finset.sum
+
+The generated additive finite sum over the specified Finset; the unindexed finite-type notation uses Finset.univ.
+
+The retained to_additive-annotated Finset.prod source generates Finset.sum. Actual generated sum and Finset.univ value/type contracts require separate compiled bridges.
+
+DRAFT: generated declaration, per-use completeness and both bridge builds remain unverified.
+
+**statement_or_definition**: MetricGraphResonanceIncidence.divergence, MetricGraphResonancePrototype.intervalGraphSolution, MetricGraphResonancePrototype.graphMomentConditions, MetricGraphResonanceIncidence.exists_divergence_of_sum_zero, MetricGraphResonancePrototype.theta_cosine_balance, MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals
+
+**semantic_expansion**: MetricGraphResonanceIncidence.divergenceLinear, MetricGraphResonancePrototype.interval_graph_moments_necessary, MetricGraphResonancePrototype.interval_graph_moments_sufficient, MetricGraphResonancePrototype.forced_connected_graph_interval_iff, MetricGraphResonanceIncidence.divergence_edge_unit, MetricGraphResonanceIncidence.reachable_delta_flow
+
+**proof_dependency**: MetricGraphResonanceIncidence.divergence_edge_unit, MetricGraphResonanceIncidence.reachable_delta_flow, MetricGraphResonancePrototype.interval_graph_moments_necessary, MetricGraphResonancePrototype.interval_graph_moments_sufficient, MetricGraphResonanceIncidence.divergenceLinear, MetricGraphResonanceIncidence.exists_divergence_of_sum_zero, MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals
+
+**transitive_proof_dependency**: MetricGraphResonancePrototype.forced_connected_graph_interval_iff
+
+### Real.volume_eq_stieltjes_id
+
+The specific real volume measure equals the measure of the identity Stieltjes function; this does not identify arbitrary measures with real volume.
+
+This theorem supplies the real-volume identification used in the stated real interval and almost-everywhere semantics. The Stieltjes measure and null-complement contracts require separate review and bridge compilation.
+
+DRAFT: per-use completeness, actual real-volume bridge and both source-bound builds remain unverified.
+
+**semantic_expansion**: MetricGraphPathPrototype.graphPotential, MetricGraphPathPrototype.rawPotential, MetricGraphPathPrototype.rawPotential_glue, MetricGraphPathPrototype.traceChartIntegral, MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference, MetricGraphResonancePrototype.cosine_moment_identity_interval, MetricGraphResonancePrototype.edge_moment_congr, MetricGraphResonancePrototype.forced_connected_graph_interval_iff, MetricGraphResonancePrototype.forced_oscillator_construct, MetricGraphResonancePrototype.full_period_sine_cosine_zero, MetricGraphResonancePrototype.graphMomentConditions, MetricGraphResonancePrototype.interval_graph_moments_necessary, MetricGraphResonancePrototype.interval_graph_moments_sufficient, MetricGraphResonancePrototype.sin_squared_positive, MetricGraphResonancePrototype.sine_moment_identity_interval, MetricGraphResonancePrototype.theta_cosine_balance, MetricGraphTraceDensity.concat_density_integrable, MetricGraphTraceDensity.concat_density_integral, MetricGraphTraceDensity.concat_right_integral, MetricGraphTraceDensity.reverse_density_integrable, MetricGraphTraceDensity.reverse_density_integral, MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments, MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals, MetricGraphTraceParametric.realizedTrace_ae_local_velocity, MetricGraphTraceParametric.traceDensity_integrable, MetricGraphTraceParametric.traceDensity_integral
+
+**transitive_proof_dependency**: MetricGraphResonancePrototype.theta_forcing_obstruction
+
+
+Independent draft role review: the divergence-edge and reachable-delta results
+include finite sums through the stated divergence definition as well as in proofs.
+The interval necessity and sufficiency arguments also use finite sums in proofs;
+the combined iff depends on those arguments transitively. The theta forcing
+obstruction involves real volume through its proof dependencies, not its statement.
+The real-volume equality is a proposed semantic contract, not a claim that each
+selected result directly invokes that theorem. These mappings remain subject to
+complete independent review and source-bound bridge elaboration.

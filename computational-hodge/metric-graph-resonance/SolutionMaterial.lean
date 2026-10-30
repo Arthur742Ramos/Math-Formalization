@@ -1,4 +1,7 @@
+module
 public import Solution
+
+public section
 
 -- BEGIN material-imported-definition audit
 -- Partial draft only: these examples do not constitute the complete inventory.
@@ -65,10 +68,10 @@ example (μ : Measure ℝ) (f : ℝ → ℝ) : MeasureTheory.integral μ f =
       if hf : Integrable f μ then L1.integral (hf.toL1 f) else 0
     else 0 := MeasureTheory.integral_def μ f
 
-example : (volume : Measure ℝ) = StieltjesFunction.id.measure :=
+theorem real_volume_contract : (volume : Measure ℝ) = StieltjesFunction.id.measure :=
   Real.volume_eq_stieltjes_id
 
-example (P : ℝ → Prop) :
+theorem ae_real_volume_contract (P : ℝ → Prop) :
     (∀ᵐ x : ℝ ∂volume, P x) ↔ volume {x | ¬ P x} = 0 := MeasureTheory.ae_iff
 
 example {α : Type*} (l : Filter α) (P : α → Prop) :
@@ -116,14 +119,27 @@ example {X : Type*} [TopologicalSpace X] {a b : X} (p : Path a b) :
 example {X : Type*} [TopologicalSpace X] (a : X) (t : Set.Icc (0 : ℝ) 1) :
     (Path.refl a) t = a := rfl
 
-example {α : Type*} (s : Finset α) (f : α → ℝ) :
+theorem generated_sum_contract {α : Type*} (s : Finset α) (f : α → ℝ) :
     s.sum f = (s.val.map f).sum := rfl
 
 example {α : Type*} [Fintype α] (a : α) : a ∈ (Finset.univ : Finset α) :=
   Finset.mem_univ a
 
-example {α : Type*} [Fintype α] (f : α → ℝ) :
+theorem finite_univ_sum_contract {α : Type*} [Fintype α] (f : α → ℝ) :
     (∑ a : α, f a) = Finset.univ.sum f := rfl
+
+-- Independently elaborate the named contracts at the intended types.
+example {α : Type*} (s : Finset α) (f : α → ℝ) :
+    s.sum f = (s.val.map f).sum := generated_sum_contract s f
+example {α : Type*} [Fintype α] (f : α → ℝ) :
+    (∑ a : α, f a) = Finset.univ.sum f := finite_univ_sum_contract f
+example : (volume : Measure ℝ) = StieltjesFunction.id.measure := real_volume_contract
+example (P : ℝ → Prop) : (∀ᵐ x : ℝ ∂volume, P x) ↔ volume {x | ¬ P x} = 0 :=
+  ae_real_volume_contract P
+#print axioms generated_sum_contract
+#print axioms finite_univ_sum_contract
+#print axioms real_volume_contract
+#print axioms ae_real_volume_contract
 
 example (f : (ℝ → ℝ) →ₗ[ℝ] (ℝ → ℝ)) (a b : ℝ → ℝ) :
     f (a + b) = f a + f b := map_add f a b
