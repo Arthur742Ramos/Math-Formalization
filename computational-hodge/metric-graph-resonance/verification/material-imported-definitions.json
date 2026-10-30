@@ -972,6 +972,9 @@
         ],
         "transitive_proof_dependency": [
           "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ],
+        "semantic_expansion": [
+          "MetricGraphTraceParametric.symm_chart"
         ]
       },
       "definition_excerpt": "Path.symm",
@@ -1003,6 +1006,10 @@
         ],
         "transitive_proof_dependency": [
           "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ],
+        "semantic_expansion": [
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right"
         ]
       },
       "definition_excerpt": "Path.trans",

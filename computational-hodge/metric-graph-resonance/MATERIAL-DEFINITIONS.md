@@ -1480,3 +1480,12 @@ parameter. These are semantic expansions rather than new hypotheses.
 - `MetricGraphTraceParametric.exists_vertex_trace`
 - `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`
 - `ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize`
+
+## Path constructor statement expansions (draft)
+
+The statements of `MetricGraphTraceParametric.trans_chart_left` and
+`MetricGraphTraceParametric.trans_chart_right` use `Path.trans`
+through realization of the trans constructor. The statement of
+`MetricGraphTraceParametric.symm_chart` similarly uses `Path.symm`
+through realization of the symm constructor. These expansions add
+no hypotheses and retain the separately recorded proof dependencies.
