@@ -1467,3 +1467,16 @@ theorem measure_Ioc (a b : R) : f.measure (Ioc a b) = ofReal (f b - f a) := by
 Lean core `Quot`, `Quot.mk`, and `Quot.sound` are a trusted
 foundational boundary for the local `EdgeGlue` quotient. This note
 does not replace the required source-bound transitive axiom audit.
+
+## Additional graph and path carrier expansions (draft)
+
+Each selected declaration below also uses `unitInterval`, `Set.Icc`,
+and `Set` via the `Graph` carrier or, for realization, the `Path`
+parameter. These are semantic expansions rather than new hypotheses.
+
+- `MetricGraphTraceParametric.traceDensity_integrable`
+- `MetricGraphTraceParametric.traceDensity_integral`
+- `MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments`
+- `MetricGraphTraceParametric.exists_vertex_trace`
+- `MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals`
+- `ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize`

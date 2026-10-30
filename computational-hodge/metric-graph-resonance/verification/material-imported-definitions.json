@@ -396,7 +396,12 @@
         "MetricGraphTraceParametric.symm_chart",
         "MetricGraphTraceParametric.traceDensity",
         "MetricGraphTraceParametric.trans_chart_left",
-        "MetricGraphTraceParametric.trans_chart_right"
+        "MetricGraphTraceParametric.trans_chart_right",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.exists_vertex_trace",
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
       ],
       "use_roles_draft": {
         "statement_or_definition": [
@@ -431,7 +436,13 @@
           "MetricGraphTraceParametric.symm_chart",
           "MetricGraphTraceParametric.traceDensity",
           "MetricGraphTraceParametric.trans_chart_left",
-          "MetricGraphTraceParametric.trans_chart_right"
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.exists_vertex_trace",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
         ]
       },
       "definition_excerpt": "Set.Icc",
@@ -1338,7 +1349,13 @@
         "MetricGraphTraceParametric.symm_chart",
         "MetricGraphTraceParametric.traceDensity",
         "MetricGraphTraceParametric.trans_chart_left",
-        "MetricGraphTraceParametric.trans_chart_right"
+        "MetricGraphTraceParametric.trans_chart_right",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.exists_vertex_trace",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
       ],
       "use_roles_draft": {
         "semantic_expansion": [
@@ -1359,7 +1376,13 @@
           "MetricGraphTraceParametric.trans_chart_right",
           "MetricGraphTraceParametric.symm_chart",
           "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
-          "MetricGraphTraceParametric.traceDensity"
+          "MetricGraphTraceParametric.traceDensity",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.exists_vertex_trace",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
         ]
       },
       "definition_excerpt": "unitInterval",
@@ -1463,7 +1486,9 @@
         "MetricGraphTraceParametric.traceDensity_integrable",
         "MetricGraphTraceParametric.traceDensity_integral",
         "MetricGraphTraceParametric.trans_chart_left",
-        "MetricGraphTraceParametric.trans_chart_right"
+        "MetricGraphTraceParametric.trans_chart_right",
+        "MetricGraphTraceParametric.exists_vertex_trace",
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
       ],
       "use_roles_draft": {
         "semantic_expansion": [
@@ -1507,7 +1532,9 @@
           "MetricGraphPathPrototype.vertex",
           "MetricGraphTraceParametric.symm_chart",
           "MetricGraphTraceParametric.trans_chart_left",
-          "MetricGraphTraceParametric.trans_chart_right"
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.exists_vertex_trace",
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
         ]
       },
       "definition_excerpt": "Set",
