@@ -33,6 +33,32 @@ def declaration_header_matches(body, kind, name, *, legacy=False):
     return re.search(prefix + re.escape(name.split('.')[-1]) + r"(?![\w'])", body) is not None
 
 
+def check_eqvgen_kind(name, kind, version):
+    require(not (version == 1 and name == 'Relation.EqvGen'),
+            'Relation.EqvGen requires the pinned inductive schema')
+    require(version == 1 or ((name == 'Relation.EqvGen') == (kind == 'inductive')),
+            'Unsupported inductive name or declaration kind')
+
+
+def check_pinned_eqvgen(declaration, dep, source, excerpt):
+    """A narrow representation of one pinned inductive; not semantic validation."""
+    require(declaration['name'] == 'Relation.EqvGen' and
+            declaration['bridge_kind'] == 'inductive-constructors' and
+            declaration['constructors'] == ['rel', 'refl', 'symm', 'trans'],
+            'Unsupported inductive contract')
+    require(dep['name'] == 'mathlib' and
+            dep['repository'] == 'https://github.com/leanprover-community/mathlib4' and
+            dep['commit'] == '065356127b1dc0016f66b7283ce0ce2c4055aa55',
+            'Unsupported inductive dependency')
+    require(source['path'] == 'Mathlib/Logic/Relation.lean' and
+            source['sha256'] == '2b678f33904c7e073de526d9d3243909e5d7d72bc0eed7f4cf9e65f443b72547' and
+            source['git_blob_sha1'] == '173394c4bb2a511bb02a538e31a015e9393eb7b5' and
+            excerpt['first_line'] == 408 and excerpt['last_line'] == 417 and
+            excerpt['sha256'] == 'c22edd47d0fe6052783b4dc8ed85c4f7a58a9bb3e0fa5989d14990181b4da46a' and
+            sha(excerpt['text'].encode()) == excerpt['sha256'],
+            'Pinned inductive source/constructor excerpt mismatch')
+
+
 def local_file(root, name):
     parts = pathlib.PurePosixPath(name)
     require(not parts.is_absolute() and parts.parts and
@@ -73,6 +99,7 @@ def check(project, dependency_root=None):
             'Missing or duplicate material definition evidence')
     document = local_file(project, data['documentation']).read_text()
     excerpts = {}
+    excerpt_evidence = {}
     paths = set()
     source_count = 0
     for source in data['source_files']:
@@ -119,6 +146,7 @@ def check(project, dependency_root=None):
                 expected = b''.join(origin.splitlines(keepends=True)[first - 1:last])
                 require(expected == text.encode(), 'Excerpt differs from exact pinned source')
             excerpts[name] = text
+            excerpt_evidence[name] = (source, excerpt)
     require(paths, 'Missing upstream sources')
     for declaration in declarations:
         name = declaration['name']
@@ -133,6 +161,7 @@ def check(project, dependency_root=None):
         require(all(n in document for n in usage), 'Document omits affected declarations')
         body = excerpts[declaration['definition_excerpt']]
         if version == 1:
+            check_eqvgen_kind(name, 'def', version)
             require(declaration_header_matches(body, 'def', name, legacy=True),
                     'Definition evidence is not a definition')
             require(declaration['bridge_kind'] == 'proved-equivalence',
@@ -141,11 +170,16 @@ def check(project, dependency_root=None):
                 require(declaration[key] in excerpts, 'Missing semantic/complement bridge')
         else:
             kind = declaration['declaration_kind']
-            require(kind in {'def', 'abbrev', 'class', 'structure', 'instance', 'theorem', 'irreducible_def'}, 'Unknown declaration kind')
+            require(kind in {'def', 'abbrev', 'class', 'structure', 'instance', 'theorem', 'irreducible_def', 'inductive'}, 'Unknown declaration kind')
+            check_eqvgen_kind(name, kind, version)
+            if kind == 'inductive':
+                source, excerpt = excerpt_evidence[declaration['definition_excerpt']]
+                check_pinned_eqvgen(declaration, dep, source, excerpt)
             require(declaration_header_matches(body, kind, name),
                     'Pinned declaration kind/name mismatch')
             bridge = declaration['bridge_kind']
-            allowed = ({'class-fields'} if kind in {'class', 'structure'} else
+            allowed = ({'inductive-constructors'} if kind == 'inductive' else
+                       {'class-fields'} if kind in {'class', 'structure'} else
                        {'proved-contract'} if kind == 'theorem' else
                        {'proved-equivalence'} if kind == 'irreducible_def' else
                        {'literal-unfolding', 'proved-equivalence'})

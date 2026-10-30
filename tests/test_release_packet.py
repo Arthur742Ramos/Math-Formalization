@@ -777,6 +777,26 @@ class ResonantPeriodsReleasePath(ArclengthModesReleasePath):
                 guard.check_status(ROOT, '0' * 40, self.PROJECT)
 
 
+class MetricGraphResonanceReleasePath(ArclengthModesReleasePath):
+    PROJECT = 'computational-hodge/metric-graph-resonance'
+
+    def test_nearby_and_traversing_paths_are_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in [self.PROJECT + '/../finite-periods', self.PROJECT + '/other',
+                         'computational-hodge/metric-graph-resonance-extra', '/' + self.PROJECT]:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+    def test_material_checker_failure_is_propagated(self):
+        files = {'verification/material-imported-definitions.json': b'{}'}
+        with (mock.patch.object(guard, 'snapshot', return_value=files),
+              mock.patch.object(guard, 'status_errors', return_value=[]),
+              mock.patch.object(guard, 'check_imported_definitions', side_effect=ValueError('bad evidence'))):
+            with self.assertRaisesRegex(ValueError, 'bad evidence'):
+                guard.check_status(ROOT, '0' * 40, self.PROJECT)
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,

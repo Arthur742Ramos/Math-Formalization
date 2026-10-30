@@ -1,0 +1,2018 @@
+{
+  "schema_version": 2,
+  "inventory_status": "INCOMPLETE DRAFT: independent completeness, exact per-use semantics and actual bridge compilation pending",
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "required_declarations": [
+    "HasDerivAtFilter",
+    "HasDerivAt",
+    "HasFDerivAtFilter",
+    "Continuous",
+    "ContinuousWithinAt",
+    "ContinuousOn",
+    "Set.EqOn",
+    "Set.Ioo",
+    "Set.Icc",
+    "Set.Ioc",
+    "IntervalIntegrable",
+    "intervalIntegral",
+    "MeasureTheory.IntegrableOn",
+    "MeasureTheory.Integrable",
+    "MeasureTheory.ae",
+    "Filter.Eventually",
+    "Irrational",
+    "Relation.EqvGen",
+    "Fintype",
+    "LinearMap",
+    "Path",
+    "Path.refl",
+    "Path.symm",
+    "Path.trans",
+    "Path.extend",
+    "Real.sin",
+    "Real.cos",
+    "Real.pi",
+    "MeasureTheory.integral",
+    "MeasureTheory.MeasureSpace",
+    "unitInterval",
+    "TopologicalSpace",
+    "Set"
+  ],
+  "material_declarations": [
+    {
+      "name": "HasDerivAtFilter",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The scalar derivative along the explicitly stated filter, expressed through a one-dimensional continuous linear map.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.cosine_wronskian",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.sine_wronskian",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.sine_wronskian",
+          "MetricGraphResonancePrototype.cosine_wronskian",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ]
+      },
+      "definition_excerpt": "HasDerivAtFilter",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HasDerivAtFilter"
+      ],
+      "dependency_expansion": "HasFDerivAtFilter for the scalar toSpanSingleton continuous linear map and the stated product filter. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "HasDerivAt",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "The local scalar derivative at the stated real point; the interval system quantifies this only on each open edge interior.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.cosine_wronskian",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.sine_wronskian",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sine_wronskian",
+          "MetricGraphResonancePrototype.cosine_wronskian",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ]
+      },
+      "definition_excerpt": "HasDerivAt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "HasDerivAt"
+      ],
+      "dependency_expansion": "HasDerivAtFilter over nhds x ×ˢ pure x; filter derivative expands to HasFDerivAtFilter for toSpanSingleton. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "HasFDerivAtFilter",
+      "declaration_kind": "structure",
+      "role": "proof-dependency",
+      "meaning": "The Fréchet derivative along the stated filter, expressed by the little-o remainder; it does not itself assert an unrestricted global derivative.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.cosine_wronskian",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.sine_wronskian",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.sine_wronskian",
+          "MetricGraphResonancePrototype.cosine_wronskian",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ]
+      },
+      "definition_excerpt": "HasFDerivAtFilter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "HasFDerivAtFilter"
+      ],
+      "dependency_expansion": "Structure field is a little-o remainder between pairs of points along the specified filter. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "Inverse images of open sets are open.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+        "MetricGraphPathPrototype.edgePath",
+        "MetricGraphResonancePrototype.continuous_edge_extension",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ],
+        "semantic_expansion": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+          "MetricGraphPathPrototype.edgePath",
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.continuous_edge_extension"
+        ]
+      },
+      "definition_excerpt": "Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Continuous"
+      ],
+      "dependency_expansion": "A structure asserting preimages of open sets are open. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "ContinuousWithinAt",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Actual Tendsto from the neighborhood-within filter to the target neighborhood.",
+      "used_by": [
+        "MetricGraphResonancePrototype.continuous_edge_extension",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.continuous_edge_extension",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ]
+      },
+      "definition_excerpt": "ContinuousWithinAt",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "ContinuousWithinAt"
+      ],
+      "dependency_expansion": "Tendsto from the within-set neighborhood filter to the target neighborhood filter. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "ContinuousOn",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "Actual pointwise ContinuousWithinAt at each member of the set. It is not global continuity.",
+      "used_by": [
+        "MetricGraphResonancePrototype.continuous_edge_extension",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.continuous_edge_extension",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ]
+      },
+      "definition_excerpt": "ContinuousOn",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "ContinuousOn"
+      ],
+      "dependency_expansion": "For every point in the set, ContinuousWithinAt holds; this does not assert global continuity. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Set.EqOn",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "Actual pointwise equality on a specified set; retained as conservative infrastructure without a separate uniqueness claim.",
+      "used_by": [
+        "MetricGraphResonancePrototype.continuous_edge_extension",
+        "MetricGraphResonancePrototype.edge_moment_congr"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.continuous_edge_extension",
+          "MetricGraphResonancePrototype.edge_moment_congr"
+        ]
+      },
+      "definition_excerpt": "Set.EqOn",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.EqOn"
+      ],
+      "dependency_expansion": "Pointwise equality at every element of the named set. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Set.Ioo",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "The open order interval contains exactly points strictly between its endpoints.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ]
+      },
+      "definition_excerpt": "Set.Ioo",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Ioo"
+      ],
+      "dependency_expansion": "Membership is the conjunction of strict lower and upper inequalities. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Set.Icc",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "The closed order interval; used for edge continuity and the unit-interval chart.",
+      "used_by": [
+        "MetricGraphResonancePrototype.continuous_edge_extension",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.edge_moment_congr",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.continuous_edge_extension",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.edge_moment_congr",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ]
+      },
+      "definition_excerpt": "Set.Icc",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Icc"
+      ],
+      "dependency_expansion": "Membership is the conjunction of weak lower and upper inequalities. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Set.Ioc",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Actual strict lower and weak upper endpoint inequalities; the interval integral uses the corresponding restricted measure.",
+      "used_by": [
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.edge_moment_congr",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphTraceDensity.concat_density_integrable",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.concat_right_integral",
+        "MetricGraphTraceDensity.reverse_density_integrable",
+        "MetricGraphTraceDensity.reverse_density_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceDensity.concat_density_integrable",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.concat_right_integral",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.edge_moment_congr",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphTraceDensity.reverse_density_integrable",
+          "MetricGraphTraceDensity.reverse_density_integral",
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.theta_cosine_balance",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral"
+        ]
+      },
+      "definition_excerpt": "Set.Ioc",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set.Ioc"
+      ],
+      "dependency_expansion": "Membership has a strict lower and weak upper inequality. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "IntervalIntegrable",
+      "declaration_kind": "def",
+      "role": "hypothesis-and-conclusion",
+      "meaning": "Actual integrability on both oriented Ioc intervals.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphTraceDensity.concat_density_integrable",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.reverse_density_integrable",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ],
+        "statement_or_definition": [
+          "MetricGraphTraceDensity.concat_density_integrable",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.reverse_density_integrable",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments"
+        ]
+      },
+      "definition_excerpt": "IntervalIntegrable",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IntervalIntegrable"
+      ],
+      "dependency_expansion": "IntegrableOn holds for both directed Ioc restrictions. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "intervalIntegral",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual ordinary oriented Bochner integral: forward Ioc integral minus backward Ioc integral.",
+      "used_by": [
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.edge_moment_congr",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.concat_right_integral",
+        "MetricGraphTraceDensity.reverse_density_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.edge_moment_congr",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphTraceDensity.concat_right_integral",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.reverse_density_integral",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.theta_cosine_balance"
+        ]
+      },
+      "definition_excerpt": "intervalIntegral",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "intervalIntegral"
+      ],
+      "dependency_expansion": "The Bochner integral over Ioc(a,b) minus that over Ioc(b,a), for the supplied measure. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "MeasureTheory.IntegrableOn",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Actual integrability against the measure restricted to the set.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphTraceDensity.concat_density_integrable",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.reverse_density_integrable",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "proof_semantic_expansion": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ],
+        "semantic_expansion": [
+          "MetricGraphTraceDensity.concat_density_integrable",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.reverse_density_integrable",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments"
+        ]
+      },
+      "definition_excerpt": "IntegrableOn",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IntegrableOn"
+      ],
+      "dependency_expansion": "Integrable against the measure restricted to the named set. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "MeasureTheory.Integrable",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Actual almost-everywhere strong measurability and finite norm integral.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphTraceDensity.concat_density_integrable",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.reverse_density_integrable",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "proof_semantic_expansion": [
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ],
+        "semantic_expansion": [
+          "MetricGraphTraceDensity.concat_density_integrable",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.reverse_density_integrable",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments"
+        ]
+      },
+      "definition_excerpt": "Integrable",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Integrable"
+      ],
+      "dependency_expansion": "Almost-everywhere strong measurability and finite norm integral. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "MeasureTheory.ae",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "meaning": "Actual conull-set filter; quantified assertions mean the set of failures has measure zero, via the retained null-complement equivalence.",
+      "used_by": [
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ]
+      },
+      "definition_excerpt": "MeasureTheory.ae",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "MeasureTheory.ae"
+      ],
+      "dependency_expansion": "The filter of properties holding outside measure-zero sets; the null-complement theorem requires its own contract. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Filter.Eventually",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "Actual membership of the predicate truth set in the filter, underlying almost-everywhere quantification.",
+      "used_by": [
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ]
+      },
+      "definition_excerpt": "Filter.Eventually",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Filter.Eventually"
+      ],
+      "dependency_expansion": "Membership of the truth set in the named filter. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Irrational",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "meaning": "The real number lies outside the range of the rational coercion; used in the almost-everywhere proof.",
+      "used_by": [
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ]
+      },
+      "definition_excerpt": "Irrational",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Irrational"
+      ],
+      "dependency_expansion": "Negated membership in the range of the coercion from rationals to reals. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Relation.EqvGen",
+      "declaration_kind": "inductive",
+      "role": "hypothesis",
+      "meaning": "The least reflexive, symmetric and transitive relation containing the edge relation.",
+      "used_by": [
+        "MetricGraphResonanceIncidence.exists_divergence_of_sum_zero",
+        "MetricGraphResonanceIncidence.reachable_delta_flow",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.exists_vertex_trace",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphResonanceIncidence.reachable_delta_flow",
+          "MetricGraphResonanceIncidence.exists_divergence_of_sum_zero",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.exists_vertex_trace",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ]
+      },
+      "definition_excerpt": "Relation.EqvGen",
+      "bridge_kind": "inductive-constructors",
+      "bridge_excerpts": [
+        "Relation.EqvGen"
+      ],
+      "dependency_expansion": "Inductive least equivalence closure with rel, refl, symm and trans constructors. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted.",
+      "constructors": [
+        "rel",
+        "refl",
+        "symm",
+        "trans"
+      ]
+    },
+    {
+      "name": "Fintype",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "meaning": "A finite enumeration of the named index type, used for finite vertex and edge sums or the finite example; the glued graph point space is not asserted finite.",
+      "used_by": [
+        "MetricGraphResonanceIncidence.divergence",
+        "MetricGraphResonanceIncidence.divergenceLinear",
+        "MetricGraphResonanceIncidence.divergence_edge_unit",
+        "MetricGraphResonanceIncidence.exists_divergence_of_sum_zero",
+        "MetricGraphResonanceIncidence.reachable_delta_flow",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphResonanceIncidence.divergence",
+          "MetricGraphResonanceIncidence.divergenceLinear",
+          "MetricGraphResonanceIncidence.divergence_edge_unit",
+          "MetricGraphResonanceIncidence.reachable_delta_flow",
+          "MetricGraphResonanceIncidence.exists_divergence_of_sum_zero",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.theta_cosine_balance"
+        ]
+      },
+      "definition_excerpt": "Fintype",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Fintype"
+      ],
+      "dependency_expansion": "A class supplying a finite enumeration; finite univ and generated Finset.sum require separate bridges. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "LinearMap",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "An additive and scalar-compatible map; the selected divergenceLinear sends finite edge data to vertex data.",
+      "used_by": [
+        "MetricGraphResonanceIncidence.divergenceLinear",
+        "MetricGraphResonanceIncidence.exists_divergence_of_sum_zero",
+        "MetricGraphResonanceIncidence.reachable_delta_flow"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonanceIncidence.reachable_delta_flow",
+          "MetricGraphResonanceIncidence.exists_divergence_of_sum_zero"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonanceIncidence.divergenceLinear"
+        ]
+      },
+      "definition_excerpt": "LinearMap",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "LinearMap"
+      ],
+      "dependency_expansion": "An additive and scalar-compatible function between the stated modules. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Path",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "meaning": "A continuous interval map with its two actual endpoint equations.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+        "MetricGraphPathPrototype.edgePath",
+        "MetricGraphPathPrototype.edgeStepSystem",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
+        "MetricGraphTraceParametric.traceDensity",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphPathPrototype.edgeStepSystem",
+          "MetricGraphTraceParametric.traceDensity"
+        ],
+        "statement_or_definition": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+          "MetricGraphPathPrototype.edgePath"
+        ]
+      },
+      "definition_excerpt": "Path",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Path"
+      ],
+      "dependency_expansion": "A continuous map on the unit interval with explicit source and target endpoint equations. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Path.refl",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "The constant continuous path.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
+      ],
+      "use_roles_draft": {
+        "selected_definition_body": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
+        ]
+      },
+      "definition_excerpt": "Path.refl",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.refl"
+      ],
+      "dependency_expansion": "The constant path at the specified point. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Path.symm",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Reversal of an actual continuous path.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.symm_chart"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphTraceParametric.symm_chart"
+        ],
+        "selected_definition_body": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
+        ],
+        "transitive_proof_dependency": [
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ]
+      },
+      "definition_excerpt": "Path.symm",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.symm"
+      ],
+      "dependency_expansion": "The path composed with the unit-interval reversal; endpoints swap. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Path.trans",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Binary parametrized concatenation; it is not identified with equal-slot flattening.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right"
+        ],
+        "selected_definition_body": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
+        ],
+        "transitive_proof_dependency": [
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ]
+      },
+      "definition_excerpt": "Path.trans",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.trans"
+      ],
+      "dependency_expansion": "Path concatenation rescales the first and second paths to the respective half intervals. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Path.extend",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "The continuous real extension is constant outside the unit interval.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ],
+        "semantic_expansion": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize"
+        ]
+      },
+      "definition_excerpt": "Path.extend",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Path.extend"
+      ],
+      "dependency_expansion": "IccExtend produces a continuous real-domain extension, clamped outside the unit interval. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Real.sin",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "Actual real part of complex sine applied to a real input.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.cosine_wronskian",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.sine_wronskian",
+        "MetricGraphResonancePrototype.thetaForce",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.theta_cosine_balance",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sine_wronskian",
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.cosine_wronskian",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.thetaForce"
+        ]
+      },
+      "definition_excerpt": "Real.sin",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Real.sin"
+      ],
+      "dependency_expansion": "The real part of the complex sine on the real embedding; its transitive definition remains to be reviewed. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Real.cos",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "The real part of complex cosine on a real argument; the graph criterion uses the stated endpoint conditions and cosine moments.",
+      "used_by": [
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.cosine_wronskian",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.sine_wronskian",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sine_wronskian",
+          "MetricGraphResonancePrototype.cosine_wronskian",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.theta_cosine_balance"
+        ]
+      },
+      "definition_excerpt": "Real.cos",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Real.cos"
+      ],
+      "dependency_expansion": "The real part of the complex cosine on the real embedding; its transitive definition remains to be reviewed. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Real.pi",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "The pinned real pi constant, used by the sine-square calculation and concrete three-edge forcing.",
+      "used_by": [
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.thetaForce",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.thetaForce",
+          "MetricGraphResonancePrototype.theta_cosine_balance",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ]
+      },
+      "definition_excerpt": "Real.pi",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Real.pi"
+      ],
+      "dependency_expansion": "Twice the selected real zero of cosine in the retained existence theorem. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "MeasureTheory.integral",
+      "declaration_kind": "irreducible_def",
+      "role": "definition",
+      "meaning": "The ordinary Bochner integral, totalized outside its integrability domain; the stated edge and trace results use oriented interval integrals with their own assumptions.",
+      "used_by": [
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.edge_moment_congr",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.concat_right_integral",
+        "MetricGraphTraceDensity.reverse_density_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.edge_moment_congr",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphTraceDensity.concat_right_integral",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.reverse_density_integral",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.theta_cosine_balance"
+        ]
+      },
+      "definition_excerpt": "ordinary_Bochner_integral",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "ordinary_Bochner_integral"
+      ],
+      "dependency_expansion": "The irreducible Bochner integral returns its L1 integral when complete-space and integrability conditions hold, and zero otherwise. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "MeasureTheory.MeasureSpace",
+      "declaration_kind": "class",
+      "role": "definition",
+      "meaning": "A measurable space equipped with the volume measure field.",
+      "used_by": [
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.edge_moment_congr",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceDensity.concat_density_integrable",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.concat_right_integral",
+        "MetricGraphTraceDensity.reverse_density_integrable",
+        "MetricGraphTraceDensity.reverse_density_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "proof_dependency": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction"
+        ],
+        "semantic_expansion": [
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff"
+        ],
+        "statement_or_definition": [
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.edge_moment_congr",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphTraceDensity.concat_right_integral",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.reverse_density_integral",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.theta_cosine_balance",
+          "MetricGraphTraceDensity.concat_density_integrable",
+          "MetricGraphTraceDensity.reverse_density_integrable",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity"
+        ]
+      },
+      "definition_excerpt": "volume_measure_class",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "volume_measure_class"
+      ],
+      "dependency_expansion": "A measurable space equipped with a volume measure field; the real instance and its meaning require separate review. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "unitInterval",
+      "declaration_kind": "abbrev",
+      "role": "definition",
+      "meaning": "The actual path-parameter carrier is the real closed interval [0,1].",
+      "used_by": [
+        "MetricGraphPathPrototype.Graph",
+        "MetricGraphPathPrototype.edgePath",
+        "MetricGraphPathPrototype.edgePoint",
+        "MetricGraphPathPrototype.edgePoint_one",
+        "MetricGraphPathPrototype.edgePoint_zero",
+        "MetricGraphPathPrototype.edgeStepSystem",
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphPathPrototype.vertex",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
+        "MetricGraphTraceParametric.traceDensity",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphPathPrototype.Graph",
+          "MetricGraphPathPrototype.vertex",
+          "MetricGraphPathPrototype.edgePoint",
+          "MetricGraphPathPrototype.edgePoint_zero",
+          "MetricGraphPathPrototype.edgePoint_one",
+          "MetricGraphPathPrototype.edgePath",
+          "MetricGraphPathPrototype.edgeStepSystem",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphTraceParametric.traceDensity"
+        ]
+      },
+      "definition_excerpt": "unitInterval",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "unitInterval"
+      ],
+      "dependency_expansion": "unitInterval is Set.Icc 0 1; elements used by graph edge charts carry the interval-membership proof. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "meaning": "The topology class supplies the open-set structure on the named carriers; no metric or manifold structure is asserted.",
+      "used_by": [
+        "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+        "MetricGraphPathPrototype.edgePath",
+        "MetricGraphPathPrototype.edgeStepSystem",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.exists_vertex_trace",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.symm_chart",
+        "MetricGraphTraceParametric.traceDensity",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral",
+        "MetricGraphTraceParametric.trans_chart_left",
+        "MetricGraphTraceParametric.trans_chart_right"
+      ],
+      "use_roles_draft": {
+        "statement_or_definition": [
+          "ComputationalPaths.Path.GeometricTopology.GeometricTrace.realize",
+          "MetricGraphPathPrototype.edgePath",
+          "MetricGraphPathPrototype.edgeStepSystem",
+          "MetricGraphTraceParametric.traceDensity",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral",
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.trans_chart_left",
+          "MetricGraphTraceParametric.trans_chart_right",
+          "MetricGraphTraceParametric.symm_chart",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphTraceParametric.exists_vertex_trace",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals"
+        ]
+      },
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace"
+      ],
+      "dependency_expansion": "TopologicalSpace provides its IsOpen predicate and the univ, finite-intersection and arbitrary-union laws. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    },
+    {
+      "name": "Set",
+      "declaration_kind": "def",
+      "role": "definition",
+      "meaning": "A set on a type is a predicate on its elements.",
+      "used_by": [
+        "MetricGraphPathPrototype.Graph",
+        "MetricGraphPathPrototype.edgePath",
+        "MetricGraphPathPrototype.edgePoint",
+        "MetricGraphPathPrototype.graphPotential",
+        "MetricGraphPathPrototype.rawPotential",
+        "MetricGraphPathPrototype.rawPotential_glue",
+        "MetricGraphPathPrototype.traceChartIntegral",
+        "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+        "MetricGraphResonancePrototype.continuous_edge_extension",
+        "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+        "MetricGraphResonancePrototype.edge_moment_congr",
+        "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+        "MetricGraphResonancePrototype.forced_oscillator_construct",
+        "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+        "MetricGraphResonancePrototype.graphMomentConditions",
+        "MetricGraphResonancePrototype.intervalGraphSolution",
+        "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+        "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+        "MetricGraphResonancePrototype.sin_squared_positive",
+        "MetricGraphResonancePrototype.sine_moment_identity_interval",
+        "MetricGraphResonancePrototype.theta_cosine_balance",
+        "MetricGraphResonancePrototype.theta_forcing_obstruction",
+        "MetricGraphTraceDensity.concat_density_integrable",
+        "MetricGraphTraceDensity.concat_density_integral",
+        "MetricGraphTraceDensity.concat_right_integral",
+        "MetricGraphTraceDensity.reverse_density_integrable",
+        "MetricGraphTraceDensity.reverse_density_integral",
+        "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+        "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+        "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+        "MetricGraphTraceParametric.single_chart",
+        "MetricGraphTraceParametric.traceDensity",
+        "MetricGraphTraceParametric.traceDensity_integrable",
+        "MetricGraphTraceParametric.traceDensity_integral"
+      ],
+      "use_roles_draft": {
+        "semantic_expansion": [
+          "MetricGraphPathPrototype.Graph",
+          "MetricGraphPathPrototype.edgePath",
+          "MetricGraphPathPrototype.edgePoint",
+          "MetricGraphPathPrototype.graphPotential",
+          "MetricGraphPathPrototype.rawPotential",
+          "MetricGraphPathPrototype.rawPotential_glue",
+          "MetricGraphPathPrototype.traceChartIntegral",
+          "MetricGraphPathPrototype.traceChartIntegral_eq_potential_difference",
+          "MetricGraphResonancePrototype.continuous_edge_extension",
+          "MetricGraphResonancePrototype.cosine_moment_identity_interval",
+          "MetricGraphResonancePrototype.edge_moment_congr",
+          "MetricGraphResonancePrototype.forced_connected_graph_interval_iff",
+          "MetricGraphResonancePrototype.forced_oscillator_construct",
+          "MetricGraphResonancePrototype.full_period_sine_cosine_zero",
+          "MetricGraphResonancePrototype.graphMomentConditions",
+          "MetricGraphResonancePrototype.intervalGraphSolution",
+          "MetricGraphResonancePrototype.interval_graph_moments_necessary",
+          "MetricGraphResonancePrototype.interval_graph_moments_sufficient",
+          "MetricGraphResonancePrototype.sin_squared_positive",
+          "MetricGraphResonancePrototype.sine_moment_identity_interval",
+          "MetricGraphResonancePrototype.theta_cosine_balance",
+          "MetricGraphResonancePrototype.theta_forcing_obstruction",
+          "MetricGraphTraceDensity.concat_density_integrable",
+          "MetricGraphTraceDensity.concat_density_integral",
+          "MetricGraphTraceDensity.concat_right_integral",
+          "MetricGraphTraceDensity.reverse_density_integrable",
+          "MetricGraphTraceDensity.reverse_density_integral",
+          "MetricGraphTraceParametric.closed_trace_integrals_iff_exact_moments",
+          "MetricGraphTraceParametric.forced_interval_iff_closed_trace_integrals",
+          "MetricGraphTraceParametric.realizedTrace_ae_local_velocity",
+          "MetricGraphTraceParametric.single_chart",
+          "MetricGraphTraceParametric.traceDensity",
+          "MetricGraphTraceParametric.traceDensity_integrable",
+          "MetricGraphTraceParametric.traceDensity_integral"
+        ]
+      },
+      "definition_excerpt": "Set",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Set"
+      ],
+      "dependency_expansion": "Set α unfolds to α → Prop; the concrete interval and continuity meanings are recorded separately. Further dependency closure and per-use accuracy remain subject to independent review.",
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean",
+      "sha256": "e935efa96ad9381658f3158f900d04589c46d7e933cab15f4d8632e1af85527f",
+      "git_blob_sha1": "0eec64f2576f4d449b44b877678fe95678cfc9f0",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 59,
+          "last_line": 69,
+          "name": "Finset.sum generated producer",
+          "sha256": "26d8fa821bd539acece2d861933171554c86d441fbb32266ecc2ebc472639de1",
+          "text": "/-- `∏ x ∈ s, f x` is the product of `f x` as `x` ranges over the elements of the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `∏ x, f x`, is a shorthand for\n`∏ x ∈ Finset.univ, f x`. -/\n@[to_additive /-- `∑ x ∈ s, f x` is the sum of `f x` as `x` ranges over the elements\nof the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `∑ x, f x`, is a shorthand for\n`∑ x ∈ Finset.univ, f x`. -/]\nprotected def prod [CommMonoid M] (s : Finset ι) (f : ι → M) : M :=\n  (s.1.map f).prod\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean#L59-L69"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean",
+      "sha256": "aea1c354ffc798aaa5397f2f58124bc2ed7b29d24227ae568d3f5745f839570d",
+      "git_blob_sha1": "5f68ae60b4f22094ae57c9e4ef28be13925e8ef7",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Anne Baanen. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Nathaniel Thomas, Jeremy Avigad, Johannes Hölzl, Mario Carneiro, Anne Baanen,\n  Frédéric Dupuis, Heather Macbeth\n-/",
+      "excerpts": [
+        {
+          "first_line": 85,
+          "last_line": 99,
+          "name": "LinearMap",
+          "sha256": "6525d10cebd045b6a31eafece6ac8f70768c3e3506ecf010dbe1776a00985a11",
+          "text": "structure LinearMap {R S : Type*} [Semiring R] [Semiring S] (σ : R →+* S) (M : Type*)\n    (M₂ : Type*) [AddCommMonoid M] [AddCommMonoid M₂] [Module R M] [Module S M₂] extends\n    AddHom M M₂, MulActionHom σ M M₂\n\n/-- The `MulActionHom` underlying a `LinearMap`. -/\nadd_decl_doc LinearMap.toMulActionHom\n\n/-- The `AddHom` underlying a `LinearMap`. -/\nadd_decl_doc LinearMap.toAddHom\n\n/-- `M →ₛₗ[σ] N` is the type of `σ`-semilinear maps from `M` to `N`. -/\nnotation:25 M \" →ₛₗ[\" σ:25 \"] \" M₂:0 => LinearMap σ M M₂\n\n/-- `M →ₗ[R] N` is the type of `R`-linear maps from `M` to `N`. -/\nnotation:25 M \" →ₗ[\" R:25 \"] \" M₂:0 => LinearMap (RingHom.id R) M M₂\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Module/LinearMap/Defs.lean#L85-L99"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Calculus/Deriv/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/Deriv/Basic.lean",
+      "sha256": "f4c0077cb0e87c857f1fcfea2c9c6263d1a3dee9fa8403893e00debf28a4356b",
+      "git_blob_sha1": "81c0bb8469435c02cc0c950659d790e1a01dc92e",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Gabriel Ebner. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Gabriel Ebner, Sébastien Gouëzel\n-/",
+      "excerpts": [
+        {
+          "first_line": 116,
+          "last_line": 117,
+          "name": "HasDerivAtFilter",
+          "sha256": "da7c00bceb42cae8b0c71b76518c5d77829380829d535ed432a42e2027655a69",
+          "text": "def HasDerivAtFilter (f : 𝕜 → F) (f' : F) (L : Filter (𝕜 × 𝕜)) :=\n  HasFDerivAtFilter f (toSpanSingleton 𝕜 f') L\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/Deriv/Basic.lean#L116-L117"
+        },
+        {
+          "first_line": 130,
+          "last_line": 131,
+          "name": "HasDerivAt",
+          "sha256": "152a20f59b34a052e95c0aef6afd584c9337a24218eb85e4d18857fa30eea7e8",
+          "text": "def HasDerivAt (f : 𝕜 → F) (f' : F) (x : 𝕜) :=\n  HasDerivAtFilter f f' (𝓝 x ×ˢ pure x)\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/Deriv/Basic.lean#L130-L131"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Calculus/FDeriv/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/FDeriv/Defs.lean",
+      "sha256": "27a7410d70541ab4a947cc95c30b16583d1f89fc073ca47e76c978b0b22f13ba",
+      "git_blob_sha1": "c479bbd434b4a8c90b5a3ed4e7a451839a748625",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Sébastien Gouëzel, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "first_line": 110,
+          "last_line": 112,
+          "name": "HasFDerivAtFilter",
+          "sha256": "48e079e2c0307cc05c3e3c62c4135729e9a9308a9613bb066b6f34b22ec9bce0",
+          "text": "structure HasFDerivAtFilter (f : E → F) (f' : E →L[𝕜] F) (L : Filter (E × E)) : Prop where\n  of_isLittleOTVS ::\n    isLittleOTVS : (fun p ↦ f p.1 - f p.2 - f' (p.1 - p.2)) =o[𝕜; L] (fun p ↦ p.1 - p.2)\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/FDeriv/Defs.lean#L110-L112"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Complex/Trigonometric.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Trigonometric.lean",
+      "sha256": "b63dc0d49ca3deb88ffb47292745448b2611bf2d43b4ea05931628f8aa286b3b",
+      "git_blob_sha1": "d2ba6ae2970b5c003f4abb20b7b7d536b9f1297c",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Chris Hughes. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Chris Hughes, Abhimanyu Pallavi Sudhir\n-/",
+      "excerpts": [
+        {
+          "first_line": 71,
+          "last_line": 74,
+          "name": "Real.sin",
+          "sha256": "aca6703fb55f4b8d7c1147de94a51b117119b8ee91e63361efe84568b1e60739",
+          "text": "/-- The real sine function, defined as the real part of the complex sine -/\n@[pp_nodot]\nnonrec def sin (x : ℝ) : ℝ :=\n  (sin x).re\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Trigonometric.lean#L71-L74"
+        },
+        {
+          "first_line": 76,
+          "last_line": 79,
+          "name": "Real.cos",
+          "sha256": "05ebe1e93c8ac237fea9b0111f9766880f61bc218a73645cf5cc4121fdc673cd",
+          "text": "/-- The real cosine function, defined as the real part of the complex cosine -/\n@[pp_nodot]\nnonrec def cos (x : ℝ) : ℝ :=\n  (cos x).re\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Trigonometric.lean#L76-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean",
+      "sha256": "c8933a580347acc3ee7cf731a9034cff1d6e818be36d9323876d1f12a7b25ee4",
+      "git_blob_sha1": "5c6403eb840c4c16cd72d878aa6ddde6506bafdb",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Chris Hughes. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Chris Hughes, Abhimanyu Pallavi Sudhir, Jean Lo, Calle Sönne, Benjamin Davidson\n-/",
+      "excerpts": [
+        {
+          "first_line": 124,
+          "last_line": 129,
+          "name": "Real.pi",
+          "sha256": "27bd6a94b0dcc5a1b1ff8eda8ebc4bcc36f1b3495d7fa1cd17afaad4cc5937f9",
+          "text": "see `Mathlib/Analysis/Real/Pi/Bounds.lean`.\n\nDenoted `π`, once the `Real` namespace is opened. -/\n@[wikidata Q167]\nprotected noncomputable def pi : ℝ :=\n  2 * Classical.choose exists_cos_eq_zero\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean#L124-L129"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean",
+      "sha256": "e69e8e7a3605d293a7ef6c4a7aaefde3191da4f33b43b7be09963eec2e44965c",
+      "git_blob_sha1": "ee6ad77ee3befe5863cc58c91f784b0aa0564e07",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "first_line": 57,
+          "last_line": 65,
+          "name": "Fintype",
+          "sha256": "23fe84d706d7a907975cf4ccfac4970ec22c5b256b99f7aff3d3277f9533f5df",
+          "text": "class Fintype (α : Type*) where\n  /-- The `Finset` containing all elements of a `Fintype` -/\n  elems : Finset α\n  /-- A proof that `elems` contains every element of the type -/\n  complete : ∀ x : α, x ∈ elems\n\n/-! ### Preparatory lemmas -/\n\nnamespace Finset\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Defs.lean#L57-L65"
+        }
+      ]
+    },
+    {
+      "git_blob_sha1": "866ef6ab673f737a4ffbb7b2138402d5c76e6c05",
+      "license": "Apache-2.0",
+      "path": "Mathlib/Data/Set/Defs.lean",
+      "sha256": "4b5433ba90d229d2875756f2c486de41e2e1b5be89b7255be5fe7ed2e0c524c7",
+      "upstream_header": "/-\nCopyright (c) 2016 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura\n-/",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean",
+      "excerpts": [
+        {
+          "first_line": 51,
+          "last_line": 51,
+          "name": "Set",
+          "sha256": "e7befac567adce9bf5f483c3f464027738c0a6b2145a3b195d2c2dce10337d55",
+          "text": "def Set (α : Type u) := α → Prop\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean#L51-L51"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/",
+      "excerpts": [
+        {
+          "first_line": 290,
+          "last_line": 291,
+          "name": "Set.EqOn",
+          "sha256": "f7c59616a2665101ef81f26701f6c806b0bc7c9e581ba7b3a252aba23047994c",
+          "text": "/-- Two functions `f₁ f₂ : α → β` are equal on `s` if `f₁ x = f₂ x` for all `x ∈ s`. -/\ndef EqOn (f₁ f₂ : α → β) (s : Set α) : Prop := ∀ ⦃x⦄, x ∈ s → f₁ x = f₂ x\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L290-L291"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Relation.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Relation.lean",
+      "sha256": "2b678f33904c7e073de526d9d3243909e5d7d72bc0eed7f4cf9e65f443b72547",
+      "git_blob_sha1": "173394c4bb2a511bb02a538e31a015e9393eb7b5",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 408,
+          "last_line": 417,
+          "name": "Relation.EqvGen",
+          "sha256": "c22edd47d0fe6052783b4dc8ed85c4f7a58a9bb3e0fa5989d14990181b4da46a",
+          "text": "variable (r) in\n/-- `EqvGen r`: equivalence closure of `r`. -/\n@[mk_iff]\ninductive EqvGen : α → α → Prop\n  | rel x y : r x y → EqvGen x y\n  | refl x : EqvGen x x\n  | symm x y : EqvGen x y → EqvGen y x\n  | trans x y z : EqvGen x y → EqvGen y z → EqvGen x z\n\nattribute [mk_iff] TransGen\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Relation.lean#L408-L417"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Function/L1Space/Integrable.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/L1Space/Integrable.lean",
+      "sha256": "27797fe4384b5a8f3fab05c4c5b7d1b4f98c3801a9c441d7f75272d4f095df42",
+      "git_blob_sha1": "2ad180afca8fb23408d5408050a8965089375ae5",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Zhouhang Zhou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou\n-/",
+      "excerpts": [
+        {
+          "first_line": 59,
+          "last_line": 61,
+          "name": "Integrable",
+          "sha256": "3aef8f7a9cc1c71b045b3b94f1ec276965b6743fac3d708398d9d1298f06deaa",
+          "text": "def Integrable {α} {_ : MeasurableSpace α} (f : α → ε)\n    (μ : Measure α := by volume_tac) : Prop :=\n  AEStronglyMeasurable f μ ∧ HasFiniteIntegral f μ\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/L1Space/Integrable.lean#L59-L61"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Integral/Bochner/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/Bochner/Basic.lean",
+      "sha256": "a6341a15d805c17e6922cd9c3f69508d604574058e37b06ec8cb51626ebbfa4d",
+      "git_blob_sha1": "5abe07ae60e8bdfe5d99a7e68c681a5b052ef4f2",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Zhouhang Zhou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou, Yury Kudryashov, Sébastien Gouëzel, Rémy Degenne\n-/",
+      "excerpts": [
+        {
+          "first_line": 158,
+          "last_line": 161,
+          "name": "ordinary_Bochner_integral",
+          "sha256": "608ce31b664ed866e9f945b6ae72c10ec1c1d0d8fb5d4f8713e76721644b00fa",
+          "text": "irreducible_def integral {_ : MeasurableSpace α} (μ : Measure α) (f : α → G) : G :=\n  if _ : CompleteSpace G then\n    if hf : Integrable f μ then L1.integral (hf.toL1 f) else 0\n  else 0\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/Bochner/Basic.lean#L158-L161"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Integral/IntegrableOn.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/IntegrableOn.lean",
+      "sha256": "4195a3becfc509b18adfbfc541dfd11a5a0f16954193e42e8d629a025636d0f9",
+      "git_blob_sha1": "a61d29fe081da762dd3cd6a4a8b34f95740378c1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Rémy Degenne. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "first_line": 92,
+          "last_line": 93,
+          "name": "IntegrableOn",
+          "sha256": "310c9b897c36eec0afef2031c05885bb7b1954122f529a1b3540afa8a6ab684c",
+          "text": "def IntegrableOn (f : α → ε) (s : Set α) (μ : Measure α := by volume_tac) : Prop :=\n  Integrable f (μ.restrict s)\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/IntegrableOn.lean#L92-L93"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean",
+      "sha256": "97e7a2efda146d0d1280f23d660cc07655dd7c48b51631752e9aa94deaa18ab9",
+      "git_blob_sha1": "2504147e2230a26eb804b0898004d0186c4e36a1",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov, Patrick Massot, Sébastien Gouëzel\n-/",
+      "excerpts": [
+        {
+          "first_line": 74,
+          "last_line": 75,
+          "name": "IntervalIntegrable",
+          "sha256": "43f2197981c8b6ae7dad756fe9da955196614a5018690ad555c58166f7ff1e95",
+          "text": "def IntervalIntegrable (f : ℝ → ε) (μ : Measure ℝ) (a b : ℝ) : Prop :=\n  IntegrableOn f (Ioc a b) μ ∧ IntegrableOn f (Ioc b a) μ\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean#L74-L75"
+        },
+        {
+          "first_line": 659,
+          "last_line": 668,
+          "name": "intervalIntegral",
+          "sha256": "9c5e722d223ba56fb87885e0d09c48f6c6c7637faba18bcd2e4bdc520680e05d",
+          "text": "def intervalIntegral (f : ℝ → E) (a b : ℝ) (μ : Measure ℝ) : E :=\n  (∫ x in Ioc a b, f x ∂μ) - ∫ x in Ioc b a, f x ∂μ\n\n@[inherit_doc intervalIntegral]\nnotation3\"∫ \"(...)\" in \"a\"..\"b\", \"r:60:(scoped f => f)\" ∂\"μ:70 => intervalIntegral r a b μ\n\n/-- The interval integral `∫ x in a..b, f x` is defined\nas `∫ x in Ioc a b, f x - ∫ x in Ioc b a, f x`. If `a ≤ b`, then it equals\n`∫ x in Ioc a b, f x`, otherwise it equals `-∫ x in Ioc b a, f x`. -/\nnotation3\"∫ \"(...)\" in \"a\"..\"b\", \"r:60:(scoped f => intervalIntegral f a b volume) => r\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean#L659-L668"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean",
+      "sha256": "628bcfc45fabd59501cdebf1cc3a8003ef3aba18fc7de4710ca9ffc1033b32d7",
+      "git_blob_sha1": "84794cf74fa34664073bbf336adccdefb5bada62",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Sébastien Gouëzel, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "first_line": 54,
+          "last_line": 77,
+          "name": "real_Lebesgue_volume",
+          "sha256": "6566b8cc0ffee203b8c49deaf5306c682ca13346166373d0168d3c951b3817a6",
+          "text": "theorem volume_eq_stieltjes_id : (volume : Measure ℝ) = StieltjesFunction.id.measure := by\n  have : IsAddLeftInvariant StieltjesFunction.id.measure :=\n    ⟨fun a =>\n      Eq.symm <|\n        Real.measure_ext_Ioo_rat fun p q => by\n          simp only [Measure.map_apply (measurable_const_add a) measurableSet_Ioo,\n            sub_sub_sub_cancel_right, StieltjesFunction.measure_Ioo, StieltjesFunction.id_leftLim,\n            StieltjesFunction.id_apply, id, preimage_const_add_Ioo]⟩\n  have A : StieltjesFunction.id.measure (stdOrthonormalBasis ℝ ℝ).toBasis.parallelepiped = 1 := by\n    change StieltjesFunction.id.measure (parallelepiped (stdOrthonormalBasis ℝ ℝ)) = 1\n    rcases parallelepiped_orthonormalBasis_one_dim (stdOrthonormalBasis ℝ ℝ) with (H | H) <;>\n      simp only [H, StieltjesFunction.measure_Icc, StieltjesFunction.id_apply, id, tsub_zero,\n        StieltjesFunction.id_leftLim, sub_neg_eq_add, zero_add, ENNReal.ofReal_one]\n  conv_rhs =>\n    rw [addHaarMeasure_unique StieltjesFunction.id.measure\n        (stdOrthonormalBasis ℝ ℝ).toBasis.parallelepiped, A]\n  simp only [volume, Module.Basis.addHaar, one_smul]\n\ntheorem volume_val (s) : volume s = StieltjesFunction.id.measure s := by\n  simp [volume_eq_stieltjes_id]\n\n@[simp]\ntheorem volume_Ico {a b : ℝ} : volume (Ico a b) = ofReal (b - a) := by simp [volume_val]\n\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L54-L77"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean",
+      "sha256": "9e7e2105e21cdb7dbe731515213bcd1f6cf78c902bcd2da7f33b468218d90664",
+      "git_blob_sha1": "79f86ba7f80f0063a1e71cbe61f2d6e2283adb9d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/",
+      "excerpts": [
+        {
+          "first_line": 356,
+          "last_line": 359,
+          "name": "volume_measure_class",
+          "sha256": "6d38c401bd654e7d6051733dc443dbb1e820f31f4a10bdf4ce47a469cc520ca9",
+          "text": "class MeasureSpace (α : Type*) extends MeasurableSpace α where\n  volume : Measure α\n\nexport MeasureSpace (volume)\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean#L356-L359"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/OuterMeasure/AE.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/OuterMeasure/AE.lean",
+      "sha256": "de58d3b2aa42d801e9a268df285c32e5aa6ca7ffc5b42bf5eff8f12bda87a00d",
+      "git_blob_sha1": "1802fcab91bae1a8537d57413d45b28628d6d5b5",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "first_line": 49,
+          "last_line": 52,
+          "name": "MeasureTheory.ae",
+          "sha256": "c7043a79ddfd9d04a865026ca6f76950873e8c68a2be8f38d6732e0a71782bab",
+          "text": "def ae (μ : F) : Filter α :=\n  .ofCountableUnion (μ · = 0) (fun _S hSc ↦ (measure_sUnion_null_iff hSc).2) fun _t ht _s hs ↦\n    measure_mono_null hs ht\nderiving CountableInterFilter\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/OuterMeasure/AE.lean#L49-L52"
+        },
+        {
+          "first_line": 132,
+          "last_line": 136,
+          "name": "AE_null_complement_contract",
+          "sha256": "e5e156ce2adb28adce69979079b1f974df28d2d4ff50e1a81e1df2d47cafb9f4",
+          "text": "theorem mem_ae_iff {s : Set α} : s ∈ ae μ ↔ μ sᶜ = 0 :=\n  Iff.rfl\n\ntheorem ae_iff {p : α → Prop} : (∀ᵐ a ∂μ, p a) ↔ μ { a | ¬p a } = 0 :=\n  Iff.rfl\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/OuterMeasure/AE.lean#L132-L136"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/NumberTheory/Real/Irrational.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/NumberTheory/Real/Irrational.lean",
+      "sha256": "7f30a8a7ea3bc37867a9aff2fe63a5559996abe6a53a63554a8f952ef841bcbb",
+      "git_blob_sha1": "283b795b6b818dd0842d7c20e7fd52b4809d3bd8",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Abhimanyu Pallavi Sudhir, Jean Lo, Calle Sönne, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 34,
+          "last_line": 39,
+          "name": "Irrational",
+          "sha256": "0e3eb8e166c48ec9924419020e169392716cf12463290b1e8deab7ac81c5f993",
+          "text": "\n/-- A real number is irrational if it is not equal to any rational number. -/\n@[wikidata Q607728]\ndef Irrational (x : ℝ) :=\n  x ∉ Set.range ((↑) : ℚ → ℝ)\n\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/NumberTheory/Real/Irrational.lean#L34-L39"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/",
+      "excerpts": [
+        {
+          "first_line": 281,
+          "last_line": 282,
+          "name": "Filter.Eventually",
+          "sha256": "0ba2bbf18ff4e34aa29b62339a81242d94ee66d632cbfbe1a9df890d28b7389f",
+          "text": "protected def Eventually (p : α → Prop) (f : Filter α) : Prop :=\n  { x | p x } ∈ f\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L281-L282"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Interval/Set/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Set/Defs.lean",
+      "sha256": "53970116254a7e705eb85f92c9236be431966dbd61c1c1315a914a6d05e39b7b",
+      "git_blob_sha1": "068a144114ac37ca8a4ca9d92de1ff33d94918e8",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "first_line": 48,
+          "last_line": 53,
+          "name": "Set.Ioo",
+          "sha256": "af859ab32ab0ebd872072ca65797fce1745866af5d5b47ba25e095004ecd4e51",
+          "text": "\n/-- `Ioo a b` is the left-open right-open interval $(a, b)$. -/\n@[to_dual self (reorder := a b)]\ndef Ioo (a b : α) := { x | a < x ∧ x < b }\n\nto_dual_insert_cast Ioo := by simp only [and_comm]\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Set/Defs.lean#L48-L53"
+        },
+        {
+          "first_line": 75,
+          "last_line": 76,
+          "name": "Set.Icc",
+          "sha256": "b3f69cb84ba301c41cb26cc341b0c3679c3d5b084b5a28372f1a48719c173695",
+          "text": "@[to_dual self (reorder := a b)]\ndef Icc (a b : α) := { x | a ≤ x ∧ x ≤ b }\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Set/Defs.lean#L75-L76"
+        },
+        {
+          "first_line": 62,
+          "last_line": 63,
+          "name": "Set.Ioc",
+          "sha256": "52a0369f96cd137e2bc0cc0b7f284649d8bf4def4bb6012bf63dab60a48fe8ad",
+          "text": "@[to_dual existing (reorder := a b)]\ndef Ioc (a b : α) := { x | a < x ∧ x ≤ b }\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Set/Defs.lean#L62-L63"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/",
+      "excerpts": [
+        {
+          "first_line": 155,
+          "last_line": 158,
+          "name": "Continuous",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "first_line": 73,
+          "last_line": 85,
+          "name": "TopologicalSpace",
+          "sha256": "ad41b506009c9b2858fb370f8585b8ae8f9b29e30391866640e7a230de0fe954",
+          "text": "class TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L73-L85"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/",
+      "excerpts": [
+        {
+          "first_line": 185,
+          "last_line": 186,
+          "name": "ContinuousWithinAt",
+          "sha256": "61a19022bd099ee929dc43e02a693866e3d508736b92086afe7f37a8c2f8f7f3",
+          "text": "def ContinuousWithinAt (f : X → Y) (s : Set X) (x : X) : Prop :=\n  Tendsto f (𝓝[s] x) (𝓝 (f x))\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L185-L186"
+        },
+        {
+          "first_line": 188,
+          "last_line": 192,
+          "name": "ContinuousOn",
+          "sha256": "dea5434adde1cf127f9e2ff68c9e62c2fbf8673cc2d5aecb4351f25e3453842a",
+          "text": "/-- A function between topological spaces is continuous on a subset `s`\nwhen it's continuous at every point of `s` within `s`. -/\n@[fun_prop]\ndef ContinuousOn (f : X → Y) (s : Set X) : Prop :=\n  ∀ x ∈ s, ContinuousWithinAt f s x\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L188-L192"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Path.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean",
+      "sha256": "91c8fa5452d85bc35258afd61de0b694e82ae483d35d9257b599ce7eaddab038",
+      "git_blob_sha1": "5d9635ef4ad6dd478f60ca07e612646c670705ad",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Patrick Massot. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Patrick Massot\n-/",
+      "excerpts": [
+        {
+          "first_line": 60,
+          "last_line": 64,
+          "name": "Path",
+          "sha256": "8598575701a8e8841b54b8071a1ef9f45d619e9ea5f118578266bd6bfca31412",
+          "text": "structure Path (x y : X) extends C(I, X) where\n  /-- The start point of a `Path`. -/\n  source' : toFun 0 = x\n  /-- The end point of a `Path`. -/\n  target' : toFun 1 = y\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L60-L64"
+        },
+        {
+          "first_line": 143,
+          "last_line": 147,
+          "name": "Path.refl",
+          "sha256": "08e2237eb19cb6346d69db83734faa5ed2db58b70d85aa0cfcd4df7d23d0fbc7",
+          "text": "def refl (x : X) : Path x x where\n  toContinuousMap := .const I x\n  source' := rfl\n  target' := rfl\n\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L143-L147"
+        },
+        {
+          "first_line": 153,
+          "last_line": 158,
+          "name": "Path.symm",
+          "sha256": "638ddf18d1fc6e37ef680ddc103fed2d82eee1fe3c184f821b02655030fe756f",
+          "text": "def symm (γ : Path x y) : Path y x where\n  toFun := γ ∘ σ\n  continuous_toFun := by fun_prop\n  source' := by simp\n  target' := by simp\n\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L153-L158"
+        },
+        {
+          "first_line": 277,
+          "last_line": 292,
+          "name": "Path.trans",
+          "sha256": "5435276a5d76d8864359bf02e853278bb243f68b6b7891a701e5a64aaa25f6e2",
+          "text": "def trans (γ : Path x y) (γ' : Path y z) : Path x z where\n  toFun := (fun t : ℝ => if t ≤ 1 / 2 then γ.extend (2 * t) else γ'.extend (2 * t - 1)) ∘ (↑)\n  continuous_toFun := by\n    refine\n      (Continuous.if_le ?_ ?_ continuous_id continuous_const (by simp)).comp\n        continuous_subtype_val <;>\n    fun_prop\n  source' := by simp\n  target' := by norm_num\n\n@[grind =]\ntheorem trans_apply (γ : Path x y) (γ' : Path y z) (t : I) :\n    (γ.trans γ') t =\n      if h : (t : ℝ) ≤ 1 / 2 then γ ⟨2 * t, (mul_pos_mem_iff zero_lt_two).2 ⟨t.2.1, h⟩⟩\n      else γ' ⟨2 * t - 1, two_mul_sub_one_mem_iff.2 ⟨(not_le.1 h).le, t.2.2⟩⟩ :=\n  show ite _ _ _ = _ by split_ifs <;> rw [extend_apply]\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L277-L292"
+        },
+        {
+          "first_line": 188,
+          "last_line": 199,
+          "name": "Path.extend",
+          "sha256": "37c7e207c6515f3dc06ab03dc4689be98a3a3933e8d825810596c9066611eaae",
+          "text": "    ⟨fun h => continuous_uncurry_of_continuous ⟨_, h⟩,\n    continuous_of_continuous_uncurry (fun (y : Y) ↦ ContinuousMap.mk (g y))⟩\n\n/-- A continuous map extending a path to `ℝ`, constant before `0` and after `1`. -/\ndef extend : C(ℝ, X) where\n  toFun := IccExtend zero_le_one γ\n\n/-- See Note [continuity lemma statement]. -/\n@[continuity, fun_prop]\ntheorem _root_.Continuous.pathExtend {γ : Y → Path x y} {f : Y → ℝ} (hγ : Continuous ↿γ)\n    (hf : Continuous f) : Continuous fun t => (γ t).extend (f t) :=\n  Continuous.IccExtend hγ hf\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L188-L199"
+        },
+        {
+          "first_line": 151,
+          "last_line": 160,
+          "name": "actual_path_reversal",
+          "sha256": "93db69e3ab26440212e406b295a9db3899416919fc0bb8dec089ea8f68f048cf",
+          "text": "/-- The reverse of a path from `x` to `y`, as a path from `y` to `x` -/\n@[symm, simps (attr := grind =)]\ndef symm (γ : Path x y) : Path y x where\n  toFun := γ ∘ σ\n  continuous_toFun := by fun_prop\n  source' := by simp\n  target' := by simp\n\n@[simp]\ntheorem symm_symm (γ : Path x y) : γ.symm.symm = γ := by grind\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L151-L160"
+        },
+        {
+          "first_line": 274,
+          "last_line": 292,
+          "name": "actual_path_concatenation",
+          "sha256": "a5f24af34f8f6cf1a8da60254ce35cc00f06e2ff7f74d0ed0c096fa7d3fd26d1",
+          "text": "/-- Concatenation of two paths from `x` to `y` and from `y` to `z`, putting the first\npath on `[0, 1/2]` and the second one on `[1/2, 1]`. -/\n@[trans]\ndef trans (γ : Path x y) (γ' : Path y z) : Path x z where\n  toFun := (fun t : ℝ => if t ≤ 1 / 2 then γ.extend (2 * t) else γ'.extend (2 * t - 1)) ∘ (↑)\n  continuous_toFun := by\n    refine\n      (Continuous.if_le ?_ ?_ continuous_id continuous_const (by simp)).comp\n        continuous_subtype_val <;>\n    fun_prop\n  source' := by simp\n  target' := by norm_num\n\n@[grind =]\ntheorem trans_apply (γ : Path x y) (γ' : Path y z) (t : I) :\n    (γ.trans γ') t =\n      if h : (t : ℝ) ≤ 1 / 2 then γ ⟨2 * t, (mul_pos_mem_iff zero_lt_two).2 ⟨t.2.1, h⟩⟩\n      else γ' ⟨2 * t - 1, two_mul_sub_one_mem_iff.2 ⟨(not_le.1 h).le, t.2.2⟩⟩ :=\n  show ite _ _ _ = _ by split_ifs <;> rw [extend_apply]\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Path.lean#L274-L292"
+        }
+      ]
+    },
+    {
+      "git_blob_sha1": "3544319eea46ede241e2aced4fd147a810f38825",
+      "license": "Apache-2.0",
+      "path": "Mathlib/Topology/UnitInterval.lean",
+      "sha256": "afaccfe8ef4d9ea05189b3bd50e0dbf58cb6b4e3f86441b2d4d55aef06c2626b",
+      "upstream_header": "/-\nCopyright (c) 2020 Patrick Massot. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Patrick Massot, Kim Morrison\n-/",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UnitInterval.lean",
+      "excerpts": [
+        {
+          "first_line": 29,
+          "last_line": 41,
+          "name": "unitInterval",
+          "sha256": "5a91c2eb75036e553c39380b53a03afb5787fc4ede54a4759480b581d5db8e84",
+          "text": "\n\n/-- The unit interval `[0,1]` in ℝ. -/\nabbrev unitInterval : Set ℝ :=\n  Set.Icc 0 1\n\n@[inherit_doc]\nscoped[unitInterval] notation \"I\" => unitInterval\n\nnamespace unitInterval\n\ntheorem zero_mem : (0 : ℝ) ∈ I :=\n  ⟨le_rfl, zero_le_one⟩\n",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UnitInterval.lean#L29-L41"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeMaterial",
+      "path": "ChallengeMaterial.lean",
+      "sha256": "5b5a9016b1a8c4f1799cc8c08d99e80a2ee68ef52da285ed1504923509ade297"
+    },
+    {
+      "module": "SolutionMaterial",
+      "path": "SolutionMaterial.lean",
+      "sha256": "581d8913dec756493b55a98648c68cbad97de638a5f75b36e41dcf9e343e77d5"
+    }
+  ],
+  "support_notice": "Finset.sum is generated from the retained Finset.prod source; its actual value/univ bridge remains uncompiled. Supporting excerpts are not misidentified as literal material declaration names."
+}

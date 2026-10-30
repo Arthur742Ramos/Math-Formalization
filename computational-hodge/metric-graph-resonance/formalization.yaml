@@ -55,7 +55,7 @@
   ],
   "status": {
     "scope": "Finite connected oriented unit-edge multigraphs, continuous edge forcing and nonzero full-period real frequencies. The path criterion concerns generated finite closed computational traces and their defined densities.",
-    "known_gaps": "Unverified development draft: complete exact-source native, Comparator, definition-value, axiom, kernel, provenance, canonical and official rendering checks and final review remain pending. No arbitrary-path integral, intrinsic metric-graph line integral, usual metric quotient topology, general Hodge theorem, full spectral classification, research novelty or external acceptance is claimed.",
+    "known_gaps": "Development draft: release requires source-bound native, Comparator, definition-value, axiom, kernel, provenance, canonical and official rendering evidence and independent final review. A predecessor verification result does not certify later source changes. No arbitrary-path integral, intrinsic metric-graph line integral, usual metric quotient topology, general Hodge theorem, full spectral classification, research novelty or external acceptance is claimed.",
     "attribution_status": "Arthur Freitas Ramos confirmed the listed authors and designated himself as the sole responsible maintainer for this project. Substantive proofs and packaging were supplied by OpenAI Codex. The listed roles do not establish individual human proof contributions or human mathematical review."
   },
   "automation": {
