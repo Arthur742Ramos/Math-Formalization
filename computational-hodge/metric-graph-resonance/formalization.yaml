@@ -1,0 +1,80 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Equilateral graph resonance and computational traces",
+    "description": "For a finite connected oriented unit-edge multigraph, continuous edge forcing, and nonzero real k with sin k = 0 and cos k = 1, the edgewise first-order forced system with common vertex values and Kirchhoff balance is solvable exactly when the total cosine moment vanishes and the sine-moment edge cochain is exact. The latter condition is equivalent to vanishing sine-density integrals over every generated finite closed computational trace. A separate theorem relates the trace density almost everywhere to a local affine edge coordinate and its derivative, with a local representation of the realized quotient path.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "Ruy Jose Guerra Barretto de Queiroz",
+      "David Barros Hulak"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": ["math.SP", "math.CO", "math.LO"]
+  },
+  "sources": [
+    {
+      "title": "Open geometric computational paths",
+      "type": "source code",
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/blob/ea1367d99c7d2f3794f1299cce5b18379e9093a7/ComputationalPaths/Path/Topology/OpenGeometricComputationalPath.lean",
+      "relationship": "adapts",
+      "note": "The attributed MIT-licensed GeometricStepSystem and GeometricTrace excerpt and its adaptation are described in source-provenance.json and SOURCE-LICENSE.txt. Independent exact-source provenance verification remains pending."
+    },
+    {
+      "title": "Quantum Graphs I. Some Basic Structures",
+      "authors": ["Peter Kuchment"],
+      "type": "article",
+      "id": "https://people.tamu.edu/~kuchment/qgraphs1.pdf",
+      "relationship": "background",
+      "note": "Classical quantum-graph and vertex-condition background; this package does not claim this paper states the selected computational-trace theorem."
+    },
+    {
+      "title": "Relating Zeta Functions of Discrete and Quantum Graphs",
+      "authors": ["Jonathan Harrison", "Tracy Weyand"],
+      "type": "article",
+      "id": "https://arxiv.org/abs/1612.04273v3",
+      "relationship": "background",
+      "note": "Classical equilateral quantum-graph spectral and resonance context; no novelty or priority claim for the present formalization follows."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/TopologicalComputationalPaths/tree/ea1367d99c7d2f3794f1299cce5b18379e9093a7",
+      "relationship": "adapts",
+      "note": "Pinned upstream source of the attributed finite computational-trace definitions."
+    },
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned calculus, topology and algebra dependencies; authenticated dependency replay remains pending."
+    }
+  ],
+  "status": {
+    "scope": "Finite connected oriented unit-edge multigraphs, continuous edge forcing and nonzero full-period real frequencies. The path criterion concerns generated finite closed computational traces and their defined densities.",
+    "known_gaps": "Unverified development draft: complete exact-source native, Comparator, definition-value, axiom, kernel, provenance, canonical and official rendering checks and final review remain pending. No arbitrary-path integral, intrinsic metric-graph line integral, usual metric quotient topology, general Hodge theorem, full spectral classification, research novelty or external acceptance is claimed.",
+    "attribution_status": "The proposed author and responsible-maintainer names are carried from a prior Hodge project; their roles for this project remain to be confirmed. Substantive proofs and packaging were supplied by OpenAI Codex. The proposed names do not establish individual human proof contributions or human mathematical review."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex authored substantive Lean proofs and packaging. Separate internal AI review examined a bounded source and mathematical scope; final exact-source validation and evidence review remain pending."
+      }
+    ],
+    "notes": "No human mathematical review, external peer review, independent-kernel verification or registry acceptance is implied by the role assignments or internal review."
+  },
+  "fidelity": {
+    "divergences": "The source connects the forced graph criterion to its generated finite trace-density integrals and an almost-everywhere local velocity theorem. The three-indexed-edge example proves zero total cosine moment and incompatible common endpoint data for two edges; it does not instantiate a full Kirchhoff theta graph or explicitly exhibit a closed-trace period."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": ["Separate internal AI scope and source reviewer"],
+    "notes": "Static review found a substantive extension beyond the earlier scalar-circle scope but did not establish mathematical novelty or editorial acceptance. It did not authenticate dependencies or run independent kernels. Exact final-source and artifact review remain pending."
+  }
+}
