@@ -98,4 +98,67 @@ example {X : Type*} [TopologicalSpace X] (H : X ≃ₜ X) (x : X) :
     H (H.symm x) = x := H.apply_symm_apply x
 
 example {X : Type*} [TopologicalSpace X] (H : X ≃ₜ X) : Continuous H := H.continuous_toFun
+
+-- These are theorem-level bridges, except where explicitly marked rfl.
+example (a C : ℝ) : |a| ≤ C ↔ -C ≤ a ∧ a ≤ C := abs_le
+
+example (x y : ℝ) : dist x y = |x - y| := Real.dist_eq x y
+
+example (m n : ℕ) : m ∈ Finset.range n ↔ m < n := Finset.mem_range
+
+example (g : ℕ → ℝ) : (∑ k ∈ Finset.range 0, g k) = 0 := by simp
+
+example (g : ℕ → ℝ) (n : ℕ) :
+    (∑ k ∈ Finset.range (n + 1), g k) = (∑ k ∈ Finset.range n, g k) + g n := by
+  simp only [Finset.sum_range_succ]
+
+example {X : Type*} (T : X → X) (g : X → ℝ) (x : X) :
+    birkhoffSum T g 0 x = 0 := by simp
+
+example {X : Type*} (T : X → X) (g : X → ℝ) (x : X) (n : ℕ) :
+    birkhoffSum T g (n + 1) x = birkhoffSum T g n x + g ((T^[n]) x) := by
+  simp only [birkhoffSum_succ_apply]
+
+example {X : Type*} (T : X → X) (x : X) : (T^[0]) x = x := rfl
+
+example {X : Type*} {Y : Type*} (f : X → Y) (y : Y) :
+    y ∈ Set.range f ↔ ∃ x, f x = y := Iff.rfl
+
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    (f : X → Y) (hf : Continuous f) (U : Set Y) (hU : IsOpen U) :
+    IsOpen (f ⁻¹' U) := hf.isOpen_preimage U hU
+
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    (H : X ≃ₜ Y) : Continuous H.symm := H.symm.continuous_toFun
+
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] :
+    Continuous (Prod.fst : X × Y → X) := continuous_fst
+
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] :
+    Continuous (Prod.snd : X × Y → Y) := continuous_snd
+
+example {X : Type*} [TopologicalSpace X] [T2Space X] (x y : X) (h : x ≠ y) :
+    ∃ U V : Set X, IsOpen U ∧ IsOpen V ∧ x ∈ U ∧ y ∈ V ∧ Disjoint U V :=
+  t2_separation h
+
+
+example (U : Set ℝ) :
+    IsOpen U ↔ ∀ x ∈ U, ∃ ε > 0, Metric.ball x ε ⊆ U := Metric.isOpen_iff
+
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] (S : Set (X × Y)) :
+    IsOpen S ↔ ∀ a b, (a,b) ∈ S →
+      ∃ U V, IsOpen U ∧ IsOpen V ∧ a ∈ U ∧ b ∈ V ∧ U ×ˢ V ⊆ S := isOpen_prod_iff
+
+example {X : Type u} [TopologicalSpace X] [CompactSpace X] {ι : Type u}
+    (U : ι → Set X) (hU : ∀ i, IsOpen (U i)) (hcover : Set.univ ⊆ ⋃ i, U i) :
+    ∃ t : Finset ι, Set.univ ⊆ ⋃ i ∈ t, U i :=
+  isCompact_iff_finite_subcover.mp isCompact_univ U hU hcover
+
+example {X : Type*} (T : X → X) (x : X) (n : ℕ) :
+    (T^[n+1]) x = T ((T^[n]) x) := Function.iterate_succ_apply' T n x
+
+#check @abs_le
+#check @Finset.sum_range_succ
+#print abs
+#print Finset.sum
 -- END material-imported-definition audit

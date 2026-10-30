@@ -23,7 +23,9 @@
     "Homeomorph",
     "Equiv",
     "DenseRange",
-    "birkhoffSum"
+    "birkhoffSum",
+    "Real",
+    "Finset.range"
   ],
   "material_declarations": [
     {
@@ -42,9 +44,13 @@
       "bridge_excerpts": [
         "TopologicalSpace",
         "topology-open-closed",
-        "Product-heterogeneous-topology"
+        "Product-heterogeneous-topology",
+        "product-topology",
+        "induced-topology",
+        "topology-inf-lattice",
+        "product-open-iff"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "IsOpen",
@@ -62,7 +68,7 @@
       "bridge_excerpts": [
         "topology-open-closed"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "closure",
@@ -81,7 +87,7 @@
         "interior-closure",
         "topology-open-closed"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Continuous",
@@ -99,7 +105,7 @@
       "bridge_excerpts": [
         "open-image-Continuous"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Filter",
@@ -117,7 +123,7 @@
       "bridge_excerpts": [
         "Filter"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "IsCompact",
@@ -134,7 +140,7 @@
       "bridge_excerpts": [
         "KR-IsCompact"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "CompactSpace",
@@ -149,9 +155,10 @@
       "definition_excerpt": "KR-CompactSpace",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
-        "KR-CompactSpace"
+        "KR-CompactSpace",
+        "compact-finite-subcover"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Dense",
@@ -169,7 +176,7 @@
       "bridge_excerpts": [
         "Dynamics-Dense"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Set.range",
@@ -187,7 +194,7 @@
       "bridge_excerpts": [
         "Dynamics-Set.range"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Finset",
@@ -204,7 +211,7 @@
       "bridge_excerpts": [
         "E0-Finset"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Nat.iterate",
@@ -220,9 +227,10 @@
       "definition_excerpt": "Mixing-Nat.iterate",
       "bridge_kind": "literal-unfolding",
       "bridge_excerpts": [
-        "Mixing-Nat.iterate"
+        "Mixing-Nat.iterate",
+        "iterate-succ"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "T2Space",
@@ -230,7 +238,8 @@
       "definition_excerpt": "cantor-T2Space",
       "bridge_kind": "class-fields",
       "bridge_excerpts": [
-        "cantor-T2Space"
+        "cantor-T2Space",
+        "t2-separation"
       ],
       "meaning": "Distinct points admit disjoint open neighborhoods.",
       "dependency_expansion": "Distinct points admit disjoint open neighborhoods.",
@@ -239,7 +248,7 @@
         "GottschalkHedlund.bounded_sums_skew_conjugacy"
       ],
       "role": "hypothesis",
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Homeomorph",
@@ -255,7 +264,7 @@
       "bridge_excerpts": [
         "characterization-Homeomorph"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "Equiv",
@@ -271,7 +280,7 @@
       "bridge_excerpts": [
         "Equiv"
       ],
-      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "DenseRange",
@@ -289,7 +298,7 @@
       "bridge_excerpts": [
         "GH-DenseRange"
       ],
-      "proof_status": "Exact pinned excerpt retained; bridge compilation and independent completeness review are required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     },
     {
       "name": "birkhoffSum",
@@ -304,9 +313,58 @@
       "definition_excerpt": "GH-birkhoffSum",
       "bridge_kind": "literal-unfolding",
       "bridge_excerpts": [
-        "GH-birkhoffSum"
+        "GH-birkhoffSum",
+        "finset-range",
+        "finset-sum-generator",
+        "sum-range-succ-generator"
       ],
-      "proof_status": "Exact pinned excerpt retained; bridge compilation and independent completeness review are required."
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
+    },
+    {
+      "name": "Real",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The real-valued codomain and fiber use Mathlib real numbers.",
+      "dependency_expansion": "Cauchy completion real structure; operations/order and topology are separately documented below.",
+      "definition_excerpt": "real-structure",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "real-structure",
+        "real-zero-add-sub",
+        "real-lt",
+        "real-le",
+        "real-pseudometric",
+        "real-metric",
+        "real-order-topology",
+        "real-open-ball"
+      ],
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
+    },
+    {
+      "name": "Finset.range",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The finite set of natural indices strictly below n.",
+      "dependency_expansion": "Finset.range uses multiset range and finite-set membership; the sum is generated by to_additive.",
+      "definition_excerpt": "finset-range",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "finset-range",
+        "multiset-range",
+        "finset-membership",
+        "finset-sum-generator",
+        "sum-range-succ-generator"
+      ],
+      "proof_status": "Pinned source evidence and semantic bridges are recorded; consult external receipts identifying the source tested for any compilation and review outcomes."
     }
   ],
   "source_files": [
@@ -383,6 +441,22 @@
           "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
           "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        },
+        {
+          "name": "product-topology",
+          "first_line": 49,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceSum [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X ⊕ Y) :=\n  coinduced Sum.inl t₁ ⊔ coinduced Sum.inr t₂\n\ninstance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "40fbb54f9ad2ac9f8992f451573e130811d6c82ed42838977be9de794b964033",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L49-L55"
+        },
+        {
+          "name": "product-open-iff",
+          "first_line": 446,
+          "last_line": 450,
+          "text": "-- TODO: align with `mem_nhds_prod_iff'`\ntheorem isOpen_prod_iff {s : Set (X × Y)} :\n    IsOpen s ↔ ∀ a b, (a, b) ∈ s →\n      ∃ u v, IsOpen u ∧ IsOpen v ∧ a ∈ u ∧ b ∈ v ∧ u ×ˢ v ⊆ s :=\n  isOpen_iff_mem_nhds.trans <| by simp_rw [Prod.forall, mem_nhds_prod_iff', and_left_comm]\n",
+          "sha256": "2a3313a44e19b937eee18aec226840177b25d8013f74205b16aebcbe0aeccf76",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L446-L450"
         }
       ]
     },
@@ -463,6 +537,14 @@
           "text": "structure Finset (α : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset α\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
           "sha256": "7060271efbf43760a549ba990bf6441680ded1d3465c11a6856ecc7a6ca7b551",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
+        },
+        {
+          "name": "finset-membership",
+          "first_line": 100,
+          "last_line": 106,
+          "text": "/-- Convert a finset to a set in the natural way. -/\ninstance : SetLike (Finset α) α where\n  coe s := {a | a ∈ s.1}\n  coe_injective s₁ s₂ h := (val_inj.symm.trans <| s₁.nodup.ext s₂.nodup).2 <| Set.ext_iff.mp h\n\ntheorem mem_def {a : α} {s : Finset α} : a ∈ s ↔ a ∈ s.1 :=\n  Iff.rfl\n",
+          "sha256": "1c1eeb6e3ef50087009fc677692b533a2ee9554ba15048565b58c7860b83d04f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L100-L106"
         }
       ]
     },
@@ -481,6 +563,14 @@
           "text": "def Nat.iterate {α : Sort u} (op : α → α) : ℕ → α → α\n  | 0, a => a\n  | succ k, a => iterate op k (op a)\n",
           "sha256": "8197110f3911f9fba49b3571a56d29281c8ece9bda7297d8ac65024e88af77b1",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L41-L43"
+        },
+        {
+          "name": "iterate-succ",
+          "first_line": 170,
+          "last_line": 176,
+          "text": "\ntheorem iterate_succ' (n : ℕ) : f^[n.succ] = f ∘ f^[n] := by\n  rw [iterate_succ, (Commute.self_iterate f n).comp_eq]\n\ntheorem iterate_succ_apply' (n : ℕ) (x : α) : f^[n.succ] x = f (f^[n] x) := by\n  rw [iterate_succ']\n  rfl\n",
+          "sha256": "b306d8fecf59862b49b3d84443651216f84ded486f4732b6b59ba179e031a61d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L170-L176"
         }
       ]
     },
@@ -499,6 +589,14 @@
           "text": "/-- A T₂ space, also known as a Hausdorff space, is one in which for every\n  `x ≠ y` there exists disjoint open sets around `x` and `y`. This is\n  the most widely used of the separation axioms. -/\n@[mk_iff]\nclass T2Space (X : Type u) [TopologicalSpace X] : Prop where\n  /-- Every two points in a Hausdorff space admit disjoint open neighbourhoods. -/\n  t2 : Pairwise fun x y => ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v\n\n/-- Two different points can be separated by open sets. -/\ntheorem t2_separation [T2Space X] {x y : X} (h : x ≠ y) :\n    ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v :=\n",
           "sha256": "e875f4f7c4e62052292e8ce7f9e0caac25e7dd18a47fc9e6dec7240de02cdd81",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean#L81-L91"
+        },
+        {
+          "name": "t2-separation",
+          "first_line": 86,
+          "last_line": 92,
+          "text": "  /-- Every two points in a Hausdorff space admit disjoint open neighbourhoods. -/\n  t2 : Pairwise fun x y => ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v\n\n/-- Two different points can be separated by open sets. -/\ntheorem t2_separation [T2Space X] {x y : X} (h : x ≠ y) :\n    ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v :=\n  T2Space.t2 h\n",
+          "sha256": "6d6c42c95f318690ed2e9d9b292083c30696dc48fc1bad3256e6daa93a874c41",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean#L86-L92"
         }
       ]
     },
@@ -555,18 +653,284 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Dynamics/BirkhoffSum/Basic.lean#L30-L31"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Basic/Real/Basic.lean",
+      "sha256": "b10f715c299e6c3f468e916cad97620e921dc432e31269217954d94191fc7829",
+      "git_blob_sha1": "3f5de911ff81bf5a8a6dc2e3dbfe8a4a7beec8f3",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Floris van Doorn\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "real-structure",
+          "first_line": 30,
+          "last_line": 40,
+          "text": "\nassert_not_exists Finset Module Submonoid FloorRing\n\n/-- The type `ℝ` of real numbers constructed as equivalence classes of Cauchy sequences of rational\nnumbers. -/\n@[wikidata Q12916, wikidata Q2584477]\nstructure Real where ofCauchy ::\n  /-- The underlying Cauchy completion -/\n  cauchy : CauSeq.Completion.Cauchy (abs : ℚ → ℚ)\n\n@[inherit_doc]\n",
+          "sha256": "157bb5fcb094999e1949aedfc622ca921c1d89b515c17a5e134d524d0b9d9547",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean#L30-L40"
+        },
+        {
+          "name": "real-zero-add-sub",
+          "first_line": 65,
+          "last_line": 114,
+          "text": "\n/-- The real numbers are isomorphic to the quotient of Cauchy sequences on the rationals. -/\ndef equivCauchy : ℝ ≃ CauSeq.Completion.Cauchy (abs : ℚ → ℚ) :=\n  ⟨Real.cauchy, Real.ofCauchy, fun ⟨_⟩ => rfl, fun _ => rfl⟩\n\n-- irreducible doesn't work for instances: https://github.com/leanprover-community/lean/issues/511\nprivate irreducible_def zero : ℝ :=\n  ⟨0⟩\n\nprivate irreducible_def one : ℝ :=\n  ⟨1⟩\n\nprivate irreducible_def add : ℝ → ℝ → ℝ\n  | ⟨a⟩, ⟨b⟩ => ⟨a + b⟩\n\nprivate irreducible_def neg : ℝ → ℝ\n  | ⟨a⟩ => ⟨-a⟩\n\nprivate irreducible_def mul : ℝ → ℝ → ℝ\n  | ⟨a⟩, ⟨b⟩ => ⟨a * b⟩\n\nprivate noncomputable irreducible_def inv' : ℝ → ℝ\n  | ⟨a⟩ => ⟨a⁻¹⟩\n\n@[no_expose]\ninstance : Zero ℝ :=\n  ⟨zero⟩\n\n@[no_expose]\ninstance : One ℝ :=\n  ⟨one⟩\n\n@[no_expose]\ninstance : Add ℝ :=\n  ⟨add⟩\n\n@[no_expose]\ninstance : Neg ℝ :=\n  ⟨neg⟩\n\n@[no_expose]\ninstance : Mul ℝ :=\n  ⟨mul⟩\n\ninstance : Sub ℝ :=\n  ⟨fun a b => a + -b⟩\n\n@[no_expose]\nnoncomputable instance : Inv ℝ :=\n  ⟨inv'⟩\n",
+          "sha256": "877541da8922e8f3fa8240a4dbb7f5ac0fdb27e75713bda2ef14203baddd699b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean#L65-L114"
+        },
+        {
+          "name": "real-lt",
+          "first_line": 255,
+          "last_line": 267,
+          "text": "theorem mk_eq {f g : CauSeq ℚ abs} : mk f = mk g ↔ f ≈ g :=\n  ext_cauchy_iff.trans CauSeq.Completion.mk_eq\n\nprivate irreducible_def lt : ℝ → ℝ → Prop\n  | ⟨x⟩, ⟨y⟩ =>\n    (Quotient.liftOn₂ x y (· < ·)) fun _ _ _ _ hf hg =>\n      propext <|\n        ⟨fun h => lt_of_eq_of_lt (Setoid.symm hf) (lt_of_lt_of_eq h hg), fun h =>\n          lt_of_eq_of_lt hf (lt_of_lt_of_eq h (Setoid.symm hg))⟩\n\n@[no_expose]\ninstance : LT ℝ :=\n  ⟨lt⟩\n",
+          "sha256": "4e4d9048b6dd909be3ba5a2cf8d4e5f1cb8f22e667960415bd33293914610621",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean#L255-L267"
+        },
+        {
+          "name": "real-le",
+          "first_line": 290,
+          "last_line": 299,
+          "text": "\nlemma mk_const {x : ℚ} : mk (const abs x) = x := rfl\n\nprivate irreducible_def le (x y : ℝ) : Prop :=\n  x < y ∨ x = y\n\n@[no_expose]\ninstance : LE ℝ :=\n  ⟨le⟩\n\n",
+          "sha256": "bf6b8ab3da2563348eb024c46f7113a50ff59761bb647069bd3950d6977fd483",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Basic/Real/Basic.lean#L290-L299"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Order/Group/Unbundled/Abs.lean",
+      "sha256": "c76d2b000588b29088d3cd060d2e0c72815045825c4a2ebfaa5b0509236cc708",
+      "git_blob_sha1": "29f5079a243a1cdb0c26bc3d01d47f9a214309a5",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Group/Unbundled/Abs.lean",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura, Mario Carneiro, Johannes Hölzl\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "absolute-value-generator",
+          "first_line": 29,
+          "last_line": 43,
+          "text": "section Lattice\nvariable [Lattice α]\n\nsection Group\nvariable [Group α] {a b : α}\n\n/-- `mabs a`, denoted `|a|ₘ`, is the absolute value of `a`. -/\n@[to_additive (attr := grind) /-- `abs a`, denoted `|a|`, is the absolute value of `a` -/]\ndef mabs (a : α) : α := a ⊔ a⁻¹\n\n@[inherit_doc mabs]\nmacro:max atomic(\"|\" noWs) a:term noWs \"|ₘ\" : term => `(mabs $a)\n\n@[inherit_doc abs]\nmacro:max atomic(\"|\" noWs) a:term noWs \"|\" : term => `(abs $a)\n",
+          "sha256": "6495364d8e16c558ae188886d8557f80fef5363dd0f39af9367e02df4c1bcc23",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Group/Unbundled/Abs.lean#L29-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Range.lean",
+      "sha256": "558338b4d2aafb16975268881803408ffa50d44abc7b9d9eee418e1590094576",
+      "git_blob_sha1": "43fb35f379700f133c16945442823aec0575665c",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Range.lean",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "finset-range",
+          "first_line": 47,
+          "last_line": 74,
+          "text": "\nopen Nat\n\nvariable {n m : ℕ}\n\n/-- `range n` is the set of natural numbers less than `n`. -/\ndef range (n : ℕ) : Finset ℕ :=\n  ⟨_, nodup_range n⟩\n\n@[simp]\ntheorem range_val (n : ℕ) : (range n).1 = Multiset.range n :=\n  rfl\n\n@[simp] lemma _root_.Multiset.toFinset_range (n : ℕ) : (Multiset.range n).toFinset = .range n :=\n  Finset.val_injective (Finset.range n).nodup.dedup\n\n@[simp, grind =]\ntheorem mem_range : m ∈ range n ↔ m < n :=\n  Multiset.mem_range\n\n@[simp, grind =, norm_cast]\ntheorem coe_range (n : ℕ) : (range n : Set ℕ) = Set.Iio n :=\n  Set.ext fun _ => mem_range\n\n@[simp]\ntheorem range_zero : range 0 = ∅ :=\n  rfl\n\n",
+          "sha256": "b6fa6c21360cc558d951580cb915784df0dac3cf205cad728232f5020efc10d1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Range.lean#L47-L74"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Multiset/Range.lean",
+      "sha256": "0688c3fec656e5c98eb2a67e2bb9366dc426159747d3f41fd3b47b03b8868e64",
+      "git_blob_sha1": "248042135f7ee45bc391bae5bc8373177f17cb70",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/Range.lean",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "multiset-range",
+          "first_line": 18,
+          "last_line": 27,
+          "text": "namespace Multiset\n\n-- range\n/-- `range n` is the multiset lifted from the list `range n`,\n  that is, the set `{0, 1, ..., n-1}`. -/\ndef range (n : ℕ) : Multiset ℕ :=\n  List.range n\n\ntheorem coe_range (n : ℕ) : ↑(List.range n) = range n :=\n  rfl\n",
+          "sha256": "a76eedc498141d6a814b708d843fe40e504f9dc51f6cbf47f554103a0bd0e8cb",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Multiset/Range.lean#L18-L27"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean",
+      "sha256": "e935efa96ad9381658f3158f900d04589c46d7e933cab15f4d8632e1af85527f",
+      "git_blob_sha1": "0eec64f2576f4d449b44b877678fe95678cfc9f0",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "finset-sum-generator",
+          "first_line": 53,
+          "last_line": 70,
+          "text": "variable {ι κ M N G α : Type*}\n\nopen Fin Function\n\nnamespace Finset\n\n/-- `∏ x ∈ s, f x` is the product of `f x` as `x` ranges over the elements of the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `∏ x, f x`, is a shorthand for\n`∏ x ∈ Finset.univ, f x`. -/\n@[to_additive /-- `∑ x ∈ s, f x` is the sum of `f x` as `x` ranges over the elements\nof the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `∑ x, f x`, is a shorthand for\n`∑ x ∈ Finset.univ, f x`. -/]\nprotected def prod [CommMonoid M] (s : Finset ι) (f : ι → M) : M :=\n  (s.1.map f).prod\n\n",
+          "sha256": "5c53d48b2e55141af0b9e4c97d2d72b4090b463fcbe2db2c22155d90c57e706b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean#L53-L70"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Induced.lean",
+      "sha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "git_blob_sha1": "7526293e644df38a5a2564f8c52a2bd7f561fc82",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "induced-topology",
+          "first_line": 59,
+          "last_line": 74,
+          "text": "/-- Given `f : X → Y` and a topology on `Y`,\n  the induced topology on `X` is the collection of sets\n  that are preimages of some open set in `Y`.\n  This is the coarsest topology that makes `f` continuous. -/\n@[instance_reducible]\ndef induced (f : X → Y) (t : TopologicalSpace Y) : TopologicalSpace X where\n  IsOpen s := ∃ t, IsOpen t ∧ f ⁻¹' t = s\n  isOpen_univ := ⟨univ, isOpen_univ, preimage_univ⟩\n  isOpen_inter := by\n    rintro s₁ s₂ ⟨s'₁, hs₁, rfl⟩ ⟨s'₂, hs₂, rfl⟩\n    exact ⟨s'₁ ∩ s'₂, hs₁.inter hs₂, preimage_inter⟩\n  isOpen_sUnion S h := by\n    choose! g hgo hfg using h\n    refine ⟨⋃₀ (g '' S), isOpen_sUnion <| forall_mem_image.2 hgo, ?_⟩\n    rw [preimage_sUnion, biUnion_image, sUnion_eq_biUnion]\n    exact iUnion₂_congr hfg\n",
+          "sha256": "576df495f86572f70e262293658d7ba0064ca8d4455cecbb35b6e6d296429cae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Induced.lean#L59-L74"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Pseudo/Defs.lean",
+      "sha256": "13cd9bc80e44bf7b61a55b5b1c2993058ac995f8803a6fb58c230c23a1d0fa35",
+      "git_blob_sha1": "912bc464320d8ea70f002255c59e9f79d41f6ac2",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean",
+      "upstream_header": "/-\nCopyright (c) 2015 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Robert Y. Lewis, Johannes Hölzl, Mario Carneiro, Sébastien Gouëzel\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "real-pseudometric",
+          "first_line": 1112,
+          "last_line": 1118,
+          "text": "instance Real.pseudoMetricSpace : PseudoMetricSpace ℝ where\n  dist x y := |x - y|\n  dist_self := by simp [abs_zero]\n  dist_comm _ _ := abs_sub_comm _ _\n  dist_triangle _ _ _ := abs_sub_le _ _ _\n\ntheorem Real.dist_eq (x y : ℝ) : dist x y = |x - y| := rfl\n",
+          "sha256": "079b37be72c13f84a5c2611ec246bef5cc1db97dd94545eb333b5abf34289740",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L1112-L1118"
+        },
+        {
+          "name": "real-open-ball",
+          "first_line": 836,
+          "last_line": 837,
+          "text": "theorem isOpen_iff : IsOpen s ↔ ∀ x ∈ s, ∃ ε > 0, ball x ε ⊆ s := by\n  simp only [isOpen_iff_mem_nhds, mem_nhds_iff]\n",
+          "sha256": "1b9e16635a1f0e6946ecd1a3c336a8968cbe7d03f1368247e9125f019d683f21",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Defs.lean#L836-L837"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Basic.lean",
+      "sha256": "436cca315c86e33d4101560d75087e75b5ccb6c96419960c68d1aeb147eed49b",
+      "git_blob_sha1": "e0fe8f381707250ace1c08029f820a02dc8e62c3",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Basic.lean",
+      "upstream_header": "/-\nCopyright (c) 2015 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Robert Y. Lewis, Johannes Hölzl, Mario Carneiro, Sébastien Gouëzel\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "real-metric",
+          "first_line": 118,
+          "last_line": 125,
+          "text": "\nsection Real\n\n/-- Instantiate the reals as a metric space. -/\ninstance Real.metricSpace : MetricSpace ℝ := .ofT0PseudoMetricSpace ℝ\n\nend Real\n\n",
+          "sha256": "1ba2aaa6013ec258a5720d792c23a828d6083074ac98d8bb65f1186d5be47d31",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Basic.lean#L118-L125"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/MetricSpace/Pseudo/Lemmas.lean",
+      "sha256": "6a0cf742b00efa9cbd7f386a61c33a84710797bc1fb1cb82d8d92e1951b4df6a",
+      "git_blob_sha1": "f43009fa8c4bfcb46f82727fece38bf05b7b65d7",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Lemmas.lean",
+      "upstream_header": "/-\nCopyright (c) 2015 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Robert Y. Lewis, Johannes Hölzl, Mario Carneiro, Sébastien Gouëzel\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "real-order-topology",
+          "first_line": 20,
+          "last_line": 25,
+          "text": "\nvariable {ι α : Type*} [PseudoMetricSpace α]\n\ninstance : OrderTopology ℝ :=\n  orderTopology_of_nhds_abs fun x => by\n    simp only [nhds_basis_ball.eq_biInf, ball, Real.dist_eq, abs_sub_comm]\n",
+          "sha256": "fbb1088a7464bf244987e8bae86c044004881c05c6fb6f03bca464c6427ed61f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/MetricSpace/Pseudo/Lemmas.lean#L20-L25"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Order.lean",
+      "sha256": "2705ffc65ea519f775d4e9678578a2dbb18f096325f857c6267ac2bd83af86c5",
+      "git_blob_sha1": "b8acdd3aee23b43330bc36aa8f7f1819a16a2a55",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "topology-inf-lattice",
+          "first_line": 185,
+          "last_line": 200,
+          "text": "  gc := gc_generateFrom α\n  u_l_le _ s hs := TopologicalSpace.GenerateOpen.basic s hs\n  choice g hg := TopologicalSpace.mkOfClosure g\n    (Subset.antisymm hg <| le_generateFrom_iff_subset_isOpen.1 <| le_rfl)\n  choice_eq _ _ := mkOfClosure_sets\n\n/-- Topologies on `α` form a complete lattice, with `⊥` the discrete topology\n  and `⊤` the indiscrete topology. The infimum of a collection of topologies\n  is the topology generated by all their open sets, while the supremum is the\n  topology whose open sets are those sets open in every member of the collection. -/\ninstance : CompleteLattice (TopologicalSpace α) := (gciGenerateFrom α).liftCompleteLattice\n\n@[mono, gcongr]\ntheorem generateFrom_anti {α} {g₁ g₂ : Set (Set α)} (h : g₁ ⊆ g₂) :\n    generateFrom g₂ ≤ generateFrom g₁ :=\n  (gc_generateFrom _).monotone_u h\n",
+          "sha256": "621e89bfbd9072689464f9d460d7c1056013f0b439f090a748ac16c2ac3cbca7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Order.lean#L185-L200"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Compactness/Compact.lean",
+      "sha256": "3fc7ffe7db4db0a2de07d6fdf0e65da486b3dced1f3bac4d58ab869a92f4ac64",
+      "git_blob_sha1": "30fc9322f4ce78f847a592b0035bf5edfc65f33c",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Yury Kudryashov\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "compact-finite-subcover",
+          "first_line": 384,
+          "last_line": 389,
+          "text": "/-- A set `s` is compact if and only if\nfor every open cover of `s`, there exists a finite subcover. -/\ntheorem isCompact_iff_finite_subcover :\n    IsCompact s ↔ ∀ {ι : Type u} (U : ι → Set X),\n      (∀ i, IsOpen (U i)) → (s ⊆ ⋃ i, U i) → ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=\n  ⟨fun hs => hs.elim_finite_subcover, isCompact_of_finite_subcover⟩\n",
+          "sha256": "a48a11009a0c741b08d427892ef7d163ea7c6e21e3dd43a265d6ce8ee7149a11",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Compactness/Compact.lean#L384-L389"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Order/Group/Abs.lean",
+      "sha256": "6dd77c705c13d17bf1e66a3e2e7f0093eab399d660de997b2bd287b95bb974d0",
+      "git_blob_sha1": "1c7ff3f7d790ef4ee34408b1bd586b1ce727f5dc",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Group/Abs.lean",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura, Mario Carneiro, Johannes Hölzl\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "abs-le-generator",
+          "first_line": 58,
+          "last_line": 62,
+          "text": "  · exact mabs_mul_eq_mul_mabs_le ab\n  · simpa only [mul_comm, and_comm] using mabs_mul_eq_mul_mabs_le ab\n\n@[to_additive]\ntheorem mabs_le : |a|ₘ ≤ b ↔ b⁻¹ ≤ a ∧ a ≤ b := by rw [mabs_le', and_comm, inv_le']\n",
+          "sha256": "8b4b2e3ece8cd45217cbadb338f93e6e827f8ccf8d4cd81622062b506127d028",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Group/Abs.lean#L58-L62"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean",
+      "sha256": "273036de3d36eda43082685a3ebc998900735e96c3f4b18f1546b39a4f765af0",
+      "git_blob_sha1": "c3b552527a22e70a3d2535dfa37841520dcba3b0",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "license": "Apache-2.0",
+      "excerpts": [
+        {
+          "name": "sum-range-succ-generator",
+          "first_line": 530,
+          "last_line": 538,
+          "text": "@[to_additive]\ntheorem prod_range_succ_comm (f : ℕ → M) (n : ℕ) :\n    (∏ x ∈ range (n + 1), f x) = f n * ∏ x ∈ range n, f x := by\n  rw [range_add_one, prod_insert notMem_range_self]\n\n@[to_additive]\ntheorem prod_range_succ (f : ℕ → M) (n : ℕ) :\n    (∏ x ∈ range (n + 1), f x) = (∏ x ∈ range n, f x) * f n := by\n  simp only [mul_comm, prod_range_succ_comm]\n",
+          "sha256": "5587b02877b3bf5a881f69c988b94ea34a341e1ff86272bf464ffc343dd4bbf1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean#L530-L538"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "SemanticChallenge",
       "path": "SemanticChallenge.lean",
-      "sha256": "533a13051b74787ca0233896d7843f5e6f9b546f4734516a6d4f595fd651ea01"
+      "sha256": "1d43ee7ac55c8ef3c1a67cc9716fb87fcf1b700a2434b44e9806320e09a211f3"
     },
     {
       "module": "SemanticSolution",
       "path": "SemanticSolution.lean",
-      "sha256": "63f5a2b3b943ead3f9619f2e2af4fcb2903fe57ca29a834bd84850a556eab665"
+      "sha256": "1aa6a29dec7bbe59c0ee3080554831401c2c6cb74405d24d1396ae524227cd98"
     }
   ],
   "lean_core_supplement": {
@@ -577,15 +941,94 @@
     "upstream_git_blob_sha1": "f87ee970af5149d74434f09a89aedff1a8fdb2d2",
     "entries": [
       {
+        "name": "Eq",
+        "first_line": 73,
+        "last_line": 76,
+        "excerpt": "inductive Eq : α → α → Prop where\n  /-- `Eq.refl a : a = a` is reflexivity, the unique constructor of the\n  equality type. See also `rfl`, which is usually used instead. -/\n  | refl (a : α) : Eq a a\n",
+        "excerpt_sha256": "6c40c7a082268ee036b8346f5b62817ccf1243d8ec38cff64f1daf18242affb6"
+      },
+      {
+        "name": "identity",
+        "first_line": 131,
+        "last_line": 131,
+        "excerpt": "@[inline, implicit_reducible] def id {α : Sort u} (a : α) : α := a\n",
+        "excerpt_sha256": "1e6337f6314239fc7af413c04e55cc5435526670aa42d4edf546b8fc5d402a22"
+      },
+      {
+        "name": "product",
+        "first_line": 610,
+        "last_line": 618,
+        "excerpt": "structure Prod (α : Type u) (β : Type v) where\n  /--\n  Constructs a pair. This is usually written `(x, y)` instead of `Prod.mk x y`.\n  -/\n  mk ::\n  /-- The first element of a pair. -/\n  fst : α\n  /-- The second element of a pair. -/\n  snd : β\n",
+        "excerpt_sha256": "1811441d6c784afd034e844d0c54d3da721536f1bae7cec7926a013be5094cf6"
+      },
+      {
         "name": "Nonempty",
         "first_line": 839,
         "last_line": 841,
         "excerpt": "class inductive Nonempty (α : Sort u) : Prop where\n  /-- If `val : α`, then `α` is nonempty. -/\n  | intro (val : α) : Nonempty α\n",
         "excerpt_sha256": "409b9d791b14a599f13bb14741bdfbfc112bc04bd4fc41d9924083fa47df7598"
+      },
+      {
+        "name": "Nat",
+        "first_line": 1359,
+        "last_line": 1374,
+        "excerpt": "inductive Nat where\n  /--\n  Zero, the smallest natural number.\n\n  Using `Nat.zero` explicitly should usually be avoided in favor of the literal `0`, which is the\n  [simp normal form](lean-manual://section/simp-normal-forms).\n  -/\n  | zero : Nat\n  /--\n  The successor of a natural number `n`.\n\n  Using `Nat.succ n` should usually be avoided in favor of `n + 1`, which is the [simp normal\n  form](lean-manual://section/simp-normal-forms).\n  -/\n  | succ (n : Nat) : Nat\n\n",
+        "excerpt_sha256": "cbaaa94d9809a9e5828217eb92a57f926afda43ee2bac8d1f9e613c6b3941afb"
+      },
+      {
+        "name": "Nat order",
+        "first_line": 2022,
+        "last_line": 2040,
+        "excerpt": "protected inductive Nat.le (n : Nat) : Nat → Prop\n  /-- Non-strict inequality is reflexive: `n ≤ n` -/\n  | refl     : Nat.le n n\n  /-- If `n ≤ m`, then `n ≤ m + 1`. -/\n  | step {m} : Nat.le n m → Nat.le n (succ m)\n\ninstance instLENat : LE Nat where\n  le := Nat.le\n\n/--\nStrict inequality of natural numbers, usually accessed via the `<` operator.\n\nIt is defined as `n < m = n + 1 ≤ m`.\n-/\n@[implicit_reducible] protected def Nat.lt (n m : Nat) : Prop :=\n  Nat.le (succ n) m\n\ninstance instLTNat : LT Nat where\n  lt := Nat.lt\n",
+        "excerpt_sha256": "74dfbc21b02a50197a0d8e3f4c8cfe7a3ab2456239406f831dffda032eb00712"
       }
     ],
-    "status": "Installed file matches the previously authenticated upstream Git blob. Core excerpts and semantic meaning require separate independent review.",
+    "status": "Prelude matches retained historical upstream blob metadata. Init/Core.lean matches the GitHub contents API blob for the pinned revision. The Mathlib checker does not authenticate either core file; their provenance is checked separately.",
     "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
-    "license": "Apache-2.0"
-  }
+    "license": "Apache-2.0",
+    "exists_core": {
+      "upstream_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+      "upstream_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Core.lean",
+      "upstream_github_contents_blob_sha1": "23e784c3806badcabd1e8f19c50946d66bc3c87a",
+      "installed_sha256": "264a0b48fedc91fadf55fc5caac8d91003e3908a6e5e42736e2ac8bf1f7cdf99",
+      "first_line": 338,
+      "last_line": 341,
+      "excerpt": "inductive Exists {α : Sort u} (p : α → Prop) : Prop where\n  /-- Existential introduction. If `a : α` and `h : p a`,\n  then `⟨a, h⟩` is a proof that `∃ x : α, p x`. -/\n  | intro (w : α) (h : p w) : Exists p\n",
+      "excerpt_sha256": "46cc4b3fc3f6356ced538dbaa155870b5dbad3341c68641beda9e29ccaaaa6cb",
+      "scope": "Installed file matches GitHub contents API blob identity for exact ref; no full Lean core closure asserted."
+    }
+  },
+  "supplemental_statement_semantics": [
+    {
+      "name": "Real operations and absolute value",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "source_excerpts": [
+        "real-zero-add-sub",
+        "real-lt",
+        "real-le",
+        "absolute-value-generator",
+        "abs-le-generator"
+      ],
+      "explanation": "The to_additive generator is not a literal abs definition. The bound bridge is a proved theorem; the generated theorem type is inspected by #check; this does not inspect operation bodies."
+    },
+    {
+      "name": "Finset.sum",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "source_excerpts": [
+        "finset-sum-generator",
+        "sum-range-succ-generator",
+        "finset-range",
+        "multiset-range",
+        "finset-membership"
+      ],
+      "explanation": "The to_additive generator is not a literal sum definition. The zero/successor bridges are proved theorems; the generated theorem type is inspected by #check; this does not inspect operation bodies."
+    }
+  ]
 }
