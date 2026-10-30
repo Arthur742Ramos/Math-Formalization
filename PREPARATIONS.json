@@ -2513,8 +2513,8 @@
       "registry_public_status": "unconfirmed",
       "catalog_checkpoint": "2026-10-30",
       "source_snapshot": {
-        "commit": "07211b8f436a05489bf05b16f1090d8e20d70aed",
-        "tree": "877557af0b5ae72c429541d07dd127b9a74cb7c3"
+        "commit": "40e8e935bbcf9301cd3d1762ab335d13aaf6a512",
+        "tree": "37471eb2c92c246e9c6225ee71d67ab605c8a53b"
       },
       "source_files_sha256": {
         "ATTRIBUTION.md": "3f5257b4da6e32bef136d1e2a2c3646e83f2db2a407ba2d20257b2d1ce10f5e3",
@@ -2527,10 +2527,10 @@
         "lakefile.toml": "c77f998ea3b33dd5c4a266e978571cebf26f4ec4909c2c20db99fecb1115891a",
         "lean-toolchain": "f4085f5f49cb07b752ed5b171651770205bbbb73ea5445f0e14db04264e8506c",
         "LICENSE": "aa0f551e7243c3a23d0fb7df6f87b542785411994b3004e755cce203ef21ad5a",
-        "MATERIAL-DEFINITIONS.md": "cd383ca70088a39bdaf5e25546bbe95ba13a3420918bd163d539d6a0f7fd46ec",
+        "MATERIAL-DEFINITIONS.md": "f29693ab0052c979d856a1ef8ddc5156ccc49e53c404e9fc51cd368c7fbf0b75",
         "README.md": "b64b8b32b64d2aa05f87f0a51ea589efbcba4edfce4432a4236795d6af1a89fb",
-        "SemanticChallenge.lean": "533a13051b74787ca0233896d7843f5e6f9b546f4734516a6d4f595fd651ea01",
-        "SemanticSolution.lean": "63f5a2b3b943ead3f9619f2e2af4fcb2903fe57ca29a834bd84850a556eab665",
+        "SemanticChallenge.lean": "1d43ee7ac55c8ef3c1a67cc9716fb87fcf1b700a2434b44e9806320e09a211f3",
+        "SemanticSolution.lean": "1aa6a29dec7bbe59c0ee3080554831401c2c6cb74405d24d1396ae524227cd98",
         "SOURCE-MANIFEST.json": "163190f2dada8aaf0ecd7e185beb045fac6fca0f8a9ae60248095869a41c0373",
         ".gitattributes": "32b28a47f22fed72e85b6600a12ebb8569fbbe2b869760678dfde794924e48f2"
       },
@@ -2543,7 +2543,7 @@
         "sources/MinimalSkewFibers.lean.txt": "82eab82f4075a60999cb15051065c27ad993759ae162467dda2c9b375e712bd0",
         "sources/ProjectionGraphDevelopment.lean.txt": "39c8fc7016e6e6fcd84125b92db9d6129da137c3f634e95e6d7694f04655ad67",
         "sources/VerticalFiberDevelopment.lean.txt": "eed55f0a39b2abfa9f64bafdb36dbe3c18befe04f2829601925df59508127acb",
-        "verification/material-imported-definitions.json": "c50f0079edf610117470e8cd285e0453aa798fd452004a8c5477029fa8ad7823"
+        "verification/material-imported-definitions.json": "50b2b8e8f954c62fe02b722585799203d8655a1d510d24f2127013519d306bbd"
       },
       "theorem_names": [
         "GottschalkHedlund.bounded_sums_iff_transfer",
@@ -2574,11 +2574,12 @@
         "mathematical_source": "pass",
         "implementation": "pass",
         "receipts_sha256": {
-          "reviewed_handoff": "0f179f430560cb8eca84588a1c2932b69bb3e83a743fd557f1d7d8f1227ca69b"
+          "reviewed_handoff": "0f179f430560cb8eca84588a1c2932b69bb3e83a743fd557f1d7d8f1227ca69b",
+        "semantic_statement_review": "7a6b22c103f341f426c5f9531bb0ac25e5e5a0a591d300e195b4d67c15df9e34"
         },
-        "scope": "Statement and proof review; imported-definition completeness remains provisional."
+        "scope": "Statement and proof review; the draft-48 imported meanings received independent statement-level review within the documented nonrecursive scope; only reviewed inventory status text changed."
       },
-      "evidence_scope": "Local checkpoint for an unpublished draft. The independently reviewed development build and axiom reports use retained dependency artifacts. Definition completeness, canonical verification, independent kernels, rendering and editorial outcomes are separate."
+      "evidence_scope": "Local checkpoint for an unpublished draft. The draft-48 semantic-bridge build used retained dependencies; its Lean and configuration bytes match this snapshot, while inventory and documentation status wording changed. The integrated inventory was checked against pinned Mathlib before the package commit. Canonical verification, independent kernels, rendering and editorial outcomes are separate."
     }
   ]
 }

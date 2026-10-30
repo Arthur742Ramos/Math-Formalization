@@ -332,4 +332,4 @@ The 2026-10-30 checkpoint is an unpublished local source snapshot. Its inventory
 
 | Project | Scope | Intake status | Source snapshot |
 | --- | --- | --- | --- |
-| [Gottschalk-Hedlund cohomological equation for minimal systems](topology/gottschalk-hedlund) | For a continuous forward-minimal map on a nonempty compact Hausdorff space, bounded real orbit sums are equivalent to a continuous transfer function, unique up to a constant; the transfer explicitly conjugates the additive skew product by a fiber translation. | Local draft; intake unconfirmed | Local commit `07211b8f436a05489bf05b16f1090d8e20d70aed` (not published by this task) |
+| [Gottschalk-Hedlund cohomological equation for minimal systems](topology/gottschalk-hedlund) | For a continuous forward-minimal map on a nonempty compact Hausdorff space, bounded real orbit sums are equivalent to a continuous transfer function, unique up to a constant; the transfer explicitly conjugates the additive skew product by a fiber translation. | Local draft; intake unconfirmed | Local commit `40e8e935bbcf9301cd3d1762ab335d13aaf6a512` (not published by this task) |
