@@ -15,6 +15,56 @@ from check_preparations import check_status_correction, check_verified, check_us
 import check_preparations as prep
 
 
+class RecurrenceCommentCorrectionBindings(unittest.TestCase):
+    def setUp(self):
+        rows = json.loads((ROOT / 'PREPARATIONS.json').read_text(encoding='utf-8'))['projects']
+        self.row = copy.deepcopy(next(p for p in rows if p['path'] == 'topology/minimal-multiple-recurrence'))
+        self.source = self.row['source_snapshot']
+
+    def check(self):
+        check_status_correction(self.row, self.source['commit'], self.source['tree'])
+
+    def test_actual_comment_only_correction_binding(self):
+        self.check()
+
+    def test_claiming_current_full_or_render_pass_is_rejected(self):
+        for field in ('current_source_full', 'current_source_rendering'):
+            with self.subTest(field=field):
+                self.row[field] = 'pass'
+                with self.assertRaises(AssertionError): self.check()
+                self.row[field] = 'not-established'
+
+    def test_historical_binding_and_proof_inputs_cannot_be_altered(self):
+        for field in ('historical_source', 'historical_evidence_source', 'corrected_source', 'corrected_tree'):
+            with self.subTest(field=field):
+                original = self.row['historical_status_correction'][field]
+                self.row['historical_status_correction'][field] = '0' * 40
+                with self.assertRaises((AssertionError, subprocess.CalledProcessError)): self.check()
+                self.row['historical_status_correction'][field] = original
+        self.row['historical_status_correction']['historical_evidence_source'] = self.source['commit']
+        with self.assertRaises(AssertionError): self.check()
+        self.row['historical_status_correction']['historical_evidence_source'] = '4a77e29daf4eeafcee4380052bc4ca62977e41ec'
+        actual = prep.snapshot
+        for name in ('MultipleRecurrence.lean', 'comparator.json'):
+            def altered(root, commit, project):
+                files = actual(root, commit, project)
+                if commit == self.row['status_correction']['prior_package_source']:
+                    files[name] += b'\nchanged\n'
+                return files
+            with self.subTest(file=name), mock.patch.object(prep, 'snapshot', side_effect=altered):
+                with self.assertRaises((AssertionError, ValueError)): self.check()
+
+    def test_proof_body_or_unchanged_file_tampering_is_rejected(self):
+        actual = prep.snapshot
+        for name in ('MultipleRecurrence.lean', 'RecurrenceSolution.lean'):
+            def altered(root, commit, project):
+                files = actual(root, commit, project)
+                if commit == self.row['current_source_snapshot']['commit']:
+                    files[name] += b'\n-- unexpected edit\n'
+                return files
+            with self.subTest(file=name), mock.patch.object(prep, 'snapshot', side_effect=altered):
+                with self.assertRaises(AssertionError): self.check()
+
 class NarrowStatusCorrectionBindings(unittest.TestCase):
     def setUp(self):
         self.old = {'README.md': b'old', 'formalization.yaml': json.dumps({

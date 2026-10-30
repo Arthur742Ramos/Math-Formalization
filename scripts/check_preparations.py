@@ -19,6 +19,55 @@ def git(*args):
 def check_status_correction(p, source, tree):
     """Preserve the historical source while allowing only the reviewed status repair."""
     change = p['status_correction']
+    if change['kind'] == 'proof-comment-status-correction':
+        # This is an exact byte classification, not the narrow status-only
+        # carry-forward or an assertion of current-source verification.
+        assert p['path'] == 'topology/minimal-multiple-recurrence'
+        assert p['state'] == 'reviewed-preparation-not-submitted'  # historical source_snapshot state
+        assert change['historical_source'] == source
+        prior = change['prior_package_source']
+        corrected = p['current_source_snapshot']
+        assert change['corrected_source'] == corrected['commit']
+        assert change['corrected_tree'] == corrected['tree']
+        assert git('rev-parse', source + ':' + p['path']) == tree
+        assert git('rev-parse', corrected['commit'] + ':' + p['path']) == corrected['tree']
+        assert git('rev-parse', 'HEAD:' + p['path']) == corrected['tree']
+        for earlier, later in ((source, prior), (prior, corrected['commit']), (corrected['commit'], 'HEAD')):
+            subprocess.run(['git', '-C', str(ROOT), 'merge-base', '--is-ancestor', earlier, later], check=True)
+        history = p['historical_status_correction']
+        assert history['kind'] == 'narrow-status-only-evidence-carry'
+        assert history['historical_source'] == source
+        assert history['corrected_source'] == prior
+        # This historical preflight is bound to its actual tested commit.
+        assert history['historical_evidence_source'] == '4a77e29daf4eeafcee4380052bc4ca62977e41ec'
+        assert git('rev-parse', history['historical_evidence_source'] + ':' + p['path']) == tree
+        assert git('rev-parse', prior + ':' + p['path']) == history['corrected_tree']
+        for earlier, later in ((source, history['historical_evidence_source']),
+                               (history['historical_evidence_source'], prior)):
+            subprocess.run(['git', '-C', str(ROOT), 'merge-base', '--is-ancestor', earlier, later], check=True)
+        old = snapshot(ROOT, prior, p['path'])
+        historical = snapshot(ROOT, source, p['path'])
+        assert classify(historical, old, modes(ROOT, source, p['path']),
+                        modes(ROOT, prior, p['path'])) == history['changed_files']
+        new = snapshot(ROOT, corrected['commit'], p['path'])
+        old_modes, new_modes = modes(ROOT, prior, p['path']), modes(ROOT, corrected['commit'], p['path'])
+        assert set(old) == set(new) == set(old_modes) == set(new_modes)
+        assert old_modes == new_modes and all(m in {'100644', '100755'} for m in old_modes.values())
+        changed = sorted(name for name in old if old[name] != new[name])
+        assert changed == change['changed_files'] == ['MultipleRecurrence.lean', 'README.md', 'RecurrenceChallenge.lean']
+        before = b'Development snapshot; verification and release checks remain pending.'
+        after = b'Verification and release evidence is tracked separately by exact source revision.'
+        for name in ('MultipleRecurrence.lean', 'RecurrenceChallenge.lean'):
+            assert old[name].count(before) == 1 and old[name].replace(before, after) == new[name]
+        readme = old['README.md']
+        before_intro = b'The submitted proof and Challenge SHA-256 is'
+        after_intro = b'At submitted source `a6fd933`, the proof and Challenge SHA-256 is'
+        before_scope = b'These proof and configuration inputs are unchanged in this documentation revision.'
+        after_scope = b'This revision changes a status sentence in the proof and Challenge headers; their declarations and proof bodies, the Solution, Comparator and dependency pins are unchanged.'
+        assert readme.count(before_intro) == readme.count(before_scope) == 1
+        assert readme.replace(before_intro, after_intro).replace(before_scope, after_scope) == new['README.md']
+        assert p['current_source_full'] == p['current_source_rendering'] == 'not-established'
+        return
     if change['kind'] == 'narrow-status-only-evidence-carry':
         assert p['state'] == 'reviewed-preparation-not-submitted'
         assert change['historical_source'] == source

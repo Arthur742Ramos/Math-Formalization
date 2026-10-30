@@ -54,7 +54,7 @@ def status_errors(files):
         except UnicodeDecodeError:
             continue  # Non-text attachments need a separate review.
         # Known stale blanket, checked in every UTF-8 source file including Lean.
-        # An explicit valid historical date in the same clause is context,
+        # An explicit valid date in the same clause is context,
         # not proof that the historical claim is accurate.
         blanket = re.compile(r'\bverification\s+and\s+release\s+checks\s+remain(?:s)?\s+pending\b', re.I)
         for match in blanket.finditer(text):

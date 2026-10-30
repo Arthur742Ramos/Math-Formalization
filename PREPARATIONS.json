@@ -2401,20 +2401,21 @@
           "multiple_status_source_review": "7a6a50cb5ca00eb2ba9043f0bee1f571e480fe3cd936468c882af56a79ee3d6f"
         }
       },
-      "evidence_scope": "The submitted a6fd933f00c83a82c4d7ab510d17ae62e87dc75f source has a passing service mechanical report and official Challenge render; the sanitized derived receipt identifies both original report hashes and their scope. The separate older 4a77e29 preflight and ade9847 local checks remain historical. The 38b9f7e documentation revision changes only README and permitted metadata status fields; its proof, configuration, pins and semantic inputs are unchanged. This structural catalog classification is not the full conditional evidence-reuse guard or a fresh exact-source verification. Visual inspection, editorial decisions and registration are separate stages.",
+      "evidence_scope": "The state, canonical_full and rendering fields above describe the historical source_snapshot 2e15417 and the originating task checkpoint, not later service activity. The submitted a6fd933f00c83a82c4d7ab510d17ae62e87dc75f has passing service mechanical and official render reports described in the derived receipt. The earlier 38b9f7e status-only package classification is historical. Source ad7b50d replaces a stale header sentence in the proof and Challenge and updates the README hash account; statements and proof bodies are unchanged, but source bytes differ and this is not status-only evidence carry-forward or a fresh full or render pass. Exact-source evidence, visual inspection, editorial review and registration are separate stages.",
       "current_source_snapshot": {
-        "commit": "38b9f7e51e98c2395109e6296a44f2c298030489",
-        "tree": "3f5704d5448d85f4f643f948475ccbd1df43092c"
+        "commit": "ad7b50dfa2bb6b9a60b07b2a5c2e0e348bb95feb",
+        "tree": "95c83b52938ef7abbc2ee26203babfc75139a39c"
       },
       "status_correction": {
-        "kind": "narrow-status-only-evidence-carry",
+        "kind": "proof-comment-status-correction",
         "historical_source": "2e15417f117323c654af638e9c72617dcc92f501",
-        "historical_evidence_source": "4a77e29daf4eeafcee4380052bc4ca62977e41ec",
-        "corrected_source": "38b9f7e51e98c2395109e6296a44f2c298030489",
-        "corrected_tree": "3f5704d5448d85f4f643f948475ccbd1df43092c",
+        "prior_package_source": "38b9f7e51e98c2395109e6296a44f2c298030489",
+        "corrected_source": "ad7b50dfa2bb6b9a60b07b2a5c2e0e348bb95feb",
+        "corrected_tree": "95c83b52938ef7abbc2ee26203babfc75139a39c",
         "changed_files": [
+          "MultipleRecurrence.lean",
           "README.md",
-          "formalization.yaml"
+          "RecurrenceChallenge.lean"
         ]
       },
       "current_source_full": "not-established",
@@ -2425,6 +2426,17 @@
         "render_report_sha256": "396349d7f4293b22e309c0d5b7e0bf7810bb7a9d0843ac60ab02baeb2a153d58",
         "derived_receipt_commit": "4f33f86237aeb68d3c34fe2b99e70597c800018b",
         "derived_receipt_path": "catalog-evidence/multiple-recurrence-2026-10-30/a6fd933-derived-receipt.json"
+      },
+      "historical_status_correction": {
+        "kind": "narrow-status-only-evidence-carry",
+        "historical_source": "2e15417f117323c654af638e9c72617dcc92f501",
+        "historical_evidence_source": "4a77e29daf4eeafcee4380052bc4ca62977e41ec",
+        "corrected_source": "38b9f7e51e98c2395109e6296a44f2c298030489",
+        "corrected_tree": "3f5704d5448d85f4f643f948475ccbd1df43092c",
+        "changed_files": [
+          "README.md",
+          "formalization.yaml"
+        ]
       }
     }
   ]
