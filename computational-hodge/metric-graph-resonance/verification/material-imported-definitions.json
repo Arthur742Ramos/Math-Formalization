@@ -3047,13 +3047,13 @@
       "module": "ChallengeMaterialCheck",
       "path": "ChallengeMaterialCheck.lean",
       "parent": "ChallengeMaterial",
-      "sha256": "158fde523740480d64b9fc0c88af82a83207928bd20810361c031165c284a65c"
+      "sha256": "d02a07fae54bb64585d254cd351ecc47108ecd21e4473d63cc7b576f5af9a478"
     },
     {
       "module": "SolutionMaterialCheck",
       "path": "SolutionMaterialCheck.lean",
       "parent": "SolutionMaterial",
-      "sha256": "42b4843e0be88d667bab8563b8a0fe6a00d4eaddb6a371c11ed8da208302f4a5"
+      "sha256": "36d5e41597737ee342c523d548e6e266b46a816c98ffacf6086483b75147637b"
     }
   ]
 }

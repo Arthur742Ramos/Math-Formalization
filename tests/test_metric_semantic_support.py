@@ -147,7 +147,7 @@ class StructuralControls(unittest.TestCase):
     def test_known_block_comment_false_positive_is_not_semantic_validation(self):
         data=copy.deepcopy(initial)
         path='ChallengeMaterialCheck.lean'
-        marker='import ChallengeMaterial\n'
+        marker='public import ChallengeMaterial\n'
         self.assertEqual(files[path].count(marker),1)
         changed=files[path].replace(marker,marker+'\n/-\n',1)+'\n-/\n'
         next(x for x in data['checked_bridge_importers'] if x['module']=='ChallengeMaterialCheck')['sha256']=sha(changed.encode())

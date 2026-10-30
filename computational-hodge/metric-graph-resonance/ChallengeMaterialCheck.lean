@@ -1,5 +1,5 @@
 module
-import ChallengeMaterial
+public import ChallengeMaterial
 
 public section
 

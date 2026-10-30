@@ -1,5 +1,5 @@
 module
-import SolutionMaterial
+public import SolutionMaterial
 
 public section
 

@@ -796,7 +796,7 @@ def check(project, dependency_root=None):
             raw = local_file(project, item['path']).read_bytes()
             require(sha(raw) == item.get('sha256'), 'Metric bridge importer digest mismatch')
             body = raw.decode()
-            require(re.search(r'(?m)^import ' + re.escape(item['parent']) + r'$', body),
+            require(re.search(r'(?m)^public import ' + re.escape(item['parent']) + r'$', body),
                     'Missing metric bridge importer parent')
             for contract in ['ae_measure_null_contract',
              'filter_tendsto_contract',
