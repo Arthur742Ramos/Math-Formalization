@@ -1274,3 +1274,196 @@ obstruction involves real volume through its proof dependencies, not its stateme
 The real-volume equality is a proposed semantic contract, not a claim that each
 selected result directly invokes that theorem. These mappings remain subject to
 complete independent review and source-bound bridge elaboration.
+
+## Supporting dependency expansions (draft)
+These exact pinned source excerpts support the existing material rows. Their
+interpretation and the Challenge/Solution bridges still require independent
+source-bound elaboration and review. Equivalences and measure identities
+below are proved contracts, not asserted definitional equalities. The
+normed little-o equivalences retain the typeclass and nontrivial-field
+assumptions in their pinned source context; their scope is not asserted
+to extend beyond the conditions of the separately checked bridge.
+
+### Mathlib/Analysis/Asymptotics/TVS.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/TVS.lean
+
+SHA-256: `5a37f7656a1cbf7f06c87b47cfdb7a1e63fc2754a287029c7b7e036ac1d1834e`
+
+```lean
+/-
+Copyright (c) 2023 Yury Kudryashov. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yury Kudryashov, Eric Wieser
+-/
+```
+
+metric_IsLittleOTVS_structure: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/TVS.lean#L92-L95
+
+```lean
+structure IsLittleOTVS (l : Filter α) (f : α → E) (g : α → F) : Prop where
+  exists_eventuallyLE_mul : ∀ U ∈ 𝓝 (0 : E), ∃ V ∈ 𝓝 (0 : F), ∀ ε ≠ (0 : ℝ≥0),
+    (fun x ↦ egauge 𝕜 U (f x)) ≤ᶠ[l] (fun x ↦ ε * egauge 𝕜 V (g x))
+
+```
+
+metric_IsLittleOTVS_normed_iff: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/TVS.lean#L756-L758
+
+```lean
+lemma isLittleOTVS_iff_isLittleO : f =o[𝕜; l] g ↔ f =o[l] g := by
+  rcases NormedField.exists_one_lt_norm 𝕜 with ⟨c, hc : 1 < ‖c‖₊⟩
+  have hc₀ : 0 < ‖c‖₊ := one_pos.trans hc
+```
+
+### Mathlib/Analysis/Asymptotics/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean
+
+SHA-256: `68ef9c1b2d13f99770bcd0c679a23f078f634ea344ff914d7d634ba1682104ed`
+
+```lean
+/-
+Copyright (c) 2019 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Yury Kudryashov
+-/
+```
+
+metric_IsLittleO_definition: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L167-L170
+
+```lean
+multiple of `‖g‖`. In other words, `‖f‖ / ‖g‖` tends to `0` along `l`, modulo division by zero
+issues that are avoided by this definition. -/
+irreducible_def IsLittleO (l : Filter α) (f : α → E) (g : α → F) : Prop :=
+  ∀ ⦃c : ℝ⦄, 0 < c → IsBigOWith c l f g
+```
+
+metric_IsLittleO_eventual_bound: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L181-L183
+
+```lean
+/-- Definition of `IsLittleO` in terms of filters. -/
+theorem isLittleO_iff : f =o[l] g ↔ ∀ ⦃c : ℝ⦄, 0 < c → ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖ := by
+  simp only [IsLittleO_def, IsBigOWith_def]
+```
+
+### Mathlib/Analysis/Calculus/FDeriv/Defs.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/FDeriv/Defs.lean
+
+SHA-256: `27a7410d70541ab4a947cc95c30b16583d1f89fc073ca47e76c978b0b22f13ba`
+
+```lean
+/-
+Copyright (c) 2019 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Sébastien Gouëzel, Yury Kudryashov
+-/
+```
+
+metric_fderiv_normed_little_o_iff: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/FDeriv/Defs.lean#L219-L221
+
+```lean
+theorem hasFDerivAtFilter_iff_isLittleO {L : Filter (E × E)} :
+    HasFDerivAtFilter f f' L ↔ (fun p => f p.1 - f p.2 - f' (p.1 - p.2)) =o[L] fun p => p.1 - p.2 :=
+  (hasFDerivAtFilter_iff_isLittleOTVS ..).trans isLittleOTVS_iff_isLittleO
+```
+
+### Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean
+
+SHA-256: `a1dc11dc7e22a7c20fa382b909d6eb3496b3d346224b9896cb377f2ae5f4418a`
+
+```lean
+/-
+Copyright (c) 2021 Rémy Degenne. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Rémy Degenne, Sébastien Gouëzel
+-/
+```
+
+metric_AEStronglyMeasurable_definition: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean#L67-L69
+
+```lean
+def AEStronglyMeasurable [m : MeasurableSpace α] {m₀ : MeasurableSpace α} (f : α → β)
+    (μ : Measure[m₀] α := by volume_tac) : Prop :=
+  ∃ g : α → β, StronglyMeasurable[m] g ∧ f =ᵐ[μ] g
+```
+
+### Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean
+
+SHA-256: `09f9234723516bbb3d61b8b341d2868c94c8b32ce5f47975983ce8dd67c16712`
+
+```lean
+/-
+Copyright (c) 2019 Zhouhang Zhou. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Zhouhang Zhou
+-/
+```
+
+metric_HasFiniteIntegral_definition: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean#L82-L84
+
+```lean
+def HasFiniteIntegral {_ : MeasurableSpace α} (f : α → ε)
+    (μ : Measure α := by volume_tac) : Prop :=
+  ∫⁻ a, ‖f a‖ₑ ∂μ < ∞
+```
+
+### Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean
+
+SHA-256: `628bcfc45fabd59501cdebf1cc3a8003ef3aba18fc7de4710ca9ffc1033b32d7`
+
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Sébastien Gouëzel, Yury Kudryashov
+-/
+```
+
+metric_real_volume_Ioc: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L109-L110
+
+```lean
+@[simp]
+theorem volume_Ioc {a b : ℝ} : volume (Ioc a b) = ofReal (b - a) := by simp [volume_val]
+```
+
+### Mathlib/MeasureTheory/Measure/Stieltjes.lean
+
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Stieltjes.lean
+
+SHA-256: `a539002bedb8054fe0c346bbc104edfb49ef0a9786729e85312844f04c4e6cb5`
+
+```lean
+/-
+Copyright (c) 2021 Sébastien Gouëzel. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Yury Kudryashov, Sébastien Gouëzel
+-/
+```
+
+metric_Stieltjes_measure_and_Ioc: https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Stieltjes.lean#L518-L529
+
+```lean
+/-- The measure associated to a Stieltjes function, giving mass `f b - f a` to the
+interval `(a, b]`. If there is a bot element, it gives zero mass to it. -/
+protected irreducible_def measure : Measure R where
+  toOuterMeasure := f.outer
+  m_iUnion _s hs := f.outer.iUnion_eq_of_caratheodory fun i => f.borel_le_measurable _ <| by
+    borelize R
+    exact hs i
+  trim_le := f.outer_trim.le
+
+@[simp]
+theorem measure_Ioc (a b : R) : f.measure (Ioc a b) = ofReal (f b - f a) := by
+  rw [StieltjesFunction.measure]
+```
+
+Lean core `Quot`, `Quot.mk`, and `Quot.sound` are a trusted
+foundational boundary for the local `EdgeGlue` quotient. This note
+does not replace the required source-bound transitive axiom audit.

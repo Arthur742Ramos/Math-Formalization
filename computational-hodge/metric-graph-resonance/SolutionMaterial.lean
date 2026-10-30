@@ -74,6 +74,24 @@ theorem real_volume_contract : (volume : Measure ℝ) = StieltjesFunction.id.mea
 theorem ae_real_volume_contract (P : ℝ → Prop) :
     (∀ᵐ x : ℝ ∂volume, P x) ↔ volume {x | ¬ P x} = 0 := MeasureTheory.ae_iff
 
+theorem derivative_normed_little_o_contract (f : ℝ → ℝ) (f' : ℝ →L[ℝ] ℝ)
+    (L : Filter (ℝ × ℝ)) : HasFDerivAtFilter f f' L ↔
+      (fun p => f p.1 - f p.2 - f' (p.1 - p.2)) =o[L] (fun p => p.1 - p.2) :=
+  hasFDerivAtFilter_iff_isLittleO
+
+theorem little_o_eventual_bound_contract (f g : ℝ → ℝ) (L : Filter ℝ) :
+    f =o[L] g ↔ ∀ ⦃c : ℝ⦄, 0 < c → ∀ᶠ x in L, ‖f x‖ ≤ c * ‖g x‖ :=
+  isLittleO_iff
+
+theorem ae_strongly_measurable_contract (f : ℝ → ℝ) (μ : Measure ℝ) :
+    AEStronglyMeasurable f μ ↔ ∃ g : ℝ → ℝ, StronglyMeasurable g ∧ f =ᵐ[μ] g := Iff.rfl
+
+theorem finite_integral_contract (f : ℝ → ℝ) (μ : Measure ℝ) :
+    HasFiniteIntegral f μ ↔ (∫⁻ x, ‖f x‖ₑ ∂μ) < ∞ := Iff.rfl
+
+theorem real_volume_ioc_contract (a b : ℝ) :
+    volume (Ioc a b) = ENNReal.ofReal (b - a) := Real.volume_Ioc
+
 example {α : Type*} (l : Filter α) (P : α → Prop) :
     (∀ᶠ x in l, P x) ↔ {x | P x} ∈ l := Iff.rfl
 
@@ -140,6 +158,11 @@ example (P : ℝ → Prop) : (∀ᵐ x : ℝ ∂volume, P x) ↔ volume {x | ¬ 
 #print axioms finite_univ_sum_contract
 #print axioms real_volume_contract
 #print axioms ae_real_volume_contract
+#print axioms derivative_normed_little_o_contract
+#print axioms little_o_eventual_bound_contract
+#print axioms ae_strongly_measurable_contract
+#print axioms finite_integral_contract
+#print axioms real_volume_ioc_contract
 
 example (f : (ℝ → ℝ) →ₗ[ℝ] (ℝ → ℝ)) (a b : ℝ → ℝ) :
     f (a + b) = f a + f b := map_add f a b

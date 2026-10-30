@@ -158,6 +158,24 @@ def check(project, dependency_root=None):
     names = [d['name'] for d in declarations]
     require(len(names) == len(set(names)) and set(names) == set(inventory),
             'Missing or duplicate material definition evidence')
+    # Narrow to this package's paired sum/volume contract; earlier packages and
+    # historical schema do not thereby acquire new evidence requirements.
+    metric_support = {'Finset.sum', 'Real.volume_eq_stieltjes_id'} <= set(names)
+    if metric_support:
+        expected_support = {
+            'HasFDerivAtFilter': {'metric_IsLittleOTVS_structure', 'metric_IsLittleOTVS_normed_iff',
+                                  'metric_IsLittleO_definition', 'metric_IsLittleO_eventual_bound',
+                                  'metric_fderiv_normed_little_o_iff'},
+            'MeasureTheory.Integrable': {'metric_AEStronglyMeasurable_definition',
+                                        'metric_HasFiniteIntegral_definition'},
+            'Real.volume_eq_stieltjes_id': {'metric_real_volume_Ioc', 'metric_Stieltjes_measure_and_Ioc'},
+        }
+        by_name = {d['name']: d for d in declarations}
+        for name, expected in expected_support.items():
+            support = by_name.get(name, {}).get('supporting_excerpts_draft')
+            require(isinstance(support, list) and all(isinstance(x, str) for x in support) and
+                    len(support) == len(set(support)) and set(support) == expected,
+                    'Missing or retargeted required metric support: ' + name)
     document = local_file(project, data['documentation']).read_text()
     excerpts = {}
     excerpt_evidence = {}
@@ -209,6 +227,25 @@ def check(project, dependency_root=None):
             excerpts[name] = text
             excerpt_evidence[name] = (source, excerpt)
     require(paths, 'Missing upstream sources')
+    if metric_support:
+        # Authenticate names to their exact source fragments, not just to an
+        # arbitrary retained excerpt. Full Git-blob authentication is separate.
+        pinned_support = {
+            'metric_fderiv_normed_little_o_iff': ('Mathlib/Analysis/Calculus/FDeriv/Defs.lean', 219, 221, '0355e125b584f9b58d9a074073f3d6c642c1f79c67550c390a3375f57d021a4b'),
+            'metric_real_volume_Ioc': ('Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean', 109, 110, 'f51b0c71cc6bbb3bf9bf4990937c79dcd2e79f6dd22d006283b4d4ff8cc20642'),
+            'metric_IsLittleOTVS_structure': ('Mathlib/Analysis/Asymptotics/TVS.lean', 92, 95, '4ae5bbb29d667c67c666fc5729ad150ddb2b190790acf49811243c3b8e42d6da'),
+            'metric_IsLittleOTVS_normed_iff': ('Mathlib/Analysis/Asymptotics/TVS.lean', 756, 758, '0250345499a0cd4a656782eae8758e1d002044370150eff078338e649264845d'),
+            'metric_IsLittleO_definition': ('Mathlib/Analysis/Asymptotics/Defs.lean', 167, 170, '10f1e91495c4194b8a6568166baafac80b24346bd60278142f44728d84121974'),
+            'metric_IsLittleO_eventual_bound': ('Mathlib/Analysis/Asymptotics/Defs.lean', 181, 183, '99697eeafaee89024411cc19b6adbef6f74bfc3fe0289fb26767d3775aebc09c'),
+            'metric_AEStronglyMeasurable_definition': ('Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean', 67, 69, 'cec6648d80a1b4ec588e179bf85377541e009993301b575cea869d91876b0c7b'),
+            'metric_HasFiniteIntegral_definition': ('Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean', 82, 84, 'ce0a60d8e2eef17cb171d4f7aa342db20f85e64131e7efb69c4f4ea337bd14c9'),
+            'metric_Stieltjes_measure_and_Ioc': ('Mathlib/MeasureTheory/Measure/Stieltjes.lean', 518, 529, 'f9470f8cf0068b5ce8d1b1a49211ca64d8f6a31efa219d4cb500a775f0cc8fe9'),
+        }
+        for name, expected in pinned_support.items():
+            require(name in excerpt_evidence, 'Missing pinned metric support: ' + name)
+            source, excerpt = excerpt_evidence[name]
+            require((source['path'], excerpt['first_line'], excerpt['last_line'], excerpt['sha256']) == expected,
+                    'Retargeted pinned metric support: ' + name)
     for declaration in declarations:
         name = declaration['name']
         roles = {'hypothesis', 'conclusion', 'definition'}
@@ -260,6 +297,10 @@ def check(project, dependency_root=None):
             refs = declaration['bridge_excerpts']
             require(refs and len(refs) == len(set(refs)) and all(n in excerpts for n in refs),
                     'Missing or invalid semantic bridge evidence')
+            support = declaration.get('supporting_excerpts_draft', [])
+            require(isinstance(support, list) and all(isinstance(n, str) for n in support) and
+                    len(support) == len(set(support)) and all(n in excerpts for n in support),
+                    'Missing or invalid draft supporting excerpts')
             if name in {'Finset.sum', 'Real.volume_eq_stieltjes_id'}:
                 require(declaration['definition_excerpt'] in refs,
                         'Material bridge omits its pinned declaration excerpt')
@@ -294,6 +335,13 @@ def check(project, dependency_root=None):
             required_contracts += ['generated_sum_contract', 'finite_univ_sum_contract']
         if 'Real.volume_eq_stieltjes_id' in names:
             required_contracts += ['real_volume_contract', 'ae_real_volume_contract']
+        by_name = {d['name']: d for d in declarations}
+        if by_name.get('HasFDerivAtFilter', {}).get('supporting_excerpts_draft'):
+            required_contracts += ['derivative_normed_little_o_contract', 'little_o_eventual_bound_contract']
+        if by_name.get('MeasureTheory.Integrable', {}).get('supporting_excerpts_draft'):
+            required_contracts += ['ae_strongly_measurable_contract', 'finite_integral_contract']
+        if by_name.get('Real.volume_eq_stieltjes_id', {}).get('supporting_excerpts_draft'):
+            required_contracts += ['real_volume_ioc_contract']
         for contract in required_contracts:
             require(re.search(r'(?m)^theorem ' + re.escape(contract) + r'\b', body) and
                     re.search(r'(?m)^#print axioms ' + re.escape(contract) + r'$', body),

@@ -175,7 +175,14 @@
         "HasFDerivAtFilter"
       ],
       "dependency_expansion": "Structure field is a little-o remainder between pairs of points along the specified filter. Further dependency closure and per-use accuracy remain subject to independent review.",
-      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted.",
+      "supporting_excerpts_draft": [
+        "metric_IsLittleOTVS_structure",
+        "metric_IsLittleOTVS_normed_iff",
+        "metric_IsLittleO_definition",
+        "metric_IsLittleO_eventual_bound",
+        "metric_fderiv_normed_little_o_iff"
+      ]
     },
     {
       "name": "Continuous",
@@ -697,7 +704,11 @@
         "Integrable"
       ],
       "dependency_expansion": "Almost-everywhere strong measurability and finite norm integral. Further dependency closure and per-use accuracy remain subject to independent review.",
-      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted."
+      "proof_status": "DRAFT: no current-successor bridge compilation, completeness or semantic-fidelity pass is asserted.",
+      "supporting_excerpts_draft": [
+        "metric_AEStronglyMeasurable_definition",
+        "metric_HasFiniteIntegral_definition"
+      ]
     },
     {
       "name": "MeasureTheory.ae",
@@ -1639,7 +1650,11 @@
         "AE_null_complement_contract"
       ],
       "dependency_expansion": "This theorem supplies the real-volume identification used in the stated real interval and almost-everywhere semantics. The Stieltjes measure and null-complement contracts require separate review and bridge compilation.",
-      "proof_status": "DRAFT: per-use completeness, actual real-volume bridge and both source-bound builds remain unverified."
+      "proof_status": "DRAFT: per-use completeness, actual real-volume bridge and both source-bound builds remain unverified.",
+      "supporting_excerpts_draft": [
+        "metric_real_volume_Ioc",
+        "metric_Stieltjes_measure_and_Ioc"
+      ]
     }
   ],
   "source_files": [
@@ -1720,6 +1735,14 @@
           "sha256": "48e079e2c0307cc05c3e3c62c4135729e9a9308a9613bb066b6f34b22ec9bce0",
           "text": "structure HasFDerivAtFilter (f : E → F) (f' : E →L[𝕜] F) (L : Filter (E × E)) : Prop where\n  of_isLittleOTVS ::\n    isLittleOTVS : (fun p ↦ f p.1 - f p.2 - f' (p.1 - p.2)) =o[𝕜; L] (fun p ↦ p.1 - p.2)\n",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/FDeriv/Defs.lean#L110-L112"
+        },
+        {
+          "name": "metric_fderiv_normed_little_o_iff",
+          "first_line": 219,
+          "last_line": 221,
+          "text": "theorem hasFDerivAtFilter_iff_isLittleO {L : Filter (E × E)} :\n    HasFDerivAtFilter f f' L ↔ (fun p => f p.1 - f p.2 - f' (p.1 - p.2)) =o[L] fun p => p.1 - p.2 :=\n  (hasFDerivAtFilter_iff_isLittleOTVS ..).trans isLittleOTVS_iff_isLittleO\n",
+          "sha256": "0355e125b584f9b58d9a074073f3d6c642c1f79c67550c390a3375f57d021a4b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Calculus/FDeriv/Defs.lean#L219-L221"
         }
       ]
     },
@@ -1934,6 +1957,14 @@
           "sha256": "6566b8cc0ffee203b8c49deaf5306c682ca13346166373d0168d3c951b3817a6",
           "text": "theorem volume_eq_stieltjes_id : (volume : Measure ℝ) = StieltjesFunction.id.measure := by\n  have : IsAddLeftInvariant StieltjesFunction.id.measure :=\n    ⟨fun a =>\n      Eq.symm <|\n        Real.measure_ext_Ioo_rat fun p q => by\n          simp only [Measure.map_apply (measurable_const_add a) measurableSet_Ioo,\n            sub_sub_sub_cancel_right, StieltjesFunction.measure_Ioo, StieltjesFunction.id_leftLim,\n            StieltjesFunction.id_apply, id, preimage_const_add_Ioo]⟩\n  have A : StieltjesFunction.id.measure (stdOrthonormalBasis ℝ ℝ).toBasis.parallelepiped = 1 := by\n    change StieltjesFunction.id.measure (parallelepiped (stdOrthonormalBasis ℝ ℝ)) = 1\n    rcases parallelepiped_orthonormalBasis_one_dim (stdOrthonormalBasis ℝ ℝ) with (H | H) <;>\n      simp only [H, StieltjesFunction.measure_Icc, StieltjesFunction.id_apply, id, tsub_zero,\n        StieltjesFunction.id_leftLim, sub_neg_eq_add, zero_add, ENNReal.ofReal_one]\n  conv_rhs =>\n    rw [addHaarMeasure_unique StieltjesFunction.id.measure\n        (stdOrthonormalBasis ℝ ℝ).toBasis.parallelepiped, A]\n  simp only [volume, Module.Basis.addHaar, one_smul]\n\ntheorem volume_val (s) : volume s = StieltjesFunction.id.measure s := by\n  simp [volume_eq_stieltjes_id]\n\n@[simp]\ntheorem volume_Ico {a b : ℝ} : volume (Ico a b) = ofReal (b - a) := by simp [volume_val]\n\n",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L54-L77"
+        },
+        {
+          "name": "metric_real_volume_Ioc",
+          "first_line": 109,
+          "last_line": 110,
+          "text": "@[simp]\ntheorem volume_Ioc {a b : ℝ} : volume (Ioc a b) = ofReal (b - a) := by simp [volume_val]\n",
+          "sha256": "f51b0c71cc6bbb3bf9bf4990937c79dcd2e79f6dd22d006283b4d4ff8cc20642",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L109-L110"
         }
       ]
     },
@@ -2186,18 +2217,124 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/UnitInterval.lean#L29-L41"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Analysis/Asymptotics/TVS.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/TVS.lean",
+      "sha256": "5a37f7656a1cbf7f06c87b47cfdb7a1e63fc2754a287029c7b7e036ac1d1834e",
+      "git_blob_sha1": "8dbd1d7363a36193dbe45d1c3afe0f7f948faac5",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov, Eric Wieser\n-/",
+      "excerpts": [
+        {
+          "name": "metric_IsLittleOTVS_structure",
+          "first_line": 92,
+          "last_line": 95,
+          "text": "structure IsLittleOTVS (l : Filter α) (f : α → E) (g : α → F) : Prop where\n  exists_eventuallyLE_mul : ∀ U ∈ 𝓝 (0 : E), ∃ V ∈ 𝓝 (0 : F), ∀ ε ≠ (0 : ℝ≥0),\n    (fun x ↦ egauge 𝕜 U (f x)) ≤ᶠ[l] (fun x ↦ ε * egauge 𝕜 V (g x))\n\n",
+          "sha256": "4ae5bbb29d667c67c666fc5729ad150ddb2b190790acf49811243c3b8e42d6da",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/TVS.lean#L92-L95"
+        },
+        {
+          "name": "metric_IsLittleOTVS_normed_iff",
+          "first_line": 756,
+          "last_line": 758,
+          "text": "lemma isLittleOTVS_iff_isLittleO : f =o[𝕜; l] g ↔ f =o[l] g := by\n  rcases NormedField.exists_one_lt_norm 𝕜 with ⟨c, hc : 1 < ‖c‖₊⟩\n  have hc₀ : 0 < ‖c‖₊ := one_pos.trans hc\n",
+          "sha256": "0250345499a0cd4a656782eae8758e1d002044370150eff078338e649264845d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/TVS.lean#L756-L758"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Asymptotics/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean",
+      "sha256": "68ef9c1b2d13f99770bcd0c679a23f078f634ea344ff914d7d634ba1682104ed",
+      "git_blob_sha1": "ba527424152cc972de5d8d2030d47288fb530d25",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Yury Kudryashov\n-/",
+      "excerpts": [
+        {
+          "name": "metric_IsLittleO_definition",
+          "first_line": 167,
+          "last_line": 170,
+          "text": "multiple of `‖g‖`. In other words, `‖f‖ / ‖g‖` tends to `0` along `l`, modulo division by zero\nissues that are avoided by this definition. -/\nirreducible_def IsLittleO (l : Filter α) (f : α → E) (g : α → F) : Prop :=\n  ∀ ⦃c : ℝ⦄, 0 < c → IsBigOWith c l f g\n",
+          "sha256": "10f1e91495c4194b8a6568166baafac80b24346bd60278142f44728d84121974",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L167-L170"
+        },
+        {
+          "name": "metric_IsLittleO_eventual_bound",
+          "first_line": 181,
+          "last_line": 183,
+          "text": "/-- Definition of `IsLittleO` in terms of filters. -/\ntheorem isLittleO_iff : f =o[l] g ↔ ∀ ⦃c : ℝ⦄, 0 < c → ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖ := by\n  simp only [IsLittleO_def, IsBigOWith_def]\n",
+          "sha256": "99697eeafaee89024411cc19b6adbef6f74bfc3fe0289fb26767d3775aebc09c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L181-L183"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean",
+      "sha256": "a1dc11dc7e22a7c20fa382b909d6eb3496b3d346224b9896cb377f2ae5f4418a",
+      "git_blob_sha1": "1d6ebf039907ccbdd980241bde152e3df8dd600d",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Rémy Degenne. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Rémy Degenne, Sébastien Gouëzel\n-/",
+      "excerpts": [
+        {
+          "name": "metric_AEStronglyMeasurable_definition",
+          "first_line": 67,
+          "last_line": 69,
+          "text": "def AEStronglyMeasurable [m : MeasurableSpace α] {m₀ : MeasurableSpace α} (f : α → β)\n    (μ : Measure[m₀] α := by volume_tac) : Prop :=\n  ∃ g : α → β, StronglyMeasurable[m] g ∧ f =ᵐ[μ] g\n",
+          "sha256": "cec6648d80a1b4ec588e179bf85377541e009993301b575cea869d91876b0c7b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean#L67-L69"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean",
+      "sha256": "09f9234723516bbb3d61b8b341d2868c94c8b32ce5f47975983ce8dd67c16712",
+      "git_blob_sha1": "a9299e2430f3d055fd1b9fef795dc4f445c92cca",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Zhouhang Zhou. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Zhouhang Zhou\n-/",
+      "excerpts": [
+        {
+          "name": "metric_HasFiniteIntegral_definition",
+          "first_line": 82,
+          "last_line": 84,
+          "text": "def HasFiniteIntegral {_ : MeasurableSpace α} (f : α → ε)\n    (μ : Measure α := by volume_tac) : Prop :=\n  ∫⁻ a, ‖f a‖ₑ ∂μ < ∞\n",
+          "sha256": "ce0a60d8e2eef17cb171d4f7aa342db20f85e64131e7efb69c4f4ea337bd14c9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean#L82-L84"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/MeasureTheory/Measure/Stieltjes.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Stieltjes.lean",
+      "sha256": "a539002bedb8054fe0c346bbc104edfb49ef0a9786729e85312844f04c4e6cb5",
+      "git_blob_sha1": "6297eeab2151062d2cbae140e704e87882f614f9",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Yury Kudryashov, Sébastien Gouëzel\n-/",
+      "excerpts": [
+        {
+          "name": "metric_Stieltjes_measure_and_Ioc",
+          "first_line": 518,
+          "last_line": 529,
+          "text": "/-- The measure associated to a Stieltjes function, giving mass `f b - f a` to the\ninterval `(a, b]`. If there is a bot element, it gives zero mass to it. -/\nprotected irreducible_def measure : Measure R where\n  toOuterMeasure := f.outer\n  m_iUnion _s hs := f.outer.iUnion_eq_of_caratheodory fun i => f.borel_le_measurable _ <| by\n    borelize R\n    exact hs i\n  trim_le := f.outer_trim.le\n\n@[simp]\ntheorem measure_Ioc (a b : R) : f.measure (Ioc a b) = ofReal (f b - f a) := by\n  rw [StieltjesFunction.measure]\n",
+          "sha256": "f9470f8cf0068b5ce8d1b1a49211ca64d8f6a31efa219d4cb500a775f0cc8fe9",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/MeasureTheory/Measure/Stieltjes.lean#L518-L529"
+        }
+      ]
     }
   ],
   "checked_bridge_modules": [
     {
       "module": "ChallengeMaterial",
       "path": "ChallengeMaterial.lean",
-      "sha256": "e03787745a72b65c06d49b2cfabf043aff2bfc34b52fdb086dd648c7b9c6468b"
+      "sha256": "a7371ed32683e39ef70253331214cadf32f1b3f4bf008de77c1fcfcaa115291f"
     },
     {
       "module": "SolutionMaterial",
       "path": "SolutionMaterial.lean",
-      "sha256": "76a9d1ec978d91b1b7a0225017dcd4f121cf05ee4959f7e44ef3c06b7103dd4a"
+      "sha256": "2b13720f1e497f88b5b599ec9666c7b09fdaf395217535b3c8d12a98e5c5b611"
     }
   ],
   "support_notice": "Finset.sum is generated from the retained Finset.prod source; its actual value/univ bridge remains uncompiled. Supporting excerpts are not misidentified as literal material declaration names."

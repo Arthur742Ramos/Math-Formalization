@@ -94,6 +94,48 @@ class GeneratedAndVolumeEvidence(unittest.TestCase):
             with self.subTest(name=name),patch.object(checker,'local_file',side_effect=local_file),self.assertRaisesRegex(ValueError,expected):
                 checker.check(PROJECT)
 
+    def test_missing_draft_support_excerpt_fails(self):
+        files = {p.relative_to(PROJECT).as_posix(): p.read_text(encoding='utf8')
+                 for p in PROJECT.rglob('*') if p.is_file()}
+        data = copy.deepcopy(self.data)
+        target = next(r for r in data['material_declarations'] if r['name'] == 'HasFDerivAtFilter')
+        class MemoryFile:
+            def __init__(self, value): self.value = value
+            def read_text(self): return self.value
+            def read_bytes(self): return self.value.encode()
+        def local_file(_root, name):
+            if name not in files: raise ValueError('missing synthetic file')
+            return MemoryFile(files[name])
+        for replacement in (None, ['not_a_retained_excerpt']):
+            with self.subTest(replacement=replacement):
+                if replacement is None:
+                    target.pop('supporting_excerpts_draft', None)
+                else:
+                    target['supporting_excerpts_draft'] = replacement
+                files['verification/material-imported-definitions.json'] = json.dumps(data, ensure_ascii=False)
+                with patch.object(checker, 'local_file', side_effect=local_file), \
+                        self.assertRaisesRegex(ValueError, 'Missing or retargeted required metric support'):
+                    checker.check(PROJECT)
+
+    def test_existing_support_names_cannot_be_swapped(self):
+        files = {p.relative_to(PROJECT).as_posix(): p.read_text(encoding='utf8')
+                 for p in PROJECT.rglob('*') if p.is_file()}
+        data = copy.deepcopy(self.data)
+        excerpts = {e['name']: e for s in data['source_files'] for e in s['excerpts']}
+        a, b = excerpts['metric_fderiv_normed_little_o_iff'], excerpts['metric_HasFiniteIntegral_definition']
+        a['name'], b['name'] = b['name'], a['name']
+        files['verification/material-imported-definitions.json'] = json.dumps(data, ensure_ascii=False)
+        class MemoryFile:
+            def __init__(self, value): self.value = value
+            def read_text(self): return self.value
+            def read_bytes(self): return self.value.encode()
+        def local_file(_root, name):
+            if name not in files: raise ValueError('missing synthetic file')
+            return MemoryFile(files[name])
+        with patch.object(checker, 'local_file', side_effect=local_file), \
+                self.assertRaisesRegex(ValueError, 'Retargeted pinned metric support'):
+            checker.check(PROJECT)
+
     def test_bridge_contract_and_axiom_marker_removal_fails(self):
         files = {p.relative_to(PROJECT).as_posix(): p.read_text(encoding='utf8')
                  for p in PROJECT.rglob('*') if p.is_file()}
@@ -106,7 +148,10 @@ class GeneratedAndVolumeEvidence(unittest.TestCase):
             return MemoryFile(files[name])
         for module in self.data['checked_bridge_modules']:
             for name in ('generated_sum_contract', 'finite_univ_sum_contract',
-                         'real_volume_contract', 'ae_real_volume_contract'):
+                         'real_volume_contract', 'ae_real_volume_contract',
+                         'derivative_normed_little_o_contract', 'little_o_eventual_bound_contract',
+                         'ae_strongly_measurable_contract', 'finite_integral_contract',
+                         'real_volume_ioc_contract'):
                 for prefix in ('theorem ', '#print axioms '):
                     with self.subTest(module=module['path'], contract=name, prefix=prefix):
                         path = module['path']
