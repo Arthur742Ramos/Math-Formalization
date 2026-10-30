@@ -926,6 +926,22 @@ class ReleasePacketTests(unittest.TestCase):
                                'algebraic-hodge/ddbar-pilot')
         self.assertIn('REVIEW.md: stale blanket pending/completion account', guard.status_errors(files))
 
+    def test_undated_later_pass_nonassertion_is_flagged(self):
+        stale = b'Consult receipts; no later pass, official render or approval is asserted here.'
+        self.assertIn('README.md: undated later-pass nonassertion',
+                      guard.status_errors({'README.md': stale}))
+        dated = b'As of 2026-10-29,\nno later pass is asserted.'
+        self.assertFalse(guard.status_errors({'README.md': dated}))
+        invalid_date = b'As of 2026-99-99, no later pass is asserted.'
+        self.assertTrue(guard.status_errors({'README.md': invalid_date}))
+        for separated in (b'As of 2026-10-29, unrelated; no later pass is asserted.',
+                          b'As of 2026-10-29, unrelated\n  \nNo later pass is asserted.'):
+            self.assertTrue(guard.status_errors({'README.md': separated}))
+        variant = b'No subsequent pass is asserted.'
+        self.assertFalse(guard.status_errors({'README.md': variant}))  # Outside this heuristic.
+        historic = b'The exact-source report for a6fd933 passed; later evidence is recorded separately.'
+        self.assertFalse(guard.status_errors({'README.md': historic}))
+
     def test_truthful_later_source_and_visual_pending_positive(self):
         files = dict(self.files)
         files['README.md'] += b'\nCanonical rendering of a later source remains unperformed. Browser visual review remains pending.\n'

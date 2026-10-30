@@ -4,6 +4,7 @@ Offline validation is not artifact authentication, editorial approval, permissio
 or duplicate/private-attempt clearance. Independently review report provenance.
 """
 import argparse
+import datetime
 import hashlib
 import io
 import json
@@ -58,6 +59,20 @@ def status_errors(files):
             if future and not re.search(r'\band\b', match[0][:future.start()], re.I):
                 continue
             errors.append(name + ': stale blanket pending/completion account')
+        # Narrow wording heuristic for the repeated review objection; variants
+        # may escape it and a nearby date cannot establish claim accuracy.
+        # Independent review against actual reports remains necessary.
+        later = re.compile(r'\bno\s+later\s+pass\b(?:(?![.!?;]|\n\s*\n).){0,200}?\b(?:asserted|claimed)\b', re.I | re.S)
+        for match in later.finditer(text):
+            boundaries = list(re.finditer(r'[.!?;]|\n\s*\n', text[:match.start()]))
+            start = boundaries[-1].end() if boundaries else 0
+            date = re.search(r'\bas\s+of\s+(\d{4}-\d{2}-\d{2})\b', text[start:match.start()], re.I)
+            try:
+                dated = bool(date and datetime.date.fromisoformat(date.group(1)))
+            except ValueError:
+                dated = False
+            if not dated:
+                errors.append(name + ': undated later-pass nonassertion')
     metadata = files.get('formalization.yaml', b'').decode().lower()
     if ('exact-source native, protected comparison, kernel, canonical full/render and release evidence are recorded separately' in metadata):
         errors.append('formalization.yaml: ambiguous exact-source evidence account')
