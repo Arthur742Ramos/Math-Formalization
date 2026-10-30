@@ -2401,17 +2401,17 @@
           "multiple_status_source_review": "7a6a50cb5ca00eb2ba9043f0bee1f571e480fe3cd936468c882af56a79ee3d6f"
         }
       },
-      "evidence_scope": "The submitted a6fd933f00c83a82c4d7ab510d17ae62e87dc75f source has a passing service mechanical report and official Challenge render; the sanitized derived receipt identifies both original report hashes and their scope. The separate older 4a77e29 preflight and ade9847 local checks remain historical. The 994e752 documentation revision changes only README and permitted metadata status fields; its proof, configuration, pins and semantic inputs are unchanged. This structural catalog classification is not the full conditional evidence-reuse guard or a fresh exact-source verification. Visual inspection, editorial decisions and registration are separate stages.",
+      "evidence_scope": "The submitted a6fd933f00c83a82c4d7ab510d17ae62e87dc75f source has a passing service mechanical report and official Challenge render; the sanitized derived receipt identifies both original report hashes and their scope. The separate older 4a77e29 preflight and ade9847 local checks remain historical. The 38b9f7e documentation revision changes only README and permitted metadata status fields; its proof, configuration, pins and semantic inputs are unchanged. This structural catalog classification is not the full conditional evidence-reuse guard or a fresh exact-source verification. Visual inspection, editorial decisions and registration are separate stages.",
       "current_source_snapshot": {
-        "commit": "994e75226babbac12270f214886558fc7d9d77bf",
-        "tree": "0b32f687b26f53b7b02cd9a107af76746df04d2c"
+        "commit": "38b9f7e51e98c2395109e6296a44f2c298030489",
+        "tree": "3f5704d5448d85f4f643f948475ccbd1df43092c"
       },
       "status_correction": {
         "kind": "narrow-status-only-evidence-carry",
         "historical_source": "2e15417f117323c654af638e9c72617dcc92f501",
         "historical_evidence_source": "4a77e29daf4eeafcee4380052bc4ca62977e41ec",
-        "corrected_source": "994e75226babbac12270f214886558fc7d9d77bf",
-        "corrected_tree": "0b32f687b26f53b7b02cd9a107af76746df04d2c",
+        "corrected_source": "38b9f7e51e98c2395109e6296a44f2c298030489",
+        "corrected_tree": "3f5704d5448d85f4f643f948475ccbd1df43092c",
         "changed_files": [
           "README.md",
           "formalization.yaml"
