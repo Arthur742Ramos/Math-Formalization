@@ -136,6 +136,31 @@ dependencies and concurrent work. Read more specific instructions and relevant
   completed work, failed checks and pending authorization. Do not present partial
   work under a title promising the full result.
 
+## Prevent recurring intake failures
+
+- Before a preflight or intake, compile Challenge with the pinned canonical
+  verifier's protected dependency search path and audit its transitive source
+  closure. Project-local proof modules are not automatically visible there.
+  `scripts/check_challenge_import_surface.py` detects direct project-source
+  imports under explicitly supplied project source roots using Lean's header
+  parser; supply every non-default Lake source root. It is an early diagnostic,
+  not a replacement for protected compilation or the transitive provenance audit.
+  If a proof is inlined, include and credit its actual proof and recheck the
+  independent Challenge and Solution exports.
+- Render the actual Challenge with the applicable pinned renderer and inspect
+  each output file against the current service limit. Record exact source and
+  artifact hashes; raw local Verso size is diagnostic and does not certify the
+  official sanitized artifact or visual review. Note narrow size margins.
+- In source status accounts, name the exact commit and report for each completed
+  local, hosted or service stage. Bind proof, Challenge, Solution, Comparator
+  and dependency inputs by hash. Use reviewed, identifier-free derived
+  receipts when raw service reports are private, stating their limits. Keep
+  historical passes and later source revisions distinct; avoid undated
+  blanket pending or no-pass language that becomes stale after verification.
+- Reconcile uncertain writes and pending intakes before retrying; never create
+  a duplicate to resolve an unknown outcome. A research-interest objection
+  requires an independently assessed substantive result or application, not
+  a metadata-only rewrite.
 ## Mandatory release-packet review
 
 - Review the exact proposed submission commit's own metadata, README and linked
@@ -194,3 +219,5 @@ dependencies and concurrent work. Read more specific instructions and relevant
   agree with completed receipts; independent packet review covers the final bytes.
 - [ ] Exact final fields, evidence and blockers are ready for the user; claimed
   submission/registration status matches observed state.
+
+
