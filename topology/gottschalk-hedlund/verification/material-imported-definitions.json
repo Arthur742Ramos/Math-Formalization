@@ -1,0 +1,591 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "required_declarations": [
+    "TopologicalSpace",
+    "IsOpen",
+    "closure",
+    "Continuous",
+    "Filter",
+    "IsCompact",
+    "CompactSpace",
+    "Dense",
+    "Set.range",
+    "Finset",
+    "Nat.iterate",
+    "T2Space",
+    "Homeomorph",
+    "Equiv",
+    "DenseRange",
+    "birkhoffSum"
+  ],
+  "material_declarations": [
+    {
+      "name": "TopologicalSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "A topology supplies open sets on X and the relevant product spaces.",
+      "dependency_expansion": "A topology supplies open sets on X and the relevant product spaces.",
+      "definition_excerpt": "TopologicalSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "TopologicalSpace",
+        "topology-open-closed",
+        "Product-heterogeneous-topology"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "IsOpen",
+      "declaration_kind": "def",
+      "role": "proof-dependency",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The open-set predicate supplied by the topology.",
+      "dependency_expansion": "The open-set predicate supplied by the topology.",
+      "definition_excerpt": "topology-open-closed",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "topology-open-closed"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "closure",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The topological closure of a set.",
+      "dependency_expansion": "The topological closure of a set.",
+      "definition_excerpt": "interior-closure",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "interior-closure",
+        "topology-open-closed"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Continuous",
+      "declaration_kind": "structure",
+      "role": "hypothesis-and-conclusion",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "Preimages of open sets are open; applies to T, g and transfer functions.",
+      "dependency_expansion": "Preimages of open sets are open; applies to T, g and transfer functions.",
+      "definition_excerpt": "open-image-Continuous",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "open-image-Continuous"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Filter",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "Filter structures underlie compactness and topology definitions.",
+      "dependency_expansion": "Filter structures underlie compactness and topology definitions.",
+      "definition_excerpt": "Filter",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Filter"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "IsCompact",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "Compactness in the ambient topology, used in the compact-space assumption.",
+      "dependency_expansion": "Compactness in the ambient topology, used in the compact-space assumption.",
+      "definition_excerpt": "KR-IsCompact",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "KR-IsCompact"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "CompactSpace",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The whole underlying space is compact.",
+      "dependency_expansion": "The whole underlying space is compact.",
+      "definition_excerpt": "KR-CompactSpace",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "KR-CompactSpace"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Dense",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The closure of the set is the entire space.",
+      "dependency_expansion": "The closure of the set is the entire space.",
+      "definition_excerpt": "Dynamics-Dense",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Dense"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Set.range",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The set of values attained by a function.",
+      "dependency_expansion": "The set of values attained by a function.",
+      "definition_excerpt": "Dynamics-Set.range",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Dynamics-Set.range"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Finset",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "A finite duplicate-free index set; Birkhoff sums use range n.",
+      "dependency_expansion": "A finite duplicate-free index set; Birkhoff sums use range n.",
+      "definition_excerpt": "E0-Finset",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "E0-Finset"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Nat.iterate",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "Forward natural iteration has the identity at zero; no inverse iterates are assumed.",
+      "dependency_expansion": "Forward natural iteration has the identity at zero; no inverse iterates are assumed.",
+      "definition_excerpt": "Mixing-Nat.iterate",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Mixing-Nat.iterate"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "T2Space",
+      "declaration_kind": "class",
+      "definition_excerpt": "cantor-T2Space",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "cantor-T2Space"
+      ],
+      "meaning": "Distinct points admit disjoint open neighborhoods.",
+      "dependency_expansion": "Distinct points admit disjoint open neighborhoods.",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "role": "hypothesis",
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Homeomorph",
+      "declaration_kind": "structure",
+      "role": "conclusion",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "A bijection with continuous forward and inverse functions; the selected result uses it for H, not T.",
+      "dependency_expansion": "A bijection with continuous forward and inverse functions; the selected result uses it for H, not T.",
+      "definition_excerpt": "characterization-Homeomorph",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "characterization-Homeomorph"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "Equiv",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "A function with a two-sided inverse; Homeomorph extends this structure.",
+      "dependency_expansion": "A function with a two-sided inverse; Homeomorph extends this structure.",
+      "definition_excerpt": "Equiv",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "Equiv"
+      ],
+      "proof_status": "Exact pinned excerpts retained; separate independent completeness and semantic-fidelity review is required."
+    },
+    {
+      "name": "DenseRange",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.transfer_difference_constant",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The range of the indicated forward orbit map is dense.",
+      "dependency_expansion": "The range of the indicated forward orbit map is dense.",
+      "definition_excerpt": "GH-DenseRange",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "GH-DenseRange"
+      ],
+      "proof_status": "Exact pinned excerpt retained; bridge compilation and independent completeness review are required."
+    },
+    {
+      "name": "birkhoffSum",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "GottschalkHedlund.bounded_sums_iff_transfer",
+        "GottschalkHedlund.bounded_sums_skew_conjugacy"
+      ],
+      "meaning": "The finite sum of g along the first n forward iterates; the n=0 sum is zero.",
+      "dependency_expansion": "The finite sum of g along the first n forward iterates; the n=0 sum is zero.",
+      "definition_excerpt": "GH-birkhoffSum",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "GH-birkhoffSum"
+      ],
+      "proof_status": "Exact pinned excerpt retained; bridge compilation and independent completeness review are required."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Topology/Defs/Basic.lean",
+      "sha256": "6a16294b9ce69e6f245f45abc59d45db011f2a1c545b4d5d403ccaca5b17c99c",
+      "git_blob_sha1": "326105821a5a8ce5041ccf8dce22779bd55fa923",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "topology-open-closed",
+          "first_line": 75,
+          "last_line": 110,
+          "text": "  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n\nsection Defs\n\nvariable [TopologicalSpace X] [TopologicalSpace Y] {s t : Set X}\n\n/-- `IsOpen s` means that `s` is open in the ambient topological space on `X` -/\n@[wikidata Q213363]\ndef IsOpen : Set X → Prop := TopologicalSpace.IsOpen\n\n@[simp] theorem isOpen_univ : IsOpen (univ : Set X) := TopologicalSpace.isOpen_univ\n\ntheorem IsOpen.inter (hs : IsOpen s) (ht : IsOpen t) : IsOpen (s ∩ t) :=\n  TopologicalSpace.isOpen_inter s t hs ht\n\ntheorem isOpen_sUnion {s : Set (Set X)} (h : ∀ t ∈ s, IsOpen t) : IsOpen (⋃₀ s) :=\n  TopologicalSpace.isOpen_sUnion s h\n\n/-- A set is closed if its complement is open -/\n@[wikidata Q320357]\nclass IsClosed (s : Set X) : Prop where\n  /-- The complement of a closed set is an open set. -/\n  isOpen_compl : IsOpen sᶜ\n\n",
+          "sha256": "32cd02dbee2407d6f2a2709782ad6b65bd88feb3a50558e4951344c640cfafd7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L75-L110"
+        },
+        {
+          "name": "TopologicalSpace",
+          "first_line": 71,
+          "last_line": 87,
+          "text": "/-- A topology on `X`. -/\n@[to_dual_dont_translate]\nclass TopologicalSpace (X : Type u) where\n  /-- A predicate saying that a set is an open set. Use `IsOpen` in the root namespace instead. -/\n  protected IsOpen : Set X → Prop\n  /-- The set representing the whole space is an open set.\n  Use `isOpen_univ` in the root namespace instead. -/\n  protected isOpen_univ : IsOpen univ\n  /-- The intersection of two open sets is an open set. Use `IsOpen.inter` instead. -/\n  protected isOpen_inter : ∀ s t, IsOpen s → IsOpen t → IsOpen (s ∩ t)\n  /-- The union of a family of open sets is an open set.\n  Use `isOpen_sUnion` in the root namespace instead. -/\n  protected isOpen_sUnion : ∀ s, (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)\n\nvariable {X : Type u} {Y : Type v}\n\n/-! ### Predicates on sets -/\n",
+          "sha256": "d0b4bb0467136b0769c0f64a370a326acdea032d7609448a0f7d8337b140031f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L71-L87"
+        },
+        {
+          "name": "interior-closure",
+          "first_line": 117,
+          "last_line": 127,
+          "text": "Also see `isLocallyClosed_tfae` and other lemmas in `Mathlib/Topology/LocallyClosed.lean`.\n-/\ndef IsLocallyClosed (s : Set X) : Prop := ∃ (U Z : Set X), IsOpen U ∧ IsClosed Z ∧ s = U ∩ Z\n\n/-- The interior of a set `s` is the largest open subset of `s`. -/\ndef interior (s : Set X) : Set X :=\n  ⋃₀ { t | IsOpen t ∧ t ⊆ s }\n\n/-- The closure of `s` is the smallest closed set containing `s`. -/\ndef closure (s : Set X) : Set X :=\n  ⋂₀ { t | IsClosed t ∧ s ⊆ t }\n",
+          "sha256": "e08a72b7730b15a59ad60cdbfd00f72b089e1f72279df1dfb1ef9ed8736d0f07",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L117-L127"
+        },
+        {
+          "name": "open-image-Continuous",
+          "first_line": 155,
+          "last_line": 158,
+          "text": "structure Continuous (f : X → Y) : Prop where\n  /-- The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\n  instead. -/\n  isOpen_preimage : ∀ s, IsOpen s → IsOpen (f ⁻¹' s)\n",
+          "sha256": "338d6eb23853e428f3e57edbac5bae462158689cbbd74439f8cfa4cdbfd08e6b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L155-L158"
+        },
+        {
+          "name": "Dynamics-Dense",
+          "first_line": 142,
+          "last_line": 151,
+          "text": "def coborder (s : Set X) : Set X :=\n  (closure s \\ s)ᶜ\n\n/-- A set is dense in a topological space if every point belongs to its closure. -/\ndef Dense (s : Set X) : Prop :=\n  ∀ x, x ∈ closure s\n\n/-- `f : α → X` has dense range if its range (image) is a dense subset of `X`. -/\ndef DenseRange {α : Type*} (f : α → X) := Dense (range f)\n\n",
+          "sha256": "5abd81a951e2f05fdf71701b59f3de4693e2d8e9ab6cfd467aee69b393489e91",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L142-L151"
+        },
+        {
+          "name": "GH-DenseRange",
+          "first_line": 150,
+          "last_line": 150,
+          "text": "def DenseRange {α : Type*} (f : α → X) := Dense (range f)\n",
+          "sha256": "74d7af57cb5451c25bcf3b3b0506a8ad6d595dd352aa8db62dcbcf2d0c1aec8a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Basic.lean#L150-L150"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Constructions/SumProd.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean",
+      "sha256": "35d6365bebe8c5d331fe01289e857ccc81e6f6392b1f01835d834a35a6931666",
+      "git_blob_sha1": "ff2a20dc397df5309720b3f7c1fdbe83244dfbfc",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Product-heterogeneous-topology",
+          "first_line": 53,
+          "last_line": 55,
+          "text": "instance instTopologicalSpaceProd [t₁ : TopologicalSpace X] [t₂ : TopologicalSpace Y] :\n    TopologicalSpace (X × Y) :=\n  induced Prod.fst t₁ ⊓ induced Prod.snd t₂\n",
+          "sha256": "45038e528b77b32860efb889ef4f2e98b482dd1f4275e878364680ace978fe13",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Constructions/SumProd.lean#L53-L55"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter",
+          "first_line": 71,
+          "last_line": 83,
+          "text": "/-- A filter `F` on a type `α` is a collection of sets of `α` which contains the whole `α`,\nis upwards-closed, and is stable under intersection. We do not forbid this collection to be\nall sets of `α`. -/\n@[to_dual_dont_translate]\nstructure Filter (α : Type*) where\n  /-- The set of sets that belong to the filter. -/\n  sets : Set (Set α)\n  /-- The set `Set.univ` belongs to any filter. -/\n  univ_sets : Set.univ ∈ sets\n  /-- If a set belongs to a filter, then its superset belongs to the filter as well. -/\n  sets_of_superset {x y} : x ∈ sets → x ⊆ y → y ∈ sets\n  /-- If two sets belong to a filter, then their intersection belongs to the filter as well. -/\n  inter_sets {x y} : x ∈ sets → y ∈ sets → x ∩ y ∈ sets\n",
+          "sha256": "0d537bbb0e92a3e5a1c9a1c33b713a8c1351c8f23d9b835133dba47b1c526200",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L71-L83"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Defs/Filter.lean",
+      "sha256": "3b2ffc8154a531b4f0d3b36aa75ee08635c0df31884ba83baf1b0b0283c13748",
+      "git_blob_sha1": "343fd3e5f576a8e0f0f040eb2df8e5c309106655",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "KR-IsCompact",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        },
+        {
+          "name": "KR-CompactSpace",
+          "first_line": 280,
+          "last_line": 303,
+          "text": "def MapClusterPt {ι : Type*} (x : X) (F : Filter ι) (u : ι → X) : Prop :=\n  ClusterPt x (map u F)\n\n/-- A point `x` is an accumulation point of a filter `F` if `𝓝[≠] x ⊓ F ≠ ⊥`.\nSee also `ClusterPt`. -/\ndef AccPt (x : X) (F : Filter X) : Prop :=\n  NeBot (𝓝[≠] x ⊓ F)\n\n/-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a ∈ s` such that every set of `f` meets every neighborhood of `a`. -/\ndef IsCompact (s : Set X) :=\n  ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f\n\nvariable (X) in\n/-- Type class for compact spaces. Separation is sometimes included in the definition, especially\nin the French literature, but we do not include it here. -/\n@[wikidata Q381892]\nclass CompactSpace : Prop where\n  /-- In a compact space, `Set.univ` is a compact set. -/\n  isCompact_univ : IsCompact (Set.univ : Set X)\n\nvariable (X) in\n/-- `X` is a noncompact topological space if it is not a compact space. -/\nclass NoncompactSpace : Prop where\n",
+          "sha256": "9728017c6d54da4e7c19f739f43c2b77e68146b44e64347dcabbebbb104c96a1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Defs/Filter.lean#L280-L303"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Set/Operations.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean",
+      "sha256": "60e5fa9adbd7d068a553d5a28875f5250e0a20771b5179f9f552882d0865c68e",
+      "git_blob_sha1": "f5d18fca655f6bf3079f859060f3738b5f2bc089",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2016 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Johannes Hölzl, Reid Barton, Kim Morrison, Patrick Massot, Kyle Miller,\nMinchao Wu, Yury Kudryashov, Floris van Doorn\n-/\n",
+      "excerpts": [
+        {
+          "name": "Dynamics-Set.range",
+          "first_line": 170,
+          "last_line": 174,
+          "text": "\nThis function is more flexible than `f '' univ`, as the image requires that the domain is in Type\nand not an arbitrary Sort. -/\ndef range (f : ι → α) : Set α := {x | ∃ y, f y = x}\n\n",
+          "sha256": "e6ee1efb980a5f122abcaf5821358ebef2188a6bb7ec77e9df84b364e37e00c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L170-L174"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean",
+      "sha256": "ac132a546c19ca9e9ec46f864faae346c2c613c8bd7123bb0807c4ad630c302d",
+      "git_blob_sha1": "e94299ba14677e4193e7004cf77bf70c1ca6e065",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "E0-Finset",
+          "first_line": 75,
+          "last_line": 79,
+          "text": "structure Finset (α : Type*) where\n  /-- The underlying multiset -/\n  val : Multiset α\n  /-- `val` contains no duplicates -/\n  nodup : Nodup val\n",
+          "sha256": "7060271efbf43760a549ba990bf6441680ded1d3465c11a6856ecc7a6ca7b551",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Defs.lean#L75-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Function/Iterate.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean",
+      "sha256": "bf42e948bbf3fae276cd05b8e53d1d143feec96f95d81675bee103010e210339",
+      "git_blob_sha1": "48324196626b2d62726e7e89fad332133c62e604",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Mixing-Nat.iterate",
+          "first_line": 41,
+          "last_line": 43,
+          "text": "def Nat.iterate {α : Sort u} (op : α → α) : ℕ → α → α\n  | 0, a => a\n  | succ k, a => iterate op k (op a)\n",
+          "sha256": "8197110f3911f9fba49b3571a56d29281c8ece9bda7297d8ac65024e88af77b1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Function/Iterate.lean#L41-L43"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Separation/Hausdorff.lean",
+      "sha256": "95c58f7ad7ef3ea627d5af8d2427c7d7e08a47207ed084e51945217f32566f06",
+      "git_blob_sha1": "c7c9a4de3b9c0ea0eef31a6f5b98170c89b7f98d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "cantor-T2Space",
+          "first_line": 81,
+          "last_line": 91,
+          "text": "/-- A T₂ space, also known as a Hausdorff space, is one in which for every\n  `x ≠ y` there exists disjoint open sets around `x` and `y`. This is\n  the most widely used of the separation axioms. -/\n@[mk_iff]\nclass T2Space (X : Type u) [TopologicalSpace X] : Prop where\n  /-- Every two points in a Hausdorff space admit disjoint open neighbourhoods. -/\n  t2 : Pairwise fun x y => ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v\n\n/-- Two different points can be separated by open sets. -/\ntheorem t2_separation [T2Space X] {x y : X} (h : x ≠ y) :\n    ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v :=\n",
+          "sha256": "e875f4f7c4e62052292e8ce7f9e0caac25e7dd18a47fc9e6dec7240de02cdd81",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Separation/Hausdorff.lean#L81-L91"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Topology/Homeomorph/Defs.lean",
+      "sha256": "4d27914014d20e4b9a6af97ebd7e7bea7451cc37a96dbd102b6d21c9a3f0eb72",
+      "git_blob_sha1": "7c7e9c3c815eb873ab5e637aaac83e4cdf80f39d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Reid Barton. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Sébastien Gouëzel, Zhouhang Zhou, Reid Barton\n-/\n",
+      "excerpts": [
+        {
+          "name": "characterization-Homeomorph",
+          "first_line": 42,
+          "last_line": 50,
+          "text": "/-- Homeomorphism between `X` and `Y`, also called topological isomorphism -/\nstructure Homeomorph (X : Type*) (Y : Type*) [TopologicalSpace X] [TopologicalSpace Y]\n    extends X ≃ Y where\n  /-- The forward map of a homeomorphism is a continuous function. -/\n  continuous_toFun : Continuous toFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n  /-- The inverse map of a homeomorphism is a continuous function. -/\n  continuous_invFun : Continuous invFun := by\n    first | fun_prop | eta_expand; dsimp; fun_prop | skip\n",
+          "sha256": "0b946359899cb78e8004065cc44729b505a4bff977bbf44444b74f5da935a5d4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Topology/Homeomorph/Defs.lean#L42-L50"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Logic/Equiv/Defs.lean",
+      "sha256": "c75fb2a102be49010eac04a1602160eaaa2c4c18d12b29bf6f5c45f622dad1e8",
+      "git_blob_sha1": "7821cb864d27388f46fd335a5f2fbc5d3be358ff",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Equiv",
+          "first_line": 62,
+          "last_line": 77,
+          "text": "universe u v w z\n\nvariable {α : Sort u} {β : Sort v} {γ : Sort w}\n\n/-- `α ≃ β` is the type of functions from `α → β` with a two-sided inverse. -/\nstructure Equiv (α β : Sort*) where\n  /-- The forward map of an equivalence.\n\n  Do NOT use directly. Use the coercion instead. -/\n  protected toFun : α → β\n  /-- The backward map of an equivalence.\n\n  Do NOT use `e.invFun` directly. Use the coercion of `e.symm` instead. -/\n  protected invFun : β → α\n  protected left_inv : LeftInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n  protected right_inv : RightInverse invFun toFun := by intro; first | rfl | ext <;> rfl\n",
+          "sha256": "c7e7f6bc3d3c61f2670e8d068ee61fd95c4d4affb63eb44970e73def8333fbd0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Logic/Equiv/Defs.lean#L62-L77"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Dynamics/BirkhoffSum/Basic.lean",
+      "sha256": "437b84619d9ab6b388c0877c7059c0f64ece9b24265c1f38cde2532950bedf93",
+      "git_blob_sha1": "fbae2c76180488f119f78299cc95e86b9a33d024",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Dynamics/BirkhoffSum/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2023 Yury Kudryashov. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "GH-birkhoffSum",
+          "first_line": 30,
+          "last_line": 31,
+          "text": "/-- The sum of values of `g` on the first `n` points of the orbit of `x` under `f`. -/\ndef birkhoffSum (f : α → α) (g : α → M) (n : ℕ) (x : α) : M := ∑ k ∈ range n, g (f^[k] x)\n",
+          "sha256": "b3ba3e93c380b4cb91a5abc5af51e6056580642f04ffd12ec5a22d317c70a18e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Dynamics/BirkhoffSum/Basic.lean#L30-L31"
+        }
+      ]
+    }
+  ],
+  "checked_bridge_modules": [
+    {
+      "module": "SemanticChallenge",
+      "path": "SemanticChallenge.lean",
+      "sha256": "533a13051b74787ca0233896d7843f5e6f9b546f4734516a6d4f595fd651ea01"
+    },
+    {
+      "module": "SemanticSolution",
+      "path": "SemanticSolution.lean",
+      "sha256": "63f5a2b3b943ead3f9619f2e2af4fcb2903fe57ca29a834bd84850a556eab665"
+    }
+  ],
+  "lean_core_supplement": {
+    "toolchain": "leanprover/lean4:v4.35.0-rc2",
+    "upstream_commit": "11acb17ec6b07a8f9e9173e6845197929540936b",
+    "upstream_url": "https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Prelude.lean",
+    "installed_file_sha256": "cc9f337a5d8bd00768121701bceb0661ac63e01831a9aa34b282f37c689a6c39",
+    "upstream_git_blob_sha1": "f87ee970af5149d74434f09a89aedff1a8fdb2d2",
+    "entries": [
+      {
+        "name": "Nonempty",
+        "first_line": 839,
+        "last_line": 841,
+        "excerpt": "class inductive Nonempty (α : Sort u) : Prop where\n  /-- If `val : α`, then `α` is nonempty. -/\n  | intro (val : α) : Nonempty α\n",
+        "excerpt_sha256": "409b9d791b14a599f13bb14741bdfbfc112bc04bd4fc41d9924083fa47df7598"
+      }
+    ],
+    "status": "Installed file matches the previously authenticated upstream Git blob. Core excerpts and semantic meaning require separate independent review.",
+    "upstream_header": "/-\nCopyright (c) 2020 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Mario Carneiro\n-/\n",
+    "license": "Apache-2.0"
+  }
+}

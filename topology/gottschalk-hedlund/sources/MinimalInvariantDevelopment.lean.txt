@@ -1,0 +1,64 @@
+import Mathlib.Topology.Compactness.Compact
+import Mathlib.Topology.Separation.Hausdorff
+import Mathlib.Order.Zorn
+import Mathlib.Tactic
+
+/-! Authoring development for compact minimal invariant sets. -/
+
+open Set
+
+namespace GottschalkHedlund
+
+variable {Y : Type*} [TopologicalSpace Y] [T2Space Y]
+
+theorem exists_minimal_closed_invariant (F : Y → Y) (K₀ : Set Y)
+    (hcompact : IsCompact K₀) (hne : K₀.Nonempty)
+    (hinv : ∀ y ∈ K₀, F y ∈ K₀) :
+    ∃ K : Set Y, K.Nonempty ∧ IsClosed K ∧ K ⊆ K₀ ∧
+      (∀ y ∈ K, F y ∈ K) ∧
+      ∀ L : Set Y, L.Nonempty → IsClosed L → L ⊆ K →
+        (∀ y ∈ L, F y ∈ L) → L = K := by
+  let S : Set (Set Y) := {s | s.Nonempty ∧ IsClosed s ∧ s ⊆ K₀ ∧ ∀ y ∈ s, F y ∈ s}
+  have hmin : ∃ K, Minimal (· ∈ S) K := by
+    refine zorn_superset S ?_
+    intro C hCS hC
+    obtain rfl | hCne := C.eq_empty_or_nonempty
+    · exact ⟨K₀, ⟨hne, hcompact.isClosed, Subset.rfl, hinv⟩, fun _ h => False.elim h⟩
+    refine ⟨⋂₀ C, ⟨?_, isClosed_sInter (fun s hs => (hCS hs).2.1), ?_, ?_⟩,
+      fun s hs => sInter_subset_of_mem hs⟩
+    · have : Nonempty (↥C) := hCne.to_subtype
+      rw [sInter_eq_iInter]
+      refine IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed _ (fun s t => ?_)
+        (fun s => (hCS s.mem).1)
+        (fun s => hcompact.of_isClosed_subset (hCS s.mem).2.1 (hCS s.mem).2.2.1)
+        (fun s => (hCS s.mem).2.1)
+      obtain hst | hts := hC.total s.mem t.mem
+      exacts [⟨s, Subset.rfl, hst⟩, ⟨t, hts, Subset.rfl⟩]
+    · obtain ⟨s, hs⟩ := hCne
+      exact (sInter_subset_of_mem hs).trans (hCS hs).2.2.1
+    · intro y hy
+      apply mem_sInter.2
+      intro s hs
+      exact (hCS hs).2.2.2 y (mem_sInter.1 hy s hs)
+  obtain ⟨K, hK⟩ := hmin
+  refine ⟨K, hK.prop.1, hK.prop.2.1, hK.prop.2.2.1, hK.prop.2.2.2, ?_⟩
+  intro L hLne hLclosed hLK hLF
+  exact hK.eq_of_subset ⟨hLne, hLclosed, hLK.trans hK.prop.2.2.1, hLF⟩ hLK
+
+omit [T2Space Y] in
+/-- Continuity makes the closure of a forward orbit forward-invariant. -/
+theorem orbit_closure_invariant (F : Y → Y) (hF : Continuous F) (y : Y) :
+    ∀ z ∈ closure (range (fun n : ℕ => (F^[n]) y)),
+      F z ∈ closure (range (fun n : ℕ => (F^[n]) y)) := by
+  let O : Set Y := range (fun n : ℕ => (F^[n]) y)
+  have hclosed : IsClosed (F ⁻¹' closure O) := isClosed_closure.preimage hF
+  have hsub : O ⊆ F ⁻¹' closure O := by
+    rintro z ⟨n, rfl⟩
+    apply subset_closure
+    refine ⟨n + 1, ?_⟩
+    simp only [Function.iterate_succ_apply']
+  exact closure_minimal hsub hclosed
+
+end GottschalkHedlund
+
+

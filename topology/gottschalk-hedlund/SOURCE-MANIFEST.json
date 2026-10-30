@@ -1,0 +1,18 @@
+{
+  "scope": "Development authoring source snapshots; package source requires separate verification.",
+  "source_sha256": {
+    "CocycleDevelopment": "dc770dbf3cb7686c175daa96a1eabc3310d787833a26ce2f0a2fbf17a7c330a7",
+    "MinimalInvariantDevelopment": "f2df0f26e48d5e55dd59a940f291390108f97b33902e0929f0c113e3660205a2",
+    "CompactSkewDevelopment": "123cd8aad1b8a4a20f2aa84bc7305505a1ecf5da7dc7b35ef6f02e93ebacabe8",
+    "VerticalFiberDevelopment": "eed55f0a39b2abfa9f64bafdb36dbe3c18befe04f2829601925df59508127acb",
+    "MinimalSkewFibers": "82eab82f4075a60999cb15051065c27ad993759ae162467dda2c9b375e712bd0",
+    "ProjectionGraphDevelopment": "39c8fc7016e6e6fcd84125b92db9d6129da137c3f634e95e6d7694f04655ad67",
+    "GottschalkHedlundDevelopment": "953d187e720fe4552f79d3cc5e46e808839f7ade83d19254b31dbd9e938925b2"
+  },
+  "generated_sha256": "919a8b3085631816c1323dfb19542da5351098c9385a3963e01da1060b307de0",
+  "comment_transformation": {
+    "from": "This module provides supporting lemmas; the existence proof is in the final development module.",
+    "to": "These sections provide supporting lemmas and the existence proof.",
+    "scope": "One non-mathematical comment is updated when combining modules into sections."
+  }
+}

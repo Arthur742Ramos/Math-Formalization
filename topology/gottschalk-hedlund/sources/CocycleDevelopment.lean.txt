@@ -1,0 +1,98 @@
+import Mathlib.Dynamics.BirkhoffSum.Basic
+import Mathlib.Topology.Algebra.Order.Field
+import Mathlib.Topology.Homeomorph.Lemmas
+import Mathlib.Topology.MetricSpace.Bounded
+import Mathlib.Tactic
+
+/-!
+Bounded-orbit cohomological equations: authoring development.
+This module provides supporting lemmas; the existence proof is in the final development module.
+-/
+
+open Function Set
+
+namespace GottschalkHedlund
+
+variable {X : Type*} [TopologicalSpace X]
+
+def ForwardMinimal (T : X → X) : Prop :=
+  ∀ x, DenseRange (fun n : ℕ => (T^[n]) x)
+
+def BoundedOrbitSums (T : X → X) (g : X → ℝ) : Prop :=
+  ∃ x : X, ∃ C : ℝ, 0 ≤ C ∧ ∀ n : ℕ, |birkhoffSum T g n x| ≤ C
+
+def HasTransfer (T : X → X) (g : X → ℝ) : Prop :=
+  ∃ h : X → ℝ, Continuous h ∧ ∀ x, h (T x) - h x = g x
+
+def skew (T : X → X) (g : X → ℝ) : X × ℝ → X × ℝ :=
+  fun p => (T p.1, p.2 + g p.1)
+
+def fiberTranslation (h : X → ℝ) : X × ℝ → X × ℝ :=
+  fun p => (p.1, p.2 - h p.1)
+
+theorem fiber_translation_homeomorph (h : X → ℝ) (hh : Continuous h) :
+    ∃ H : X × ℝ ≃ₜ X × ℝ, ∀ p, H p = fiberTranslation h p := by
+  let H : X × ℝ ≃ₜ X × ℝ := {
+    toFun := fiberTranslation h
+    invFun := fun p => (p.1, p.2 + h p.1)
+    left_inv := by intro p; simp [fiberTranslation]
+    right_inv := by intro p; simp [fiberTranslation]
+    continuous_toFun := continuous_fst.prodMk (continuous_snd.sub (hh.comp continuous_fst))
+    continuous_invFun := continuous_fst.prodMk (continuous_snd.add (hh.comp continuous_fst))
+  }
+  exact ⟨H, fun _ => rfl⟩
+
+omit [TopologicalSpace X] in
+theorem fiber_translation_conjugates (T : X → X) (g h : X → ℝ)
+    (hgh : ∀ x, h (T x) - h x = g x) :
+    ∀ p, fiberTranslation h (skew T g p) = (T p.1, (fiberTranslation h p).2) := by
+  intro p
+  simp only [fiberTranslation, skew]
+  congr 1
+  have := hgh p.1
+  linarith
+
+omit [TopologicalSpace X] in
+theorem birkhoffSum_eq_transfer (T : X → X) (g h : X → ℝ)
+    (hgh : ∀ x, h (T x) - h x = g x) (n : ℕ) (x : X) :
+    birkhoffSum T g n x = h ((T^[n]) x) - h x := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [birkhoffSum_succ_apply, ih]
+      rw [← hgh ((T^[n]) x)]
+      simp only [Function.iterate_succ_apply']
+      ring
+
+/-- Continuity of the real additive skew product. -/
+theorem skew_continuous (T : X → X) (g : X → ℝ)
+    (hT : Continuous T) (hg : Continuous g) : Continuous (skew T g) := by
+  exact (hT.comp continuous_fst).prodMk (continuous_snd.add (hg.comp continuous_fst))
+
+omit [TopologicalSpace X] in
+/-- The vertical coordinate of an iterated skew product is a Birkhoff sum. -/
+theorem skew_iterate (T : X → X) (g : X → ℝ) (n : ℕ) (x : X) (t : ℝ) :
+    (skew T g)^[n] (x,t) = ((T^[n]) x, t + birkhoffSum T g n x) := by
+  induction n with
+  | zero => simp [birkhoffSum_zero_apply]
+  | succ n ih =>
+      simp only [Function.iterate_succ_apply', ih, skew, birkhoffSum_succ_apply]
+      simp only [add_assoc]
+
+/-- A continuous transfer on a compact nonempty space gives bounded orbit sums. -/
+theorem bounded_sums_of_transfer [CompactSpace X] [Nonempty X]
+    (T : X → X) (g : X → ℝ) (h : X → ℝ) (hh : Continuous h)
+    (hgh : ∀ x, h (T x) - h x = g x) : BoundedOrbitSums T g := by
+  let x : X := Classical.choice inferInstance
+  obtain ⟨C, hC⟩ := Metric.isBounded_range_iff.mp (isCompact_range hh).isBounded
+  have hC0 : 0 ≤ C := by
+    have hc := hC x x
+    simpa using hc
+  refine ⟨x, C, hC0, ?_⟩
+  intro n
+  rw [birkhoffSum_eq_transfer T g h hgh]
+  simpa [Real.dist_eq] using hC ((T^[n]) x) x
+
+end GottschalkHedlund
+
+

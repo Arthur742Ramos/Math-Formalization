@@ -1,0 +1,7 @@
+# Gottschalk–Hedlund cohomological equation
+
+For a continuous forward-minimal self-map T of a nonempty compact Hausdorff space and a continuous real function g, the absolute Birkhoff sums of g are bounded along one forward orbit if and only if g = h ∘ T − h for a continuous real h. A transfer is unique up to an additive constant. Bounded sums also give an explicit fiber translation H(x,t)=(x,t−h(x)) that conjugates the additive skew product to T × id. Zero is included in the Birkhoff sum indexing; invertibility and metrizability are not assumed.
+
+The classical compact-metric theorem and fiber-translation context are described by [Coronel, Navas and Ponce](https://arxiv.org/abs/1101.3523). The compact-Hausdorff scope is the statement of this proof. [Marmi, Moussa and Yoccoz](https://arxiv.org/abs/math/0403518) provide related cohomological context; their interval-exchange application and the stronger vector cocycle theorem are not formalized here. This is a classical theorem; no mathematical priority or editorial acceptance is claimed.
+
+Authors and responsible maintainers: Arthur Freitas Ramos, David Barros Hulak, Ruy Jose Guerra Barretto de Queiroz, following established topology campaign roles. Material Lean proof developed by OpenAI Codex; no individual human proof contribution is inferred. Lean and Mathlib retain their own attribution and licenses. Exact-source validation outcomes, when available, are identified by external receipts.

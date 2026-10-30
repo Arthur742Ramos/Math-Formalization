@@ -1,0 +1,34 @@
+import CocycleDevelopment
+import MinimalInvariantDevelopment
+
+/-! Compact orbit closure for bounded real skew products. -/
+
+open Set Function
+
+namespace GottschalkHedlund
+
+variable {X : Type*} [TopologicalSpace X] [T2Space X] [CompactSpace X]
+
+/-- A bounded additive cocycle gives a nonempty compact forward-invariant set. -/
+theorem exists_compact_skew_orbit (T : X → X) (g : X → ℝ)
+    (hT : Continuous T) (hg : Continuous g) (x : X) (C : ℝ)
+    (hsum : ∀ n : ℕ, |birkhoffSum T g n x| ≤ C) :
+    ∃ K : Set (X × ℝ), K.Nonempty ∧ IsCompact K ∧
+      ∀ z ∈ K, skew T g z ∈ K := by
+  let F := skew T g
+  let O : Set (X × ℝ) := range (fun n : ℕ => (F^[n]) (x, 0))
+  let B : Set (X × ℝ) := univ ×ˢ Icc (-C) C
+  have hB : IsCompact B := isCompact_univ.prod isCompact_Icc
+  have hOB : O ⊆ B := by
+    rintro z ⟨n, rfl⟩
+    change (skew T g)^[n] (x, 0) ∈ univ ×ˢ Icc (-C) C
+    rw [skew_iterate]
+    simp only [mem_prod, mem_univ, true_and, mem_Icc, zero_add]
+    exact abs_le.mp (hsum n)
+  have hOcomp : IsCompact (closure O) :=
+    hB.of_isClosed_subset isClosed_closure (closure_minimal hOB hB.isClosed)
+  have hOne : O.Nonempty := ⟨(x, 0), ⟨0, by simp⟩⟩
+  refine ⟨closure O, hOne.mono subset_closure, hOcomp, ?_⟩
+  exact orbit_closure_invariant F (skew_continuous T g hT hg) (x, 0)
+
+end GottschalkHedlund

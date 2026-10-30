@@ -1,0 +1,15 @@
+{
+  "challenge_module": "GHChallenge",
+  "solution_module": "GHSolution",
+  "theorem_names": [
+    "GottschalkHedlund.bounded_sums_iff_transfer",
+    "GottschalkHedlund.transfer_difference_constant",
+    "GottschalkHedlund.bounded_sums_skew_conjugacy"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

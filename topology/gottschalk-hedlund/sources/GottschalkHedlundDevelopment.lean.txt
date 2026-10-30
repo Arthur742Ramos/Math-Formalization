@@ -1,0 +1,72 @@
+import ProjectionGraphDevelopment
+
+/-! Scalar Gottschalk–Hedlund theorem and skew-product consequence. -/
+
+open Set Function
+
+namespace GottschalkHedlund
+
+variable {X : Type*} [TopologicalSpace X] [T2Space X] [CompactSpace X]
+
+/-- Bounded sums along one orbit produce a continuous transfer function. -/
+theorem transfer_of_bounded_sums (T : X → X) (g : X → ℝ)
+    (hT : Continuous T) (hg : Continuous g) (hminimal : ForwardMinimal T)
+    (hbounded : BoundedOrbitSums T g) : HasTransfer T g := by
+  obtain ⟨x, C, _, hsum⟩ := hbounded
+  obtain ⟨K₀, hne₀, hcompact₀, hinv₀⟩ :=
+    exists_compact_skew_orbit T g hT hg x C hsum
+  obtain ⟨K, hne, hclosed, hsub, hinv, hmin⟩ :=
+    exists_minimal_closed_invariant (skew T g) K₀ hcompact₀ hne₀ hinv₀
+  have hcompact : IsCompact K := hcompact₀.of_isClosed_subset hclosed hsub
+  exact transfer_of_compact_graph T g K hcompact hinv
+    (minimal_base_projection T g hminimal K hcompact hne hinv)
+    (minimal_skew_fibers_subsingleton T g K hcompact hne hinv hmin)
+
+omit [T2Space X] [CompactSpace X] in
+/-- Two continuous transfer functions differ by a constant on a minimal system. -/
+theorem transfer_difference_constant (T : X → X) (g h₁ h₂ : X → ℝ)
+    (hminimal : ForwardMinimal T) (hh₁ : Continuous h₁) (hh₂ : Continuous h₂)
+    (heq₁ : ∀ x, h₁ (T x) - h₁ x = g x)
+    (heq₂ : ∀ x, h₂ (T x) - h₂ x = g x) (x₀ : X) :
+    ∀ x, h₁ x - h₂ x = h₁ x₀ - h₂ x₀ := by
+  let A : Set X := {x | h₁ x - h₂ x = h₁ x₀ - h₂ x₀}
+  have hclosed : IsClosed A := isClosed_eq (hh₁.sub hh₂) continuous_const
+  have horbit : range (fun n : ℕ => (T^[n]) x₀) ⊆ A := by
+    rintro x ⟨n, rfl⟩
+    induction n with
+    | zero => simp [A]
+    | succ n ih =>
+      simp only [Function.iterate_succ_apply']
+      change h₁ (T ((T^[n]) x₀)) - h₂ (T ((T^[n]) x₀)) = _
+      have h₁n := heq₁ ((T^[n]) x₀)
+      have h₂n := heq₂ ((T^[n]) x₀)
+      change h₁ ((T^[n]) x₀) - h₂ ((T^[n]) x₀) = _ at ih
+      linarith
+  have hall : univ ⊆ A := by
+    rw [← (hminimal x₀).closure_eq]
+    exact closure_minimal horbit hclosed
+  exact fun x => hall (mem_univ x)
+
+/-- The scalar Gottschalk–Hedlund equivalence for a nonempty compact base. -/
+theorem bounded_sums_iff_transfer [Nonempty X] (T : X → X) (g : X → ℝ)
+    (hT : Continuous T) (hg : Continuous g) (hminimal : ForwardMinimal T) :
+    BoundedOrbitSums T g ↔ HasTransfer T g := by
+  constructor
+  · exact transfer_of_bounded_sums T g hT hg hminimal
+  · rintro ⟨h, hh, heq⟩
+    exact bounded_sums_of_transfer T g h hh heq
+
+/-- Bounded sums give a fiber homeomorphism conjugating the skew product to T × id. -/
+theorem bounded_sums_skew_conjugacy (T : X → X) (g : X → ℝ)
+    (hT : Continuous T) (hg : Continuous g) (hminimal : ForwardMinimal T)
+    (hbounded : BoundedOrbitSums T g) :
+    ∃ h : X → ℝ, Continuous h ∧ (∀ x, h (T x) - h x = g x) ∧
+      ∃ H : X × ℝ ≃ₜ X × ℝ, (∀ p, H p = fiberTranslation h p) ∧
+        ∀ p, H (skew T g p) = (T (H p).1, (H p).2) := by
+  obtain ⟨h, hh, heq⟩ := transfer_of_bounded_sums T g hT hg hminimal hbounded
+  obtain ⟨H, hH⟩ := fiber_translation_homeomorph h hh
+  refine ⟨h, hh, heq, H, hH, ?_⟩
+  intro p
+  simpa only [hH, fiberTranslation, Prod.fst, Prod.snd] using fiber_translation_conjugates T g h heq p
+
+end GottschalkHedlund

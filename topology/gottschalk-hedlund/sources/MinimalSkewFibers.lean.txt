@@ -1,0 +1,40 @@
+import VerticalFiberDevelopment
+
+/-! At-most-one-point fibers of minimal compact additive skew-product sets. -/
+
+open Set Function
+
+namespace GottschalkHedlund
+
+variable {X : Type*} [TopologicalSpace X] [T2Space X]
+
+/-- Minimality and compactness make each vertical fiber a subsingleton. -/
+theorem minimal_skew_fibers_subsingleton (T : X → X) (g : X → ℝ)
+    (K : Set (X × ℝ)) (hcompact : IsCompact K) (hne : K.Nonempty)
+    (hinv : ∀ z ∈ K, skew T g z ∈ K)
+    (hmin : ∀ L : Set (X × ℝ), L.Nonempty → IsClosed L → L ⊆ K →
+      (∀ z ∈ L, skew T g z ∈ L) → L = K) :
+    ∀ x : X, ∀ a b : ℝ, (x, a) ∈ K → (x, b) ∈ K → a = b := by
+  intro x a b ha hb
+  let c : ℝ := b - a
+  let L : Set (X × ℝ) := K ∩ verticalShift c '' K
+  have hLne : L.Nonempty := by
+    refine ⟨(x, b), hb, ⟨(x, a), ha, ?_⟩⟩
+    simp [verticalShift, c]
+  have hLclosed : IsClosed L :=
+    hcompact.isClosed.inter ((hcompact.image (continuous_verticalShift c)).isClosed)
+  have hLsub : L ⊆ K := inter_subset_left
+  have hLinv : ∀ z ∈ L, skew T g z ∈ L := by
+    rintro z ⟨hz, y, hy, rfl⟩
+    refine ⟨hinv _ hz, ⟨skew T g y, hinv _ hy, ?_⟩⟩
+    exact (skew_verticalShift_commute T g c y).symm
+  have heq : L = K := hmin L hLne hLclosed hLsub hLinv
+  have hsub : K ⊆ verticalShift c '' K := by
+    intro z hz
+    have hz' : z ∈ L := heq.symm ▸ hz
+    exact hz'.2
+  have hc : c = 0 := compact_subset_verticalShift_eq_zero K hcompact hne c hsub
+  dsimp [c] at hc
+  linarith
+
+end GottschalkHedlund

@@ -1,0 +1,45 @@
+import CompactSkewDevelopment
+
+/-! Vertical translations and compact skew-product fibers. -/
+
+open Set Function
+
+namespace GottschalkHedlund
+
+variable {X : Type*} [TopologicalSpace X]
+
+def verticalShift (c : ℝ) (p : X × ℝ) : X × ℝ := (p.1, p.2 + c)
+
+theorem continuous_verticalShift (c : ℝ) : Continuous (verticalShift (X := X) c) := by
+  exact continuous_fst.prodMk (continuous_snd.add continuous_const)
+
+omit [TopologicalSpace X] in
+theorem skew_verticalShift_commute (T : X → X) (g : X → ℝ) (c : ℝ) (p : X × ℝ) :
+    skew T g (verticalShift c p) = verticalShift c (skew T g p) := by
+  simp only [skew, verticalShift]
+  congr 1
+  ring
+
+/-- A nonempty compact set cannot be contained in a nontrivial vertical translate. -/
+theorem compact_subset_verticalShift_eq_zero (K : Set (X × ℝ))
+    (hcompact : IsCompact K) (hne : K.Nonempty) (c : ℝ)
+    (hsub : K ⊆ verticalShift c '' K) : c = 0 := by
+  by_contra hc
+  rcases lt_or_gt_of_ne hc with hneg | hpos
+  · obtain ⟨p, hp, hmax⟩ := hcompact.exists_isMaxOn hne continuous_snd.continuousOn
+    obtain ⟨q, hq, hqp⟩ := hsub hp
+    have hcoord : q.2 + c = p.2 := by
+      simpa [verticalShift] using congrArg Prod.snd hqp
+    have hbound := hmax hq
+    change q.2 ≤ p.2 at hbound
+    linarith
+  · obtain ⟨p, hp, hmin⟩ := hcompact.exists_isMinOn hne continuous_snd.continuousOn
+    obtain ⟨q, hq, hqp⟩ := hsub hp
+    have hcoord : q.2 + c = p.2 := by
+      simpa [verticalShift] using congrArg Prod.snd hqp
+    have hbound := hmin hq
+    change p.2 ≤ q.2 at hbound
+    linarith
+
+end GottschalkHedlund
+
