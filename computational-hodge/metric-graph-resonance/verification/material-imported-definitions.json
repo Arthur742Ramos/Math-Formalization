@@ -2329,12 +2329,12 @@
     {
       "module": "ChallengeMaterial",
       "path": "ChallengeMaterial.lean",
-      "sha256": "a7371ed32683e39ef70253331214cadf32f1b3f4bf008de77c1fcfcaa115291f"
+      "sha256": "13a2851782dd999f6be61a4ff9ab61bc92c5cfce91f7cd8572a851cab1fbd61c"
     },
     {
       "module": "SolutionMaterial",
       "path": "SolutionMaterial.lean",
-      "sha256": "2b13720f1e497f88b5b599ec9666c7b09fdaf395217535b3c8d12a98e5c5b611"
+      "sha256": "80ec9c2efb4b3e0f41f38ebe0f474b6e39e2b665a886a8e2b3d8543924cb1c81"
     }
   ],
   "support_notice": "Finset.sum is generated from the retained Finset.prod source; its actual value/univ bridge remains uncompiled. Supporting excerpts are not misidentified as literal material declaration names."

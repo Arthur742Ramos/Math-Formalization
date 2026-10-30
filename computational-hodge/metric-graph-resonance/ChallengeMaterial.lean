@@ -6,7 +6,7 @@ public section
 -- BEGIN material-imported-definition audit
 -- Partial draft only: these examples do not constitute the complete inventory.
 namespace MetricGraphMaterialDraft
-open MeasureTheory Set Filter Asymptotics
+open MeasureTheory Set Filter Asymptotics ENNReal
 open scoped Topology Interval
 
 example (X : Type*) : Set X = (X → Prop) := rfl

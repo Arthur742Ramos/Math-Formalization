@@ -1,7 +1,7 @@
 module
 import ChallengeMaterial
 
-open MeasureTheory
+open MeasureTheory ENNReal
 open Set Filter Asymptotics
 open MetricGraphMaterialDraft
 
