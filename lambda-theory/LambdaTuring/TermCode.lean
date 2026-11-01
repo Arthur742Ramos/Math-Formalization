@@ -18,10 +18,10 @@ namespace LambdaTuring
 
 open Nat.Partrec
 
-def encodeTerm : Term → Code
-  | .var n => .prec .zero (Code.const n)
-  | .abs t => .rfind' (encodeTerm t)
-  | .app a b => .pair (encodeTerm a) (encodeTerm b)
+def encodeTerm (t : Term) : Code :=
+  Term.rec (fun n => .prec .zero (Code.const n))
+    (fun _ r => .rfind' r)
+    (fun _ _ ra rb => .pair ra rb) t
 
 def decodeConst : Code → Option Nat
   | .zero => some 0
