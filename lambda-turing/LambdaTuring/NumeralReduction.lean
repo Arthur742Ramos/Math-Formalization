@@ -8,6 +8,8 @@ module
 public import LambdaTuring.CPSTotalCompiler
 public import LambdaTuring.UniformLambdaEval
 public import LambdaTuring.LiftTable
+public import Mathlib.Computability.Reduce
+public import Mathlib.Computability.Halting
 
 @[expose] public section
 
@@ -71,5 +73,81 @@ theorem numeralReach_has_partial_observer :
   refine ⟨fun t => numericalValue (numeralObserver t) 0, ?_, numeralObserver_dom_iff⟩
   exact uniformNumericalValue_partrec.comp
     (numeralObserver_primrec.to_comp.pair (Computable.const 0))
+
+/-- Numeral reachability is recursively enumerable. -/
+theorem numeralReach_re : REPred NumeralReach := by
+  obtain ⟨f, hf, he⟩ := numeralReach_has_partial_observer
+  exact hf.dom_re.of_eq he
+
+/-- The universal recursive-code halting relation many-one reduces to numeral reachability. -/
+theorem recursiveHalting_manyOne_numeralReach :
+    ManyOneReducible (fun p : Nat.Partrec.Code × Nat =>
+      (Nat.Partrec.Code.eval p.1 p.2).Dom) NumeralReach :=
+  ⟨recursiveHaltingTerm, recursiveHaltingTerm_primrec.to_comp,
+    fun p => (recursiveHaltingTerm_correct p).symm⟩
+
+/-- Full-beta Church-numeral reachability is undecidable. -/
+theorem numeralReach_undecidable : ¬ ComputablePred NumeralReach := by
+  intro h
+  apply ComputablePred.halting_problem 0
+  apply ComputablePred.computable_of_manyOneReducible ?_ h
+  refine ⟨fun c : Nat.Partrec.Code => recursiveHaltingTerm (c, 0), ?_, ?_⟩
+  · exact recursiveHaltingTerm_primrec.to_comp.comp
+      (Computable.id.pair (Computable.const 0))
+  · intro c
+    exact (recursiveHaltingTerm_correct (c, 0)).symm
+
+/-- Absence of a numerical result is not recursively enumerable. -/
+theorem numeralReach_complement_not_re : ¬ REPred (fun t => ¬ NumeralReach t) := by
+  intro h
+  exact numeralReach_undecidable (ComputablePred.computable_iff_re_compl_re'.2 ⟨numeralReach_re, h⟩)
+
+/-- Every r.e. predicate reduces computably to numeral reachability by closed terms. -/
+theorem numeralReach_hard {α : Type} [Primcodable α] (p : α → Prop) (hp : REPred p) :
+    ∃ f : α → Term, Computable f ∧
+      ∀ a, Scoped 0 (f a) ∧ (p a ↔ NumeralReach (f a)) := by
+  obtain ⟨c, hc⟩ := Nat.Partrec.Code.exists_code.mp hp
+  have hdom (a : α) : (Nat.Partrec.Code.eval c (Encodable.encode a)).Dom ↔ p a := by
+    rw [hc]
+    simp [Encodable.encodek, Part.assert]
+  refine ⟨fun a => recursiveHaltingTerm (c, Encodable.encode a), ?_, ?_⟩
+  · exact recursiveHaltingTerm_primrec.to_comp.comp
+      ((Computable.const c).pair Computable.encode)
+  · intro a
+    exact ⟨recursiveHaltingTerm_closed _,
+      (hdom a).symm.trans (recursiveHaltingTerm_correct (c, Encodable.encode a)).symm⟩
+
+/-- Every r.e. predicate many-one reduces to full-beta numeral reachability. -/
+theorem numeralReach_manyOne_complete {α : Type} [Primcodable α] (p : α → Prop)
+    (hp : REPred p) : ManyOneReducible p NumeralReach := by
+  obtain ⟨f, hf, h⟩ := numeralReach_hard p hp
+  exact ⟨f, hf, fun a => (h a).2⟩
+
+/-- No computable Boolean procedure decides numeral reachability even on closed inputs. -/
+theorem no_computable_closed_numeral_decider :
+    ¬ ∃ d : Term → Bool, Computable d ∧
+      ∀ t, Scoped 0 t → (d t = true ↔ NumeralReach t) := by
+  rintro ⟨d, hd, hcorrect⟩
+  have hp : ComputablePred (fun t : Term => d t = true) := by
+    apply Computable.computablePred
+    simpa using hd
+  have hred : ManyOneReducible
+      (fun c : Nat.Partrec.Code => (Nat.Partrec.Code.eval c 0).Dom)
+      (fun t : Term => d t = true) := by
+    refine ⟨fun c => recursiveHaltingTerm (c, 0), ?_, ?_⟩
+    · exact recursiveHaltingTerm_primrec.to_comp.comp
+        (Computable.id.pair (Computable.const 0))
+    · intro c
+      exact (recursiveHaltingTerm_correct (c, 0)).symm.trans
+        (hcorrect _ (recursiveHaltingTerm_closed _)).symm
+  exact ComputablePred.halting_problem 0
+    (ComputablePred.computable_of_manyOneReducible hred hp)
+
+#print axioms recursiveHaltingTerm_primrec
+#print axioms recursiveHaltingTerm_correct
+#print axioms numeralReach_re
+#print axioms numeralReach_hard
+#print axioms numeralReach_complement_not_re
+#print axioms no_computable_closed_numeral_decider
 
 end LambdaTuring
