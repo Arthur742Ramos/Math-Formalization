@@ -106,7 +106,7 @@ theorem validCode_decodeTerm (c : Code) : validCode c = (decodeTerm c).isSome :=
 
 theorem validCode_iff (c : Code) : validCode c = true ↔ ∃ t, c = encodeTerm t := by
   rw [validCode_decodeTerm, Option.isSome_iff_exists]
-  simp only [decodeTerm_eq_some_iff]
+  exact exists_congr fun t => decodeTerm_eq_some_iff c t
 
 
 theorem validCode_primrecPred : PrimrecPred (fun c => validCode c = true) := by

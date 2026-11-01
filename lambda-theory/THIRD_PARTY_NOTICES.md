@@ -1,6 +1,6 @@
 # Vendored proof-source notices
 
-The 125 `LambdaTuring/` modules are copied byte-for-byte from the authors’ public Lean proof checkpoint c695e9a1b47f0c9cb7031f5c13b8494180b7b948. Original file headers are preserved. The original proof package’s third-party notices follow in full. The earlier Isabelle predecessor was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624; that snapshot is not asserted to be publicly available or identical to the AFP submission.
+The 125 `LambdaTuring/` modules derive from the authors’ public Lean proof checkpoint c695e9a1b47f0c9cb7031f5c13b8494180b7b948. In `FoldCode.lean`, the proof of `validCode_iff` is written explicitly to avoid a module-private generated helper; its statement and encoding are unchanged. The other 124 modules are byte-for-byte copies. Original file headers are preserved. The original proof package’s third-party notices follow in full. The earlier Isabelle predecessor was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624; that snapshot is not asserted to be publicly available or identical to the AFP submission.
 
 ---
 

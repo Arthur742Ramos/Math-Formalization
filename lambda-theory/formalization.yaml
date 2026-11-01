@@ -56,7 +56,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
       "relationship": "builds-on",
-      "note": "Exact public proof checkpoint: 125 needed proof modules are vendored byte-for-byte with original notices; Mathlib remains a pinned external dependency."
+      "note": "Exact public proof checkpoint: 124 needed modules are vendored byte-for-byte; FoldCode has an equivalent explicit helper proof to ensure module-independent comparison. Original notices are preserved and Mathlib remains pinned."
     },
     {
       "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
