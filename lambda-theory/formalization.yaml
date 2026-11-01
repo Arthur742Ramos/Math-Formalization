@@ -31,8 +31,8 @@
       ],
       "id": "https://doi.org/10.4230/LIPIcs.ITP.2019.12",
       "type": "paper",
-      "relationship": "background",
-      "note": "Mathlib partial recursive functions, universal evaluation, and related computability foundations; this package directly reuses the pinned Mathlib development."
+      "relationship": "adapts",
+      "note": "Adapts the paper’s Rice theorem (Theorem 6) and halting undecidability (Theorem 7) to closed full-beta lambda numerical observations, using the pinned Mathlib development and a verified compiler. This is not a line-by-line formalization; the totality normal-form result extends beyond the cited paper."
     }
   ],
   "classification": {
