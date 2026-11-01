@@ -285,5 +285,7 @@ public import LambdaTuring.DirectLambdaToMachine
 public meta import LambdaTuring.DirectLambdaToMachine
 public import LambdaTuring.NumeralReduction
 public meta import LambdaTuring.NumeralReduction
+public import LambdaTuring.LambdaRice
+public meta import LambdaTuring.LambdaRice
 
 @[expose] public section
