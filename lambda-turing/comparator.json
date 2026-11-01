@@ -1,0 +1,21 @@
+{
+  "challenge_module": "LambdaTuringChallenge",
+  "solution_module": "LambdaTuringSolution",
+  "theorem_names": [
+    "LambdaTuring.lambdaComputable_iff_unaryMachine",
+    "LambdaTuring.packagedLambdaToMachine_correct",
+    "LambdaTuring.packagedLambdaToMachine_no_result",
+    "LambdaTuring.Machine.machineToLambda_correct",
+    "LambdaTuring.Machine.machineToLambda_no_result",
+    "LambdaTuring.explicitPackagedTranslations_correct"
+  ],
+  "definition_names": [
+    "LambdaTuring.packagedLambdaToMachine",
+    "LambdaTuring.Machine.machineToLambda"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,20 @@
+# Material definition inventory
+
+This inventory is preliminary. It records the meanings that must be checked in both Challenge and Solution; it is not a substitute for the exact pinned-source, imported-definition and source-fidelity audits required before release. In particular, pinned source excerpts, hashes and dependency expansion are not yet complete.
+
+The standalone `LambdaTuringChallenge` imports only `Mathlib.Data.PFun` directly and states the local syntax and machine models in its own source. Its eight deliberate placeholders are limited to the two translators and selected comparison theorems. They are statement scaffolding, not Solution proofs; the Solution does not import this file. The complete Challenge dependency closure, concrete definition correspondence and absence of placeholders from the Solution's proof closure still require protected verification and independent review. `packagedLambdaToMachine` exposes the state count with its machine so its type does not reveal the compiler's internal index.
+
+## Local statement semantics
+
+* `LambdaTuring.Term` is the de Bruijn syntax in `LambdaTuring/Basic.lean`. `substAt` performs capture-avoiding substitution and `Beta` is the compatible full-beta relation, including both application children and abstraction bodies. `Reaches` is its reflexive-transitive closure.
+* `NumericalResult t n m` in `LambdaTuring/NumericalSemantics.lean` is `Reaches (.app t (church n)) (church m)`. `LambdaComputable f` requires a term scoped at zero whose exact partial numerical observations equal `f`.
+* `Machine.Program states` in `LambdaTuring/Machine.lean` is a finite list indexed by state and three tape symbols. A missing transition halts. `Machine.initial n` supplies `n + 1` ones. `Machine.Yields p n m` requires a reached halted configuration and `Machine.decode` of the current and rightward tape cells equal to `some m`; an empty run of ones, marker, or one following a blank is rejected. The left tape is not part of the output decoder. Missing a numerical result is not asserted to mean divergence.
+* `lambdaToUnaryMachine` constructs a public finite machine from any term, and `Machine.machineToLambda` constructs a scoped closed term from any public program. Their selected theorems quantify over all inputs and all numerical outputs. The broader extensional class theorem restricts its representing lambda term to `Scoped 0`.
+
+`LambdaTuringChallengeTests.lean` and `LambdaTuringSemanticTests.lean` independently import the two entrypoints and include examples for marker/malformed output and a nonnumerical lambda normal form. Both were built at `dfd74bf018d74cf472fed0352f054ba017441948`; later changes need source-bound checks. The comparator selects only the two translator definition holes. Fixed model definitions are intended to be compared as ordinary dependencies of the selected theorems; protected comparison and individual mutation rejection controls have not yet confirmed that contract.
+
+## Pinned imported semantics requiring further audit
+
+The package pins Lean `v4.35.0-rc2` and Mathlib `065356127b1dc0016f66b7283ce0ce2c4055aa55`. Material imported constructions include `Part` and its membership/equality semantics, `Nat.Partrec`, `Nat.Partrec.Code` and its evaluator/currying/pairing/recursion/minimization behavior, and the Mathlib TM2/TM1/TM0 simulations used inside the compiled-machine correctness proof. The exact pinned declarations, source paths and source/excerpt hashes, implicit instances and transitive hypotheses must be inventoried before this file can serve as complete provenance evidence. The TM2-to-TM1 output theorem's output-membership assumptions must not be erased in that audit.
+
+The files under `LambdaTuring/Upstream` are a locally adapted CSLib pull-request source, not the pinned Mathlib release. Their exact source revision and retained notices are recorded in `THIRD_PARTY_NOTICES.md`; a full diff and license review remain open. The relationship to the Isabelle development is architectural and currently lacks a formal machine-semantics bridge.

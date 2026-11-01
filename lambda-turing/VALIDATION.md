@@ -1,0 +1,5 @@
+# Validation and review status
+
+An independent source-only Lake build completed all 1,065 default jobs at checkpoint `dfd74bf018d74cf472fed0352f054ba017441948`. All nine locked dependencies were rebuilt from clean pinned source without preexisting Lean artifacts; the Lean toolchain was prebuilt. The build log SHA-256 is `14bace5698cea1b072285b487c22302b7a96a8e36f0f368346e9c632ed352d44`, and the source manifest SHA-256 is `629d8d7b328d1880fef88a0268a3fe827e973ddb788b581efa94cc76dde42299`. The same checkpoint passed `leanchecker --fresh` for the Solution in Lean's own kernel; this is not an external-kernel check. The launcher log SHA-256 is `81694f848a070f2b2bffdf6b71fba94d0785c557703870a573dee738ab53b5a5`.
+
+These historical results do not validate later metadata, documentation, configuration or scanner changes. Source-bound independent review, protected Comparator and definition mutation controls, external kernels, rendering, computational-dependency closure, and final distribution and license review remain required. No final submission readiness or external peer review is claimed.

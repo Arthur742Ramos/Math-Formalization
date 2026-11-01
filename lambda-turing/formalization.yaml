@@ -1,0 +1,112 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Full beta lambda calculus and finite Turing machine computability",
+    "description": "Closed untyped de Bruijn lambda terms under full beta reachability of Church numerals compute exactly the unary partial numerical functions computed by finite three-symbol unary Turing machines. The package defines translations in both directions and proves pointwise numerical-result and no-result equivalences.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy José Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "sources": [
+    {
+      "title": "Computability and λ-definability",
+      "authors": [
+        "A. M. Turing"
+      ],
+      "id": "https://doi.org/10.2307/2268280",
+      "type": "paper",
+      "relationship": "independently-proves",
+      "note": "Turing (1937) establishes the classical computability/λ-definability equivalence. This package proves an explicitly stated modern finite-machine and full-beta partial-result formulation; it does not claim a line-by-line formalization of that paper."
+    },
+    {
+      "title": "Mechanised computability theory",
+      "authors": [
+        "Michael Norrish"
+      ],
+      "id": "https://doi.org/10.1007/978-3-642-22863-6_22",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Earlier HOL4 mechanization relating lambda calculus and recursive functions."
+    },
+    {
+      "title": "Mechanising Turing Machines and Computability Theory in Isabelle/HOL",
+      "authors": [
+        "Jian Xu",
+        "Xingyuan Zhang",
+        "Christian Urban"
+      ],
+      "id": "https://doi.org/10.1007/978-3-642-39634-2_13",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Earlier Isabelle/HOL Turing-machine and computability formalization; bibliographic details follow the related Isabelle project."
+    },
+    {
+      "title": "A Mechanised Proof of the Time Invariance Thesis for the Weak Call-By-Value λ-Calculus",
+      "authors": [
+        "Yannick Forster",
+        "Fabian Kunze",
+        "Gert Smolka",
+        "Maximilian Wuttke"
+      ],
+      "id": "https://doi.org/10.4230/LIPIcs.ITP.2021.19",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Earlier Coq mechanization with weak call-by-value lambda calculus and Turing machines. The Dagstuhl publisher record confirms the authors, title and scope."
+    }
+  ],
+  "classification": {
+    "arxiv": [
+      "math.LO",
+      "cs.LO"
+    ],
+    "msc2020": []
+  },
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned partial-recursive-code language and TM2-to-TM1-to-TM0 simulations."
+    },
+    {
+      "id": "https://github.com/leanprover/cslib/pull/475",
+      "relationship": "adapts",
+      "note": "Local attributed confluence source adapted from commit cd9bd6ba0537764eb422532400e99b2c90f34256, not a claim about a CSLib release."
+    }
+  ],
+  "status": {
+    "scope": "Exact full-beta Church-numeral observations and finite three-symbol unary-table Yields; arbitrary finite-alphabet simulation and a semantic bridge to the Isabelle machine model are not claimed.",
+    "sorry_count": 8,
+    "sorry_in_definitions": 2,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Independent source-only Lake build and fresh Lean-kernel replay passed at commit dfd74bf018d74cf472fed0352f054ba017441948; later package and configuration changes require their own source-bound review. The standalone Challenge has eight deliberate comparison placeholders, including two translator definitions. The Solution proof closure and exact Challenge/Solution definition correspondence require protected comparison and rejection controls. External kernels, rendering, executable dependency closure, current registry checks and full source and distribution-license review remain pending. No practical machine-table size bound is claimed.",
+    "attribution_status": "Three authors are retained as authorized; Arthur Freitas Ramos is the designated responsible maintainer. Material AI contribution is disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex contributed substantial Lean proofs, code and packaging; independent internal AI review has assessed earlier immutable checkpoints."
+      }
+    ],
+    "notes": "Candidate-specific independent review is pending. Human mathematical review and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "This package uses full beta reduction and a finite three-symbol unary public machine; it does not claim to formalize the exact weak call-by-value semantics of the cited Coq work or arbitrary-alphabet simulation. Absence of a numerical result includes nonnumerical normal forms and malformed halting output and is not identified with divergence."
+  },
+  "review": {
+    "status": "unchecked",
+    "reviewers": [],
+    "notes": "Earlier checkpoint 9f59d012 received targeted internal source review, not a complete review or fresh independent build of this modified candidate."
+  },
+  "acknowledgements": "Prior mechanizations by Norrish and Forster and coauthors; attributed CSLib, Isabelle and Mathlib source and licenses are documented in THIRD_PARTY_NOTICES.md."
+}
