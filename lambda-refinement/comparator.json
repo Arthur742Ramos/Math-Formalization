@@ -1,0 +1,17 @@
+{
+  "challenge_module": "LambdaRefinementChallenge",
+  "solution_module": "LambdaRefinementSolution",
+  "theorem_names": [
+    "LambdaTuring.closedNumericalEquiv_iff_mutual_refinement",
+    "LambdaTuring.restrictedRefinementReduction",
+    "LambdaTuring.restrictedEquivalenceReduction",
+    "LambdaTuring.closedNumericalRefines_normalForm_complete",
+    "LambdaTuring.closedNumericalEquiv_normalForm_complete"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
