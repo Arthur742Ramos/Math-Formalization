@@ -1,0 +1,18 @@
+name: Lambda theory Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-theory-236c361
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 236c361f809b2004cde6ecbed679c864bd16ee90
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: theory236c01
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"lambda-theory","comparator_config_path":"lambda-theory/comparator.json","formalization_metadata_path":"lambda-theory/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
