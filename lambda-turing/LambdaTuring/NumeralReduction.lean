@@ -143,6 +143,116 @@ theorem no_computable_closed_numeral_decider :
   exact ComputablePred.halting_problem 0
     (ComputablePred.computable_of_manyOneReducible hred hp)
 
+/-- The least ambient binder depth sufficient to close a term. -/
+def requiredDepth : Term → Nat
+  | .var i => i + 1
+  | .abs t => (requiredDepth t).pred
+  | .app a b => max (requiredDepth a) (requiredDepth b)
+
+theorem scoped_iff_requiredDepth_le (t : Term) (depth : Nat) :
+    Scoped depth t ↔ requiredDepth t ≤ depth := by
+  induction t generalizing depth with
+  | var i => simp only [Scoped, requiredDepth]; omega
+  | abs t ih =>
+    simp only [Scoped, requiredDepth, ih, Nat.pred_eq_sub_one]
+    omega
+  | app a b ia ib => simp [Scoped, requiredDepth, ia, ib]
+
+/-- Fold required binder depth over the canonical code tree. -/
+def codeRequiredDepth (c : Nat.Partrec.Code) : Nat :=
+  Nat.Partrec.Code.recOn c 0 0 0 0
+    (fun _ _ a b => max a b)
+    (fun _ _ _ _ => 0)
+    (fun _ g _ _ => (decodeConst g).getD 0 + 1)
+    (fun _ a => a.pred)
+
+theorem codeRequiredDepth_encode (t : Term) :
+    codeRequiredDepth (encodeTerm t) = requiredDepth t := by
+  induction t with
+  | var n => simp [codeRequiredDepth, encodeTerm, decodeConst_const, requiredDepth]
+  | abs t ih => simpa [codeRequiredDepth, encodeTerm, requiredDepth] using congrArg Nat.pred ih
+  | app a b ia ib =>
+    change max (codeRequiredDepth (encodeTerm a)) (codeRequiredDepth (encodeTerm b)) = _
+    rw [ia, ib]
+    rfl
+
+theorem primrec_codeRequiredDepth : Primrec codeRequiredDepth := by
+  let A := Nat.Partrec.Code
+  let P := A × A × Nat × Nat
+  let S := A × P
+  have hl : Primrec (fun s : S => s.2.2.2.1) :=
+    Primrec.fst.comp (Primrec.snd.comp (Primrec.snd.comp Primrec.snd))
+  have hr : Primrec (fun s : S => s.2.2.2.2) :=
+    Primrec.snd.comp (Primrec.snd.comp (Primrec.snd.comp Primrec.snd))
+  have hpr : Primrec₂ (fun (_ : A) (p : P) => max p.2.2.1 p.2.2.2) :=
+    Primrec.nat_max.comp hl hr
+  have hpc : Primrec₂ (fun (_ : A) (p : P) => (decodeConst p.2.1).getD 0 + 1) :=
+    Primrec.succ.comp (Primrec.option_getD.comp
+      (primrec_decodeConst.comp (Primrec.fst.comp (Primrec.snd.comp Primrec.snd)))
+      (Primrec.const 0))
+  have hrf : Primrec₂ (fun (_ : A) (p : A × Nat) => p.2.pred) :=
+    Primrec.pred.comp (Primrec.snd.comp Primrec.snd)
+  have h := Nat.Partrec.Code.primrec_recOn'
+    (c := id) (z := fun _ : A => 0) (s := fun _ : A => 0)
+    (l := fun _ : A => 0) (r := fun _ : A => 0)
+    (pr := fun _ p => max p.2.2.1 p.2.2.2) (co := fun _ _ => 0)
+    (pc := fun _ p => (decodeConst p.2.1).getD 0 + 1) (rf := fun _ p => p.2.pred)
+    Primrec.id (Primrec.const _) (Primrec.const _) (Primrec.const _) (Primrec.const _)
+    hpr (Primrec₂.const _) hpc hrf
+  exact h.of_eq (fun _ => rfl)
+
+theorem primrec_requiredDepth : Primrec requiredDepth :=
+  (primrec_codeRequiredDepth.comp primrec_encodeTerm).of_eq codeRequiredDepth_encode
+
+theorem closed_primrecPred : PrimrecPred (fun t : Term => Scoped 0 t) :=
+  (Primrec.nat_le.comp primrec_requiredDepth (Primrec.const 0)).of_eq
+    (fun t => (scoped_iff_requiredDepth_le t 0).symm)
+
+/-- Numerical reachability restricted to syntactically closed terms. -/
+def ClosedNumeralReach (t : Term) : Prop := Scoped 0 t ∧ NumeralReach t
+
+theorem closedNumeralReach_re : REPred ClosedNumeralReach := by
+  obtain ⟨f, hf, hdom⟩ := numeralReach_has_partial_observer
+  let test : Term → Bool := fun t => decide (requiredDepth t ≤ 0)
+  have ht : Computable test :=
+    (Primrec.nat_le.comp primrec_requiredDepth (Primrec.const 0)).decide.to_comp
+  have hc : Partrec (fun t => cond (test t) (f t) Part.none) :=
+    Partrec.cond ht hf Partrec.none
+  apply hc.dom_re.of_eq
+  intro t
+  by_cases h : requiredDepth t = 0
+  · have hs : Scoped 0 t := (scoped_iff_requiredDepth_le t 0).2 (by omega)
+    simp [test, ClosedNumeralReach, h, hs, hdom]
+  · have hs : ¬ Scoped 0 t := fun hs => h (by have := (scoped_iff_requiredDepth_le t 0).1 hs; omega)
+    simp [test, ClosedNumeralReach, h, hs]
+
+theorem closedNumeralReach_hard {α : Type} [Primcodable α] (p : α → Prop)
+    (hp : REPred p) : ManyOneReducible p ClosedNumeralReach := by
+  obtain ⟨f, hf, h⟩ := numeralReach_hard p hp
+  exact ⟨f, hf, fun a => ⟨fun hp => ⟨(h a).1, (h a).2.mp hp⟩,
+    fun ht => (h a).2.mpr ht.2⟩⟩
+
+/-- The closed-term numerical-reachability language is undecidable. -/
+theorem closedNumeralReach_undecidable : ¬ ComputablePred ClosedNumeralReach := by
+  intro h
+  exact ComputablePred.halting_problem 0
+    (ComputablePred.computable_of_manyOneReducible
+      (closedNumeralReach_hard _ (ComputablePred.halting_problem_re 0)) h)
+
+/-- The complement of the closed numerical-reachability language is not r.e. -/
+theorem closedNumeralReach_complement_not_re :
+    ¬ REPred (fun t => ¬ ClosedNumeralReach t) := by
+  intro h
+  exact closedNumeralReach_undecidable
+    (ComputablePred.computable_iff_re_compl_re'.2 ⟨closedNumeralReach_re, h⟩)
+
+#print axioms closedNumeralReach_undecidable
+#print axioms closedNumeralReach_complement_not_re
+
+#print axioms closed_primrecPred
+#print axioms closedNumeralReach_re
+#print axioms closedNumeralReach_hard
+
 #print axioms recursiveHaltingTerm_primrec
 #print axioms recursiveHaltingTerm_correct
 #print axioms numeralReach_re
