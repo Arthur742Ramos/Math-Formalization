@@ -283,5 +283,7 @@ public import LambdaTuring.DirectBetaTraceCode
 public meta import LambdaTuring.DirectBetaTraceCode
 public import LambdaTuring.DirectLambdaToMachine
 public meta import LambdaTuring.DirectLambdaToMachine
+public import LambdaTuring.NumeralReduction
+public meta import LambdaTuring.NumeralReduction
 
 @[expose] public section
