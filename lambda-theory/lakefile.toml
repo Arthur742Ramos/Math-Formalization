@@ -1,0 +1,15 @@
+name = "LambdaTheory"
+version = "0.1.0"
+defaultTargets = ["LambdaTheoryChallenge", "LambdaTheorySolution"]
+
+[[require]]
+name = "LambdaTuring"
+git = "https://github.com/Arthur742Ramos/Math-Formalization.git"
+rev = "c695e9a1b47f0c9cb7031f5c13b8494180b7b948"
+subDir = "lambda-turing"
+
+[[lean_lib]]
+name = "LambdaTheoryChallenge"
+
+[[lean_lib]]
+name = "LambdaTheorySolution"

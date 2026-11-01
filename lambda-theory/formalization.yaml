@@ -1,0 +1,92 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Computability theory for closed lambda programs",
+    "description": "Formalizes recursively enumerable completeness of full-beta Church-numeral reachability, an extensional Rice theorem, and a computable universal-existential normal-form completeness theorem for numerical totality of closed untyped lambda programs.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy José Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "sources": [
+    {
+      "title": "Classes of Recursively Enumerable Sets and Their Decision Problems",
+      "authors": [
+        "H. G. Rice"
+      ],
+      "id": "https://doi.org/10.2307/1990888",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Classical source for Rice-style undecidability; the Lean theorem treats extensional properties of partial numerical functions."
+    },
+    {
+      "title": "Formalizing Computability Theory via Partial Recursive Functions",
+      "authors": [
+        "Mario Carneiro"
+      ],
+      "id": "https://doi.org/10.4230/LIPIcs.ITP.2019.12",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Mathlib partial recursive functions, universal evaluation, and related computability foundations; this package directly reuses the pinned Mathlib development."
+    }
+  ],
+  "classification": {
+    "arxiv": [
+      "math.LO",
+      "cs.LO"
+    ],
+    "msc2020": []
+  },
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned Mathlib computability, RE predicates, many-one reductions, bounded evaluation, and Rice theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0160b1ea1af92434ad40e27f2fe84e4ea837a026/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Public source checkpoint of the earlier Lean lambda/Turing package. This theory package reuses its explicit syntax, coding and proof architecture."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Exact public proof dependency pinned in the Lake manifest; it extends the earlier package with the reviewed computability-theory results."
+    }
+  ],
+  "status": {
+    "scope": "Full-beta numerical observations on closed untyped de Bruijn terms; nonnumerical outcomes are not identified with divergence. Normal-form completeness is stated for computable Boolean predicates under computable many-one reductions.",
+    "sorry_count": 10,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "The theory proofs passed targeted independent source reviews and the pinned proof checkpoint passed an incremental source-bound package build. The standalone Challenge and Solution package passed an incremental Lake build using reused artifacts. Independent review of this new packaging, protected Challenge/Solution comparison, mutation controls, final exact-source validation, and current service checks remain open.",
+    "attribution_status": "Three established authors and Arthur Freitas Ramos as responsible maintainer. Material AI contribution is disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex contributed Lean proofs and packaging; separate internal AI review has checked selected immutable checkpoints."
+      }
+    ],
+    "notes": "Human mathematical review and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "The theorem formalizes classical results for the explicit full-beta numerical semantics. It is not a direct formalization of Rice’s paper. A fixed recursive code is chosen in the proof for each computable predicate; no uniform extraction algorithm from arbitrary computability proofs is claimed."
+  },
+  "review": {
+    "status": "unchecked",
+    "reviewers": [],
+    "notes": "The individual theory proof checkpoints received targeted internal independent source review. This combined standalone packaging and its protected comparison remain unreviewed."
+  },
+  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Existing third-party notices and licenses remain with the pinned Lean dependency."
+}

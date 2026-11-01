@@ -1,0 +1,22 @@
+{
+  "challenge_module": "LambdaTheoryChallenge",
+  "solution_module": "LambdaTheorySolution",
+  "theorem_names": [
+    "LambdaTuring.closedNumeralReach_re",
+    "LambdaTuring.closedNumeralReach_hard",
+    "LambdaTuring.closedNumeralReach_undecidable",
+    "LambdaTuring.closedNumeralReach_complement_not_re",
+    "LambdaTuring.no_computable_closed_numeral_decider",
+    "LambdaTuring.no_computable_closed_extensional_decider",
+    "LambdaTuring.no_computable_closed_input_domain_decider",
+    "LambdaTuring.no_computable_closed_totality_decider",
+    "LambdaTuring.closedNumericalTotal_manyOne_equiv",
+    "LambdaTuring.closedNumericalTotal_normalForm_complete"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
