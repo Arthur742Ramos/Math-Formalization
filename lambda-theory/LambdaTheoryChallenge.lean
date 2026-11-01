@@ -80,10 +80,10 @@ def Represents (t : Term) (f : Nat →. Nat) : Prop :=
 def LambdaComputable (f : Nat →. Nat) : Prop := ∃ t, Represents t f
 
 
-def encodeTerm (t : Term) : Code :=
-  Term.rec (fun n => .prec .zero (Code.const n))
-    (fun _ r => .rfind' r)
-    (fun _ _ ra rb => .pair ra rb) t
+def encodeTerm : Term → Code
+  | .app a b => .pair (encodeTerm a) (encodeTerm b)
+  | .abs t => .rfind' (encodeTerm t)
+  | .var n => .prec .zero (Code.const n)
 
 def decodeConst : Code → Option Nat
   | .zero => some 0
