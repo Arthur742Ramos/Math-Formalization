@@ -289,5 +289,7 @@ public import LambdaTuring.LambdaRice
 public meta import LambdaTuring.LambdaRice
 public import LambdaTuring.LambdaTotality
 public meta import LambdaTuring.LambdaTotality
+public import LambdaTuring.TotalityBounded
+public meta import LambdaTuring.TotalityBounded
 
 @[expose] public section
