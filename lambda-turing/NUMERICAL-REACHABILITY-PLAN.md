@@ -1,0 +1,23 @@
+# Campaign: numerical reachability in full beta reduction
+
+## First target
+
+For `Term` under the existing full-beta relation, define `NumeralReach t := ∃ m, Reaches t (church m)`. Prove it is recursively enumerable and many-one complete for recursively enumerable predicates in Mathlib's `Primcodable`/`Computable` sense. The hardness reduction is explicit: for `(c, x) : Nat.Partrec.Code × Nat`, construct `Term.app (compileLambdaTotal (Code.comp c (Code.const x))) (church 0)`, prove this syntax is closed and the map is primitive recursive, and prove its numeral reachability iff `(Code.eval c x).Dom`. Thus hardness holds even with the input restricted to closed output terms; formulate a closed-input decision impossibility without implicitly assuming an unproved effective coding of the closed-term subtype. If the final public statement uses the predicate `Scoped 0 t ∧ NumeralReach t` over all terms or a `Primcodable` closed-term subtype, separately prove scope testing is computable and the coding is valid.
+
+The first locally checked increment is `NumeralReduction.lean`: it proves the closedness, primitive recursiveness and exact iff of that reduction. It uses `primrec_compileLambdaTotal`, an existing mathematical proof of compiler effectivity, not merely native compiler/codegen evidence. It does not yet prove RE completeness or undecidability. The proof is about full beta reachability of numerals, not weak normalization or divergence.
+
+## Library reuse and remaining proof chain
+
+* Pinned Mathlib `Mathlib.Computability.Reduce` defines `ManyOneReducible` and closure/transfer theorems; `RE` provides `REPred`, `Partrec.dom_re` and complement/decidability results; `Halting` proves fixed-input Code halting r.e., undecidable, and its complement not r.e. `PartrecCode` provides universal partial evaluation, `exists_code`, `Code.primrec_const`, `Code.primrec₂_comp`, curry/s-m-n and fixed-point infrastructure. These are existing results, not new claims.
+* The local `CPSTotalCompiler` already proves `primrec_compileLambdaTotal` and exact `compileLambdaTotal_sound`. `FoldCode` gives the effective coding of terms and primitive-recursive constructors; `Basic` supplies `church_closed` and the reduction relation.
+* For the upper bound, use `uniformNumericalValue_partrec` in `UniformLambdaEval`, `primrec_liftFrom`, `primrec_abs`, `substAt_liftFrom`, and `reaches_numeral_join`. The computable wrapper `abs (liftFrom 0 t)` applied to Church 0 beta-reduces to arbitrary `t`; confluence plus numeral normality makes its numerical observation equivalent to `NumeralReach t`. Its uniform partial result yields `REPred NumeralReach` via `Partrec.dom_re`. Check exact lemma orientation, coding instances, and total wrapper computability in Lean rather than assuming them.
+* For full many-one hardness, take an arbitrary r.e. predicate on a `Primcodable` type, use its partial-recursive witness and Mathlib's code-representation theorem for the encoded partial computation, and compose the resulting fixed code with the computable input encoding and the explicit reduction above. The existence of a fixed code is sufficient for an existential many-one theorem; it is not claimed to be a computable extraction from a proof of r.e.-ness. State and verify the encoding/partial-output domain bridge explicitly.
+* Apply Mathlib's fixed-input halting undecidability to obtain no computable decider on all terms and, using the closed range, no computable decider correct even just on closed terms. Once both r.e.-ness and the noncomputability transfer are proved, use Mathlib's r.e./co-r.e. characterization to prove the complement is not r.e. State quantified decidability and encodings precisely; do not infer divergence from no numerical result.
+
+## Follow-on work
+
+1. Many-one equivalence for the actual finite three-symbol unary-machine acceptance model, proving effective finite-table coding and exact malformed-halt/no-result semantics; do not treat merely executable translator syntax as a `Computable` theorem.
+2. Transport Mathlib Rice results to extensional properties of closed lambda programs after proving the necessary effective encoding/compiler map and precise nontriviality assumptions.
+3. Investigate totality, arithmetical hierarchy and Rice–Shapiro only after these foundations; any normalization or divergence theorem requires a separate semantic bridge.
+
+This is a substantive formalization of a classical result, not a claim of new mathematics or the first mechanization. Independent source and scope review and exact-source builds are required before publication. The initial direct Lean check uses cached dependencies and is not a clean package build.
