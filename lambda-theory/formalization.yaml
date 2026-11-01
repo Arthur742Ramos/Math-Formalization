@@ -56,7 +56,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
       "relationship": "builds-on",
-      "note": "Exact public proof dependency pinned in the Lake manifest; it extends the earlier package with the reviewed computability-theory results."
+      "note": "Exact public proof checkpoint: 125 needed proof modules are vendored byte-for-byte with original notices; Mathlib remains a pinned external dependency."
     },
     {
       "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
@@ -73,7 +73,7 @@
       "Quot.sound",
       "Classical.choice"
     ],
-    "known_gaps": "The theory proofs passed targeted independent source reviews and the pinned proof checkpoint passed an incremental source-bound package build. The standalone Challenge and Solution package passed an incremental Lake build using reused artifacts. Independent review of this new packaging, protected Challenge/Solution comparison, mutation controls, final exact-source validation, and current service checks remain open.",
+    "known_gaps": "The theory proof checkpoints passed focused independent review and incremental builds. The standalone Challenge and Solution package requires a fresh local layout check and independent packaging review after vendoring, followed by protected Challenge/Solution comparison, mutation controls, final validation, and service preflight.",
     "attribution_status": "Three established authors and Arthur Freitas Ramos as responsible maintainer. Material AI contribution is disclosed."
   },
   "automation": {
@@ -91,7 +91,7 @@
   "review": {
     "status": "unchecked",
     "reviewers": [],
-    "notes": "The individual theory proof checkpoints received targeted internal independent source review. This combined standalone packaging and its protected comparison remain unreviewed."
+    "notes": "Individual theory proof checkpoints received focused independent source review. The vendored standalone packaging and protected comparison await review."
   },
-  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Existing third-party notices and licenses remain with the pinned Lean dependency."
+  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
 }

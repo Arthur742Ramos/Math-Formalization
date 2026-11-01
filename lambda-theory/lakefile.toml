@@ -3,10 +3,13 @@ version = "0.1.0"
 defaultTargets = ["LambdaTheoryChallenge", "LambdaTheorySolution"]
 
 [[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+
+[[lean_lib]]
 name = "LambdaTuring"
-git = "https://github.com/Arthur742Ramos/Math-Formalization.git"
-rev = "c695e9a1b47f0c9cb7031f5c13b8494180b7b948"
-subDir = "lambda-turing"
+roots = ["LambdaTuring.LambdaRice", "LambdaTuring.TotalityBounded"]
 
 [[lean_lib]]
 name = "LambdaTheoryChallenge"
