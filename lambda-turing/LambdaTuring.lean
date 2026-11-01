@@ -287,5 +287,7 @@ public import LambdaTuring.NumeralReduction
 public meta import LambdaTuring.NumeralReduction
 public import LambdaTuring.LambdaRice
 public meta import LambdaTuring.LambdaRice
+public import LambdaTuring.LambdaTotality
+public meta import LambdaTuring.LambdaTotality
 
 @[expose] public section
