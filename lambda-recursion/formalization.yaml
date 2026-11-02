@@ -45,7 +45,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
       "relationship": "builds-on",
-      "note": "Exact public proof checkpoint: 123 needed modules are vendored byte-for-byte; FoldCode has an equivalent explicit helper proof and TermCode has equivalent reordered structural equations for module-independent comparison. Original notices are preserved and Mathlib remains pinned."
+      "note": "Of 125 inherited modules, 122 are byte-for-byte copies of this checkpoint. FoldCode has an equivalent explicit helper proof, TermCode has equivalent reordered structural equations, and ExecutableTermCoding names the validity and inverse proof fields to make fixed-definition comparison independent of generated helper names. The encoding behavior is unchanged; original notices are preserved and Mathlib remains pinned."
     },
     {
       "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
@@ -55,7 +55,7 @@
     {
       "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000031&version=1",
       "relationship": "builds-on",
-      "note": "Registered closed-lambda computability predecessor, version 1, exact source 236c361f809b2004cde6ecbed679c864bd16ee90; its fixed model, totality infrastructure, 125 proof modules and notices are reused."
+      "note": "Registered closed-lambda computability predecessor, version 1, exact source 236c361f809b2004cde6ecbed679c864bd16ee90; its fixed model, totality infrastructure and notices are reused. Of 125 inherited proof modules, 124 are unchanged and ExecutableTermCoding has a named-proof-field repair."
     },
     {
       "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-02-000001&version=1",
@@ -65,7 +65,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/236c361f809b2004cde6ecbed679c864bd16ee90/lambda-theory",
       "relationship": "builds-on",
-      "note": "Exact predecessor proof source; 125 modules and notices are reused, and EffectiveLambdaRecursion is new."
+      "note": "Exact predecessor proof source: 124 of 125 inherited modules are unchanged; ExecutableTermCoding has a named-proof-field repair. Notices are retained and EffectiveLambdaRecursion is new."
     }
   ],
   "status": {
