@@ -186,14 +186,333 @@ theorem codeInput_closedZero_permutation :
   intro c n
   exact (h (Encodable.encode (c, n))).symm.trans (codedHalting_encode (c, n))
 
-#print axioms codedClosedZero_re
-#print axioms codedClosedZero_exact
-#print axioms codedHalting_re
-#print axioms codedHalting_exact
-#print axioms codedClosedZero_invalid
-#print axioms codedHalting_invalid
-#print axioms codedHalting_oneOne_complete
-#print axioms codedClosedZero_oneOne_complete
-#print axioms codedHalting_closedZero_isomorphism
-#print axioms codeInput_closedZero_permutation
+
+
+/-- A Boolean set has members beyond every numerical bound. -/
+def UnboundedTrue (test : Nat → Bool) : Prop :=
+  ∀ a, ∃ n, a ≤ n ∧ test n = true
+
+/-- The least member of a Boolean set at or beyond a specified bound. -/
+noncomputable def firstTrueAfter (test : Nat → Bool) (h : UnboundedTrue test) (a : Nat) : Nat :=
+  Nat.find (h a)
+
+theorem firstTrueAfter_spec (test : Nat → Bool) (h : UnboundedTrue test) (a : Nat) :
+    a ≤ firstTrueAfter test h a ∧ test (firstTrueAfter test h a) = true :=
+  Nat.find_spec (h a)
+
+theorem firstTrueAfter_le (test : Nat → Bool) (h : UnboundedTrue test) (a n : Nat)
+    (han : a ≤ n) (hn : test n = true) : firstTrueAfter test h a ≤ n :=
+  Nat.find_min' (h a) ⟨han, hn⟩
+
+def afterBoolean (test : Nat → Bool) (a n : Nat) : Bool :=
+  decide (a ≤ n) && test n
+
+theorem afterBoolean_computable (test : Nat → Bool) (ht : Computable test) :
+    Computable₂ (afterBoolean test) := by
+  have hle : Computable (fun p : Nat × Nat => decide (p.1 ≤ p.2)) := Primrec.nat_le.decide.to_comp
+  have h := Primrec.and.to_comp.comp hle (ht.comp Computable.snd)
+  exact h.to₂
+
+theorem firstTrueAfter_computable (test : Nat → Bool) (h : UnboundedTrue test)
+    (ht : Computable test) : Computable (firstTrueAfter test h) := by
+  have hbool := afterBoolean_computable test ht
+  have hpart := Partrec.rfind hbool.partrec.to₂
+  apply hpart.of_eq_tot
+  intro a
+  apply Nat.mem_rfind.mpr
+  constructor
+  · simp only [PFun.coe_val, Part.mem_some_iff]
+    simp [afterBoolean, (firstTrueAfter_spec test h a).1, (firstTrueAfter_spec test h a).2]
+  · intro n hn
+    simp only [PFun.coe_val, Part.mem_some_iff]
+    have hnot : ¬ (a ≤ n ∧ test n = true) := Nat.find_min (h a) hn
+    cases hv : test n <;> by_cases ha : a ≤ n <;>
+      simp_all [afterBoolean]
+
+/-- Increasing enumeration of all members of an unbounded Boolean set. -/
+noncomputable def enumerateTrue (test : Nat → Bool) (h : UnboundedTrue test) : Nat → Nat
+  | 0 => firstTrueAfter test h 0
+  | n + 1 => firstTrueAfter test h (enumerateTrue test h n + 1)
+
+theorem enumerateTrue_spec (test : Nat → Bool) (h : UnboundedTrue test) :
+    ∀ n, test (enumerateTrue test h n) = true := by
+  intro n
+  cases n with
+  | zero => exact (firstTrueAfter_spec test h 0).2
+  | succ n => exact (firstTrueAfter_spec test h (enumerateTrue test h n + 1)).2
+
+theorem enumerateTrue_strict (test : Nat → Bool) (h : UnboundedTrue test) :
+    StrictMono (enumerateTrue test h) := by
+  apply strictMono_nat_of_lt_succ
+  intro n
+  have hs := (firstTrueAfter_spec test h (enumerateTrue test h n + 1)).1
+  change enumerateTrue test h n < firstTrueAfter test h (enumerateTrue test h n + 1)
+  omega
+
+theorem enumerateTrue_computable (test : Nat → Bool) (h : UnboundedTrue test)
+    (ht : Computable test) : Computable (enumerateTrue test h) := by
+  let X := Nat × (Nat × Nat)
+  have hnext : Computable (fun p : X => firstTrueAfter test h (p.2.2 + 1)) :=
+    (firstTrueAfter_computable test h ht).comp (Computable.succ.comp (Computable.snd.comp Computable.snd))
+  have hc := Computable.nat_rec (α := Nat) (σ := Nat) Computable.id
+    (Computable.const (firstTrueAfter test h 0)) hnext.to₂
+  have heq (n : Nat) : Nat.rec (firstTrueAfter test h 0)
+      (fun _ x => firstTrueAfter test h (x + 1)) n = enumerateTrue test h n := by
+    induction n with
+    | zero => rfl
+    | succ n ih => simp [enumerateTrue, ih]
+  exact hc.of_eq heq
+
+/-- Every true code occurs in the increasing enumeration. -/
+theorem enumerateTrue_surjective (test : Nat → Bool) (h : UnboundedTrue test)
+    (n : Nat) (hn : test n = true) : ∃ k, enumerateTrue test h k = n := by
+  have hi := enumerateTrue_strict test h
+  let pred : Nat → Prop := fun k => n ≤ enumerateTrue test h k
+  have hex : ∃ k, pred k := ⟨n, hi.id_le n⟩
+  let k := Nat.find hex
+  have hk : n ≤ enumerateTrue test h k := Nat.find_spec hex
+  cases hk0 : k with
+  | zero =>
+    have hupper := firstTrueAfter_le test h 0 n (Nat.zero_le n) hn
+    have hkn : n ≤ enumerateTrue test h 0 := by simpa [hk0] using hk
+    refine ⟨0, ?_⟩
+    change firstTrueAfter test h 0 = n
+    change n ≤ firstTrueAfter test h 0 at hkn
+    omega
+  | succ j =>
+    have hjlt : j < Nat.find hex := by change j < k; omega
+    have hnot : ¬ pred j := Nat.find_min hex hjlt
+    have hprev : enumerateTrue test h j < n := by dsimp [pred] at hnot; omega
+    have hupper := firstTrueAfter_le test h (enumerateTrue test h j + 1) n (by omega) hn
+    have hkn : n ≤ enumerateTrue test h (j + 1) := by simpa [hk0] using hk
+    refine ⟨j + 1, ?_⟩
+    change n ≤ firstTrueAfter test h (enumerateTrue test h j + 1) at hkn
+    change firstTrueAfter test h (enumerateTrue test h j + 1) = n
+    omega
+
+noncomputable def enumerationMismatch (test : Nat → Bool) (h : UnboundedTrue test) (n k : Nat) : Bool :=
+  !(decide (enumerateTrue test h k = n))
+
+/-- A bounded inverse candidate. It is specified only for valid codes. -/
+noncomputable def trueRank (test : Nat → Bool) (h : UnboundedTrue test) (n : Nat) : Nat :=
+  boundedBadSearch (enumerationMismatch test h) n n
+
+theorem trueRank_computable (test : Nat → Bool) (h : UnboundedTrue test)
+    (ht : Computable test) : Computable (trueRank test h) := by
+  have he := enumerateTrue_computable test h ht
+  have heq : Computable (fun p : Nat × Nat => decide (enumerateTrue test h p.2 = p.1)) :=
+    (Primrec.eq : PrimrecRel (fun a b : Nat => a = b)).decide.to_comp.comp
+      (he.comp Computable.snd) Computable.fst
+  have hb : Computable₂ (enumerationMismatch test h) := by
+    have hh := Primrec.not.to_comp.comp heq
+    exact hh.to₂
+  have hr := boundedBadSearch_computable (enumerationMismatch test h) hb
+  exact hr.comp (Computable.id.pair Computable.id)
+
+theorem trueRank_valid (test : Nat → Bool) (h : UnboundedTrue test)
+    (n : Nat) (hn : test n = true) : enumerateTrue test h (trueRank test h n) = n := by
+  obtain ⟨k, hk⟩ := enumerateTrue_surjective test h n hn
+  have hkn : k ≤ n := by
+    have hh := (enumerateTrue_strict test h).id_le k
+    simpa [hk] using hh
+  have hs := (boundedBadSearch_spec (enumerationMismatch test h) n n).2
+  have hbad : enumerationMismatch test h n (trueRank test h n) = false := by
+    rcases hs with hf | hall
+    · exact hf
+    · have contra := hall k hkn
+      simp [enumerationMismatch, hk] at contra
+  simpa [enumerationMismatch] using hbad
+
+theorem trueRank_enumerate (test : Nat → Bool) (h : UnboundedTrue test) (k : Nat) :
+    trueRank test h (enumerateTrue test h k) = k := by
+  apply (enumerateTrue_strict test h).injective
+  exact trueRank_valid test h _ (enumerateTrue_spec test h k)
+
+/-- Total syntax decoding used only together with canonical-code validation. -/
+def closedCodeDecode (n : Nat) : Term :=
+  (executableTermDecode n).getD (.var 0)
+
+/-- Decide whether `n` is the canonical encoding of a closed lambda term. -/
+def closedCodeTest (n : Nat) : Bool :=
+  decide (executableTermEncode (closedCodeDecode n) = n) &&
+    decide (requiredDepth (closedCodeDecode n) ≤ 0)
+
+theorem closedCodeDecode_primrec : Primrec closedCodeDecode := by
+  have h : Primrec (fun n : Nat => (Encodable.decode n : Option Term).getD (.var 0)) :=
+    Primrec.option_getD.comp Primrec.decode (Primrec.const _)
+  exact h.of_eq (fun n => by simp [closedCodeDecode, executableTermDecode_eq])
+
+theorem closedCodeTest_primrec : Primrec closedCodeTest := by
+  have henc : Primrec executableTermEncode :=
+    Primrec.encode.of_eq (fun t => (executableTermEncode_eq t).symm)
+  have hcanon : Primrec (fun n : Nat => decide (executableTermEncode (closedCodeDecode n) = n)) :=
+    (Primrec.eq.comp (henc.comp closedCodeDecode_primrec) Primrec.id).decide
+  have hclosed : Primrec (fun n : Nat => decide (requiredDepth (closedCodeDecode n) ≤ 0)) :=
+    (Primrec.nat_le.comp (primrec_requiredDepth.comp closedCodeDecode_primrec) (Primrec.const 0)).decide
+  exact Primrec.and.comp hcanon hclosed
+
+theorem closedCodeTest_encode (t : Term) :
+    closedCodeTest (Encodable.encode t) = true ↔ Scoped 0 t := by
+  have hd : closedCodeDecode (Encodable.encode t) = t := by
+    unfold closedCodeDecode
+    rw [executableTermDecode_eq, Encodable.encodek]
+    rfl
+  simp only [closedCodeTest, hd, executableTermEncode_eq, decide_true, Bool.true_and, decide_eq_true_eq]
+  exact (scoped_iff_requiredDepth_le t 0).symm
+
+theorem closedCodeTest_exact (n : Nat) :
+    closedCodeTest n = true ↔ ∃ t : Term, Encodable.encode t = n ∧ Scoped 0 t := by
+  constructor
+  · intro h
+    have h' : executableTermEncode (closedCodeDecode n) = n ∧
+        requiredDepth (closedCodeDecode n) ≤ 0 := by
+      simpa only [closedCodeTest, Bool.and_eq_true, decide_eq_true_eq] using h
+    exact ⟨closedCodeDecode n, by simpa only [executableTermEncode_eq] using h'.1,
+      (scoped_iff_requiredDepth_le _ 0).2 h'.2⟩
+  · rintro ⟨t, rfl, ht⟩
+    exact (closedCodeTest_encode t).2 ht
+
+theorem closedCodeTest_unbounded : UnboundedTrue closedCodeTest := by
+  intro a
+  let seed : Nat → Nat := fun n => Encodable.encode (church n)
+  have hseed : Function.Injective seed := by
+    intro m n h
+    apply church_injective
+    apply Encodable.encode_injective
+    exact h
+  obtain ⟨k, _, hk⟩ := injective_outside_prefix seed hseed (List.range a)
+  have ha : a ≤ seed k := by
+    have hn : ¬ seed k < a := by simpa only [List.mem_range] using hk
+    omega
+  exact ⟨seed k, ha, (closedCodeTest_exact (seed k)).2 ⟨church k, rfl, church_closed k⟩⟩
+
+/-- The increasing enumeration and bounded rank of actual closed-term codes. -/
+noncomputable def closedCodeEnum : Nat → Nat :=
+  enumerateTrue closedCodeTest closedCodeTest_unbounded
+
+noncomputable def closedCodeRank : Nat → Nat :=
+  trueRank closedCodeTest closedCodeTest_unbounded
+
+theorem closedCodeEnum_computable : Computable closedCodeEnum :=
+  enumerateTrue_computable closedCodeTest closedCodeTest_unbounded closedCodeTest_primrec.to_comp
+
+theorem closedCodeRank_computable : Computable closedCodeRank :=
+  trueRank_computable closedCodeTest closedCodeTest_unbounded closedCodeTest_primrec.to_comp
+
+theorem closedCodeEnum_closed (k : Nat) :
+    ∃ t : Term, Encodable.encode t = closedCodeEnum k ∧ Scoped 0 t :=
+  (closedCodeTest_exact _).1 (enumerateTrue_spec closedCodeTest closedCodeTest_unbounded k)
+
+theorem closedCodeEnum_rank (n : Nat) (hn : closedCodeTest n = true) :
+    closedCodeEnum (closedCodeRank n) = n :=
+  trueRank_valid closedCodeTest closedCodeTest_unbounded n hn
+
+theorem closedCodeRank_enum (k : Nat) : closedCodeRank (closedCodeEnum k) = k :=
+  trueRank_enumerate closedCodeTest closedCodeTest_unbounded k
+
+
+theorem closedCodeDecode_encode (t : Term) :
+    closedCodeDecode (Encodable.encode t) = t := by
+  unfold closedCodeDecode
+  rw [executableTermDecode_eq, Encodable.encodek]
+  rfl
+
+theorem closedCodeEnum_code (k : Nat) :
+    Encodable.encode (closedCodeDecode (closedCodeEnum k)) = closedCodeEnum k := by
+  obtain ⟨t, ht, _⟩ := closedCodeEnum_closed k
+  rw [← ht, closedCodeDecode_encode]
+
+theorem closedCodeEnum_decode_closed (k : Nat) : Scoped 0 (closedCodeDecode (closedCodeEnum k)) := by
+  obtain ⟨t, ht, hc⟩ := closedCodeEnum_closed k
+  simpa [← ht, closedCodeDecode_encode] using hc
+
+/-- Zero-result observation indexed by the computable enumeration of all
+closed terms. Every index denotes a closed term, including negative instances. -/
+noncomputable def indexedClosedZero (n : Nat) : Prop :=
+  closedNumeralAtZero 0 (closedCodeDecode (closedCodeEnum n))
+
+theorem indexedClosedZero_re : REPred indexedClosedZero := by
+  have hd : Computable (fun n => closedCodeDecode (closedCodeEnum n)) :=
+    closedCodeDecode_primrec.to_comp.comp closedCodeEnum_computable
+  exact (closedNumeralAtZero_re 0).comp hd
+
+theorem indexedClosedZero_rank (t : Term) (ht : Scoped 0 t) :
+    indexedClosedZero (closedCodeRank (Encodable.encode t)) ↔ closedNumeralAtZero 0 t := by
+  have hv : closedCodeTest (Encodable.encode t) = true := (closedCodeTest_encode t).2 ht
+  change closedNumeralAtZero 0 (closedCodeDecode (closedCodeEnum (closedCodeRank (Encodable.encode t)))) ↔ _
+  rw [closedCodeEnum_rank _ hv, closedCodeDecode_encode]
+
+/-- The indexed closed-term language remains one-one hard, using a compiler
+whose outputs are closed for every input, not only positive inputs. -/
+theorem indexedClosedZero_oneOne_complete (p : Nat → Prop) (hp : REPred p) :
+    ∃ r : Nat → Nat, Computable r ∧ Function.Injective r ∧
+      ∀ n, p n ↔ indexedClosedZero (r n) := by
+  obtain ⟨c, hc⟩ := Nat.Partrec.Code.exists_code.mp hp
+  have hdom (n : Nat) : (Nat.Partrec.Code.eval c (Encodable.encode n)).Dom ↔ p n := by
+    rw [hc]
+    simp [Part.assert]
+  let t : Nat → Term := fun n => oneOneHaltingToClosedZero (c, Encodable.encode n)
+  have htc : Computable t := oneOneHaltingToClosedZero_primrec.to_comp.comp
+    ((Computable.const c).pair Computable.encode)
+  have hclosed (n : Nat) : Scoped 0 (t n) := (oneOneHaltingToClosedZero_correct (c, Encodable.encode n)).1
+  let r : Nat → Nat := fun n => closedCodeRank (Encodable.encode (t n))
+  have hrc : Computable r := closedCodeRank_computable.comp (Computable.encode.comp htc)
+  have hri : Function.Injective r := by
+    intro a b hab
+    have ha : closedCodeTest (Encodable.encode (t a)) = true := (closedCodeTest_encode _).2 (hclosed a)
+    have hb : closedCodeTest (Encodable.encode (t b)) = true := (closedCodeTest_encode _).2 (hclosed b)
+    have he := congrArg closedCodeEnum hab
+    change closedCodeEnum (closedCodeRank (Encodable.encode (t a))) =
+      closedCodeEnum (closedCodeRank (Encodable.encode (t b))) at he
+    rw [closedCodeEnum_rank _ ha, closedCodeEnum_rank _ hb] at he
+    have ht : t a = t b := Encodable.encode_injective he
+    have hpairs := oneOneHaltingToClosedZero_injective ht
+    exact Encodable.encode_injective (congrArg Prod.snd hpairs)
+  refine ⟨r, hrc, hri, ?_⟩
+  intro n
+  exact (hdom n).symm.trans ((oneOneHaltingToClosedZero_correct (c, Encodable.encode n)).2.symm.trans
+    (indexedClosedZero_rank (t n) (hclosed n)).symm)
+
+/-- Every recursive code-input pair corresponds bijectively to a closed
+lambda term, with both maps computable and exact halting/zero correspondence.
+The inverse identity is asserted for all closed terms. -/
+theorem codeInput_closedTerm_bijection :
+    ∃ F : Nat.Partrec.Code × Nat → Term, ∃ G : Term → Nat.Partrec.Code × Nat,
+      Computable F ∧ Computable G ∧
+      (∀ p, Scoped 0 (F p)) ∧
+      (∀ p, G (F p) = p) ∧
+      (∀ t, Scoped 0 t → F (G t) = t) ∧
+      (∀ p, (Nat.Partrec.Code.eval p.1 p.2).Dom ↔ closedNumeralAtZero 0 (F p)) := by
+  obtain ⟨f, hf, hfi, hfr⟩ := indexedClosedZero_oneOne_complete codedHalting codedHalting_re
+  obtain ⟨g, hg, hgi, hgr⟩ := codedHalting_oneOne_complete indexedClosedZero indexedClosedZero_re
+  obtain ⟨e, he, hei, hrel⟩ := computable_permutation_of_oneOneEquiv codedHalting indexedClosedZero
+    ⟨⟨f, hf, hfi, hfr⟩, ⟨g, hg.to_comp, hgi, hgr⟩⟩
+  let F : Nat.Partrec.Code × Nat → Term := fun p =>
+    closedCodeDecode (closedCodeEnum (e (Encodable.encode p)))
+  let G : Term → Nat.Partrec.Code × Nat := fun t =>
+    Denumerable.ofNat _ (e.symm (closedCodeRank (Encodable.encode t)))
+  have hF : Computable F := closedCodeDecode_primrec.to_comp.comp
+    (closedCodeEnum_computable.comp (he.comp Computable.encode))
+  have hG : Computable G := (Computable.ofNat (Nat.Partrec.Code × Nat)).comp
+    (hei.comp (closedCodeRank_computable.comp Computable.encode))
+  refine ⟨F, G, hF, hG, ?_, ?_, ?_, ?_⟩
+  · intro p
+    exact closedCodeEnum_decode_closed (e (Encodable.encode p))
+  · intro p
+    change Denumerable.ofNat _ (e.symm (closedCodeRank
+      (Encodable.encode (closedCodeDecode (closedCodeEnum (e (Encodable.encode p))))))) = p
+    rw [closedCodeEnum_code, closedCodeRank_enum, e.symm_apply_apply, Denumerable.ofNat_encode]
+  · intro t ht
+    have hvalid : closedCodeTest (Encodable.encode t) = true := (closedCodeTest_encode t).2 ht
+    change closedCodeDecode (closedCodeEnum (e (Encodable.encode
+      (Denumerable.ofNat (Nat.Partrec.Code × Nat) (e.symm (closedCodeRank (Encodable.encode t))))))) = t
+    rw [Denumerable.encode_ofNat, e.apply_symm_apply, closedCodeEnum_rank _ hvalid, closedCodeDecode_encode]
+  · intro p
+    change (Nat.Partrec.Code.eval p.1 p.2).Dom ↔ indexedClosedZero (e (Encodable.encode p))
+    exact (codedHalting_encode p).symm.trans (hrel (Encodable.encode p))
+
+#print axioms closedCodeEnum_code
+#print axioms indexedClosedZero_oneOne_complete
+#print axioms codeInput_closedTerm_bijection
+
 end LambdaTuring
