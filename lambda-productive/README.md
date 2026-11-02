@@ -1,0 +1,7 @@
+# Productive complements and one-one completeness for extensional lambda properties
+
+A computable productive-complement map for a closed lambda language yields closed-output computable reductions from all r.e. predicates on `Primcodable` domains. The recognizer-code transformer is primitive recursive; the complete term reduction is primitive recursive when the productive map is. Fixed points and codes for arbitrary r.e. predicates are selected by existence, not extracted from proofs.
+
+Independently, a computable closed-output transformation can be made injective by syntax padding without changing any property that is extensional on closed programs' full partial numerical behavior. Consequently an r.e. closed numerical-extensional language with a computable productive complement is one-one complete. The prior closed zero-result language supplies a concrete example. The unrestricted creative-set theorem and a computable isomorphism theorem are not claimed. Absence of numerical observations is not asserted to be divergence.
+
+The Challenge fixes syntax, recognizers, productivity, extensionality and padding. The theorem holes are comparator obligations; Solution does not import the Challenge. This formalizes classical computability ideas in the stated lambda model and does not claim new mathematics. Independent integrated review, local protected comparison and hosted verification remain pending.

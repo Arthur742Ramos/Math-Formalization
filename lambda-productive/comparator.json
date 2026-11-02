@@ -1,0 +1,24 @@
+{
+  "challenge_module": "LambdaProductiveChallenge",
+  "solution_module": "LambdaProductiveSolution",
+  "theorem_names": [
+    "LambdaTuring.productiveSingleton_codes",
+    "LambdaTuring.closed_productive_uniform_codes",
+    "LambdaTuring.closed_productive_uniform_primrec",
+    "LambdaTuring.closed_productive_RE_hard",
+    "LambdaTuring.injectivizeSyntax_computable",
+    "LambdaTuring.injectivizeSyntax_primrec",
+    "LambdaTuring.injectivizeSyntax_injective",
+    "LambdaTuring.closed_extensional_injectivize",
+    "LambdaTuring.closed_productive_extensional_oneOne_hard",
+    "LambdaTuring.closed_productive_extensional_oneOne_primrec",
+    "LambdaTuring.closed_productive_extensional_oneOne_complete",
+    "LambdaTuring.closed_zero_extensional_creative"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
