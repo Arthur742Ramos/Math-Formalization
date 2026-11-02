@@ -306,6 +306,153 @@ theorem matching_endpoint (A B : Nat → Prop) (f : Nat → Nat)
     (fun a x ha => matchingStep_preserves A B f back hfred hbrel ha) root k _ hk
   exact ⟨hend, hrel.trans (hfred _)⟩
 
+/-- Replace the edge ending at `y` by the edge from an unmatched `x` to `y`.
+If `y` was matched, its old source becomes the new unmatched source. -/
+def spliceForward (forward : Nat → Option Nat) (x y u : Nat) : Option Nat :=
+  if u = x then some y else if forward u = some y then none else forward u
+
+def spliceBackward (backward : Nat → Option Nat) (x y v : Nat) : Option Nat :=
+  if v = y then some x else backward v
+
+theorem splice_inverse (forward backward : Nat → Option Nat) (x y : Nat)
+    (hinv : ∀ u v, forward u = some v ↔ backward v = some u)
+    (hfresh : forward x = none) :
+    ∀ u v, spliceForward forward x y u = some v ↔
+      spliceBackward backward x y v = some u := by
+  have hback (v : Nat) : backward v ≠ some x := by
+    intro h
+    have h' := (hinv x v).2 h
+    rw [hfresh] at h'
+    contradiction
+  intro u v
+  by_cases hx : u = x
+  · subst u
+    by_cases hy : v = y
+    · simp [spliceForward, spliceBackward, hy]
+    · simp [spliceForward, spliceBackward, hy, Ne.symm hy, hback]
+  · by_cases hy : v = y
+    · subst v
+      by_cases htarget : forward u = some y <;>
+        simp [spliceForward, spliceBackward, hx, Ne.symm hx, htarget]
+    · by_cases htarget : forward u = some y
+      · have hv : backward v ≠ some u := by
+          intro h
+          have h' := (hinv u v).2 h
+          rw [htarget] at h'
+          exact hy (Option.some.inj h').symm
+        simp [spliceForward, spliceBackward, hx, hy, htarget, hv]
+      · simpa [spliceForward, spliceBackward, hx, hy, htarget] using hinv u v
+
+theorem splice_preserves (forward : Nat → Option Nat) (x y : Nat) (A B : Nat → Prop)
+    (hrel : ∀ u v, forward u = some v → (A u ↔ B v))
+    (hnew : A x ↔ B y) :
+    ∀ u v, spliceForward forward x y u = some v → (A u ↔ B v) := by
+  intro u v h
+  by_cases hx : u = x
+  · subst u
+    have hv : y = v := by simpa [spliceForward] using h
+    simpa [← hv] using hnew
+  · by_cases htarget : forward u = some y
+    · simp [spliceForward, hx, htarget] at h
+    · exact hrel u v (by simpa [spliceForward, hx, htarget] using h)
+
+theorem splice_displaces (forward backward : Nat → Option Nat) (x y a : Nat)
+    (hinv : ∀ u v, forward u = some v ↔ backward v = some u)
+    (hfresh : forward x = none) (hold : backward y = some a) :
+    spliceForward forward x y a = none := by
+  have ha : forward a = some y := (hinv a y).2 hold
+  have hax : a ≠ x := by
+    intro h
+    subst a
+    rw [hfresh] at ha
+    contradiction
+  simp [spliceForward, hax, ha]
+
+theorem splice_new_edge (forward backward : Nat → Option Nat) (x y : Nat) :
+    spliceForward forward x y x = some y ∧ spliceBackward backward x y y = some x := by
+  simp [spliceForward, spliceBackward]
+
+theorem splice_backward_other (backward : Nat → Option Nat) (x y v : Nat) (h : v ≠ y) :
+    spliceBackward backward x y v = backward v := by
+  simp [spliceBackward, h]
+
+theorem splice_forward_other (forward : Nat → Option Nat) (x y u : Nat)
+    (hx : u ≠ x) (hy : forward u ≠ some y) :
+    spliceForward forward x y u = forward u := by
+  simp [spliceForward, hx, hy]
+
+theorem splice_forward_support (forward : Nat → Option Nat) (x y : Nat) (support : List Nat)
+    (hsupport : ∀ u v, forward u = some v → u ∈ support) :
+    ∀ u v, spliceForward forward x y u = some v → u ∈ x :: support := by
+  intro u v h
+  by_cases hx : u = x
+  · simp [hx]
+  · have hold : forward u = some v := by
+      by_cases hy : forward u = some y
+      · simp [spliceForward, hx, hy] at h
+      · simpa [spliceForward, hx, hy] using h
+    simp [hx, hsupport u v hold]
+
+theorem spliceForward_computable (forward : Nat → Option Nat) (x y : Nat)
+    (hf : Computable forward) : Computable (spliceForward forward x y) := by
+  have hx : Computable (fun u : Nat => decide (u = x)) :=
+    (Primrec.eq.decide.comp Primrec.id (Primrec.const x)).to_comp
+  have hy : Computable (fun u : Nat => decide (forward u = some y)) :=
+    (Primrec.eq : PrimrecRel (fun a b : Option Nat => a = b)).decide.to_comp.comp
+      hf (Computable.const (some y))
+  have h := Computable.cond hx (Computable.const (some y))
+    (Computable.cond hy (Computable.const none) hf)
+  exact h.of_eq (fun u => by simp [spliceForward])
+
+theorem spliceBackward_computable (backward : Nat → Option Nat) (x y : Nat)
+    (hb : Computable backward) : Computable (spliceBackward backward x y) := by
+  have hy : Computable (fun v : Nat => decide (v = y)) :=
+    (Primrec.eq.decide.comp Primrec.id (Primrec.const y)).to_comp
+  have h := Computable.cond hy (Computable.const (some x)) hb
+  exact h.of_eq (fun v => by simp [spliceBackward])
+
+/-- If the target was unmatched, splicing extends every old edge. -/
+theorem splice_extends_of_free (forward backward : Nat → Option Nat) (x y : Nat)
+    (hinv : ∀ u v, forward u = some v ↔ backward v = some u)
+    (hfresh : forward x = none) (hfree : backward y = none) :
+    ∀ u v, forward u = some v → spliceForward forward x y u = some v := by
+  intro u v h
+  have hx : u ≠ x := by
+    intro heq
+    subst u
+    rw [hfresh] at h
+    contradiction
+  have hy : forward u ≠ some y := by
+    intro heq
+    have h' := (hinv u y).1 heq
+    rw [hfree] at h'
+    contradiction
+  simpa [splice_forward_other forward x y u hx hy] using h
+
+/-- A single forward augmentation preserves the partial matching and the
+language invariant; it either extends the old matching at a free target or
+displaces a source with the same language status as the new source. -/
+theorem splice_progress (forward backward : Nat → Option Nat) (x y : Nat)
+    (A B : Nat → Prop) (support : List Nat)
+    (hinv : ∀ u v, forward u = some v ↔ backward v = some u)
+    (hfresh : forward x = none)
+    (hrel : ∀ u v, forward u = some v → (A u ↔ B v))
+    (hnew : A x ↔ B y)
+    (hsupport : ∀ u v, forward u = some v → u ∈ support) :
+    (∀ u v, spliceForward forward x y u = some v ↔
+      spliceBackward backward x y v = some u) ∧
+    (∀ u v, spliceForward forward x y u = some v → (A u ↔ B v)) ∧
+    (∀ u v, spliceForward forward x y u = some v → u ∈ x :: support) ∧
+    (backward y = none → ∀ u v, forward u = some v → spliceForward forward x y u = some v) ∧
+    (∀ a, backward y = some a → spliceForward forward x y a = none ∧ (A a ↔ A x)) := by
+  refine ⟨splice_inverse forward backward x y hinv hfresh,
+    splice_preserves forward x y A B hrel hnew,
+    splice_forward_support forward x y support hsupport, ?_, ?_⟩
+  · exact splice_extends_of_free forward backward x y hinv hfresh
+  · intro a ha
+    refine ⟨splice_displaces forward backward x y a hinv hfresh ha, ?_⟩
+    exact (hrel a y ((hinv a y).2 ha)).trans hnew.symm
+
 #print axioms partialOrbit_no_repeats
 #print axioms partialOrbit_terminates
 #print axioms partialOrbit_has_frontier
@@ -315,4 +462,11 @@ theorem matching_endpoint (A B : Nat → Prop) (f : Nat → Nat)
 #print axioms orbitLast_computable
 #print axioms matching_endpoint
 #print axioms matchingStep_computable
+#print axioms splice_inverse
+#print axioms splice_preserves
+#print axioms splice_displaces
+#print axioms splice_forward_support
+#print axioms spliceForward_computable
+#print axioms spliceBackward_computable
+#print axioms splice_progress
 end LambdaTuring
