@@ -3,7 +3,11 @@ Copyright (c) 2026 Arthur Freitas Ramos, David Barros Hulak, and
 Ruy José Guerra Barretto de Queiroz. All rights reserved.
 Released under the Apache 2.0 license as described in the repository LICENSE.
 -/
-import LambdaTuring.EffectiveLambdaRecursion
+module
+public import LambdaTuring.EffectiveLambdaRecursion
+public meta import LambdaTuring.EffectiveLambdaRecursion
+
+@[expose] public section
 
 namespace LambdaTuring
 
