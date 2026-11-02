@@ -292,4 +292,7 @@ public meta import LambdaTuring.LambdaTotality
 public import LambdaTuring.TotalityBounded
 public meta import LambdaTuring.TotalityBounded
 
+public import LambdaTuring.FiniteNumericalDomain
+public meta import LambdaTuring.FiniteNumericalDomain
+
 @[expose] public section
