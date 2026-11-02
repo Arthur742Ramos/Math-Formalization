@@ -1,0 +1,7 @@
+# Productive closed lambda languages and one-one completeness
+
+For an arbitrary predicate whose members are closed lambda terms, a computable productive-complement map gives injective computable closed-output reductions from every recursively enumerable predicate on a `Primcodable` domain. The target predicate need not respect numerical behavior. If it is itself recursively enumerable, it is one-one complete in this closed-term model.
+
+The construction builds self-referential code families, avoids finite homogeneous lists, produces infinitely many distinct syntax outputs with a fixed halting status, and selects fresh outputs across source codes by bounded search. The final injective reduction is computable; no primitive-recursive bound is claimed. Fixed-point codes and codes for arbitrary r.e. predicates are selected by existence, not extracted from proof terms. The productivity hypothesis concerns recursive recognizers that avoid the predicate on closed syntax. No computable isomorphism theorem is claimed.
+
+The Challenge fixes the underlying syntax, encoding, recognizer and productive-complement condition. Its theorem holes are comparator obligations and are not imported by the Solution. This adapts a classical computability argument to the project model and does not claim new mathematics. Independent integrated review, local protected comparison and hosted verification remain pending.

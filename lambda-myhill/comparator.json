@@ -1,0 +1,19 @@
+{
+  "challenge_module": "LambdaMyhillChallenge",
+  "solution_module": "LambdaMyhillSolution",
+  "theorem_names": [
+    "LambdaTuring.avoidance_fixed_codes",
+    "LambdaTuring.finite_homogeneous_avoidance",
+    "LambdaTuring.manyOne_reduction_has_injective_fibers",
+    "LambdaTuring.injective_outside_prefix",
+    "LambdaTuring.oneOne_sequence_from_manyOne",
+    "LambdaTuring.closed_productive_oneOne_hard",
+    "LambdaTuring.closed_productive_oneOne_complete"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
