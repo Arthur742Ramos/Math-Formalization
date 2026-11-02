@@ -157,6 +157,96 @@ theorem closed_zero_manyOne_complete {α : Type} [Primcodable α]
   · intro a
     exact (hdom a).symm.trans (codeHaltingToClosedZero_correct c (Encodable.encode a)).2.symm
 
+/-- A syntax tag that reduces back to the original term under full beta. -/
+def syntaxPadding (p : Nat × Term) : Term :=
+  .app (numeralObserver p.2) (church p.1)
+
+theorem syntaxPadding_primrec : Primrec syntaxPadding :=
+  primrec_app.comp (numeralObserver_primrec.comp Primrec.snd)
+    (primrec_church.comp Primrec.fst)
+
+theorem syntaxPadding_reaches (n : Nat) (t : Term) :
+    Reaches (syntaxPadding (n, t)) t := numeralObserver_beta t n
+
+/-- Padding preserves all numerical observations, for open and closed terms. -/
+theorem syntaxPadding_numericalValue (n : Nat) (t : Term) (x : Nat) :
+    numericalValue (syntaxPadding (n, t)) x = numericalValue t x := by
+  apply Part.ext
+  intro m
+  rw [mem_numericalValue_iff, mem_numericalValue_iff]
+  have h := reaches_appLeft (syntaxPadding_reaches n t) (church x)
+  constructor
+  · exact reaches_numeral_join h
+  · exact reaches_trans h
+
+theorem syntaxPadding_closed (n : Nat) {t : Term} (ht : Scoped 0 t) :
+    Scoped 0 (syntaxPadding (n, t)) := by
+  change Scoped 1 (liftFrom 0 t) ∧ Scoped 0 (church n)
+  rw [liftFrom_scoped t 0 0 ht (Nat.le_refl 0)]
+  exact ⟨scoped_mono ht (Nat.zero_le 1), church_closed n⟩
+
+/-- Both the numerical tag and the original syntax can be recovered from
+padded syntax; the claim does not rely on semantic equality. -/
+theorem syntaxPadding_injective : Function.Injective syntaxPadding := by
+  intro p q h
+  have h' : Term.app (Term.abs (liftFrom 0 p.2)) (church p.1) =
+      Term.app (Term.abs (liftFrom 0 q.2)) (church q.1) := h
+  have hn : p.1 = q.1 := church_injective (Term.app.inj h').2
+  have hl : liftFrom 0 p.2 = liftFrom 0 q.2 := Term.abs.inj (Term.app.inj h').1
+  have ht : p.2 = q.2 := by
+    have hs := congrArg (substAt 0 (.var 0)) hl
+    simpa only [substAt_liftFrom] using hs
+  exact Prod.ext hn ht
+
+theorem syntaxPadding_closedZero (n : Nat) {t : Term} (ht : Scoped 0 t) :
+    closedNumeralAtZero 0 (syntaxPadding (n, t)) ↔ closedNumeralAtZero 0 t := by
+  have hr : NumericalResult (syntaxPadding (n, t)) 0 0 ↔ NumericalResult t 0 0 := by
+    rw [← mem_numericalValue_iff, syntaxPadding_numericalValue, mem_numericalValue_iff]
+  simp [closedNumeralAtZero, syntaxPadding_closed n ht, ht, hr]
+
+/-- Uniform one-one reduction of recursive-code halting to closed lambda
+zero observation. -/
+def oneOneHaltingToClosedZero (p : Nat.Partrec.Code × Nat) : Term :=
+  syntaxPadding (Encodable.encode p, codeHaltingToClosedZero p)
+
+theorem oneOneHaltingToClosedZero_primrec : Primrec oneOneHaltingToClosedZero :=
+  syntaxPadding_primrec.comp (Primrec.encode.pair codeHaltingToClosedZero_primrec)
+
+theorem oneOneHaltingToClosedZero_injective : Function.Injective oneOneHaltingToClosedZero := by
+  intro p q h
+  have hp := syntaxPadding_injective h
+  exact Encodable.encode_injective (congrArg Prod.fst hp)
+
+theorem oneOneHaltingToClosedZero_correct (p : Nat.Partrec.Code × Nat) :
+    Scoped 0 (oneOneHaltingToClosedZero p) ∧
+      (closedNumeralAtZero 0 (oneOneHaltingToClosedZero p) ↔
+        (Nat.Partrec.Code.eval p.1 p.2).Dom) := by
+  have hs := (codeHaltingToClosedZero_correct p.1 p.2).1
+  refine ⟨syntaxPadding_closed (Encodable.encode p) hs, ?_⟩
+  exact (syntaxPadding_closedZero (Encodable.encode p) hs).trans
+    (codeHaltingToClosedZero_correct p.1 p.2).2
+
+/-- Every r.e. predicate admits an injective primitive-recursive reduction to
+the concrete closed zero-result language. -/
+theorem closed_zero_oneOne_complete {α : Type} [Primcodable α]
+    (p : α → Prop) (hp : REPred p) :
+    ∃ f : α → Term, Primrec f ∧ Function.Injective f ∧
+      ∀ a, p a ↔ closedNumeralAtZero 0 (f a) := by
+  obtain ⟨c, hc⟩ := Nat.Partrec.Code.exists_code.mp hp
+  have hdom (a : α) : (Nat.Partrec.Code.eval c (Encodable.encode a)).Dom ↔ p a := by
+    rw [hc]
+    simp [Encodable.encodek, Part.assert]
+  let f : α → Term := fun a => oneOneHaltingToClosedZero (c, Encodable.encode a)
+  refine ⟨f, oneOneHaltingToClosedZero_primrec.comp ((Primrec.const c).pair Primrec.encode), ?_, ?_⟩
+  · intro a b h
+    have hp := oneOneHaltingToClosedZero_injective h
+    exact Encodable.encode_injective (congrArg Prod.snd hp)
+  · intro a
+    exact (hdom a).symm.trans (oneOneHaltingToClosedZero_correct (c, Encodable.encode a)).2.symm
+
+#print axioms syntaxPadding_numericalValue
+#print axioms syntaxPadding_injective
+#print axioms closed_zero_oneOne_complete
 #print axioms closed_zero_diagonal
 #print axioms closed_zero_productive_complement
 #print axioms codeHaltingToClosedZero_correct
