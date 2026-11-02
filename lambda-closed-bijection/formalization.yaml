@@ -85,7 +85,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b6eb1988de2ddf8794eb3c3781eb34bc37f2bc7a/lambda-myhill",
       "relationship": "builds-on",
-      "note": "Public closed-lambda productive-complement and one-one completeness predecessor. All 129 inherited LambdaTuring Lean modules are unchanged; FiniteOrbit is new. The present theorem is stated for arbitrary natural-number predicates, and no lambda-specific isomorphism follows without an appropriate effective encoding and reductions."
+      "note": "The intervening effective-isomorphism package inherited these 129 modules and added FiniteOrbit; it proves a generic theorem for natural-number predicates. The present package supplies the closed-term application."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8c6bf56d8a6a7377d5324121a2a14688601fe67c/lambda-isomorphism",
