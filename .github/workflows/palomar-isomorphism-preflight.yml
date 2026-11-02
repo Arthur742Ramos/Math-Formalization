@@ -1,0 +1,18 @@
+name: Lambda effective isomorphism Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-isomorphism-8c6bf56
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 8c6bf56d8a6a7377d5324121a2a14688601fe67c
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: isomor8c6bf5
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"lambda-isomorphism","comparator_config_path":"lambda-isomorphism/comparator.json","formalization_metadata_path":"lambda-isomorphism/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
