@@ -10,9 +10,9 @@ jobs:
     uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
     with:
       repository: Arthur742Ramos/Math-Formalization
-      commit: 0d60a72299f83786929a45a29a2ddc2ba921572
+      commit: 0d60a72299f83786929a45a29a2ddc2dba921572
       pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
-      request_id: recursion0d60
+      request_id: recurs0d60a7
       mode: full
       execution_profile: palomar-standard-v1
       options: '{"project_path":"lambda-recursion","comparator_config_path":"lambda-recursion/comparator.json","formalization_metadata_path":"lambda-recursion/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
