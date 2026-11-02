@@ -1,0 +1,16 @@
+{
+  "challenge_module": "LambdaCofiniteChallenge",
+  "solution_module": "LambdaCofiniteSolution",
+  "theorem_names": [
+    "LambdaTuring.closedCofinite_normalForm_complete",
+    "LambdaTuring.closedCofinite_hard",
+    "LambdaTuring.closedCofinite_has_bounded_form",
+    "LambdaTuring.codeCofinite_manyOne_equiv"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

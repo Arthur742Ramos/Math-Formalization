@@ -1,0 +1,101 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Cofinite numerical domains of closed lambda programs",
+    "description": "Classifies cofinite numerical domains of closed untyped lambda programs under full beta reduction, using finite-injury markers and computable three-quantifier normal forms.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy José Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "sources": [
+    {
+      "title": "Computability theory",
+      "authors": [
+        "Andrew Marks"
+      ],
+      "id": "https://math.berkeley.edu/~marks/notes/computability_notes_v1.pdf",
+      "relationship": "adapts",
+      "note": "Theorem 17.7 states Σ3-completeness of cofinite recursively enumerable index sets. This package adapts the classification to closed lambda numerical domains using a finite-injury marker construction."
+    }
+  ],
+  "classification": {
+    "arxiv": [
+      "math.LO",
+      "cs.LO"
+    ],
+    "msc2020": []
+  },
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned Mathlib computability, RE predicates, many-one reductions, bounded evaluation, and Rice theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0160b1ea1af92434ad40e27f2fe84e4ea837a026/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Public source checkpoint of the earlier Lean lambda/Turing package. This theory package reuses its explicit syntax, coding and proof architecture."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Exact public proof checkpoint: 123 needed modules are vendored byte-for-byte; FoldCode has an equivalent explicit helper proof and TermCode has equivalent reordered structural equations for module-independent comparison. Original notices are preserved and Mathlib remains pinned."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
+      "relationship": "builds-on",
+      "note": "Registered predecessor PALOMAR-2026-11-01-000026 version 1; exact source checkpoint 0160b1ea1af92434ad40e27f2fe84e4ea837a026, lambda-turing/comparator.json. The present theory package is separate and does not modify that registration."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000031&version=1",
+      "relationship": "builds-on",
+      "note": "Registered closed-lambda computability predecessor, version 1, exact source 236c361f809b2004cde6ecbed679c864bd16ee90; its fixed model, totality infrastructure, 125 proof modules and notices are reused."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-02-000001&version=1",
+      "relationship": "builds-on",
+      "note": "Registered refinement and equivalence predecessor, version 1, exact source 9751493be3434d199e334f6283b2bbb2d1855f7f; this separate package extends the same campaign without modifying that record."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/236c361f809b2004cde6ecbed679c864bd16ee90/lambda-theory",
+      "relationship": "builds-on",
+      "note": "Exact predecessor proof source; 125 modules and notices are reused, and CofiniteNumericalDomain is new."
+    }
+  ],
+  "status": {
+    "scope": "Closed de Bruijn lambda terms and full-beta Church-numeral observations on numeral inputs; no numerical result is not identified with divergence. Completeness is stated directly for computable existential-universal-existential Boolean normal forms. A fixed code is chosen separately for each computable predicate; no extractor from arbitrary computability proofs or arbitrary Turing-machine syntax is claimed.",
+    "sorry_count": 4,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "The integrated package, protected comparison and service verification require exact-source validation and independent review. Challenge theorem holes are not imported by Solution.",
+    "attribution_status": "Three established authors and Arthur Freitas Ramos as responsible maintainer. Material AI contribution is disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex contributed Lean proofs and packaging; separate internal AI review has checked selected immutable checkpoints."
+      }
+    ],
+    "notes": "Human mathematical review and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "The classical cofinite recursively enumerable index-set classification is adapted to the fixed full-beta lambda numerical model, with the quantified computable normal forms stated explicitly; the cited proof is not formalized line by line."
+  },
+  "review": {
+    "status": "unchecked",
+    "reviewers": [],
+    "notes": "The complete proof checkpoint received independent source review; this integrated package remains under review."
+  },
+  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
+}
