@@ -1,0 +1,18 @@
+name: Lambda finite domain Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-finite-domain-6446661
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 644666118e968f88eccd9bd7d36e7377c87ac247
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: findom644601
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"lambda-finite-domain","comparator_config_path":"lambda-finite-domain/comparator.json","formalization_metadata_path":"lambda-finite-domain/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
