@@ -14,19 +14,28 @@ namespace LambdaTuring
 
 /- The validity proof guarantees that the fallback is unreachable; using
 the executable decoder avoids choosing a preimage from a proposition. -/
+theorem executableTermCode_valid (t : Term) : validCode (encodeTerm t) = true :=
+  (validCode_iff _).2 ⟨t, rfl⟩
+
+theorem executableTermDecode_left (t : Term) :
+    (decodeTerm (encodeTerm t)).getD (.var 0) = t := by
+  rw [decodeTerm_encodeTerm]
+  rfl
+
+theorem executableTermDecode_right (c : ValidCode) :
+    (⟨encodeTerm ((decodeTerm c.val).getD (.var 0)),
+      executableTermCode_valid _⟩ : ValidCode) = c := by
+  apply Subtype.ext
+  obtain ⟨t, ht⟩ := (validCode_iff c.val).1 c.property
+  change encodeTerm ((decodeTerm c.val).getD (.var 0)) = c.val
+  rw [ht, decodeTerm_encodeTerm]
+  rfl
+
 def executableTermEquivValid : Term ≃ ValidCode where
-  toFun t := ⟨encodeTerm t, (validCode_iff _).2 ⟨t, rfl⟩⟩
+  toFun t := ⟨encodeTerm t, executableTermCode_valid t⟩
   invFun c := (decodeTerm c.val).getD (.var 0)
-  left_inv t := by
-    change (decodeTerm (encodeTerm t)).getD (.var 0) = t
-    rw [decodeTerm_encodeTerm]
-    rfl
-  right_inv c := by
-    apply Subtype.ext
-    obtain ⟨t, ht⟩ := (validCode_iff c.val).1 c.property
-    change encodeTerm ((decodeTerm c.val).getD (.var 0)) = c.val
-    rw [ht, decodeTerm_encodeTerm]
-    rfl
+  left_inv := executableTermDecode_left
+  right_inv := executableTermDecode_right
 
 @[instance_reducible]
 def executableTermPrimcodable : Primcodable Term :=
