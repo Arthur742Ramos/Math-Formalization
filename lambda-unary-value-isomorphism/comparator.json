@@ -1,0 +1,14 @@
+{
+  "challenge_module": "LambdaUnaryValueChallenge",
+  "solution_module": "LambdaUnaryValueSolution",
+  "theorem_names": [
+    "LambdaTuring.code_closedTerm_unary_isomorphism",
+    "LambdaTuring.code_closedTerm_unary_observations"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
