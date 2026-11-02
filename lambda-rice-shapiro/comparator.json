@@ -1,0 +1,18 @@
+{
+  "challenge_module": "LambdaRiceShapiroChallenge",
+  "solution_module": "LambdaRiceShapiroSolution",
+  "theorem_names": [
+    "LambdaTuring.effective_rice_shapiro",
+    "LambdaTuring.finiteTable_closed_realization",
+    "LambdaTuring.consistentFinitePairs_represented",
+    "LambdaTuring.semidecidable_extension",
+    "LambdaTuring.semidecidable_empty_forces_all",
+    "LambdaTuring.semidecidable_finite_witness"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Effective Rice–Shapiro theorem for closed lambda programs",
+    "description": "Characterizes recursively enumerable extensional numerical properties of closed full-beta lambda programs by effectively enumerable families of finite graph tables, with finite-witness and extension consequences.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy José Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "sources": [
+    {
+      "title": "Computability: Some unofficial notes",
+      "authors": [
+        "Paolo Baldan"
+      ],
+      "id": "https://www.math.unipd.it/~baldan/Computability/notes.pdf",
+      "relationship": "adapts",
+      "note": "Chapter 16, especially Theorem 16.4 and Observation 16.9, presents the classical finite-witness direction and explains why an unrestricted converse fails. The package adapts these ideas to closed full-beta lambda programs and proves a converse with an effectively enumerable witness family."
+    }
+  ],
+  "classification": {
+    "arxiv": [
+      "math.LO",
+      "cs.LO"
+    ],
+    "msc2020": []
+  },
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned Mathlib computability, RE predicates, many-one reductions, bounded evaluation, and Rice theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0160b1ea1af92434ad40e27f2fe84e4ea837a026/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Public source checkpoint of the earlier Lean lambda/Turing package. This theory package reuses its explicit syntax, coding and proof architecture."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Exact public proof checkpoint: 123 needed modules are vendored byte-for-byte; FoldCode has an equivalent explicit helper proof and TermCode has equivalent reordered structural equations for module-independent comparison. Original notices are preserved and Mathlib remains pinned."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
+      "relationship": "builds-on",
+      "note": "Registered predecessor PALOMAR-2026-11-01-000026 version 1; exact source checkpoint 0160b1ea1af92434ad40e27f2fe84e4ea837a026, lambda-turing/comparator.json. The present theory package is separate and does not modify that registration."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000031&version=1",
+      "relationship": "builds-on",
+      "note": "Registered closed-lambda computability predecessor, version 1, exact source 236c361f809b2004cde6ecbed679c864bd16ee90; its fixed model, totality infrastructure, 125 proof modules and notices are reused."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-02-000001&version=1",
+      "relationship": "builds-on",
+      "note": "Registered refinement and equivalence predecessor, version 1, exact source 9751493be3434d199e334f6283b2bbb2d1855f7f; this separate package extends the same campaign without modifying that record."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/236c361f809b2004cde6ecbed679c864bd16ee90/lambda-theory",
+      "relationship": "builds-on",
+      "note": "Exact predecessor proof source; its 125 modules and notices are reused, and EffectiveRiceShapiro is new."
+    }
+  ],
+  "status": {
+    "scope": "Closed de Bruijn lambda terms, full-beta Church-numeral observations on numeral inputs, and partial computable numerical functions. The witness family is recursively enumerable; absence of a numerical result is not automatically divergence. Existence of evaluator codes and finite-pair table representations does not claim an executable extractor from arbitrary proofs.",
+    "sorry_count": 6,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "The standalone package, protected comparator and service validation require exact-source integrated validation and independent review. Challenge theorem holes are not imported by Solution.",
+    "attribution_status": "Three established authors and Arthur Freitas Ramos as responsible maintainer. Material AI contribution is disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex contributed Lean proofs and packaging; separate internal AI review has checked selected immutable checkpoints."
+      }
+    ],
+    "notes": "Human mathematical review and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "This adapts the classical Rice–Shapiro finite-witness direction to full-beta lambda numerical semantics and adds an explicit effectively enumerable witness-family converse. It does not claim the unrestricted converse criticized in the cited notes."
+  },
+  "review": {
+    "status": "unchecked",
+    "reviewers": [],
+    "notes": "The standalone theorem snapshot received independent source review; this integrated package remains under review."
+  },
+  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
+}

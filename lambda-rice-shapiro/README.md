@@ -1,0 +1,7 @@
+# Effective Rice–Shapiro theorem for closed lambda programs
+
+An extensional numerical property of closed untyped lambda programs is recursively enumerable exactly when an effectively enumerable family of finite consistent input/output tables witnesses it, quantified over partial computable numerical functions. The package also establishes finite accepted restrictions, closure under graph extension, and the consequence of accepting the everywhere-undefined function. Every ordinary finite consistent set of pairs has a list-table representation.
+
+Numerical results are Church numerals reachable by full beta reduction after application to a numeral. A missing numerical result is not automatically divergence. In a table, `none` imposes no constraint when testing graph inclusion; the corresponding finite table realization is undefined at that input. A fixed evaluator code and finite-pair representation are obtained by existence; extraction from arbitrary proofs is not claimed.
+
+The standalone Challenge fixes the syntax, encoding, numerical semantics and finite-table definitions. Its six theorem holes are comparator obligations and are not imported by the Solution. This adapts classical computability results to the concrete lambda model; it does not claim new mathematics or arbitrary Turing-machine syntax classification. Independent integrated review, protected comparison and service validation are pending.
