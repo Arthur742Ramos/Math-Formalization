@@ -1,0 +1,14 @@
+{
+  "challenge_module": "LambdaIsomorphismChallenge",
+  "solution_module": "LambdaIsomorphismSolution",
+  "theorem_names": [
+    "LambdaTuring.effective_isomorphism_of_oneOne",
+    "LambdaTuring.computable_permutation_of_oneOneEquiv"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
