@@ -444,6 +444,232 @@ theorem candidateMarker_cofinite_iff (R : ((Nat × Nat) × Nat) × Nat → Bool)
   rw [familyMarker_cofinite_iff_unbounded _ (candidateLevel_mono R a)]
   exact exists_congr (candidateLevel_unbounded_iff R a)
 
+/-- At a finite stage, release a marker if it was never an event or if a
+later event has appeared. Successful observations carry only zero. -/
+def markerStage (test : (Nat × Nat) × Nat → Bool) (p : (Nat × Nat) × Nat) : Option Nat :=
+  let i := (Nat.unpair p.1.2).1
+  let s := (Nat.unpair p.1.2).2
+  let released := !test ((p.1.1, i), s) || test ((p.1.1, i), s + p.2 + 1)
+  bif released then some 0 else none
+
+theorem markerStage_primrec (test : (Nat × Nat) × Nat → Bool) (htest : Primrec test) :
+    Primrec (markerStage test) := by
+  let P := (Nat × Nat) × Nat
+  have ha : Primrec (fun p : P => p.1.1) := Primrec.fst.comp Primrec.fst
+  have hun : Primrec (fun p : P => Nat.unpair p.1.2) :=
+    Primrec.unpair.comp (Primrec.snd.comp Primrec.fst)
+  have hi : Primrec (fun p : P => (Nat.unpair p.1.2).1) := Primrec.fst.comp hun
+  have hs : Primrec (fun p : P => (Nat.unpair p.1.2).2) := Primrec.snd.comp hun
+  have hk : Primrec (fun p : P => p.2) := Primrec.snd
+  have hcurr : Primrec (fun p : P => test ((p.1.1, (Nat.unpair p.1.2).1),
+      (Nat.unpair p.1.2).2)) := htest.comp ((ha.pair hi).pair hs)
+  have hfuture : Primrec (fun p : P => test ((p.1.1, (Nat.unpair p.1.2).1),
+      (Nat.unpair p.1.2).2 + p.2 + 1)) :=
+    htest.comp ((ha.pair hi).pair (Primrec.succ.comp (Primrec.nat_add.comp hs hk)))
+  exact Primrec.cond (Primrec.or.comp (Primrec.not.comp hcurr) hfuture)
+    (Primrec.const (some 0)) (Primrec.const none)
+
+noncomputable def markerSearch (test : (Nat × Nat) × Nat → Bool)
+    (p : Nat × Nat) : Part Nat := Nat.rfindOpt fun k => markerStage test (p, k)
+
+theorem markerSearch_partrec (test : (Nat × Nat) × Nat → Bool) (htest : Primrec test) :
+    Partrec (markerSearch test) :=
+  Partrec.rfindOpt (markerStage_primrec test htest).to_comp
+
+theorem markerSearch_dom_iff (test : (Nat × Nat) × Nat → Bool) (a n : Nat) :
+    (markerSearch test (a, n)).Dom ↔
+      test ((a, (Nat.unpair n).1), (Nat.unpair n).2) = false ∨
+        ∃ t, (Nat.unpair n).2 < t ∧ test ((a, (Nat.unpair n).1), t) = true := by
+  rw [markerSearch, Nat.rfindOpt_dom]
+  cases hc : test ((a, (Nat.unpair n).1), (Nat.unpair n).2) with
+  | false =>
+    constructor
+    · intro _
+      exact Or.inl rfl
+    · intro _
+      exact ⟨0, 0, by simp [markerStage, hc]⟩
+  | true =>
+    constructor
+    · rintro ⟨k, y, hy⟩
+      have ht : test ((a, (Nat.unpair n).1), (Nat.unpair n).2 + k + 1) = true := by
+        cases he : test ((a, (Nat.unpair n).1), (Nat.unpair n).2 + k + 1) <;>
+          simp [markerStage, hc, he] at hy ⊢
+      exact Or.inr ⟨(Nat.unpair n).2 + k + 1, by omega, ht⟩
+    · rintro (hfalse | ⟨t, ht, he⟩)
+      · simp at hfalse
+      · let k := t - (Nat.unpair n).2 - 1
+        have hk : (Nat.unpair n).2 + k + 1 = t := by dsimp [k]; omega
+        refine ⟨k, 0, ?_⟩
+        simp [markerStage, hc, hk, he]
+
+theorem markerSearch_only_zero (test : (Nat × Nat) × Nat → Bool) (a n y : Nat)
+    (hy : y ∈ markerSearch test (a, n)) : y = 0 := by
+  obtain ⟨k, hk⟩ := Nat.rfindOpt_spec hy
+  change y ∈ (bif !test ((a, (Nat.unpair n).1), (Nat.unpair n).2) ||
+    test ((a, (Nat.unpair n).1), (Nat.unpair n).2 + k + 1) then some 0 else none) at hk
+  cases h : (!test ((a, (Nat.unpair n).1), (Nat.unpair n).2) ||
+    test ((a, (Nat.unpair n).1), (Nat.unpair n).2 + k + 1)) <;> simp_all
+
+/-- The candidate marker domain has a uniform partial-recursive realization
+when the underlying predicate is primitive recursive. -/
+theorem candidateMarker_partrec (R : ((Nat × Nat) × Nat) × Nat → Bool)
+    (hR : Primrec R) :
+    ∃ g : Nat × Nat →. Nat, Partrec g ∧
+      ∀ a n, (g (a, n)).Dom ↔
+        markerDomain (familyEvent (fun i s => candidateLevel R a i s)) n := by
+  classical
+  obtain ⟨inst, hdec⟩ := candidateEvent_primrec R hR
+  let _ := inst
+  let test : (Nat × Nat) × Nat → Bool := fun p =>
+    decide (familyEvent (fun i s => candidateLevel R p.1.1 i s) p.1.2 p.2)
+  have htest : Primrec test := hdec
+  refine ⟨markerSearch test, markerSearch_partrec test htest, ?_⟩
+  intro a n
+  rw [markerSearch_dom_iff]
+  simp [test, markerDomain, markerHoles]
+  by_cases h : familyEvent (fun i s => candidateLevel R a i s)
+      (Nat.unpair n).1 (Nat.unpair n).2 <;> simp [h]
+
+/-- Primitive-recursive existential-universal-existential normal forms
+reduce to the cofinite numerical-domain predicate of closed lambda terms. -/
+theorem closedCofinite_hard_primrec (R : ((Nat × Nat) × Nat) × Nat → Bool)
+    (hR : Primrec R) :
+    ∃ f : Nat → Term, Primrec f ∧ ∀ a,
+      ((∃ i, ∀ j, ∃ k, R (((a, i), j), k) = true) ↔
+        ClosedCofiniteNumericalDomain (f a)) := by
+  obtain ⟨g, hg, hdom⟩ := candidateMarker_partrec R hR
+  change Nat.Partrec (fun n => Part.bind (Part.ofOption (Encodable.decode (α := Nat × Nat) n))
+    fun p => (g p).map Encodable.encode) at hg
+  obtain ⟨u, hu⟩ := Nat.Partrec.Code.exists_code.mp hg
+  have hu' (a n : Nat) : Nat.Partrec.Code.eval u (Nat.pair a n) = g (a, n) := by
+    have h := congrFun hu (Encodable.encode (a, n))
+    simpa [Encodable.encode_prod_val, Part.map_id'] using h
+  let f : Nat → Term := fun a => compileLambdaTotal (Nat.Partrec.Code.curry u a)
+  have hf : Primrec f := primrec_compileLambdaTotal.comp
+    (Nat.Partrec.Code.primrec₂_curry.comp (Primrec.const u) Primrec.id)
+  refine ⟨f, hf, ?_⟩
+  intro a
+  have hs : Scoped 0 (f a) := (compileLambdaTotal_sound _).1
+  have he (n : Nat) : numericalValue (f a) n = g (a, n) := by
+    change numericalValue (compileLambdaTotal (Nat.Partrec.Code.curry u a)) n = g (a, n)
+    rw [(compileLambdaTotal_sound _).2 n, Nat.Partrec.Code.eval_curry, hu']
+  have hset : missingNumericalDomain (f a) =
+      {n | ¬ markerDomain (familyEvent (fun i s => candidateLevel R a i s)) n} := by
+    ext n
+    simp [missingNumericalDomain, he, hdom]
+  simp only [ClosedCofiniteNumericalDomain, hs, true_and, hset]
+  exact (candidateMarker_cofinite_iff R a).symm
+
+/-- The witness encodes both an original candidate witness and a finite
+evaluation stage for a fixed code computing the original predicate. -/
+def boundedCodePredicate (u : Nat.Partrec.Code)
+    (p : ((Nat × Nat) × Nat) × Nat) : Bool :=
+  decide (Nat.Partrec.Code.evaln (Nat.unpair p.2).2 u
+    (Encodable.encode (p.1, (Nat.unpair p.2).1)) = some (Encodable.encode true))
+
+theorem boundedCodePredicate_primrec (u : Nat.Partrec.Code) : Primrec (boundedCodePredicate u) := by
+  let P := ((Nat × Nat) × Nat) × Nat
+  have hun : Primrec (fun p : P => Nat.unpair p.2) := Primrec.unpair.comp Primrec.snd
+  have hk : Primrec (fun p : P => (Nat.unpair p.2).1) := Primrec.fst.comp hun
+  have hs : Primrec (fun p : P => (Nat.unpair p.2).2) := Primrec.snd.comp hun
+  have harg : Primrec (fun p : P => (p.1, (Nat.unpair p.2).1)) := Primrec.fst.pair hk
+  have heval : Primrec (fun p : P => Nat.Partrec.Code.evaln (Nat.unpair p.2).2 u
+      (Encodable.encode (p.1, (Nat.unpair p.2).1))) :=
+    Nat.Partrec.Code.primrec_evaln.comp ((hs.pair (Primrec.const u)).pair (Primrec.encode.comp harg))
+  exact (Primrec.eq.comp heval (Primrec.const _)).decide
+
+/-- Every fixed computable Boolean test admits a primitive-recursive bounded
+test after pairing its witness with an evaluation-stage witness. -/
+theorem computablePredicate_bounded (R : ((Nat × Nat) × Nat) × Nat → Bool)
+    (hR : Computable R) :
+    ∃ S : ((Nat × Nat) × Nat) × Nat → Bool, Primrec S ∧
+      ∀ a i j, (∃ k, R (((a, i), j), k) = true) ↔
+        ∃ w, S (((a, i), j), w) = true := by
+  have hp : Partrec (fun p : ((Nat × Nat) × Nat) × Nat => Part.some (R p)) := hR.partrec
+  change Nat.Partrec (fun n => Part.bind
+      (Part.ofOption (Encodable.decode (α := ((Nat × Nat) × Nat) × Nat) n)) fun p =>
+      (Part.some (R p)).map Encodable.encode) at hp
+  obtain ⟨u, hu⟩ := Nat.Partrec.Code.exists_code.mp hp
+  have hu' (p : ((Nat × Nat) × Nat) × Nat) :
+      Nat.Partrec.Code.eval u (Encodable.encode p) = Part.some (Encodable.encode (R p)) := by
+    have h := congrFun hu (Encodable.encode p)
+    simpa only [Encodable.encodek, Part.coe_some, Part.bind_some, Part.map_some] using h
+  refine ⟨boundedCodePredicate u, boundedCodePredicate_primrec u, ?_⟩
+  intro a i j
+  constructor
+  · rintro ⟨k, hk⟩
+    have hv : Encodable.encode true ∈ Nat.Partrec.Code.eval u (Encodable.encode (((a, i), j), k)) := by
+      rw [hu', hk]
+      simp
+    obtain ⟨s, hs⟩ := Nat.Partrec.Code.evaln_complete.mp hv
+    refine ⟨Nat.pair k s, ?_⟩
+    simpa [boundedCodePredicate, Nat.unpair_pair] using hs
+  · rintro ⟨w, hw⟩
+    let k := (Nat.unpair w).1
+    let s := (Nat.unpair w).2
+    have he : Nat.Partrec.Code.evaln s u (Encodable.encode (((a, i), j), k)) =
+        some (Encodable.encode true) := by
+      unfold boundedCodePredicate at hw
+      exact of_decide_eq_true hw
+    have hv : Encodable.encode true ∈ Nat.Partrec.Code.eval u (Encodable.encode (((a, i), j), k)) :=
+      Nat.Partrec.Code.evaln_sound (by rw [he]; simp)
+    rw [hu' (((a, i), j), k)] at hv
+    have henc : Encodable.encode true = Encodable.encode (R (((a, i), j), k)) := by
+      simpa using hv
+    exact ⟨k, (Encodable.encode_injective henc).symm⟩
+
+/-- Every computable existential-universal-existential Boolean normal form
+reduces to cofinite numerical domains of closed lambda programs. -/
+theorem closedCofinite_hard (R : ((Nat × Nat) × Nat) × Nat → Bool)
+    (hR : Computable R) :
+    ∃ f : Nat → Term, Primrec f ∧ ∀ a,
+      ((∃ i, ∀ j, ∃ k, R (((a, i), j), k) = true) ↔
+        ClosedCofiniteNumericalDomain (f a)) := by
+  obtain ⟨S, hS, hconv⟩ := computablePredicate_bounded R hR
+  obtain ⟨f, hf, hcorrect⟩ := closedCofinite_hard_primrec S hS
+  refine ⟨f, hf, ?_⟩
+  intro a
+  rw [← hcorrect a]
+  constructor
+  · rintro ⟨i, hi⟩
+    exact ⟨i, fun j => (hconv a i j).1 (hi j)⟩
+  · rintro ⟨i, hi⟩
+    exact ⟨i, fun j => (hconv a i j).2 (hi j)⟩
+
+theorem closedCofinite_normalForm_complete :
+    Primrec cofiniteBoundedWitness ∧
+    (∃ f : Term → Nat.Partrec.Code, Primrec f ∧ ∀ t,
+      (ClosedCofiniteNumericalDomain t ↔
+        ∃ b, ∀ n, ∃ k, cofiniteBoundedWitness (((f t, b), n), k) = true)) ∧
+    ∀ R : ((Nat × Nat) × Nat) × Nat → Bool, Computable R →
+      ManyOneReducible (fun a => ∃ i, ∀ j, ∃ k, R (((a, i), j), k) = true)
+        ClosedCofiniteNumericalDomain := by
+  refine ⟨cofiniteBoundedWitness_primrec, closedCofinite_has_bounded_form, ?_⟩
+  intro R hR
+  obtain ⟨f, hf, hcorrect⟩ := closedCofinite_hard R hR
+  exact ⟨f, hf.to_comp, hcorrect⟩
+
+/-- Cofiniteness for standard recursive codes and for closed lambda terms is
+equivalent under computable many-one reductions. -/
+theorem codeCofinite_manyOne_closedCofinite :
+    ManyOneReducible CodeCofinite ClosedCofiniteNumericalDomain := by
+  refine ⟨compileLambdaTotal, primrec_compileLambdaTotal.to_comp, ?_⟩
+  intro c
+  have hs : Scoped 0 (compileLambdaTotal c) := (compileLambdaTotal_sound c).1
+  simp only [ClosedCofiniteNumericalDomain, hs, true_and,
+    finite_missing_iff_eventually_defined, (compileLambdaTotal_sound c).2]
+  rfl
+
+theorem closedCofinite_manyOne_codeCofinite :
+    ManyOneReducible ClosedCofiniteNumericalDomain CodeCofinite := by
+  obtain ⟨u, hu⟩ := uniformLambdaCode_exists
+  exact ⟨closedTotalityCode u, (closedTotalityCode_primrec u).to_comp,
+    closedCofiniteCode_correct u hu⟩
+
+theorem codeCofinite_manyOne_equiv :
+    ManyOneEquiv CodeCofinite ClosedCofiniteNumericalDomain :=
+  ⟨codeCofinite_manyOne_closedCofinite, closedCofinite_manyOne_codeCofinite⟩
+
 #print axioms closedCofinite_has_bounded_form
 #print axioms markerDomain_cofinite_iff
 #print axioms monotone_unbounded_iff_late_increases
@@ -451,4 +677,8 @@ theorem candidateMarker_cofinite_iff (R : ((Nat × Nat) × Nat) × Nat → Bool)
 #print axioms candidateMarker_cofinite_iff
 #print axioms candidateLevel_primrec
 #print axioms candidateEvent_primrec
+#print axioms closedCofinite_hard_primrec
+#print axioms computablePredicate_bounded
+#print axioms closedCofinite_normalForm_complete
+#print axioms codeCofinite_manyOne_equiv
 end LambdaTuring
