@@ -282,6 +282,271 @@ theorem manyOne_reduction_has_injective_fibers (A : Term → Prop)
   · intro n
     exact (inv n).1
 
+/-- Search the finite prefix `0..n`, retaining the first index where the
+Boolean test is false, or `n` if every earlier test was true. -/
+def boundedBadSearch {α : Type} (bad : α → Nat → Bool) (a : α) : Nat → Nat
+  | 0 => 0
+  | n + 1 => bif bad a (boundedBadSearch bad a n) then n + 1 else boundedBadSearch bad a n
+
+theorem boundedBadSearch_spec {α : Type} (bad : α → Nat → Bool) (a : α) (n : Nat) :
+    boundedBadSearch bad a n ≤ n ∧
+      (bad a (boundedBadSearch bad a n) = false ∨ ∀ k, k ≤ n → bad a k = true) := by
+  induction n with
+  | zero =>
+    cases h : bad a 0 with
+    | false => simp [boundedBadSearch, h]
+    | true =>
+      refine ⟨by simp [boundedBadSearch], Or.inr ?_⟩
+      intro k hk
+      have hk' : k = 0 := by omega
+      simpa [hk'] using h
+  | succ n ih =>
+    cases h : bad a (boundedBadSearch bad a n) with
+    | false =>
+      refine ⟨?_, Or.inl ?_⟩
+      · simpa [boundedBadSearch, h] using Nat.le_trans ih.1 (Nat.le_succ n)
+      · simp [boundedBadSearch, h]
+    | true =>
+      have hall : ∀ k, k ≤ n → bad a k = true := by
+        rcases ih.2 with hf | ht
+        · simp [h] at hf
+        · exact ht
+      cases hn : bad a (n + 1) with
+      | false =>
+        refine ⟨by simp [boundedBadSearch, h], Or.inl ?_⟩
+        simp [boundedBadSearch, h, hn]
+      | true =>
+        refine ⟨by simp [boundedBadSearch, h], Or.inr ?_⟩
+        intro k hk
+        by_cases heq : k = n + 1
+        · simpa [heq] using hn
+        · exact hall k (by omega)
+
+theorem boundedBadSearch_computable {α : Type} [Primcodable α] (bad : α → Nat → Bool)
+    (hbad : Computable₂ bad) : Computable (fun p : α × Nat => boundedBadSearch bad p.1 p.2) := by
+  let P := α × Nat
+  let X := P × (Nat × Nat)
+  have ht : Computable (fun p : X => bad p.1.1 p.2.2) :=
+    hbad.comp (Computable.fst.comp Computable.fst) (Computable.snd.comp Computable.snd)
+  have hy : Computable (fun p : X => p.2.1 + 1) :=
+    Computable.succ.comp (Computable.fst.comp Computable.snd)
+  have hn : Computable (fun p : X => p.2.2) := Computable.snd.comp Computable.snd
+  have h := Computable.nat_rec (α := P) (σ := Nat) Computable.snd (Computable.const 0)
+    (Computable.cond ht hy hn).to₂
+  exact h.of_eq (fun p => by induction p.2 <;> simp_all [boundedBadSearch])
+
+/-- An injection from naturals has an output outside any finite list among
+its first `length + 1` values. -/
+theorem injective_outside_prefix (f : Nat → Nat) (hf : Function.Injective f) (xs : List Nat) :
+    ∃ k, k ≤ xs.length ∧ f k ∉ xs := by
+  by_contra hn
+  have hsub : (Finset.range (xs.length + 1)).image f ⊆ xs.toFinset := by
+    intro v hv
+    obtain ⟨k, hk, rfl⟩ := Finset.mem_image.mp hv
+    have hk' : k ≤ xs.length := by simpa only [Finset.mem_range, Nat.lt_succ_iff] using hk
+    apply List.mem_toFinset.mpr
+    by_contra hm
+    exact hn ⟨k, hk', hm⟩
+  have hc := Finset.card_le_card hsub
+  rw [Finset.card_image_of_injective _ hf, Finset.card_range] at hc
+  have hs := List.toFinset_card_le xs
+  omega
+
+/-- Test whether a candidate fiber output is in a list of used syntax codes. -/
+def fiberHit (g : Nat.Partrec.Code → Term) (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code)
+    (p : Nat.Partrec.Code × List Nat) (k : Nat) : Bool :=
+  decide (executableTermEncode (g (h (p.1, k))) ∈ p.2)
+
+theorem fiberHit_computable (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code) (hg : Computable g) (hh : Computable h) :
+    Computable₂ (fiberHit g h) := by
+  let P := Nat.Partrec.Code × List Nat
+  let X := P × Nat
+  have he : Computable (fun p : X => p.1.1) := Computable.fst.comp Computable.fst
+  have hl : Computable (fun p : X => p.1.2) := Computable.snd.comp Computable.fst
+  have hk : Computable (fun p : X => p.2) := Computable.snd
+  have henc : Computable executableTermEncode :=
+    (Primrec.encode.of_eq (fun t => (executableTermEncode_eq t).symm)).to_comp
+  have hv : Computable (fun p : X => executableTermEncode (g (h (p.1.1, p.2)))) :=
+    henc.comp (hg.comp (hh.comp (he.pair hk)))
+  exact (natListMem_primrecRel.decide.to_comp.comp hl hv).to₂
+
+/-- A bounded fresh index exists because each fixed fiber is injective. -/
+def freshFiberIndex (g : Nat.Partrec.Code → Term) (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code)
+    (p : Nat.Partrec.Code × List Nat) : Nat :=
+  boundedBadSearch (fiberHit g h) p p.2.length
+
+theorem freshFiberIndex_computable (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code) (hg : Computable g) (hh : Computable h) :
+    Computable (freshFiberIndex g h) := by
+  exact (boundedBadSearch_computable (fiberHit g h) (fiberHit_computable g h hg hh)).comp
+    (Computable.id.pair (Computable.list_length.comp Computable.snd))
+
+theorem freshFiberIndex_avoids (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code)
+    (hinj : ∀ e, Function.Injective (fun n => g (h (e, n))))
+    (e : Nat.Partrec.Code) (xs : List Nat) :
+    executableTermEncode (g (h (e, freshFiberIndex g h (e, xs)))) ∉ xs := by
+  have hi : Function.Injective (fun n => executableTermEncode (g (h (e, n)))) := by
+    intro a b hab
+    apply hinj e
+    apply Encodable.encode_injective
+    simpa only [executableTermEncode_eq] using hab
+  obtain ⟨k, hk, hnot⟩ := injective_outside_prefix
+    (fun n => executableTermEncode (g (h (e, n)))) hi xs
+  have hs := (boundedBadSearch_spec (fiberHit g h) (e, xs) xs.length).2
+  rcases hs with hf | hall
+  · simpa [freshFiberIndex, fiberHit] using hf
+  · have ht := hall k hk
+    simp [fiberHit, hnot] at ht
+
+/-- The list at stage `n` contains exactly the syntax codes already chosen
+at earlier stages. -/
+def chosenOutputCodes (g : Nat.Partrec.Code → Term) (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code)
+    (enumerate : Nat → Nat.Partrec.Code) : Nat → List Nat
+  | 0 => []
+  | n + 1 =>
+    let xs := chosenOutputCodes g h enumerate n
+    let e := enumerate n
+    executableTermEncode (g (h (e, freshFiberIndex g h (e, xs)))) :: xs
+
+def chosenTerm (g : Nat.Partrec.Code → Term) (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code)
+    (enumerate : Nat → Nat.Partrec.Code) (n : Nat) : Term :=
+  let e := enumerate n
+  let xs := chosenOutputCodes g h enumerate n
+  g (h (e, freshFiberIndex g h (e, xs)))
+
+theorem chosenOutputCodes_computable (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code) (enumerate : Nat → Nat.Partrec.Code)
+    (hg : Computable g) (hh : Computable h) (henum : Computable enumerate) :
+    Computable (chosenOutputCodes g h enumerate) := by
+  let X := Nat × (Nat × List Nat)
+  have hk : Computable (fun p : X => p.2.1) := Computable.fst.comp Computable.snd
+  have hxs : Computable (fun p : X => p.2.2) := Computable.snd.comp Computable.snd
+  have he : Computable (fun p : X => enumerate p.2.1) := henum.comp hk
+  have hi : Computable (fun p : X => freshFiberIndex g h (enumerate p.2.1, p.2.2)) :=
+    (freshFiberIndex_computable g h hg hh).comp (he.pair hxs)
+  have hc : Computable (fun p : X => h (enumerate p.2.1,
+      freshFiberIndex g h (enumerate p.2.1, p.2.2))) := hh.comp (he.pair hi)
+  have henc : Computable executableTermEncode :=
+    (Primrec.encode.of_eq (fun t => (executableTermEncode_eq t).symm)).to_comp
+  have hstep : Computable (fun p : X =>
+      executableTermEncode (g (h (enumerate p.2.1,
+        freshFiberIndex g h (enumerate p.2.1, p.2.2)))) :: p.2.2) :=
+    Computable.list_cons.comp (henc.comp (hg.comp hc)) hxs
+  have hrec := Computable.nat_rec (α := Nat) (σ := List Nat) Computable.id
+    (Computable.const []) hstep.to₂
+  exact hrec.of_eq (fun n => by induction n <;> simp_all [chosenOutputCodes])
+
+theorem chosenTerm_computable (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code) (enumerate : Nat → Nat.Partrec.Code)
+    (hg : Computable g) (hh : Computable h) (henum : Computable enumerate) :
+    Computable (chosenTerm g h enumerate) := by
+  have hi : Computable (fun n => freshFiberIndex g h (enumerate n, chosenOutputCodes g h enumerate n)) :=
+    (freshFiberIndex_computable g h hg hh).comp
+      (henum.pair (chosenOutputCodes_computable g h enumerate hg hh henum))
+  exact hg.comp (hh.comp (henum.pair hi))
+
+theorem chosenOutputCodes_prior (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code) (enumerate : Nat → Nat.Partrec.Code) :
+    ∀ i n, i < n → executableTermEncode (chosenTerm g h enumerate i) ∈ chosenOutputCodes g h enumerate n := by
+  intro i n hin
+  induction n with
+  | zero => omega
+  | succ n ih =>
+    by_cases he : i = n
+    · subst i
+      simp [chosenOutputCodes, chosenTerm]
+    · have hlt : i < n := by omega
+      have hm := ih hlt
+      simpa [chosenOutputCodes, chosenTerm] using Or.inr
+        (a := executableTermEncode (chosenTerm g h enumerate i) =
+          executableTermEncode (chosenTerm g h enumerate n)) hm
+
+theorem chosenTerm_injective (g : Nat.Partrec.Code → Term)
+    (h : Nat.Partrec.Code × Nat → Nat.Partrec.Code) (enumerate : Nat → Nat.Partrec.Code)
+    (hinj : ∀ e, Function.Injective (fun n => g (h (e, n)))) :
+    Function.Injective (chosenTerm g h enumerate) := by
+  have hfresh (n : Nat) : executableTermEncode (chosenTerm g h enumerate n) ∉ chosenOutputCodes g h enumerate n :=
+    freshFiberIndex_avoids g h hinj (enumerate n) (chosenOutputCodes g h enumerate n)
+  intro i j hij
+  rcases lt_trichotomy i j with hlt | he | hgt
+  · have hm := chosenOutputCodes_prior g h enumerate i j hlt
+    have hc := congrArg executableTermEncode hij
+    exact False.elim (hfresh j (by simpa only [hc] using hm))
+  · exact he
+  · have hm := chosenOutputCodes_prior g h enumerate j i hgt
+    have hc := congrArg executableTermEncode hij
+    exact False.elim (hfresh i (by simpa only [← hc] using hm))
+
+/-- Any computable sequence of source codes admits an injective computable
+sequence of target terms with matching halting status, without extensionality. -/
+theorem oneOne_sequence_from_manyOne (A : Term → Prop) (g : Nat.Partrec.Code → Term)
+    (hg : Computable g) (hred : ∀ c, (Nat.Partrec.Code.eval c 0).Dom ↔ A (g c))
+    (enumerate : Nat → Nat.Partrec.Code) (henum : Computable enumerate) :
+    ∃ f : Nat → Term, Computable f ∧ Function.Injective f ∧
+      (∀ n, (Nat.Partrec.Code.eval (enumerate n) 0).Dom ↔ A (f n)) ∧
+      ((∀ c, Scoped 0 (g c)) → ∀ n, Scoped 0 (f n)) := by
+  obtain ⟨h, hh, hfiber⟩ := manyOne_reduction_has_injective_fibers A g hg hred
+  refine ⟨chosenTerm g h enumerate, chosenTerm_computable g h enumerate hg hh henum,
+    chosenTerm_injective g h enumerate (fun e => (hfiber e).1), ?_, ?_⟩
+  · intro n
+    have heq := (hfiber (enumerate n)).2 (freshFiberIndex g h
+      (enumerate n, chosenOutputCodes g h enumerate n))
+    exact heq.symm.trans (hred _)
+  · intro hclosed n
+    exact hclosed _
+
+/-- Every recursively enumerable predicate one-one reduces to any closed
+language with a computable productive complement. Numerical extensionality
+of the target language is not assumed. -/
+theorem closed_productive_oneOne_hard {α : Type} [Primcodable α]
+    (A : Term → Prop) (productive : Nat.Partrec.Code → Term) (hp : Computable productive)
+    (hclosed : ∀ t, A t → Scoped 0 t) (hprod : ClosedProductiveComplement A productive)
+    (P : α → Prop) (hP : REPred P) :
+    ∃ f : α → Term, Computable f ∧ Function.Injective f ∧
+      ∀ a, Scoped 0 (f a) ∧ (P a ↔ A (f a)) := by
+  obtain ⟨q, hq, hqsem⟩ := closed_productive_uniform_codes A productive hp hclosed hprod
+  let g : Nat.Partrec.Code → Term := fun c => productive (q (c, 0))
+  have hg : Computable g := hp.comp (hq.to_comp.comp (Computable.id.pair (Computable.const 0)))
+  have hred (c : Nat.Partrec.Code) : (Nat.Partrec.Code.eval c 0).Dom ↔ A (g c) :=
+    (hqsem c 0).2
+  have hgclosed (c : Nat.Partrec.Code) : Scoped 0 (g c) := (hqsem c 0).1
+  obtain ⟨c, hc⟩ := Nat.Partrec.Code.exists_code.mp hP
+  have hdom (a : α) : (Nat.Partrec.Code.eval c (Encodable.encode a)).Dom ↔ P a := by
+    rw [hc]
+    simp [Encodable.encodek, Part.assert]
+  let enumerate : Nat → Nat.Partrec.Code := fun n => .comp c (.const n)
+  have henum : Computable enumerate :=
+    (Nat.Partrec.Code.primrec₂_comp.comp (Primrec.const c) Nat.Partrec.Code.primrec_const).to_comp
+  have henum_eval (n : Nat) : Nat.Partrec.Code.eval (enumerate n) 0 = Nat.Partrec.Code.eval c n := by
+    change (Nat.Partrec.Code.eval (.const n) 0).bind (fun x => Nat.Partrec.Code.eval c x) = _
+    rw [Nat.Partrec.Code.eval_const, Part.bind_some]
+  obtain ⟨f, hf, hi, hsem, hscoped⟩ := oneOne_sequence_from_manyOne A g hg hred enumerate henum
+  refine ⟨fun a => f (Encodable.encode a), hf.comp Computable.encode,
+    hi.comp Encodable.encode_injective, ?_⟩
+  intro a
+  have h := hsem (Encodable.encode a)
+  rw [henum_eval] at h
+  exact ⟨hscoped hgclosed _, (hdom a).symm.trans h⟩
+
+/-- An r.e. closed language with a computable productive complement is
+one-one complete for r.e. predicates, without an extensionality condition. -/
+theorem closed_productive_oneOne_complete {α : Type} [Primcodable α]
+    (A : Term → Prop) (productive : Nat.Partrec.Code → Term) (hp : Computable productive)
+    (hclosed : ∀ t, A t → Scoped 0 t) (hprod : ClosedProductiveComplement A productive)
+    (hRE : REPred A) : REPred A ∧ ∀ P : α → Prop, REPred P → OneOneReducible P A := by
+  refine ⟨hRE, ?_⟩
+  intro P hP
+  obtain ⟨f, hf, hi, h⟩ := closed_productive_oneOne_hard A productive hp hclosed hprod P hP
+  exact ⟨f, hf, hi, fun a => (h a).2⟩
+
+#print axioms closed_productive_oneOne_hard
+#print axioms closed_productive_oneOne_complete
+#print axioms oneOne_sequence_from_manyOne
+#print axioms boundedBadSearch_spec
+#print axioms boundedBadSearch_computable
+#print axioms injective_outside_prefix
 #print axioms manyOne_reduction_has_injective_fibers
 #print axioms finite_homogeneous_avoidance
 #print axioms avoidance_fixed_codes
