@@ -1,0 +1,19 @@
+{
+  "challenge_module": "LambdaRecursionChallenge",
+  "solution_module": "LambdaRecursionSolution",
+  "theorem_names": [
+    "LambdaTuring.lambda_recursion_with_parameters",
+    "LambdaTuring.lambda_computable_self_code",
+    "LambdaTuring.closed_numerical_self_code",
+    "LambdaTuring.closedZeroOne_recursively_inseparable",
+    "LambdaTuring.closedZeroOne_effectively_inseparable",
+    "LambdaTuring.codeAcceptsTerm_re",
+    "LambdaTuring.rePredicate_has_code"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
