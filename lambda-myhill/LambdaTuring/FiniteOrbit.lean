@@ -453,6 +453,59 @@ theorem splice_progress (forward backward : Nat → Option Nat) (x y : Nat)
     refine ⟨splice_displaces forward backward x y a hinv hfresh ha, ?_⟩
     exact (hrel a y ((hinv a y).2 ha)).trans hnew.symm
 
+/-- A computable increasing sequence of compatible partial matchings that
+covers both sides determines computable inverse maps. -/
+theorem computable_equiv_of_matchings (A B : Nat → Prop)
+    (forward backward : Nat → Nat → Option Nat)
+    (hf : Computable₂ forward) (hb : Computable₂ backward)
+    (hinv : ∀ n x y, forward n x = some y ↔ backward n y = some x)
+    (hmono : ∀ m n x y, m ≤ n → forward m x = some y → forward n x = some y)
+    (hcoverF : ∀ x, ∃ n y, forward n x = some y)
+    (hcoverB : ∀ y, ∃ n x, backward n y = some x)
+    (hrel : ∀ n x y, forward n x = some y → (A x ↔ B y)) :
+    ∃ f g : Nat → Nat, Computable f ∧ Computable g ∧
+      (∀ x, g (f x) = x) ∧ (∀ y, f (g y) = y) ∧ (∀ x, A x ↔ B (f x)) := by
+  let pf : Nat → Part Nat := fun x => Nat.rfindOpt (fun n => forward n x)
+  let pb : Nat → Part Nat := fun y => Nat.rfindOpt (fun n => backward n y)
+  have hpf : Partrec pf := Partrec.rfindOpt (hf.comp Computable.snd Computable.fst).to₂
+  have hpb : Partrec pb := Partrec.rfindOpt (hb.comp Computable.snd Computable.fst).to₂
+  have hdomf (x : Nat) : (pf x).Dom := by
+    apply Nat.rfindOpt_dom.mpr
+    obtain ⟨n, y, h⟩ := hcoverF x
+    exact ⟨n, y, Option.mem_def.mpr h⟩
+  have hdomb (y : Nat) : (pb y).Dom := by
+    apply Nat.rfindOpt_dom.mpr
+    obtain ⟨n, x, h⟩ := hcoverB y
+    exact ⟨n, x, Option.mem_def.mpr h⟩
+  let f : Nat → Nat := fun x => (pf x).get (hdomf x)
+  let g : Nat → Nat := fun y => (pb y).get (hdomb y)
+  have hfc : Computable f := hpf.of_eq_tot (fun x => Part.get_mem (hdomf x))
+  have hgc : Computable g := hpb.of_eq_tot (fun y => Part.get_mem (hdomb y))
+  have hbm (m n y x : Nat) (hmn : m ≤ n) (h : backward m y = some x) :
+      backward n y = some x :=
+    (hinv n x y).1 (hmono m n x y hmn ((hinv m x y).2 h))
+  have hgf (x : Nat) : g (f x) = x := by
+    have hmem : f x ∈ pf x := Part.get_mem (hdomf x)
+    obtain ⟨n, hn⟩ := Nat.rfindOpt_spec hmem
+    have hback : backward n (f x) = some x := (hinv n x (f x)).1 (Option.mem_def.mp hn)
+    have hx : x ∈ pb (f x) := (Nat.rfindOpt_mono (fun {a m n} hmn h => by
+      exact Option.mem_def.mpr (hbm m n (f x) a hmn (Option.mem_def.mp h)))).2
+      ⟨n, Option.mem_def.mpr hback⟩
+    exact Part.mem_unique (Part.get_mem (hdomb (f x))) hx
+  have hfg (y : Nat) : f (g y) = y := by
+    have hmem : g y ∈ pb y := Part.get_mem (hdomb y)
+    obtain ⟨n, hn⟩ := Nat.rfindOpt_spec hmem
+    have hfor : forward n (g y) = some y := (hinv n (g y) y).2 (Option.mem_def.mp hn)
+    have hy : y ∈ pf (g y) := (Nat.rfindOpt_mono (fun {a m n} hmn h => by
+      exact Option.mem_def.mpr (hmono m n (g y) a hmn (Option.mem_def.mp h)))).2
+      ⟨n, Option.mem_def.mpr hfor⟩
+    exact Part.mem_unique (Part.get_mem (hdomf (g y))) hy
+  refine ⟨f, g, hfc, hgc, hgf, hfg, ?_⟩
+  intro x
+  have hmem : f x ∈ pf x := Part.get_mem (hdomf x)
+  obtain ⟨n, hn⟩ := Nat.rfindOpt_spec hmem
+  exact hrel n x (f x) (Option.mem_def.mp hn)
+
 #print axioms partialOrbit_no_repeats
 #print axioms partialOrbit_terminates
 #print axioms partialOrbit_has_frontier
@@ -469,4 +522,5 @@ theorem splice_progress (forward backward : Nat → Option Nat) (x y : Nat)
 #print axioms spliceForward_computable
 #print axioms spliceBackward_computable
 #print axioms splice_progress
+#print axioms computable_equiv_of_matchings
 end LambdaTuring
