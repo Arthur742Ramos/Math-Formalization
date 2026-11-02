@@ -164,6 +164,118 @@ theorem closed_zero_is_productive :
   obtain ⟨productive, hp, hprod⟩ := closed_zero_productive_complement
   exact ⟨productive, hp, hprod⟩
 
+/-- A property is extensional when closed programs with identical partial
+numerical behavior agree on membership. -/
+def ClosedNumericallyExtensional (A : Term → Prop) : Prop :=
+  ∀ t u, Scoped 0 t → Scoped 0 u →
+    (∀ n, numericalValue t n = numericalValue u n) → (A t ↔ A u)
+
+/-- Pad every output with the canonical code of its input. -/
+def injectivizeSyntax {α : Type} [Primcodable α] (g : α → Term) (a : α) : Term :=
+  syntaxPadding (Encodable.encode a, g a)
+
+theorem injectivizeSyntax_computable {α : Type} [Primcodable α]
+    (g : α → Term) (hg : Computable g) : Computable (injectivizeSyntax g) :=
+  syntaxPadding_primrec.to_comp.comp (Computable.encode.pair hg)
+
+theorem injectivizeSyntax_primrec {α : Type} [Primcodable α]
+    (g : α → Term) (hg : Primrec g) : Primrec (injectivizeSyntax g) :=
+  syntaxPadding_primrec.comp (Primrec.encode.pair hg)
+
+theorem injectivizeSyntax_injective {α : Type} [Primcodable α]
+    (g : α → Term) : Function.Injective (injectivizeSyntax g) := by
+  intro a b h
+  have hp := syntaxPadding_injective h
+  exact Encodable.encode_injective (congrArg Prod.fst hp)
+
+/-- Every closed-output computable transformation can be made injective
+without changing membership in a closed numerical-extensional property. -/
+theorem closed_extensional_injectivize {α : Type} [Primcodable α]
+    (A : Term → Prop) (hA : ClosedNumericallyExtensional A)
+    (g : α → Term) (hg : Computable g) (hclosed : ∀ a, Scoped 0 (g a)) :
+    ∃ f : α → Term, Computable f ∧ Function.Injective f ∧
+      ∀ a, Scoped 0 (f a) ∧ (A (f a) ↔ A (g a)) := by
+  refine ⟨injectivizeSyntax g, injectivizeSyntax_computable g hg,
+    injectivizeSyntax_injective g, ?_⟩
+  intro a
+  have hs : Scoped 0 (injectivizeSyntax g a) := syntaxPadding_closed _ (hclosed a)
+  refine ⟨hs, hA _ _ hs (hclosed a) ?_⟩
+  intro n
+  exact syntaxPadding_numericalValue (Encodable.encode a) (g a) n
+
+/-- A closed numerical-extensional language with a computable productive
+complement is one-one hard for every recursively enumerable predicate. -/
+theorem closed_productive_extensional_oneOne_hard {α : Type} [Primcodable α]
+    (A : Term → Prop) (productive : Nat.Partrec.Code → Term) (hp : Computable productive)
+    (hclosed : ∀ t, A t → Scoped 0 t) (hprod : ClosedProductiveComplement A productive)
+    (hA : ClosedNumericallyExtensional A) (P : α → Prop) (hP : REPred P) :
+    ∃ f : α → Term, Computable f ∧ Function.Injective f ∧
+      ∀ a, Scoped 0 (f a) ∧ (P a ↔ A (f a)) := by
+  obtain ⟨g, hg, h⟩ := closed_productive_RE_hard A productive hp hclosed hprod P hP
+  obtain ⟨f, hf, hi, hfg⟩ := closed_extensional_injectivize A hA g hg (fun a => (h a).1)
+  refine ⟨f, hf, hi, ?_⟩
+  intro a
+  exact ⟨(hfg a).1, (h a).2.trans (hfg a).2.symm⟩
+
+/-- If the productive map is primitive recursive, the one-one reduction is
+primitive recursive as well. -/
+theorem closed_productive_extensional_oneOne_primrec {α : Type} [Primcodable α]
+    (A : Term → Prop) (productive : Nat.Partrec.Code → Term) (hp : Primrec productive)
+    (hclosed : ∀ t, A t → Scoped 0 t) (hprod : ClosedProductiveComplement A productive)
+    (hA : ClosedNumericallyExtensional A) (P : α → Prop) (hP : REPred P) :
+    ∃ f : α → Term, Primrec f ∧ Function.Injective f ∧
+      ∀ a, Scoped 0 (f a) ∧ (P a ↔ A (f a)) := by
+  obtain ⟨u, hu, h⟩ := closed_productive_uniform_primrec A productive hp hclosed hprod
+  obtain ⟨c, hc⟩ := Nat.Partrec.Code.exists_code.mp hP
+  have hdom (a : α) : (Nat.Partrec.Code.eval c (Encodable.encode a)).Dom ↔ P a := by
+    rw [hc]
+    simp [Encodable.encodek, Part.assert]
+  let g : α → Term := fun a => u (c, Encodable.encode a)
+  have hg : Primrec g := hu.comp ((Primrec.const c).pair Primrec.encode)
+  have hclosedg : ∀ a, Scoped 0 (g a) := fun a => (h c (Encodable.encode a)).1
+  refine ⟨injectivizeSyntax g, injectivizeSyntax_primrec g hg,
+    injectivizeSyntax_injective g, ?_⟩
+  intro a
+  have hs : Scoped 0 (injectivizeSyntax g a) := syntaxPadding_closed _ (hclosedg a)
+  have he := hA _ _ hs (hclosedg a)
+    (fun n => syntaxPadding_numericalValue (Encodable.encode a) (g a) n)
+  exact ⟨hs, (hdom a).symm.trans ((h c (Encodable.encode a)).2.trans he.symm)⟩
+
+/-- The concrete zero-result language satisfies the closed extensionality
+hypothesis used by the general one-one theorem. -/
+theorem closed_zero_extensional : ClosedNumericallyExtensional (closedNumeralAtZero 0) := by
+  intro t u ht hu h
+  simp only [closedNumeralAtZero, ht, hu, true_and]
+  rw [← mem_numericalValue_iff, ← mem_numericalValue_iff, h 0]
+
+/-- An r.e. closed numerical-extensional language with a computable
+productive complement is one-one complete for r.e. predicates. -/
+theorem closed_productive_extensional_oneOne_complete {α : Type} [Primcodable α]
+    (A : Term → Prop) (productive : Nat.Partrec.Code → Term) (hp : Computable productive)
+    (hclosed : ∀ t, A t → Scoped 0 t) (hprod : ClosedProductiveComplement A productive)
+    (hA : ClosedNumericallyExtensional A) (hRE : REPred A) :
+    REPred A ∧ ∀ P : α → Prop, REPred P → OneOneReducible P A := by
+  refine ⟨hRE, ?_⟩
+  intro P hP
+  obtain ⟨f, hf, hi, h⟩ :=
+    closed_productive_extensional_oneOne_hard A productive hp hclosed hprod hA P hP
+  exact ⟨f, hf, hi, fun a => (h a).2⟩
+
+/-- The concrete closed zero-result language satisfies every hypothesis of
+the general result with a primitive-recursive productive map. -/
+theorem closed_zero_extensional_creative :
+    ClosedNumericallyExtensional (closedNumeralAtZero 0) ∧
+      REPred (closedNumeralAtZero 0) ∧
+        ∃ productive : Nat.Partrec.Code → Term, Primrec productive ∧
+          ClosedProductiveComplement (closedNumeralAtZero 0) productive :=
+  ⟨closed_zero_extensional, closedNumeralAtZero_re 0, closed_zero_is_productive⟩
+
+#print axioms closed_productive_extensional_oneOne_complete
+#print axioms closed_zero_extensional_creative
+#print axioms closed_extensional_injectivize
+#print axioms closed_productive_extensional_oneOne_hard
+#print axioms closed_productive_extensional_oneOne_primrec
+#print axioms closed_zero_extensional
 #print axioms closed_productive_RE_hard
 #print axioms closed_zero_is_productive
 #print axioms closed_productive_uniform_codes
