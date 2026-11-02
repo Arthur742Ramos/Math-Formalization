@@ -17,11 +17,16 @@ the executable decoder avoids choosing a preimage from a proposition. -/
 def executableTermEquivValid : Term ≃ ValidCode where
   toFun t := ⟨encodeTerm t, (validCode_iff _).2 ⟨t, rfl⟩⟩
   invFun c := (decodeTerm c.val).getD (.var 0)
-  left_inv t := by simp [decodeTerm_encodeTerm]
+  left_inv t := by
+    change (decodeTerm (encodeTerm t)).getD (.var 0) = t
+    rw [decodeTerm_encodeTerm]
+    rfl
   right_inv c := by
     apply Subtype.ext
     obtain ⟨t, ht⟩ := (validCode_iff c.val).1 c.property
-    simp [ht, decodeTerm_encodeTerm]
+    change encodeTerm ((decodeTerm c.val).getD (.var 0)) = c.val
+    rw [ht, decodeTerm_encodeTerm]
+    rfl
 
 @[instance_reducible]
 def executableTermPrimcodable : Primcodable Term :=
