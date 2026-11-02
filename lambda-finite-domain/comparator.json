@@ -1,0 +1,14 @@
+{
+  "challenge_module": "LambdaFiniteDomainChallenge",
+  "solution_module": "LambdaFiniteDomainSolution",
+  "theorem_names": [
+    "LambdaTuring.closedFiniteNumericalDomain_normalForm_complete",
+    "LambdaTuring.closedFiniteNumericalDomain_normalForm_exact_gap"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
