@@ -129,9 +129,41 @@ theorem closedBijection_has_two_sided_mismatches :
   exact ⟨F, G, hFc, hGc, hclosed, hleft, hright, hfaithful,
     zeroFaithful_halt_mismatch F hfaithful, zeroFaithful_nonhalt_mismatch F G hGc hfaithful hright⟩
 
+/-- A closed identity term observes each input numeral as itself. -/
+def lambdaIdentity : Term := .abs (.var 0)
+
+theorem lambdaIdentity_closed : Scoped 0 lambdaIdentity := by
+  simp [lambdaIdentity, Scoped]
+
+theorem lambdaIdentity_result (n : Nat) : NumericalResult lambdaIdentity n n := by
+  change Reaches (.app (.abs (.var 0)) (church n)) (church n)
+  have h : Beta (.app (.abs (.var 0)) (church n)) (church n) := by
+    simpa [substAt, liftBy] using Beta.contract (.var 0) (church n)
+  exact Reaches.step h (Reaches.refl _)
+
+/-- Even without the zero-observation condition or computability assumptions,
+a surjection onto closed terms cannot interpret each fixed source computation
+as the same numerical result at every lambda input. -/
+theorem no_surjective_fixedEvaluation_interpretation (F : Nat.Partrec.Code × Nat → Term)
+    (hsurj : ∀ t, Scoped 0 t → ∃ p, F p = t) :
+    ¬ ∀ p x m, NumericalResult (F p) x m ↔ m ∈ Nat.Partrec.Code.eval p.1 p.2 := by
+  intro hfaithful
+  obtain ⟨p, hp⟩ := hsurj lambdaIdentity lambdaIdentity_closed
+  have hzero : 0 ∈ Nat.Partrec.Code.eval p.1 p.2 := by
+    apply (hfaithful p 0 0).1
+    rw [hp]
+    exact lambdaIdentity_result 0
+  have hone : 1 ∈ Nat.Partrec.Code.eval p.1 p.2 := by
+    apply (hfaithful p 1 1).1
+    rw [hp]
+    exact lambdaIdentity_result 1
+  have heq := Part.mem_unique hzero hone
+  omega
+
 #print axioms paddedPositive_result
 #print axioms zeroFaithful_halt_mismatch
 #print axioms zeroFaithful_nonhalt_mismatch
 #print axioms no_zeroFaithful_value_preservation
 #print axioms closedBijection_has_two_sided_mismatches
+#print axioms no_surjective_fixedEvaluation_interpretation
 end LambdaTuring
