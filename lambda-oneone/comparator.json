@@ -1,0 +1,22 @@
+{
+  "challenge_module": "LambdaOneOneChallenge",
+  "solution_module": "LambdaOneOneSolution",
+  "theorem_names": [
+    "LambdaTuring.closedNumeralAtZero_re",
+    "LambdaTuring.closed_zero_diagonal",
+    "LambdaTuring.closed_zero_productive_complement",
+    "LambdaTuring.syntaxPadding_primrec",
+    "LambdaTuring.syntaxPadding_reaches",
+    "LambdaTuring.syntaxPadding_numericalValue",
+    "LambdaTuring.syntaxPadding_closed",
+    "LambdaTuring.syntaxPadding_injective",
+    "LambdaTuring.closed_zero_uniform_oneOne",
+    "LambdaTuring.closed_zero_oneOne_complete"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
