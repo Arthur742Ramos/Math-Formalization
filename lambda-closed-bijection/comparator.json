@@ -1,0 +1,13 @@
+{
+  "challenge_module": "LambdaClosedBijectionChallenge",
+  "solution_module": "LambdaClosedBijectionSolution",
+  "theorem_names": [
+    "LambdaTuring.codeInput_closedTerm_bijection"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
