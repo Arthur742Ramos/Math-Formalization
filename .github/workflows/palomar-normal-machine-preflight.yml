@@ -1,0 +1,18 @@
+name: Lambda normal machine Palomar mechanical preflight
+on:
+  push:
+    branches:
+      - palomar-preflight-normmachine-39a7004
+permissions:
+  contents: read
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: 39a700432c21c58cd845f0e84f811459fd8cded1
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: nmmach39a700
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"lambda-normal-machine","comparator_config_path":"lambda-normal-machine/comparator.json","formalization_metadata_path":"lambda-normal-machine/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
