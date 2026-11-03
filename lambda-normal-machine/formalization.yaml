@@ -170,7 +170,7 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/17878f5ce4ea1e1b5816bf3c709e75e806d906c7/lambda-normal-inseparability",
       "relationship": "builds-on",
-      "note": "All 139 inherited LambdaTuring modules are retained byte-for-byte. The 53 additional modules come from the original public lambda/Turing package; seven new modules construct and verify the observer machine."
+      "note": "All 139 inherited LambdaTuring modules are retained byte-for-byte. Of 53 additional modules from the original public lambda/Turing package, 52 are unchanged; DirectTermCode reorders the three disjoint encoding equations so its generated matcher agrees with Challenge. Seven normal-machine modules are new."
     }
   ],
   "status": {

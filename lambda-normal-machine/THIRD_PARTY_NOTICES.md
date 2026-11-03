@@ -1,6 +1,6 @@
 # Vendored proof-source notices
 
-All 139 LambdaTuring modules from public normal-inseparability source 17878f5ce4ea1e1b5816bf3c709e75e806d906c7 are retained byte-for-byte. The package additionally retains 53 modules from the public original lambda/Turing package and adds seven normal-machine modules. Original notices follow.
+All 139 LambdaTuring modules from public normal-inseparability source 17878f5ce4ea1e1b5816bf3c709e75e806d906c7 are retained byte-for-byte. The package additionally uses 53 modules from the public original lambda/Turing package: 52 are unchanged and DirectTermCode has reordered disjoint encoding equations to align its generated matcher with Challenge. Seven normal-machine modules are new. Original notices follow.
 
 The normal-inseparability predecessor retained all 138 `LambdaTuring/` modules from public normal-observation source `956863572441eb75206275d642df51c4298b8a5f` byte-for-byte and added `NormalInseparability.lean`. Earlier predecessor provenance follows.
 

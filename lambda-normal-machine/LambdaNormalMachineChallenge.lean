@@ -169,9 +169,9 @@ def Yields {states : Nat} (p : Program states) (n m : Nat) : Prop :=
 end Machine
 
 def directTermNumber : Term → Nat
-  | .var n => Nat.succ (Nat.pair 0 n)
-  | .abs body => Nat.succ (Nat.pair 1 (directTermNumber body))
   | .app f x => Nat.succ (Nat.pair 2 (Nat.pair (directTermNumber f) (directTermNumber x)))
+  | .abs body => Nat.succ (Nat.pair 1 (directTermNumber body))
+  | .var n => Nat.succ (Nat.pair 0 n)
 
 
 theorem normalMachine_exists :

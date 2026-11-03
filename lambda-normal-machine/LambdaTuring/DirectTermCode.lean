@@ -17,9 +17,9 @@ open LambdaTuring.EffectiveCode
 
 /-- A direct, data-only encoding with strictly smaller proper subterms. -/
 def directTermNumber : Term → Nat
-  | .var n => Nat.succ (Nat.pair 0 n)
-  | .abs body => Nat.succ (Nat.pair 1 (directTermNumber body))
   | .app f x => Nat.succ (Nat.pair 2 (Nat.pair (directTermNumber f) (directTermNumber x)))
+  | .abs body => Nat.succ (Nat.pair 1 (directTermNumber body))
+  | .var n => Nat.succ (Nat.pair 0 n)
 
 theorem directTermNumber_injective : Function.Injective directTermNumber := by
   intro a b h
