@@ -1,5 +1,5 @@
 name: Cyclic covering full preflight
-run-name: Cyclic covering full preflight cyc261103a02
+run-name: Cyclic covering full preflight cyc261103a03
 on:
   push:
     branches:
@@ -13,9 +13,9 @@ jobs:
     uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
     with:
       repository: Arthur742Ramos/Math-Formalization
-      commit: 6f795a7cd6a4464ea7eec428f44f3664b2f396b2
+      commit: 34f0061225ff905906488c1dbb4eab78f38efee4
       pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
-      request_id: cyc261103a02
+      request_id: cyc261103a03
       mode: full
       execution_profile: palomar-standard-v1
       options: >-
