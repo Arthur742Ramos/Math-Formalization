@@ -1,0 +1,21 @@
+{
+  "challenge_module": "LambdaCPSContextChallenge",
+  "solution_module": "LambdaCPSContextSolution",
+  "theorem_names": [
+    "LambdaTuring.LambdaContext.liftFrom_plug_closed",
+    "LambdaTuring.LambdaContext.cps_plug_closed",
+    "LambdaTuring.LambdaContext.plug_scoped_iff_of_closed",
+    "LambdaTuring.cps_context_open_hole_counterexample",
+    "LambdaTuring.bound_fixed_context_closed",
+    "LambdaTuring.LambdaContext.cps_test_closed",
+    "LambdaTuring.LambdaContext.cps_context_adequacy",
+    "LambdaTuring.LambdaContext.cps_context_readback",
+    "LambdaTuring.closed_context_equivalence_transport"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
