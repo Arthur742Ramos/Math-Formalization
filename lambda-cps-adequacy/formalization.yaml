@@ -109,7 +109,7 @@
     }
   ],
   "status": {
-    "scope": "For closed source terms, weak call-by-name reaches an abstraction iff the explicit CPS translation applied to the identity continuation reaches a weak call-by-value abstraction. Forward simulation returns the translated source body; reflection proves exact translated-value readback. Weak call-by-value is left-to-right and does not reduce under abstractions. Open source terms may be stuck and are outside the adequacy equivalence. No contextual equivalence, Church-numeral readback, full beta-normalization correspondence, or complexity bound is claimed.",
+    "scope": "For closed source terms, weak call-by-name reaches an abstraction iff the explicit CPS translation applied to the identity continuation reaches a weak call-by-value abstraction. Forward simulation returns the translated source body; reflection proves exact translated-value readback. Weak call-by-value is left-to-right and does not reduce under abstractions. Open source terms may be stuck and are outside the adequacy equivalence. No contextual equivalence, Church-numeral readback, full beta-normalization correspondence, or complexity bound is claimed. No divergence equivalence is claimed.",
     "sorry_count": 9,
     "sorry_in_definitions": 0,
     "axioms": [
@@ -135,7 +135,7 @@
   "review": {
     "status": "unchecked",
     "reviewers": [],
-    "notes": "Source checkpoint af12f67d816b7fe13ede1667f29e9c77fc178585 awaits independent mathematical and integrated package review."
+    "notes": "Source checkpoint af12f67d816b7fe13ede1667f29e9c77fc178585 passed targeted independent mathematical review; this standalone package awaits integrated review."
   },
   "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
 }
