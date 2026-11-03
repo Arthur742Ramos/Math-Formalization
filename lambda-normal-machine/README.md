@@ -4,4 +4,4 @@ For every untyped de Bruijn term `t`, one explicitly constructed finite machine 
 
 The theorem covers open as well as closed terms. It makes no claim about other term encodings, malformed numeric inputs, or practical machine size. A failed numerical observation alone does not mean nontermination: it can be a nonnumerical normal form. Challenge fixes the term and machine models and the direct input encoding. Its single theorem hole is a comparison obligation and is absent from the Solution proof closure.
 
-The source builds on the public lambda/Turing and normal-order observer developments and the classical standardization work credited in the metadata. Integrated validation, independent package review, and hosted checks are pending.
+The source builds on the public lambda/Turing and normal-order observer developments and the classical standardization work credited in the metadata. Earlier mechanized computability work includes Norrish’s HOL4 formalization and Forster and coauthors’ Coq weak-call-by-value development. Integrated validation, independent package review, and hosted checks are pending.

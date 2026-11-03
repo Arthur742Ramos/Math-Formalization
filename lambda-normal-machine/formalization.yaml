@@ -22,6 +22,51 @@
       "id": "https://isabelle.in.tum.de/website-Isabelle2026-RC0/dist/library/HOL/HOL-Proofs-Lambda/Standardization.html",
       "relationship": "adapts",
       "note": "The inherited StandardReduction module adapts Berghofer’s standard-reduction development, crediting Matthes and Loader; the normal-order and normal-observation predecessors use it. The present development implements that observer by an explicit finite machine."
+    },
+    {
+      "title": "Computability and λ-definability",
+      "authors": [
+        "A. M. Turing"
+      ],
+      "id": "https://doi.org/10.2307/2268280",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Turing’s classical work established a correspondence between computability and lambda definability; the present package specializes an existing finite-machine compiler to a normal-form observer."
+    },
+    {
+      "title": "Mechanised computability theory",
+      "authors": [
+        "Michael Norrish"
+      ],
+      "id": "https://doi.org/10.1007/978-3-642-22863-6_22",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Earlier HOL4 mechanization relating lambda calculus and recursive functions."
+    },
+    {
+      "title": "Mechanising Turing Machines and Computability Theory in Isabelle/HOL",
+      "authors": [
+        "Jian Xu",
+        "Xingyuan Zhang",
+        "Christian Urban"
+      ],
+      "id": "https://doi.org/10.1007/978-3-642-39634-2_13",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Earlier Isabelle/HOL Turing-machine and computability formalization; bibliographic details follow the related Isabelle project."
+    },
+    {
+      "title": "A Mechanised Proof of the Time Invariance Thesis for the Weak Call-By-Value λ-Calculus",
+      "authors": [
+        "Yannick Forster",
+        "Fabian Kunze",
+        "Gert Smolka",
+        "Maximilian Wuttke"
+      ],
+      "id": "https://doi.org/10.4230/LIPIcs.ITP.2021.19",
+      "type": "paper",
+      "relationship": "background",
+      "note": "Earlier Coq mechanization with weak call-by-value lambda calculus and Turing machines. The Dagstuhl publisher record confirms the authors, title and scope."
     }
   ],
   "classification": {

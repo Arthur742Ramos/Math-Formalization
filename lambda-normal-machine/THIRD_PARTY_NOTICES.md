@@ -2,7 +2,7 @@
 
 All 139 LambdaTuring modules from public normal-inseparability source 17878f5ce4ea1e1b5816bf3c709e75e806d906c7 are retained byte-for-byte. The package additionally retains 53 modules from the public original lambda/Turing package and adds seven normal-machine modules. Original notices follow.
 
-All 138 `LambdaTuring/` modules from public normal-observation predecessor `956863572441eb75206275d642df51c4298b8a5f` are retained byte-for-byte; `NormalInseparability.lean` is new. Earlier predecessor provenance follows.
+The normal-inseparability predecessor retained all 138 `LambdaTuring/` modules from public normal-observation source `956863572441eb75206275d642df51c4298b8a5f` byte-for-byte and added `NormalInseparability.lean`. Earlier predecessor provenance follows.
 
 The normal-observation predecessor retained all 137 `LambdaTuring/` modules from public translated-context predecessor `18314fa39127769b24721f610cc568f9691f9505` byte-for-byte and added `NormalObservation.lean`. Earlier predecessor provenance follows.
 
