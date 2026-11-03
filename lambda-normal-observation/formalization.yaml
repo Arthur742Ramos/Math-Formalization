@@ -120,7 +120,7 @@
   ],
   "status": {
     "scope": "For arbitrary terms, a partial-recursive normal-order observer has type Part (Option Nat): membership of some n is exactly full-beta reachability of Church numeral n; membership of none is exactly reachability of a beta-normal form with no reachable numeral; Part.none is equivalent to the absence of any reachable beta-normal form. Bounded normal-order execution and observation are primitive recursive. Eta-expanded zero is a nonnumerical normal form and Omega has no normal form. This does not claim that every beta-reduction strategy diverges, nor that numerical absence alone is divergence.",
-    "sorry_count": 9,
+    "sorry_count": 11,
     "sorry_in_definitions": 0,
     "axioms": [
       "propext",
@@ -140,12 +140,12 @@
     "notes": "Human mathematical review and external peer review are not claimed."
   },
   "fidelity": {
-    "divergences": "The partial observer is a formalization over the inherited deterministic full-beta normal-order strategy and explicit numeral recognizer; it distinguishes a defined nonnumerical normal form from an undefined search."
+    "divergences": "The partial observer is a formalization over the inherited deterministic full-beta normal-order strategy and explicit numeral recognizer; it distinguishes a defined nonnumerical normal form from an undefined search. The new recognizer uses explicit constructor eliminators and is proved equal to the inherited decodeChurch; the equivalent spelling avoids cross-module generated-matcher aliasing."
   },
   "review": {
     "status": "unchecked",
     "reviewers": [],
-    "notes": "Source checkpoint 862c917b05a13423d1079c1a526ddc185b8a71e9 awaits independent mathematical and integrated package review."
+    "notes": "The 862c917 observer was independently reviewed. The explicit equivalent normalDecode revision at 0887d2e7f0a2cb17c0bdbb81629d71f1ba280ac8 and integrated package await independent review."
   },
   "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
 }

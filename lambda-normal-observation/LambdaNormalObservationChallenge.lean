@@ -384,10 +384,10 @@ def decodeChurchBody : Term → Option Nat
   | .app (.var 1) t => (decodeChurchBody t).map Nat.succ
   | _ => none
 
-def decodeChurch (t : Term) : Option Nat :=
-  Term.casesOn t (fun _ => none)
-    (fun b => Term.casesOn b (fun _ => none) decodeChurchBody (fun _ _ => none))
-    (fun _ _ => none)
+def normalDecode (t : Term) : Option Nat :=
+  Term.casesOn t (fun _ => Option.none)
+    (fun b => Term.casesOn b (fun _ => Option.none) decodeChurchBody (fun _ _ => Option.none))
+    (fun _ _ => Option.none)
 
 
 def selfApply : Term := .abs (.app (.var 0) (.var 0))
@@ -395,7 +395,7 @@ def omegaTerm : Term := .app selfApply selfApply
 
 def normalObservationStage (t : Term) (k : Nat) : Option (Option Nat) :=
   match normalOrderStep (normalOrderRun k t) with
-  | Option.none => some (decodeChurch (normalOrderRun k t))
+  | Option.none => some (normalDecode (normalOrderRun k t))
   | some _ => none
 
 
@@ -405,6 +405,12 @@ noncomputable def normalObservation (t : Term) : Part (Option Nat) :=
 
 def etaObservationZero : Term := .abs (.abs (.abs (.app (.var 1) (.var 0))))
 
+
+theorem normalDecode_iff (t : Term) (n : Nat) : normalDecode t = some n ↔ t = church n := by
+  sorry
+
+theorem normalDecode_primrec : Primrec normalDecode := by
+  sorry
 
 theorem primrec_normalOrderRun : Primrec₂ (fun t k => normalOrderRun k t) := by
   sorry
@@ -417,7 +423,7 @@ theorem normalObservation_partrec : Partrec normalObservation := by
 
 theorem mem_normalObservation_iff (t : Term) (r : Option Nat) :
     r ∈ normalObservation t ↔
-      ∃ u, Reaches t u ∧ (¬ ∃ v, Beta u v) ∧ decodeChurch u = r := by
+      ∃ u, Reaches t u ∧ (¬ ∃ v, Beta u v) ∧ normalDecode u = r := by
   sorry
 
 theorem normalObservation_numeral_iff (t : Term) (n : Nat) :

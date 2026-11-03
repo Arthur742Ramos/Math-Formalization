@@ -44,10 +44,28 @@ theorem primrec_normalOrderRun : Primrec₂ (fun t k => normalOrderRun k t) := b
       (Nat.rec t (fun _ z => (normalOrderStep z).getD z) k) = _
     rw [ih]
 
+/-- Syntactic Church recognition via explicit constructor elimination. -/
+def normalDecode (t : Term) : Option Nat :=
+  Term.casesOn t (fun _ => Option.none)
+    (fun b => Term.casesOn b (fun _ => Option.none) decodeChurchBody (fun _ _ => Option.none))
+    (fun _ _ => Option.none)
+
+theorem normalDecode_eq_decodeChurch (t : Term) : normalDecode t = decodeChurch t := by
+  cases t with
+  | var i => rfl
+  | app f x => rfl
+  | abs b => cases b <;> rfl
+
+theorem normalDecode_iff (t : Term) (n : Nat) : normalDecode t = some n ↔ t = church n := by
+  rw [normalDecode_eq_decodeChurch, decodeChurch_iff]
+
+theorem normalDecode_primrec : Primrec normalDecode := by
+  exact primrec_decodeChurch.of_eq (fun t => (normalDecode_eq_decodeChurch t).symm)
+
 /-- Outer none means continue; some none is a nonnumerical normal form. -/
 def normalObservationStage (t : Term) (k : Nat) : Option (Option Nat) :=
   match normalOrderStep (normalOrderRun k t) with
-  | none => some (decodeChurch (normalOrderRun k t))
+  | none => some (normalDecode (normalOrderRun k t))
   | some _ => none
 
 theorem normalObservationStage_primrec : Primrec₂ normalObservationStage := by
@@ -55,8 +73,8 @@ theorem normalObservationStage_primrec : Primrec₂ normalObservationStage := by
   have hr : Primrec run := primrec_normalOrderRun.comp Primrec.fst Primrec.snd
   have hs : Primrec (fun p : Term × Nat => normalOrderStep (run p)) :=
     normalOrderStep_primrec.comp hr
-  have hn : Primrec (fun p : Term × Nat => some (decodeChurch (run p))) :=
-    Primrec.option_some.comp (primrec_decodeChurch.comp hr)
+  have hn : Primrec (fun p : Term × Nat => some (normalDecode (run p))) :=
+    Primrec.option_some.comp (normalDecode_primrec.comp hr)
   have hy : Primrec₂ (fun (_ : Term × Nat) (_ : Term) => (none : Option (Option Nat))) :=
     Primrec.const none
   have h : Primrec (fun p : Term × Nat => normalObservationStage p.1 p.2) := by
@@ -78,7 +96,7 @@ theorem normal_forms_unique {t u v : Term} (hu : Reaches t u) (hv : Reaches t v)
 
 theorem mem_normalObservation_iff (t : Term) (r : Option Nat) :
     r ∈ normalObservation t ↔
-      ∃ u, Reaches t u ∧ (¬ ∃ v, Beta u v) ∧ decodeChurch u = r := by
+      ∃ u, Reaches t u ∧ (¬ ∃ v, Beta u v) ∧ normalDecode u = r := by
   constructor
   · intro h
     obtain ⟨k, hk⟩ := Nat.rfindOpt_spec h
@@ -109,10 +127,10 @@ theorem normalObservation_numeral_iff (t : Term) (n : Nat) :
   rw [mem_normalObservation_iff]
   constructor
   · rintro ⟨u, hu, _, hd⟩
-    have heq := (decodeChurch_iff u n).1 hd
+    have heq := (normalDecode_iff u n).1 hd
     simpa [heq] using hu
   · intro hu
-    exact ⟨church n, hu, church_no_beta n, (decodeChurch_iff _ _).2 rfl⟩
+    exact ⟨church n, hu, church_no_beta n, (normalDecode_iff _ _).2 rfl⟩
 
 /-- A defined `none` denotes a reachable nonnumerical normal form. -/
 theorem normalObservation_nonnumeral_iff (t : Term) :
@@ -125,16 +143,16 @@ theorem normalObservation_nonnumeral_iff (t : Term) :
     refine ⟨⟨u, hu, hn⟩, ?_⟩
     rintro ⟨n, hnum⟩
     have heq := normal_forms_unique hu hnum hn (church_no_beta n)
-    have hsome := (decodeChurch_iff u n).2 heq
+    have hsome := (normalDecode_iff u n).2 heq
     rw [hd] at hsome
     cases hsome
   · rintro ⟨⟨u, hu, hn⟩, hnone⟩
     refine ⟨u, hu, hn, ?_⟩
-    cases hd : decodeChurch u with
+    cases hd : normalDecode u with
     | none => rfl
     | some n =>
       exfalso
-      exact hnone ⟨n, by simpa [(decodeChurch_iff u n).1 hd] using hu⟩
+      exact hnone ⟨n, by simpa [(normalDecode_iff u n).1 hd] using hu⟩
 
 /-- Search diverges exactly when there is no reachable beta-normal form. -/
 theorem normalObservation_undefined_iff (t : Term) :
@@ -143,7 +161,7 @@ theorem normalObservation_undefined_iff (t : Term) :
   rw [Part.eq_none_iff]
   constructor
   · intro h ⟨u, hu, hn⟩
-    exact h (decodeChurch u) ((mem_normalObservation_iff t _).2 ⟨u, hu, hn, rfl⟩)
+    exact h (normalDecode u) ((mem_normalObservation_iff t _).2 ⟨u, hu, hn, rfl⟩)
   · intro h r hr
     obtain ⟨u, hu, hn, _⟩ := (mem_normalObservation_iff t r).1 hr
     exact h ⟨u, hu, hn⟩

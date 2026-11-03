@@ -2,6 +2,8 @@
   "challenge_module": "LambdaNormalObservationChallenge",
   "solution_module": "LambdaNormalObservationSolution",
   "theorem_names": [
+    "LambdaTuring.normalDecode_iff",
+    "LambdaTuring.normalDecode_primrec",
     "LambdaTuring.primrec_normalOrderRun",
     "LambdaTuring.normalObservationStage_primrec",
     "LambdaTuring.normalObservation_partrec",
