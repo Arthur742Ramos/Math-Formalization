@@ -371,11 +371,9 @@ def betaSteps : Term → List Term
 def normalOrderStep (t : Term) : Option Term := (betaSteps t).head?
 
 
-def normalOrderRun : Nat → Term → Term
-  | 0, t => t
-  | n + 1, t => match normalOrderStep t with
-      | Option.none => t
-      | some u => normalOrderRun n u
+def normalOrderRun (n : Nat) (t : Term) : Term :=
+  Nat.rec (motive := fun _ => Term → Term) (fun z => z)
+    (fun _ rec z => (normalOrderStep z).elim z rec) n t
 
 
 theorem normalOrderStep_primrec : Primrec normalOrderStep := by

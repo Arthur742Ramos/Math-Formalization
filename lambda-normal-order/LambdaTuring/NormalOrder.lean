@@ -284,11 +284,9 @@ theorem normalOrder_prefix_to_normal {t n : Term} (hn : Reaches t n)
   exact ⟨u, hu, hhead, huv⟩
 
 /-- After a normal form is reached the bounded execution remains there. -/
-def normalOrderRun : Nat → Term → Term
-  | 0, t => t
-  | n + 1, t => match normalOrderStep t with
-      | none => t
-      | some u => normalOrderRun n u
+def normalOrderRun (n : Nat) (t : Term) : Term :=
+  Nat.rec (motive := fun _ => Term → Term) (fun z => z)
+    (fun _ rec z => (normalOrderStep z).elim z rec) n t
 
 theorem normalOrderRun_reaches (n : Nat) (t : Term) : Reaches t (normalOrderRun n t) := by
   induction n generalizing t with
@@ -305,7 +303,9 @@ theorem normalOrderPath_is_bounded_run {t u : Term} (h : NormalOrderPath t u) :
   | refl => exact ⟨0, rfl⟩
   | step hs _ ih =>
     obtain ⟨n, hn⟩ := ih
-    exact ⟨n + 1, by simp [normalOrderRun, hs, hn]⟩
+    refine ⟨n + 1, ?_⟩
+    simp only [normalOrderRun, hs, Option.elim_some]
+    exact hn
 
 /-- No reachable normal form implies every finite strategy prefix can take
 another step; the converse is the remaining normal-order theorem. -/
