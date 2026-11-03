@@ -1,0 +1,128 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Verified components of cyclic covering constructions",
+    "description": "A partial Lean formalization of finite cyclic covering schemes. The principal theorem proves that no sixth column extends any of seventeen supplied literal ten-row, five-column representatives over the cyclic group of order nine, under the original modular-difference extension predicate. Eligible lower profiles and digit equations are derived from a putative extension, not assumed. The arithmetic exclusion covers all 72 eligible profiles by 71 linear contradictions over the three-element field and one quadratic contradiction. Generic repeated-zero normalization is also proved for arbitrary ten-row coverings. Additional results include explicit order-nine covering witnesses, an index-two 18-by-6 seed, the published index-one 63-by-7 difference matrix, finite quota-enumeration completeness, and qualified lifting and transformation implications. Exhaustive classification, canonical graph transport, unrestricted 10-by-6 nonexistence, and infinite-family theorems are not formalized here. No novelty or priority claim is made.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy Jose Guerra Barretto de Queiroz"
+    ],
+    "license": "Apache-2.0"
+  },
+  "classification": {
+    "arxiv": [
+      "math.CO"
+    ],
+    "msc2020": [
+      "05B15",
+      "05B40",
+      "68V20"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Covering schemes with one or two extra rows: Finite abelian groups and cyclic constructions",
+      "authors": [
+        "Arthur Freitas Ramos",
+        "David Barros Hulak",
+        "Ruy Jose Guerra Barretto de Queiroz"
+      ],
+      "type": "working research manuscript",
+      "relationship": "formalizes",
+      "location": "Working manuscript dated 3 November 2026; covering_schemes_research_note.tex, especially the small-witness, normalization, digit-lifting, arithmetic-certificate and formal-status sections.",
+      "note": "Partial formalization only: fixed-representative nonextension, generic ten-row normalization, explicit finite witnesses and selected soundness implications. The manuscript's full classification, global nonexistence conclusions and infinite-family results are not claimed as Lean theorems. This is a working manuscript, not a published article; no public manuscript URL is supplied. Scholarly priority remains under review."
+    },
+    {
+      "title": "Constructing strength three covering arrays with augmented annealing",
+      "authors": [
+        "M. B. Cohen",
+        "C. J. Colbourn",
+        "A. C. H. Ling"
+      ],
+      "type": "paper",
+      "id": "doi:10.1016/j.disc.2006.06.036",
+      "relationship": "background",
+      "location": "Discrete Mathematics 308 (2008), 2709-2722; Table 14 in the author preprint dated 27 June 2003, as cited in the working manuscript.",
+      "note": "Prior-literature attribution for the order-nine positive bounds of ten rows for five columns and eleven rows for six or seven columns. The present package checks its supplied literal witnesses; these bounds are not claimed as new, nor are the literal witnesses claimed to be copied from that table. This metadata preparation uses the manuscript's bibliography and source discussion, not a fresh inspection of the historical full text."
+    },
+    {
+      "title": "Difference matrices with five rows over finite abelian groups",
+      "authors": [
+        "R. Pan",
+        "R. J. R. Abel",
+        "Y. A. Bunjamin",
+        "T. Feng",
+        "T. J. Tsang Ung",
+        "X. Wang"
+      ],
+      "type": "paper",
+      "id": "doi:10.1007/s10623-021-00981-6",
+      "relationship": "adapts",
+      "location": "Designs, Codes and Cryptography 90 (2022), 367-386; order-63 construction before Lemma 2, as cited in the working manuscript and Known63Witness.lean.",
+      "note": "Known63Witness.lean reconstructs and checks the published 63-by-7 cyclic index-one matrix, using the package's rows-as-runs convention. The paper's general difference-matrix classification theorem is not formalized by this package. Bibliographic and construction attribution follow the manuscript and retained source review; this metadata preparation does not claim fresh inspection of the article's full text."
+    },
+    {
+      "title": "A lower bound on HMOLS with equal sized holes",
+      "authors": [
+        "M. Bailey",
+        "C. del Valle",
+        "P. J. Dukes"
+      ],
+      "type": "paper",
+      "id": "doi:10.1016/j.ffa.2021.101866",
+      "relationship": "background",
+      "location": "Finite Fields and Their Applications 74 (2021), 101866; Proposition 2.5 and Section 2.2, as cited in the working manuscript.",
+      "note": "Background attribution for established cyclotomic lifting methods. PairedLift.lean proves an abstract implication under explicit coordinate, selector and character-compatibility hypotheses; it does not construct finite-field instances or prove character estimates. This bibliography entry does not assert a formalization of the cited paper or fresh inspection of its full text."
+    }
+  ],
+  "related_formalizations": [
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/9b1d58b96a430d14ea96d6bc8f1800d12107cecb/combinatorics/cyclic-covering-certificates",
+      "relationship": "other",
+      "note": "Immutable public source snapshot of this same partial formalization before the metadata/documentation update. It contains all 53 implementation modules, Challenge, Solution, the draft Comparator and dated internal AI source reviews. This link is proof-source provenance, not a published manuscript or an independent prior formalization. Historical ordinary-check receipts are retained in catalog-evidence/cyclic-covering-2026-11-03 at the same repository commit."
+    }
+  ],
+  "status": {
+    "scope": "CyclicDigitTransport.no_representative_extension: for each c : Fin 17, no x : Fin 10 -> Fin 9 satisfies CoveringTransforms.Extends (representative c) x. The profile and digit constraints are derived. Generic column-sum normalization of arbitrary ten-row order-nine coverings and the explicitly documented finite witnesses and soundness implications are also proved.",
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "known_gaps": "Exhaustive candidate/triangle generation, canonical row/gauge transport into the enumerated graph, integration of literal triangle records with the generic transformation API, unrestricted order-nine 10-by-6 nonexistence, the full order-45 obstruction, finite-field character estimates, and the manuscript's infinite-family results remain outside the proved scope.",
+    "verification_evidence": "Historical ordinary Lean 4.35.0-rc2 checks cover all 53 implementation files through two clean overlapping runs (48 original modules and a 33-module final-theorem closure), plus separately checked Challenge and Solution entrypoints. The Solution check reused the checked closure rather than rebuilding it again. The immutable public baseline is 9b1d58b96a430d14ea96d6bc8f1800d12107cecb, package tree eb69e561a549e1c66586584df02750fd8ad6defa. Its catalog-evidence/cyclic-covering-2026-11-03 directory retains native/port-verification.json (SHA-256 5fa2cb8063dcb3f868f802adbc871888d3a1b7e8123e7d1deddc1532da28ac90), native/closure-report.json (575a191d0c82a483481c484cdd86b03bbf035bb61875b9b61a9cf7bb68015ae0), challenge/local-verification.json (2ccb641b8081bffffff265e3a0a7419323e3ad1e5511e39870730f42f0138a4f), and solution-receipt.json (c3818b05015d37c5b1d28ffbfabe0e1fefec65cc0a693f3262d43bb17bc5737a). Each receipt retains its original input hashes and source identity; the Solution receipt identifies commit 9baa98e9ab3e4ec8ae4963f44dacc7512a10b88b and the same package tree. This is historical evidence, not a fresh verification of changed metadata or a canonical full pass. The prior local capacity-helper failure remains historical evidence.",
+    "attribution_status": "Both project authors and responsible maintainers are Arthur Freitas Ramos, David Barros Hulak and Ruy Jose Guerra Barretto de Queiroz, in that order, as authorized for this project. These roles do not by themselves assert particular human proof contributions or human review.",
+    "verification_contract": "A release or registry handoff requires immutable receipts for its exact submitted source: official protected Comparator and dependency-value checks, approved axiom audits, required independent kernels, the full official hosted preflight, separate canonical rendering and visual inspection, and final package/evidence review. Historical ordinary-check receipts alone do not establish those gates. Record current results outside the frozen package, bound to the exact commit, metadata digest, pins and tool revisions. This metadata makes no claim of intake readiness, editorial acceptance or registration."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "Substantial OpenAI Codex assistance in proof development, finite-certificate formalization, toolchain porting, documentation and packaging. Separate internal AI source reviewers examined the selected statements, proof boundaries, literal data and port changes. No independently attested backend identity or cost is supplied."
+      },
+      {
+        "method": "proof-assistant",
+        "tool_setup": "Official Lean 4.35.0-rc2 with its bundled Std library; ordinary kernel-checkable proofs use finite decide, simplification, induction and omega. The package does not use Mathlib, native_decide, an external proof oracle or custom axioms. The Python runner compiles in fresh temporary output directories and audits printed declarations' transitive axiom dependencies against propext, Classical.choice and Quot.sound. These checks do not replace protected comparison or independent-kernel replay."
+      }
+    ],
+    "notes": "AI contributions are substantial and disclosed. Finite certificate/search generation and ordinary computational checks are distinct from Lean proofs of enumeration or classification completeness. Human and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "The manuscript contains broader mathematical claims than the selected Lean theorem. This package excludes extensions of the seventeen supplied literal representatives under the original extension predicate and proves general repeated-zero normalization, but it does not prove that every covering reaches one of those representatives. Abstract paired lifting and transformation results retain explicit hypotheses. Known positive bounds and the order-63 matrix retain prior-literature attribution. Neither a machine check nor the working manuscript establishes scholarly priority."
+  },
+  "review": {
+    "status": "agent-reviewed",
+    "reviewers": [
+      "Independent internal AI source and scope reviewer",
+      "Independent internal AI normalization and representative-extension reviewer"
+    ],
+    "notes": "REVIEW.md and NEW-BRIDGE-REVIEW.md retain dated internal AI source reviews and their original scope. They are historical records, not attestations that this metadata revision or the current whole source commit passed canonical checks. The reviewers inspected source and available evidence; their reports do not claim independent reruns of the entire compiler suite. No human or external peer review, Palomar endorsement or registry acceptance is claimed."
+  },
+  "acknowledgements": "The cited mathematical literature, Lean and Std retain their attribution. Authorized project authorship and maintenance are recorded separately from substantial AI contributions and the actual scope of internal AI review. No affiliations, corresponding-author role, ORCID identifiers or funding are inferred."
+}

@@ -62,16 +62,26 @@ need it; Windows reproduction has not been tested.
 
 ## Publication and registry status
 
-This is a source-publication package, **not yet a Palomar-ready submission**.
+This is a source-publication package; **publication alone does not establish
+Palomar readiness**.
 The native build does not establish protected Comparator acceptance,
 independent-kernel replay, canonical rendering, editorial review, or registration.
 A [draft self-contained Challenge and Comparator contract](CONTRACT.md) is
-included. The supported-toolchain port still requires finalized attribution,
-protected contract comparison, independent kernels, and canonical rendering/full
-gates. Native compilation does not remove the canonical host-capacity minimum.
-No private intake or public registration is asserted here.
+included. Author and maintainer roles are recorded in [the metadata](formalization.yaml).
+A release or registry handoff requires immutable exact-source receipts for
+protected contract comparison, independent kernels, the full official hosted
+preflight, separate canonical rendering/visual inspection, and final package
+review. Record those outcomes outside the frozen package, with the submitted
+commit, metadata digest, pins and tool revisions. Native compilation does not
+replace those gates or remove their resource requirements. No private intake
+or public registration is asserted here.
 
 ## Attribution
+
+The project authors, in order, are Arthur Freitas Ramos, David Barros Hulak,
+and Ruy Jose Guerra Barretto de Queiroz. The responsible maintainers are the
+same three people in the same order. These are separately authorized roles;
+the names alone do not establish particular human proof contributions or review.
 
 The order-nine positive bounds, general lifting/composition methods, and the
 order-63 difference matrix have prior literature and are not claimed as new.

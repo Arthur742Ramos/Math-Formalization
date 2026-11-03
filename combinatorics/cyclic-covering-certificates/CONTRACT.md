@@ -19,11 +19,24 @@ The Comparator draft selects only
 `CyclicDigitTransport.no_representative_extension`. Its `definition_names` list
 is empty intentionally: representative data and the mathematical extension
 predicate are fixed dependencies of the theorem, not replaceable definition
-holes. Exact protected dependency comparison still requires execution.
+holes. An exact-source protected dependency-comparison receipt is required for release.
 
 The standalone Challenge passed ordinary Lean4.35.0-rc2 elaboration/kernel
 checking with only propext, Classical.choice and Quot.sound. This is not a
 protected Comparator, independent-kernel, rendering or canonical full pass.
-Those gates remain outstanding; host capacity is below the published canonical
-minimum. Author/maintainer attribution must be finalized before formalization
-metadata is written or any registry handoff is made.
+The historical native checks are identified in the metadata and retained
+source-bound receipts. The prior local capacity check was blocked; that result
+remains historical evidence, not an assertion about a later permitted host.
+A release or registry handoff must separately provide immutable exact-source
+receipts for the full official hosted preflight, including protected comparison
+and independent kernels, and for canonical rendering/visual inspection and
+final package review. Record current outcomes outside the frozen source,
+including the exact commit, metadata digest, pins and tool revisions. Historical
+native evidence alone does not establish those gates or intake readiness.
+
+[The formalization metadata](formalization.yaml) records the project authors as
+Arthur Freitas Ramos, David Barros Hulak, and Ruy Jose Guerra Barretto de Queiroz,
+in that order. The responsible maintainers are the same ordered trio. These
+roles do not establish particular human proof contributions or human review.
+Substantial AI contributions and the limited internal AI review are disclosed
+in the metadata and README; no human or external peer review is claimed.
