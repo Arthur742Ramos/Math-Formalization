@@ -1,0 +1,17 @@
+{
+  "challenge_module": "LambdaCPSExactCostChallenge",
+  "solution_module": "LambdaCPSExactCostSolution",
+  "theorem_names": [
+    "LambdaTuring.WeakNameEvalCount.cps_forward",
+    "LambdaTuring.WeakNameEvalCount.head_steps",
+    "LambdaTuring.WeakNameEvalCount.cps_identity",
+    "LambdaTuring.cps_identity_exact_cost",
+    "LambdaTuring.LambdaContext.cps_context_exact_cost"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

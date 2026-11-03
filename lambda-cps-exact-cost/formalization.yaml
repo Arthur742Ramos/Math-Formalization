@@ -1,0 +1,151 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "Exact beta-step cost of call-by-name CPS translation",
+    "description": "Proves an exact affine relationship between weak call-by-name head contractions and weak call-by-value contractions of a CPS translation, including translated closing-context tests.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy José Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "sources": [
+    {
+      "title": "Call-by-name, call-by-value and the lambda-calculus",
+      "authors": [
+        "Gordon D. Plotkin"
+      ],
+      "id": "https://homepages.inf.ed.ac.uk/gdp/publications/cbn_cbv_lambda.pdf",
+      "relationship": "adapts",
+      "note": "Plotkin studies continuation-based simulations between call-by-name and call-by-value calculi. This package extends the inherited CPS formalization with an exact step-count theorem for its specific translation; it does not claim a new classical result or a machine-time bound."
+    }
+  ],
+  "classification": {
+    "arxiv": [
+      "math.LO",
+      "cs.LO"
+    ],
+    "msc2020": []
+  },
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned Mathlib computability, RE predicates, many-one reductions, bounded evaluation, and Rice theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0160b1ea1af92434ad40e27f2fe84e4ea837a026/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Public source checkpoint of the earlier Lean lambda/Turing package. This theory package reuses its explicit syntax, coding and proof architecture."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Of 125 inherited modules, 122 are byte-for-byte copies of this checkpoint. FoldCode has an equivalent explicit helper proof, TermCode has equivalent reordered structural equations, and ExecutableTermCoding names the validity and inverse proof fields to make fixed-definition comparison independent of generated helper names. The encoding behavior is unchanged; original notices are preserved and Mathlib remains pinned."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
+      "relationship": "builds-on",
+      "note": "Registered predecessor PALOMAR-2026-11-01-000026 version 1; exact source checkpoint 0160b1ea1af92434ad40e27f2fe84e4ea837a026, lambda-turing/comparator.json. The present theory package is separate and does not modify that registration."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000031&version=1",
+      "relationship": "builds-on",
+      "note": "Registered closed-lambda computability predecessor, version 1, exact source 236c361f809b2004cde6ecbed679c864bd16ee90; its fixed model, totality infrastructure and notices are reused. Of 125 inherited proof modules, 124 are unchanged and ExecutableTermCoding has a named-proof-field repair."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-02-000001&version=1",
+      "relationship": "builds-on",
+      "note": "Registered refinement and equivalence predecessor, version 1, exact source 9751493be3434d199e334f6283b2bbb2d1855f7f; this separate package extends the same campaign without modifying that record."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/236c361f809b2004cde6ecbed679c864bd16ee90/lambda-theory",
+      "relationship": "builds-on",
+      "note": "Of the 125 modules inherited from this source, 124 are unchanged; ExecutableTermCoding has a named-proof-field repair. Notices are retained; the later recursion predecessor added EffectiveLambdaRecursion."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0d60a72299f83786929a45a29a2ddc2dba921572/lambda-recursion",
+      "relationship": "builds-on",
+      "note": "Exact public recursion and effective-inseparability predecessor. All 126 inherited Lean modules are retained byte-for-byte; the later one-one predecessor added CreativeZero. The recursion source includes the named executable-encoding proof fields used for fixed-definition comparison."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/93651789770ea5ed0501ccc5e04b5cd28dffcd04/lambda-oneone",
+      "relationship": "builds-on",
+      "note": "Exact public one-one lambda padding predecessor; all 127 inherited Lean modules are retained byte-for-byte. The later productive-complement predecessor added ClosedProductive."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/1e6513fb59a5e5947992e4937ce4c05f4a0a4109/lambda-productive",
+      "relationship": "builds-on",
+      "note": "The intervening closed-lambda one-one predecessor retains all 128 Lean modules from this productive-complement source and adds MyhillFibers, removing the target-extensionality assumption for that predecessor theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b6eb1988de2ddf8794eb3c3781eb34bc37f2bc7a/lambda-myhill",
+      "relationship": "builds-on",
+      "note": "The effective-isomorphism predecessor inherited these 129 modules and added FiniteOrbit, proving a generic theorem for natural-number predicates. The later closed-bijection predecessor supplies the closed-term application."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8c6bf56d8a6a7377d5324121a2a14688601fe67c/lambda-isomorphism",
+      "relationship": "builds-on",
+      "note": "Exact public effective-isomorphism predecessor. All 130 inherited LambdaTuring Lean modules are unchanged; the later closed-bijection predecessor added CodedIsomorphism. No change to that separate package or its preflight is implied."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/adf433d5f4fd3a9558dc27bcf9f0ae51fdc8a35d/lambda-closed-bijection",
+      "relationship": "builds-on",
+      "note": "Exact public closed-object/zero-observation predecessor. All 131 inherited LambdaTuring Lean modules are unchanged. The later unary-value predecessor added UnaryCodePadding, SemanticMatching and UnarySemanticsIsomorphism and interprets source codes as unary functions, rather than fixed code-input evaluations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/3589007cd936d7bf70b33e10eb5be39d142b2956/lambda-unary-value-isomorphism",
+      "relationship": "builds-on",
+      "note": "The normal-order predecessor inherited all 134 LambdaTuring modules from this public unary-value source and added NormalOrder; its standard-reduction and full-beta model are reused here."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/dacdaecaca4acb9927ad803bed44a6060731f80b/lambda-normal-order",
+      "relationship": "builds-on",
+      "note": "The CPS adequacy predecessor inherited all 135 LambdaTuring modules from this public normal-order source and added WeakCBVCPS; its theorem concerns closed-source weak-value convergence."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/a38472ab8b3283ffb88fd258eaa57a490242e40c/lambda-cps-adequacy",
+      "relationship": "builds-on",
+      "note": "The translated-context predecessor retained all 136 LambdaTuring modules from this CPS adequacy source and added CPSContexts. The present result builds on that context construction and closed-program adequacy."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/18314fa39127769b24721f610cc568f9691f9505/lambda-cps-contexts",
+      "relationship": "builds-on",
+      "note": "The exact public translated-context predecessor. All 137 inherited LambdaTuring modules are unchanged; CPSExactCost is new. This is a separate development and does not alter the predecessor intake."
+    }
+  ],
+  "status": {
+    "scope": "For closed source t, n weak call-by-name head beta contractions to an abstraction occur exactly when the CPS translation applied to the identity continuation reaches a weak call-by-value value in 4*n+2 beta contractions. The theorem also holds for the explicitly translated test of any source context with a closed hole and closed plugged source. A counted big-step theorem gives exact translated-body readback and 4*n+1 target steps before applying an arbitrary abstraction continuation. The count treats substitution as one atomic beta contraction; no runtime, space, full abstraction for arbitrary target contexts, or divergence equivalence is claimed.",
+    "sorry_count": 5,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "The isolated Challenge theorem holes are comparison obligations and are not imported by Solution. Integrated validation, independent package review and hosted verification remain pending.",
+    "attribution_status": "Three established authors and Arthur Freitas Ramos as responsible maintainer. Material AI contribution is disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex contributed Lean proofs and packaging; separate internal AI review has checked selected immutable checkpoints."
+      }
+    ],
+    "notes": "Human mathematical review and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "The exact affine cost is specific to the stated untyped de Bruijn CPS translation and weak beta-step accounting, with capture-avoiding substitution counted atomically. Context tests are restricted to translations of the stated closing source contexts."
+  },
+  "review": {
+    "status": "unchecked",
+    "reviewers": [],
+    "notes": "Source checkpoint 481bf5c918be0918cf1aefc8fca3ad79ad56bc2a passed independent source review. Integrated package review remains pending."
+  },
+  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
+}
