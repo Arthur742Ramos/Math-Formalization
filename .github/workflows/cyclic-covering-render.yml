@@ -54,7 +54,7 @@ jobs:
       - name: Checkout source for Challenge hash binding
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: 6f795a7cd6a4464ea7eec428f44f3664b2f396b2
+          ref: 34f0061225ff905906488c1dbb4eab78f38efee4
           path: source
           persist-credentials: false
       - name: Fetch and bind exact source
@@ -64,7 +64,7 @@ jobs:
           echo "2ccda3ba3ad7a1c27aee4b30960a3dc1510e0b5437359937f202a059f50fff82  $GITHUB_WORKSPACE/source/combinatorics/cyclic-covering-certificates/Challenge.lean" | sha256sum --check
           python -m scripts.render_challenge prepare \
             --repository Arthur742Ramos/Math-Formalization \
-            --commit 6f795a7cd6a4464ea7eec428f44f3664b2f396b2 \
+            --commit 34f0061225ff905906488c1dbb4eab78f38efee4 \
             --challenge-sha256 "$(sha256sum "$GITHUB_WORKSPACE/source/combinatorics/cyclic-covering-certificates/Challenge.lean" | cut -d' ' -f1)" \
             --project-path combinatorics/cyclic-covering-certificates \
             --challenge-path combinatorics/cyclic-covering-certificates/Challenge.lean \
