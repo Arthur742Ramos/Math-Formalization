@@ -394,7 +394,7 @@ def omegaTerm : Term := .app selfApply selfApply
 
 def normalObservationStage (t : Term) (k : Nat) : Option (Option Nat) :=
   match normalOrderStep (normalOrderRun k t) with
-  | none => some (decodeChurch (normalOrderRun k t))
+  | Option.none => some (decodeChurch (normalOrderRun k t))
   | some _ => none
 
 
