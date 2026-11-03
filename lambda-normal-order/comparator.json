@@ -1,0 +1,23 @@
+{
+  "challenge_module": "LambdaNormalOrderChallenge",
+  "solution_module": "LambdaNormalOrderSolution",
+  "theorem_names": [
+    "LambdaTuring.normalOrderStep_primrec",
+    "LambdaTuring.normalOrderStep_sound",
+    "LambdaTuring.normalOrderStep_none_iff",
+    "LambdaTuring.normalOrderStep_abs",
+    "LambdaTuring.normalOrderStep_root",
+    "LambdaTuring.normalOrderStep_app_left",
+    "LambdaTuring.normalOrderStep_app_right",
+    "LambdaTuring.normalOrder_normalizes_to",
+    "LambdaTuring.normalOrder_stops_iff_normalizable",
+    "LambdaTuring.normalOrder_infinite_iff_not_normalizable",
+    "LambdaTuring.normalOrderRun_normal_unique"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
