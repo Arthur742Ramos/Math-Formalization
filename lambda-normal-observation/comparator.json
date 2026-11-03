@@ -1,0 +1,21 @@
+{
+  "challenge_module": "LambdaNormalObservationChallenge",
+  "solution_module": "LambdaNormalObservationSolution",
+  "theorem_names": [
+    "LambdaTuring.primrec_normalOrderRun",
+    "LambdaTuring.normalObservationStage_primrec",
+    "LambdaTuring.normalObservation_partrec",
+    "LambdaTuring.mem_normalObservation_iff",
+    "LambdaTuring.normalObservation_numeral_iff",
+    "LambdaTuring.normalObservation_nonnumeral_iff",
+    "LambdaTuring.normalObservation_undefined_iff",
+    "LambdaTuring.etaObservationZero_observer",
+    "LambdaTuring.omega_normalObservation_undefined"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
