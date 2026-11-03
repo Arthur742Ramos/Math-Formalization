@@ -1,0 +1,21 @@
+{
+  "challenge_module": "LambdaCPSAdequacyChallenge",
+  "solution_module": "LambdaCPSAdequacySolution",
+  "theorem_names": [
+    "LambdaTuring.weakCBVStep_deterministic",
+    "LambdaTuring.weakCBVPath_beta",
+    "LambdaTuring.nameToValueCPS_scoped",
+    "LambdaTuring.nameToValueCPS_substAt",
+    "LambdaTuring.cbv_value_implies_name_value",
+    "LambdaTuring.head_to_valueCPS_forward",
+    "LambdaTuring.valueCPS_reflect_exact",
+    "LambdaTuring.valueCPS_terminates_iff_head_value",
+    "LambdaTuring.discardOmega_cps_terminates"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
