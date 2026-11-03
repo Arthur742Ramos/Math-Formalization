@@ -384,9 +384,10 @@ def decodeChurchBody : Term → Option Nat
   | .app (.var 1) t => (decodeChurchBody t).map Nat.succ
   | _ => none
 
-def decodeChurch : Term → Option Nat
-  | .abs (.abs body) => decodeChurchBody body
-  | _ => none
+def decodeChurch (t : Term) : Option Nat :=
+  Term.casesOn t (fun _ => none)
+    (fun b => Term.casesOn b (fun _ => none) decodeChurchBody (fun _ _ => none))
+    (fun _ _ => none)
 
 
 def selfApply : Term := .abs (.app (.var 0) (.var 0))
