@@ -1,0 +1,25 @@
+{
+  "challenge_module": "LambdaNormalInseparabilityChallenge",
+  "solution_module": "LambdaNormalInseparabilitySolution",
+  "theorem_names": [
+    "LambdaTuring.normalOutcomeMap_primrec",
+    "LambdaTuring.normalOutcomeMap_closed",
+    "LambdaTuring.normalOutcomeMap_zero",
+    "LambdaTuring.normalOutcomeMap_one",
+    "LambdaTuring.identityTerm_ne_church",
+    "LambdaTuring.normalOutcomeMap_maps_zero",
+    "LambdaTuring.normalOutcomeMap_maps_one",
+    "LambdaTuring.normalLanguages_disjoint",
+    "LambdaTuring.normalOutcomeMap_recognizer_codes",
+    "LambdaTuring.normalLanguages_effectively_inseparable",
+    "LambdaTuring.closedNonnumericalNormal_re",
+    "LambdaTuring.no_computable_normal_outcome_separator",
+    "LambdaTuring.normalLanguages_re_effectively_inseparable"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
