@@ -140,7 +140,7 @@
   "review": {
     "status": "unchecked",
     "reviewers": [],
-    "notes": "Source checkpoint 84f4e667fbf8ded3f51db81e3e6fd9b1aae83bcf awaits independent mathematical and integrated package review."
+    "notes": "Source checkpoint 84f4e667fbf8ded3f51db81e3e6fd9b1aae83bcf passed targeted independent mathematical review; this standalone package awaits integrated review."
   },
   "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
 }
