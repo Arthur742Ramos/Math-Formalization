@@ -4,4 +4,4 @@ For every closed de Bruijn lambda term, weak call-by-name reaches an abstraction
 
 The weak relations do not reduce under abstractions. Open source terms may be stuck and are outside the adequacy equivalence. This result does not claim contextual equivalence, Church-numeral readback, full beta-normalization correspondence, or a complexity bound.
 
-The classical reference is Gordon Plotkin, “Call-by-name, call-by-value and the lambda-calculus” (1975). The challenge fixes the source and target strategies, value notion, translation and continuation; its isolated theorem holes are not imported by Solution. Mathematical and integrated package review and hosted preflight are pending.
+The classical reference is Gordon Plotkin, “Call-by-name, call-by-value and the lambda-calculus” (1975). The challenge fixes the source and target strategies, value notion, translation and continuation; its isolated theorem holes are not imported by Solution. The source checkpoint passed targeted independent mathematical review; integrated package review and hosted preflight are pending.
