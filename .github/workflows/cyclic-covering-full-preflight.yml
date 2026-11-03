@@ -1,0 +1,22 @@
+name: Cyclic covering full preflight
+run-name: Cyclic covering full preflight cyc261103a01
+on:
+  push:
+    branches:
+      - verify/cyclic-covering-20261103
+    paths:
+      - .github/workflows/cyclic-covering-full-preflight.yml
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: Arthur742Ramos/Math-Formalization
+      commit: a7cf88ed29255aea5e0c562bd392cf892da4a701
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: cyc261103a01
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: >-
+        {"project_path":"combinatorics/cyclic-covering-certificates","comparator_config_path":"combinatorics/cyclic-covering-certificates/comparator.json","formalization_metadata_path":"combinatorics/cyclic-covering-certificates/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}
