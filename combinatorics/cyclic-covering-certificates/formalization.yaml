@@ -33,7 +33,7 @@
         "David Barros Hulak",
         "Ruy Jose Guerra Barretto de Queiroz"
       ],
-      "type": "working research manuscript",
+      "type": "paper",
       "relationship": "formalizes",
       "location": "Working manuscript dated 3 November 2026; covering_schemes_research_note.tex, especially the small-witness, normalization, digit-lifting, arithmetic-certificate and formal-status sections.",
       "note": "Partial formalization only: fixed-representative nonextension, generic ten-row normalization, explicit finite witnesses and selected soundness implications. The manuscript's full classification, global nonexistence conclusions and infinite-family results are not claimed as Lean theorems. This is a working manuscript, not a published article; no public manuscript URL is supplied. Scholarly priority remains under review."
