@@ -1,7 +1,7 @@
 # Draft registry contract
 
 `Challenge.lean` is a self-contained proof-bearing statement surface with only
-Std imported. It contains 990 physical lines and 53,701 bytes. Its principal
+Std imported. It contains 994 physical lines and 53,880 bytes. Its principal
 theorem excludes an original sixth-column extension of each of the seventeen
 literal representatives. `Solution.lean` separately imports the full modular
 implementation. Neither source assumes exhaustive classification or unrestricted
@@ -13,7 +13,13 @@ seventeen repeated profile-check namespace wrappers, and retaining every
 required proof and literal data table. It does not pack unrelated commands on
 one line to conceal its size. `challenge-extraction.json` lists selected
 declarations and input hashes. The complete modular implementation remains
-available alongside it.
+available alongside it. The explicit `CoveringTransforms.difference_lt` lemma
+keeps the original modular bound proof under the same name in both sources.
+This prevents Lean's nested-proof cache from choosing different auxiliary
+proof names when declarations are combined into the standalone Challenge;
+the residue value and the `Extends` predicate are unchanged.
+`PORT-MANIFEST.json` records the initial port, so its historical
+`TransformSoundness.lean` hash predates this named-helper repair.
 
 The Comparator draft selects only
 `CyclicDigitTransport.no_representative_extension`. Its `definition_names` list

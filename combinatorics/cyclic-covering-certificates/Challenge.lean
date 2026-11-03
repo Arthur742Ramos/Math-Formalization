@@ -113,8 +113,12 @@ end CyclicNormalization
 
 -- TransformSoundness
 namespace CoveringTransforms
+/-- A named bound keeps the elaborated definition independent of proof-cache context. -/
+theorem difference_lt (a b : Fin 9) : (b.val + 9 - a.val) % 9 < 9 :=
+  Nat.mod_lt _ (by decide)
+
 @[expose] def difference (a b : Fin 9) : Fin 9 :=
-  ⟨(b.val + 9 - a.val) % 9, Nat.mod_lt _ (by decide)⟩
+  ⟨(b.val + 9 - a.val) % 9, difference_lt a b⟩
 @[expose] def Extends {R C : Type} (array : R → C → Fin 9) (newColumn : R → Fin 9) : Prop :=
   ∀ j d, ∃ r, difference (array r j) (newColumn r) = d
 end CoveringTransforms

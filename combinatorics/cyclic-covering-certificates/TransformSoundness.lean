@@ -12,8 +12,12 @@ set_option maxHeartbeats 8000000
 
 namespace CoveringTransforms
 
+/-- A named bound keeps the elaborated definition independent of proof-cache context. -/
+theorem difference_lt (a b : Fin 9) : (b.val + 9 - a.val) % 9 < 9 :=
+  Nat.mod_lt _ (by decide)
+
 @[expose] def difference (a b : Fin 9) : Fin 9 :=
-  ⟨(b.val + 9 - a.val) % 9, Nat.mod_lt _ (by decide)⟩
+  ⟨(b.val + 9 - a.val) % 9, difference_lt a b⟩
 
 @[expose] def unitValue (u : Fin 6) : Nat := [1,2,4,5,7,8].getD u.val 1
 @[expose] def inverseValue (u : Fin 6) : Nat := [1,5,7,2,4,8].getD u.val 1

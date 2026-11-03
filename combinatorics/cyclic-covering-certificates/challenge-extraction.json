@@ -27,8 +27,9 @@
   },
   {
     "source": "TransformSoundness.lean",
-    "sha256": "9bd3c17964da550486ce9e3abb4c6ca8819966a2fbd20aa8b7d8f23f37dca318",
+    "sha256": "e4149e4858c4fcb880e3e13b0875f9f1e3536263d04ece6fa2c0917e1dd49e98",
     "declarations": [
+      "difference_lt",
       "difference",
       "Extends"
     ]
