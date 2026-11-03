@@ -30,7 +30,7 @@ def sha(data):
 
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
-    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts|computational-hodge/metric-hodge|computational-hodge/arclength|computational-hodge/poisson|computational-hodge/green-operator|computational-hodge/compact-green|computational-hodge/fredholm-circle|computational-hodge/resonance-obstruction|computational-hodge/resonant-range|computational-hodge/full-circle-range|computational-hodge/canonical-circle|computational-hodge/positive-resolvent|computational-hodge/resolvent-limit|computational-hodge/resolvent-calculus|computational-hodge/arclength-conjugacy|computational-hodge/arclength-modes|computational-hodge/resonant-periods', project),
+    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|combinatorics/cyclic-covering-certificates|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts|computational-hodge/metric-hodge|computational-hodge/arclength|computational-hodge/poisson|computational-hodge/green-operator|computational-hodge/compact-green|computational-hodge/fredholm-circle|computational-hodge/resonance-obstruction|computational-hodge/resonant-range|computational-hodge/full-circle-range|computational-hodge/canonical-circle|computational-hodge/positive-resolvent|computational-hodge/resolvent-limit|computational-hodge/resolvent-calculus|computational-hodge/arclength-conjugacy|computational-hodge/arclength-modes|computational-hodge/resonant-periods', project),
             'Invalid project path')
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
@@ -210,7 +210,27 @@ def bind_full(report, fields, files):
             protected['challenge_module'].endswith('.Challenge'), 'Unprotected Challenge')
     for kind in ['challenge', 'solution']:
         require(report[kind]['module'] == config[kind + '_module'], kind + ' module mismatch')
-    if project == 'algebraic-hodge/ddbar-pilot':
+    if project == 'combinatorics/cyclic-covering-certificates':
+        # New-path policy: pipeline 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+        # requires Lean/NanoDa and records con-ron as advisory. Cyclic metadata
+        # requires the required kernels, not three acceptances. Authenticate the
+        # pipeline/run separately; no existing project's contract changes here.
+        require(report.get('schema_version') == 2 and report.get('phase') == 'verification'
+                and report.get('execution_profile') == 'palomar-standard-v1',
+                'Unsupported cyclic kernel protocol')
+        check_kernel_account(report, protected)
+        configured = protected['external_kernels']
+        nanoda = next(k['argv'] for k in report['kernels'] if k['name'] == 'nanoda')
+        require(set(configured) == {'nanoda'} and nanoda == configured['nanoda']
+                and len(nanoda) == 1 and pathlib.PurePosixPath(nanoda[0]).is_absolute()
+                and pathlib.PurePosixPath(nanoda[0]).name == 'nanoda_bin',
+                'Wrong protected cyclic NanoDa command')
+        command = report['kernel_attempts'][0]['argv']
+        require(pathlib.PurePosixPath(command[0]).is_absolute()
+                and command[1:] == ['--jobs=2', '--verified'], 'Wrong cyclic con-ron replay command')
+        if any(k['name'] == 'con-ron' for k in report['kernels']):
+            check_kernels(report, protected)
+    elif project == 'algebraic-hodge/ddbar-pilot':
         # Hodge's reviewed plan follows mandatory Lean/NanoDa plus advisory con-ron.
         # Preserve main's stronger three-kernel account for every other packet;
         # when Hodge records con-ron acceptance, require its same strict provenance.

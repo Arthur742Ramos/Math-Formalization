@@ -1,0 +1,6 @@
+'CoveringScheme.witness_covers' depends on axioms: [propext, Quot.sound]
+'CoveringScheme.exists_covering_9_10_5' depends on axioms: [propext, Quot.sound]
+'CoveringScheme.witness11_covers' depends on axioms: [propext, Quot.sound]
+'CoveringScheme.exists_covering_9_11_6' depends on axioms: [propext, Quot.sound]
+'CoveringScheme.witness11x7_covers' depends on axioms: [propext, Quot.sound]
+'CoveringScheme.exists_covering_9_11_7' depends on axioms: [propext, Quot.sound]

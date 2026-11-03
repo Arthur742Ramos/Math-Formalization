@@ -1,0 +1,348 @@
+[
+  {
+    "source": "Normalization.lean",
+    "sha256": "8c7ed187447c1c2e13ba4da9252ea2e30b5ca5c78f66b49b0dbd7ab673d8166a",
+    "declarations": [
+      "extract",
+      "residues",
+      "covered_ten_perm",
+      "residueSum",
+      "sum_perm",
+      "sum_residues_extra",
+      "covered_ten_sum_perm",
+      "translate",
+      "sum_translate",
+      "normalize_sum_zero",
+      "sum_difference",
+      "covered_ten_zero_sum"
+    ]
+  },
+  {
+    "source": "CoveringNormalization.lean",
+    "sha256": "7a44e2e1baf8eddcc7a1f83f20f94875d9d6b4524f5b7062429d4c6dba82cc56",
+    "declarations": [
+      "rows",
+      "translate_surjective"
+    ]
+  },
+  {
+    "source": "TransformSoundness.lean",
+    "sha256": "e4149e4858c4fcb880e3e13b0875f9f1e3536263d04ece6fa2c0917e1dd49e98",
+    "declarations": [
+      "difference_lt",
+      "difference",
+      "Extends"
+    ]
+  },
+  {
+    "source": "F3Linear.lean",
+    "sha256": "40e63b54b21df9e85b1ad5423744a11d0b285f9ace5d3e97acafb026a3e3bde8",
+    "declarations": [
+      "F3",
+      "ofNat",
+      "add",
+      "mul",
+      "add_assoc",
+      "add_zero",
+      "zero_add",
+      "mul_zero",
+      "zero_mul",
+      "mul_assoc",
+      "mul_add",
+      "add_mul",
+      "add_interchange",
+      "sum",
+      "sum_congr",
+      "sum_zero",
+      "sum_add",
+      "mul_sum",
+      "sum_mul",
+      "sum_swap",
+      "weighted_matrix_sum",
+      "left_nullspace_sound",
+      "neg",
+      "mul_one",
+      "recover_affine",
+      "sum_single",
+      "affineRow",
+      "sum_affine_row",
+      "certified_consequence"
+    ]
+  },
+  {
+    "source": "ArithmeticCertificate.lean",
+    "sha256": "f749dcd77f656b56f68a2f6de6643726863375066cc13efa8c032dae600a3506",
+    "declarations": [
+      "representatives",
+      "LinearWitness",
+      "witnesses",
+      "total",
+      "entry",
+      "phaseAt",
+      "coefficient",
+      "rhs"
+    ]
+  },
+  {
+    "source": "CertifiedLinear.lean",
+    "sha256": "a073a1ca46e0e37108352ae31190a2e39d6e4ae831bf383945963a45b84628a1",
+    "declarations": [
+      "matrix3",
+      "right3",
+      "multiplier3",
+      "ValidCertificate",
+      "validCertificate",
+      "allCertificatesValid",
+      "valid_of_member",
+      "no_linear_solution"
+    ]
+  },
+  {
+    "source": "ExceptionalProfile.lean",
+    "sha256": "8eddc0406118d96028d82f7c17977ba4ce2ba6a8d7c66ab93614916c0f749673",
+    "declarations": [
+      "exceptional",
+      "matrix3",
+      "right3",
+      "particular",
+      "direction",
+      "leftMultipliers",
+      "point",
+      "dir",
+      "multiplier",
+      "inverse_minor_certificate",
+      "affine_line",
+      "upperDifference",
+      "quadratic",
+      "quadratic_failure_in_original_fibre",
+      "no_fibre_solution"
+    ]
+  },
+  {
+    "source": "ProfileEnumeration.lean",
+    "sha256": "957138f146a25340c0eb4ca30ec79b1e2e81b80b3d6c451a36c1407c0c6b9986",
+    "declarations": [
+      "Trit",
+      "count",
+      "quotaWords",
+      "trit_cases",
+      "quota_complete",
+      "balancedWords",
+      "balanced_complete"
+    ]
+  },
+  {
+    "source": "ProfileData.lean",
+    "sha256": "b173a6e1ce2a4246e356bfe10575516aa99bc5b3525a78f063c797d7693ded54",
+    "declarations": [
+      "lowerColumns",
+      "expectedProfiles",
+      "histogram",
+      "columnOK",
+      "profileOK",
+      "filteredProfiles"
+    ]
+  },
+  {
+    "source": "ProfileCheck00.lean",
+    "sha256": "265ba225ac234462c80a2f661129babfde0c5f03e3222c00f518ff2dc3cc15ab",
+    "declarations": [
+      "profile00"
+    ]
+  },
+  {
+    "source": "ProfileCheck01.lean",
+    "sha256": "0ab274308eaa378e8936ee54acaea9cfcb40615dcb5a44554262c28853517ddd",
+    "declarations": [
+      "profile01"
+    ]
+  },
+  {
+    "source": "ProfileCheck02.lean",
+    "sha256": "7bc95f4215269d86fecd4468d205b1b20d8c2b82a5b0c9b67d1aabe77a059aa4",
+    "declarations": [
+      "profile02"
+    ]
+  },
+  {
+    "source": "ProfileCheck03.lean",
+    "sha256": "fa19d9ba572b7aff586e65f5e9a359c86d0ca2a161e9e72b60ae4bebcd33889e",
+    "declarations": [
+      "profile03"
+    ]
+  },
+  {
+    "source": "ProfileCheck04.lean",
+    "sha256": "823157479eabd703770af3d77c05ce213342e8e8628eb08ae04f2e9807d8723b",
+    "declarations": [
+      "profile04"
+    ]
+  },
+  {
+    "source": "ProfileCheck05.lean",
+    "sha256": "a04ee234d76cbba785fd5dca6b9ca65a8d6fc0804b9b1bf94c5c30bf477bc52a",
+    "declarations": [
+      "profile05"
+    ]
+  },
+  {
+    "source": "ProfileCheck06.lean",
+    "sha256": "ebc53dc7188e988e5476eaab22ed68f9be8880372f8890155e08600231cf2ddc",
+    "declarations": [
+      "profile06"
+    ]
+  },
+  {
+    "source": "ProfileCheck07.lean",
+    "sha256": "0fd250e87a1fd29373b3452a3473a6ef08b4aa2b32b2e995581744317db3e324",
+    "declarations": [
+      "profile07"
+    ]
+  },
+  {
+    "source": "ProfileCheck08.lean",
+    "sha256": "78dd3b6f4a7572056f47e1a6ec953349fc1f045037ef50e18956589008c59a99",
+    "declarations": [
+      "profile08"
+    ]
+  },
+  {
+    "source": "ProfileCheck09.lean",
+    "sha256": "f2cebaf81596bdb15483f75c3aaef2cc89d845b7e010ce21a75a2459a4c749b2",
+    "declarations": [
+      "profile09"
+    ]
+  },
+  {
+    "source": "ProfileCheck10.lean",
+    "sha256": "ecfa86bb2732c6d29d3d03ce51c374a19f63c9116f5ef82d29353c567509f6a0",
+    "declarations": [
+      "profile10"
+    ]
+  },
+  {
+    "source": "ProfileCheck11.lean",
+    "sha256": "2936059d5bc0bc129f33997d6c350acc48546866d2d1b973ad0fdc4f4423f076",
+    "declarations": [
+      "profile11"
+    ]
+  },
+  {
+    "source": "ProfileCheck12.lean",
+    "sha256": "cad8ff3baf0e88f7effc7aca964255ca946780f8b177203fc295214cdabf35b1",
+    "declarations": [
+      "profile12"
+    ]
+  },
+  {
+    "source": "ProfileCheck13.lean",
+    "sha256": "18dcfb50009250f2a06970a48790e68128f1da919bbc83bc239bdd3b68661724",
+    "declarations": [
+      "profile13"
+    ]
+  },
+  {
+    "source": "ProfileCheck14.lean",
+    "sha256": "c82f51ec060e40cacee7bab306a4aa6d2c2d07f55e09ce77b8411f7a21856820",
+    "declarations": [
+      "profile14"
+    ]
+  },
+  {
+    "source": "ProfileCheck15.lean",
+    "sha256": "16570c8f39323f1fb65b92faedde4215a6a41869f1ca0ccb0c178bb3feb0c254",
+    "declarations": [
+      "profile15"
+    ]
+  },
+  {
+    "source": "ProfileCheck16.lean",
+    "sha256": "1d11962068bc6c660ef4ef26b151eb7da7f0740254c25d76370c7a8591affcaa",
+    "declarations": [
+      "profile16"
+    ]
+  },
+  {
+    "source": "ProfileCoverage.lean",
+    "sha256": "2567e298b7573fae68be524c6f539154c43d6b26effe307d8f6b86e571f0c8d1",
+    "declarations": [
+      "profile_tables",
+      "Eligible",
+      "every_eligible_profile_is_listed",
+      "hasCertificate",
+      "all_profiles_have_certificates",
+      "every_eligible_profile_has_certificate"
+    ]
+  },
+  {
+    "source": "ArithmeticExclusion.lean",
+    "sha256": "356a6985b3389c380bd5bd22107fe034084fadf5e1fc022b6f311449b71dea12",
+    "declarations": [
+      "base",
+      "upper",
+      "secondMoment",
+      "LiftEquations",
+      "exceptional_moment_is_quadratic",
+      "no_digit_lift"
+    ]
+  },
+  {
+    "source": "RepresentativeExtension.lean",
+    "sha256": "ea6549770954e7f992dd77bd6fea510bbeb3139af8bc4e3ca418e7eda58d04f3",
+    "declarations": [
+      "entry_lt",
+      "representative",
+      "first_column_zero",
+      "column_sum_zero",
+      "normalized",
+      "normalized_sum",
+      "normalize_extension",
+      "extension_difference_perm",
+      "extension_column_perm",
+      "low",
+      "high",
+      "count_perm",
+      "normalized_lower_quotas",
+      "nat_sum_perm",
+      "normalized_conditional_moments"
+    ]
+  },
+  {
+    "source": "RepresentativeEligibility.lean",
+    "sha256": "443039741c6fe32914e1ec27d35698063b1dbe72dea9a8d99ba7fd55da43c96c",
+    "declarations": [
+      "literal_lower_columns",
+      "low_difference",
+      "histogram_map_val",
+      "normalized_histogram",
+      "zipWith_maps",
+      "extension_columnOK",
+      "extension_eligible"
+    ]
+  },
+  {
+    "source": "DigitTransport.lean",
+    "sha256": "9731487db52a79d61d35c00ed8a2e5d45557cf345b47ba4c2dbf197b8543dc97",
+    "declarations": [
+      "profile",
+      "vector",
+      "profile_get",
+      "phase_eq",
+      "upper_eq",
+      "ofNat_add",
+      "nat_sum_append",
+      "sum_ofNat",
+      "ofNat_total",
+      "sum10_rows",
+      "momentTerm",
+      "momentTerm_nat",
+      "moments_transport",
+      "offset",
+      "add_neg_cancel",
+      "linear_point",
+      "linear_of_moment",
+      "permutation_lift",
+      "no_representative_extension"
+    ]
+  }
+]

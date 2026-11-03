@@ -1,0 +1,5 @@
+'CoveringExceptional.inverse_minor_certificate' depends on axioms: [propext]
+'CoveringExceptional.no_fibre_solution' depends on axioms: [propext, Quot.sound]
+'CoveringExceptional.affine_line' depends on axioms: [propext, Quot.sound]
+'CoveringExceptional.affine_line_is_solution' depends on axioms: [propext]
+'CoveringExceptional.affine_quadratic_failure' depends on axioms: [propext]

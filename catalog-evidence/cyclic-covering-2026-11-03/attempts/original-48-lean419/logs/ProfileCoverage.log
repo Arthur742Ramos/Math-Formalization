@@ -1,0 +1,3 @@
+'CoveringProfileCoverage.every_eligible_profile_is_listed' depends on axioms: [propext, Quot.sound]
+'CoveringProfileCoverage.exactly_seventy_two_profiles' depends on axioms: [propext]
+'CoveringProfileCoverage.every_eligible_profile_has_certificate' depends on axioms: [propext, Quot.sound]

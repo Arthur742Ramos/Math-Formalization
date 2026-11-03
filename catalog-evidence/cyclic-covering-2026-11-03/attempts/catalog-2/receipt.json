@@ -1,0 +1,18 @@
+{
+  "commit": "9baa98e9ab3e4ec8ae4963f44dacc7512a10b88b",
+  "tree": "ed28aa2fb7c990500284b257235fcd6f25cbf6ac",
+  "target": "catalog",
+  "started_at": "2026-11-03T15:02:05.712611+00:00",
+  "scope": "Local commands only; not independent review, canonical full verification or registry intake.",
+  "steps": [
+    {
+      "command": "python3 scripts/check_catalog.py --package-checks",
+      "directory": "root",
+      "exit_code": 1,
+      "log": "00.log",
+      "sha256": "de2fa11468ee84162850860373fd01948319e16dd212aa00910fbdfb2d2b67b3"
+    }
+  ],
+  "status": "fail",
+  "finished_at": "2026-11-03T15:02:11.880101+00:00"
+}

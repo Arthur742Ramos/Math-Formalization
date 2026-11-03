@@ -1,0 +1,5 @@
+/.lake/
+/logs/
+/verification_report.json
+/_lean_check_*/
+__pycache__/

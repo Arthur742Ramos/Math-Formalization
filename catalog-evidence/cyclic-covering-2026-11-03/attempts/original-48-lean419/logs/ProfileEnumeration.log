@@ -1,0 +1,3 @@
+'CoveringProfiles.quota_complete' depends on axioms: [propext, Quot.sound]
+'CoveringProfiles.balanced_complete' depends on axioms: [propext, Quot.sound]
+'CoveringProfiles.balanced_words_count' depends on axioms: [propext]

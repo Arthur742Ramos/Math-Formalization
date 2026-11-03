@@ -1,0 +1,20 @@
+{
+  "scope": "Standalone invocation of the unmodified official host-capacity checker, not a prepared/full canonical run",
+  "pipeline_commit": "14aa8d6b3c2f14a8540605e37144560b9a00e7e7",
+  "memory_bytes": 10451439616,
+  "effective_cpus": 9.0,
+  "profiles": [
+    {
+      "id": "palomar-standard-v1",
+      "profile_sha256": "eb97b7b548c5d016967434818f0ed48a215e7fdc15528f564ab21ff2927cfd69",
+      "status": "blocked",
+      "reason": "runner has 10451439616 memory bytes; profile requires 15032385536"
+    },
+    {
+      "id": "palomar-namespace-16x32-v1",
+      "profile_sha256": "8a124c2d0f369a019e8cb807854b47a9c711f0592ed3bfcda49718dfb457fad0",
+      "status": "blocked",
+      "reason": "runner has 9.0 effective CPUs; Namespace profile requires 16"
+    }
+  ]
+}

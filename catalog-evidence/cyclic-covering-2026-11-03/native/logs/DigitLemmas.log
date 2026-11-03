@@ -1,0 +1,4 @@
+'CoveringFormalRound3.threeDigitMomentCriterion' does not depend on any axioms
+'CoveringFormalRound3.fourDigitMomentCriterion' does not depend on any axioms
+'CoveringFormalRound3.exactCarryIdentity' does not depend on any axioms
+'CoveringFormalRound3.cyclicSeedIndexTwo' depends on axioms: [propext]

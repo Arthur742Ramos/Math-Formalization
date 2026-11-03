@@ -1,0 +1,3 @@
+'CyclicNormalization.normalize_preserves_covers' depends on axioms: [propext, Quot.sound]
+'CyclicNormalization.normalized_column_sum_zero' depends on axioms: [propext, Quot.sound]
+'CyclicNormalization.normalized_pair_perm' depends on axioms: [propext, Classical.choice, Quot.sound]

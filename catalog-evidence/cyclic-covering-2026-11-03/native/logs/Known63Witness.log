@@ -1,0 +1,5 @@
+'CoveringKnown63.matrix63_dimensions' depends on axioms: [propext]
+'CoveringKnown63.inverse_right' depends on axioms: [propext]
+'CoveringKnown63.inverse_left' depends on axioms: [propext]
+'CoveringKnown63.known_cyclic63_index_one' depends on axioms: [propext]
+'CoveringKnown63.cyclic3_six_columns' depends on axioms: [propext]

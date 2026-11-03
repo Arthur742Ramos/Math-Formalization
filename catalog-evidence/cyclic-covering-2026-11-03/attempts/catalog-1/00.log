@@ -1,0 +1,22 @@
+fatal: path 'topology/sigma-product-compactness' exists on disk, but not in '2c6e6291b5eaf7d7cc9203ba823daacd9c58b192'
+Traceback (most recent call last):
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_catalog.py", line 108, in <module>
+    parser=argparse.ArgumentParser();parser.add_argument('--online',action='store_true');parser.add_argument('--package-checks',action='store_true');args=parser.parse_args();check(args.online,args.package_checks)
+                                                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_catalog.py", line 88, in check
+    preparations=check_preparations(rows,seen)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_preparations.py", line 402, in check_preparations
+    check_verified(p, package, source, tree)
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_preparations.py", line 124, in check_verified
+    assert git('rev-parse', run['workflow_head'] + ':' + p['path']) == tree
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_preparations.py", line 16, in git
+    return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', '/workspace/scratch/813a56787602/cyclic-publication-repo', 'rev-parse', '2c6e6291b5eaf7d7cc9203ba823daacd9c58b192:topology/sigma-product-compactness']' returned non-zero exit status 128.
