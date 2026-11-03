@@ -1,0 +1,161 @@
+{
+  "version": "v0.4",
+  "project": {
+    "name": "A finite-machine observer for lambda normal forms",
+    "description": "Constructs one finite Turing machine that distinguishes Church-numeral and nonnumerical full-beta normal forms and does not halt exactly when no normal form is reachable.",
+    "authors": [
+      "Arthur Freitas Ramos",
+      "David Barros Hulak",
+      "Ruy José Guerra Barretto de Queiroz"
+    ],
+    "responsible_maintainers": [
+      "Arthur Freitas Ramos"
+    ],
+    "license": "Apache-2.0"
+  },
+  "sources": [
+    {
+      "title": "Isabelle/HOL Proofs Lambda: Standardization",
+      "authors": [
+        "Stefan Berghofer"
+      ],
+      "id": "https://isabelle.in.tum.de/website-Isabelle2026-RC0/dist/library/HOL/HOL-Proofs-Lambda/Standardization.html",
+      "relationship": "adapts",
+      "note": "The inherited StandardReduction module adapts Berghofer’s standard-reduction development, crediting Matthes and Loader; the normal-order and normal-observation predecessors use it. The present development implements that observer by an explicit finite machine."
+    }
+  ],
+  "classification": {
+    "arxiv": [
+      "math.LO",
+      "cs.LO"
+    ],
+    "msc2020": []
+  },
+  "related_formalizations": [
+    {
+      "id": "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55",
+      "relationship": "builds-on",
+      "note": "Pinned Mathlib computability, RE predicates, many-one reductions, bounded evaluation, and Rice theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0160b1ea1af92434ad40e27f2fe84e4ea837a026/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Public source checkpoint of the earlier Lean lambda/Turing package. This theory package reuses its explicit syntax, coding and proof architecture."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/c695e9a1b47f0c9cb7031f5c13b8494180b7b948/lambda-turing",
+      "relationship": "builds-on",
+      "note": "Of 125 inherited modules, 122 are byte-for-byte copies of this checkpoint. FoldCode has an equivalent explicit helper proof, TermCode has equivalent reordered structural equations, and ExecutableTermCoding names the validity and inverse proof fields to make fixed-definition comparison independent of generated helper names. The encoding behavior is unchanged; original notices are preserved and Mathlib remains pinned."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000026&version=1",
+      "relationship": "builds-on",
+      "note": "Registered predecessor PALOMAR-2026-11-01-000026 version 1; exact source checkpoint 0160b1ea1af92434ad40e27f2fe84e4ea837a026, lambda-turing/comparator.json. The present theory package is separate and does not modify that registration."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000031&version=1",
+      "relationship": "builds-on",
+      "note": "Registered closed-lambda computability predecessor, version 1, exact source 236c361f809b2004cde6ecbed679c864bd16ee90; its fixed model, totality infrastructure and notices are reused. Of 125 inherited proof modules, 124 are unchanged and ExecutableTermCoding has a named-proof-field repair."
+    },
+    {
+      "id": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-02-000001&version=1",
+      "relationship": "builds-on",
+      "note": "Registered refinement and equivalence predecessor, version 1, exact source 9751493be3434d199e334f6283b2bbb2d1855f7f; this separate package extends the same campaign without modifying that record."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/236c361f809b2004cde6ecbed679c864bd16ee90/lambda-theory",
+      "relationship": "builds-on",
+      "note": "Of the 125 modules inherited from this source, 124 are unchanged; ExecutableTermCoding has a named-proof-field repair. Notices are retained; the later recursion predecessor added EffectiveLambdaRecursion."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0d60a72299f83786929a45a29a2ddc2dba921572/lambda-recursion",
+      "relationship": "builds-on",
+      "note": "Exact public recursion and effective-inseparability predecessor. All 126 inherited Lean modules are retained byte-for-byte; the later one-one predecessor added CreativeZero. The recursion source includes the named executable-encoding proof fields used for fixed-definition comparison."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/93651789770ea5ed0501ccc5e04b5cd28dffcd04/lambda-oneone",
+      "relationship": "builds-on",
+      "note": "Exact public one-one lambda padding predecessor; all 127 inherited Lean modules are retained byte-for-byte. The later productive-complement predecessor added ClosedProductive."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/1e6513fb59a5e5947992e4937ce4c05f4a0a4109/lambda-productive",
+      "relationship": "builds-on",
+      "note": "The intervening closed-lambda one-one predecessor retains all 128 Lean modules from this productive-complement source and adds MyhillFibers, removing the target-extensionality assumption for that predecessor theorem."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b6eb1988de2ddf8794eb3c3781eb34bc37f2bc7a/lambda-myhill",
+      "relationship": "builds-on",
+      "note": "The effective-isomorphism predecessor inherited these 129 modules and added FiniteOrbit, proving a generic theorem for natural-number predicates. The later closed-bijection predecessor supplies the closed-term application."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8c6bf56d8a6a7377d5324121a2a14688601fe67c/lambda-isomorphism",
+      "relationship": "builds-on",
+      "note": "Exact public effective-isomorphism predecessor. All 130 inherited LambdaTuring Lean modules are unchanged; the later closed-bijection predecessor added CodedIsomorphism. No change to that separate package or its preflight is implied."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/adf433d5f4fd3a9558dc27bcf9f0ae51fdc8a35d/lambda-closed-bijection",
+      "relationship": "builds-on",
+      "note": "Exact public closed-object/zero-observation predecessor. All 131 inherited LambdaTuring Lean modules are unchanged. The later unary-value predecessor added UnaryCodePadding, SemanticMatching and UnarySemanticsIsomorphism and interprets source codes as unary functions, rather than fixed code-input evaluations."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/3589007cd936d7bf70b33e10eb5be39d142b2956/lambda-unary-value-isomorphism",
+      "relationship": "builds-on",
+      "note": "The normal-order predecessor inherited all 134 LambdaTuring modules from this public unary-value source and added NormalOrder; its standard-reduction and full-beta model are reused here."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/dacdaecaca4acb9927ad803bed44a6060731f80b/lambda-normal-order",
+      "relationship": "builds-on",
+      "note": "The CPS adequacy predecessor inherited all 135 LambdaTuring modules from this public normal-order source and added WeakCBVCPS; its theorem concerns closed-source weak-value convergence."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/a38472ab8b3283ffb88fd258eaa57a490242e40c/lambda-cps-adequacy",
+      "relationship": "builds-on",
+      "note": "The translated-context predecessor inherited all 136 LambdaTuring modules from this CPS adequacy source and added CPSContexts. The present package does not assert numerical readback for the CPS translation."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/18314fa39127769b24721f610cc568f9691f9505/lambda-cps-contexts",
+      "relationship": "builds-on",
+      "note": "The normal-observation predecessor inherited all 137 LambdaTuring modules from this translated-context source and added NormalObservation; the current result uses that observer."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/956863572441eb75206275d642df51c4298b8a5f/lambda-normal-observation",
+      "relationship": "builds-on",
+      "note": "The intervening normal-inseparability package retained all 138 LambdaTuring modules from this three-outcome observer predecessor and added NormalInseparability."
+    },
+    {
+      "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/17878f5ce4ea1e1b5816bf3c709e75e806d906c7/lambda-normal-inseparability",
+      "relationship": "builds-on",
+      "note": "All 139 inherited LambdaTuring modules are retained byte-for-byte. The 53 additional modules come from the original public lambda/Turing package; seven new modules construct and verify the observer machine."
+    }
+  ],
+  "status": {
+    "scope": "One explicit finite machine receives directTermNumber t for an arbitrary untyped term t. It yields n+1 exactly for the Church numeral n, yields zero exactly for a nonnumerical beta-normal form, and has no reachable halting configuration exactly when no beta-normal form is reachable. Every reachable halt decodes. No conversion from executableTermEncode and no practical size bound is claimed.",
+    "sorry_count": 1,
+    "sorry_in_definitions": 0,
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "known_gaps": "The isolated Challenge theorem hole is a comparison obligation and is not imported by Solution. Integrated exact-source validation, independent review and hosted verification are pending.",
+    "attribution_status": "Three established authors and Arthur Freitas Ramos as responsible maintainer. Material AI contribution is disclosed."
+  },
+  "automation": {
+    "methods": [
+      {
+        "method": "agent",
+        "tool_setup": "OpenAI Codex contributed Lean proofs and packaging; separate internal AI review has checked selected immutable checkpoints."
+      }
+    ],
+    "notes": "Human mathematical review and external peer review are not claimed."
+  },
+  "fidelity": {
+    "divergences": "The machine observes full-beta normal forms through the explicit directTermNumber input representation; arbitrary invalid numerical inputs and other term encodings are outside this theorem."
+  },
+  "review": {
+    "status": "unchecked",
+    "reviewers": [],
+    "notes": "Source checkpoint 09271372f743f549c9bbafada2bdd6ad51a5bd7f passed independent focused review. Integrated package review remains pending."
+  },
+  "acknowledgements": "The development builds on Mathlib and the authors’ Lean lambda/Turing formalization. The authors’ earlier Isabelle lambda/Turing development was reviewed locally at 6fed1b6e77514ec161a8fd4718fde1587f2cf624 and submitted to AFP; the reviewed local snapshot is not asserted to be the exact submitted revision or publicly available. Original proof-source headers and third-party notices are preserved with the vendored modules."
+}

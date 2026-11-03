@@ -1,0 +1,13 @@
+{
+  "challenge_module": "LambdaNormalMachineChallenge",
+  "solution_module": "LambdaNormalMachineSolution",
+  "theorem_names": [
+    "LambdaTuring.normalMachine_exists"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
