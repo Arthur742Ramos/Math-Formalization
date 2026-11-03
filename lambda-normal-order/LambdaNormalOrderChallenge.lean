@@ -374,7 +374,7 @@ def normalOrderStep (t : Term) : Option Term := (betaSteps t).head?
 def normalOrderRun : Nat → Term → Term
   | 0, t => t
   | n + 1, t => match normalOrderStep t with
-      | none => t
+      | Option.none => t
       | some u => normalOrderRun n u
 
 
@@ -385,7 +385,7 @@ theorem normalOrderStep_sound {t u : Term} (h : normalOrderStep t = some u) : Be
   sorry
 
 theorem normalOrderStep_none_iff (t : Term) :
-    normalOrderStep t = none ↔ ¬ ∃ u, Beta t u := by
+    normalOrderStep t = Option.none ↔ ¬ ∃ u, Beta t u := by
   sorry
 
 theorem normalOrderStep_abs (b : Term) :
@@ -402,17 +402,17 @@ theorem normalOrderStep_app_left {f x u : Term} (hn : ¬ ∃ b, f = .abs b)
   sorry
 
 theorem normalOrderStep_app_right {f x u : Term} (hn : ¬ ∃ b, f = .abs b)
-    (hf : normalOrderStep f = none) (hx : normalOrderStep x = some u) :
+    (hf : normalOrderStep f = Option.none) (hx : normalOrderStep x = some u) :
     normalOrderStep (.app f x) = some (.app f u) := by
   sorry
 
 theorem normalOrder_normalizes_to {t n : Term} (h : Reaches t n)
     (hn : ¬ ∃ u, Beta n u) :
-    ∃ k, normalOrderRun k t = n ∧ normalOrderStep (normalOrderRun k t) = none := by
+    ∃ k, normalOrderRun k t = n ∧ normalOrderStep (normalOrderRun k t) = Option.none := by
   sorry
 
 theorem normalOrder_stops_iff_normalizable (t : Term) :
-    (∃ k, normalOrderStep (normalOrderRun k t) = none) ↔
+    (∃ k, normalOrderStep (normalOrderRun k t) = Option.none) ↔
       ∃ n, Reaches t n ∧ ¬ ∃ u, Beta n u := by
   sorry
 
@@ -422,7 +422,7 @@ theorem normalOrder_infinite_iff_not_normalizable (t : Term) :
   sorry
 
 theorem normalOrderRun_normal_unique (n : Nat) (t u : Term)
-    (hn : normalOrderStep (normalOrderRun n t) = none)
+    (hn : normalOrderStep (normalOrderRun n t) = Option.none)
     (hu : Reaches t u) (huNormal : ¬ ∃ v, Beta u v) : normalOrderRun n t = u := by
   sorry
 
