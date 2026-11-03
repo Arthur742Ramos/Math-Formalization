@@ -1,0 +1,22 @@
+{
+  "scope": "Ordinary Solution entrypoint compilation using already checked fresh 33-module dependency closure; not a fresh dependency rebuild or canonical check",
+  "source_commit": "9baa98e9ab3e4ec8ae4963f44dacc7512a10b88b",
+  "package_tree": "eb69e561a549e1c66586584df02750fd8ad6defa",
+  "source_sha256": "0300c5b6707fd87ebf4c34efbd99b9a84f1e55799948fb0f6ab61fe7ed9a23c7",
+  "dependency_report_sha256": "575a191d0c82a483481c484cdd86b03bbf035bb61875b9b61a9cf7bb68015ae0",
+  "lean_executable_sha256": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+  "command": [
+    "/workspace/scratch/813a56787602/cyclic-toolchain/lean-4.35.0-rc2-linux/bin/lean",
+    "-j1",
+    "-o",
+    "/workspace/scratch/813a56787602/cyclic-canonical-evidence/solution-build/Solution.olean",
+    "/workspace/scratch/813a56787602/cyclic-publication-repo/combinatorics/cyclic-covering-certificates/Solution.lean"
+  ],
+  "lean_path": "/workspace/scratch/813a56787602/cyclic-lean-port/fresh-closure-build",
+  "start_utc": "2026-11-03T15:06:01.997214+00:00",
+  "end_utc": "2026-11-03T15:06:02.437198+00:00",
+  "seconds": 0.4400022029876709,
+  "exit_code": 0,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "status": "PASS"
+}

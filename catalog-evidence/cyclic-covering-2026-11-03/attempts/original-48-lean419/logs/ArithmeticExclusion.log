@@ -1,0 +1,2 @@
+'CoveringArithmeticExclusion.exceptional_moment_is_quadratic' depends on axioms: [propext]
+'CoveringArithmeticExclusion.no_digit_lift' depends on axioms: [propext, Quot.sound]

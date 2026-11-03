@@ -1,0 +1,39 @@
+/workspace/scratch/813a56787602/cyclic-lean-port/Normalization.lean:49:36: warning: This simp argument is unused:
+  Nat.add_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [residueSum, Nat.add_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/813a56787602/cyclic-lean-port/Normalization.lean:65:15: warning: This simp argument is unused:
+  Fin.val_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/813a56787602/cyclic-lean-port/Normalization.lean:151:19: warning: This simp argument is unused:
+  Fin.val_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [hlen] at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/813a56787602/cyclic-lean-port/Normalization.lean:161:53: warning: This simp argument is unused:
+  Fin.val_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [List.map_cons, residueSum, translate] at *
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+'CyclicNormalization.repeated_iff_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.repeated_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.covered_ten_perm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.covered_ten_sum_perm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.covered_ten_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.covered_ten_normalize' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.ten_rows_normalize' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicNormalization.sum_translate' depends on axioms: [propext, Quot.sound]
+'CyclicNormalization.normalize_sum_zero' depends on axioms: [propext, Quot.sound]
+'CyclicNormalization.sum_difference' depends on axioms: [propext, Quot.sound]
+'CyclicNormalization.covered_ten_zero_sum' depends on axioms: [propext, Classical.choice, Quot.sound]

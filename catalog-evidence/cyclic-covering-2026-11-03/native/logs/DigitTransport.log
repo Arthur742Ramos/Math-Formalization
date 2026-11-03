@@ -1,0 +1,27 @@
+/workspace/scratch/813a56787602/cyclic-lean-port/DigitTransport.lean:51:49: warning: This simp argument is unused:
+  nat_sum_append
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [sum, ih, List.range_succ, ofNat_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/813a56787602/cyclic-lean-port/DigitTransport.lean:64:51: warning: This simp argument is unused:
+  add_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [rows, sum, ofNat_add, add_assoc, zero_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/813a56787602/cyclic-lean-port/DigitTransport.lean:89:8: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/813a56787602/cyclic-lean-port/DigitTransport.lean:109:61: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+'CyclicDigitTransport.no_representative_extension' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicDigitTransport.permutation_lift' depends on axioms: [propext, Quot.sound]
+'CyclicDigitTransport.moments_transport' depends on axioms: [propext, Quot.sound]
+'CyclicDigitTransport.phase_eq' depends on axioms: [propext, Quot.sound]
+'CyclicDigitTransport.upper_eq' depends on axioms: [propext, Quot.sound]

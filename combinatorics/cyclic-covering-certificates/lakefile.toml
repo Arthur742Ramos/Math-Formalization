@@ -1,0 +1,13 @@
+name = "cyclicCoveringCertificates"
+version = "0.1.0"
+defaultTargets = ["CyclicCoveringCertificates", "Challenge", "Solution"]
+
+[[lean_lib]]
+name = "CyclicCoveringCertificates"
+roots = ["ArithmeticCertificate", "ArithmeticExclusion", "BaseWitnesses", "CertifiedLinear", "Cyclic45Obstruction", "DigitLemmas", "ExceptionalProfile", "F3Linear", "Known63Witness", "PairedLift", "ProfileCheck00", "ProfileCheck01", "ProfileCheck02", "ProfileCheck03", "ProfileCheck04", "ProfileCheck05", "ProfileCheck06", "ProfileCheck07", "ProfileCheck08", "ProfileCheck09", "ProfileCheck10", "ProfileCheck11", "ProfileCheck12", "ProfileCheck13", "ProfileCheck14", "ProfileCheck15", "ProfileCheck16", "ProfileCoverage", "ProfileData", "ProfileEnumeration", "Normalization", "CoveringNormalization", "RepresentativeExtension", "RepresentativeEligibility", "DigitTransport", "TransformSoundness", "TriangleBatch00", "TriangleBatch01", "TriangleBatch02", "TriangleBatch03", "TriangleBatch04", "TriangleBatch05", "TriangleBatch06", "TriangleBatch07", "TriangleBatch08", "TriangleBatch09", "TriangleBatch10", "TriangleBatch11", "TriangleBatch12", "TriangleBatch13", "TriangleBatch14", "TriangleBatch15", "TriangleBatch16"]
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"

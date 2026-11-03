@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/813a56787602/cyclic-palomar-pipeline/scripts/verify_submission.py", line 6620, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-palomar-pipeline/scripts/verify_submission.py", line 6616, in main
+    return args.func(args)
+           ^^^^^^^^^^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-palomar-pipeline/scripts/verify_submission.py", line 6561, in check_capacity
+    report = json.loads(output.read_text(encoding="utf-8"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/scratch/813a56787602/cyclic-canonical-evidence/capacity-report.json'

@@ -177,3 +177,12 @@ preserve their attribution and license headers. Existing standalone repositories
 remain available. Authorship, maintenance, material AI contributions and review
 limits are recorded separately in each package.
 
+
+## Cyclic covering proof supplement
+
+[Verified components of cyclic covering constructions](combinatorics/cyclic-covering-certificates)
+ports a Std-only finite certificate development to Lean 4.35.0-rc2. Its main
+negative result excludes any sixth extension column of the seventeen fixed
+representatives under the original difference-coverage predicate. General
+normalization, positive witnesses and generic proof components are also included. It is a partial proof supplement, not a complete
+formalization of the manuscript or a Palomar-ready submission.

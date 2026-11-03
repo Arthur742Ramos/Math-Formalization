@@ -1,0 +1,2 @@
+'CoveringCertifiedLinear.allCertificatesValid' depends on axioms: [propext]
+'CoveringCertifiedLinear.no_linear_solution' depends on axioms: [propext, Quot.sound]

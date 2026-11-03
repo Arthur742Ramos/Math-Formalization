@@ -1,0 +1,6 @@
+'CoveringTransforms.differenceGauge' depends on axioms: [propext]
+'CoveringTransforms.scaleInverse' depends on axioms: [propext]
+'CoveringTransforms.inverseScaleScale' depends on axioms: [propext]
+'CoveringTransforms.differenceUngauge' depends on axioms: [propext]
+'CoveringTransforms.transformPreservesCoverage' depends on axioms: [propext]
+'CoveringTransforms.pullbackExtension' depends on axioms: [propext]

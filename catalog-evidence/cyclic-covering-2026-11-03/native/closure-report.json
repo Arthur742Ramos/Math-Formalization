@@ -1,0 +1,888 @@
+{
+  "format": "cyclic-covering-normalization-bridge-v1",
+  "status": "PASS",
+  "lean_version": "Lean (version 4.35.0-rc2, x86_64-unknown-linux-gnu, commit 11acb17ec6b07a8f9e9173e6845197929540936b, Release)",
+  "lean_executable_sha256": "bf8d54e4714cc4b03d3f6bb34c83b7202b87e49c8bfcbff6895c085bb90ceb38",
+  "inputs": {
+    "Normalization": "8c7ed187447c1c2e13ba4da9252ea2e30b5ca5c78f66b49b0dbd7ab673d8166a",
+    "BaseWitnesses": "e80f310fb3fff64ab9acf1c7db4f1389abdd661321a8940e3e91e28bfadf9f9f",
+    "CoveringNormalization": "7a44e2e1baf8eddcc7a1f83f20f94875d9d6b4524f5b7062429d4c6dba82cc56",
+    "TransformSoundness": "9bd3c17964da550486ce9e3abb4c6ca8819966a2fbd20aa8b7d8f23f37dca318",
+    "ArithmeticCertificate": "f749dcd77f656b56f68a2f6de6643726863375066cc13efa8c032dae600a3506",
+    "ProfileEnumeration": "957138f146a25340c0eb4ca30ec79b1e2e81b80b3d6c451a36c1407c0c6b9986",
+    "RepresentativeExtension": "ea6549770954e7f992dd77bd6fea510bbeb3139af8bc4e3ca418e7eda58d04f3",
+    "ProfileData": "b173a6e1ce2a4246e356bfe10575516aa99bc5b3525a78f063c797d7693ded54",
+    "ProfileCheck00": "265ba225ac234462c80a2f661129babfde0c5f03e3222c00f518ff2dc3cc15ab",
+    "ProfileCheck01": "0ab274308eaa378e8936ee54acaea9cfcb40615dcb5a44554262c28853517ddd",
+    "ProfileCheck02": "7bc95f4215269d86fecd4468d205b1b20d8c2b82a5b0c9b67d1aabe77a059aa4",
+    "ProfileCheck03": "fa19d9ba572b7aff586e65f5e9a359c86d0ca2a161e9e72b60ae4bebcd33889e",
+    "ProfileCheck04": "823157479eabd703770af3d77c05ce213342e8e8628eb08ae04f2e9807d8723b",
+    "ProfileCheck05": "a04ee234d76cbba785fd5dca6b9ca65a8d6fc0804b9b1bf94c5c30bf477bc52a",
+    "ProfileCheck06": "ebc53dc7188e988e5476eaab22ed68f9be8880372f8890155e08600231cf2ddc",
+    "ProfileCheck07": "0fd250e87a1fd29373b3452a3473a6ef08b4aa2b32b2e995581744317db3e324",
+    "ProfileCheck08": "78dd3b6f4a7572056f47e1a6ec953349fc1f045037ef50e18956589008c59a99",
+    "ProfileCheck09": "f2cebaf81596bdb15483f75c3aaef2cc89d845b7e010ce21a75a2459a4c749b2",
+    "ProfileCheck10": "ecfa86bb2732c6d29d3d03ce51c374a19f63c9116f5ef82d29353c567509f6a0",
+    "ProfileCheck11": "2936059d5bc0bc129f33997d6c350acc48546866d2d1b973ad0fdc4f4423f076",
+    "ProfileCheck12": "cad8ff3baf0e88f7effc7aca964255ca946780f8b177203fc295214cdabf35b1",
+    "ProfileCheck13": "18dcfb50009250f2a06970a48790e68128f1da919bbc83bc239bdd3b68661724",
+    "ProfileCheck14": "c82f51ec060e40cacee7bab306a4aa6d2c2d07f55e09ce77b8411f7a21856820",
+    "ProfileCheck15": "16570c8f39323f1fb65b92faedde4215a6a41869f1ca0ccb0c178bb3feb0c254",
+    "ProfileCheck16": "1d11962068bc6c660ef4ef26b151eb7da7f0740254c25d76370c7a8591affcaa",
+    "F3Linear": "40e63b54b21df9e85b1ad5423744a11d0b285f9ace5d3e97acafb026a3e3bde8",
+    "CertifiedLinear": "a073a1ca46e0e37108352ae31190a2e39d6e4ae831bf383945963a45b84628a1",
+    "ExceptionalProfile": "8eddc0406118d96028d82f7c17977ba4ce2ba6a8d7c66ab93614916c0f749673",
+    "ProfileCoverage": "2567e298b7573fae68be524c6f539154c43d6b26effe307d8f6b86e571f0c8d1",
+    "RepresentativeEligibility": "443039741c6fe32914e1ec27d35698063b1dbe72dea9a8d99ba7fd55da43c96c",
+    "ArithmeticExclusion": "356a6985b3389c380bd5bd22107fe034084fadf5e1fc022b6f311449b71dea12",
+    "DigitLemmas": "ea67a3e87dec48184b3afe60d8a5e6207e9aad1d719478d2fd6143a94b91f6d0",
+    "DigitTransport": "9731487db52a79d61d35c00ed8a2e5d45557cf345b47ba4c2dbf197b8543dc97"
+  },
+  "source_files_unchanged": true,
+  "modules": [
+    {
+      "module": "Normalization",
+      "source_sha256": "8c7ed187447c1c2e13ba4da9252ea2e30b5ca5c78f66b49b0dbd7ab673d8166a",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.496,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicNormalization.repeated_iff_sum",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.repeated_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.covered_ten_perm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.covered_ten_sum_perm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.covered_ten_count",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.covered_ten_normalize",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.ten_rows_normalize",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.sum_translate",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.normalize_sum_zero",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.sum_difference",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.covered_ten_zero_sum",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "7fcfb2179149402644b0320ab23585d1caa705825f18ca26def4d90356033adf"
+    },
+    {
+      "module": "BaseWitnesses",
+      "source_sha256": "e80f310fb3fff64ab9acf1c7db4f1389abdd661321a8940e3e91e28bfadf9f9f",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.842,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringScheme.witness_covers",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringScheme.exists_covering_9_10_5",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringScheme.witness11_covers",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringScheme.exists_covering_9_11_6",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringScheme.witness11x7_covers",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringScheme.exists_covering_9_11_7",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "babb482dd8816bfae78c8d8861bb072fe0d160b504e33a246b95446a1ac39c79"
+    },
+    {
+      "module": "CoveringNormalization",
+      "source_sha256": "7a44e2e1baf8eddcc7a1f83f20f94875d9d6b4524f5b7062429d4c6dba82cc56",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.247,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicNormalization.normalize_preserves_covers",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.normalized_column_sum_zero",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicNormalization.normalized_pair_perm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "7eee118da2c77c28c34515cf0c5238262956f76eaf197eca617d7abf89968d78"
+    },
+    {
+      "module": "TransformSoundness",
+      "source_sha256": "9bd3c17964da550486ce9e3abb4c6ca8819966a2fbd20aa8b7d8f23f37dca318",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 3.468,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringTransforms.differenceGauge",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringTransforms.scaleInverse",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringTransforms.inverseScaleScale",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringTransforms.differenceUngauge",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringTransforms.transformPreservesCoverage",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringTransforms.pullbackExtension",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "157d6d63e3197bc70c4b5aa167994280bb8c3e312ee850b25820acc6bbf40c0e"
+    },
+    {
+      "module": "ArithmeticCertificate",
+      "source_sha256": "f749dcd77f656b56f68a2f6de6643726863375066cc13efa8c032dae600a3506",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 12.702,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringFormalRound3Linear.representativeShapes",
+          "axioms": []
+        },
+        {
+          "declaration": "CoveringFormalRound3Linear.allSeventyOneLinearWitnesses",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "8ce6f61432cbd9be76afea80b9b824bf63b50f2c400761958ddeab4ed09624c3"
+    },
+    {
+      "module": "ProfileEnumeration",
+      "source_sha256": "957138f146a25340c0eb4ca30ec79b1e2e81b80b3d6c451a36c1407c0c6b9986",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 2.909,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfiles.quota_complete",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringProfiles.balanced_complete",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringProfiles.balanced_words_count",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "81c50546cbb02abad48a037856d727e5df8179aeac450b18b6cd944592387b23"
+    },
+    {
+      "module": "RepresentativeExtension",
+      "source_sha256": "ea6549770954e7f992dd77bd6fea510bbeb3139af8bc4e3ca418e7eda58d04f3",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.589,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicRepresentativeExtension.normalized_fiber_moments",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicRepresentativeExtension.normalized_conditional_moments",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicRepresentativeExtension.extension_difference_perm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicRepresentativeExtension.extension_column_perm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicRepresentativeExtension.normalized_lower_quotas",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "6302670aefe0fd1f92b278836e4339207d41ef201af0c98f8250e64bd31a871b"
+    },
+    {
+      "module": "ProfileData",
+      "source_sha256": "b173a6e1ce2a4246e356bfe10575516aa99bc5b3525a78f063c797d7693ded54",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.9,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileData.columns_are_lower_digits",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "3316a343cb48e269cb3cfe94cb3367e187061527e5d40bec47b2b6200124be2c"
+    },
+    {
+      "module": "ProfileCheck00",
+      "source_sha256": "265ba225ac234462c80a2f661129babfde0c5f03e3222c00f518ff2dc3cc15ab",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 11.493,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile00",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "5b61f7dbbe207a6db68934150feb2301ddc9c827ae00772413187255d609ff2a"
+    },
+    {
+      "module": "ProfileCheck01",
+      "source_sha256": "0ab274308eaa378e8936ee54acaea9cfcb40615dcb5a44554262c28853517ddd",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.174,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile01",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "785493a57a11e79faeeb31a2e00039df0f684e2eabdc4f8b5b191953c97459a6"
+    },
+    {
+      "module": "ProfileCheck02",
+      "source_sha256": "7bc95f4215269d86fecd4468d205b1b20d8c2b82a5b0c9b67d1aabe77a059aa4",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 11.423,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile02",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "be1788925ffab63e3f56c70fa8bcdc5d900bf9f5efff4f40046acd0fce9e3e14"
+    },
+    {
+      "module": "ProfileCheck03",
+      "source_sha256": "fa19d9ba572b7aff586e65f5e9a359c86d0ca2a161e9e72b60ae4bebcd33889e",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 11.179,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile03",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "f2070e5b51860ccbae6289d1c082e01445e839006971dd8fac9186f3a1029d80"
+    },
+    {
+      "module": "ProfileCheck04",
+      "source_sha256": "823157479eabd703770af3d77c05ce213342e8e8628eb08ae04f2e9807d8723b",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.653,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile04",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "9d89c39b3ec1e565a58ad2f8410fa5113dfb499681ee877addb9bf3dbf3c0933"
+    },
+    {
+      "module": "ProfileCheck05",
+      "source_sha256": "a04ee234d76cbba785fd5dca6b9ca65a8d6fc0804b9b1bf94c5c30bf477bc52a",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.592,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile05",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "248637df8de223a902fb3fee401ecc766df8d0d9bc04b8555b19a87da49c6174"
+    },
+    {
+      "module": "ProfileCheck06",
+      "source_sha256": "ebc53dc7188e988e5476eaab22ed68f9be8880372f8890155e08600231cf2ddc",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 11.83,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile06",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "2d01f47af4a773f7bc55d9db9787f8831f68fe441df389aeea50ed2dc2fee955"
+    },
+    {
+      "module": "ProfileCheck07",
+      "source_sha256": "0fd250e87a1fd29373b3452a3473a6ef08b4aa2b32b2e995581744317db3e324",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 12.345,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile07",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "1b0d24ff09b6f771b997c76fb6d05ceec508aed79b0b24c9225ce41fc2da38a2"
+    },
+    {
+      "module": "ProfileCheck08",
+      "source_sha256": "78dd3b6f4a7572056f47e1a6ec953349fc1f045037ef50e18956589008c59a99",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 11.017,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile08",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "3d31d71ac277a8e69311fa06623f82b9e059d2bd60cb0f71682c636b4f082809"
+    },
+    {
+      "module": "ProfileCheck09",
+      "source_sha256": "f2cebaf81596bdb15483f75c3aaef2cc89d845b7e010ce21a75a2459a4c749b2",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.362,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile09",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "9e23796a33788a110f867d69be140630b8d2e476bb867aaf65db83c091c2ce6b"
+    },
+    {
+      "module": "ProfileCheck10",
+      "source_sha256": "ecfa86bb2732c6d29d3d03ce51c374a19f63c9116f5ef82d29353c567509f6a0",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.953,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile10",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "c0ef72cadc2896ed9490cc1158c81b738169c715f4cafeaff45aa1913be3a3c4"
+    },
+    {
+      "module": "ProfileCheck11",
+      "source_sha256": "2936059d5bc0bc129f33997d6c350acc48546866d2d1b973ad0fdc4f4423f076",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.851,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile11",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "7d7c35d0340b57410abcf7fff8306e35291c37c5fde031fff9f868b2b01440d8"
+    },
+    {
+      "module": "ProfileCheck12",
+      "source_sha256": "cad8ff3baf0e88f7effc7aca964255ca946780f8b177203fc295214cdabf35b1",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.924,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile12",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "23ca3fac61231791662b234da0ec52954f964ecade148924a7878ced4e4662c0"
+    },
+    {
+      "module": "ProfileCheck13",
+      "source_sha256": "18dcfb50009250f2a06970a48790e68128f1da919bbc83bc239bdd3b68661724",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.841,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile13",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "17d156bfcae6f46714bf5b576d0933d231cdf3b68fa5d99e3b2c81c365e4ff8f"
+    },
+    {
+      "module": "ProfileCheck14",
+      "source_sha256": "c82f51ec060e40cacee7bab306a4aa6d2c2d07f55e09ce77b8411f7a21856820",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.659,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile14",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "2664c373c5eca5f9f777920928329f80f521ad826a42ded09e76182710c4c37b"
+    },
+    {
+      "module": "ProfileCheck15",
+      "source_sha256": "16570c8f39323f1fb65b92faedde4215a6a41869f1ca0ccb0c178bb3feb0c254",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 9.818,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile15",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "c086e63b7635a9da2596a173880ccba11b8cb05f75dbf757c80802df2cd66a61"
+    },
+    {
+      "module": "ProfileCheck16",
+      "source_sha256": "1d11962068bc6c660ef4ef26b151eb7da7f0740254c25d76370c7a8591affcaa",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 10.115,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileChecks.profile16",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "e5bf35d9f83062d2429791852d0301ef9350b3d17643bb1e4faa72428677b63d"
+    },
+    {
+      "module": "F3Linear",
+      "source_sha256": "40e63b54b21df9e85b1ad5423744a11d0b285f9ace5d3e97acafb026a3e3bde8",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 0.663,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringF3.left_nullspace_sound",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringF3.certified_consequence",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "1593bf8dcf28c7bf7b4a07af96eb9a50c0d571462ce26b08ef881fd5ee8226a3"
+    },
+    {
+      "module": "CertifiedLinear",
+      "source_sha256": "a073a1ca46e0e37108352ae31190a2e39d6e4ae831bf383945963a45b84628a1",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 15.753,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringCertifiedLinear.allCertificatesValid",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringCertifiedLinear.no_linear_solution",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "647878b2e7287ec1bfec413df1d9f3705e8bc36f60bae29975ca76c6ebdfa848"
+    },
+    {
+      "module": "ExceptionalProfile",
+      "source_sha256": "8eddc0406118d96028d82f7c17977ba4ce2ba6a8d7c66ab93614916c0f749673",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.064,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringExceptional.inverse_minor_certificate",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringExceptional.no_fibre_solution",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringExceptional.affine_line",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringExceptional.affine_line_is_solution",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringExceptional.affine_quadratic_failure",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "723ffc0f8b4adb52a0951589225beb959ad32c4ef4f1081c914e890e71295a74"
+    },
+    {
+      "module": "ProfileCoverage",
+      "source_sha256": "2567e298b7573fae68be524c6f539154c43d6b26effe307d8f6b86e571f0c8d1",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 0.898,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringProfileCoverage.every_eligible_profile_is_listed",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CoveringProfileCoverage.exactly_seventy_two_profiles",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "e76e3d8fbab97073cd25a72fcc2d3ada45cefb646409761b093bbf1cd3d5daf5"
+    },
+    {
+      "module": "RepresentativeEligibility",
+      "source_sha256": "443039741c6fe32914e1ec27d35698063b1dbe72dea9a8d99ba7fd55da43c96c",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.016,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicRepresentativeExtension.extension_eligible",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "d4ea9a5f58f92b3f2057e49fb0f2621531c126b2d256a407cae90ed8cf32c614"
+    },
+    {
+      "module": "ArithmeticExclusion",
+      "source_sha256": "356a6985b3389c380bd5bd22107fe034084fadf5e1fc022b6f311449b71dea12",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 0.665,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringArithmeticExclusion.exceptional_moment_is_quadratic",
+          "axioms": [
+            "propext"
+          ]
+        },
+        {
+          "declaration": "CoveringArithmeticExclusion.no_digit_lift",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "34056662c6350cbba6508c30b636d66c5b92e405f851c8316e1d810bcc36739e"
+    },
+    {
+      "module": "DigitLemmas",
+      "source_sha256": "ea67a3e87dec48184b3afe60d8a5e6207e9aad1d719478d2fd6143a94b91f6d0",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 1.269,
+      "axiom_reports": [
+        {
+          "declaration": "CoveringFormalRound3.threeDigitMomentCriterion",
+          "axioms": []
+        },
+        {
+          "declaration": "CoveringFormalRound3.fourDigitMomentCriterion",
+          "axioms": []
+        },
+        {
+          "declaration": "CoveringFormalRound3.exactCarryIdentity",
+          "axioms": []
+        },
+        {
+          "declaration": "CoveringFormalRound3.cyclicSeedIndexTwo",
+          "axioms": [
+            "propext"
+          ]
+        }
+      ],
+      "log_sha256": "d87ebc7f82d07b96728c79e938914b9d2261fcbec4a27fab6461527e9600e3f0"
+    },
+    {
+      "module": "DigitTransport",
+      "source_sha256": "9731487db52a79d61d35c00ed8a2e5d45557cf345b47ba4c2dbf197b8543dc97",
+      "exit_code": 0,
+      "status": "PASS",
+      "seconds": 13.032,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicDigitTransport.no_representative_extension",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicDigitTransport.permutation_lift",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicDigitTransport.moments_transport",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicDigitTransport.phase_eq",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicDigitTransport.upper_eq",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_sha256": "07dd5ac997b0ab9d6e4c161668444f94d62c8c3ff7186a158312405db1c7ba0b"
+    }
+  ],
+  "elapsed_seconds": 246.846,
+  "scope": "Fresh native Lean build of the five new bridge modules and their complete source dependency closure. No class-exhaustion, independent-kernel, canonical or registry claim."
+}

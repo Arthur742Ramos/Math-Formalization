@@ -1,0 +1,3 @@
+'CoveringTriangleBatch12.batchDimensions' does not depend on any axioms
+'CoveringTriangleBatch12.batchTriangleCoverage' does not depend on any axioms
+'CoveringTriangleBatch12.allBatchCertificatesValid' depends on axioms: [propext]

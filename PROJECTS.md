@@ -301,3 +301,12 @@ Stable-open propagation, the pointwise minimal dichotomy and its nonempty incomp
 | Project | Scope | Public Palomar status | Source snapshot |
 | --- | --- | --- | --- |
 | [Auslander–Yorke dichotomy for minimal metric maps](topology/auslander-yorke-dichotomy) | A continuous minimal metric map is sensitive or its natural iterates are pointwise equicontinuous; on nonempty spaces nonsensitivity is equivalent to equicontinuity. | Preparation; not submitted | [`947b3e8`](https://github.com/Arthur742Ramos/Math-Formalization/tree/947b3e8d6f6f200e4ae2cbac1b080399146dea7f/topology/auslander-yorke-dichotomy) |
+
+## Cyclic covering proof supplement
+
+[Verified components of cyclic covering constructions](combinatorics/cyclic-covering-certificates)
+ports a Std-only finite certificate development to Lean 4.35.0-rc2. Its main
+negative result excludes any sixth extension column of the seventeen fixed
+representatives under the original difference-coverage predicate. General
+normalization, positive witnesses and generic proof components are also included. It is a partial proof supplement, not a complete
+formalization of the manuscript or a Palomar-ready submission.

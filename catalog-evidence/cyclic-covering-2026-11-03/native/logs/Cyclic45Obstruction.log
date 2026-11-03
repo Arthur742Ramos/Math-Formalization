@@ -1,0 +1,3 @@
+'CoveringCyclic45.full_fiber_from_counts' does not depend on any axioms
+'CoveringCyclic45.no_distinct_lifted_three_cycle' depends on axioms: [propext, Quot.sound]
+'CoveringCyclic45.unique_differences_exclude_projected_cycle' depends on axioms: [propext, Quot.sound]

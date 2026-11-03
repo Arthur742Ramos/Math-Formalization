@@ -1,0 +1,17 @@
+/workspace/scratch/813a56787602/cyclic-lean-port/F3Linear.lean:117:22: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/813a56787602/cyclic-lean-port/F3Linear.lean:125:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/813a56787602/cyclic-lean-port/F3Linear.lean:117:22: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [sum]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+'CoveringF3.left_nullspace_sound' depends on axioms: [propext, Quot.sound]
+'CoveringF3.certified_consequence' depends on axioms: [propext, Quot.sound]

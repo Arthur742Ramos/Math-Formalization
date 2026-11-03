@@ -1,0 +1,73 @@
+cyclic-challenge-new/Challenge.lean:49:36: warning: This simp argument is unused:
+  Nat.add_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [residueSum, Nat.add_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:63:15: warning: This simp argument is unused:
+  Fin.val_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:81:19: warning: This simp argument is unused:
+  Fin.val_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [hlen] at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:89:53: warning: This simp argument is unused:
+  Fin.val_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [List.map_cons, residueSum, translate] at *
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:219:22: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+cyclic-challenge-new/Challenge.lean:227:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+cyclic-challenge-new/Challenge.lean:219:22: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [sum]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:783:24: warning: This simp argument is unused:
+  Nat.add_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.add_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:893:49: warning: This simp argument is unused:
+  nat_sum_append
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [sum, ih, List.range_succ, ofNat_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:905:51: warning: This simp argument is unused:
+  add_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [rows, sum, ofNat_add, add_assoc, zero_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+cyclic-challenge-new/Challenge.lean:929:8: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+cyclic-challenge-new/Challenge.lean:949:61: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+'CyclicDigitTransport.no_representative_extension' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,25 @@
+fatal: path 'topology/sorgenfrey-covering/formalization.yaml' exists on disk, but not in '38c4fee1955d9181ae76432289f52ac3bea7c4c7'
+Traceback (most recent call last):
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_readiness.py", line 294, in <module>
+    check()
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_readiness.py", line 158, in check
+    assert git('rev-parse', 'HEAD:' + change['only_changed_path']) == git('rev-parse', change['original_user_commit'] + ':' + change['only_changed_path'])
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_readiness.py", line 21, in git
+    return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', '/workspace/scratch/813a56787602/cyclic-publication-repo', 'rev-parse', '38c4fee1955d9181ae76432289f52ac3bea7c4c7:topology/sorgenfrey-covering/formalization.yaml']' returned non-zero exit status 128.
+Traceback (most recent call last):
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_catalog.py", line 108, in <module>
+    parser=argparse.ArgumentParser();parser.add_argument('--online',action='store_true');parser.add_argument('--package-checks',action='store_true');args=parser.parse_args();check(args.online,args.package_checks)
+                                                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_catalog.py", line 104, in check
+    subprocess.run([sys.executable,str(ROOT/'scripts/check_readiness.py')],check=True)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3', '/workspace/scratch/813a56787602/cyclic-publication-repo/scripts/check_readiness.py']' returned non-zero exit status 1.

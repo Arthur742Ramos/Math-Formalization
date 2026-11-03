@@ -1,0 +1,15 @@
+{
+  "source_sha256": "e7a5ad1381dfabc2fe060260d917f7d3506024fd6c40fb28970e6127a751c4ee",
+  "physical_lines": 990,
+  "bytes": 53701,
+  "imports": [
+    "Std"
+  ],
+  "forbidden_tokens": [],
+  "literal_tables_equal": {
+    "representatives": true,
+    "lowerColumns": true,
+    "expectedProfiles": true,
+    "leftMultipliers": true
+  }
+}

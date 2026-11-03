@@ -1,0 +1,12 @@
+/workspace/scratch/813a56787602/cyclic-lean-port/RepresentativeExtension.lean:97:24: warning: This simp argument is unused:
+  Nat.add_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.add_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+'CyclicRepresentativeExtension.normalized_fiber_moments' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicRepresentativeExtension.normalized_conditional_moments' depends on axioms: [propext, Quot.sound]
+'CyclicRepresentativeExtension.extension_difference_perm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicRepresentativeExtension.extension_column_perm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicRepresentativeExtension.normalized_lower_quotas' depends on axioms: [propext, Quot.sound]

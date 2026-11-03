@@ -1,0 +1,15 @@
+{
+  "verification": "local Lean elaboration and kernel check only; not canonical Palomar verification",
+  "toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "command": "timeout 240 cyclic-toolchain/lean-4.35.0-rc2-linux/bin/lean -j1 cyclic-challenge-new/Challenge.lean",
+  "exit_code": 0,
+  "source_sha256": "e7a5ad1381dfabc2fe060260d917f7d3506024fd6c40fb28970e6127a751c4ee",
+  "log_sha256": "a4494cf42f4e625d8f0c6eb12099355ac4045f407d113331e68a6ecebfdb3bb9",
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "canonical_status": "not run: host capacity prerequisite blocked",
+  "publication_status": "not published or submitted"
+}

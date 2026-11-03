@@ -1,0 +1,3 @@
+'CoveringTriangleBatch09.batchDimensions' does not depend on any axioms
+'CoveringTriangleBatch09.batchTriangleCoverage' does not depend on any axioms
+'CoveringTriangleBatch09.allBatchCertificatesValid' depends on axioms: [propext]
