@@ -65,17 +65,17 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/236c361f809b2004cde6ecbed679c864bd16ee90/lambda-theory",
       "relationship": "builds-on",
-      "note": "Exact predecessor proof source: 124 of 125 inherited modules are unchanged; ExecutableTermCoding has a named-proof-field repair. Notices are retained and EffectiveLambdaRecursion is new."
+      "note": "Of the 125 modules inherited from this source, 124 are unchanged; ExecutableTermCoding has a named-proof-field repair. Notices are retained; the later recursion predecessor added EffectiveLambdaRecursion."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/0d60a72299f83786929a45a29a2ddc2dba921572/lambda-recursion",
       "relationship": "builds-on",
-      "note": "Exact public recursion and effective-inseparability predecessor. All 126 inherited Lean modules are retained byte-for-byte; CreativeZero is new. The predecessor includes the named executable-encoding proof fields used for fixed-definition comparison."
+      "note": "Exact public recursion and effective-inseparability predecessor. All 126 inherited Lean modules are retained byte-for-byte; the later one-one predecessor added CreativeZero. The recursion source includes the named executable-encoding proof fields used for fixed-definition comparison."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/93651789770ea5ed0501ccc5e04b5cd28dffcd04/lambda-oneone",
       "relationship": "builds-on",
-      "note": "Exact public one-one lambda padding predecessor; all 127 inherited Lean modules are retained byte-for-byte and ClosedProductive is new."
+      "note": "Exact public one-one lambda padding predecessor; all 127 inherited Lean modules are retained byte-for-byte. The later productive-complement predecessor added ClosedProductive."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/1e6513fb59a5e5947992e4937ce4c05f4a0a4109/lambda-productive",
@@ -85,17 +85,17 @@
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/b6eb1988de2ddf8794eb3c3781eb34bc37f2bc7a/lambda-myhill",
       "relationship": "builds-on",
-      "note": "The intervening effective-isomorphism package inherited these 129 modules and added FiniteOrbit; it proves a generic theorem for natural-number predicates. The present package supplies the closed-term application."
+      "note": "The effective-isomorphism predecessor inherited these 129 modules and added FiniteOrbit, proving a generic theorem for natural-number predicates. The later closed-bijection predecessor supplies the closed-term application."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/8c6bf56d8a6a7377d5324121a2a14688601fe67c/lambda-isomorphism",
       "relationship": "builds-on",
-      "note": "Exact public effective-isomorphism predecessor. All 130 inherited LambdaTuring Lean modules are unchanged; CodedIsomorphism is new. No change to that separate package or its preflight is implied."
+      "note": "Exact public effective-isomorphism predecessor. All 130 inherited LambdaTuring Lean modules are unchanged; the later closed-bijection predecessor added CodedIsomorphism. No change to that separate package or its preflight is implied."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/adf433d5f4fd3a9558dc27bcf9f0ae51fdc8a35d/lambda-closed-bijection",
       "relationship": "builds-on",
-      "note": "Exact public closed-object/zero-observation predecessor. All 131 inherited LambdaTuring Lean modules are unchanged; UnaryCodePadding, SemanticMatching and UnarySemanticsIsomorphism are new. The present theorem interprets a source code as the unary function x ↦ eval c x, rather than the predecessor’s fixed code-input evaluation."
+      "note": "Exact public closed-object/zero-observation predecessor. All 131 inherited LambdaTuring Lean modules are unchanged. The later unary-value predecessor added UnaryCodePadding, SemanticMatching and UnarySemanticsIsomorphism and interprets source codes as unary functions, rather than fixed code-input evaluations."
     },
     {
       "id": "https://github.com/Arthur742Ramos/Math-Formalization/tree/3589007cd936d7bf70b33e10eb5be39d142b2956/lambda-unary-value-isomorphism",

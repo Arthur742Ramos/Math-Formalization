@@ -308,7 +308,7 @@ theorem normalOrderPath_is_bounded_run {t u : Term} (h : NormalOrderPath t u) :
     exact hn
 
 /-- No reachable normal form implies every finite strategy prefix can take
-another step; the converse is the remaining normal-order theorem. -/
+another step; the converse is proved by the normal-order theorem below. -/
 theorem normalOrder_never_stops_without_normal (t : Term)
     (hn : ¬ ∃ u, Reaches t u ∧ ¬ ∃ v, Beta u v) :
     ∀ n, ∃ u, normalOrderStep (normalOrderRun n t) = some u := by

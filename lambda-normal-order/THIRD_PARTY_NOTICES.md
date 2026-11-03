@@ -2,7 +2,7 @@
 
 All 134 `LambdaTuring/` modules from public predecessor `3589007cd936d7bf70b33e10eb5be39d142b2956` are retained byte-for-byte; `NormalOrder.lean` is new. The inherited `StandardReduction.lean` credits the Isabelle/HOL standardization development, Stefan Berghofer, TU Muenchen, Ralph Matthes and Ralph Loader. Earlier predecessor provenance follows.
 
-This package retains all 131 `LambdaTuring/` Lean modules from the public closed-bijection predecessor `adf433d5f4fd3a9558dc27bcf9f0ae51fdc8a35d` byte-for-byte. `UnaryCodePadding.lean`, `SemanticMatching.lean`, and `UnarySemanticsIsomorphism.lean` are new. The notes below describe earlier predecessor provenance.
+The unary-value predecessor retained all 131 `LambdaTuring/` Lean modules from the public closed-bijection predecessor `adf433d5f4fd3a9558dc27bcf9f0ae51fdc8a35d` byte-for-byte and added `UnaryCodePadding.lean`, `SemanticMatching.lean`, and `UnarySemanticsIsomorphism.lean`. The notes below describe earlier predecessor provenance.
 
 The closed-bijection predecessor retains all 130 `LambdaTuring/` Lean modules from the public effective-isomorphism predecessor `8c6bf56d8a6a7377d5324121a2a14688601fe67c` byte-for-byte. `CodedIsomorphism.lean` was new there. The notes below describe earlier predecessor provenance.
 
