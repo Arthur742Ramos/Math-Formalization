@@ -359,6 +359,7 @@ def rootReductions (f x : Term) : List Term :=
   | .abs body => [substAt 0 x body]
   | _ => []
 
+set_option bootstrap.genMatcherCode false in
 /-- All one-step full-beta reducts, including those below binders. -/
 def betaSteps : Term → List Term
   | .var _ => []
