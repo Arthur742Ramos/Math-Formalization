@@ -1,0 +1,15 @@
+chapter AFP
+
+session Computational_Path_Presentations (AFP) = "Free-Groups" +
+  options [timeout = 600]
+  theories
+    CP_Introduction
+    CP_Word_Normalization
+    CP_Typed_Witnesses
+    CP_Presentations
+    CP_Conservative_Extension
+    CP_Examples
+    CP_Audit
+  document_files
+    "root.tex"
+    "root.bib"
