@@ -8,6 +8,9 @@ session Computational_Path_Presentations (AFP) = "Free-Groups" +
     CP_Typed_Witnesses
     CP_Presentations
     CP_Conservative_Extension
+    CP_Presentation_Equivalence
+    CP_Tree_Congruence
+    CP_Torus_Presentation
     CP_Examples
     CP_Audit
   document_files

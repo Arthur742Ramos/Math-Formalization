@@ -1,7 +1,7 @@
 # Reproducing validation
 
 Use Isabelle2026 and the external AFP source pin in `AFP_DEPENDENCY.md`.
-The proof build checks the seven entry theories, including the selected-fact
+The proof build checks the ten entry theories, including the selected-fact
 transitive oracle audit and SML code-generation check.
 
 ```sh

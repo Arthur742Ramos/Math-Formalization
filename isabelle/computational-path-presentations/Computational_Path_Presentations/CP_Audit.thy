@@ -1,7 +1,7 @@
 section \<open>Proof-dependency audit\<close>
 
 theory CP_Audit
-  imports CP_Examples
+  imports CP_Examples CP_Presentation_Equivalence CP_Torus_Presentation
 begin
 
 text \<open>The following read-only ML check rejects any recorded proof oracle in
@@ -24,7 +24,35 @@ ML \<open>
      @{thm cp_conservative_abbreviation},
      @{thm cp_abbreviation_roundtrip},
      @{thm cp_diamond_needs_equation},
-     @{thm cp_declared_diamond}];
+     @{thm cp_declared_diamond},
+     @{thm cp_tree_eq_sound},
+     @{thm cp_tree_eq_quote_flat},
+     @{thm cp_tree_eq_normalize},
+     @{thm cp_tree_eq_complete},
+     @{thm cp_tree_eq_decide},
+     @{thm cp_tree_presented_sound},
+     @{thm cp_tree_presented_complete},
+     @{thm cp_tree_presented_empty},
+     @{thm cp_relation_replacement_iff},
+     @{thm cp_redundant_relations_iff},
+     @{thm cp_tietze_relation_move},
+     @{thm cp_word_code_compose},
+     @{thm cp_presentation_map_compose},
+     @{thm cp_presentation_map_reflects},
+     @{thm cp_reversible_presentations.source_equivalence},
+     @{thm cp_reversible_presentations.target_complete_invariant},
+     @{thm cp_abbreviation_equivalence},
+     @{thm cp_abbreviation_free_normal_form},
+     @{thm cp_torus_exponent_invariant},
+     @{thm cp_torus_equiv_iff_exponents},
+     @{thm cp_torus_normalize_sound},
+     @{thm cp_torus_canonical_unique},
+     @{thm cp_torus_normalize_complete},
+     @{thm cp_torus_decide_correct},
+     @{thm cp_torus_tree_equiv_iff_exponents},
+     @{thm cp_torus_tree_normalize_sound},
+     @{thm cp_torus_tree_normalize_complete},
+     @{thm cp_torus_tree_decide_correct}];
   val _ = if null (Thm_Deps.all_oracles computational_path_headlines) then ()
     else error "Unexpected oracle dependency in computational path results";
 \<close>

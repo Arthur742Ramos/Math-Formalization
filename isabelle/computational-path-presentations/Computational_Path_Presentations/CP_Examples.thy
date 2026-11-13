@@ -1,7 +1,7 @@
 section \<open>A declared diamond and executable examples\<close>
 
 theory CP_Examples
-  imports CP_Conservative_Extension
+  imports CP_Conservative_Extension CP_Tree_Congruence
 begin
 
 datatype cp_vertex = Top | Left | Right | Bottom
@@ -66,6 +66,16 @@ text \<open>The example is algebraic. The two routes are distinct in the free
 presentation and become equal when the diamond equation is declared. A filled
 geometric square would require a separate realization and a homotopy argument;
 neither follows from the name of this graph.\<close>
+
+
+text \<open>Flattening an identity erases its stored vertex. A malformed named
+  tree equation must therefore be filtered before its words are admitted as
+  a relation; checking only the flattened words would not suffice.\<close>
+
+lemma cp_malformed_tree_relation_ignored:
+  "cp_flat_relations (\<lambda>_::unit. False) (\<lambda>_. False)
+    {(False, CP_Id True, CP_Gen (), False)} = {}"
+  by (auto simp: cp_flat_relations_def elim: cp_typed.cases)
 
 export_code cp_reduce in SML module_name Computational_Path_Normalizer
 

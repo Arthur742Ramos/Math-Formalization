@@ -48,7 +48,19 @@ That entry is not a dependency of this standalone session. A later connection
 requires an explicit conversion of signed letters, endpoint typing and
 presentation equations; any equality reflection needs its own proof.
 
-The new package concentrates on an executable AFP-based normalizer, typed
+The baseline package supplies an executable AFP-based normalizer, typed
 binary-witness reification, and explicit abbreviation conservativity and
-roundtrips. This source-level overlap assessment is not a claim of complete
+roundtrips. The book-grounded additions below strengthen syntax adequacy and
+presentation changes and provide a nonempty-presentation normal form. This source-level overlap assessment is not a claim of complete
 worldwide novelty or an editorial judgment of AFP suitability.
+
+## Book-grounded extensions
+
+The additional tree-congruence, presentation-equivalence and algebraic-torus
+normal-form developments are mapped to inspected manuscript versions of
+*Computational Paths: The Calculus of Equality* in
+[BOOK_CORRESPONDENCE.md](BOOK_CORRESPONDENCE.md). That guide distinguishes the
+four-author book bibliography, manuscript numbering, actual proved algebraic
+scope, inspected AFP overlap, and unproved topological/higher-dimensional
+comparisons. Additional inspected AFP sources are pinned in
+`OVERLAP_SOURCE_SHA256SUMS`; they are not decorative session dependencies.
