@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+    "env",
+    "lean",
+    "--version"
+  ],
+  "exit_code": 0,
+  "seconds": 0.999,
+  "log_sha256": "eb22144228dd41cd51a0c84af4f976cd0cef473102dcf99b60be756b11f2b95a"
+}

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+    "build",
+    "ErdosOverlap.Certificate.OuterPhysical"
+  ],
+  "exit_code": 0,
+  "seconds": 2.066,
+  "log_sha256": "c81a38dc2d9cd0a3d79f48bd54a7817dd2e7c10ef1948b66b0b8e2fb2be5539b",
+  "source_sha256": "95bf4c5ae3fc3b1cc754a1952387b6a4987e8444ddbe35355398f34de45ed0dd"
+}
