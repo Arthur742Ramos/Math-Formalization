@@ -1,0 +1,292 @@
+⚠ [3000/3244] Replayed LeanCert.Core.TrigReduction
+warning: LeanCert/Core/TrigReduction.lean:43:33: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: LeanCert/Core/TrigReduction.lean:43:33: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: LeanCert/Core/TrigReduction.lean:47:33: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: LeanCert/Core/TrigReduction.lean:47:33: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3005/3244] Replayed LeanCert.Core.IntervalDyadic
+warning: LeanCert/Core/IntervalDyadic.lean:703:60: Variable name `hx_nn` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hx_nn
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3007/3244] Replayed ErdosOverlap.Numerics.FastTrig
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:39: This simp argument is unused:
+  smallCosDyadic
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [IntervalDyadic.addRounded, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:55: This simp argument is unused:
+  IntervalDyadic.addRounded
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [smallCosDyadic, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:39: This simp argument is unused:
+  smallSinDyadic
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [IntervalDyadic.addRounded, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:55: This simp argument is unused:
+  IntervalDyadic.addRounded
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [smallSinDyadic, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3008/3244] Replayed ErdosOverlap.Numerics.FourierPolynomial
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:66:62: This simp argument is unused:
+  Function.comp_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Rat.cast_div, mul_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:60:64: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:66:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:60:64: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:66:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3016/3244] Replayed ErdosOverlap.Numerics.FixedTrig
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3017/3244] Replayed ErdosOverlap.Numerics.CachedTrig
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3025/3244] Replayed ErdosOverlap.Numerics.PositiveLine
+warning: ErdosOverlap/Numerics/PositiveLine.lean:62:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/PositiveLine.lean:63:48: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/PositiveLine.lean:62:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/PositiveLine.lean:63:48: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3026/3244] Replayed ErdosOverlap.Numerics.LeafArithmetic
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:21: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:35: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:21: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:35: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3716/3809] Replayed ErdosOverlap.Numerics.LeafCache
+warning: ErdosOverlap/Numerics/LeafCache.lean:114:21: This simp argument is unused:
+  integral_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [intervalIntegral.integral_const_mul, intervalIntegral.integral_const, smul_eq_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3720/3809] Replayed ErdosOverlap.Certificate.Native6AffineData
+warning: ErdosOverlap/Certificate/Native6AffineData.lean:3427:2: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [5775/5973] Replayed ErdosOverlap.Numerics.SincEnclosure
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:41: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:55: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:41: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:55: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [6999/7004] Replayed ErdosOverlap.DiscreteTent
+warning: ErdosOverlap/DiscreteTent.lean:31:59: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: ErdosOverlap/DiscreteTent.lean:32:6: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: ErdosOverlap/DiscreteTent.lean:41:6: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: ErdosOverlap/DiscreteTent.lean:41:43: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: ErdosOverlap/DiscreteTent.lean:44:6: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: ErdosOverlap/DiscreteTent.lean:44:17: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [7004/7004] Built ErdosOverlap.VerifiedBound (3.6s)
+warning: ErdosOverlap/VerifiedBound.lean:29:25: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/VerifiedBound.lean:29:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/VerifiedBound.lean:35:25: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/VerifiedBound.lean:35:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/VerifiedBound.lean:66:25: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/VerifiedBound.lean:66:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Build completed successfully (7004 jobs).

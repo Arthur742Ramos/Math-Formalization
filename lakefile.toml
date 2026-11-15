@@ -1,0 +1,24 @@
+name = "ErdosOverlap"
+version = "0.1.0"
+defaultTargets = ["ErdosOverlap", "Challenge", "Solution"]
+
+[leanOptions]
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "56a005855ea17e0b0958f73ec801ae140b0a1679"
+
+[[require]]
+name = "LeanCert"
+path = "vendor/leancert"
+
+[[lean_lib]]
+name = "ErdosOverlap"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"

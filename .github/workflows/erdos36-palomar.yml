@@ -1,7 +1,0 @@
-name: Erdős 36 preflight setup
-on: workflow_dispatch
-jobs:
-  ready:
-    runs-on: ubuntu-24.04
-    steps:
-      - run: echo 'Waiting for the source snapshot'

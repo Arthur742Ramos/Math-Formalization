@@ -1,0 +1,40 @@
+{
+  "status": "finite_replay_complete",
+  "counts": {
+    "geometry_data": {
+      "passed": 299,
+      "total": 299
+    },
+    "geometry": {
+      "passed": 100,
+      "total": 100
+    },
+    "leaf_data": {
+      "passed": 177,
+      "total": 177
+    },
+    "leaves": {
+      "passed": 177,
+      "total": 177
+    },
+    "joins": {
+      "passed": 165,
+      "total": 165
+    },
+    "outer_integrals": {
+      "passed": 60,
+      "total": 60
+    }
+  }
+}
+{"step": "LeanVersion", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "env", "lean", "--version"], "exit_code": 0, "seconds": 2.995, "log_sha256": "eb22144228dd41cd51a0c84af4f976cd0cef473102dcf99b60be756b11f2b95a"}
+{"step": "Native6VerifiedIntegrals", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "build", "ErdosOverlap.Native6VerifiedIntegrals"], "exit_code": 1, "seconds": 13.239, "log_sha256": "0371e57cbaf283e65f4a3374505a80d70d8c4d540c130408baa12a7266600081", "source_sha256": "1710e09550c214d89599c9818e3070e2c1cc5a8ab910564de9284a38440c90da"}
+Traceback (most recent call last):
+  File "/workspace/scratch/4167ec040c81/erdos36_lean/scripts/audit_full_replay.py", line 228, in <module>
+    main()
+  File "/workspace/scratch/4167ec040c81/erdos36_lean/scripts/audit_full_replay.py", line 199, in main
+    builds[target] = run_logged(args.lake, ["build", target], target.rsplit(".", 1)[-1], target)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/4167ec040c81/erdos36_lean/scripts/audit_full_replay.py", line 151, in run_logged
+    raise RuntimeError(f"Lean step {label} failed; see {path}")
+RuntimeError: Lean step Native6VerifiedIntegrals failed; see /workspace/scratch/4167ec040c81/erdos36_lean/reviews/full_verification/Native6VerifiedIntegrals.log

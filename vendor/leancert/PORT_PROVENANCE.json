@@ -1,0 +1,90 @@
+{
+  "upstream": "https://github.com/alerad/leancert",
+  "revision": "44b323a0d6af00211d5013f6e021432db032087c",
+  "change": "Add module headers, make imports public, and expose public definitions to support Lean4.35 module imports. Mathematical statements and proof bodies initially unchanged. Later compatibility fixes must be recorded separately.",
+  "files": [
+    {
+      "module": "LeanCert.Core.DerivativeIntervals",
+      "upstream_sha256": "d50d7a368033ed7905a92445700ceb8e95ec41e31c08b7ed49bf585d68fcf0f9",
+      "ported_sha256": "e14ec90b33efa9109b3f7a292ad6d36d9fe124fb0660dcc7ebb35cc668acc4e9",
+      "lines": 337
+    },
+    {
+      "module": "LeanCert.Core.Dyadic",
+      "upstream_sha256": "d192b0feca965ff61bfd702a987355a0e8cf93b7957345d0d5195c1343b8c38d",
+      "ported_sha256": "45b351c9baf93a2317617738c0b18e1637f6514ed022591d925918734fc401ab",
+      "lines": 1059
+    },
+    {
+      "module": "LeanCert.Core.Expr",
+      "upstream_sha256": "2cbe45500242ef521c414d7d4b4feac885cdcdae1f77c913eaa3597df87b83fb",
+      "ported_sha256": "fba99a52113042532a1eb1aa96dd924f4a0829def6637689bb4f6e9f1eb46216",
+      "lines": 726
+    },
+    {
+      "module": "LeanCert.Core.Interval",
+      "upstream_sha256": "3b7e7c4200cbb10a35444d56bb6217ba17af1c1b5e565ecdb9fe87e683589565",
+      "ported_sha256": "1de8e0220c8f78ab9a2b2edbaecafe0d5016583d6dd812225177e12454d3c14b",
+      "lines": 92
+    },
+    {
+      "module": "LeanCert.Core.IntervalDyadic",
+      "upstream_sha256": "9b0723ea7574a99b62b9626607e1ca5c878df25805fdbaa43b4774df1274cde8",
+      "ported_sha256": "759f6aceb2920c934e9087af2282687648939d1d584d83dbec0c1eb0fd1a15ad",
+      "lines": 710
+    },
+    {
+      "module": "LeanCert.Core.IntervalRat.Basic",
+      "upstream_sha256": "dec62f02adb351ec8aa3397294ddf914b01b0e6c1c2f8f9864562b1d3111552c",
+      "ported_sha256": "f871f6461cff6a180ef83889afe2172c31b2752dc0b2d1e68a60906f1a32679d",
+      "lines": 650
+    },
+    {
+      "module": "LeanCert.Core.IntervalRat.LogReduction",
+      "upstream_sha256": "5526e5fc0d5447cea71dbe1debf274c2cc1532a5c40b7deee871b53a4dff09c7",
+      "ported_sha256": "3d4c1672169199b5c2c8d17319ba1cc9f02793e68115a667cb74d88412d8af1f",
+      "lines": 267
+    },
+    {
+      "module": "LeanCert.Core.IntervalRat.Taylor",
+      "upstream_sha256": "d7c3988d53312a5055998f2c9c3057daaabdaba07b933fa8635cd85a943838c2",
+      "ported_sha256": "525d378a495e025d70eea44f5bf5c967e67a42bbb798d6fa32e8bff979f92185",
+      "lines": 2271
+    },
+    {
+      "module": "LeanCert.Core.IntervalRat.Transcendental",
+      "upstream_sha256": "a57252483c99e5b9ea8a01a4950f96181804650f28af07dc1645183a1add47de",
+      "ported_sha256": "6d71709a6289018a5beb561220c4ea534c8985db0b7e0156e7d3e994aa81df47",
+      "lines": 706
+    },
+    {
+      "module": "LeanCert.Core.IntervalRat.TrigReduced",
+      "upstream_sha256": "a343aa5687ff3c390b50f5572372cc1db0a4aa10c233d0c10e4d0858d19756b4",
+      "ported_sha256": "2664dcde5c0e37a388b0c75fdbd6e099a9f6b6867b0c6db132dc5c112053003d",
+      "lines": 137
+    },
+    {
+      "module": "LeanCert.Core.IntervalReal",
+      "upstream_sha256": "336cc72b71249722ee1614a4a52b2002dbff9b0e8b3d36d6f85487726b3c54ec",
+      "ported_sha256": "30fa612511098263d1e07c94bf15dc58f155f21d3907ad460743a4b1d57d39eb",
+      "lines": 48
+    },
+    {
+      "module": "LeanCert.Core.Taylor",
+      "upstream_sha256": "2c3d2aef304c46b10ca430c224d00abaa876daca6f8c94cce66b5fbc7cee354e",
+      "ported_sha256": "ce15f2708c0c7e8d3166b4b44e9031033c221b27ab0a4eff1a52e472bd8be917",
+      "lines": 941
+    },
+    {
+      "module": "LeanCert.Core.TrigReduction",
+      "upstream_sha256": "3d905fa503e7b5818b69c10e3a03109eb47f13946b2784e20bc277823eff5f04",
+      "ported_sha256": "e93e3aa709c7e15e7014e0b240a1cbd16288020ae605e1faf56f754e108f1a7d",
+      "lines": 145
+    }
+  ],
+  "compatibility_notes": [
+    "Added Lean4.35 module headers, public imports and exposed public definitions. Exposed formerly private helper definitions used in public statements or exposed definitions.",
+    "Replaced coarse rational pi bounds with Mathlib's proved20-digit lower/upper bounds, and changed the computable shift choice to floor(midpoint/(2piHi)+1/2). The shift soundness theorem is valid for every integer, and all enclosure proofs were recompiled.",
+    "Factored the existing sine/cosine coefficient-matching proofs into public exact list/Horner identities; the original interval membership theorems now reuse those identities. No Taylor theorem or remainder hypothesis changed."
+  ]
+}

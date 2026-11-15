@@ -1,0 +1,21 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "ErdosOverlap.verified_peak_gt_auxiliary",
+    "ErdosOverlap.verified_auxiliary_le_relaxedOverlapConstant",
+    "ErdosOverlap.verified_auxiliary_le_erdosOverlapConstant",
+    "ErdosOverlap.verified_auxiliary_le_discreteOverlapConstant",
+    "ErdosOverlap.verified_headline_lt_relaxedOverlapConstant",
+    "ErdosOverlap.verified_headline_lt_erdosOverlapConstant",
+    "ErdosOverlap.verified_headline_lt_discreteOverlapConstant",
+    "ErdosOverlap.verified_auxiliary_lt_minimumOverlapQuotient",
+    "ErdosOverlap.verified_finite_partition_difference"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

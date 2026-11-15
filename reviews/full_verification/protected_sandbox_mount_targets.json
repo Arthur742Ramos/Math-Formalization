@@ -1,0 +1,14 @@
+{
+  "observed_at_utc": "2026-11-15T02:09:26.199336+00:00",
+  "directories": [
+    {
+      "path": "/root",
+      "action": "created_empty_mount_target"
+    },
+    {
+      "path": "/run/user",
+      "action": "created_empty_mount_target"
+    }
+  ],
+  "scope": "Created missing empty host targets for the unmodified canonical Comparator tmpfs mounts. No sandbox flags, executable, source, or HOME change."
+}

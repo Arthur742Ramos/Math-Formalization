@@ -1,0 +1,15 @@
+'ErdosOverlap.Certificate.CoarseNative6.nativeIntegralBounds_verified' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ErdosOverlap.Certificate.CoarseNative6.outerRowsNeedingIntegrals_physical' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ErdosOverlap.verified_peak_gt_auxiliary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_auxiliary_le_relaxedOverlapConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_auxiliary_le_erdosOverlapConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_auxiliary_le_discreteOverlapConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_headline_lt_relaxedOverlapConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_headline_lt_erdosOverlapConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_headline_lt_discreteOverlapConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_auxiliary_lt_minimumOverlapQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ErdosOverlap.verified_finite_partition_difference' depends on axioms: [propext, Classical.choice, Quot.sound]
