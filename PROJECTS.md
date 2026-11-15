@@ -1,5 +1,12 @@
 # Projects
 
+The [Erdős 36 minimum-overlap lower-bound preparation](combinatorics/erdos-36-minimum-overlap)
+is a separate, unverified candidate. Its earlier ordinary Lean receipt does not
+establish protected comparison or an independent-kernel replay. The package's
+BSD-3-Clause license also differs from the Apache-2.0 repository-root license,
+which blocks direct Palomar submission from this tree under the current
+root-license contract. See its [validation notes](combinatorics/erdos-36-minimum-overlap/VALIDATION.md).
+
 The 17 audited projects below retain their exact source snapshots and package-owned pins.
 A separate source-account correction is listed after their table. Completed
 historical receipts and corrected-source obligations are tracked separately.

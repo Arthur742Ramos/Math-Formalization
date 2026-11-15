@@ -1,0 +1,36 @@
+{
+  "status": "finite_replay_complete",
+  "counts": {
+    "geometry_data": {
+      "passed": 299,
+      "total": 299
+    },
+    "geometry": {
+      "passed": 100,
+      "total": 100
+    },
+    "leaf_data": {
+      "passed": 177,
+      "total": 177
+    },
+    "leaves": {
+      "passed": 177,
+      "total": 177
+    },
+    "joins": {
+      "passed": 165,
+      "total": 165
+    },
+    "outer_integrals": {
+      "passed": 60,
+      "total": 60
+    }
+  }
+}
+{"step": "LeanVersion", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "env", "lean", "--version"], "exit_code": 0, "seconds": 0.999, "log_sha256": "eb22144228dd41cd51a0c84af4f976cd0cef473102dcf99b60be756b11f2b95a"}
+{"step": "Native6VerifiedIntegrals", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "build", "ErdosOverlap.Native6VerifiedIntegrals"], "exit_code": 0, "seconds": 3.614, "log_sha256": "b18eb3a285e8dc626ddac505e9bc3046d09f74e90e9efcd6c2e5384ae5b4e9b4", "source_sha256": "3bd240a457dce2aa5002d69521517a0bf60e5246b2118a210cacc9e44fae4cea"}
+{"step": "OuterPhysical", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "build", "ErdosOverlap.Certificate.OuterPhysical"], "exit_code": 0, "seconds": 2.066, "log_sha256": "c81a38dc2d9cd0a3d79f48bd54a7817dd2e7c10ef1948b66b0b8e2fb2be5539b", "source_sha256": "95bf4c5ae3fc3b1cc754a1952387b6a4987e8444ddbe35355398f34de45ed0dd"}
+{"step": "VerifiedBound", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "build", "ErdosOverlap.VerifiedBound"], "exit_code": 0, "seconds": 7.323, "log_sha256": "a5a37d6a7d01a0102abc0a1b6fc229aba3a28c7436161ada7cb4808465b853b8", "source_sha256": "4d147a12abe6130c98bcc202b8bc0d09b37245c3b49e3a9b215fb3a8c0216e8c"}
+{"step": "NumericSolution", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "env", "lean", "NumericSolution.lean"], "exit_code": 0, "seconds": 14.338, "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "source_sha256": "bf09af99e40df9aea409eb1bf47adb3aabc835c170d430fefa201ac0fa4a3709"}
+{"step": "AuditNumeric", "command": ["/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake", "env", "lean", "AuditNumeric.lean"], "exit_code": 0, "seconds": 4.302, "log_sha256": "ad9f565a3274562e67a4500fe21e01d5a5e0cf4186d35a215793281554f8cb4d", "source_sha256": "1e1c69cdfe12bc2d2999fe84f1d41e99c59b113451ef2652e76cb1b53083e6f5"}
+Unconditional numerical solution and all eleven transitive axiom audits passed.

@@ -1,0 +1,34 @@
+{
+  "status": "ordinary_lean_compilation_passed",
+  "observed_at_utc": "2026-11-15T02:06:19.199122+00:00",
+  "kernel_verification_sha256": "a67bbf17b68218b0151e8c164563bc60448e4d225f5344795f29af6f5908955d",
+  "builds": {
+    "Challenge.lean": {
+      "command": [
+        "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+        "env",
+        "lean",
+        "Challenge.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 2.646,
+      "source_sha256": "bfae2b0174cb824c0c42cc51512ef232f177d2a28c0135745aaa67251f0b5a7a",
+      "log_path": "reviews/full_verification/ConventionalChallenge.log",
+      "log_sha256": "b527b677e6e746c82e9b1da2a62e8e32abec819cff64fb87fb1456b0eaafa3b6"
+    },
+    "Solution.lean": {
+      "command": [
+        "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+        "env",
+        "lean",
+        "Solution.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 3.258,
+      "source_sha256": "11db194aa542ba1bc48901e0146213f668ea8705dcee182373a72cc72d3efe32",
+      "log_path": "reviews/full_verification/ConventionalSolution.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "scope": "Compilation of the actual conventional Challenge and Solution. Challenge has nine intentional specification holes; Solution imports only the completed proof. This is not protected statement comparison."
+}

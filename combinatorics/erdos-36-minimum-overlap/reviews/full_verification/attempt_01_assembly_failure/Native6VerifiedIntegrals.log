@@ -1,0 +1,348 @@
+⚠ [3000/3151] Replayed LeanCert.Core.TrigReduction
+warning: LeanCert/Core/TrigReduction.lean:43:33: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: LeanCert/Core/TrigReduction.lean:43:33: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: LeanCert/Core/TrigReduction.lean:47:33: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: LeanCert/Core/TrigReduction.lean:47:33: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3005/3151] Replayed LeanCert.Core.IntervalDyadic
+warning: LeanCert/Core/IntervalDyadic.lean:703:60: Variable name `hx_nn` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hx_nn
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3007/3151] Replayed ErdosOverlap.Numerics.FastTrig
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:39: This simp argument is unused:
+  smallCosDyadic
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [IntervalDyadic.addRounded, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:55: This simp argument is unused:
+  IntervalDyadic.addRounded
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [smallCosDyadic, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:57:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:39: This simp argument is unused:
+  smallSinDyadic
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [IntervalDyadic.addRounded, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:55: This simp argument is unused:
+  IntervalDyadic.addRounded
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [smallSinDyadic, add_sub_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:67:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:108:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FastTrig.lean:125:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3008/3151] Replayed ErdosOverlap.Numerics.FourierPolynomial
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:66:62: This simp argument is unused:
+  Function.comp_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Rat.cast_div, mul_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:60:64: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:66:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:60:64: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FourierPolynomial.lean:66:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3016/3151] Replayed ErdosOverlap.Numerics.FixedTrig
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:110:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/FixedTrig.lean:123:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3017/3151] Replayed ErdosOverlap.Numerics.CachedTrig
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:193:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:27: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:39: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:53: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/CachedTrig.lean:205:53: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3025/3151] Replayed ErdosOverlap.Numerics.PositiveLine
+warning: ErdosOverlap/Numerics/PositiveLine.lean:62:24: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/PositiveLine.lean:63:48: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/PositiveLine.lean:62:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/PositiveLine.lean:63:48: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3026/3151] Replayed ErdosOverlap.Numerics.LeafArithmetic
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:21: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:35: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:21: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/LeafArithmetic.lean:134:35: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3716/3809] Replayed ErdosOverlap.Numerics.LeafCache
+warning: ErdosOverlap/Numerics/LeafCache.lean:114:21: This simp argument is unused:
+  integral_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [intervalIntegral.integral_const_mul, intervalIntegral.integral_const, smul_eq_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3720/3809] Replayed ErdosOverlap.Certificate.Native6AffineData
+warning: ErdosOverlap/Certificate/Native6AffineData.lean:3427:2: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [5774/6170] Replayed ErdosOverlap.Numerics.SincEnclosure
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:41: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:55: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:41: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ErdosOverlap/Numerics/SincEnclosure.lean:26:55: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+✔ [6673/6675] Built ErdosOverlap.Certificate.Native6FinalArithmetic (6.2s)
+✔ [6674/6675] Built ErdosOverlap.Native6CertifiedIntegralAssembly (4.3s)
+✖ [6675/6675] Building ErdosOverlap.Native6VerifiedIntegrals (4.5s)
+trace: .> LEAN_PATH=/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/Cli/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/batteries/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/Qq/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/aesop/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/plausible/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/lean35_bootstrap/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/erdos36_lean/vendor/leancert/.lake/build/lib/lean:/workspace/scratch/4167ec040c81/erdos36_lean/.lake/build/lib/lean /workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lean /workspace/scratch/4167ec040c81/erdos36_lean/ErdosOverlap/Native6VerifiedIntegrals.lean -o /workspace/scratch/4167ec040c81/erdos36_lean/.lake/build/lib/lean/ErdosOverlap/Native6VerifiedIntegrals.olean -i /workspace/scratch/4167ec040c81/erdos36_lean/.lake/build/lib/lean/ErdosOverlap/Native6VerifiedIntegrals.ilean -c /workspace/scratch/4167ec040c81/erdos36_lean/.lake/build/ir/ErdosOverlap/Native6VerifiedIntegrals.c --setup /workspace/scratch/4167ec040c81/erdos36_lean/.lake/build/ir/ErdosOverlap/Native6VerifiedIntegrals.setup.json --json
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:41:2: Tactic `decide` failed to reduce
+  @decide (finalDenominatorClaim = denominatorJoin04_0000Claim)
+    (instDecidableEqIntegralClaim finalDenominatorClaim denominatorJoin04_0000Claim)
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq finalDenominatorClaim denominatorJoin04_0000Claim
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:50:2: Tactic `decide` failed to reduce
+  @decide (finalCentralClaim = centralJoin03_0000Claim)
+    (instDecidableEqIntegralClaim finalCentralClaim centralJoin03_0000Claim)
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq finalCentralClaim centralJoin03_0000Claim
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨0, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨0, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨0, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨0, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨0, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨0, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨1, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨1, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨1, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨1, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨1, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨1, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨2, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨2, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨2, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨2, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨2, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨2, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨3, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨3, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨3, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨3, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨3, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨3, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨4, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨4, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨4, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨4, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨4, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨4, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨5, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨5, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨5, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨5, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨5, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨5, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨6, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨6, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨6, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨6, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨6, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨6, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨7, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨7, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨7, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨7, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨7, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨7, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨8, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨8, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨8, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨8, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨8, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨8, ⋯⟩))
+error: ErdosOverlap/Native6VerifiedIntegrals.lean:73:21: Tactic `decide` failed to reduce
+  @decide (finalProfileClaim ((fun i => i) ⟨9, ⋯⟩) = sourceProfileClaim ((fun i => i) ⟨9, ⋯⟩))
+    (instDecidableEqIntegralClaim (finalProfileClaim ((fun i => i) ⟨9, ⋯⟩)) (sourceProfileClaim ((fun i => i) ⟨9, ⋯⟩)))
+to `true` or `false`.
+
+Reduction got stuck at
+  instDecidableEqIntegralClaim.decEq (finalProfileClaim ((fun i => i) ⟨9, ⋯⟩))
+    (sourceProfileClaim ((fun i => i) ⟨9, ⋯⟩))
+Some required targets logged failures:
+- ErdosOverlap.Native6VerifiedIntegrals
+error: build failed

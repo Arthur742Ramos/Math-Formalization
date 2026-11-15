@@ -1,0 +1,19 @@
+/-
+Copyright (c) 2026 Erdős overlap formalization contributors.
+Released under BSD-3-Clause license as described in the file LICENSE.
+-/
+module
+
+public import ErdosOverlap.VerifiedBound
+
+#print axioms ErdosOverlap.Certificate.CoarseNative6.nativeIntegralBounds_verified
+#print axioms ErdosOverlap.Certificate.CoarseNative6.outerRowsNeedingIntegrals_physical
+#print axioms ErdosOverlap.verified_peak_gt_auxiliary
+#print axioms ErdosOverlap.verified_auxiliary_le_relaxedOverlapConstant
+#print axioms ErdosOverlap.verified_auxiliary_le_erdosOverlapConstant
+#print axioms ErdosOverlap.verified_auxiliary_le_discreteOverlapConstant
+#print axioms ErdosOverlap.verified_headline_lt_relaxedOverlapConstant
+#print axioms ErdosOverlap.verified_headline_lt_erdosOverlapConstant
+#print axioms ErdosOverlap.verified_headline_lt_discreteOverlapConstant
+#print axioms ErdosOverlap.verified_auxiliary_lt_minimumOverlapQuotient
+#print axioms ErdosOverlap.verified_finite_partition_difference

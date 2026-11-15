@@ -5,6 +5,11 @@ owns its toolchain, Lake configuration, lockfile, Challenge, Comparator metadata
 definition evidence and verification scripts. Run build commands from its
 directory; preserve each package's pins.
 
+The [Erdős 36 lower-bound preparation](combinatorics/erdos-36-minimum-overlap)
+has an earlier ordinary Lean receipt; its protected verification and
+Palomar-compatible licensing arrangement remain open. It is not included in
+the audited-project counts below.
+
 The [project catalog](PROJECTS.md) lists 17 audited developments, one source-account correction,
 two separately verified product projects, one new preparation, and exact
 source snapshots. The [repository readiness audit](READINESS.md) reconciles
