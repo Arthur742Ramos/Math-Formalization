@@ -1,5 +1,0 @@
-module
-public import DichotomySolution
-#print axioms AuslanderYorke.equicontinuous_of_stable_open_sets
-#print axioms AuslanderYorke.minimal_dichotomy
-#print axioms AuslanderYorke.minimal_not_sensitive_iff_equicontinuous
