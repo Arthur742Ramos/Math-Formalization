@@ -1,0 +1,23 @@
+/-
+Generated exact integral certificates. Generation is untrusted;
+all arithmetic and source binding are checked in Lean.
+-/
+module
+
+public import ErdosOverlap.Certificate.FrontierLeaves.DenominatorBlock0024
+public import ErdosOverlap.Certificate.FrontierLeaves.DenominatorBlock0025
+
+namespace ErdosOverlap.FrontierLeaves
+open Numerics
+@[expose] public section
+set_option maxHeartbeats 0
+set_option maxRecDepth 1000000
+set_option Elab.async false
+
+def denominatorJoin00_0012Claim : IntegralClaim := ⟨(51257/2097152 : ℚ), (116787/4194304 : ℚ), 19638081272515727458667079052687⟩
+
+theorem denominatorJoin00_0012Bound : IntegralClaim.UpperCertificate denominatorIntegrand (4*approximationError) denominatorJoin00_0012Claim :=
+  denominatorBlock0024.glue denominatorBlock0025 (by decide +kernel)
+
+end
+end ErdosOverlap.FrontierLeaves

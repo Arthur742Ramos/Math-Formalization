@@ -30,8 +30,8 @@ maximum is taken over realized differences, and hence over all integer
 differences. The infimum over finite partitions is a genuine attained natural
 minimum. The normalized liminf gives the asymptotic lower-bound statement.
 
-The stronger auxiliary value `0.3806279485` is a non-strict infimum/liminf lower
-bound. Its strict gap above `0.380627948` supplies the headline. The finite
+The stronger auxiliary value `0.380627990701` is a non-strict infimum/liminf lower
+bound. Its strict gap above `0.3806279907` supplies the headline. The finite
 representation-count conclusion holds for every positive `N`, stronger than
 the sufficiently-large-size quantifier in the public problem. The exact
 optimal constant is not determined.
@@ -63,7 +63,7 @@ noncomputable section
 
 /-- The values of both signed overlaps on their entire physical interval. -/
 def overlapValues (h : ℝ → ℝ) : Set ℝ :=
-  positiveOverlap h '' Icc (0 : ℝ) 2 ∪ negativeOverlap h '' Icc (0 : ℝ) 2
+  positiveOverlap h '' Icc (0 : ℝ) ((2 : ℕ) : ℝ) ∪ negativeOverlap h '' Icc (0 : ℝ) ((2 : ℕ) : ℝ)
 
 /-- The supremum of the actual signed overlap values. -/
 def overlapPeak (h : ℝ → ℝ) : ℝ := sSup (overlapValues h)
@@ -76,7 +76,7 @@ def relaxedOverlapConstant : ℝ := sInf relaxedPeaks
 
 /-- The binary subclass of the admissible continuous densities. -/
 def BinaryAdmissible (h : ℝ → ℝ) : Prop :=
-  Admissible h ∧ ∀ x ∈ Icc (0 : ℝ) 2, h x = 0 ∨ h x = 1
+  Admissible h ∧ ∀ x ∈ Icc (0 : ℝ) ((2 : ℕ) : ℝ), h x = 0 ∨ h x = 1
 
 /-- All peaks of binary measurable equal-mass partitions. -/
 def partitionPeaks : Set ℝ :=
@@ -117,51 +117,75 @@ def discreteOverlapConstant : ℝ := Filter.liminf minimumOverlapQuotient Filter
 
 end Discrete
 
+theorem admissible_fields {h : ℝ → ℝ} :
+    Admissible h ↔ Measurable h ∧
+      (∀ x ∈ Icc (0 : ℝ) 2, 0 ≤ h x) ∧
+      (∀ x ∈ Icc (0 : ℝ) 2, h x ≤ 1) ∧
+      (∫ x in (0 : ℝ)..2, h x) = 1 := by
+  constructor
+  · intro hh
+    exact ⟨hh.measurable, hh.nonneg, hh.le_one, hh.mass⟩
+  · rintro ⟨hm, hn, hl, hi⟩
+    exact ⟨hm, hn, hl, hi⟩
+
+namespace Discrete
+
+theorem balancedPartition_fields {N : ℕ} {A B : Finset ℤ} :
+    BalancedPartition N A B ↔ Disjoint A B ∧
+      A ∪ B = Finset.Icc 1 (2*(N : ℤ)) ∧ A.card = N ∧ B.card = N := by
+  constructor
+  · intro hp
+    exact ⟨hp.disjoint, hp.union, hp.card_left, hp.card_right⟩
+  · rintro ⟨hd, hu, ha, hb⟩
+    exact ⟨hd, hu, ha, hb⟩
+
+end Discrete
+
 /-- Every actual relaxed peak strictly exceeds the auxiliary height. -/
 theorem verified_peak_gt_auxiliary {h : ℝ → ℝ} (hh : Admissible h) :
-    (3806279485/10000000000 : ℝ) < overlapPeak h := by
+    (380627990701/1000000000000 : ℝ) < overlapPeak h := by
   sorry
 
 /-- Non-strict lower bound on the continuous relaxed infimum. -/
 theorem verified_auxiliary_le_relaxedOverlapConstant :
-    (3806279485/10000000000 : ℝ) ≤ relaxedOverlapConstant := by
+    (380627990701/1000000000000 : ℝ) ≤ relaxedOverlapConstant := by
   sorry
 
 /-- Non-strict lower bound on the continuous binary infimum. -/
 theorem verified_auxiliary_le_erdosOverlapConstant :
-    (3806279485/10000000000 : ℝ) ≤ erdosOverlapConstant := by
+    (380627990701/1000000000000 : ℝ) ≤ erdosOverlapConstant := by
   sorry
 
 /-- The stronger lower bound for the original discrete normalized liminf. -/
 theorem verified_auxiliary_le_discreteOverlapConstant :
-    (3806279485/10000000000 : ℝ) ≤ Discrete.discreteOverlapConstant := by
+    (380627990701/1000000000000 : ℝ) ≤ Discrete.discreteOverlapConstant := by
   sorry
 
 /-- The strict headline bound for the relaxed continuous infimum. -/
 theorem verified_headline_lt_relaxedOverlapConstant :
-    (380627948/1000000000 : ℝ) < relaxedOverlapConstant := by
+    (3806279907/10000000000 : ℝ) < relaxedOverlapConstant := by
   sorry
 
 /-- The strict headline bound for the binary continuous infimum. -/
 theorem verified_headline_lt_erdosOverlapConstant :
-    (380627948/1000000000 : ℝ) < erdosOverlapConstant := by
+    (3806279907/10000000000 : ℝ) < erdosOverlapConstant := by
   sorry
 
 /-- The strict headline bound for the original discrete normalized liminf. -/
 theorem verified_headline_lt_discreteOverlapConstant :
-    (380627948/1000000000 : ℝ) < Discrete.discreteOverlapConstant := by
+    (3806279907/10000000000 : ℝ) < Discrete.discreteOverlapConstant := by
   sorry
 
 /-- Every positive-size finite minimum strictly exceeds the auxiliary level. -/
 theorem verified_auxiliary_lt_minimumOverlapQuotient {N : ℕ} (hN : 0 < N) :
-    (3806279485/10000000000 : ℝ) < Discrete.minimumOverlapQuotient N := by
+    (380627990701/1000000000000 : ℝ) < Discrete.minimumOverlapQuotient N := by
   sorry
 
 /-- The literal integer representation-count conclusion for every `N>0`. -/
 theorem verified_finite_partition_difference {N : ℕ} (hN : 0 < N)
     (A B : Finset ℤ) (hd : Disjoint A B)
     (hu : A ∪ B = Finset.Icc 1 (2*(N : ℤ))) (hcard : A.card = B.card) :
-    ∃ k : ℤ, (380627948/1000000000 : ℝ)*(N : ℝ) <
+    ∃ k : ℤ, (3806279907/10000000000 : ℝ)*(N : ℝ) <
       (((A ×ˢ B).filter (fun p => p.1-p.2=k)).card : ℝ) := by
   sorry
 

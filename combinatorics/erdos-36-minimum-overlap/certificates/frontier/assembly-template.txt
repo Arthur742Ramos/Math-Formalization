@@ -1,0 +1,148 @@
+/-
+Copyright (c) 2026 Erdős overlap formalization contributors.
+Released under BSD-3-Clause license as described in the file LICENSE.
+-/
+module
+
+public import ErdosOverlap.Certificate.RefinedEnvelopeData
+public import ErdosOverlap.Native6IntegralAssembly
+public import ErdosOverlap.Certificate.CoarseNative6OuterBindings
+public import ErdosOverlap.OuterDenominators
+
+/-!
+# Physical assembly of the refined mean envelope
+
+The new mean endpoints do not change the physical kernel, witness, or
+integral enclosure. The original proof of each quantitative return is valid
+for every real mean, so it applies on the new interval. The target remains
+between the same auxiliary level and the same fixed box cap.
+
+The only numerical premise retained here is the existing NativeIntegralBounds;
+RefinedEnvelopeVerified supplies its already certified integral trees.
+-/
+
+@[expose] public section
+
+namespace ErdosOverlap.Certificate.RefinedEnvelope
+
+open MeasureTheory Set CoarseNative6 Native6Witnesses Native6Leaves
+
+noncomputable def profileCertificate (bounds : NativeIntegralBounds) (mode : Fin 10) :
+    MeanKernelCertificate (profileRow mode) (height : ℝ) where
+  kernel := Native6.kernel
+  witness := modeWitness mode
+  auxiliaryLevel := (Native6Leaves.auxiliaryLevel : ℝ)
+  boxCap := (Native6Leaves.boxCap : ℝ)
+  tau := (modeTau mode : ℝ)
+  lowerExpectation := Native6.lowerExpectation
+  auxiliary_le_height := by norm_num [Native6Leaves.auxiliaryLevel, height]
+  height_le_boxCap := by norm_num [Native6Leaves.boxCap, height]
+  height_nonneg := by norm_num [height]
+  denominator_pos := by
+    change 0 < ((CoarseNative6.profileRow mode).d : ℝ)
+    rw [(CoarseNative6.profile_parameters mode).2.2.2]
+    norm_num [nativeDenominatorBound]
+  denominator_upper := by
+    change kernelDenominator Native6.kernel ≤ ((CoarseNative6.profileRow mode).d : ℝ)
+    rw [(CoarseNative6.profile_parameters mode).2.2.2]
+    exact bounds.denominator
+  witness_ac := modeWitness_absolutelyContinuous mode
+  witness_end := modeWitness_one mode
+  positive_integrable := Native6.positivePart_intervalIntegrable
+  conjugate_integrable := profileIntegrand_integrable mode
+  quartet_integrable := fun _ hh => Native6.kernel_quartetIntegrable hh
+  cost_integrable := fun _ hh => Native6.cost_intervalIntegrable hh _
+  expectation_bound := fun _ hh => Native6.lowerExpectation_le hh
+  quantitative_return := by
+    intro m _ _
+    change ((CoarseNative6.profileRow mode).a : ℝ) +
+      ((CoarseNative6.profileRow mode).b : ℝ) * m +
+      ((CoarseNative6.profileRow mode).c : ℝ) * m ^ 2 ≤ _
+    rcases CoarseNative6.profile_parameters mode with ⟨ha, hb, hc, _⟩
+    rw [ha, hb, hc, modeWitness_integral_abs]
+    simp only [Native6.lowerExpectation, Native6.meanCoefficient_exact,
+      Rat.cast_add, Rat.cast_sub]
+    have hi := bounds.profiles mode
+    change _ ≤ ∫ t in (0 : ℝ)..1,
+      kernelConjugate Native6.kernel (Native6Leaves.auxiliaryLevel : ℝ)
+        (Native6Leaves.boxCap : ℝ) (modeTau mode : ℝ) (modeWitness mode) t at hi
+    linarith [lowerAtZeroBound_le]
+
+theorem profileRows_physical (bounds : NativeIntegralBounds) :
+    PhysicalMeanInequalities profileRows height := by
+  intro r hr
+  obtain ⟨mode, rfl⟩ := List.mem_ofFn.mp hr
+  exact (profileCertificate bounds mode).physicalMeanInequality
+
+theorem outerRowsNeedingIntegrals_physical :
+    PhysicalMeanInequalities outerRowsNeedingIntegrals height := by
+  intro r hr h hh hlo hhi hcap
+  obtain ⟨b, hb, hloeq, hhieq, ha, hbzero, hczero, hd⟩ := neededOuterBindings_spec hr
+  have hm : profileMean (overlapProfile h) ∈ Icc (b.lo : ℝ) (b.hi : ℝ) := by
+    rw [← hloeq, ← hhieq]
+    exact ⟨hlo, hhi⟩
+  have hhbound := OuterNumerics.positiveBin_cap_bound hh hcap hb hm
+  simpa only [ha, hbzero, hczero, hd, Rat.cast_one, Rat.cast_zero, zero_mul,
+    add_zero, Rat.cast_div, Rat.cast_ofNat] using hhbound
+
+theorem outerRowsExcludedByCap_physical :
+    PhysicalMeanInequalities outerRowsExcludedByCap height := by
+  intro r hr
+  apply physicalMeanInequality_of_cap_threshold (by norm_num [height])
+  have hlo : (5 / 8 : ℝ) ≤ (r.lo : ℝ) := by
+    have hc := (Rat.cast_le (K := ℝ)).2 (outerRowsExcludedByCap_lo hr)
+    simpa only [Rat.cast_div, Rat.cast_ofNat] using hc
+  have hthreshold : 2 * (height : ℝ) - (height : ℝ) ^ 2 < (5 / 8 : ℝ) := by
+    norm_num [height]
+  exact hthreshold.trans_le hlo
+
+theorem outerRows_physical : PhysicalMeanInequalities CoarseNative6.outerRows height := by
+  intro r hr
+  rw [CoarseNative6.outerRows_split] at hr
+  rcases List.mem_append.mp hr with hr | hr
+  · exact outerRowsNeedingIntegrals_physical r hr
+  · exact outerRowsExcludedByCap_physical r hr
+
+theorem positiveRows_physical (bounds : NativeIntegralBounds) :
+    PhysicalMeanInequalities positiveRows height := by
+  intro r hr
+  rcases List.mem_append.mp hr with hr | hr
+  · exact profileRows_physical bounds r hr
+  · exact outerRows_physical r hr
+
+theorem not_overlapCap_of_nonneg_mean (bounds : NativeIntegralBounds)
+    {h : ℝ → ℝ} (hh : Admissible h)
+    (hm : 0 ≤ profileMean (overlapProfile h)) : ¬ OverlapCap h (height : ℝ) := by
+  intro hcap
+  have hmhi := (abs_le.mp (profileMean_abs_le_one hh)).2
+  obtain ⟨r, hr, hlo, hhi, hstrict⟩ :=
+    exists_separating_row positiveRows_chain positiveRows_valid
+      (profileMean (overlapProfile h)) (by simpa using hm) (by simpa using hmhi)
+  have hd : (0 : ℝ) < (r.d : ℝ) :=
+    (Rat.cast_pos (K := ℝ)).2 (positiveRows_valid r hr).2.1
+  have hbound : r.eval (profileMean (overlapProfile h)) ≤ (height : ℝ) := by
+    apply (div_le_iff₀ hd).mpr
+    exact positiveRows_physical bounds r hr h hh hlo hhi hcap
+  exact (not_lt_of_ge hbound) hstrict
+
+theorem not_overlapCap (bounds : NativeIntegralBounds)
+    {h : ℝ → ℝ} (hh : Admissible h) : ¬ OverlapCap h (height : ℝ) := by
+  intro hcap
+  by_cases hm : 0 ≤ profileMean (overlapProfile h)
+  · exact not_overlapCap_of_nonneg_mean bounds hh hm hcap
+  · apply not_overlapCap_of_nonneg_mean bounds hh.complement _ hcap.complement
+    rw [profileMean_complement]
+    linarith
+
+theorem peak_gt_height (bounds : NativeIntegralBounds)
+    {h : ℝ → ℝ} (hh : Admissible h) : (height : ℝ) < overlapPeak h := by
+  by_contra hle
+  exact not_overlapCap bounds hh ((overlapPeak_le_iff hh _).mp (le_of_not_gt hle))
+
+theorem height_le_relaxedConstant (bounds : NativeIntegralBounds) :
+    (height : ℝ) ≤ relaxedOverlapConstant := by
+  apply le_csInf relaxedPeaks_nonempty
+  rintro M ⟨h, hh, rfl⟩
+  exact (peak_gt_height bounds hh).le
+
+end ErdosOverlap.Certificate.RefinedEnvelope

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "comparison": "Fixed model definitions reached from selected theorem types; Comparator definition_names is empty because that field declares definition holes.",
+  "fixed_definition_names": [
+    "ErdosOverlap.positiveOverlap",
+    "ErdosOverlap.negativeOverlap",
+    "ErdosOverlap.overlapValues",
+    "ErdosOverlap.overlapPeak",
+    "ErdosOverlap.relaxedPeaks",
+    "ErdosOverlap.relaxedOverlapConstant",
+    "ErdosOverlap.BinaryAdmissible",
+    "ErdosOverlap.partitionPeaks",
+    "ErdosOverlap.erdosOverlapConstant",
+    "ErdosOverlap.Discrete.differenceCount",
+    "ErdosOverlap.Discrete.maximumCount",
+    "ErdosOverlap.Discrete.finiteMaximumValues",
+    "ErdosOverlap.Discrete.minimumOverlap",
+    "ErdosOverlap.Discrete.minimumOverlapQuotient",
+    "ErdosOverlap.Discrete.discreteOverlapConstant"
+  ]
+}

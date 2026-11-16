@@ -12,6 +12,7 @@ import re
 import subprocess
 import tarfile
 import tempfile
+import yaml
 
 from check_imported_definitions import check as check_imported_definitions
 
@@ -30,13 +31,33 @@ def sha(data):
 
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
-    require(re.fullmatch(r'topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts|computational-hodge/metric-hodge|computational-hodge/arclength|computational-hodge/poisson|computational-hodge/green-operator|computational-hodge/compact-green|computational-hodge/fredholm-circle|computational-hodge/resonance-obstruction|computational-hodge/resonant-range|computational-hodge/full-circle-range|computational-hodge/canonical-circle|computational-hodge/positive-resolvent|computational-hodge/resolvent-limit|computational-hodge/resolvent-calculus|computational-hodge/arclength-conjugacy|computational-hodge/arclength-modes|computational-hodge/resonant-periods', project),
+    require(isinstance(project, str) and (project == '' or re.fullmatch(r'combinatorics/erdos-36-minimum-overlap|topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts|computational-hodge/metric-hodge|computational-hodge/arclength|computational-hodge/poisson|computational-hodge/green-operator|computational-hodge/compact-green|computational-hodge/fredholm-circle|computational-hodge/resonance-obstruction|computational-hodge/resonant-range|computational-hodge/full-circle-range|computational-hodge/canonical-circle|computational-hodge/positive-resolvent|computational-hodge/resolvent-limit|computational-hodge/resolvent-calculus|computational-hodge/arclength-conjugacy|computational-hodge/arclength-modes|computational-hodge/resonant-periods', project)),
             'Invalid project path')
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
-    paths = git('ls-tree', '-r', '--name-only', commit + ':' + project).decode().splitlines()
+    tree = commit + ':' + project if project else commit + '^{tree}'
+    paths = git('ls-tree', '-r', '--name-only', tree).decode().splitlines()
     require(paths, 'Source package is missing')
-    return {name: git('show', commit + ':' + project + '/' + name) for name in paths}
+    prefix = project + '/' if project else ''
+    files = {name: git('show', commit + ':' + prefix + name) for name in paths}
+    if not project:
+        # Root snapshots are supported only for the reviewed Erdős package.
+        # Canonical intake represents the repository root by an empty path.
+        metadata = yaml.safe_load(files.get('formalization.yaml', b''))
+        config = json.loads(files.get('comparator.json', b'{}'))
+        identity = metadata.get('project') if isinstance(metadata, dict) else None
+        require(isinstance(identity, dict) and isinstance(config, dict),
+                'Unsupported standalone root snapshot')
+        theorems, definitions = config.get('theorem_names'), config.get('definition_names')
+        require(identity.get('name') == "A certified lower bound for Erdős' minimum-overlap problem" and
+                identity.get('license') == 'BSD-3-Clause' and
+                isinstance(theorems, list) and theorems and definitions == [] and
+                all(isinstance(name, str) and name.startswith('ErdosOverlap.')
+                    for name in theorems + definitions) and
+                config.get('challenge_module') == 'Challenge' and
+                config.get('solution_module') == 'Solution',
+                'Unsupported standalone root snapshot')
+    return files
 
 
 def status_errors(files):
@@ -114,7 +135,7 @@ def check_kernel_account(report, protected):
         require(warning in report.get('warnings', []), 'Missing advisory decline warning')
 
 
-def check_kernels(report, protected):
+def check_kernels(report, protected, *, source_toolchain='leanprover/lean4:v4.35.0-rc2'):
     """Require three accepted kernels under either retained canonical protocol.
 
     Current policy runs con-ron after mandatory protected comparison. A policy
@@ -164,8 +185,13 @@ def check_kernels(report, protected):
         diagnostics = diagnostics[1:]
     require(lines and re.fullmatch(accepted, lines[0]) and not diagnostics,
         'Missing unambiguous verified con-ron acceptance')
+    check_con_ron_provenance(report, source_toolchain)
+
+
+def check_con_ron_provenance(report, source_toolchain):
+    """Bind the pinned advisory checker artifact, including a recorded decline."""
     expected = {
-        'source_toolchain': 'leanprover/lean4:v4.35.0-rc2',
+        'source_toolchain': source_toolchain,
         'kind': 'maintainer-pinned-release',
         'release_tag': 'v4.36.0-rc1',
         'release_commit': 'c9afcddf514a6772bd4d649f7cfc04eff0b9f15e',
@@ -187,17 +213,18 @@ def bind_full(report, fields, files):
     source, project = fields['commit'], fields['project_path']
     require(report['source']['repository'] == fields['repository'] == REPOSITORY,
             'Report repository mismatch')
-    require(report['source']['commit'] == source and report['source']['project_path'] == project,
+    prefix = project + '/' if project else ''
+    require(report['source']['commit'] == source and report['source'].get('project_path', '') == project,
             'Historical report is not verification of the proposed source')
-    require(fields['comparator_config_path'] == project + '/comparator.json' and
-            fields['formalization_metadata_path'] == project + '/formalization.yaml', 'Wrong intake paths')
+    require(fields['comparator_config_path'] == prefix + 'comparator.json' and
+            fields['formalization_metadata_path'] == prefix + 'formalization.yaml', 'Wrong intake paths')
     config = json.loads(files['comparator.json'])
     expected = {'formalization': 'formalization.yaml', 'comparator': 'comparator.json',
                 'challenge': config['challenge_module'].replace('.', '/') + '.lean',
                 'solution': config['solution_module'].replace('.', '/') + '.lean',
                 'lakefile': 'lakefile.toml', 'lake_manifest': 'lake-manifest.json'}
     for kind, name in expected.items():
-        require(report[kind]['path'] == project + '/' + name, kind + ' path mismatch')
+        require(report[kind]['path'] == prefix + name, kind + ' path mismatch')
         require(report[kind]['sha256'] == sha(files[name]), kind + ' source digest mismatch')
     require(report['lean_toolchain'] == files['lean-toolchain'].decode().strip(), 'Toolchain mismatch')
     protected = json.loads(report['protected_config'])
@@ -210,7 +237,29 @@ def bind_full(report, fields, files):
             protected['challenge_module'].endswith('.Challenge'), 'Unprotected Challenge')
     for kind in ['challenge', 'solution']:
         require(report[kind]['module'] == config[kind + '_module'], kind + ' module mismatch')
-    if project == 'algebraic-hodge/ddbar-pilot':
+    if project in {'', 'combinatorics/erdos-36-minimum-overlap'}:
+        require(config['definition_names'] == [], 'Erdős fixed model definitions must not be definition holes')
+        # This package follows the current pinned pipeline's mandatory Lean/
+        # NanoDa and recorded advisory con-ron protocol, without a three-kernel
+        # claim. Other packages retain their existing stronger receipt contract.
+        require(report['lean_toolchain'] == 'leanprover/lean4:v4.35.0', 'Wrong Erdős toolchain')
+        require(report.get('schema_version') == 2 and report.get('phase') == 'verification',
+                'Unsupported Erdős verification protocol')
+        check_kernel_account(report, protected)
+        advisory = report['kernel_attempts'][0]['argv']
+        require(pathlib.PurePosixPath(advisory[0]).is_absolute() and
+                advisory[1:] == ['--jobs=2', '--verified'],
+                'Wrong verified con-ron replay command')
+        nanoda = next(k for k in report['kernels'] if k['name'] == 'nanoda')
+        command = nanoda.get('argv')
+        require(isinstance(command, list) and command == protected['external_kernels']['nanoda']
+                and len(command) == 1 and pathlib.PurePosixPath(command[0]).is_absolute()
+                and pathlib.PurePosixPath(command[0]).name == 'nanoda_bin',
+                'Wrong protected NanoDa command')
+        check_con_ron_provenance(report, report['lean_toolchain'])
+        if any(k['name'] == 'con-ron' for k in report['kernels']):
+            check_kernels(report, protected, source_toolchain=report['lean_toolchain'])
+    elif project == 'algebraic-hodge/ddbar-pilot':
         # Hodge's reviewed plan follows mandatory Lean/NanoDa plus advisory con-ron.
         # Preserve main's stronger three-kernel account for every other packet;
         # when Hodge records con-ron acceptance, require its same strict provenance.
@@ -238,6 +287,8 @@ def check_archive(data, files):
 
 
 def check_status(root, commit, project, historical_report=None):
+    require(historical_report is None or project not in {'', 'combinatorics/erdos-36-minimum-overlap'},
+            'Erdős packets require the exact-source full-report mode')
     files = snapshot(root, commit, project)
     # An intake for the original KR source was observed on 2026-10-27.
     # A later handoff must not repeat its undated pre-intake assertion.
@@ -247,12 +298,21 @@ def check_status(root, commit, project, historical_report=None):
     errors = status_errors(files)
     require(not errors, '; '.join(errors))
     material_manifest = 'verification/material-imported-definitions.json'
-    if project in {'topology/kuratowski-ulam', 'topology/locally-compact-baire',
+    if project in {'', 'combinatorics/erdos-36-minimum-overlap', 'topology/kuratowski-ulam', 'topology/locally-compact-baire',
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',
                    'topology/banach-mazur-category', 'topology/strong-choquet-polish',
                    'algebraic-hodge/ddbar-pilot', 'computational-hodge/finite-periods',
                    'computational-hodge/presentation-homology', 'computational-hodge/geometric-descent', 'computational-hodge/geometric-obstruction', 'computational-hodge/loop-characters', 'computational-hodge/torus-periods', 'computational-hodge/circle-hodge', 'computational-hodge/trace-integrals', 'computational-hodge/ac-lifts', 'computational-hodge/dirichlet', 'computational-hodge/unit-circle-geometry', 'computational-hodge/automatic-lifts', 'computational-hodge/metric-hodge', 'computational-hodge/arclength', 'computational-hodge/poisson', 'computational-hodge/green-operator', 'computational-hodge/compact-green', 'computational-hodge/fredholm-circle', 'computational-hodge/resonance-obstruction', 'computational-hodge/resonant-range', 'computational-hodge/full-circle-range', 'computational-hodge/canonical-circle', 'computational-hodge/positive-resolvent', 'computational-hodge/resolvent-limit', 'computational-hodge/resolvent-calculus', 'computational-hodge/arclength-conjugacy', 'computational-hodge/arclength-modes', 'computational-hodge/resonant-periods'}:
         require(material_manifest in files, 'Missing material imported-definition evidence')
+    if project in {'', 'combinatorics/erdos-36-minimum-overlap'}:
+        require('verification/fixed-definitions.json' in files, 'Missing fixed-definition inventory')
+        fixed = json.loads(files['verification/fixed-definitions.json'])
+        names = fixed.get('fixed_definition_names', [])
+        require(fixed.get('schema_version') == 1 and isinstance(names, list) and
+                len(names) == 15 and all(isinstance(name, str) and name.startswith('ErdosOverlap.') for name in names)
+                and len(set(names)) == 15, 'Invalid fixed-definition inventory')
+        config = json.loads(files['comparator.json'])
+        require(config.get('definition_names') == [], 'Erdős fixed model definitions must not be definition holes')
     if material_manifest in files:
         # Audit the proposed source bytes, never a later working directory.
         # This is static consistency; pinned-origin and compilation are separate.
@@ -324,7 +384,7 @@ def main():
             result = check_packet(ROOT, json.loads(args.packet.read_text()), args.report.read_bytes(),
                                   args.report_sha256, args.archive.read_bytes())
         else:
-            require(args.commit and args.project_path, 'Status-only mode requires exact commit and project path')
+            require(args.commit and args.project_path is not None, 'Status-only mode requires exact commit and project path')
             check_status(ROOT, args.commit, args.project_path, args.historical_report)
             result = {'status': 'pass', 'mode': 'status-only', 'commit': args.commit,
                       'intake_authorized': False, 'current_source_full': 'not established by this mode'}

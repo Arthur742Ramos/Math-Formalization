@@ -66,7 +66,7 @@ def finite_sanity(limit):
                     counts[a-b+2*n] += 1
             peak = max(counts)
             minimum = peak if minimum is None else min(minimum, peak)
-        if minimum * 1_000_000_000 <= 380_627_948 * n:
+        if minimum * 10_000_000_000 <= 3_806_279_907 * n:
             raise AssertionError(f"finite headline fails at N={n}")
         rows.append({"N": n, "minimum_count": minimum,
                      "partitions_checked": __import__("math").comb(2*n, n)})
@@ -75,17 +75,31 @@ def finite_sanity(limit):
 
 def main():
     problems = []
+    legacy = (ROOT / "NumericChallenge.lean").read_text()
     for name, file in defs.items():
         reference = (ROOT / file).read_text()
         if normalize(get_block(challenge, name)) != normalize(get_block(reference, name)):
             problems.append(f"definition mismatch: {name}")
+        if normalize(get_block(legacy, name)) != normalize(get_block(reference, name)):
+            problems.append(f"NumericChallenge definition mismatch: {name}")
 
     config = json.loads((ROOT / "comparator.json").read_text())
-    proof = (ROOT / "ErdosOverlap/VerifiedBound.lean").read_text()
+    if config['definition_names'] != []:
+        problems.append('Fixed model definitions must not be definition holes')
+    fixed = json.loads((ROOT / 'verification/fixed-definitions.json').read_text())
+    continuous = list(defs)[:10]
+    discrete = list(defs)[10:]
+    expected_fixed = {'ErdosOverlap.'+name for name in continuous if name != 'Admissible'}
+    expected_fixed.update('ErdosOverlap.Discrete.'+name for name in discrete if name != 'BalancedPartition')
+    if fixed.get('schema_version') != 1 or len(fixed['fixed_definition_names']) != 15 or set(fixed['fixed_definition_names']) != expected_fixed:
+        problems.append('Fixed-definition inventory differs from the actual model definitions')
+    proof = (ROOT / "ErdosOverlap/VerifiedBound.lean").read_text() + "\n" + (ROOT / "ErdosOverlap/DefinitionContracts.lean").read_text()
     for qualified in config["theorem_names"]:
         name = qualified.rsplit(".", 1)[-1]
         if theorem_type(challenge, name) != theorem_type(proof, name):
             problems.append(f"theorem signature mismatch: {name}")
+        if theorem_type(legacy, name) != theorem_type(proof, name):
+            problems.append(f"NumericChallenge theorem signature mismatch: {name}")
 
     imports = re.findall(r"(?m)^public import\s+(\S+)", challenge)
     if not imports or any(not item.startswith("Mathlib.") for item in imports):
@@ -94,7 +108,9 @@ def main():
     result = {
         "scope": "Text comparison and exhaustive finite sanity checks; not Lean or Comparator verification.",
         "definitions_compared": len(defs),
+        "fixed_model_definitions": len(expected_fixed),
         "theorem_signatures_compared": len(config["theorem_names"]),
+        "statement_surfaces": ["Challenge", "NumericChallenge"],
         "challenge_imports": imports,
         "issues": problems,
         "finite_sanity": finite_sanity(9),

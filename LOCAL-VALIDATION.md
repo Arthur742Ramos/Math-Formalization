@@ -79,6 +79,15 @@ compiled artifacts; prepare a fresh owned checkout for a new run. Do not delete
 or reuse another owner's build tree. Dependency cache authentication remains a
 separate gate.
 
+The Erdős 36 stronger-bound package has no retired native workflow. Its
+[complete native commands](combinatorics/erdos-36-minimum-overlap/VALIDATION.md)
+add separate Challenge/Solution semantic entrypoints and a transitive audit of
+all eleven selected theorems and fifteen fixed model definitions. Its separate
+elaborated-dependency audit requires all fixed definitions to be reached from
+selected statement types, with no Comparator definition holes. Run them in a clean owned
+checkout under the same lock and bounded receipt protocol, followed by the
+canonical full and render routes. The retired inventory remains unchanged.
+
 ## Narrow status-only historical proof evidence
 
 A later source that changes only a package README and the two metadata text
@@ -156,6 +165,15 @@ repository `Arthur742Ramos/Math-Formalization`, the exact new 40-character
 string with project/comparator/metadata paths and the accurate authorized
 relationship. Use the archived job inputs as a schema reference, not as proof
 of authorization or as the source SHA for a new check.
+
+The canonical adapter's wall-clock ceiling is read from the standard profile
+in the authenticated clean pinned pipeline. For revision
+`14aa8d6b3c2f14a8540605e37144560b9a00e7e7` this is 19,800 seconds;
+the earlier 7,200-second adapter limit was below that published budget.
+The adapter preserves the standard profile and official capacity/sandbox gates;
+this changes no verifier, resource policy or host security configuration.
+The receipt records the requested budget and pinned ceiling. Native/catalog
+runner budgets remain unchanged.
 
 `render-inputs.json` contains exactly the canonical prepare fields:
 `repository`, `commit`, `challenge_sha256`, `project_path`, `challenge_path`,

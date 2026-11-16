@@ -36,7 +36,7 @@ noncomputable section
 
 /-- All values of the two signed overlaps on their physical interval. -/
 def overlapValues (h : ℝ → ℝ) : Set ℝ :=
-  positiveOverlap h '' Icc (0 : ℝ) 2 ∪ negativeOverlap h '' Icc (0 : ℝ) 2
+  positiveOverlap h '' Icc (0 : ℝ) ((2 : ℕ) : ℝ) ∪ negativeOverlap h '' Icc (0 : ℝ) ((2 : ℕ) : ℝ)
 
 /-- The maximal overlap, defined by a supremum without assuming attainment. -/
 def overlapPeak (h : ℝ → ℝ) : ℝ := sSup (overlapValues h)
@@ -158,7 +158,7 @@ theorem relaxedOverlapConstant_le_one : relaxedOverlapConstant ≤ 1 := by
 
 /-- A measurable partition encoded by a binary density on `[0,2]`. -/
 def BinaryAdmissible (h : ℝ → ℝ) : Prop :=
-  Admissible h ∧ ∀ x ∈ Icc (0 : ℝ) 2, h x = 0 ∨ h x = 1
+  Admissible h ∧ ∀ x ∈ Icc (0 : ℝ) ((2 : ℕ) : ℝ), h x = 0 ∨ h x = 1
 
 /-- One explicit equal-mass partition, used only to establish nonemptiness. -/
 def halfPartition : ℝ → ℝ := (Iic (1 : ℝ)).indicator (fun _ => 1)

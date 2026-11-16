@@ -1,0 +1,29 @@
+{
+  "archive_sha256": "9c3fb25fefe075cb8410ec3335befa895344924498fc67267b44d4167f902046",
+  "scope": "Frozen generation inputs; proposal endpoints are not physical proof premises",
+  "files": [
+    {
+      "path": "cover-proposal.json",
+      "sha256": "bb20973523aaf98ccb29d3fbc16f29c036ee68e13c1f9728165faf4d31081534",
+      "original_archive_path": "push_integrals/frontier_compact_cover.json"
+    },
+    {
+      "path": "cover-template.txt",
+      "sha256": "9386253968e526bdc4be7bb4d61e142706ff993d9a1506186d98ea99867a1020",
+      "original_archive_path": "push_verification/Math-Formalization/combinatorics/erdos-36-minimum-overlap/ErdosOverlap/Certificate/FrontierEnvelopeData.lean"
+    },
+    {
+      "path": "assembly-template.txt",
+      "sha256": "7b5bcad3af7d6091ec758f36e416c6adbb0d809efcc117e844a3dba43c5c11c6",
+      "original_archive_path": "push_verification/Math-Formalization/combinatorics/erdos-36-minimum-overlap/ErdosOverlap/RefinedEnvelopeAssembly.lean"
+    },
+    {
+      "path": "kernel.json",
+      "sha256": "1a45087c780286a6c997fe9933bfcac502e79283569264f12f9f8aeea0b5eaae"
+    },
+    {
+      "path": "witnesses.json",
+      "sha256": "55e4297a02f2495103f60294f9bef10636677a0d405ae8daaa1bbfc3627d941c"
+    }
+  ]
+}
