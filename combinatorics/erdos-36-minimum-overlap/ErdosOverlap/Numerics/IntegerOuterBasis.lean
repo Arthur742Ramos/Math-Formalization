@@ -68,16 +68,16 @@ def integerCompile (sine : Bool) (basis : List IntLocalTrigApprox) :
       (integerCompile sine basis as)
 
 theorem decodeCoefficients_add (S : ℤ) (xs ys : List ℤ) :
-    addPolynomialCoefficients (decodeCoefficients S xs) (decodeCoefficients S ys) =
+    outerAddPolynomialCoefficients (decodeCoefficients S xs) (decodeCoefficients S ys) =
       decodeCoefficients S (addIntegerCoefficients xs ys) := by
   induction xs generalizing ys with
-  | nil => simp [decodeCoefficients, addIntegerCoefficients, addPolynomialCoefficients]
+  | nil => simp [decodeCoefficients, addIntegerCoefficients, outerAddPolynomialCoefficients]
   | cons x xs ih =>
     cases ys with
-    | nil => simp [decodeCoefficients, addIntegerCoefficients, addPolynomialCoefficients]
+    | nil => simp [decodeCoefficients, addIntegerCoefficients, outerAddPolynomialCoefficients]
     | cons y ys =>
       simp only [decodeCoefficients, List.map_cons, addIntegerCoefficients,
-        addPolynomialCoefficients, Int.cast_add, add_div]
+        outerAddPolynomialCoefficients, Int.cast_add, add_div]
       exact congrArg (List.cons ((x : ℚ)/(S : ℚ)+(y : ℚ)/(S : ℚ))) (ih ys)
 
 theorem decodeCoefficients_scale (D S w : ℤ) (cs : List ℤ) :
@@ -115,7 +115,7 @@ theorem compileTrigCoefficients_decode (sine : Bool) (D S : ℤ)
   | cons a as ih =>
     simp only [decodeTerms, List.map_cons, compileTrigCoefficients, IntTrigTerm.decode]
     rw [localTrigLookup_decode]
-    change addPolynomialCoefficients
+    change outerAddPolynomialCoefficients
       (scalePolynomialCoefficients ((a.weight : ℚ)/(D : ℚ))
         (if sine then decodeCoefficients S (integerLookup a.frequency basis).sineCoefficients
           else decodeCoefficients S (integerLookup a.frequency basis).cosineCoefficients))
@@ -126,7 +126,7 @@ theorem compileTrigCoefficients_decode (sine : Bool) (D S : ℤ)
 
 theorem compileTrigCoefficients_add_decode (D S : ℤ)
     (basis : List IntLocalTrigApprox) (cosineTerms sineTerms : List IntTrigTerm) :
-    addPolynomialCoefficients
+    outerAddPolynomialCoefficients
         (compileTrigCoefficients false (decodeBasis S basis) (decodeTerms D cosineTerms))
         (compileTrigCoefficients true (decodeBasis S basis) (decodeTerms D sineTerms)) =
       decodeCoefficients (D*S)
@@ -153,7 +153,7 @@ def integerCompileSumCheck (basis : List IntLocalTrigApprox)
 theorem integerCompileSumCheck_sound {basis : List IntLocalTrigApprox}
     {cosineTerms sineTerms : List IntTrigTerm} {result : List ℤ} (D S : ℤ)
     (hc : integerCompileSumCheck basis cosineTerms sineTerms result = true) :
-    addPolynomialCoefficients
+    outerAddPolynomialCoefficients
         (compileTrigCoefficients false (decodeBasis S basis) (decodeTerms D cosineTerms))
         (compileTrigCoefficients true (decodeBasis S basis) (decodeTerms D sineTerms)) =
       decodeCoefficients (D*S) result := by

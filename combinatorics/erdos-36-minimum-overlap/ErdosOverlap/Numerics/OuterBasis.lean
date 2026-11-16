@@ -11,22 +11,22 @@ namespace ErdosOverlap.Numerics
 open MeasureTheory Set
 @[expose] public section
 
-def addPolynomialCoefficients : List ℚ → List ℚ → List ℚ
+def outerAddPolynomialCoefficients : List ℚ → List ℚ → List ℚ
   | [], ys => ys
   | xs, [] => xs
-  | x :: xs, y :: ys => (x+y) :: addPolynomialCoefficients xs ys
+  | x :: xs, y :: ys => (x+y) :: outerAddPolynomialCoefficients xs ys
 
 def scalePolynomialCoefficients (w : ℚ) (cs : List ℚ) : List ℚ := cs.map (w * ·)
 
 theorem polynomialValue_addCoefficients (xs ys : List ℚ) (u : ℝ) :
-    polynomialValue (addPolynomialCoefficients xs ys) u =
+    polynomialValue (outerAddPolynomialCoefficients xs ys) u =
       polynomialValue xs u + polynomialValue ys u := by
   induction xs generalizing ys with
-  | nil => simp [addPolynomialCoefficients, polynomialValue]
+  | nil => simp [outerAddPolynomialCoefficients, polynomialValue]
   | cons x xs ih =>
     cases ys with
-    | nil => simp [addPolynomialCoefficients, polynomialValue]
-    | cons y ys => simp only [addPolynomialCoefficients, polynomialValue, Rat.cast_add, ih]; ring
+    | nil => simp [outerAddPolynomialCoefficients, polynomialValue]
+    | cons y ys => simp only [outerAddPolynomialCoefficients, polynomialValue, Rat.cast_add, ih]; ring
 
 theorem polynomialValue_scaleCoefficients (w : ℚ) (cs : List ℚ) (u : ℝ) :
     polynomialValue (scalePolynomialCoefficients w cs) u = (w : ℝ)*polynomialValue cs u := by
@@ -101,7 +101,7 @@ def compileTrigCoefficients (sine : Bool) (basis : List LocalTrigApprox) :
   | [] => []
   | a :: as =>
     let b := localTrigLookup a.frequency basis
-    addPolynomialCoefficients
+    outerAddPolynomialCoefficients
       (scalePolynomialCoefficients a.weight (if sine then b.sineCoefficients else b.cosineCoefficients))
       (compileTrigCoefficients sine basis as)
 
@@ -167,7 +167,7 @@ open Numerics
 @[expose] public section
 
 def compiledCoefficients (p : OuterFourierPolynomial) (basis : List LocalTrigApprox) : List ℚ :=
-  addPolynomialCoefficients (compileTrigCoefficients false basis p.cosineTerms)
+  outerAddPolynomialCoefficients (compileTrigCoefficients false basis p.cosineTerms)
     (compileTrigCoefficients true basis p.sineTerms)
 
 def compiledError (p : OuterFourierPolynomial) (basis : List LocalTrigApprox) : ℚ :=
