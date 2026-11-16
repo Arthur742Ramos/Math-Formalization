@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+    "env",
+    "lean",
+    "NumericSolution.lean"
+  ],
+  "exit_code": 0,
+  "seconds": 14.338,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_sha256": "bf09af99e40df9aea409eb1bf47adb3aabc835c170d430fefa201ac0fa4a3709"
+}

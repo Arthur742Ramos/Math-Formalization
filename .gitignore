@@ -1,0 +1,10 @@
+.lake/
+*.olean
+*.ilean
+*.trace
+*.olean.server
+*.olean.private
+
+# Derived generator intermediates; all proof data are retained in Lean source.
+/certificates/frontier/affine-pieces.json
+/certificates/frontier/correction-coefficients.json

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+    "build",
+    "ErdosOverlap.VerifiedBound"
+  ],
+  "exit_code": 0,
+  "seconds": 7.323,
+  "log_sha256": "a5a37d6a7d01a0102abc0a1b6fc229aba3a28c7436161ada7cb4808465b853b8",
+  "source_sha256": "4d147a12abe6130c98bcc202b8bc0d09b37245c3b49e3a9b215fb3a8c0216e8c"
+}

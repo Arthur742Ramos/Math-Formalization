@@ -1,0 +1,24 @@
+{
+  "status": "blocked_sandbox_preflight",
+  "observed_at_utc": "2026-11-15T02:09:27.939486+00:00",
+  "command": [
+    "/workspace/scratch/4167ec040c81/tooling35/lean-4.35.0-linux/bin/lake",
+    "comparator",
+    "--config",
+    "comparator.json",
+    "--paranoid"
+  ],
+  "exit_code": 1,
+  "seconds": 1.74,
+  "sandbox_disabled": false,
+  "statement_sha256": {
+    "Challenge.lean": "bfae2b0174cb824c0c42cc51512ef232f177d2a28c0135745aaa67251f0b5a7a",
+    "Solution.lean": "11db194aa542ba1bc48901e0146213f668ea8705dcee182373a72cc72d3efe32",
+    "comparator.json": "205bb1c983fe4d5f4632e75d6f689d9c9384388b34b0bbc8f6fb7c857efc00fc"
+  },
+  "kernel_verification_sha256": "a67bbf17b68218b0151e8c164563bc60448e4d225f5344795f29af6f5908955d",
+  "lean_toolchain_sha256": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c",
+  "log_path": "reviews/full_verification/ProtectedComparatorRetry.log",
+  "log_sha256": "dac558dee2d209fbd7a6cef2892ebc94f82ead94b67290fa052138b2dbbf1e03",
+  "scope": "Actual exact-command protected Comparator retry after provisioning missing empty canonical mount targets. The sandbox and HOME are unchanged. No claim of full Palomar workflow, separate NanoDa result, or registration."
+}
