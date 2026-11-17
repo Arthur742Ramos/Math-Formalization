@@ -14,7 +14,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def profile06Join00_0025Claim : IntegralClaim := ⟨(129043/131072 : ℚ), (129861/131072 : ℚ), (-2954488672243062803760907966946)⟩
+noncomputable def profile06Join00_0025Claim : IntegralClaim := ⟨(129043/131072 : ℚ), (129861/131072 : ℚ), (-2954488672243062803760907966946)⟩
 
 theorem profile06Join00_0025Bound : IntegralClaim.LowerCertificate (profileIntegrand ⟨6, by decide⟩) (2*approximationError) profile06Join00_0025Claim :=
   profile06Block0050.glue profile06Block0051 (by decide +kernel)

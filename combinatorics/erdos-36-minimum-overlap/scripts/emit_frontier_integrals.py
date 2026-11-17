@@ -48,10 +48,18 @@ def emit(package, packet_path, pilot, block_size=512):
     def write(name, imports, body):
         content = ('/-\nGenerated exact integral certificates. Generation is untrusted;\n'
                    'all arithmetic and source binding are checked in Lean.\n-/\nmodule\n\n')
-        content += ''.join(f'public import {x}\n' for x in sorted(set(imports)))
+        meta_imports = []
+        if any('erdos_geometry_decide' in declaration for declaration in body):
+            meta_imports.append('ErdosOverlap.Numerics.KernelGeometryDecision')
+        if any('erdos_leaves_decide' in declaration for declaration in body):
+            meta_imports.append('ErdosOverlap.Numerics.KernelLeafDecision')
+        content += ''.join(f'public import {x}\n' for x in sorted(set(imports+meta_imports)))
+        content += ''.join(f'public meta import {x}\n' for x in sorted(meta_imports))
         content += (f'\nnamespace {namespace}\nopen Numerics\n@[expose] public section\n'
                     'set_option maxHeartbeats 0\nset_option maxRecDepth 1000000\n'
                     'set_option Elab.async false\n\n')
+        # Kernel reduction still sees these exact values; runtime code is unused.
+        body = [re.sub(r'(?m)^def ', 'noncomputable def ', declaration) for declaration in body]
         content += '\n\n'.join(body)+f'\n\nend\nend {namespace}\n'
         assert len(content.splitlines()) <= 10000, name
         (output/f'{name}.lean').write_text(content)
@@ -95,7 +103,7 @@ def emit(package, packet_path, pilot, block_size=512):
                      f'def g{i:05d} : CheckedGeometry :=\n'
                      f'  ⟨d{i:05d}, Geometry.check_of_directTraceCheck _\n'
                      f'    p{g["patchA"]:05d} p{g["patchB"]:05d}\n'
-                     f'    a{i:05d} b{i:05d} (by decide +kernel)⟩']
+                     f'    a{i:05d} b{i:05d} (by erdos_geometry_decide)⟩']
         write(name, imports, body)
     if pilot:
         print(f'Pilot target: {module}Geometry0000', flush=True)
@@ -137,7 +145,7 @@ def emit(package, packet_path, pilot, block_size=512):
             # Keep raw data, checked leaves and their block certificate together.
             # This changes module layout only; every ordered leaf is retained.
             body = [f'def {raw_name} : List {raw_type} := [\n'+',\n'.join(entries)+'\n]',
-                    f'def {list_name} : List ({leaf_type}) :=\n  {checker} {raw_name} (by decide +kernel)']
+                    f'def {list_name} : List ({leaf_type}) :=\n  {checker} {raw_name} (by erdos_leaves_decide)']
             lo, hi = geometries[chunk[0]['geometry']]['left'], geometries[chunk[-1]['geometry']]['right']
             amount = sum(leaf['bound'] for leaf in chunk)
             claim, theorem = f'{stem}Claim{index:04d}', f'{stem}Block{index:04d}'

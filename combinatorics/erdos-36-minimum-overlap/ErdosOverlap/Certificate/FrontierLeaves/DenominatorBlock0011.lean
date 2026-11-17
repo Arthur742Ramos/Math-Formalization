@@ -18,6 +18,8 @@ public import ErdosOverlap.Certificate.FrontierLeaves.Geometry0119
 public import ErdosOverlap.Certificate.FrontierLeaves.Lambdas
 public import ErdosOverlap.Numerics.FrontierCheckedLeafLists
 public import ErdosOverlap.Numerics.FrontierLeafAssemblyActual
+public import ErdosOverlap.Numerics.KernelLeafDecision
+public meta import ErdosOverlap.Numerics.KernelLeafDecision
 
 namespace ErdosOverlap.FrontierLeaves
 open Numerics
@@ -26,7 +28,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def denominatorRaw0011 : List DenominatorLeaf := [
+noncomputable def denominatorRaw0011 : List DenominatorLeaf := [
   ⟨g10578, 0⟩,
   ⟨g10582, 0⟩,
   ⟨g10585, 737642018694448116213224⟩,
@@ -541,10 +543,10 @@ def denominatorRaw0011 : List DenominatorLeaf := [
   ⟨g11536, 0⟩
 ]
 
-def denominatorLeaves0011 : List (CheckedDenominatorLeaf) :=
-  checkedDenominatorLeaves denominatorRaw0011 (by decide +kernel)
+noncomputable def denominatorLeaves0011 : List (CheckedDenominatorLeaf) :=
+  checkedDenominatorLeaves denominatorRaw0011 (by erdos_leaves_decide)
 
-def denominatorClaim0011 : IntegralClaim := ⟨(1375/131072 : ℚ), (1503/131072 : ℚ), 697483287114185408416701117650⟩
+noncomputable def denominatorClaim0011 : IntegralClaim := ⟨(1375/131072 : ℚ), (1503/131072 : ℚ), 697483287114185408416701117650⟩
 
 theorem denominatorBlock0011 : IntegralClaim.UpperCertificate denominatorIntegrand (4*approximationError) denominatorClaim0011 :=
   denominatorBlock_certificate denominatorLeaves0011 (by decide +kernel) (by decide +kernel)

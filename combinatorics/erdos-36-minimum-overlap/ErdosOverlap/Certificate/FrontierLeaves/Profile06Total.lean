@@ -13,7 +13,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def profile06Claim : IntegralClaim := profile06Join05_0000Claim
+noncomputable def profile06Claim : IntegralClaim := profile06Join05_0000Claim
 
 theorem profile06Certificate : IntegralClaim.LowerCertificate (profileIntegrand ⟨6, by decide⟩) (2*approximationError) profile06Claim :=
   profile06Join05_0000Bound
