@@ -53,6 +53,8 @@ def emit(package, packet_path, pilot, block_size=512):
             meta_imports.append('ErdosOverlap.Numerics.KernelGeometryDecision')
         if any('erdos_leaves_decide' in declaration for declaration in body):
             meta_imports.append('ErdosOverlap.Numerics.KernelLeafDecision')
+        if any('erdos_profile_integer_decide' in declaration for declaration in body):
+            meta_imports.append('ErdosOverlap.Numerics.KernelIntegerSlope')
         content += ''.join(f'public import {x}\n' for x in sorted(set(imports+meta_imports)))
         content += ''.join(f'public meta import {x}\n' for x in sorted(meta_imports))
         content += (f'\nnamespace {namespace}\nopen Numerics\n@[expose] public section\n'
@@ -77,6 +79,16 @@ def emit(package, packet_path, pilot, block_size=512):
     patch_modules, geometry_modules = {}, {}
     lambda_definitions = [f'def lam{i:02d} : ℚ := {rat(2*Fraction(packet["tau"][i]))}' for i in range(4,20)]
     write('Lambdas', ['ErdosOverlap.Numerics.FrontierLeafCertificateData'], lambda_definitions)
+    tau_facts = []
+    for mode in range(4, 20):
+        physical = 'Native6Witnesses' if mode < 10 else 'FrontierWitnesses'
+        index = mode if mode < 10 else mode-10
+        tau_facts.append(
+            f'theorem mode{mode:02d}TauBase : FrontierWitnesses.modeTau ⟨{mode}, by decide⟩ = '
+            f'({physical}.tauNumerator{index:02d} : ℚ)/1000000000000000000 := by\n'
+            f'  norm_num [FrontierWitnesses.modeTau, {physical}.tau{index:02d}, '
+            f'{physical}.tauNumerator{index:02d}]')
+    write('ProfileTauFacts', ['ErdosOverlap.Numerics.KernelIntegerSlope'], tau_facts)
     for start in range(0, len(patch_ids), 64):
         name = f'Patch{start//64:04d}'
         body = []
@@ -125,6 +137,8 @@ def emit(package, packet_path, pilot, block_size=512):
             chunk, index = leaves[start:start+block_size], start//block_size
             block_name = f'{kind}Block{index:04d}'
             imports = ['ErdosOverlap.Numerics.FrontierCheckedLeafLists', module+'Lambdas']
+            if profile:
+                imports.append(module+'ProfileTauFacts')
             entries = []
             for leaf in chunk:
                 i = leaf['geometry']
@@ -144,8 +158,9 @@ def emit(package, packet_path, pilot, block_size=512):
             raw_name = f'{stem}Raw{index:04d}'
             # Keep raw data, checked leaves and their block certificate together.
             # This changes module layout only; every ordered leaf is retained.
+            decision = f'erdos_profile_integer_decide mode{mode:02d}TauBase' if profile else 'erdos_leaves_decide'
             body = [f'def {raw_name} : List {raw_type} := [\n'+',\n'.join(entries)+'\n]',
-                    f'def {list_name} : List ({leaf_type}) :=\n  {checker} {raw_name} (by erdos_leaves_decide)']
+                    f'def {list_name} : List ({leaf_type}) :=\n  {checker} {raw_name} (by {decision})']
             lo, hi = geometries[chunk[0]['geometry']]['left'], geometries[chunk[-1]['geometry']]['right']
             amount = sum(leaf['bound'] for leaf in chunk)
             claim, theorem = f'{stem}Claim{index:04d}', f'{stem}Block{index:04d}'
@@ -179,7 +194,7 @@ def emit(package, packet_path, pilot, block_size=512):
                f'  {final[2]}'])
     for old in output.glob('*.lean'):
         if old.stem not in emitted:
-            assert re.fullmatch(r'(?:Patch\d+|Geometry\d+|Lambdas|(?:Denominator|Central|Profile\d+)(?:Data\d+|Block\d+|Join\d+_\d+|Total))', old.stem), old
+            assert re.fullmatch(r'(?:Patch\d+|Geometry\d+|Lambdas|ProfileTauFacts|(?:Denominator|Central|Profile\d+)(?:Data\d+|Block\d+|Join\d+_\d+|Total))', old.stem), old
             old.unlink()
     print(json.dumps({'patches': len(patches), 'geometries': len(geometries), 'output': str(output)}), flush=True)
 

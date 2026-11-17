@@ -19,10 +19,11 @@ public import ErdosOverlap.Certificate.FrontierLeaves.Geometry0704
 public import ErdosOverlap.Certificate.FrontierLeaves.Geometry0705
 public import ErdosOverlap.Certificate.FrontierLeaves.Geometry0706
 public import ErdosOverlap.Certificate.FrontierLeaves.Lambdas
+public import ErdosOverlap.Certificate.FrontierLeaves.ProfileTauFacts
 public import ErdosOverlap.Numerics.FrontierCheckedLeafLists
 public import ErdosOverlap.Numerics.FrontierLeafAssemblyActual
-public import ErdosOverlap.Numerics.KernelLeafDecision
-public meta import ErdosOverlap.Numerics.KernelLeafDecision
+public import ErdosOverlap.Numerics.KernelIntegerSlope
+public meta import ErdosOverlap.Numerics.KernelIntegerSlope
 
 namespace ErdosOverlap.FrontierLeaves
 open Numerics
@@ -547,7 +548,7 @@ noncomputable def profile07Raw0053 : List ProfileLeaf := [
 ]
 
 noncomputable def profile07Leaves0053 : List (CheckedProfileLeaf ⟨7, by decide⟩) :=
-  checkedProfileLeaves ⟨7, by decide⟩ profile07Raw0053 (by erdos_leaves_decide)
+  checkedProfileLeaves ⟨7, by decide⟩ profile07Raw0053 (by erdos_profile_integer_decide mode07TauBase)
 
 noncomputable def profile07Claim0053 : IntegralClaim := ⟨(64923/65536 : ℚ), (521877/524288 : ℚ), (-281151273355098433979019682862)⟩
 
