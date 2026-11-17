@@ -13,7 +13,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def denominatorClaim : IntegralClaim := denominatorJoin06_0000Claim
+noncomputable def denominatorClaim : IntegralClaim := denominatorJoin06_0000Claim
 
 theorem denominatorCertificate : IntegralClaim.UpperCertificate denominatorIntegrand (4*approximationError) denominatorClaim :=
   denominatorJoin06_0000Bound

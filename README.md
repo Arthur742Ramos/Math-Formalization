@@ -64,8 +64,13 @@ denominators and excludes thirty further intervals by the proved cap-to-mean
 bound. These data implement the stronger candidate, independently of the
 separate, weaker development checkpoint from the research handoff.
 
-Small arithmetic chunks and shared caches control elaboration cost. Generators
-are untrusted: ordinary kernel decisions check their outputs, and analytic
+Shared caches and smaller kernel decisions control checking cost. The generated
+leaf data use explicit `noncomputable def` declarations,
+retaining their values and proofs without generating unused runtime code. Geometry
+checks are proved condition by condition; leaf checks cover fixed prefixes and
+the complete remaining tail. Every original arithmetic and source-binding check
+is retained. Generators are untrusted: ordinary kernel decisions check their
+outputs, and analytic
 theorems connect the checked data to the actual overlap functions. The affine
 and correction-coefficient JSON tables are derived intermediates, regenerated
 by `generate_frontier_affine.py` and `generate_frontier_grid.py`; all literal

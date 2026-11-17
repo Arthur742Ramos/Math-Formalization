@@ -14,7 +14,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def centralJoin00_0005Claim : IntegralClaim := ⟨(1058357/2097152 : ℚ), (2879/5080 : ℚ), 2964371509682986062915251217137⟩
+noncomputable def centralJoin00_0005Claim : IntegralClaim := ⟨(1058357/2097152 : ℚ), (2879/5080 : ℚ), 2964371509682986062915251217137⟩
 
 theorem centralJoin00_0005Bound : IntegralClaim.LowerCertificate centralIntegrand (2*approximationError) centralJoin00_0005Claim :=
   centralBlock0010.glue centralBlock0011 (by decide +kernel)

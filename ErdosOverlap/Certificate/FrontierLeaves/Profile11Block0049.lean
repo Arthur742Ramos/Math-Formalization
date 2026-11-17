@@ -9,6 +9,8 @@ public import ErdosOverlap.Certificate.FrontierLeaves.Geometry0780
 public import ErdosOverlap.Certificate.FrontierLeaves.Lambdas
 public import ErdosOverlap.Numerics.FrontierCheckedLeafLists
 public import ErdosOverlap.Numerics.FrontierLeafAssemblyActual
+public import ErdosOverlap.Numerics.KernelLeafDecision
+public meta import ErdosOverlap.Numerics.KernelLeafDecision
 
 namespace ErdosOverlap.FrontierLeaves
 open Numerics
@@ -17,7 +19,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def profile11Raw0049 : List ProfileLeaf := [
+noncomputable def profile11Raw0049 : List ProfileLeaf := [
   ⟨g73085, (some 203), (3926108162143/500000000000000000 : ℚ), (-8394506584293673891676206)⟩,
   ⟨g73087, (some 203), (3926108162143/500000000000000000 : ℚ), (-31048699293580153950458392)⟩,
   ⟨g73088, (some 203), (3926108162143/500000000000000000 : ℚ), (-53140510946820042940372503)⟩,
@@ -46,10 +48,10 @@ def profile11Raw0049 : List ProfileLeaf := [
   ⟨g73120, (some 206), (3756358551647/500000000000000000 : ℚ), (-34558508771401036616115664)⟩
 ]
 
-def profile11Leaves0049 : List (CheckedProfileLeaf ⟨11, by decide⟩) :=
-  checkedProfileLeaves ⟨11, by decide⟩ profile11Raw0049 (by decide +kernel)
+noncomputable def profile11Leaves0049 : List (CheckedProfileLeaf ⟨11, by decide⟩) :=
+  checkedProfileLeaves ⟨11, by decide⟩ profile11Raw0049 (by erdos_leaves_decide)
 
-def profile11Claim0049 : IntegralClaim := ⟨(262087/262144 : ℚ), (1/1 : ℚ), (-361185735459109887102609266)⟩
+noncomputable def profile11Claim0049 : IntegralClaim := ⟨(262087/262144 : ℚ), (1/1 : ℚ), (-361185735459109887102609266)⟩
 
 theorem profile11Block0049 : IntegralClaim.LowerCertificate (profileIntegrand ⟨11, by decide⟩) (2*approximationError) profile11Claim0049 :=
   profileBlock_certificate profile11Leaves0049 (by decide +kernel) (by decide +kernel)

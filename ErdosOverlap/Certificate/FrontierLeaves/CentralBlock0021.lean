@@ -27,6 +27,8 @@ public import ErdosOverlap.Certificate.FrontierLeaves.Geometry0576
 public import ErdosOverlap.Certificate.FrontierLeaves.Lambdas
 public import ErdosOverlap.Numerics.FrontierCheckedLeafLists
 public import ErdosOverlap.Numerics.FrontierLeafAssemblyActual
+public import ErdosOverlap.Numerics.KernelLeafDecision
+public meta import ErdosOverlap.Numerics.KernelLeafDecision
 
 namespace ErdosOverlap.FrontierLeaves
 open Numerics
@@ -35,7 +37,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def centralRaw0021 : List CentralLeaf := [
+noncomputable def centralRaw0021 : List CentralLeaf := [
   ⟨g51934, 0⟩,
   ⟨g51938, 0⟩,
   ⟨g51941, 0⟩,
@@ -550,10 +552,10 @@ def centralRaw0021 : List CentralLeaf := [
   ⟨g53600, 0⟩
 ]
 
-def centralLeaves0021 : List (CheckedCentralLeaf) :=
-  checkedCentralLeaves centralRaw0021 (by decide +kernel)
+noncomputable def centralLeaves0021 : List (CheckedCentralLeaf) :=
+  checkedCentralLeaves centralRaw0021 (by erdos_leaves_decide)
 
-def centralClaim0021 : IntegralClaim := ⟨(860479/1048576 : ℚ), (27851/32768 : ℚ), 0⟩
+noncomputable def centralClaim0021 : IntegralClaim := ⟨(860479/1048576 : ℚ), (27851/32768 : ℚ), 0⟩
 
 theorem centralBlock0021 : IntegralClaim.LowerCertificate centralIntegrand (2*approximationError) centralClaim0021 :=
   centralBlock_certificate centralLeaves0021 (by decide +kernel) (by decide +kernel)

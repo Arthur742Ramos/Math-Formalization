@@ -14,7 +14,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def profile19Join05_0000Claim : IntegralClaim := ⟨(0/1 : ℚ), (1/1 : ℚ), 38003651829698781572309296944189⟩
+noncomputable def profile19Join05_0000Claim : IntegralClaim := ⟨(0/1 : ℚ), (1/1 : ℚ), 38003651829698781572309296944189⟩
 
 theorem profile19Join05_0000Bound : IntegralClaim.LowerCertificate (profileIntegrand ⟨19, by decide⟩) (2*approximationError) profile19Join05_0000Claim :=
   profile19Join04_0000Bound.glue profile19Join04_0001Bound (by decide +kernel)

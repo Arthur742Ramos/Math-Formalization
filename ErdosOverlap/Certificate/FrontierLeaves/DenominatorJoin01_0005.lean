@@ -14,7 +14,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 set_option Elab.async false
 
-def denominatorJoin01_0005Claim : IntegralClaim := ⟨(5349/262144 : ℚ), (51257/2097152 : ℚ), 3694934794825949384870033477528⟩
+noncomputable def denominatorJoin01_0005Claim : IntegralClaim := ⟨(5349/262144 : ℚ), (51257/2097152 : ℚ), 3694934794825949384870033477528⟩
 
 theorem denominatorJoin01_0005Bound : IntegralClaim.UpperCertificate denominatorIntegrand (4*approximationError) denominatorJoin01_0005Claim :=
   denominatorJoin00_0010Bound.glue denominatorJoin00_0011Bound (by decide +kernel)
