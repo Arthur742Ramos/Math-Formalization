@@ -68,9 +68,10 @@ Shared caches and smaller kernel decisions control checking cost. The generated
 leaf data use explicit `noncomputable def` declarations,
 retaining their values and proofs without generating unused runtime code. Geometry
 checks are proved condition by condition; leaf checks cover fixed prefixes and
-the complete remaining tail. Every original arithmetic and source-binding check
-is retained. Generators are untrusted: ordinary kernel decisions check their
-outputs, and analytic
+the complete remaining tail. Profile slope equalities use proved integer cross
+multiplication, with shared kernel-checked facts for the physical tau values.
+Every original arithmetic and source-binding condition is retained. Generators
+are untrusted: Lean proof terms check their outputs, and analytic
 theorems connect the checked data to the actual overlap functions. The affine
 and correction-coefficient JSON tables are derived intermediates, regenerated
 by `generate_frontier_affine.py` and `generate_frontier_grid.py`; all literal
