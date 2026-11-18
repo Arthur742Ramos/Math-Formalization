@@ -63,4 +63,35 @@ theorem sq_integral_le_measure_mul_integral_sq_of_zero_off
   change t * c ^ 2 ≤ t * (t * ∫ x, f x ^ 2 ∂μ)
   nlinarith only [hn]
 
+/-- A uniform bound on the normalized second moment gives its reciprocal
+as a lower bound for the probability of at least one event. -/
+theorem probability_event_union_ge_of_weighted_second_moment_bound
+    {ι Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+    (S : Finset ι) (hS : S.Nonempty) (E : ι → Set Ω)
+    (hE : ∀ i ∈ S, MeasurableSet (E i)) (hp : ∀ i ∈ S, 0 < μ.real (E i))
+    {K : ℝ} (hK : 0 < K)
+    (hb : (∑ i ∈ S, ∑ j ∈ S, μ.real (E i ∩ E j) / (μ.real (E i) * μ.real (E j))) ≤
+      K * (S.card : ℝ) ^ 2) :
+    K⁻¹ ≤ μ.real (⋃ i ∈ S, E i) := by
+  let A := ⋃ i ∈ S, E i
+  let Z := weightedEventCount μ S E
+  have hA : MeasurableSet A := S.measurableSet_biUnion hE
+  obtain ⟨hZ, hZ₂, hMean, hSecond⟩ := weightedEventCount_moments μ S E hE hp
+  have hZero (x : Ω) (hx : x ∉ A) : Z x = 0 := by
+    unfold Z weightedEventCount
+    apply Finset.sum_eq_zero
+    intro i hi
+    apply indicator_of_notMem
+    intro he
+    exact hx (mem_iUnion.mpr ⟨i, mem_iUnion.mpr ⟨hi, he⟩⟩)
+  have h := sq_integral_le_measure_mul_integral_sq_of_zero_off μ A hA Z hZ hZ₂ hZero
+  change (∫ x, weightedEventCount μ S E x ∂μ) ^ 2 ≤ μ.real A *
+    ∫ x, weightedEventCount μ S E x ^ 2 ∂μ at h
+  rw [hMean, hSecond] at h
+  have hh := h.trans (mul_le_mul_of_nonneg_left hb (measureReal_nonneg (μ := μ)))
+  rw [← mul_assoc] at hh
+  have hs : 0 < (S.card : ℝ) ^ 2 := sq_pos_of_pos (Nat.cast_pos.mpr hS.card_pos)
+  exact (inv_le_iff_one_le_mul₀ hK).2 (by
+    exact le_of_mul_le_mul_right (by simpa only [one_mul] using hh) hs)
+
 end BoundedEdgeRegularSubgraphs
