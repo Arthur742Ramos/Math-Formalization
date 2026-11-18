@@ -24,7 +24,7 @@ def phaseBox (b : PhaseCircle) (r : ℝ) : Set (α → PhaseCircle) :=
   {t | ∀ i, ‖t i - b‖ ≤ r}
 
 omit [LinearOrder α] in
-private theorem measurableSet_phaseBox (b : PhaseCircle) (r : ℝ) :
+theorem measurableSet_phaseBox (b : PhaseCircle) (r : ℝ) :
     MeasurableSet (phaseBox (α := α) b r) := by
   have he : phaseBox (α := α) b r = ⋂ i : α, {t : α → PhaseCircle | ‖t i - b‖ ≤ r} := by
     ext t
@@ -33,7 +33,7 @@ private theorem measurableSet_phaseBox (b : PhaseCircle) (r : ℝ) :
   exact MeasurableSet.iInter (fun i ↦
     measurableSet_le (((measurable_pi_apply i).sub measurable_const).norm) measurable_const)
 
-private theorem continuous_degreeFourier (A : Finset (Edge α))
+theorem continuous_degreeFourier (A : Finset (Edge α))
     (q : Edge α → Set.Icc (0 : ℝ) 1) (d : α → ℤ) : Continuous (degreeFourier A q d) := by
   have hf (j : ℤ) (i : α) :
       Continuous (fun t : α → PhaseCircle ↦ fourier j (t i)) :=
@@ -45,7 +45,7 @@ private theorem continuous_degreeFourier (A : Finset (Edge α))
     intro e _
     exact continuous_const.add (continuous_const.mul ((hf _ _).mul (hf _ _)))
 
-private theorem integrable_degreeFourier (A : Finset (Edge α))
+theorem integrable_degreeFourier (A : Finset (Edge α))
     (q : Edge α → Set.Icc (0 : ℝ) 1) (d : α → ℤ) :
     Integrable (degreeFourier A q d) phaseLaw := by
   have : IsProbabilityMeasure (phaseLaw (α := α)) := by unfold phaseLaw; infer_instance
