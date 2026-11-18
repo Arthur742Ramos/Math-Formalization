@@ -113,6 +113,28 @@ theorem eventually_amplified_logarithmic_bound {ξ c c' : ℝ}
         (show 0 ≤ (b : ℝ) by positivity)
       nlinarith only [h]
 
+/-- The almost-sure conclusion in Corollary 7.2 for any coupling
+with the specified marginal laws. -/
+theorem ae_eventually_logarithmic_regular_induced_subgraph
+    {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+    {ξ c c' : ℝ} (hc' : 0 < c') (hratio : c' < c / 4)
+    (hSmall : ∀ᶠ m : ℕ in atTop, ∀ q : Edge (Fin m) → Icc (0 : ℝ) 1, HasFloor ξ q →
+      (graphLaw q).real (atLeastOrderEvent ⌈c * Real.log m ^ 2⌉₊)ᶜ ≤ (m : ℝ)⁻¹)
+    (p : (n : ℕ) → Edge (Fin n) → Icc (0 : ℝ) 1) (hp : ∀ n, HasFloor ξ (p n))
+    (X : (n : ℕ) → Ω → (Edge (Fin n) → ℝ))
+    (hX : ∀ n, MeasurePreserving (X n) μ (graphLaw (p n))) :
+    ∀ᵐ ω ∂μ, ∀ᶠ n : ℕ in atTop, X n ω ∈ atLeastOrderEvent ⌈c' * Real.log n ^ 2⌉₊ := by
+  obtain ⟨n₀, h⟩ := eventually_atTop.mp (eventually_amplified_logarithmic_bound hc' hratio hSmall)
+  let E (n : ℕ) : Set (Edge (Fin n) → ℝ) := atLeastOrderEvent ⌈c' * Real.log n ^ 2⌉₊
+  let A (n : ℕ) := (X n) ⁻¹' (E n)
+  have hFail (n : ℕ) (hn : n₀ ≤ n) : μ.real (A n)ᶜ ≤ Real.exp (-Real.sqrt n * Real.log n / 8) := by
+    have hmap := (hX n).measure_preimage
+      (measurableSet_atLeastOrderEvent ⌈c' * Real.log n ^ 2⌉₊).compl.nullMeasurableSet
+    change μ (A n)ᶜ = graphLaw (p n) (E n)ᶜ at hmap
+    rw [measureReal_def, hmap, ← measureReal_def]
+    exact h n hn (p n) (hp n)
+  exact ae_eventually_success_of_amplified_failure μ A n₀ hFail
+
 /-- The two uniform bounds in Theorem 1.1(1). -/
 theorem theorem1_1_arbitrary : Theorem1_1_arbitrary := by
   intro ξ hξ hξ₁

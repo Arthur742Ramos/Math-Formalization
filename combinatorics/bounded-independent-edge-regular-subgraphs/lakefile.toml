@@ -1,6 +1,6 @@
 name = "BoundedEdgeRegularSubgraphs"
 version = "0.1.0"
-defaultTargets = ["BoundedEdgeRegularSubgraphs"]
+defaultTargets = ["BoundedEdgeRegularSubgraphs", "Solution"]
 
 [leanOptions]
 autoImplicit = false
@@ -12,3 +12,9 @@ rev = "v4.35.0-rc2"
 
 [[lean_lib]]
 name = "BoundedEdgeRegularSubgraphs"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
