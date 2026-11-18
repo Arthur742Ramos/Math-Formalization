@@ -29,7 +29,7 @@ noncomputable def vertexSelectionWeight (q : Edge α → Set.Icc (0 : ℝ) 1) (i
   1 / 2 + ((degreeSum (fun e ↦ (q e : ℝ)) i -
     vertexMean (degreeSum (fun e ↦ (q e : ℝ)))) / Fintype.card α) / 4
 
-private theorem sum_edge_endpoint_values (v : α → ℝ) :
+theorem sum_edge_endpoint_values (v : α → ℝ) :
     (∑ e : Edge α, (v e.val.1 + v e.val.2)) =
       ((Fintype.card α : ℝ) - 1) * ∑ i, v i := by
   have h := weighted_degree_sum (fun _ : Edge α ↦ 1) v

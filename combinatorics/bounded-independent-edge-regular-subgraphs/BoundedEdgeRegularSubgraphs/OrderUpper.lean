@@ -25,13 +25,13 @@ namespace BoundedEdgeRegularSubgraphs
 variable {α β : Type*} [Fintype α] [LinearOrder α] [Fintype β] [LinearOrder β]
 
 omit [Fintype α] [Fintype β] in
-private def edgeEquiv (f : α ≃o β) : Edge α ≃ Edge β where
+@[expose] def edgeEquiv (f : α ≃o β) : Edge α ≃ Edge β where
   toFun e := ⟨(f e.val.1, f e.val.2), f.strictMono e.property⟩
   invFun e := ⟨(f.symm e.val.1, f.symm e.val.2), f.symm.strictMono e.property⟩
   left_inv e := Subtype.ext (Prod.ext (by simp) (by simp))
   right_inv e := Subtype.ext (Prod.ext (by simp) (by simp))
 
-private theorem degreeSum_reindex (f : α ≃o β) (w : Edge β → ℝ) (i : α) :
+theorem degreeSum_reindex (f : α ≃o β) (w : Edge β → ℝ) (i : α) :
     degreeSum (w ∘ edgeEquiv f) i = degreeSum w (f i) := by
   classical
   unfold degreeSum
