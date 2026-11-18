@@ -125,3 +125,4 @@ public import BoundedEdgeRegularSubgraphs.PowerOrderRates
 public import BoundedEdgeRegularSubgraphs.ApplicationBounds
 public import BoundedEdgeRegularSubgraphs.SmoothDiagonalKernel
 public import BoundedEdgeRegularSubgraphs.LinearProductRegularity
+public import BoundedEdgeRegularSubgraphs.ResidualFourierPeak

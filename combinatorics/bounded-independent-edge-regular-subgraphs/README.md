@@ -73,8 +73,13 @@ set of proved manuscript results to their Lean declarations.
 
 `Challenge.lean` states the four conclusions in Theorem 1.1. `Solution.lean`
 exports the corresponding proofs from the library. The project uses
-Lean v4.35.0-rc2 and the Mathlib revision fixed in the manifest. Independent
-mathematical review and the canonical Palomar verification are pending.
+Lean v4.35.0-rc2 and the Mathlib revision fixed in the manifest.
+The [material definitions](MATERIAL-DEFINITIONS.md) give the pinned
+Mathlib sources for the probability, threshold and rank semantics.
+
+Arthur Freitas Ramos, David Barros Hulak and Ruy Jose Guerra Barretto de
+Queiroz are credited as authors of the formalization. Arthur Freitas Ramos
+is its responsible maintainer. [Palomar metadata](formalization.yaml)
 
 ## Local checks
 

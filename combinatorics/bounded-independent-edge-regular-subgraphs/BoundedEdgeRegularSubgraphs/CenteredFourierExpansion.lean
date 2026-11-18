@@ -22,7 +22,7 @@ private theorem fourier_integer_coe (n : ℤ) (s : ℝ) :
   push_cast
   field_simp [Real.pi_ne_zero]
 
-private theorem edgeLogFactor_ne_zero (q : Set.Icc (0 : ℝ) 1) (s : ℝ) (hs : |s| ≤ 1 / 4) :
+theorem edgeLogFactor_ne_zero (q : Set.Icc (0 : ℝ) 1) (s : ℝ) (hs : |s| ≤ 1 / 4) :
     1 - ((q : ℝ) : ℂ) + ((q : ℝ) : ℂ) * Complex.exp ((s : ℂ) * Complex.I) ≠ 0 := by
   let z := (s : ℂ) * Complex.I
   have hz : ‖z‖ = |s| := by dsimp only [z]; rw [Complex.norm_mul, Complex.norm_I, mul_one, Complex.norm_real, Real.norm_eq_abs]
