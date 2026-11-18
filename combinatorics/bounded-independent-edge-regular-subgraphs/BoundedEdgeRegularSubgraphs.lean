@@ -1,0 +1,4 @@
+module
+
+public import BoundedEdgeRegularSubgraphs.UnionBounds
+public import BoundedEdgeRegularSubgraphs.Theorem11
