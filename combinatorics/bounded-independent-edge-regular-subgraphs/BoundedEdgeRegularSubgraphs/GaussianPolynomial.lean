@@ -15,7 +15,7 @@ open scoped BigOperators NNReal
 
 namespace BoundedEdgeRegularSubgraphs
 
-private theorem integrable_pow_gaussianReal (m : ℕ) :
+theorem integrable_pow_gaussianReal (m : ℕ) :
     Integrable (fun x : ℝ ↦ x ^ m) (gaussianReal 0 1) := by
   have hm : MemLp (id : ℝ → ℝ) (m : ENNReal) (gaussianReal 0 1) :=
     memLp_id_gaussianReal' (μ := 0) (v := 1) _ (by simp)
