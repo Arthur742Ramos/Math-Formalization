@@ -1,4 +1,9 @@
 module
 
-public import BoundedEdgeRegularSubgraphs.UnionBounds
+public import BoundedEdgeRegularSubgraphs.BernoulliFourier
+public import BoundedEdgeRegularSubgraphs.Covariance
+public import BoundedEdgeRegularSubgraphs.FourierSymmetry
 public import BoundedEdgeRegularSubgraphs.Theorem11
+public import BoundedEdgeRegularSubgraphs.Tilt
+public import BoundedEdgeRegularSubgraphs.UnionBounds
+public import BoundedEdgeRegularSubgraphs.InducedIndependence

@@ -73,15 +73,19 @@ private theorem twice_sum_edges (f : α → α → ℝ)
   rw [hlo, hall, ← hup, hd]
   ring
 
-private theorem sum_edge_squares (v : α → ℝ) (hv : ∑ i, v i = 0) :
+/-- The complete-graph quadratic identity used in the vertex tilt. -/
+theorem sum_edge_squares (v : α → ℝ) :
     (∑ e : Edge α, (v e.val.1 + v e.val.2) ^ 2) =
-      (Fintype.card α - 2 : ℝ) * ∑ i, (v i) ^ 2 := by
+      (Fintype.card α - 2 : ℝ) * ∑ i, (v i) ^ 2 + (∑ i, v i) ^ 2 := by
   have h := twice_sum_edges (fun i j ↦ (v i + v j) ^ 2)
     (fun i j ↦ by rw [add_comm])
+  have hcross : (∑ i, (2 * v i) * ∑ j, v j) = 2 * (∑ i, v i) ^ 2 := by
+    rw [← Finset.sum_mul, ← Finset.mul_sum]
+    ring
   have hrect : (∑ i, ∑ j, (v i + v j) ^ 2) =
-      2 * (Fintype.card α : ℝ) * ∑ i, v i ^ 2 := by
-    simp only [add_sq, Finset.sum_add_distrib, ← Finset.mul_sum, hv, mul_zero, Finset.sum_const,
-      Finset.card_univ, nsmul_eq_mul, add_zero]
+      2 * (Fintype.card α : ℝ) * (∑ i, v i ^ 2) + 2 * (∑ i, v i) ^ 2 := by
+    simp only [add_sq, Finset.sum_add_distrib, ← Finset.mul_sum, Finset.sum_const,
+      Finset.card_univ, nsmul_eq_mul, hcross]
     ring
   have hdiag : (∑ i, (v i + v i) ^ 2) = 4 * ∑ i, v i ^ 2 := by
     rw [Finset.mul_sum]
@@ -89,7 +93,8 @@ private theorem sum_edge_squares (v : α → ℝ) (hv : ∑ i, v i = 0) :
   rw [hrect, hdiag] at h
   linarith
 
-private theorem weighted_degree_sum (w : Edge α → ℝ) (v : α → ℝ) :
+/-- Pair a degree vector against vertex weights by summing over its edges. -/
+theorem weighted_degree_sum (w : Edge α → ℝ) (v : α → ℝ) :
     (∑ i, v i * degreeSum w i) =
       ∑ e : Edge α, (v e.val.1 + v e.val.2) * w e := by
   simp_rw [degreeSum, Finset.mul_sum]
@@ -211,7 +216,7 @@ theorem probability_regular_le (p : Edge α → Set.Icc (0 : ℝ) 1)
     rw [NNReal.coe_sum]
     change (∑ e : Edge α, (v e.val.1 + v e.val.2) ^ 2 * ((1 : ℝ) / 2) ^ 2) =
       (Fintype.card α - 2 : ℝ) * V / 4
-    rw [← Finset.sum_mul, sum_edge_squares v hv]
+    rw [← Finset.sum_mul, sum_edge_squares v, hv, zero_pow (by decide), add_zero]
     ring
   have hn : 0 < (Fintype.card α - 2 : ℝ) := by
     have : (3 : ℝ) ≤ Fintype.card α := by exact_mod_cast hk
