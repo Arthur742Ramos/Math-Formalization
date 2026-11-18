@@ -20,7 +20,8 @@ vertex set gives the product law for its induced array.
 | --- | --- | --- |
 | §9, p. 12, Proposition 9.1 | `probability_regular_le`, `probability_induced_regular_le` | The bound is `exp (-2 * V / (k - 2))` for every set of order `k ≥ 3`, including arrays with edge probabilities 0 or 1. |
 | §9, p. 13, first displayed estimate | `probability_exact_order_le` | Union bound over the sets of cardinality exactly `k`. |
-| §9, p. 13, necessary small variation at fixed order | xists_small_variation_of_probability_exact_order_ge | A probability of at least γ > 0 forces a k-set with the stated logarithmic variation bound. |
+| §9, p. 13, necessary small variation at fixed order | `exists_small_variation_of_probability_exact_order_ge` | A probability of at least γ > 0 forces a k-set with the stated logarithmic variation bound. |
+| §9, p. 13, remaining variation bounds | `probability_exact_order_le_of_large_variation`, `exists_small_variation_of_probability_at_least_order_ge` | The power-law probability bound and the necessary variation bound across all larger orders. |
 | §9, p. 13, union over larger orders | `probability_at_least_order_le` | Union bound over every set of cardinality at least `k`, with its own cardinality in the exponent. |
 | §1, pp. 1–2, Theorem 1.1(1)–(4) | `Theorem1_1_arbitrary`, `Theorem1_1_equalDegrees`, `Theorem1_1_lipschitz`, `Theorem1_1_lowRank` | Statement definitions. Their proofs remain open in this development. |
 
@@ -45,13 +46,20 @@ homogeneous random-graph result of Krivelevich, Sudakov and Wormald.
 Proposition 9.1 and its union bounds form a supporting development.
 [Regular induced subgraphs of a random graph](https://arxiv.org/abs/0808.2023).
 
+The finite analytic setup includes the exact vertex-tilt likelihood, the
+quadratic cost of its inverse change of measure, the covariance-form bounds
+for the full array, and the one-edge Fourier modulus. Exact degree-vector
+inversion applies to both the full array and the array with an exposed
+clique's edges removed. The even lattice gives the simultaneous π shift
+used in the centred atom proof. Induced arrays are independent when their
+vertex sets overlap in at most one vertex.
+
 The remaining proof work includes the centred degree atom (Theorem B.2),
 the atom with overlap edges deleted (Proposition C.1), and their use in the
 overlap second moment. The variance extraction and block arguments then
 supply the lower bounds in Theorem 1.1. Theorem 8.2 also needs the local
-upper estimate from Proposition 8.1. The remaining probability-to-variation
-consequences following the union bounds in §9 remain outside the current
-proofs.
+upper estimate from Proposition 8.1. The [coverage map](COVERAGE.md) records the
+remaining work for each source result.
 
 This is a development package. Challenge and Solution selection depends on
 which research conclusions have complete proofs. Independent mathematical

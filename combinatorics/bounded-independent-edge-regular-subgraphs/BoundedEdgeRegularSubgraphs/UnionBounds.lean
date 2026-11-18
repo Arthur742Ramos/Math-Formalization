@@ -4,6 +4,8 @@ public import BoundedEdgeRegularSubgraphs.MeanDrift
 import BoundedEdgeRegularSubgraphs.Induce
 import Mathlib.MeasureTheory.Measure.Real
 import Mathlib.Data.Finset.Powerset
+import Mathlib.Order.Interval.Finset.Nat
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Tactic.Linarith
 
 public section
@@ -105,5 +107,98 @@ theorem exists_small_variation_of_probability_exact_order_ge
   refine ⟨S.val, S.property, ?_⟩
   rw [← hNchoose]
   linarith only [hlog]
+
+/-- A uniform lower bound on variation gives the fixed-order power bound in §9. -/
+theorem probability_exact_order_le_of_large_variation
+    (p : Edge α → Set.Icc (0 : ℝ) 1) (k : ℕ) (hk : 3 ≤ k)
+    (hkn : k ≤ Fintype.card α) (δ : ℝ)
+    (hV : ∀ S : Finset α, S.card = k →
+      (1 + δ) * (k - 2 : ℝ) *
+        Real.log ((Fintype.card α).choose k : ℝ) / 2 ≤ degreeVariation (induce S p)) :
+    (graphLaw p).real (exactOrderEvent k) ≤ ((Fintype.card α).choose k : ℝ) ^ (-δ) := by
+  classical
+  let C := ((Fintype.card α).choose k : ℝ)
+  have hC : 0 < C := by
+    change 0 < ((Fintype.card α).choose k : ℝ)
+    exact_mod_cast Nat.choose_pos hkn
+  have hk' : 0 < (k - 2 : ℝ) := by
+    have : (3 : ℝ) ≤ k := by exact_mod_cast hk
+    linarith
+  refine (probability_exact_order_le p k hk).trans ?_
+  calc
+    _ ≤ ∑ _ : {S : Finset α // S.card = k}, Real.exp (-(1 + δ) * Real.log C) := by
+      refine Finset.sum_le_sum (fun S _ ↦ Real.exp_le_exp.mpr ?_)
+      apply (div_le_iff₀ hk').mpr
+      have h := hV S.val S.property
+      change (1 + δ) * (k - 2 : ℝ) * Real.log C / 2 ≤ _ at h
+      linarith only [h]
+    _ = C * Real.exp (-(1 + δ) * Real.log C) := by
+      simp [Finset.sum_const, nsmul_eq_mul, C]
+    _ = _ := by
+      change C * Real.exp (-(1 + δ) * Real.log C) = C ^ (-δ)
+      rw [Real.rpow_def_of_pos hC]
+      calc
+        _ = Real.exp (Real.log C) * Real.exp (-(1 + δ) * Real.log C) := by
+          rw [Real.exp_log hC]
+        _ = _ := by rw [← Real.exp_add]; congr 1; ring
+
+/-- Positive probability of a large regular set forces small variation at one of the possible orders. -/
+theorem exists_small_variation_of_probability_at_least_order_ge
+    (p : Edge α → Set.Icc (0 : ℝ) 1) (k : ℕ) (hk : 3 ≤ k) {γ : ℝ}
+    (hγ : 0 < γ) (hprob : γ ≤ (graphLaw p).real (atLeastOrderEvent k)) :
+    ∃ S : Finset α, k ≤ S.card ∧
+      degreeVariation (induce S p) ≤ (S.card - 2 : ℝ) / 2 *
+        Real.log (((Fintype.card α - k + 1 : ℕ) : ℝ) *
+          ((Fintype.card α).choose S.card : ℝ) / γ) := by
+  classical
+  let orders := Finset.Icc k (Fintype.card α)
+  have hevent : (atLeastOrderEvent k : Set (Edge α → ℝ)) =
+      ⋃ j ∈ orders, exactOrderEvent j := by
+    ext w
+    simp only [atLeastOrderEvent, exactOrderEvent, Set.mem_iUnion]
+    constructor
+    · rintro ⟨⟨S, hS⟩, hw⟩
+      have hcard : S.card ≤ Fintype.card α := Finset.card_le_univ S
+      exact ⟨S.card, Finset.mem_Icc.mpr ⟨hS, hcard⟩, ⟨⟨S, rfl⟩, hw⟩⟩
+    · rintro ⟨j, hj, ⟨S, hS⟩, hw⟩
+      have hkS : k ≤ S.card := by
+        rw [hS]
+        exact (Finset.mem_Icc.mp hj).1
+      exact ⟨⟨S, hkS⟩, hw⟩
+  have hsum : γ ≤ ∑ j ∈ orders, (graphLaw p).real (exactOrderEvent j) := by
+    apply hprob.trans
+    rw [hevent]
+    exact measureReal_biUnion_finset_le orders exactOrderEvent
+  have horders : orders.Nonempty := by
+    by_contra h
+    have hzero : orders = ∅ := Finset.not_nonempty_iff_eq_empty.mp h
+    have hz : γ ≤ 0 := by simpa [hzero] using hsum
+    exact hγ.not_ge hz
+  have hcard : 0 < (orders.card : ℝ) := by exact_mod_cast horders.card_pos
+  have havg : ∃ j ∈ orders, γ / (orders.card : ℝ) ≤ (graphLaw p).real (exactOrderEvent j) := by
+    by_contra! h
+    have hlt := Finset.sum_lt_sum_of_nonempty horders h
+    have hconst : (∑ _ ∈ orders, γ / (orders.card : ℝ)) = γ := by
+      simp [Finset.sum_const, nsmul_eq_mul, mul_div_cancel₀, hcard.ne']
+    rw [hconst] at hlt
+    exact hlt.not_ge hsum
+  obtain ⟨j, hj, hprobj⟩ := havg
+  have hj' : k ≤ j ∧ j ≤ Fintype.card α := Finset.mem_Icc.mp hj
+  obtain ⟨S, hS, hvar⟩ := exists_small_variation_of_probability_exact_order_ge
+    p j (hk.trans hj'.1) (div_pos hγ hcard) hprobj
+  have hcount : orders.card = Fintype.card α - k + 1 := by
+    dsimp [orders]
+    rw [Nat.card_Icc]
+    omega
+  have hkS : k ≤ S.card := by
+    rw [hS]
+    exact hj'.1
+  refine ⟨S, hkS, ?_⟩
+  rw [hS]
+  have hratio :
+      ((Fintype.card α).choose j : ℝ) / (γ / (orders.card : ℝ)) =
+        ((Fintype.card α - k + 1 : ℕ) : ℝ) * ((Fintype.card α).choose j : ℝ) / γ := by
+    rw [div_div_eq_mul_div, hcount, mul_comm]
+  rwa [hratio] at hvar
 
 end BoundedEdgeRegularSubgraphs
