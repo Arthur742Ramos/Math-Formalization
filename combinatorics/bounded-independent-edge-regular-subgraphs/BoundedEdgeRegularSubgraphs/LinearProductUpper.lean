@@ -21,7 +21,7 @@ open scoped BigOperators
 namespace BoundedEdgeRegularSubgraphs
 
 /-- The vertex weight in the rank-one example of Theorem 8.2. -/
-noncomputable def linearVertexWeight (a b : ℝ) {n : ℕ} (i : Fin n) : ℝ :=
+@[expose] noncomputable def linearVertexWeight (a b : ℝ) {n : ℕ} (i : Fin n) : ℝ :=
   a + b * ((i.val : ℝ) + 1) / n
 
 private theorem linearVertexWeight_bounds {a b : ℝ} (hb : 0 < b) {n : ℕ} (i : Fin n) :

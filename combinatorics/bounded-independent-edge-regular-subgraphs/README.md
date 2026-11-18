@@ -21,9 +21,11 @@ vertex set gives the product law for its induced array.
 | §2, p. 4, Lemma 2.2 | `sum_powersetCard_prod_le_choose_mean_pow`, `uniform_sample_variance_and_tail` | The symmetric mean, variance bound, and two-sided tail for a uniform sample without replacement. |
 | §3, p. 5, estimate (3.2) | `card_sample_intersection_eq_le` | Both finite intersection estimates, using counts over the equally weighted samples. |
 | §5, p. 8, Lemma 5.1 | `exists_density_increment` | Above the variance threshold, some set of at least a quarter of the vertices has the stated higher density. |
+| §5, p. 8, Lemma 5.2 | `exists_nearBalanced_subdomain` | Extraction and trimming with the stated domain size and both bounds on expected degrees. |
 | §8, p. 11, Proposition 8.1 | `probability_regular_degree_atom_le`, `probability_regular_le_variation_gaussian` | The prescribed common-degree and total regularity bounds. |
 | §8, p. 11, upper tail | `probability_at_least_order_le_sum_pow`, `probability_at_least_order_le_geometric` | The sum over all larger orders and the geometric bound at the order-`n^(2/3)` scale. |
 | §8, p. 12, upper conclusion of Theorem 8.2 | `probability_linear_product_exact_order_le`, `probability_linear_product_upper_tendsto_zero` | The weighted first-moment estimate and vanishing upper tail at the square-root scale for the specified rank-one model. |
+| §8, p. 12, fixed-floor example | `exists_linear_product_structure` | The linear product model has a rank-one completion and a one-dimensional Lipschitz representation at any prescribed floor, using vertex-weight bounds `√ξ` and `√(1−ξ)`. |
 | §9, p. 12, Proposition 9.1 | `probability_regular_le`, `probability_induced_regular_le` | The bound is `exp (-2 * V / (k - 2))` for every set of order `k ≥ 3`, including arrays with edge probabilities 0 or 1. |
 | §9, p. 13, first displayed estimate | `probability_exact_order_le` | Union bound over the sets of cardinality exactly `k`. |
 | §9, p. 13, necessary small variation at fixed order | `exists_small_variation_of_probability_exact_order_ge` | A probability of at least γ > 0 forces a k-set with the stated logarithmic variation bound. |
