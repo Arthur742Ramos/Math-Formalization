@@ -29,7 +29,7 @@ private theorem exists_representative_abs_eq (t : PhaseCircle) :
   · change |x - (j : ℝ) * (2 * Real.pi)| = ‖(x : PhaseCircle)‖
     rw [AddCircle.norm_eq]
 
-private theorem phase_norm_le_pi (t : PhaseCircle) : ‖t‖ ≤ Real.pi := by
+theorem phase_norm_le_pi (t : PhaseCircle) : ‖t‖ ≤ Real.pi := by
   have hπ : 0 < 2 * Real.pi := by positivity
   have h := AddCircle.norm_le_half_period (2 * Real.pi) (x := t) hπ.ne'
   rw [abs_of_nonneg hπ.le] at h

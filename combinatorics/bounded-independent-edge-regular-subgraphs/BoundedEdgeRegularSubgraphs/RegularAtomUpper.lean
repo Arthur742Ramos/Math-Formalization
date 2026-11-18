@@ -91,7 +91,7 @@ private theorem varianceTilt_abs_le_ten (p : Edge α → Set.Icc (0 : ℝ) 1)
     abs_of_nonneg (div_nonneg (by norm_num) h₁.le)]
   linarith
 
-private theorem exists_uniform_tilt_floor (ξ : ℝ) (hξ : 0 < ξ) (hξ' : ξ < 1 / 2) :
+theorem exists_uniform_tilt_floor (ξ : ℝ) (hξ : 0 < ξ) (hξ' : ξ < 1 / 2) :
     ∃ δ : ℝ, 0 < δ ∧ δ < 1 / 2 ∧
       ∀ (q : Set.Icc (0 : ℝ) 1) (s : ℝ), ξ ≤ (q : ℝ) → (q : ℝ) ≤ 1 - ξ →
         |s| ≤ 20 → δ ≤ (tiltProb q s : ℝ) ∧ (tiltProb q s : ℝ) ≤ 1 - δ := by
