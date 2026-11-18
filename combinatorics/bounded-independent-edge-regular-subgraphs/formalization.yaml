@@ -1,0 +1,58 @@
+version: v0.4
+project:
+  name: Regular induced subgraphs in bounded independent-edge arrays
+  description: >-
+    Lean formalization of regular induced subgraph bounds for finite random graphs
+    with independent, possibly unequal edge probabilities bounded away from zero
+    and one. The selected theorems give two logarithmic lower bounds, and
+    exact-order guarantees for arrays with equal expected degrees, Lipschitz
+    kernels, and bounded-rank symmetric completions. The library also develops
+    the degree-vector estimates, the overlap second moment, and a product model
+    with matching square-root bounds.
+  authors:
+    - Arthur Freitas Ramos
+    - David Barros Hulak
+    - Ruy Jose Guerra Barretto de Queiroz
+  responsible_maintainers:
+    - Arthur Freitas Ramos
+  license: Apache-2.0
+classification:
+  arxiv:
+    - math.CO
+    - math.PR
+  msc2020:
+    - 05C80
+    - 05C07
+    - 60F05
+sources:
+  - title: Regular induced subgraphs in bounded independent-edge arrays
+    authors:
+      - Arthur Freitas Ramos
+      - David Barros Hulak
+      - Ruy J. G. B. de Queiroz
+    type: paper
+    relationship: formalizes
+    note: >-
+      The supplied 17-page manuscript has PDF SHA-256
+      7cba4a4dcf525926b283ca036f4970d6321f50dd2ca0f3efe01b643be4a1e32d.
+      Theorem 1.1 on pages 1 and 2 supplies the four selected statements.
+      COVERAGE.md maps the remaining results to their Lean declarations.
+automation:
+  methods:
+    - method: agent
+      framework: OpenAI Codex and Lean 4
+      tool_setup: Pinned Lean and Mathlib, semantic bridge checks, and a transitive axiom audit.
+  notes: Codex assisted with theorem statements, proofs, and preparation of the verification package.
+review:
+  status: agent-reviewed
+  notes: >-
+    The project owner confirmed review in the project conversation. A separate
+    Codex agent compared the four selected statements at proof commit
+    277f1ee75818a2102487b5c2ff8d294126f3ea8e with the supplied manuscript and
+    checked the correspondence of their model definitions. This was an
+    internal mathematical review. Canonical verification and the final
+    package review are separate.
+status:
+  scope: >-
+    The Comparator challenge selects all four parts of Theorem 1.1.
+    See COVERAGE.md for the larger proof library and the source conventions.
