@@ -144,25 +144,64 @@ private theorem real_graphLaw_apply (q : Edge α → Set.Icc (0 : ℝ) 1)
   rw [measureReal_congr hcover, measureReal_iUnion_fintype hdis hm]
   exact Finset.sum_congr rfl (fun b _ ↦ by by_cases h : encodeGraph b ∈ s <;> simp [f, h])
 
-/-- On a full degree atom the likelihood factor is constant. -/
-theorem real_graphLaw_vertexTilt_degreeAtom (q : Edge α → Set.Icc (0 : ℝ) 1)
-    (θ : α → ℝ) (d : α → ℤ) :
-    (graphLaw (vertexTilt q θ)).real (degreeAtom Finset.univ d) =
+/-- The likelihood is constant on subevents of a full degree atom. -/
+theorem real_graphLaw_vertexTilt_sub_degreeAtom (q : Edge α → Set.Icc (0 : ℝ) 1)
+    (θ : α → ℝ) (d : α → ℤ) (E : Set (Edge α → ℝ)) (hE : E ⊆ degreeAtom Finset.univ d) :
+    (graphLaw (vertexTilt q θ)).real E =
       Real.exp ((∑ i, θ i * (d i : ℝ)) - logPartition q θ) *
-        (graphLaw q).real (degreeAtom Finset.univ d) := by
+        (graphLaw q).real E := by
   classical
   rw [real_graphLaw_apply, real_graphLaw_apply, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro b _
-  by_cases hb : encodeGraph b ∈ degreeAtom Finset.univ d
+  by_cases hb : encodeGraph b ∈ E
   · simp only [ite_eq_left hb]
     rw [real_graphLaw_vertexTilt_singleton q θ _ (encodeGraph_binary b)]
     have hdeg (i : α) : degreeSum (encodeGraph b) i = (d i : ℝ) := by
       rw [← degreeVector_univ_eq_degreeSum _ (encodeGraph_binary b)]
       exact congrArg (fun f : α → ℤ ↦ (f i : ℝ))
-        (show degreeVector Finset.univ (encodeGraph b) = d from hb)
+        (show degreeVector Finset.univ (encodeGraph b) = d from hE hb)
     simp_rw [hdeg]
   · simp [hb]
+
+/-- On a full degree atom the likelihood factor is constant. -/
+theorem real_graphLaw_vertexTilt_degreeAtom (q : Edge α → Set.Icc (0 : ℝ) 1)
+    (θ : α → ℝ) (d : α → ℤ) :
+    (graphLaw (vertexTilt q θ)).real (degreeAtom Finset.univ d) =
+      Real.exp ((∑ i, θ i * (d i : ℝ)) - logPartition q θ) *
+        (graphLaw q).real (degreeAtom Finset.univ d) :=
+  real_graphLaw_vertexTilt_sub_degreeAtom q θ d _ (fun _ hw ↦ hw)
+
+private theorem real_graphLaw_specified_edges (q : Edge α → Set.Icc (0 : ℝ) 1)
+    (A : Finset (Edge α)) (h : Edge α → ℝ) (hb : ∀ e ∈ A, h e = 0 ∨ h e = 1) :
+    (graphLaw q).real {w | ∀ e ∈ A, w e = h e} = ∏ e ∈ A, bitMass (q e) (h e) := by
+  classical
+  have he : {w | ∀ e ∈ A, w e = h e} =
+      Set.pi (A : Set (Edge α)) (fun e ↦ ({h e} : Set ℝ)) := by
+    ext w
+    simp [Set.mem_pi]
+  rw [he, measureReal_def, graphLaw, Measure.pi_pi_finset, ENNReal.toReal_prod]
+  apply Finset.prod_congr rfl
+  intro e he'
+  change (bernoulliMeasure (1 : ℝ) 0 (q e)).real {h e} = bitMass (q e) (h e)
+  rcases hb e he' with hh | hh <;> simp [bitMass, hh]
+
+/-- The likelihood factor of a partial binary assignment only contains
+the log-odds increments on the specified edges. -/
+theorem real_graphLaw_vertexTilt_specified_edges (q : Edge α → Set.Icc (0 : ℝ) 1)
+    (θ : α → ℝ) (A : Finset (Edge α)) (h : Edge α → ℝ)
+    (hb : ∀ e ∈ A, h e = 0 ∨ h e = 1) :
+    (graphLaw (vertexTilt q θ)).real {w | ∀ e ∈ A, w e = h e} =
+      (∏ e ∈ A, Real.exp ((θ e.val.1 + θ e.val.2) * h e) /
+        tiltNormalizer (q e) (θ e.val.1 + θ e.val.2)) *
+      (graphLaw q).real {w | ∀ e ∈ A, w e = h e} := by
+  rw [real_graphLaw_specified_edges _ A h hb, real_graphLaw_specified_edges q A h hb,
+    ← Finset.prod_mul_distrib]
+  exact Finset.prod_congr rfl (fun e he ↦ by
+    let u := θ e.val.1 + θ e.val.2
+    change bitMass (tiltProb (q e) u) (h e) =
+      (Real.exp (u * h e) / tiltNormalizer (q e) u) * bitMass (q e) (h e)
+    rw [bitMass_tiltProb _ _ _ (hb e he), Real.exp_sub, Real.exp_log (tiltNormalizer_pos _ _)])
 
 /-- The centred Bernoulli log partition function is bounded by u²/8. -/
 theorem logTiltNormalizer_sub_le (q : Set.Icc (0 : ℝ) 1) (u : ℝ) :

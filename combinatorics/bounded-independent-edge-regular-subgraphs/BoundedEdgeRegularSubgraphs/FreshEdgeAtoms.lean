@@ -19,6 +19,8 @@ namespace BoundedEdgeRegularSubgraphs
 
 variable {α : Type*} [Fintype α] [LinearOrder α]
 
+universe u
+
 private abbrev Outside (S : Finset α) := ↥((Finset.univ : Finset α) \ S)
 
 private theorem outside_notMem {S : Finset α} (j : Outside S) : (j : α) ∉ S :=
@@ -128,16 +130,18 @@ private theorem degreeVector_outside_eq_fresh_count (S : Finset α) (i : S) (x :
     split_ifs <;> simp [hinc]
 
 /-- A residual degree atom imposes one independent scalar constraint per
-shared vertex, each on its edges to the unshared vertices. -/
-theorem probability_residual_degreeAtom_le_fresh_edges (ξ : ℝ) (hξ : 0 < ξ) (hξ' : ξ < 1 / 2) :
-    ∃ C : ℝ, 0 < C ∧ ∀ (p : Edge α → Set.Icc (0 : ℝ) 1),
-      (∀ e, ξ ≤ (p e : ℝ) ∧ (p e : ℝ) ≤ 1 - ξ) → ∀ (S : Finset α) (d : α → ℤ),
-      (graphLaw p).real (degreeAtom (edgesOutsideOverlap S) d) ≤
-        (C / Real.sqrt ((Fintype.card α - S.card : ℕ) + 1)) ^ S.card := by
+shared vertex, each on its edges to the unshared vertices. The constant
+is the one in the uniform scalar atom bound. -/
+theorem probability_residual_degreeAtom_le_fresh_edges_of_scalar
+    {β : Type u} [Fintype β] [LinearOrder β] {ξ C : ℝ}
+    (hscalar : ∀ {ι : Type u} [Fintype ι] (q : ι → Set.Icc (0 : ℝ) 1),
+      (∀ i, ξ ≤ (q i : ℝ) ∧ (q i : ℝ) ≤ 1 - ξ) → ∀ d : ℤ,
+        (bernoulliProduct q).real (countAtom d) ≤ C / Real.sqrt ((Fintype.card ι : ℝ) + 1))
+    (p : Edge β → Set.Icc (0 : ℝ) 1) (hp : ∀ e, ξ ≤ (p e : ℝ) ∧ (p e : ℝ) ≤ 1 - ξ)
+    (S : Finset β) (d : β → ℤ) :
+    (graphLaw p).real (degreeAtom (edgesOutsideOverlap S) d) ≤
+      (C / Real.sqrt ((Fintype.card β - S.card : ℕ) + 1)) ^ S.card := by
   classical
-  obtain ⟨C, hC, hscalar⟩ := probability_countAtom_le_inv_sqrt ξ hξ hξ'
-  refine ⟨C, hC, ?_⟩
-  intro p hp S d
   have : IsProbabilityMeasure (graphLaw p) := by unfold graphLaw; infer_instance
   let P (i : S) := bernoulliProduct fun j : Outside S ↦ p (crossEdge i j)
   let U : Set ((i : S) → Outside S → ℝ) := Set.pi Set.univ fun i ↦ countAtom (d i)
@@ -169,6 +173,14 @@ theorem probability_residual_degreeAtom_le_fresh_edges (ξ : ℝ) (hξ : 0 < ξ)
     _ = _ := by
       simp only [b, Finset.prod_const, Finset.card_univ, Outside, Fintype.card_coe,
         Finset.card_sdiff_of_subset (Finset.subset_univ _), Finset.card_univ]
+
+theorem probability_residual_degreeAtom_le_fresh_edges (ξ : ℝ) (hξ : 0 < ξ) (hξ' : ξ < 1 / 2) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (p : Edge α → Set.Icc (0 : ℝ) 1),
+      (∀ e, ξ ≤ (p e : ℝ) ∧ (p e : ℝ) ≤ 1 - ξ) → ∀ (S : Finset α) (d : α → ℤ),
+      (graphLaw p).real (degreeAtom (edgesOutsideOverlap S) d) ≤
+        (C / Real.sqrt ((Fintype.card α - S.card : ℕ) + 1)) ^ S.card := by
+  obtain ⟨C, hC, hscalar⟩ := probability_countAtom_le_inv_sqrt ξ hξ hξ'
+  exact ⟨C, hC, probability_residual_degreeAtom_le_fresh_edges_of_scalar hscalar⟩
 
 /-- The fresh-edge estimate after any overlap assignment of positive
 probability. -/

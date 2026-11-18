@@ -16,10 +16,10 @@ namespace BoundedEdgeRegularSubgraphs
 
 variable {α : Type*} [DecidableEq α]
 
-noncomputable def sampleRowMean (s : Finset α) (q : α → α → ℝ) (i : α) : ℝ :=
+@[expose] noncomputable def sampleRowMean (s : Finset α) (q : α → α → ℝ) (i : α) : ℝ :=
   (∑ j ∈ s.erase i, q i j) / (s.card - 1 : ℕ)
 
-noncomputable def sampleRowDrift (S : Finset α) (q : α → α → ℝ) (d : ℝ) (i : α) : ℝ :=
+@[expose] noncomputable def sampleRowDrift (S : Finset α) (q : α → α → ℝ) (d : ℝ) (i : α) : ℝ :=
   (∑ j ∈ S.erase i, q i j) - d
 
 /-- The total squared drift over all equally weighted samples is bounded
