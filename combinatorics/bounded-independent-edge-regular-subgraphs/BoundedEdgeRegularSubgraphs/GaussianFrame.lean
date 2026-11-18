@@ -21,7 +21,7 @@ variable {α : Type*} [Fintype α] [LinearOrder α]
 /-- The real incidence vector of one edge. -/
 def realIncidence (e : Edge α) (i : α) : ℝ := edgeIncidence e i
 
-private theorem dotProduct_realIncidence (x : α → ℝ) (e : Edge α) :
+theorem dotProduct_realIncidence (x : α → ℝ) (e : Edge α) :
     x ⬝ᵥ realIncidence e = x e.val.1 + x e.val.2 := by
   classical
   simp only [dotProduct, realIncidence, edgeIncidence, Int.cast_add, Int.cast_ite, Int.cast_one,
