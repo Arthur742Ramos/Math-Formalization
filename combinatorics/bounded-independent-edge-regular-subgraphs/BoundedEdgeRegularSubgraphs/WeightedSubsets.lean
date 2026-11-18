@@ -18,7 +18,7 @@ namespace BoundedEdgeRegularSubgraphs
 
 variable {α : Type*} [DecidableEq α]
 
-private theorem weighted_subsets_marked (s : Finset α) (w : α → ℝ) (k : ℕ) :
+theorem weighted_subsets_marked (s : Finset α) (w : α → ℝ) (k : ℕ) :
     (k + 1 : ℝ) * (∑ t ∈ s.powersetCard (k + 1), ∏ x ∈ t, w x) =
       ∑ t ∈ s.powersetCard k, ((∏ x ∈ t, w x) * ∑ i ∈ s \ t, w i) := by
   rw [Finset.mul_sum]
