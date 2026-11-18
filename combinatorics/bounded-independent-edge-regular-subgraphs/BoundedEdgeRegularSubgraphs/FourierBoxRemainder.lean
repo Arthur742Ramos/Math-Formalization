@@ -16,7 +16,7 @@ open scoped BigOperators
 namespace BoundedEdgeRegularSubgraphs
 
 /-- The radius used for the local box in Appendix A. -/
-noncomputable def fourierBoxRadius (n : ℕ) : ℝ := Real.log n / Real.sqrt n
+@[expose] noncomputable def fourierBoxRadius (n : ℕ) : ℝ := Real.log n / Real.sqrt n
 
 theorem fourierBoxRadius_tendsto_zero :
     Tendsto fourierBoxRadius atTop (nhds 0) := by

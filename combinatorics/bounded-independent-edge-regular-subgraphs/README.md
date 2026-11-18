@@ -58,14 +58,15 @@ The finite analytic setup includes the exact vertex-tilt likelihood, the
 quadratic cost of its inverse change of measure and the Fourier modulus
 bound. Exact degree-vector inversion applies to the full array and to the
 array with the overlap clique's edges removed. The latter has explicit
-quadratic, inverse-entry, row-sum and determinant comparison bounds. The
+quadratic, inverse-entry, row-sum and determinant comparison bounds.
+`ResidualLocalLimit.lean` proves the uniform residual-atom bound of
+Proposition C.1 for every integer target. The
 even degree lattice gives the simultaneous π shift used in the centred
 atom proof. Induced arrays are independent when their vertex sets overlap
 in at most one vertex.
 
-The remaining proof work includes the centred degree atom (Theorem B.2),
-the atom with overlap edges deleted (Proposition C.1), and their use in the
-overlap second moment. The variance extraction and block arguments then
+The remaining proof work includes the centred degree atom (Theorem B.2)
+and the overlap second moment. The variance extraction and block arguments then
 supply the lower bounds in Theorem 1.1. The [coverage map](COVERAGE.md)
 records the remaining work for each source result.
 
