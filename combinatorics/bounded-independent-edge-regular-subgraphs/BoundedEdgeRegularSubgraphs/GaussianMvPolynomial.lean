@@ -34,7 +34,7 @@ theorem integrable_eval_standardGaussianProduct {n : ℕ} (p : MvPolynomial (Fin
     simp only [map_add]
     exact hp.add hq
 
-private theorem hasDerivAt_eval_coordinate {n : ℕ} (p : MvPolynomial (Fin n) ℝ)
+theorem hasDerivAt_eval_coordinate {n : ℕ} (p : MvPolynomial (Fin n) ℝ)
     (x : Fin n → ℝ) (i : Fin n) (t : ℝ) :
     HasDerivAt (fun u ↦ MvPolynomial.eval (Function.update x i u) p)
       (MvPolynomial.eval (Function.update x i t) (MvPolynomial.pderiv i p)) t := by

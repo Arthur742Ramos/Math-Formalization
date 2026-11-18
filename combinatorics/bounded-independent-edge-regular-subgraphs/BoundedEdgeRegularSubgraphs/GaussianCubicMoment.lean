@@ -24,7 +24,7 @@ theorem eval_linearPolynomial {n : ℕ} (v x : Fin n → ℝ) :
     MvPolynomial.eval x (linearPolynomial v) = v ⬝ᵥ x := by
   simp only [linearPolynomial, map_sum, map_mul, MvPolynomial.eval_C, MvPolynomial.eval_X, dotProduct]
 
-private theorem pderiv_linearPolynomial {n : ℕ} (v : Fin n → ℝ) (i : Fin n) :
+theorem pderiv_linearPolynomial {n : ℕ} (v : Fin n → ℝ) (i : Fin n) :
     MvPolynomial.pderiv i (linearPolynomial v) = MvPolynomial.C (v i) := by
   classical
   unfold linearPolynomial
