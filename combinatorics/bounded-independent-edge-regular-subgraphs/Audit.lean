@@ -1,0 +1,13 @@
+module
+
+import BoundedEdgeRegularSubgraphs
+import BoundedEdgeRegularSubgraphs.Induce
+
+#print axioms BoundedEdgeRegularSubgraphs.graphLaw_ae_binary
+#print axioms BoundedEdgeRegularSubgraphs.integral_degreeSum
+#print axioms BoundedEdgeRegularSubgraphs.measurePreserving_induce
+#print axioms BoundedEdgeRegularSubgraphs.probability_regular_le
+#print axioms BoundedEdgeRegularSubgraphs.probability_induced_regular_le
+#print axioms BoundedEdgeRegularSubgraphs.probability_exact_order_le
+#print axioms BoundedEdgeRegularSubgraphs.probability_at_least_order_le
+#print axioms BoundedEdgeRegularSubgraphs.exists_small_variation_of_probability_exact_order_ge
