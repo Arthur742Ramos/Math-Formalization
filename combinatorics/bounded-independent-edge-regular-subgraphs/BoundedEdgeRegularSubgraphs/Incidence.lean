@@ -36,6 +36,10 @@ noncomputable def degreeVector (A : Finset (Edge α)) (w : Edge α → ℝ) : α
 noncomputable def degreeAtom (A : Finset (Edge α)) (d : α → ℤ) : Set (Edge α → ℝ) :=
   {w | degreeVector A w = d}
 
+/-- The edges with both endpoints in the overlap. -/
+def edgesInside (S : Finset α) : Finset (Edge α) :=
+  Finset.univ.filter (fun e ↦ e.val.1 ∈ S ∧ e.val.2 ∈ S)
+
 /-- Delete the edge coordinates with both endpoints in the given overlap. -/
 def edgesOutsideOverlap (S : Finset α) : Finset (Edge α) :=
   Finset.univ.filter (fun e ↦ ¬ (e.val.1 ∈ S ∧ e.val.2 ∈ S))

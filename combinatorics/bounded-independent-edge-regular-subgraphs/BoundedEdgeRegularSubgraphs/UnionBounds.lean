@@ -49,7 +49,7 @@ theorem probability_at_least_order_le (p : Edge α → Set.Icc (0 : ℝ) 1)
   exact probability_induced_regular_le p S.val (hk.trans S.property)
 
 omit [LinearOrder α] in
-private theorem card_fixed_order (k : ℕ) :
+theorem card_fixed_order (k : ℕ) :
     Fintype.card {S : Finset α // S.card = k} = (Fintype.card α).choose k := by
   classical
   rw [Fintype.card_subtype]
