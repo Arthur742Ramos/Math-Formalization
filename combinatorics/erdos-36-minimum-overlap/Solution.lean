@@ -10,7 +10,7 @@ public import ErdosOverlap.DefinitionContracts
 /-! # Proof exports for the numerical minimum-overlap Challenge
 
 This module does not import `Challenge` or any theorem placeholders.
-All nine selected declarations are supplied by the source-bound proof module.
+All eleven selected declarations are supplied by the imported proof modules.
 Compiler, protected comparison and independent-kernel outcomes are recorded
 in exact-source verification receipts.
 -/

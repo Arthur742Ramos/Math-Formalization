@@ -70,8 +70,10 @@ retaining their values and proofs without generating unused runtime code. Geomet
 checks are proved condition by condition; leaf checks cover fixed prefixes and
 the complete remaining tail. Profile slope equalities use proved integer cross
 multiplication, with shared kernel-checked facts for the physical tau values.
-Geometry proofs use sign-aware interval multiplication with a proved equality
-to the four-corner formula.
+Geometry proofs use sign-aware interval multiplication and exact signed shifts.
+Point intervals with ordered coefficients use a specialized Horner fold.
+The geometry tactic exposes the stored endpoints so identical closed Horner
+goals can reuse an ordinary kernel proof.
 Every original arithmetic and source-binding condition is retained. Generators
 are untrusted: Lean proof terms check their outputs, and analytic
 theorems connect the checked data to the actual overlap functions. The affine
