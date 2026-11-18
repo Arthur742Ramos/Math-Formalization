@@ -14,7 +14,7 @@ open Set
 namespace BoundedEdgeRegularSubgraphs
 
 /-- The additional condition in Remark 6.5 in the maximum norm. -/
-def CubeDiagonalQuadratic {d : ℕ} (B : ℝ)
+@[expose] def CubeDiagonalQuadratic {d : ℕ} (B : ℝ)
     (W : (Fin d → Icc (0 : ℝ) 1) → (Fin d → Icc (0 : ℝ) 1) → Icc (0 : ℝ) 1) : Prop :=
   ∀ x y ε, 0 ≤ ε → (∀ i, |(x i : ℝ) - y i| ≤ ε) →
     |(W x x : ℝ) + (W y y : ℝ) - 2 * (W x y : ℝ)| ≤ B * ε ^ 2

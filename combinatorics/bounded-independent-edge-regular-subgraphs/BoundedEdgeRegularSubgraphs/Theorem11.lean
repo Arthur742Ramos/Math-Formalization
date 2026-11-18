@@ -7,8 +7,8 @@ public import Mathlib.LinearAlgebra.Matrix.Rank
 /-!
 # Statements of Theorem 1.1
 
-These are proposition-valued definitions for the four parts of the theorem.
-The proofs of the lower bounds are open tasks in this package.
+These proposition-valued definitions state the four uniform lower bounds.
+Their proofs use logarithmic amplification, balanced blocks and large cells.
 -/
 
 @[expose] public section

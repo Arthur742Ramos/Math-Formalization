@@ -24,14 +24,14 @@ vertex set gives the product law for its induced array.
 | §5, p. 8, Lemma 5.2 | `exists_nearBalanced_subdomain` | Extraction and trimming with the stated domain size and both bounds on expected degrees. |
 | §8, p. 11, Proposition 8.1 | `probability_regular_degree_atom_le`, `probability_regular_le_variation_gaussian` | The prescribed common-degree and total regularity bounds. |
 | §8, p. 11, upper tail | `probability_at_least_order_le_sum_pow`, `probability_at_least_order_le_geometric` | The sum over all larger orders and the geometric bound at the order-`n^(2/3)` scale. |
-| §8, p. 12, upper conclusion of Theorem 8.2 | `probability_linear_product_exact_order_le`, `probability_linear_product_upper_tendsto_zero` | The weighted first-moment estimate and vanishing upper tail at the square-root scale for the specified rank-one model. |
+| §8, p. 12, Theorem 8.2 | `probability_linear_product_exact_order_le`, `probability_linear_product_square_root_window` | The weighted first-moment estimate and matching square-root lower and upper bounds for the specified rank-one model. |
 | §8, p. 12, fixed-floor example | `exists_linear_product_structure` | The linear product model has a rank-one completion and a one-dimensional Lipschitz representation at any prescribed floor, using vertex-weight bounds `√ξ` and `√(1−ξ)`. |
 | §9, p. 12, Proposition 9.1 | `probability_regular_le`, `probability_induced_regular_le` | The bound is `exp (-2 * V / (k - 2))` for every set of order `k ≥ 3`, including arrays with edge probabilities 0 or 1. |
 | §9, p. 13, first displayed estimate | `probability_exact_order_le` | Union bound over the sets of cardinality exactly `k`. |
 | §9, p. 13, necessary small variation at fixed order | `exists_small_variation_of_probability_exact_order_ge` | A probability of at least γ > 0 forces a k-set with the stated logarithmic variation bound. |
 | §9, p. 13, remaining variation bounds | `probability_exact_order_le_of_large_variation`, `exists_small_variation_of_probability_at_least_order_ge` | The power-law probability bound and the necessary variation bound across all larger orders. |
 | §9, p. 13, union over larger orders | `probability_at_least_order_le` | Union bound over every set of cardinality at least `k`, with its own cardinality in the exponent. |
-| §1, pp. 1–2, Theorem 1.1(1)–(4) | `Theorem1_1_arbitrary`, `Theorem1_1_equalDegrees`, `Theorem1_1_lipschitz`, `Theorem1_1_lowRank` | Statement definitions. Their proofs remain open in this development. |
+| §1, pp. 1–2, Theorem 1.1(1)–(4) | `theorem1_1_arbitrary`, `theorem1_1_equalDegrees`, `theorem1_1_lipschitz`, `theorem1_1_lowRank` | Both logarithmic bounds and all three exact-order lower bounds. |
 
 The `V = 0` case uses the probability bound by one. For positive `V`,
 the proof applies Hoeffding's inequality to the sum with one summand
@@ -40,15 +40,14 @@ the common degree. The proof establishes the coefficient identity
 `∑_{i<j} (vᵢ + vⱼ)² = (k - 2) ∑ᵢ vᵢ²` for a centred vertex vector.
 
 Mathlib's binomial random graph uses a single common edge probability.
-Here the proof uses a product law with a separate parameter for every
+This proof uses a product law with a separate parameter for every
 edge and Mathlib's sub-Gaussian bounds for independent random variables.
-The development does not use the binomial random graph definition.
 [Binomial random graphs at the pinned revision](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Probability/Combinatorics/BinomialRandomGraph/Defs.lean)
 and [Mathlib's Hoeffding lemmas](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Probability/Moments/SubGaussian.lean).
 
 ## Palomar scope
 
-The prospective research result is Theorem 1.1. Its exact-order bounds
+Theorem 1.1 is the research result selected for the Comparator statement module. Its exact-order bounds
 concern probabilistic combinatorics and extend the setting of the
 homogeneous random-graph result of Krivelevich, Sudakov and Wormald.
 Proposition 9.1 and its union bounds form a supporting development.
@@ -67,14 +66,15 @@ in at most one vertex.
 
 `CenteredDegreeAtom.lean` proves the centred degree atom asymptotic and
 lower bound of Theorem B.2. `ConditionalDegreeRatio.lean` proves Corollary C.2,
-and `TiltedDegreeAtom.lean` proves Lemma 2.1. The remaining proof work includes
-candidate selection, the overlap second moments, and the deductions of the
-lower bounds in Theorem 1.1. The [coverage map](COVERAGE.md) records the
-status of each result.
+and `TiltedDegreeAtom.lean` proves Lemma 2.1. Candidate selection and the
+overlap second moments connect these estimates to the logarithmic and
+polynomial lower bounds. The [coverage map](COVERAGE.md) links the full
+set of proved manuscript results to their Lean declarations.
 
-This is a development package. Challenge and Solution selection depends on
-which research conclusions have complete proofs. Independent mathematical
-review and Palomar verification are pending.
+`Challenge.lean` states the four conclusions in Theorem 1.1. `Solution.lean`
+exports the corresponding proofs from the library. The project uses
+Lean v4.35.0-rc2 and the Mathlib revision fixed in the manifest. Independent
+mathematical review and the canonical Palomar verification are pending.
 
 ## Local checks
 
@@ -83,5 +83,6 @@ Run from this directory with the pinned Lean toolchain and Lake manifest.
 ```powershell
 lake exe cache get
 lake build
+lake build +Challenge
 lake env lean Audit.lean
 ```
