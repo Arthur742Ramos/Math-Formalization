@@ -17,7 +17,9 @@ open scoped BigOperators
 
 namespace BoundedEdgeRegularSubgraphs
 
-variable {α : Type*} [Fintype α] [LinearOrder α]
+universe u
+
+variable {α : Type u} [Fintype α] [LinearOrder α]
 
 /-- Specified common degrees on candidates sharing at most one vertex
 are independent. -/
@@ -53,7 +55,8 @@ candidate probabilities. -/
 theorem probability_inducedDegreeAtom_inter_le_fresh_edges {ξ : ℝ}
     (hξ : 0 < ξ) (hξ₁ : ξ < 1 / 2) :
     ∃ C : ℝ, 0 < C ∧
-      ∀ (p : Edge α → Icc (0 : ℝ) 1), (∀ e, ξ ≤ (p e : ℝ) ∧ (p e : ℝ) ≤ 1 - ξ) →
+      ∀ {α : Type u} [Fintype α] [LinearOrder α]
+        (p : Edge α → Icc (0 : ℝ) 1), (∀ e, ξ ≤ (p e : ℝ) ∧ (p e : ℝ) ≤ 1 - ξ) →
       ∀ (S T : Finset α) (d e : ℤ),
         (graphLaw p).real (inducedDegreeAtom S d ∩ inducedDegreeAtom T e) ≤
           ((C / Real.sqrt ((T.card - (S ∩ T).card : ℕ) + 1)) ^ (S ∩ T).card) *
@@ -61,7 +64,7 @@ theorem probability_inducedDegreeAtom_inter_le_fresh_edges {ξ : ℝ}
   classical
   obtain ⟨C, hC, hScalar⟩ := probability_countAtom_le_inv_sqrt ξ hξ hξ₁
   refine ⟨C, hC, ?_⟩
-  intro p hp S T d e
+  intro α _ _ p hp S T d e
   let μ := graphLaw p
   let J := S ∩ T
   let E := inducedDegreeAtom S d
