@@ -20,12 +20,12 @@ noncomputable def regularBlockSize (H : ℝ) (k : ℕ) : ℕ := ⌈H * (k : ℝ)
 
 /-- A block of order H k^(3/2) has a vanishing row-sampling error for
 the tolerance k^(-1/2). -/
-theorem eventually_regularBlockSize_bounds {H : ℝ} (hH : 1 ≤ H) :
+theorem eventually_regularBlockSize_bounds_half {H : ℝ} (hH : 1 ≤ H) :
     ∀ᶠ k : ℕ in atTop,
       let m := regularBlockSize H k
       2 ≤ m ∧ H * (k : ℝ) * Real.sqrt k ≤ (m : ℝ) ∧
         (m : ℝ) ≤ 2 * H * (k : ℝ) * Real.sqrt k ∧
-        2 * (m : ℝ) * Real.exp (-2 * ((m - 1 : ℕ) : ℝ) * ((Real.sqrt k)⁻¹) ^ 2) < 1 := by
+        2 * (m : ℝ) * Real.exp (-2 * ((m - 1 : ℕ) : ℝ) * ((Real.sqrt k)⁻¹) ^ 2) < 1 / 2 := by
   let w (k : ℕ) := Real.sqrt (k : ℝ)
   have hpos : 0 < H := zero_lt_one.trans_le hH
   have hW : Tendsto w atTop atTop := Real.tendsto_sqrt_atTop.comp tendsto_natCast_atTop_atTop
@@ -34,7 +34,8 @@ theorem eventually_regularBlockSize_bounds {H : ℝ} (hH : 1 ≤ H) :
     have h' : Tendsto (fun k : ℕ ↦ w k ^ 3 * Real.exp (-(H * w k))) atTop (𝓝 0) := by
       simpa only [Function.comp_def, ← Real.rpow_natCast, Nat.cast_ofNat, neg_mul] using h
     simpa only [mul_zero, mul_assoc] using (tendsto_const_nhds (x := 4 * H)).mul h'
-  filter_upwards [eventually_ge_atTop (4 : ℕ), ht.eventually_lt_const zero_lt_one] with k hk hsmall
+  filter_upwards [eventually_ge_atTop (4 : ℕ), ht.eventually_lt_const (show (0 : ℝ) < 1 / 2 by norm_num)]
+    with k hk hsmall
   let m := regularBlockSize H k
   let p := H * (k : ℝ) * w k
   have hk₄ : (4 : ℝ) ≤ k := by exact_mod_cast hk
@@ -69,5 +70,14 @@ theorem eventually_regularBlockSize_bounds {H : ℝ} (hH : 1 ≤ H) :
     rw [← hPow] at hm'
     nlinarith only [hm']
   exact (mul_le_mul hm'' (Real.exp_le_exp.mpr hExp) (Real.exp_nonneg _) (by positivity)).trans_lt hsmall
+
+theorem eventually_regularBlockSize_bounds {H : ℝ} (hH : 1 ≤ H) :
+    ∀ᶠ k : ℕ in atTop,
+      let m := regularBlockSize H k
+      2 ≤ m ∧ H * (k : ℝ) * Real.sqrt k ≤ (m : ℝ) ∧
+        (m : ℝ) ≤ 2 * H * (k : ℝ) * Real.sqrt k ∧
+        2 * (m : ℝ) * Real.exp (-2 * ((m - 1 : ℕ) : ℝ) * ((Real.sqrt k)⁻¹) ^ 2) < 1 :=
+  (eventually_regularBlockSize_bounds_half hH).mono fun _ h ↦
+    ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.trans (by norm_num)⟩
 
 end BoundedEdgeRegularSubgraphs
