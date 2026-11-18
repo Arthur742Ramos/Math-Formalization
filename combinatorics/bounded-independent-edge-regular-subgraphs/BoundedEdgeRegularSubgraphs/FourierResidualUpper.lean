@@ -29,7 +29,7 @@ private theorem integral_phase_norm_pi_box_eq_zero {n : ℕ}
 
 /-- The finite residual degree-atom bound obtained from a small-box
 estimate and the two tail estimates, for arbitrary target vectors. -/
-theorem probability_residual_degreeAtom_le_of_fourier_rates {n : ℕ}
+theorem probability_residual_degreeAtom_and_fourier_tail_le_of_fourier_rates {n : ℕ}
     (S : Finset (Fin (n + 1))) (hm : 3 ≤ ((Finset.univ : Finset (Fin (n + 1))) \ S).card)
     (q : Edge (Fin (n + 1)) → Icc (0 : ℝ) 1) (d : Fin (n + 1) → ℤ)
     {l R r ε : ℝ} (hl : 0 < l) (hq : ∀ e, l ≤ (q e : ℝ) * (1 - q e))
@@ -49,7 +49,11 @@ theorem probability_residual_degreeAtom_le_of_fourier_rates {n : ℕ}
     let K := (1 / 96 : ℝ)
     let κ := 4 * (2 * r) ^ 3 * K * (((n + 1 : ℕ) : ℝ) - 1) * Real.sqrt (n + 1 : ℕ) * Real.sqrt lower⁻¹
     let C := Real.exp (ε + 24 * K * (((n + 1 : ℕ) : ℝ) - 1) * (n + 1 : ℕ) * lower⁻¹ ^ 2 + κ ^ 2 / 2)
-    (graphLaw q).real (degreeAtom A d) ≤ 4 * C * phaseGaussianScale Q + 2 * a₀ := by
+    (graphLaw q).real (degreeAtom A d) ≤ 4 * C * phaseGaussianScale Q + 2 * a₀ ∧
+      (∫ t in (phaseBox (0 : PhaseCircle) r ∪ phaseBox (Real.pi : PhaseCircle) r)ᶜ,
+        ‖degreeFourier A q d t‖ ∂phaseLaw) ≤
+        a₀ + 2 * (a + 2 * (n + 1) * Real.exp (-(lower / 2) * r ^ 2 / 2)) *
+          ((2 * C) * phaseGaussianScale Q + a₀) := by
   let k : ℕ := n + 1
   let A := edgesOutsideOverlap S
   let Q := degreeCovariance A q
@@ -130,6 +134,7 @@ theorem probability_residual_degreeAtom_le_of_fourier_rates {n : ℕ}
   rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg hprob] at hp
   have hf := norm_integral_le_integral_norm (μ := phaseLaw) (degreeFourier A q d)
   change ‖∫ t, degreeFourier A q d t ∂phaseLaw‖ ≤ ∫ t, f t ∂phaseLaw at hf
+  refine ⟨?_, htail⟩
   change _ ≤ 4 * C * Ξ + 2 * a₀
   exact (hp.le.trans hf).trans (by linarith only [htotal, hrest, hP])
 

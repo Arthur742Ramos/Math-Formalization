@@ -15,21 +15,21 @@ open scoped BigOperators Topology
 
 namespace BoundedEdgeRegularSubgraphs
 
-/-- The shrinking radius meets the Taylor hypotheses, with remainder at
-most one for every available edge set. -/
-theorem eventually_degreeFourierLocalError_le_one :
+/-- The shrinking radius meets the Taylor hypotheses, with the
+remainder tending uniformly to zero over all available edge sets. -/
+theorem eventually_degreeFourierLocalError_le {ε : ℝ} (hε : 0 < ε) :
     ∀ᶠ k : ℕ in atTop,
       0 ≤ fourierBoxRadius k ∧ 2 * fourierBoxRadius k ≤ 1 / 4 ∧
       ∀ (A : Finset (Edge (Fin k))) (q : Edge (Fin k) → Set.Icc (0 : ℝ) 1),
         ∀ t ∈ realPhaseBox (α := Fin k) (fourierBoxRadius k),
-          ‖degreeFourierLocalError A q t‖ ≤ 1 := by
+          ‖degreeFourierLocalError A q t‖ ≤ ε := by
   -- The scalar Taylor bound is independent of the size of the vertex set.
   obtain ⟨C, hC, hT⟩ := bernoulli_log_expansion
   have hR : Tendsto (fun k : ℕ ↦ C * ((k : ℝ) ^ 2 * (2 * fourierBoxRadius k) ^ 5)) atTop (𝓝 0) :=
     by simpa only [mul_zero] using (tendsto_const_nhds (x := C)).mul fourierBox_fifth_error_tendsto_zero
   filter_upwards [eventually_ge_atTop (1 : ℕ),
     fourierBoxRadius_tendsto_zero.eventually_lt_const (show (0 : ℝ) < 1 / 8 by norm_num),
-    hR.eventually_lt_const zero_lt_one] with k hk hRad hBound
+    hR.eventually_lt_const hε] with k hk hRad hBound
   have hr₀ : 0 ≤ fourierBoxRadius k :=
     div_nonneg (Real.log_nonneg (show (1 : ℝ) ≤ k by exact_mod_cast hk)) (Real.sqrt_nonneg _)
   have hr' : 2 * fourierBoxRadius k ≤ 1 / 4 := by linarith only [hRad]
@@ -55,6 +55,14 @@ theorem eventually_degreeFourierLocalError_le_one :
     _ ≤ C * ((k : ℝ) ^ 2 * (2 * fourierBoxRadius k) ^ 5) :=
       mul_le_mul_of_nonneg_left (sum_edge_fifth_le_fourierBox k t ht) hC.le
     _ ≤ _ := hBound.le
+
+theorem eventually_degreeFourierLocalError_le_one :
+    ∀ᶠ k : ℕ in atTop,
+      0 ≤ fourierBoxRadius k ∧ 2 * fourierBoxRadius k ≤ 1 / 4 ∧
+      ∀ (A : Finset (Edge (Fin k))) (q : Edge (Fin k) → Set.Icc (0 : ℝ) 1),
+        ∀ t ∈ realPhaseBox (α := Fin k) (fourierBoxRadius k),
+          ‖degreeFourierLocalError A q t‖ ≤ 1 :=
+  eventually_degreeFourierLocalError_le zero_lt_one
 
 /-- If the covariance lower bound is at least linear in the order, the
 small-box exponential cost is bounded by a constant independent of the array. -/

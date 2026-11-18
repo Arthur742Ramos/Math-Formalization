@@ -65,10 +65,12 @@ even degree lattice gives the simultaneous π shift used in the centred
 atom proof. Induced arrays are independent when their vertex sets overlap
 in at most one vertex.
 
-The remaining proof work includes the centred degree atom (Theorem B.2)
-and the overlap second moment. The variance extraction and block arguments then
-supply the lower bounds in Theorem 1.1. The [coverage map](COVERAGE.md)
-records the remaining work for each source result.
+`CenteredDegreeAtom.lean` proves the centred degree atom asymptotic and
+lower bound of Theorem B.2. `ConditionalDegreeRatio.lean` proves Corollary C.2,
+and `TiltedDegreeAtom.lean` proves Lemma 2.1. The remaining proof work includes
+candidate selection, the overlap second moments, and the deductions of the
+lower bounds in Theorem 1.1. The [coverage map](COVERAGE.md) records the
+status of each result.
 
 This is a development package. Challenge and Solution selection depends on
 which research conclusions have complete proofs. Independent mathematical
