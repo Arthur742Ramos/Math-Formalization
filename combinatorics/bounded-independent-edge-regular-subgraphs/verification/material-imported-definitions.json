@@ -151,11 +151,12 @@
         "BoundedEdgeRegularSubgraphs.theorem1_1_lowRank"
       ],
       "definition_excerpt": "Set.compl.definition",
-      "bridge_kind": "literal-unfolding",
+      "bridge_kind": "proved-equivalence",
       "bridge_excerpts": [
-        "Set.compl.definition"
+        "Set.compl.notation_instance",
+        "Set.compl.contract"
       ],
-      "dependency_expansion": "Complement membership expands to negated membership in the corresponding exact-order or at-least-order event.",
+      "dependency_expansion": "The notation `sᶜ` uses the `Compl (Set α)` instance in `Operations.lean`. Its body is definitionally equal to `Set.compl`. `Set.mem_compl_iff` gives negated membership in the corresponding exact-order or at-least-order event.",
       "proof_status": "See the separate ChallengeSemantics and SolutionSemantics entrypoints."
     },
     {
@@ -433,6 +434,22 @@
           "text": "def preimage (f : α → β) (s : Set β) : Set α := {x | f x ∈ s}\n",
           "sha256": "bdbb3311188d718892907fb87ac66f86bfb45fc4cbcefeb9b80864b388966258",
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L135-L135"
+        },
+        {
+          "name": "Set.compl.notation_instance",
+          "first_line": 114,
+          "last_line": 114,
+          "text": "instance : Compl (Set α) := ⟨fun s ↦ {x | x ∉ s}⟩\n",
+          "sha256": "ad1e232ba9314a1a40b89cde00769b7ee94d1682c5d302371b3a9df2bc534899",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L114-L114"
+        },
+        {
+          "name": "Set.compl.contract",
+          "first_line": 117,
+          "last_line": 117,
+          "text": "theorem mem_compl_iff (s : Set α) (x : α) : x ∈ sᶜ ↔ x ∉ s := Iff.rfl\n",
+          "sha256": "55610bd64cc7b44380237b591730720180fd79c622c9ea4883ac0bd347dde45f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L117-L117"
         }
       ]
     },

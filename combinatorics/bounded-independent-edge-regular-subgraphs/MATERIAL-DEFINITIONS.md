@@ -204,7 +204,7 @@ def preimage (f : α → β) (s : Set β) : Set α := {x | f x ∈ s}
 
 ## `Set.compl`
 
-The bounds are for the failure of the stated existence events. Complement membership expands to negated membership in the corresponding exact-order or at-least-order event.
+The bounds are for the failure of the stated existence events. The notation `sᶜ` uses the `Compl (Set α)` instance in `Operations.lean`. Its body is definitionally equal to `Set.compl`. `Set.mem_compl_iff` gives negated membership in the corresponding exact-order or at-least-order event.
 
 [Upstream file](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Defs.lean)
 
@@ -222,6 +222,18 @@ Excerpt from [the pinned source](https://github.com/leanprover-community/mathlib
 
 ```lean
 protected def compl (s : Set α) : Set α := {a | a ∉ s}
+```
+
+Excerpt from [the pinned source](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L114-L114).
+
+```lean
+instance : Compl (Set α) := ⟨fun s ↦ {x | x ∉ s}⟩
+```
+
+Excerpt from [the pinned source](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Set/Operations.lean#L117-L117).
+
+```lean
+theorem mem_compl_iff (s : Set α) (x : α) : x ∈ sᶜ ↔ x ∉ s := Iff.rfl
 ```
 
 ## `Nat.ceil`
