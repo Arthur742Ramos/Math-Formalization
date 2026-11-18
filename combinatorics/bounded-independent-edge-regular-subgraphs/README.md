@@ -18,6 +18,9 @@ vertex set gives the product law for its induced array.
 
 | Manuscript location | Lean declaration | Scope |
 | --- | --- | --- |
+| §2, p. 4, Lemma 2.2 | `sum_powersetCard_prod_le_choose_mean_pow`, `uniform_sample_variance_and_tail` | The symmetric mean, variance bound, and two-sided tail for a uniform sample without replacement. |
+| §3, p. 5, estimate (3.2) | `card_sample_intersection_eq_le` | Both finite intersection estimates, using counts over the equally weighted samples. |
+| §5, p. 8, Lemma 5.1 | `exists_density_increment` | Above the variance threshold, some set of at least a quarter of the vertices has the stated higher density. |
 | §8, p. 11, Proposition 8.1 | `probability_regular_degree_atom_le`, `probability_regular_le_variation_gaussian` | The prescribed common-degree and total regularity bounds. |
 | §8, p. 11, upper tail | `probability_at_least_order_le_sum_pow`, `probability_at_least_order_le_geometric` | The sum over all larger orders and the geometric bound at the order-`n^(2/3)` scale. |
 | §8, p. 12, upper conclusion of Theorem 8.2 | `probability_linear_product_exact_order_le`, `probability_linear_product_upper_tendsto_zero` | The weighted first-moment estimate and vanishing upper tail at the square-root scale for the specified rank-one model. |

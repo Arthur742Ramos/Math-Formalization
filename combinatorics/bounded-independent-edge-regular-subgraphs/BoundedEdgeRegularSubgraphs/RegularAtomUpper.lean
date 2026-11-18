@@ -18,7 +18,7 @@ namespace BoundedEdgeRegularSubgraphs
 
 variable {α : Type*} [Fintype α] [LinearOrder α]
 
-private theorem degreeSum_one (i : α) :
+theorem degreeSum_one (i : α) :
     degreeSum (fun _ ↦ (1 : ℝ)) i = (Fintype.card α : ℝ) - 1 := by
   classical
   let u (j : α) : ℝ := if j = i then 1 else 0
