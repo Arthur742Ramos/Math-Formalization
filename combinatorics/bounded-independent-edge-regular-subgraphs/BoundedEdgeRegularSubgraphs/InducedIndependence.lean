@@ -1,6 +1,7 @@
 module
 
 public import BoundedEdgeRegularSubgraphs.Induce
+import BoundedEdgeRegularSubgraphs.Incidence
 
 /-!
 # Induced graphs with at most one common vertex
@@ -16,8 +17,6 @@ namespace BoundedEdgeRegularSubgraphs
 
 variable {α : Type*} [Fintype α] [LinearOrder α]
 
-private def edgesInside (S : Finset α) : Finset (Edge α) :=
-  Finset.univ.filter fun e ↦ e.val.1 ∈ S ∧ e.val.2 ∈ S
 
 private theorem edgesInside_disjoint (S T : Finset α) (h : (S ∩ T).card ≤ 1) :
     Disjoint (edgesInside S) (edgesInside T) := by

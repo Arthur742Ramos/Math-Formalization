@@ -113,7 +113,7 @@ theorem weighted_degree_sum (w : Edge α → ℝ) (v : α → ℝ) :
   simp_rw [hsplit, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true, add_mul]
 
 omit [LinearOrder α] in
-private theorem sum_sub_vertexMean (u : α → ℝ) :
+theorem sum_sub_vertexMean (u : α → ℝ) :
     ∑ i, (u i - vertexMean u) = 0 := by
   by_cases hn : Fintype.card α = 0
   · have : IsEmpty α := Fintype.card_eq_zero_iff.mp hn

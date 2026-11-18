@@ -18,6 +18,9 @@ vertex set gives the product law for its induced array.
 
 | Manuscript location | Lean declaration | Scope |
 | --- | --- | --- |
+| §8, p. 11, Proposition 8.1 | `probability_regular_degree_atom_le`, `probability_regular_le_variation_gaussian` | The prescribed common-degree and total regularity bounds. |
+| §8, p. 11, upper tail | `probability_at_least_order_le_sum_pow`, `probability_at_least_order_le_geometric` | The sum over all larger orders and the geometric bound at the order-`n^(2/3)` scale. |
+| §8, p. 12, upper conclusion of Theorem 8.2 | `probability_linear_product_exact_order_le`, `probability_linear_product_upper_tendsto_zero` | The weighted first-moment estimate and vanishing upper tail at the square-root scale for the specified rank-one model. |
 | §9, p. 12, Proposition 9.1 | `probability_regular_le`, `probability_induced_regular_le` | The bound is `exp (-2 * V / (k - 2))` for every set of order `k ≥ 3`, including arrays with edge probabilities 0 or 1. |
 | §9, p. 13, first displayed estimate | `probability_exact_order_le` | Union bound over the sets of cardinality exactly `k`. |
 | §9, p. 13, necessary small variation at fixed order | `exists_small_variation_of_probability_exact_order_ge` | A probability of at least γ > 0 forces a k-set with the stated logarithmic variation bound. |
@@ -47,19 +50,19 @@ Proposition 9.1 and its union bounds form a supporting development.
 [Regular induced subgraphs of a random graph](https://arxiv.org/abs/0808.2023).
 
 The finite analytic setup includes the exact vertex-tilt likelihood, the
-quadratic cost of its inverse change of measure, the covariance-form bounds
-for the full array, and the one-edge Fourier modulus. Exact degree-vector
-inversion applies to both the full array and the array with an exposed
-clique's edges removed. The even lattice gives the simultaneous π shift
-used in the centred atom proof. Induced arrays are independent when their
-vertex sets overlap in at most one vertex.
+quadratic cost of its inverse change of measure and the Fourier modulus
+bound. Exact degree-vector inversion applies to the full array and to the
+array with the overlap clique's edges removed. The latter has explicit
+quadratic, inverse-entry, row-sum and determinant comparison bounds. The
+even degree lattice gives the simultaneous π shift used in the centred
+atom proof. Induced arrays are independent when their vertex sets overlap
+in at most one vertex.
 
 The remaining proof work includes the centred degree atom (Theorem B.2),
 the atom with overlap edges deleted (Proposition C.1), and their use in the
 overlap second moment. The variance extraction and block arguments then
-supply the lower bounds in Theorem 1.1. Theorem 8.2 also needs the local
-upper estimate from Proposition 8.1. The [coverage map](COVERAGE.md) records the
-remaining work for each source result.
+supply the lower bounds in Theorem 1.1. The [coverage map](COVERAGE.md)
+records the remaining work for each source result.
 
 This is a development package. Challenge and Solution selection depends on
 which research conclusions have complete proofs. Independent mathematical

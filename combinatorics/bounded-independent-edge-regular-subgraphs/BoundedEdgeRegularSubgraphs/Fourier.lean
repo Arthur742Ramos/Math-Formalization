@@ -50,7 +50,8 @@ private theorem norm_latticeCharacter (r : α → ℤ) (t : α → PhaseCircle) 
     ‖latticeCharacter r t‖ = 1 := by
   simp [latticeCharacter, norm_prod]
 
-private theorem integral_circle_fourier (n : ℤ) :
+/-- Integration on the normalized circle detects the zero frequency. -/
+theorem integral_circle_fourier (n : ℤ) :
     ∫ t : PhaseCircle, fourier n t ∂AddCircle.haarAddCircle =
       if n = 0 then 1 else 0 := by
   by_cases hn : n = 0

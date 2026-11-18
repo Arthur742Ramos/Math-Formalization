@@ -14,7 +14,7 @@ namespace BoundedEdgeRegularSubgraphs
 variable {α : Type*} [Fintype α] [LinearOrder α]
 
 omit [Fintype α] in
-private theorem inducedEdge_injective (S : Finset α) :
+theorem inducedEdge_injective (S : Finset α) :
     Function.Injective (inducedEdge S) := by
   intro e f h
   apply Subtype.ext
