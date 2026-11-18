@@ -26,7 +26,7 @@ noncomputable def HasLargeBalancedCells {n : ℕ} (s c₀ C₀ : ℝ)
       ∀ i : U, |degreeSum (fun e ↦ (induce U p e).val) i / ((U.card : ℝ) - 1) -
         arrayDensity (induce U p)| ≤ C₀ * h
 
-private theorem sampleRowMean_eq_induced_degree {n : ℕ} (p : Edge (Fin n) → Icc (0 : ℝ) 1)
+theorem sampleRowMean_eq_induced_degree {n : ℕ} (p : Edge (Fin n) → Icc (0 : ℝ) 1)
     (S : Finset (Fin n)) (hS : 1 ≤ S.card) (i : S) :
     sampleRowMean S (symmetricEdgeWeight (fun e ↦ (p e : ℝ))) i.val =
       degreeSum (fun e ↦ (induce S p e).val) i / ((S.card : ℝ) - 1) := by
