@@ -11,6 +11,27 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class LocalMigrationTests(unittest.TestCase):
+    def test_canonical_budget_comes_from_pinned_profile_and_rejects_malformed_limits(self):
+        import tempfile
+        sys.path.insert(0, str(ROOT / 'scripts'))
+        import local_canonical
+        with tempfile.TemporaryDirectory() as temporary:
+            pipeline = Path(temporary)
+            profile = pipeline / 'verification-profile.json'
+            data = {'id': 'palomar-standard-v1', 'limits': {
+                'execution_budget_seconds': 19800, 'job_timeout_minutes': 350}}
+            profile.write_text(json.dumps(data))
+            self.assertEqual(local_canonical.execution_budget(pipeline), 19800)
+            for budget in [True, 0, -1, 21001, '19800']:
+                data['limits']['execution_budget_seconds'] = budget
+                profile.write_text(json.dumps(data))
+                with self.subTest(budget=budget), self.assertRaises(ValueError):
+                    local_canonical.execution_budget(pipeline)
+            data['limits']['execution_budget_seconds'] = 19800
+            data['id'] = 'unapproved-profile'
+            profile.write_text(json.dumps(data))
+            with self.assertRaises(ValueError):local_canonical.execution_budget(pipeline)
+
     def test_every_retired_definition_is_preserved_exactly_and_inactive(self):
         inventory = json.loads((ROOT / 'validation/workflow-inventory.json').read_text())
         base = inventory['base_commit']

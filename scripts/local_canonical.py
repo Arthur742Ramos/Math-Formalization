@@ -31,6 +31,22 @@ def load_report(path):
     return report
 
 
+def execution_budget(pipeline):
+    """Read the standard profile's wall-clock ceiling from the pinned pipeline.
+
+    Call only after authenticating the immutable clean pipeline checkout. The
+    official verifier still enforces its complete profile and capacity policy.
+    """
+    profile = json.loads((pipeline / 'verification-profile.json').read_text())
+    limits = profile.get('limits', {})
+    budget = limits.get('execution_budget_seconds')
+    minutes = limits.get('job_timeout_minutes')
+    if (profile.get('id') != 'palomar-standard-v1' or type(budget) is not int
+            or type(minutes) is not int or not 0 < budget <= minutes * 60):
+        raise ValueError('pinned standard profile has an invalid execution budget')
+    return budget
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('mode', choices=['full', 'render'])
@@ -43,8 +59,8 @@ def main():
     p.add_argument('--seconds', type=int, required=True)
     p.add_argument('--lock', default='/home/formalization/workloads/.heavy-verification.lock')
     a = p.parse_args()
-    if os.geteuid() == 0 or not 1 <= a.seconds <= 7200:
-        p.error('run non-root with a wall-clock budget of 1..7200 seconds')
+    if os.geteuid() == 0 or a.seconds < 1:
+        p.error('run non-root with a positive wall-clock budget')
     pipeline = a.pipeline.resolve()
     if not re.fullmatch('[0-9a-f]{40}', a.pipeline_commit):
         p.error('pin the full pipeline commit')
@@ -52,6 +68,9 @@ def main():
         return subprocess.check_output(['git', '-C', str(pipeline), *args], text=True).strip()
     if git('rev-parse', 'HEAD') != a.pipeline_commit or git('status', '--porcelain', '--untracked-files=all'):
         p.error('pipeline must be clean at the exact reviewed revision, with dependencies installed outside its source')
+    ceiling = execution_budget(pipeline)
+    if a.seconds > ceiling:
+        p.error('wall-clock budget exceeds the pinned standard execution profile')
     if not a.bwrap.resolve().is_file() or not os.access(a.bwrap.resolve(), os.X_OK):
         p.error('provide an existing authenticated executable bubblewrap; no installer is run')
     bwrap_digest = hashlib.sha256(a.bwrap.resolve().read_bytes()).hexdigest()
@@ -107,6 +126,8 @@ def main():
                         '--renderer-commit', a.pipeline_commit, '--workflow-url', evidence.as_uri()]]
         receipt = {'mode': a.mode, 'repository': fields['repository'], 'commit': fields['commit'],
                    'pipeline_commit': a.pipeline_commit, 'inputs_sha256': hashlib.sha256(inputs_bytes).hexdigest(),
+                   'execution_profile': 'palomar-standard-v1', 'execution_budget_seconds': a.seconds,
+                   'profile_budget_ceiling_seconds': ceiling,
                    'bwrap_sha256': bwrap_digest,
                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                    'scope': 'Local canonical preflight; no registry intake or acceptance.', 'steps': [], 'status': 'error'}

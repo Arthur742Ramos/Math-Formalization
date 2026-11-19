@@ -5,12 +5,12 @@ Released under BSD-3-Clause license as described in the file LICENSE.
 module
 
 public import ErdosOverlap.VerifiedBound
+public import ErdosOverlap.DefinitionContracts
 
 /-! # Proof exports for the numerical minimum-overlap Challenge
 
 This module does not import `Challenge` or any theorem placeholders.
-All nine selected declarations are supplied by the actual verified-bound
-module. The actual numerical theorem and its transitive axiom reports passed
-the ordinary Lean verification gate before conventional file promotion.
-Protected comparison and independent-kernel status remain separate evidence.
+All eleven selected declarations are supplied by the imported proof modules.
+Compiler, protected comparison and independent-kernel outcomes are recorded
+in exact-source verification receipts.
 -/

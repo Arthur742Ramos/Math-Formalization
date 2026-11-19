@@ -1,13 +1,13 @@
 version: v0.4
 project:
   name: A certified lower bound for Erdős' minimum-overlap problem
-  description: Lean proof of the lower bound c > 0.380627948 in Erdős problem 36. The formalization proves
-    the stronger lower bound 0.3806279485 for the discrete normalized liminf and for the binary and relaxed
+  description: Lean formalization of the lower bound c > 0.3806279907 in Erdős problem 36. The selected statements give
+    the stronger lower bound 0.380627990701 for the discrete normalized liminf and for the binary and relaxed
     Borel continuous overlap infima. For every positive integer N and every equal partition of the first
-    2N integers, it also proves an explicit integer difference count exceeding 0.380627948 N. The proof
+    2N integers, it also gives an explicit integer difference count exceeding 0.3806279907 N. The proof
     instantiates physical boundary capacity and continuous profile duality with actual Fourier, periodic,
-    phase Gram, and exact integral certificates. The complete numerical result passed ordinary Lean compilation
-    and transitive axiom checks. Protected comparison and independent-kernel status are recorded separately;
+    phase Gram, and exact integral certificates. Verification outcomes are bound to the exact source and metadata
+    hashes in the release packet's immutable reports;
     no exact-constant solution, external peer review, novelty certification, or registration is asserted.
   authors:
   - Arthur Freitas Ramos
@@ -21,7 +21,8 @@ sources:
   type: other
   relationship: formalizes
   note: An unpublished research note preceded this Lean formalization. The note is not included in this
-    repository. Its external interval-arithmetic verdicts are not trusted by the Lean proof. No external
+    repository. The frozen fully_joint32 kernel and ten additional rational witnesses are retained as
+    generator inputs. External interval-arithmetic verdicts are not trusted by the Lean proof. No external
     specialist review or novelty determination is asserted.
   author_endorsement: n/a
 - title: Minimum-overlap Fourier, periodic, and phase Gram certificate framework
@@ -53,6 +54,13 @@ sources:
   note: The exact optimal constant is not determined.
   author_endorsement: not-contacted
 related_formalizations:
+- title: Earlier minimum-overlap bounds and limit formalization
+  authors:
+  - Linmiao Xu
+  id: https://github.com/linrock/math-proofs/blob/22db103d7b6109baca46f2623a7287b965a56936/erdos-36/Solution.lean
+  relationship: Prior formalization of classical weaker lower bounds and limit statements.
+  note: The cited source includes the Erdos, Scherk, Swierczkowski and Moser lower bounds,
+    together with convergence statements. It is separate from this development and is not a proof dependency.
 - title: FormalConjectures statement of Erdős problem 36
   id: https://google-deepmind.github.io/formal-conjectures/src/FormalConjectures/ErdosProblems/%C2%AB36%C2%BB/
   relationship: Independent statement-fidelity reference, not a proof dependency.
@@ -78,55 +86,68 @@ status:
   - propext
   - Classical.choice
   - Quot.sound
-  numerical_build_status: kernel_checked
-  axiom_audit_status: all eleven selected theorem/record reports checked; only standard axioms
-  packaging_status: The 3,448 proof-source and toolchain files recorded in the earlier ordinary Lean verification
-    receipt match it. The package is BSD-3-Clause; the Apache-2.0 monorepo root conflicts with Palomar's current
-    root-license contract, so a BSD-licensed standalone source snapshot is needed for submission.
-  protected_comparator_status: "Not established by the ordinary Lean receipt. No separate successful protected Comparator receipt is supplied. The recorded local attempts stopped during sandbox setup; the final conventional-surface attempt is recorded in reviews/full_verification/protected_comparator_retry_attempt.json. No sandbox bypass was used. Independent NanoDa success is not asserted."
-  independent_nanoda_status: not asserted; a separate successful independent-kernel receipt is required
-  full_palomar_workflow_status: no exact-source complete mechanical-preflight receipt is available
-  registry_status: no public registration has been verified; any private intake is unconfirmed
+  numerical_build_status: Exact tested commit, commands, outcomes and log hashes belong to the immutable native report.
+  axiom_audit_status: The exact-source audit covers eleven selected theorems, fifteen fixed model definitions
+    and actual integral records against the stated allowlist. The Comparator declares no definition holes;
+    fixed definitions are compared as full dependencies of selected statement types. AuditFixedDefinitions
+    checks their actual elaborated reachability without traversing theorem proof bodies.
+  packaging_status: The package is BSD-3-Clause. A standalone source snapshot places its exact Git tree at the
+    repository root; the Apache-2.0 monorepo root retains its own license. The release packet records tree equality.
+  protected_comparator_status: The exact-source full report records protected theorem and definition-value comparison,
+    kernel outcomes and negative controls. Earlier sandbox failures remain historical evidence for their own sources.
+  independent_nanoda_status: The exact-source canonical report identifies the accepted kernel, revision and outcome.
+  full_palomar_workflow_status: Mechanical and rendering outcomes are recorded in immutable source-bound reports distributed with the packet.
+  registry_status: Intake, editorial review and public registration are separate actions. Dated observations
+    and any public identifier are recorded in the release packet.
   main_results:
   - declaration: ErdosOverlap.verified_peak_gt_auxiliary
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_auxiliary_le_relaxedOverlapConstant
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_auxiliary_le_erdosOverlapConstant
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_auxiliary_le_discreteOverlapConstant
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_headline_lt_relaxedOverlapConstant
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_headline_lt_erdosOverlapConstant
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_headline_lt_discreteOverlapConstant
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_auxiliary_lt_minimumOverlapQuotient
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
   - declaration: ErdosOverlap.verified_finite_partition_difference
     file: ErdosOverlap/VerifiedBound.lean
     comparator_config: comparator.json
-    verification_status: ordinary Lean kernel and axiom checks passed; protected comparison recorded separately
-  kernel_checked_at: "2026-11-15T02:05:05.256644+00:00"
-  kernel_verification_receipt: "reviews/full_verification/kernel_verification.json"
-  kernel_verification_sha256: "a67bbf17b68218b0151e8c164563bc60448e4d225f5344795f29af6f5908955d"
+    verification_status: Bound to the selected source by the release packet's native and canonical reports.
+  - declaration: ErdosOverlap.admissible_fields
+    file: ErdosOverlap/DefinitionContracts.lean
+    comparator_config: comparator.json
+    verification_status: Selected structure-field contract; comparison outcome is recorded in the exact-source release report.
+  - declaration: ErdosOverlap.Discrete.balancedPartition_fields
+    file: ErdosOverlap/DefinitionContracts.lean
+    comparator_config: comparator.json
+    verification_status: Selected structure-field contract; comparison outcome is recorded in the exact-source release report.
+  historical_kernel_checked_at: "2026-11-15T02:05:05.256644+00:00"
+  historical_kernel_verification_receipt: "reviews/full_verification/kernel_verification.json"
+  historical_kernel_verification_sha256: "a67bbf17b68218b0151e8c164563bc60448e4d225f5344795f29af6f5908955d"
+  historical_receipt_scope: Predecessor result at 0.380627948; its listed source hashes do not authenticate this stronger source.
 automation:
   methods:
   - method: agent
@@ -139,10 +160,16 @@ automation:
     prompting_notes: Complete the actual numerical lower-bound proof and its literal discrete Erdős36
       statement. Do not replace numerical premises by report hashes, native decision oracles, or a conditional
       return assumption that simply restates the desired conclusion.
-  notes: AI agents produced and repaired source code and performed separate internal reviews. The actual
-    numerical theorem passed ordinary Lean compilation and transitive axiom checks. Protected statement
-    comparison, independent NanoDa replay, external mathematical review, publication, and registration
-    are distinct evidence stages.
+  - method: agent
+    models:
+    - Codex coding agent
+    framework: Codex with independently scoped AI source-fidelity review
+    tool_setup: Exact rational generators, fixed-point leaf checks, Lean 4.35.0 and the pinned Mathlib revision.
+    prompting_notes: Formalize the frozen fully_joint32 improvement, retain ordinary-kernel source binding,
+      consider verification time and memory, and prepare a source-bound Palomar packet.
+  notes: AI agents produced and repaired source code and performed separate internal reviews. The stronger
+    certificate and the predecessor have distinct verification evidence. Human peer review, editorial decisions,
+    publication and registration have separate provenance.
 fidelity:
   divergences: The continuous model uses Borel measurable representatives on [0,2], a translation of the
     usual interval of length two. A separately proved finite step embedding gives the literal integer
@@ -153,8 +180,8 @@ fidelity:
 review:
   status: agent-reviewed
   reviewers:
-  - Separate GPT-6 Astra Pro statement-fidelity and mathematical review agents
-  notes: Separate AI-agent reviews examined the physical normalization, the exact finite cover, the actual
+  - Separate internal AI statement-fidelity and mathematical reviewers
+  notes: Separate AI-agent reviews examine the physical normalization, the exact finite cover, the actual
     source bindings, and the discrete statement transfer. See the final source-bound verification receipt.
     Ordinary compiler
     and axiom success does not establish human peer review, novelty, best-known-record status, protected
@@ -168,7 +195,7 @@ alignment:
   - source: Continuous binary infimum lower bound transfers to the discrete liminf
     lean: ErdosOverlap.Discrete.erdosOverlapConstant_le_discreteOverlapConstant
     status: proved
-  - source: Unconditional minimum-overlap lower bound greater than 0.380627948
+  - source: Unconditional minimum-overlap lower bound greater than 0.3806279907
     lean: ErdosOverlap.verified_headline_lt_discreteOverlapConstant
     status: proved
   - source: Literal integer difference count in every positive-size balanced partition

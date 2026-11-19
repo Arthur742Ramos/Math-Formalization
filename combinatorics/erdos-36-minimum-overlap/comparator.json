@@ -10,7 +10,9 @@
     "ErdosOverlap.verified_headline_lt_erdosOverlapConstant",
     "ErdosOverlap.verified_headline_lt_discreteOverlapConstant",
     "ErdosOverlap.verified_auxiliary_lt_minimumOverlapQuotient",
-    "ErdosOverlap.verified_finite_partition_difference"
+    "ErdosOverlap.verified_finite_partition_difference",
+    "ErdosOverlap.admissible_fields",
+    "ErdosOverlap.Discrete.balancedPartition_fields"
   ],
   "definition_names": [],
   "permitted_axioms": [

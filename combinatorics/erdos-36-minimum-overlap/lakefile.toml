@@ -1,6 +1,6 @@
 name = "ErdosOverlap"
 version = "0.1.0"
-defaultTargets = ["ErdosOverlap", "Challenge", "Solution"]
+defaultTargets = ["ErdosOverlap", "Challenge", "Solution", "SemanticChallenge", "SemanticSolution"]
 
 [leanOptions]
 autoImplicit = false
@@ -22,3 +22,9 @@ name = "Challenge"
 
 [[lean_lib]]
 name = "Solution"
+
+[[lean_lib]]
+name = "SemanticChallenge"
+
+[[lean_lib]]
+name = "SemanticSolution"

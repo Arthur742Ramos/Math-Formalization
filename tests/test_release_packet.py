@@ -1114,5 +1114,157 @@ class SeparateVerifiedReplayTests(ReleasePacketTests):
                 with self.assertRaises(ValueError):self.check_fixture(report=report)
 
 
+class ErdosStandaloneRelease(unittest.TestCase):
+    """Synthetic binding/path regressions; these are not proof-run receipts."""
+
+    def root_files(self):
+        return {
+            'formalization.yaml': json.dumps({'project': {
+                'name': "A certified lower bound for Erdős' minimum-overlap problem",
+                'license': 'BSD-3-Clause'}}).encode(),
+            'comparator.json': json.dumps({'challenge_module': 'Challenge',
+                'solution_module': 'Solution', 'theorem_names': ['ErdosOverlap.result'],
+                'definition_names': []}).encode(),
+        }
+
+    def snapshot(self, files):
+        paths = list(files)
+        with mock.patch.object(guard.subprocess, 'check_output',
+                side_effect=[('\n'.join(paths)+'\n').encode(), *files.values()]) as command:
+            result = guard.snapshot(ROOT, '0'*40, '')
+        self.assertEqual(command.call_args_list[0].args[0][-1], '0'*40+'^{tree}')
+        self.assertTrue(all('0'*40+':'+name == call.args[0][-1]
+                            for name, call in zip(paths, command.call_args_list[1:])))
+        return result
+
+    def test_exact_bsd_root_identity_and_paths(self):
+        self.assertEqual(self.snapshot(self.root_files()), self.root_files())
+
+    def test_unrelated_malformed_or_mislicensed_roots_are_rejected(self):
+        for metadata in [None, [], {'project': []}, {'project': {'license': 'Apache-2.0'}},
+                         {'project': {'name': 'Another project', 'license': 'BSD-3-Clause'}}]:
+            files = self.root_files();files['formalization.yaml'] = json.dumps(metadata).encode()
+            with self.subTest(metadata=metadata), self.assertRaises(ValueError):self.snapshot(files)
+        for config in [[], {}, {'theorem_names': 'ErdosOverlap.result'},
+                       {'theorem_names': [12], 'definition_names': []}]:
+            files = self.root_files();files['comparator.json'] = json.dumps(config).encode()
+            with self.subTest(config=config), self.assertRaises(ValueError):self.snapshot(files)
+
+    def test_nearby_and_traversing_paths_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in ['.', '/', '../', 'combinatorics/other',
+                         'combinatorics/erdos-36-minimum-overlap/..',
+                         '/combinatorics/erdos-36-minimum-overlap']:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0'*40, path)
+            command.assert_not_called()
+
+    def test_material_inventory_required_for_both_source_layouts(self):
+        for project in ['', 'combinatorics/erdos-36-minimum-overlap']:
+            with self.subTest(project=project), mock.patch.object(guard, 'snapshot', return_value=self.root_files()):
+                with self.assertRaisesRegex(ValueError, 'Missing material imported-definition evidence'):
+                    guard.check_status(ROOT, '0'*40, project)
+
+    def binding_fixture(self, project):
+        if not hasattr(SeparateVerifiedReplayTests, 'original'):
+            SeparateVerifiedReplayTests.setUpClass()
+        fixture = SeparateVerifiedReplayTests()
+        report = fixture.fixture()
+        files = dict(fixture.files)
+        files['lean-toolchain'] = b'leanprover/lean4:v4.35.0\n'
+        prefix = project+'/' if project else ''
+        fields = dict(fixture.fields, project_path=project,
+                      comparator_config_path=prefix+'comparator.json',
+                      formalization_metadata_path=prefix+'formalization.yaml')
+        report['source']['project_path'] = project
+        report['lean_toolchain'] = 'leanprover/lean4:v4.35.0'
+        report['con_ron_checker']['source_toolchain'] = report['lean_toolchain']
+        config = json.loads(files['comparator.json'])
+        config['definition_names'] = []
+        files['comparator.json'] = json.dumps(config).encode()
+        protected = json.loads(report['protected_config'])
+        protected['definition_names'] = []
+        report['protected_config'] = json.dumps(protected)
+        report['protected_config_sha256'] = guard.sha(report['protected_config'].encode())
+        report['comparator']['definition_names'] = []
+        report['comparator']['sha256'] = guard.sha(files['comparator.json'])
+        paths = dict(formalization='formalization.yaml', comparator='comparator.json',
+                     challenge=config['challenge_module'].replace('.', '/')+'.lean',
+                     solution=config['solution_module'].replace('.', '/')+'.lean',
+                     lakefile='lakefile.toml', lake_manifest='lake-manifest.json')
+        for kind, path in paths.items():report[kind]['path'] = prefix+path
+        return report, fields, files
+
+    def test_stable_toolchain_binding_in_both_layouts(self):
+        for project in ['', 'combinatorics/erdos-36-minimum-overlap']:
+            with self.subTest(project=project):
+                report, fields, files = self.binding_fixture(project)
+                guard.bind_full(report, fields, files)
+                if not project:
+                    del report['source']['project_path']
+                    guard.bind_full(report, fields, files)
+                report['con_ron_checker']['source_toolchain'] = 'leanprover/lean4:v4.35.0-rc2'
+                with self.assertRaisesRegex(ValueError, 'provenance'):
+                    guard.bind_full(report, fields, files)
+
+    def test_advisory_decline_does_not_relax_mandatory_checks(self):
+        report, fields, files = self.binding_fixture('')
+        decline = AdvisoryKernelAccount().fixture()
+        report.update(kernel_attempts=decline['kernel_attempts'], warnings=decline['warnings'],
+                      kernels=[report['kernels'][0]])
+        guard.bind_full(report, fields, files)
+        for change in [lambda r: r.update(kernels=[]),
+                       lambda r: r.update(kernel_attempts=[]),
+                       lambda r: r['kernel_attempts'][0].update(exit_code=1),
+                       lambda r: r['kernel_attempts'][0].update(argv=['fake/con-ron', '--jobs=2', '--verified']),
+                       lambda r: r['kernel_attempts'][0].update(argv=['/trusted/con-ron', '--jobs=999', '--verified']),
+                       lambda r: r['kernels'][0].update(argv=['/bin/true']),
+                       lambda r: r.update(schema_version=1),
+                       lambda r: r.update(phase='preparation'),
+                       lambda r: r['tool_digests'].update({'con-ron': '0'*64}),
+                       lambda r: r['con_ron_checker'].update(source_toolchain='leanprover/lean4:v4.35.0-rc2'),
+                       lambda r: r['source'].update(project_path='combinatorics/erdos-36-minimum-overlap')]:
+            changed = copy.deepcopy(report);change(changed)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                guard.bind_full(changed, fields, files)
+
+    def test_definition_holes_rejected_even_if_all_receipt_copies_match(self):
+        report, fields, files = self.binding_fixture('')
+        config = json.loads(files['comparator.json'])
+        config['definition_names'] = ['ErdosOverlap.changed']
+        files['comparator.json'] = json.dumps(config).encode()
+        report['comparator']['definition_names'] = config['definition_names']
+        report['comparator']['sha256'] = guard.sha(files['comparator.json'])
+        protected = json.loads(report['protected_config'])
+        protected['definition_names'] = config['definition_names']
+        report['protected_config'] = json.dumps(protected)
+        report['protected_config_sha256'] = guard.sha(report['protected_config'].encode())
+        with self.assertRaisesRegex(ValueError, 'must not be definition holes'):
+            guard.bind_full(report, fields, files)
+
+    def test_historical_mode_is_not_a_standalone_verification_path(self):
+        for project in ['', 'combinatorics/erdos-36-minimum-overlap']:
+            with self.subTest(project=project), mock.patch.object(guard, 'snapshot') as snapshot:
+                with self.assertRaisesRegex(ValueError, 'exact-source full-report mode'):
+                    guard.check_status(ROOT, '0'*40, project, 'old.json')
+                snapshot.assert_not_called()
+
+    def test_standalone_fixed_definitions_cannot_be_holes(self):
+        files = self.root_files()
+        config = json.loads(files['comparator.json'])
+        config['definition_names'] = ['ErdosOverlap.constant']
+        files['comparator.json'] = json.dumps(config).encode()
+        with self.assertRaisesRegex(ValueError, 'Unsupported standalone root snapshot'):
+            self.snapshot(files)
+
+    def test_fixed_inventory_required_after_material_evidence(self):
+        files = self.root_files()
+        files['verification/material-imported-definitions.json'] = b'{}'
+        for project in ['', 'combinatorics/erdos-36-minimum-overlap']:
+            with self.subTest(project=project), mock.patch.object(guard, 'snapshot', return_value=files):
+                with self.assertRaisesRegex(ValueError, 'Missing fixed-definition inventory'):
+                    guard.check_status(ROOT, '0'*40, project)
+
+
 if __name__ == '__main__':
     unittest.main()
