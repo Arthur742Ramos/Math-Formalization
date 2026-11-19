@@ -1,5 +1,5 @@
 name: Erdos36 exact-source mandatory Palomar preflight
-run-name: Erdos36 full preflight e36261119a01
+run-name: Erdos36 full preflight e36261119a02
 on:
   push:
     branches:
@@ -15,8 +15,8 @@ jobs:
       repository: Arthur742Ramos/Math-Formalization
       commit: d85431306d11d7ef5f8676529606bf0ff857f56b
       pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
-      request_id: e36261119a01
+      request_id: e36261119a02
       mode: full
       execution_profile: palomar-standard-v1
       options: >-
-        {"project_path":".","comparator_config_path":"comparator.json","formalization_metadata_path":"formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}
+        {"comparator_config_path":"comparator.json","formalization_metadata_path":"formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}
