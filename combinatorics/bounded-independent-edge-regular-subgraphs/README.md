@@ -1,0 +1,93 @@
+# Regular induced subgraphs in independent-edge arrays
+
+Lean development for the paper *Regular induced subgraphs in bounded
+independent-edge arrays* by Arthur Freitas Ramos, David Barros Hulak and
+Ruy J. G. B. de Queiroz. The working source is the supplied manuscript
+with PDF SHA-256
+`7cba4a4dcf525926b283ca036f4970d6321f50dd2ca0f3efe01b643be4a1e32d`.
+
+On a finite linearly ordered vertex type, `Edge` uses the increasing
+orientation of each unordered pair. The model samples one coordinate per
+pair from its Bernoulli law. `graphLaw_ae_binary` establishes support on
+0–1 assignments, and `integral_degreeSum` identifies the expected degree
+with the sum of the incident probabilities. The marginal
+`measurePreserving_induce` shows that restricting the coordinates to a
+vertex set gives the product law for its induced array.
+
+## Source map
+
+| Manuscript location | Lean declaration | Scope |
+| --- | --- | --- |
+| §2, p. 4, Lemma 2.2 | `sum_powersetCard_prod_le_choose_mean_pow`, `uniform_sample_variance_and_tail` | The symmetric mean, variance bound, and two-sided tail for a uniform sample without replacement. |
+| §3, p. 5, estimate (3.2) | `card_sample_intersection_eq_le` | Both finite intersection estimates, using counts over the equally weighted samples. |
+| §5, p. 8, Lemma 5.1 | `exists_density_increment` | Above the variance threshold, some set of at least a quarter of the vertices has the stated higher density. |
+| §5, p. 8, Lemma 5.2 | `exists_nearBalanced_subdomain` | Extraction and trimming with the stated domain size and both bounds on expected degrees. |
+| §8, p. 11, Proposition 8.1 | `probability_regular_degree_atom_le`, `probability_regular_le_variation_gaussian` | The prescribed common-degree and total regularity bounds. |
+| §8, p. 11, upper tail | `probability_at_least_order_le_sum_pow`, `probability_at_least_order_le_geometric` | The sum over all larger orders and the geometric bound at the order-`n^(2/3)` scale. |
+| §8, p. 12, Theorem 8.2 | `probability_linear_product_exact_order_le`, `probability_linear_product_square_root_window` | The weighted first-moment estimate and matching square-root lower and upper bounds for the specified rank-one model. |
+| §8, p. 12, fixed-floor example | `exists_linear_product_structure` | The linear product model has a rank-one completion and a one-dimensional Lipschitz representation at any prescribed floor, using vertex-weight bounds `√ξ` and `√(1−ξ)`. |
+| §9, p. 12, Proposition 9.1 | `probability_regular_le`, `probability_induced_regular_le` | The bound is `exp (-2 * V / (k - 2))` for every set of order `k ≥ 3`, including arrays with edge probabilities 0 or 1. |
+| §9, p. 13, first displayed estimate | `probability_exact_order_le` | Union bound over the sets of cardinality exactly `k`. |
+| §9, p. 13, necessary small variation at fixed order | `exists_small_variation_of_probability_exact_order_ge` | A probability of at least γ > 0 forces a k-set with the stated logarithmic variation bound. |
+| §9, p. 13, remaining variation bounds | `probability_exact_order_le_of_large_variation`, `exists_small_variation_of_probability_at_least_order_ge` | The power-law probability bound and the necessary variation bound across all larger orders. |
+| §9, p. 13, union over larger orders | `probability_at_least_order_le` | Union bound over every set of cardinality at least `k`, with its own cardinality in the exponent. |
+| §1, pp. 1–2, Theorem 1.1(1)–(4) | `theorem1_1_arbitrary`, `theorem1_1_equalDegrees`, `theorem1_1_lipschitz`, `theorem1_1_lowRank` | Both logarithmic bounds and all three exact-order lower bounds. |
+
+The `V = 0` case uses the probability bound by one. For positive `V`,
+the proof applies Hoeffding's inequality to the sum with one summand
+per edge. On a regular outcome that sum is exactly `V`, independently of
+the common degree. The proof establishes the coefficient identity
+`∑_{i<j} (vᵢ + vⱼ)² = (k - 2) ∑ᵢ vᵢ²` for a centred vertex vector.
+
+Mathlib's binomial random graph uses a single common edge probability.
+This proof uses a product law with a separate parameter for every
+edge and Mathlib's sub-Gaussian bounds for independent random variables.
+[Binomial random graphs at the pinned revision](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Probability/Combinatorics/BinomialRandomGraph/Defs.lean)
+and [Mathlib's Hoeffding lemmas](https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Probability/Moments/SubGaussian.lean).
+
+## Palomar scope
+
+Theorem 1.1 is the research result selected for the Comparator statement module. Its exact-order bounds
+concern probabilistic combinatorics and extend the setting of the
+homogeneous random-graph result of Krivelevich, Sudakov and Wormald.
+Proposition 9.1 and its union bounds form a supporting development.
+[Regular induced subgraphs of a random graph](https://arxiv.org/abs/0808.2023).
+
+The finite analytic setup includes the exact vertex-tilt likelihood, the
+quadratic cost of its inverse change of measure and the Fourier modulus
+bound. Exact degree-vector inversion applies to the full array and to the
+array with the overlap clique's edges removed. The latter has explicit
+quadratic, inverse-entry, row-sum and determinant comparison bounds.
+`ResidualLocalLimit.lean` proves the uniform residual-atom bound of
+Proposition C.1 for every integer target. The
+even degree lattice gives the simultaneous π shift used in the centred
+atom proof. Induced arrays are independent when their vertex sets overlap
+in at most one vertex.
+
+`CenteredDegreeAtom.lean` proves the centred degree atom asymptotic and
+lower bound of Theorem B.2. `ConditionalDegreeRatio.lean` proves Corollary C.2,
+and `TiltedDegreeAtom.lean` proves Lemma 2.1. Candidate selection and the
+overlap second moments connect these estimates to the logarithmic and
+polynomial lower bounds. The [coverage map](COVERAGE.md) links the full
+set of proved manuscript results to their Lean declarations.
+
+`Challenge.lean` states the four conclusions in Theorem 1.1. `Solution.lean`
+exports the corresponding proofs from the library. The project uses
+Lean v4.35.0-rc2 and the Mathlib revision fixed in the manifest.
+The [material definitions](MATERIAL-DEFINITIONS.md) give the pinned
+Mathlib sources for the probability, threshold and rank semantics.
+
+Arthur Freitas Ramos, David Barros Hulak and Ruy Jose Guerra Barretto de
+Queiroz are credited as authors of the formalization. Arthur Freitas Ramos
+is its responsible maintainer. [Palomar metadata](formalization.yaml)
+
+## Local checks
+
+Run from this directory with the pinned Lean toolchain and Lake manifest.
+
+```powershell
+lake exe cache get
+lake build
+lake build +Challenge
+lake env lean Audit.lean
+```

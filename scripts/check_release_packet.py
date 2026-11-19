@@ -18,6 +18,7 @@ from check_imported_definitions import check as check_imported_definitions
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPOSITORY = 'Arthur742Ramos/Math-Formalization'
+REGULAR_INDUCED_SUBGRAPHS = 'combinatorics/bounded-independent-edge-regular-subgraphs'
 
 
 def require(condition, message):
@@ -31,7 +32,7 @@ def sha(data):
 
 def snapshot(root, commit, project):
     require(re.fullmatch(r'[0-9a-f]{40}', commit), 'Use an exact source commit')
-    require(isinstance(project, str) and (project == '' or re.fullmatch(r'combinatorics/erdos-36-minimum-overlap|topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts|computational-hodge/metric-hodge|computational-hodge/arclength|computational-hodge/poisson|computational-hodge/green-operator|computational-hodge/compact-green|computational-hodge/fredholm-circle|computational-hodge/resonance-obstruction|computational-hodge/resonant-range|computational-hodge/full-circle-range|computational-hodge/canonical-circle|computational-hodge/positive-resolvent|computational-hodge/resolvent-limit|computational-hodge/resolvent-calculus|computational-hodge/arclength-conjugacy|computational-hodge/arclength-modes|computational-hodge/resonant-periods', project)),
+    require(isinstance(project, str) and (project in {'', REGULAR_INDUCED_SUBGRAPHS} or re.fullmatch(r'combinatorics/erdos-36-minimum-overlap|topology/[a-z0-9-]+|algebraic-hodge/ddbar-pilot|computational-hodge/finite-periods|computational-hodge/presentation-homology|computational-hodge/geometric-descent|computational-hodge/geometric-obstruction|computational-hodge/loop-characters|computational-hodge/torus-periods|computational-hodge/circle-hodge|computational-hodge/trace-integrals|computational-hodge/ac-lifts|computational-hodge/dirichlet|computational-hodge/unit-circle-geometry|computational-hodge/automatic-lifts|computational-hodge/metric-hodge|computational-hodge/arclength|computational-hodge/poisson|computational-hodge/green-operator|computational-hodge/compact-green|computational-hodge/fredholm-circle|computational-hodge/resonance-obstruction|computational-hodge/resonant-range|computational-hodge/full-circle-range|computational-hodge/canonical-circle|computational-hodge/positive-resolvent|computational-hodge/resolvent-limit|computational-hodge/resolvent-calculus|computational-hodge/arclength-conjugacy|computational-hodge/arclength-modes|computational-hodge/resonant-periods', project)),
             'Invalid project path')
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
@@ -298,7 +299,7 @@ def check_status(root, commit, project, historical_report=None):
     errors = status_errors(files)
     require(not errors, '; '.join(errors))
     material_manifest = 'verification/material-imported-definitions.json'
-    if project in {'', 'combinatorics/erdos-36-minimum-overlap', 'topology/kuratowski-ulam', 'topology/locally-compact-baire',
+    if project in {REGULAR_INDUCED_SUBGRAPHS, '', 'combinatorics/erdos-36-minimum-overlap', 'topology/kuratowski-ulam', 'topology/locally-compact-baire',
                    'topology/banach-mazur-baire', 'topology/choquet-baire-product',
                    'topology/banach-mazur-category', 'topology/strong-choquet-polish',
                    'algebraic-hodge/ddbar-pilot', 'computational-hodge/finite-periods',

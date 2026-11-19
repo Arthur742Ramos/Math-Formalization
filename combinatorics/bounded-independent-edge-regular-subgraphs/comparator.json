@@ -1,0 +1,16 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "BoundedEdgeRegularSubgraphs.theorem1_1_arbitrary",
+    "BoundedEdgeRegularSubgraphs.theorem1_1_equalDegrees",
+    "BoundedEdgeRegularSubgraphs.theorem1_1_lipschitz",
+    "BoundedEdgeRegularSubgraphs.theorem1_1_lowRank"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

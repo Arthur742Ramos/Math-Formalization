@@ -777,6 +777,18 @@ class ResonantPeriodsReleasePath(ArclengthModesReleasePath):
                 guard.check_status(ROOT, '0' * 40, self.PROJECT)
 
 
+class RegularInducedSubgraphsReleasePath(ArclengthModesReleasePath):
+    PROJECT = 'combinatorics/bounded-independent-edge-regular-subgraphs'
+
+    def test_nearby_and_traversing_paths_are_rejected_before_git(self):
+        with mock.patch.object(guard.subprocess, 'check_output') as command:
+            for path in [self.PROJECT + '/../other', self.PROJECT + '/other',
+                         self.PROJECT + '-extra', '/' + self.PROJECT]:
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'Invalid project path'):
+                    guard.snapshot(ROOT, '0' * 40, path)
+            command.assert_not_called()
+
+
 class AdvisoryKernelAccount(unittest.TestCase):
     def fixture(self, status='declined', reason='unsupported-inductive', exit_code=2):
         attempt = dict(name='con-ron', status=status, reason=reason, exit_code=exit_code,
