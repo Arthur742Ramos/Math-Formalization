@@ -1,6 +1,6 @@
 # Lean crosswalk for the 20-page manuscript
 
-This maps the numbering in the 20-page presentation revision of *Regular induced subgraphs in bounded independent-edge arrays* to the Lean source pinned by [Palomar entry PALOMAR-2026-11-19-000016, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-11-19-000016&version=1). Page numbers refer to the PDF with SHA-256 `ebc51288d25250b9d697e323453180d30deae4ebb65ab55cfe274c38592463bd`. The [original coverage map](https://github.com/Arthur742Ramos/Math-Formalization/blob/251dd555eb636ac0eddb2387b348bad7f5539894/combinatorics/bounded-independent-edge-regular-subgraphs/COVERAGE.md) applies to the earlier 17-page manuscript and remains unchanged.
+This maps the numbering in the 20-page presentation revision of *Regular induced subgraphs in bounded independent-edge arrays* to the Lean source pinned by [Palomar entry PALOMAR-2026-11-19-000016, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-11-19-000016&version=1). Page numbers refer to the PDF with SHA-256 `b3551169b22ca86956ab15ddb529326a11f9989fbfc6b4dc5f5a248899bacf92`. The [original coverage map](https://github.com/Arthur742Ramos/Math-Formalization/blob/251dd555eb636ac0eddb2387b348bad7f5539894/combinatorics/bounded-independent-edge-regular-subgraphs/COVERAGE.md) applies to the earlier 17-page manuscript and remains unchanged.
 
 ## Registered statements
 
