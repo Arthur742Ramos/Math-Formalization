@@ -22,3 +22,4 @@ public import GroupDeviation
 public import Reservoirs
 public import GoodWitness
 public import JointDraw
+public import MainTheorem

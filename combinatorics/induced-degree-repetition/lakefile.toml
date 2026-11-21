@@ -1,6 +1,6 @@
 name = "InducedDegreeRepetition"
 version = "0.1.0"
-defaultTargets = ["Challenge", "Solution"]
+defaultTargets = ["Challenge", "Solution", "ChallengeSemantics", "SolutionSemantics"]
 
 [[require]]
 name = "mathlib"
@@ -338,3 +338,48 @@ name = "GoodWitness"
 
 [[lean_lib]]
 name = "JointDraw"
+
+[[lean_lib]]
+name = "TesterMoments"
+
+[[lean_lib]]
+name = "ReferenceCounts"
+
+[[lean_lib]]
+name = "ExteriorLists"
+
+[[lean_lib]]
+name = "SampleSelection"
+
+[[lean_lib]]
+name = "RetainedRows"
+
+[[lean_lib]]
+name = "SampledWitness"
+
+[[lean_lib]]
+name = "HostScales"
+
+[[lean_lib]]
+name = "BlockSizes"
+
+[[lean_lib]]
+name = "SamplingPlan"
+
+[[lean_lib]]
+name = "CoreWitness"
+
+[[lean_lib]]
+name = "PlanErrors"
+
+[[lean_lib]]
+name = "EventualPlan"
+
+[[lean_lib]]
+name = "MainTheorem"
+
+[[lean_lib]]
+name = "ChallengeSemantics"
+
+[[lean_lib]]
+name = "SolutionSemantics"
