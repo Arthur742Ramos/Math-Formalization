@@ -21,7 +21,7 @@ Theorem 1 asks for an induced subgraph on at least $r$ and fewer than $2r$ verti
 | Lemma 11 | `simultaneous_edits` in [Adjustment.lean](Adjustment.lean), `small_profile_cells` and `exceptional_profile_lists` in [ProfileSampling.lean](ProfileSampling.lean) | Proved the deterministic edit construction, the small-profile bound and the union bound over other-row profiles in the product sample. The choice of lengths and the full probability estimate from Lemmas 8 and 9 remain open. |
 | Section 6 | `gallai_even_partition` in [Gallai.lean](Gallai.lean), `parity_core` and `equalized_witness` in [Witness.lean](Witness.lean) | Proved the even partition, the retained size interval, common starting parity, and the final degree-count implication. The partition/sampling estimates, spectral control of the adaptive set and complete assembly remain open. |
 
-The graph interface uses simple graphs on `Fin N`, with the chosen vertices represented by a finite set. `degreeOn_eq_induced_degree` identifies the neighbor count with Mathlib's induced graph degree. The threshold $g$k$$ is the infimum over integers $n\ge0$ for which every host of order strictly greater than $n$ has a degree class of size at least $k$.
+The graph interface uses simple graphs on `Fin N`, with the chosen vertices represented by a finite set. `degreeOn_eq_induced_degree` identifies the neighbor count with Mathlib's induced graph degree. The threshold $g(k)$ is the infimum over integers $n\ge0$ for which every host of order strictly greater than $n$ has a degree class of size at least $k$.
 
 ## Building and checking
 

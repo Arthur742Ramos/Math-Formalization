@@ -14,6 +14,7 @@ public import Mathlib.Algebra.Group.Subgroup.Defs
 
 namespace InducedDegreeRepetition
 
+section
 variable {V : Type*}
 
 /-- The degree in the graph induced on S, when x belongs to S. -/
@@ -45,6 +46,8 @@ theorem logScale_repetition : LogScaleRepetition := by sorry
 /-- Corollary 2 of the paper, with the strict host-size convention in Forces. -/
 theorem subexponential_threshold : SubexponentialThreshold := by sorry
 
+end
+
 open Finset
 open scoped Classical
 
@@ -66,6 +69,8 @@ theorem coset_concentration (q : ℕ) (hq : 2 ≤ q) :
       normSq f / D^2 ≤ normSq (convolution f f) →
       ∃ (H : AddSubgroup G) (z : G), (Nat.card H : ℝ) ≤ D^C / normSq f ∧
         1 / D^C ≤ massOn f {x | x-z ∈ H} := by sorry
+
+variable {V : Type*}
 
 def tupleSpace (sets : List (Finset V)) : Finset (List V) :=
   sets.foldr (fun X tail => (X ×ˢ tail).map
