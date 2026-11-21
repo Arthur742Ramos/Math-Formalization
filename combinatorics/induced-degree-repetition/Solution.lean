@@ -14,3 +14,4 @@ public import BiasedRectangle
 public import AdjacencyApproximation
 public import RandomRestrictions
 public import ConditionalResidues
+public import SimultaneousAdjustment

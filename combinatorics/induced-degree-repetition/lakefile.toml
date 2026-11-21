@@ -239,3 +239,42 @@ name = "ConditioningBound"
 
 [[lean_lib]]
 name = "ConditionalResidues"
+
+[[lean_lib]]
+name = "AdjustmentLengths"
+
+[[lean_lib]]
+name = "AdjustmentWitnesses"
+
+[[lean_lib]]
+name = "TwoLengths"
+
+[[lean_lib]]
+name = "EditSampling"
+
+[[lean_lib]]
+name = "EditAllowed"
+
+[[lean_lib]]
+name = "EditRates"
+
+[[lean_lib]]
+name = "EditMargins"
+
+[[lean_lib]]
+name = "RegisteredProfiles"
+
+[[lean_lib]]
+name = "OtherProfiles"
+
+[[lean_lib]]
+name = "EditableDraws"
+
+[[lean_lib]]
+name = "SampleFailures"
+
+[[lean_lib]]
+name = "UniformEdits"
+
+[[lean_lib]]
+name = "SimultaneousAdjustment"

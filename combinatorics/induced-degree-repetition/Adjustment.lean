@@ -12,11 +12,11 @@ open Finset
 variable {X Y : Type*}
 
 /-- A tuple's possible replacements, with its registered exterior profile already fixed. -/
-noncomputable def profileFiber (pool : Finset X) (entry : X → Y → ℤ) (s : Y → ℤ) : Finset X := by
+@[expose] noncomputable def profileFiber (pool : Finset X) (entry : X → Y → ℤ) (s : Y → ℤ) : Finset X := by
   classical exact pool.filter fun x => entry x = s
 
 /-- The family compatible with the current counts at all rows except j. -/
-noncomputable def otherFiber (pool : Finset X) (entry : X → Y → ℤ) (s : Y → ℤ) (j : Y) :
+@[expose] noncomputable def otherFiber (pool : Finset X) (entry : X → Y → ℤ) (s : Y → ℤ) (j : Y) :
     Finset X := by classical exact pool.filter fun x => ∀ k, k ≠ j → entry x k = s k
 
 private theorem fiber_sub_other (pool : Finset X) (entry : X → Y → ℤ) (s : Y → ℤ) (j : Y) :
@@ -27,7 +27,7 @@ private theorem fiber_sub_other (pool : Finset X) (entry : X → Y → ℤ) (s :
   exact mem_filter.mpr ⟨h,fun k _ => congrFun he k⟩
 
 /-- Counts with conditional mass at least λ after fixing the other rows. -/
-noncomputable def allowedCounts [DecidableEq Y] (L : ℕ) (weight : ℝ) (pool : Finset X)
+@[expose] noncomputable def allowedCounts [DecidableEq Y] (L : ℕ) (weight : ℝ) (pool : Finset X)
     (entry : X → Y → ℤ) (s : Y → ℤ) (j : Y) : Finset ℤ := by
   classical
   exact (Icc 0 (L : ℤ)).filter fun v =>

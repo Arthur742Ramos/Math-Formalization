@@ -13,7 +13,7 @@ namespace InducedDegreeRepetition.OpenProblems
 open Finset Filter Duality Residues
 open scoped Classical Topology
 
-private theorem tuples_nonempty {V : Type*} (l : List (Finset V))
+theorem tuples_nonempty {V : Type*} (l : List (Finset V))
     (h : ∀ X ∈ l, X.Nonempty) : (tupleSpace l).Nonempty := by
   induction l with
   | nil => exact singleton_nonempty _
