@@ -10,3 +10,4 @@ public import RemainingStatements
 public import Witness
 public import GraphRange
 public import DensityReduction
+public import BiasedRectangle

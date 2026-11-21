@@ -98,3 +98,39 @@ name = "DensityExtraction"
 
 [[lean_lib]]
 name = "DensityReduction"
+
+[[lean_lib]]
+name = "DualityEnergy"
+
+[[lean_lib]]
+name = "DualitySpectrum"
+
+[[lean_lib]]
+name = "DualityStep"
+
+[[lean_lib]]
+name = "DualityOrthogonality"
+
+[[lean_lib]]
+name = "DualityFibers"
+
+[[lean_lib]]
+name = "DualityRectangle"
+
+[[lean_lib]]
+name = "DualityIteration"
+
+[[lean_lib]]
+name = "DualityBound"
+
+[[lean_lib]]
+name = "DualityScale"
+
+[[lean_lib]]
+name = "DualityLoss"
+
+[[lean_lib]]
+name = "DualityRows"
+
+[[lean_lib]]
+name = "BiasedRectangle"
