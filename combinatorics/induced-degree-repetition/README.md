@@ -4,6 +4,8 @@ The source is *A subexponential bound for induced degree repetition* by Arthur F
 
 Theorem 1 asks for an induced subgraph on at least $r$ and fewer than $2r$ vertices, where $r=\lceil K\log N\rceil$. One degree must occur at least $(1-\eta)|S|$ times, counting degrees in the whole induced subgraph on $S$. The unrestricted theorem and its unconditional subexponential consequence remain open in this project.
 
+[RemainingStatements.lean](RemainingStatements.lean) specifies the six open lemmas, including the cut and operator-norm hypotheses, exponential error rates, order of quantifiers, and quantification over adaptive edit targets. These are proposition definitions. Their proofs remain open.
+
 ## Proof coverage
 
 | Paper result | Lean declaration and file | Proof status |
@@ -16,7 +18,7 @@ Theorem 1 asks for an induced subgraph on at least $r$ and fewer than $2r$ verti
 | Lemma 6 | `coset_concentration` in [Concentration.lean](Concentration.lean) | Proved for every probability weight on a finite abelian group annihilated by $q\ge2$. The constant is uniform in the group and weight. The proof uses counting convolution and the equivalent squared-norm inequality. |
 | Lemma 7 | `row_column_image_card` in [ModularMatrices.lean](ModularMatrices.lean) | Row and column image sizes agree over composite moduli as well as primes. The random-restriction estimate with exponent independent of the subgroup bound remains open. |
 | Lemma 8 | Conditional counts modulo $q$ | Open. The required estimate amplifies convolution decay on quotients and passes from restrictions to conditioned tuple families. |
-| Lemma 9 | `conditional_range` in [CountRange.lean](CountRange.lean) | Proved both integer atoms under the inherited cut bounds, uniformly over the conditioning family. The finite product allows repeated coordinates and uses ordered tuples. |
+| Lemma 9 | `conditional_range` in [CountRange.lean](CountRange.lean) | Proved both integer atoms under the inherited cut bounds, uniformly over the conditioning family. The finite product allows repeated coordinates and uses ordered tuples. [GraphRange.lean](GraphRange.lean) specializes the result to graph adjacency and the exact disjoint-cut hypotheses of the paper. |
 | Lemma 10 | `integer_totals` in [IntegerTotals.lean](IntegerTotals.lean) | Proved the uniform interior representation with modulus four, the odd-prime tests and one allowed exceptional position retaining its initial value. |
 | Lemma 11 | `simultaneous_edits` in [Adjustment.lean](Adjustment.lean), `small_profile_cells` and `exceptional_profile_lists` in [ProfileSampling.lean](ProfileSampling.lean) | Proved the deterministic edit construction, the small-profile bound and the union bound over other-row profiles in the product sample. The choice of lengths and the full probability estimate from Lemmas 8 and 9 remain open. |
 | Section 6 | `gallai_even_partition` in [Gallai.lean](Gallai.lean), `parity_core` and `equalized_witness` in [Witness.lean](Witness.lean) | Proved the even partition, the retained size interval, common starting parity, and the final degree-count implication. The partition/sampling estimates, spectral control of the adaptive set and complete assembly remain open. |
@@ -33,7 +35,7 @@ lake build Challenge Solution
 lake env lean AxiomAudit.lean
 ```
 
-[Challenge.lean](Challenge.lean) gives the independent statements using Mathlib imports and the deliberate statement-side placeholders of the Palomar template. [Solution.lean](Solution.lean) imports the proof modules. [comparator.json](comparator.json) selects both headline results, the three completed numbered lemmas, the Ramsey range, and the conditional corollary. The solution lacks the two unconditional headline declarations. A successful Lake build therefore does not certify the full comparator target. This is an unpublished development checkpoint, with no claim of Palomar verification or acceptance.
+[Challenge.lean](Challenge.lean) gives the independent statements using Mathlib imports and the deliberate statement-side placeholders of the Palomar template. [Solution.lean](Solution.lean) imports the proof modules. [comparator.json](comparator.json) selects all eleven numbered results, the Ramsey range, and the conditional corollary. The solution lacks unconditional proofs of Theorem 1, Corollary 2, and Lemmas 3, 4, 5, 7, 8 and 11. A successful Lake build therefore does not certify the full comparator target. This is an unpublished development checkpoint, with no claim of Palomar verification or acceptance.
 
 The proof of Lemma 6 reduces weighted concentration to ordinary additive energy in [WeightedEnergy.lean](WeightedEnergy.lean). It uses the ordinary Balog–Szemerédi–Gowers theorem in AddCombi and the bounded-torsion Freiman–Ruzsa theorem in PFR. The mathematical source authors are listed above. Codex wrote the Lean proofs. An AI source-fidelity review examined the main statement, the conditional corollary, Lemmas 6, 9 and 10, the deterministic edit construction and parity selection. No human review of the Lean project is recorded.
 

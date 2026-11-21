@@ -59,3 +59,9 @@ name = "Concentration"
 
 [[lean_lib]]
 name = "ProfileSampling"
+
+[[lean_lib]]
+name = "RemainingStatements"
+
+[[lean_lib]]
+name = "GraphRange"

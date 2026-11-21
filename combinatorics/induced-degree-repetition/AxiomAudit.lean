@@ -41,9 +41,26 @@ import Solution
 #print axioms InducedDegreeRepetition.conditional_range_one_color
 #print axioms InducedDegreeRepetition.tupleDegree
 #print axioms InducedDegreeRepetition.conditional_range
+#print axioms InducedDegreeRepetition.conditional_range_on_core
 #print axioms InducedDegreeRepetition.small_profile_cells
 #print axioms InducedDegreeRepetition.exceptional_profile_lists
 #print axioms InducedDegreeRepetition.profileFiber
 #print axioms InducedDegreeRepetition.otherFiber
 #print axioms InducedDegreeRepetition.allowedCounts
 #print axioms InducedDegreeRepetition.simultaneous_edits
+
+#print axioms InducedDegreeRepetition.OpenProblems.adj
+#print axioms InducedDegreeRepetition.OpenProblems.CutBounds
+#print axioms InducedDegreeRepetition.OpenProblems.SpectralBound
+#print axioms InducedDegreeRepetition.OpenProblems.DensityReduction
+#print axioms InducedDegreeRepetition.OpenProblems.BiasedRectangle
+#print axioms InducedDegreeRepetition.OpenProblems.Core
+#print axioms InducedDegreeRepetition.OpenProblems.Large
+#print axioms InducedDegreeRepetition.OpenProblems.adjMod
+#print axioms InducedDegreeRepetition.OpenProblems.AdjacencyApproximation
+#print axioms InducedDegreeRepetition.OpenProblems.HeavyRestriction
+#print axioms InducedDegreeRepetition.OpenProblems.RandomRestrictions
+#print axioms InducedDegreeRepetition.OpenProblems.Positional
+#print axioms InducedDegreeRepetition.OpenProblems.ConditionalResidues
+#print axioms InducedDegreeRepetition.OpenProblems.Adjustable
+#print axioms InducedDegreeRepetition.OpenProblems.SimultaneousAdjustment

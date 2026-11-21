@@ -8,7 +8,13 @@
     "InducedDegreeRepetition.conditional_range",
     "InducedDegreeRepetition.integer_totals",
     "InducedDegreeRepetition.logScale_ramsey_range",
-    "InducedDegreeRepetition.subexponential_of_logScale"
+    "InducedDegreeRepetition.subexponential_of_logScale",
+    "InducedDegreeRepetition.OpenProblems.density_reduction",
+    "InducedDegreeRepetition.OpenProblems.biased_rectangle",
+    "InducedDegreeRepetition.OpenProblems.adjacency_approximation",
+    "InducedDegreeRepetition.OpenProblems.random_restrictions",
+    "InducedDegreeRepetition.OpenProblems.conditional_residues",
+    "InducedDegreeRepetition.OpenProblems.simultaneous_adjustment"
   ],
   "definition_names": [
     "InducedDegreeRepetition.degreeOn",
@@ -24,7 +30,22 @@
     "InducedDegreeRepetition.tupleDegree",
     "InducedDegreeRepetition.TestModulus",
     "InducedDegreeRepetition.low",
-    "InducedDegreeRepetition.high"
+    "InducedDegreeRepetition.high",
+    "InducedDegreeRepetition.OpenProblems.adj",
+    "InducedDegreeRepetition.OpenProblems.CutBounds",
+    "InducedDegreeRepetition.OpenProblems.SpectralBound",
+    "InducedDegreeRepetition.OpenProblems.DensityReduction",
+    "InducedDegreeRepetition.OpenProblems.BiasedRectangle",
+    "InducedDegreeRepetition.OpenProblems.Core",
+    "InducedDegreeRepetition.OpenProblems.Large",
+    "InducedDegreeRepetition.OpenProblems.adjMod",
+    "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation",
+    "InducedDegreeRepetition.OpenProblems.HeavyRestriction",
+    "InducedDegreeRepetition.OpenProblems.RandomRestrictions",
+    "InducedDegreeRepetition.OpenProblems.Positional",
+    "InducedDegreeRepetition.OpenProblems.ConditionalResidues",
+    "InducedDegreeRepetition.OpenProblems.Adjustable",
+    "InducedDegreeRepetition.OpenProblems.SimultaneousAdjustment"
   ],
   "permitted_axioms": [
     "propext",
