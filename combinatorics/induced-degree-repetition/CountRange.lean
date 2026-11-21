@@ -19,10 +19,9 @@ open scoped Classical
 variable {V : Type*}
 
 /-- The atoms of the product law. Coordinates are ordered and may repeat. -/
-@[expose] def tupleSpace : List (Finset V) → Finset (List V)
-  | [] => {[]}
-  | X :: tail => (X ×ˢ tupleSpace tail).map
-      ⟨fun p => p.1 :: p.2, by rintro ⟨x,p⟩ ⟨y,q⟩ h; simpa using h⟩
+@[expose] def tupleSpace (sets : List (Finset V)) : Finset (List V) :=
+  sets.foldr (fun X tail => (X ×ˢ tail).map
+    ⟨fun p => p.1 :: p.2, by rintro ⟨x,p⟩ ⟨y,q⟩ h; simpa using h⟩) {[]}
 
 private theorem tuple_length {sets : List (Finset V)} {p : List V} (hp : p ∈ tupleSpace sets) :
     p.length = sets.length := by
@@ -121,7 +120,7 @@ private theorem exp_cost_bound (Y : Finset V) (sets : List (Finset V)) (w : ℝ)
       simp only [F, apply_ite (HPow.hPow w), pow_one,pow_zero, sum_ite, sum_const, nsmul_eq_mul]
       have hsmall := card_filter_le X (fun x => ¬bad color s τ U x)
       nlinarith [show (((X.filter fun x => ¬bad color s τ U x).card : ℕ) : ℝ) ≤ X.card by exact_mod_cast hsmall]
-    simp only [tupleSpace, sum_map, sum_product,
+    simp only [tupleSpace, List.foldr_cons, sum_map, sum_product,
       card_map,card_product,Nat.cast_mul,List.length_cons]
     calc
       _ ≤ ∑ x ∈ X, F x * (2 ^ tail.length * T.card) := by
@@ -133,7 +132,7 @@ private theorem exp_cost_bound (Y : Finset V) (sets : List (Finset V)) (w : ℝ)
       _ ≤ (2 * X.card) * (2 ^ tail.length * T.card) := by
         rw [← sum_mul]
         exact mul_le_mul_of_nonneg_right hs (by positivity)
-      _ = _ := by simp only [T,pow_succ]; ring
+      _ = _ := by simp only [T,tupleSpace,pow_succ]; ring
 
 end Process
 

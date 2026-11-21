@@ -67,10 +67,9 @@ theorem coset_concentration (q : ℕ) (hq : 2 ≤ q) :
       ∃ (H : AddSubgroup G) (z : G), (Nat.card H : ℝ) ≤ D^C / normSq f ∧
         1 / D^C ≤ massOn f {x | x-z ∈ H} := by sorry
 
-def tupleSpace : List (Finset V) → Finset (List V)
-  | [] => {[]}
-  | X :: tail => (X ×ˢ tupleSpace tail).map
-      ⟨fun p => p.1 :: p.2, by rintro ⟨x,p⟩ ⟨y,q⟩ h; simpa using h⟩
+def tupleSpace (sets : List (Finset V)) : Finset (List V) :=
+  sets.foldr (fun X tail => (X ×ˢ tail).map
+    ⟨fun p => p.1 :: p.2, by rintro ⟨x,p⟩ ⟨y,q⟩ h; simpa using h⟩) {[]}
 
 def tupleDegree (A : V → V → Bool) (y : V) (p : List V) : ℕ :=
   p.countP fun x => A y x
