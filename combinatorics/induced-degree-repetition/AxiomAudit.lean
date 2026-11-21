@@ -1,3 +1,5 @@
+module
+
 import Solution
 
 #print axioms InducedDegreeRepetition.degreeOn

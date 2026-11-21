@@ -2,6 +2,7 @@ module
 
 public import IntegerShifts
 public import Mathlib.Data.Int.Interval
+public import Mathlib.Data.Finset.Max
 import Mathlib.Combinatorics.Pigeonhole
 import Mathlib.Algebra.BigOperators.ModEq
 import Mathlib.Tactic.Linarith
