@@ -278,3 +278,63 @@ name = "UniformEdits"
 
 [[lean_lib]]
 name = "SimultaneousAdjustment"
+
+[[lean_lib]]
+name = "UniformMean"
+
+[[lean_lib]]
+name = "FourthMoment"
+
+[[lean_lib]]
+name = "FourDraws"
+
+[[lean_lib]]
+name = "SampleFourth"
+
+[[lean_lib]]
+name = "DrawCollisions"
+
+[[lean_lib]]
+name = "IndependentVariance"
+
+[[lean_lib]]
+name = "MeanEvents"
+
+[[lean_lib]]
+name = "GroupMean"
+
+[[lean_lib]]
+name = "MeanMarginals"
+
+[[lean_lib]]
+name = "Reservoirs"
+
+[[lean_lib]]
+name = "TupleMeans"
+
+[[lean_lib]]
+name = "PoolGroups"
+
+[[lean_lib]]
+name = "ReferenceErrors"
+
+[[lean_lib]]
+name = "GroupDeviation"
+
+[[lean_lib]]
+name = "AdaptiveErrors"
+
+[[lean_lib]]
+name = "ParityTargets"
+
+[[lean_lib]]
+name = "AuxiliaryVertices"
+
+[[lean_lib]]
+name = "GroupEdits"
+
+[[lean_lib]]
+name = "GoodWitness"
+
+[[lean_lib]]
+name = "JointDraw"
