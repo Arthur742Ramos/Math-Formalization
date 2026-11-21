@@ -13,3 +13,4 @@ public import DensityReduction
 public import BiasedRectangle
 public import AdjacencyApproximation
 public import RandomRestrictions
+public import ConditionalResidues

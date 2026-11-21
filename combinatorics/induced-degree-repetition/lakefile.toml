@@ -203,3 +203,39 @@ name = "SmallSample"
 
 [[lean_lib]]
 name = "RandomRestrictions"
+
+[[lean_lib]]
+name = "DifferenceLaw"
+
+[[lean_lib]]
+name = "CosetProjection"
+
+[[lean_lib]]
+name = "QuotientAmplification"
+
+[[lean_lib]]
+name = "AmplificationRates"
+
+[[lean_lib]]
+name = "DyadicRates"
+
+[[lean_lib]]
+name = "MixedLaws"
+
+[[lean_lib]]
+name = "PoolLaw"
+
+[[lean_lib]]
+name = "ResidueAtoms"
+
+[[lean_lib]]
+name = "PrescriptionCount"
+
+[[lean_lib]]
+name = "RestrictedAtoms"
+
+[[lean_lib]]
+name = "ConditioningBound"
+
+[[lean_lib]]
+name = "ConditionalResidues"
