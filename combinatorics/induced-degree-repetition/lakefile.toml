@@ -134,3 +134,33 @@ name = "DualityRows"
 
 [[lean_lib]]
 name = "BiasedRectangle"
+
+[[lean_lib]]
+name = "RectangleScore"
+
+[[lean_lib]]
+name = "ImageRectangle"
+
+[[lean_lib]]
+name = "ApproximateBias"
+
+[[lean_lib]]
+name = "ColumnSpace"
+
+[[lean_lib]]
+name = "ApproximateRectangle"
+
+[[lean_lib]]
+name = "MatrixDescent"
+
+[[lean_lib]]
+name = "TerminalRectangle"
+
+[[lean_lib]]
+name = "RigidityEstimate"
+
+[[lean_lib]]
+name = "GraphMatrix"
+
+[[lean_lib]]
+name = "AdjacencyApproximation"

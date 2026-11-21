@@ -11,3 +11,4 @@ public import Witness
 public import GraphRange
 public import DensityReduction
 public import BiasedRectangle
+public import AdjacencyApproximation
