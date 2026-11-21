@@ -164,3 +164,42 @@ name = "GraphMatrix"
 
 [[lean_lib]]
 name = "AdjacencyApproximation"
+
+[[lean_lib]]
+name = "SmallGenerators"
+
+[[lean_lib]]
+name = "SampledModel"
+
+[[lean_lib]]
+name = "SampleCompression"
+
+[[lean_lib]]
+name = "SamplingMoment"
+
+[[lean_lib]]
+name = "SampleCount"
+
+[[lean_lib]]
+name = "DesignatedLabels"
+
+[[lean_lib]]
+name = "RestrictionRates"
+
+[[lean_lib]]
+name = "LabelSamples"
+
+[[lean_lib]]
+name = "AgreementMoment"
+
+[[lean_lib]]
+name = "ModelAgreement"
+
+[[lean_lib]]
+name = "HeavyChance"
+
+[[lean_lib]]
+name = "SmallSample"
+
+[[lean_lib]]
+name = "RandomRestrictions"

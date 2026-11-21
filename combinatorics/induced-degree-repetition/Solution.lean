@@ -12,3 +12,4 @@ public import GraphRange
 public import DensityReduction
 public import BiasedRectangle
 public import AdjacencyApproximation
+public import RandomRestrictions
