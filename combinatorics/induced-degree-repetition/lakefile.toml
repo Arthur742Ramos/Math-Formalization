@@ -65,3 +65,36 @@ name = "RemainingStatements"
 
 [[lean_lib]]
 name = "GraphRange"
+
+[[lean_lib]]
+name = "CutSpectral"
+
+[[lean_lib]]
+name = "RegularSelection"
+
+[[lean_lib]]
+name = "RegularPairs"
+
+[[lean_lib]]
+name = "SelfPair"
+
+[[lean_lib]]
+name = "DensityRefinement"
+
+[[lean_lib]]
+name = "DependentChoice"
+
+[[lean_lib]]
+name = "RegularBlocks"
+
+[[lean_lib]]
+name = "DensityStep"
+
+[[lean_lib]]
+name = "DensityBudget"
+
+[[lean_lib]]
+name = "DensityExtraction"
+
+[[lean_lib]]
+name = "DensityReduction"

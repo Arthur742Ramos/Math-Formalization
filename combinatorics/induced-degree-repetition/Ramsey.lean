@@ -10,7 +10,7 @@ namespace InducedDegreeRepetition
 variable {V : Type*} (G : SimpleGraph V)
 
 /-- Every pair in S has the indicated adjacency status. -/
-def Homogeneous (p : Prop) (S : Finset V) : Prop :=
+@[expose] def Homogeneous (p : Prop) (S : Finset V) : Prop :=
   ∀ x ∈ S, ∀ y ∈ S, x ≠ y → (G.Adj x y ↔ p)
 
 private theorem extendHomogeneous {S : Finset V} {v : V} {p : Prop}
@@ -91,11 +91,18 @@ private theorem homogeneous_class {p : Prop} {S : Finset V} (h : Homogeneous G p
       exact hp ((h _ hx _ hy ha.ne).mp ha)
     simp [degreeOn, he]
 
+/-- Diagonal Ramsey bound with the colour of the witness retained. -/
+theorem ramsey_colored_witness (a : ℕ) (U : Finset V) (hU : 4 ^ a ≤ U.card) :
+    ∃ S ⊆ U, S.card = a + 1 ∧ (Homogeneous G True S ∨ Homogeneous G False S) := by
+  have h : 2 ^ (a + a) ≤ U.card := by simpa [← two_mul, pow_mul] using hU
+  rcases ramsey G a a U h with ⟨S,hs,hc,hp⟩ | ⟨S,hs,hc,hp⟩
+  · exact ⟨S,hs,hc,Or.inl hp⟩
+  · exact ⟨S,hs,hc,Or.inr hp⟩
+
 theorem ramsey_regular_witness (a : ℕ) (U : Finset V) (hU : 4 ^ a ≤ U.card) :
     ∃ S ⊆ U, S.card = a + 1 ∧ ∃ d, degreeClass G S d = S := by
-  have h : 2 ^ (a + a) ≤ U.card := by simpa [← two_mul, pow_mul] using hU
-  rcases ramsey G a a U h with ⟨S, hs, hc, hp⟩ | ⟨S, hs, hc, hp⟩ <;>
-    exact ⟨S, hs, hc, homogeneous_class G hp⟩
+  obtain ⟨S,hs,hc,hp⟩ := ramsey_colored_witness G a U hU
+  exact ⟨S,hs,hc,hp.elim (homogeneous_class G) (homogeneous_class G)⟩
 
 theorem threshold_spec (k : ℕ) : Forces k (threshold k) := by
   change sInf {n | Forces k n} ∈ {n | Forces k n}

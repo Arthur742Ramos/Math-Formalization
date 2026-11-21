@@ -64,3 +64,19 @@ import Solution
 #print axioms InducedDegreeRepetition.OpenProblems.ConditionalResidues
 #print axioms InducedDegreeRepetition.OpenProblems.Adjustable
 #print axioms InducedDegreeRepetition.OpenProblems.SimultaneousAdjustment
+
+#print axioms InducedDegreeRepetition.ramsey_colored_witness
+#print axioms InducedDegreeRepetition.palette_ramsey
+#print axioms InducedDegreeRepetition.select_avoiding_sparse
+#print axioms InducedDegreeRepetition.cut_to_spectral
+#print axioms InducedDegreeRepetition.prune_self_pair
+#print axioms InducedDegreeRepetition.discrepancy_of_parts
+#print axioms InducedDegreeRepetition.large_self_pair
+#print axioms InducedDegreeRepetition.self_pair_in_subset
+#print axioms InducedDegreeRepetition.refine_two_sided_cuts
+#print axioms InducedDegreeRepetition.dependent_choice
+#print axioms InducedDegreeRepetition.regular_block_union
+#print axioms InducedDegreeRepetition.dense_cut_step
+#print axioms InducedDegreeRepetition.density_budget
+#print axioms InducedDegreeRepetition.regular_or_two_sided
+#print axioms InducedDegreeRepetition.OpenProblems.density_reduction

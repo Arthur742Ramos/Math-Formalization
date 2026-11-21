@@ -4,7 +4,7 @@ The source is *A subexponential bound for induced degree repetition* by Arthur F
 
 Theorem 1 asks for an induced subgraph on at least $r$ and fewer than $2r$ vertices, where $r=\lceil K\log N\rceil$. One degree must occur at least $(1-\eta)|S|$ times, counting degrees in the whole induced subgraph on $S$. The unrestricted theorem and its unconditional subexponential consequence remain open in this project.
 
-[RemainingStatements.lean](RemainingStatements.lean) specifies the six open lemmas, including the cut and operator-norm hypotheses, exponential error rates, order of quantifiers, and quantification over adaptive edit targets. These are proposition definitions. Their proofs remain open.
+[RemainingStatements.lean](RemainingStatements.lean) specifies Lemmas 3–5, 7–8 and 11, including the cut and operator-norm hypotheses, exponential error rates, order of quantifiers, and quantification over adaptive edit targets. The proposition names are shared by the source map and the proofs.
 
 ## Proof coverage
 
@@ -12,7 +12,7 @@ Theorem 1 asks for an induced subgraph on at least $r$ and fewer than $2r$ verti
 | --- | --- | --- |
 | Theorem 1 | `LogScaleRepetition` in [Statement.lean](Statement.lean), `logScale_ramsey_range` in [Witness.lean](Witness.lean) | The full proposition is stated. For every $K>0$ with $K\log 4\le 1$ and every $N\ge2$, the proof gives an exactly regular induced subgraph with exactly $r$ vertices. The larger scales remain open. |
 | Corollary 2 | `subexponential_of_logScale` in [Bounds.lean](Bounds.lean), `threshold_spec` and `threshold_le` in [Ramsey.lean](Ramsey.lean) | The threshold exists and is least under the paper's strict host-size convention. The paper's little-o conclusion follows from Theorem 1. |
-| Lemma 3 | `ramsey_regular_witness` in [Ramsey.lean](Ramsey.lean) | Finite Ramsey bound proved. The density iteration, the Conlon–Fox regular self-pair input and the spectral conclusion remain open. |
+| Lemma 3 | `OpenProblems.density_reduction` in [DensityReduction.lean](DensityReduction.lean) | Proved for every positive logarithmic scale. Dependent random choice either produces a regular union of blocks or a set with two-sided cuts. A self-pair theorem derived from Mathlib’s Szemerédi regularity lemma then gives the uniform degree and Euclidean operator estimates. |
 | Lemma 4 | Bhowmick–Dvir–Lovett submatrix lemma, cited as [2, Lemma 6.3] | Open, including the passage from distinct vector sets to weighted labels and its quantitative loss. |
 | Lemma 5 | `strip_card_bound` in [ModularMatrices.lean](ModularMatrices.lean) | Proved the kernel–image inequality for the two strips. The constant-rectangle recursion and its error and size bounds remain open. |
 | Lemma 6 | `coset_concentration` in [Concentration.lean](Concentration.lean) | Proved for every probability weight on a finite abelian group annihilated by $q\ge2$. The constant is uniform in the group and weight. The proof uses counting convolution and the equivalent squared-norm inequality. |
@@ -35,7 +35,7 @@ lake build Challenge Solution
 lake env lean AxiomAudit.lean
 ```
 
-[Challenge.lean](Challenge.lean) gives the independent statements using Mathlib imports and the deliberate statement-side placeholders of the Palomar template. [Solution.lean](Solution.lean) imports the proof modules. [comparator.json](comparator.json) selects all eleven numbered results, the Ramsey range, and the conditional corollary. The solution lacks unconditional proofs of Theorem 1, Corollary 2, and Lemmas 3, 4, 5, 7, 8 and 11. A successful Lake build therefore does not certify the full comparator target. This is an unpublished development checkpoint, with no claim of Palomar verification or acceptance.
+[Challenge.lean](Challenge.lean) gives the independent statements using Mathlib imports and the deliberate statement-side placeholders of the Palomar template. [Solution.lean](Solution.lean) imports the proof modules. [comparator.json](comparator.json) selects all eleven numbered results, the Ramsey range, and the conditional corollary. The solution lacks unconditional proofs of Theorem 1, Corollary 2, and Lemmas 4, 5, 7, 8 and 11. A successful Lake build therefore does not certify the full comparator target. This is an unpublished development checkpoint, with no claim of Palomar verification or acceptance.
 
 The proof of Lemma 6 reduces weighted concentration to ordinary additive energy in [WeightedEnergy.lean](WeightedEnergy.lean). It uses the ordinary Balog–Szemerédi–Gowers theorem in AddCombi and the bounded-torsion Freiman–Ruzsa theorem in PFR. The mathematical source authors are listed above. Codex wrote the Lean proofs. An AI source-fidelity review examined the main statement, the conditional corollary, Lemmas 6, 9 and 10, the deterministic edit construction and parity selection. No human review of the Lean project is recorded.
 
