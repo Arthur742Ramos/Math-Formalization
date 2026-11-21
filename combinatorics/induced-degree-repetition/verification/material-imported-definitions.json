@@ -28,7 +28,14 @@
     "AddMonoidHom.range",
     "AddSubgroup",
     "Nat.card",
-    "Fintype.piFinset"
+    "Fintype.piFinset",
+    "InfSet",
+    "Finset.max'",
+    "Finset.Icc",
+    "Complex.instNorm",
+    "AddMonoid",
+    "Finset.card",
+    "Finset.filter"
   ],
   "material_declarations": [
     {
@@ -423,6 +430,131 @@
       "bridge_excerpts": [
         "Fintype.piFinset",
         "mem_piFinset"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "InfSet",
+      "declaration_kind": "class",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.threshold",
+        "InducedDegreeRepetition.SubexponentialThreshold"
+      ],
+      "meaning": "The natural-number infimum is the least member of a nonempty set. The forcing set is nonempty by the Ramsey bound.",
+      "dependency_expansion": "The Nat instance uses Nat.find on a nonempty set and zero on the empty set. Membership and the universal lower bound prove leastness.",
+      "definition_excerpt": "InfSet",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "InfSet",
+        "natural-sInf",
+        "sInf_mem",
+        "sInf_le"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.max'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.low",
+        "InducedDegreeRepetition.high",
+        "InducedDegreeRepetition.integer_totals"
+      ],
+      "meaning": "On a nonempty set the maximum belongs to the set and bounds every member from above. The generated order dual Finset.min' gives the minimum and the reverse bound.",
+      "dependency_expansion": "Both extrema are suprema in the corresponding order. The project's low and high return zero on the empty set. Lemma 10 assumes nonempty allowed sets.",
+      "definition_excerpt": "Finset.max'",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.max'",
+        "extrema-members-and-bounds"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.Icc",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.integer_totals"
+      ],
+      "meaning": "The finite integer interval includes both endpoints.",
+      "dependency_expansion": "The locally finite order supplies the interval enumeration and its membership theorem.",
+      "definition_excerpt": "Finset.Icc",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.Icc",
+        "mem_Icc"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Complex.instNorm",
+      "declaration_kind": "instance",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.BiasedRectangle"
+      ],
+      "meaning": "Complex modulus of the unnormalized sum over all ordered label pairs.",
+      "dependency_expansion": "It is the nonnegative square root of normSq; the rectangle hypothesis supplies the normalization as the real lower bound a*b/4.",
+      "definition_excerpt": "Complex.instNorm",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Complex.instNorm",
+        "complex-norm-formula"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "AddMonoid",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.coset_concentration"
+      ],
+      "meaning": "Multiplication by q counts repeated addition in the group; annihilation means q copies sum to zero for every element.",
+      "dependency_expansion": "The zero and successor fields specify this operation for all natural q. The theorem allows composite q.",
+      "definition_excerpt": "AddMonoid",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "AddMonoid"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.card",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.degreeClass",
+        "InducedDegreeRepetition.OpenProblems.RandomRestrictions"
+      ],
+      "meaning": "Cardinality counts each element of a finite set once. Distinct ordered tuples are distinct elements of the sample space.",
+      "dependency_expansion": "Cardinality of the underlying nodup multiset.",
+      "definition_excerpt": "Finset.card",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.card"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.filter",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.degreeClass",
+        "InducedDegreeRepetition.degreeOn",
+        "InducedDegreeRepetition.OpenProblems.HeavyRestriction"
+      ],
+      "meaning": "Filters the indicated finite population by a predicate.",
+      "dependency_expansion": "Membership requires both membership in the original set and satisfaction of the predicate.",
+      "definition_excerpt": "Finset.filter",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.filter",
+        "mem_filter"
       ],
       "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
     }
@@ -961,6 +1093,198 @@
           "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean#L37-L45"
         }
       ]
+    },
+    {
+      "path": "Mathlib/Order/SetNotation.lean",
+      "sha256": "302c614100cbc978e2af66d21d5eb0e09eb39402e9ae52a166e6faaa36d3dc14",
+      "git_blob_sha1": "7704edbb335989410bd491805f6bbad58a10a1a4",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "InfSet",
+          "first_line": 50,
+          "last_line": 52,
+          "text": "class InfSet (α : Type*) where\n  /-- Infimum of a set -/\n  sInf : Set α → α\n",
+          "sha256": "19fd07c33a23b5959fe476cd6a9ebcbbe771bd612548feef715fc5f4205a73ed",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean#L50-L52"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Lattice/Nat.lean",
+      "sha256": "1e3a5f2ff1efa38926bfafb88d168b1495a5b01c6fd77e83efaf401eff26f6ed",
+      "git_blob_sha1": "cee37589606842e714df5a26e44b9c726bd06db9",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Floris van Doorn, Gabriel Ebner, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "natural-sInf",
+          "first_line": 28,
+          "last_line": 30,
+          "text": "open scoped Classical in\nnoncomputable instance : InfSet ℕ :=\n  ⟨fun s ↦ if h : ∃ n, n ∈ s then @Nat.find (fun n ↦ n ∈ s) _ h else 0⟩\n",
+          "sha256": "b73f2a9e87a4b68b825e2c53498820f26d3b509b727562289aefd9d7ef066089",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L28-L30"
+        },
+        {
+          "name": "sInf_mem",
+          "first_line": 75,
+          "last_line": 78,
+          "text": "theorem sInf_mem {s : Set ℕ} (h : s.Nonempty) : sInf s ∈ s := by\n  classical\n  rw [Nat.sInf_def h]\n  exact Nat.find_spec h\n",
+          "sha256": "4b34b7f351a76ca1713469ae018cd838efd62fcecff7b51635095e31b6c95c5b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L75-L78"
+        },
+        {
+          "name": "sInf_le",
+          "first_line": 86,
+          "last_line": 89,
+          "text": "protected theorem sInf_le {s : Set ℕ} {m : ℕ} (hm : m ∈ s) : sInf s ≤ m := by\n  classical\n  rw [Nat.sInf_def ⟨m, hm⟩]\n  exact Nat.find_min' ⟨m, hm⟩ hm\n",
+          "sha256": "70e01876cfbeaa96c56007ef549b553050e317a8ac9f6d283f45e1fecb04f8ed",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L86-L89"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Max.lean",
+      "sha256": "f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e",
+      "git_blob_sha1": "a6735d1f9cdcb1f6a9f78925a565d9ab7b48781b",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.max'",
+          "first_line": 128,
+          "last_line": 136,
+          "text": "/-- Given a nonempty finset `s` in a linear order `α`, then `s.max' H` is its maximum, as an\nelement of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.max`,\ntaking values in `WithBot α`. -/\n@[to_dual\n/-- Given a nonempty finset `s` in a linear order `α`, then `s.min' H` is its minimum, as an\nelement of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.min`,\ntaking values in `WithTop α`. -/]\ndef max' (s : Finset α) (H : s.Nonempty) : α :=\n  sup' s H id\n",
+          "sha256": "b3e47a2484cd671db9f34d2a7726eebc61fda30e1251e8d06026c30059225b8e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L128-L136"
+        },
+        {
+          "name": "extrema-members-and-bounds",
+          "first_line": 140,
+          "last_line": 146,
+          "text": "@[to_dual]\ntheorem max'_mem : s.max' H ∈ s :=\n  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]\n\n@[to_dual min'_le]\ntheorem le_max' (x) (H2 : x ∈ s) : x ≤ s.max' ⟨x, H2⟩ :=\n  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm\n",
+          "sha256": "4c1162b041754029e1092db0e81bb257c21c1d6ff8542afe07b62f21be20a225",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L146"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Interval/Finset/Defs.lean",
+      "sha256": "023c4216dc4c48cc0a97e5ceb876aa54e1db126b19097ee89c4d3b12059970a8",
+      "git_blob_sha1": "03a818648aa0d0ccc34298eb6f43d86e40412050",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Yaël Dillies. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yaël Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.Icc",
+          "first_line": 280,
+          "last_line": 281,
+          "text": "def Icc (a b : α) : Finset α :=\n  LocallyFiniteOrder.finsetIcc a b\n",
+          "sha256": "bf0fe201275761cee2973e0eef9c5ba5c276aebfb44219f6c2dfa4c211f3c6bd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L280-L281"
+        },
+        {
+          "name": "mem_Icc",
+          "first_line": 301,
+          "last_line": 302,
+          "text": "theorem mem_Icc : x ∈ Icc a b ↔ a ≤ x ∧ x ≤ b :=\n  LocallyFiniteOrder.finset_mem_Icc a b x\n",
+          "sha256": "2d345b70ec57c48d0dd2f67df91df71f7e302055e32554a1281a0aa21696c970",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L301-L302"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Complex/Norm.lean",
+      "sha256": "7f719d7b3ba3ba8b4667a8f79e7efd5d8fb4da2b82dcca011e64129113a63eba",
+      "git_blob_sha1": "0e2b6317a777c4d168a9098fb17ad33323efd4c3",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel\n-/\n",
+      "excerpts": [
+        {
+          "name": "Complex.instNorm",
+          "first_line": 28,
+          "last_line": 29,
+          "text": "instance instNorm : Norm ℂ where\n  norm z := √(normSq z)\n",
+          "sha256": "d6a35e79c8010638732e56adf66069c78b71f7b8e63a019fd601d4298c1afe3d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean#L28-L29"
+        },
+        {
+          "name": "complex-norm-formula",
+          "first_line": 31,
+          "last_line": 31,
+          "text": "theorem norm_def (z : ℂ) : ‖z‖ = √(normSq z) := (rfl)\n",
+          "sha256": "94d132dbaf093131c130172af15de2182ed0db7d65a678977a27b141a940432b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean#L31-L31"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Group/Monoid.lean",
+      "sha256": "192a415f3decda0c5c21f8c6c04bdc26fd7072cb47ded0b0d0aa2ba09e204c35",
+      "git_blob_sha1": "302c444f017235acc1271402facc00d8492ad1b1",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Monoid.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura, Simon Hudon, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "AddMonoid",
+          "first_line": 379,
+          "last_line": 383,
+          "text": "class AddMonoid (M : Type*) extends Zero M, Add M, AddSemigroup M, AddZeroClass M, NSMul M where\n  /-- Multiplication by `(0 : ℕ)` gives `0`. -/\n  protected nsmul_zero (x : M) : 0 • x = 0 := by intros; rfl\n  /-- Multiplication by `(n + 1 : ℕ)` behaves as expected. -/\n  protected nsmul_succ (n : ℕ) (x : M) : (n + 1) • x = n • x + x := by intros; rfl\n",
+          "sha256": "646de24dc2f21a72eef635ad527574ee04c75cb10148b23afd8f070869f6dd2d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Monoid.lean#L379-L383"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Card.lean",
+      "sha256": "901b74774650c909674c06dc8a78882db528af0b296cede9ef7b716079665e80",
+      "git_blob_sha1": "d8cc335cdf749546f1883120a2f37444ced64fb5",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.card",
+          "first_line": 47,
+          "last_line": 48,
+          "text": "def card (s : Finset α) : ℕ :=\n  Multiset.card s.1\n",
+          "sha256": "7341a0826770c82cb78620546f7050992224ded33b925f12044106a8a8bcac5b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L47-L48"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Filter.lean",
+      "sha256": "7e79aa65a47a4552534e7042f18751f575cc4ba2b4252ac2fb4fa65d88369c2d",
+      "git_blob_sha1": "91a06e3060103e858fdd34a61021255b49605c3b",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.filter",
+          "first_line": 52,
+          "last_line": 53,
+          "text": "def filter (s : Finset α) : Finset α :=\n  ⟨_, s.2.filter p⟩\n",
+          "sha256": "c5a516ba51ad0a5cc3937f269400a85c8f265463ce67ae75107a57e118f3beda",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean#L52-L53"
+        },
+        {
+          "name": "mem_filter",
+          "first_line": 127,
+          "last_line": 128,
+          "text": "theorem mem_filter {s : Finset α} {a : α} : a ∈ s.filter p ↔ a ∈ s ∧ p a :=\n  Multiset.mem_filter\n",
+          "sha256": "86654e74ef8024a0879abd34144c2d49706aa6cbe6a77f736219090bbe86f9db",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean#L127-L128"
+        }
+      ]
     }
   ],
   "documentation": "MATERIAL-DEFINITIONS.md",
@@ -968,12 +1292,12 @@
     {
       "module": "ChallengeSemantics",
       "path": "ChallengeSemantics.lean",
-      "sha256": "ba46d02218c9ddcc0e19beaf41daff214d1a606e0856045844b190b9ce558fa6"
+      "sha256": "b6046d2c267792f5d1a4a28bc56fbb87b2e5edfcb176176c66942f752ca01eb7"
     },
     {
       "module": "SolutionSemantics",
       "path": "SolutionSemantics.lean",
-      "sha256": "918c1fb19dca4ec483c520989f7c0065a5e12eff8580ac755bb4d844a2738aa7"
+      "sha256": "fe83c0e7ad71b7340092fc9c45f62fdc2c6a1cdc4dd434c87681daa2dbd1fa85"
     }
   ]
 }

@@ -26,6 +26,13 @@ The selected statements use finite graphs, finite algebra and limits at infinity
 | AddSubgroup | Additively closed subgroup containing zero and closed under negation. Membership of x−z in H specifies a translated coset. The carrier and closure under addition and zero are inherited from the additive submonoid. | InducedDegreeRepetition.coset_concentration, InducedDegreeRepetition.OpenProblems.HeavyRestriction |
 | Nat.card | Natural cardinality of the subgroup or image, finite in every use here. Cardinal.toNat agrees with Fintype.card on finite enumerated types. | InducedDegreeRepetition.coset_concentration, InducedDegreeRepetition.OpenProblems.HeavyRestriction, InducedDegreeRepetition.OpenProblems.AdjacencyApproximation |
 | Fintype.piFinset | All indexed choices from the coordinate pools, with order and repetitions. A function belongs exactly when every coordinate belongs to its assigned set. | InducedDegreeRepetition.OpenProblems.RandomRestrictions, InducedDegreeRepetition.OpenProblems.SimultaneousAdjustment |
+| InfSet | The natural-number infimum is the least member of a nonempty set. The forcing set is nonempty by the Ramsey bound. The Nat instance uses Nat.find on a nonempty set and zero on the empty set. Membership and the universal lower bound prove leastness. | InducedDegreeRepetition.threshold, InducedDegreeRepetition.SubexponentialThreshold |
+| Finset.max' | On a nonempty set the maximum belongs to the set and bounds every member from above. The generated order dual Finset.min' gives the minimum and the reverse bound. Both extrema are suprema in the corresponding order. The project's low and high return zero on the empty set. Lemma 10 assumes nonempty allowed sets. | InducedDegreeRepetition.low, InducedDegreeRepetition.high, InducedDegreeRepetition.integer_totals |
+| Finset.Icc | The finite integer interval includes both endpoints. The locally finite order supplies the interval enumeration and its membership theorem. | InducedDegreeRepetition.integer_totals |
+| Complex.instNorm | Complex modulus of the unnormalized sum over all ordered label pairs. It is the nonnegative square root of normSq; the rectangle hypothesis supplies the normalization as the real lower bound a*b/4. | InducedDegreeRepetition.OpenProblems.BiasedRectangle |
+| AddMonoid | Multiplication by q counts repeated addition in the group; annihilation means q copies sum to zero for every element. The zero and successor fields specify this operation for all natural q. The theorem allows composite q. | InducedDegreeRepetition.coset_concentration |
+| Finset.card | Cardinality counts each element of a finite set once. Distinct ordered tuples are distinct elements of the sample space. Cardinality of the underlying nodup multiset. | InducedDegreeRepetition.degreeClass, InducedDegreeRepetition.OpenProblems.RandomRestrictions |
+| Finset.filter | Filters the indicated finite population by a predicate. Membership requires both membership in the original set and satisfaction of the predicate. | InducedDegreeRepetition.degreeClass, InducedDegreeRepetition.degreeOn, InducedDegreeRepetition.OpenProblems.HeavyRestriction |
 
 ## Mathlib/Combinatorics/SimpleGraph/Basic.lean
 https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Basic.lean
@@ -548,4 +555,231 @@ theorem mem_piFinset {t : ∀ a, Finset (δ a)} {f : ∀ a, δ a} : f ∈ piFins
     exact hg a
   · simp only [piFinset, mem_map, forall_prop_of_true, mem_univ, mem_pi]
     exact fun hf => ⟨fun a _ => f a, hf, rfl⟩
+```
+
+## Mathlib/Order/SetNotation.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean
+SHA-256 302c614100cbc978e2af66d21d5eb0e09eb39402e9ae52a166e6faaa36d3dc14
+```lean
+/-
+Copyright (c) 2017 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Patrick Massot, Yury Kudryashov
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean#L50-L52
+Excerpt SHA-256 19fd07c33a23b5959fe476cd6a9ebcbbe771bd612548feef715fc5f4205a73ed
+```lean
+class InfSet (α : Type*) where
+  /-- Infimum of a set -/
+  sInf : Set α → α
+```
+
+## Mathlib/Order/Lattice/Nat.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean
+SHA-256 1e3a5f2ff1efa38926bfafb88d168b1495a5b01c6fd77e83efaf401eff26f6ed
+```lean
+/-
+Copyright (c) 2018 Johannes Hölzl. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Johannes Hölzl, Floris van Doorn, Gabriel Ebner, Yury Kudryashov
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L28-L30
+Excerpt SHA-256 b73f2a9e87a4b68b825e2c53498820f26d3b509b727562289aefd9d7ef066089
+```lean
+open scoped Classical in
+noncomputable instance : InfSet ℕ :=
+  ⟨fun s ↦ if h : ∃ n, n ∈ s then @Nat.find (fun n ↦ n ∈ s) _ h else 0⟩
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L75-L78
+Excerpt SHA-256 4b34b7f351a76ca1713469ae018cd838efd62fcecff7b51635095e31b6c95c5b
+```lean
+theorem sInf_mem {s : Set ℕ} (h : s.Nonempty) : sInf s ∈ s := by
+  classical
+  rw [Nat.sInf_def h]
+  exact Nat.find_spec h
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L86-L89
+Excerpt SHA-256 70e01876cfbeaa96c56007ef549b553050e317a8ac9f6d283f45e1fecb04f8ed
+```lean
+protected theorem sInf_le {s : Set ℕ} {m : ℕ} (hm : m ∈ s) : sInf s ≤ m := by
+  classical
+  rw [Nat.sInf_def ⟨m, hm⟩]
+  exact Nat.find_min' ⟨m, hm⟩ hm
+```
+
+## Mathlib/Data/Finset/Max.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean
+SHA-256 f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e
+```lean
+/-
+Copyright (c) 2018 Mario Carneiro. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mario Carneiro
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L128-L136
+Excerpt SHA-256 b3e47a2484cd671db9f34d2a7726eebc61fda30e1251e8d06026c30059225b8e
+```lean
+/-- Given a nonempty finset `s` in a linear order `α`, then `s.max' H` is its maximum, as an
+element of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.max`,
+taking values in `WithBot α`. -/
+@[to_dual
+/-- Given a nonempty finset `s` in a linear order `α`, then `s.min' H` is its minimum, as an
+element of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.min`,
+taking values in `WithTop α`. -/]
+def max' (s : Finset α) (H : s.Nonempty) : α :=
+  sup' s H id
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L146
+Excerpt SHA-256 4c1162b041754029e1092db0e81bb257c21c1d6ff8542afe07b62f21be20a225
+```lean
+@[to_dual]
+theorem max'_mem : s.max' H ∈ s :=
+  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]
+
+@[to_dual min'_le]
+theorem le_max' (x) (H2 : x ∈ s) : x ≤ s.max' ⟨x, H2⟩ :=
+  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm
+```
+
+## Mathlib/Order/Interval/Finset/Defs.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean
+SHA-256 023c4216dc4c48cc0a97e5ceb876aa54e1db126b19097ee89c4d3b12059970a8
+```lean
+/-
+Copyright (c) 2021 Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yaël Dillies
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L280-L281
+Excerpt SHA-256 bf0fe201275761cee2973e0eef9c5ba5c276aebfb44219f6c2dfa4c211f3c6bd
+```lean
+def Icc (a b : α) : Finset α :=
+  LocallyFiniteOrder.finsetIcc a b
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L301-L302
+Excerpt SHA-256 2d345b70ec57c48d0dd2f67df91df71f7e302055e32554a1281a0aa21696c970
+```lean
+theorem mem_Icc : x ∈ Icc a b ↔ a ≤ x ∧ x ≤ b :=
+  LocallyFiniteOrder.finset_mem_Icc a b x
+```
+
+## Mathlib/Analysis/Complex/Norm.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean
+SHA-256 7f719d7b3ba3ba8b4667a8f79e7efd5d8fb4da2b82dcca011e64129113a63eba
+```lean
+/-
+Copyright (c) 2019 Sébastien Gouëzel. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Sébastien Gouëzel
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean#L28-L29
+Excerpt SHA-256 d6a35e79c8010638732e56adf66069c78b71f7b8e63a019fd601d4298c1afe3d
+```lean
+instance instNorm : Norm ℂ where
+  norm z := √(normSq z)
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean#L31-L31
+Excerpt SHA-256 94d132dbaf093131c130172af15de2182ed0db7d65a678977a27b141a940432b
+```lean
+theorem norm_def (z : ℂ) : ‖z‖ = √(normSq z) := (rfl)
+```
+
+## Mathlib/Algebra/Group/Monoid.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Monoid.lean
+SHA-256 192a415f3decda0c5c21f8c6c04bdc26fd7072cb47ded0b0d0aa2ba09e204c35
+```lean
+/-
+Copyright (c) 2014 Jeremy Avigad. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeremy Avigad, Leonardo de Moura, Simon Hudon, Mario Carneiro
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Monoid.lean#L379-L383
+Excerpt SHA-256 646de24dc2f21a72eef635ad527574ee04c75cb10148b23afd8f070869f6dd2d
+```lean
+class AddMonoid (M : Type*) extends Zero M, Add M, AddSemigroup M, AddZeroClass M, NSMul M where
+  /-- Multiplication by `(0 : ℕ)` gives `0`. -/
+  protected nsmul_zero (x : M) : 0 • x = 0 := by intros; rfl
+  /-- Multiplication by `(n + 1 : ℕ)` behaves as expected. -/
+  protected nsmul_succ (n : ℕ) (x : M) : (n + 1) • x = n • x + x := by intros; rfl
+```
+
+## Mathlib/Data/Finset/Card.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean
+SHA-256 901b74774650c909674c06dc8a78882db528af0b296cede9ef7b716079665e80
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L47-L48
+Excerpt SHA-256 7341a0826770c82cb78620546f7050992224ded33b925f12044106a8a8bcac5b
+```lean
+def card (s : Finset α) : ℕ :=
+  Multiset.card s.1
+```
+
+## Mathlib/Data/Finset/Filter.lean
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean
+SHA-256 7e79aa65a47a4552534e7042f18751f575cc4ba2b4252ac2fb4fa65d88369c2d
+```lean
+/-
+Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro
+-/
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean#L52-L53
+Excerpt SHA-256 c5a516ba51ad0a5cc3937f269400a85c8f265463ce67ae75107a57e118f3beda
+```lean
+def filter (s : Finset α) : Finset α :=
+  ⟨_, s.2.filter p⟩
+```
+https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean#L127-L128
+Excerpt SHA-256 86654e74ef8024a0879abd34144c2d49706aa6cbe6a77f736219090bbe86f9db
+```lean
+theorem mem_filter {s : Finset α} {a : α} : a ∈ s.filter p ↔ a ∈ s ∧ p a :=
+  Multiset.mem_filter
+```
+
+## Counting ordered tuple positions in Lean core
+
+`InducedDegreeRepetition.tupleDegree` uses `List.countP`. Each matching position increments the accumulator, including repeated occurrences of the same vertex. The nil and cons equations establish this interpretation by induction. Both entrypoint tests apply the cons equation to the project definition. The Lean release identifies core commit `11acb17ec6b07a8f9e9173e6845197929540936b`.
+
+[Upstream source](https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Basic.lean#L1796-L1800)
+
+File SHA-256 `566e74dd5c3e72b2111af000b8bd1552f1aaffe29be317ba01bc91c9e5b55293`. Excerpt SHA-256 `1369b68756eed48e6bc8963d22d1853554576f5b476d8683e754aa793399a75d`.
+
+```lean
+/-
+Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Author: Leonardo de Moura
+-/
+@[inline] def countP (p : α → Bool) (l : List α) : Nat := go l 0 where
+  /-- Auxiliary for `countP`: `countP.go p l acc = countP p l + acc`. -/
+  @[specialize] go : List α → Nat → Nat
+  | [], acc => acc
+  | x :: xs, acc => if p x then go xs (acc + 1) else go xs acc
+```
+
+[Upstream source](https://github.com/leanprover/lean4/blob/11acb17ec6b07a8f9e9173e6845197929540936b/src/Init/Data/List/Count.lean#L58-L59)
+
+File SHA-256 `4cf663e7844728b7762b9421fedfe044d33ff3a89ccc7e6f4bfd213c6ab336b6`. Excerpt SHA-256 `3afe7cb9cc910ca363b285b20a5945f99e190170b1f3498f599e34b46d3bbe73`.
+
+```lean
+/-
+Copyright (c) 2014 Parikshit Khanna. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Parikshit Khanna, Jeremy Avigad, Leonardo de Moura, Floris van Doorn, Mario Carneiro
+-/
+theorem countP_cons {a : α} {l : List α} : countP p (a :: l) = countP p l + if p a then 1 else 0 := by
+  by_cases h : p a <;> simp [h]
 ```
