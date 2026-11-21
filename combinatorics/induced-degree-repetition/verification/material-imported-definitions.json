@@ -1,0 +1,1303 @@
+{
+  "schema_version": 2,
+  "dependency": {
+    "name": "mathlib",
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc2"
+  },
+  "required_declarations": [
+    "SimpleGraph",
+    "SimpleGraph.induce",
+    "SimpleGraph.degree",
+    "Real.log",
+    "Real.exp",
+    "Nat.ceil",
+    "Asymptotics.IsLittleO",
+    "Filter.atTop",
+    "Filter.Eventually",
+    "Filter.Tendsto",
+    "Disjoint",
+    "Nat.Prime",
+    "Nat.ModEq",
+    "IsSquare",
+    "ZMod",
+    "dotProduct",
+    "ZMod.stdAddChar",
+    "Matrix.mulVecLin",
+    "AddMonoidHom.range",
+    "AddSubgroup",
+    "Nat.card",
+    "Fintype.piFinset",
+    "InfSet",
+    "Finset.max'",
+    "Finset.Icc",
+    "Complex.instNorm",
+    "AddMonoid",
+    "Finset.card",
+    "Finset.filter"
+  ],
+  "material_declarations": [
+    {
+      "name": "SimpleGraph",
+      "declaration_kind": "structure",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.degreeOn",
+        "InducedDegreeRepetition.LogScaleRepetition",
+        "InducedDegreeRepetition.Forces",
+        "InducedDegreeRepetition.OpenProblems.adj"
+      ],
+      "meaning": "An undirected graph with symmetric, irreflexive adjacency.",
+      "dependency_expansion": "The vertex type Fin N fixes the host order. The set filter counts neighbors inside the chosen set.",
+      "definition_excerpt": "SimpleGraph",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "SimpleGraph"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "SimpleGraph.induce",
+      "declaration_kind": "abbrev",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.degreeOn",
+        "InducedDegreeRepetition.degreeClass"
+      ],
+      "meaning": "Restriction of both adjacency arguments to the subtype of selected vertices.",
+      "dependency_expansion": "Comap along the subtype embedding retains every internal edge.",
+      "definition_excerpt": "SimpleGraph.induce",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "SimpleGraph.induce",
+        "induce_adj"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "SimpleGraph.degree",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.degreeOn"
+      ],
+      "meaning": "Number of neighbors in the induced graph.",
+      "dependency_expansion": "The finite neighbor set consists exactly of vertices adjacent to the chosen vertex.",
+      "definition_excerpt": "SimpleGraph.degree",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "SimpleGraph.degree",
+        "neighborFinset",
+        "mem_neighborFinset"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Real.log",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.LogScaleRepetition",
+        "InducedDegreeRepetition.SubexponentialThreshold",
+        "InducedDegreeRepetition.OpenProblems.BiasedRectangle",
+        "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation",
+        "InducedDegreeRepetition.OpenProblems.ConditionalResidues"
+      ],
+      "meaning": "Natural logarithm on positive reals.",
+      "dependency_expansion": "Inverse of the real exponential there. The value at zero is zero and a finite initial segment has no effect on little-o.",
+      "definition_excerpt": "Real.log",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Real.log",
+        "exp_log"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Real.exp",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.DensityReduction",
+        "InducedDegreeRepetition.OpenProblems.Core",
+        "InducedDegreeRepetition.conditional_range"
+      ],
+      "meaning": "Real exponential, used for absolute sizes, probability rates and relative cut scales.",
+      "dependency_expansion": "Real part of the complex exponential on the real axis.",
+      "definition_excerpt": "Real.exp",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Real.exp"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Nat.ceil",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.LogScaleRepetition",
+        "InducedDegreeRepetition.OpenProblems.RandomRestrictions"
+      ],
+      "meaning": "Least natural number above the real input.",
+      "dependency_expansion": "The ceiling adjunction yields the explicit inequality used to round the scale.",
+      "definition_excerpt": "Nat.ceil",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Nat.ceil",
+        "ceil_le"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Asymptotics.IsLittleO",
+      "declaration_kind": "irreducible_def",
+      "role": "conclusion",
+      "used_by": [
+        "InducedDegreeRepetition.SubexponentialThreshold",
+        "InducedDegreeRepetition.subexponential_threshold"
+      ],
+      "meaning": "For every positive ε the magnitude of log g(k) is eventually bounded by ε times k.",
+      "dependency_expansion": "The constant in IsBigOWith is universally quantified before the eventual bound.",
+      "definition_excerpt": "Asymptotics.IsLittleO",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Asymptotics.IsLittleO",
+        "IsBigOWith",
+        "isLittleO_iff"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Filter.atTop",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.SubexponentialThreshold",
+        "InducedDegreeRepetition.OpenProblems.ConditionalResidues",
+        "InducedDegreeRepetition.OpenProblems.DensityReduction"
+      ],
+      "meaning": "Filter of tails in the ordered index.",
+      "dependency_expansion": "Intersection of the principal filters of upper intervals. At natural or real indices, eventual membership has a single lower threshold.",
+      "definition_excerpt": "Filter.atTop",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Filter.atTop",
+        "eventually_atTop"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Filter.Eventually",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.DensityReduction",
+        "InducedDegreeRepetition.OpenProblems.RandomRestrictions",
+        "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation",
+        "InducedDegreeRepetition.OpenProblems.ConditionalResidues"
+      ],
+      "meaning": "A property holds for all sufficiently large indices.",
+      "dependency_expansion": "The set of satisfying indices belongs to the indicated filter, here atTop.",
+      "definition_excerpt": "Filter.Eventually",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Filter.Eventually"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Filter.Tendsto",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.ConditionalResidues"
+      ],
+      "meaning": "The dyadic rate divided by log(2^j+1) eventually exceeds each fixed real bound.",
+      "dependency_expansion": "The image filter lies below atTop. Both ordered tails appear in the proved threshold characterization.",
+      "definition_excerpt": "Filter.Tendsto",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Filter.Tendsto",
+        "tendsto_atTop_atTop"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Disjoint",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.CutBounds",
+        "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation",
+        "InducedDegreeRepetition.integer_totals",
+        "InducedDegreeRepetition.OpenProblems.Positional"
+      ],
+      "meaning": "Two finite sets share no member.",
+      "dependency_expansion": "The only common lower bound of their subsets is empty.",
+      "definition_excerpt": "Disjoint",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Disjoint",
+        "disjoint_left"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Nat.Prime",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.TestModulus"
+      ],
+      "meaning": "A prime natural has size at least two and no proper divisor above one.",
+      "dependency_expansion": "The definition uses irreducibility. Its positive-divisor characterization is a theorem.",
+      "definition_excerpt": "Nat.Prime",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Nat.Prime",
+        "prime_def_lt"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Nat.ModEq",
+      "declaration_kind": "def",
+      "role": "conclusion",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.ConditionalResidues"
+      ],
+      "meaning": "The two counts have equal remainders modulo q. The conclusion negates this relation.",
+      "dependency_expansion": "Remainder equality on natural numbers.",
+      "definition_excerpt": "Nat.ModEq",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Nat.ModEq"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "IsSquare",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.integer_totals",
+        "InducedDegreeRepetition.OpenProblems.Adjustable"
+      ],
+      "meaning": "The additive declaration Even z is generated from IsSquare by to_additive. It means z = x + x for an integer x.",
+      "dependency_expansion": "Parity is evaluated on the signed difference, including negative differences.",
+      "definition_excerpt": "IsSquare",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "IsSquare"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "ZMod",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.BiasedRectangle",
+        "InducedDegreeRepetition.OpenProblems.adjMod",
+        "InducedDegreeRepetition.OpenProblems.HeavyRestriction"
+      ],
+      "meaning": "Integers modulo a positive q, including composite q.",
+      "dependency_expansion": "Its carrier for q = n+1 is Fin (n+1), with modular addition and multiplication.",
+      "definition_excerpt": "ZMod",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "ZMod"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "dotProduct",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.BiasedRectangle"
+      ],
+      "meaning": "Sum of the coordinatewise products over the finite index set, computed modulo q.",
+      "dependency_expansion": "The vector dimension bounds the number of summands.",
+      "definition_excerpt": "dotProduct",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "dotProduct"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "ZMod.stdAddChar",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.BiasedRectangle"
+      ],
+      "meaning": "Additive character sending the residue of z to exp(2πiz/q).",
+      "dependency_expansion": "The circle-valued character is composed with the map to the complex numbers.",
+      "definition_excerpt": "ZMod.stdAddChar",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "ZMod.stdAddChar",
+        "stdAddChar_coe"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Matrix.mulVecLin",
+      "declaration_kind": "abbrev",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation"
+      ],
+      "meaning": "Linear map acting by matrix-vector multiplication.",
+      "dependency_expansion": "Its additive image controls complexity for composite moduli through cardinality.",
+      "definition_excerpt": "Matrix.mulVecLin",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Matrix.mulVecLin",
+        "mulVecLin_apply"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "AddMonoidHom.range",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation"
+      ],
+      "meaning": "Image subgroup of the underlying additive map.",
+      "dependency_expansion": "The to_additive declaration has carrier equal to the set of values on all input vectors.",
+      "definition_excerpt": "AddMonoidHom.range",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "AddMonoidHom.range",
+        "mem_range"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "AddSubgroup",
+      "declaration_kind": "structure",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.coset_concentration",
+        "InducedDegreeRepetition.OpenProblems.HeavyRestriction"
+      ],
+      "meaning": "Additively closed subgroup containing zero and closed under negation. Membership of x−z in H specifies a translated coset.",
+      "dependency_expansion": "The carrier and closure under addition and zero are inherited from the additive submonoid.",
+      "definition_excerpt": "AddSubgroup",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "AddSubgroup"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Nat.card",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.coset_concentration",
+        "InducedDegreeRepetition.OpenProblems.HeavyRestriction",
+        "InducedDegreeRepetition.OpenProblems.AdjacencyApproximation"
+      ],
+      "meaning": "Natural cardinality of the subgroup or image, finite in every use here.",
+      "dependency_expansion": "Cardinal.toNat agrees with Fintype.card on finite enumerated types.",
+      "definition_excerpt": "Nat.card",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Nat.card",
+        "card_eq_fintype_card"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Fintype.piFinset",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.RandomRestrictions",
+        "InducedDegreeRepetition.OpenProblems.SimultaneousAdjustment"
+      ],
+      "meaning": "All indexed choices from the coordinate pools, with order and repetitions.",
+      "dependency_expansion": "A function belongs exactly when every coordinate belongs to its assigned set.",
+      "definition_excerpt": "Fintype.piFinset",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Fintype.piFinset",
+        "mem_piFinset"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "InfSet",
+      "declaration_kind": "class",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.threshold",
+        "InducedDegreeRepetition.SubexponentialThreshold"
+      ],
+      "meaning": "The natural-number infimum is the least member of a nonempty set. The forcing set is nonempty by the Ramsey bound.",
+      "dependency_expansion": "The Nat instance uses Nat.find on a nonempty set and zero on the empty set. Membership and the universal lower bound prove leastness.",
+      "definition_excerpt": "InfSet",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "InfSet",
+        "natural-sInf",
+        "sInf_mem",
+        "sInf_le"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.max'",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.low",
+        "InducedDegreeRepetition.high",
+        "InducedDegreeRepetition.integer_totals"
+      ],
+      "meaning": "On a nonempty set the maximum belongs to the set and bounds every member from above. The generated order dual Finset.min' gives the minimum and the reverse bound.",
+      "dependency_expansion": "Both extrema are suprema in the corresponding order. The project's low and high return zero on the empty set. Lemma 10 assumes nonempty allowed sets.",
+      "definition_excerpt": "Finset.max'",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.max'",
+        "extrema-members-and-bounds"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.Icc",
+      "declaration_kind": "def",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.integer_totals"
+      ],
+      "meaning": "The finite integer interval includes both endpoints.",
+      "dependency_expansion": "The locally finite order supplies the interval enumeration and its membership theorem.",
+      "definition_excerpt": "Finset.Icc",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.Icc",
+        "mem_Icc"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Complex.instNorm",
+      "declaration_kind": "instance",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.OpenProblems.BiasedRectangle"
+      ],
+      "meaning": "Complex modulus of the unnormalized sum over all ordered label pairs.",
+      "dependency_expansion": "It is the nonnegative square root of normSq; the rectangle hypothesis supplies the normalization as the real lower bound a*b/4.",
+      "definition_excerpt": "Complex.instNorm",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Complex.instNorm",
+        "complex-norm-formula"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "AddMonoid",
+      "declaration_kind": "class",
+      "role": "hypothesis",
+      "used_by": [
+        "InducedDegreeRepetition.coset_concentration"
+      ],
+      "meaning": "Multiplication by q counts repeated addition in the group; annihilation means q copies sum to zero for every element.",
+      "dependency_expansion": "The zero and successor fields specify this operation for all natural q. The theorem allows composite q.",
+      "definition_excerpt": "AddMonoid",
+      "bridge_kind": "class-fields",
+      "bridge_excerpts": [
+        "AddMonoid"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.card",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.degreeClass",
+        "InducedDegreeRepetition.OpenProblems.RandomRestrictions"
+      ],
+      "meaning": "Cardinality counts each element of a finite set once. Distinct ordered tuples are distinct elements of the sample space.",
+      "dependency_expansion": "Cardinality of the underlying nodup multiset.",
+      "definition_excerpt": "Finset.card",
+      "bridge_kind": "literal-unfolding",
+      "bridge_excerpts": [
+        "Finset.card"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    },
+    {
+      "name": "Finset.filter",
+      "declaration_kind": "def",
+      "role": "definition",
+      "used_by": [
+        "InducedDegreeRepetition.degreeClass",
+        "InducedDegreeRepetition.degreeOn",
+        "InducedDegreeRepetition.OpenProblems.HeavyRestriction"
+      ],
+      "meaning": "Filters the indicated finite population by a predicate.",
+      "dependency_expansion": "Membership requires both membership in the original set and satisfaction of the predicate.",
+      "definition_excerpt": "Finset.filter",
+      "bridge_kind": "proved-equivalence",
+      "bridge_excerpts": [
+        "Finset.filter",
+        "mem_filter"
+      ],
+      "proof_status": "Relevant finite and ordered specializations are checked through each of the two independent entrypoints."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "Mathlib/Combinatorics/SimpleGraph/Basic.lean",
+      "sha256": "97f49ff9b52fe1906b6a2071422b35ec496cd6b3d9d81043e77e56efceb0a73f",
+      "git_blob_sha1": "62fea0da01dc1e6d843d44e86ee8519509ef5b5f",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Aaron Anderson, Jalex Stark, Kyle Miller. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Aaron Anderson, Jalex Stark, Kyle Miller, Alena Gusakov, Hunter Monroe\n-/\n",
+      "excerpts": [
+        {
+          "name": "SimpleGraph",
+          "first_line": 95,
+          "last_line": 99,
+          "text": "structure SimpleGraph (V : Type u) where\n  /-- The adjacency relation of a simple graph. -/\n  Adj : V → V → Prop\n  symm : Std.Symm Adj := by aesop_graph\n  loopless : Std.Irrefl Adj := by aesop_graph\n",
+          "sha256": "5a0f97b61920c3141b820a5415169f9945deb85b92649e1b0099fca3f44f7cf3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Basic.lean#L95-L99"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Combinatorics/SimpleGraph/Maps.lean",
+      "sha256": "1cbcdb71178ac50a3be430a614c058db6eb993ab3c7925d6596b55101b6fdb37",
+      "git_blob_sha1": "dae96e6611bf9227d2b1cbadf61fffd43c8a9947",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Maps.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Hunter Monroe. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Hunter Monroe, Kyle Miller\n-/\n",
+      "excerpts": [
+        {
+          "name": "SimpleGraph.induce",
+          "first_line": 225,
+          "last_line": 228,
+          "text": "/-- Restrict a graph to the vertices in the set `s`, deleting all edges incident to vertices\noutside the set. This is a wrapper around `SimpleGraph.comap`. -/\nabbrev induce (s : Set V) (G : SimpleGraph V) : SimpleGraph s :=\n  G.comap (Function.Embedding.subtype _)\n",
+          "sha256": "2673b213c55122bc828a19dfe55d742a081d78aca7615be34eb5c2662166b078",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Maps.lean#L225-L228"
+        },
+        {
+          "name": "induce_adj",
+          "first_line": 230,
+          "last_line": 231,
+          "text": "variable {G} in\nlemma induce_adj {s : Set V} {u v : s} : (G.induce s).Adj u v ↔ G.Adj u v := .rfl\n",
+          "sha256": "dda7473a948a75b07ff8b1913fde1ed796f5b113878f8a8b8bb6d4c3b7e2ecf8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Maps.lean#L230-L231"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Combinatorics/SimpleGraph/Finite.lean",
+      "sha256": "0517648009f90f3488fc3058d93fe8d40d9bea984f5686d68f77ecf78b9546f0",
+      "git_blob_sha1": "9f8beb944aaa396a19b8df3adbe76895871e11b8",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Finite.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Aaron Anderson, Jalex Stark, Kyle Miller. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Aaron Anderson, Jalex Stark, Kyle Miller, Alena Gusakov\n-/\n",
+      "excerpts": [
+        {
+          "name": "SimpleGraph.degree",
+          "first_line": 241,
+          "last_line": 242,
+          "text": "/-- `G.degree v` is the number of vertices adjacent to `v`. -/\ndef degree : ℕ := #(G.neighborFinset v)\n",
+          "sha256": "d2064573034e7eb742578a174d1c66084709df0e22f3cadb50cf33a8348579ab",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Finite.lean#L241-L242"
+        },
+        {
+          "name": "neighborFinset",
+          "first_line": 169,
+          "last_line": 170,
+          "text": "def neighborFinset : Finset V :=\n  (G.neighborSet v).toFinset\n",
+          "sha256": "09247e6c27f4077aa1fa6bb8436268395bdb69b331ace0a478e627fc3ce1d6e6",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Finite.lean#L169-L170"
+        },
+        {
+          "name": "mem_neighborFinset",
+          "first_line": 180,
+          "last_line": 181,
+          "text": "theorem mem_neighborFinset (w : V) : w ∈ G.neighborFinset v ↔ G.Adj v w :=\n  Set.mem_toFinset\n",
+          "sha256": "5ae571efa8399260acc357b20eb50d98a7f6c636616155b295aed926952d82e2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Combinatorics/SimpleGraph/Finite.lean#L180-L181"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/SpecialFunctions/Log/Basic.lean",
+      "sha256": "5c3ecb5112d5d46df46d3dff3efa1548095356259633b34885db8ab4275340a2",
+      "git_blob_sha1": "0ed3c957d0d1f37094a8da10e42e6d2c2807e7be",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Log/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Chris Hughes. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Chris Hughes, Abhimanyu Pallavi Sudhir, Jean Lo, Calle Sönne\n-/\n",
+      "excerpts": [
+        {
+          "name": "Real.log",
+          "first_line": 39,
+          "last_line": 45,
+          "text": "/-- The real logarithm function, equal to the inverse of the exponential for `x > 0`,\nto `log |x|` for `x < 0`, and to `0` for `0`. We use this unconventional extension to\n`(-∞, 0]` as it gives the formula `log (x * y) = log x + log y` for all nonzero `x` and `y`, and\nthe derivative of `log` is `1/x` away from `0`. -/\n@[pp_nodot, wikidata Q11197]\nnoncomputable def log (x : ℝ) : ℝ :=\n  if hx : x = 0 then 0 else expOrderIso.symm ⟨|x|, abs_pos.2 hx⟩\n",
+          "sha256": "ed8405cfafce777b874a51babc3d28fb29f29ee75915a9d2a37051300c2d412d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Log/Basic.lean#L39-L45"
+        },
+        {
+          "name": "exp_log",
+          "first_line": 59,
+          "last_line": 61,
+          "text": "theorem exp_log (hx : 0 < x) : exp (log x) = x := by\n  rw [exp_log_eq_abs hx.ne']\n  exact abs_of_pos hx\n",
+          "sha256": "9880153243328593103c34290f9aee7a1127a984c169c20cb3ce840f3cc4b92a",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Log/Basic.lean#L59-L61"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Complex/Exponential.lean",
+      "sha256": "581fefd0139417fa56ef95b54103e415ae252d9d120f9da1cfe8039ff3d46bff",
+      "git_blob_sha1": "6218ee89031409df232e6518fafd3ce083cd3036",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Exponential.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Chris Hughes. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Chris Hughes, Abhimanyu Pallavi Sudhir\n-/\n",
+      "excerpts": [
+        {
+          "name": "Real.exp",
+          "first_line": 78,
+          "last_line": 81,
+          "text": "/-- The real exponential function, defined as the real part of the complex exponential -/\n@[pp_nodot, wikidata Q168698]\nnonrec def exp (x : ℝ) : ℝ :=\n  (exp x).re\n",
+          "sha256": "a7385651b357da90d61967089970c8f34d99805fea443abe98f23d73a1ae76d3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Exponential.lean#L78-L81"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Order/Floor/Defs.lean",
+      "sha256": "f6cc4cbab72e40e7afadb67d625a720359c26b32b9293a72255df2018a7876f7",
+      "git_blob_sha1": "e38bd9356445865e98d15633af5bef1161b4f7df",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro, Kevin Kappelmann\n-/\n",
+      "excerpts": [
+        {
+          "name": "Nat.ceil",
+          "first_line": 120,
+          "last_line": 122,
+          "text": "/-- `⌈a⌉₊` is the least natural `n` such that `a ≤ n` -/\ndef ceil : α → ℕ :=\n  FloorSemiring.ceil\n",
+          "sha256": "4cd52aacc3214c6d11175a1aa30a52d59c7f644443637f07ec0db5661c165dc0",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L120-L122"
+        },
+        {
+          "name": "ceil_le",
+          "first_line": 148,
+          "last_line": 149,
+          "text": "theorem ceil_le : ⌈a⌉₊ ≤ n ↔ a ≤ n :=\n  gc_ceil_coe _ _\n",
+          "sha256": "8ae41cb8d7f2ea73fde8e8fb56a2bae687124445b139a70549d8f1fd6a3fdb0c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Order/Floor/Defs.lean#L148-L149"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Asymptotics/Defs.lean",
+      "sha256": "68ef9c1b2d13f99770bcd0c679a23f078f634ea344ff914d7d634ba1682104ed",
+      "git_blob_sha1": "ba527424152cc972de5d8d2030d47288fb530d25",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "Asymptotics.IsLittleO",
+          "first_line": 169,
+          "last_line": 170,
+          "text": "irreducible_def IsLittleO (l : Filter α) (f : α → E) (g : α → F) : Prop :=\n  ∀ ⦃c : ℝ⦄, 0 < c → IsBigOWith c l f g\n",
+          "sha256": "720fde86dc6c7d8783715be44be10a80d5f50d4a971a041acdfe53d2075335c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L169-L170"
+        },
+        {
+          "name": "IsBigOWith",
+          "first_line": 73,
+          "last_line": 74,
+          "text": "irreducible_def IsBigOWith (c : ℝ) (l : Filter α) (f : α → E) (g : α → F) : Prop :=\n  ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖\n",
+          "sha256": "0ad02c41d905266ca6cdfc7962adc06d76d44a9bc7d64cf1f3a56b7f5ff576b7",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L73-L74"
+        },
+        {
+          "name": "isLittleO_iff",
+          "first_line": 182,
+          "last_line": 183,
+          "text": "theorem isLittleO_iff : f =o[l] g ↔ ∀ ⦃c : ℝ⦄, 0 < c → ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖ := by\n  simp only [IsLittleO_def, IsBigOWith_def]\n",
+          "sha256": "9736d24790d06610f12dded26187fb09451932388d3ea3407a6b4d5e52052cf2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Asymptotics/Defs.lean#L182-L183"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/AtTopBot/Defs.lean",
+      "sha256": "4091e8e0921cd9c2d70511ea017f5d9bdf861a9bc3e4408eb8625c81c1f6b621",
+      "git_blob_sha1": "6cf35ed92a409e5acf84c90305ecc7d1dd638619",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/AtTopBot/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad, Yury Kudryashov, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter.atTop",
+          "first_line": 39,
+          "last_line": 40,
+          "text": "def atTop [Preorder α] : Filter α :=\n  ⨅ a, 𝓟 (Ici a)\n",
+          "sha256": "d3328cf87e867b693da5613f3f5df4b1b898af75356721aec5df7b9fec3ff3b3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/AtTopBot/Defs.lean#L39-L40"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/AtTopBot/Basic.lean",
+      "sha256": "6320c2e81caeea51c7a80593bea9723294e20acf2355d9a747685de6ba637b96",
+      "git_blob_sha1": "73cfaa73e701cda04d853936b34747ea3786f8b6",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/AtTopBot/Basic.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad, Yury Kudryashov, Patrick Massot\n-/\n",
+      "excerpts": [
+        {
+          "name": "eventually_atTop",
+          "first_line": 79,
+          "last_line": 79,
+          "text": "lemma eventually_atTop : (∀ᶠ x in atTop, p x) ↔ ∃ a, ∀ b, a ≤ b → p b := mem_atTop_sets\n",
+          "sha256": "27cf8a92f031539196660d31a1ac7bca28550a1837a14ef16935bf6e54e573c1",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/AtTopBot/Basic.lean#L79-L79"
+        },
+        {
+          "name": "tendsto_atTop_atTop",
+          "first_line": 185,
+          "last_line": 186,
+          "text": "theorem tendsto_atTop_atTop : Tendsto f atTop atTop ↔ ∀ b : β, ∃ i : α, ∀ a : α, i ≤ a → b ≤ f a :=\n  tendsto_iInf.trans <| forall_congr' fun _ => tendsto_atTop_principal\n",
+          "sha256": "20fd1d66873448f42d85a9d9d5f5e26bf734fc52b8fc74daf782a72df39211c3",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/AtTopBot/Basic.lean#L185-L186"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Filter/Defs.lean",
+      "sha256": "d0b1e4022a3910b2768e8786a3a66d701db0cb4c59c055b3bd17ec4cd28a60e5",
+      "git_blob_sha1": "760285d16af8795fa73313254a28aa651c9d0883",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Filter.Eventually",
+          "first_line": 278,
+          "last_line": 282,
+          "text": "\n/-- `f.Eventually p` or `∀ᶠ x in f, p x` mean that `{x | p x} ∈ f`. E.g., `∀ᶠ x in atTop, p x`\nmeans that `p` holds true for sufficiently large `x`. -/\nprotected def Eventually (p : α → Prop) (f : Filter α) : Prop :=\n  { x | p x } ∈ f\n",
+          "sha256": "efd1b93fe352a77989c58c47fb69efa671f03a22f6dbc2b8f022b1a6194aae9c",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L278-L282"
+        },
+        {
+          "name": "Filter.Tendsto",
+          "first_line": 422,
+          "last_line": 423,
+          "text": "def Tendsto (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :=\n  l₁.map f ≤ l₂\n",
+          "sha256": "e67e1ffbfd08c931795585daf560352d7def861a308f3faf48bcd4cbbd2267e2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Filter/Defs.lean#L422-L423"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Disjoint.lean",
+      "sha256": "5c59598e126b8345a9373277f8e30c0d52b3fce1080a96281f1dc54bc6dd619c",
+      "git_blob_sha1": "7d5339050bb81a9d325ca7536bbe37dba409813f",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl\n-/\n",
+      "excerpts": [
+        {
+          "name": "Disjoint",
+          "first_line": 48,
+          "last_line": 49,
+          "text": "def Disjoint (a b : α) : Prop :=\n  ∀ ⦃x⦄, x ≤ a → x ≤ b → x ≤ ⊥\n",
+          "sha256": "0afa2cf8eba8be7e8c79707dafde25b73970201e3d74bd9888afabf992c96ba2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Disjoint.lean#L48-L49"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Disjoint.lean",
+      "sha256": "c8e070e0329aa6b0272013c6f89bc010ed6dd94ca18810837e7916688ad45bc0",
+      "git_blob_sha1": "105388337bff943981a8100054a5c54f6321bb99",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Disjoint.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "disjoint_left",
+          "first_line": 47,
+          "last_line": 50,
+          "text": "theorem disjoint_left : Disjoint s t ↔ ∀ ⦃a⦄, a ∈ s → a ∉ t :=\n  ⟨fun h a hs ht => notMem_empty a <|\n    singleton_subset_iff.mp (h (singleton_subset_iff.mpr hs) (singleton_subset_iff.mpr ht)),\n    fun h _ hs ht _ ha => (h (hs ha) (ht ha)).elim⟩\n",
+          "sha256": "2870c6131e4a630aa7b28e987de68135b4488c09735284026820e89879b41982",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Disjoint.lean#L47-L50"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Nat/Prime/Defs.lean",
+      "sha256": "aebd695f444b13ff056ba32c43c88d31b327a5e65d2a3e0ed4784643c542a59c",
+      "git_blob_sha1": "583fcd5adaf208a5018a96bf2e0932644fb35f6a",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Prime/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Nat.Prime",
+          "first_line": 42,
+          "last_line": 43,
+          "text": "def Prime (p : ℕ) :=\n  Irreducible p\n",
+          "sha256": "2088233bb327cca0347feb1e0d8acbed990f096187c7178b009e8c4592105a64",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Prime/Defs.lean#L42-L43"
+        },
+        {
+          "name": "prime_def_lt",
+          "first_line": 107,
+          "last_line": 112,
+          "text": "theorem prime_def_lt {p : ℕ} : Prime p ↔ 2 ≤ p ∧ ∀ m < p, m ∣ p → m = 1 :=\n  prime_def.trans <|\n    and_congr_right fun p2 =>\n      forall_congr' fun _ =>\n        ⟨fun h l d => (h d).resolve_right (ne_of_lt l), fun h d =>\n          (le_of_dvd (le_of_succ_le p2) d).lt_or_eq_dec.imp_left fun l => h l d⟩\n",
+          "sha256": "f0b595506e1d8a27638f68ff0f488331036c588b31646065f2edaa5ea0b23db2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/Prime/Defs.lean#L107-L112"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Nat/ModEq.lean",
+      "sha256": "a497c26a9c0ceab9ce37458de4dcb3a1647ef67121e74a2683ec33c6b3bebd1e",
+      "git_blob_sha1": "89b9538904c468cdd94f8cd1613fb1fea8c9700d",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/ModEq.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Nat.ModEq",
+          "first_line": 35,
+          "last_line": 37,
+          "text": "/-- Modular equality. `n.ModEq a b`, or `a ≡ b [MOD n]`, means that `a % n = b % n`. -/\ndef Nat.ModEq (n a b : ℕ) :=\n  a % n = b % n\n",
+          "sha256": "b16b7194a9a24e6044b4a92a17f30d9ec07cef07cab500ffd555a0a7d99d9b7f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Nat/ModEq.lean#L35-L37"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Group/Even.lean",
+      "sha256": "1180fa9ac282e55257e95c8402acd7314fcbd0a18bcfdede92a3cde16e1db630",
+      "git_blob_sha1": "de3397af958e079008db2a0126fff3fe64e73b06",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Even.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Damiano Testa. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Damiano Testa\n-/\n",
+      "excerpts": [
+        {
+          "name": "IsSquare",
+          "first_line": 53,
+          "last_line": 57,
+          "text": "/-- An element `a` of a type `α` with multiplication satisfies `IsSquare a` if `a = r * r`,\nfor some root `r : α`. -/\n@[to_additive /-- An element `a` of a type `α` with addition satisfies `Even a` if `a = r + r`,\nfor some `r : α`. -/]\ndef IsSquare (a : α) : Prop := ∃ r, a = r * r\n",
+          "sha256": "7125531ddf4279b54d67e69b7c19775a64b46d535224b572093f698534ace65d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Even.lean#L53-L57"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/ZMod/Defs.lean",
+      "sha256": "7090954d33f43bdcbe26e02eb5b10c52a5f0895dbe7009806a88fe4704bc2ce4",
+      "git_blob_sha1": "409a964f7b2271bb25e82dc6b3435927efb2bc86",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/ZMod/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2022 Eric Rodriguez. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Eric Rodriguez\n-/\n",
+      "excerpts": [
+        {
+          "name": "ZMod",
+          "first_line": 139,
+          "last_line": 141,
+          "text": "def ZMod : ℕ → Type\n  | 0 => ℤ\n  | n + 1 => Fin (n + 1)\n",
+          "sha256": "ce676ac97ed1d852f11e74117c8c30873b0e2ec6ae29e6e0f42d5a95a1def359",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/ZMod/Defs.lean#L139-L141"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Matrix/Mul.lean",
+      "sha256": "389814a6174e73b69048066a00d5f6429812c62d40b0da09086ca6b3ac2b6f66",
+      "git_blob_sha1": "ff91eb667e375c22bc6d8973fa706f9dd1f9d100",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Matrix/Mul.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Ellen Arlt. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Ellen Arlt, Blair Shi, Sean Leather, Mario Carneiro, Johan Commelin, Lu-Ming Zhang\n-/\n",
+      "excerpts": [
+        {
+          "name": "dotProduct",
+          "first_line": 72,
+          "last_line": 73,
+          "text": "def dotProduct [Mul α] [AddCommMonoid α] (v w : m → α) : α :=\n  ∑ i, v i * w i\n",
+          "sha256": "845ac48216569b548ccb957fafad6c1307bea4e8024a0bb3aa0eb65f6207e854",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Matrix/Mul.lean#L72-L73"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/SpecialFunctions/Complex/CircleAddChar.lean",
+      "sha256": "ee1e323e0d276bb12f0614141a7f650365c25b787683baa71cb19a7ec898d18e",
+      "git_blob_sha1": "c547e9ed5e1b909db83e3f3ede0c97c5bf5bf820",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Complex/CircleAddChar.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2024 David Loeffler. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: David Loeffler\n-/\n",
+      "excerpts": [
+        {
+          "name": "ZMod.stdAddChar",
+          "first_line": 82,
+          "last_line": 83,
+          "text": "/-- The additive character from `ZMod N` to `ℂ`, sending `j mod N` to `exp (2 * π * I * j / N)`. -/\nnoncomputable def stdAddChar : AddChar (ZMod N) ℂ := Circle.coeHom.compAddChar toCircle\n",
+          "sha256": "3feb77180fcd210b5c1763c2d14a4edb18f1530a7b2f21f2d6f5696b4b691026",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Complex/CircleAddChar.lean#L82-L83"
+        },
+        {
+          "name": "stdAddChar_coe",
+          "first_line": 86,
+          "last_line": 87,
+          "text": "lemma stdAddChar_coe (j : ℤ) :\n    stdAddChar (j : ZMod N) = exp (2 * π * I * j / N) := by simp [stdAddChar, toCircle_intCast]\n",
+          "sha256": "4e2f349d75b44cf9bceb2be115a15666b596d23d92cd1546c7c2ab37c5cb7db2",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/SpecialFunctions/Complex/CircleAddChar.lean#L86-L87"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/LinearAlgebra/Matrix/ToLin.lean",
+      "sha256": "9aefbf5b4504a069dd6ad05d5a1c8e5a0d7ba9ca5ff9317f360b25cee806b1cd",
+      "git_blob_sha1": "e27ea745bb8ab9f7766890e55c6a48e85d89a370",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Matrix/ToLin.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Casper Putz, Anne Baanen\n-/\n",
+      "excerpts": [
+        {
+          "name": "Matrix.mulVecLin",
+          "first_line": 286,
+          "last_line": 286,
+          "text": "abbrev Matrix.mulVecLin [Fintype n] (M : Matrix m n R) : (n → R) →ₗ[R] m → R := mulVecBilin R R M\n",
+          "sha256": "2dabb57f5491963cf61b0d164b098502d609aa01c1c228672939ef4e76303787",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Matrix/ToLin.lean#L286-L286"
+        },
+        {
+          "name": "mulVecLin_apply",
+          "first_line": 292,
+          "last_line": 294,
+          "text": "theorem Matrix.mulVecLin_apply [Fintype n] (M : Matrix m n R) (v : n → R) :\n    M.mulVecLin v = M *ᵥ v :=\n  rfl\n",
+          "sha256": "c23537a103010a5b7fda17926575e71c42b669ef25e087e276f513b5ecee21ae",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/LinearAlgebra/Matrix/ToLin.lean#L292-L294"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Group/Subgroup/Ker.lean",
+      "sha256": "04358e0780c6a3d533a13fd75d54af04278af17735a512ca13f59ca25e910141",
+      "git_blob_sha1": "f2838529be764b9771951152fbeb3fa6b741a5ad",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Subgroup/Ker.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Kexing Ying. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kexing Ying\n-/\n",
+      "excerpts": [
+        {
+          "name": "AddMonoidHom.range",
+          "first_line": 63,
+          "last_line": 67,
+          "text": "\n/-- The range of a monoid homomorphism from a group is a subgroup. -/\n@[to_additive /-- The range of an `AddMonoidHom` from an `AddGroup` is an `AddSubgroup`. -/]\ndef range (f : G →* N) : Subgroup N :=\n  Subgroup.copy ((⊤ : Subgroup G).map f) (Set.range f) (by simp)\n",
+          "sha256": "362a445a435a9f50494f2ce4672a32e4e9f7b06e2b8f7e3ce3ab1c2e74e4c95f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Subgroup/Ker.lean#L63-L67"
+        },
+        {
+          "name": "mem_range",
+          "first_line": 77,
+          "last_line": 79,
+          "text": "@[to_additive (attr := simp)]\ntheorem mem_range {f : G →* N} {y : N} : y ∈ f.range ↔ ∃ x, f x = y :=\n  Iff.rfl\n",
+          "sha256": "91a6bf75bc549033b6c4d49f2d0c911a5db03951173519f8a1ce7439c804a42d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Subgroup/Ker.lean#L77-L79"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Group/Subgroup/Defs.lean",
+      "sha256": "552903abcab0523f0c6571210b6f3a00e51604402cfe11b2b13deb45eafa3662",
+      "git_blob_sha1": "68c59be52b11c8c992b3b2f33db1c2ac64f47716",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Subgroup/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2020 Kexing Ying. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Kexing Ying\n-/\n",
+      "excerpts": [
+        {
+          "name": "AddSubgroup",
+          "first_line": 303,
+          "last_line": 305,
+          "text": "structure AddSubgroup (G : Type*) [AddGroup G] extends AddSubmonoid G where\n  /-- `G` is closed under negation -/\n  neg_mem' {x} : x ∈ carrier → -x ∈ carrier\n",
+          "sha256": "ae0ebf3bdb10d0e691a873ec73d9faafe25df7c0f1583a9a4a7d548fb510f1e4",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Subgroup/Defs.lean#L303-L305"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/SetTheory/Cardinal/Finite.lean",
+      "sha256": "d0bb8f1f00469a940dcc8ca404a9d4f7157516c40a4d6aa0fbbc622e50c42e94",
+      "git_blob_sha1": "cfd0af83b56164fafafe7c2497e718c4a412b73e",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/SetTheory/Cardinal/Finite.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Aaron Anderson. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Aaron Anderson\n-/\n",
+      "excerpts": [
+        {
+          "name": "Nat.card",
+          "first_line": 39,
+          "last_line": 42,
+          "text": "/-- `Nat.card α` is the cardinality of `α` as a natural number.\n  If `α` is infinite, `Nat.card α = 0`. -/\nprotected def card (α : Type*) : ℕ :=\n  toNat (mk α)\n",
+          "sha256": "78e8d3968bcd66799d38f9bf52d2bd94ca6da1a3751ce0f569902c14c86337d8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/SetTheory/Cardinal/Finite.lean#L39-L42"
+        },
+        {
+          "name": "card_eq_fintype_card",
+          "first_line": 45,
+          "last_line": 46,
+          "text": "theorem card_eq_fintype_card [Fintype α] : Nat.card α = Fintype.card α :=\n  mk_toNat_eq_card\n",
+          "sha256": "2315ea68715fae72322575ad3a834e383206a7daf1b5ae85e2b31078c5538670",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/SetTheory/Cardinal/Finite.lean#L45-L46"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Fintype/Pi.lean",
+      "sha256": "3621d016ef00906a9538347e3565bc44f5fe22210006ba64009b183c8ff6338f",
+      "git_blob_sha1": "e04e7d7d844da2b960d0c667fb22115d5730debf",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Fintype.piFinset",
+          "first_line": 32,
+          "last_line": 34,
+          "text": "def piFinset (t : ∀ a, Finset (δ a)) : Finset (∀ a, δ a) :=\n  (Finset.univ.pi t).map ⟨fun f a => f a (mem_univ a), fun _ _ =>\n    by simp +contextual [funext_iff]⟩\n",
+          "sha256": "ab4677f949d36a983103e3ea90e285dc49c6f2a0a696c96dbda017cbf183a3f8",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean#L32-L34"
+        },
+        {
+          "name": "mem_piFinset",
+          "first_line": 37,
+          "last_line": 45,
+          "text": "theorem mem_piFinset {t : ∀ a, Finset (δ a)} {f : ∀ a, δ a} : f ∈ piFinset t ↔ ∀ a, f a ∈ t a := by\n  constructor\n  · simp only [piFinset, mem_map, and_imp, forall_prop_of_true, mem_univ, exists_imp,\n      mem_pi]\n    rintro g hg hgf a\n    rw [← hgf]\n    exact hg a\n  · simp only [piFinset, mem_map, forall_prop_of_true, mem_univ, mem_pi]\n    exact fun hf => ⟨fun a _ => f a, hf, rfl⟩\n",
+          "sha256": "7dfb3a2f8455e91480e626f4999eb88d02a2e263f1e6242b8e38694f44d2fb0f",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Fintype/Pi.lean#L37-L45"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/SetNotation.lean",
+      "sha256": "302c614100cbc978e2af66d21d5eb0e09eb39402e9ae52a166e6faaa36d3dc14",
+      "git_blob_sha1": "7704edbb335989410bd491805f6bbad58a10a1a4",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2017 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Patrick Massot, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "InfSet",
+          "first_line": 50,
+          "last_line": 52,
+          "text": "class InfSet (α : Type*) where\n  /-- Infimum of a set -/\n  sInf : Set α → α\n",
+          "sha256": "19fd07c33a23b5959fe476cd6a9ebcbbe771bd612548feef715fc5f4205a73ed",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/SetNotation.lean#L50-L52"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Lattice/Nat.lean",
+      "sha256": "1e3a5f2ff1efa38926bfafb88d168b1495a5b01c6fd77e83efaf401eff26f6ed",
+      "git_blob_sha1": "cee37589606842e714df5a26e44b9c726bd06db9",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Johannes Hölzl. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Johannes Hölzl, Floris van Doorn, Gabriel Ebner, Yury Kudryashov\n-/\n",
+      "excerpts": [
+        {
+          "name": "natural-sInf",
+          "first_line": 28,
+          "last_line": 30,
+          "text": "open scoped Classical in\nnoncomputable instance : InfSet ℕ :=\n  ⟨fun s ↦ if h : ∃ n, n ∈ s then @Nat.find (fun n ↦ n ∈ s) _ h else 0⟩\n",
+          "sha256": "b73f2a9e87a4b68b825e2c53498820f26d3b509b727562289aefd9d7ef066089",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L28-L30"
+        },
+        {
+          "name": "sInf_mem",
+          "first_line": 75,
+          "last_line": 78,
+          "text": "theorem sInf_mem {s : Set ℕ} (h : s.Nonempty) : sInf s ∈ s := by\n  classical\n  rw [Nat.sInf_def h]\n  exact Nat.find_spec h\n",
+          "sha256": "4b34b7f351a76ca1713469ae018cd838efd62fcecff7b51635095e31b6c95c5b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L75-L78"
+        },
+        {
+          "name": "sInf_le",
+          "first_line": 86,
+          "last_line": 89,
+          "text": "protected theorem sInf_le {s : Set ℕ} {m : ℕ} (hm : m ∈ s) : sInf s ≤ m := by\n  classical\n  rw [Nat.sInf_def ⟨m, hm⟩]\n  exact Nat.find_min' ⟨m, hm⟩ hm\n",
+          "sha256": "70e01876cfbeaa96c56007ef549b553050e317a8ac9f6d283f45e1fecb04f8ed",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Lattice/Nat.lean#L86-L89"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Max.lean",
+      "sha256": "f9381a30f98377e15faa35c02d19d3fa0d6576c1709460ed699f4616e4d2539e",
+      "git_blob_sha1": "a6735d1f9cdcb1f6a9f78925a565d9ab7b48781b",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2018 Mario Carneiro. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.max'",
+          "first_line": 128,
+          "last_line": 136,
+          "text": "/-- Given a nonempty finset `s` in a linear order `α`, then `s.max' H` is its maximum, as an\nelement of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.max`,\ntaking values in `WithBot α`. -/\n@[to_dual\n/-- Given a nonempty finset `s` in a linear order `α`, then `s.min' H` is its minimum, as an\nelement of `α`, where `H` is a proof of nonemptiness. Without this assumption, use instead `s.min`,\ntaking values in `WithTop α`. -/]\ndef max' (s : Finset α) (H : s.Nonempty) : α :=\n  sup' s H id\n",
+          "sha256": "b3e47a2484cd671db9f34d2a7726eebc61fda30e1251e8d06026c30059225b8e",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L128-L136"
+        },
+        {
+          "name": "extrema-members-and-bounds",
+          "first_line": 140,
+          "last_line": 146,
+          "text": "@[to_dual]\ntheorem max'_mem : s.max' H ∈ s :=\n  mem_of_max <| by simp only [max', Finset.max, id_eq, coe_sup', Function.comp_def]\n\n@[to_dual min'_le]\ntheorem le_max' (x) (H2 : x ∈ s) : x ≤ s.max' ⟨x, H2⟩ :=\n  le_max_of_eq H2 (WithBot.coe_unbot _ _).symm\n",
+          "sha256": "4c1162b041754029e1092db0e81bb257c21c1d6ff8542afe07b62f21be20a225",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Max.lean#L140-L146"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Order/Interval/Finset/Defs.lean",
+      "sha256": "023c4216dc4c48cc0a97e5ceb876aa54e1db126b19097ee89c4d3b12059970a8",
+      "git_blob_sha1": "03a818648aa0d0ccc34298eb6f43d86e40412050",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2021 Yaël Dillies. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Yaël Dillies\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.Icc",
+          "first_line": 280,
+          "last_line": 281,
+          "text": "def Icc (a b : α) : Finset α :=\n  LocallyFiniteOrder.finsetIcc a b\n",
+          "sha256": "bf0fe201275761cee2973e0eef9c5ba5c276aebfb44219f6c2dfa4c211f3c6bd",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L280-L281"
+        },
+        {
+          "name": "mem_Icc",
+          "first_line": 301,
+          "last_line": 302,
+          "text": "theorem mem_Icc : x ∈ Icc a b ↔ a ≤ x ∧ x ≤ b :=\n  LocallyFiniteOrder.finset_mem_Icc a b x\n",
+          "sha256": "2d345b70ec57c48d0dd2f67df91df71f7e302055e32554a1281a0aa21696c970",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Order/Interval/Finset/Defs.lean#L301-L302"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Analysis/Complex/Norm.lean",
+      "sha256": "7f719d7b3ba3ba8b4667a8f79e7efd5d8fb4da2b82dcca011e64129113a63eba",
+      "git_blob_sha1": "0e2b6317a777c4d168a9098fb17ad33323efd4c3",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2019 Sébastien Gouëzel. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Sébastien Gouëzel\n-/\n",
+      "excerpts": [
+        {
+          "name": "Complex.instNorm",
+          "first_line": 28,
+          "last_line": 29,
+          "text": "instance instNorm : Norm ℂ where\n  norm z := √(normSq z)\n",
+          "sha256": "d6a35e79c8010638732e56adf66069c78b71f7b8e63a019fd601d4298c1afe3d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean#L28-L29"
+        },
+        {
+          "name": "complex-norm-formula",
+          "first_line": 31,
+          "last_line": 31,
+          "text": "theorem norm_def (z : ℂ) : ‖z‖ = √(normSq z) := (rfl)\n",
+          "sha256": "94d132dbaf093131c130172af15de2182ed0db7d65a678977a27b141a940432b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Analysis/Complex/Norm.lean#L31-L31"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Algebra/Group/Monoid.lean",
+      "sha256": "192a415f3decda0c5c21f8c6c04bdc26fd7072cb47ded0b0d0aa2ba09e204c35",
+      "git_blob_sha1": "302c444f017235acc1271402facc00d8492ad1b1",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Monoid.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2014 Jeremy Avigad. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Jeremy Avigad, Leonardo de Moura, Simon Hudon, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "AddMonoid",
+          "first_line": 379,
+          "last_line": 383,
+          "text": "class AddMonoid (M : Type*) extends Zero M, Add M, AddSemigroup M, AddZeroClass M, NSMul M where\n  /-- Multiplication by `(0 : ℕ)` gives `0`. -/\n  protected nsmul_zero (x : M) : 0 • x = 0 := by intros; rfl\n  /-- Multiplication by `(n + 1 : ℕ)` behaves as expected. -/\n  protected nsmul_succ (n : ℕ) (x : M) : (n + 1) • x = n • x + x := by intros; rfl\n",
+          "sha256": "646de24dc2f21a72eef635ad527574ee04c75cb10148b23afd8f070869f6dd2d",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Algebra/Group/Monoid.lean#L379-L383"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Card.lean",
+      "sha256": "901b74774650c909674c06dc8a78882db528af0b296cede9ef7b716079665e80",
+      "git_blob_sha1": "d8cc335cdf749546f1883120a2f37444ced64fb5",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.card",
+          "first_line": 47,
+          "last_line": 48,
+          "text": "def card (s : Finset α) : ℕ :=\n  Multiset.card s.1\n",
+          "sha256": "7341a0826770c82cb78620546f7050992224ded33b925f12044106a8a8bcac5b",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Card.lean#L47-L48"
+        }
+      ]
+    },
+    {
+      "path": "Mathlib/Data/Finset/Filter.lean",
+      "sha256": "7e79aa65a47a4552534e7042f18751f575cc4ba2b4252ac2fb4fa65d88369c2d",
+      "git_blob_sha1": "91a06e3060103e858fdd34a61021255b49605c3b",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean",
+      "license": "Apache-2.0",
+      "upstream_header": "/-\nCopyright (c) 2015 Microsoft Corporation. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Leonardo de Moura, Jeremy Avigad, Minchao Wu, Mario Carneiro\n-/\n",
+      "excerpts": [
+        {
+          "name": "Finset.filter",
+          "first_line": 52,
+          "last_line": 53,
+          "text": "def filter (s : Finset α) : Finset α :=\n  ⟨_, s.2.filter p⟩\n",
+          "sha256": "c5a516ba51ad0a5cc3937f269400a85c8f265463ce67ae75107a57e118f3beda",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean#L52-L53"
+        },
+        {
+          "name": "mem_filter",
+          "first_line": 127,
+          "last_line": 128,
+          "text": "theorem mem_filter {s : Finset α} {a : α} : a ∈ s.filter p ↔ a ∈ s ∧ p a :=\n  Multiset.mem_filter\n",
+          "sha256": "86654e74ef8024a0879abd34144c2d49706aa6cbe6a77f736219090bbe86f9db",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/065356127b1dc0016f66b7283ce0ce2c4055aa55/Mathlib/Data/Finset/Filter.lean#L127-L128"
+        }
+      ]
+    }
+  ],
+  "documentation": "MATERIAL-DEFINITIONS.md",
+  "checked_bridge_modules": [
+    {
+      "module": "ChallengeSemantics",
+      "path": "ChallengeSemantics.lean",
+      "sha256": "b6046d2c267792f5d1a4a28bc56fbb87b2e5edfcb176176c66942f752ca01eb7"
+    },
+    {
+      "module": "SolutionSemantics",
+      "path": "SolutionSemantics.lean",
+      "sha256": "fe83c0e7ad71b7340092fc9c45f62fdc2c6a1cdc4dd434c87681daa2dbd1fa85"
+    }
+  ]
+}

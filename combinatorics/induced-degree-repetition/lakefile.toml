@@ -1,0 +1,385 @@
+name = "InducedDegreeRepetition"
+version = "0.1.0"
+defaultTargets = ["Challenge", "Solution", "ChallengeSemantics", "SolutionSemantics"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
+
+[[lean_lib]]
+name = "Statement"
+
+[[lean_lib]]
+name = "Bounds"
+
+[[lean_lib]]
+name = "Ramsey"
+
+[[lean_lib]]
+name = "Gallai"
+
+[[lean_lib]]
+name = "Witness"
+
+[[require]]
+name = "PFR"
+git = "https://github.com/teorth/pfr.git"
+rev = "ddd44f6ce82ef48624e468662e0fbeb5e37e4026"
+
+[[lean_lib]]
+name = "CosetMass"
+
+[[lean_lib]]
+name = "IntegerShifts"
+
+[[lean_lib]]
+name = "IntegerTotals"
+
+[[lean_lib]]
+name = "Adjustment"
+
+[[lean_lib]]
+name = "ModularMatrices"
+
+[[lean_lib]]
+name = "CountRange"
+
+[[lean_lib]]
+name = "WeightedEnergy"
+
+[[lean_lib]]
+name = "Concentration"
+
+[[lean_lib]]
+name = "ProfileSampling"
+
+[[lean_lib]]
+name = "RemainingStatements"
+
+[[lean_lib]]
+name = "GraphRange"
+
+[[lean_lib]]
+name = "CutSpectral"
+
+[[lean_lib]]
+name = "RegularSelection"
+
+[[lean_lib]]
+name = "RegularPairs"
+
+[[lean_lib]]
+name = "SelfPair"
+
+[[lean_lib]]
+name = "DensityRefinement"
+
+[[lean_lib]]
+name = "DependentChoice"
+
+[[lean_lib]]
+name = "RegularBlocks"
+
+[[lean_lib]]
+name = "DensityStep"
+
+[[lean_lib]]
+name = "DensityBudget"
+
+[[lean_lib]]
+name = "DensityExtraction"
+
+[[lean_lib]]
+name = "DensityReduction"
+
+[[lean_lib]]
+name = "DualityEnergy"
+
+[[lean_lib]]
+name = "DualitySpectrum"
+
+[[lean_lib]]
+name = "DualityStep"
+
+[[lean_lib]]
+name = "DualityOrthogonality"
+
+[[lean_lib]]
+name = "DualityFibers"
+
+[[lean_lib]]
+name = "DualityRectangle"
+
+[[lean_lib]]
+name = "DualityIteration"
+
+[[lean_lib]]
+name = "DualityBound"
+
+[[lean_lib]]
+name = "DualityScale"
+
+[[lean_lib]]
+name = "DualityLoss"
+
+[[lean_lib]]
+name = "DualityRows"
+
+[[lean_lib]]
+name = "BiasedRectangle"
+
+[[lean_lib]]
+name = "RectangleScore"
+
+[[lean_lib]]
+name = "ImageRectangle"
+
+[[lean_lib]]
+name = "ApproximateBias"
+
+[[lean_lib]]
+name = "ColumnSpace"
+
+[[lean_lib]]
+name = "ApproximateRectangle"
+
+[[lean_lib]]
+name = "MatrixDescent"
+
+[[lean_lib]]
+name = "TerminalRectangle"
+
+[[lean_lib]]
+name = "RigidityEstimate"
+
+[[lean_lib]]
+name = "GraphMatrix"
+
+[[lean_lib]]
+name = "AdjacencyApproximation"
+
+[[lean_lib]]
+name = "SmallGenerators"
+
+[[lean_lib]]
+name = "SampledModel"
+
+[[lean_lib]]
+name = "SampleCompression"
+
+[[lean_lib]]
+name = "SamplingMoment"
+
+[[lean_lib]]
+name = "SampleCount"
+
+[[lean_lib]]
+name = "DesignatedLabels"
+
+[[lean_lib]]
+name = "RestrictionRates"
+
+[[lean_lib]]
+name = "LabelSamples"
+
+[[lean_lib]]
+name = "AgreementMoment"
+
+[[lean_lib]]
+name = "ModelAgreement"
+
+[[lean_lib]]
+name = "HeavyChance"
+
+[[lean_lib]]
+name = "SmallSample"
+
+[[lean_lib]]
+name = "RandomRestrictions"
+
+[[lean_lib]]
+name = "DifferenceLaw"
+
+[[lean_lib]]
+name = "CosetProjection"
+
+[[lean_lib]]
+name = "QuotientAmplification"
+
+[[lean_lib]]
+name = "AmplificationRates"
+
+[[lean_lib]]
+name = "DyadicRates"
+
+[[lean_lib]]
+name = "MixedLaws"
+
+[[lean_lib]]
+name = "PoolLaw"
+
+[[lean_lib]]
+name = "ResidueAtoms"
+
+[[lean_lib]]
+name = "PrescriptionCount"
+
+[[lean_lib]]
+name = "RestrictedAtoms"
+
+[[lean_lib]]
+name = "ConditioningBound"
+
+[[lean_lib]]
+name = "ConditionalResidues"
+
+[[lean_lib]]
+name = "AdjustmentLengths"
+
+[[lean_lib]]
+name = "AdjustmentWitnesses"
+
+[[lean_lib]]
+name = "TwoLengths"
+
+[[lean_lib]]
+name = "EditSampling"
+
+[[lean_lib]]
+name = "EditAllowed"
+
+[[lean_lib]]
+name = "EditRates"
+
+[[lean_lib]]
+name = "EditMargins"
+
+[[lean_lib]]
+name = "RegisteredProfiles"
+
+[[lean_lib]]
+name = "OtherProfiles"
+
+[[lean_lib]]
+name = "EditableDraws"
+
+[[lean_lib]]
+name = "SampleFailures"
+
+[[lean_lib]]
+name = "UniformEdits"
+
+[[lean_lib]]
+name = "SimultaneousAdjustment"
+
+[[lean_lib]]
+name = "UniformMean"
+
+[[lean_lib]]
+name = "FourthMoment"
+
+[[lean_lib]]
+name = "FourDraws"
+
+[[lean_lib]]
+name = "SampleFourth"
+
+[[lean_lib]]
+name = "DrawCollisions"
+
+[[lean_lib]]
+name = "IndependentVariance"
+
+[[lean_lib]]
+name = "MeanEvents"
+
+[[lean_lib]]
+name = "GroupMean"
+
+[[lean_lib]]
+name = "MeanMarginals"
+
+[[lean_lib]]
+name = "Reservoirs"
+
+[[lean_lib]]
+name = "TupleMeans"
+
+[[lean_lib]]
+name = "PoolGroups"
+
+[[lean_lib]]
+name = "ReferenceErrors"
+
+[[lean_lib]]
+name = "GroupDeviation"
+
+[[lean_lib]]
+name = "AdaptiveErrors"
+
+[[lean_lib]]
+name = "ParityTargets"
+
+[[lean_lib]]
+name = "AuxiliaryVertices"
+
+[[lean_lib]]
+name = "GroupEdits"
+
+[[lean_lib]]
+name = "GoodWitness"
+
+[[lean_lib]]
+name = "JointDraw"
+
+[[lean_lib]]
+name = "TesterMoments"
+
+[[lean_lib]]
+name = "ReferenceCounts"
+
+[[lean_lib]]
+name = "ExteriorLists"
+
+[[lean_lib]]
+name = "SampleSelection"
+
+[[lean_lib]]
+name = "RetainedRows"
+
+[[lean_lib]]
+name = "SampledWitness"
+
+[[lean_lib]]
+name = "HostScales"
+
+[[lean_lib]]
+name = "BlockSizes"
+
+[[lean_lib]]
+name = "SamplingPlan"
+
+[[lean_lib]]
+name = "CoreWitness"
+
+[[lean_lib]]
+name = "PlanErrors"
+
+[[lean_lib]]
+name = "EventualPlan"
+
+[[lean_lib]]
+name = "MainTheorem"
+
+[[lean_lib]]
+name = "ChallengeSemantics"
+
+[[lean_lib]]
+name = "SolutionSemantics"
