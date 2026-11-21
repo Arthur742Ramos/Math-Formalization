@@ -1,0 +1,34 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "InducedDegreeRepetition.logScale_repetition",
+    "InducedDegreeRepetition.subexponential_threshold",
+    "InducedDegreeRepetition.coset_concentration",
+    "InducedDegreeRepetition.conditional_range",
+    "InducedDegreeRepetition.integer_totals",
+    "InducedDegreeRepetition.logScale_ramsey_range",
+    "InducedDegreeRepetition.subexponential_of_logScale"
+  ],
+  "definition_names": [
+    "InducedDegreeRepetition.degreeOn",
+    "InducedDegreeRepetition.degreeClass",
+    "InducedDegreeRepetition.LogScaleRepetition",
+    "InducedDegreeRepetition.Forces",
+    "InducedDegreeRepetition.threshold",
+    "InducedDegreeRepetition.SubexponentialThreshold",
+    "InducedDegreeRepetition.convolution",
+    "InducedDegreeRepetition.normSq",
+    "InducedDegreeRepetition.massOn",
+    "InducedDegreeRepetition.tupleSpace",
+    "InducedDegreeRepetition.tupleDegree",
+    "InducedDegreeRepetition.TestModulus",
+    "InducedDegreeRepetition.low",
+    "InducedDegreeRepetition.high"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
