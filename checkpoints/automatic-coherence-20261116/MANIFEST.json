@@ -1,0 +1,377 @@
+{
+  "schema": "automatic-coherence-preservation-checkpoint-v1",
+  "status": "preservation_only_draft_not_merge_ready",
+  "base_repository": "Arthur742Ramos/Math-Formalization",
+  "base_commit": "0edcc2b608dea72c07db1165a089ba3cf89c7726",
+  "archive_date_utc": "2026-11-16",
+  "new_proof_execution": false,
+  "complete_campaign_backup": false,
+  "complete_buildable_project": false,
+  "toolchain": {
+    "lean": "4.35.0",
+    "lean_commit": "eb6cafb7290e8bd5f2937522d8d804f58f02bafc",
+    "mathlib_commit_for_geometry31": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+    "dependencies_vendored": false
+  },
+  "files": [
+    {
+      "path": "core04/RelativeLastVertexLeanCertificate.lean",
+      "bytes": 523284,
+      "sha256": "a6a3002780da834d457dd1ef2b964bad8abf2bb02637ce0e113a7d2e58e9da2d",
+      "git_blob_sha1": "255a7321ec4539a6d7141126a64dbecef167edc2",
+      "historical_source_path": "reconstruction/relative-lastvertex-lean-certificate06/RelativeLastVertexLeanCertificate.lean",
+      "checkpoint": "core04",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/canonical-double-cylinder-collapse02/CanonicalDoubleCylinderCollapse.lean",
+      "bytes": 1373,
+      "sha256": "f8e71d024e78f089127bcb1fd201bd0c91f5223441fe7a6917d2c72c9eba9c0c",
+      "git_blob_sha1": "b97e328869b693d45c1ee0bfc4b709e321763fb3",
+      "historical_source_path": "reconstruction/canonical-double-cylinder-collapse02/CanonicalDoubleCylinderCollapse.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/double-cylinder-comparison04/DoubleCylinderComparison.lean",
+      "bytes": 3739,
+      "sha256": "1df0798c1d16f311dde2ae4ab0ea6323991e26967f15dcae3a2a9dfd8f5a0948",
+      "git_blob_sha1": "c7c4bac2e047091033630f7829f698e46296b140",
+      "historical_source_path": "reconstruction/double-cylinder-comparison04/DoubleCylinderComparison.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/double-cylinder-hep-collapse-lean02/DoubleCylinderCollapse.lean",
+      "bytes": 12257,
+      "sha256": "3e71b8d74aa5a740ed36e505da9eba41582c86b253af602a5caabd0597d8bcbe",
+      "git_blob_sha1": "a3bb4c082e01af91b48cd4f2ae885c99fb1449eb",
+      "historical_source_path": "reconstruction/double-cylinder-hep-collapse-lean02/DoubleCylinderCollapse.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/finite-ordered-faces02/FiniteOrderedFaces.lean",
+      "bytes": 2436,
+      "sha256": "b3a1c770be7c854f7e49fdc1ed8d28f1eafaa40993d56269a5791b5945ca1bd0",
+      "git_blob_sha1": "e035d7d064996c5ed01fb3c198eb752fd3796d9f",
+      "historical_source_path": "reconstruction/finite-ordered-faces02/FiniteOrderedFaces.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/finite-ordered-skeletal-assembly02/IntervalSkeletalDescent.lean",
+      "bytes": 5450,
+      "sha256": "5711fe57ff198f6ae8e0d86ea8936058d41f6c3048ddc40bc6083b57b2883ba2",
+      "git_blob_sha1": "80045db2a26787b6c3c4955bcb901337f21f3c87",
+      "historical_source_path": "reconstruction/finite-ordered-skeletal-assembly02/IntervalSkeletalDescent.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/geometry-prefix30-terminal-audit02/GeometryPrefix30TerminalAudit.lean",
+      "bytes": 5028,
+      "sha256": "3d2d2d660d55168b7d9aa9746e7c50b9b5d9ce865accad63d5e6f9d51f85e723",
+      "git_blob_sha1": "8bbc17add4ff9cc01e113e7ac37eec2229bce190",
+      "historical_source_path": "reconstruction/geometry-prefix30-terminal-audit02/GeometryPrefix30TerminalAudit.lean",
+      "checkpoint": "geometry31",
+      "role": "audit_driver",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/homotopy-equivalence-descent01/HomotopyEquivalenceDescent.lean",
+      "bytes": 1840,
+      "sha256": "d8db4cc46538da00f59f372dda5b80c30e310da27db572b88b6211dbadba819c",
+      "git_blob_sha1": "0d4be755eb728e7995324e157a1e45d509743231",
+      "historical_source_path": "reconstruction/homotopy-equivalence-descent01/HomotopyEquivalenceDescent.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/loop-cancellation-collar01/LoopCancellation.lean",
+      "bytes": 4370,
+      "sha256": "c3d331716a15c13c9569c73e0043ca83dda45e61283f19bde681ae37e6f3d8bd",
+      "git_blob_sha1": "b3f054df751a0d0eaa2d57be37aa191cdf827258",
+      "historical_source_path": "reconstruction/loop-cancellation-collar01/LoopCancellation.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/loop-cancellation-collar01/MappingCylinderCollar.lean",
+      "bytes": 5927,
+      "sha256": "b502269273d198f122f17fbe62c5fb483c2570113fea28e54239fcd36c905824",
+      "git_blob_sha1": "20f01be9b48df610024acccf56b0f4a846a9bcbf",
+      "historical_source_path": "reconstruction/loop-cancellation-collar01/MappingCylinderCollar.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-composition01/HomotopyAssociationFamily.lean",
+      "bytes": 3885,
+      "sha256": "2a5bf6ef6b4a8106bc1ca2265e15a43f44815f27a52ce8ec63014e8be5cfae5c",
+      "git_blob_sha1": "3c0c3fb4fa61fd4dd4b3331ffb8bf6569d679a62",
+      "historical_source_path": "reconstruction/mapping-cylinder-composition01/HomotopyAssociationFamily.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-composition02/MappingCylinderComposition.lean",
+      "bytes": 7605,
+      "sha256": "f07709be7db5a9687130970ea18b8dc001ba178c792ad7f7ecebf3acc3b85883",
+      "git_blob_sha1": "3878f026d667278b03636eb3726d77b318f1c8fe",
+      "historical_source_path": "reconstruction/mapping-cylinder-composition02/MappingCylinderComposition.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-foundation01/MappingCylinderFoundation.lean",
+      "bytes": 5889,
+      "sha256": "49c7f33b7bf3e4339293ba8f785d5faa8c2fb9fa0d27493fb3230d0bb1c6c81c",
+      "git_blob_sha1": "a05af8d9d971ab52f7531522452ad1256b748ff9",
+      "historical_source_path": "reconstruction/mapping-cylinder-foundation01/MappingCylinderFoundation.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-inverse-compatibility02/MappingCylinderInverseCompatibility.lean",
+      "bytes": 6203,
+      "sha256": "85403e42635e3020829779489a6d9d4ccae443e015658ea0d4c03aee7028e0a5",
+      "git_blob_sha1": "861ebbeb63b3469dcde8f9b43375cc961cb7a614",
+      "historical_source_path": "reconstruction/mapping-cylinder-inverse-compatibility02/MappingCylinderInverseCompatibility.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-left-inverse03/MappingCylinderLeftInverse.lean",
+      "bytes": 9333,
+      "sha256": "469f5df3b126123eaba2bea84fad3cc3ab931bacac9f488eb0cc239527f41d08",
+      "git_blob_sha1": "c5e4cc933e007af3435726bec15270d39039d779",
+      "historical_source_path": "reconstruction/mapping-cylinder-left-inverse03/MappingCylinderLeftInverse.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-loop-lift02/MappingCylinderLoopLift.lean",
+      "bytes": 3901,
+      "sha256": "fe20690e5ae1c74ab357c8027c79b3c9e1a6befb4a22bd6cc1e2a9ce52fd3e94",
+      "git_blob_sha1": "b75f916ea54402c2c9a171bfee40421c2f9ab1c2",
+      "historical_source_path": "reconstruction/mapping-cylinder-loop-lift02/MappingCylinderLoopLift.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-strict-map01/MappingCylinderStrictMap.lean",
+      "bytes": 4271,
+      "sha256": "2015cd389a92f29122ef7b8e4624bf354d06dae3c510fe4aa67396e3e1143c6f",
+      "git_blob_sha1": "70cafd9b87eec175ec196325209e3ac849bc9d93",
+      "historical_source_path": "reconstruction/mapping-cylinder-strict-map01/MappingCylinderStrictMap.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/mapping-cylinder-variation01/MappingCylinderVariation.lean",
+      "bytes": 6041,
+      "sha256": "b67befe1efe222ce6d78f8a1e6cf293ac599e54cb847636f54ad18c994a63d8a",
+      "git_blob_sha1": "12b9fdcee431f43a8916f21ee1b243ee5f52242e",
+      "historical_source_path": "reconstruction/mapping-cylinder-variation01/MappingCylinderVariation.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/ordered-skeletal-attach03/OrderedSkeletalAttach.lean",
+      "bytes": 5895,
+      "sha256": "08a351c537e3bb9a2d749b9b9403468356a6d926736418297c621bfc305c7bde",
+      "git_blob_sha1": "c8ebec6faa053351007a1fa487554af541f7de0a",
+      "historical_source_path": "reconstruction/ordered-skeletal-attach03/OrderedSkeletalAttach.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/simplex-boundary-repair03/SimplexBoundaryRepair.lean",
+      "bytes": 8893,
+      "sha256": "c48f0d9b030e03ca4d064475f0ca29811288548d6621c7e161e4191788645f6a",
+      "git_blob_sha1": "8161aa7f6e8c93fe6bb0469f0c07fc6a3e92db5b",
+      "historical_source_path": "reconstruction/simplex-boundary-repair03/SimplexBoundaryRepair.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/simplex-homotopy-extension02/SimplexHomotopyExtension.lean",
+      "bytes": 6250,
+      "sha256": "75407b239ed0c5112d6a67f12fdf3b05c6af7f27b265c7d4f2cf16ad941d243e",
+      "git_blob_sha1": "31e258eedc5cff1c809ac3ac26aeeeb74f3ead65",
+      "historical_source_path": "reconstruction/simplex-homotopy-extension02/SimplexHomotopyExtension.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/six-stage-schedule02/SixStageSchedule.lean",
+      "bytes": 3869,
+      "sha256": "1ae9b35ec278998062cf36fd1fe985746b4382b978b4bb467bab745c5f44841d",
+      "git_blob_sha1": "fe472ffb857c627a66903ed18a686913b394d232",
+      "historical_source_path": "reconstruction/six-stage-schedule02/SixStageSchedule.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/split-double-cylinder-foundation01/SplitDoubleCylinderFoundation.lean",
+      "bytes": 7028,
+      "sha256": "15a0931fcb2fc66b7b6b51f12225d28fc2afc904b647ee142320b47837a7e265",
+      "git_blob_sha1": "875075c03a2e2fd062807b804778ed829b8b6006",
+      "historical_source_path": "reconstruction/split-double-cylinder-foundation01/SplitDoubleCylinderFoundation.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/split-double-cylinder-inverse02/SplitDoubleCylinderInverse.lean",
+      "bytes": 7941,
+      "sha256": "a635c6612bdee3b303c06d602ba55f328540c0728528d551cb9d8b6312b819a8",
+      "git_blob_sha1": "6e508faa9a518411856adef9ffc8759f475ff414",
+      "historical_source_path": "reconstruction/split-double-cylinder-inverse02/SplitDoubleCylinderInverse.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/split-double-cylinder-strict-map01/SplitDoubleCylinderStrictMap.lean",
+      "bytes": 7253,
+      "sha256": "f916493001bb73dc16ebbf65d471a477983e1f389d45337424f39306977111af",
+      "git_blob_sha1": "3d4f99ced4dee80fbc1d29eade1661b7933644f9",
+      "historical_source_path": "reconstruction/split-double-cylinder-strict-map01/SplitDoubleCylinderStrictMap.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/split-full-double-cylinder-naturality01/SplitFullDoubleCylinderNaturality.lean",
+      "bytes": 4122,
+      "sha256": "cb3a58ca9583be3cd5a6f43d0de2c3897469f6def6c67bb0f3428841e9a2a376",
+      "git_blob_sha1": "dde1eecf9db96fe4241d319e5ea08458a98e1c58",
+      "historical_source_path": "reconstruction/split-full-double-cylinder-naturality01/SplitFullDoubleCylinderNaturality.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/split-full-double-cylinder02/SplitFullDoubleCylinder.lean",
+      "bytes": 11978,
+      "sha256": "5bcf8165f11e04f7b3df7aad7aaa9d4b093d043d2a5314db08c14a355a7b6881",
+      "git_blob_sha1": "ebf578d3bf2fdf687e3f4248c31f022d99491af0",
+      "historical_source_path": "reconstruction/split-full-double-cylinder02/SplitFullDoubleCylinder.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/strict-span-equivalence-data02/StrictSpanEquivalenceData.lean",
+      "bytes": 2130,
+      "sha256": "b7490795e0306b4a8a929f6f8a90806a7576bc2c70c4dc0a98874c9b311a3904",
+      "git_blob_sha1": "576eec2d75bd569ad31ece4f48ec718e66b3836d",
+      "historical_source_path": "reconstruction/strict-span-equivalence-data02/StrictSpanEquivalenceData.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/three-sided-square-filler01/ThreeSidedSquareFiller.lean",
+      "bytes": 6759,
+      "sha256": "baea8ca7f328b67df20d33a8f8bae53c95c7bccecc440cec999ef49d29dc0e2a",
+      "git_blob_sha1": "4e0c2c11229c10e456fdd603243208614d05861c",
+      "historical_source_path": "reconstruction/three-sided-square-filler01/ThreeSidedSquareFiller.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/three-sided-square-retraction02/ThreeSidedSquareRetraction.lean",
+      "bytes": 7025,
+      "sha256": "79f29fdd5113e80be8389e962af722d70280569ca8b8ec2ffc894171ff825ed9",
+      "git_blob_sha1": "79e8da05f82afa3779bf1819644db6d3428deff8",
+      "historical_source_path": "reconstruction/three-sided-square-retraction02/ThreeSidedSquareRetraction.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/topcat-pushout-homotopy-invariance01/TopCatPushoutHomotopyInvariance.lean",
+      "bytes": 3591,
+      "sha256": "e99cff2df5acd49a9dd2a770fbad2ec612b6b50ef0301d9773d1f01264282892",
+      "git_blob_sha1": "268510b272d91153e430a4a01e3b8641c26d5e24",
+      "historical_source_path": "reconstruction/topcat-pushout-homotopy-invariance01/TopCatPushoutHomotopyInvariance.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    },
+    {
+      "path": "geometry31/reconstruction/topological-hep-closure01/TopologicalHEPClosure.lean",
+      "bytes": 3543,
+      "sha256": "7a5715a586eabfc357b247deeab3f50849001d21ab0e1593a923247ee8b11016",
+      "git_blob_sha1": "24001a391797d721def69e6cbc759c6044ae1059",
+      "historical_source_path": "reconstruction/topological-hep-closure01/TopologicalHEPClosure.lean",
+      "checkpoint": "geometry31",
+      "role": "proof_source",
+      "source_bytes_unchanged": true
+    }
+  ],
+  "historical_evidence": {
+    "core04": {
+      "ordinary_native_status": "accepted historical diagnostic pass",
+      "source_files": 1,
+      "result_sha256": "d76983488dff7de898bbf4efd38da1c1b2649c706407c2fdbfa2298586791431",
+      "internal_ai_actual_review_sha256": "9c6321eed47788bfac9a04d1ecf95ef1b67842f0f1dc6d425db73a9bd929e200",
+      "internal_ai_actual_review_seal_sha256": "f97b23c563da33f82e84dc0f942b9566faed2ac5264acaf96a05131526db9867",
+      "private_backup_envelope_sha256": "aa4692b20ff7cb1f3b3049eaae920dc34dff5b2e33952bfabf82e27f197f3b46",
+      "scope": "94 public finite checks in dimensions 0 through 3, including 70 explicit horn-step checks. No actual simplicial-set interpretation or all-dimensional result.",
+      "new_terminal_audit94_native_status": "not run"
+    },
+    "geometry31": {
+      "ordinary_native_status": "accepted historical 30-module plus audit pass",
+      "source_files": 31,
+      "result_sha256": "6dc7292cc083189f2b5d87bd244ad7e2c9df55c1c8d261326b458b11ddec3870",
+      "internal_ai_actual_review_sha256": "cc725dbc0009f7184e2712d2110c234ac305a6a3e3e0dbda6127c5358d48905b",
+      "internal_ai_actual_review_seal_sha256": "fae6e52c6aa4e9a2e5a73e121a4950b34eb548b64d67dc46ecedf069bb675063",
+      "private_backup_envelope_sha256": "889bea124e6a5a21088aaed0e30f0928fd77bfcf83e4b21372bfd69ff7743b07",
+      "scope": "Double mapping-cylinder equivalence from three vertical homotopy equivalences and strict span commutation; ordinary pushout equivalence under the displayed left-leg homotopy extension hypotheses. Not the full manuscript geometric interpretation.",
+      "transitive_axiom_audit_scope": "historical selected 36 declarations; not the complete manuscript"
+    }
+  },
+  "release_gates": {
+    "current_commit_native": "not run",
+    "canonical_protected_verifier": "not established",
+    "required_independent_kernel_checks": "not established",
+    "complete_negative_controls": "not established",
+    "challenge_rendering": "not established",
+    "full_manuscript_formalization": "incomplete",
+    "merge_authorized_by_this_archive": false,
+    "registry_readiness": false
+  },
+  "omissions": [
+    "Compiled objects, dependency caches and toolchains remain outside this source archive.",
+    "Private operational logs and raw private reviews are not published; only historical identity digests are recorded.",
+    "Geometry36 failed and remains unaccepted; no outputs from that attempt are adopted.",
+    "Uncompiled successor drafts and earlier campaign checkpoints are retained separately and are not represented by this selection."
+  ],
+  "evidence_caveat": "Historical identity digests and byte equality do not constitute fresh execution, independent-kernel verification, human peer review, or Palomar acceptance."
+}
